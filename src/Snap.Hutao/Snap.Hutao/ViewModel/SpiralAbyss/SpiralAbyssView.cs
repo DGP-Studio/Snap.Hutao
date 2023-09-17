@@ -14,10 +14,10 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 深渊视图
 /// </summary>
 [HighQuality]
-internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry>,
+internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
     IMappingFrom<SpiralAbyssView, SpiralAbyssEntry, SpiralAbyssMetadataContext>
 {
-    private readonly SpiralAbyssEntry entity;
+    private readonly SpiralAbyssEntry? entity;
 
     /// <summary>
     /// 构造一个新的深渊视图
@@ -25,16 +25,11 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry>,
     /// <param name="entity">实体</param>
     /// <param name="idAvatarMap">Id角色映射</param>
     private SpiralAbyssView(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
+        : this(context.IdScheduleMap[(uint)entity.ScheduleId], context)
     {
         this.entity = entity;
-        Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss spiralAbyss = entity.SpiralAbyss;
 
-        TowerSchedule towerSchedule = context.IdScheduleMap[(uint)entity.ScheduleId];
-        TimeFormatted = $"{towerSchedule.Open:yyyy/MM/dd HH:mm:ss} - {towerSchedule.Close:yyyy/MM/dd HH:mm:ss}";
-
-        BlessingName = towerSchedule.BuffName;
-        Blessings = towerSchedule.Descriptions;
-
+        Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? spiralAbyss = entity.SpiralAbyss;
         TotalBattleTimes = spiralAbyss.TotalBattleTimes;
         TotalStar = spiralAbyss.TotalStar;
         MaxFloor = spiralAbyss.MaxFloor;
@@ -47,7 +42,15 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry>,
         Floors = spiralAbyss.Floors.Select(f => new FloorView(f, context.IdAvatarMap)).Reverse().ToList();
     }
 
-    public SpiralAbyssEntry Entity { get => entity; }
+    private SpiralAbyssView(TowerSchedule towerSchedule, SpiralAbyssMetadataContext context)
+    {
+        TimeFormatted = $"{towerSchedule.Open:yyyy.MM.dd HH:mm} - {towerSchedule.Close:yyyy.MM.dd HH:mm}";
+
+        BlessingName = towerSchedule.BuffName;
+        Blessings = towerSchedule.Descriptions;
+    }
+
+    public SpiralAbyssEntry? Entity { get => entity; }
 
     public string TimeFormatted { get; }
 
@@ -68,12 +71,12 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry>,
     /// <summary>
     /// 最深抵达
     /// </summary>
-    public string MaxFloor { get; }
+    public string MaxFloor { get; } = default!;
 
     /// <summary>
     /// 出战次数
     /// </summary>
-    public List<RankAvatar> Reveals { get; }
+    public List<RankAvatar> Reveals { get; } = default!;
 
     /// <summary>
     /// 击破次数
