@@ -9,7 +9,6 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Enka;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab;
-using EnkaAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;

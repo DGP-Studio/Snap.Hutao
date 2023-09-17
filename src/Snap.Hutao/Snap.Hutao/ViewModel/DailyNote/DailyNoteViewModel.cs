@@ -12,7 +12,6 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Control;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Request.QueryString;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;

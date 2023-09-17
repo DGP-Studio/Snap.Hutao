@@ -3,7 +3,6 @@
 
 using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.DailyNote;

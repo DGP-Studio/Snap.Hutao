@@ -4,9 +4,7 @@
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Tower;
-using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
@@ -15,7 +13,8 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// </summary>
 [HighQuality]
 internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
-    IMappingFrom<SpiralAbyssView, SpiralAbyssEntry, SpiralAbyssMetadataContext>
+    IMappingFrom<SpiralAbyssView, SpiralAbyssEntry, SpiralAbyssMetadataContext>,
+    IMappingFrom<SpiralAbyssView, SpiralAbyssEntry?, TowerSchedule, SpiralAbyssMetadataContext>
 {
     private readonly SpiralAbyssEntry? entity;
 
@@ -25,7 +24,7 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
     /// <param name="entity">实体</param>
     /// <param name="idAvatarMap">Id角色映射</param>
     private SpiralAbyssView(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
-        : this(context.IdScheduleMap[(uint)entity.ScheduleId], context)
+        : this(context.IdScheduleMap[entity.ScheduleId], context)
     {
         this.entity = entity;
 
@@ -39,16 +38,30 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
         TakeDamage = spiralAbyss.TakeDamageRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
         NormalSkill = spiralAbyss.NormalSkillRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
         EnergySkill = spiralAbyss.EnergySkillRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
-        Floors = spiralAbyss.Floors.Select(f => new FloorView(f, context.IdAvatarMap)).Reverse().ToList();
+        Engaged = true;
+
+        foreach (Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Floor webFloor in spiralAbyss.Floors)
+        {
+            Floors.Single(f => f.IndexValue == webFloor.Index).WithSpiralAbyssFloor(webFloor, context);
+        }
     }
 
     private SpiralAbyssView(TowerSchedule towerSchedule, SpiralAbyssMetadataContext context)
     {
+        ScheduleId = towerSchedule.Id;
         TimeFormatted = $"{towerSchedule.Open:yyyy.MM.dd HH:mm} - {towerSchedule.Close:yyyy.MM.dd HH:mm}";
 
         BlessingName = towerSchedule.BuffName;
         Blessings = towerSchedule.Descriptions;
+        Floors = towerSchedule.FloorIds.Select(id => FloorView.From(context.IdFloorMap[id], context)).Reverse().ToList();
     }
+
+    public uint ScheduleId { get; }
+
+    /// <summary>
+    /// 视图 中使用的计划 Id 字符串
+    /// </summary>
+    public string Schedule { get => SH.ModelEntitySpiralAbyssScheduleFormat.Format(ScheduleId); }
 
     public SpiralAbyssEntry? Entity { get => entity; }
 
@@ -57,6 +70,8 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
     public string BlessingName { get; }
 
     public List<string> Blessings { get; }
+
+    public bool Engaged { get; }
 
     /// <summary>
     /// 战斗次数
@@ -111,5 +126,17 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
     public static SpiralAbyssView From(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
     {
         return new(entity, context);
+    }
+
+    public static SpiralAbyssView From(SpiralAbyssEntry? entity, TowerSchedule meta, SpiralAbyssMetadataContext context)
+    {
+        if (entity is not null)
+        {
+            return new(entity, context);
+        }
+        else
+        {
+            return new(meta, context);
+        }
     }
 }

@@ -115,7 +115,7 @@ internal static class LocalSetting
         return Get<Windows.Foundation.Rect>(key, defaultValue);
     }
 
-    public static ApplicationDataCompositeValue Get(string key,  ApplicationDataCompositeValue defaultValue)
+    public static ApplicationDataCompositeValue Get(string key, ApplicationDataCompositeValue defaultValue)
     {
         return Get<ApplicationDataCompositeValue>(key, defaultValue);
     }

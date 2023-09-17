@@ -28,7 +28,10 @@ internal class NameDescription
         Description = description;
     }
 
-    public static NameDescription Default => DefaultValue;
+    public static NameDescription Default
+    {
+        get => DefaultValue;
+    }
 
     /// <summary>
     /// 名称

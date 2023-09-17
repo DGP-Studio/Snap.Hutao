@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
@@ -13,28 +14,25 @@ using Windows.UI;
 
 namespace Snap.Hutao.Control.Text;
 
-/// <summary>
-/// 专用于呈现描述文本的文本块
-/// Some part of this file came from:
-/// https://github.com/xunkong/desktop/tree/main/src/Desktop/Desktop/Pages/CharacterInfoPage.xaml.cs
-/// </summary>
-[HighQuality]
 [DependencyProperty("Description", typeof(string), "", nameof(OnDescriptionChanged))]
 [DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
-internal sealed partial class DescriptionTextBlock : ContentControl
+internal sealed partial class HtmlDescriptionTextBlock : ContentControl
 {
-    private static readonly int ColorTagFullLength = "<color=#FFFFFFFF></color>".Length;
-    private static readonly int ColorTagLeftLength = "<color=#FFFFFFFF>".Length;
+    private static readonly int ColorTagFullLength = "<color style='color:#FFFFFF;'></color>".Length;
+    private static readonly int ColorTagLeftLength = "<color style='color:#FFFFFF;'>".Length;
 
     private static readonly int ItalicTagFullLength = "<i></i>".Length;
     private static readonly int ItalicTagLeftLength = "<i>".Length;
+
+    private static readonly int BoldTagFullLength = "<b></b>".Length;
+    private static readonly int BoldTagLeftLength = "<b>".Length;
 
     private readonly TypedEventHandler<FrameworkElement, object> actualThemeChangedEventHandler;
 
     /// <summary>
     /// 构造一个新的呈现描述文本的文本块
     /// </summary>
-    public DescriptionTextBlock()
+    public HtmlDescriptionTextBlock()
     {
         this.DisableInteraction();
 
@@ -50,7 +48,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
 
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        TextBlock textBlock = (TextBlock)((DescriptionTextBlock)d).Content;
+        TextBlock textBlock = (TextBlock)((HtmlDescriptionTextBlock)d).Content;
         ReadOnlySpan<char> description = (string)e.NewValue;
 
         UpdateDescription(textBlock, description);
@@ -58,7 +56,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        TextBlock textBlock = (TextBlock)((DescriptionTextBlock)d).Content;
+        TextBlock textBlock = (TextBlock)((HtmlDescriptionTextBlock)d).Content;
         textBlock.Style = (Style)e.NewValue;
     }
 
@@ -70,11 +68,11 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         for (int i = 0; i < description.Length;)
         {
             // newline
-            if (description[i..].StartsWith(@"\n"))
+            if (description[i..].StartsWith(@"<br>"))
             {
                 AppendText(textBlock, description[last..i]);
                 AppendLineBreak(textBlock);
-                i += 2;
+                i += 4;
                 last = i;
             }
 
@@ -82,7 +80,8 @@ internal sealed partial class DescriptionTextBlock : ContentControl
             else if (description[i..].StartsWith("<c"))
             {
                 AppendText(textBlock, description[last..i]);
-                Rgba32 color = new(description.Slice(i + 8, 8).ToString());
+                string a = description.Slice(i + 21, 6).ToString();
+                Rgba32 color = new(a);
                 int length = description[(i + ColorTagLeftLength)..].IndexOf('<');
                 AppendColorText(textBlock, description.Slice(i + ColorTagLeftLength, length), color);
 
@@ -99,6 +98,18 @@ internal sealed partial class DescriptionTextBlock : ContentControl
                 AppendItalicText(textBlock, description.Slice(i + ItalicTagLeftLength, length));
 
                 i += length + ItalicTagFullLength;
+                last = i;
+            }
+
+            // bold
+            else if (description[i..].StartsWith("<b"))
+            {
+                AppendText(textBlock, description[last..i]);
+
+                int length = description[(i + BoldTagLeftLength)..].IndexOf('<');
+                AppendBoldText(textBlock, description.Slice(i + BoldTagLeftLength, length));
+
+                i += length + BoldTagFullLength;
                 last = i;
             }
             else
@@ -137,6 +148,15 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         {
             Text = slice.ToString(),
             Foreground = new SolidColorBrush(targetColor),
+        });
+    }
+
+    private static void AppendBoldText(TextBlock text, in ReadOnlySpan<char> slice)
+    {
+        text.Inlines.Add(new Run
+        {
+            Text = slice.ToString(),
+            FontWeight = FontWeights.Bold,
         });
     }
 

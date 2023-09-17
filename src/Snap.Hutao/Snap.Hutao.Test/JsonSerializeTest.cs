@@ -49,7 +49,7 @@ public class JsonSerializeTest
             NumberHandling = JsonNumberHandling.AllowReadingFromString,
         };
 
-        Dictionary<int,string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SmapleNumberKeyDictionaryJson, options)!;
+        Dictionary<int, string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SmapleNumberKeyDictionaryJson, options)!;
         Assert.AreEqual(sample[111], "12");
     }
 

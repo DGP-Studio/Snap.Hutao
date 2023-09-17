@@ -1,7 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Model.Metadata.Tower;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
@@ -9,18 +10,17 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 间视图
 /// </summary>
 [HighQuality]
-internal sealed class LevelView
+internal sealed class LevelView : IMappingFrom<LevelView, TowerLevel, SpiralAbyssMetadataContext>
 {
-    /// <summary>
-    /// 构造一个新的间视图
-    /// </summary>
-    /// <param name="level">间</param>
-    /// <param name="idAvatarMap">Id角色映射</param>
-    public LevelView(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Level level, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
+    private LevelView(TowerLevel towerLevel, SpiralAbyssMetadataContext context)
     {
-        Index = SH.ModelBindingHutaoComplexRankLevel.Format(level.Index);
-        Star = level.Star;
-        Battles = level.Battles.SelectList(b => new BattleView(b, idAvatarMap));
+        Index = SH.ModelBindingHutaoComplexRankLevel.Format(towerLevel.Index);
+        IndexValue = towerLevel.Index;
+        Battles = new()
+        {
+            BattleView.From(towerLevel, 1, context),
+            BattleView.From(towerLevel, 2, context),
+        };
     }
 
     /// <summary>
@@ -31,10 +31,30 @@ internal sealed class LevelView
     /// <summary>
     /// 星数
     /// </summary>
-    public int Star { get; }
+    public int Star { get; private set; }
 
     /// <summary>
     /// 上下半
     /// </summary>
-    public List<BattleView> Battles { get; }
+    public List<BattleView> Battles { get; private set; }
+
+    internal uint IndexValue { get; set; }
+
+    public static LevelView From(TowerLevel towerLevel, SpiralAbyssMetadataContext context)
+    {
+        return new(towerLevel, context);
+    }
+
+    public void WithSpiralAbyssLevel(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Level level, SpiralAbyssMetadataContext context)
+    {
+        Star = level.Star;
+
+        foreach (BattleView battleView in Battles)
+        {
+            if (level.Battles.SingleOrDefault(b => b.Index == battleView.IndexValue) is { } battle)
+            {
+                battleView.WithSpiralAbyssBattle(battle, context);
+            }
+        }
+    }
 }

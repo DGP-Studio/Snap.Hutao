@@ -26,7 +26,7 @@ internal sealed class SimpleSpiralAbyss
     /// <summary>
     /// 计划Id
     /// </summary>
-    public int ScheduleId { get; set; }
+    public uint ScheduleId { get; set; }
 
     /// <summary>
     /// 总战斗次数

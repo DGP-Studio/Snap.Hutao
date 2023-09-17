@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.SpiralAbyss;
 using Snap.Hutao.ViewModel.User;
@@ -60,12 +59,15 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         uid = userAndUid.Uid.Value;
         if (spiralAbysses is null)
         {
-            List<SpiralAbyssEntry> list = await spiralAbyssRecordDbService
+            Dictionary<uint, SpiralAbyssEntry> entryMap = await spiralAbyssRecordDbService
                 .GetSpiralAbyssEntryListByUidAsync(userAndUid.Uid.Value)
                 .ConfigureAwait(false);
 
             ArgumentNullException.ThrowIfNull(metadataContext);
-            spiralAbysses = list.SelectList(entity => SpiralAbyssView.From(entity, metadataContext)).ToObservableCollection();
+            spiralAbysses = metadataContext.IdScheduleMap.Values
+                .Select(sch => SpiralAbyssView.From(entryMap.GetValueOrDefault(sch.Id), sch, metadataContext))
+                .Reverse()
+                .ToObservableCollection();
         }
 
         return spiralAbysses;
@@ -79,6 +81,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
             .Create(userAndUid.User.IsOversea)
             .GetPlayerInfoAsync(userAndUid)
             .ConfigureAwait(false);
+
         await RefreshSpiralAbyssCoreAsync(userAndUid, SpiralAbyssSchedule.Last).ConfigureAwait(false);
         await RefreshSpiralAbyssCoreAsync(userAndUid, SpiralAbyssSchedule.Current).ConfigureAwait(false);
     }
@@ -97,27 +100,32 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
             ArgumentNullException.ThrowIfNull(spiralAbysses);
             ArgumentNullException.ThrowIfNull(metadataContext);
 
-            int index = spiralAbysses.FirstIndexOf(s => s.Entity.ScheduleId == webSpiralAbyss.ScheduleId);
+            int index = spiralAbysses.FirstIndexOf(s => s.ScheduleId == webSpiralAbyss.ScheduleId);
             if (index > 0)
             {
                 await taskContext.SwitchToBackgroundAsync();
                 SpiralAbyssView view = spiralAbysses[index];
-                view.Entity.SpiralAbyss = webSpiralAbyss;
-                await spiralAbyssRecordDbService.UpdateSpiralAbyssEntryAsync(view.Entity).ConfigureAwait(false);
 
-                await taskContext.SwitchToMainThreadAsync();
-                spiralAbysses.RemoveAt(index);
-                spiralAbysses.Insert(index, SpiralAbyssView.From(view.Entity, metadataContext));
-            }
-            else
-            {
-                SpiralAbyssEntry newEntry = SpiralAbyssEntry.From(userAndUid.Uid.Value, webSpiralAbyss);
+                if (view.Entity is not null)
+                {
+                    view.Entity.SpiralAbyss = webSpiralAbyss;
+                    await spiralAbyssRecordDbService.UpdateSpiralAbyssEntryAsync(view.Entity).ConfigureAwait(false);
 
-                await taskContext.SwitchToMainThreadAsync();
-                spiralAbysses.Insert(0, SpiralAbyssView.From(newEntry, metadataContext));
+                    await taskContext.SwitchToMainThreadAsync();
+                    spiralAbysses.RemoveAt(index);
+                    spiralAbysses.Insert(index, SpiralAbyssView.From(view.Entity, metadataContext));
+                    return;
+                }
+                else
+                {
+                    SpiralAbyssEntry newEntry = SpiralAbyssEntry.From(userAndUid.Uid.Value, webSpiralAbyss);
 
-                await taskContext.SwitchToBackgroundAsync();
-                await spiralAbyssRecordDbService.AddSpiralAbyssEntryAsync(newEntry).ConfigureAwait(false);
+                    await taskContext.SwitchToBackgroundAsync();
+                    await spiralAbyssRecordDbService.AddSpiralAbyssEntryAsync(newEntry).ConfigureAwait(false);
+
+                    await taskContext.SwitchToMainThreadAsync();
+                    spiralAbysses.Insert(index, SpiralAbyssView.From(newEntry, metadataContext));
+                }
             }
         }
     }

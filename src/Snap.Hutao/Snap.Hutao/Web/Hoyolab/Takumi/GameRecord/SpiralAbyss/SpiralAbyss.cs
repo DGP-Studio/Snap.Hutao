@@ -13,7 +13,7 @@ internal sealed class SpiralAbyss
     /// 计划Id
     /// </summary>
     [JsonPropertyName("schedule_id")]
-    public int ScheduleId { get; set; }
+    public uint ScheduleId { get; set; }
 
     /// <summary>
     /// 开始时间

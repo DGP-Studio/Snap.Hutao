@@ -26,7 +26,7 @@
             Grid.Row="1"
             DisplayMode="Inline"
             IsPaneOpen="True"
-            OpenPaneLength="256"
+            OpenPaneLength="248"
             PaneBackground="Transparent"
             Visibility="{Binding SelectedView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <SplitView.Pane>
@@ -37,9 +37,13 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,6">
-                                <TextBlock Text="{Binding Entity.Schedule}"/>
+                                <StackPanel Orientation="Horizontal" Spacing="12">
+                                    <TextBlock Text="{Binding Schedule}"/>
+                                    <TextBlock Opacity="0.8" Text="{Binding MaxFloor}"/>
+                                </StackPanel>
+
                                 <TextBlock
-                                    Opacity="0.7"
+                                    Opacity="0.6"
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{Binding TimeFormatted}"/>
                             </StackPanel>
@@ -208,10 +212,7 @@
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
 
-                                    <ItemsControl
-                                        Margin="16,16,0,0"
-                                        ItemsPanel="{StaticResource HorizontalStackPanelTemplate}"
-                                        ItemsSource="{Binding Floors}">
+                                    <ItemsControl Margin="16,16,0,0" ItemsSource="{Binding Floors}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Border
@@ -220,6 +221,8 @@
                                                     Style="{StaticResource BorderCardStyle}">
                                                     <Grid>
                                                         <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
                                                             <RowDefinition Height="auto"/>
                                                             <RowDefinition/>
                                                         </Grid.RowDefinitions>
@@ -247,12 +250,26 @@
                                                         </Grid>
                                                         <ItemsControl
                                                             Grid.Row="1"
+                                                            Margin="8,0,0,0"
+                                                            ItemsSource="{Binding Disorders}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock
+                                                                        Opacity="0.7"
+                                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                                        Text="{Binding}"/>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                        <ItemsControl
+                                                            Grid.Row="3"
                                                             Margin="0,0,0,8"
                                                             ItemsSource="{Binding Levels}">
                                                             <ItemsControl.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <Grid Margin="0,8,0,0">
                                                                         <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="auto"/>
                                                                             <RowDefinition Height="auto"/>
                                                                             <RowDefinition Height="auto"/>
                                                                             <RowDefinition/>
@@ -279,11 +296,36 @@
                                                                                     TextAlignment="Center"/>
                                                                             </StackPanel>
                                                                         </Grid>
-
                                                                         <ItemsControl
                                                                             Grid.Row="2"
                                                                             Margin="8,0,0,0"
                                                                             ItemsSource="{Binding Battles}">
+                                                                            <ItemsControl.ItemsPanel>
+                                                                                <ItemsPanelTemplate>
+                                                                                    <cwc:UniformGrid Columns="2"/>
+                                                                                </ItemsPanelTemplate>
+                                                                            </ItemsControl.ItemsPanel>
+                                                                            <ItemsControl.ItemTemplate>
+                                                                                <DataTemplate>
+                                                                                    <StackPanel>
+                                                                                        <TextBlock Text="{Binding Gadget.Name}" Visibility="{Binding Gadget, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                                                            <ToolTipService.ToolTip>
+                                                                                                <shct:HtmlDescriptionTextBlock Description="{Binding Gadget.Description}"/>
+                                                                                            </ToolTipService.ToolTip>
+                                                                                        </TextBlock>
+                                                                                    </StackPanel>
+                                                                                </DataTemplate>
+                                                                            </ItemsControl.ItemTemplate>
+                                                                        </ItemsControl>
+                                                                        <ItemsControl
+                                                                            Grid.Row="3"
+                                                                            Margin="8,0,0,0"
+                                                                            ItemsSource="{Binding Battles}">
+                                                                            <ItemsControl.ItemsPanel>
+                                                                                <ItemsPanelTemplate>
+                                                                                    <cwc:UniformGrid Columns="2"/>
+                                                                                </ItemsPanelTemplate>
+                                                                            </ItemsControl.ItemsPanel>
                                                                             <ItemsControl.ItemTemplate>
                                                                                 <DataTemplate>
                                                                                     <StackPanel>
