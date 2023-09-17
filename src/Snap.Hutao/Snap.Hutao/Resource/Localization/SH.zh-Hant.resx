@@ -244,7 +244,7 @@
     <value>尚未刷新</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
-    <value>刷新於 {0:yyyy/MM/dd HH:mm:ss}</value>
+    <value>刷新于 {0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>第 {0} 期</value>
@@ -834,7 +834,7 @@
     <value>在讀取遊戲程序內存時遇到問題：無法讀取到指定地址的有效值</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈願記錄上傳服務有效期至\n{0:yyyy-MM-dd HH:mm:ss}</value>
+    <value>祈愿记录上传服务有效期至\n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>無法找到暫存的元數據文件</value>
