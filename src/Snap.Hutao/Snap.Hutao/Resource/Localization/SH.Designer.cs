@@ -862,7 +862,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 打怪 的本地化字符串。
+        ///   查找类似 击败怪物 的本地化字符串。
         /// </summary>
         internal static string ModelMetadataTowerGoalTypeDefeatMonsters {
             get {
@@ -871,7 +871,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 守塔 的本地化字符串。
+        ///   查找类似 守护目标 的本地化字符串。
         /// </summary>
         internal static string ModelMetadataTowerGoalTypeDefendTarget {
             get {
@@ -880,7 +880,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 附加 的本地化字符串。
+        ///   查找类似 附加：增援怪物 的本地化字符串。
         /// </summary>
         internal static string ModelMetadataTowerWaveTypeAdditional {
             get {
@@ -1060,7 +1060,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 第一波附加：为第一波补充怪物 的本地化字符串。
+        ///   查找类似 第一波附加：增援第一波怪物 的本地化字符串。
         /// </summary>
         internal static string ModelMetadataTowerWaveTypeWave1Additional {
             get {

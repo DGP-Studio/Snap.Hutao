@@ -9,7 +9,7 @@ namespace Snap.Hutao.Control;
 [TemplateVisualState(Name = "LoadingOut", GroupName = "CommonStates")]
 internal class Loading : Microsoft.UI.Xaml.Controls.ContentControl
 {
-    private static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(nameof(IsLoading), typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
+    public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(nameof(IsLoading), typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
 
     private FrameworkElement? presenter;
 

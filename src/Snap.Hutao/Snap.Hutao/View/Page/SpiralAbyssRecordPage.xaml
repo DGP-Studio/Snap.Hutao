@@ -27,15 +27,15 @@
             IsPaneOpen="True"
             OpenPaneLength="120"
             PaneBackground="Transparent"
-            Visibility="{Binding SpiralAbyssView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+            Visibility="{Binding SelectedView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <SplitView.Pane>
                 <ListView
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     ItemsSource="{Binding SpiralAbyssEntries}"
-                    SelectedItem="{Binding SelectedEntry, Mode=TwoWay}">
+                    SelectedItem="{Binding SelectedView, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Schedule}"/>
+                            <TextBlock Text="{Binding Entity.Schedule}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -55,30 +55,32 @@
                                     Label="{shcm:ResourceString Name=ViewSpiralAbyssRefresh}"/>
                             </CommandBar>
                         </Pivot.RightHeader>
-                        <PivotItem DataContext="{Binding SpiralAbyssView}" Header="{shcm:ResourceString Name=ViewSpiralAbyssStatistics}">
+                        <PivotItem DataContext="{Binding SelectedView}" Header="{shcm:ResourceString Name=ViewSpiralAbyssStatistics}">
                             <ScrollViewer>
                                 <Grid>
+                                    <Grid.Resources>
+                                        <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                        <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                        <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                    </Grid.Resources>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition MaxWidth="600"/>
+                                        <ColumnDefinition Width="286"/>
+                                        <ColumnDefinition Width="286"/>
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel
                                         Grid.Column="0"
                                         Margin="16,0,8,16"
                                         Spacing="{StaticResource SettingsCardSpacing}">
-                                        <StackPanel.Resources>
-                                            <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
-                                            <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
-                                            <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
-                                        </StackPanel.Resources>
-                                        <cwc:SettingsCard
-                                            Margin="0,16,0,0"
-                                            Content="{Binding TotalBattleTimes}"
-                                            Header="{shcm:ResourceString Name=ViewSpiralAbyssBattleTimes}"/>
-                                        <cwc:SettingsCard Content="{Binding TotalStar}" Header="{shcm:ResourceString Name=ViewSpiralAbyssTotalStar}"/>
                                         <cwc:SettingsCard Content="{Binding MaxFloor}" Header="{shcm:ResourceString Name=ViewSpiralAbyssMaxFloor}"/>
+                                        <cwc:SettingsCard Content="{Binding TotalBattleTimes}" Header="{shcm:ResourceString Name=ViewSpiralAbyssBattleTimes}"/>
+                                        <cwc:SettingsCard Content="{Binding TotalStar}" Header="{shcm:ResourceString Name=ViewSpiralAbyssTotalStar}"/>
 
-                                        <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewSpiralAbyssReveal}"/>
+
+                                        <TextBlock
+                                            Margin="1,6,0,5"
+                                            Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewSpiralAbyssReveal}"/>
                                         <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding Reveals}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -88,13 +90,19 @@
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <shvc:BottomTextControl Text="{Binding Value}">
-                                                        <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
+                                                        <shvc:ItemIcon
+                                                            Width="52"
+                                                            Height="52"
+                                                            Icon="{Binding Icon}"
+                                                            Quality="{Binding Quality}"/>
                                                     </shvc:BottomTextControl>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
 
-                                        <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewSpiralAbyssBattleHeader}"/>
+
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Spacing="{StaticResource SettingsCardSpacing}">
                                         <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewSpiralAbyssDefeat}">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock
@@ -166,10 +174,9 @@
                                         </cwc:SettingsCard>
                                     </StackPanel>
                                 </Grid>
-
                             </ScrollViewer>
                         </PivotItem>
-                        <PivotItem DataContext="{Binding SpiralAbyssView}" Header="{shcm:ResourceString Name=ViewSpiralAbyssDetail}">
+                        <PivotItem DataContext="{Binding SelectedView}" Header="{shcm:ResourceString Name=ViewSpiralAbyssDetail}">
                             <ScrollViewer VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto">
                                 <ItemsControl
                                     Margin="16,16,0,0"
@@ -289,7 +296,7 @@
                 </Grid>
             </SplitView.Content>
         </SplitView>
-        <Grid Visibility="{Binding SpiralAbyssView, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
+        <Grid Visibility="{Binding SelectedView, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <shci:CachedImage
                     Width="120"

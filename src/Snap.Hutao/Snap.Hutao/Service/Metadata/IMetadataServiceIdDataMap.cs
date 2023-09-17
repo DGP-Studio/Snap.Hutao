@@ -4,7 +4,9 @@
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Metadata.Reliquary;
+using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 
@@ -70,10 +72,18 @@ internal interface IMetadataServiceIdDataMap
     /// <returns>字典</returns>
     ValueTask<Dictionary<ReliquaryMainAffixId, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default);
 
+    ValueTask<Dictionary<TowerScheduleId, TowerSchedule>> GetIdToTowerScheduleMapAsync(CancellationToken token = default);
+
     /// <summary>
     /// 异步获取ID到武器的字典
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>Id到武器的字典</returns>
     ValueTask<Dictionary<WeaponId, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default);
+
+    ValueTask<Dictionary<TowerLevelGroupId, List<TowerLevel>>> GetGroupIdToTowerLevelGroupMapAsync(CancellationToken token = default);
+
+    ValueTask<Dictionary<TowerFloorId, TowerFloor>> GetIdToTowerFloorMapAsync(CancellationToken token = default);
+
+    ValueTask<Dictionary<MonsterRelationshipId, Monster>> GetRelationshipIdToMonsterMapAsync(CancellationToken token = default);
 }

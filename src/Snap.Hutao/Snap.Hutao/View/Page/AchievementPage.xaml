@@ -188,12 +188,17 @@
                                     </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>
-                                    <DataTemplate>
+                                    <DataTemplate x:DataType="shva:AchievementView">
                                         <Border
                                             Margin="0,4,0,0"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center"
                                             Style="{StaticResource BorderCardStyle}">
+                                            <Border.ContextFlyout>
+                                                <MenuFlyout>
+                                                    <MenuFlyoutItem IsEnabled="False" Text="{Binding Inner.Id}"/>
+                                                </MenuFlyout>
+                                            </Border.ContextFlyout>
                                             <Grid MinHeight="48" Padding="8">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>

@@ -89,6 +89,12 @@ internal sealed class IdentityGenerator : IIncrementalGenerator
                 {
                     return Value.GetHashCode();
                 }
+
+                /// <inheritdoc/>
+                public override string ToString()
+                {
+                    return Value.ToString();
+                }
             }
             """);
 

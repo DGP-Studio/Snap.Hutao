@@ -59,14 +59,4 @@ internal sealed class SpiralAbyssEntry : ObservableObject,
             SpiralAbyss = spiralAbyss,
         };
     }
-
-    /// <summary>
-    /// 更新深渊信息
-    /// </summary>
-    /// <param name="spiralAbyss">深渊信息</param>
-    public void UpdateSpiralAbyss(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss spiralAbyss)
-    {
-        SpiralAbyss = spiralAbyss;
-        OnPropertyChanged(nameof(SpiralAbyss));
-    }
 }

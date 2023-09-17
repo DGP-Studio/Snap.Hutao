@@ -10,7 +10,7 @@ internal interface ISpiralAbyssRecordDbService
 {
     ValueTask AddSpiralAbyssEntryAsync(SpiralAbyssEntry entry);
 
-    ValueTask<ObservableCollection<SpiralAbyssEntry>> GetSpiralAbyssEntryCollectionByUidAsync(string uid);
+    ValueTask<List<SpiralAbyssEntry>> GetSpiralAbyssEntryListByUidAsync(string uid);
 
     ValueTask UpdateSpiralAbyssEntryAsync(SpiralAbyssEntry entry);
 }
