@@ -439,7 +439,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 刷新于 {0:yyyy/MM/dd HH:mm:ss} 的本地化字符串。
+        ///   查找类似 刷新于 {0:yyyy.MM.dd HH:mm:ss} 的本地化字符串。
         /// </summary>
         internal static string ModelEntityDailyNoteRefreshTimeFormat {
             get {
@@ -2041,7 +2041,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 祈愿记录上传服务有效期至\n{0:yyyy-MM-dd HH:mm:ss} 的本地化字符串。
+        ///   查找类似 祈愿记录上传服务有效期至\n{0:yyyy.MM.dd HH:mm:ss} 的本地化字符串。
         /// </summary>
         internal static string ServiceHutaoUserGachaLogExpiredAt {
             get {
@@ -6483,6 +6483,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewUserDefaultDescription {
             get {
                 return ResourceManager.GetString("ViewUserDefaultDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 文档 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserDocumentationHeader {
+            get {
+                return ResourceManager.GetString("ViewUserDocumentationHeader", resourceCulture);
             }
         }
         

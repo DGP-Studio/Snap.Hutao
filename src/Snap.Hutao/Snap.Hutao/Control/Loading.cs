@@ -11,6 +11,7 @@ internal class Loading : Microsoft.UI.Xaml.Controls.ContentControl
 {
     public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(nameof(IsLoading), typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));
 
+    [SuppressMessage("", "IDE0052")]
     private FrameworkElement? presenter;
 
     public Loading()

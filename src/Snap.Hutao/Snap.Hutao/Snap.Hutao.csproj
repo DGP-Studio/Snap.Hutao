@@ -96,6 +96,7 @@
     <None Remove="Resource\Navigation\Cultivation.png" />
     <None Remove="Resource\Navigation\DailyNote.png" />
     <None Remove="Resource\Navigation\Database.png" />
+    <None Remove="Resource\Navigation\Documentation.png" />
     <None Remove="Resource\Navigation\GachaLog.png" />
     <None Remove="Resource\Navigation\LaunchGame.png" />
     <None Remove="Resource\Navigation\SpiralAbyss.png" />
@@ -224,6 +225,7 @@
     <Content Include="Resource\Navigation\Cultivation.png" />
     <Content Include="Resource\Navigation\DailyNote.png" />
     <Content Include="Resource\Navigation\Database.png" />
+    <Content Include="Resource\Navigation\Documentation.png" />
     <Content Include="Resource\Navigation\GachaLog.png" />
     <Content Include="Resource\Navigation\LaunchGame.png" />
     <Content Include="Resource\Navigation\SpiralAbyss.png" />

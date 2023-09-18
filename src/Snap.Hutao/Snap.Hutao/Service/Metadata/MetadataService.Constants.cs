@@ -8,7 +8,6 @@ namespace Snap.Hutao.Service.Metadata;
 /// </summary>
 internal partial class MetadataService
 {
-#pragma warning disable CA1823
     private const string FileNameAchievement = "Achievement";
     private const string FileNameAchievementGoal = "AchievementGoal";
     private const string FileNameAvatar = "Avatar";
@@ -31,5 +30,4 @@ internal partial class MetadataService
     private const string FileNameWeapon = "Weapon";
     private const string FileNameWeaponCurve = "WeaponCurve";
     private const string FileNameWeaponPromote = "WeaponPromote";
-#pragma warning restore
 }

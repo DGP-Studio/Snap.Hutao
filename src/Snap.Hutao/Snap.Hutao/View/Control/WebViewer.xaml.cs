@@ -20,6 +20,7 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
     private readonly RoutedEventHandler loadEventHandler;
     private readonly RoutedEventHandler unloadEventHandler;
 
+    [SuppressMessage("", "IDE0052")]
     private MiHoYoJSInterface? jsInterface;
     private bool isFirstNavigate = true;
 

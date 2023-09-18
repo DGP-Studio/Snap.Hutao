@@ -14,6 +14,7 @@ using Snap.Hutao.View.Page;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.ObjectModel;
 using System.Text;
+using Windows.System;
 
 namespace Snap.Hutao.ViewModel.User;
 
@@ -25,6 +26,7 @@ namespace Snap.Hutao.ViewModel.User;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class UserViewModel : ObservableObject
 {
+    private readonly IDocumentationProvider documentationProvider;
     private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
@@ -247,5 +249,11 @@ internal sealed partial class UserViewModel : ObservableObject
                 infoBarService.Warning(SH.MustSelectUserAndUid);
             }
         }
+    }
+
+    [Command("OpenDocumentationCommand")]
+    private async Task OpenDocumentationAsync()
+    {
+        await Launcher.LaunchUriAsync(new(documentationProvider.GetDocumentation()));
     }
 }
