@@ -11,4 +11,8 @@
     Content="{shcm:ResourceString Name=ViewControlElevationText}"
     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
     Icon="{shcm:FontIcon Glyph=&#xE7BA;}"
-    mc:Ignorable="d"/>
+    mc:Ignorable="d">
+    <clw:TokenItem.Resources>
+        <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
+    </clw:TokenItem.Resources>
+</clw:TokenItem>
