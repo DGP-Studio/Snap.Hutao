@@ -11,6 +11,7 @@ internal static class MonsterRelationship
     {
         return (uint)id switch
         {
+            5020U => 502U,      // 幻形豕兽 · 水
             5021U => 502U,      // 幻形豕兽 · 水 (强化)
             5040U => 504U,      // 幻形蟹 · 水
             5041U => 504U,      // 幻形蟹 · 水 (强化)

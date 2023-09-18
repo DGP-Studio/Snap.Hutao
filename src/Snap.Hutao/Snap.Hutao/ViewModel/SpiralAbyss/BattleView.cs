@@ -26,7 +26,7 @@ internal sealed class BattleView : IMappingFrom<BattleView, TowerLevel, uint, Sp
         MonsterWaves = battleIndex switch
         {
             1U => towerLevel.FirstWaves.SelectList(w => BattleWave.From(w, context)),
-            2U => towerLevel.FirstWaves.SelectList(w => BattleWave.From(w, context)),
+            2U => towerLevel.SecondWaves.SelectList(w => BattleWave.From(w, context)),
             _ => default!,
         };
     }

@@ -15,7 +15,7 @@ internal sealed class MonsterView : INameIcon, IMappingFrom<MonsterView, TowerMo
         Name = metaMonster.Name;
         Icon = MonsterIconConverter.IconNameToUri(metaMonster.Icon);
         Affixes = towerMonster.Affixes;
-        Count = towerMonster.Count;
+        Count = (int)towerMonster.Count;
         AttackMonolith = towerMonster.AttackMonolith;
     }
 
@@ -25,7 +25,7 @@ internal sealed class MonsterView : INameIcon, IMappingFrom<MonsterView, TowerMo
 
     public List<NameDescription>? Affixes { get; }
 
-    public uint Count { get; }
+    public int Count { get; }
 
     public bool AttackMonolith { get; }
 
