@@ -2315,6 +2315,9 @@
   <data name="ViewUserDefaultDescription" xml:space="preserve">
     <value>ログインしてください</value>
   </data>
+  <data name="ViewUserDocumentationHeader" xml:space="preserve">
+    <value>文档</value>
+  </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>CookieTokenを更新しました。</value>
   </data>
