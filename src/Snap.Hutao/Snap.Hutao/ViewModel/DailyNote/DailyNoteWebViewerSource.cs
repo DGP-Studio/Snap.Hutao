@@ -7,7 +7,7 @@ using Snap.Hutao.Web.Request.QueryString;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
 
-internal sealed class DailyNoteWebview2ViewerSource : IWebview2ViewerSource
+internal sealed class DailyNoteWebViewerSource : IWebViewerSource
 {
     public string GetSource(UserAndUid userAndUid)
     {

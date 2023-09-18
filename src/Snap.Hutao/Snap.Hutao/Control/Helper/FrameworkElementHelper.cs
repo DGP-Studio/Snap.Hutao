@@ -11,8 +11,8 @@ public sealed partial class FrameworkElementHelper
 {
     private static void OnSquareLengthChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
     {
-        Microsoft.UI.Xaml.Controls.Control control = (Microsoft.UI.Xaml.Controls.Control)dp;
-        control.Width = (double)e.NewValue;
-        control.Height = (double)e.NewValue;
+        FrameworkElement element = (FrameworkElement)dp;
+        element.Width = (double)e.NewValue;
+        element.Height = (double)e.NewValue;
     }
 }

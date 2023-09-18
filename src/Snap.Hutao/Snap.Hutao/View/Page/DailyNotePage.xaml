@@ -52,7 +52,7 @@
                                     <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
-                            <shvc:Webview2Viewer SourceProvider="{Binding VerifyUrlSource, Mode=OneWay}"/>
+                            <shvc:WebViewer SourceProvider="{Binding VerifyUrlSource, Mode=OneWay}"/>
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
                 </Button>

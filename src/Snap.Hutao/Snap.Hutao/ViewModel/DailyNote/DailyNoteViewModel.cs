@@ -42,7 +42,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
-    public IWebview2ViewerSource VerifyUrlSource { get => new DailyNoteWebview2ViewerSource(); }
+    public IWebViewerSource VerifyUrlSource { get => new DailyNoteWebViewerSource(); }
 
     /// <summary>
     /// 用户与角色集合

@@ -13,8 +13,8 @@ using Snap.Hutao.Web.Bridge;
 
 namespace Snap.Hutao.View.Control;
 
-[DependencyProperty("SourceProvider", typeof(IWebview2ViewerSource))]
-internal partial class Webview2Viewer : UserControl, IRecipient<UserChangedMessage>
+[DependencyProperty("SourceProvider", typeof(IWebViewerSource))]
+internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 {
     private readonly IServiceProvider serviceProvider;
     private readonly RoutedEventHandler loadEventHandler;
@@ -23,7 +23,7 @@ internal partial class Webview2Viewer : UserControl, IRecipient<UserChangedMessa
     private MiHoYoJSInterface? jsInterface;
     private bool isFirstNavigate = true;
 
-    public Webview2Viewer()
+    public WebViewer()
     {
         InitializeComponent();
         serviceProvider = Ioc.Default;

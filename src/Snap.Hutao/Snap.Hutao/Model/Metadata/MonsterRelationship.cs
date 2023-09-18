@@ -7,7 +7,7 @@ namespace Snap.Hutao.Model.Metadata;
 
 internal static class MonsterRelationship
 {
-    public static MonsterRelationshipId Normalize(MonsterRelationshipId id)
+    public static MonsterRelationshipId Normalize(in MonsterRelationshipId id)
     {
         return (uint)id switch
         {

@@ -7,7 +7,7 @@ using Snap.Hutao.ViewModel.User;
 namespace Snap.Hutao.View.Control;
 
 [DependencyProperty("Source", typeof(string))]
-internal sealed partial class StaticWebview2ViewerSource : DependencyObject, IWebview2ViewerSource
+internal sealed partial class StaticWebview2ViewerSource : DependencyObject, IWebViewerSource
 {
     public string GetSource(UserAndUid userAndUid)
     {

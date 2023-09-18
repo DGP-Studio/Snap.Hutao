@@ -1,4 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shch="using:Snap.Hutao.Control.Helper">
     <FontFamily x:Key="MiSans">ms-appx:///Resource/Font/MiSans-Regular.ttf#MiSans</FontFamily>
     <FontFamily x:Key="CascadiaMonoAndMiSans">ms-appx:///Resource/Font/CascadiaMono.ttf#Cascadia Mono, ms-appx:///Resource/Font/MiSans-Regular.ttf#MiSans</FontFamily>
 
@@ -99,6 +102,7 @@
     </Style>
     <!--  TODO: When will DefaultInfoBarStyle added  -->
     <Style TargetType="InfoBar">
+        <Setter Property="shch:InfoBarHelper.IsTextSelectionEnabled" Value="False"/>
         <Setter Property="FontFamily" Value="{StaticResource MiSans}"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="CloseButtonStyle" Value="{StaticResource InfoBarCloseButtonStyle}"/>
@@ -181,6 +185,7 @@
                                     Foreground="{ThemeResource InfoBarTitleForeground}"
                                     InfoBarPanel.HorizontalOrientationMargin="{StaticResource InfoBarTitleHorizontalOrientationMargin}"
                                     InfoBarPanel.VerticalOrientationMargin="{StaticResource InfoBarTitleVerticalOrientationMargin}"
+                                    IsTextSelectionEnabled="{TemplateBinding shch:InfoBarHelper.IsTextSelectionEnabled}"
                                     Text="{TemplateBinding Title}"
                                     TextWrapping="WrapWholeWords"/>
                                 <TextBlock
@@ -190,6 +195,7 @@
                                     Foreground="{ThemeResource InfoBarMessageForeground}"
                                     InfoBarPanel.HorizontalOrientationMargin="{StaticResource InfoBarMessageHorizontalOrientationMargin}"
                                     InfoBarPanel.VerticalOrientationMargin="{StaticResource InfoBarMessageVerticalOrientationMargin}"
+                                    IsTextSelectionEnabled="{TemplateBinding shch:InfoBarHelper.IsTextSelectionEnabled}"
                                     Text="{TemplateBinding Message}"
                                     TextWrapping="WrapWholeWords"/>
                                 <ContentPresenter

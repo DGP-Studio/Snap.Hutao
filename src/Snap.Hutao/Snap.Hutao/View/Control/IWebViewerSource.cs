@@ -5,7 +5,7 @@ using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.View.Control;
 
-internal interface IWebview2ViewerSource
+internal interface IWebViewerSource
 {
     string GetSource(UserAndUid userAndUid);
 }

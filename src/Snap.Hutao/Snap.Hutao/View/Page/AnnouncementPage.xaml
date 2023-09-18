@@ -12,6 +12,7 @@
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shca="using:Snap.Hutao.Control.Animation"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvco="using:Snap.Hutao.View.Control"
@@ -167,13 +168,15 @@
                     <TextBlock Margin="16,0" Text="{Binding UserOptions.UserName}"/>
 
                     <ItemsControl
-                        Margin="16,16,12,0"
+                        Margin="16,8,12,0"
                         ItemsSource="{Binding HutaoAnnouncements}"
                         Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <InfoBar
                                     Title="{Binding Title}"
+                                    Margin="0,8,0,0"
+                                    shch:InfoBarHelper.IsTextSelectionEnabled="True"
                                     CloseButtonCommand="{Binding DismissCommand}"
                                     CloseButtonCommandParameter="{Binding}"
                                     IsOpen="True"
