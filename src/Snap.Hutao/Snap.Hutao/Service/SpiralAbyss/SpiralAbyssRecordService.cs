@@ -101,31 +101,28 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
             ArgumentNullException.ThrowIfNull(metadataContext);
 
             int index = spiralAbysses.FirstIndexOf(s => s.ScheduleId == webSpiralAbyss.ScheduleId);
-            if (index > 0)
+            if (index >= 0)
             {
                 await taskContext.SwitchToBackgroundAsync();
                 SpiralAbyssView view = spiralAbysses[index];
 
+                SpiralAbyssEntry targetEntry;
                 if (view.Entity is not null)
                 {
                     view.Entity.SpiralAbyss = webSpiralAbyss;
                     await spiralAbyssRecordDbService.UpdateSpiralAbyssEntryAsync(view.Entity).ConfigureAwait(false);
-
-                    await taskContext.SwitchToMainThreadAsync();
-                    spiralAbysses.RemoveAt(index);
-                    spiralAbysses.Insert(index, SpiralAbyssView.From(view.Entity, metadataContext));
-                    return;
+                    targetEntry = view.Entity;
                 }
                 else
                 {
                     SpiralAbyssEntry newEntry = SpiralAbyssEntry.From(userAndUid.Uid.Value, webSpiralAbyss);
-
-                    await taskContext.SwitchToBackgroundAsync();
                     await spiralAbyssRecordDbService.AddSpiralAbyssEntryAsync(newEntry).ConfigureAwait(false);
-
-                    await taskContext.SwitchToMainThreadAsync();
-                    spiralAbysses.Insert(index, SpiralAbyssView.From(newEntry, metadataContext));
+                    targetEntry = newEntry;
                 }
+
+                await taskContext.SwitchToMainThreadAsync();
+                spiralAbysses.RemoveAt(index);
+                spiralAbysses.Insert(index, SpiralAbyssView.From(targetEntry, metadataContext));
             }
         }
     }
