@@ -2316,7 +2316,7 @@
     <value>Please login first</value>
   </data>
   <data name="ViewUserDocumentationHeader" xml:space="preserve">
-    <value>文档</value>
+    <value>Document</value>
   </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>Refresh CookieToken successfully</value>
