@@ -10,6 +10,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
+using System.Diagnostics;
 
 namespace Snap.Hutao.View.Control;
 
@@ -22,7 +23,6 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 
     [SuppressMessage("", "IDE0052")]
     private MiHoYoJSInterface? jsInterface;
-    private bool isFirstNavigate = true;
 
     public WebViewer()
     {
@@ -90,13 +90,12 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 
                     coreWebView2.SetCookie(user.CookieToken, user.LToken, user.SToken).SetMobileUserAgent();
                     jsInterface = serviceProvider.CreateInstance<MiHoYoJSInterface>(coreWebView2, userAndUid);
-                    if (!isFirstNavigate)
-                    {
-                        coreWebView2.Reload();
-                    }
 
-                    coreWebView2.Navigate(source);
-                    isFirstNavigate = false;
+                    CoreWebView2Navigator navigator = new(coreWebView2);
+                    await navigator.NavigateAsync("about:blank");
+                    Debug.WriteLine($"Before {source}");
+                    await navigator.NavigateAsync(source);
+                    Debug.WriteLine($"After {WebView.Source}");
                 }
             }
             else
