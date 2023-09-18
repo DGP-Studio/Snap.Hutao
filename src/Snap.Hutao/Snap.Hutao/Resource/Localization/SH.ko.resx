@@ -2315,6 +2315,9 @@
   <data name="ViewUserDefaultDescription" xml:space="preserve">
     <value>먼저 로그인하세요</value>
   </data>
+  <data name="ViewUserDocumentationHeader" xml:space="preserve">
+    <value>文档</value>
+  </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>CookieToken을 동기화 했습니다</value>
   </data>
