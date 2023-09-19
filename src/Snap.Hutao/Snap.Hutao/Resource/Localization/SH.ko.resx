@@ -244,7 +244,7 @@
     <value>尚未刷新</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
-    <value>刷新于 {0:yyyy/MM/dd HH:mm:ss}</value>
+    <value>刷新于 {0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>제 {0} 호</value>
@@ -421,6 +421,9 @@
   </data>
   <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
     <value>附加：增援怪物</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeDefault" xml:space="preserve">
+    <value>本间怪物</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
     <value>A组：不同的组同时在场，各自分波独立</value>
@@ -834,7 +837,7 @@
     <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈愿记录上传服务有效期至\n{0:yyyy-MM-dd HH:mm:ss}</value>
+    <value>祈愿记录上传服务有效期至\n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>无法找到缓存的元数据文件</value>
@@ -2234,6 +2237,12 @@
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>회원가입 또는 로그인</value>
   </data>
+  <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
+    <value>角色出场率 = 本层上阵该角色次数（层内重复出现只记一次）/ 深渊记录总数</value>
+  </data>
+  <data name="ViewSpiralAbyssAvatarUsageRankDescription" xml:space="preserve">
+    <value>角色使用率 = 本层上阵该角色次数（层内重复出现只记一次）/ 持有该角色的深渊记录总数</value>
+  </data>
   <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
     <value>전투 데이터</value>
   </data>
@@ -2250,7 +2259,7 @@
     <value>최대 격파 횟수</value>
   </data>
   <data name="ViewSpiralAbyssDetail" xml:space="preserve">
-    <value>상세 데이터</value>
+    <value>深境螺旋</value>
   </data>
   <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
     <value>원소폭발</value>
@@ -2258,11 +2267,20 @@
   <data name="ViewSpiralAbyssHeader" xml:space="preserve">
     <value>나선 비경 기록</value>
   </data>
+  <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
+    <value>本期统计</value>
+  </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>최대 층</value>
   </data>
   <data name="ViewSpiralAbyssNormalSkill" xml:space="preserve">
     <value>원소 전투 스킬</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordBattleAvatars" xml:space="preserve">
+    <value>上场角色</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordMonsterAttacksMonolith" xml:space="preserve">
+    <value>攻击地脉镇石</value>
   </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
     <value>데이터 동기화</value>
@@ -2314,6 +2332,9 @@
   </data>
   <data name="ViewUserDefaultDescription" xml:space="preserve">
     <value>먼저 로그인하세요</value>
+  </data>
+  <data name="ViewUserDocumentationHeader" xml:space="preserve">
+    <value>文档</value>
   </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>CookieToken을 동기화 했습니다</value>

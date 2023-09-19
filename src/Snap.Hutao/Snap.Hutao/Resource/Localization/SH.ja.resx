@@ -244,7 +244,7 @@
     <value>未更新</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
-    <value>更新日時 {0:yyyy/MM/dd HH:mm:ss}</value>
+    <value>更新日時 {0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>第 {0} 期</value>
@@ -421,6 +421,9 @@
   </data>
   <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
     <value>附加：增援怪物</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeDefault" xml:space="preserve">
+    <value>本间怪物</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
     <value>A组：不同的组同时在场，各自分波独立</value>
@@ -747,7 +750,7 @@
     <value>存在多个匹配账号，请删除重复的账号</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
-    <value>查询游戏资源信息</value>
+    <value>ゲームのリソース情報を確認</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>游戏文件操作失败：{0}</value>
@@ -834,7 +837,7 @@
     <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈願履歴のアップロード期限は\n{0:yyyy-MM-dd HH:mm:ss}</value>
+    <value>祈願履歴のアップロード期限は\n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
@@ -1059,19 +1062,19 @@
     <value>接口需要返回形如上方所示的 Json 数据，多余的数据会被忽略</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
-    <value>"code" 为 0 时，指示验证成功，其他的值均视为验证失败</value>
+    <value>"code" は 0 の場合のみ認証成功です。他の戻り値は認証失敗となります。</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataHeader" xml:space="preserve">
-    <value>返回数据</value>
+    <value>結果を返す</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
-    <value>{0} 将在实际请求时替换为 gt</value>
+    <value>{0} はリクエストの際、gtに切り替えます</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
-    <value>{1} 将在实际请求时替换为 challenge</value>
+    <value>{1} はリクエストの際、challengeに切り替えます</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
-    <value>将会通过 GET 方式对接口发送请求</value>
+    <value>GETメソッドでリクエストの処理を行います。</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleHeader" xml:space="preserve">
     <value>例</value>
@@ -1215,7 +1218,7 @@
     <value>{0} を削除してもよろしいでしょうか？</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
-    <value>获取培养材料中，请稍候...</value>
+    <value>素材リスト取得中、しばらくお待ちください</value>
   </data>
   <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
     <value>当前角色无法计算，请同步信息后再试</value>
@@ -1287,13 +1290,13 @@
     <value>リアルタイムノートの情報を取得中、しばらくお待ちください</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
-    <value>成功保存到指定位置</value>
+    <value>指定された位置に保存しました</value>
   </data>
   <data name="ViewModelExportSuccessTitle" xml:space="preserve">
     <value>エクスポート成功しました</value>
   </data>
   <data name="ViewModelExportWarningMessage" xml:space="preserve">
-    <value>写入文件时遇到问题</value>
+    <value>書き込み処理でエラーが発生しました</value>
   </data>
   <data name="ViewModelExportWarningTitle" xml:space="preserve">
     <value>エクスポート失敗</value>
@@ -1311,7 +1314,7 @@
     <value>UIGF バージョンが古いため、インポートできません</value>
   </data>
   <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
-    <value>导入数据中包含了不支持的物品</value>
+    <value>インポートデータにサポートされないアイテムが含まれている</value>
   </data>
   <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
     <value>インポート失敗</value>
@@ -1548,10 +1551,10 @@
     <value>アイテム</value>
   </data>
   <data name="ViewPageCultivationMaterialList" xml:space="preserve">
-    <value>材料清单</value>
+    <value>素材リスト</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
-    <value>材料统计</value>
+    <value>素材情報</value>
   </data>
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
     <value>前往</value>
@@ -2007,7 +2010,7 @@
     <value>若祈愿记录缓存刷新频繁提示验证密钥过期，可以尝试此操作</value>
   </data>
   <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
-    <value>删除游戏内网页缓存</value>
+    <value>ゲーム内ブラウザキャッシュを削除する</value>
   </data>
   <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
     <value>直接删除用户表的所有记录，用于修复特定的账号冲突问题</value>
@@ -2234,6 +2237,12 @@
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>ログインまたはサインアップ</value>
   </data>
+  <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
+    <value>角色出场率 = 本层上阵该角色次数（层内重复出现只记一次）/ 深渊记录总数</value>
+  </data>
+  <data name="ViewSpiralAbyssAvatarUsageRankDescription" xml:space="preserve">
+    <value>角色使用率 = 本层上阵该角色次数（层内重复出现只记一次）/ 持有该角色的深渊记录总数</value>
+  </data>
   <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
     <value>战斗数据</value>
   </data>
@@ -2250,7 +2259,7 @@
     <value>最多撃破数</value>
   </data>
   <data name="ViewSpiralAbyssDetail" xml:space="preserve">
-    <value>詳細</value>
+    <value>深境螺旋</value>
   </data>
   <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
     <value>元素爆発</value>
@@ -2258,11 +2267,20 @@
   <data name="ViewSpiralAbyssHeader" xml:space="preserve">
     <value>深境螺旋</value>
   </data>
+  <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
+    <value>本期统计</value>
+  </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>最深到達</value>
   </data>
   <data name="ViewSpiralAbyssNormalSkill" xml:space="preserve">
     <value>元素スキル</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordBattleAvatars" xml:space="preserve">
+    <value>上场角色</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordMonsterAttacksMonolith" xml:space="preserve">
+    <value>攻击地脉镇石</value>
   </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
     <value>データを再読み込み</value>
@@ -2295,7 +2313,7 @@
     <value>HoYoLAB</value>
   </data>
   <data name="ViewUserCookieOperation3" xml:space="preserve">
-    <value>当前用户</value>
+    <value>現在のユーザー</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>ウェブ上でログイン</value>
@@ -2314,6 +2332,9 @@
   </data>
   <data name="ViewUserDefaultDescription" xml:space="preserve">
     <value>ログインしてください</value>
+  </data>
+  <data name="ViewUserDocumentationHeader" xml:space="preserve">
+    <value>ドキュメント</value>
   </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>CookieTokenを更新しました。</value>
@@ -2364,7 +2385,7 @@
     <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>\d\.\d版本更新说明</value>
+    <value>Ver.\d\.\d 更新内容</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>{0} 日後に開始</value>
@@ -2442,7 +2463,7 @@
     <value>利用可能</value>
   </data>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
-    <value>已准备完成</value>
+    <value>もうすぐ完成</value>
   </data>
   <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
     <value>{0} 秒</value>
@@ -2463,13 +2484,13 @@
     <value>リクエストが多すぎます。時間をおいてから試してください。</value>
   </data>
   <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
-    <value>服务器偶发错误</value>
+    <value>偶発的なサーバーエラー</value>
   </data>
   <data name="WebEnkaResponseStatusCode503" xml:space="preserve">
-    <value>服务器严重错误</value>
+    <value>致命的なサーバーエラー</value>
   </data>
   <data name="WebEnkaResponseStatusCodeUnknown" xml:space="preserve">
-    <value>未知的服务器错误</value>
+    <value>不明なサーバーエラー</value>
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
     <value>イベント祈願・キャラクター</value>
@@ -2487,12 +2508,12 @@
     <value>イベント祈願・武器</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
-    <value>状态：{0} | 信息：{1}</value>
+    <value>リターンコード：{0} | メッセージ：{1}</value>
   </data>
   <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
     <value>请刷新 Cookie，原始消息：{0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
-    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+    <value>[{0}] の[{1}] のリクエストにエラーが発生、時間をおいてから試してください</value>
   </data>
 </root>
