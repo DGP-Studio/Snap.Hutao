@@ -6253,6 +6253,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 角色出场率 = 本层上阵该角色次数（层内重复出现只记一次）/ 深渊记录总数 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssAvatarAppearanceRankDescription {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssAvatarAppearanceRankDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色使用率 = 本层上阵该角色次数（层内重复出现只记一次）/ 持有该角色的深渊记录总数 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssAvatarUsageRankDescription {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssAvatarUsageRankDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 战斗数据 的本地化字符串。
         /// </summary>
         internal static string ViewSpiralAbyssBattleHeader {
@@ -6298,7 +6316,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 详细数据 的本地化字符串。
+        ///   查找类似 深境螺旋 的本地化字符串。
         /// </summary>
         internal static string ViewSpiralAbyssDetail {
             get {
@@ -6321,6 +6339,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewSpiralAbyssHeader {
             get {
                 return ResourceManager.GetString("ViewSpiralAbyssHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 本期统计 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssHutaoStatistics {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssHutaoStatistics", resourceCulture);
             }
         }
         
@@ -6348,6 +6375,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewSpiralAbyssRecordBattleAvatars {
             get {
                 return ResourceManager.GetString("ViewSpiralAbyssRecordBattleAvatars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 攻击地脉镇石 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssRecordMonsterAttacksMonolith {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssRecordMonsterAttacksMonolith", resourceCulture);
             }
         }
         

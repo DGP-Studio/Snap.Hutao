@@ -6,6 +6,7 @@ using Snap.Hutao.Message;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
@@ -26,6 +27,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
+    private readonly HutaoDatabaseViewModel hutaoDatabaseViewModel;
 
     private ObservableCollection<SpiralAbyssView>? spiralAbyssEntries;
     private SpiralAbyssView? selectedView;
@@ -39,6 +41,8 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     /// 选中的深渊信息
     /// </summary>
     public SpiralAbyssView? SelectedView { get => selectedView; set => SetProperty(ref selectedView, value); }
+
+    public HutaoDatabaseViewModel HutaoDatabaseViewModel { get => hutaoDatabaseViewModel; }
 
     /// <inheritdoc/>
     public void Receive(UserChangedMessage message)

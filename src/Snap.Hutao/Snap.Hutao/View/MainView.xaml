@@ -68,11 +68,6 @@
                 <NavigationViewItemHeader Content="{shcm:ResourceString Name=ViewDataHeader}"/>
 
                 <NavigationViewItem
-                    shvh:NavHelper.NavigateTo="shvp:HutaoDatabasePage"
-                    Content="{shcm:ResourceString Name=ViewHutaoDatabaseHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Database.png}"/>
-
-                <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
                     Content="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"/>

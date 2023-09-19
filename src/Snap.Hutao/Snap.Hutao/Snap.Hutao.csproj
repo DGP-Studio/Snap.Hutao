@@ -148,7 +148,6 @@
     <None Remove="View\Page\CultivationPage.xaml" />
     <None Remove="View\Page\DailyNotePage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
-    <None Remove="View\Page\HutaoDatabasePage.xaml" />
     <None Remove="View\Page\HutaoPassportPage.xaml" />
     <None Remove="View\Page\LaunchGamePage.xaml" />
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
@@ -473,11 +472,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\LaunchGamePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\HutaoDatabasePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

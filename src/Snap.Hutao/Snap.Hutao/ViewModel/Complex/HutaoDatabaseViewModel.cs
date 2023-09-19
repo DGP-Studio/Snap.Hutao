@@ -23,16 +23,23 @@ internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel
     private List<AvatarConstellationInfoView>? avatarConstellationInfos;
     private List<TeamAppearanceView>? teamAppearances;
     private Overview? overview;
+    private AvatarRankView? selectedAvatarUsageRank;
+    private AvatarRankView? selectedAvatarAppearanceRank;
+    private TeamAppearanceView? selectedTeamAppearance;
 
     /// <summary>
     /// 角色使用率
     /// </summary>
     public List<AvatarRankView>? AvatarUsageRanks { get => avatarUsageRanks; set => SetProperty(ref avatarUsageRanks, value); }
 
+    public AvatarRankView? SelectedAvatarUsageRank { get => selectedAvatarUsageRank; set => SetProperty(ref selectedAvatarUsageRank, value); }
+
     /// <summary>
     /// 角色上场率
     /// </summary>
     public List<AvatarRankView>? AvatarAppearanceRanks { get => avatarAppearanceRanks; set => SetProperty(ref avatarAppearanceRanks, value); }
+
+    public AvatarRankView? SelectedAvatarAppearanceRank { get => selectedAvatarAppearanceRank; set => SetProperty(ref selectedAvatarAppearanceRank, value); }
 
     /// <summary>
     /// 角色命座信息
@@ -43,6 +50,8 @@ internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel
     /// 队伍出场
     /// </summary>
     public List<TeamAppearanceView>? TeamAppearances { get => teamAppearances; set => SetProperty(ref teamAppearances, value); }
+
+    public TeamAppearanceView? SelectedTeamAppearance { get => selectedTeamAppearance; set => SetProperty(ref selectedTeamAppearance, value); }
 
     /// <summary>
     /// 总览数据
@@ -56,9 +65,15 @@ internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel
         {
             await taskContext.SwitchToMainThreadAsync();
             AvatarAppearanceRanks = hutaoCache.AvatarAppearanceRanks;
+            SelectedAvatarAppearanceRank = AvatarAppearanceRanks?.FirstOrDefault();
+
             AvatarUsageRanks = hutaoCache.AvatarUsageRanks;
-            AvatarConstellationInfos = hutaoCache.AvatarConstellationInfos;
+            SelectedAvatarUsageRank = AvatarUsageRanks?.FirstOrDefault();
+
             TeamAppearances = hutaoCache.TeamAppearances;
+            SelectedTeamAppearance = TeamAppearances?.FirstOrDefault();
+
+            AvatarConstellationInfos = hutaoCache.AvatarConstellationInfos;
             Overview = hutaoCache.Overview;
         }
     }
