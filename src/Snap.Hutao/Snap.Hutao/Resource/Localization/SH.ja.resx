@@ -747,7 +747,7 @@
     <value>存在多个匹配账号，请删除重复的账号</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
-    <value>查询游戏资源信息</value>
+    <value>ゲームのリソース情報を確認</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>游戏文件操作失败：{0}</value>
@@ -1062,7 +1062,7 @@
     <value>"code" 为 0 时，指示验证成功，其他的值均视为验证失败</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataHeader" xml:space="preserve">
-    <value>返回数据</value>
+    <value>結果を返す</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
     <value>{0} 将在实际请求时替换为 gt</value>
@@ -1071,7 +1071,7 @@
     <value>{1} 将在实际请求时替换为 challenge</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
-    <value>将会通过 GET 方式对接口发送请求</value>
+    <value>GETメソッドでリクエストの処理を行います。</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleHeader" xml:space="preserve">
     <value>例</value>
@@ -1215,7 +1215,7 @@
     <value>{0} を削除してもよろしいでしょうか？</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
-    <value>获取培养材料中，请稍候...</value>
+    <value>素材リスト取得中、しばらくお待ちください</value>
   </data>
   <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
     <value>当前角色无法计算，请同步信息后再试</value>
@@ -1287,7 +1287,7 @@
     <value>リアルタイムノートの情報を取得中、しばらくお待ちください</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
-    <value>成功保存到指定位置</value>
+    <value>指定された位置に保存しました</value>
   </data>
   <data name="ViewModelExportSuccessTitle" xml:space="preserve">
     <value>エクスポート成功しました</value>
@@ -1311,7 +1311,7 @@
     <value>UIGF バージョンが古いため、インポートできません</value>
   </data>
   <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
-    <value>导入数据中包含了不支持的物品</value>
+    <value>インポートデータにサポートされないアイテムが含まれている</value>
   </data>
   <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
     <value>インポート失敗</value>
@@ -1548,10 +1548,10 @@
     <value>アイテム</value>
   </data>
   <data name="ViewPageCultivationMaterialList" xml:space="preserve">
-    <value>材料清单</value>
+    <value>素材リスト</value>
   </data>
   <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
-    <value>材料统计</value>
+    <value>素材情報</value>
   </data>
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
     <value>前往</value>
@@ -2367,7 +2367,7 @@
     <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>\d\.\d版本更新说明</value>
+    <value>Ver.\d\.\d 更新内容</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>{0} 日後に開始</value>
@@ -2466,13 +2466,13 @@
     <value>リクエストが多すぎます。時間をおいてから試してください。</value>
   </data>
   <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
-    <value>服务器偶发错误</value>
+    <value>偶発的なサーバーエラー</value>
   </data>
   <data name="WebEnkaResponseStatusCode503" xml:space="preserve">
-    <value>服务器严重错误</value>
+    <value>致命的なサーバーエラー</value>
   </data>
   <data name="WebEnkaResponseStatusCodeUnknown" xml:space="preserve">
-    <value>未知的服务器错误</value>
+    <value>不明なサーバーエラー</value>
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
     <value>イベント祈願・キャラクター</value>
@@ -2496,6 +2496,6 @@
     <value>请刷新 Cookie，原始消息：{0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
-    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+    <value>[{0}] の[{1}] のリクエストにエラーが発生、時間をおいてから試してください</value>
   </data>
 </root>
