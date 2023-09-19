@@ -422,6 +422,9 @@
   <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
     <value>附加：增援怪物</value>
   </data>
+  <data name="ModelMetadataTowerWaveTypeDefault" xml:space="preserve">
+    <value>本间怪物</value>
+  </data>
   <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
     <value>A组：不同的组同时在场，各自分波独立</value>
   </data>
@@ -2263,6 +2266,9 @@
   </data>
   <data name="ViewSpiralAbyssNormalSkill" xml:space="preserve">
     <value>元素战技</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordBattleAvatars" xml:space="preserve">
+    <value>上场角色</value>
   </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
     <value>刷新数据</value>

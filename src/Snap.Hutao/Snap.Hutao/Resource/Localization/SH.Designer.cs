@@ -889,6 +889,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 本间怪物 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeDefault {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 A组：不同的组同时在场，各自分波独立 的本地化字符串。
         /// </summary>
         internal static string ModelMetadataTowerWaveTypeGroupA {
@@ -6330,6 +6339,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewSpiralAbyssNormalSkill {
             get {
                 return ResourceManager.GetString("ViewSpiralAbyssNormalSkill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上场角色 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssRecordBattleAvatars {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssRecordBattleAvatars", resourceCulture);
             }
         }
         

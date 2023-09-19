@@ -42,7 +42,11 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
 
         foreach (Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Floor webFloor in spiralAbyss.Floors)
         {
-            Floors.Single(f => f.IndexValue == webFloor.Index).WithSpiralAbyssFloor(webFloor, context);
+            // Ignoring floor 1 - 8 here
+            if (Floors.SingleOrDefault(f => f.IndexValue == webFloor.Index) is { } floor)
+            {
+                floor.WithSpiralAbyssFloor(webFloor, context);
+            }
         }
     }
 

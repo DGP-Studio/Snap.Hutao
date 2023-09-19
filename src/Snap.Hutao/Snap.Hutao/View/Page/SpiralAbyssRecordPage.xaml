@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Page.SpiralAbyssRecordPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -55,6 +56,128 @@
                 Text="{Binding}"/>
         </DataTemplate>
 
+        <DataTemplate x:Key="MonsterWaveTempate" x:DataType="shvs:BattleWave">
+            <StackPanel>
+                <TextBlock
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{Binding Description}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap"/>
+                <ItemsControl Margin="0,4,0,0" ItemsSource="{Binding Monsters}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <cwc:WrapPanel HorizontalSpacing="6" VerticalSpacing="6"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <ToolTipService.ToolTip>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Name}"/>
+                                        <MenuFlyoutSeparator Margin="-5,4" Visibility="{Binding Affixes, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                                        <ItemsControl ItemsSource="{Binding Affixes}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Name}"/>
+                                                        <shct:HtmlDescriptionTextBlock
+                                                            Description="{Binding Description}"
+                                                            Opacity="0.8"
+                                                            TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </ToolTipService.ToolTip>
+                                <Grid CornerRadius="24">
+                                    <shvc:ItemIcon
+                                        Width="36"
+                                        Height="36"
+                                        Icon="{Binding Icon}"/>
+                                </Grid>
+                                <Ellipse
+                                    Width="36"
+                                    Height="36"
+                                    Stroke="{ThemeResource SystemFillColorCautionBrush}"
+                                    StrokeThickness="3"
+                                    Visibility="{Binding Affixes, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                                <InfoBadge
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    Visibility="{Binding IsCountOne, Converter={StaticResource BoolToVisibilityRevertConverter}}"
+                                    Value="{Binding Count}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AvatarTemplate" x:DataType="shvs:AvatarView">
+            <shvc:ItemIcon
+                Width="60"
+                Height="60"
+                Margin="0,0,8,8"
+                Icon="{Binding Icon}"
+                Quality="{Binding Quality}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SpiralAbyssBattleTemplate" x:DataType="shvs:BattleView">
+            <Grid ColumnSpacing="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <clw:TokenItem
+                        Margin="0,0,0,8"
+                        Padding="12,2"
+                        HorizontalAlignment="Left"
+                        Content="{Binding Gadget.Name}"
+                        CornerRadius="12"
+                        Visibility="{Binding Gadget, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                        <ToolTipService.ToolTip>
+                            <shct:HtmlDescriptionTextBlock Description="{Binding Gadget.Description}"/>
+                        </ToolTipService.ToolTip>
+                    </clw:TokenItem>
+                    <ItemsControl ItemTemplate="{StaticResource MonsterWaveTempate}" ItemsSource="{Binding MonsterWaves}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="8"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
+                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shcm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
+                    <ItemsControl
+                        Margin="0,8,0,0"
+                        ItemTemplate="{StaticResource AvatarTemplate}"
+                        ItemsSource="{Binding Avatars}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid MaximumRowsOrColumns="2"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Margin="0,2,0,0"
+                    Opacity="0.6"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{Binding Time}"/>
+            </Grid>
+
+        </DataTemplate>
+
         <DataTemplate x:Key="SpiralAbyssLevelTemplate" x:DataType="shvs:LevelView">
             <Grid Margin="0,8,0,0">
                 <Grid.RowDefinitions>
@@ -86,94 +209,17 @@
                             TextAlignment="Center"/>
                     </StackPanel>
                 </Grid>
+                <!--  间信息  -->
                 <ItemsControl
                     Grid.Row="2"
-                    Margin="8,0,0,0"
+                    Margin="8,8,8,0"
+                    ItemTemplate="{StaticResource SpiralAbyssBattleTemplate}"
                     ItemsSource="{Binding Battles}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <cwc:UniformGrid Columns="2"/>
+                            <cwc:UniformGrid ColumnSpacing="16" Columns="2"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Gadget.Name}" Visibility="{Binding Gadget, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                                    <ToolTipService.ToolTip>
-                                        <shct:HtmlDescriptionTextBlock Description="{Binding Gadget.Description}"/>
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
-                                <ItemsControl ItemsSource="{Binding MonsterWaves}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Description}"/>
-                                                <ItemsControl ItemsSource="{Binding Monsters}">
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <StackPanel Orientation="Horizontal" Spacing="6"/>
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Grid>
-                                                                <Grid CornerRadius="24">
-                                                                    <shvc:ItemIcon
-                                                                        Width="48"
-                                                                        Height="48"
-                                                                        Icon="{Binding Icon}"/>
-                                                                </Grid>
-                                                                <InfoBadge
-                                                                    HorizontalAlignment="Right"
-                                                                    VerticalAlignment="Top"
-                                                                    Value="{Binding Count}"/>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <ItemsControl
-                    Grid.Row="3"
-                    Margin="8,0,0,0"
-                    ItemsSource="{Binding Battles}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <cwc:UniformGrid Columns="2"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <ItemsControl
-                                    Margin="0,8,0,0"
-                                    ItemsPanel="{StaticResource HorizontalStackPanelTemplate}"
-                                    ItemsSource="{Binding Avatars}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <shvc:ItemIcon
-                                                Width="60"
-                                                Height="60"
-                                                Margin="0,0,8,0"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock
-                                    Margin="0,2,0,0"
-                                    Opacity="0.6"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding Time}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
         </DataTemplate>
@@ -227,6 +273,7 @@
                 </Grid>
             </Border>
         </DataTemplate>
+            
     </shc:ScopedPage.Resources>
 
     <SplitView

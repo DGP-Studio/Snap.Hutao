@@ -11,7 +11,7 @@ internal sealed class BattleWave : IMappingFrom<BattleWave, TowerWave, SpiralAby
 {
     private BattleWave(TowerWave towerWave, SpiralAbyssMetadataContext context)
     {
-        Description = towerWave.Type.GetLocalizedDescription();
+        Description = towerWave.Type.GetLocalizedDescriptionOrDefault() ?? SH.ModelMetadataTowerWaveTypeDefault;
         Monsters = towerWave.Monsters.SelectList(m => MonsterView.From(m, context.IdMonsterMap[MonsterRelationship.Normalize(m.Id)]));
     }
 

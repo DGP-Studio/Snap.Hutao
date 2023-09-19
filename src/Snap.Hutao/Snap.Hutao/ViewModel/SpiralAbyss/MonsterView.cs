@@ -27,6 +27,8 @@ internal sealed class MonsterView : INameIcon, IMappingFrom<MonsterView, TowerMo
 
     public int Count { get; }
 
+    public bool IsCountOne { get => Count == 1; }
+
     public bool AttackMonolith { get; }
 
     public static MonsterView From(TowerMonster tower, Model.Metadata.Monster.Monster meta)
