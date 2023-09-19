@@ -422,6 +422,9 @@
   <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
     <value>附加：增援怪物</value>
   </data>
+  <data name="ModelMetadataTowerWaveTypeDefault" xml:space="preserve">
+    <value>本间怪物</value>
+  </data>
   <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
     <value>A组：不同的组同时在场，各自分波独立</value>
   </data>
@@ -834,7 +837,7 @@
     <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈愿记录上传服务有效期至\n{0:yyyy.MM.dd HH:mm:ss}</value>
+    <value>祈願履歴のアップロード期限は\n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
@@ -1059,16 +1062,16 @@
     <value>接口需要返回形如上方所示的 Json 数据，多余的数据会被忽略</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
-    <value>"code" 为 0 时，指示验证成功，其他的值均视为验证失败</value>
+    <value>"code" は 0 の場合のみ認証成功です。他の戻り値は認証失敗となります。</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataHeader" xml:space="preserve">
     <value>結果を返す</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
-    <value>{0} 将在实际请求时替换为 gt</value>
+    <value>{0} はリクエストの際、gtに切り替えます</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
-    <value>{1} 将在实际请求时替换为 challenge</value>
+    <value>{1} はリクエストの際、challengeに切り替えます</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
     <value>GETメソッドでリクエストの処理を行います。</value>
@@ -1293,7 +1296,7 @@
     <value>エクスポート成功しました</value>
   </data>
   <data name="ViewModelExportWarningMessage" xml:space="preserve">
-    <value>写入文件时遇到问题</value>
+    <value>書き込み処理でエラーが発生しました</value>
   </data>
   <data name="ViewModelExportWarningTitle" xml:space="preserve">
     <value>エクスポート失敗</value>
@@ -2007,7 +2010,7 @@
     <value>若祈愿记录缓存刷新频繁提示验证密钥过期，可以尝试此操作</value>
   </data>
   <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
-    <value>删除游戏内网页缓存</value>
+    <value>ゲーム内ブラウザキャッシュを削除する</value>
   </data>
   <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
     <value>直接删除用户表的所有记录，用于修复特定的账号冲突问题</value>
@@ -2264,6 +2267,9 @@
   <data name="ViewSpiralAbyssNormalSkill" xml:space="preserve">
     <value>元素スキル</value>
   </data>
+  <data name="ViewSpiralAbyssRecordBattleAvatars" xml:space="preserve">
+    <value>上场角色</value>
+  </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
     <value>データを再読み込み</value>
   </data>
@@ -2295,7 +2301,7 @@
     <value>HoYoLAB</value>
   </data>
   <data name="ViewUserCookieOperation3" xml:space="preserve">
-    <value>当前用户</value>
+    <value>現在のユーザー</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>ウェブ上でログイン</value>
@@ -2316,7 +2322,7 @@
     <value>ログインしてください</value>
   </data>
   <data name="ViewUserDocumentationHeader" xml:space="preserve">
-    <value>文档</value>
+    <value>ドキュメント</value>
   </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>CookieTokenを更新しました。</value>
@@ -2445,7 +2451,7 @@
     <value>利用可能</value>
   </data>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
-    <value>已准备完成</value>
+    <value>もうすぐ完成</value>
   </data>
   <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
     <value>{0} 秒</value>
@@ -2490,7 +2496,7 @@
     <value>イベント祈願・武器</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
-    <value>状态：{0} | 信息：{1}</value>
+    <value>リターンコード：{0} | メッセージ：{1}</value>
   </data>
   <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
     <value>请刷新 Cookie，原始消息：{0}</value>
