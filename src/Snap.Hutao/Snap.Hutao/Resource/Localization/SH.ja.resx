@@ -816,16 +816,16 @@
     <value>PowerShellのインストールディレクトリが見つかりません</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
-    <value>找不到游戏配置文件 {0}</value>
+    <value>无法读取游戏配置文件 {0}，可能是文件不存在</value>
   </data>
   <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
     <value>設定ファイルを読み取れない、または保存できませんでした。管理者モードで再試行してください。</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
-    <value>在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成</value>
+    <value>在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成，请重试</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
-    <value>必要なモジュールを検索する際にエラーが発生しました：検索タイムアウト</value>
+    <value>在查找必要的模块时遇到问题：查找模块超时，请重试</value>
   </data>
   <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
     <value>在匹配内存时遇到问题：无法匹配到期望的内容</value>
@@ -1374,7 +1374,7 @@
     <value>サーバー切り替えできませんでした</value>
   </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>无法读取游戏配置文件: {0}</value>
+    <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>指定されたパスにアクセスできません。設定で変更してください。</value>
