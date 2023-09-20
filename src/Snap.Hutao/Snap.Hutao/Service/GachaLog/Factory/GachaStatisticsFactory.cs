@@ -69,9 +69,9 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         // 'ref' is not allowed here because we have lambda below
         foreach (Model.Entity.GachaItem item in CollectionsMarshal.AsSpan(items))
         {
-            // Find target history wish to operate.
+            // Find target history wish to operate. // w.From <= item.Time <= w.To
             HistoryWishBuilder? targetHistoryWishBuilder = item.GachaType is not (GachaConfigType.StandardWish or GachaConfigType.NoviceWish)
-                ? historyWishBuilderMap[item.GachaType].FirstOrDefault(w => w.From <= item.Time && w.To >= item.Time)
+                ? historyWishBuilderMap[item.GachaType].BinarySearch(w => item.Time < w.From ? -1 : item.Time > w.To ? 1 : 0)
                 : default;
 
             switch (item.ItemId.StringLength())

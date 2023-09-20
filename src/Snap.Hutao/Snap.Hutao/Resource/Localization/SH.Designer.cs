@@ -1987,7 +1987,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 找不到游戏配置文件 {0} 的本地化字符串。
+        ///   查找类似 无法读取游戏配置文件 {0}，可能是文件不存在 的本地化字符串。
         /// </summary>
         internal static string ServiceGameSetMultiChannelConfigFileNotFound {
             get {
@@ -2005,7 +2005,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成 的本地化字符串。
+        ///   查找类似 在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成，请重试 的本地化字符串。
         /// </summary>
         internal static string ServiceGameUnlockerFindModuleNoModuleFound {
             get {
@@ -2014,7 +2014,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 在查找必要的模块时遇到问题：查找模块超时 的本地化字符串。
+        ///   查找类似 在查找必要的模块时遇到问题：查找模块超时，请重试 的本地化字符串。
         /// </summary>
         internal static string ServiceGameUnlockerFindModuleTimeLimitExeeded {
             get {
@@ -3661,7 +3661,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 无法读取游戏配置文件: {0} 的本地化字符串。
+        ///   查找类似 无法读取游戏配置文件: {0}，可能是文件不存在或权限不足 的本地化字符串。
         /// </summary>
         internal static string ViewModelLaunchGameMultiChannelReadFail {
             get {
