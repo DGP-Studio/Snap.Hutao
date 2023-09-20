@@ -2259,13 +2259,13 @@
     <value>Most Defeats</value>
   </data>
   <data name="ViewSpiralAbyssDetail" xml:space="preserve">
-    <value>分期详情</value>
+    <value>Schedules Detail</value>
   </data>
   <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
     <value>Elemental Bursts Unleashed</value>
   </data>
   <data name="ViewSpiralAbyssHeader" xml:space="preserve">
-    <value>深境螺旋</value>
+    <value>Spiral Abyss</value>
   </data>
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
     <value>Statistics</value>
