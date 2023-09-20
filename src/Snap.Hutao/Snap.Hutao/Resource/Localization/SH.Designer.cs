@@ -6316,7 +6316,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 深境螺旋 的本地化字符串。
+        ///   查找类似 分期详情 的本地化字符串。
         /// </summary>
         internal static string ViewSpiralAbyssDetail {
             get {
@@ -6334,7 +6334,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 深渊记录 的本地化字符串。
+        ///   查找类似 深境螺旋 的本地化字符串。
         /// </summary>
         internal static string ViewSpiralAbyssHeader {
             get {
