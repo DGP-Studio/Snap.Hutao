@@ -11,7 +11,7 @@ Snap Hutao is an open-source Genshin Impact toolbox on Windows platform, aim to 
 ## 贡献 / Contribute
 
 * [向我们提交 PR / Make Pull Requests](https://github.com/DGP-Studio/Snap.Hutao/pulls)
-* [在 Crowdin 上进行本地化 / Translate project on Crowdin](https://translate.hut.ao/)
+* [在 Crowdin 上进行本地化 / Translate Project on Crowdin](https://translate.hut.ao/)
 * [为我们更新文档 / Enhance our Document ](https://github.com/DGP-Studio/Snap.Hutao.Docs)
 
 ## 特别感谢 / Special Thanks
@@ -19,7 +19,7 @@ Snap Hutao is an open-source Genshin Impact toolbox on Windows platform, aim to 
 * [HolographicHat](https://github.com/HolographicHat)
 * [UIGF organization](https://uigf.org)
 
-### 特定的原神项目 / Specific Genshin-related Project
+### 特定的原神项目 / Specific Genshin-related Projects
 
 * [biuuu/genshin-wish-export](https://github.com/biuuu/genshin-wish-export)
 * [xunkong/xunkong](https://github.com/xunkong/xunkong)
@@ -46,3 +46,5 @@ Snap Hutao is an open-source Genshin Impact toolbox on Windows platform, aim to 
 
 ## 开发 / Development
 ![Snap.Hutao](https://repobeats.axiom.co/api/embed/f029553fbe0c60689b1710476ec8512452163fc9.svg)
+
+[![Star History Chart](https://api.star-history.com/svg?repos=DGP-Studio/Snap.Hutao&type=Date)](https://star-history.com/#DGP-Studio/Snap.Hutao&Date)
