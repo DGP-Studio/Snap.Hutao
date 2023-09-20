@@ -174,16 +174,18 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1" Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
                     <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shcm:ResourceString Name=ViewSpiralAbyssRecordBattleAvatars}"/>
-                    <ItemsControl
-                        Margin="0,8,0,0"
-                        ItemTemplate="{StaticResource AvatarTemplate}"
-                        ItemsSource="{Binding Avatars}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsWrapGrid MaximumRowsOrColumns="2"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        <ItemsControl
+                            Margin="0,8,0,0"
+                            ItemTemplate="{StaticResource AvatarTemplate}"
+                            ItemsSource="{Binding Avatars}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid MaximumRowsOrColumns="2"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ScrollViewer>
                 </StackPanel>
                 <TextBlock
                     Grid.Row="1"
