@@ -816,16 +816,16 @@
     <value>PowerShell installation directory not found</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
-    <value>无法读取游戏配置文件 {0}，可能是文件不存在</value>
+    <value>Unable to read game config file {0}, file may be not exist</value>
   </data>
   <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
     <value>Unable to read or save profile, please try again in administrator mode</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
-    <value>在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成，请重试</value>
+    <value>Error finding required modules: could not read any module, the protection driver may have been loaded; please retry</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
-    <value>在查找必要的模块时遇到问题：查找模块超时，请重试</value>
+    <value>Error finding required modules: timeout; please retry</value>
   </data>
   <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
     <value>Error matching memory pattern: no expected content</value>
@@ -1374,7 +1374,7 @@
     <value>Convert server failed</value>
   </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
+    <value>Unable to read game config file: {0}, file may be not exist not lack of user permission</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>Game program path is incorrect. Change it in the Settings Page.</value>
@@ -2259,13 +2259,13 @@
     <value>Most Defeats</value>
   </data>
   <data name="ViewSpiralAbyssDetail" xml:space="preserve">
-    <value>Spiral Abyss</value>
+    <value>分期详情</value>
   </data>
   <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
     <value>Elemental Bursts Unleashed</value>
   </data>
   <data name="ViewSpiralAbyssHeader" xml:space="preserve">
-    <value>Abyss Records</value>
+    <value>深境螺旋</value>
   </data>
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
     <value>Statistics</value>
