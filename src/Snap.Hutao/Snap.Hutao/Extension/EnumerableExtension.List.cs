@@ -33,7 +33,6 @@ internal static partial class EnumerableExtension
     public static T? BinarySearch<T>(this List<T> list, Func<T, int> comparer)
         where T : class
     {
-        list.BinarySearch
         Span<T> span = CollectionsMarshal.AsSpan(list);
         int left = 0;
         int right = span.Length - 1;
