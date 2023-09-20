@@ -2259,13 +2259,13 @@
     <value>최대 격파 횟수</value>
   </data>
   <data name="ViewSpiralAbyssDetail" xml:space="preserve">
-    <value>深境螺旋</value>
+    <value>分期详情</value>
   </data>
   <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
     <value>원소폭발</value>
   </data>
   <data name="ViewSpiralAbyssHeader" xml:space="preserve">
-    <value>나선 비경 기록</value>
+    <value>深境螺旋</value>
   </data>
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
     <value>本期统计</value>
