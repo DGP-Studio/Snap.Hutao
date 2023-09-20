@@ -20,10 +20,12 @@
                 <ResourceDictionary x:Key="Light">
                     <Color x:Key="AvatarPropertyAddValueColor">#FF74BF00</Color>
                     <Color x:Key="CompatBackgroundColor">#FFF4F4F4</Color>
+                    <SolidColorBrush x:Key="DarkOnlyOverlayMaskBrush" Color="#00000000"/>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <Color x:Key="AvatarPropertyAddValueColor">#FF90E800</Color>
                     <Color x:Key="CompatBackgroundColor">#FF242424</Color>
+                    <SolidColorBrush x:Key="DarkOnlyOverlayMaskBrush" Color="#60000000"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <!--  Modify Window title bar color  -->

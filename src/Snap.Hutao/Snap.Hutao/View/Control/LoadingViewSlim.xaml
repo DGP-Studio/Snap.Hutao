@@ -10,5 +10,8 @@
     HorizontalContentAlignment="Stretch"
     VerticalContentAlignment="Stretch"
     mc:Ignorable="d">
-    <clw:Shimmer IsActive="{x:Bind IsLoading}" Duration="0:0:1"/>
+    <clw:Shimmer
+        CornerRadius="0"
+        IsActive="{x:Bind IsLoading}"
+        Duration="0:0:1"/>
 </shc:Loading>
