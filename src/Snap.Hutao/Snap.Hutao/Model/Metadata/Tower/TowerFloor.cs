@@ -31,7 +31,7 @@ internal sealed class TowerFloor
     public string Background { get; set; } = default!;
 
     /// <summary>
-    /// 描述
+    /// 地脉紊乱
     /// </summary>
     public List<string> Descriptions { get; set; } = default!;
 }

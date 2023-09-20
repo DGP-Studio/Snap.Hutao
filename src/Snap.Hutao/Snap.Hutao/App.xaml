@@ -2,8 +2,8 @@
     x:Class="Snap.Hutao.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Converters"
     xmlns:cwcw="using:CommunityToolkit.WinUI.Controls"
-    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
@@ -13,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <muxc:XamlControlsResources/>
                 <ResourceDictionary Source="Control/Theme/FontStyle.xaml"/>
+                <ResourceDictionary Source="Control/Loading.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <ResourceDictionary.ThemeDictionaries>
@@ -117,9 +118,9 @@
             <x:String x:Key="FontIconContentAsteriskBadge12">&#xEDAD;</x:String>
             <x:String x:Key="FontIconContentZipFolder">&#xF012;</x:String>
             <!--  Converters  -->
-            <cwuc:BoolNegationConverter x:Key="BoolNegationConverter"/>
-            <cwuc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-            <cwuc:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter"/>
+            <cwc:BoolNegationConverter x:Key="BoolNegationConverter"/>
+            <cwc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <cwc:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter"/>
             <shmmc:AchievementIconConverter x:Key="AchievementIconConverter"/>
             <shmmc:AvatarCardConverter x:Key="AvatarCardConverter"/>
             <shmmc:AvatarIconConverter x:Key="AvatarIconConverter"/>

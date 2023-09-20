@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Entity;
+using Snap.Hutao.ViewModel.SpiralAbyss;
 using Snap.Hutao.ViewModel.User;
 using System.Collections.ObjectModel;
 
@@ -18,7 +18,9 @@ internal interface ISpiralAbyssRecordService
     /// </summary>
     /// <param name="userAndUid">当前角色</param>
     /// <returns>深渊记录集合</returns>
-    ValueTask<ObservableCollection<SpiralAbyssEntry>> GetSpiralAbyssCollectionAsync(UserAndUid userAndUid);
+    ValueTask<ObservableCollection<SpiralAbyssView>> GetSpiralAbyssViewCollectionAsync(UserAndUid userAndUid);
+
+    ValueTask<bool> InitializeAsync();
 
     /// <summary>
     /// 异步刷新深渊记录

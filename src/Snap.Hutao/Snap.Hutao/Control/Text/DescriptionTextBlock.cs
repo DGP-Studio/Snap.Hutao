@@ -20,6 +20,7 @@ namespace Snap.Hutao.Control.Text;
 /// </summary>
 [HighQuality]
 [DependencyProperty("Description", typeof(string), "", nameof(OnDescriptionChanged))]
+[DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
 internal sealed partial class DescriptionTextBlock : ContentControl
 {
     private static readonly int ColorTagFullLength = "<color=#FFFFFFFF></color>".Length;
@@ -40,6 +41,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         Content = new TextBlock()
         {
             TextWrapping = TextWrapping.Wrap,
+            Style = TextStyle,
         };
 
         actualThemeChangedEventHandler = OnActualThemeChanged;
@@ -54,6 +56,12 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         UpdateDescription(textBlock, description);
     }
 
+    private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        TextBlock textBlock = (TextBlock)((DescriptionTextBlock)d).Content;
+        textBlock.Style = (Style)e.NewValue;
+    }
+
     private static void UpdateDescription(TextBlock textBlock, in ReadOnlySpan<char> description)
     {
         textBlock.Inlines.Clear();
@@ -66,7 +74,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
             {
                 AppendText(textBlock, description[last..i]);
                 AppendLineBreak(textBlock);
-                i += 1;
+                i += 2;
                 last = i;
             }
 

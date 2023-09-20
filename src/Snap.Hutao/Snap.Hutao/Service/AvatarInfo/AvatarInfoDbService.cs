@@ -4,7 +4,6 @@
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Database;
-using EnkaAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;

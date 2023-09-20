@@ -8,7 +8,6 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.DailyNote;
 

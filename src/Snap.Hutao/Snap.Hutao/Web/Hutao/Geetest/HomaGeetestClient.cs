@@ -3,8 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.Hutao;
-using Snap.Hutao.Web.Hutao.GachaLog;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.Geetest;

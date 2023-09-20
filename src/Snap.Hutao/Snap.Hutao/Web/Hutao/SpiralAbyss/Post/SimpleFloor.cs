@@ -25,7 +25,7 @@ internal sealed class SimpleFloor
     /// <summary>
     /// 层遍号 1-12|9-12
     /// </summary>
-    public int Index { get; set; }
+    public uint Index { get; set; }
 
     /// <summary>
     /// 星数

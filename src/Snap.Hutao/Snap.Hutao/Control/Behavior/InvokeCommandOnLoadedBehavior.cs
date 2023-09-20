@@ -14,12 +14,36 @@ namespace Snap.Hutao.Control.Behavior;
 [DependencyProperty("CommandParameter", typeof(object))]
 internal sealed partial class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
 {
+    private bool executed;
+
+    protected override void OnAttached()
+    {
+        base.OnAttached();
+
+        // FrameworkElement in a ItemsRepeater gets attached twice
+        if (AssociatedObject is FrameworkElement { IsLoaded: true })
+        {
+            TryExecuteCommand();
+        }
+    }
+
     /// <inheritdoc/>
     protected override void OnAssociatedObjectLoaded()
     {
+        TryExecuteCommand();
+    }
+
+    private void TryExecuteCommand()
+    {
+        if (executed)
+        {
+            return;
+        }
+
         if (Command is not null && Command.CanExecute(CommandParameter))
         {
             Command.Execute(CommandParameter);
+            executed = true;
         }
     }
 }

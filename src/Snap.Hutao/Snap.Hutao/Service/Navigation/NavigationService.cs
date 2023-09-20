@@ -43,6 +43,8 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         paneClosedEventHandler = OnPaneStateChanged;
     }
 
+    public Type? Current { get => frame?.Content.GetType(); }
+
     private NavigationView? NavigationView
     {
         get => navigationView;

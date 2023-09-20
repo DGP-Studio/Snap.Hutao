@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI.Converters;
+using CommunityToolkit.WinUI.Converters;
 
 namespace Snap.Hutao.View.Converter;
 

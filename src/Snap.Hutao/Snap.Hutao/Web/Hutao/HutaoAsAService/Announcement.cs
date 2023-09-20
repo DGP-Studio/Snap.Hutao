@@ -23,7 +23,7 @@ internal sealed class Announcement : UploadAnnouncement
     /// </summary>
     public long LastUpdateTime { get; set; }
 
-    public string UpdateTimeFormatted { get => $"{DateTimeOffset.FromUnixTimeSeconds(LastUpdateTime).ToLocalTime():yyyy-MM-dd HH:mm:ss}"; }
+    public string UpdateTimeFormatted { get => $"{DateTimeOffset.FromUnixTimeSeconds(LastUpdateTime).ToLocalTime():yyyy.MM.dd HH:mm:ss}"; }
 
     public ICommand? DismissCommand { get; set; }
 }

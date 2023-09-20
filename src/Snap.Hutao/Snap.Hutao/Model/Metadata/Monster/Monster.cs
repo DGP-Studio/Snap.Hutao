@@ -35,6 +35,11 @@ internal sealed class Monster
     public string MonsterName { get; set; } = default!;
 
     /// <summary>
+    /// 名称
+    /// </summary>
+    public string Name { get; set; } = default!;
+
+    /// <summary>
     /// 标题
     /// </summary>
     public string Title { get; set; } = default!;

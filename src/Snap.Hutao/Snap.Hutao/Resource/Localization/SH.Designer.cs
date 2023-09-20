@@ -439,7 +439,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 刷新于 {0:yyyy/MM/dd HH:mm:ss} 的本地化字符串。
+        ///   查找类似 刷新于 {0:yyyy.MM.dd HH:mm:ss} 的本地化字符串。
         /// </summary>
         internal static string ModelEntityDailyNoteRefreshTimeFormat {
             get {
@@ -858,6 +858,249 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ModelMetadataMaterialWeaponEnhancementMaterial {
             get {
                 return ResourceManager.GetString("ModelMetadataMaterialWeaponEnhancementMaterial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 击败怪物 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerGoalTypeDefeatMonsters {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerGoalTypeDefeatMonsters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 守护目标 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerGoalTypeDefendTarget {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerGoalTypeDefendTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 附加：增援怪物 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeAdditional {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeAdditional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 本间怪物 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeDefault {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A组：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupA {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A组第一波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupAWave1 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupAWave1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A组第二波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupAWave2 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupAWave2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A组第三波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupAWave3 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupAWave3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 B组：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupB {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 B组第一波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupBWave1 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupBWave1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 B组第二波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupBWave2 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupBWave2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 B组第三波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupBWave3 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupBWave3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 C组：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupC {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 C组第一波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupCWave1 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupCWave1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 C组第二波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupCWave2 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupCWave2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 C组第三波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupCWave3 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupCWave3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 D组：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupD {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 D组第一波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupDWave1 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupDWave1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 D组第二波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupDWave2 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupDWave2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 D组第三波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupDWave3 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupDWave3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 与其他怪物独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeIndependent {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeIndependent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 暂时没有分波信息 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeSuppressed {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeSuppressed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第一波：击败所有怪物，下一波才会出现 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeWave1 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeWave1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第一波附加：增援第一波怪物 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeWave1Additional {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeWave1Additional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第二波：击败所有怪物，下一波才会出现 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeWave2 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeWave2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第三波：击败所有怪物，下一波才会出现 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeWave3 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeWave3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第四波：击败所有怪物，下一波才会出现 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeWave4 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeWave4", resourceCulture);
             }
         }
         
@@ -1744,7 +1987,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 找不到游戏配置文件 {0} 的本地化字符串。
+        ///   查找类似 无法读取游戏配置文件 {0}，可能是文件不存在 的本地化字符串。
         /// </summary>
         internal static string ServiceGameSetMultiChannelConfigFileNotFound {
             get {
@@ -1762,7 +2005,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成 的本地化字符串。
+        ///   查找类似 在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成，请重试 的本地化字符串。
         /// </summary>
         internal static string ServiceGameUnlockerFindModuleNoModuleFound {
             get {
@@ -1771,7 +2014,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 在查找必要的模块时遇到问题：查找模块超时 的本地化字符串。
+        ///   查找类似 在查找必要的模块时遇到问题：查找模块超时，请重试 的本地化字符串。
         /// </summary>
         internal static string ServiceGameUnlockerFindModuleTimeLimitExeeded {
             get {
@@ -1807,7 +2050,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 祈愿记录上传服务有效期至\n{0:yyyy-MM-dd HH:mm:ss} 的本地化字符串。
+        ///   查找类似 祈愿记录上传服务有效期至\n{0:yyyy.MM.dd HH:mm:ss} 的本地化字符串。
         /// </summary>
         internal static string ServiceHutaoUserGachaLogExpiredAt {
             get {
@@ -3418,7 +3661,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 无法读取游戏配置文件: {0} 的本地化字符串。
+        ///   查找类似 无法读取游戏配置文件: {0}，可能是文件不存在或权限不足 的本地化字符串。
         /// </summary>
         internal static string ViewModelLaunchGameMultiChannelReadFail {
             get {
@@ -3679,7 +3922,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 搜索成就名称，描述或编号 的本地化字符串。
+        ///   查找类似 搜索成就名称，描述，版本或编号 的本地化字符串。
         /// </summary>
         internal static string ViewPageAchievementSearchPlaceholder {
             get {
@@ -5722,6 +5965,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 评价软件 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingStoreReviewNavigate {
+            get {
+                return ResourceManager.GetString("ViewPageSettingStoreReviewNavigate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 贡献翻译 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingTranslateNavigate {
@@ -6001,6 +6253,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 角色出场率 = 本层上阵该角色次数（层内重复出现只记一次）/ 深渊记录总数 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssAvatarAppearanceRankDescription {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssAvatarAppearanceRankDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色使用率 = 本层上阵该角色次数（层内重复出现只记一次）/ 持有该角色的深渊记录总数 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssAvatarUsageRankDescription {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssAvatarUsageRankDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 战斗数据 的本地化字符串。
         /// </summary>
         internal static string ViewSpiralAbyssBattleHeader {
@@ -6046,7 +6316,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 详细数据 的本地化字符串。
+        ///   查找类似 分期详情 的本地化字符串。
         /// </summary>
         internal static string ViewSpiralAbyssDetail {
             get {
@@ -6064,11 +6334,20 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 深渊记录 的本地化字符串。
+        ///   查找类似 深境螺旋 的本地化字符串。
         /// </summary>
         internal static string ViewSpiralAbyssHeader {
             get {
                 return ResourceManager.GetString("ViewSpiralAbyssHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 本期统计 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssHutaoStatistics {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssHutaoStatistics", resourceCulture);
             }
         }
         
@@ -6087,6 +6366,24 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewSpiralAbyssNormalSkill {
             get {
                 return ResourceManager.GetString("ViewSpiralAbyssNormalSkill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上场角色 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssRecordBattleAvatars {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssRecordBattleAvatars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 攻击地脉镇石 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssRecordMonsterAttacksMonolith {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssRecordMonsterAttacksMonolith", resourceCulture);
             }
         }
         
@@ -6240,6 +6537,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewUserDefaultDescription {
             get {
                 return ResourceManager.GetString("ViewUserDefaultDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 文档 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserDocumentationHeader {
+            get {
+                return ResourceManager.GetString("ViewUserDocumentationHeader", resourceCulture);
             }
         }
         

@@ -2,7 +2,7 @@
     x:Class="Snap.Hutao.View.Page.AchievementPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -32,7 +32,10 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
+            <Grid
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{StaticResource CompatGridLength2}"/>
                     <ColumnDefinition/>
@@ -53,7 +56,7 @@
                     DefaultLabelPosition="Right">
                     <CommandBar.Content>
                         <AutoSuggestBox
-                            Width="240"
+                            Width="300"
                             Height="36"
                             Margin="3,6,6,0"
                             HorizontalAlignment="Stretch"
@@ -115,13 +118,13 @@
                         Label="{shcm:ResourceString Name=ViewPageAchievementSortIncompletedItemsFirst}"/>
                 </CommandBar>
             </Grid>
-            <cwuc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-                <cwuc:SwitchPresenter.ContentTransitions>
+            <cwc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
+                <cwc:SwitchPresenter.ContentTransitions>
                     <TransitionCollection>
                         <ContentThemeTransition/>
                     </TransitionCollection>
-                </cwuc:SwitchPresenter.ContentTransitions>
-                <cwuc:Case Value="List">
+                </cwc:SwitchPresenter.ContentTransitions>
+                <cwc:Case Value="List">
                     <SplitView
                         Grid.Row="1"
                         DisplayMode="Inline"
@@ -185,12 +188,17 @@
                                     </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemTemplate>
-                                    <DataTemplate>
+                                    <DataTemplate x:DataType="shva:AchievementView">
                                         <Border
                                             Margin="0,4,0,0"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center"
                                             Style="{StaticResource BorderCardStyle}">
+                                            <Border.ContextFlyout>
+                                                <MenuFlyout>
+                                                    <MenuFlyoutItem IsEnabled="False" Text="{Binding Inner.Id}"/>
+                                                </MenuFlyout>
+                                            </Border.ContextFlyout>
                                             <Grid MinHeight="48" Padding="8">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
@@ -218,7 +226,24 @@
                                                         <ColumnDefinition Width="32"/>
                                                     </Grid.ColumnDefinitions>
                                                     <StackPanel>
-                                                        <TextBlock Text="{Binding Inner.Title}"/>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Inner.Title}"/>
+                                                            <Border
+                                                                Margin="4,0,0,0"
+                                                                Padding="4,1"
+                                                                VerticalAlignment="Center"
+                                                                CornerRadius="2">
+                                                                <Border.Background>
+                                                                    <SolidColorBrush Opacity="0.6" Color="{ThemeResource SystemAccentColor}"/>
+                                                                </Border.Background>
+                                                                <TextBlock
+                                                                    FontSize="10"
+                                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                                    Text="{Binding Inner.Version}"/>
+                                                            </Border>
+
+                                                        </StackPanel>
+
                                                         <TextBlock
                                                             Margin="0,2,0,0"
                                                             Style="{StaticResource SecondaryTextStyle}"
@@ -248,8 +273,8 @@
                             </ListView>
                         </SplitView.Content>
                     </SplitView>
-                </cwuc:Case>
-                <cwuc:Case Value="Grid">
+                </cwc:Case>
+                <cwc:Case Value="Grid">
                     <GridView
                         Padding="12,12,6,0"
                         HorizontalAlignment="Stretch"
@@ -297,8 +322,8 @@
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
-                </cwuc:Case>
-            </cwuc:SwitchPresenter>
+                </cwc:Case>
+            </cwc:SwitchPresenter>
         </Grid>
 
         <Grid Visibility="{Binding SelectedArchive, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">

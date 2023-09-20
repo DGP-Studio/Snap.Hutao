@@ -2,8 +2,8 @@
     x:Class="Snap.Hutao.View.Page.WikiMonsterPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
-    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -13,6 +13,7 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
+    xmlns:shct="using:Snap.Hutao.Control.Text"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiMonsterViewModel}"
@@ -55,8 +56,8 @@
                 </AppBarElementContainer>
             </CommandBar>
 
-            <cwuc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-                <cwuc:Case Value="List">
+            <cwc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
+                <cwc:Case Value="List">
                     <SplitView
                         DisplayMode="Inline"
                         IsPaneOpen="True"
@@ -88,7 +89,7 @@
                                                 Grid.Column="1"
                                                 Margin="12,0,0,0"
                                                 VerticalAlignment="Center"
-                                                Text="{Binding Title}"/>
+                                                Text="{Binding Name}"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -108,18 +109,17 @@
                                             VerticalAlignment="Center"
                                             Style="{StaticResource SubtitleTextBlockStyle}"
                                             Text="{Binding Selected.Title}"/>
-                                        <ItemsControl Margin="16,8,0,0" ItemsSource="{Binding Selected.Affixes}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <cwuc:WrapPanel HorizontalSpacing="8" Orientation="Horizontal"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding}"/>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        <shct:DescriptionTextBlock
+                                            Margin="16,16,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Description="{Binding Selected.Description}"
+                                            Opacity="0.7"
+                                            TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                                        <clw:TokenView
+                                            Margin="16,16,16,0"
+                                            ItemsSource="{Binding Selected.Affixes}"
+                                            SelectionMode="None"/>
                                         <shvc:BaseValueSlider
                                             Margin="16,16,0,0"
                                             HorizontalAlignment="Stretch"
@@ -134,7 +134,7 @@
                                             </ItemsControl.Resources>
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <cwuc:UniformGrid
+                                                    <cwc:UniformGrid
                                                         ColumnSpacing="2"
                                                         Columns="2"
                                                         RowSpacing="2"/>
@@ -172,8 +172,8 @@
                             </ScrollViewer>
                         </SplitView.Content>
                     </SplitView>
-                </cwuc:Case>
-                <cwuc:Case Value="Grid">
+                </cwc:Case>
+                <cwc:Case Value="Grid">
                     <GridView
                         Padding="12,12,2,0"
                         HorizontalAlignment="Stretch"
@@ -192,14 +192,14 @@
                         </GridView.ItemsPanel>
                         <GridView.ItemTemplate>
                             <DataTemplate>
-                                <shvc:BottomTextControl Text="{Binding Title}">
+                                <shvc:BottomTextControl Text="{Binding Name}">
                                     <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}" Quality="QUALITY_NONE"/>
                                 </shvc:BottomTextControl>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
-                </cwuc:Case>
-            </cwuc:SwitchPresenter>
+                </cwc:Case>
+            </cwc:SwitchPresenter>
 
         </Grid>
         <shvc:LoadingView IsLoading="{Binding Monsters, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>

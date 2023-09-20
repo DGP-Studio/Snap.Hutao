@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.Navigation;
 /// 导航服务
 /// </summary>
 [HighQuality]
-internal interface INavigationService : ICastService
+internal interface INavigationService : ICastService, INavigationCurrent
 {
     /// <summary>
     /// 导航到指定类型的页面
@@ -47,4 +47,9 @@ internal interface INavigationService : ICastService
     /// 尽可能尝试返回
     /// </summary>
     void GoBack();
+}
+
+internal interface INavigationCurrent
+{
+    Type? Current { get; }
 }

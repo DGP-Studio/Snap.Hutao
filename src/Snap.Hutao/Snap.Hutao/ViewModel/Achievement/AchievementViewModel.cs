@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
@@ -13,6 +13,7 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using Windows.Storage.Pickers;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
@@ -184,6 +185,9 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         return false;
     }
 
+    [GeneratedRegex("\\d\\.\\d")]
+    private static partial Regex VersionRegex();
+
     [Command("AddArchiveCommand")]
     private async Task AddArchiveAsync()
     {
@@ -318,7 +322,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    private bool TryGetAchievements(EntityAchievementArchive archive, List<MetadataAchievement> achievements, out List<AchievementView>? combined)
+    private bool TryGetAchievements(EntityAchievementArchive archive, List<MetadataAchievement> achievements, [NotNullWhen(true)] out List<AchievementView>? combined)
     {
         try
         {
@@ -356,7 +360,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         {
             if (goal is null)
             {
-                Achievements.Filter = null;
+                Achievements.Filter = default!;
             }
             else
             {
@@ -378,16 +382,21 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                 if (uint.TryParse(search, out uint achievementId))
                 {
                     Achievements.Filter = obj => ((AchievementView)obj).Inner.Id == achievementId;
+                    return;
                 }
-                else
+
+                if (VersionRegex().IsMatch(search))
                 {
-                    Achievements.Filter = obj =>
-                    {
-                        AchievementView view = (AchievementView)obj;
-                        return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
-                            || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
-                    };
+                    Achievements.Filter = obj => ((AchievementView)obj).Inner.Version == search;
+                    return;
                 }
+
+                Achievements.Filter = obj =>
+                {
+                    AchievementView view = (AchievementView)obj;
+                    return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
+                        || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
+                };
             }
         }
     }

@@ -16,31 +16,55 @@
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
-    <StackPanel>
+    <StackPanel
+        Margin="0,0,0,-2"
+        Padding="0,0,0,0"
+        Spacing="4">
+        <StackPanel.Resources>
+            <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+
+            <StaticResource x:Key="ButtonBackground" ResourceKey="NavigationViewItemBackground"/>
+            <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="NavigationViewItemBackgroundDisabled"/>
+            <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="NavigationViewItemBackgroundPointerOver"/>
+            <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="NavigationViewItemBackgroundPressed"/>
+
+            <StaticResource x:Key="ButtonBorderBrush" ResourceKey="NavigationViewItemBorderBrush"/>
+            <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="NavigationViewItemBorderBrushDisabled"/>
+            <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="NavigationViewItemBorderBrushPointerOver"/>
+            <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="NavigationViewItemBorderBrushPressed"/>
+
+            <StaticResource x:Key="ButtonForeground" ResourceKey="NavigationViewItemForeground"/>
+            <StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="NavigationViewItemForegroundDisabled"/>
+            <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="NavigationViewItemForegroundPointerOver"/>
+            <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="NavigationViewItemForegroundPressed"/>
+        </StackPanel.Resources>
+
         <Button
-            Grid.Column="2"
-            MaxHeight="40"
-            Margin="4,4,4,6"
-            Background="Transparent"
-            BorderBrush="{x:Null}">
-            <Button.Resources>
-                <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+            Margin="4,0"
+            Padding="6,6"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            Command="{Binding OpenDocumentationCommand}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <BitmapIcon
+                    Grid.Column="0"
+                    Width="24"
+                    Height="24"
+                    ShowAsMonochrome="False"
+                    UriSource="ms-appx:///Resource/Navigation/Documentation.png"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="13,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{shcm:ResourceString Name=ViewUserDocumentationHeader}"/>
+            </Grid>
+        </Button>
 
-                <StaticResource x:Key="ButtonBackground" ResourceKey="NavigationViewItemBackground"/>
-                <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="NavigationViewItemBackgroundDisabled"/>
-                <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="NavigationViewItemBackgroundPointerOver"/>
-                <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="NavigationViewItemBackgroundPressed"/>
-
-                <StaticResource x:Key="ButtonBorderBrush" ResourceKey="NavigationViewItemBorderBrush"/>
-                <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="NavigationViewItemBorderBrushDisabled"/>
-                <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="NavigationViewItemBorderBrushPointerOver"/>
-                <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="NavigationViewItemBorderBrushPressed"/>
-
-                <StaticResource x:Key="ButtonForeground" ResourceKey="NavigationViewItemForeground"/>
-                <StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="NavigationViewItemForegroundDisabled"/>
-                <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="NavigationViewItemForegroundPointerOver"/>
-                <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="NavigationViewItemForegroundPressed"/>
-            </Button.Resources>
+        <Button MaxHeight="40" Margin="4,0">
             <Button.Content>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -56,7 +80,7 @@
                         ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl, Mode=OneWay}"/>
                     <TextBlock
                         Grid.Column="1"
-                        Margin="0,0,0,2"
+                        Margin="1,0,0,0"
                         VerticalAlignment="Center"
                         Text="{Binding SelectedUser.UserInfo.Nickname, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
@@ -294,6 +318,7 @@
                 </Style>
             </Button.Style>
         </Button>
+
         <NavigationViewItemSeparator/>
     </StackPanel>
 </UserControl>

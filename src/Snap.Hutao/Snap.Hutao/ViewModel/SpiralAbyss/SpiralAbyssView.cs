@@ -1,7 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Model;
+using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Metadata.Tower;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
@@ -9,26 +12,70 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 深渊视图
 /// </summary>
 [HighQuality]
-internal sealed class SpiralAbyssView
+internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
+    IMappingFrom<SpiralAbyssView, SpiralAbyssEntry, SpiralAbyssMetadataContext>,
+    IMappingFrom<SpiralAbyssView, SpiralAbyssEntry?, TowerSchedule, SpiralAbyssMetadataContext>
 {
+    private readonly SpiralAbyssEntry? entity;
+
     /// <summary>
     /// 构造一个新的深渊视图
     /// </summary>
-    /// <param name="spiralAbyss">深渊信息</param>
+    /// <param name="entity">实体</param>
     /// <param name="idAvatarMap">Id角色映射</param>
-    public SpiralAbyssView(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss spiralAbyss, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
+    private SpiralAbyssView(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
+        : this(context.IdScheduleMap[entity.ScheduleId], context)
     {
+        this.entity = entity;
+
+        Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? spiralAbyss = entity.SpiralAbyss;
         TotalBattleTimes = spiralAbyss.TotalBattleTimes;
         TotalStar = spiralAbyss.TotalStar;
         MaxFloor = spiralAbyss.MaxFloor;
-        Reveals = spiralAbyss.RevealRank.SelectList(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId]));
-        Defeat = spiralAbyss.DefeatRank.Select(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId])).SingleOrDefault();
-        Damage = spiralAbyss.DamageRank.Select(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId])).SingleOrDefault();
-        TakeDamage = spiralAbyss.TakeDamageRank.Select(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId])).SingleOrDefault();
-        NormalSkill = spiralAbyss.NormalSkillRank.Select(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId])).SingleOrDefault();
-        EnergySkill = spiralAbyss.EnergySkillRank.Select(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId])).SingleOrDefault();
-        Floors = spiralAbyss.Floors.Select(f => new FloorView(f, idAvatarMap)).Reverse().ToList();
+        Reveals = spiralAbyss.RevealRank.SelectList(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId]));
+        Defeat = spiralAbyss.DefeatRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
+        Damage = spiralAbyss.DamageRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
+        TakeDamage = spiralAbyss.TakeDamageRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
+        NormalSkill = spiralAbyss.NormalSkillRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
+        EnergySkill = spiralAbyss.EnergySkillRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
+        Engaged = true;
+
+        foreach (Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Floor webFloor in spiralAbyss.Floors)
+        {
+            // Ignoring floor 1 - 8 here
+            if (Floors.SingleOrDefault(f => f.IndexValue == webFloor.Index) is { } floor)
+            {
+                floor.WithSpiralAbyssFloor(webFloor, context);
+            }
+        }
     }
+
+    private SpiralAbyssView(TowerSchedule towerSchedule, SpiralAbyssMetadataContext context)
+    {
+        ScheduleId = towerSchedule.Id;
+        TimeFormatted = $"{towerSchedule.Open:yyyy.MM.dd HH:mm} - {towerSchedule.Close:yyyy.MM.dd HH:mm}";
+
+        BlessingName = towerSchedule.BuffName;
+        Blessings = towerSchedule.Descriptions;
+        Floors = towerSchedule.FloorIds.Select(id => FloorView.From(context.IdFloorMap[id], context)).Reverse().ToList();
+    }
+
+    public uint ScheduleId { get; }
+
+    /// <summary>
+    /// 视图 中使用的计划 Id 字符串
+    /// </summary>
+    public string Schedule { get => SH.ModelEntitySpiralAbyssScheduleFormat.Format(ScheduleId); }
+
+    public SpiralAbyssEntry? Entity { get => entity; }
+
+    public string TimeFormatted { get; }
+
+    public string BlessingName { get; }
+
+    public List<string> Blessings { get; }
+
+    public bool Engaged { get; }
 
     /// <summary>
     /// 战斗次数
@@ -43,12 +90,12 @@ internal sealed class SpiralAbyssView
     /// <summary>
     /// 最深抵达
     /// </summary>
-    public string MaxFloor { get; }
+    public string MaxFloor { get; } = default!;
 
     /// <summary>
     /// 出战次数
     /// </summary>
-    public List<RankAvatar> Reveals { get; }
+    public List<RankAvatar> Reveals { get; } = default!;
 
     /// <summary>
     /// 击破次数
@@ -79,4 +126,21 @@ internal sealed class SpiralAbyssView
     /// 层信息
     /// </summary>
     public List<FloorView> Floors { get; }
+
+    public static SpiralAbyssView From(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
+    {
+        return new(entity, context);
+    }
+
+    public static SpiralAbyssView From(SpiralAbyssEntry? entity, TowerSchedule meta, SpiralAbyssMetadataContext context)
+    {
+        if (entity is not null)
+        {
+            return new(entity, context);
+        }
+        else
+        {
+            return new(meta, context);
+        }
+    }
 }

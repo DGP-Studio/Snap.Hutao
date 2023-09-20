@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Graphics.Canvas.Svg;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Database;

@@ -2,9 +2,9 @@
     x:Class="Snap.Hutao.View.Page.AnnouncementPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
     xmlns:cwb="using:CommunityToolkit.WinUI.Behaviors"
-    xmlns:cwu="using:CommunityToolkit.WinUI.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -12,6 +12,7 @@
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shca="using:Snap.Hutao.Control.Animation"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvco="using:Snap.Hutao.View.Control"
@@ -48,8 +49,8 @@
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
                                     <!--  Image Layer  -->
-                                    <Border cwu:UIElementExtensions.ClipToBounds="True">
-                                        <Border VerticalAlignment="Top" cwu:VisualExtensions.NormalizedCenterPoint="0.5">
+                                    <Border cw:UIElementExtensions.ClipToBounds="True">
+                                        <Border VerticalAlignment="Top" cw:VisualExtensions.NormalizedCenterPoint="0.5">
                                             <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
 
                                             <mxi:Interaction.Behaviors>
@@ -167,13 +168,15 @@
                     <TextBlock Margin="16,0" Text="{Binding UserOptions.UserName}"/>
 
                     <ItemsControl
-                        Margin="16,16,12,0"
+                        Margin="16,8,12,0"
                         ItemsSource="{Binding HutaoAnnouncements}"
                         Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <InfoBar
                                     Title="{Binding Title}"
+                                    Margin="0,8,0,0"
+                                    shch:InfoBarHelper.IsTextSelectionEnabled="True"
                                     CloseButtonCommand="{Binding DismissCommand}"
                                     CloseButtonCommandParameter="{Binding}"
                                     IsOpen="True"

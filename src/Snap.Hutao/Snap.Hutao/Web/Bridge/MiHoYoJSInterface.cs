@@ -98,7 +98,7 @@ internal class MiHoYoJSInterface
             {
                 { "x-rpc-client_type", "5" },
                 { "x-rpc-device_id",  HoyolabOptions.DeviceId },
-                { "x-rpc-app_version", HoyolabOptions.XrpcVersion },
+                { "x-rpc-app_version", SaltConstants.CNVersion },
             },
         };
     }

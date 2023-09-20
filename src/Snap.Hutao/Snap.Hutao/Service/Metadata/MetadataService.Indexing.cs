@@ -6,7 +6,9 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Metadata.Reliquary;
+using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 
@@ -38,6 +40,21 @@ internal sealed partial class MetadataService
         Dictionary<ExtendedEquipAffixId, ReliquarySet> dict = list
             .SelectMany(set => set.EquipAffixIds.Select(id => (id, set)))
             .ToDictionary(tuple => tuple.id, tuple => tuple.set);
+        return memoryCache.Set(cacheKey, dict);
+    }
+
+    public async ValueTask<Dictionary<TowerLevelGroupId, List<TowerLevel>>> GetGroupIdToTowerLevelGroupMapAsync(CancellationToken token = default)
+    {
+        string cacheKey = $"{nameof(MetadataService)}.Cache.{FileNameTowerLevel}.Map.Group.{nameof(TowerLevelGroupId)}";
+
+        if (memoryCache.TryGetValue(cacheKey, out object? value))
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            return (Dictionary<TowerLevelGroupId, List<TowerLevel>>)value;
+        }
+
+        List<TowerLevel> list = await FromCacheOrFileAsync<List<TowerLevel>>(FileNameTowerLevel, token).ConfigureAwait(false);
+        Dictionary<TowerLevelGroupId, List<TowerLevel>> dict = list.GroupBy(l => l.GroupId).ToDictionary(g => g.Key, g => g.ToList());
         return memoryCache.Set(cacheKey, dict);
     }
 
@@ -102,6 +119,16 @@ internal sealed partial class MetadataService
         return FromCacheAsDictionaryAsync<ReliquaryMainAffixId, FightProperty, ReliquaryMainAffix>(FileNameReliquaryMainAffix, r => r.Id, r => r.Type, token);
     }
 
+    public ValueTask<Dictionary<TowerFloorId, TowerFloor>> GetIdToTowerFloorMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<TowerFloorId, TowerFloor>(FileNameTowerFloor, t => t.Id, token);
+    }
+
+    public ValueTask<Dictionary<TowerScheduleId, TowerSchedule>> GetIdToTowerScheduleMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<TowerScheduleId, TowerSchedule>(FileNameTowerSchedule, t => t.Id, token);
+    }
+
     /// <inheritdoc/>
     public ValueTask<Dictionary<WeaponId, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default)
     {
@@ -124,6 +151,11 @@ internal sealed partial class MetadataService
     public ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(CancellationToken token = default)
     {
         return FromCacheAsDictionaryAsync<Level, Dictionary<GrowCurveType, float>, GrowCurve>(FileNameWeaponCurve, w => w.Level, w => w.Map, token);
+    }
+
+    public ValueTask<Dictionary<MonsterRelationshipId, Monster>> GetRelationshipIdToMonsterMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<MonsterRelationshipId, Monster>(FileNameMonster, m => m.RelationshipId, token);
     }
 
     /// <inheritdoc/>

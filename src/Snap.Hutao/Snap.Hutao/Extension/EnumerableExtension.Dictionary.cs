@@ -15,7 +15,7 @@ internal static partial class EnumerableExtension
     public static bool IsNullOrEmpty<TKey, TValue>([NotNullWhen(false)] this Dictionary<TKey, TValue>? source)
         where TKey : notnull
     {
-        if (source is { Count: >0 })
+        if (source is { Count: > 0 })
         {
             return false;
         }

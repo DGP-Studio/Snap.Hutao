@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.Collections;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -220,7 +220,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         Avatars.Filter = AvatarFilter.Compile(input);
 
-        if (Avatars.Contains(Selected))
+        if (Selected is not null && Avatars.Contains(Selected))
         {
             return;
         }

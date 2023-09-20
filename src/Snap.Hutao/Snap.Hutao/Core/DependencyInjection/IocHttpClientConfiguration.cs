@@ -44,7 +44,7 @@ internal static partial class IocHttpClientConfiguration
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.UserAgent);
         client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
-        client.DefaultRequestHeaders.Add("x-rpc-app_version", HoyolabOptions.XrpcVersion);
+        client.DefaultRequestHeaders.Add("x-rpc-app_version", SaltConstants.CNVersion);
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "5");
         client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId);
     }
@@ -60,7 +60,7 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
         client.DefaultRequestHeaders.Add("x-rpc-aigis", string.Empty);
         client.DefaultRequestHeaders.Add("x-rpc-app_id", "bll8iq97cem8");
-        client.DefaultRequestHeaders.Add("x-rpc-app_version", HoyolabOptions.XrpcVersion);
+        client.DefaultRequestHeaders.Add("x-rpc-app_version", SaltConstants.CNVersion);
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "2");
         client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId);
         client.DefaultRequestHeaders.Add("x-rpc-game_biz", "bbs_cn");
@@ -77,7 +77,7 @@ internal static partial class IocHttpClientConfiguration
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.UserAgentOversea);
         client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
-        client.DefaultRequestHeaders.Add("x-rpc-app_version", HoyolabOptions.XrpcVersionOversea);
+        client.DefaultRequestHeaders.Add("x-rpc-app_version", SaltConstants.OSVersion);
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "5");
         client.DefaultRequestHeaders.Add("x-rpc-language", "zh-cn");
         client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId);

@@ -111,6 +111,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         AppInstance.Restart(string.Empty);
     }
 
+    [Command("StoreReviewCommand")]
+    private static async Task StoreReviewAsync()
+    {
+        await Launcher.LaunchUriAsync(new("ms-windows-store://review/?ProductId=9PH4NXJ2JN52"));
+    }
+
     [Command("SetGamePathCommand")]
     private async Task SetGamePathAsync()
     {

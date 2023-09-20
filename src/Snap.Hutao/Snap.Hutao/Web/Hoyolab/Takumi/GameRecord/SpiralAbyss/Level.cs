@@ -13,7 +13,7 @@ internal sealed class Level
     /// 索引
     /// </summary>
     [JsonPropertyName("index")]
-    public int Index { get; set; }
+    public uint Index { get; set; }
 
     /// <summary>
     /// 星数

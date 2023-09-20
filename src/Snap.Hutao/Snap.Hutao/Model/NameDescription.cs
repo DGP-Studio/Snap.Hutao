@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.ViewModel.AvatarProperty;
+namespace Snap.Hutao.Model;
 
 /// <summary>
 /// 名称与描述
@@ -28,7 +28,10 @@ internal class NameDescription
         Description = description;
     }
 
-    public static NameDescription Default => DefaultValue;
+    public static NameDescription Default
+    {
+        get => DefaultValue;
+    }
 
     /// <summary>
     /// 名称

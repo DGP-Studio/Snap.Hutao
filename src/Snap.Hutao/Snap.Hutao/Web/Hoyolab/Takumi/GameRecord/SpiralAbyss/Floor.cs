@@ -13,7 +13,7 @@ internal sealed class Floor
     /// 层号
     /// </summary>
     [JsonPropertyName("index")]
-    public int Index { get; set; }
+    public uint Index { get; set; }
 
     /// <summary>
     /// 图标

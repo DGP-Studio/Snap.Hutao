@@ -30,6 +30,35 @@ internal static partial class EnumerableExtension
         return (double)sum / span.Length;
     }
 
+    public static T? BinarySearch<T>(this List<T> list, Func<T, int> comparer)
+        where T : class
+    {
+        Span<T> span = CollectionsMarshal.AsSpan(list);
+        int left = 0;
+        int right = span.Length - 1;
+
+        while (left <= right)
+        {
+            int middle = (left + right) / 2;
+            ref T current = ref span[middle];
+            int compareResult = comparer(current);
+            if (compareResult == 0)
+            {
+                return current;
+            }
+            else if (compareResult < 0)
+            {
+                right = middle - 1;
+            }
+            else
+            {
+                left = middle + 1;
+            }
+        }
+
+        return default;
+    }
+
     /// <summary>
     /// 如果传入列表不为空则原路返回，
     /// 如果传入列表为空返回一个空的列表

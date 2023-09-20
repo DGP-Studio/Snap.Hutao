@@ -244,7 +244,7 @@
     <value>Not refreshed</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
-    <value>Refresh at {0:yyyy/MM/dd HH:mm:ss}</value>
+    <value>Refresh at {0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>Schedule {0}</value>
@@ -412,6 +412,87 @@
   <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
     <value>Weapon Enhancement Materials</value>
     <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataTowerGoalTypeDefeatMonsters" xml:space="preserve">
+    <value>Eliminate Monsters</value>
+  </data>
+  <data name="ModelMetadataTowerGoalTypeDefendTarget" xml:space="preserve">
+    <value>Protect Ley Line Monolith</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
+    <value>Addition: Monster Reinforce</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeDefault" xml:space="preserve">
+    <value>Monsters in this Chamber</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
+    <value>Group A: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave1" xml:space="preserve">
+    <value>Group A Wave 1: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave2" xml:space="preserve">
+    <value>Group A Wave 2: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave3" xml:space="preserve">
+    <value>Group A Wave 3: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupB" xml:space="preserve">
+    <value>Group B: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave1" xml:space="preserve">
+    <value>Group B Wave 1: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave2" xml:space="preserve">
+    <value>Group B Wave 2: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave3" xml:space="preserve">
+    <value>Group B Wave 3: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupC" xml:space="preserve">
+    <value>Group C: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave1" xml:space="preserve">
+    <value>Group C Wave 1: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave2" xml:space="preserve">
+    <value>Group C Wave 2: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave3" xml:space="preserve">
+    <value>Group C Wave 3: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupD" xml:space="preserve">
+    <value>Group D: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave1" xml:space="preserve">
+    <value>Group D Wave 1: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave2" xml:space="preserve">
+    <value>Group D Wave 2: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave3" xml:space="preserve">
+    <value>Group D Wave 3: Different groups coexist and have independent waves</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeIndependent" xml:space="preserve">
+    <value>Independent from other monsters</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeSuppressed" xml:space="preserve">
+    <value>No wave data</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave1" xml:space="preserve">
+    <value>Wave 1: A wave will spawn only after killing all enemies in the previous wave</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave1Additional" xml:space="preserve">
+    <value>Wave 1 Addition: First wave of monster reinforce</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave2" xml:space="preserve">
+    <value>Wave 2: A wave will spawn only after killing all enemies in the previous wave</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave3" xml:space="preserve">
+    <value>Wave 3: A wave will spawn only after killing all enemies in the previous wave</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
+    <value>Wave 4: A wave will spawn only after killing all enemies in the previous wave</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>Please update showcase data</value>
@@ -735,16 +816,16 @@
     <value>PowerShell installation directory not found</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
-    <value>Game configuration file {0} not found</value>
+    <value>Unable to read game config file {0}, file may be not exist</value>
   </data>
   <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
     <value>Unable to read or save profile, please try again in administrator mode</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
-    <value>Error finding required modules: could not read any module, the protection driver may have been loaded</value>
+    <value>Error finding required modules: could not read any module, the protection driver may have been loaded; please retry</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
-    <value>Error finding required modules: timeout</value>
+    <value>Error finding required modules: timeout; please retry</value>
   </data>
   <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
     <value>Error matching memory pattern: no expected content</value>
@@ -756,7 +837,7 @@
     <value>Error reading process modules' memory: could not read valid value in given address</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>Wish history data backup service will be available until\n{0:yyyy-MM-dd HH:mm:ss}</value>
+    <value>Wish history data backup service will expire at \n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Unable to find cached metadata file</value>
@@ -1293,7 +1374,7 @@
     <value>Convert server failed</value>
   </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>Unable to read game client configuration: {0}</value>
+    <value>Unable to read game config file: {0}, file may be not exist not lack of user permission</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>Game program path is incorrect. Change it in the Settings Page.</value>
@@ -1380,7 +1461,7 @@
     <value>Delete Current Archive</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
-    <value>Search achievement name, description or ID</value>
+    <value>Name, description, version or ID</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
     <value>Prefer incomplete</value>
@@ -2013,7 +2094,7 @@
     <value>Enable Advanced Features</value>
   </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
-    <value>Go to Official Website</value>
+    <value>Official Website</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>Reset</value>
@@ -2049,7 +2130,7 @@
     <value>Shell Experience</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
-    <value>Sponsor Us</value>
+    <value>Sponsor Snap Hutao</value>
   </data>
   <data name="ViewPageSettingStorageHeader" xml:space="preserve">
     <value>Storage</value>
@@ -2060,11 +2141,14 @@
   <data name="ViewPageSettingStorageSetAction" xml:space="preserve">
     <value>Set</value>
   </data>
+  <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
+    <value>Rate Snap Hutao</value>
+  </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>Contribute Translations</value>
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
-    <value>Go to Store</value>
+    <value>Store Page</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>Webview2 Runtime</value>
@@ -2153,6 +2237,12 @@
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>Sign in or register now</value>
   </data>
+  <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
+    <value>Character Appearance Rate = Character Appearance in this Floor (only count for 1 if repeated) / Total Number of Abyss Record of this Floor</value>
+  </data>
+  <data name="ViewSpiralAbyssAvatarUsageRankDescription" xml:space="preserve">
+    <value>Character Usage Rate = Character Appearance in this Floor (only count for 1 is repeated) / Number of Player who Own this Character</value>
+  </data>
   <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
     <value>Battle Statistics</value>
   </data>
@@ -2169,19 +2259,28 @@
     <value>Most Defeats</value>
   </data>
   <data name="ViewSpiralAbyssDetail" xml:space="preserve">
-    <value>Details</value>
+    <value>Schedules Detail</value>
   </data>
   <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
     <value>Elemental Bursts Unleashed</value>
   </data>
   <data name="ViewSpiralAbyssHeader" xml:space="preserve">
-    <value>Abyss Records</value>
+    <value>Spiral Abyss</value>
+  </data>
+  <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
+    <value>Statistics</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>Deepest Descent</value>
   </data>
   <data name="ViewSpiralAbyssNormalSkill" xml:space="preserve">
     <value>Elemental Skills Cast</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordBattleAvatars" xml:space="preserve">
+    <value>Lineup</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordMonsterAttacksMonolith" xml:space="preserve">
+    <value>Attack monolith</value>
   </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
     <value>Refresh Data</value>
@@ -2233,6 +2332,9 @@
   </data>
   <data name="ViewUserDefaultDescription" xml:space="preserve">
     <value>Please login first</value>
+  </data>
+  <data name="ViewUserDocumentationHeader" xml:space="preserve">
+    <value>Document</value>
   </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>Refresh CookieToken successfully</value>

@@ -9,9 +9,9 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.View.Control;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Request.QueryString;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
@@ -42,19 +42,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
-    public string VerifyUrl
-    {
-        get
-        {
-            if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
-            {
-                QueryString query = userAndUid.Uid.ToQueryString();
-                return $"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/daily/?{query}";
-            }
-
-            return default!;
-        }
-    }
+    public IWebViewerSource VerifyUrlSource { get => new DailyNoteWebViewerSource(); }
 
     /// <summary>
     /// 用户与角色集合

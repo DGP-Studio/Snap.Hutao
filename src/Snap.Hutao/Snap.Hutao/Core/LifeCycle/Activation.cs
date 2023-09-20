@@ -3,7 +3,6 @@
 
 using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.DailyNote;
@@ -270,10 +269,18 @@ internal sealed partial class Activation : IActivation
         }
         else
         {
-            await serviceProvider
-                .GetRequiredService<INavigationService>()
-                .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
-                .ConfigureAwait(false);
+            if (currentWindowReference.Window is MainWindow)
+            {
+                await serviceProvider
+                    .GetRequiredService<INavigationService>()
+                    .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                // We have a non-Main Window, just exit current process anyway
+                Process.GetCurrentProcess().Kill();
+            }
         }
     }
 }

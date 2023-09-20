@@ -3,13 +3,10 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Message;
-using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
@@ -27,42 +24,25 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
 {
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
     private readonly HomaSpiralAbyssClient spiralAbyssClient;
-    private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
+    private readonly HutaoDatabaseViewModel hutaoDatabaseViewModel;
 
-    private Dictionary<AvatarId, Model.Metadata.Avatar.Avatar>? idAvatarMap;
-    private ObservableCollection<SpiralAbyssEntry>? spiralAbyssEntries;
-    private SpiralAbyssEntry? selectedEntry;
-    private SpiralAbyssView? spiralAbyssView;
+    private ObservableCollection<SpiralAbyssView>? spiralAbyssEntries;
+    private SpiralAbyssView? selectedView;
 
     /// <summary>
     /// 深渊记录
     /// </summary>
-    public ObservableCollection<SpiralAbyssEntry>? SpiralAbyssEntries { get => spiralAbyssEntries; set => SetProperty(ref spiralAbyssEntries, value); }
+    public ObservableCollection<SpiralAbyssView>? SpiralAbyssEntries { get => spiralAbyssEntries; set => SetProperty(ref spiralAbyssEntries, value); }
 
     /// <summary>
     /// 选中的深渊信息
     /// </summary>
-    public SpiralAbyssEntry? SelectedEntry
-    {
-        get => selectedEntry; set
-        {
-            // We dont need to check the result here,
-            // just refresh the view anyway.
-            SetProperty(ref selectedEntry, value);
-            if (value is not null && idAvatarMap is not null)
-            {
-                SpiralAbyssView = new(value.SpiralAbyss, idAvatarMap);
-            }
-        }
-    }
+    public SpiralAbyssView? SelectedView { get => selectedView; set => SetProperty(ref selectedView, value); }
 
-    /// <summary>
-    /// 深渊的只读视图
-    /// </summary>
-    public SpiralAbyssView? SpiralAbyssView { get => spiralAbyssView; set => SetProperty(ref spiralAbyssView, value); }
+    public HutaoDatabaseViewModel HutaoDatabaseViewModel { get => hutaoDatabaseViewModel; }
 
     /// <inheritdoc/>
     public void Receive(UserChangedMessage message)
@@ -73,17 +53,14 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         }
         else
         {
-            SpiralAbyssView = null;
+            SelectedView = null;
         }
     }
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
+        if (await spiralAbyssRecordService.InitializeAsync().ConfigureAwait(false))
         {
-            idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            idAvatarMap = AvatarIds.WithPlayers(idAvatarMap);
-
             if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {
                 await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
@@ -100,13 +77,13 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
 
     private async ValueTask UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
     {
-        ObservableCollection<SpiralAbyssEntry>? temp = null;
+        ObservableCollection<SpiralAbyssView>? collection = null;
         try
         {
             using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
             {
-                temp = await spiralAbyssRecordService
-                    .GetSpiralAbyssCollectionAsync(userAndUid)
+                collection = await spiralAbyssRecordService
+                    .GetSpiralAbyssViewCollectionAsync(userAndUid)
                     .ConfigureAwait(false);
             }
         }
@@ -115,8 +92,8 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        SpiralAbyssEntries = temp;
-        SelectedEntry = SpiralAbyssEntries?.FirstOrDefault();
+        SpiralAbyssEntries = collection;
+        SelectedView = SpiralAbyssEntries?.FirstOrDefault();
     }
 
     [Command("RefreshCommand")]
@@ -140,7 +117,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 }
 
                 await taskContext.SwitchToMainThreadAsync();
-                SelectedEntry = SpiralAbyssEntries.FirstOrDefault();
+                SelectedView = SpiralAbyssEntries.FirstOrDefault();
             }
         }
     }

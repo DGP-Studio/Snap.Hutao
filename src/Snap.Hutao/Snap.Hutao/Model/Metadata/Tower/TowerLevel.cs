@@ -36,7 +36,27 @@ internal sealed class TowerLevel
     public List<MonsterRelationshipId> FirstMonsters { get; set; } = default!;
 
     /// <summary>
+    /// 上半怪物波次
+    /// </summary>
+    public List<TowerWave> FirstWaves { get; set; } = default!;
+
+    /// <summary>
+    /// 上半造物
+    /// </summary>
+    public NameDescription? FirstGadget { get; set; }
+
+    /// <summary>
     /// 下半怪物预览
     /// </summary>
-    public List<MonsterRelationshipId> SecondMonsters { get; set; } = default!;
+    public List<MonsterRelationshipId>? SecondMonsters { get; set; }
+
+    /// <summary>
+    /// 下半怪物波次
+    /// </summary>
+    public List<TowerWave> SecondWaves { get; set; } = default!;
+
+    /// <summary>
+    /// 下半造物
+    /// </summary>
+    public NameDescription? SecondGadget { get; set; }
 }

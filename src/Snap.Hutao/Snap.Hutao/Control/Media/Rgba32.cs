@@ -39,7 +39,7 @@ internal struct Rgba32
     /// </summary>
     /// <param name="hex">色值字符串</param>
     public Rgba32(string hex)
-        : this(Convert.ToUInt32(hex, 16))
+        : this(hex.Length == 6 ? Convert.ToUInt32($"{hex}FF", 16) : Convert.ToUInt32(hex, 16))
     {
     }
 

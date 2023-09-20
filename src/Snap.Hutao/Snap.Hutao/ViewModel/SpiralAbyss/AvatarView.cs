@@ -5,7 +5,6 @@ using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
@@ -15,16 +14,6 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 [HighQuality]
 internal class AvatarView : INameIconSide, IMappingFrom<AvatarView, Avatar>
 {
-    /// <summary>
-    /// 构造一个新的角色视图
-    /// </summary>
-    /// <param name="avatarId">角色Id</param>
-    /// <param name="idAvatarMap">Id角色映射</param>
-    public AvatarView(in AvatarId avatarId, Dictionary<AvatarId, Avatar> idAvatarMap)
-        : this(idAvatarMap[avatarId])
-    {
-    }
-
     /// <summary>
     /// 构造一个新的角色视图
     /// </summary>

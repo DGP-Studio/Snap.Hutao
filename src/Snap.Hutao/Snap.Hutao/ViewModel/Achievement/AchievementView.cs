@@ -55,7 +55,7 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
             {
                 (Entity.Status, Entity.Time) = value
                     ? (AchievementStatus.STATUS_REWARD_TAKEN, DateTimeOffset.Now)
-                    : (AchievementStatus.STATUS_FINISHED, default);
+                    : (AchievementStatus.STATUS_INVALID, default);
 
                 OnPropertyChanged(nameof(Time));
             }

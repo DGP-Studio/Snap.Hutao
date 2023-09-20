@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Media;
 using System.Buffers.Binary;
 using System.Runtime.CompilerServices;
 using Windows.UI;

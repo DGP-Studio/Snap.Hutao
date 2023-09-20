@@ -2,9 +2,7 @@
     x:Class="Snap.Hutao.View.Page.DailyNotePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
-    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -54,7 +52,7 @@
                                     <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
-                            <shvc:Webview2Viewer Source="{Binding VerifyUrl, Mode=OneWay}"/>
+                            <shvc:WebViewer SourceProvider="{Binding VerifyUrlSource, Mode=OneWay}"/>
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
                 </Button>
@@ -484,7 +482,7 @@
                                         ItemsSource="{Binding DailyNote.Expeditions, Mode=OneWay}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <cwuc:UniformGrid
+                                                <cwc:UniformGrid
                                                     ColumnSpacing="8"
                                                     Columns="2"
                                                     RowSpacing="8"/>

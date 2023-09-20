@@ -11,20 +11,6 @@ namespace Snap.Hutao.Extension;
 /// </summary>
 internal static partial class EnumerableExtension
 {
-    /// <summary>
-    /// 尝试添加物品
-    /// </summary>
-    /// <typeparam name="T">物品类型</typeparam>
-    /// <param name="collection">集合</param>
-    /// <param name="item">物品</param>
-    public static void AddIfNotContains<T>(this Collection<T> collection, T item)
-    {
-        if (!collection.Contains(item))
-        {
-            collection.Add(item);
-        }
-    }
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)][MaybeNullWhen(true)] this Collection<TSource>? source)
     {
@@ -56,5 +42,18 @@ internal static partial class EnumerableExtension
         }
 
         return count;
+    }
+
+    public static int FirstIndexOf<T>(this Collection<T> collection, Func<T, bool> predicate)
+    {
+        for (int index = 0; index < collection.Count; index++)
+        {
+            if (predicate(collection[index]))
+            {
+                return index;
+            }
+        }
+
+        return -1;
     }
 }
