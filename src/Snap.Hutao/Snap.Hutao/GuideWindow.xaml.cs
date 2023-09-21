@@ -25,7 +25,7 @@ internal sealed partial class GuideWindow : Window, IWindowOptionsSource
     {
         InitializeComponent();
         windowOptions = new(this, DragableGrid, new(MinWidth, MinHeight));
-        ExtendedWindow<GuideWindow>.Initialize(this, Ioc.Default);
+        this.InitializeController(serviceProvider);
     }
 
     WindowOptions IWindowOptionsSource.WindowOptions { get => windowOptions; }
