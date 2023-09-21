@@ -439,7 +439,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 刷新于 {0:yyyy.MM.dd HH:mm:ss} 的本地化字符串。
+        ///   查找类似 刷新于 {0:MM.dd HH:mm:ss} 的本地化字符串。
         /// </summary>
         internal static string ModelEntityDailyNoteRefreshTimeFormat {
             get {

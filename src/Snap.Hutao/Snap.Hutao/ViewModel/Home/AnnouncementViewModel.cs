@@ -5,6 +5,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.View.Card;
+using Snap.Hutao.View.Card.Primitive;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.ObjectModel;
 
