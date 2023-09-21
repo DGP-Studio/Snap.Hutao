@@ -1,4 +1,4 @@
-name: BUG Report 问题反馈
+name: 问题反馈
 description: 告诉我们你的问题
 title: "[Bug]: 在这里填写一个合适的标题"
 labels: ["BUG"]
@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        > **请在上方设置一个合适的工单标题**
+        > **请在上方以一句话简短地概括你的问题作为标题**
         > 请按下方的要求填写完整的问题表单，以便我们更快的定位问题。
 
   - type: checkboxes
@@ -16,15 +16,14 @@ body:
       description: |-
         请确保你已完整执行检查清单，否则你的 Issue 可能会被忽略
       options:
-        - label: 我并未完整阅读[胡桃工具箱文档](https://hut.ao/advanced/FAQ.html)
+        - label: 我已阅读 Snap Hutao 文档中的[常见问题](https://hut.ao/advanced/FAQ.html)和[常见程序异常](https://hut.ao/advanced/exceptions.html)，我的问题没有在文档中得到解答
+          required: true
           
-        - label: 我不知道文档站的导航栏中有**搜索功能**，也没有搜索过相关关键词
+        - label: 我知道文档站的导航栏中有**搜索功能**，且已经搜索过相关关键词
+          required: true
 
-        - label: 我使用的操作系统是不[受支持的版本](https://hut.ao/quick-start.html#%E6%9C%80%E4%BD%8E%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82)
-
-        - label: 我没有**通过搜索功能**确认其他人提出过相同或类似的问题
-         
-        - label: 我不明白上述的勾选项是**一个有助于快速排查问题的检查清单**，而是随手确认的选项
+        - label: 我的问题不是[已修复](https://github.com/DGP-Studio/Snap.Hutao/issues?q=is%3Aopen+is%3Aissue+label%3A%E5%B7%B2%E4%BF%AE%E5%A4%8D)的问题也不是一个别人已发布的**重复的**问题
+          required: true
 
   - type: input
     id: winver
@@ -32,7 +31,7 @@ body:
       label: Windows 版本
       description: | 
         `Win+R` 输入 `winver` 回车后在打开的窗口第二行可以找到
-      placeholder: 例：22621.1105
+      placeholder: 例：22000.556
     validations:
       required: true
    
@@ -66,13 +65,14 @@ body:
         - 角色信息面板
         - 游戏启动器
         - 实时便笺
-        - 养成计算器
-        - 用户面板
+        - 养成计算
         - 文件缓存
         - 祈愿记录
         - 玩家查询
         - 胡桃数据库
         - 用户界面
+        - 胡桃云
+        - 胡桃帐号
         - 签到
         - Wiki
         - 公告
@@ -84,7 +84,7 @@ body:
     id: what-happened
     attributes:
       label: 发生了什么？
-      description: 详细的描述问题发生前后的行为，以便我们解决问题
+      description: 详细的描述问题发生前后的行为，以便我们解决问题。**如果你的问题涉及程序崩溃，你应当检查 Windows 事件查看器，并将相关的 `.Net 错误`详情附上**
     validations:
       required: true
 
@@ -95,4 +95,13 @@ body:
       description: 详细的描述你期望发生的行为，突出与目前（可能不正确的）行为的不同
     validations:
       required: false
+
+  - type: checkboxes
+    id: checklist-final
+    attributes:
+      label: 最后一步
+      description: 回顾你的回答
+      options:
+        - label: 我认为上述的描述已经足以详细，以允许开发人员能复现该问题
+          required: true
       

@@ -1,5 +1,14 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 胡桃工具箱 - 官方文档
+  - name: Snap Hutao 官方文档 / Snap Hutao Document
     url: https://hut.ao
-    about: 请在提出问题前阅读文档
+    about: 请在提出问题前阅读文档 / Read the document before submit the issue
+  
+  - name: 常见问题 / FAQ
+    url: https://hut.ao/advanced/FAQ.html
+    about: 常见的用户提出的问题 / Common questions asked by users
+  
+  - name: 常见程序异常 / Common Program Exceptions
+    url: https://hut.ao/advanced/exceptions.html
+    about: 用户通常能自行解决这些问题 / Users may solve these problems by themselves
+    
