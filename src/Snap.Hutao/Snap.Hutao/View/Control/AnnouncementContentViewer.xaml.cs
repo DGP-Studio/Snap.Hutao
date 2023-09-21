@@ -20,24 +20,6 @@ namespace Snap.Hutao.View.Control;
 [DependencyProperty("Announcement", typeof(Announcement))]
 internal sealed partial class AnnouncementContentViewer : UserControl
 {
-    // apply in dark mode, Dark theme
-    private const string LightColor1 = "color:rgba(255,255,255,1)";
-    private const string LightColor2 = "color:rgba(238,238,238,1)";
-    private const string LightColor3 = "color:rgba(204,204,204,1)";
-    private const string LightColor4 = "color:rgba(198,196,191,1)";
-    private const string LightColor5 = "color:rgba(170,170,170,1)";
-    private const string LightAccentColor1 = "background-color: rgb(0,40,70)";
-    private const string LightAccentColor2 = "background-color: rgb(1,40,70)";
-
-    // find in content, Light theme
-    private const string DarkColor1 = "color:rgba(0,0,0,1)";
-    private const string DarkColor2 = "color:rgba(17,17,17,1)";
-    private const string DarkColor3 = "color:rgba(51,51,51,1)";
-    private const string DarkColor4 = "color:rgba(57,59,64,1)";
-    private const string DarkColor5 = "color:rgba(85,85,85,1)";
-    private const string DarkAccentColor1 = "background-color: rgb(255, 215, 185)";
-    private const string DarkAccentColor2 = "background-color: rgb(254, 245, 231)";
-
     // support click open browser.
     private const string MihoyoSDKDefinition = """
         window.miHoYoGameJSSDK = {
@@ -45,6 +27,18 @@ internal sealed partial class AnnouncementContentViewer : UserControl
             openInWebview: function(url){ location.href = url }
         }
         """;
+
+    private static readonly Dictionary<string, string> DarkLightReverts = new()
+    {
+        { "color:rgba(0,0,0,1)", "color:rgba(255,255,255,1)" },
+        { "color:rgba(17,17,17,1)", "color:rgba(238,238,238,1)" },
+        { "color:rgba(51,51,51,1)", "color:rgba(204,204,204,1)" },
+        { "color:rgba(57,59,64,1)", "color:rgba(198,196,191,1)" },
+        { "color:rgba(85,85,85,1)", "color:rgba(170,170,170,1)" },
+        { "background-color: rgb(255, 215, 185)", "background-color: rgb(0,40,70)" },
+        { "background-color: rgb(254, 245, 231)", "background-color: rgb(1,40,70)" },
+        { "background-color:rgb(244, 244, 245)", "background-color:rgba(11, 11, 10)" },
+    };
 
     private readonly RoutedEventHandler loadEventHandler;
     private readonly RoutedEventHandler unloadEventHandler;
@@ -85,14 +79,13 @@ internal sealed partial class AnnouncementContentViewer : UserControl
 
         if (isDarkMode)
         {
-            StringBuilder contentBuilder = new StringBuilder(content)
-                .Replace(DarkColor5, LightColor5)
-                .Replace(DarkColor4, LightColor4)
-                .Replace(DarkColor3, LightColor3)
-                .Replace(DarkColor2, LightColor2)
-                .Replace(DarkColor1, LightColor1)
-                .Replace(DarkAccentColor2, LightAccentColor2)
-                .Replace(DarkAccentColor1, LightAccentColor1);
+            StringBuilder contentBuilder = new(content);
+
+            foreach ((string dark, string light) in DarkLightReverts)
+            {
+                contentBuilder.Replace(dark, light);
+            }
+
             content = contentBuilder.ToString();
         }
 
@@ -106,7 +99,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
                         display: none;
                     }
 
-                    img{
+                    img {
                         border: none;
                         vertical-align: middle;
                         width: 100%;
@@ -114,7 +107,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
                 </style>
             </head>
 
-            <body style="{{(isDarkMode ? LightColor1 : DarkColor1)}}; background-color: transparent;">
+            <body style="{{(isDarkMode ? "color:rgba(255,255,255,1)" : "color:rgba(0,0,0,1)")}}; background-color: transparent;">
                 <h3>{{announcement.Title}}</h3>
                 <img src="{{announcement.Banner}}"/>
                 <br>
@@ -149,9 +142,11 @@ internal sealed partial class AnnouncementContentViewer : UserControl
             await WebView.EnsureCoreWebView2Async();
 
             CoreWebView2Settings settings = WebView.CoreWebView2.Settings;
+#if !DEBUG
             settings.AreBrowserAcceleratorKeysEnabled = false;
             settings.AreDefaultContextMenusEnabled = false;
             settings.AreDevToolsEnabled = false;
+#endif
             WebView.CoreWebView2.WebMessageReceived += webMessageReceivedHandler;
 
             await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);
