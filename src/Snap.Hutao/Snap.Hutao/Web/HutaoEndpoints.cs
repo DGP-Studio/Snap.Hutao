@@ -13,11 +13,6 @@ namespace Snap.Hutao.Web;
 [SuppressMessage("", "SA1124")]
 internal static class HutaoEndpoints
 {
-    /// <summary>
-    /// 胡桃资源主机名
-    /// </summary>
-    public const string StaticHutao = "static.hut.ao";
-
     #region Hutao as a Service
     public static string Announcement(string locale)
     {

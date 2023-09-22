@@ -113,7 +113,7 @@ internal static class StaticResource
         ApplicationDataCompositeValue map = LocalSetting.Get(ContractMap, DefaultResourceVersionMap);
         foreach ((string key, object value) in LatestResourceVersionMap)
         {
-            if ((int)value > (int)map[key])
+            if (!map.TryGetValue(key, out object current) || (int)value > (int)current)
             {
                 result.Add(key);
             }
