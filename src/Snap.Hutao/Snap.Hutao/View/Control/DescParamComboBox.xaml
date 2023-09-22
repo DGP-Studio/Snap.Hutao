@@ -6,41 +6,34 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shmm="using:Snap.Hutao.Model.Metadata"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="SettingsCardPadding">16,8</Thickness>
         <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+
+        <DataTemplate x:Key="ParameterDescriptionTemplate" x:DataType="shmm:ParameterDescription">
+            <cwc:SettingsCard Margin="0,3,0,0" Header="{Binding Description}">
+                <TextBlock Text="{Binding Parameter}"/>
+            </cwc:SettingsCard>
+        </DataTemplate>
     </UserControl.Resources>
 
     <StackPanel>
         <StackPanel Margin="0,0,0,0" VerticalAlignment="Top">
             <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}">
                 <ComboBox
+                    DisplayMemberPath="Level"
                     ItemsSource="{x:Bind Source, Mode=OneWay}"
                     SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
-                    Style="{StaticResource SettingsContentComboBoxStyle}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Level}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                    Style="{StaticResource SettingsContentComboBoxStyle}"/>
             </cwc:SettingsCard>
         </StackPanel>
 
-        <ItemsControl VerticalAlignment="Top" ItemsSource="{x:Bind SelectedItem.Parameters, Mode=OneWay}">
-            <ItemsControl.ItemContainerTransitions>
-                <TransitionCollection>
-                    <ContentThemeTransition/>
-                </TransitionCollection>
-            </ItemsControl.ItemContainerTransitions>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <cwc:SettingsCard Margin="0,3,0,0" Header="{Binding Description}">
-                        <TextBlock Text="{Binding Parameter}"/>
-                    </cwc:SettingsCard>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ItemsControl
+            VerticalAlignment="Top"
+            ItemContainerTransitions="{StaticResource ContentThemeTransitions}"
+            ItemTemplate="{StaticResource ParameterDescriptionTemplate}"
+            ItemsSource="{x:Bind SelectedItem.Parameters, Mode=OneWay}"/>
     </StackPanel>
 </UserControl>

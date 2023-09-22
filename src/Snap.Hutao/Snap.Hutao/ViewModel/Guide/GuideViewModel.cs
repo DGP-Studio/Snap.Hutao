@@ -160,7 +160,14 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     private async ValueTask DownloadStaticResourceAsync()
     {
-        IEnumerable<DownloadSummary> downloadSummaries = GenerateStaticResourceDownloadTasks();
+        HashSet<DownloadSummary> downloadSummaries = new();
+
+        HashSet<string> categories = StaticResource.GetUnfulfilledCategorySet();
+
+        foreach (string category in categories)
+        {
+            downloadSummaries.Add(new(serviceProvider, category));
+        }
 
         DownloadSummaries = downloadSummaries.ToObservableCollection();
 
@@ -172,53 +179,9 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
             }
         }).ConfigureAwait(false);
 
-        StaticResource.FulfillAllContracts();
+        StaticResource.FulfillAll();
 
         LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.Completed);
         AppInstance.Restart(string.Empty);
-    }
-
-    private IEnumerable<DownloadSummary> GenerateStaticResourceDownloadTasks()
-    {
-        Dictionary<string, DownloadSummary> downloadSummaries = new();
-
-        if (StaticResource.IsContractUnfulfilled(StaticResource.V1Contract))
-        {
-            downloadSummaries.TryAdd("Bg", new(serviceProvider, "Bg"));
-            downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "AvatarIcon"));
-            downloadSummaries.TryAdd("GachaAvatarIcon", new(serviceProvider, "GachaAvatarIcon"));
-            downloadSummaries.TryAdd("GachaAvatarImg", new(serviceProvider, "GachaAvatarImg"));
-            downloadSummaries.TryAdd("EquipIcon", new(serviceProvider, "EquipIcon"));
-            downloadSummaries.TryAdd("GachaEquipIcon", new(serviceProvider, "GachaEquipIcon"));
-            downloadSummaries.TryAdd("NameCardPic", new(serviceProvider, "NameCardPic"));
-            downloadSummaries.TryAdd("Skill", new(serviceProvider, "Skill"));
-            downloadSummaries.TryAdd("Talent", new(serviceProvider, "Talent"));
-        }
-
-        if (StaticResource.IsContractUnfulfilled(StaticResource.V2Contract))
-        {
-            downloadSummaries.TryAdd("AchievementIcon", new(serviceProvider, "AchievementIcon"));
-            downloadSummaries.TryAdd("ItemIcon", new(serviceProvider, "ItemIcon"));
-            downloadSummaries.TryAdd("IconElement", new(serviceProvider, "IconElement"));
-            downloadSummaries.TryAdd("RelicIcon", new(serviceProvider, "RelicIcon"));
-        }
-
-        if (StaticResource.IsContractUnfulfilled(StaticResource.V3Contract))
-        {
-            downloadSummaries.TryAdd("Skill", new(serviceProvider, "Skill"));
-            downloadSummaries.TryAdd("Talent", new(serviceProvider, "Talent"));
-        }
-
-        if (StaticResource.IsContractUnfulfilled(StaticResource.V4Contract))
-        {
-            downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "AvatarIcon"));
-        }
-
-        if (StaticResource.IsContractUnfulfilled(StaticResource.V5Contract))
-        {
-            downloadSummaries.TryAdd("MonsterIcon", new(serviceProvider, "MonsterIcon"));
-        }
-
-        return downloadSummaries.Select(x => x.Value);
     }
 }

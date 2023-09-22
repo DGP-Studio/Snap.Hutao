@@ -114,7 +114,6 @@
     <None Remove="View\Card\Primitive\CardProgressBar.xaml" />
     <None Remove="View\Control\BaseValueSlider.xaml" />
     <None Remove="View\Control\BottomTextControl.xaml" />
-    <None Remove="View\Control\BottomTextSmallControl.xaml" />
     <None Remove="View\Control\DescParamComboBox.xaml" />
     <None Remove="View\Control\Elevation.xaml" />
     <None Remove="View\Control\HutaoStatisticsCard.xaml" />
@@ -344,12 +343,6 @@
 
   <ItemGroup>
     <Page Update="View\Control\WebViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Control\BottomTextSmallControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

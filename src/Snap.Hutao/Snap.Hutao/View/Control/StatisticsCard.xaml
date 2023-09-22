@@ -12,6 +12,7 @@
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
+    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     d:DataContext="{d:DesignInstance shvg:TypedWishSummary}"
     mc:Ignorable="d">
@@ -84,287 +85,235 @@
             TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
 
         <DataTemplate x:Key="OrangeGridTemplate" d:DataType="shvg:SummaryItem">
-            <shvcont:BottomTextSmallControl
+            <shvcont:BottomTextControl
                 Background="{Binding IsUp, Converter={StaticResource BoolToBrushConverter}}"
                 Text="{Binding LastPull}"
+                TextStyle="{StaticResource CaptionTextBlockStyle}"
                 ToolTipService.ToolTip="{Binding TimeFormatted}">
-                <shvcont:BottomTextSmallControl.Foreground>
+                <shvcont:BottomTextControl.Foreground>
                     <SolidColorBrush Color="{Binding Color}"/>
-                </shvcont:BottomTextSmallControl.Foreground>
+                </shvcont:BottomTextControl.Foreground>
                 <shvcont:ItemIcon
                     shch:FrameworkElementHelper.SquareLength="40"
                     Icon="{Binding Icon}"
                     Quality="{Binding Quality}"/>
-            </shvcont:BottomTextSmallControl>
+            </shvcont:BottomTextControl>
         </DataTemplate>
     </UserControl.Resources>
 
-    <Border Style="{StaticResource BorderCardStyle}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Expander
-                x:Name="DetailExpander"
-                Padding="16,0,16,0"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Stretch"
-                Background="Transparent"
-                BorderBrush="{x:Null}"
-                BorderThickness="0"
-                CornerRadius="4,4,0,0"
-                IsExpanded="True">
-                <Expander.Resources>
-                    <Thickness x:Key="ExpanderHeaderBorderThickness">0,0,0,1</Thickness>
-                </Expander.Resources>
-                <Expander.Header>
-                    <Grid>
+    <Grid Style="{StaticResource BorderGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Expander
+            x:Name="DetailExpander"
+            Padding="16,0,16,0"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            Background="Transparent"
+            BorderBrush="{x:Null}"
+            BorderThickness="0"
+            CornerRadius="4,4,0,0"
+            IsExpanded="True">
+            <Expander.Resources>
+                <Thickness x:Key="ExpanderHeaderBorderThickness">0,0,0,1</Thickness>
+            </Expander.Resources>
+            <Expander.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="0,0,-12,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,6,0"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            Text="{Binding TotalCountFormatted}"
+                            Visibility="{x:Bind DetailExpander.IsExpanded, Converter={StaticResource BoolToVisibilityRevertConverter}, Mode=OneWay}"/>
+                        <shcp:PanelSelector
+                            x:Name="ItemsPanelSelector"
+                            Margin="6,0,0,0"
+                            Current="Grid"
+                            Visibility="{x:Bind DetailExpander.IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
+                    </StackPanel>
+                </Grid>
+            </Expander.Header>
+
+            <StackPanel>
+                <StackPanel Grid.Row="1" Margin="0,0,0,12">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,4,0,4"
+                            FontFamily="{StaticResource CascadiaMonoAndMiSans}"
+                            FontSize="48"
+                            Text="{Binding TotalCount}"/>
+                        <TextBlock
+                            Margin="12,0,0,12"
+                            VerticalAlignment="Bottom"
+                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardPullText}"/>
+                    </StackPanel>
+
+                    <Grid ColumnSpacing="4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
-                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock
+                        <shvcp:CardProgressBar
                             Grid.Column="0"
-                            VerticalAlignment="Center"
-                            Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="{Binding Name}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap"/>
-                        <StackPanel
+                            MinHeight="32"
+                            Description="{Binding LastOrangePull}"
+                            Header="{shcm:ResourceString Name=ViewControlStatisticsCardToLastOrangeText}"
+                            Maximum="{Binding GuaranteeOrangeThreshold}"
+                            ProgressForeground="{StaticResource OrangeBrush}"
+                            TextForeground="{StaticResource OrangeBrush}"
+                            Value="{Binding LastOrangePull}"/>
+                        <shvcp:CardProgressBar
                             Grid.Column="1"
-                            Margin="0,0,-12,0"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                Margin="0,0,6,0"
-                                VerticalAlignment="Center"
-                                FontSize="20"
-                                Text="{Binding TotalCountFormatted}"
-                                Visibility="{x:Bind DetailExpander.IsExpanded, Converter={StaticResource BoolToVisibilityRevertConverter}, Mode=OneWay}"/>
-                            <shcp:PanelSelector
-                                x:Name="ItemsPanelSelector"
-                                Margin="6,0,0,0"
-                                Current="Grid"
-                                Visibility="{x:Bind DetailExpander.IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
-                        </StackPanel>
+                            MinHeight="32"
+                            Description="{Binding LastPurplePull}"
+                            Header="{shcm:ResourceString Name=ViewControlStatisticsCardToLastPurpleText}"
+                            Maximum="{Binding GuaranteePurpleThreshold}"
+                            ProgressForeground="{StaticResource PurpleBrush}"
+                            TextForeground="{StaticResource PurpleBrush}"
+                            Value="{Binding LastPurplePull}"/>
                     </Grid>
-                </Expander.Header>
-
-                <StackPanel>
-                    <StackPanel Grid.Row="1" Margin="0,0,0,12">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock
-                                Margin="0,4,0,4"
-                                FontFamily="{StaticResource CascadiaMonoAndMiSans}"
-                                FontSize="48"
-                                Text="{Binding TotalCount}"/>
-                            <TextBlock
-                                Margin="12,0,0,12"
-                                VerticalAlignment="Bottom"
-                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardPullText}"/>
-                        </StackPanel>
-
-                        <Grid ColumnSpacing="4">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0" Style="{StaticResource BorderGridStyle}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <ProgressBar
-                                    Grid.ColumnSpan="2"
-                                    MinHeight="32"
-                                    Background="Transparent"
-                                    Foreground="{StaticResource OrangeBrush}"
-                                    Maximum="{Binding GuaranteeOrangeThreshold}"
-                                    Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                                    Value="{Binding LastOrangePull}"/>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    Margin="6,0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="{StaticResource OrangeBrush}"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardToLastOrangeText}"/>
-                                <TextBlock
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="{StaticResource OrangeBrush}"
-                                    Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{Binding LastOrangePull}"/>
-                            </Grid>
-                            <Grid Grid.Column="1" Style="{StaticResource BorderGridStyle}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <ProgressBar
-                                    Grid.ColumnSpan="2"
-                                    MinHeight="32"
-                                    Background="Transparent"
-                                    Foreground="{StaticResource PurpleBrush}"
-                                    Maximum="{Binding GuaranteePurpleThreshold}"
-                                    Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                                    Value="{Binding LastPurplePull}"/>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    Margin="6,0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="{StaticResource PurpleBrush}"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardToLastPurpleText}"/>
-                                <TextBlock
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="{StaticResource PurpleBrush}"
-                                    Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{Binding LastPurplePull}"/>
-                            </Grid>
-                        </Grid>
-                    </StackPanel>
-                    <MenuFlyoutSeparator Margin="-12,0"/>
-                    <shvcont:StatisticsSegmented
-                        x:Name="StatisticsSegmented"
-                        Margin="0,12,0,0"
-                        HorizontalAlignment="Stretch"
-                        IsPredictPullAvailable="{Binding IsPredictPullAvailable}"
-                        SelectedIndex="0"/>
-                    <cwcont:SwitchPresenter
-                        Height="85"
-                        Padding="0,12"
-                        Value="{x:Bind StatisticsSegmented.SelectedIndex, Mode=OneWay}">
-                        <cwcont:Case Value="{shcm:Int32 Value=0}">
-                            <StackPanel Spacing="2">
-                                <Grid>
-                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeAveragePullText}"/>
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding AverageOrangePullFormatted}"/>
-                                </Grid>
-                                <Grid>
-                                    <TextBlock/>
-                                    <TextBlock
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpAveragePullText}"
-                                        Visibility="{x:Bind ShowUpPull, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding AverageUpOrangePullFormatted}"
-                                        Visibility="{x:Bind ShowUpPull, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                </Grid>
-                                <Grid>
-                                    <TextBlock
-                                        HorizontalAlignment="Left"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding MaxOrangePullFormatted}"/>
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding MinOrangePullFormatted}"/>
-                                </Grid>
-                            </StackPanel>
-                        </cwcont:Case>
-                        <cwcont:Case Value="{shcm:Int32 Value=1}">
-                            <StackPanel Spacing="2">
-                                <Grid>
-                                    <TextBlock
-                                        Foreground="{StaticResource OrangeBrush}"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        FontFamily="{StaticResource CascadiaMonoAndMiSans}"
-                                        Foreground="{StaticResource OrangeBrush}"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding TotalOrangeFormatted}"/>
-                                </Grid>
-                                <Grid>
-                                    <TextBlock
-                                        Foreground="{StaticResource PurpleBrush}"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        FontFamily="{StaticResource CascadiaMonoAndMiSans}"
-                                        Foreground="{StaticResource PurpleBrush}"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding TotalPurpleFormatted}"/>
-                                </Grid>
-                                <Grid>
-                                    <TextBlock
-                                        Foreground="{StaticResource BlueBrush}"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        FontFamily="{StaticResource CascadiaMonoAndMiSans}"
-                                        Foreground="{StaticResource BlueBrush}"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding TotalBlueFormatted}"/>
-                                </Grid>
-                            </StackPanel>
-                        </cwcont:Case>
-                        <cwcont:Case Value="{shcm:Int32 Value=2}">
-                            <StackPanel Spacing="2">
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PredictedPullLeftToOrangeFormatted}"/>
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding ProbabilityOfNextPullIsOrangeFormatted}"/>
-                            </StackPanel>
-                        </cwcont:Case>
-                    </cwcont:SwitchPresenter>
-                    <MenuFlyoutSeparator Margin="-12,0,-12,0"/>
                 </StackPanel>
+                <MenuFlyoutSeparator Margin="-12,0"/>
+                <shvcont:StatisticsSegmented
+                    x:Name="StatisticsSegmented"
+                    Margin="0,12,0,0"
+                    HorizontalAlignment="Stretch"
+                    IsPredictPullAvailable="{Binding IsPredictPullAvailable}"
+                    SelectedIndex="0"/>
+                <cwcont:SwitchPresenter
+                    Height="85"
+                    Padding="0,12"
+                    Value="{x:Bind StatisticsSegmented.SelectedIndex, Mode=OneWay}">
+                    <cwcont:Case Value="{shcm:Int32 Value=0}">
+                        <StackPanel Spacing="2">
+                            <Grid>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeAveragePullText}"/>
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{Binding AverageOrangePullFormatted}"/>
+                            </Grid>
+                            <Grid>
+                                <TextBlock/>
+                                <TextBlock
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpAveragePullText}"
+                                    Visibility="{x:Bind ShowUpPull, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{Binding AverageUpOrangePullFormatted}"
+                                    Visibility="{x:Bind ShowUpPull, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </Grid>
+                            <Grid>
+                                <TextBlock
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{Binding MaxOrangePullFormatted}"/>
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{Binding MinOrangePullFormatted}"/>
+                            </Grid>
+                        </StackPanel>
+                    </cwcont:Case>
+                    <cwcont:Case Value="{shcm:Int32 Value=1}">
+                        <StackPanel Spacing="2">
+                            <Grid>
+                                <TextBlock
+                                    Foreground="{StaticResource OrangeBrush}"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    FontFamily="{StaticResource CascadiaMonoAndMiSans}"
+                                    Foreground="{StaticResource OrangeBrush}"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{Binding TotalOrangeFormatted}"/>
+                            </Grid>
+                            <Grid>
+                                <TextBlock
+                                    Foreground="{StaticResource PurpleBrush}"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    FontFamily="{StaticResource CascadiaMonoAndMiSans}"
+                                    Foreground="{StaticResource PurpleBrush}"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{Binding TotalPurpleFormatted}"/>
+                            </Grid>
+                            <Grid>
+                                <TextBlock
+                                    Foreground="{StaticResource BlueBrush}"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    FontFamily="{StaticResource CascadiaMonoAndMiSans}"
+                                    Foreground="{StaticResource BlueBrush}"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{Binding TotalBlueFormatted}"/>
+                            </Grid>
+                        </StackPanel>
+                    </cwcont:Case>
+                    <cwcont:Case Value="{shcm:Int32 Value=2}">
+                        <StackPanel Spacing="2">
+                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PredictedPullLeftToOrangeFormatted}"/>
+                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding ProbabilityOfNextPullIsOrangeFormatted}"/>
+                        </StackPanel>
+                    </cwcont:Case>
+                </cwcont:SwitchPresenter>
+                <MenuFlyoutSeparator Margin="-12,0"/>
+            </StackPanel>
 
-            </Expander>
-            <cwcont:SwitchPresenter
-                Grid.Row="2"
-                Margin="12,6,12,12"
-                Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-                <cwcont:SwitchPresenter.ContentTransitions>
-                    <TransitionCollection>
-                        <ContentThemeTransition/>
-                    </TransitionCollection>
-                </cwcont:SwitchPresenter.ContentTransitions>
-                <cwcont:Case Value="List">
-                    <ListView
-                        ItemTemplate="{StaticResource OrangeListTemplate}"
-                        ItemsSource="{Binding OrangeList}"
-                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                        SelectionMode="None">
-                        <ListView.ItemContainerStyle>
-                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="Margin" Value="0,4,0,0"/>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-                </cwcont:Case>
-                <cwcont:Case Value="Grid">
-                    <GridView
-                        Margin="0,0,-4,0"
-                        ItemTemplate="{StaticResource OrangeGridTemplate}"
-                        ItemsSource="{Binding OrangeList}"
-                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                        SelectionMode="None">
-                        <GridView.ItemContainerStyle>
-                            <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="Margin" Value="0,0,2,4"/>
-                            </Style>
-                        </GridView.ItemContainerStyle>
-                    </GridView>
-                </cwcont:Case>
-            </cwcont:SwitchPresenter>
-        </Grid>
-    </Border>
+        </Expander>
+
+        <cwcont:SwitchPresenter
+            Grid.Row="2"
+            Margin="12,6,12,12"
+            ContentTransitions="{StaticResource ContentThemeTransitions}"
+            Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
+
+            <cwcont:Case Value="List">
+                <ListView
+                    ItemContainerStyle="{StaticResource NoneSelectionListViewItemStyle}"
+                    ItemTemplate="{StaticResource OrangeListTemplate}"
+                    ItemsSource="{Binding OrangeList}"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    SelectionMode="None"/>
+            </cwcont:Case>
+            <cwcont:Case Value="Grid">
+                <GridView
+                    Margin="0,0,-4,0"
+                    ItemContainerStyle="{StaticResource NoneSelectionGridViewItemStyle}"
+                    ItemTemplate="{StaticResource OrangeGridTemplate}"
+                    ItemsSource="{Binding OrangeList}"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    SelectionMode="None"/>
+            </cwcont:Case>
+        </cwcont:SwitchPresenter>
+
+    </Grid>
+
 </UserControl>

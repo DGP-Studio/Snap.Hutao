@@ -15,6 +15,5 @@ internal sealed partial class GuideView : UserControl
     {
         InitializeComponent();
         DataContext = Ioc.Default.GetRequiredService<GuideViewModel>();
-        _ = 1;
     }
 }

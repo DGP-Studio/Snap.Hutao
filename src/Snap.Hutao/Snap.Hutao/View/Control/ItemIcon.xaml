@@ -19,11 +19,10 @@
             <shci:CachedImage EnableLazyLoading="False" Source="{StaticResource UI_ImgSign_ItemIcon}"/>
             <shci:CachedImage Source="{x:Bind Icon, Mode=OneWay}"/>
             <shci:CachedImage
-                Width="16"
-                Height="16"
                 Margin="2"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
+                shch:FrameworkElementHelper.SquareLength="16"
                 EnableLazyLoading="False"
                 Source="{x:Bind Badge, Mode=OneWay}"/>
         </Grid>

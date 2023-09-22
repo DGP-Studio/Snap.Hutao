@@ -106,7 +106,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("ResetStaticResourceCommand")]
     private static void ResetStaticResource()
     {
-        StaticResource.FailAllContracts();
+        StaticResource.FailAll();
         LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.StaticResourceBegin);
         AppInstance.Restart(string.Empty);
     }

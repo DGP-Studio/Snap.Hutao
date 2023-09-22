@@ -13,8 +13,8 @@ namespace Snap.Hutao;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GuideWindow : Window, IWindowOptionsSource
 {
-    private const int MinWidth = 800;
-    private const int MinHeight = 450;
+    private const int MinWidth = 1000;
+    private const int MinHeight = 600;
 
     private const int MaxWidth = 1200;
     private const int MaxHeight = 750;

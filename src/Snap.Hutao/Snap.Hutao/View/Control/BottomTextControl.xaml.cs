@@ -14,15 +14,17 @@ namespace Snap.Hutao.View.Control;
 [HighQuality]
 [ContentProperty(Name = nameof(TopContent))]
 [DependencyProperty("Text", typeof(string), "")]
+[DependencyProperty("TextStyle", typeof(Style))]
 [DependencyProperty("Fill", typeof(Brush), default!)]
 [DependencyProperty("TopContent", typeof(FrameworkElement), default!)]
-internal sealed partial class BottomTextControl : ContentControl
+internal sealed partial class BottomTextControl : UserControl
 {
     /// <summary>
     /// 构造一个新的底部带有文本的控件
     /// </summary>
     public BottomTextControl()
     {
+        TextStyle = Ioc.Default.GetRequiredService<IAppResourceProvider>().GetResource<Style>("BodyTextBlockStyle");
         InitializeComponent();
     }
 }

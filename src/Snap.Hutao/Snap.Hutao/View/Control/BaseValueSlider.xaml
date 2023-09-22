@@ -11,7 +11,14 @@
     <UserControl.Resources>
         <Thickness x:Key="SettingsCardPadding">16,8</Thickness>
         <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+
+        <DataTemplate x:Key="BaseValueTemplate">
+            <cwc:SettingsCard Margin="0,2,0,0" Header="{Binding Name}">
+                <TextBlock Text="{Binding Value}"/>
+            </cwc:SettingsCard>
+        </DataTemplate>
     </UserControl.Resources>
+
     <StackPanel>
         <StackPanel VerticalAlignment="Top">
             <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}">
@@ -41,14 +48,9 @@
             </cwc:SettingsCard>
         </StackPanel>
 
-        <ItemsControl VerticalAlignment="Top" ItemsSource="{x:Bind BaseValueInfo.Values, Mode=OneWay}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <cwc:SettingsCard Margin="0,2,0,0" Header="{Binding Name}">
-                        <TextBlock Text="{Binding Value}"/>
-                    </cwc:SettingsCard>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ItemsControl
+            VerticalAlignment="Top"
+            ItemTemplate="{StaticResource BaseValueTemplate}"
+            ItemsSource="{x:Bind BaseValueInfo.Values, Mode=OneWay}"/>
     </StackPanel>
 </UserControl>
