@@ -16,22 +16,34 @@ internal sealed class HotKeyController : IHotKeyController
     private readonly object locker = new();
     private readonly WaitCallback runMouseClickRepeatForever;
     private readonly HotKeyOptions hotKeyOptions;
+    private readonly RuntimeOptions runtimeOptions;
     private volatile CancellationTokenSource? cancellationTokenSource;
 
     public HotKeyController(IServiceProvider serviceProvider)
     {
         hotKeyOptions = serviceProvider.GetRequiredService<HotKeyOptions>();
+        runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         runMouseClickRepeatForever = MouseClickRepeatForever;
     }
 
     public bool Register(in HWND hwnd)
     {
-        return RegisterHotKey(hwnd, DefaultId, default, (uint)VIRTUAL_KEY.VK_F8);
+        if (runtimeOptions.IsElevated)
+        {
+            return RegisterHotKey(hwnd, DefaultId, default, (uint)VIRTUAL_KEY.VK_F8);
+        }
+
+        return false;
     }
 
     public bool Unregister(in HWND hwnd)
     {
-        return UnregisterHotKey(hwnd, DefaultId);
+        if (runtimeOptions.IsElevated)
+        {
+            return UnregisterHotKey(hwnd, DefaultId);
+        }
+
+        return false;
     }
 
     public void OnHotKeyPressed(in HotKeyParameter parameter)

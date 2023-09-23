@@ -8,6 +8,7 @@ namespace Snap.Hutao.Core.Windowing.HotKey;
 internal interface IHotKeyController
 {
     void OnHotKeyPressed(in HotKeyParameter parameter);
+
     bool Register(in HWND hwnd);
 
     bool Unregister(in HWND hwnd);
