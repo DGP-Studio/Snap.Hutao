@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Windowing.HotKey;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -20,15 +21,19 @@ internal sealed class WindowSubclass : IDisposable
 
     private readonly Window window;
     private readonly WindowOptions options;
+    private readonly IServiceProvider serviceProvider;
+    private readonly IHotKeyController hotKeyController;
 
     // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC? windowProc;
     private SUBCLASSPROC? legacyDragBarProc;
 
-    public WindowSubclass(Window window, in WindowOptions options)
+    public WindowSubclass(Window window, in WindowOptions options, IServiceProvider serviceProvider)
     {
         this.window = window;
         this.options = options;
+        this.serviceProvider = serviceProvider;
+        hotKeyController = new HotKeyController(serviceProvider);
     }
 
     /// <summary>
@@ -39,7 +44,7 @@ internal sealed class WindowSubclass : IDisposable
     {
         windowProc = OnSubclassProcedure;
         bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, 0);
-        HotKey.Register(options.Hwnd);
+        hotKeyController.Register(options.Hwnd);
 
         bool titleBarHooked = true;
 
@@ -74,7 +79,7 @@ internal sealed class WindowSubclass : IDisposable
             return;
         }
 
-        HotKey.Unregister(options.Hwnd);
+        hotKeyController.Unregister(options.Hwnd);
         RemoveWindowSubclass(options.Hwnd, legacyDragBarProc, DragBarSubclassId);
         legacyDragBarProc = null;
     }
@@ -100,7 +105,7 @@ internal sealed class WindowSubclass : IDisposable
 
             case WM_HOTKEY:
                 {
-                    System.Diagnostics.Debug.WriteLine($"Hot key pressed, wParam: {wParam.Value}, lParam: {lParam.Value}");
+                    hotKeyController.OnHotKeyPressed(*(HotKeyParameter*)&lParam);
                     break;
                 }
         }

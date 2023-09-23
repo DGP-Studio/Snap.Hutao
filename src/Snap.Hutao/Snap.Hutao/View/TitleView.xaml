@@ -8,11 +8,38 @@
     VerticalAlignment="Top"
     mc:Ignorable="d">
     <Grid x:Name="DragableGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="136"/>
+        </Grid.ColumnDefinitions>
         <TextBlock
+            Grid.Column="0"
             Margin="4,0,0,0"
             VerticalAlignment="Center"
             Style="{StaticResource CaptionTextBlockStyle}"
             Text="{x:Bind Title}"
             TextWrapping="NoWrap"/>
+
+        <ToggleButton
+            Grid.Column="1"
+            Margin="0,0,6,0"
+            VerticalAlignment="Center"
+            IsChecked="{x:Bind HotKeyOptions.IsMouseClickRepeatForeverOn, Mode=OneWay}"
+            IsHitTestVisible="False"
+            Visibility="{x:Bind RuntimeOptions.IsElevated}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="F8"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="6,0,0,0"
+                    Text="自动连点"/>
+            </Grid>
+        </ToggleButton>
     </Grid>
 </UserControl>

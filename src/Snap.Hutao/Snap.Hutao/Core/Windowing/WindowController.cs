@@ -33,7 +33,7 @@ internal sealed class WindowController
         this.options = options;
         this.serviceProvider = serviceProvider;
 
-        subclass = new(window, options);
+        subclass = new(window, options, serviceProvider);
 
         InitializeCore();
     }

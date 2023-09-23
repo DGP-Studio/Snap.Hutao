@@ -33,6 +33,7 @@ CoWaitForMultipleObjects
 // USER32
 AttachThreadInput
 FindWindowExW
+GetCursorPos
 GetDC
 GetDpiForWindow
 GetForegroundWindow
