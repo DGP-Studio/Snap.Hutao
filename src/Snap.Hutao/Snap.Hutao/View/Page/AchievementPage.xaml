@@ -186,11 +186,18 @@
 
                 <StackPanel Orientation="Horizontal">
                     <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="8,0,0,0"/>
-                    <TextBlock
-                        Margin="16,0,0,2"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource SubtitleTextBlockStyle}"
-                        Text="{Binding FinishDescription}"/>
+                    <Viewbox
+                        Height="32"
+                        MaxWidth="192"
+                        Margin="8,0,0,0"
+                        HorizontalAlignment="Left"
+                        Stretch="Uniform"
+                        StretchDirection="Both">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="{Binding FinishDescription}"/>
+                    </Viewbox>
                 </StackPanel>
 
                 <CommandBar
