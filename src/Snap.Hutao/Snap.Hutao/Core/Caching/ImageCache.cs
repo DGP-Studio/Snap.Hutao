@@ -30,9 +30,6 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
         [0] = TimeSpan.FromSeconds(4),
         [1] = TimeSpan.FromSeconds(16),
         [2] = TimeSpan.FromSeconds(64),
-        [3] = TimeSpan.FromSeconds(4),
-        [4] = TimeSpan.FromSeconds(16),
-        [5] = TimeSpan.FromSeconds(64),
     };
 
     private readonly ILogger logger;
@@ -173,7 +170,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
 
         int retryCount = 0;
         HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCache));
-        while (retryCount < 6)
+        while (retryCount < 3)
         {
             using (HttpResponseMessage message = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
             {
@@ -191,10 +188,6 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
 
                 switch (message.StatusCode)
                 {
-                    case HttpStatusCode.NotFound:
-                        // directly goto https://static.hut.ao
-                        retryCount += 3;
-                        break;
                     case HttpStatusCode.TooManyRequests:
                         {
                             retryCount++;
@@ -207,11 +200,6 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
                     default:
                         return;
                 }
-            }
-
-            if (retryCount == 3)
-            {
-                uri = new UriBuilder(uri) { Host = Web.HutaoEndpoints.StaticHutao }.Uri;
             }
         }
     }

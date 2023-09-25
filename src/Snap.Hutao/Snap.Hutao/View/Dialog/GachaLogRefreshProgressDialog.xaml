@@ -27,15 +27,8 @@
         <cwc:HeaderedItemsControl
             Padding="0,8,0,0"
             ItemTemplate="{StaticResource GachaItemDataTemplate}"
-            ItemsSource="{x:Bind Status.Items, Mode=OneWay}">
-            <cwc:HeaderedItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <cwc:UniformGrid
-                        ColumnSpacing="4"
-                        Columns="5"
-                        RowSpacing="4"/>
-                </ItemsPanelTemplate>
-            </cwc:HeaderedItemsControl.ItemsPanel>
-        </cwc:HeaderedItemsControl>
+            ItemsPanel="{StaticResource UniformGridColumns5Spacing4Template}"
+            ItemsSource="{x:Bind Status.Items, Mode=OneWay}"/>
     </StackPanel>
+
 </ContentDialog>

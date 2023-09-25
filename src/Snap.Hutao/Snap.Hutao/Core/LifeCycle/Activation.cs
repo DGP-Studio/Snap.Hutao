@@ -141,6 +141,11 @@ internal sealed partial class Activation : IActivation
         // Increase launch times
         LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
 
+        if (StaticResource.IsAnyUnfulfilledCategoryPresent())
+        {
+            LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.StaticResourceBegin);
+        }
+
         if (LocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.Language) < (uint)GuideState.Completed)
         {
             await taskContext.SwitchToMainThreadAsync();

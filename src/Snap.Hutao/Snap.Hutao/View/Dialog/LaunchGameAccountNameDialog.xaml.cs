@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Dialog;
 /// 游戏账号命名对话框
 /// </summary>
 [HighQuality]
+[DependencyProperty("Text", typeof(string))]
 internal sealed partial class LaunchGameAccountNameDialog : ContentDialog
 {
     private readonly ITaskContext taskContext;
@@ -33,7 +34,6 @@ internal sealed partial class LaunchGameAccountNameDialog : ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
-        string text = InputText.Text;
-        return new(result == ContentDialogResult.Primary && (!string.IsNullOrEmpty(text)), text);
+        return new(result == ContentDialogResult.Primary && (!string.IsNullOrEmpty(Text)), Text);
     }
 }

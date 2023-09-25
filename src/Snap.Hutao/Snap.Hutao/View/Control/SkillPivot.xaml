@@ -15,25 +15,24 @@
         <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}" TargetType="PivotHeaderItem">
             <Setter Property="Height" Value="80"/>
         </Style>
+
+        <DataTemplate x:Key="SkillHeaderTemplate">
+            <StackPanel>
+                <shci:MonoChrome shch:FrameworkElementHelper.SquareLength="36" Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
+                <TextBlock
+                    Margin="0,8,0,0"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{Binding Name}"/>
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
 
     <Pivot
-        x:Name="ItemHost"
+        HeaderTemplate="{StaticResource SkillHeaderTemplate}"
         ItemTemplate="{x:Bind ItemTemplate}"
         ItemsSource="{x:Bind Skills, Mode=OneWay}"
         SelectedItem="{x:Bind Selected}"
-        Style="{StaticResource DefaultPivotStyle}">
-        <Pivot.HeaderTemplate>
-            <DataTemplate>
-                <StackPanel>
-                    <shci:MonoChrome shch:FrameworkElementHelper.SquareLength="36" Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
-                    <TextBlock
-                        Margin="0,8,0,0"
-                        HorizontalAlignment="Center"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{Binding Name}"/>
-                </StackPanel>
-            </DataTemplate>
-        </Pivot.HeaderTemplate>
-    </Pivot>
+        Style="{StaticResource DefaultPivotStyle}"/>
+
 </UserControl>

@@ -1,10 +1,11 @@
-﻿<ContentControl
+﻿<UserControl
     x:Class="Snap.Hutao.View.Control.BottomTextControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
     <Border Style="{StaticResource BorderCardStyle}">
@@ -15,13 +16,15 @@
                 Content="{x:Bind TopContent, Mode=OneWay}"/>
             <TextBlock
                 MaxWidth="{x:Bind ContentHost.(cw:FrameworkElementExtensions.ActualWidth), Mode=OneWay}"
-                Margin="0,0,0,2"
+                Margin="0,1"
                 HorizontalAlignment="Stretch"
+                Foreground="{x:Bind Foreground}"
                 HorizontalTextAlignment="Center"
+                Style="{x:Bind TextStyle, Mode=OneWay}"
                 Text="{x:Bind Text, Mode=OneWay}"
                 TextTrimming="CharacterEllipsis"
                 TextWrapping="NoWrap"/>
         </StackPanel>
     </Border>
 
-</ContentControl>
+</UserControl>

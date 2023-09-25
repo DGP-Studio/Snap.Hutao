@@ -3,6 +3,8 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core;
+using Snap.Hutao.Core.Windowing.HotKey;
 
 namespace Snap.Hutao.View;
 
@@ -46,5 +48,17 @@ internal sealed partial class TitleView : UserControl
     public FrameworkElement DragArea
     {
         get => DragableGrid;
+    }
+
+    [SuppressMessage("", "CA1822")]
+    public RuntimeOptions RuntimeOptions
+    {
+        get => Ioc.Default.GetRequiredService<RuntimeOptions>();
+    }
+
+    [SuppressMessage("", "CA1822")]
+    public HotKeyOptions HotKeyOptions
+    {
+        get => Ioc.Default.GetRequiredService<HotKeyOptions>();
     }
 }

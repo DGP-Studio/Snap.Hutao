@@ -17,6 +17,6 @@
             Margin="0,0,0,8"
             VerticalAlignment="Top"
             PlaceholderText="{shcm:ResourceString Name=ViewDialogAchievementArchiveCreateInputPlaceholder}"
-            Text="{x:Bind Text, Mode=TwoWay}"/>
+            Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </ContentDialog>

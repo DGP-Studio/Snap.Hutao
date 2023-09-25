@@ -1,13 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Snap.Hutao.Message;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
 using Snap.Hutao.Win32;
 using System.IO;
@@ -15,59 +14,48 @@ using Windows.Graphics;
 using Windows.UI;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Dwm;
+using Windows.Win32.UI.WindowsAndMessaging;
 using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Core.Windowing;
 
-/// <summary>
-/// 扩展窗口
-/// </summary>
-/// <typeparam name="TWindow">窗体类型</typeparam>
 [SuppressMessage("", "CA1001")]
-internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMessage>
-    where TWindow : Window, IWindowOptionsSource
+internal sealed class WindowController
 {
-    private readonly TWindow window;
+    private readonly Window window;
+    private readonly WindowOptions options;
     private readonly IServiceProvider serviceProvider;
-    private readonly WindowSubclass<TWindow> subclass;
+    private readonly WindowSubclass subclass;
 
-    private ExtendedWindow(TWindow window, IServiceProvider serviceProvider)
+    public WindowController(Window window, in WindowOptions options, IServiceProvider serviceProvider)
     {
         this.window = window;
+        this.options = options;
         this.serviceProvider = serviceProvider;
 
-        subclass = new(window);
+        subclass = new(window, options, serviceProvider);
 
-        InitializeWindow();
+        InitializeCore();
     }
 
-    /// <summary>
-    /// 初始化
-    /// </summary>
-    /// <param name="window">窗口</param>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <returns>实例</returns>
-    public static ExtendedWindow<TWindow> Initialize(TWindow window, IServiceProvider serviceProvider)
+    private static void TransformToCenterScreen(ref RectInt32 rect)
     {
-        return new(window, serviceProvider);
+        DisplayArea displayArea = DisplayArea.GetFromRect(rect, DisplayAreaFallback.Primary);
+        RectInt32 workAreaRect = displayArea.WorkArea;
+
+        rect.X = workAreaRect.X + ((workAreaRect.Width - rect.Width) / 2);
+        rect.Y = workAreaRect.Y + ((workAreaRect.Height - rect.Height) / 2);
     }
 
-    /// <inheritdoc/>
-    public void Receive(FlyoutStateChangedMessage message)
-    {
-        UpdateDragRectangles(message.IsOpen);
-    }
-
-    private void InitializeWindow()
+    private void InitializeCore()
     {
         RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
-        WindowOptions options = window.WindowOptions;
         window.AppWindow.Title = SH.AppNameAndVersion.Format(hutaoOptions.Version);
         window.AppWindow.SetIcon(Path.Combine(hutaoOptions.InstalledLocation, "Assets/Logo.ico"));
         ExtendsContentIntoTitleBar();
 
-        Persistence.RecoverOrInit(window);
+        RecoverOrInitWindowSize();
         UpdateImmersiveDarkMode(options.TitleBar, default!);
 
         // appWindow.Show(true);
@@ -81,10 +69,45 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMes
 
         subclass.Initialize();
 
-        serviceProvider.GetRequiredService<IMessenger>().Register(this);
-
         window.Closed += OnWindowClosed;
         options.TitleBar.ActualThemeChanged += UpdateImmersiveDarkMode;
+    }
+
+    private void RecoverOrInitWindowSize()
+    {
+        // Set first launch size
+        double scale = options.GetWindowScale();
+        SizeInt32 transformedSize = options.InitSize.Scale(scale);
+        RectInt32 rect = StructMarshal.RectInt32(transformedSize);
+
+        if (options.PersistSize)
+        {
+            RectInt32 persistedRect = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (CompactRect)rect);
+            if (persistedRect.Size() >= options.InitSize.Size())
+            {
+                rect = persistedRect;
+            }
+        }
+
+        TransformToCenterScreen(ref rect);
+        window.AppWindow.MoveAndResize(rect);
+    }
+
+    private void SaveOrSkipWindowSize()
+    {
+        if (!options.PersistSize)
+        {
+            return;
+        }
+
+        WINDOWPLACEMENT windowPlacement = StructMarshal.WINDOWPLACEMENT();
+        GetWindowPlacement(options.Hwnd, ref windowPlacement);
+
+        // prevent save value when we are maximized.
+        if (!windowPlacement.showCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
+        {
+            LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)window.AppWindow.GetRect());
+        }
     }
 
     private void OnOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -98,17 +121,12 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMes
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        if (window.WindowOptions.PersistSize)
-        {
-            Persistence.Save(window);
-        }
-
+        SaveOrSkipWindowSize();
         subclass?.Dispose();
     }
 
     private void ExtendsContentIntoTitleBar()
     {
-        WindowOptions options = window.WindowOptions;
         if (options.UseLegacyDragBarImplementation)
         {
             // use normal Window method to extend.
@@ -168,31 +186,22 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMes
     private unsafe void UpdateImmersiveDarkMode(FrameworkElement titleBar, object discard)
     {
         BOOL isDarkMode = Control.Theme.ThemeHelper.IsDarkMode(titleBar.ActualTheme);
-        DwmSetWindowAttribute(window.WindowOptions.Hwnd, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, &isDarkMode, unchecked((uint)sizeof(BOOL)));
+        DwmSetWindowAttribute(options.Hwnd, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, &isDarkMode, unchecked((uint)sizeof(BOOL)));
     }
 
-    private void UpdateDragRectangles(bool isFlyoutOpened = false)
+    private void UpdateDragRectangles()
     {
         AppWindowTitleBar appTitleBar = window.AppWindow.TitleBar;
 
-        if (isFlyoutOpened)
-        {
-            // set to 0
-            appTitleBar.SetDragRectangles(default(RectInt32).ToArray());
-        }
-        else
-        {
-            WindowOptions options = window.WindowOptions;
-            double scale = options.GetWindowScale();
+        double scale = options.GetWindowScale();
 
-            // 48 is the navigation button leftInset
-            RectInt32 dragRect = StructMarshal.RectInt32(48, 0, options.TitleBar.ActualSize).Scale(scale);
-            appTitleBar.SetDragRectangles(dragRect.ToArray());
+        // 48 is the navigation button leftInset
+        RectInt32 dragRect = StructMarshal.RectInt32(48, 0, options.TitleBar.ActualSize).Scale(scale);
+        appTitleBar.SetDragRectangles(dragRect.ToArray());
 
-            // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
-            SizeInt32 size = window.AppWindow.ClientSize;
-            size.Height -= (int)(31 * scale);
-            window.AppWindow.ResizeClient(size);
-        }
+        // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
+        SizeInt32 size = window.AppWindow.ClientSize;
+        size.Height -= (int)(31 * scale);
+        window.AppWindow.ResizeClient(size);
     }
 }

@@ -11,6 +11,50 @@
     IsExpanded="True"
     mc:Ignorable="d">
 
+    <Expander.Resources>
+        <DataTemplate x:Key="VoicePackageTemplate" x:DataType="shwhshl:VoicePackage">
+            <Grid Margin="0,16,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding DisplayName}"/>
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="0,4,0,0"
+                    Orientation="Horizontal">
+                    <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentZipFolder}"/>
+                    <TextBlock
+                        Width="80"
+                        Margin="8,0,0,0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding PackageSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+                    <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentFolder}"/>
+                    <TextBlock
+                        Width="80"
+                        Margin="8,0,0,0"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+                    <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentAsteriskBadge12}"/>
+                    <TextBlock
+                        Margin="8,0,0,0"
+                        IsTextSelectionEnabled="True"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding Md5}"/>
+                </StackPanel>
+                <HyperlinkButton
+                    Grid.RowSpan="2"
+                    Height="38.4"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Content="&#xE8A7;"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    NavigateUri="{Binding Path}"/>
+            </Grid>
+        </DataTemplate>
+    </Expander.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -52,50 +96,9 @@
             FontFamily="{StaticResource SymbolThemeFontFamily}"
             NavigateUri="{Binding Path}"/>
         <MenuFlyoutSeparator Grid.Row="2" Margin="4,16,4,0"/>
-        <ItemsControl Grid.Row="3" ItemsSource="{Binding VoicePacks}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="0,16,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{Binding DisplayName}"/>
-                        <StackPanel
-                            Grid.Row="1"
-                            Margin="0,4,0,0"
-                            Orientation="Horizontal">
-                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentZipFolder}"/>
-                            <TextBlock
-                                Width="80"
-                                Margin="8,0,0,0"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{Binding PackageSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
-                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentFolder}"/>
-                            <TextBlock
-                                Width="80"
-                                Margin="8,0,0,0"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
-                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentAsteriskBadge12}"/>
-                            <TextBlock
-                                Margin="8,0,0,0"
-                                IsTextSelectionEnabled="True"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{Binding Md5}"/>
-                        </StackPanel>
-                        <HyperlinkButton
-                            Grid.RowSpan="2"
-                            Height="38.4"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Content="&#xE8A7;"
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            NavigateUri="{Binding Path}"/>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ItemsControl
+            Grid.Row="3"
+            ItemTemplate="{StaticResource VoicePackageTemplate}"
+            ItemsSource="{Binding VoicePacks}"/>
     </Grid>
 </Expander>

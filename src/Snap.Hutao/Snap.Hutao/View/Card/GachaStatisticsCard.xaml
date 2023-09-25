@@ -8,6 +8,7 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     Padding="0"
     HorizontalAlignment="Stretch"
@@ -21,282 +22,137 @@
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
-    <Grid>
-        <Grid.Resources>
-            <x:Double x:Key="GachaStatisticsCardPullProgressBarMinHeight">40</x:Double>
-            <Thickness x:Key="GachaStatisticsCardPullProgressHeaderTextMargin">6,0</Thickness>
-        </Grid.Resources>
 
+    <Button.Resources>
+        <DataTemplate x:Key="GachaStatisticsTemplate" x:DataType="shvg:GachaStatisticsSlim">
+            <Grid Margin="12" ColumnSpacing="6">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.ColumnSpan="3"
+                    Text="{shcm:ResourceString Name=ViewCardGachaStatisticsTitle}"/>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalAlignment="Right"
+                    Text="{Binding Uid}"/>
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    DataContext="{Binding AvatarWish}"
+                    Spacing="6">
+
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"/>
+
+                    <shvcp:CardProgressBar
+                        Grid.Column="0"
+                        Description="{Binding LastOrangePull}"
+                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                        Maximum="{Binding GuaranteeOrangeThreshold}"
+                        ProgressForeground="{StaticResource OrangeBrush}"
+                        TextForeground="{StaticResource OrangeBrush}"
+                        Value="{Binding LastOrangePull}"/>
+                    <shvcp:CardProgressBar
+                        Grid.Column="0"
+                        Description="{Binding LastPurplePull}"
+                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                        Maximum="{Binding GuaranteePurpleThreshold}"
+                        ProgressForeground="{StaticResource PurpleBrush}"
+                        TextForeground="{StaticResource PurpleBrush}"
+                        Value="{Binding LastPurplePull}"/>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    DataContext="{Binding WeaponWish}"
+                    Spacing="6">
+
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"/>
+
+                    <shvcp:CardProgressBar
+                        Grid.Column="0"
+                        Description="{Binding LastOrangePull}"
+                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                        Maximum="{Binding GuaranteeOrangeThreshold}"
+                        ProgressForeground="{StaticResource OrangeBrush}"
+                        TextForeground="{StaticResource OrangeBrush}"
+                        Value="{Binding LastOrangePull}"/>
+                    <shvcp:CardProgressBar
+                        Grid.Column="0"
+                        Description="{Binding LastPurplePull}"
+                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                        Maximum="{Binding GuaranteePurpleThreshold}"
+                        ProgressForeground="{StaticResource PurpleBrush}"
+                        TextForeground="{StaticResource PurpleBrush}"
+                        Value="{Binding LastPurplePull}"/>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    DataContext="{Binding StandardWish}"
+                    Spacing="6">
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"/>
+
+                    <shvcp:CardProgressBar
+                        Grid.Column="0"
+                        Description="{Binding LastOrangePull}"
+                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                        Maximum="{Binding GuaranteeOrangeThreshold}"
+                        ProgressForeground="{StaticResource OrangeBrush}"
+                        TextForeground="{StaticResource OrangeBrush}"
+                        Value="{Binding LastOrangePull}"/>
+                    <shvcp:CardProgressBar
+                        Grid.Column="0"
+                        Description="{Binding LastPurplePull}"
+                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                        Maximum="{Binding GuaranteePurpleThreshold}"
+                        ProgressForeground="{StaticResource PurpleBrush}"
+                        TextForeground="{StaticResource PurpleBrush}"
+                        Value="{Binding LastPurplePull}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Button.Resources>
+
+    <Grid>
         <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid Visibility="{Binding StatisticsList.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                 <FlipView
                     x:Name="RootFlipView"
                     Background="{x:Null}"
-                    ItemsSource="{Binding StatisticsList}">
-                    <FlipView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="12" ColumnSpacing="6">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.ColumnSpan="3"
-                                    Text="{shcm:ResourceString Name=ViewCardGachaStatisticsTitle}"/>
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.ColumnSpan="3"
-                                    HorizontalAlignment="Right"
-                                    Text="{Binding Uid}"/>
-
-                                <StackPanel
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    DataContext="{Binding AvatarWish}"
-                                    Spacing="6">
-
-                                    <TextBlock
-                                        Margin="0,0,0,6"
-                                        HorizontalAlignment="Center"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{Binding Name}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap"/>
-
-                                    <Grid Grid.Column="0" Style="{StaticResource BorderGridStyle}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <ProgressBar
-                                            Grid.ColumnSpan="2"
-                                            MinHeight="{StaticResource GachaStatisticsCardPullProgressBarMinHeight}"
-                                            Background="Transparent"
-                                            CornerRadius="{StaticResource CompatCornerRadius}"
-                                            Foreground="{StaticResource OrangeBrush}"
-                                            Maximum="{Binding GuaranteeOrangeThreshold}"
-                                            Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                                            Style="{StaticResource DefaultProgressBarStyle}"
-                                            Value="{Binding LastOrangePull}"/>
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            Margin="{StaticResource GachaStatisticsCardPullProgressHeaderTextMargin}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource OrangeBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource OrangeBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding LastOrangePull}"/>
-                                    </Grid>
-
-                                    <Grid Grid.Column="1" Style="{StaticResource BorderGridStyle}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <ProgressBar
-                                            Grid.ColumnSpan="2"
-                                            MinHeight="{StaticResource GachaStatisticsCardPullProgressBarMinHeight}"
-                                            Background="Transparent"
-                                            CornerRadius="{StaticResource CompatCornerRadius}"
-                                            Foreground="{StaticResource PurpleBrush}"
-                                            Maximum="{Binding GuaranteePurpleThreshold}"
-                                            Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                                            Style="{StaticResource DefaultProgressBarStyle}"
-                                            Value="{Binding LastPurplePull}"/>
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            Margin="{StaticResource GachaStatisticsCardPullProgressHeaderTextMargin}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource PurpleBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource PurpleBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding LastPurplePull}"/>
-                                    </Grid>
-
-                                </StackPanel>
-
-                                <StackPanel
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    DataContext="{Binding WeaponWish}"
-                                    Spacing="6">
-
-                                    <TextBlock
-                                        Margin="0,0,0,6"
-                                        HorizontalAlignment="Center"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{Binding Name}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap"/>
-
-                                    <Grid Grid.Column="0" Style="{StaticResource BorderGridStyle}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <ProgressBar
-                                            Grid.ColumnSpan="2"
-                                            MinHeight="{StaticResource GachaStatisticsCardPullProgressBarMinHeight}"
-                                            Background="Transparent"
-                                            CornerRadius="{StaticResource CompatCornerRadius}"
-                                            Foreground="{StaticResource OrangeBrush}"
-                                            Maximum="{Binding GuaranteeOrangeThreshold}"
-                                            Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                                            Style="{StaticResource DefaultProgressBarStyle}"
-                                            Value="{Binding LastOrangePull}"/>
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            Margin="{StaticResource GachaStatisticsCardPullProgressHeaderTextMargin}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource OrangeBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource OrangeBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding LastOrangePull}"/>
-                                    </Grid>
-
-                                    <Grid Grid.Column="1" Style="{StaticResource BorderGridStyle}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <ProgressBar
-                                            Grid.ColumnSpan="2"
-                                            MinHeight="{StaticResource GachaStatisticsCardPullProgressBarMinHeight}"
-                                            Background="Transparent"
-                                            CornerRadius="{StaticResource CompatCornerRadius}"
-                                            Foreground="{StaticResource PurpleBrush}"
-                                            Maximum="{Binding GuaranteePurpleThreshold}"
-                                            Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                                            Style="{StaticResource DefaultProgressBarStyle}"
-                                            Value="{Binding LastPurplePull}"/>
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            Margin="{StaticResource GachaStatisticsCardPullProgressHeaderTextMargin}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource PurpleBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource PurpleBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding LastPurplePull}"/>
-                                    </Grid>
-                                </StackPanel>
-
-                                <StackPanel
-                                    Grid.Row="1"
-                                    Grid.Column="2"
-                                    DataContext="{Binding StandardWish}"
-                                    Spacing="6">
-                                    <TextBlock
-                                        Margin="0,0,0,6"
-                                        HorizontalAlignment="Center"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{Binding Name}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap"/>
-                                    <Grid Grid.Column="0" Style="{StaticResource BorderGridStyle}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <ProgressBar
-                                            Grid.ColumnSpan="2"
-                                            MinHeight="{StaticResource GachaStatisticsCardPullProgressBarMinHeight}"
-                                            Background="Transparent"
-                                            CornerRadius="{StaticResource CompatCornerRadius}"
-                                            Foreground="{StaticResource OrangeBrush}"
-                                            Maximum="{Binding GuaranteeOrangeThreshold}"
-                                            Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                                            Style="{StaticResource DefaultProgressBarStyle}"
-                                            Value="{Binding LastOrangePull}"/>
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            Margin="{StaticResource GachaStatisticsCardPullProgressHeaderTextMargin}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource OrangeBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource OrangeBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding LastOrangePull}"/>
-                                    </Grid>
-
-                                    <Grid Grid.Column="1" Style="{StaticResource BorderGridStyle}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <ProgressBar
-                                            Grid.ColumnSpan="2"
-                                            MinHeight="{StaticResource GachaStatisticsCardPullProgressBarMinHeight}"
-                                            Background="Transparent"
-                                            CornerRadius="{StaticResource CompatCornerRadius}"
-                                            Foreground="{StaticResource PurpleBrush}"
-                                            Maximum="{Binding GuaranteePurpleThreshold}"
-                                            Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                                            Style="{StaticResource DefaultProgressBarStyle}"
-                                            Value="{Binding LastPurplePull}"/>
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            Margin="{StaticResource GachaStatisticsCardPullProgressHeaderTextMargin}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource PurpleBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Foreground="{StaticResource PurpleBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding LastPurplePull}"/>
-                                    </Grid>
-                                </StackPanel>
-
-                            </Grid>
-                        </DataTemplate>
-                    </FlipView.ItemTemplate>
-                </FlipView>
+                    ItemTemplate="{StaticResource GachaStatisticsTemplate}"
+                    ItemsSource="{Binding StatisticsList}"/>
 
                 <PipsPager
                     Height="16"

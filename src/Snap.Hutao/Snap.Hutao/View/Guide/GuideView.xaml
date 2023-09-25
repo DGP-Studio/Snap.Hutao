@@ -16,6 +16,34 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
+    <UserControl.Resources>
+        <DataTemplate x:Key="LanguageTemplate">
+            <StackPanel MinWidth="240" Margin="16">
+                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding Name}"/>
+                <TextBlock Opacity="0.8" Text="{Binding Value}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DownloadSummaryTemplate" x:DataType="shvg:DownloadSummary">
+            <Border
+                Width="180"
+                Margin="0,0,4,4"
+                Style="{StaticResource BorderCardStyle}">
+                <StackPanel Margin="8">
+                    <TextBlock Text="{Binding DisplayName}"/>
+                    <ProgressBar
+                        Margin="0,4,0,0"
+                        Maximum="1"
+                        Value="{Binding ProgressValue}"/>
+                    <TextBlock
+                        Opacity="0.6"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding Description}"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+
     <Grid Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -26,17 +54,10 @@
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <GridView
                         Grid.Row="0"
+                        ItemTemplate="{StaticResource LanguageTemplate}"
                         ItemsSource="{Binding AppOptions.Cultures}"
                         SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"
-                        SelectionMode="Single">
-                        <GridView.ItemTemplate>
-                            <DataTemplate>
-                                <Border MinWidth="240" Margin="16">
-                                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding Name}"/>
-                                </Border>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
+                        SelectionMode="Single"/>
                 </Grid>
             </cwc:Case>
             <cwc:Case Value="{shcm:UInt32 Value=1}">
@@ -157,37 +178,10 @@
                         <ItemsControl
                             Margin="0,0,-4,0"
                             HorizontalAlignment="Center"
-                            ItemsPanel="{StaticResource WrapPanelTemplate}"
-                            ItemsSource="{Binding DownloadSummaries}">
-                            <ItemsControl.ItemContainerTransitions>
-                                <TransitionCollection>
-                                    <AddDeleteThemeTransition/>
-                                    <ContentThemeTransition/>
-                                    <ReorderThemeTransition/>
-                                    <EntranceThemeTransition IsStaggeringEnabled="False"/>
-                                </TransitionCollection>
-                            </ItemsControl.ItemContainerTransitions>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border
-                                        Width="180"
-                                        Margin="0,0,4,4"
-                                        Style="{StaticResource BorderCardStyle}">
-                                        <StackPanel Margin="8">
-                                            <TextBlock Text="{Binding DisplayName}"/>
-                                            <ProgressBar
-                                                Margin="0,4,0,0"
-                                                Maximum="1"
-                                                Value="{Binding ProgressValue}"/>
-                                            <TextBlock
-                                                Opacity="0.6"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding Description}"/>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            ItemContainerTransitions="{StaticResource ListViewLikeThemeTransitions}"
+                            ItemTemplate="{StaticResource DownloadSummaryTemplate}"
+                            ItemsPanel="{StaticResource WrapPanelSpacing0Template}"
+                            ItemsSource="{Binding DownloadSummaries}"/>
                     </ScrollViewer>
                 </StackPanel>
             </cwc:Case>

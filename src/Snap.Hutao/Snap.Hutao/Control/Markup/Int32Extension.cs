@@ -12,7 +12,6 @@ internal sealed class Int32Extension : MarkupExtension
 
     protected override object ProvideValue()
     {
-        _ = int.TryParse(Value, out int result);
-        return result;
+        return XamlBindingHelper.ConvertValue(typeof(int), Value);
     }
 }

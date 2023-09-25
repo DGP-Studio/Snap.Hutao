@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Windowing.HotKey;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -12,27 +13,27 @@ namespace Snap.Hutao.Core.Windowing;
 /// <summary>
 /// 窗体子类管理器
 /// </summary>
-/// <typeparam name="TWindow">窗体类型</typeparam>
 [HighQuality]
-internal sealed class WindowSubclass<TWindow> : IDisposable
-    where TWindow : Window, IWindowOptionsSource
+internal sealed class WindowSubclass : IDisposable
 {
     private const int WindowSubclassId = 101;
     private const int DragBarSubclassId = 102;
 
-    private readonly TWindow window;
+    private readonly Window window;
+    private readonly WindowOptions options;
+    private readonly IServiceProvider serviceProvider;
+    private readonly IHotKeyController hotKeyController;
 
     // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC? windowProc;
     private SUBCLASSPROC? legacyDragBarProc;
 
-    /// <summary>
-    /// 构造一个新的窗体子类管理器
-    /// </summary>
-    /// <param name="window">窗口</param>
-    public WindowSubclass(TWindow window)
+    public WindowSubclass(Window window, in WindowOptions options, IServiceProvider serviceProvider)
     {
         this.window = window;
+        this.options = options;
+        this.serviceProvider = serviceProvider;
+        hotKeyController = new HotKeyController(serviceProvider);
     }
 
     /// <summary>
@@ -41,10 +42,9 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
     /// <returns>是否设置成功</returns>
     public bool Initialize()
     {
-        WindowOptions options = window.WindowOptions;
-
         windowProc = OnSubclassProcedure;
         bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, 0);
+        hotKeyController.Register(options.Hwnd);
 
         bool titleBarHooked = true;
 
@@ -71,8 +71,6 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        WindowOptions options = window.WindowOptions;
-
         RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
         windowProc = null;
 
@@ -81,6 +79,7 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
             return;
         }
 
+        hotKeyController.Unregister(options.Hwnd);
         RemoveWindowSubclass(options.Hwnd, legacyDragBarProc, DragBarSubclassId);
         legacyDragBarProc = null;
     }
@@ -94,7 +93,7 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
                 {
                     uint dpi = GetDpiForWindow(hwnd);
                     double scalingFactor = Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);
-                    window.ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
+                    ((IWindowOptionsSource)window).ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
                     break;
                 }
 
@@ -102,6 +101,12 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
             case WM_NCRBUTTONUP:
                 {
                     return (LRESULT)(nint)WM_NULL;
+                }
+
+            case WM_HOTKEY:
+                {
+                    hotKeyController.OnHotKeyPressed(*(HotKeyParameter*)&lParam);
+                    break;
                 }
         }
 

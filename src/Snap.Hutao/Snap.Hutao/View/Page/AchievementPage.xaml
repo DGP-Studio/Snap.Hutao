@@ -20,6 +20,149 @@
 
     <Page.Resources>
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
+
+        <DataTemplate x:Key="AchievementGoalListTemplate" x:DataType="shva:AchievementGoalView">
+            <Grid Margin="0,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="36"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <shci:CachedImage
+                    Grid.Column="0"
+                    Width="36"
+                    Height="36"
+                    Source="{Binding Icon}"/>
+                <StackPanel Grid.Column="1" Margin="12,0,0,2">
+                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                    <TextBlock
+                        Margin="0,2,0,0"
+                        VerticalAlignment="Center"
+                        Opacity="0.7"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding FinishDescription}"/>
+                    <ProgressBar
+                        Margin="0,4,0,0"
+                        Maximum="1"
+                        Value="{Binding FinishPercent}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AchievementGoalGridTemplate" x:DataType="shva:AchievementGoalView">
+            <Border MinWidth="180" Style="{StaticResource BorderCardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <shci:CachedImage
+                        Grid.Row="0"
+                        Width="64"
+                        Height="64"
+                        Margin="8"
+                        Source="{Binding Icon}"/>
+                    <StackPanel Grid.Row="1" Margin="8,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Text="{Binding Name}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap"/>
+                        <TextBlock
+                            Margin="0,2,0,0"
+                            HorizontalAlignment="Center"
+                            Opacity="0.7"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding FinishDescription}"/>
+                        <ProgressBar
+                            Margin="0,8"
+                            Maximum="1"
+                            Value="{Binding FinishPercent}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AchievementTemplate" x:DataType="shva:AchievementView">
+            <Border
+                Margin="0,4,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Style="{StaticResource BorderCardStyle}">
+                <Border.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem IsEnabled="False" Text="{Binding Inner.Id}"/>
+                    </MenuFlyout>
+                </Border.ContextFlyout>
+                <Grid MinHeight="48" Padding="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox
+                        Grid.Column="0"
+                        MinWidth="0"
+                        MinHeight="0"
+                        Margin="8,0"
+                        Padding="0,0,0,0"
+                        Command="{Binding Path=DataContext.SaveAchievementCommand, Source={StaticResource BindingProxy}}"
+                        CommandParameter="{Binding}"
+                        IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                    <Grid Grid.Column="1" Margin="8,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <!--  text  -->
+                            <ColumnDefinition/>
+                            <!--  time  -->
+                            <ColumnDefinition Width="auto"/>
+                            <!--  pic  -->
+                            <ColumnDefinition Width="auto"/>
+                            <!--  count  -->
+                            <ColumnDefinition Width="32"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Inner.Title}"/>
+                                <Border
+                                    Margin="4,0,0,0"
+                                    Padding="4,1"
+                                    VerticalAlignment="Center"
+                                    CornerRadius="2">
+                                    <Border.Background>
+                                        <SolidColorBrush Opacity="0.6" Color="{ThemeResource SystemAccentColor}"/>
+                                    </Border.Background>
+                                    <TextBlock
+                                        FontSize="10"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding Inner.Version}"/>
+                                </Border>
+
+                            </StackPanel>
+
+                            <TextBlock
+                                Margin="0,2,0,0"
+                                Style="{StaticResource SecondaryTextStyle}"
+                                Text="{Binding Inner.Description}"
+                                TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="12,0,12,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding Time}"
+                            Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <shci:CachedImage
+                            Grid.Column="2"
+                            shch:FrameworkElementHelper.SquareLength="32"
+                            Source="{StaticResource UI_ItemIcon_201}"/>
+                        <TextBlock
+                            Grid.Column="3"
+                            Margin="12,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding Inner.FinishReward.Count}"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </DataTemplate>
     </Page.Resources>
 
     <mxi:Interaction.Behaviors>
@@ -43,11 +186,18 @@
 
                 <StackPanel Orientation="Horizontal">
                     <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="8,0,0,0"/>
-                    <TextBlock
-                        Margin="16,0,0,2"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource SubtitleTextBlockStyle}"
-                        Text="{Binding FinishDescription}"/>
+                    <Viewbox
+                        Height="32"
+                        MaxWidth="192"
+                        Margin="8,0,0,0"
+                        HorizontalAlignment="Left"
+                        Stretch="Uniform"
+                        StretchDirection="Both">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="{Binding FinishDescription}"/>
+                    </Viewbox>
                 </StackPanel>
 
                 <CommandBar
@@ -118,12 +268,10 @@
                         Label="{shcm:ResourceString Name=ViewPageAchievementSortIncompletedItemsFirst}"/>
                 </CommandBar>
             </Grid>
-            <cwc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-                <cwc:SwitchPresenter.ContentTransitions>
-                    <TransitionCollection>
-                        <ContentThemeTransition/>
-                    </TransitionCollection>
-                </cwc:SwitchPresenter.ContentTransitions>
+            <cwc:SwitchPresenter
+                Grid.Row="1"
+                ContentTransitions="{StaticResource ContentThemeTransitions}"
+                Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
                 <cwc:Case Value="List">
                     <SplitView
                         Grid.Row="1"
@@ -133,6 +281,7 @@
                         PaneBackground="{x:Null}">
                         <SplitView.Pane>
                             <ListView
+                                ItemTemplate="{StaticResource AchievementGoalListTemplate}"
                                 ItemsSource="{Binding AchievementGoals}"
                                 SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
                                 SelectionMode="Single">
@@ -144,34 +293,6 @@
                                         <Setter Property="Margin" Value="0,0,6,0"/>
                                     </Style>
                                 </ListView.ItemContainerStyle>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="0,6">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="36"/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <shci:CachedImage
-                                                Grid.Column="0"
-                                                Width="36"
-                                                Height="36"
-                                                Source="{Binding Icon}"/>
-                                            <StackPanel Grid.Column="1" Margin="12,0,0,2">
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                                                <TextBlock
-                                                    Margin="0,2,0,0"
-                                                    VerticalAlignment="Center"
-                                                    Opacity="0.7"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding FinishDescription}"/>
-                                                <ProgressBar
-                                                    Margin="0,4,0,0"
-                                                    Maximum="1"
-                                                    Value="{Binding FinishPercent}"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
                             </ListView>
                         </SplitView.Pane>
 
@@ -179,6 +300,7 @@
                             <ListView
                                 Margin="8,0,0,0"
                                 Padding="0,0,0,8"
+                                ItemTemplate="{StaticResource AchievementTemplate}"
                                 ItemsSource="{Binding Achievements}"
                                 SelectionMode="None">
                                 <ListView.ItemContainerStyle>
@@ -187,89 +309,6 @@
                                         <Setter Property="Margin" Value="0,4,8,0"/>
                                     </Style>
                                 </ListView.ItemContainerStyle>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="shva:AchievementView">
-                                        <Border
-                                            Margin="0,4,0,0"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource BorderCardStyle}">
-                                            <Border.ContextFlyout>
-                                                <MenuFlyout>
-                                                    <MenuFlyoutItem IsEnabled="False" Text="{Binding Inner.Id}"/>
-                                                </MenuFlyout>
-                                            </Border.ContextFlyout>
-                                            <Grid MinHeight="48" Padding="8">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <CheckBox
-                                                    Grid.Column="0"
-                                                    MinWidth="0"
-                                                    MinHeight="0"
-                                                    Margin="8,0"
-                                                    Padding="0,0,0,0"
-                                                    Command="{Binding Path=DataContext.SaveAchievementCommand, Source={StaticResource BindingProxy}}"
-                                                    CommandParameter="{Binding}"
-                                                    IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
-                                                <Grid Grid.Column="1" Margin="8,0,0,0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <!--  text  -->
-                                                        <ColumnDefinition/>
-                                                        <!--  time  -->
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <!--  pic  -->
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <!--  count  -->
-                                                        <ColumnDefinition Width="32"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <StackPanel>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Inner.Title}"/>
-                                                            <Border
-                                                                Margin="4,0,0,0"
-                                                                Padding="4,1"
-                                                                VerticalAlignment="Center"
-                                                                CornerRadius="2">
-                                                                <Border.Background>
-                                                                    <SolidColorBrush Opacity="0.6" Color="{ThemeResource SystemAccentColor}"/>
-                                                                </Border.Background>
-                                                                <TextBlock
-                                                                    FontSize="10"
-                                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Inner.Version}"/>
-                                                            </Border>
-
-                                                        </StackPanel>
-
-                                                        <TextBlock
-                                                            Margin="0,2,0,0"
-                                                            Style="{StaticResource SecondaryTextStyle}"
-                                                            Text="{Binding Inner.Description}"
-                                                            TextTrimming="CharacterEllipsis"/>
-                                                    </StackPanel>
-                                                    <TextBlock
-                                                        Grid.Column="1"
-                                                        Margin="12,0,12,0"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding Time}"
-                                                        Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                                    <shci:CachedImage
-                                                        Grid.Column="2"
-                                                        shch:FrameworkElementHelper.SquareLength="32"
-                                                        Source="{StaticResource UI_ItemIcon_201}"/>
-                                                    <TextBlock
-                                                        Grid.Column="3"
-                                                        Margin="12,0,0,0"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding Inner.FinishReward.Count}"/>
-                                                </Grid>
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
                             </ListView>
                         </SplitView.Content>
                     </SplitView>
@@ -280,47 +319,13 @@
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                        ItemTemplate="{StaticResource AchievementGoalGridTemplate}"
                         ItemsSource="{Binding AchievementGoals}"
                         SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
                         SelectionMode="Single">
                         <mxi:Interaction.Behaviors>
                             <shcb:SelectedItemInViewBehavior/>
                         </mxi:Interaction.Behaviors>
-                        <GridView.ItemTemplate>
-                            <DataTemplate>
-                                <Border MinWidth="180" Style="{StaticResource BorderCardStyle}">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <shci:CachedImage
-                                            Grid.Row="0"
-                                            Width="64"
-                                            Height="64"
-                                            Margin="8"
-                                            Source="{Binding Icon}"/>
-                                        <StackPanel Grid.Row="1" Margin="8,0">
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                Text="{Binding Name}"
-                                                TextTrimming="CharacterEllipsis"
-                                                TextWrapping="NoWrap"/>
-                                            <TextBlock
-                                                Margin="0,2,0,0"
-                                                HorizontalAlignment="Center"
-                                                Opacity="0.7"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding FinishDescription}"/>
-                                            <ProgressBar
-                                                Margin="0,8"
-                                                Maximum="1"
-                                                Value="{Binding FinishPercent}"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
                     </GridView>
                 </cwc:Case>
             </cwc:SwitchPresenter>

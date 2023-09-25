@@ -33,13 +33,17 @@ CoWaitForMultipleObjects
 // USER32
 AttachThreadInput
 FindWindowExW
+GetCursorPos
 GetDC
 GetDpiForWindow
 GetForegroundWindow
 GetWindowPlacement
 GetWindowThreadProcessId
 ReleaseDC
+RegisterHotKey
+SendInput
 SetForegroundWindow
+UnregisterHotKey
 
 // COM
 IPersistFile
@@ -53,6 +57,7 @@ IMemoryBufferByteAccess
 // Const value
 INFINITE
 WM_GETMINMAXINFO
+WM_HOTKEY
 WM_NCRBUTTONDOWN
 WM_NCRBUTTONUP
 WM_NULL

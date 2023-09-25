@@ -136,22 +136,17 @@
                                             <mxi:Interaction.Behaviors>
                                                 <shcb:AutoHeightBehavior TargetHeight="1024" TargetWidth="2048"/>
                                             </mxi:Interaction.Behaviors>
+                                            <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskBrush}"/>
                                             <ScrollViewer
                                                 Grid.Column="0"
                                                 Margin="16"
                                                 VerticalScrollBarVisibility="Hidden">
                                                 <StackPanel>
-                                                    <shvc:BottomTextControl
-                                                        MaxWidth="80"
-                                                        RequestedTheme="Light"
-                                                        Text="{shcm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}">
+                                                    <shvc:BottomTextControl MaxWidth="80" Text="{shcm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}">
                                                         <shvc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
                                                     </shvc:BottomTextControl>
 
-                                                    <shvc:BottomTextControl
-                                                        Margin="0,16,0,0"
-                                                        RequestedTheme="Light"
-                                                        Text="{shcm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}">
+                                                    <shvc:BottomTextControl Margin="0,16,0,0" Text="{shcm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}">
                                                         <shvc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
                                                     </shvc:BottomTextControl>
                                                 </StackPanel>

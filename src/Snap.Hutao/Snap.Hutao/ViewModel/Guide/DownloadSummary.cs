@@ -121,7 +121,13 @@ internal sealed class DownloadSummary : ObservableObject
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
                 string destPath = imageCacheFilePathOperation.GetFileFromCategoryAndName(fileName, entry.FullName);
-                entry.ExtractToFile(destPath, true);
+                try
+                {
+                    entry.ExtractToFile(destPath, true);
+                }
+                catch
+                {
+                }
             }
         }
     }

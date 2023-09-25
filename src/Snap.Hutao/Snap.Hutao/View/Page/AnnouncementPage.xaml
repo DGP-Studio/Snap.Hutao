@@ -16,6 +16,7 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvco="using:Snap.Hutao.View.Control"
+    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
     d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -155,11 +156,41 @@
                 </ItemsRepeater.ItemTemplate>
             </ItemsRepeater>
         </DataTemplate>
+
+        <DataTemplate x:Key="HutaoAnnouncementTemplate">
+            <InfoBar
+                Title="{Binding Title}"
+                Margin="0,8,0,0"
+                shch:InfoBarHelper.IsTextSelectionEnabled="True"
+                CloseButtonCommand="{Binding DismissCommand}"
+                CloseButtonCommandParameter="{Binding}"
+                IsOpen="True"
+                Message="{Binding Content}"
+                Severity="{Binding Severity}">
+                <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                    <HyperlinkButton Content="查看详情" NavigateUri="{Binding Link}"/>
+                    <TextBlock
+                        Margin="8,0,0,2"
+                        VerticalAlignment="Center"
+                        Opacity="0.7"
+                        Text="{Binding UpdateTimeFormatted}"/>
+                </StackPanel>
+            </InfoBar>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CardTemplate" x:DataType="shvcp:CardReference">
+            <ItemContainer Child="{Binding Card}">
+                <ItemContainer.Resources>
+                    <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
+                </ItemContainer.Resources>
+            </ItemContainer>
+        </DataTemplate>
+
     </shc:ScopedPage.Resources>
+
     <Grid>
         <ScrollViewer Padding="0,0,0,0">
             <StackPanel>
-
                 <StackPanel>
                     <TextBlock
                         Margin="16,16,16,0"
@@ -169,34 +200,13 @@
 
                     <ItemsControl
                         Margin="16,8,12,0"
+                        ItemTemplate="{StaticResource HutaoAnnouncementTemplate}"
                         ItemsSource="{Binding HutaoAnnouncements}"
-                        Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <InfoBar
-                                    Title="{Binding Title}"
-                                    Margin="0,8,0,0"
-                                    shch:InfoBarHelper.IsTextSelectionEnabled="True"
-                                    CloseButtonCommand="{Binding DismissCommand}"
-                                    CloseButtonCommandParameter="{Binding}"
-                                    IsOpen="True"
-                                    Message="{Binding Content}"
-                                    Severity="{Binding Severity}">
-                                    <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                                        <HyperlinkButton Content="查看详情" NavigateUri="{Binding Link}"/>
-                                        <TextBlock
-                                            Margin="8,0,0,2"
-                                            VerticalAlignment="Center"
-                                            Opacity="0.7"
-                                            Text="{Binding UpdateTimeFormatted}"/>
-                                    </StackPanel>
-                                </InfoBar>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                     <ItemsRepeater
                         Margin="16"
                         HorizontalAlignment="Stretch"
+                        ItemTemplate="{StaticResource CardTemplate}"
                         ItemsSource="{Binding Cards, Mode=OneWay}">
                         <ItemsRepeater.Layout>
                             <UniformGridLayout
@@ -208,16 +218,6 @@
                                 MinRowSpacing="12"
                                 Orientation="Horizontal"/>
                         </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <ItemContainer Child="{Binding Card}">
-                                    <ItemContainer.Resources>
-                                        <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
-                                    </ItemContainer.Resources>
-                                    <!--<ContentPresenter HorizontalContentAlignment="Stretch" Content="{Binding Card}"/>-->
-                                </ItemContainer>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
                 </StackPanel>
 

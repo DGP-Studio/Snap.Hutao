@@ -74,34 +74,39 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
             return;
         }
 
-        CoreWebView2 coreWebView2 = WebView.CoreWebView2;
-
-        if (SourceProvider is not null)
+        // TODO: replace with .NET 8 UnsafeAccessor
+        try
         {
-            if (UserAndUid.TryFromUser(user, out UserAndUid? userAndUid))
+            CoreWebView2 coreWebView2 = WebView.CoreWebView2;
+
+            if (SourceProvider is not null)
             {
-                string source = SourceProvider.GetSource(userAndUid);
-                if (!string.IsNullOrEmpty(source))
+                if (UserAndUid.TryFromUser(user, out UserAndUid? userAndUid))
                 {
-                    foreach (CoreWebView2Cookie cookie in await coreWebView2.CookieManager.GetCookiesAsync(".mihoyo.com"))
+                    string source = SourceProvider.GetSource(userAndUid);
+                    if (!string.IsNullOrEmpty(source))
                     {
-                        coreWebView2.CookieManager.DeleteCookie(cookie);
+                        foreach (CoreWebView2Cookie cookie in await coreWebView2.CookieManager.GetCookiesAsync(".mihoyo.com"))
+                        {
+                            coreWebView2.CookieManager.DeleteCookie(cookie);
+                        }
+
+                        coreWebView2.SetCookie(user.CookieToken, user.LToken, user.SToken).SetMobileUserAgent();
+                        jsInterface = serviceProvider.CreateInstance<MiHoYoJSInterface>(coreWebView2, userAndUid);
+
+                        CoreWebView2Navigator navigator = new(coreWebView2);
+                        await navigator.NavigateAsync("about:blank").ConfigureAwait(true);
+                        await navigator.NavigateAsync(source).ConfigureAwait(true);
                     }
-
-                    coreWebView2.SetCookie(user.CookieToken, user.LToken, user.SToken).SetMobileUserAgent();
-                    jsInterface = serviceProvider.CreateInstance<MiHoYoJSInterface>(coreWebView2, userAndUid);
-
-                    CoreWebView2Navigator navigator = new(coreWebView2);
-                    await navigator.NavigateAsync("about:blank");
-                    Debug.WriteLine($"Before {source}");
-                    await navigator.NavigateAsync(source);
-                    Debug.WriteLine($"After {WebView.Source}");
+                }
+                else
+                {
+                    serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
                 }
             }
-            else
-            {
-                serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
-            }
+        }
+        catch (ObjectDisposedException)
+        {
         }
     }
 }

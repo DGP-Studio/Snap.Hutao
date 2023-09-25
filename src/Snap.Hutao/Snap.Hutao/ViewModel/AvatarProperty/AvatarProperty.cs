@@ -22,6 +22,7 @@ internal sealed class AvatarProperty : ObservableObject, INameIcon, IAlternating
         [FightProperty.FIGHT_PROP_SKILL_CD_MINUS_RATIO] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_CDReduce.png").ToUri(),
         [FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_ChargeEfficiency.png").ToUri(),
         [FightProperty.FIGHT_PROP_CRITICAL] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_Critical.png").ToUri(),
+        [FightProperty.FIGHT_PROP_CRITICAL_HURT] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_Critical_Hurt.png").ToUri(),
         [FightProperty.FIGHT_PROP_CUR_ATTACK] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_CurAttack.png").ToUri(),
         [FightProperty.FIGHT_PROP_CUR_DEFENSE] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_CurDefense.png").ToUri(),
         [FightProperty.FIGHT_PROP_ELEMENT_MASTERY] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_Element.png").ToUri(),

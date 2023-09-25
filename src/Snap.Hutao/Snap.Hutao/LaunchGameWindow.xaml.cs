@@ -34,7 +34,7 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOpt
 
         scope = serviceProvider.CreateScope();
         windowOptions = new(this, DragableGrid, new(MaxWidth, MaxHeight));
-        ExtendedWindow<LaunchGameWindow>.Initialize(this, scope.ServiceProvider);
+        this.InitializeController(serviceProvider);
         RootGrid.DataContext = scope.ServiceProvider.GetRequiredService<LaunchGameViewModel>();
     }
 

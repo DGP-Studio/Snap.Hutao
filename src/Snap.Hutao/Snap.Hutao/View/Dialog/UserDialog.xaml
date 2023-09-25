@@ -9,18 +9,16 @@
     Title="{shcm:ResourceString Name=ViewDialogUserTitle}"
     CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    IsPrimaryButtonEnabled="False"
     PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <StackPanel>
         <TextBox
-            x:Name="InputText"
             Margin="0,0,0,8"
             VerticalAlignment="Top"
             PlaceholderText="{shcm:ResourceString Name=ViewDialogUserInputPlaceholder}"
-            TextChanged="InputTextChanged"/>
+            Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <StackPanel Margin="0,0,0,0">
             <StackPanel.Resources>
                 <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>

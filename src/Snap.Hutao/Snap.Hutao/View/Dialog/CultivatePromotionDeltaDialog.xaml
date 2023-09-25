@@ -16,159 +16,162 @@
     <ContentDialog.Resources>
         <x:Double x:Key="NumberBoxMinWidth">180</x:Double>
         <x:Double x:Key="ContentDialogMaxWidth">1200</x:Double>
+
+        <DataTemplate x:Key="SkillTemplate">
+            <Border Margin="0,2,0,0" Style="{StaticResource BorderCardStyle}">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <shci:MonoChrome
+                        Grid.Column="0"
+                        Width="36"
+                        Height="36"
+                        Source="{Binding Icon}"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="16,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis"/>
+                    <NumberBox
+                        Grid.Column="2"
+                        MinWidth="{StaticResource NumberBoxMinWidth}"
+                        VerticalAlignment="Center"
+                        Maximum="{Binding LevelMax}"
+                        Minimum="{Binding LevelMin}"
+                        SpinButtonPlacementMode="Inline"
+                        Value="{Binding LevelCurrent, Mode=TwoWay}"/>
+                    <FontIcon
+                        Grid.Column="3"
+                        Margin="8"
+                        FontSize="12"
+                        Glyph="&#xEBE7;"/>
+                    <NumberBox
+                        Grid.Column="4"
+                        MinWidth="{StaticResource NumberBoxMinWidth}"
+                        VerticalAlignment="Center"
+                        Maximum="{Binding LevelMax}"
+                        Minimum="{Binding LevelMin}"
+                        SpinButtonPlacementMode="Inline"
+                        Value="{Binding LevelTarget, Mode=TwoWay}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
     </ContentDialog.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+
         <StackPanel
             Grid.Row="0"
             Margin="0,8,0,0"
             Visibility="{x:Bind Avatar, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-            <Border Style="{StaticResource BorderCardStyle}">
-                <Grid Margin="8" DataContext="{x:Bind Avatar}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="160"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <shvc:ItemIcon
-                        Grid.Column="0"
-                        Width="36"
-                        Height="36"
-                        Icon="{Binding Icon}"
-                        Quality="{Binding Quality}"/>
-                    <TextBlock
-                        Grid.Column="1"
-                        Margin="16,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="{Binding Name}"
-                        TextTrimming="CharacterEllipsis"/>
-                    <NumberBox
-                        Grid.Column="2"
-                        MinWidth="{StaticResource NumberBoxMinWidth}"
-                        VerticalAlignment="Center"
-                        Maximum="{Binding LevelMax}"
-                        Minimum="{Binding LevelMin}"
-                        SpinButtonPlacementMode="Inline"
-                        Value="{Binding LevelCurrent, Mode=TwoWay}"/>
-                    <FontIcon
-                        Grid.Column="3"
-                        Margin="8"
-                        FontSize="12"
-                        Glyph="&#xEBE7;"/>
-                    <NumberBox
-                        Grid.Column="4"
-                        MinWidth="{StaticResource NumberBoxMinWidth}"
-                        VerticalAlignment="Center"
-                        Maximum="{Binding LevelMax}"
-                        Minimum="{Binding LevelMin}"
-                        SpinButtonPlacementMode="Inline"
-                        Value="{Binding LevelTarget, Mode=TwoWay}"/>
-                </Grid>
-            </Border>
+            <Grid
+                Margin="8"
+                DataContext="{x:Bind Avatar}"
+                Style="{StaticResource BorderGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <shvc:ItemIcon
+                    Grid.Column="0"
+                    Width="36"
+                    Height="36"
+                    Icon="{Binding Icon}"
+                    Quality="{Binding Quality}"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="16,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding Name}"
+                    TextTrimming="CharacterEllipsis"/>
+                <NumberBox
+                    Grid.Column="2"
+                    MinWidth="{StaticResource NumberBoxMinWidth}"
+                    VerticalAlignment="Center"
+                    Maximum="{Binding LevelMax}"
+                    Minimum="{Binding LevelMin}"
+                    SpinButtonPlacementMode="Inline"
+                    Value="{Binding LevelCurrent, Mode=TwoWay}"/>
+                <FontIcon
+                    Grid.Column="3"
+                    Margin="8"
+                    FontSize="12"
+                    Glyph="&#xEBE7;"/>
+                <NumberBox
+                    Grid.Column="4"
+                    MinWidth="{StaticResource NumberBoxMinWidth}"
+                    VerticalAlignment="Center"
+                    Maximum="{Binding LevelMax}"
+                    Minimum="{Binding LevelMin}"
+                    SpinButtonPlacementMode="Inline"
+                    Value="{Binding LevelTarget, Mode=TwoWay}"/>
+            </Grid>
 
-            <ItemsControl ItemsSource="{x:Bind Avatar.Skills}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="0,2,0,0" Style="{StaticResource BorderCardStyle}">
-                            <Grid Margin="8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <shci:MonoChrome
-                                    Grid.Column="0"
-                                    Width="36"
-                                    Height="36"
-                                    Source="{Binding Icon}"/>
-                                <TextBlock
-                                    Grid.Column="1"
-                                    Margin="16,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding Name}"
-                                    TextTrimming="CharacterEllipsis"/>
-                                <NumberBox
-                                    Grid.Column="2"
-                                    MinWidth="{StaticResource NumberBoxMinWidth}"
-                                    VerticalAlignment="Center"
-                                    Maximum="{Binding LevelMax}"
-                                    Minimum="{Binding LevelMin}"
-                                    SpinButtonPlacementMode="Inline"
-                                    Value="{Binding LevelCurrent, Mode=TwoWay}"/>
-                                <FontIcon
-                                    Grid.Column="3"
-                                    Margin="8"
-                                    FontSize="12"
-                                    Glyph="&#xEBE7;"/>
-                                <NumberBox
-                                    Grid.Column="4"
-                                    MinWidth="{StaticResource NumberBoxMinWidth}"
-                                    VerticalAlignment="Center"
-                                    Maximum="{Binding LevelMax}"
-                                    Minimum="{Binding LevelMin}"
-                                    SpinButtonPlacementMode="Inline"
-                                    Value="{Binding LevelTarget, Mode=TwoWay}"/>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <ItemsControl ItemTemplate="{StaticResource SkillTemplate}" ItemsSource="{x:Bind Avatar.Skills}"/>
         </StackPanel>
+
         <StackPanel
             Grid.Row="1"
             Margin="0,8,0,0"
             Visibility="{x:Bind Weapon, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-            <Border Style="{StaticResource BorderCardStyle}">
-                <Grid Margin="8" DataContext="{x:Bind Weapon}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="160"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <shvc:ItemIcon
-                        Grid.Column="0"
-                        Width="36"
-                        Height="36"
-                        Icon="{Binding Icon}"
-                        Quality="{Binding Quality}"/>
-                    <TextBlock
-                        Grid.Column="1"
-                        Margin="16,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="{Binding Name}"
-                        TextTrimming="CharacterEllipsis"/>
-                    <NumberBox
-                        Grid.Column="2"
-                        MinWidth="{StaticResource NumberBoxMinWidth}"
-                        VerticalAlignment="Center"
-                        Maximum="{Binding LevelMax}"
-                        Minimum="{Binding LevelMin}"
-                        SpinButtonPlacementMode="Inline"
-                        Value="{Binding LevelCurrent, Mode=TwoWay}"/>
-                    <FontIcon
-                        Grid.Column="3"
-                        Margin="8"
-                        FontSize="12"
-                        Glyph="&#xEBE7;"/>
-                    <NumberBox
-                        Grid.Column="4"
-                        MinWidth="{StaticResource NumberBoxMinWidth}"
-                        VerticalAlignment="Center"
-                        Maximum="{Binding LevelMax}"
-                        Minimum="{Binding LevelMin}"
-                        SpinButtonPlacementMode="Inline"
-                        Value="{Binding LevelTarget, Mode=TwoWay}"/>
-                </Grid>
-            </Border>
+            <Grid
+                Margin="8"
+                DataContext="{x:Bind Weapon}"
+                Style="{StaticResource BorderGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <shvc:ItemIcon
+                    Grid.Column="0"
+                    Width="36"
+                    Height="36"
+                    Icon="{Binding Icon}"
+                    Quality="{Binding Quality}"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="16,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding Name}"
+                    TextTrimming="CharacterEllipsis"/>
+                <NumberBox
+                    Grid.Column="2"
+                    MinWidth="{StaticResource NumberBoxMinWidth}"
+                    VerticalAlignment="Center"
+                    Maximum="{Binding LevelMax}"
+                    Minimum="{Binding LevelMin}"
+                    SpinButtonPlacementMode="Inline"
+                    Value="{Binding LevelCurrent, Mode=TwoWay}"/>
+                <FontIcon
+                    Grid.Column="3"
+                    Margin="8"
+                    FontSize="12"
+                    Glyph="&#xEBE7;"/>
+                <NumberBox
+                    Grid.Column="4"
+                    MinWidth="{StaticResource NumberBoxMinWidth}"
+                    VerticalAlignment="Center"
+                    Maximum="{Binding LevelMax}"
+                    Minimum="{Binding LevelMin}"
+                    SpinButtonPlacementMode="Inline"
+                    Value="{Binding LevelTarget, Mode=TwoWay}"/>
+            </Grid>
         </StackPanel>
+        
     </Grid>
 </ContentDialog>

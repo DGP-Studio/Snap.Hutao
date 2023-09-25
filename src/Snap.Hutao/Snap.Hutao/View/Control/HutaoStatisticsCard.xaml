@@ -15,80 +15,67 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="GridTemplate" d:DataType="shvg:StatisticsItem">
-            <Border
-                Width="40"
-                Margin="0,4,4,0"
-                Style="{StaticResource BorderCardStyle}">
-                <StackPanel>
-                    <shvcont:ItemIcon
-                        shch:FrameworkElementHelper.SquareLength="40"
-                        Icon="{Binding Icon}"
-                        Quality="{Binding Quality}"/>
-                    <TextBlock
-                        HorizontalTextAlignment="Center"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{Binding Count}"
-                        TextTrimming="None"
-                        TextWrapping="NoWrap"/>
-                </StackPanel>
-            </Border>
+            <shvcont:BottomTextControl Text="{Binding Count}" TextStyle="{StaticResource CaptionTextBlockStyle}">
+                <shvcont:ItemIcon
+                    shch:FrameworkElementHelper.SquareLength="40"
+                    Icon="{Binding Icon}"
+                    Quality="{Binding Quality}"/>
+            </shvcont:BottomTextControl>
         </DataTemplate>
     </UserControl.Resources>
 
-    <Border Style="{StaticResource BorderCardStyle}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+    <Grid Style="{StaticResource BorderGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-            <Grid
-                Grid.Row="0"
-                CornerRadius="{StaticResource CompatCornerRadiusTop}"
-                Style="{StaticResource BorderGridStyle}">
-                <shcp:AspectRatio TargetHeight="320" TargetWidth="690"/>
-                <shci:CachedImage Source="{Binding Event.Banner}"/>
-            </Grid>
-
-            <ScrollViewer Grid.Row="1">
-                <StackPanel Margin="16,0,12,16">
-                    <TextBlock
-                        Margin="0,16,0,8"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"/>
-                    <ItemsControl
-                        ItemTemplate="{StaticResource GridTemplate}"
-                        ItemsPanel="{StaticResource WrapPanelTemplate}"
-                        ItemsSource="{Binding UpItems}"/>
-
-                    <TextBlock
-                        Margin="0,16,0,8"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                    <ItemsControl
-                        ItemTemplate="{StaticResource GridTemplate}"
-                        ItemsPanel="{StaticResource WrapPanelTemplate}"
-                        ItemsSource="{Binding OrangeItems}"/>
-
-                    <TextBlock
-                        Margin="0,16,0,8"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                    <ItemsControl
-                        ItemTemplate="{StaticResource GridTemplate}"
-                        ItemsPanel="{StaticResource WrapPanelTemplate}"
-                        ItemsSource="{Binding PurpleItems}"/>
-
-                    <TextBlock
-                        Margin="0,16,0,8"
-                        Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
-                    <ItemsControl
-                        ItemTemplate="{StaticResource GridTemplate}"
-                        ItemsPanel="{StaticResource WrapPanelTemplate}"
-                        ItemsSource="{Binding BlueItems}"/>
-                </StackPanel>
-            </ScrollViewer>
+        <Grid
+            Grid.Row="0"
+            CornerRadius="{StaticResource CompatCornerRadiusTop}"
+            Style="{StaticResource BorderGridStyle}">
+            <shcp:AspectRatio TargetHeight="320" TargetWidth="690"/>
+            <shci:CachedImage Source="{Binding Event.Banner}"/>
         </Grid>
-    </Border>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="16,0,12,16">
+                <TextBlock
+                    Margin="0,16,0,8"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"/>
+                <ItemsControl
+                    ItemTemplate="{StaticResource GridTemplate}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
+                    ItemsSource="{Binding UpItems}"/>
+
+                <TextBlock
+                    Margin="0,16,0,8"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
+                <ItemsControl
+                    ItemTemplate="{StaticResource GridTemplate}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
+                    ItemsSource="{Binding OrangeItems}"/>
+
+                <TextBlock
+                    Margin="0,16,0,8"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
+                <ItemsControl
+                    ItemTemplate="{StaticResource GridTemplate}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
+                    ItemsSource="{Binding PurpleItems}"/>
+
+                <TextBlock
+                    Margin="0,16,0,8"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
+                <ItemsControl
+                    ItemTemplate="{StaticResource GridTemplate}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
+                    ItemsSource="{Binding BlueItems}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

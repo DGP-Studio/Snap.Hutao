@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.View.Dialog;
@@ -9,6 +10,7 @@ namespace Snap.Hutao.View.Dialog;
 /// 添加用户对话框
 /// </summary>
 [HighQuality]
+[DependencyProperty("Text", typeof(string))]
 internal sealed partial class UserDialog : ContentDialog
 {
     private readonly ITaskContext taskContext;
@@ -33,13 +35,6 @@ internal sealed partial class UserDialog : ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
-        string cookie = InputText.Text;
-
-        return new(result == ContentDialogResult.Primary, cookie);
-    }
-
-    private void InputTextChanged(object sender, TextChangedEventArgs e)
-    {
-        IsPrimaryButtonEnabled = !string.IsNullOrEmpty(InputText.Text);
+        return new(result == ContentDialogResult.Primary && !string.IsNullOrEmpty(Text), Text);
     }
 }

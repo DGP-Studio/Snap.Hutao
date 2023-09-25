@@ -107,12 +107,13 @@
     <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="stylecop.json" />
     <None Remove="View\Card\AchievementCard.xaml" />
+    <None Remove="View\Card\CardBlock.xaml" />
     <None Remove="View\Card\DailyNoteCard.xaml" />
     <None Remove="View\Card\GachaStatisticsCard.xaml" />
     <None Remove="View\Card\LaunchGameCard.xaml" />
+    <None Remove="View\Card\Primitive\CardProgressBar.xaml" />
     <None Remove="View\Control\BaseValueSlider.xaml" />
     <None Remove="View\Control\BottomTextControl.xaml" />
-    <None Remove="View\Control\BottomTextSmallControl.xaml" />
     <None Remove="View\Control\DescParamComboBox.xaml" />
     <None Remove="View\Control\Elevation.xaml" />
     <None Remove="View\Control\HutaoStatisticsCard.xaml" />
@@ -264,7 +265,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230822000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.507">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -305,6 +306,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="View\Card\Primitive\CardProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Card\CardBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="Control\Loading.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -330,12 +343,6 @@
 
   <ItemGroup>
     <Page Update="View\Control\WebViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Control\BottomTextSmallControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

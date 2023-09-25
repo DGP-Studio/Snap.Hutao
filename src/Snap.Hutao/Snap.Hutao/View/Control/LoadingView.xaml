@@ -12,7 +12,7 @@
     VerticalContentAlignment="Stretch"
     mc:Ignorable="d">
     <Grid>
-        <clw:Shimmer IsActive="{x:Bind IsLoading, Mode=OneWay}"/>
+        <clw:Shimmer CornerRadius="0" IsActive="{x:Bind IsLoading, Mode=OneWay}"/>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <shci:CachedImage
                 Width="120"

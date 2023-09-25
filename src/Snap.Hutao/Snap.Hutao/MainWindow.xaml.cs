@@ -31,7 +31,7 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource
     {
         InitializeComponent();
         windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true);
-        ExtendedWindow<MainWindow>.Initialize(this, serviceProvider);
+        this.InitializeController(serviceProvider);
         logger = serviceProvider.GetRequiredService<ILogger<MainWindow>>();
 
         closedEventHander = OnClosed;
