@@ -543,16 +543,15 @@
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Stretch"
                                             Header="{shcm:ResourceString Name=ViewPageWiKiAvatarQuotesHeader}">
-                                            <ItemsControl ItemsSource="{Binding Selected.FetterInfo.Fetters}">
+                                            <ItemsControl Margin="0,0,0,-24" ItemsSource="{Binding Selected.FetterInfo.Fetters}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Margin="0,0,0,0">
                                                             <TextBlock Text="{Binding Title}"/>
-                                                            <shct:DescriptionTextBlock Margin="0,8,0,0" Description="{Binding Context}">
-                                                                <shct:DescriptionTextBlock.Resources>
-                                                                    <Style BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock"/>
-                                                                </shct:DescriptionTextBlock.Resources>
-                                                            </shct:DescriptionTextBlock>
+                                                            <shct:DescriptionTextBlock
+                                                                Margin="0,8,0,0"
+                                                                Description="{Binding Context}"
+                                                                TextStyle="{StaticResource CaptionTextBlockStyle}"/>
                                                             <MenuFlyoutSeparator Margin="0,8"/>
                                                         </StackPanel>
                                                     </DataTemplate>
@@ -565,7 +564,7 @@
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Stretch"
                                             Header="{shcm:ResourceString Name=ViewPageWiKiAvatarStoriesHeader}">
-                                            <ItemsControl ItemsSource="{Binding Selected.FetterInfo.FetterStories}">
+                                            <ItemsControl Margin="0,0,0,-24" ItemsSource="{Binding Selected.FetterInfo.FetterStories}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Margin="0,0,0,0">

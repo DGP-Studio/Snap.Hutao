@@ -66,7 +66,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
             ArgumentNullException.ThrowIfNull(metadataContext);
             spiralAbysses = metadataContext.IdScheduleMap.Values
                 .Select(sch => SpiralAbyssView.From(entryMap.GetValueOrDefault(sch.Id), sch, metadataContext))
-                .Reverse()
+                .OrderByDescending(e => e.ScheduleId)
                 .ToObservableCollection();
         }
 
