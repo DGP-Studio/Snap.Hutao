@@ -53,7 +53,6 @@
                                     <Border cw:UIElementExtensions.ClipToBounds="True">
                                         <Border VerticalAlignment="Top" cw:VisualExtensions.NormalizedCenterPoint="0.5">
                                             <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
-
                                             <mxi:Interaction.Behaviors>
                                                 <shcb:AutoHeightBehavior TargetHeight="390" TargetWidth="1080"/>
                                             </mxi:Interaction.Behaviors>

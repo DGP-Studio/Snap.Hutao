@@ -42,7 +42,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
 
         if (resp is not null)
         {
-            return $"{resp.Data.AccountInfo.AccountId}";
+            return $"{resp.Data?.AccountInfo?.AccountId}";
         }
 
         return string.Empty;
