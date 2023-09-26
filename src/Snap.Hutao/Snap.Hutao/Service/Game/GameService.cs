@@ -91,7 +91,7 @@ internal sealed partial class GameService : IGameService
     {
         string gamePath = appOptions.GamePath;
         string configPath = Path.Combine(Path.GetDirectoryName(gamePath) ?? string.Empty, ConfigFileName);
-        bool isOversea = string.Equals(Path.GetFileName(gamePath), GenshinImpactFileName, StringComparison.Ordinal);
+        bool isOversea = string.Equals(Path.GetFileName(gamePath), GenshinImpactFileName, StringComparison.OrdinalIgnoreCase);
 
         if (!File.Exists(configPath))
         {

@@ -179,7 +179,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("LaunchCommand", AllowConcurrentExecutions = true)]
+    [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
         if (SelectedScheme is not null)
