@@ -149,6 +149,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                     SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
                 }
             }
+            catch (UserdataCorruptedException ex)
+            {
+                infoBarService.Error(ex);
+            }
             catch (OperationCanceledException)
             {
             }
