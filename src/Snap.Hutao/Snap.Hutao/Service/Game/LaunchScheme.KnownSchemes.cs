@@ -90,15 +90,6 @@ internal sealed partial class LaunchScheme
         IsOversea = true,
     };
 
-    private static readonly LaunchScheme ServerGlobalChannelDefaultSubChannelDefault = new()
-    {
-        LauncherId = SdkStaticLauncherGlobalId,
-        Key = SdkStaticLauncherGlobalKey,
-        Channel = ChannelType.Default,
-        SubChannel = SubChannelType.Default,
-        IsOversea = true,
-    };
-
     /// <summary>
     /// 获取已知的启动方案
     /// </summary>
