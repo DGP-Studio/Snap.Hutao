@@ -57,7 +57,12 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
 
-        Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
+        Cookie webCookie = Cookie.FromCoreWebView2Cookies(cookies);
+        if (!webCookie.TryGetCookieToken(out Cookie? loginTicketCookie))
+        {
+            return;
+        }
+
         Response<ListWrapper<NameToken>> multiTokenResponse = await Ioc.Default
             .GetRequiredService<AuthClient>()
             .GetMultiTokenByLoginTicketAsync(loginTicketCookie, false)
