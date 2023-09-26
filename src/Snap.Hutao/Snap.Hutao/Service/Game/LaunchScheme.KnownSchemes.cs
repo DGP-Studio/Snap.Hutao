@@ -54,6 +54,15 @@ internal sealed partial class LaunchScheme
         IsOversea = false,
     };
 
+    private static readonly LaunchScheme ServerChineseChannelBilibiliSubChannelOfficial = new()
+    {
+        LauncherId = SdkStaticLauncherBilibiliId,
+        Key = SdkStaticLauncherBilibiliKey,
+        Channel = ChannelType.Bili,
+        SubChannel = SubChannelType.Official,
+        IsOversea = false,
+    };
+
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelDefault = new()
     {
         LauncherId = SdkStaticLauncherGlobalId,
@@ -105,6 +114,7 @@ internal sealed partial class LaunchScheme
 
             // 渠道服
             ServerChineseChannelBilibiliSubChannelDefault,
+            ServerChineseChannelBilibiliSubChannelOfficial,
 
             // 国际服
             ServerGlobalChannelOfficialSubChannelDefault,
