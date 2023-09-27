@@ -74,10 +74,12 @@
                                 <StackPanel Orientation="Horizontal">
                                     <shvc:Elevation Margin="0,0,36,0" Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                     <shccs:ComboBox2
+                                        MinWidth="320"
                                         DisplayMemberPath="DisplayName"
-                                        EnableMemberPath="IsCompatOnly"
+                                        EnableMemberPath="IsNotCompatOnly"
                                         ItemsSource="{Binding KnownSchemes}"
-                                        SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"/>
+                                        SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"
+                                        Style="{StaticResource DefaultComboBoxStyle}"/>
                                 </StackPanel>
                             </cwc:SettingsCard>
                             <cwc:SettingsCard

@@ -25,7 +25,7 @@ internal sealed partial class LaunchScheme
         Channel = ChannelType.Default,
         SubChannel = SubChannelType.Default,
         IsOversea = false,
-        IsCompatOnly = true,
+        IsNotCompatOnly = false,
     };
 
     private static readonly LaunchScheme ServerChineseChannelOfficialSubChannelDefault = new()
@@ -62,7 +62,7 @@ internal sealed partial class LaunchScheme
         Channel = ChannelType.Official,
         SubChannel = SubChannelType.Epic,
         IsOversea = false,
-        IsCompatOnly = true,
+        IsNotCompatOnly = false,
     };
 
     private static readonly LaunchScheme ServerChineseChannelBilibiliSubChannelDefault = new()
@@ -74,13 +74,14 @@ internal sealed partial class LaunchScheme
         IsOversea = false,
     };
 
-    private static readonly LaunchScheme ServerChineseChannelBilibiliSubChannelOfficial = new()
+    private static readonly LaunchScheme ServerChineseChannelBilibiliSubChannelOfficialCompatOnly = new()
     {
         LauncherId = SdkStaticLauncherBilibiliId,
         Key = SdkStaticLauncherBilibiliKey,
         Channel = ChannelType.Bili,
         SubChannel = SubChannelType.Official,
         IsOversea = false,
+        IsNotCompatOnly = false,
     };
 
     private static readonly LaunchScheme ServerGlobalChannelDefaultSubChannelDefaultCompatOnly = new()
@@ -90,7 +91,7 @@ internal sealed partial class LaunchScheme
         Channel = ChannelType.Default,
         SubChannel = SubChannelType.Default,
         IsOversea = true,
-        IsCompatOnly = true,
+        IsNotCompatOnly = false,
     };
 
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelDefault = new()
@@ -137,7 +138,7 @@ internal sealed partial class LaunchScheme
 
             // 渠道服
             ServerChineseChannelBilibiliSubChannelDefault,
-            ServerChineseChannelBilibiliSubChannelOfficial,
+            ServerChineseChannelBilibiliSubChannelOfficialCompatOnly,
 
             // 国际服
             ServerGlobalChannelDefaultSubChannelDefaultCompatOnly,
