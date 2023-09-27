@@ -229,6 +229,49 @@ internal static class ApiOsEndpoints
 
     #endregion
 
+    #region SgHk4eApi
+
+    /// <summary>
+    /// 签到活动Id
+    /// </summary>
+    public const string SignInRewardActivityId = "e202102251931481";
+
+    /// <summary>
+    /// 签到
+    /// </summary>
+    public const string SignInRewardSign = $"{SgHk4eApi}/event/sol/sign?lang=zh-cn";
+
+    /// <summary>
+    /// 签到
+    /// </summary>
+    public const string SignInRewardHome = $"{SgHk4eApi}/event/sol/home?lang=zh-cn&act_id={SignInRewardActivityId}";
+
+    /// <summary>
+    /// 补签
+    /// </summary>
+    public const string SignInRewardReSign = $"{SgHk4eApi}/event/sol/resign?lang=zh-cn";
+
+    /// <summary>
+    /// 补签信息
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>补签信息字符串</returns>
+    public static string SignInRewardResignInfo(in PlayerUid uid)
+    {
+        return $"{SgHk4eApi}/event/sol/resign_info?lang=zh-cn&act_id={SignInRewardActivityId}&region={uid.Region}&uid={uid.Value}";
+    }
+
+    /// <summary>
+    /// 签到信息
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>签到信息字符串</returns>
+    public static string SignInRewardInfo(in PlayerUid uid)
+    {
+        return $"{SgHk4eApi}/event/sol/info?lang=zh-cn&act_id={SignInRewardActivityId}&region={uid.Region}&uid={uid.Value}";
+    }
+    #endregion
+
     #region SdkStaticLauncherApi
 
     /// <summary>
@@ -270,6 +313,7 @@ internal static class ApiOsEndpoints
     private const string SdkOsStaticLauncherApi = $"{SdkOsStatic}/hk4e_global/mdk/launcher/api";
 
     private const string SgPublicApi = "https://sg-public-api.hoyoverse.com";
+    private const string SgHk4eApi = "https://sg-hk4e-api.hoyoverse.com";
 
     private const string WebApiOs = "https://webapi-os.account.hoyoverse.com";
     private const string WebApiOsAccountApi = $"{WebApiOs}/Api";
