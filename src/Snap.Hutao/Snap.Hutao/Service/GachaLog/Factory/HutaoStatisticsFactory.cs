@@ -23,6 +23,9 @@ internal sealed class HutaoStatisticsFactory
     {
         this.context = context;
 
+        // TODO: when in new verion
+        // due to lack of newer metadata
+        // this can crash
         DateTimeOffset now = DateTimeOffset.Now;
         avatarEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish);
         avatarEvent2 = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish2);

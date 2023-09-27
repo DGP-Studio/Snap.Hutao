@@ -25,6 +25,7 @@ internal sealed partial class LaunchScheme
         Channel = ChannelType.Default,
         SubChannel = SubChannelType.Default,
         IsOversea = false,
+        IsCompatOnly = true,
     };
 
     private static readonly LaunchScheme ServerChineseChannelOfficialSubChannelDefault = new()
@@ -52,6 +53,16 @@ internal sealed partial class LaunchScheme
         Channel = ChannelType.Official,
         SubChannel = SubChannelType.NoTapTap,
         IsOversea = false,
+    };
+
+    private static readonly LaunchScheme ServerChineseChannelOfficialSubChannelEpicCompatOnly = new()
+    {
+        LauncherId = SdkStaticLauncherChineseId,
+        Key = SdkStaticLauncherChineseKey,
+        Channel = ChannelType.Official,
+        SubChannel = SubChannelType.Epic,
+        IsOversea = false,
+        IsCompatOnly = true,
     };
 
     private static readonly LaunchScheme ServerChineseChannelBilibiliSubChannelDefault = new()
@@ -122,6 +133,7 @@ internal sealed partial class LaunchScheme
             ServerChineseChannelOfficialSubChannelDefault,
             ServerChineseChannelOfficialSubChannelOfficial,
             ServerChineseChannelOfficialSubChannelNoTapTap,
+            ServerChineseChannelOfficialSubChannelEpicCompatOnly,
 
             // 渠道服
             ServerChineseChannelBilibiliSubChannelDefault,
