@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using System.Runtime.InteropServices;
 
-namespace Snap.Hutao.Control;
+namespace Snap.Hutao.Control.Brush;
 
 [DependencyProperty("Source", typeof(List<IColorSegment>), default!, nameof(OnSourceChanged))]
 internal sealed partial class SegmentedBar : ContentControl

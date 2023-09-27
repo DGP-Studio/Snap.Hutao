@@ -1,11 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Media;
-
-namespace Snap.Hutao.Control.Alternating;
+namespace Snap.Hutao.Control.Collection.Alternating;
 
 internal interface IAlternatingItem
 {
-    public Brush? Background { get; set; }
+    public Microsoft.UI.Xaml.Media.Brush? Background { get; set; }
 }

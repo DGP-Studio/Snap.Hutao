@@ -18,6 +18,15 @@ internal sealed partial class LaunchScheme
     private const string SdkStaticLauncherBilibiliKey = "KAtdSsoQ";
     private const string SdkStaticLauncherGlobalKey = "gcStgarh";
 
+    private static readonly LaunchScheme ServerChineseChannelDefaultSubChannelDefaultCompatOnly = new()
+    {
+        LauncherId = SdkStaticLauncherChineseId,
+        Key = SdkStaticLauncherChineseKey,
+        Channel = ChannelType.Default,
+        SubChannel = SubChannelType.Default,
+        IsOversea = false,
+    };
+
     private static readonly LaunchScheme ServerChineseChannelOfficialSubChannelDefault = new()
     {
         LauncherId = SdkStaticLauncherChineseId,
@@ -63,6 +72,16 @@ internal sealed partial class LaunchScheme
         IsOversea = false,
     };
 
+    private static readonly LaunchScheme ServerGlobalChannelDefaultSubChannelDefaultCompatOnly = new()
+    {
+        LauncherId = SdkStaticLauncherGlobalId,
+        Key = SdkStaticLauncherGlobalKey,
+        Channel = ChannelType.Default,
+        SubChannel = SubChannelType.Default,
+        IsOversea = true,
+        IsCompatOnly = true,
+    };
+
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelDefault = new()
     {
         LauncherId = SdkStaticLauncherGlobalId,
@@ -99,6 +118,7 @@ internal sealed partial class LaunchScheme
         return new List<LaunchScheme>()
         {
             // 官服
+            ServerChineseChannelDefaultSubChannelDefaultCompatOnly,
             ServerChineseChannelOfficialSubChannelDefault,
             ServerChineseChannelOfficialSubChannelOfficial,
             ServerChineseChannelOfficialSubChannelNoTapTap,
@@ -108,6 +128,7 @@ internal sealed partial class LaunchScheme
             ServerChineseChannelBilibiliSubChannelOfficial,
 
             // 国际服
+            ServerGlobalChannelDefaultSubChannelDefaultCompatOnly,
             ServerGlobalChannelOfficialSubChannelDefault,
             ServerGlobalChannelOfficialSubChannelEpic,
             ServerGlobalChannelOfficialSubChannelGoogle,

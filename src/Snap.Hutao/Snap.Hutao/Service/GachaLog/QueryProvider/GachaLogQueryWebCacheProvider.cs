@@ -37,14 +37,21 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         string? directory = Path.GetDirectoryName(path);
         ArgumentNullException.ThrowIfNull(directory);
         DirectoryInfo webCacheFolder = new(Path.Combine(directory, dataFolder, "webCaches"));
-        Regex versionRegex = VersionRegex();
-        DirectoryInfo? lastestVersionCacheFolder = webCacheFolder
-            .EnumerateDirectories()
-            .Where(dir => versionRegex.IsMatch(dir.Name))
-            .MaxBy(dir => new Version(dir.Name));
+        if (webCacheFolder.Exists)
+        {
+            Regex versionRegex = VersionRegex();
+            DirectoryInfo? lastestVersionCacheFolder = webCacheFolder
+                .EnumerateDirectories()
+                .Where(dir => versionRegex.IsMatch(dir.Name))
+                .MaxBy(dir => new Version(dir.Name));
 
-        lastestVersionCacheFolder ??= webCacheFolder;
-        return Path.Combine(lastestVersionCacheFolder.FullName, @"Cache\Cache_Data\data_2");
+            lastestVersionCacheFolder ??= webCacheFolder;
+            return Path.Combine(lastestVersionCacheFolder.FullName, @"Cache\Cache_Data\data_2");
+        }
+        else
+        {
+            return string.Empty;
+        }
     }
 
     /// <inheritdoc/>

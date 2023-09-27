@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using Windows.Foundation.Collections;
 
-namespace Snap.Hutao.Control.Alternating;
+namespace Snap.Hutao.Control.Collection.Alternating;
 
-[DependencyProperty("ItemAlternateBackground", typeof(Brush))]
+[DependencyProperty("ItemAlternateBackground", typeof(Microsoft.UI.Xaml.Media.Brush))]
 internal sealed partial class AlternatingItemsControl : ItemsControl
 {
     private readonly VectorChangedEventHandler<object> itemsVectorChangedEventHandler;

@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Media;
-using Snap.Hutao.Control.Alternating;
+using Snap.Hutao.Control.Collection.Alternating;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using System.Collections.Immutable;

@@ -3,7 +3,7 @@
 
 using Windows.UI;
 
-namespace Snap.Hutao.Control;
+namespace Snap.Hutao.Control.Brush;
 
 internal sealed class ColorSegment : IColorSegment
 {

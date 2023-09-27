@@ -55,6 +55,8 @@ internal sealed partial class LaunchScheme
     /// </summary>
     public bool IsOversea { get; private set; }
 
+    public bool IsCompatOnly { get; private set; }
+
     /// <summary>
     /// 多通道相等
     /// </summary>
