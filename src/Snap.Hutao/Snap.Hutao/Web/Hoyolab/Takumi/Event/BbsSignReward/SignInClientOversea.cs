@@ -50,7 +50,7 @@ internal sealed partial class SignInClientOversea : ISignInClient
                 resp = await httpClient
                     .SetUser(userAndUid.User, CookieType.CookieToken)
                     .SetXrpcChallenge(challenge, validate)
-                    .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new(userAndUid.Uid, true), options, logger, token)
+                    .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiOsEndpoints.SignInRewardSign, new(userAndUid.Uid, true), options, logger, token)
                     .ConfigureAwait(false);
             }
             else

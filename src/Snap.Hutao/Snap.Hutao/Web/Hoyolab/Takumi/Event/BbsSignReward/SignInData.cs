@@ -12,7 +12,7 @@ internal sealed class SignInData
     /// 构造一个新的签到提交数据
     /// </summary>
     /// <param name="uid">uid</param>
-    /// <param name="activityId">ActId</param>
+    /// <param name="isOversea">是否为国际服，用于选择ActivityId</param>
     [SuppressMessage("", "SH002")]
     public SignInData(PlayerUid uid, bool isOversea)
     {
