@@ -145,12 +145,12 @@ internal sealed partial class GameService : IGameService
             {
                 if (parameter.Key == "channel")
                 {
-                    changed = parameter.Set(scheme.Channel.ToString("D"));
+                    changed = parameter.Set(scheme.Channel.ToString("D")) || changed;
                 }
 
                 if (parameter.Key == "sub_channel")
                 {
-                    changed = parameter.Set(scheme.SubChannel.ToString("D"));
+                    changed = parameter.Set(scheme.SubChannel.ToString("D")) || changed;
                 }
             }
         }
