@@ -1400,6 +1400,9 @@
   <data name="ViewModelSettingCopyDeviceIdSuccess" xml:space="preserve">
     <value>복사 성공</value>
   </data>
+  <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
+    <value>创建桌面快捷方式失败</value>
+  </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>데이터 경로를 설정했습니다. 변경 사항을 적용하기 위해 재시작합니다</value>
   </data>
@@ -1927,6 +1930,9 @@
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>서버</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
+    <value>版本更新前需要提前转换至与启动器匹配的服务器</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
     <value>게임에서 수직 동기화 기능을 꺼주세요. 더 높은 프레임 속도를 지원하려면 고성능 그래픽 카드가 필요합니다</value>
