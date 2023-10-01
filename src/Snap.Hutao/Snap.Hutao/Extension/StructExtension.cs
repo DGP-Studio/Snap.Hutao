@@ -3,7 +3,7 @@
 
 using Windows.Graphics;
 
-namespace Snap.Hutao.Win32;
+namespace Snap.Hutao.Extension;
 
 /// <summary>
 /// 结构扩展

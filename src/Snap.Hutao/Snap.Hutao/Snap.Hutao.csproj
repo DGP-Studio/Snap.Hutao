@@ -78,8 +78,6 @@
     <None Remove="GuideWindow.xaml" />
     <None Remove="IdentityStructs.json" />
     <None Remove="LaunchGameWindow.xaml" />
-    <None Remove="NativeMethods.json" />
-    <None Remove="NativeMethods.txt" />
     <None Remove="Resource\BlurBackground.png" />
     <None Remove="Resource\Font\CascadiaMono.ttf" />
     <None Remove="Resource\Font\MiSans-Regular.ttf" />
@@ -166,8 +164,6 @@
   <ItemGroup>
     <AdditionalFiles Include="CodeMetricsConfig.txt" />
     <AdditionalFiles Include="IdentityStructs.json" />
-    <AdditionalFiles Include="NativeMethods.json" />
-    <AdditionalFiles Include="NativeMethods.txt" />
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   
@@ -260,10 +256,6 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
-    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.46-beta">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.507">
@@ -278,6 +270,7 @@
   <!-- Projects -->
   <ItemGroup>
     <ProjectReference Include="..\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\Snap.Hutao.Win32\Snap.Hutao.Win32.csproj" />
   </ItemGroup>
   
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
