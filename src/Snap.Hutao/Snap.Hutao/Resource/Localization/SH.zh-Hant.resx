@@ -1400,6 +1400,9 @@
   <data name="ViewModelSettingCopyDeviceIdSuccess" xml:space="preserve">
     <value>複製成功</value>
   </data>
+  <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
+    <value>创建桌面快捷方式失败</value>
+  </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>設置數據目錄成功，重啓以應用更改</value>
   </data>
@@ -1927,6 +1930,9 @@
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>伺服器</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
+    <value>版本更新前需要提前转换至与启动器匹配的服务器</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
     <value>請在游戲内關閉 V-Sync 選項，需要高性能的顯示卡以支持更高的 FPS</value>
