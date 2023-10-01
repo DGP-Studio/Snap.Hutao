@@ -15,11 +15,20 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 {
     private readonly RuntimeOptions runtimeOptions;
 
-    public void CreateDesktopShoutcutForElevatedLaunch()
+    public bool TryCreateDesktopShoutcutForElevatedLaunch()
     {
         string sourceLogoPath = Path.Combine(runtimeOptions.InstalledLocation, "Assets/Logo.ico");
         string targetLogoPath = Path.Combine(runtimeOptions.DataFolder, "ShellLinkLogo.ico");
-        File.Copy(sourceLogoPath, targetLogoPath, true);
+
+        try
+        {
+            // System.IO.IOException: 无法加密指定的文件。
+            File.Copy(sourceLogoPath, targetLogoPath, true);
+        }
+        catch
+        {
+            return false;
+        }
 
         IShellLinkW shellLink = (IShellLinkW)new ShellLink();
         shellLink.SetPath("powershell");
@@ -34,5 +43,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
         IPersistFile persistFile = (IPersistFile)shellLink;
         persistFile.Save(target, false);
+
+        return true;
     }
 }

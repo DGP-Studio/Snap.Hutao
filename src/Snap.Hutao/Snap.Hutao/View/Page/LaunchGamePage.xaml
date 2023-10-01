@@ -67,10 +67,18 @@
                                 Severity="Informational"/>
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameCommonHeader}"/>
                             <cwc:SettingsCard
-                                Description="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE8AB;}"
                                 IsEnabled="{Binding HutaoOptions.IsElevated}">
+                                <cwc:SettingsCard.Description>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeDescription}"/>
+                                        <TextBlock
+                                            Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeWarning}"/>
+                                    </StackPanel>
+                                </cwc:SettingsCard.Description>
                                 <StackPanel Orientation="Horizontal">
                                     <shvc:Elevation Margin="0,0,36,0" Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                     <shccs:ComboBox2

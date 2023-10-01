@@ -18,6 +18,7 @@ internal sealed class UIGF
     /// <summary>
     /// 信息
     /// </summary>
+    [JsonRequired]
     [JsonPropertyName("info")]
     public UIGFInfo Info { get; set; } = default!;
 

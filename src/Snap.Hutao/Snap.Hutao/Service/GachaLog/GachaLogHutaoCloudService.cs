@@ -99,9 +99,17 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
                 HutaoStatisticsFactoryMetadataContext context = new(idAvatarMap, idWeaponMap, gachaEvents);
 
                 GachaEventStatistics raw = response.Data;
-                HutaoStatisticsFactory factory = new(context);
-                HutaoStatistics statistics = factory.Create(raw);
-                return new(true, statistics);
+                try
+                {
+                    HutaoStatisticsFactory factory = new(context);
+                    HutaoStatistics statistics = factory.Create(raw);
+                    return new(true, statistics);
+                }
+                catch
+                {
+                    // 元数据未能即时更新导致异常？
+                    return new(false, default!);
+                }
             }
         }
 

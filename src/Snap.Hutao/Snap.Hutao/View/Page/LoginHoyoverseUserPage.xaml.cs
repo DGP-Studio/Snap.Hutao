@@ -40,12 +40,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
             .TryCatchGetFromJsonAsync<WebApiResponse<AccountInfoWrapper>>(ApiOsEndpoints.WebApiOsAccountLoginByCookie, options, logger, token)
             .ConfigureAwait(false);
 
-        if (resp is not null)
-        {
-            return $"{resp.Data?.AccountInfo?.AccountId}";
-        }
-
-        return string.Empty;
+        return $"{resp?.Data?.AccountInfo?.AccountId}";
     }
 
     private async void OnRootLoaded(object sender, RoutedEventArgs e)
@@ -81,6 +76,11 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
         Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
+        if (loginTicketCookie.IsEmpty())
+        {
+            return;
+        }
+
         string uid = await GetUidFromCookieAsync(Ioc.Default, loginTicketCookie).ConfigureAwait(false);
         loginTicketCookie[Cookie.LOGIN_UID] = uid;
 

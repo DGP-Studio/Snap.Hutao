@@ -22,14 +22,18 @@ internal sealed partial class HomaGeetestClient
 
         if (string.IsNullOrEmpty(template))
         {
-            return new() { Code = Response.Response.InternalFailure };
+            return GeetestResponse.InternalFailure;
         }
 
         GeetestResponse? resp = await httpClient
             .TryCatchGetFromJsonAsync<GeetestResponse>(template.Format(gt, challenge), options, logger, token)
             .ConfigureAwait(false);
 
-        ArgumentNullException.ThrowIfNull(resp);
+        if (resp is null)
+        {
+            return GeetestResponse.InternalFailure;
+        }
+
         return resp;
     }
 }

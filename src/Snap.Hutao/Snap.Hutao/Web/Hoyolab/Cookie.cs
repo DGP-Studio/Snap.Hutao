@@ -37,6 +37,11 @@ internal sealed partial class Cookie
         set => inner[key] = value;
     }
 
+    public bool IsEmpty()
+    {
+        return inner.Count <= 0;
+    }
+
     /// <summary>
     /// 解析Cookie字符串
     /// </summary>

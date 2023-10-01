@@ -3742,6 +3742,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 创建桌面快捷方式失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelSettingCreateDesktopShortcutFailed {
+            get {
+                return ResourceManager.GetString("ViewModelSettingCreateDesktopShortcutFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设置数据目录成功，重启以应用更改 的本地化字符串。
         /// </summary>
         internal static string ViewModelSettingSetDataFolderSuccess {
@@ -5322,6 +5331,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageLaunchGameSwitchSchemeHeader {
             get {
                 return ResourceManager.GetString("ViewPageLaunchGameSwitchSchemeHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 版本更新前需要提前转换至与启动器匹配的服务器 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchSchemeWarning {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchSchemeWarning", resourceCulture);
             }
         }
         

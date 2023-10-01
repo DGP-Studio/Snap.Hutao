@@ -270,7 +270,14 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("CreateDesktopShortcutCommand")]
     private void CreateDesktopShortcutForElevatedLaunch()
     {
-        shellLinkInterop.CreateDesktopShoutcutForElevatedLaunch();
-        infoBarService.Information(SH.ViewModelSettingActionComplete);
+        bool created = shellLinkInterop.TryCreateDesktopShoutcutForElevatedLaunch();
+        if (created)
+        {
+            infoBarService.Information(SH.ViewModelSettingActionComplete);
+        }
+        else
+        {
+            infoBarService.Warning(SH.ViewModelSettingCreateDesktopShortcutFailed);
+        }
     }
 }

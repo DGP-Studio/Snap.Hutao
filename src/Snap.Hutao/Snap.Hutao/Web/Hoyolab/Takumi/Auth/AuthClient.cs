@@ -54,16 +54,20 @@ internal sealed partial class AuthClient
     /// <returns>包含token的字典</returns>
     public async ValueTask<Response<ListWrapper<NameToken>>> GetMultiTokenByLoginTicketAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
     {
-        string loginTicket = cookie[Cookie.LOGIN_TICKET];
-        string loginUid = cookie[Cookie.LOGIN_UID];
+        Response<ListWrapper<NameToken>>? resp = null;
+        if (cookie.TryGetLoginTicket(out Cookie? loginTicketCookie))
+        {
+            string loginTicket = loginTicketCookie[Cookie.LOGIN_TICKET];
+            string loginUid = loginTicketCookie[Cookie.LOGIN_UID];
 
-        string url = isOversea
-            ? ApiOsEndpoints.AuthMultiToken(loginTicket, loginUid)
-            : ApiEndpoints.AuthMultiToken(loginTicket, loginUid);
+            string url = isOversea
+                ? ApiOsEndpoints.AuthMultiToken(loginTicket, loginUid)
+                : ApiEndpoints.AuthMultiToken(loginTicket, loginUid);
 
-        Response<ListWrapper<NameToken>>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<ListWrapper<NameToken>>>(url, options, logger, token)
-            .ConfigureAwait(false);
+            resp = await httpClient
+                .TryCatchGetFromJsonAsync<Response<ListWrapper<NameToken>>>(url, options, logger, token)
+                .ConfigureAwait(false);
+        }
 
         return Response.Response.DefaultIfNull(resp);
     }
