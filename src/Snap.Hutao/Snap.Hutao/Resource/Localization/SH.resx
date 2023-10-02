@@ -2321,6 +2321,9 @@
   <data name="ViewUserCookieOperation3" xml:space="preserve">
     <value>当前用户</value>
   </data>
+  <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
+    <value>我的角色</value>
+  </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>网页登录</value>
   </data>

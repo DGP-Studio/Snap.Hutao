@@ -192,7 +192,7 @@
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Icon="{shcm:FontIcon Glyph=&#xEC26;}"
-                                Label="我的角色"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationGameRecordIndexAction}"
                                 Style="{StaticResource DefaultAppBarButtonStyle}">
                                 <mxi:Interaction.Behaviors>
                                     <mxic:EventTriggerBehavior EventName="Click">

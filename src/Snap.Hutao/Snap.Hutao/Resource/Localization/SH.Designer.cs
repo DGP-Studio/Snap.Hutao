@@ -6505,6 +6505,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 我的角色 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserCookieOperationGameRecordIndexAction {
+            get {
+                return ResourceManager.GetString("ViewUserCookieOperationGameRecordIndexAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 网页登录 的本地化字符串。
         /// </summary>
         internal static string ViewUserCookieOperationLoginMihoyoUserAction {
