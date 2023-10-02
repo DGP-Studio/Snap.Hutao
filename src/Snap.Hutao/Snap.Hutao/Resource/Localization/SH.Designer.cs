@@ -7081,6 +7081,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 验证失败，请手动验证或前往「米游社-我的角色」页面查看 的本地化字符串。
+        /// </summary>
+        internal static string WebIndexOrSpiralAbyssVerificationFailed {
+            get {
+                return ResourceManager.GetString("WebIndexOrSpiralAbyssVerificationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 状态：{0} | 信息：{1} 的本地化字符串。
         /// </summary>
         internal static string WebResponseFormat {

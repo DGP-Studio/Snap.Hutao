@@ -16,13 +16,12 @@ internal static class HttpClientExtension
 {
     private const string RequestErrorMessage = "请求异常已忽略";
 
-    /// <inheritdoc cref="HttpClientJsonExtensions.GetFromJsonAsync{TValue}(HttpClient, string?, JsonSerializerOptions?, CancellationToken)"/>
-    internal static async ValueTask<T?> TryCatchGetFromJsonAsync<T>(this HttpClient httpClient, string requestUri, JsonSerializerOptions options, ILogger logger, CancellationToken token = default)
-        where T : class
+    internal static async ValueTask<TResult?> TryCatchGetFromJsonAsync<TResult>(this HttpClient httpClient, string requestUri, JsonSerializerOptions options, ILogger logger, CancellationToken token = default)
+        where TResult : class
     {
         try
         {
-            return await httpClient.GetFromJsonAsync<T>(requestUri, options, token).ConfigureAwait(false);
+            return await httpClient.GetFromJsonAsync<TResult>(requestUri, options, token).ConfigureAwait(false);
         }
         catch (HttpRequestException ex)
         {
@@ -46,7 +45,6 @@ internal static class HttpClientExtension
         }
     }
 
-    /// <inheritdoc cref="HttpClientJsonExtensions.PostAsJsonAsync{TValue}(HttpClient, string?, TValue, JsonSerializerOptions?, CancellationToken)"/>
     internal static async ValueTask<TResult?> TryCatchPostAsJsonAsync<TValue, TResult>(this HttpClient httpClient, string requestUri, TValue value, JsonSerializerOptions options, ILogger logger, CancellationToken token = default)
         where TResult : class
     {
@@ -77,7 +75,6 @@ internal static class HttpClientExtension
         }
     }
 
-    /// <inheritdoc cref="HttpClientJsonExtensions.PostAsJsonAsync{TValue}(HttpClient, string?, TValue, JsonSerializerOptions?, CancellationToken)"/>
     internal static async ValueTask<TResult?> TryCatchPostAsJsonAsync<TValue, TResult>(this HttpClient httpClient, string requestUri, TValue value, CancellationToken token = default)
         where TResult : class
     {

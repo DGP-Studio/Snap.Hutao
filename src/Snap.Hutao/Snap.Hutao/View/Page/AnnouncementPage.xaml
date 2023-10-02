@@ -178,7 +178,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CardTemplate" x:DataType="shvcp:CardReference">
-            <ItemContainer Child="{Binding Card}">
+            <ItemContainer cw:Effects.Shadow="{StaticResource CompatCardShadow}" Child="{Binding Card}">
                 <ItemContainer.Resources>
                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                 </ItemContainer.Resources>
@@ -188,7 +188,7 @@
     </shc:ScopedPage.Resources>
 
     <Grid>
-        <ScrollViewer Padding="0,0,0,0">
+        <ScrollViewer Padding="0">
             <StackPanel>
                 <StackPanel>
                     <TextBlock

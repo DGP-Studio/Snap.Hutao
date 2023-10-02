@@ -77,7 +77,12 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
         // TODO: replace with .NET 8 UnsafeAccessor
         try
         {
-            CoreWebView2 coreWebView2 = WebView.CoreWebView2;
+            CoreWebView2? coreWebView2 = WebView?.CoreWebView2;
+
+            if (coreWebView2 is null)
+            {
+                return;
+            }
 
             if (SourceProvider is not null)
             {

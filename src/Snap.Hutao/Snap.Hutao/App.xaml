@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cwcont="using:CommunityToolkit.WinUI.Controls"
     xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
+    xmlns:cwm="using:CommunityToolkit.WinUI.Media"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
@@ -28,6 +29,7 @@
                     <SolidColorBrush x:Key="DarkOnlyOverlayMaskBrush" Color="#60000000"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+
             <!--  Modify Window title bar color  -->
             <StaticResource x:Key="WindowCaptionBackground" ResourceKey="ControlFillColorTransparentBrush"/>
             <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush"/>
@@ -301,6 +303,11 @@
                 <ReorderThemeTransition/>
                 <EntranceThemeTransition IsStaggeringEnabled="False"/>
             </TransitionCollection>
+
+            <cwm:AttachedCardShadow
+                x:Key="CompatCardShadow"
+                Opacity="0.1"
+                Offset="0,4,0"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

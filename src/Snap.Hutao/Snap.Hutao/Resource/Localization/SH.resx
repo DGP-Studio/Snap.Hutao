@@ -2513,6 +2513,9 @@
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
     <value>武器活动祈愿</value>
   </data>
+  <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
+    <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>
+  </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>状态：{0} | 信息：{1}</value>
   </data>

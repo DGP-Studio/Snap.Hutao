@@ -78,6 +78,24 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             .TryCatchGetFromJsonAsync<Response<PlayerInfo>>(ApiEndpoints.GameRecordIndex(userAndUid.Uid), options, logger, token)
             .ConfigureAwait(false);
 
+        // We have a verification procedure to handle
+        if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
+        {
+            // Replace message
+            resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            {
+                resp = await httpClient
+                    .SetUser(userAndUid.User, CookieType.Cookie)
+                    .SetXrpcChallenge(challenge)
+                    .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
+                    .TryCatchGetFromJsonAsync<Response<PlayerInfo>>(ApiEndpoints.GameRecordIndex(userAndUid.Uid), options, logger, token)
+                    .ConfigureAwait(false);
+            }
+        }
+
         return Response.Response.DefaultIfNull(resp);
     }
 
@@ -96,6 +114,24 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
             .TryCatchGetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid), options, logger, token)
             .ConfigureAwait(false);
+
+        // We have a verification procedure to handle
+        if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
+        {
+            // Replace message
+            resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            {
+                resp = await httpClient
+                    .SetUser(userAndUid.User, CookieType.Cookie)
+                    .SetXrpcChallenge(challenge)
+                    .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
+                    .TryCatchGetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid), options, logger, token)
+                    .ConfigureAwait(false);
+            }
+        }
 
         return Response.Response.DefaultIfNull(resp);
     }
@@ -135,6 +171,24 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
             .TryCatchPostAsJsonAsync<CharacterData, Response<CharacterWrapper>>(ApiEndpoints.GameRecordCharacter, data, options, logger, token)
             .ConfigureAwait(false);
+
+        // We have a verification procedure to handle
+        if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
+        {
+            // Replace message
+            resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            {
+                resp = await httpClient
+                    .SetUser(userAndUid.User, CookieType.Cookie)
+                    .SetXrpcChallenge(challenge)
+                    .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
+                    .TryCatchPostAsJsonAsync<CharacterData, Response<CharacterWrapper>>(ApiEndpoints.GameRecordCharacter, data, options, logger, token)
+                    .ConfigureAwait(false);
+            }
+        }
 
         return Response.Response.DefaultIfNull(resp);
     }

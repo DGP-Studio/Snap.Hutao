@@ -33,11 +33,7 @@ internal sealed partial class UserClient : IUserClient
     {
         ArgumentException.ThrowIfNullOrEmpty(user.Aid);
         Response<UserFullInfoWrapper>? resp = await httpClient
-
-            // .SetUser(user, CookieType.SToken)
             .SetReferer(ApiEndpoints.BbsReferer)
-
-            // .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(user.Aid), options, logger, token)
             .ConfigureAwait(false);
 
