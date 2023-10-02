@@ -1401,7 +1401,7 @@
     <value>Copied</value>
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
-    <value>创建桌面快捷方式失败</value>
+    <value>Failed to create desktop shortcut</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Set data directory successfully. Restart to apply changes.</value>
