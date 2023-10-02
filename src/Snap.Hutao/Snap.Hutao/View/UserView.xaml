@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.UserView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwb="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -191,36 +192,6 @@
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
-                                Icon="{shcm:FontIcon Glyph=&#xEC26;}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationGameRecordIndexAction}"
-                                Style="{StaticResource DefaultAppBarButtonStyle}">
-                                <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="Click">
-                                        <shcb:OpenAttachedFlyoutAction/>
-                                    </mxic:EventTriggerBehavior>
-                                </mxi:Interaction.Behaviors>
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout LightDismissOverlayMode="On" Placement="Full">
-                                        <Flyout.FlyoutPresenterStyle>
-                                            <Style TargetType="FlyoutPresenter">
-                                                <Setter Property="Padding" Value="0"/>
-                                                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
-                                            </Style>
-                                        </Flyout.FlyoutPresenterStyle>
-                                        <Grid>
-                                            <shvc:WebViewer>
-                                                <shvc:WebViewer.SourceProvider>
-                                                    <shvc:StaticWebview2ViewerSource Source="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
-                                                </shvc:WebViewer.SourceProvider>
-                                            </shvc:WebViewer>
-                                        </Grid>
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
-                            </AppBarButton>
-                            <AppBarButton
-                                Width="{StaticResource LargeAppBarButtonWidth}"
-                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                                Margin="2,-4"
                                 Command="{Binding RefreshCookieTokenCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE72C;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationRefreshCookieAction}"/>
@@ -228,6 +199,49 @@
 
                         <Grid Grid.Column="1" Width="280">
                             <StackPanel Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                <Button
+                                    Margin="8"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch">
+                                    <mxi:Interaction.Behaviors>
+                                        <mxic:EventTriggerBehavior EventName="Click">
+                                            <shcb:OpenAttachedFlyoutAction/>
+                                        </mxic:EventTriggerBehavior>
+                                    </mxi:Interaction.Behaviors>
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <FontIcon
+                                                Grid.Column="0"
+                                                Margin="0,0,12,0"
+                                                Glyph="&#xEC26;"/>
+                                            <TextBlock Grid.Column="1" Text="{shcm:ResourceString Name=ViewUserCookieOperationGameRecordIndexAction}"/>
+                                        </Grid>
+                                    </Button.Content>
+                                    <FlyoutBase.AttachedFlyout>
+                                        <Flyout
+                                            LightDismissOverlayMode="On"
+                                            Placement="Full"
+                                            ShouldConstrainToRootBounds="False">
+                                            <Flyout.FlyoutPresenterStyle>
+                                                <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                                    <Setter Property="Padding" Value="0"/>
+                                                    <Setter Property="CornerRadius" Value="0"/>
+                                                </Style>
+                                            </Flyout.FlyoutPresenterStyle>
+                                            <Grid>
+                                                <shvc:WebViewer>
+                                                    <shvc:WebViewer.SourceProvider>
+                                                        <shvc:StaticWebview2ViewerSource Source="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
+                                                    </shvc:WebViewer.SourceProvider>
+                                                </shvc:WebViewer>
+                                            </Grid>
+                                        </Flyout>
+                                    </FlyoutBase.AttachedFlyout>
+                                </Button>
                                 <TextBlock
                                     Margin="10,6,0,6"
                                     Style="{StaticResource BaseTextBlockStyle}"

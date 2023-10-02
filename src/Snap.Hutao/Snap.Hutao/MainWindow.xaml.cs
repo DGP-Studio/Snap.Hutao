@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing;
+using System.Runtime.CompilerServices;
 using Windows.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -22,6 +23,7 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource
     private readonly WindowOptions windowOptions;
     private readonly ILogger<MainWindow> logger;
     private readonly TypedEventHandler<object, WindowEventArgs> closedEventHander;
+    private readonly TypedEventHandler<object, WindowSizeChangedEventArgs> sizeChangedEventHandler;
 
     /// <summary>
     /// 构造一个新的主窗体
@@ -35,7 +37,10 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource
         logger = serviceProvider.GetRequiredService<ILogger<MainWindow>>();
 
         closedEventHander = OnClosed;
+        sizeChangedEventHandler = OnSizeChanged;
+
         Closed += closedEventHander;
+        SizeChanged += sizeChangedEventHandler;
     }
 
     /// <inheritdoc/>
@@ -51,5 +56,9 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource
     private void OnClosed(object sender, WindowEventArgs args)
     {
         logger.LogInformation("MainWindow Closed");
+    }
+
+    private void OnSizeChanged(object sender, WindowSizeChangedEventArgs args)
+    {
     }
 }

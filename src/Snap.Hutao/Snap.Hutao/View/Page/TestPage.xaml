@@ -49,7 +49,10 @@
                     </mxic:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>
-                    <Flyout LightDismissOverlayMode="On" Placement="Full">
+                    <Flyout
+                        LightDismissOverlayMode="On"
+                        Placement="Full"
+                        ShouldConstrainToRootBounds="False">
                         <Flyout.FlyoutPresenterStyle>
                             <Style TargetType="FlyoutPresenter">
                                 <Setter Property="Padding" Value="0"/>
