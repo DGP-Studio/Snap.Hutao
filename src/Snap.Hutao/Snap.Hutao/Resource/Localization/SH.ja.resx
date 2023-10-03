@@ -2321,6 +2321,9 @@
   <data name="ViewUserCookieOperation3" xml:space="preserve">
     <value>現在のユーザー</value>
   </data>
+  <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
+    <value>我的角色</value>
+  </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>ウェブ上でログイン</value>
   </data>
@@ -2512,6 +2515,9 @@
   </data>
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
     <value>イベント祈願・武器</value>
+  </data>
+  <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
+    <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>リターンコード：{0} | メッセージ：{1}</value>
