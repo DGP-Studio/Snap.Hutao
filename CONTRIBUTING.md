@@ -6,15 +6,15 @@
 
 1. Download and install [Visual Studio 2022 Community](https://visualstudio.microsoft.com/downloads/)
 2. Open Visual Studio Installer to complete Visual Studio installation
-   - You need to install `.NET desktop development`, `Desktop development with C++` and `Universal Windows Platform development` components. 
-3. Use git to clone the project `https://github.com/DGP-Studio/Snap.Hutao.git` to your local device 
-   - You may also use our GitLab mirror repository `https://jihulab.com/DGP-Studio/Snap.Hutao.git` if you have trouble connecting to GitHub
-4. Switch git branch to `develop`
-5. Open project solution with your Visual Studio and then you are ready to go
+   - You need to install `.NET desktop development`, `Desktop development with C++` and `Universal Windows Platform development` components
+3. Install `Single-project MSIX Packaging Tools for VS 2022` provided by Microsoft in Visual Studio marketplace
+4. Use git to clone the project `https://github.com/DGP-Studio/Snap.Hutao.git` to your local device 
+5. Switch git branch to `develop`
+6. Open project solution with your Visual Studio and then you are ready to go
 
 ### Start Pull Request
 
-- All code-related changes should only be push to `develop` branch
+- All code-related changes from authors' own branches are only allowed be merged to `develop` branch
 - Please use [keywords](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/using-keywords-in-issues-and-pull-requests) to link your PR or commits with issues, so issues can be automatically closed once commits are merged into `main` branch.
 
 ### Test Binary Package
@@ -37,10 +37,11 @@ Before submitting a new issue, you should check the following pages:
 
 When starting a new issue, please use the issue templates:
 
+- Describe your issue in details to help developers to reproduce the issue
+- Your description of reproduction should be a step-by-step story
 - If your issue is about program crash
   - Remember to provide your Device ID
   - Check Windows Event Viewer, and attach associated `.NET Error` details in the issue body
-- Describe your issue in details to help developers to reproduce the issue
 
 ## Document Modification
 
