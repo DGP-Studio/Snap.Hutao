@@ -29,7 +29,7 @@
 
         <DataTemplate x:Key="AnnouncementTemplate">
             <ItemsRepeater
-                Margin="16,0,16,16"
+                Margin="16,16,16,16"
                 HorizontalAlignment="Stretch"
                 ItemsSource="{Binding List}">
                 <ItemsRepeater.Layout>
@@ -42,7 +42,7 @@
                 </ItemsRepeater.Layout>
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate>
-                        <ItemContainer>
+                        <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Style="{StaticResource BorderCardStyle}">
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -82,7 +82,7 @@
                                         </Border>
                                     </Grid>
                                     <!--  General Description  -->
-                                    <Border Grid.Row="1" CornerRadius="{StaticResource CompatCornerRadiusBottom}">
+                                    <Border Grid.Row="1">
                                         <StackPanel Margin="4" VerticalAlignment="Bottom">
                                             <TextBlock
                                                 Margin="4,6,0,0"

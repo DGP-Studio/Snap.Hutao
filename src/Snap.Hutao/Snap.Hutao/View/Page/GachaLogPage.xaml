@@ -348,10 +348,9 @@
                                         Margin="0,16,0,0"
                                         HorizontalAlignment="Left"
                                         Style="{StaticResource BorderCardStyle}">
-                                        <Grid>
-                                            <shcp:AspectRatio TargetHeight="320" TargetWidth="690"/>
+                                        <cwc:ConstrainedBox AspectRatio="690:320">
                                             <shci:CachedImage Source="{Binding SelectedHistoryWish.BannerImage}"/>
-                                        </Grid>
+                                        </cwc:ConstrainedBox>
                                     </Border>
 
                                     <TextBlock

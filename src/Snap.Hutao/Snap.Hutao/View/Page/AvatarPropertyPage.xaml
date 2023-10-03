@@ -307,11 +307,10 @@
                                     <StackPanel
                                         Name="ListImageExportPanel"
                                         MaxWidth="800"
-                                        HorizontalAlignment="Left"
-                                        Background="Transparent">
+                                        HorizontalAlignment="Left">
                                         <!--  卡片面板  -->
-                                        <Border Margin="16" Style="{StaticResource BorderCardStyle}">
-                                            <Grid>
+                                        <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                            <Grid Style="{StaticResource BorderGridStyle}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition/>
                                                     <RowDefinition Height="auto"/>
@@ -320,25 +319,20 @@
                                                     <ColumnDefinition/>
                                                     <ColumnDefinition Width="auto"/>
                                                 </Grid.ColumnDefinitions>
-                                                <shcp:AspectRatio
+                                                <cwcont:ConstrainedBox
                                                     Grid.RowSpan="2"
                                                     Grid.ColumnSpan="2"
-                                                    TargetHeight="400"
-                                                    TargetWidth="840"/>
-                                                <shci:CachedImage
-                                                    Grid.RowSpan="2"
-                                                    Grid.ColumnSpan="2"
-                                                    Source="{Binding SelectedAvatar.NameCard}"
-                                                    Stretch="UniformToFill"/>
+                                                    AspectRatio="840:400">
+                                                    <shci:CachedImage
+                                                        Grid.RowSpan="2"
+                                                        Grid.ColumnSpan="2"
+                                                        Source="{Binding SelectedAvatar.NameCard}"
+                                                        Stretch="UniformToFill"/>
+                                                </cwcont:ConstrainedBox>
                                                 <Rectangle
                                                     Grid.RowSpan="2"
                                                     Grid.ColumnSpan="2"
-                                                    Fill="#33000000"
-                                                    Stroke="{x:Null}"/>
-                                                <Border
-                                                    x:Name="ShadowTarget"
-                                                    Grid.RowSpan="2"
-                                                    Grid.ColumnSpan="2"/>
+                                                    Fill="#33000000"/>
                                                 <StackPanel
                                                     Margin="16"
                                                     HorizontalAlignment="Left"
@@ -348,16 +342,10 @@
                                                             <ColumnDefinition/>
                                                             <ColumnDefinition Width="auto"/>
                                                         </Grid.ColumnDefinitions>
-                                                        <shvcont:ItemIcon Icon="{Binding SelectedAvatar.Icon}" Quality="{Binding SelectedAvatar.Quality}">
-                                                            <cw:Effects.Shadow>
-                                                                <cw:AttachedDropShadow
-                                                                    BlurRadius="16"
-                                                                    CastTo="{Binding ElementName=ShadowTarget}"
-                                                                    IsMasked="False"
-                                                                    Opacity="0.6"
-                                                                    Offset="4"/>
-                                                            </cw:Effects.Shadow>
-                                                        </shvcont:ItemIcon>
+                                                        <shvcont:ItemIcon
+                                                            cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
+                                                            Icon="{Binding SelectedAvatar.Icon}"
+                                                            Quality="{Binding SelectedAvatar.Quality}"/>
                                                         <StackPanel Grid.Column="1" Margin="16,0,0,0">
                                                             <TextBlock
                                                                 Foreground="#FFFFFFFF"
@@ -397,19 +385,12 @@
                                                         <Button
                                                             Padding="0"
                                                             BorderBrush="{x:Null}"
-                                                            BorderThickness="0"
-                                                            CornerRadius="{StaticResource CompatCornerRadius}">
+                                                            BorderThickness="0">
                                                             <Button.Content>
-                                                                <shvcont:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}">
-                                                                    <cw:Effects.Shadow>
-                                                                        <cw:AttachedDropShadow
-                                                                            BlurRadius="16"
-                                                                            CastTo="{Binding ElementName=ShadowTarget}"
-                                                                            IsMasked="False"
-                                                                            Opacity="0.6"
-                                                                            Offset="4"/>
-                                                                    </cw:Effects.Shadow>
-                                                                </shvcont:ItemIcon>
+                                                                <shvcont:ItemIcon
+                                                                    cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
+                                                                    Icon="{Binding Icon}"
+                                                                    Quality="{Binding Quality}"/>
                                                             </Button.Content>
                                                             <Button.Flyout>
                                                                 <Flyout Placement="BottomEdgeAlignedLeft">
@@ -603,6 +584,7 @@
                                                 </ItemsControl>
                                             </Grid>
                                         </Border>
+
                                         <!--  角色属性  -->
                                         <Expander
                                             Margin="16,0,16,0"

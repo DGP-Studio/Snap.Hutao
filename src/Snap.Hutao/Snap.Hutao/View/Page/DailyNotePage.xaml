@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Page.DailyNotePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -187,11 +188,11 @@
                             ItemsStretch="Fill"
                             MinColumnSpacing="12"
                             MinItemWidth="300"
-                            MinRowSpacing="-4"/>
+                            MinRowSpacing="12"/>
                     </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate>
-                            <ItemContainer>
+                            <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                 <ItemContainer.Resources>
                                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                                     <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
@@ -533,6 +534,5 @@
                 </ItemsRepeater>
             </ScrollView>
         </SplitView>
-
     </Grid>
 </shc:ScopedPage>

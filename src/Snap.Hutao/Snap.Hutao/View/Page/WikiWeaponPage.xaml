@@ -120,11 +120,7 @@
                                     MaxWidth="800"
                                     Margin="0,0,16,0"
                                     HorizontalAlignment="Left">
-                                    <Border
-                                        Margin="16,16,0,0"
-                                        BorderBrush="{StaticResource CardStrokeColorDefault}"
-                                        BorderThickness="1"
-                                        CornerRadius="{StaticResource CompatCornerRadius}">
+                                    <Border Margin="16,16,0,0" Style="{ThemeResource BorderCardStyle}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="ms-appx:///Resource/Icon/UI_GachaShowPanel_Bg_Weapon.png"/>
                                         </Border.Background>

@@ -128,7 +128,7 @@
                                     VerticalAlignment="Center"
                                     CornerRadius="2">
                                     <Border.Background>
-                                        <SolidColorBrush Opacity="0.6" Color="{ThemeResource SystemAccentColor}"/>
+                                        <SolidColorBrush Opacity="0.3" Color="{ThemeResource SystemAccentColor}"/>
                                     </Border.Background>
                                     <TextBlock
                                         FontSize="10"
@@ -140,7 +140,8 @@
 
                             <TextBlock
                                 Margin="0,2,0,0"
-                                Style="{StaticResource SecondaryTextStyle}"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding Inner.Description}"
                                 TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
@@ -264,7 +265,7 @@
                     <AppBarToggleButton
                         Command="{Binding SortUncompletedSwitchCommand}"
                         Icon="{shcm:FontIcon Glyph=&#xE8CB;}"
-                        IsChecked="{Binding IsUncompletedItemsFirst}"
+                        IsChecked="{Binding IsUncompletedItemsFirst, Mode=TwoWay}"
                         Label="{shcm:ResourceString Name=ViewPageAchievementSortIncompletedItemsFirst}"/>
                 </CommandBar>
             </Grid>

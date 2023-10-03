@@ -75,6 +75,11 @@
     <None Remove="Control\Loading.xaml" />
     <None Remove="Control\Panel\PanelSelector.xaml" />
     <None Remove="Control\Theme\FontStyle.xaml" />
+    <None Remove="Control\Theme\InfoBarOverride.xaml" />
+    <None Remove="Control\Theme\PageOverride.xaml" />
+    <None Remove="Control\Theme\PivotOverride.xaml" />
+    <None Remove="Control\Theme\SettingsStyle.xaml" />
+    <None Remove="Control\Theme\WindowOverride.xaml" />
     <None Remove="GuideWindow.xaml" />
     <None Remove="IdentityStructs.json" />
     <None Remove="LaunchGameWindow.xaml" />
@@ -296,6 +301,36 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\SettingsStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\PivotOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\PageOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\WindowOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\InfoBarOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

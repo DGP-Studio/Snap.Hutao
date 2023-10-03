@@ -16,7 +16,7 @@
         Grid.ColumnSpan="2"
         MinHeight="{x:Bind MinHeight, Mode=OneWay}"
         Background="Transparent"
-        CornerRadius="{StaticResource CompatCornerRadius}"
+        CornerRadius="{StaticResource ControlCornerRadius}"
         Foreground="{x:Bind ProgressForeground, Mode=OneWay}"
         Maximum="{x:Bind Maximum, Mode=OneWay}"
         Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
