@@ -209,15 +209,37 @@
                                 </AppBarButton.Flyout>
                             </AppBarButton>
                             <AppBarButton
+                                x:Name="SignInRewardButton"
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 AllowFocusOnInteraction="True"
                                 Command="{Binding ClaimSignInRewardCommand}"
-                                CommandParameter="{Binding Source={RelativeSource Mode=Self}}"
+                                CommandParameter="{Binding ElementName=SignInRewardButton}"
                                 Icon="{shcm:FontIcon Glyph=&#xF133;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
-                                Style="{StaticResource DefaultAppBarButtonStyle}"/>
+                                Style="{StaticResource DefaultAppBarButtonStyle}">
+                                <FlyoutBase.AttachedFlyout>
+                                    <Flyout
+                                        LightDismissOverlayMode="On"
+                                        Placement="Full"
+                                        ShouldConstrainToRootBounds="False">
+                                        <Flyout.FlyoutPresenterStyle>
+                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="CornerRadius" Value="0"/>
+                                            </Style>
+                                        </Flyout.FlyoutPresenterStyle>
+                                        <Grid>
+                                            <shvc:WebViewer>
+                                                <shvc:WebViewer.SourceProvider>
+                                                    <shvu:SignInWebViewerSouce/>
+                                                </shvc:WebViewer.SourceProvider>
+                                            </shvc:WebViewer>
+                                        </Grid>
+                                    </Flyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </AppBarButton>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"

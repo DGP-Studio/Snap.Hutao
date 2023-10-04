@@ -25,9 +25,17 @@ internal sealed partial class SignInService : ISignInService
 
             if (resultResponse.IsOk())
             {
-                int index = DateTimeOffset.Now.Day - 1;
-                Award award = rewardResponse.Data.Awards[index];
-                return new(true, SH.ServiceSignInSuccessRewardFormat.Format(award.Name, award.Count));
+                Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid, token).ConfigureAwait(false);
+                if (infoResponse.IsOk())
+                {
+                    int index = infoResponse.Data.TotalSignDay - 1;
+                    Award award = rewardResponse.Data.Awards[index];
+                    return new(true, SH.ServiceSignInSuccessRewardFormat.Format(award.Name, award.Count));
+                }
+                else
+                {
+                    return new(false, "获取签到次数失败");
+                }
             }
             else
             {
