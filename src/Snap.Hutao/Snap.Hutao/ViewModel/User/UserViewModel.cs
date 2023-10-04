@@ -271,7 +271,7 @@ internal sealed class SignInWebViewerSouce : IWebViewerSource
     {
         return userAndUid.User.IsOversea
             ? serviceProvider.CreateInstance<SignInJSInterfaceOversea>(coreWebView2, userAndUid)
-            : serviceProvider.CreateInstance<SignInJSInterface2>(coreWebView2, userAndUid);
+            : serviceProvider.CreateInstance<SignInJSInterface>(coreWebView2, userAndUid);
     }
 
     public string GetSource(UserAndUid userAndUid)
