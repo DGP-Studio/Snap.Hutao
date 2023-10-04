@@ -3751,6 +3751,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 无感验证复合 Url 配置成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelSettingGeetestCustomUrlSucceed {
+            get {
+                return ResourceManager.GetString("ViewModelSettingGeetestCustomUrlSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设置数据目录成功，重启以应用更改 的本地化字符串。
         /// </summary>
         internal static string ViewModelSettingSetDataFolderSuccess {

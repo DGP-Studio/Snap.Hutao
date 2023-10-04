@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
@@ -9,8 +12,10 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.View.Control;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.View.Page;
+using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -227,7 +232,7 @@ internal sealed partial class UserViewModel : ObservableObject
     }
 
     [Command("ClaimSignInRewardCommand")]
-    private async Task ClaimSignInRewardAsync()
+    private async Task ClaimSignInRewardAsync(AppBarButton? appBarButton)
     {
         if (SelectedUser is not null)
         {
@@ -241,6 +246,8 @@ internal sealed partial class UserViewModel : ObservableObject
                 }
                 else
                 {
+                    await taskContext.SwitchToMainThreadAsync();
+                    FlyoutBase.ShowAttachedFlyout(appBarButton);
                     infoBarService.Warning(message);
                 }
             }
@@ -255,5 +262,20 @@ internal sealed partial class UserViewModel : ObservableObject
     private async Task OpenDocumentationAsync()
     {
         await Launcher.LaunchUriAsync(new(documentationProvider.GetDocumentation()));
+    }
+}
+
+internal sealed class SignInWebViewerSouce : IWebViewerSource
+{
+    public MiHoYoJSInterface CreateJsInterface(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
+    {
+        return userAndUid.User.IsOversea
+            ? serviceProvider.CreateInstance<SignInJSInterfaceOversea>(coreWebView2, userAndUid)
+            : serviceProvider.CreateInstance<SignInJSInterface2>(coreWebView2, userAndUid);
+    }
+
+    public string GetSource(UserAndUid userAndUid)
+    {
+        throw new NotImplementedException();
     }
 }

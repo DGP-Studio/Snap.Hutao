@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="Control/Theme/PageOverride.xaml"/>
                 <ResourceDictionary Source="Control/Theme/PivotOverride.xaml"/>
                 <ResourceDictionary Source="Control/Theme/SettingsStyle.xaml"/>
+                <ResourceDictionary Source="Control/Theme/TransitionCollection.xaml"/>
                 <ResourceDictionary Source="Control/Theme/WindowOverride.xaml"/>
                 <ResourceDictionary Source="Control/Loading.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -263,19 +264,7 @@
                     Columns="5"
                     RowSpacing="4"/>
             </ItemsPanelTemplate>
-            <!--  Transitions  -->
-            <TransitionCollection x:Key="ReorderThemeTransitions">
-                <ReorderThemeTransition/>
-            </TransitionCollection>
-            <TransitionCollection x:Key="ContentThemeTransitions">
-                <ContentThemeTransition/>
-            </TransitionCollection>
-            <TransitionCollection x:Key="ListViewLikeThemeTransitions">
-                <AddDeleteThemeTransition/>
-                <ContentThemeTransition/>
-                <ReorderThemeTransition/>
-                <EntranceThemeTransition IsStaggeringEnabled="False"/>
-            </TransitionCollection>
+
 
             <cwm:AttachedCardShadow
                 x:Key="CompatCardShadow"

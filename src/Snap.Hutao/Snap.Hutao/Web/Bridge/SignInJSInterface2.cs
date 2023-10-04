@@ -12,10 +12,10 @@ namespace Snap.Hutao.Web.Bridge;
 /// 签到页面JS桥
 /// </summary>
 [HighQuality]
-internal sealed class SignInJsInterface : MiHoYoJSInterface
+internal sealed class SignInJSInterface2 : MiHoYoJSInterface
 {
     /// <inheritdoc cref="MiHoYoJSInterface(IServiceProvider, CoreWebView2)"/>
-    public SignInJsInterface(CoreWebView2 webView, IServiceProvider serviceProvider, UserAndUid userAndUid)
+    public SignInJSInterface2(CoreWebView2 webView, IServiceProvider serviceProvider, UserAndUid userAndUid)
         : base(webView, userAndUid)
     {
     }

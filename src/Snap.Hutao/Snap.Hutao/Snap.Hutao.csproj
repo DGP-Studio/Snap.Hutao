@@ -79,6 +79,7 @@
     <None Remove="Control\Theme\PageOverride.xaml" />
     <None Remove="Control\Theme\PivotOverride.xaml" />
     <None Remove="Control\Theme\SettingsStyle.xaml" />
+    <None Remove="Control\Theme\TransitionCollection.xaml" />
     <None Remove="Control\Theme\WindowOverride.xaml" />
     <None Remove="GuideWindow.xaml" />
     <None Remove="IdentityStructs.json" />
@@ -140,7 +141,6 @@
     <None Remove="View\Dialog\GeetestCustomUrlDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
-    <None Remove="View\Dialog\SignInWebViewDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
     <None Remove="View\Guide\GuideView.xaml" />
     <None Remove="View\InfoBarView.xaml" />
@@ -301,6 +301,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\TransitionCollection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
@@ -467,11 +473,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\WikiWeaponPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\SignInWebViewDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

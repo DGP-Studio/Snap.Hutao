@@ -775,7 +775,8 @@
                                     HorizontalContentAlignment="Stretch"
                                     ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
                                     ItemsSource="{Binding AvatarConstellationInfos}"
-                                    SelectionMode="None">
+                                    SelectionMode="None"
+                                    VirtualizingStackPanel.VirtualizationMode="Standard">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Border Margin="0,0,0,8" Style="{StaticResource BorderCardStyle}">

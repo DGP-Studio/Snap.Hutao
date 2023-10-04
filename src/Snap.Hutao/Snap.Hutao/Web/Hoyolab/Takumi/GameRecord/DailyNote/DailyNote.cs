@@ -146,4 +146,7 @@ internal sealed class DailyNote : DailyNoteCommon
     /// </summary>
     [JsonPropertyName("transformer")]
     public Transformer Transformer { get; set; } = default!;
+
+    [JsonPropertyName("daily_task")]
+    public DailyTask DailyTask { get; set; } = default!;
 }

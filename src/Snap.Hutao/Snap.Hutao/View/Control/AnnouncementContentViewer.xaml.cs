@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Control.Theme;
+using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -140,13 +141,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
         try
         {
             await WebView.EnsureCoreWebView2Async();
-
-            CoreWebView2Settings settings = WebView.CoreWebView2.Settings;
-#if !DEBUG
-            settings.AreBrowserAcceleratorKeysEnabled = false;
-            settings.AreDefaultContextMenusEnabled = false;
-            settings.AreDevToolsEnabled = false;
-#endif
+            WebView.CoreWebView2.DisableDevToolsOnReleaseBuild();
             WebView.CoreWebView2.WebMessageReceived += webMessageReceivedHandler;
 
             await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);

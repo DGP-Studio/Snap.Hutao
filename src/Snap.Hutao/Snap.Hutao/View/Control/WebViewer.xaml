@@ -4,14 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Transitions="{ThemeResource EntranceThemeTransitions}"
     mc:Ignorable="d">
-    <UserControl.Transitions>
-        <TransitionCollection>
-            <EntranceThemeTransition/>
-        </TransitionCollection>
-    </UserControl.Transitions>
-    <WebView2
-        x:Name="WebView"
-        Margin="0"
-        DefaultBackgroundColor="Transparent"/>
+    <WebView2 x:Name="WebView" DefaultBackgroundColor="Transparent"/>
 </UserControl>

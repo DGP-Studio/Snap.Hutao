@@ -39,11 +39,6 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 
     public void Receive(UserChangedMessage message)
     {
-        if (message.NewValue?.SelectedUserGameRole is null)
-        {
-            return;
-        }
-
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         taskContext.InvokeOnMainThread(RefreshWebview2Content);
     }
@@ -63,13 +58,14 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
     private async ValueTask InitializeAsync()
     {
         await WebView.EnsureCoreWebView2Async();
+        WebView.CoreWebView2.DisableDevToolsOnReleaseBuild();
         RefreshWebview2Content();
     }
 
     private async void RefreshWebview2Content()
     {
         User? user = serviceProvider.GetRequiredService<IUserService>().Current;
-        if (user is null)
+        if (user is null || user.SelectedUserGameRole is null)
         {
             return;
         }
@@ -91,13 +87,9 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                     string source = SourceProvider.GetSource(userAndUid);
                     if (!string.IsNullOrEmpty(source))
                     {
-                        foreach (CoreWebView2Cookie cookie in await coreWebView2.CookieManager.GetCookiesAsync(".mihoyo.com"))
-                        {
-                            coreWebView2.CookieManager.DeleteCookie(cookie);
-                        }
-
+                        await coreWebView2.DeleteCookiesAsync(".mihoyo.com").ConfigureAwait(true);
                         coreWebView2.SetCookie(user.CookieToken, user.LToken, user.SToken).SetMobileUserAgent();
-                        jsInterface = serviceProvider.CreateInstance<MiHoYoJSInterface>(coreWebView2, userAndUid);
+                        jsInterface = SourceProvider.CreateJsInterface(serviceProvider, coreWebView2, userAndUid);
 
                         CoreWebView2Navigator navigator = new(coreWebView2);
                         await navigator.NavigateAsync("about:blank").ConfigureAwait(true);

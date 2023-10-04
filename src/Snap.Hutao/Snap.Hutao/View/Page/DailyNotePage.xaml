@@ -35,33 +35,29 @@
         </Grid.RowDefinitions>
 
         <CommandBar Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" DefaultLabelPosition="Right">
-            <CommandBar.Content>
-                <Button Margin="12,8,0,0" Content="{shcm:ResourceString Name=ViewPageDailyNoteVerify}">
-                    <mxi:Interaction.Behaviors>
-                        <mxic:EventTriggerBehavior EventName="Click">
-                            <shcb:OpenAttachedFlyoutAction/>
-                        </mxic:EventTriggerBehavior>
-                    </mxi:Interaction.Behaviors>
-                    <FlyoutBase.AttachedFlyout>
-                        <Flyout
-                            LightDismissOverlayMode="On"
-                            Placement="Full"
-                            ShowMode="Standard">
-                            <Flyout.FlyoutPresenterStyle>
-                                <Style TargetType="FlyoutPresenter">
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
-                                </Style>
-                            </Flyout.FlyoutPresenterStyle>
-                            <shvc:WebViewer SourceProvider="{Binding VerifyUrlSource, Mode=OneWay}"/>
-                        </Flyout>
-                    </FlyoutBase.AttachedFlyout>
-                </Button>
-            </CommandBar.Content>
             <AppBarButton
                 Command="{Binding RefreshCommand}"
                 Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentRefresh}}"
                 Label="{shcm:ResourceString Name=ViewPageDailyNoteRefresh}"/>
+            <AppBarButton
+                AllowFocusOnInteraction="True"
+                Icon="{shcm:FontIcon Glyph=&#xE9D5;}"
+                Label="{shcm:ResourceString Name=ViewPageDailyNoteVerify}">
+                <AppBarButton.Flyout>
+                    <Flyout
+                        LightDismissOverlayMode="On"
+                        Placement="Full"
+                        ShowMode="Standard">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <shvc:WebViewer SourceProvider="{Binding VerifyUrlSource, Mode=OneWay}"/>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
             <AppBarButton Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentAdd}}" Label="{shcm:ResourceString Name=ViewPageDailyNoteAddEntry}">
                 <AppBarButton.Flyout>
                     <Flyout LightDismissOverlayMode="On" Placement="Bottom">
