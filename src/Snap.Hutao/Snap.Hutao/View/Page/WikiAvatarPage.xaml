@@ -421,26 +421,25 @@
                                             Margin="16,32,0,0"
                                             Style="{StaticResource BaseTextBlockStyle}"
                                             Text="{shcm:ResourceString Name=ViewPageWiKiAvatarMiscHeader}"/>
-                                        <Border Margin="16,16,0,0" Style="{StaticResource BorderCardStyle}">
-                                            <Grid>
+                                        <cwc:ConstrainedBox AspectRatio="2048:1024">
+                                            <Grid Margin="16,16,0,0" Style="{StaticResource BorderGridStyle}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="auto"/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
-                                                <mxi:Interaction.Behaviors>
-                                                    <shcb:AutoHeightBehavior TargetHeight="1024" TargetWidth="2048"/>
-                                                </mxi:Interaction.Behaviors>
-                                                <Border Margin="16" Style="{StaticResource BorderCardStyle}">
-                                                    <shci:CachedImage HorizontalAlignment="Stretch" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarIconConverter}}"/>
-                                                </Border>
 
                                                 <shci:CachedImage
                                                     Grid.ColumnSpan="2"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Stretch"
                                                     Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarImgConverter}}"/>
+
+                                                <Border Margin="16" Style="{StaticResource BorderCardStyle}">
+                                                    <shci:CachedImage HorizontalAlignment="Stretch" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarIconConverter}}"/>
+                                                </Border>
                                             </Grid>
-                                        </Border>
+                                        </cwc:ConstrainedBox>
+
                                         <!--  料理  -->
                                         <Expander
                                             Margin="16,16,0,0"

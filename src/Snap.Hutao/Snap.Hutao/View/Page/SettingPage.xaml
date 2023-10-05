@@ -96,6 +96,16 @@
                     Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
 
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}"/>
+                <cwc:SettingsCard
+                    ActionIcon="{shcm:FontIcon Glyph=&#xF32A;}"
+                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlAction}"
+                    Command="{Binding ConfigureGeetestUrlCommand}"
+                    Description="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlDescription}"
+                    Header="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE776;}"
+                    IsClickEnabled="True"/>
+
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingShellExperienceHeader}"/>
                 <cwc:SettingsCard
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
@@ -206,16 +216,6 @@
                         OffContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
                         OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
                 </cwc:SettingsCard>
-
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}"/>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xF32A;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlAction}"
-                    Command="{Binding ConfigureGeetestUrlCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlDescription}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE776;}"
-                    IsClickEnabled="True"/>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingStorageHeader}"/>
                 <cwc:SettingsCard

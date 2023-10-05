@@ -6,6 +6,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 internal sealed class AttendanceReward
 {
     [JsonPropertyName("status")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public AttendanceRewardStatus Status { get; set; }
 
     [JsonPropertyName("progress")]
