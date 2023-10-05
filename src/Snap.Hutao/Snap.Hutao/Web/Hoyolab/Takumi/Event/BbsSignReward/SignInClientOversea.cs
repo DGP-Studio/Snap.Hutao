@@ -24,9 +24,14 @@ internal sealed partial class SignInClientOversea : ISignInClient
     private readonly JsonSerializerOptions options;
     private readonly ILogger<SignInClient> logger;
 
-    public ValueTask<Response<SignInRewardInfo>> GetInfoAsync(UserAndUid userAndUid, CancellationToken token = default(CancellationToken))
+    public async ValueTask<Response<SignInRewardInfo>> GetInfoAsync(UserAndUid userAndUid, CancellationToken token = default(CancellationToken))
     {
-        return ValueTask.FromException<Response<SignInRewardInfo>>(new NotSupportedException());
+        Response<SignInRewardInfo>? resp = await httpClient
+            .SetUser(userAndUid.User, CookieType.CookieToken)
+            .TryCatchGetFromJsonAsync<Response<SignInRewardInfo>>(ApiOsEndpoints.SignInRewardInfo(userAndUid.Uid), options, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
     }
 
     public async ValueTask<Response<Reward>> GetRewardAsync(Model.Entity.User user, CancellationToken token = default)
