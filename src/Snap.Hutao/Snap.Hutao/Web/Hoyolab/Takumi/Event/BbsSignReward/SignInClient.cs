@@ -17,7 +17,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 [UseDynamicSecret]
 [HttpClient(HttpClientConfiguration.XRpc)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
-internal sealed partial class SignInClient
+internal sealed partial class SignInClient : ISignInClient
 {
     private readonly HttpClient httpClient;
     private readonly HomaGeetestClient homaGeetestClient;
@@ -58,7 +58,7 @@ internal sealed partial class SignInClient
 
     public async ValueTask<Response<SignInResult>> ReSignAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        SignInData data = new(userAndUid.Uid);
+        SignInData data = new(userAndUid.Uid, false);
 
         Response<SignInResult>? resp = await httpClient
             .SetUser(userAndUid.User, CookieType.CookieToken)
@@ -74,7 +74,7 @@ internal sealed partial class SignInClient
         Response<SignInResult>? resp = await httpClient
             .SetUser(userAndUid.User, CookieType.CookieToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, false)
-            .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new(userAndUid.Uid), options, logger, token)
+            .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new(userAndUid.Uid, false), options, logger, token)
             .ConfigureAwait(false);
 
         if (resp is { Data: { Success: 1, Gt: string gt, Challenge: string originChallenge } })
@@ -87,7 +87,7 @@ internal sealed partial class SignInClient
                     .SetUser(userAndUid.User, CookieType.CookieToken)
                     .SetXrpcChallenge(challenge, validate)
                     .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, false)
-                    .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new(userAndUid.Uid), options, logger, token)
+                    .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new(userAndUid.Uid, false), options, logger, token)
                     .ConfigureAwait(false);
             }
             else

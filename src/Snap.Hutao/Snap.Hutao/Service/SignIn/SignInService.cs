@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.DependencyInjection;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 using Snap.Hutao.Web.Response;
@@ -15,7 +17,9 @@ internal sealed partial class SignInService : ISignInService
 
     public async ValueTask<ValueResult<bool, string>> ClaimRewardAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        SignInClient signInClient = serviceProvider.GetRequiredService<SignInClient>();
+        ISignInClient signInClient = serviceProvider
+            .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
+            .Create(userAndUid.User.IsOversea);
 
         Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User, token).ConfigureAwait(false);
 
