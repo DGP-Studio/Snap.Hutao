@@ -2113,6 +2113,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 获取签到次数失败 的本地化字符串。
+        /// </summary>
+        internal static string ServiceSignInInfoRequestFailed {
+            get {
+                return ResourceManager.GetString("ServiceSignInInfoRequestFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 获取奖励列表失败 的本地化字符串。
         /// </summary>
         internal static string ServiceSignInRewardListRequestFailed {

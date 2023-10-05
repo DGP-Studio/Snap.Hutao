@@ -48,5 +48,5 @@ internal sealed class SignInRewardInfo
     /// 漏签天数
     /// </summary>
     [JsonPropertyName("sign_cnt_missed")]
-    public bool SignCountMissed { get; set; }
+    public int SignCountMissed { get; set; }
 }

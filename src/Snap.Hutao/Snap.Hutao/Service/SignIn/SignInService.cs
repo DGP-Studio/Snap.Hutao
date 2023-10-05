@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
@@ -27,7 +26,7 @@ internal sealed partial class SignInService : ISignInService
         {
             Response<SignInResult> resultResponse = await signInClient.SignAsync(userAndUid, token).ConfigureAwait(false);
 
-            if (resultResponse.IsOk())
+            if (resultResponse.IsOk(showInfoBar: false))
             {
                 Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid, token).ConfigureAwait(false);
                 if (infoResponse.IsOk())
@@ -38,12 +37,17 @@ internal sealed partial class SignInService : ISignInService
                 }
                 else
                 {
-                    return new(false, "获取签到次数失败");
+                    return new(false, SH.ServiceSignInInfoRequestFailed);
                 }
             }
             else
             {
                 string message = resultResponse.Message;
+
+                if (resultResponse.ReturnCode == (int)KnownReturnCode.AlreadySignedIn)
+                {
+                    return new(true, message);
+                }
 
                 if (string.IsNullOrEmpty(message))
                 {
