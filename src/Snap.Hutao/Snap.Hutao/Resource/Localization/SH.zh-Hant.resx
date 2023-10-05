@@ -857,6 +857,9 @@
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>簽到失敗，{0}</value>
   </data>
+  <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
+    <value>获取签到次数失败</value>
+  </data>
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
     <value>獲取獎勵列表失敗</value>
   </data>
