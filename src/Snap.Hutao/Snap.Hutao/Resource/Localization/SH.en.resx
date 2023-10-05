@@ -857,6 +857,9 @@
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Check-in failed, {0}</value>
   </data>
+  <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
+    <value>Failed to get signin days count</value>
+  </data>
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
     <value>Fetch Signin reward list failed</value>
   </data>
@@ -1266,7 +1269,7 @@
     <value>Can't add plan with invalid name</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
-    <value>HoYoLab account does not support Realtime Notes</value>
+    <value>HoYoLab account does not support Realtime Notes verification</value>
   </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 min | 3.75 Resin</value>
@@ -1830,10 +1833,10 @@
     <value>Enter your email</value>
   </data>
   <data name="ViewPageHutaoPassportVerifyCodeAction" xml:space="preserve">
-    <value>Receive verification code</value>
+    <value>Get Verification Code</value>
   </data>
   <data name="ViewPageHutaoPassportVerifyCodeHint" xml:space="preserve">
-    <value>Please enter the verification code</value>
+    <value>Enter code</value>
   </data>
   <data name="ViewPageLaunchGameAction" xml:space="preserve">
     <value>Launch</value>
