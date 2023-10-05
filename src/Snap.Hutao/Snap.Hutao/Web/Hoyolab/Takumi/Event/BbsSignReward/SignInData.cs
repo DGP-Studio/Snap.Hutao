@@ -12,9 +12,11 @@ internal sealed class SignInData
     /// 构造一个新的签到提交数据
     /// </summary>
     /// <param name="uid">uid</param>
+    /// <param name="isOversea">是否为国际服，用于选择ActivityId</param>
     [SuppressMessage("", "SH002")]
-    public SignInData(PlayerUid uid)
+    public SignInData(PlayerUid uid, bool isOversea)
     {
+        ActivityId = isOversea ? ApiOsEndpoints.SignInRewardActivityId : ApiEndpoints.SignInRewardActivityId;
         Region = uid.Region;
         Uid = uid.Value;
     }
@@ -23,7 +25,7 @@ internal sealed class SignInData
     /// 活动Id
     /// </summary>
     [JsonPropertyName("act_id")]
-    public string ActivityId { get; } = ApiEndpoints.SignInRewardActivityId;
+    public string ActivityId { get; }
 
     /// <summary>
     /// 地区代码
