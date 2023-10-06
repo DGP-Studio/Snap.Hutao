@@ -60,6 +60,8 @@ internal sealed partial class CardClient
             .SetRequestUri(ApiEndpoints.CardVerifyVerification)
             .PostJson(new VerificationData(challenge, validate));
 
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
         Response<VerificationResult>? resp = await builder
             .TryCatchSendAsync<Response<VerificationResult>>(httpClient, logger, token)
             .ConfigureAwait(false);

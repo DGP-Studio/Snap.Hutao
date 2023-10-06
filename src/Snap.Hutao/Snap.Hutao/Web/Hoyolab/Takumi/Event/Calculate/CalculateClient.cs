@@ -107,6 +107,7 @@ internal sealed partial class CalculateClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(url)
             .SetUserCookie(userAndUid, CookieType.CookieToken)
+            .SetReferer(userAndUid.User.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
         Response<AvatarDetail>? resp = await builder
@@ -128,6 +129,7 @@ internal sealed partial class CalculateClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CalculateFurnitureBlueprint(shareCode))
             .SetUserCookie(user, CookieType.CookieToken)
+            .SetReferer(user.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
         Response<FurnitureListWrapper>? resp = await builder
@@ -151,6 +153,7 @@ internal sealed partial class CalculateClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CalculateFurnitureCompute)
             .SetUserCookie(user, CookieType.CookieToken)
+            .SetReferer(user.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
             .PostJson(data);
 
         Response<ListWrapper<Item>>? resp = await builder

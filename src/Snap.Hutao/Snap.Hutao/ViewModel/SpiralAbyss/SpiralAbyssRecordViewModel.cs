@@ -117,7 +117,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 }
 
                 await taskContext.SwitchToMainThreadAsync();
-                SelectedView = SpiralAbyssEntries.FirstOrDefault();
+                SelectedView = SpiralAbyssEntries.FirstOrDefault(s => s.Engaged);
             }
         }
     }
