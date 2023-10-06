@@ -211,10 +211,10 @@
     <value>{0:f2} 回目</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
-    <value>最非 {0} 抽</value>
+    <value>最も引けなかった回数: {0} 回</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
-    <value>最欧 {0} 抽</value>
+    <value>最も早く引けた回数: {0} 回</value>
   </data>
   <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
     <value>{0} 回目</value>
@@ -933,16 +933,16 @@
     <value>星5</value>
   </data>
   <data name="ViewControlStatisticsCardPullText" xml:space="preserve">
-    <value>抽</value>
+    <value>回</value>
   </data>
   <data name="ViewControlStatisticsCardPurpleText" xml:space="preserve">
     <value>星4</value>
   </data>
   <data name="ViewControlStatisticsCardToLastOrangeText" xml:space="preserve">
-    <value>前回までの星5</value>
+    <value>前回の星5から</value>
   </data>
   <data name="ViewControlStatisticsCardToLastPurpleText" xml:space="preserve">
-    <value>前回までの星4</value>
+    <value>前回の星4から</value>
   </data>
   <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
     <value>ピックアップ獲得平均数</value>
@@ -1005,7 +1005,7 @@
     <value>武器目標レベル</value>
   </data>
   <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
-    <value>绑定当前用户与角色</value>
+    <value>現在のユーザとUIDを連携する</value>
   </data>
   <data name="ViewDialogCultivateProjectInputPlaceholder" xml:space="preserve">
     <value>ここに計画名を入力してください</value>
@@ -1722,16 +1722,16 @@
     <value>一覧</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
-    <value>统计</value>
+    <value>統計</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>武器</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
-    <value>胡桃已经为你启动了 {0} 次游戏</value>
+    <value>胡桃はあなたのためにゲームを {0} 回起動しました</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon2" xml:space="preserve">
-    <value>你已经启动了胡桃 {0} 次</value>
+    <value>胡桃を {0} 回起動しました</value>
   </data>
   <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
     <value>テイワットへようこそ</value>
@@ -1851,13 +1851,13 @@
     <value>フレームレス</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
-    <value>与游戏内浏览器不兼容，切屏等操作也能使游戏闪退</value>
+    <value>ゲーム内ブラウザには対応していません。ウィンドウの切り替え操作などによりゲームが強制終了する可能性があります。</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
-    <value>エクスクルーシブフルスクリーン</value>
+    <value>排他的フルスクリーン</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
-    <value>覆盖默认的全屏状态</value>
+    <value>デフォルトのフルスクリーン設定を上書きします。</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceFullscreenHeader" xml:space="preserve">
     <value>フルスクリーン</value>
@@ -1866,13 +1866,13 @@
     <value>外観</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
-    <value>覆盖默认屏幕高度</value>
+    <value>ゲームのウィンドウの高さを上書き</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightHeader" xml:space="preserve">
     <value>高さ</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenWidthDescription" xml:space="preserve">
-    <value>覆盖默认屏幕宽度</value>
+    <value>ゲームのウィンドウの幅を上書き</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenWidthHeader" xml:space="preserve">
     <value>幅</value>
@@ -1881,7 +1881,7 @@
     <value>一般</value>
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
-    <value>所有选项仅会在启动游戏成功后保存</value>
+    <value>これらの設定はゲームが正常に起動した時のみ保存されます。</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>指定したディスプレイで実行</value>
@@ -1917,7 +1917,7 @@
     <value>绑定当前用户的角色</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
-    <value>在游戏内切换账号，网络环境发生变化后需要重新手动检测</value>
+    <value>ゲーム内でアカウントを切り替えたり、インターネット環境を変更した場合は再検出が必要です。</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>検出</value>
@@ -2250,13 +2250,13 @@
     <value>ログインまたはサインアップ</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
-    <value>角色出场率 = 本层上阵该角色次数（层内重复出现只记一次）/ 深渊记录总数</value>
+    <value>キャラクター出場率 = この階層における出場回数（最初の一回のみカウント） / この階層のアップロード総数</value>
   </data>
   <data name="ViewSpiralAbyssAvatarUsageRankDescription" xml:space="preserve">
-    <value>角色使用率 = 本层上阵该角色次数（层内重复出现只记一次）/ 持有该角色的深渊记录总数</value>
+    <value>キャラクター使用率 = この階層における出場回数（最初の一回のみカウント） / キャラクター毎の深境螺旋の記録の個数</value>
   </data>
   <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
-    <value>战斗数据</value>
+    <value>戦闘データ</value>
   </data>
   <data name="ViewSpiralAbyssBattleTimes" xml:space="preserve">
     <value>出場回数</value>
@@ -2271,7 +2271,7 @@
     <value>最多撃破数</value>
   </data>
   <data name="ViewSpiralAbyssDetail" xml:space="preserve">
-    <value>分期详情</value>
+    <value>シーズン情報</value>
   </data>
   <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
     <value>元素爆発</value>
@@ -2280,7 +2280,7 @@
     <value>深境螺旋</value>
   </data>
   <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
-    <value>本期统计</value>
+    <value>今期の統計</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>最深到達</value>
