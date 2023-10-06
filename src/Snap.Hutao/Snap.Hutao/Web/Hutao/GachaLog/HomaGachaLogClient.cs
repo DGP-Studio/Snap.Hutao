@@ -3,6 +3,8 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -15,10 +17,10 @@ namespace Snap.Hutao.Web.Hutao.GachaLog;
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HomaGachaLogClient
 {
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<HomaGachaLogClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 异步获取祈愿统计信息
@@ -27,10 +29,14 @@ internal sealed partial class HomaGachaLogClient
     /// <returns>祈愿统计信息</returns>
     public async ValueTask<Response<GachaEventStatistics>> GetGachaEventStatisticsAsync(CancellationToken token = default)
     {
-        await httpClient.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.GachaLogStatisticsCurrentEvents)
+            .Get();
 
-        Response<GachaEventStatistics>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<GachaEventStatistics>>(HutaoEndpoints.GachaLogStatisticsCurrentEvents, options, logger, token)
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        Response<GachaEventStatistics>? resp = await builder
+            .TryCatchSendAsync<Response<GachaEventStatistics>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -44,27 +50,14 @@ internal sealed partial class HomaGachaLogClient
     /// <returns>祈愿分布</returns>
     public async ValueTask<Response<GachaDistribution>> GetGachaDistributionAsync(GachaDistributionType distributionType, CancellationToken token = default)
     {
-        await httpClient.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.GachaLogStatisticsDistribution(distributionType))
+            .Get();
 
-        Response<GachaDistribution>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<GachaDistribution>>(HutaoEndpoints.GachaLogStatisticsDistribution(distributionType), options, logger, token)
-            .ConfigureAwait(false);
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
-    }
-
-    /// <summary>
-    /// 异步获取 Uid 列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>Uid 列表</returns>
-    [Obsolete("Use GetGachaEntriesAsync instead")]
-    public async ValueTask<Response<List<string>>> GetUidsAsync(CancellationToken token = default)
-    {
-        await httpClient.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
-
-        Response<List<string>>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<List<string>>>(HutaoEndpoints.GachaLogUids, options, logger, token)
+        Response<GachaDistribution>? resp = await builder
+            .TryCatchSendAsync<Response<GachaDistribution>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -77,10 +70,14 @@ internal sealed partial class HomaGachaLogClient
     /// <returns>Uid 列表</returns>
     public async ValueTask<Response<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
     {
-        await httpClient.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.GachaLogEntries)
+            .Get();
 
-        Response<List<GachaEntry>>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<List<GachaEntry>>>(HutaoEndpoints.GachaLogEntries, options, logger, token)
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        Response<List<GachaEntry>>? resp = await builder
+            .TryCatchSendAsync<Response<List<GachaEntry>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -94,10 +91,14 @@ internal sealed partial class HomaGachaLogClient
     /// <returns>末尾Id</returns>
     public async ValueTask<Response<EndIds>> GetEndIdsAsync(string uid, CancellationToken token = default)
     {
-        await httpClient.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.GachaLogEndIds(uid))
+            .Get();
 
-        Response<EndIds>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<EndIds>>(HutaoEndpoints.GachaLogEndIds(uid), options, logger, token)
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        Response<EndIds>? resp = await builder
+            .TryCatchSendAsync<Response<EndIds>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -112,12 +113,16 @@ internal sealed partial class HomaGachaLogClient
     /// <returns>云端祈愿记录</returns>
     public async ValueTask<Response<List<GachaItem>>> RetrieveGachaItemsAsync(string uid, EndIds endIds, CancellationToken token = default)
     {
-        await httpClient.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
-
         UidAndEndIds uidAndEndIds = new(uid, endIds);
 
-        Response<List<GachaItem>>? resp = await httpClient
-            .TryCatchPostAsJsonAsync<UidAndEndIds, Response<List<GachaItem>>>(HutaoEndpoints.GachaLogRetrieve, uidAndEndIds, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.GachaLogRetrieve)
+            .PostJson(uidAndEndIds);
+
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        Response<List<GachaItem>>? resp = await builder
+            .TryCatchSendAsync<Response<List<GachaItem>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -132,12 +137,16 @@ internal sealed partial class HomaGachaLogClient
     /// <returns>响应</returns>
     public async ValueTask<Response.Response> UploadGachaItemsAsync(string uid, List<GachaItem> gachaItems, CancellationToken token = default)
     {
-        await httpClient.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
-
         UidAndItems uidAndItems = new(uid, gachaItems);
 
-        Response.Response? resp = await httpClient
-            .TryCatchPostAsJsonAsync<UidAndItems, Response<List<GachaItem>>>(HutaoEndpoints.GachaLogUpload, uidAndItems, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.GachaLogUpload)
+            .PostJson(uidAndItems);
+
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        Response.Response? resp = await builder
+            .TryCatchSendAsync<Response.Response>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -151,10 +160,14 @@ internal sealed partial class HomaGachaLogClient
     /// <returns>响应</returns>
     public async ValueTask<Response.Response> DeleteGachaItemsAsync(string uid, CancellationToken token = default)
     {
-        await httpClient.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.GachaLogDelete(uid))
+            .Get();
 
-        Response.Response? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<List<GachaItem>>>(HutaoEndpoints.GachaLogDelete(uid), options, logger, token)
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
+        Response.Response? resp = await builder
+            .TryCatchSendAsync<Response.Response>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

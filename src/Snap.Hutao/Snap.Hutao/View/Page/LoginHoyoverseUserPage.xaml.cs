@@ -11,6 +11,8 @@ using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Request;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -26,7 +28,6 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
 
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
-    private readonly JsonSerializerOptions jsonSerializerOptions;
     private readonly ILogger<LoginHoyoverseUserPage> logger;
 
     /// <summary>
@@ -36,7 +37,6 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
     {
         serviceProvider = Ioc.Default;
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        jsonSerializerOptions = serviceProvider.GetRequiredService<JsonSerializerOptions>();
         logger = serviceProvider.GetRequiredService<ILogger<LoginHoyoverseUserPage>>();
 
         InitializeComponent();
@@ -44,11 +44,15 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
 
     private async ValueTask<string> GetUidFromCookieAsync(Cookie cookie, CancellationToken token = default)
     {
-        HttpClient httpClient = serviceProvider.GetRequiredService<HttpClient>();
-        httpClient.DefaultRequestHeaders.Set("Cookie", cookie.ToString());
+        IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory = serviceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.WebApiOsAccountLoginByCookie)
+            .SetHeader("Cookie", cookie.ToString());
 
-        WebApiResponse<AccountInfoWrapper>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<WebApiResponse<AccountInfoWrapper>>(ApiOsEndpoints.WebApiOsAccountLoginByCookie, jsonSerializerOptions, logger, token)
+        HttpClient httpClient = serviceProvider.GetRequiredService<HttpClient>();
+
+        WebApiResponse<AccountInfoWrapper>? resp = await builder
+            .TryCatchSendAsync<WebApiResponse<AccountInfoWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return $"{resp?.Data?.AccountInfo?.AccountId}";

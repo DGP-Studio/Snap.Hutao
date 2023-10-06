@@ -5,6 +5,8 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -14,13 +16,13 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 /// SToken绑定客户端
 /// </summary>
 [HighQuality]
-[UseDynamicSecret]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
+[PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class BindingClient2
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<BindingClient2> logger;
-    private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
     /// <summary>
@@ -30,15 +32,21 @@ internal sealed partial class BindingClient2
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.LK2)]
-    public async ValueTask<List<UserGameRole>> GetUserGameRolesBySTokenAsync(User user, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<UserGameRole>>> GetUserGameRolesBySTokenAsync(User user, CancellationToken token = default)
     {
-        Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user, CookieType.SToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, true)
-            .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRolesBySToken, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.AccountGetCookieTokenBySToken)
+            .SetUserCookie(user, CookieType.SToken)
+            .SetReferer(ApiEndpoints.AppMihoyoReferer)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+
+        Response<ListWrapper<UserGameRole>>? resp = await builder
+            .TryCatchSendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return EnumerableExtension.EmptyIfNull(resp?.Data?.List);
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -52,11 +60,16 @@ internal sealed partial class BindingClient2
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.LK2)]
     public async ValueTask<Response<GameAuthKey>> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
     {
-        Response<GameAuthKey>? resp = await httpClient
-            .SetUser(user, CookieType.SToken)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.BindingGenAuthKey)
+            .SetUserCookie(user, CookieType.SToken)
             .SetReferer(ApiEndpoints.AppMihoyoReferer)
-            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, true)
-            .TryCatchPostAsJsonAsync<GenAuthKeyData, Response<GameAuthKey>>(ApiEndpoints.BindingGenAuthKey, data, options, logger, token)
+            .PostJson(data);
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+
+        Response<GameAuthKey>? resp = await builder
+            .TryCatchSendAsync<Response<GameAuthKey>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

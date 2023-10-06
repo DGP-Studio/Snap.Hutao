@@ -3,6 +3,8 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.IO;
 using System.Net.Http;
@@ -17,8 +19,8 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class ResourceClient
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
     private readonly ILogger<ResourceClient> logger;
 
     /// <summary>
@@ -33,17 +35,21 @@ internal sealed partial class ResourceClient
             ? ApiOsEndpoints.SdkOsStaticLauncherResource(scheme)
             : ApiEndpoints.SdkStaticLauncherResource(scheme);
 
-        Response<GameResource>? response = await httpClient
-            .TryCatchGetFromJsonAsync<Response<GameResource>>(url, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(url)
+            .Get();
+
+        Response<GameResource>? resp = await builder
+            .TryCatchSendAsync<Response<GameResource>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         // 补全缺失的信息
-        if (response is { Data.Game.Latest: LatestPackage latest })
+        if (resp is { Data.Game.Latest: LatestPackage latest })
         {
-            latest.Path = latest.Segments[0].Path[..^4];
+            latest.Path = latest.Segments[0].Path[..^4]; // .00X
             latest.Name = Path.GetFileName(latest.Path);
         }
 
-        return Response.Response.DefaultIfNull(response);
+        return Response.Response.DefaultIfNull(resp);
     }
 }

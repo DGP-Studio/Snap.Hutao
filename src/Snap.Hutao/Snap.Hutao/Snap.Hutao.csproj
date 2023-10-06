@@ -35,7 +35,7 @@
     <ApplicationIcon>Assets\Logo.ico</ApplicationIcon>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <Configurations>Debug;Release;Debug As Fake Elevated</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   
   <!-- Included Files -->

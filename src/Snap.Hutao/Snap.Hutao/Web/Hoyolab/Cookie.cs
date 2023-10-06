@@ -37,11 +37,6 @@ internal sealed partial class Cookie
         set => inner[key] = value;
     }
 
-    public bool IsEmpty()
-    {
-        return inner.Count <= 0;
-    }
-
     /// <summary>
     /// 解析Cookie字符串
     /// </summary>
@@ -111,6 +106,11 @@ internal sealed partial class Cookie
         };
 
         return new(cookieMap);
+    }
+
+    public bool IsEmpty()
+    {
+        return inner.Count <= 0;
     }
 
     public bool TryGetLoginTicket([NotNullWhen(true)] out Cookie? cookie)

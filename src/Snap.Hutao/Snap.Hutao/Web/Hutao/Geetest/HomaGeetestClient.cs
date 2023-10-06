@@ -3,6 +3,8 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.Geetest;
@@ -11,10 +13,10 @@ namespace Snap.Hutao.Web.Hutao.Geetest;
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HomaGeetestClient
 {
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<HomaGeetestClient> logger;
     private readonly AppOptions appOptions;
+    private readonly HttpClient httpClient;
 
     public async ValueTask<GeetestResponse> VerifyAsync(string gt, string challenge, CancellationToken token)
     {
@@ -25,8 +27,12 @@ internal sealed partial class HomaGeetestClient
             return GeetestResponse.InternalFailure;
         }
 
-        GeetestResponse? resp = await httpClient
-            .TryCatchGetFromJsonAsync<GeetestResponse>(template.Format(gt, challenge), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(template.Format(gt, challenge))
+            .Get();
+
+        GeetestResponse? resp = await builder
+            .TryCatchSendAsync<GeetestResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         if (resp is null)

@@ -5,6 +5,8 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -18,8 +20,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class BindingClient
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IServiceProvider serviceProvider;
-    private readonly JsonSerializerOptions options;
     private readonly ILogger<BindingClient> logger;
     private readonly HttpClient httpClient;
 
@@ -40,7 +42,7 @@ internal sealed partial class BindingClient
         {
             Response<ActionTicketWrapper> actionTicketResponse = await serviceProvider
                 .GetRequiredService<AuthClient>()
-                .GetActionTicketBySTokenAsync("game_role", user)
+                .GetActionTicketBySTokenAsync("game_role", user, token)
                 .ConfigureAwait(false);
 
             if (actionTicketResponse.IsOk())
@@ -65,11 +67,13 @@ internal sealed partial class BindingClient
     [ApiInformation(Cookie = CookieType.LToken)]
     public async ValueTask<Response<ListWrapper<UserGameRole>>> GetUserGameRolesByActionTicketAsync(string actionTicket, User user, CancellationToken token = default)
     {
-        string url = ApiEndpoints.UserGameRolesByActionTicket(actionTicket);
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.UserGameRolesByActionTicket(actionTicket))
+            .SetUserCookie(user, CookieType.LToken)
+            .Get();
 
-        Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user, CookieType.LToken)
-            .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(url, options, logger, token)
+        Response<ListWrapper<UserGameRole>>? resp = await builder
+            .TryCatchSendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -84,9 +88,13 @@ internal sealed partial class BindingClient
     [ApiInformation(Cookie = CookieType.LToken)]
     public async ValueTask<Response<ListWrapper<UserGameRole>>> GetOverseaUserGameRolesByCookieAsync(User user, CancellationToken token = default)
     {
-        Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user, CookieType.LToken)
-            .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiOsEndpoints.UserGameRolesByCookie, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.UserGameRolesByCookie)
+            .SetUserCookie(user, CookieType.LToken)
+            .Get();
+
+        Response<ListWrapper<UserGameRole>>? resp = await builder
+            .TryCatchSendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
