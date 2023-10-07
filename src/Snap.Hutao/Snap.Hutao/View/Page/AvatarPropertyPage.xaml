@@ -137,9 +137,13 @@
                                                         <RowDefinition Height="auto"/>
                                                         <RowDefinition/>
                                                     </Grid.RowDefinitions>
-                                                    <Border Grid.RowSpan="2" Grid.ColumnSpan="2">
+                                                    <Border
+                                                        Grid.RowSpan="2"
+                                                        Grid.ColumnSpan="2"
+                                                        CornerRadius="{ThemeResource ControlCornerRadius}">
                                                         <shci:CachedImage
                                                             MaxWidth="145"
+                                                            HorizontalAlignment="Right"
                                                             Opacity="0.5"
                                                             Source="{Binding NameCard}"
                                                             Stretch="UniformToFill"/>
@@ -152,8 +156,8 @@
                                                         Text="{Binding Level}">
                                                         <Grid>
                                                             <shvcont:ItemIcon
-                                                                Width="61"
-                                                                Height="61"
+                                                                Width="61.5"
+                                                                Height="61.5"
                                                                 Icon="{Binding Icon}"
                                                                 Quality="{Binding Quality}"/>
                                                             <Border
@@ -175,8 +179,8 @@
                                                         Text="{Binding Weapon.Level}">
                                                         <Grid>
                                                             <shvcont:ItemIcon
-                                                                Width="61"
-                                                                Height="61"
+                                                                Width="61.5"
+                                                                Height="61.5"
                                                                 Icon="{Binding Weapon.Icon}"
                                                                 Quality="{Binding Weapon.Quality}"/>
                                                             <Border
@@ -310,7 +314,7 @@
                                         HorizontalAlignment="Left">
                                         <!--  卡片面板  -->
                                         <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Grid Style="{StaticResource BorderGridStyle}">
+                                            <Grid cw:UIElementExtensions.ClipToBounds="True" Style="{StaticResource BorderGridStyle}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition/>
                                                     <RowDefinition Height="auto"/>
@@ -322,10 +326,13 @@
                                                 <cwcont:ConstrainedBox
                                                     Grid.RowSpan="2"
                                                     Grid.ColumnSpan="2"
-                                                    AspectRatio="840:400">
+                                                    AspectRatio="840:400"
+                                                    CornerRadius="{ThemeResource ControlCornerRadius}">
                                                     <shci:CachedImage
                                                         Grid.RowSpan="2"
                                                         Grid.ColumnSpan="2"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
                                                         Source="{Binding SelectedAvatar.NameCard}"
                                                         Stretch="UniformToFill"/>
                                                 </cwcont:ConstrainedBox>
@@ -384,13 +391,11 @@
                                                         </Grid.ColumnDefinitions>
                                                         <Button
                                                             Padding="0"
+                                                            cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
                                                             BorderBrush="{x:Null}"
                                                             BorderThickness="0">
                                                             <Button.Content>
-                                                                <shvcont:ItemIcon
-                                                                    cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                                                    Icon="{Binding Icon}"
-                                                                    Quality="{Binding Quality}"/>
+                                                                <shvcont:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
                                                             </Button.Content>
                                                             <Button.Flyout>
                                                                 <Flyout Placement="BottomEdgeAlignedLeft">

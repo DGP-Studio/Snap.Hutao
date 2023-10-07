@@ -5,6 +5,7 @@
     xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
     xmlns:cwb="using:CommunityToolkit.WinUI.Behaviors"
+    xmlns:cww="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -50,12 +51,11 @@
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
                                     <!--  Image Layer  -->
-                                    <Border cw:UIElementExtensions.ClipToBounds="True">
+                                    <Border cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadius}">
                                         <Border VerticalAlignment="Top" cw:VisualExtensions.NormalizedCenterPoint="0.5">
-                                            <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
-                                            <mxi:Interaction.Behaviors>
-                                                <shcb:AutoHeightBehavior TargetHeight="390" TargetWidth="1080"/>
-                                            </mxi:Interaction.Behaviors>
+                                            <cww:ConstrainedBox AspectRatio="1080:390" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                                <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
+                                            </cww:ConstrainedBox>
                                             <cwa:Explicit.Animations>
                                                 <cwa:AnimationSet x:Name="ImageZoomInAnimation">
                                                     <shca:ImageZoomInAnimation/>

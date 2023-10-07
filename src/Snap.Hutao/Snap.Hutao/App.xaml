@@ -146,13 +146,13 @@
                 <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
                 <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="CornerRadius" Value="{StaticResource CompatCornerRadius}"/>
+                <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
             </Style>
             <Style x:Key="BorderGridStyle" TargetType="Grid">
                 <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
                 <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="CornerRadius" Value="{StaticResource CompatCornerRadius}"/>
+                <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
             </Style>
             <Style
                 x:Name="NoneSelectionListViewItemStyle"

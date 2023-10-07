@@ -34,10 +34,15 @@
 
         <Grid
             Grid.Row="0"
+            cw:UIElementExtensions.ClipToBounds="True"
             CornerRadius="{StaticResource ControlCornerRadiusTop}"
             Style="{StaticResource BorderGridStyle}">
-            <cwc:ConstrainedBox AspectRatio="1080:533">
-                <shci:CachedImage Source="{Binding Event.Banner}"/>
+            <cwc:ConstrainedBox
+                Margin="-1"
+                HorizontalAlignment="Center"
+                AspectRatio="1080:533"
+                CornerRadius="{ThemeResource ControlCornerRadiusTop}">
+                <shci:CachedImage Source="{Binding Event.Banner}" Stretch="UniformToFill"/>
             </cwc:ConstrainedBox>
         </Grid>
 
