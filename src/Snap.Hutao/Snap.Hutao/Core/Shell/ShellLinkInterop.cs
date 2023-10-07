@@ -3,7 +3,6 @@
 
 using System.IO;
 using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.Win32;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;

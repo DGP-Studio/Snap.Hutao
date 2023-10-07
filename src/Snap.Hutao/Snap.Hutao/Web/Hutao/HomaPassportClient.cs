@@ -40,7 +40,6 @@ internal sealed partial class HomaPassportClient
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
-
     /// <summary>
     /// 异步获取验证码
     /// </summary>

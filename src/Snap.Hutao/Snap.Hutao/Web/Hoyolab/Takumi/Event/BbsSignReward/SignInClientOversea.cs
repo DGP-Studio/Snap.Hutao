@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hutao.Geetest;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;

@@ -10,7 +10,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
-using System.Diagnostics;
 
 namespace Snap.Hutao.View.Control;
 

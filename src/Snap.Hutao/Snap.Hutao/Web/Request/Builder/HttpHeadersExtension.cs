@@ -44,5 +44,4 @@ internal static class HttpHeadersExtension
             }
         }
     }
-
 }

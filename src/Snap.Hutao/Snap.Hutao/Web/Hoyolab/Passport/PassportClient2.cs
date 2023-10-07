@@ -9,7 +9,6 @@ using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
