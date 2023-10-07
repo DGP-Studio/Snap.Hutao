@@ -32,13 +32,11 @@ internal sealed partial class ExceptionRecorder
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
 #if RELEASE
-#pragma warning disable VSTHRD002
         serviceProvider
             .GetRequiredService<Web.Hutao.Log.HomaLogUploadClient>()
-            .UploadLogAsync(serviceProvider, e.Exception)
+            .UploadLogAsync(e.Exception)
             .GetAwaiter()
             .GetResult();
-#pragma warning restore VSTHRD002
 #endif
 
         logger.LogError("未经处理的全局异常:\r\n{Detail}", ExceptionFormat.Format(e.Exception));
