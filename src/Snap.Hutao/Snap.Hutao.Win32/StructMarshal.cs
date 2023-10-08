@@ -4,7 +4,7 @@
 using System.Runtime.CompilerServices;
 using Windows.Win32.UI.WindowsAndMessaging;
 
-[assembly:InternalsVisibleTo("Snap.Hutao")]
+[assembly: InternalsVisibleTo("Snap.Hutao")]
 
 namespace Snap.Hutao.Win32;
 
