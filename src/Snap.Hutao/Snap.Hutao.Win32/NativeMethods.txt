@@ -3,6 +3,9 @@ DefSubclassProc
 RemoveWindowSubclass
 SetWindowSubclass
 
+// CoreMessaging
+CreateDispatcherQueueController
+
 // DWMAPI
 DwmSetWindowAttribute
 
@@ -37,12 +40,14 @@ GetCursorPos
 GetDC
 GetDpiForWindow
 GetForegroundWindow
+GetWindowLong
 GetWindowPlacement
 GetWindowThreadProcessId
 ReleaseDC
 RegisterHotKey
 SendInput
 SetForegroundWindow
+SetWindowLong
 UnregisterHotKey
 
 // COM
@@ -56,6 +61,7 @@ IMemoryBufferByteAccess
 
 // Const value
 INFINITE
+WM_ERASEBKGND
 WM_GETMINMAXINFO
 WM_HOTKEY
 WM_NCRBUTTONDOWN
@@ -69,6 +75,7 @@ LPTHREAD_START_ROUTINE
 
 // UI.WindowsAndMessaging
 MINMAXINFO
+WINDOW_EX_STYLE
 
 // System.Com
 CWMO_FLAGS

@@ -89,6 +89,11 @@ internal sealed class WindowSubclass : IDisposable
     {
         switch (uMsg)
         {
+            case WM_ERASEBKGND:
+                {
+                    return (LRESULT)(nint)1;
+                }
+
             case WM_GETMINMAXINFO:
                 {
                     uint dpi = GetDpiForWindow(hwnd);
