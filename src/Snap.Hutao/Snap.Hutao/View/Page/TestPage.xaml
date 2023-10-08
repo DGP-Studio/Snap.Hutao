@@ -76,6 +76,12 @@
                 </StackPanel>
             </cwc:SettingsCard>
 
+            <cwc:SettingsCard Header="Resize MainWindow">
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding ResetMainWindowSizeCommand}" Content="Reset"/>
+                </StackPanel>
+            </cwc:SettingsCard>
+
             <cwc:SettingsCard Header="Suppress Metadata Initialization">
                 <ToggleSwitch IsOn="{Binding SuppressMetadataInitialization, Mode=TwoWay}"/>
             </cwc:SettingsCard>

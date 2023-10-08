@@ -16,6 +16,7 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
+    private readonly MainWindow mainWindow;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly HutaoAsAServiceClient homaAsAServiceClient;
@@ -47,6 +48,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private static void ResetGuideState()
     {
         LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.Language);
+    }
+
+    [Command("ResetMainWindowSizeCommand")]
+    private void ResetMainWindowSize()
+    {
+        mainWindow.AppWindow.Resize(new(1280, 720));
     }
 
     [Command("UploadAnnouncementCommand")]
