@@ -857,6 +857,9 @@
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Check-in failed, {0}</value>
   </data>
+  <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
+    <value>Failed to get signin days count</value>
+  </data>
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
     <value>Fetch Signin reward list failed</value>
   </data>
@@ -1266,7 +1269,7 @@
     <value>Can't add plan with invalid name</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
-    <value>HoYoLab account does not support Realtime Notes</value>
+    <value>HoYoLab account does not support Realtime Notes verification</value>
   </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 min | 3.75 Resin</value>
@@ -1311,7 +1314,7 @@
     <value>Importing wish history</value>
   </data>
   <data name="ViewModelGachaLogImportWarningMessage" xml:space="preserve">
-    <value>UIGF version is too low to import</value>
+    <value>UIGF version is outdated to import</value>
   </data>
   <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
     <value>Importing data contains unsupported items</value>
@@ -1399,6 +1402,12 @@
   </data>
   <data name="ViewModelSettingCopyDeviceIdSuccess" xml:space="preserve">
     <value>Copied</value>
+  </data>
+  <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
+    <value>Failed to create desktop shortcut</value>
+  </data>
+  <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
+    <value>无感验证复合 Url 配置成功</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Set data directory successfully. Restart to apply changes.</value>
@@ -1824,10 +1833,10 @@
     <value>Enter your email</value>
   </data>
   <data name="ViewPageHutaoPassportVerifyCodeAction" xml:space="preserve">
-    <value>Receive verification code</value>
+    <value>Get Verification Code</value>
   </data>
   <data name="ViewPageHutaoPassportVerifyCodeHint" xml:space="preserve">
-    <value>Please enter the verification code</value>
+    <value>Enter code</value>
   </data>
   <data name="ViewPageLaunchGameAction" xml:space="preserve">
     <value>Launch</value>
@@ -1927,6 +1936,9 @@
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>Server</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
+    <value>版本更新前需要提前转换至与启动器匹配的服务器</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
     <value>Please turn off V-Sync in the game settings. You may need a high-performance graphic card to support a high frame rate limit.</value>
@@ -2315,6 +2327,9 @@
   <data name="ViewUserCookieOperation3" xml:space="preserve">
     <value>Current user</value>
   </data>
+  <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
+    <value>My Characters</value>
+  </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Web Login</value>
   </data>
@@ -2506,6 +2521,9 @@
   </data>
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
     <value>Weapon Event Wish</value>
+  </data>
+  <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
+    <value>Verification failed. Please verify manually or check MiHoYo BBS - My Characters page</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Return Code: {0} | Message: {1}</value>
