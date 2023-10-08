@@ -7,6 +7,8 @@ using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -16,15 +18,14 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// 游戏记录提供器
 /// </summary>
 [HighQuality]
-[UseDynamicSecret]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class GameRecordClient : IGameRecordClient
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<GameRecordClient> logger;
-    private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
     /// <summary>
@@ -36,14 +37,19 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
     public async ValueTask<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        Response<DailyNote.DailyNote>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Cookie)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
-            .TryCatchGetFromJsonAsync<Response<DailyNote.DailyNote>>(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid.Value), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid))
+            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<DailyNote.DailyNote>? resp = await builder
+            .TryCatchSendAsync<Response<DailyNote.DailyNote>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         // We have a verification procedure to handle
-        if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
+        if (resp?.ReturnCode is (int)KnownReturnCode.CODE1034)
         {
             // Replace message
             resp.Message = SH.WebDailyNoteVerificationFailed;
@@ -51,11 +57,16 @@ internal sealed partial class GameRecordClient : IGameRecordClient
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
             {
-                resp = await httpClient
-                    .SetUser(userAndUid.User, CookieType.Cookie)
+                HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
+                    .SetRequestUri(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid))
+                    .SetUserCookie(userAndUid, CookieType.Cookie)
                     .SetXrpcChallenge(challenge)
-                    .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
-                    .TryCatchGetFromJsonAsync<Response<DailyNote.DailyNote>>(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid.Value), options, logger, token)
+                    .Get();
+
+                await verifiedbuilder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+                resp = await verifiedbuilder
+                    .TryCatchSendAsync<Response<DailyNote.DailyNote>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
         }
@@ -72,11 +83,39 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.X4)]
     public async ValueTask<Response<PlayerInfo>> GetPlayerInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        Response<PlayerInfo>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.LToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
-            .TryCatchGetFromJsonAsync<Response<PlayerInfo>>(ApiEndpoints.GameRecordIndex(userAndUid.Uid), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.GameRecordIndex(userAndUid.Uid))
+            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<PlayerInfo>? resp = await builder
+            .TryCatchSendAsync<Response<PlayerInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
+
+        // We have a verification procedure to handle
+        if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
+        {
+            // Replace message
+            resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            {
+                HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
+                    .SetRequestUri(ApiEndpoints.GameRecordIndex(userAndUid.Uid))
+                    .SetUserCookie(userAndUid, CookieType.Cookie)
+                    .SetXrpcChallenge(challenge)
+                    .Get();
+
+                await verifiedbuilder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+                resp = await verifiedbuilder
+                    .TryCatchSendAsync<Response<PlayerInfo>>(httpClient, logger, token)
+                    .ConfigureAwait(false);
+            }
+        }
 
         return Response.Response.DefaultIfNull(resp);
     }
@@ -91,11 +130,39 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
     public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule, CancellationToken token = default)
     {
-        Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Cookie)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
-            .TryCatchGetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
+            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<SpiralAbyss.SpiralAbyss>? resp = await builder
+            .TryCatchSendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
             .ConfigureAwait(false);
+
+        // We have a verification procedure to handle
+        if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
+        {
+            // Replace message
+            resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            {
+                HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
+                    .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
+                    .SetUserCookie(userAndUid, CookieType.Cookie)
+                    .SetXrpcChallenge(challenge)
+                    .Get();
+
+                await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+                resp = await builder
+                    .TryCatchSendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
+                    .ConfigureAwait(false);
+            }
+        }
 
         return Response.Response.DefaultIfNull(resp);
     }
@@ -109,10 +176,15 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.X4)]
     public async ValueTask<Response<BasicRoleInfo>> GetRoleBasicInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        Response<BasicRoleInfo>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.LToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
-            .TryCatchGetFromJsonAsync<Response<BasicRoleInfo>>(ApiEndpoints.GameRecordRoleBasicInfo(userAndUid.Uid), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.GameRecordRoleBasicInfo(userAndUid.Uid))
+            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<BasicRoleInfo>? resp = await builder
+            .TryCatchSendAsync<Response<BasicRoleInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -128,13 +200,39 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.X4)]
     public async ValueTask<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
     {
-        CharacterData data = new(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id));
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.GameRecordCharacter)
+            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 
-        Response<CharacterWrapper>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.LToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
-            .TryCatchPostAsJsonAsync<CharacterData, Response<CharacterWrapper>>(ApiEndpoints.GameRecordCharacter, data, options, logger, token)
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<CharacterWrapper>? resp = await builder
+            .TryCatchSendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
+
+        // We have a verification procedure to handle
+        if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
+        {
+            // Replace message
+            resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            {
+                HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
+                    .SetRequestUri(ApiEndpoints.GameRecordCharacter)
+                    .SetUserCookie(userAndUid, CookieType.Cookie)
+                    .SetXrpcChallenge(challenge)
+                    .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
+
+                await verifiedBuilder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+                resp = await verifiedBuilder
+                    .TryCatchSendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
+                    .ConfigureAwait(false);
+            }
+        }
 
         return Response.Response.DefaultIfNull(resp);
     }

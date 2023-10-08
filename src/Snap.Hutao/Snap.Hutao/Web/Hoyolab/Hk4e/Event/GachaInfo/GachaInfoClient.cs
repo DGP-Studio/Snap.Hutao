@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -15,8 +17,8 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class GachaInfoClient
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<GachaInfoClient> logger;
-    private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
     /// <summary>
@@ -33,9 +35,14 @@ internal sealed partial class GachaInfoClient
             ? ApiOsEndpoints.GachaInfoGetGachaLog(query)
             : ApiEndpoints.GachaInfoGetGachaLog(query);
 
-        Response<GachaLogPage>? response = await httpClient
-            .TryCatchGetFromJsonAsync<Response<GachaLogPage>>(url, this.options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(url)
+            .Get();
+
+        Response<GachaLogPage>? resp = await builder
+            .TryCatchSendAsync<Response<GachaLogPage>>(httpClient, logger, token)
             .ConfigureAwait(false);
-        return Response.Response.DefaultIfNull(response);
+
+        return Response.Response.DefaultIfNull(resp);
     }
 }

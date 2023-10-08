@@ -6,6 +6,8 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -15,31 +17,29 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 /// 授权客户端
 /// </summary>
 [HighQuality]
-[UseDynamicSecret]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class AuthClient
 {
-    private readonly JsonSerializerOptions options;
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<BindingClient> logger;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 异步获取操作凭证
-    /// </summary>
-    /// <param name="action">操作</param>
-    /// <param name="user">用户</param>
-    /// <returns>操作凭证</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.K2)]
-    public async ValueTask<Response<ActionTicketWrapper>> GetActionTicketBySTokenAsync(string action, User user)
+    public async ValueTask<Response<ActionTicketWrapper>> GetActionTicketBySTokenAsync(string action, User user, CancellationToken token = default)
     {
         ArgumentException.ThrowIfNullOrEmpty(user.Aid);
-        string url = ApiEndpoints.AuthActionTicket(action, user.SToken?[Cookie.STOKEN] ?? string.Empty, user.Aid);
+        string stoken = user.SToken?.GetValueOrDefault(Cookie.STOKEN) ?? string.Empty;
 
-        Response<ActionTicketWrapper>? resp = await httpClient
-            .SetUser(user, CookieType.SToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
-            .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(url, options, logger)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.AuthActionTicket(action, stoken, user.Aid))
+            .SetUserCookie(user, CookieType.SToken)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.K2, true).ConfigureAwait(false);
+
+        Response<ActionTicketWrapper>? resp = await builder
+            .TryCatchSendAsync<Response<ActionTicketWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -54,16 +54,24 @@ internal sealed partial class AuthClient
     /// <returns>包含token的字典</returns>
     public async ValueTask<Response<ListWrapper<NameToken>>> GetMultiTokenByLoginTicketAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
     {
-        string loginTicket = cookie[Cookie.LOGIN_TICKET];
-        string loginUid = cookie[Cookie.LOGIN_UID];
+        Response<ListWrapper<NameToken>>? resp = null;
+        if (cookie.TryGetLoginTicket(out Cookie? loginTicketCookie))
+        {
+            string loginTicket = loginTicketCookie[Cookie.LOGIN_TICKET];
+            string loginUid = loginTicketCookie[Cookie.LOGIN_UID];
 
-        string url = isOversea
-            ? ApiOsEndpoints.AuthMultiToken(loginTicket, loginUid)
-            : ApiEndpoints.AuthMultiToken(loginTicket, loginUid);
+            string url = isOversea
+                ? ApiOsEndpoints.AuthMultiToken(loginTicket, loginUid)
+                : ApiEndpoints.AuthMultiToken(loginTicket, loginUid);
 
-        Response<ListWrapper<NameToken>>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<ListWrapper<NameToken>>>(url, options, logger, token)
-            .ConfigureAwait(false);
+            HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+                .SetRequestUri(url)
+                .Get();
+
+            resp = await builder
+                .TryCatchSendAsync<Response<ListWrapper<NameToken>>>(httpClient, logger, token)
+                .ConfigureAwait(false);
+        }
 
         return Response.Response.DefaultIfNull(resp);
     }

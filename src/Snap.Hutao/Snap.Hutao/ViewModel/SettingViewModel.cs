@@ -263,14 +263,20 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         {
             await taskContext.SwitchToMainThreadAsync();
             appOptions.GeetestCustomCompositeUrl = template;
-            infoBarService.Success("无感验证复合 Url 配置成功");
+            infoBarService.Success(SH.ViewModelSettingGeetestCustomUrlSucceed);
         }
     }
 
     [Command("CreateDesktopShortcutCommand")]
-    private void CreateDesktopShortcutForElevatedLaunch()
+    private async Task CreateDesktopShortcutForElevatedLaunchAsync()
     {
-        shellLinkInterop.CreateDesktopShoutcutForElevatedLaunch();
-        infoBarService.Information(SH.ViewModelSettingActionComplete);
+        if (await shellLinkInterop.TryCreateDesktopShoutcutForElevatedLaunchAsync().ConfigureAwait(false))
+        {
+            infoBarService.Information(SH.ViewModelSettingActionComplete);
+        }
+        else
+        {
+            infoBarService.Warning(SH.ViewModelSettingCreateDesktopShortcutFailed);
+        }
     }
 }

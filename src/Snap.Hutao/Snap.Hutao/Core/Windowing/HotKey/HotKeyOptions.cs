@@ -2,10 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Runtime.InteropServices;
-using Windows.Win32.Foundation;
-using Windows.Win32.UI.Input.KeyboardAndMouse;
-using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Core.Windowing.HotKey;
 

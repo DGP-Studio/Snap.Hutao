@@ -10,6 +10,7 @@
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvu="using:Snap.Hutao.ViewModel.User"
     d:DataContext="{d:DesignInstance shvu:UserViewModel}"
     mc:Ignorable="d">
@@ -21,22 +22,43 @@
         Padding="0,0,0,0"
         Spacing="4">
         <StackPanel.Resources>
-            <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+            <ResourceDictionary>
+                <ResourceDictionary.ThemeDictionaries>
+                    <ResourceDictionary x:Key="Light">
+                        <StaticResource x:Key="ButtonBackground" ResourceKey="NavigationViewItemBackground"/>
+                        <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="NavigationViewItemBackgroundDisabled"/>
+                        <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="NavigationViewItemBackgroundPointerOver"/>
+                        <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="NavigationViewItemBackgroundPressed"/>
 
-            <StaticResource x:Key="ButtonBackground" ResourceKey="NavigationViewItemBackground"/>
-            <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="NavigationViewItemBackgroundDisabled"/>
-            <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="NavigationViewItemBackgroundPointerOver"/>
-            <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="NavigationViewItemBackgroundPressed"/>
+                        <StaticResource x:Key="ButtonBorderBrush" ResourceKey="NavigationViewItemBorderBrush"/>
+                        <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="NavigationViewItemBorderBrushDisabled"/>
+                        <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="NavigationViewItemBorderBrushPointerOver"/>
+                        <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="NavigationViewItemBorderBrushPressed"/>
 
-            <StaticResource x:Key="ButtonBorderBrush" ResourceKey="NavigationViewItemBorderBrush"/>
-            <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="NavigationViewItemBorderBrushDisabled"/>
-            <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="NavigationViewItemBorderBrushPointerOver"/>
-            <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="NavigationViewItemBorderBrushPressed"/>
+                        <StaticResource x:Key="ButtonForeground" ResourceKey="NavigationViewItemForeground"/>
+                        <StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="NavigationViewItemForegroundDisabled"/>
+                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="NavigationViewItemForegroundPointerOver"/>
+                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="NavigationViewItemForegroundPressed"/>
+                    </ResourceDictionary>
+                    <ResourceDictionary x:Key="Dark">
+                        <StaticResource x:Key="ButtonBackground" ResourceKey="NavigationViewItemBackground"/>
+                        <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="NavigationViewItemBackgroundDisabled"/>
+                        <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="NavigationViewItemBackgroundPointerOver"/>
+                        <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="NavigationViewItemBackgroundPressed"/>
 
-            <StaticResource x:Key="ButtonForeground" ResourceKey="NavigationViewItemForeground"/>
-            <StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="NavigationViewItemForegroundDisabled"/>
-            <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="NavigationViewItemForegroundPointerOver"/>
-            <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="NavigationViewItemForegroundPressed"/>
+                        <StaticResource x:Key="ButtonBorderBrush" ResourceKey="NavigationViewItemBorderBrush"/>
+                        <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="NavigationViewItemBorderBrushDisabled"/>
+                        <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="NavigationViewItemBorderBrushPointerOver"/>
+                        <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="NavigationViewItemBorderBrushPressed"/>
+
+                        <StaticResource x:Key="ButtonForeground" ResourceKey="NavigationViewItemForeground"/>
+                        <StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="NavigationViewItemForegroundDisabled"/>
+                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="NavigationViewItemForegroundPointerOver"/>
+                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="NavigationViewItemForegroundPressed"/>
+                    </ResourceDictionary>
+                </ResourceDictionary.ThemeDictionaries>
+                <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+            </ResourceDictionary>
         </StackPanel.Resources>
 
         <Button
@@ -161,10 +183,63 @@
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
+                                AllowFocusOnInteraction="True"
+                                Icon="{shcm:FontIcon Glyph=&#xEC26;}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationGameRecordIndexAction}"
+                                Style="{StaticResource DefaultAppBarButtonStyle}">
+                                <AppBarButton.Flyout>
+                                    <Flyout
+                                        LightDismissOverlayMode="On"
+                                        Placement="Full"
+                                        ShouldConstrainToRootBounds="False">
+                                        <Flyout.FlyoutPresenterStyle>
+                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="CornerRadius" Value="0"/>
+                                            </Style>
+                                        </Flyout.FlyoutPresenterStyle>
+                                        <Grid>
+                                            <shvc:WebViewer>
+                                                <shvc:WebViewer.SourceProvider>
+                                                    <shvc:StaticWebview2ViewerSource ChineseSource="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
+                                                </shvc:WebViewer.SourceProvider>
+                                            </shvc:WebViewer>
+                                        </Grid>
+                                    </Flyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+                            <AppBarButton
+                                x:Name="SignInRewardButton"
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                AllowFocusOnInteraction="True"
                                 Command="{Binding ClaimSignInRewardCommand}"
+                                CommandParameter="{Binding ElementName=SignInRewardButton}"
                                 Icon="{shcm:FontIcon Glyph=&#xF133;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
-                                Style="{StaticResource DefaultAppBarButtonStyle}"/>
+                                Style="{StaticResource DefaultAppBarButtonStyle}">
+                                <FlyoutBase.AttachedFlyout>
+                                    <Flyout
+                                        LightDismissOverlayMode="On"
+                                        Placement="Full"
+                                        ShouldConstrainToRootBounds="False">
+                                        <Flyout.FlyoutPresenterStyle>
+                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="CornerRadius" Value="0"/>
+                                            </Style>
+                                        </Flyout.FlyoutPresenterStyle>
+                                        <Grid>
+                                            <shvc:WebViewer>
+                                                <shvc:WebViewer.SourceProvider>
+                                                    <shvu:SignInWebViewerSouce/>
+                                                </shvc:WebViewer.SourceProvider>
+                                            </shvc:WebViewer>
+                                        </Grid>
+                                    </Flyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </AppBarButton>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
@@ -183,7 +258,6 @@
                                 <ListView
                                     Grid.Row="1"
                                     Margin="4"
-                                    CanReorderItems="True"
                                     ItemsSource="{Binding SelectedUser.UserGameRoles}"
                                     SelectedItem="{Binding SelectedUser.SelectedUserGameRole, Mode=TwoWay}"
                                     SelectionMode="Single">

@@ -4,6 +4,8 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -23,6 +25,7 @@ internal sealed partial class EnkaClient
     private const string EnkaAPI = "https://enka.network/api/uid/{0}";
     private const string EnkaAPIHutaoForward = "https://enka-api.hut.ao/{0}";
 
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
@@ -52,7 +55,11 @@ internal sealed partial class EnkaClient
     {
         try
         {
-            HttpResponseMessage response = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+            HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+                .SetRequestUri(url)
+                .Get();
+
+            HttpResponseMessage response = await httpClient.SendAsync(builder.HttpRequestMessage, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadFromJsonAsync<EnkaResponse>(options, token).ConfigureAwait(false);

@@ -255,6 +255,12 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                         {
                             baseline.AvatarId = avatar.Id;
                             baseline.AvatarLevelCurrent = Math.Min(avatar.LevelNumber, baseline.AvatarLevelTarget);
+
+                            if (avatar.Skills.Count < 3)
+                            {
+                                continue;
+                            }
+
                             baseline.SkillList[0].Id = avatar.Skills[0].GroupId;
                             baseline.SkillList[0].LevelCurrent = Math.Min(avatar.Skills[0].LevelNumber, baseline.SkillList[0].LevelTarget);
                             baseline.SkillList[1].Id = avatar.Skills[1].GroupId;

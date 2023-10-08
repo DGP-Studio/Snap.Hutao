@@ -91,7 +91,7 @@ internal sealed partial class GameService : IGameService
     {
         string gamePath = appOptions.GamePath;
         string configPath = Path.Combine(Path.GetDirectoryName(gamePath) ?? string.Empty, ConfigFileName);
-        bool isOversea = string.Equals(Path.GetFileName(gamePath), GenshinImpactFileName, StringComparison.Ordinal);
+        bool isOversea = string.Equals(Path.GetFileName(gamePath), GenshinImpactFileName, StringComparison.OrdinalIgnoreCase);
 
         if (!File.Exists(configPath))
         {
@@ -145,12 +145,12 @@ internal sealed partial class GameService : IGameService
             {
                 if (parameter.Key == "channel")
                 {
-                    changed = parameter.Set(scheme.Channel.ToString("D"));
+                    changed = parameter.Set(scheme.Channel.ToString("D")) || changed;
                 }
 
                 if (parameter.Key == "sub_channel")
                 {
-                    changed = parameter.Set(scheme.SubChannel.ToString("D"));
+                    changed = parameter.Set(scheme.SubChannel.ToString("D")) || changed;
                 }
             }
         }

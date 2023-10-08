@@ -3,8 +3,8 @@
 
 using Microsoft.UI;
 using Snap.Hutao.Control;
+using Snap.Hutao.Core;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Win32;
 using Windows.UI;
 
 namespace Snap.Hutao.Model.Metadata.Converter;

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Windowing;
-using Snap.Hutao.Win32;
 using Windows.Graphics;
 
 namespace Snap.Hutao.Core.Windowing;

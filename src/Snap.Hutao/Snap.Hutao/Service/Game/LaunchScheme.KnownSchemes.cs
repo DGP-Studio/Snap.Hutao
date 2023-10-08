@@ -18,6 +18,16 @@ internal sealed partial class LaunchScheme
     private const string SdkStaticLauncherBilibiliKey = "KAtdSsoQ";
     private const string SdkStaticLauncherGlobalKey = "gcStgarh";
 
+    private static readonly LaunchScheme ServerChineseChannelDefaultSubChannelDefaultCompatOnly = new()
+    {
+        LauncherId = SdkStaticLauncherChineseId,
+        Key = SdkStaticLauncherChineseKey,
+        Channel = ChannelType.Default,
+        SubChannel = SubChannelType.Default,
+        IsOversea = false,
+        IsNotCompatOnly = false,
+    };
+
     private static readonly LaunchScheme ServerChineseChannelOfficialSubChannelDefault = new()
     {
         LauncherId = SdkStaticLauncherChineseId,
@@ -45,6 +55,16 @@ internal sealed partial class LaunchScheme
         IsOversea = false,
     };
 
+    private static readonly LaunchScheme ServerChineseChannelOfficialSubChannelEpicCompatOnly = new()
+    {
+        LauncherId = SdkStaticLauncherChineseId,
+        Key = SdkStaticLauncherChineseKey,
+        Channel = ChannelType.Official,
+        SubChannel = SubChannelType.Epic,
+        IsOversea = false,
+        IsNotCompatOnly = false,
+    };
+
     private static readonly LaunchScheme ServerChineseChannelBilibiliSubChannelDefault = new()
     {
         LauncherId = SdkStaticLauncherBilibiliId,
@@ -52,6 +72,26 @@ internal sealed partial class LaunchScheme
         Channel = ChannelType.Bili,
         SubChannel = SubChannelType.Default,
         IsOversea = false,
+    };
+
+    private static readonly LaunchScheme ServerChineseChannelBilibiliSubChannelOfficialCompatOnly = new()
+    {
+        LauncherId = SdkStaticLauncherBilibiliId,
+        Key = SdkStaticLauncherBilibiliKey,
+        Channel = ChannelType.Bili,
+        SubChannel = SubChannelType.Official,
+        IsOversea = false,
+        IsNotCompatOnly = false,
+    };
+
+    private static readonly LaunchScheme ServerGlobalChannelDefaultSubChannelDefaultCompatOnly = new()
+    {
+        LauncherId = SdkStaticLauncherGlobalId,
+        Key = SdkStaticLauncherGlobalKey,
+        Channel = ChannelType.Default,
+        SubChannel = SubChannelType.Default,
+        IsOversea = true,
+        IsNotCompatOnly = false,
     };
 
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelDefault = new()
@@ -81,15 +121,6 @@ internal sealed partial class LaunchScheme
         IsOversea = true,
     };
 
-    private static readonly LaunchScheme ServerGlobalChannelDefaultSubChannelDefault = new()
-    {
-        LauncherId = SdkStaticLauncherGlobalId,
-        Key = SdkStaticLauncherGlobalKey,
-        Channel = ChannelType.Default,
-        SubChannel = SubChannelType.Default,
-        IsOversea = true,
-    };
-
     /// <summary>
     /// 获取已知的启动方案
     /// </summary>
@@ -99,14 +130,18 @@ internal sealed partial class LaunchScheme
         return new List<LaunchScheme>()
         {
             // 官服
+            ServerChineseChannelDefaultSubChannelDefaultCompatOnly,
             ServerChineseChannelOfficialSubChannelDefault,
             ServerChineseChannelOfficialSubChannelOfficial,
             ServerChineseChannelOfficialSubChannelNoTapTap,
+            ServerChineseChannelOfficialSubChannelEpicCompatOnly,
 
             // 渠道服
             ServerChineseChannelBilibiliSubChannelDefault,
+            ServerChineseChannelBilibiliSubChannelOfficialCompatOnly,
 
             // 国际服
+            ServerGlobalChannelDefaultSubChannelDefaultCompatOnly,
             ServerGlobalChannelOfficialSubChannelDefault,
             ServerGlobalChannelOfficialSubChannelEpic,
             ServerGlobalChannelOfficialSubChannelGoogle,

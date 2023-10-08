@@ -5,6 +5,8 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -14,13 +16,12 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// 通行证客户端 XRPC 版
 /// </summary>
 [HighQuality]
-[UseDynamicSecret]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc2)]
 internal sealed partial class PassportClient : IPassportClient
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<PassportClient2> logger;
-    private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
     /// <summary>
@@ -32,10 +33,15 @@ internal sealed partial class PassportClient : IPassportClient
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.PROD)]
     public async ValueTask<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default)
     {
-        Response<UidCookieToken>? resp = await httpClient
-            .SetUser(user, CookieType.SToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
-            .TryCatchGetFromJsonAsync<Response<UidCookieToken>>(ApiEndpoints.AccountGetCookieTokenBySToken, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.AccountGetCookieTokenBySToken)
+            .SetUserCookie(user, CookieType.SToken)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
+
+        Response<UidCookieToken>? resp = await builder
+            .TryCatchSendAsync<Response<UidCookieToken>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -50,10 +56,15 @@ internal sealed partial class PassportClient : IPassportClient
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.PROD)]
     public async ValueTask<Response<LTokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token = default)
     {
-        Response<LTokenWrapper>? resp = await httpClient
-            .SetUser(user, CookieType.SToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
-            .TryCatchGetFromJsonAsync<Response<LTokenWrapper>>(ApiEndpoints.AccountGetLTokenBySToken, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.AccountGetLTokenBySToken)
+            .SetUserCookie(user, CookieType.SToken)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
+
+        Response<LTokenWrapper>? resp = await builder
+            .TryCatchSendAsync<Response<LTokenWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

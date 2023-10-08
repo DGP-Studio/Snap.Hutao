@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Page.SettingPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,8 +20,8 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="16,16,16,16" Spacing="{StaticResource SettingsCardSpacing}">
-                <Border Height="280" Style="{StaticResource BorderCardStyle}">
-                    <Grid>
+                <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                    <Grid Height="280" Style="{ThemeResource BorderGridStyle}">
                         <Image
                             VerticalAlignment="Center"
                             Source="ms-appx:///Resource/BlurBackground.png"
@@ -67,6 +68,7 @@
                         </Grid>
                     </Grid>
                 </Border>
+
                 <TextBlock
                     Grid.Row="0"
                     Margin="0,4"
@@ -95,6 +97,16 @@
                     Description="{Binding HutaoOptions.WebView2Version}"
                     Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}"/>
+                <cwc:SettingsCard
+                    ActionIcon="{shcm:FontIcon Glyph=&#xF32A;}"
+                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlAction}"
+                    Command="{Binding ConfigureGeetestUrlCommand}"
+                    Description="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlDescription}"
+                    Header="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE776;}"
+                    IsClickEnabled="True"/>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingShellExperienceHeader}"/>
                 <cwc:SettingsCard
@@ -206,16 +218,6 @@
                         OffContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
                         OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
                 </cwc:SettingsCard>
-
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}"/>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xF32A;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlAction}"
-                    Command="{Binding ConfigureGeetestUrlCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlDescription}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE776;}"
-                    IsClickEnabled="True"/>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingStorageHeader}"/>
                 <cwc:SettingsCard

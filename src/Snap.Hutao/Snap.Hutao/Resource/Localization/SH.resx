@@ -857,6 +857,9 @@
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>签到失败，{0}</value>
   </data>
+  <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
+    <value>获取签到次数失败</value>
+  </data>
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
     <value>获取奖励列表失败</value>
   </data>
@@ -1400,6 +1403,12 @@
   <data name="ViewModelSettingCopyDeviceIdSuccess" xml:space="preserve">
     <value>复制成功</value>
   </data>
+  <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
+    <value>创建桌面快捷方式失败</value>
+  </data>
+  <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
+    <value>无感验证复合 Url 配置成功</value>
+  </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>设置数据目录成功，重启以应用更改</value>
   </data>
@@ -1928,6 +1937,9 @@
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>服务器</value>
   </data>
+  <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
+    <value>版本更新前需要提前转换至与启动器匹配的服务器</value>
+  </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
     <value>请在游戏内关闭垂直同步选项，需要高性能的显卡以支持更高的帧率</value>
   </data>
@@ -2315,6 +2327,9 @@
   <data name="ViewUserCookieOperation3" xml:space="preserve">
     <value>当前用户</value>
   </data>
+  <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
+    <value>我的角色</value>
+  </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>网页登录</value>
   </data>
@@ -2506,6 +2521,9 @@
   </data>
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
     <value>武器活动祈愿</value>
+  </data>
+  <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
+    <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>状态：{0} | 信息：{1}</value>

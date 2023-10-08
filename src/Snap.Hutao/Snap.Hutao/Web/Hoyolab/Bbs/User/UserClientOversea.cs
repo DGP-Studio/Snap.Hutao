@@ -3,7 +3,8 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Hoyolab.Annotation;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -12,14 +13,13 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 用户信息客户端 Hoyolab版
 /// </summary>
-[UseDynamicSecret]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class UserClientOversea : IUserClient
 {
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<UserClientOversea> logger;
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 获取当前用户详细信息，使用 LToken
@@ -27,13 +27,18 @@ internal sealed partial class UserClientOversea : IUserClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
-    [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.None)]
+    [ApiInformation(Cookie = CookieType.LToken)]
     public async ValueTask<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {
         ArgumentException.ThrowIfNullOrEmpty(user.Aid);
-        Response<UserFullInfoWrapper>? resp = await httpClient
-            .SetUser(user, CookieType.LToken)
-            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiOsEndpoints.UserFullInfoQuery(user.Aid), options, logger, token)
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.UserFullInfoQuery(user.Aid))
+            .SetUserCookie(user, CookieType.LToken)
+            .Get();
+
+        Response<UserFullInfoWrapper>? resp = await builder
+            .TryCatchSendAsync<Response<UserFullInfoWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

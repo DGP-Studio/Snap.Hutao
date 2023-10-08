@@ -42,6 +42,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
+    [SuppressMessage("", "CA1822")]
     public IWebViewerSource VerifyUrlSource { get => new DailyNoteWebViewerSource(); }
 
     /// <summary>

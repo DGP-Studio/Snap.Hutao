@@ -24,7 +24,7 @@
                 <Pivot
                     Width="360"
                     Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-                    CornerRadius="{StaticResource CompatCornerRadius}">
+                    CornerRadius="{StaticResource ControlCornerRadius}">
                     <PivotItem Header="{shcm:ResourceString Name=ViewPageHutaoPassportLoginHeader}">
                         <StackPanel Margin="16">
                             <TextBox PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportUserNameHint}" Text="{Binding UserName, Mode=TwoWay}"/>

@@ -20,7 +20,6 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
 
     private const string HttpClientConfiguration = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration.";
     private const string PrimaryHttpMessageHandlerAttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.PrimaryHttpMessageHandlerAttribute";
-    private const string UseDynamicSecretAttributeName = "Snap.Hutao.Web.Hoyolab.DynamicSecret.UseDynamicSecretAttribute";
     private const string CRLF = "\r\n";
 
     private static readonly DiagnosticDescriptor injectionShouldOmitDescriptor = new("SH201", "Injection 特性可以省略", "HttpClient 特性已将 {0} 注册为 Transient 服务", "Quality", DiagnosticSeverity.Warning, true);
@@ -132,11 +131,6 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
                 }
 
                 lineBuilder.Append(" })");
-            }
-
-            if (context.HasAttributeWithName(UseDynamicSecretAttributeName))
-            {
-                lineBuilder.Append(".AddHttpMessageHandler<DynamicSecretHandler>()");
             }
 
             lineBuilder.Append(';');

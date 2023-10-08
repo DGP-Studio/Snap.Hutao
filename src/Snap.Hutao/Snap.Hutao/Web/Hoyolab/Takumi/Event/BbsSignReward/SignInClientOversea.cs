@@ -3,8 +3,9 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hutao.Geetest;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -14,21 +15,38 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 /// Global签到客户端
 /// </summary>
 [ConstructorGenerated(ResolveHttpClient = true)]
-[UseDynamicSecret]
 [HttpClient(HttpClientConfiguration.Default)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class SignInClientOversea : ISignInClient
 {
-    private readonly HttpClient httpClient;
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly HomaGeetestClient homaGeetestClient;
-    private readonly JsonSerializerOptions options;
     private readonly ILogger<SignInClient> logger;
+    private readonly HttpClient httpClient;
+
+    public async ValueTask<Response<SignInRewardInfo>> GetInfoAsync(UserAndUid userAndUid, CancellationToken token = default(CancellationToken))
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.SignInRewardInfo(userAndUid.Uid))
+            .SetUserCookie(userAndUid, CookieType.CookieToken)
+            .Get();
+
+        Response<SignInRewardInfo>? resp = await builder
+            .TryCatchSendAsync<Response<SignInRewardInfo>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
 
     public async ValueTask<Response<Reward>> GetRewardAsync(Model.Entity.User user, CancellationToken token = default)
     {
-        Response<Reward>? resp = await httpClient
-            .SetUser(user, CookieType.CookieToken)
-            .TryCatchGetFromJsonAsync<Response<Reward>>(ApiOsEndpoints.SignInRewardHome, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.SignInRewardHome)
+            .SetUserCookie(user, CookieType.CookieToken)
+            .Get();
+
+        Response<Reward>? resp = await builder
+            .TryCatchSendAsync<Response<Reward>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -36,9 +54,13 @@ internal sealed partial class SignInClientOversea : ISignInClient
 
     public async ValueTask<Response<SignInResult>> SignAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        Response<SignInResult>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.CookieToken)
-            .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiOsEndpoints.SignInRewardSign, new(userAndUid.Uid, true), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.SignInRewardSign)
+            .SetUserCookie(userAndUid, CookieType.CookieToken)
+            .PostJson(new SignInData(userAndUid.Uid, false));
+
+        Response<SignInResult>? resp = await builder
+            .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         if (resp is { Data: { Success: 1, Gt: string gt, Challenge: string originChallenge } })
@@ -47,10 +69,14 @@ internal sealed partial class SignInClientOversea : ISignInClient
 
             if (verifyResponse is { Code: 0, Data: { Validate: string validate, Challenge: string challenge } })
             {
-                resp = await httpClient
-                    .SetUser(userAndUid.User, CookieType.CookieToken)
+                HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
+                    .SetRequestUri(ApiOsEndpoints.SignInRewardSign)
+                    .SetUserCookie(userAndUid, CookieType.CookieToken)
                     .SetXrpcChallenge(challenge, validate)
-                    .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiOsEndpoints.SignInRewardSign, new(userAndUid.Uid, true), options, logger, token)
+                    .PostJson(new SignInData(userAndUid.Uid, false));
+
+                resp = await verifiedBuilder
+                    .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
             else

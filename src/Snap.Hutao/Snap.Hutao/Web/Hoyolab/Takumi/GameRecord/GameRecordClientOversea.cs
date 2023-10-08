@@ -6,6 +6,8 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -14,14 +16,13 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// Hoyoverse game record provider
 /// </summary>
-[UseDynamicSecret]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class GameRecordClientOversea : IGameRecordClient
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<GameRecordClient> logger;
-    private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
     /// <summary>
@@ -33,10 +34,15 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.OSX4)]
     public async ValueTask<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        Response<DailyNote.DailyNote>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Cookie)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.OSX4, false)
-            .TryCatchGetFromJsonAsync<Response<DailyNote.DailyNote>>(ApiOsEndpoints.GameRecordDailyNote(userAndUid.Uid.Value), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.GameRecordDailyNote(userAndUid.Uid))
+            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
+
+        Response<DailyNote.DailyNote>? resp = await builder
+            .TryCatchSendAsync<Response<DailyNote.DailyNote>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -51,10 +57,15 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.OSX4)]
     public async ValueTask<Response<PlayerInfo>> GetPlayerInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        Response<PlayerInfo>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Cookie)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.OSX4, false)
-            .TryCatchGetFromJsonAsync<Response<PlayerInfo>>(ApiOsEndpoints.GameRecordIndex(userAndUid.Uid), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.GameRecordIndex(userAndUid.Uid))
+            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
+
+        Response<PlayerInfo>? resp = await builder
+            .TryCatchSendAsync<Response<PlayerInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -70,10 +81,15 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.OSX4)]
     public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule, CancellationToken token = default)
     {
-        Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Cookie)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.OSX4, false)
-            .TryCatchGetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(ApiOsEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
+            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
+
+        Response<SpiralAbyss.SpiralAbyss>? resp = await builder
+            .TryCatchSendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -89,12 +105,15 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.OSX4)]
     public async ValueTask<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
     {
-        CharacterData data = new(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id));
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.GameRecordCharacter)
+            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 
-        Response<CharacterWrapper>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Cookie)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.OSX4, false)
-            .TryCatchPostAsJsonAsync<CharacterData, Response<CharacterWrapper>>(ApiOsEndpoints.GameRecordCharacter, data, options, logger, token)
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
+
+        Response<CharacterWrapper>? resp = await builder
+            .TryCatchSendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

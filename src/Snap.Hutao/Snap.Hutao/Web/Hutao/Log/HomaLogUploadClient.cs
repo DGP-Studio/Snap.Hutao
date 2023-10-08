@@ -3,6 +3,8 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -12,43 +14,38 @@ namespace Snap.Hutao.Web.Hutao.Log;
 /// 胡桃日志客户端
 /// </summary>
 [HighQuality]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class HomaLogUploadClient
+internal sealed partial class HomaLogUploadClient
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly ILogger<HomaLogUploadClient> logger;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
-
-    /// <summary>
-    /// 构造一个新的胡桃日志客户端
-    /// </summary>
-    /// <param name="httpClient">Http客户端</param>
-    public HomaLogUploadClient(HttpClient httpClient)
-    {
-        this.httpClient = httpClient;
-    }
 
     /// <summary>
     /// 上传日志
     /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="exception">异常</param>
     /// <returns>任务</returns>
-    public async ValueTask<string?> UploadLogAsync(IServiceProvider serviceProvider, Exception exception)
+    public async ValueTask<string?> UploadLogAsync(Exception exception)
     {
-        HutaoLog log = BuildFromException(serviceProvider, exception);
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.GachaLogUpload)
+            .PostJson(BuildFromException(exception));
 
-        Response<string>? a = await httpClient
-            .TryCatchPostAsJsonAsync<HutaoLog, Response<string>>(HutaoEndpoints.HutaoLogUpload, log)
+        Response<string>? resp = await builder
+            .TryCatchSendAsync<Response<string>>(httpClient, logger, default)
             .ConfigureAwait(false);
-        return a?.Data;
+
+        return resp?.Data;
     }
 
-    private static HutaoLog BuildFromException(IServiceProvider serviceProvider, Exception exception)
+    private HutaoLog BuildFromException(Exception exception)
     {
-        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-
         return new()
         {
-            Id = hutaoOptions.DeviceId,
+            Id = runtimeOptions.DeviceId,
             Time = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
             Info = Core.ExceptionService.ExceptionFormat.Format(exception),
         };

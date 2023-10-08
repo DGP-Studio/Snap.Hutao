@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Control.StatisticsCard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwcont="using:CommunityToolkit.WinUI.Controls"
     xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,6 +15,7 @@
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
+    cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
     d:DataContext="{d:DesignInstance shvg:TypedWishSummary}"
     mc:Ignorable="d">
 
@@ -291,12 +293,12 @@
 
         <cwcont:SwitchPresenter
             Grid.Row="2"
-            Margin="12,6,12,12"
+            Margin="12,0"
             ContentTransitions="{StaticResource ContentThemeTransitions}"
             Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-
             <cwcont:Case Value="List">
                 <ListView
+                    Padding="0,6,0,12"
                     ItemContainerStyle="{StaticResource NoneSelectionListViewItemStyle}"
                     ItemTemplate="{StaticResource OrangeListTemplate}"
                     ItemsSource="{Binding OrangeList}"
@@ -305,7 +307,8 @@
             </cwcont:Case>
             <cwcont:Case Value="Grid">
                 <GridView
-                    Margin="0,0,-4,0"
+                    Margin="0,0,-2,-4"
+                    Padding="0,12"
                     ItemContainerStyle="{StaticResource NoneSelectionGridViewItemStyle}"
                     ItemTemplate="{StaticResource OrangeGridTemplate}"
                     ItemsSource="{Binding OrangeList}"

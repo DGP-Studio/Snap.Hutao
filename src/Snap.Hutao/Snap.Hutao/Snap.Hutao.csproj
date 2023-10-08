@@ -35,7 +35,7 @@
     <ApplicationIcon>Assets\Logo.ico</ApplicationIcon>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <Configurations>Debug;Release;Debug As Fake Elevated</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   
   <!-- Included Files -->
@@ -75,11 +75,15 @@
     <None Remove="Control\Loading.xaml" />
     <None Remove="Control\Panel\PanelSelector.xaml" />
     <None Remove="Control\Theme\FontStyle.xaml" />
+    <None Remove="Control\Theme\InfoBarOverride.xaml" />
+    <None Remove="Control\Theme\PageOverride.xaml" />
+    <None Remove="Control\Theme\PivotOverride.xaml" />
+    <None Remove="Control\Theme\SettingsStyle.xaml" />
+    <None Remove="Control\Theme\TransitionCollection.xaml" />
+    <None Remove="Control\Theme\WindowOverride.xaml" />
     <None Remove="GuideWindow.xaml" />
     <None Remove="IdentityStructs.json" />
     <None Remove="LaunchGameWindow.xaml" />
-    <None Remove="NativeMethods.json" />
-    <None Remove="NativeMethods.txt" />
     <None Remove="Resource\BlurBackground.png" />
     <None Remove="Resource\Font\CascadiaMono.ttf" />
     <None Remove="Resource\Font\MiSans-Regular.ttf" />
@@ -137,7 +141,6 @@
     <None Remove="View\Dialog\GeetestCustomUrlDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
-    <None Remove="View\Dialog\SignInWebViewDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
     <None Remove="View\Guide\GuideView.xaml" />
     <None Remove="View\InfoBarView.xaml" />
@@ -166,8 +169,6 @@
   <ItemGroup>
     <AdditionalFiles Include="CodeMetricsConfig.txt" />
     <AdditionalFiles Include="IdentityStructs.json" />
-    <AdditionalFiles Include="NativeMethods.json" />
-    <AdditionalFiles Include="NativeMethods.txt" />
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   
@@ -260,10 +261,6 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
-    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.18-beta">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.507">
@@ -278,6 +275,7 @@
   <!-- Projects -->
   <ItemGroup>
     <ProjectReference Include="..\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\Snap.Hutao.Win32\Snap.Hutao.Win32.csproj" />
   </ItemGroup>
   
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
@@ -303,6 +301,42 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\TransitionCollection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\SettingsStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\PivotOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\PageOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\WindowOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\InfoBarOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
@@ -439,11 +473,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\WikiWeaponPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\SignInWebViewDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -351,8 +351,7 @@
                                             Padding="0"
                                             Background="Transparent"
                                             BorderBrush="{x:Null}"
-                                            BorderThickness="0"
-                                            CornerRadius="{StaticResource CompatCornerRadius}">
+                                            BorderThickness="0">
                                             <shvco:BottomTextControl Text="{Binding Count, Mode=OneWay}">
                                                 <shvco:ItemIcon Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Inner.RankLevel}"/>
                                             </shvco:BottomTextControl>

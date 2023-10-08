@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
-using Snap.Hutao.Win32;
 using System.IO;
 using Windows.Graphics;
 using Windows.UI;
@@ -100,7 +99,7 @@ internal sealed class WindowController
             return;
         }
 
-        WINDOWPLACEMENT windowPlacement = StructMarshal.WINDOWPLACEMENT();
+        WINDOWPLACEMENT windowPlacement = Win32.StructMarshal.WINDOWPLACEMENT();
         GetWindowPlacement(options.Hwnd, ref windowPlacement);
 
         // prevent save value when we are maximized.
@@ -198,10 +197,5 @@ internal sealed class WindowController
         // 48 is the navigation button leftInset
         RectInt32 dragRect = StructMarshal.RectInt32(48, 0, options.TitleBar.ActualSize).Scale(scale);
         appTitleBar.SetDragRectangles(dragRect.ToArray());
-
-        // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
-        SizeInt32 size = window.AppWindow.ClientSize;
-        size.Height -= (int)(31 * scale);
-        window.AppWindow.ResizeClient(size);
     }
 }

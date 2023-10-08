@@ -194,6 +194,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
     private static bool TryGetUser(ObservableCollection<BindingUser> users, string mid, [NotNullWhen(true)] out BindingUser? user)
     {
+        // TODO: System.InvalidOperationException: Sequence contains more than one matching element
         user = users.SingleOrDefault(u => u.Entity.Mid == mid);
         return user is not null;
     }

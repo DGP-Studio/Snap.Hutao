@@ -4,6 +4,8 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -16,8 +18,8 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 [HttpClient(HttpClientConfiguration.XRpc3)]
 internal sealed partial class PassportClientOversea : IPassportClient
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<PassportClientOversea> logger;
-    private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
     /// <summary>
@@ -34,9 +36,13 @@ internal sealed partial class PassportClientOversea : IPassportClient
         ArgumentException.ThrowIfNullOrEmpty(user.Aid);
         STokenWrapper data = new(stoken, user.Aid);
 
-        Response<UidCookieToken>? resp = await httpClient
-            .SetUser(user, CookieType.SToken)
-            .TryCatchPostAsJsonAsync<STokenWrapper, Response<UidCookieToken>>(ApiOsEndpoints.AccountGetCookieTokenBySToken, data, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.AccountGetCookieTokenBySToken)
+            .SetUserCookie(user, CookieType.SToken)
+            .PostJson(data);
+
+        Response<UidCookieToken>? resp = await builder
+            .TryCatchSendAsync<Response<UidCookieToken>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -56,9 +62,13 @@ internal sealed partial class PassportClientOversea : IPassportClient
         ArgumentException.ThrowIfNullOrEmpty(user.Aid);
         STokenWrapper data = new(stoken, user.Aid);
 
-        Response<LTokenWrapper>? resp = await httpClient
-            .SetUser(user, CookieType.SToken)
-            .TryCatchPostAsJsonAsync<STokenWrapper, Response<LTokenWrapper>>(ApiOsEndpoints.AccountGetLTokenBySToken, data, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiOsEndpoints.AccountGetLTokenBySToken)
+            .SetUserCookie(user, CookieType.SToken)
+            .PostJson(data);
+
+        Response<LTokenWrapper>? resp = await builder
+            .TryCatchSendAsync<Response<LTokenWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

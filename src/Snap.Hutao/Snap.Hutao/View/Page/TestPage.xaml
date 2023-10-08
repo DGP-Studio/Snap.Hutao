@@ -34,7 +34,7 @@
                         <Grid>
                             <shvc:WebViewer>
                                 <shvc:WebViewer.SourceProvider>
-                                    <shvc:StaticWebview2ViewerSource Source="http://webstatic.mihoyo.com/ys/event/e20200923adopt_calculator/index.html?bbs_presentation_style=fullscreen&amp;bbs_auth_required=true&amp;utm_source=bbs&amp;utm_medium=mys&amp;utm_campaign=GameRecord"/>
+                                    <shvc:StaticWebview2ViewerSource ChineseSource="http://webstatic.mihoyo.com/ys/event/e20200923adopt_calculator/index.html?bbs_presentation_style=fullscreen&amp;bbs_auth_required=true&amp;utm_source=bbs&amp;utm_medium=mys&amp;utm_campaign=GameRecord"/>
                                 </shvc:WebViewer.SourceProvider>
                             </shvc:WebViewer>
                         </Grid>
@@ -49,7 +49,10 @@
                     </mxic:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>
-                    <Flyout LightDismissOverlayMode="On" Placement="Full">
+                    <Flyout
+                        LightDismissOverlayMode="On"
+                        Placement="Full"
+                        ShouldConstrainToRootBounds="False">
                         <Flyout.FlyoutPresenterStyle>
                             <Style TargetType="FlyoutPresenter">
                                 <Setter Property="Padding" Value="0"/>
@@ -59,7 +62,7 @@
                         <Grid>
                             <shvc:WebViewer>
                                 <shvc:WebViewer.SourceProvider>
-                                    <shvc:StaticWebview2ViewerSource Source="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
+                                    <shvc:StaticWebview2ViewerSource ChineseSource="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
                                 </shvc:WebViewer.SourceProvider>
                             </shvc:WebViewer>
                         </Grid>
@@ -70,6 +73,12 @@
             <cwc:SettingsCard Header="Reset Guide State">
                 <StackPanel Orientation="Horizontal">
                     <Button Command="{Binding ResetGuideStateCommand}" Content="Reset (No restart)"/>
+                </StackPanel>
+            </cwc:SettingsCard>
+
+            <cwc:SettingsCard Header="Resize MainWindow">
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding ResetMainWindowSizeCommand}" Content="Reset"/>
                 </StackPanel>
             </cwc:SettingsCard>
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.IO;
+using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
@@ -15,11 +16,26 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 {
     private readonly RuntimeOptions runtimeOptions;
 
-    public void CreateDesktopShoutcutForElevatedLaunch()
+    public async ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync()
     {
-        string sourceLogoPath = Path.Combine(runtimeOptions.InstalledLocation, "Assets/Logo.ico");
+        Uri sourceLogoUri = "ms-appx:///Assets/Logo.ico".ToUri();
         string targetLogoPath = Path.Combine(runtimeOptions.DataFolder, "ShellLinkLogo.ico");
-        File.Copy(sourceLogoPath, targetLogoPath, true);
+
+        try
+        {
+            StorageFile iconFile = await StorageFile.GetFileFromApplicationUriAsync(sourceLogoUri);
+            using (Stream inputStream = (await iconFile.OpenReadAsync()).AsStream())
+            {
+                using (FileStream outputStream = File.Create(targetLogoPath))
+                {
+                    await inputStream.CopyToAsync(outputStream).ConfigureAwait(false);
+                }
+            }
+        }
+        catch
+        {
+            return false;
+        }
 
         IShellLinkW shellLink = (IShellLinkW)new ShellLink();
         shellLink.SetPath("powershell");
@@ -34,5 +50,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
         IPersistFile persistFile = (IPersistFile)shellLink;
         persistFile.Save(target, false);
+
+        return true;
     }
 }

@@ -13,7 +13,7 @@
         <shmmc:QualityConverter x:Key="QualityConverter"/>
     </UserControl.Resources>
     <Grid>
-        <Grid CornerRadius="{StaticResource CompatCornerRadius}">
+        <Grid CornerRadius="{StaticResource ControlCornerRadius}">
             <!--  Disable some CachedImage's LazyLoading function here can increase response speed  -->
             <shci:CachedImage EnableLazyLoading="False" Source="{x:Bind Quality, Converter={StaticResource QualityConverter}, Mode=OneWay}"/>
             <shci:CachedImage EnableLazyLoading="False" Source="{StaticResource UI_ImgSign_ItemIcon}"/>

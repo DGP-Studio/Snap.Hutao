@@ -149,6 +149,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                     SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
                 }
             }
+            catch (UserdataCorruptedException ex)
+            {
+                infoBarService.Error(ex);
+            }
             catch (OperationCanceledException)
             {
             }
@@ -179,7 +183,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("LaunchCommand", AllowConcurrentExecutions = true)]
+    [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
         if (SelectedScheme is not null)

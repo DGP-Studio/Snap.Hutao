@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
@@ -227,7 +229,7 @@ internal sealed partial class UserViewModel : ObservableObject
     }
 
     [Command("ClaimSignInRewardCommand")]
-    private async Task ClaimSignInRewardAsync()
+    private async Task ClaimSignInRewardAsync(AppBarButton? appBarButton)
     {
         if (SelectedUser is not null)
         {
@@ -241,6 +243,8 @@ internal sealed partial class UserViewModel : ObservableObject
                 }
                 else
                 {
+                    await taskContext.SwitchToMainThreadAsync();
+                    FlyoutBase.ShowAttachedFlyout(appBarButton);
                     infoBarService.Warning(message);
                 }
             }

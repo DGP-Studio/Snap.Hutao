@@ -5,9 +5,10 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
@@ -15,13 +16,12 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// 通行证客户端
 /// </summary>
 [HighQuality]
-[UseDynamicSecret]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc2)]
 internal sealed partial class PassportClient2
 {
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<PassportClient2> logger;
-    private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
     /// <summary>
@@ -33,12 +33,16 @@ internal sealed partial class PassportClient2
     [ApiInformation(Cookie = CookieType.LToken)]
     public async ValueTask<Response<UserInfoWrapper>> VerifyLtokenAsync(User user, CancellationToken token)
     {
-        Response<UserInfoWrapper>? response = await httpClient
-            .SetUser(user, CookieType.LToken)
-            .TryCatchPostAsJsonAsync<Timestamp, Response<UserInfoWrapper>>(ApiEndpoints.AccountVerifyLtoken, new(), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.AccountVerifyLtoken)
+            .SetUserCookie(user, CookieType.LToken)
+            .PostJson(new Timestamp());
+
+        Response<UserInfoWrapper>? resp = await builder
+            .TryCatchSendAsync<Response<UserInfoWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(response);
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -50,14 +54,15 @@ internal sealed partial class PassportClient2
     [ApiInformation(Salt = SaltType.PROD)]
     public async ValueTask<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token = default)
     {
-        HttpResponseMessage message = await httpClient
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.AccountGetSTokenByOldToken)
             .SetHeader("Cookie", stokenV1.ToString())
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
-            .PostAsync(ApiEndpoints.AccountGetSTokenByOldToken, null, token)
-            .ConfigureAwait(false);
+            .Post();
 
-        Response<LoginResult>? resp = await message.Content
-            .ReadFromJsonAsync<Response<LoginResult>>(options, token)
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
+
+        Response<LoginResult>? resp = await builder
+            .TryCatchSendAsync<Response<LoginResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

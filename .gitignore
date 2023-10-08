@@ -12,9 +12,8 @@ src/Snap.Hutao/Snap.Hutao/bin/
 src/Snap.Hutao/Snap.Hutao/obj/
 src/Snap.Hutao/Snap.Hutao/Snap.Hutao_TemporaryKey.pfx
 
-src/Snap.Hutao/Snap.Hutao.Installer/bin/
-src/Snap.Hutao/Snap.Hutao.Installer/obj/
-src/Snap.Hutao/Snap.Hutao.Installer/Properties/PublishProfiles/FolderProfile.pubxml.user
+src/Snap.Hutao/Snap.Hutao.Win32/bin/
+src/Snap.Hutao/Snap.Hutao.Win32/obj/
 
 src/Snap.Hutao/Snap.Hutao.SourceGeneration/bin/
 src/Snap.Hutao/Snap.Hutao.SourceGeneration/obj/

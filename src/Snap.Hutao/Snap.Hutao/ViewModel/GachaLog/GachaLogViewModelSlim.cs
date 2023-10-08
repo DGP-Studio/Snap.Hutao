@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.GachaLog;
+using Snap.Hutao.Service.Notification;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
@@ -12,6 +13,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<View.Page.GachaLogPage>
 {
+    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
     private List<GachaStatisticsSlim>? statisticsList;
@@ -30,11 +32,18 @@ internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<
 
             if (await gachaLogService.InitializeAsync().ConfigureAwait(false))
             {
-                List<GachaStatisticsSlim> list = await gachaLogService.GetStatisticsSlimListAsync().ConfigureAwait(false);
+                try
+                {
+                    List<GachaStatisticsSlim> list = await gachaLogService.GetStatisticsSlimListAsync().ConfigureAwait(false);
 
-                await taskContext.SwitchToMainThreadAsync();
-                StatisticsList = list;
-                IsInitialized = true;
+                    await taskContext.SwitchToMainThreadAsync();
+                    StatisticsList = list;
+                    IsInitialized = true;
+                }
+                catch (Exception ex)
+                {
+                    infoBarService.Error(ex);
+                }
             }
         }
     }

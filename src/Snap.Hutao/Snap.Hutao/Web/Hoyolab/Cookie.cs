@@ -108,6 +108,28 @@ internal sealed partial class Cookie
         return new(cookieMap);
     }
 
+    public bool IsEmpty()
+    {
+        return inner.Count <= 0;
+    }
+
+    public bool TryGetLoginTicket([NotNullWhen(true)] out Cookie? cookie)
+    {
+        if (TryGetValue(LOGIN_TICKET, out string? loginTicket) && TryGetValue(LOGIN_UID, out string? loginUid))
+        {
+            cookie = new Cookie(new()
+            {
+                [LOGIN_TICKET] = loginTicket,
+                [LOGIN_UID] = loginUid,
+            });
+
+            return true;
+        }
+
+        cookie = null;
+        return false;
+    }
+
     public bool TryGetSToken(bool isOversea, [NotNullWhen(true)] out Cookie? cookie)
     {
         return isOversea ? TryGetLegacySToken(out cookie) : TryGetSToken(out cookie);

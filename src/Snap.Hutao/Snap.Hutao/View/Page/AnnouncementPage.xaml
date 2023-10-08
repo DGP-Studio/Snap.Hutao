@@ -5,6 +5,7 @@
     xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
     xmlns:cwb="using:CommunityToolkit.WinUI.Behaviors"
+    xmlns:cww="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -29,7 +30,7 @@
 
         <DataTemplate x:Key="AnnouncementTemplate">
             <ItemsRepeater
-                Margin="16,0,16,16"
+                Margin="16,16,16,16"
                 HorizontalAlignment="Stretch"
                 ItemsSource="{Binding List}">
                 <ItemsRepeater.Layout>
@@ -42,7 +43,7 @@
                 </ItemsRepeater.Layout>
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate>
-                        <ItemContainer>
+                        <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Style="{StaticResource BorderCardStyle}">
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -50,13 +51,11 @@
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
                                     <!--  Image Layer  -->
-                                    <Border cw:UIElementExtensions.ClipToBounds="True">
+                                    <Border cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadius}">
                                         <Border VerticalAlignment="Top" cw:VisualExtensions.NormalizedCenterPoint="0.5">
-                                            <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
-
-                                            <mxi:Interaction.Behaviors>
-                                                <shcb:AutoHeightBehavior TargetHeight="390" TargetWidth="1080"/>
-                                            </mxi:Interaction.Behaviors>
+                                            <cww:ConstrainedBox AspectRatio="1080:390" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                                <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
+                                            </cww:ConstrainedBox>
                                             <cwa:Explicit.Animations>
                                                 <cwa:AnimationSet x:Name="ImageZoomInAnimation">
                                                     <shca:ImageZoomInAnimation/>
@@ -83,7 +82,7 @@
                                         </Border>
                                     </Grid>
                                     <!--  General Description  -->
-                                    <Border Grid.Row="1" CornerRadius="{StaticResource CompatCornerRadiusBottom}">
+                                    <Border Grid.Row="1">
                                         <StackPanel Margin="4" VerticalAlignment="Bottom">
                                             <TextBlock
                                                 Margin="4,6,0,0"
@@ -179,7 +178,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CardTemplate" x:DataType="shvcp:CardReference">
-            <ItemContainer Child="{Binding Card}">
+            <ItemContainer cw:Effects.Shadow="{StaticResource CompatCardShadow}" Child="{Binding Card}">
                 <ItemContainer.Resources>
                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                 </ItemContainer.Resources>
@@ -189,7 +188,7 @@
     </shc:ScopedPage.Resources>
 
     <Grid>
-        <ScrollViewer Padding="0,0,0,0">
+        <ScrollViewer Padding="0">
             <StackPanel>
                 <StackPanel>
                     <TextBlock

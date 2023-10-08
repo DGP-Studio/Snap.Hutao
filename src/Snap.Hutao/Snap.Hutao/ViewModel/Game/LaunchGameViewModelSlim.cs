@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Notification;
@@ -17,6 +18,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 {
     private readonly IGameService gameService;
     private readonly ITaskContext taskContext;
+    private readonly IInfoBarService infoBarService;
 
     private ObservableCollection<GameAccount>? gameAccounts;
     private GameAccount? selectedGameAccount;
@@ -38,8 +40,15 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         await taskContext.SwitchToMainThreadAsync();
         GameAccounts = accounts;
 
-        // Try set to the current account.
-        SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
+        try
+        {
+            // Try set to the current account.
+            SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
+        }
+        catch (UserdataCorruptedException ex)
+        {
+            infoBarService.Error(ex);
+        }
     }
 
     [Command("LaunchCommand", AllowConcurrentExecutions = true)]

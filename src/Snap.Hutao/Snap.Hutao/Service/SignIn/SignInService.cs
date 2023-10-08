@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
@@ -27,15 +26,28 @@ internal sealed partial class SignInService : ISignInService
         {
             Response<SignInResult> resultResponse = await signInClient.SignAsync(userAndUid, token).ConfigureAwait(false);
 
-            if (resultResponse.IsOk())
+            if (resultResponse.IsOk(showInfoBar: false))
             {
-                int index = DateTimeOffset.Now.Day - 1;
-                Award award = rewardResponse.Data.Awards[index];
-                return new(true, SH.ServiceSignInSuccessRewardFormat.Format(award.Name, award.Count));
+                Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid, token).ConfigureAwait(false);
+                if (infoResponse.IsOk())
+                {
+                    int index = infoResponse.Data.TotalSignDay - 1;
+                    Award award = rewardResponse.Data.Awards[index];
+                    return new(true, SH.ServiceSignInSuccessRewardFormat.Format(award.Name, award.Count));
+                }
+                else
+                {
+                    return new(false, SH.ServiceSignInInfoRequestFailed);
+                }
             }
             else
             {
                 string message = resultResponse.Message;
+
+                if (resultResponse.ReturnCode == (int)KnownReturnCode.AlreadySignedIn)
+                {
+                    return new(true, message);
+                }
 
                 if (string.IsNullOrEmpty(message))
                 {

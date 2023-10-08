@@ -6,6 +6,8 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -15,14 +17,13 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// 卡片客户端
 /// </summary>
 [HighQuality]
-[UseDynamicSecret]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
 internal sealed partial class CardClient
 {
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<CardClient> logger;
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 注册验证码
@@ -32,10 +33,15 @@ internal sealed partial class CardClient
     /// <returns>注册结果</returns>
     public async ValueTask<Response<VerificationRegistration>> CreateVerificationAsync(User user, CancellationToken token)
     {
-        Response<VerificationRegistration>? resp = await httpClient
-            .SetUser(user, CookieType.LToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
-            .TryCatchGetFromJsonAsync<Response<VerificationRegistration>>(ApiEndpoints.CardCreateVerification(false), options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.CardCreateVerification(false))
+            .SetUserCookie(user, CookieType.LToken)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<VerificationRegistration>? resp = await builder
+            .TryCatchSendAsync<Response<VerificationRegistration>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -50,10 +56,14 @@ internal sealed partial class CardClient
     /// <returns>验证结果</returns>
     public async ValueTask<Response<VerificationResult>> VerifyVerificationAsync(string challenge, string validate, CancellationToken token)
     {
-        VerificationData data = new(challenge, validate);
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.CardVerifyVerification)
+            .PostJson(new VerificationData(challenge, validate));
 
-        Response<VerificationResult>? resp = await httpClient
-            .TryCatchPostAsJsonAsync<VerificationData, Response<VerificationResult>>(ApiEndpoints.CardVerifyVerification, data, options, logger, token)
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<VerificationResult>? resp = await builder
+            .TryCatchSendAsync<Response<VerificationResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -68,10 +78,15 @@ internal sealed partial class CardClient
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.X6)]
     public async ValueTask<Response<DailyNote.WidgetDailyNote>> GetWidgetDataAsync(User user, CancellationToken token)
     {
-        Response<DailyNote.WidgetDailyNote>? resp = await httpClient
-            .SetUser(user, CookieType.SToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X6, false)
-            .TryCatchGetFromJsonAsync<Response<DailyNote.WidgetDailyNote>>(ApiEndpoints.CardWidgetData2, options, logger, token)
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.CardWidgetData2)
+            .SetUserCookie(user, CookieType.SToken)
+            .Get();
+
+        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X6, false).ConfigureAwait(false);
+
+        Response<DailyNote.WidgetDailyNote>? resp = await builder
+            .TryCatchSendAsync<Response<DailyNote.WidgetDailyNote>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

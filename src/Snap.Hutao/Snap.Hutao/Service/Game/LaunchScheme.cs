@@ -20,13 +20,12 @@ internal sealed partial class LaunchScheme
         {
             string name = (Channel, IsOversea) switch
             {
-                (ChannelType.Official, false) => SH.ModelBindingLaunchGameLaunchSchemeChinese,
                 (ChannelType.Bili, false) => SH.ModelBindingLaunchGameLaunchSchemeBilibili,
+                (_, false) => SH.ModelBindingLaunchGameLaunchSchemeChinese,
                 (_, true) => SH.ModelBindingLaunchGameLaunchSchemeOversea,
-                _ => throw Must.NeverHappen(),
             };
 
-            return $"{name} | {SubChannel}";
+            return $"{name} | {Channel} | {SubChannel}";
         }
     }
 
@@ -54,6 +53,8 @@ internal sealed partial class LaunchScheme
     /// 是否为海外
     /// </summary>
     public bool IsOversea { get; private set; }
+
+    public bool IsNotCompatOnly { get; private set; } = true;
 
     /// <summary>
     /// 多通道相等
