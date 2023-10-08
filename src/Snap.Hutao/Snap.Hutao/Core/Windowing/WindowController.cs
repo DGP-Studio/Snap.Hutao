@@ -56,7 +56,6 @@ internal sealed class WindowController
 
         RecoverOrInitWindowSize();
         UpdateImmersiveDarkMode(options.TitleBar, default!);
-        //SetWindowTransparent();
 
         // appWindow.Show(true);
         // appWindow.Show can't bring window to top.
@@ -150,7 +149,6 @@ internal sealed class WindowController
     {
         window.SystemBackdrop = backdropType switch
         {
-            //BackdropType.Transparent => new TransparentBackdrop(),
             BackdropType.MicaAlt => new MicaBackdrop() { Kind = MicaKind.BaseAlt },
             BackdropType.Mica => new MicaBackdrop() { Kind = MicaKind.Base },
             BackdropType.Acrylic => new DesktopAcrylicBackdrop(),
@@ -188,14 +186,6 @@ internal sealed class WindowController
     {
         BOOL isDarkMode = Control.Theme.ThemeHelper.IsDarkMode(titleBar.ActualTheme);
         DwmSetWindowAttribute(options.Hwnd, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, &isDarkMode, unchecked((uint)sizeof(BOOL)));
-    }
-
-    private unsafe void SetWindowTransparent()
-    {
-        int result = GetWindowLong(options.Hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
-        WINDOW_EX_STYLE style = *(WINDOW_EX_STYLE*)&result;
-        style |= WINDOW_EX_STYLE.WS_EX_LAYERED;
-        SetWindowLong(options.Hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, *(int*)&style);
     }
 
     private void UpdateDragRectangles()

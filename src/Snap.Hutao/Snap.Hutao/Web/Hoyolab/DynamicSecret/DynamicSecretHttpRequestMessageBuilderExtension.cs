@@ -34,7 +34,9 @@ internal static class DynamicSecretHttpRequestMessageBuilderExtension
             dsContent = $"{dsContent}&b={b}&q={q}";
         }
 
+#pragma warning disable CA1308
         string check = Core.Convert.ToMd5HexString(dsContent).ToLowerInvariant();
+#pragma warning restore CA1308
         builder.SetHeader("DS", $"{t},{r},{check}");
     }
 

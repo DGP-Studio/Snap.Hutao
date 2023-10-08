@@ -17,7 +17,7 @@ internal class JsonHttpContentSerializer : HttpContentSerializer
 
     internal JsonSerializerOptions? JsonSerializerOptions { get; set; }
 
-    protected override HttpContent? SerializeCore(object? content, Type? contentType, Encoding encoding)
+    protected override HttpContent? SerializeCore(object? content, Type contentType, Encoding encoding)
     {
         // Note for the future:
         // It can happen that content.GetType() is more specific than contentType, e.g.
@@ -49,7 +49,7 @@ internal class JsonHttpContentSerializer : HttpContentSerializer
         }
     }
 
-    protected override async Task<object?> DeserializeAsyncCore(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken)
+    protected override async ValueTask<object?> DeserializeAsyncCore(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken)
     {
         // While we'd ideally read directly from the stream here (if UTF-8), this is a lot of messy work.
         // For one, we don't know if the encoding is UTF-8 and finding this out is hard to do
@@ -62,9 +62,9 @@ internal class JsonHttpContentSerializer : HttpContentSerializer
         return JsonSerializer.Deserialize(json, contentType, JsonSerializerOptions);
     }
 
-    private HttpContent? SerializeUtf8(object? content, Type? contentType)
+    private HttpContent? SerializeUtf8(object? content, Type contentType)
     {
-        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(content, contentType!, JsonSerializerOptions);
+        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(content, contentType, JsonSerializerOptions);
         ByteArrayContent httpContent = new(bytes);
         MediaTypeHeaderValue contentTypeHeader = new(MediaType.ApplicationJson)
         {
@@ -75,9 +75,9 @@ internal class JsonHttpContentSerializer : HttpContentSerializer
         return httpContent;
     }
 
-    private HttpContent? SerializeOtherEncoding(object? content, Type? contentType, Encoding encoding)
+    private HttpContent? SerializeOtherEncoding(object? content, Type contentType, Encoding encoding)
     {
-        string str = JsonSerializer.Serialize(content, contentType!, JsonSerializerOptions);
+        string str = JsonSerializer.Serialize(content, contentType, JsonSerializerOptions);
         return new StringContent(str, encoding, MediaType.ApplicationJson);
     }
 }

@@ -6,25 +6,10 @@ using System.Runtime.Serialization;
 namespace Snap.Hutao.Web.Request.Builder;
 
 [Serializable]
-public class HttpContentSerializationException : Exception
+internal sealed class HttpContentSerializationException : Exception
 {
-    public HttpContentSerializationException()
-        : this(message: null, innerException: null)
-    {
-    }
-
-    public HttpContentSerializationException(string? message)
-        : this(message, innerException: null)
-    {
-    }
-
     public HttpContentSerializationException(string? message, Exception? innerException)
         : base(message ?? GetDefaultMessage(), innerException)
-    {
-    }
-
-    protected HttpContentSerializationException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 

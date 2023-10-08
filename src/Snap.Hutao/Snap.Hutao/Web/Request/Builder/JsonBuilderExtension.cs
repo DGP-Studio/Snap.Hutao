@@ -14,7 +14,7 @@ internal static partial class JsonBuilderExtension
         return builder.SetContent(serializer ?? builder.HttpContentSerializer, content, encoding);
     }
 
-    public static T SetJsonContent<T>(this T builder, object? content, Type? contentType, Encoding? encoding = null, JsonHttpContentSerializer? serializer = null)
+    public static T SetJsonContent<T>(this T builder, object? content, Type contentType, Encoding? encoding = null, JsonHttpContentSerializer? serializer = null)
         where T : IHttpContentBuilder
     {
         return builder.SetContent(serializer ?? builder.HttpContentSerializer, content, contentType, encoding);
@@ -26,7 +26,7 @@ internal static partial class JsonBuilderExtension
         return builder.Post().SetJsonContent(content, encoding, serializer);
     }
 
-    public static T PostJson<T>(this T builder, object? content, Type? contentType, Encoding? encoding = null, JsonHttpContentSerializer? serializer = null)
+    public static T PostJson<T>(this T builder, object? content, Type contentType, Encoding? encoding = null, JsonHttpContentSerializer? serializer = null)
         where T : IHttpMethodBuilder, IHttpContentBuilder
     {
         return builder.Post().SetJsonContent(content, contentType, encoding, serializer);
@@ -38,7 +38,7 @@ internal static partial class JsonBuilderExtension
         return builder.Put().SetJsonContent(content, encoding, serializer);
     }
 
-    public static T PutJson<T>(this T builder, object? content, Type? contentType, Encoding? encoding = null, JsonHttpContentSerializer? serializer = null)
+    public static T PutJson<T>(this T builder, object? content, Type contentType, Encoding? encoding = null, JsonHttpContentSerializer? serializer = null)
         where T : IHttpMethodBuilder, IHttpContentBuilder
     {
         return builder.Put().SetJsonContent(content, contentType, encoding, serializer);
@@ -50,7 +50,7 @@ internal static partial class JsonBuilderExtension
         return builder.Patch().SetJsonContent(content, encoding, serializer);
     }
 
-    public static T PatchJson<T>(this T builder, object? content, Type? contentType, Encoding? encoding = null, JsonHttpContentSerializer? serializer = null)
+    public static T PatchJson<T>(this T builder, object? content, Type contentType, Encoding? encoding = null, JsonHttpContentSerializer? serializer = null)
         where T : IHttpMethodBuilder, IHttpContentBuilder
     {
         return builder.Patch().SetJsonContent(content, contentType, encoding, serializer);

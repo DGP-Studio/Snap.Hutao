@@ -47,10 +47,8 @@ internal static class HttpContentBuilderExtension
     public static T SetStringContent<T>(this T builder, string content, Encoding? encoding = null, string mediaType = default!)
         where T : IHttpContentBuilder
     {
-#pragma warning disable CA2000
         ArgumentNullException.ThrowIfNull(content);
         return builder.SetContent(new StringContent(content, encoding, mediaType));
-#pragma warning restore CA2000
     }
 
     [DebuggerStepThrough]
@@ -64,10 +62,8 @@ internal static class HttpContentBuilderExtension
     public static T SetByteArrayContent<T>(this T builder, byte[] content, int offset, int count)
         where T : IHttpContentBuilder
     {
-#pragma warning disable CA2000
         ArgumentNullException.ThrowIfNull(content);
         return builder.SetContent(new ByteArrayContent(content, offset, count));
-#pragma warning restore CA2000
     }
 
     public static TBuilder SetContent<TBuilder, TContent>(this TBuilder builder, IHttpContentSerializer serializer, TContent content, Encoding? encoding = null)
@@ -84,7 +80,7 @@ internal static class HttpContentBuilderExtension
         return builder.SetContent(httpContent);
     }
 
-    public static T SetContent<T>(this T builder, IHttpContentSerializer serializer, object? content, Type? contentType, Encoding? encoding = null)
+    public static T SetContent<T>(this T builder, IHttpContentSerializer serializer, object? content, Type contentType, Encoding? encoding = null)
         where T : IHttpContentBuilder
     {
         // Validate builder here already so that no unnecessary serialization is done.

@@ -5,7 +5,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Request.Builder.Abstraction;
 
-public interface IHttpContentDeserializer
+internal interface IHttpContentDeserializer
 {
-    Task<object?> DeserializeAsync(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken = default);
+    ValueTask<object?> DeserializeAsync(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken = default);
 }

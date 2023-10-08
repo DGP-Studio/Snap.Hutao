@@ -27,7 +27,6 @@ internal sealed partial class HomaSpiralAbyssClient
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<HomaSpiralAbyssClient> logger;
     private readonly IServiceProvider serviceProvider;
-    private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
     /// <summary>

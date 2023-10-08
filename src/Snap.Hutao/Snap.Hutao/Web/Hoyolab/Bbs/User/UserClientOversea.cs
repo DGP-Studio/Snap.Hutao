@@ -18,9 +18,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 internal sealed partial class UserClientOversea : IUserClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
     private readonly ILogger<UserClientOversea> logger;
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 获取当前用户详细信息，使用 LToken

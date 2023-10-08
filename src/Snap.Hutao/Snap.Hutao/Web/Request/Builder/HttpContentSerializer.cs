@@ -14,7 +14,7 @@ internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpCon
         get => Encoding.UTF8;
     }
 
-    public HttpContent? Serialize(object? content, Type? contentType, Encoding? encoding)
+    public HttpContent? Serialize(object? content, Type contentType, Encoding? encoding)
     {
         contentType = GetAndVerifyContentType(content, contentType);
 
@@ -27,13 +27,13 @@ internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpCon
         {
             return SerializeCore(content, contentType, encoding ?? DefaultEncoding);
         }
-        catch (Exception ex) when (!(ex is HttpContentSerializationException))
+        catch (Exception ex) when (ex is not HttpContentSerializationException)
         {
             throw new HttpContentSerializationException(null, ex);
         }
     }
 
-    public async Task<object?> DeserializeAsync(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken = default)
+    public async ValueTask<object?> DeserializeAsync(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(contentType);
 
@@ -52,11 +52,11 @@ internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpCon
         }
     }
 
-    protected abstract HttpContent? SerializeCore(object? content, Type? contentType, Encoding encoding);
+    protected abstract HttpContent? SerializeCore(object? content, Type contentType, Encoding encoding);
 
-    protected abstract Task<object?> DeserializeAsyncCore(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken);
+    protected abstract ValueTask<object?> DeserializeAsyncCore(HttpContent? httpContent, Type contentType, CancellationToken cancellationToken);
 
-    private static Type? GetAndVerifyContentType(object? content, Type? contentType)
+    private static Type GetAndVerifyContentType(object? content, Type contentType)
     {
         // If both types are given, ensure that they match. Otherwise serialization will be problematic.
         Type? actualContentType = content?.GetType();
@@ -70,6 +70,7 @@ internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpCon
         }
 
         // The contentType is optional. In that case, try to get the type on our own.
+        ArgumentNullException.ThrowIfNull(actualContentType);
         return contentType ?? actualContentType;
     }
 }
