@@ -27,7 +27,15 @@ internal sealed partial class UIGFImportService : IUIGFImportService
     {
         await taskContext.SwitchToBackgroundAsync();
 
-        if (!metadataOptions.IsCurrentLocale(uigf.Info.Language))
+        if (!uigf.IsCurrentVersionSupported(out UIGFVersion version))
+        {
+            ThrowHelper.InvalidOperation(SH.ServiceUIGFImportUnsupportedVersion);
+        }
+
+        // v2.3+ support any locale
+        // v2.2 only support matched locale
+        // v2.1 only support CHS
+        if (version is UIGFVersion.Major2Minor2OrLower && !metadataOptions.IsCurrentLocale(uigf.Info.Language))
         {
             string message = SH.ServiceGachaUIGFImportLanguageNotMatch.Format(uigf.Info.Language, metadataOptions.LanguageCode);
             ThrowHelper.InvalidOperation(message, null);
@@ -36,14 +44,13 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         GachaArchiveOperation.GetOrAdd(gachaLogDbService, taskContext, uigf.Info.Uid, archives, out GachaArchive? archive);
         Guid archiveId = archive.InnerId;
 
-        _ = uigf.IsCurrentVersionSupported(out UIGFVersion version);
-
+        List<GachaItem> fullItems = new();
         foreach (GachaConfigType queryType in GachaLog.QueryTypes)
         {
             long trimId = gachaLogDbService.GetOldestGachaItemIdByArchiveIdAndQueryType(archiveId, queryType);
             logger.LogInformation("Last Id to trim with: [{Id}]", trimId);
 
-            List<GachaItem> currentTypeToAdd = version switch
+            List<GachaItem> currentTypedList = version switch
             {
                 UIGFVersion.Major2Minor3OrHigher => uigf.List
                     .Where(i => i.UIGFGachaType == queryType && i.Id < trimId)
@@ -55,20 +62,25 @@ internal sealed partial class UIGFImportService : IUIGFImportService
                     .OrderByDescending(i => i.Id)
                     .Select(i => GachaItem.From(archiveId, i, context.GetItemId(i)))
                     .ToList(),
-                _ => throw ThrowHelper.InvalidOperation(SH.ServiceUIGFImportUnsupportedVersion),
+                _ => throw Must.NeverHappen(),
             };
 
-            // 越早的记录手工导入的可能性越高
-            // 错误率相对来说会更高
-            // 因此从尾部开始查找
-            if (currentTypeToAdd.LastOrDefault(item => item.ItemId is 0U) is { } item)
-            {
-                ThrowHelper.InvalidOperation(SH.ServiceGachaLogUIGFImportItemInvalidFormat.Format(item.Id));
-            }
-
-            await gachaLogDbService.AddGachaItemsAsync(currentTypeToAdd).ConfigureAwait(false);
+            ThrowIfContainsInvalidItem(currentTypedList);
+            fullItems.AddRange(currentTypedList);
         }
 
+        await gachaLogDbService.AddGachaItemsAsync(fullItems).ConfigureAwait(false);
         return archive;
+    }
+
+    private static void ThrowIfContainsInvalidItem(List<GachaItem> currentTypeToAdd)
+    {
+        // 越早的记录手工导入的可能性越高
+        // 错误率相对来说会更高
+        // 因此从尾部开始查找
+        if (currentTypeToAdd.LastOrDefault(item => item.ItemId is 0U) is { } item)
+        {
+            ThrowHelper.InvalidOperation(SH.ServiceGachaLogUIGFImportItemInvalidFormat.Format(item.Id));
+        }
     }
 }
