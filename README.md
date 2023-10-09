@@ -1,8 +1,8 @@
 ![](res/HutaoRepoBanner2.png)
 
-胡桃工具箱是一个 Windows 平台的开源的原神工具箱，旨在帮助玩家获得更好的游戏体验； 它是对官方移动端工具的一种非破坏性功能扩展，为不习惯在移动端进行原神游戏的 PC 玩家提供一个在 Windows 平台下获得接近移动端功能权利的途径
+胡桃工具箱是一款以 MIT 协议开源的原神工具箱，专为现代化 Windows 平台设计，旨在改善桌面端玩家的游戏体验。通过将既有的官方资源与开发团队设计的全新 功能相结合，它提供了一套完整且实用的工具集，且无需依赖任何移动设备。它不对游戏客户端进行任何破坏性修改以确保工具箱的安全性
 
-Snap Hutao is an open-source Genshin Impact toolbox on Windows platform, aim to provide a better gaming experience for players. It's an nondestructive feature extension from Genshin Impact's official mobile application, to provide similar feature on desktop, to allow PC gamers gain deserved benefits from mobile platforms.
+Snap Hutao is an open-source Genshin Impact toolkit under MIT license, designed for modern Windows platform to improve the gaming experience for desktop players. By combining existing official resources with new features designed by the development team, it provides a complete and useful set of tools without the need to rely on mobile devices. Snap Hutao does not take any destructive modification to the game client to ensure the security of the toolkit.
 
 ## 下载使用 / Download
 
