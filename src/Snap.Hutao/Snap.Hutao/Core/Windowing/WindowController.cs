@@ -114,8 +114,10 @@ internal sealed class WindowController
     {
         if (e.PropertyName == nameof(AppOptions.BackdropType))
         {
-            ArgumentNullException.ThrowIfNull(sender);
-            UpdateSystemBackdrop(((AppOptions)sender).BackdropType);
+            if (sender is AppOptions options)
+            {
+                UpdateSystemBackdrop(options.BackdropType);
+            }
         }
     }
 

@@ -72,14 +72,19 @@
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
     <None Remove="Assets\Wide310x150Logo.scale-400.png" />
     <None Remove="CodeMetricsConfig.txt" />
+    <None Remove="Control\Image\CachedImage.xaml" />
     <None Remove="Control\Loading.xaml" />
     <None Remove="Control\Panel\PanelSelector.xaml" />
+    <None Remove="Control\Theme\Converter.xaml" />
     <None Remove="Control\Theme\FontStyle.xaml" />
+    <None Remove="Control\Theme\Glyph.xaml" />
     <None Remove="Control\Theme\InfoBarOverride.xaml" />
+    <None Remove="Control\Theme\ItemsPanelTemplate.xaml" />
     <None Remove="Control\Theme\PageOverride.xaml" />
     <None Remove="Control\Theme\PivotOverride.xaml" />
     <None Remove="Control\Theme\SettingsStyle.xaml" />
     <None Remove="Control\Theme\TransitionCollection.xaml" />
+    <None Remove="Control\Theme\Uri.xaml" />
     <None Remove="Control\Theme\WindowOverride.xaml" />
     <None Remove="GuideWindow.xaml" />
     <None Remove="IdentityStructs.json" />
@@ -301,6 +306,36 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Image\CachedImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\ItemsPanelTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\Converter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\Glyph.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\Uri.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
