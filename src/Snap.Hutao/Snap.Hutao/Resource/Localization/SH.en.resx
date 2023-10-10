@@ -1938,7 +1938,7 @@
     <value>Server</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
-    <value>版本更新前需要提前转换至与启动器匹配的服务器</value>
+    <value>You need to convert to a server that matches the launcher before updating the version</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
     <value>Please turn off V-Sync in the game settings. You may need a high-performance graphic card to support a high frame rate limit.</value>
