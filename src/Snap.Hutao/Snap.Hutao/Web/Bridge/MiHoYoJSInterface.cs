@@ -39,9 +39,10 @@ internal class MiHoYoJSInterface
         document.querySelector('body').appendChild(st);
         """;
 
+    private readonly Guid interfaceId = Guid.NewGuid();
     private readonly IServiceProvider serviceProvider;
-    private readonly CoreWebView2 webView;
     private readonly UserAndUid userAndUid;
+    private CoreWebView2 webView;
 
     private readonly ITaskContext taskContext;
     private readonly ILogger<MiHoYoJSInterface> logger;
@@ -342,6 +343,14 @@ internal class MiHoYoJSInterface
         throw new NotImplementedException();
     }
 
+    public void Detach()
+    {
+        webView.WebMessageReceived -= webMessageReceivedEventHandler;
+        webView.DOMContentLoaded -= domContentLoadedEventHandler;
+        webView.NavigationStarting -= navigationStartingEventHandler;
+        webView = default!;
+    }
+
     private async ValueTask<string> ExecuteCallbackScriptAsync(string callback, string? payload = null)
     {
         if (string.IsNullOrEmpty(callback))
@@ -360,7 +369,7 @@ internal class MiHoYoJSInterface
             .Append(')')
             .ToString();
 
-        logger?.LogInformation("[ExecuteScript: {callback}]\n{payload}", callback, payload);
+        logger?.LogInformation("[{Id}][ExecuteScript: {callback}]\n{payload}", interfaceId, callback, payload);
 
         await taskContext.SwitchToMainThreadAsync();
         try
@@ -378,7 +387,7 @@ internal class MiHoYoJSInterface
     private async void OnWebMessageReceived(CoreWebView2 webView2, CoreWebView2WebMessageReceivedEventArgs args)
     {
         string message = args.TryGetWebMessageAsString();
-        logger.LogInformation("[OnRawMessage]\n{message}", message);
+        logger.LogInformation("[{Id}][OnRawMessage]\n{message}", interfaceId, message);
         JsParam? param = JsonSerializer.Deserialize<JsParam>(message);
 
         ArgumentNullException.ThrowIfNull(param);
@@ -445,7 +454,7 @@ internal class MiHoYoJSInterface
         if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
         {
             // Execute this solve issue: When open same site second time,there might be no bridge init.
-            coreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
+            // coreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
             coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
         }
     }

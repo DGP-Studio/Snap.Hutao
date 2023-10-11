@@ -76,17 +76,24 @@ internal static class CoreWebView2Extension
 
         if (cookieToken is not null)
         {
-            cookieManager.AddMihoyoCookie(Cookie.ACCOUNT_ID, cookieToken, isOversea).AddMihoyoCookie(Cookie.COOKIE_TOKEN, cookieToken, isOversea);
+            cookieManager
+                .AddMihoyoCookie(Cookie.ACCOUNT_ID, cookieToken, isOversea)
+                .AddMihoyoCookie(Cookie.COOKIE_TOKEN, cookieToken, isOversea);
         }
 
         if (lToken is not null)
         {
-            cookieManager.AddMihoyoCookie(Cookie.LTUID, lToken, isOversea).AddMihoyoCookie(Cookie.LTOKEN, lToken, isOversea);
+            cookieManager
+                .AddMihoyoCookie(Cookie.LTUID, lToken, isOversea)
+                .AddMihoyoCookie(Cookie.LTOKEN, lToken, isOversea);
         }
 
         if (sToken is not null)
         {
-            cookieManager.AddMihoyoCookie(Cookie.STUID, sToken, isOversea).AddMihoyoCookie(Cookie.STOKEN, sToken, isOversea);
+            cookieManager
+                .AddMihoyoCookie(Cookie.MID, sToken, isOversea)
+                .AddMihoyoCookie(Cookie.STUID, sToken, isOversea)
+                .AddMihoyoCookie(Cookie.STOKEN, sToken, isOversea);
         }
 
         return webView;

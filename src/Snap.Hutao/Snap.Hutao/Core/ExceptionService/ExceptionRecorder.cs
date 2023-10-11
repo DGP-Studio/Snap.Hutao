@@ -14,9 +14,7 @@ namespace Snap.Hutao.Core.ExceptionService;
 internal sealed partial class ExceptionRecorder
 {
     private readonly ILogger<ExceptionRecorder> logger;
-#if RELEASE
     private readonly IServiceProvider serviceProvider;
-#endif
 
     /// <summary>
     /// 记录应用程序异常
@@ -31,13 +29,11 @@ internal sealed partial class ExceptionRecorder
 
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-#if RELEASE
         serviceProvider
             .GetRequiredService<Web.Hutao.Log.HomaLogUploadClient>()
             .UploadLogAsync(e.Exception)
             .GetAwaiter()
             .GetResult();
-#endif
 
         logger.LogError("未经处理的全局异常:\r\n{Detail}", ExceptionFormat.Format(e.Exception));
     }
