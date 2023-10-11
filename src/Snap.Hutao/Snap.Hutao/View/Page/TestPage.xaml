@@ -95,6 +95,12 @@
                 Header="Compensation GachaLog Service Time For 15 Days"
                 IsClickEnabled="True"/>
 
+            <cwc:SettingsCard Header="Crash">
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding ExceptionCommand}" Content="Activate"/>
+                </StackPanel>
+            </cwc:SettingsCard>
+
             <Expander
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
@@ -120,6 +126,7 @@
                     <Button Command="{Binding UploadAnnouncementCommand}" Content="Upload"/>
                 </StackPanel>
             </Expander>
+
         </StackPanel>
     </ScrollViewer>
 </shc:ScopedPage>

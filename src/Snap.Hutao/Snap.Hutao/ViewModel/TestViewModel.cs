@@ -50,6 +50,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.Language);
     }
 
+    [Command("ExceptionCommand")]
+    private static void ThrowTestException()
+    {
+        Must.NeverHappen();
+    }
+
     [Command("ResetMainWindowSizeCommand")]
     private void ResetMainWindowSize()
     {

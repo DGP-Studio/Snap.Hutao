@@ -31,7 +31,7 @@ internal sealed partial class HomaLogUploadClient
     public async ValueTask<string?> UploadLogAsync(Exception exception)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.GachaLogUpload)
+            .SetRequestUri(HutaoEndpoints.HutaoLogUpload)
             .PostJson(BuildFromException(exception));
 
         Response<string>? resp = await builder
