@@ -15,7 +15,6 @@
                 <ResourceDictionary Source="ms-appx:///Control/Theme/FontStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Glyph.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/InfoBarOverride.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/ItemContainerStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/ItemsPanelTemplate.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/NumericValue.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/PageOverride.xaml"/>
@@ -25,6 +24,27 @@
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Uri.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/WindowOverride.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style
+                x:Key="LargeGridViewItemStyle"
+                BasedOn="{StaticResource DefaultGridViewItemStyle}"
+                TargetType="GridViewItem">
+                <Setter Property="Margin" Value="0,0,12,12"/>
+            </Style>
+            <Style
+                x:Name="NoneSelectionListViewItemStyle"
+                BasedOn="{StaticResource DefaultListViewItemStyle}"
+                TargetType="ListViewItem">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="0,4,0,0"/>
+            </Style>
+            <Style
+                x:Name="NoneSelectionGridViewItemStyle"
+                BasedOn="{StaticResource DefaultGridViewItemStyle}"
+                TargetType="GridViewItem">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="0,0,2,4"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

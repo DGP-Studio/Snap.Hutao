@@ -1,4 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources/>
+    </ResourceDictionary.MergedDictionaries>
     <FontFamily x:Key="MiSans">ms-appx:///Resource/Font/MiSans-Regular.ttf#MiSans</FontFamily>
     <FontFamily x:Key="CascadiaMonoAndMiSans">ms-appx:///Resource/Font/CascadiaMono.ttf#Cascadia Mono, ms-appx:///Resource/Font/MiSans-Regular.ttf#MiSans</FontFamily>
 

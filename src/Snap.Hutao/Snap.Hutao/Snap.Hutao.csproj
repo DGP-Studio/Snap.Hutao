@@ -82,7 +82,6 @@
     <None Remove="Control\Theme\FontStyle.xaml" />
     <None Remove="Control\Theme\Glyph.xaml" />
     <None Remove="Control\Theme\InfoBarOverride.xaml" />
-    <None Remove="Control\Theme\ItemContainerStyle.xaml" />
     <None Remove="Control\Theme\ItemsPanelTemplate.xaml" />
     <None Remove="Control\Theme\NumericValue.xaml" />
     <None Remove="Control\Theme\PageOverride.xaml" />
@@ -333,12 +332,6 @@
 
   <ItemGroup>
     <Page Update="Control\Theme\Card.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\ItemContainerStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
