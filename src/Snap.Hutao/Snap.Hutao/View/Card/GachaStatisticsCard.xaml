@@ -66,16 +66,16 @@
                         Description="{Binding LastOrangePull}"
                         Header="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                         Maximum="{Binding GuaranteeOrangeThreshold}"
-                        ProgressForeground="{StaticResource OrangeBrush}"
-                        TextForeground="{StaticResource OrangeBrush}"
+                        ProgressForeground="{StaticResource OrangeColorBrush}"
+                        TextForeground="{StaticResource OrangeColorBrush}"
                         Value="{Binding LastOrangePull}"/>
                     <shvcp:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastPurplePull}"
                         Header="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                         Maximum="{Binding GuaranteePurpleThreshold}"
-                        ProgressForeground="{StaticResource PurpleBrush}"
-                        TextForeground="{StaticResource PurpleBrush}"
+                        ProgressForeground="{StaticResource PurpleColorBrush}"
+                        TextForeground="{StaticResource PurpleColorBrush}"
                         Value="{Binding LastPurplePull}"/>
                 </StackPanel>
 
@@ -98,16 +98,16 @@
                         Description="{Binding LastOrangePull}"
                         Header="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                         Maximum="{Binding GuaranteeOrangeThreshold}"
-                        ProgressForeground="{StaticResource OrangeBrush}"
-                        TextForeground="{StaticResource OrangeBrush}"
+                        ProgressForeground="{StaticResource OrangeColorBrush}"
+                        TextForeground="{StaticResource OrangeColorBrush}"
                         Value="{Binding LastOrangePull}"/>
                     <shvcp:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastPurplePull}"
                         Header="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                         Maximum="{Binding GuaranteePurpleThreshold}"
-                        ProgressForeground="{StaticResource PurpleBrush}"
-                        TextForeground="{StaticResource PurpleBrush}"
+                        ProgressForeground="{StaticResource PurpleColorBrush}"
+                        TextForeground="{StaticResource PurpleColorBrush}"
                         Value="{Binding LastPurplePull}"/>
                 </StackPanel>
 
@@ -129,16 +129,16 @@
                         Description="{Binding LastOrangePull}"
                         Header="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                         Maximum="{Binding GuaranteeOrangeThreshold}"
-                        ProgressForeground="{StaticResource OrangeBrush}"
-                        TextForeground="{StaticResource OrangeBrush}"
+                        ProgressForeground="{StaticResource OrangeColorBrush}"
+                        TextForeground="{StaticResource OrangeColorBrush}"
                         Value="{Binding LastOrangePull}"/>
                     <shvcp:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastPurplePull}"
                         Header="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                         Maximum="{Binding GuaranteePurpleThreshold}"
-                        ProgressForeground="{StaticResource PurpleBrush}"
-                        TextForeground="{StaticResource PurpleBrush}"
+                        ProgressForeground="{StaticResource PurpleColorBrush}"
+                        TextForeground="{StaticResource PurpleColorBrush}"
                         Value="{Binding LastPurplePull}"/>
                 </StackPanel>
             </Grid>

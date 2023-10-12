@@ -48,7 +48,7 @@ internal sealed class HotKeyController : IHotKeyController
 
     public void OnHotKeyPressed(in HotKeyParameter parameter)
     {
-        if (parameter is { Key: VIRTUAL_KEY.VK_F8, Modifier: 0 })
+        if (parameter is { Key: VIRTUAL_KEY.VK_F8, NativeModifier: 0 })
         {
             lock (locker)
             {

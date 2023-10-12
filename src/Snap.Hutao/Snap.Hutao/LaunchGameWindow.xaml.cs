@@ -13,7 +13,7 @@ namespace Snap.Hutao;
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOptionsSource
+internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOptionsSource, IMinMaxInfoHandler
 {
     private const int MinWidth = 240;
     private const int MinHeight = 240;
@@ -48,11 +48,11 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOpt
     }
 
     /// <inheritdoc/>
-    public unsafe void ProcessMinMaxInfo(MINMAXINFO* pInfo, double scalingFactor)
+    public unsafe void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor)
     {
-        pInfo->ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, pInfo->ptMinTrackSize.X);
-        pInfo->ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, pInfo->ptMinTrackSize.Y);
-        pInfo->ptMaxTrackSize.X = (int)Math.Min(MaxWidth * scalingFactor, pInfo->ptMaxTrackSize.X);
-        pInfo->ptMaxTrackSize.Y = (int)Math.Min(MaxHeight * scalingFactor, pInfo->ptMaxTrackSize.Y);
+        info.ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, info.ptMinTrackSize.X);
+        info.ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, info.ptMinTrackSize.Y);
+        info.ptMaxTrackSize.X = (int)Math.Min(MaxWidth * scalingFactor, info.ptMaxTrackSize.X);
+        info.ptMaxTrackSize.Y = (int)Math.Min(MaxHeight * scalingFactor, info.ptMaxTrackSize.Y);
     }
 }

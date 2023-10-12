@@ -1,0 +1,35 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Converters"
+    xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
+    xmlns:shvc="using:Snap.Hutao.View.Converter">
+    <cwc:BoolNegationConverter x:Key="BoolNegationConverter"/>
+    <cwc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <cwc:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter"/>
+    <shmmc:AchievementIconConverter x:Key="AchievementIconConverter"/>
+    <shmmc:AvatarCardConverter x:Key="AvatarCardConverter"/>
+    <shmmc:AvatarIconConverter x:Key="AvatarIconConverter"/>
+    <shmmc:AvatarNameCardPicConverter x:Key="AvatarNameCardPicConverter"/>
+    <shmmc:AvatarSideIconConverter x:Key="AvatarSideIconConverter"/>
+    <shmmc:DescriptionsParametersDescriptor x:Key="DescParamDescriptor"/>
+    <shmmc:ElementNameIconConverter x:Key="ElementNameIconConverter"/>
+    <shmmc:EmotionIconConverter x:Key="EmotionIconConverter"/>
+    <shmmc:EquipIconConverter x:Key="EquipIconConverter"/>
+    <shmmc:GachaAvatarImgConverter x:Key="GachaAvatarImgConverter"/>
+    <shmmc:GachaAvatarIconConverter x:Key="GachaAvatarIconConverter"/>
+    <shmmc:GachaEquipIconConverter x:Key="GachaEquipIconConverter"/>
+    <shmmc:ItemIconConverter x:Key="ItemIconConverter"/>
+    <shmmc:MonsterIconConverter x:Key="MonsterIconConverter"/>
+    <shmmc:PropertiesParametersDescriptor x:Key="PropertyDescriptor"/>
+    <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
+    <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
+    <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
+    <shvc:EmptyObjectToBoolConverter x:Key="EmptyObjectToBoolConverter"/>
+    <shvc:EmptyObjectToBoolRevertConverter x:Key="EmptyObjectToBoolRevertConverter"/>
+    <shvc:EmptyObjectToVisibilityConverter x:Key="EmptyObjectToVisibilityConverter"/>
+    <shvc:EmptyObjectToVisibilityRevertConverter x:Key="EmptyObjectToVisibilityRevertConverter"/>
+    <shvc:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
+    <shvc:Int32ToVisibilityRevertConverter x:Key="Int32ToVisibilityRevertConverter"/>
+    <shvc:StringBoolConverter x:Key="StringBoolConverter"/>
+</ResourceDictionary>

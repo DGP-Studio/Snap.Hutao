@@ -164,11 +164,26 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
     private async ValueTask<LoadedImageSurface> LoadImageSurfaceAsync(string file, CancellationToken token)
     {
         surfaceLoadTaskCompletionSource = new();
-        LoadedImageSurface surface = LoadedImageSurface.StartLoadFromUri(file.ToUri());
-        surface.LoadCompleted += loadedImageSourceLoadCompletedEventHandler;
-        await surfaceLoadTaskCompletionSource.Task.ConfigureAwait(true);
-        LoadImageSurfaceCompleted(surface);
-        return surface;
+        LoadedImageSurface? surface = default;
+        try
+        {
+            surface = LoadedImageSurface.StartLoadFromUri(file.ToUri());
+            surface.LoadCompleted += loadedImageSourceLoadCompletedEventHandler;
+            if (surface.NaturalSize.Size() <= 0D)
+            {
+                await surfaceLoadTaskCompletionSource.Task.ConfigureAwait(true);
+            }
+
+            LoadImageSurfaceCompleted(surface);
+            return surface;
+        }
+        finally
+        {
+            if (surface is not null)
+            {
+                surface.LoadCompleted -= loadedImageSourceLoadCompletedEventHandler;
+            }
+        }
     }
 
     private async ValueTask ShowAsync(CancellationToken token)
@@ -216,7 +231,6 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
     private void OnLoadImageSurfaceLoadCompleted(LoadedImageSurface surface, LoadedImageSourceLoadCompletedEventArgs e)
     {
         surfaceLoadTaskCompletionSource?.TrySetResult();
-        surface.LoadCompleted -= loadedImageSourceLoadCompletedEventHandler;
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)

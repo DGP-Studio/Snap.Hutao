@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Message;
 using Snap.Hutao.Service.Notification;
@@ -20,7 +22,6 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
     private readonly RoutedEventHandler loadEventHandler;
     private readonly RoutedEventHandler unloadEventHandler;
 
-    [SuppressMessage("", "IDE0052")]
     private MiHoYoJSInterface? jsInterface;
 
     public WebViewer()
@@ -49,7 +50,6 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        jsInterface = null;
         Loaded -= loadEventHandler;
         Unloaded -= unloadEventHandler;
     }
@@ -86,13 +86,16 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                     string source = SourceProvider.GetSource(userAndUid);
                     if (!string.IsNullOrEmpty(source))
                     {
-                        await coreWebView2.DeleteCookiesAsync(".mihoyo.com").ConfigureAwait(true);
-                        coreWebView2.SetCookie(user.CookieToken, user.LToken, user.SToken);
-                        _ = userAndUid.User.IsOversea ? coreWebView2.SetMobileOverseaUserAgent() : coreWebView2.SetMobileUserAgent();
-                        jsInterface = SourceProvider.CreateJsInterface(serviceProvider, coreWebView2, userAndUid);
+                        await coreWebView2.Profile.ClearBrowsingDataAsync();
 
                         CoreWebView2Navigator navigator = new(coreWebView2);
                         await navigator.NavigateAsync("about:blank").ConfigureAwait(true);
+
+                        coreWebView2.SetCookie(user.CookieToken, user.LToken, user.SToken);
+                        _ = userAndUid.User.IsOversea ? coreWebView2.SetMobileOverseaUserAgent() : coreWebView2.SetMobileUserAgent();
+                        jsInterface?.Detach();
+                        jsInterface = SourceProvider.CreateJsInterface(serviceProvider, coreWebView2, userAndUid);
+
                         await navigator.NavigateAsync(source).ConfigureAwait(true);
                     }
                 }

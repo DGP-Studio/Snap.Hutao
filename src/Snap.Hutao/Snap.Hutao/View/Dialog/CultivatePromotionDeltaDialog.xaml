@@ -76,7 +76,7 @@
             <Grid
                 Margin="8"
                 DataContext="{x:Bind Avatar}"
-                Style="{StaticResource BorderGridStyle}">
+                Style="{ThemeResource GridCardStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="160"/>
@@ -129,7 +129,7 @@
             <Grid
                 Margin="8"
                 DataContext="{x:Bind Weapon}"
-                Style="{StaticResource BorderGridStyle}">
+                Style="{ThemeResource GridCardStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="160"/>

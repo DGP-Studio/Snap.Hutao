@@ -314,7 +314,7 @@
                                         HorizontalAlignment="Left">
                                         <!--  卡片面板  -->
                                         <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Grid cw:UIElementExtensions.ClipToBounds="True" Style="{StaticResource BorderGridStyle}">
+                                            <Grid cw:UIElementExtensions.ClipToBounds="True" Style="{ThemeResource GridCardStyle}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition/>
                                                     <RowDefinition Height="auto"/>
@@ -636,7 +636,7 @@
                                                                     Grid.Column="3"
                                                                     Margin="8,0,0,0"
                                                                     HorizontalAlignment="Left"
-                                                                    Foreground="{StaticResource AvatarPropertyAddValueBrush}"
+                                                                    Foreground="{StaticResource AvatarPropertyAddValueColorBrush}"
                                                                     Text="{Binding AddValue}"/>
                                                             </Grid>
                                                         </DataTemplate>

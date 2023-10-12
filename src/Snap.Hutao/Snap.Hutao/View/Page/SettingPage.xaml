@@ -21,7 +21,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Margin="16,16,16,16" Spacing="{StaticResource SettingsCardSpacing}">
                 <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                    <Grid Height="280" Style="{ThemeResource BorderGridStyle}">
+                    <Grid Height="280" Style="{ThemeResource GridCardStyle}">
                         <Image
                             VerticalAlignment="Center"
                             Source="ms-appx:///Resource/BlurBackground.png"

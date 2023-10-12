@@ -134,7 +134,7 @@
                                                 <mxi:Interaction.Behaviors>
                                                     <shcb:AutoHeightBehavior TargetHeight="1024" TargetWidth="2048"/>
                                                 </mxi:Interaction.Behaviors>
-                                                <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskBrush}"/>
+                                                <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
                                                 <ScrollViewer
                                                     Grid.Column="0"
                                                     Margin="16"

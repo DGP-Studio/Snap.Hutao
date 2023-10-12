@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  Length  -->
+    <GridLength x:Key="CompatGridLength2">288</GridLength>
+
+    <x:Double x:Key="CompatSplitViewOpenPaneLength">212</x:Double>
+    <x:Double x:Key="CompatSplitViewOpenPaneLength2">304</x:Double>
+    <x:Double x:Key="CompatSplitViewOpenPaneLength3">320</x:Double>
+    <x:Double x:Key="HomeAdaptiveCardHeight">180</x:Double>
+    <x:Double x:Key="ContentDialogMinHeight">64</x:Double>
+    <x:Double x:Key="LargeAppBarButtonWidth">100</x:Double>
+
+    <!--  ProgressBar  -->
+    <x:Double x:Key="LargeBackgroundProgressBarOpacity">0.2</x:Double>
+</ResourceDictionary>

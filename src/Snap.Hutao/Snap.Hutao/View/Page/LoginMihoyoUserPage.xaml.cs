@@ -44,7 +44,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         IReadOnlyList<CoreWebView2Cookie> cookies = await WebView.CoreWebView2.CookieManager.GetCookiesAsync("https://user.mihoyo.com");
         Cookie webCookie = Cookie.FromCoreWebView2Cookies(cookies);
 
-        if (!webCookie.TryGetCookieToken(out Cookie? loginTicketCookie))
+        if (!webCookie.TryGetLoginTicket(out Cookie? loginTicketCookie))
         {
             return;
         }

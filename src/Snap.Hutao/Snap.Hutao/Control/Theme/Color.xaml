@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <Color x:Key="AvatarPropertyAddValueColor">#FF74BF00</Color>
+            <Color x:Key="CompatBackgroundColor">#FFF4F4F4</Color>
+            <Color x:Key="DarkOnlyOverlayMaskColor">#00000000</Color>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <Color x:Key="AvatarPropertyAddValueColor">#FF90E800</Color>
+            <Color x:Key="CompatBackgroundColor">#FF242424</Color>
+            <Color x:Key="DarkOnlyOverlayMaskColor">#60000000</Color>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <Color x:Key="BlueColor">#FF5180CB</Color>
+    <Color x:Key="PurpleColor">#FFA156E0</Color>
+    <Color x:Key="OrangeColor">#FFBC6932</Color>
+
+    <Color x:Key="GuaranteePullColor">#FF0063FF</Color>
+    <Color x:Key="UpPullColor">#FFFFA400</Color>
+
+    <SolidColorBrush x:Key="BlueColorBrush" Color="{ThemeResource BlueColor}"/>
+    <SolidColorBrush x:Key="PurpleColorBrush" Color="{ThemeResource PurpleColor}"/>
+    <SolidColorBrush x:Key="OrangeColorBrush" Color="{ThemeResource OrangeColor}"/>
+
+    <SolidColorBrush x:Key="GuaranteePullCoolorBrush" Color="{ThemeResource GuaranteePullColor}"/>
+    <SolidColorBrush x:Key="UpPullColorBrush" Color="{ThemeResource UpPullColor}"/>
+
+    <SolidColorBrush x:Key="DarkOnlyOverlayMaskColorBrush" Color="{ThemeResource DarkOnlyOverlayMaskColor}"/>
+    <SolidColorBrush x:Key="AvatarPropertyAddValueColorBrush" Color="{ThemeResource AvatarPropertyAddValueColor}"/>
+</ResourceDictionary>

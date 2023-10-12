@@ -17,11 +17,11 @@ internal interface ISupportLoginByWebView
         try
         {
             await webView2.EnsureCoreWebView2Async();
-            await webView2.CoreWebView2.DeleteCookiesAsync("https://user.mihoyo.com").ConfigureAwait(true);
+            await webView2.CoreWebView2.DeleteCookiesAsync(cookie).ConfigureAwait(true);
             webView2.CoreWebView2.DisableDevToolsOnReleaseBuild();
             webView2.CoreWebView2.DisableAutoCompletion();
 
-            webView2.CoreWebView2.Navigate("https://user.mihoyo.com/#/login/password");
+            webView2.CoreWebView2.Navigate(navigate);
         }
         catch (Exception ex)
         {

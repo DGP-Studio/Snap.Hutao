@@ -14,7 +14,7 @@ namespace Snap.Hutao;
 [HighQuality]
 [Injection(InjectAs.Singleton)]
 [SuppressMessage("", "CA1001")]
-internal sealed partial class MainWindow : Window, IWindowOptionsSource
+internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMaxInfoHandler
 {
     private const int MinWidth = 848;
     private const int MinHeight = 524;
@@ -46,10 +46,10 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource
     public WindowOptions WindowOptions { get => windowOptions; }
 
     /// <inheritdoc/>
-    public unsafe void ProcessMinMaxInfo(MINMAXINFO* pInfo, double scalingFactor)
+    public unsafe void HandleMinMaxInfo(ref MINMAXINFO pInfo, double scalingFactor)
     {
-        pInfo->ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, pInfo->ptMinTrackSize.X);
-        pInfo->ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, pInfo->ptMinTrackSize.Y);
+        pInfo.ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, pInfo.ptMinTrackSize.X);
+        pInfo.ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, pInfo.ptMinTrackSize.Y);
     }
 
     private void OnClosed(object sender, WindowEventArgs args)

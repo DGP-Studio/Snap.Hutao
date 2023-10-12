@@ -72,14 +72,24 @@
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
     <None Remove="Assets\Wide310x150Logo.scale-400.png" />
     <None Remove="CodeMetricsConfig.txt" />
+    <None Remove="Control\Image\CachedImage.xaml" />
     <None Remove="Control\Loading.xaml" />
     <None Remove="Control\Panel\PanelSelector.xaml" />
+    <None Remove="Control\Theme\Card.xaml" />
+    <None Remove="Control\Theme\Color.xaml" />
+    <None Remove="Control\Theme\Converter.xaml" />
+    <None Remove="Control\Theme\CornerRadius.xaml" />
     <None Remove="Control\Theme\FontStyle.xaml" />
+    <None Remove="Control\Theme\Glyph.xaml" />
     <None Remove="Control\Theme\InfoBarOverride.xaml" />
+    <None Remove="Control\Theme\ItemContainerStyle.xaml" />
+    <None Remove="Control\Theme\ItemsPanelTemplate.xaml" />
+    <None Remove="Control\Theme\NumericValue.xaml" />
     <None Remove="Control\Theme\PageOverride.xaml" />
     <None Remove="Control\Theme\PivotOverride.xaml" />
     <None Remove="Control\Theme\SettingsStyle.xaml" />
     <None Remove="Control\Theme\TransitionCollection.xaml" />
+    <None Remove="Control\Theme\Uri.xaml" />
     <None Remove="Control\Theme\WindowOverride.xaml" />
     <None Remove="GuideWindow.xaml" />
     <None Remove="IdentityStructs.json" />
@@ -239,12 +249,12 @@
   <!-- Packages -->
   <ItemGroup>
     <!-- https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -->
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.230809" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.MarqueeText" Version="0.1.230809" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230809" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230809" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230809" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2-build.1" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.230830" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.MarqueeText" Version="0.1.230830" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230830" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230830" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230830" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2-build.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.230907" />
@@ -253,8 +263,8 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -262,7 +272,7 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.507">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -301,6 +311,66 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\NumericValue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\CornerRadius.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\Color.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\Card.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\ItemContainerStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Image\CachedImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\ItemsPanelTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\Converter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\Glyph.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Control\Theme\Uri.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

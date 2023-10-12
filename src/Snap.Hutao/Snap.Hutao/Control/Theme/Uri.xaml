@@ -1,0 +1,34 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  DocumentLink  -->
+    <x:String x:Key="DocumentLink_BugReport">https://hut.ao/statements/bug-report.html</x:String>
+    <x:String x:Key="DocumentLink_Home">https://hut.ao</x:String>
+    <x:String x:Key="DocumentLink_MhyAccountSwitch">https://hut.ao/features/mhy-account-switch.html</x:String>
+    <x:String x:Key="DocumentLink_Translate">https://translate.hut.ao</x:String>
+
+    <!--  Other  -->
+    <x:String x:Key="HolographicHat_GetToken_Release">https://github.com/HolographicHat/GetToken/releases/latest</x:String>
+    <x:String x:Key="Sponsor_Afadian">https://afdian.net/a/DismissedLight</x:String>
+
+    <!--  AvatarCard  -->
+    <x:String x:Key="UI_AvatarIcon_Costume_Card">https://static.snapgenshin.com/AvatarCard/UI_AvatarIcon_Costume_Card.png</x:String>
+
+    <!--  Bg  -->
+    <x:String x:Key="UI_Icon_Intee_Explore_1">https://static.snapgenshin.com/Bg/UI_Icon_Intee_Explore_1.png</x:String>
+    <x:String x:Key="UI_ImgSign_ItemIcon">https://static.snapgenshin.com/Bg/UI_ImgSign_ItemIcon.png</x:String>
+    <x:String x:Key="UI_ItemIcon_None">https://static.snapgenshin.com/Bg/UI_ItemIcon_None.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Events_Proce">https://static.snapgenshin.com/Bg/UI_MarkQuest_Events_Proce.png</x:String>
+    <x:String x:Key="UI_MarkTower">https://static.snapgenshin.com/Bg/UI_MarkTower.png</x:String>
+
+    <!--  ItemIcon  -->
+    <x:String x:Key="UI_ItemIcon_201">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_201.png</x:String>
+    <x:String x:Key="UI_ItemIcon_204">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_204.png</x:String>
+    <x:String x:Key="UI_ItemIcon_210">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_210.png</x:String>
+    <x:String x:Key="UI_ItemIcon_220021">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_220021.png</x:String>
+
+    <!--  EmotionIcon  -->
+    <x:String x:Key="UI_EmotionIcon25">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon25.png</x:String>
+    <x:String x:Key="UI_EmotionIcon71">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon71.png</x:String>
+    <x:String x:Key="UI_EmotionIcon250">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon250.png</x:String>
+    <x:String x:Key="UI_EmotionIcon272">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon272.png</x:String>
+    <x:String x:Key="UI_EmotionIcon293">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon293.png</x:String>
+</ResourceDictionary>

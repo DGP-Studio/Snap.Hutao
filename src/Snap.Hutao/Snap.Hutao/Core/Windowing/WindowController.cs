@@ -76,15 +76,15 @@ internal sealed class WindowController
     {
         // Set first launch size
         double scale = options.GetWindowScale();
-        SizeInt32 transformedSize = options.InitSize.Scale(scale);
-        RectInt32 rect = StructMarshal.RectInt32(transformedSize);
+        SizeInt32 scaledSize = options.InitSize.Scale(scale);
+        RectInt32 rect = StructMarshal.RectInt32(scaledSize);
 
         if (options.PersistSize)
         {
             RectInt32 persistedRect = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (CompactRect)rect);
             if (persistedRect.Size() >= options.InitSize.Size())
             {
-                rect = persistedRect;
+                rect = persistedRect.Scale(scale);
             }
         }
 
@@ -105,7 +105,8 @@ internal sealed class WindowController
         // prevent save value when we are maximized.
         if (!windowPlacement.showCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
         {
-            LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)window.AppWindow.GetRect());
+            double scale = 1 / options.GetWindowScale();
+            LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)window.AppWindow.GetRect().Scale(scale));
         }
     }
 
@@ -113,8 +114,10 @@ internal sealed class WindowController
     {
         if (e.PropertyName == nameof(AppOptions.BackdropType))
         {
-            ArgumentNullException.ThrowIfNull(sender);
-            UpdateSystemBackdrop(((AppOptions)sender).BackdropType);
+            if (sender is AppOptions options)
+            {
+                UpdateSystemBackdrop(options.BackdropType);
+            }
         }
     }
 
