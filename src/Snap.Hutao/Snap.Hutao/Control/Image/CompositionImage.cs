@@ -169,7 +169,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
         {
             surface = LoadedImageSurface.StartLoadFromUri(file.ToUri());
             surface.LoadCompleted += loadedImageSourceLoadCompletedEventHandler;
-            if (surface.NaturalSize.Size() <= 0D)
+            if (surface.DecodedPhysicalSize.Size() <= 0D)
             {
                 await surfaceLoadTaskCompletionSource.Task.ConfigureAwait(true);
             }
