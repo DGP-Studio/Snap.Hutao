@@ -17,9 +17,4 @@ internal unsafe interface IUnmanagedMemory : IDisposable
     /// Gets size of referenced unmanaged memory, in bytes.
     /// </summary>
     uint Size { get; }
-
-    /// <summary>
-    /// Gets a span of bytes from the current instance.
-    /// </summary>
-    Span<byte> Span { get; }
 }

@@ -71,17 +71,16 @@ internal sealed class WindowSubclass : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
+        hotKeyController.Unregister(options.Hwnd);
+
         RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
         windowProc = null;
 
-        if (!options.UseLegacyDragBarImplementation)
+        if (options.UseLegacyDragBarImplementation)
         {
-            return;
+            RemoveWindowSubclass(options.Hwnd, legacyDragBarProc, DragBarSubclassId);
+            legacyDragBarProc = null;
         }
-
-        hotKeyController.Unregister(options.Hwnd);
-        RemoveWindowSubclass(options.Hwnd, legacyDragBarProc, DragBarSubclassId);
-        legacyDragBarProc = null;
     }
 
     [SuppressMessage("", "SH002")]
@@ -91,16 +90,18 @@ internal sealed class WindowSubclass : IDisposable
         {
             case WM_GETMINMAXINFO:
                 {
-                    uint dpi = GetDpiForWindow(hwnd);
-                    double scalingFactor = Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);
-                    ((IWindowOptionsSource)window).ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
+                    if (window is IMinMaxInfoHandler handler)
+                    {
+                        handler.HandleMinMaxInfo(ref *(MINMAXINFO*)lParam.Value, options.GetWindowScale());
+                    }
+
                     break;
                 }
 
             case WM_NCRBUTTONDOWN:
             case WM_NCRBUTTONUP:
                 {
-                    return (LRESULT)(nint)WM_NULL;
+                    return default;
                 }
 
             case WM_HOTKEY:

@@ -235,7 +235,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
         using (localMemory)
         {
-            int offset = IndexOfPattern(localMemory.Span[(int)moduleEntryInfo.UnityPlayer.Size..]);
+            int offset = IndexOfPattern(localMemory.AsSpan()[(int)moduleEntryInfo.UnityPlayer.Size..]);
             Must.Range(offset >= 0, SH.ServiceGameUnlockerInterestedPatternNotFound);
 
             byte* pLocalMemory = (byte*)localMemory.Pointer;

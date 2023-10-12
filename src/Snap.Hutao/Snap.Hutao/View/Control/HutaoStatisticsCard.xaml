@@ -26,7 +26,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Style="{StaticResource BorderGridStyle}">
+    <Grid Style="{ThemeResource GridCardStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
@@ -36,7 +36,7 @@
             Grid.Row="0"
             cw:UIElementExtensions.ClipToBounds="True"
             CornerRadius="{StaticResource ControlCornerRadiusTop}"
-            Style="{StaticResource BorderGridStyle}">
+            Style="{ThemeResource GridCardStyle}">
             <cwc:ConstrainedBox
                 Margin="-1"
                 HorizontalAlignment="Center"

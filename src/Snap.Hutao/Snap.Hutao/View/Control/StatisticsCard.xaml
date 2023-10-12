@@ -23,7 +23,7 @@
         <shvconv:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
 
         <DataTemplate x:Key="OrangeListTemplate" d:DataType="shvg:SummaryItem">
-            <Grid Margin="0" Style="{StaticResource BorderGridStyle}">
+            <Grid Margin="0" Style="{ThemeResource GridCardStyle}">
                 <ToolTipService.ToolTip>
                     <TextBlock Text="{Binding TimeFormatted}"/>
                 </ToolTipService.ToolTip>
@@ -59,13 +59,13 @@
                     <TextBlock
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
-                        Foreground="{StaticResource GuaranteePullBrush}"
+                        Foreground="{StaticResource GuaranteePullCoolorBrush}"
                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardGuaranteeText}"
                         Visibility="{Binding IsGuarantee, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <TextBlock
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
-                        Foreground="{StaticResource UpPullBrush}"
+                        Foreground="{StaticResource UpPullColorBrush}"
                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"
                         Visibility="{Binding IsUp, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
@@ -103,7 +103,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Style="{StaticResource BorderGridStyle}">
+    <Grid Style="{ThemeResource GridCardStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -181,8 +181,8 @@
                             Description="{Binding LastOrangePull}"
                             Header="{shcm:ResourceString Name=ViewControlStatisticsCardToLastOrangeText}"
                             Maximum="{Binding GuaranteeOrangeThreshold}"
-                            ProgressForeground="{StaticResource OrangeBrush}"
-                            TextForeground="{StaticResource OrangeBrush}"
+                            ProgressForeground="{StaticResource OrangeColorBrush}"
+                            TextForeground="{StaticResource OrangeColorBrush}"
                             Value="{Binding LastOrangePull}"/>
                         <shvcp:CardProgressBar
                             Grid.Column="1"
@@ -190,8 +190,8 @@
                             Description="{Binding LastPurplePull}"
                             Header="{shcm:ResourceString Name=ViewControlStatisticsCardToLastPurpleText}"
                             Maximum="{Binding GuaranteePurpleThreshold}"
-                            ProgressForeground="{StaticResource PurpleBrush}"
-                            TextForeground="{StaticResource PurpleBrush}"
+                            ProgressForeground="{StaticResource PurpleColorBrush}"
+                            TextForeground="{StaticResource PurpleColorBrush}"
                             Value="{Binding LastPurplePull}"/>
                     </Grid>
                 </StackPanel>
@@ -243,37 +243,37 @@
                         <StackPanel Spacing="2">
                             <Grid>
                                 <TextBlock
-                                    Foreground="{StaticResource OrangeBrush}"
+                                    Foreground="{StaticResource OrangeColorBrush}"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                                 <TextBlock
                                     HorizontalAlignment="Right"
                                     FontFamily="{StaticResource CascadiaMonoAndMiSans}"
-                                    Foreground="{StaticResource OrangeBrush}"
+                                    Foreground="{StaticResource OrangeColorBrush}"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{Binding TotalOrangeFormatted}"/>
                             </Grid>
                             <Grid>
                                 <TextBlock
-                                    Foreground="{StaticResource PurpleBrush}"
+                                    Foreground="{StaticResource PurpleColorBrush}"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                                 <TextBlock
                                     HorizontalAlignment="Right"
                                     FontFamily="{StaticResource CascadiaMonoAndMiSans}"
-                                    Foreground="{StaticResource PurpleBrush}"
+                                    Foreground="{StaticResource PurpleColorBrush}"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{Binding TotalPurpleFormatted}"/>
                             </Grid>
                             <Grid>
                                 <TextBlock
-                                    Foreground="{StaticResource BlueBrush}"
+                                    Foreground="{StaticResource BlueColorBrush}"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
                                 <TextBlock
                                     HorizontalAlignment="Right"
                                     FontFamily="{StaticResource CascadiaMonoAndMiSans}"
-                                    Foreground="{StaticResource BlueBrush}"
+                                    Foreground="{StaticResource BlueColorBrush}"
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{Binding TotalBlueFormatted}"/>
                             </Grid>

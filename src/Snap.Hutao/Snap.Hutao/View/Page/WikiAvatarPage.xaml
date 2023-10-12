@@ -424,7 +424,7 @@
                                             Text="{shcm:ResourceString Name=ViewPageWiKiAvatarMiscHeader}"/>
                                         <Border Margin="16,16,0,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                             <cwc:ConstrainedBox AspectRatio="2048:1024">
-                                                <Grid Style="{StaticResource BorderGridStyle}">
+                                                <Grid Style="{ThemeResource GridCardStyle}">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="auto"/>
                                                         <ColumnDefinition/>

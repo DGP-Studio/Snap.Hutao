@@ -11,7 +11,7 @@ namespace Snap.Hutao;
 /// 指引窗口
 /// </summary>
 [Injection(InjectAs.Singleton)]
-internal sealed partial class GuideWindow : Window, IWindowOptionsSource
+internal sealed partial class GuideWindow : Window, IWindowOptionsSource, IMinMaxInfoHandler
 {
     private const int MinWidth = 1000;
     private const int MinHeight = 600;
@@ -30,11 +30,11 @@ internal sealed partial class GuideWindow : Window, IWindowOptionsSource
 
     WindowOptions IWindowOptionsSource.WindowOptions { get => windowOptions; }
 
-    public unsafe void ProcessMinMaxInfo(MINMAXINFO* pInfo, double scalingFactor)
+    public unsafe void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor)
     {
-        pInfo->ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, pInfo->ptMinTrackSize.X);
-        pInfo->ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, pInfo->ptMinTrackSize.Y);
-        pInfo->ptMaxTrackSize.X = (int)Math.Min(MaxWidth * scalingFactor, pInfo->ptMaxTrackSize.X);
-        pInfo->ptMaxTrackSize.Y = (int)Math.Min(MaxHeight * scalingFactor, pInfo->ptMaxTrackSize.Y);
+        info.ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, info.ptMinTrackSize.X);
+        info.ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, info.ptMinTrackSize.Y);
+        info.ptMaxTrackSize.X = (int)Math.Min(MaxWidth * scalingFactor, info.ptMaxTrackSize.X);
+        info.ptMaxTrackSize.Y = (int)Math.Min(MaxHeight * scalingFactor, info.ptMaxTrackSize.Y);
     }
 }

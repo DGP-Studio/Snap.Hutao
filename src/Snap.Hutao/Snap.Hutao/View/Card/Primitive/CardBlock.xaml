@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
-    Style="{StaticResource BorderGridStyle}"
+    Style="{ThemeResource GridCardStyle}"
     mc:Ignorable="d">
 
     <StackPanel VerticalAlignment="Center">

@@ -7,6 +7,11 @@ namespace Snap.Hutao.Core.Windowing.HotKey;
 
 internal readonly struct HotKeyParameter
 {
-    public readonly ushort Modifier;
+    public readonly ushort NativeModifier;
     public readonly VIRTUAL_KEY Key;
+
+    public readonly HOT_KEY_MODIFIERS Modifier
+    {
+        get => (HOT_KEY_MODIFIERS)NativeModifier;
+    }
 }

@@ -7,7 +7,7 @@ using static Windows.Win32.PInvoke;
 namespace Snap.Hutao.Win32.Memory;
 
 /// <summary>
-/// NativeMemory.AllocZeroed wrapper
+/// VirtualAlloc wrapper
 /// </summary>
 internal readonly unsafe struct VirtualMemory : IUnmanagedMemory
 {
@@ -37,9 +37,6 @@ internal readonly unsafe struct VirtualMemory : IUnmanagedMemory
 
     /// <inheritdoc/>
     public uint Size { get => size; }
-
-    /// <inheritdoc/>
-    public Span<byte> Span { get => new(pointer, (int)size); }
 
     /// <inheritdoc/>
     public void Dispose()

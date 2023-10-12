@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources/>
+    </ResourceDictionary.MergedDictionaries>
+    <Style
+        x:Key="LargeGridViewItemStyle"
+        BasedOn="{StaticResource DefaultGridViewItemStyle}"
+        TargetType="GridViewItem">
+        <Setter Property="Margin" Value="0,0,12,12"/>
+    </Style>
+    <Style
+        x:Name="NoneSelectionListViewItemStyle"
+        BasedOn="{StaticResource DefaultListViewItemStyle}"
+        TargetType="ListViewItem">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0,4,0,0"/>
+    </Style>
+    <Style
+        x:Name="NoneSelectionGridViewItemStyle"
+        BasedOn="{StaticResource DefaultGridViewItemStyle}"
+        TargetType="GridViewItem">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0,0,2,4"/>
+    </Style>
+</ResourceDictionary>

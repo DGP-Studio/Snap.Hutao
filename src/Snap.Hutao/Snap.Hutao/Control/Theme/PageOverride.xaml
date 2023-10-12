@@ -2,5 +2,5 @@
     <!--  Page Transparent Background  -->
     <StaticResource x:Key="ApplicationPageBackgroundThemeBrush" ResourceKey="ControlFillColorTransparentBrush"/>
     <!--  https://github.com/microsoft/microsoft-ui-xaml/issues/4811  -->
-    <x:Int32 x:Key="__Discard">0</x:Int32>
+    <x:Int32 x:Key="__DiscardPageOverride">0</x:Int32>
 </ResourceDictionary>
