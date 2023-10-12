@@ -62,4 +62,9 @@ internal static class StructExtension
     {
         return sizeInt32.Width * sizeInt32.Height;
     }
+
+    public static double Size(this Windows.Foundation.Size size)
+    {
+        return size.Width * size.Height;
+    }
 }
