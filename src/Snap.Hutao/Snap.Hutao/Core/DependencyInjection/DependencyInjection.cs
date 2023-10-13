@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Windows.ApplicationModel.Resources;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using System.Globalization;

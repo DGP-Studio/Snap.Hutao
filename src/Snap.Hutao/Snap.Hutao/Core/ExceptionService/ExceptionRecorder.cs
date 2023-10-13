@@ -29,11 +29,14 @@ internal sealed partial class ExceptionRecorder
 
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        serviceProvider
+        ValueTask<string?> task = serviceProvider
             .GetRequiredService<Web.Hutao.Log.HomaLogUploadClient>()
-            .UploadLogAsync(e.Exception)
-            .GetAwaiter()
-            .GetResult();
+            .UploadLogAsync(e.Exception);
+
+        if (!task.IsCompleted)
+        {
+            task.GetAwaiter().GetResult();
+        }
 
         logger.LogError("未经处理的全局异常:\r\n{Detail}", ExceptionFormat.Format(e.Exception));
     }
