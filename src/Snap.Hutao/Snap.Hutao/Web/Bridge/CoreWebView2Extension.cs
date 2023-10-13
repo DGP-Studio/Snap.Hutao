@@ -67,10 +67,9 @@ internal static class CoreWebView2Extension
     /// <param name="webView">webView2</param>
     /// <param name="cookieToken">CookieToken</param>
     /// <param name="lToken">LToken</param>
-    /// <param name="sToken">SToken</param>
     /// <param name="isOversea">是否为国际服，用于改变 cookie domain</param>
     /// <returns>链式调用的WebView2</returns>
-    public static CoreWebView2 SetCookie(this CoreWebView2 webView, Cookie? cookieToken = null, Cookie? lToken = null, Cookie? sToken = null, bool isOversea = false)
+    public static CoreWebView2 SetCookie(this CoreWebView2 webView, Cookie? cookieToken = null, Cookie? lToken = null, bool isOversea = false)
     {
         CoreWebView2CookieManager cookieManager = webView.CookieManager;
 
@@ -86,14 +85,6 @@ internal static class CoreWebView2Extension
             cookieManager
                 .AddMihoyoCookie(Cookie.LTUID, lToken, isOversea)
                 .AddMihoyoCookie(Cookie.LTOKEN, lToken, isOversea);
-        }
-
-        if (sToken is not null)
-        {
-            cookieManager
-                .AddMihoyoCookie(Cookie.MID, sToken, isOversea)
-                .AddMihoyoCookie(Cookie.STUID, sToken, isOversea)
-                .AddMihoyoCookie(Cookie.STOKEN, sToken, isOversea);
         }
 
         return webView;

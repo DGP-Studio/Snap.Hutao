@@ -91,7 +91,7 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                         CoreWebView2Navigator navigator = new(coreWebView2);
                         await navigator.NavigateAsync("about:blank").ConfigureAwait(true);
 
-                        coreWebView2.SetCookie(user.CookieToken, user.LToken, user.SToken);
+                        coreWebView2.SetCookie(user.CookieToken, user.LToken);
                         _ = userAndUid.User.IsOversea ? coreWebView2.SetMobileOverseaUserAgent() : coreWebView2.SetMobileUserAgent();
                         jsInterface?.Detach();
                         jsInterface = SourceProvider.CreateJsInterface(serviceProvider, coreWebView2, userAndUid);

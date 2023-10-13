@@ -49,6 +49,13 @@ internal readonly struct ChannelOptions
         ConfigFilePath = configFilePath;
     }
 
+    public ChannelOptions(ChannelType channel, SubChannelType subChannel, bool isOversea)
+    {
+        Channel = channel;
+        SubChannel = subChannel;
+        IsOversea = isOversea;
+    }
+
     /// <summary>
     /// 配置文件未找到
     /// </summary>
@@ -64,5 +71,10 @@ internal readonly struct ChannelOptions
     public override string ToString()
     {
         return $"[ChannelType:{Channel}] [SubChannel:{SubChannel}] [IsOversea: {IsOversea}]";
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Channel, SubChannel, IsOversea);
     }
 }
