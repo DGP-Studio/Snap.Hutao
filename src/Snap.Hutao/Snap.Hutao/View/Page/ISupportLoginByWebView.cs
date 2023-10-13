@@ -33,7 +33,7 @@ internal interface ISupportLoginByWebView
     {
         (UserOptionResult result, string nickname) = await serviceProvider
             .GetRequiredService<IUserService>()
-            .ProcessInputCookieAsync(cookie, false)
+            .ProcessInputCookieAsync(cookie, isOversea)
             .ConfigureAwait(false);
 
         serviceProvider.GetRequiredService<INavigationService>().GoBack();
