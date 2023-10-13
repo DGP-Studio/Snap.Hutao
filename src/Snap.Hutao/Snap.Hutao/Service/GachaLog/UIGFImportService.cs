@@ -35,10 +35,28 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         // v2.3+ support any locale
         // v2.2 only support matched locale
         // v2.1 only support CHS
-        if (version is UIGFVersion.Major2Minor2OrLower && !metadataOptions.IsCurrentLocale(uigf.Info.Language))
+        if (version is UIGFVersion.Major2Minor2OrLower)
         {
-            string message = SH.ServiceGachaUIGFImportLanguageNotMatch.Format(uigf.Info.Language, metadataOptions.LanguageCode);
-            ThrowHelper.InvalidOperation(message, null);
+            if (!metadataOptions.IsCurrentLocale(uigf.Info.Language))
+            {
+                string message = SH.ServiceGachaUIGFImportLanguageNotMatch.Format(uigf.Info.Language, metadataOptions.LanguageCode);
+                ThrowHelper.InvalidOperation(message);
+            }
+
+            if (!uigf.IsMajor2Minor2OrLowerListValid(out long id))
+            {
+                string message = SH.ServiceGachaLogUIGFImportItemInvalidFormat.Format(id);
+                ThrowHelper.InvalidOperation(message);
+            }
+        }
+
+        if (version is UIGFVersion.Major2Minor3OrHigher)
+        {
+            if (!uigf.IsMajor2Minor3OrHigherListValid(out long id))
+            {
+                string message = SH.ServiceGachaLogUIGFImportItemInvalidFormat.Format(id);
+                ThrowHelper.InvalidOperation(message);
+            }
         }
 
         GachaArchiveOperation.GetOrAdd(gachaLogDbService, taskContext, uigf.Info.Uid, archives, out GachaArchive? archive);
