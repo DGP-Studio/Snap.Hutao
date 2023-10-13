@@ -22,13 +22,13 @@ internal sealed partial class HomaGeetestClient
     {
         string template = appOptions.GeetestCustomCompositeUrl;
 
-        if (string.IsNullOrEmpty(template))
+        if (string.IsNullOrEmpty(template) || !Uri.TryCreate(template.Format(gt, challenge), UriKind.Absolute, out Uri? uri))
         {
             return GeetestResponse.InternalFailure;
         }
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(template.Format(gt, challenge))
+            .SetRequestUri(uri)
             .Get();
 
         GeetestResponse? resp = await builder
