@@ -35,20 +35,24 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         Model.Entity.User entity = Model.Entity.User.From(cookie, isOversea);
 
         entity.Aid = cookie.GetValueOrDefault(Cookie.STUID);
-        entity.Mid = isOversea ? entity.Aid : cookie.GetValueOrDefault(Cookie.MID);
+        entity.Mid = cookie.GetValueOrDefault(Cookie.MID);
         entity.IsOversea = isOversea;
 
-        if (entity.Aid is not null && entity.Mid is not null)
+        // legacy token compatibility
+        if (entity.Mid is null && isOversea)
         {
-            ViewModel.User.User user = ViewModel.User.User.From(entity, serviceProvider);
-            bool initialized = await InitializeUserAsync(user, token).ConfigureAwait(false);
-
-            return initialized ? user : null;
+            entity.Mid = entity.Aid;
         }
-        else
+
+        if (entity.Aid is null && entity.Mid is null)
         {
             return null;
         }
+
+        ViewModel.User.User user = ViewModel.User.User.From(entity, serviceProvider);
+        bool initialized = await InitializeUserAsync(user, token).ConfigureAwait(false);
+
+        return initialized ? user : null;
     }
 
     private async ValueTask<bool> InitializeUserAsync(ViewModel.User.User user, CancellationToken token = default)

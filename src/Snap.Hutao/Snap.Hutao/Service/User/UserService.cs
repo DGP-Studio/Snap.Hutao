@@ -127,7 +127,13 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     public async ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea)
     {
         await taskContext.SwitchToBackgroundAsync();
-        string? mid = cookie.GetValueOrDefault(isOversea ? Cookie.STUID : Cookie.MID);
+        string? mid = cookie.GetValueOrDefault(Cookie.MID);
+
+        // legacy token compatibility
+        if (string.IsNullOrEmpty(mid) && isOversea)
+        {
+            mid = cookie.GetValueOrDefault(Cookie.STUID);
+        }
 
         if (string.IsNullOrEmpty(mid))
         {

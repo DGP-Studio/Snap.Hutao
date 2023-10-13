@@ -132,7 +132,17 @@ internal sealed partial class Cookie
 
     public bool TryGetSToken(bool isOversea, [NotNullWhen(true)] out Cookie? cookie)
     {
-        return isOversea ? TryGetLegacySToken(out cookie) : TryGetSToken(out cookie);
+        if (TryGetSToken(out cookie))
+        {
+            return true;
+        }
+
+        if (isOversea)
+        {
+            return TryGetLegacySToken(out cookie);
+        }
+
+        return false;
     }
 
     public bool TryGetLToken([NotNullWhen(true)] out Cookie? cookie)
