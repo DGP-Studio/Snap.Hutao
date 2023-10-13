@@ -2419,6 +2419,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 当前 WebView2 版本不支持管理配置，继续使用可能会导致异常，请尽快升级 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed {
+            get {
+                return ResourceManager.GetString("ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 养成计划 的本地化字符串。
         /// </summary>
         internal static string ViewCultivationHeader {

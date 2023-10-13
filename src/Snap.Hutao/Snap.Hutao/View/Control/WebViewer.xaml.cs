@@ -2,23 +2,27 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Hosting;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Message;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
+using WinRT;
+using WinRT.Interop;
 
 namespace Snap.Hutao.View.Control;
 
 [DependencyProperty("SourceProvider", typeof(IWebViewerSource))]
 internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 {
+    [SuppressMessage("", "SA1310")]
+    private static readonly Guid ICoreWebView2_13iid = Guid.Parse("314B5846-DBC7-5DE4-A792-647EA0F3296A");
+
     private readonly IServiceProvider serviceProvider;
+    private readonly IInfoBarService infoBarService;
     private readonly RoutedEventHandler loadEventHandler;
     private readonly RoutedEventHandler unloadEventHandler;
 
@@ -28,6 +32,7 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
     {
         InitializeComponent();
         serviceProvider = Ioc.Default;
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
         loadEventHandler = OnLoaded;
@@ -41,6 +46,21 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
     {
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         taskContext.InvokeOnMainThread(RefreshWebview2Content);
+    }
+
+    private static bool IsCoreWebView2ProfileAvailable(CoreWebView2 coreWebView2)
+    {
+        int hr = ((IWinRTObject)coreWebView2).NativeObject.TryAs(ICoreWebView2_13iid, out ObjectReference<IUnknownVftbl> objRef);
+        using (objRef)
+        {
+            if (hr >= 0)
+            {
+                // ICoreWebView2_13.Profile is available
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -86,7 +106,14 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                     string source = SourceProvider.GetSource(userAndUid);
                     if (!string.IsNullOrEmpty(source))
                     {
-                        await coreWebView2.Profile.ClearBrowsingDataAsync();
+                        if (IsCoreWebView2ProfileAvailable(coreWebView2))
+                        {
+                            await coreWebView2.Profile.ClearBrowsingDataAsync();
+                        }
+                        else
+                        {
+                            infoBarService.Warning(SH.ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed);
+                        }
 
                         CoreWebView2Navigator navigator = new(coreWebView2);
                         await navigator.NavigateAsync("about:blank").ConfigureAwait(true);
@@ -101,7 +128,7 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                 }
                 else
                 {
-                    serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
+                    infoBarService.Warning(SH.MustSelectUserAndUid);
                 }
             }
         }
