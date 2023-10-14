@@ -959,6 +959,9 @@
   <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
     <value>统计</value>
   </data>
+  <data name="ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed" xml:space="preserve">
+    <value>当前 WebView2 版本不支持管理配置，继续使用可能会导致异常，请尽快升级</value>
+  </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>육성 계획</value>
   </data>
