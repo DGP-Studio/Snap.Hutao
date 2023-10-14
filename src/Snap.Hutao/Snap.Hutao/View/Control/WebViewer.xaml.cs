@@ -58,7 +58,7 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
         isInitializingOrInitialized = true;
 
         await WebView.EnsureCoreWebView2Async();
-        WebView.CoreWebView2.DisableDevToolsOnReleaseBuild();
+        WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
         RefreshWebview2Content();
     }
 

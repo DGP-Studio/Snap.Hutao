@@ -18,7 +18,7 @@ internal interface ISupportLoginByWebView
         {
             await webView2.EnsureCoreWebView2Async();
             await webView2.CoreWebView2.DeleteCookiesAsync(cookie).ConfigureAwait(true);
-            webView2.CoreWebView2.DisableDevToolsOnReleaseBuild();
+            webView2.CoreWebView2.DisableDevToolsForReleaseBuild();
             webView2.CoreWebView2.DisableAutoCompletion();
 
             webView2.CoreWebView2.Navigate(navigate);

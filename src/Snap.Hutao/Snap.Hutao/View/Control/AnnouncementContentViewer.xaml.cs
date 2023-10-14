@@ -140,7 +140,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
         try
         {
             await WebView.EnsureCoreWebView2Async();
-            WebView.CoreWebView2.DisableDevToolsOnReleaseBuild();
+            WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
             WebView.CoreWebView2.WebMessageReceived += webMessageReceivedHandler;
 
             await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);

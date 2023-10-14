@@ -13,7 +13,7 @@ namespace Snap.Hutao.Web.Bridge;
 internal static class CoreWebView2Extension
 {
     [Conditional("RELEASE")]
-    public static void DisableDevToolsOnReleaseBuild(this CoreWebView2 webView)
+    public static void DisableDevToolsForReleaseBuild(this CoreWebView2 webView)
     {
         CoreWebView2Settings settings = webView.Settings;
         settings.AreBrowserAcceleratorKeysEnabled = false;
