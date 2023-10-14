@@ -22,10 +22,13 @@
             <StackPanel Margin="16,16,16,16" Spacing="{StaticResource SettingsCardSpacing}">
                 <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Grid Height="280" Style="{ThemeResource GridCardStyle}">
-                        <Image
-                            VerticalAlignment="Center"
-                            Source="ms-appx:///Resource/BlurBackground.png"
-                            Stretch="Fill"/>
+                        <Border CornerRadius="{ThemeResource ControlCornerRadius}">
+                            <Image
+                                VerticalAlignment="Center"
+                                Source="ms-appx:///Resource/BlurBackground.png"
+                                Stretch="Fill"/>
+                        </Border>
+
                         <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -74,29 +77,31 @@
                     Margin="0,4"
                     Text="Copyright © 2022 - 2023 DGP Studio. All Rights Reserved."
                     TextWrapping="Wrap"/>
+
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingAboutHeader}"/>
-                <cwc:SettingsCard
+                <cwc:SettingsExpander
                     Description="{Binding HutaoOptions.Version}"
                     Header="{shcm:ResourceString Name=AppName}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"
+                    IsExpanded="True">
+                    <cwc:SettingsExpander.Items>
+                        <cwc:SettingsCard
+                            ActionIcon="{shcm:FontIcon Glyph=&#xE8C8;}"
+                            ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"
+                            Command="{Binding CopyDeviceIdCommand}"
+                            Description="{Binding HutaoOptions.DeviceId}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
+                            IsClickEnabled="True"/>
+                        <cwc:SettingsCard Description="{Binding HutaoOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
+                    </cwc:SettingsExpander.Items>
+                </cwc:SettingsExpander>
                 <cwc:SettingsCard
                     Command="{Binding NavigateToHutaoPassportCommand}"
                     Description="{Binding UserOptions.UserName}"
                     Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE716;}"
                     IsClickEnabled="True"/>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE8C8;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"
-                    Command="{Binding CopyDeviceIdCommand}"
-                    Description="{Binding HutaoOptions.DeviceId}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE975;}"
-                    IsClickEnabled="True"/>
-                <cwc:SettingsCard
-                    Description="{Binding HutaoOptions.WebView2Version}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
+
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}"/>
                 <cwc:SettingsCard
@@ -141,7 +146,8 @@
                 <cwc:SettingsExpander
                     Description="{shcm:ResourceString Name=ViewpageSettingHomeCardDescription}"
                     Header="{shcm:ResourceString Name=ViewpageSettingHomeCardHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xEE40;}">
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xEE40;}"
+                    IsExpanded="True">
                     <cwc:SettingsExpander.Items>
                         <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewpageSettingHomeCardItemLaunchGameHeader}">
                             <ToggleSwitch
@@ -238,7 +244,7 @@
                     IsClickEnabled="True"/>
 
                 <cwc:SettingsCard
-                    Margin="0,4,0,0"
+                    Margin="0,3,0,0"
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingStorageOpenAction}"
                     Command="{Binding OpenCacheFolderCommand}"
@@ -276,7 +282,7 @@
                     </StackPanel>
                 </cwc:SettingsCard>
                 <InfoBar
-                    Margin="0,4,0,0"
+                    Margin="0,3,0,0"
                     IsClosable="False"
                     IsOpen="True"
                     Message="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"

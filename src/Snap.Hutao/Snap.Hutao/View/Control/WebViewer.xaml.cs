@@ -18,15 +18,12 @@ namespace Snap.Hutao.View.Control;
 [DependencyProperty("SourceProvider", typeof(IWebViewerSource))]
 internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 {
-    [SuppressMessage("", "SA1310")]
-    private static readonly Guid ICoreWebView2_13iid = Guid.Parse("314B5846-DBC7-5DE4-A792-647EA0F3296A");
-
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly RoutedEventHandler loadEventHandler;
-    private readonly RoutedEventHandler unloadEventHandler;
 
     private MiHoYoJSInterface? jsInterface;
+    private bool isInitializingOrInitialized;
 
     public WebViewer()
     {
@@ -36,10 +33,8 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
         serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
         loadEventHandler = OnLoaded;
-        unloadEventHandler = OnUnloaded;
 
         Loaded += loadEventHandler;
-        Unloaded += unloadEventHandler;
     }
 
     public void Receive(UserChangedMessage message)
@@ -48,34 +43,20 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
         taskContext.InvokeOnMainThread(RefreshWebview2Content);
     }
 
-    private static bool IsCoreWebView2ProfileAvailable(CoreWebView2 coreWebView2)
-    {
-        int hr = ((IWinRTObject)coreWebView2).NativeObject.TryAs(ICoreWebView2_13iid, out ObjectReference<IUnknownVftbl> objRef);
-        using (objRef)
-        {
-            if (hr >= 0)
-            {
-                // ICoreWebView2_13.Profile is available
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         InitializeAsync().SafeForget();
     }
 
-    private void OnUnloaded(object sender, RoutedEventArgs e)
-    {
-        Loaded -= loadEventHandler;
-        Unloaded -= unloadEventHandler;
-    }
-
     private async ValueTask InitializeAsync()
     {
+        if (isInitializingOrInitialized)
+        {
+            return;
+        }
+
+        isInitializingOrInitialized = true;
+
         await WebView.EnsureCoreWebView2Async();
         WebView.CoreWebView2.DisableDevToolsOnReleaseBuild();
         RefreshWebview2Content();
@@ -106,20 +87,22 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                     string source = SourceProvider.GetSource(userAndUid);
                     if (!string.IsNullOrEmpty(source))
                     {
-                        if (IsCoreWebView2ProfileAvailable(coreWebView2))
+                        try
                         {
                             await coreWebView2.Profile.ClearBrowsingDataAsync();
                         }
-                        else
+                        catch (InvalidCastException)
                         {
                             infoBarService.Warning(SH.ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed);
+                            await coreWebView2.DeleteCookiesAsync(userAndUid.IsOversea).ConfigureAwait(true);
                         }
 
                         CoreWebView2Navigator navigator = new(coreWebView2);
                         await navigator.NavigateAsync("about:blank").ConfigureAwait(true);
 
-                        coreWebView2.SetCookie(user.CookieToken, user.LToken);
-                        _ = userAndUid.User.IsOversea ? coreWebView2.SetMobileOverseaUserAgent() : coreWebView2.SetMobileUserAgent();
+                        coreWebView2
+                            .SetCookie(user.CookieToken, user.LToken, userAndUid.IsOversea)
+                            .SetMobileUserAgent(userAndUid.IsOversea);
                         jsInterface?.Detach();
                         jsInterface = SourceProvider.CreateJsInterface(serviceProvider, coreWebView2, userAndUid);
 
