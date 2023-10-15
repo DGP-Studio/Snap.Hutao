@@ -1415,6 +1415,9 @@
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Set data directory successfully. Restart to apply changes.</value>
   </data>
+  <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
+    <value>Failed to save game path</value>
+  </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>User [{0}] added successfully</value>
   </data>
