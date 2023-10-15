@@ -1415,6 +1415,9 @@
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>設置數據目錄成功，重啓以應用更改</value>
   </data>
+  <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
+    <value>保存游戏路径失败</value>
+  </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>用戶 [{0}] 新增成功</value>
   </data>
