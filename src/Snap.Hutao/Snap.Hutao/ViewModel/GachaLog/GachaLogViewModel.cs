@@ -14,6 +14,7 @@ using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
@@ -144,7 +145,23 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             RefreshStrategy strategy = IsAggressiveRefresh ? RefreshStrategy.AggressiveMerge : RefreshStrategy.LazyMerge;
 
             GachaLogRefreshProgressDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>().ConfigureAwait(false);
-            ContentDialogHideToken hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
+
+            ContentDialogHideToken hideToken;
+            try
+            {
+                hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
+            }
+            catch (COMException ex)
+            {
+                if (ex.HResult == unchecked((int)0x80000019))
+                {
+                    infoBarService.Error(ex);
+                    return;
+                }
+
+                throw;
+            }
+
             IProgress<GachaLogFetchStatus> progress = taskContext.CreateProgressForMainThread<GachaLogFetchStatus>(dialog.OnReport);
             bool authkeyValid;
 
