@@ -3787,6 +3787,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 保存游戏路径失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelSettingSetGamePathDatabaseFailedTitle {
+            get {
+                return ResourceManager.GetString("ViewModelSettingSetGamePathDatabaseFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用户 [{0}] 添加成功 的本地化字符串。
         /// </summary>
         internal static string ViewModelUserAdded {

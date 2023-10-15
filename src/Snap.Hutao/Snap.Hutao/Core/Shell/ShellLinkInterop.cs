@@ -49,7 +49,14 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
         string target = Path.Combine(desktop, $"{SH.AppNameAndVersion.Format(runtimeOptions.Version)}.lnk");
 
         IPersistFile persistFile = (IPersistFile)shellLink;
-        persistFile.Save(target, false);
+        try
+        {
+            persistFile.Save(target, false);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return false;
+        }
 
         return true;
     }

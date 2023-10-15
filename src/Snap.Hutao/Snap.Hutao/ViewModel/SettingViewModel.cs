@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
@@ -126,7 +127,15 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         if (isOk)
         {
             await taskContext.SwitchToMainThreadAsync();
-            Options.GamePath = path;
+            try
+            {
+                Options.GamePath = path;
+            }
+            catch (SqliteException ex)
+            {
+                // 文件夹权限不足，无法写入数据库
+                infoBarService.Error(ex, SH.ViewModelSettingSetGamePathDatabaseFailedTitle);
+            }
         }
     }
 

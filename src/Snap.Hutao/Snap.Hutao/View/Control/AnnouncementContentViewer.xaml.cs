@@ -132,7 +132,10 @@ internal sealed partial class AnnouncementContentViewer : UserControl
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        WebView.CoreWebView2.WebMessageReceived -= webMessageReceivedHandler;
+        if (WebView is { CoreWebView2: CoreWebView2 coreWebView2 })
+        {
+            coreWebView2.WebMessageReceived -= webMessageReceivedHandler;
+        }
     }
 
     private async ValueTask LoadAnnouncementAsync()

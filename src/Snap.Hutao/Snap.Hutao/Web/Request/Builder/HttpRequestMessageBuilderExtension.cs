@@ -33,6 +33,11 @@ internal static class HttpRequestMessageBuilderExtension
             logger.LogWarning(ex, RequestErrorMessage);
             return default;
         }
+        catch (HttpContentSerializationException ex)
+        {
+            logger.LogWarning(ex, RequestErrorMessage);
+            return default;
+        }
         catch (SocketException ex)
         {
             logger.LogWarning(ex, RequestErrorMessage);
