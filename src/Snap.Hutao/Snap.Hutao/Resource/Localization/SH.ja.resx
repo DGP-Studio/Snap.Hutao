@@ -295,7 +295,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
-    <value>少年</value>
+    <value>ショタ</value>
   </data>
   <data name="ModelIntrinsicBodyTypeGirl" xml:space="preserve">
     <value>少女</value>
@@ -960,7 +960,7 @@
     <value>統計</value>
   </data>
   <data name="ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed" xml:space="preserve">
-    <value>Current installed WebView2 version does not support configuration management, and may cause errors, please update WebView2 component</value>
+    <value>現在インストールされているWebView2のバージョンは構成管理をサポートしていないため、エラーが発生する可能性があります。WebView2 コンポーネントを更新してください。</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>育成計画</value>
@@ -1416,7 +1416,7 @@
     <value>データディレクトリのリセットが完了しました、再起動して変更を適用します</value>
   </data>
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
-    <value>保存游戏路径失败</value>
+    <value>ゲームパスの保存に失敗しました</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>ユーザー [{0}] を正常に追加しました</value>
@@ -2394,16 +2394,16 @@
     <value>武器一覧</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|〓任务开放时间〓).*?\d\.\d版本更新(?:完成|)后永久开放</value>
+    <value>(?:〓イベント期間〓|〓任務開始時間〓).*?\d\.\dバージョンアップ(?:完了|)後常設オープン</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓活动时间〓.*?\d\.\d版本期间持续开放</value>
+    <value>〓イベント期間〓.*?\d\.\d当バージョン期間オープン</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓イベント期間〓|祈願期間|【開始日時】).*?(\d\.\dバージョンアップ完了後).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
-    <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>〓更新日時〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
     <value>Ver.\d\.\d 更新内容</value>
