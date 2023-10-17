@@ -14,6 +14,7 @@ using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
@@ -115,21 +116,6 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         return false;
     }
 
-    private static bool CanImport(UIGFVersion version, UIGF uigf, out long id)
-    {
-        id = 0;
-        if (version == UIGFVersion.Major2Minor3OrHigher)
-        {
-            return true;
-        }
-        else if (version == UIGFVersion.Major2Minor2OrLower && uigf.IsMajor2Minor2OrLowerListValid(out id))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
     [Command("RefreshByWebCacheCommand")]
     private Task RefreshByWebCacheAsync()
     {
@@ -159,7 +145,23 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             RefreshStrategy strategy = IsAggressiveRefresh ? RefreshStrategy.AggressiveMerge : RefreshStrategy.LazyMerge;
 
             GachaLogRefreshProgressDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>().ConfigureAwait(false);
-            ContentDialogHideToken hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
+
+            ContentDialogHideToken hideToken;
+            try
+            {
+                hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
+            }
+            catch (COMException ex)
+            {
+                if (ex.HResult == unchecked((int)0x80000019))
+                {
+                    infoBarService.Error(ex);
+                    return;
+                }
+
+                throw;
+            }
+
             IProgress<GachaLogFetchStatus> progress = taskContext.CreateProgressForMainThread<GachaLogFetchStatus>(dialog.OnReport);
             bool authkeyValid;
 
@@ -221,7 +223,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             }
             else
             {
-                await contentDialogFactory.CreateForConfirmAsync(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage).ConfigureAwait(false);
+                infoBarService.Error(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
             }
         }
     }
@@ -349,50 +351,42 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     private async ValueTask<bool> TryImportUIGFInternalAsync(UIGF uigf)
     {
-        if (uigf.IsCurrentVersionSupported(out UIGFVersion version))
-        {
-            GachaLogImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<GachaLogImportDialog>(uigf).ConfigureAwait(false);
-            if (await importDialog.GetShouldImportAsync().ConfigureAwait(false))
-            {
-                if (CanImport(version, uigf, out long itemId))
-                {
-                    await taskContext.SwitchToMainThreadAsync();
-                    ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
-                    try
-                    {
-                        using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
-                        {
-                            await gachaLogService.ImportFromUIGFAsync(uigf).ConfigureAwait(false);
-                        }
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        // 导入物品中存在无效的项
-                        infoBarService.Error(ex);
-                        return false;
-                    }
-                    catch (FormatException ex)
-                    {
-                        infoBarService.Error(ex);
-                        return false;
-                    }
-
-                    infoBarService.Success(SH.ViewModelGachaLogImportComplete);
-                    await taskContext.SwitchToMainThreadAsync();
-                    await SetSelectedArchiveAndUpdateStatisticsAsync(gachaLogService.CurrentArchive, true).ConfigureAwait(false);
-                    return true;
-                }
-                else
-                {
-                    infoBarService.Warning(SH.ViewModelGachaLogImportWarningTitle, SH.ServiceGachaLogUIGFImportItemInvalidFormat.Format(itemId));
-                }
-            }
-        }
-        else
+        if (!uigf.IsCurrentVersionSupported(out UIGFVersion version))
         {
             infoBarService.Warning(SH.ViewModelGachaLogImportWarningTitle, SH.ViewModelGachaLogImportWarningMessage);
+            return false;
         }
 
-        return false;
+        GachaLogImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<GachaLogImportDialog>(uigf).ConfigureAwait(false);
+        if (!await importDialog.GetShouldImportAsync().ConfigureAwait(false))
+        {
+            return false;
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
+        try
+        {
+            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+            {
+                await gachaLogService.ImportFromUIGFAsync(uigf).ConfigureAwait(false);
+            }
+        }
+        catch (InvalidOperationException ex)
+        {
+            // 语言不匹配/导入物品中存在无效的项
+            infoBarService.Error(ex);
+            return false;
+        }
+        catch (FormatException ex)
+        {
+            infoBarService.Error(ex);
+            return false;
+        }
+
+        infoBarService.Success(SH.ViewModelGachaLogImportComplete);
+        await taskContext.SwitchToMainThreadAsync();
+        await SetSelectedArchiveAndUpdateStatisticsAsync(gachaLogService.CurrentArchive, true).ConfigureAwait(false);
+        return true;
     }
 }

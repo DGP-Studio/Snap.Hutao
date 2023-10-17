@@ -18,11 +18,6 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
 {
     private readonly SpiralAbyssEntry? entity;
 
-    /// <summary>
-    /// 构造一个新的深渊视图
-    /// </summary>
-    /// <param name="entity">实体</param>
-    /// <param name="idAvatarMap">Id角色映射</param>
     private SpiralAbyssView(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
         : this(context.IdScheduleMap[entity.ScheduleId], context)
     {
@@ -32,12 +27,12 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
         TotalBattleTimes = spiralAbyss.TotalBattleTimes;
         TotalStar = spiralAbyss.TotalStar;
         MaxFloor = spiralAbyss.MaxFloor;
-        Reveals = spiralAbyss.RevealRank.SelectList(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId]));
-        Defeat = spiralAbyss.DefeatRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
-        Damage = spiralAbyss.DamageRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
-        TakeDamage = spiralAbyss.TakeDamageRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
-        NormalSkill = spiralAbyss.NormalSkillRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
-        EnergySkill = spiralAbyss.EnergySkillRank.Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
+        Reveals = ToRankAvatars(spiralAbyss.RevealRank, context);
+        Defeat = ToRankAvatar(spiralAbyss.DefeatRank, context);
+        Damage = ToRankAvatar(spiralAbyss.DamageRank, context);
+        TakeDamage = ToRankAvatar(spiralAbyss.TakeDamageRank, context);
+        NormalSkill = ToRankAvatar(spiralAbyss.NormalSkillRank, context);
+        EnergySkill = ToRankAvatar(spiralAbyss.EnergySkillRank, context);
         Engaged = true;
 
         foreach (Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Floor webFloor in spiralAbyss.Floors)
@@ -143,4 +138,15 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
             return new(meta, context);
         }
     }
+
+    private static List<RankAvatar> ToRankAvatars(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Rank> ranks, SpiralAbyssMetadataContext context)
+    {
+        return ranks.Where(r => r.AvatarId != 0U).Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).ToList();
+    }
+
+    private static RankAvatar? ToRankAvatar(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Rank> ranks, SpiralAbyssMetadataContext context)
+    {
+        return ranks.Where(r => r.AvatarId != 0U).Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
+    }
+
 }

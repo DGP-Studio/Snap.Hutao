@@ -15,7 +15,7 @@ internal sealed class RuntimeEnvironmentException : Exception
     /// </summary>
     /// <param name="message">消息</param>
     /// <param name="innerException">内部错误</param>
-    public RuntimeEnvironmentException(string message, Exception innerException)
+    public RuntimeEnvironmentException(string message, Exception? innerException)
         : base($"{message}\n{innerException.Message}", innerException)
     {
     }

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.InteropServices;
+
 namespace Snap.Hutao.Model.InterChange.GachaLog;
 
 /// <summary>
@@ -49,20 +51,35 @@ internal sealed class UIGF
     /// <summary>
     /// 列表物品是否正常
     /// </summary>
-    /// <param name="itemId">首个出错的Id</param>
+    /// <param name="id">首个出错的Id</param>
     /// <returns>是否正常</returns>
-    public bool IsMajor2Minor2OrLowerListValid([NotNullWhen(false)] out long itemId)
+    public bool IsMajor2Minor2OrLowerListValid([NotNullWhen(false)] out long id)
     {
-        foreach (UIGFItem item in List)
+        foreach (ref readonly UIGFItem item in CollectionsMarshal.AsSpan(List))
         {
             if (item.ItemType != SH.ModelInterchangeUIGFItemTypeAvatar && item.ItemType != SH.ModelInterchangeUIGFItemTypeWeapon)
             {
-                itemId = item.Id;
+                id = item.Id;
                 return false;
             }
         }
 
-        itemId = 0;
+        id = 0;
+        return true;
+    }
+
+    public bool IsMajor2Minor3OrHigherListValid([NotNullWhen(false)] out long id)
+    {
+        foreach (ref readonly UIGFItem item in CollectionsMarshal.AsSpan(List))
+        {
+            if (string.IsNullOrEmpty(item.ItemId))
+            {
+                id = item.Id;
+                return false;
+            }
+        }
+
+        id = 0;
         return true;
     }
 }

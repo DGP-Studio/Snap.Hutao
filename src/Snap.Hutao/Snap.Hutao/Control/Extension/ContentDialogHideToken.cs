@@ -10,8 +10,8 @@ internal struct ContentDialogHideToken : IDisposable, IAsyncDisposable
     private readonly ContentDialog contentDialog;
     private readonly ITaskContext taskContext;
 
-    private bool disposed = false;
     private bool disposing = false;
+    private bool disposed = false;
 
     public ContentDialogHideToken(ContentDialog contentDialog, ITaskContext taskContext)
     {

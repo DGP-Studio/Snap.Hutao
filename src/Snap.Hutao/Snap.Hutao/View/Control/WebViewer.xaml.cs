@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Hosting;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Message;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
+using WinRT;
+using WinRT.Interop;
 
 namespace Snap.Hutao.View.Control;
 
@@ -19,22 +19,22 @@ namespace Snap.Hutao.View.Control;
 internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly IInfoBarService infoBarService;
     private readonly RoutedEventHandler loadEventHandler;
-    private readonly RoutedEventHandler unloadEventHandler;
 
     private MiHoYoJSInterface? jsInterface;
+    private bool isInitializingOrInitialized;
 
     public WebViewer()
     {
         InitializeComponent();
         serviceProvider = Ioc.Default;
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
         loadEventHandler = OnLoaded;
-        unloadEventHandler = OnUnloaded;
 
         Loaded += loadEventHandler;
-        Unloaded += unloadEventHandler;
     }
 
     public void Receive(UserChangedMessage message)
@@ -48,16 +48,17 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
         InitializeAsync().SafeForget();
     }
 
-    private void OnUnloaded(object sender, RoutedEventArgs e)
-    {
-        Loaded -= loadEventHandler;
-        Unloaded -= unloadEventHandler;
-    }
-
     private async ValueTask InitializeAsync()
     {
+        if (isInitializingOrInitialized)
+        {
+            return;
+        }
+
+        isInitializingOrInitialized = true;
+
         await WebView.EnsureCoreWebView2Async();
-        WebView.CoreWebView2.DisableDevToolsOnReleaseBuild();
+        WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
         RefreshWebview2Content();
     }
 
@@ -86,13 +87,22 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                     string source = SourceProvider.GetSource(userAndUid);
                     if (!string.IsNullOrEmpty(source))
                     {
-                        await coreWebView2.Profile.ClearBrowsingDataAsync();
+                        try
+                        {
+                            await coreWebView2.Profile.ClearBrowsingDataAsync();
+                        }
+                        catch (InvalidCastException)
+                        {
+                            infoBarService.Warning(SH.ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed);
+                            await coreWebView2.DeleteCookiesAsync(userAndUid.IsOversea).ConfigureAwait(true);
+                        }
 
                         CoreWebView2Navigator navigator = new(coreWebView2);
                         await navigator.NavigateAsync("about:blank").ConfigureAwait(true);
 
-                        coreWebView2.SetCookie(user.CookieToken, user.LToken, user.SToken);
-                        _ = userAndUid.User.IsOversea ? coreWebView2.SetMobileOverseaUserAgent() : coreWebView2.SetMobileUserAgent();
+                        coreWebView2
+                            .SetCookie(user.CookieToken, user.LToken, userAndUid.IsOversea)
+                            .SetMobileUserAgent(userAndUid.IsOversea);
                         jsInterface?.Detach();
                         jsInterface = SourceProvider.CreateJsInterface(serviceProvider, coreWebView2, userAndUid);
 
@@ -101,7 +111,7 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                 }
                 else
                 {
-                    serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
+                    infoBarService.Warning(SH.MustSelectUserAndUid);
                 }
             }
         }

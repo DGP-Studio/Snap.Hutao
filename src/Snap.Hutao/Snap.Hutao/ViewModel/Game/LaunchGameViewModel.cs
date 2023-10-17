@@ -34,12 +34,12 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     public const string DesiredUid = nameof(DesiredUid);
 
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly LaunchStatusOptions launchStatusOptions;
     private readonly INavigationService navigationService;
     private readonly IInfoBarService infoBarService;
-    private readonly LaunchOptions launchOptions;
-    private readonly LaunchStatusOptions launchStatusOptions;
-    private readonly RuntimeOptions hutaoOptions;
     private readonly ResourceClient resourceClient;
+    private readonly LaunchOptions launchOptions;
+    private readonly RuntimeOptions hutaoOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
@@ -125,8 +125,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                         }
                         catch (InvalidOperationException)
                         {
-                            // 后台收集
-                            throw new NotSupportedException($"不支持的 MultiChannel: {options}");
+                            if (!IgnoredInvalidChannelOptions.Contains(options))
+                            {
+                                // 后台收集
+                                throw new NotSupportedException($"不支持的 MultiChannel: {options}");
+                            }
                         }
                     }
                     else
@@ -233,7 +236,15 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     {
         try
         {
-            await gameService.DetectGameAccountAsync().ConfigureAwait(false);
+            GameAccount? account = await gameService.DetectGameAccountAsync().ConfigureAwait(false);
+
+            // If user canceled the operation, the return is null,
+            // and thus we should not set SelectedAccount
+            if (account is not null)
+            {
+                await taskContext.SwitchToMainThreadAsync();
+                SelectedGameAccount = account;
+            }
         }
         catch (UserdataCorruptedException ex)
         {

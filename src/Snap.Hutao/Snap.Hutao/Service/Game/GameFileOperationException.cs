@@ -14,7 +14,7 @@ internal sealed class GameFileOperationException : Exception
     /// </summary>
     /// <param name="message">消息</param>
     /// <param name="innerException">内部错误</param>
-    public GameFileOperationException(string message, Exception innerException)
+    public GameFileOperationException(string message, Exception? innerException)
         : base(SH.ServiceGameFileOperationExceptionMessage.Format(message), innerException)
     {
     }

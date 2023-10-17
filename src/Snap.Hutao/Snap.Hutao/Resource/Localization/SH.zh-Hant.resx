@@ -959,6 +959,9 @@
   <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
     <value>統計</value>
   </data>
+  <data name="ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed" xml:space="preserve">
+    <value>当前 WebView2 版本不支持管理配置，继续使用可能会导致异常，请尽快升级</value>
+  </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>養成計劃</value>
   </data>
@@ -1411,6 +1414,9 @@
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>設置數據目錄成功，重啓以應用更改</value>
+  </data>
+  <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
+    <value>保存游戏路径失败</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>用戶 [{0}] 新增成功</value>

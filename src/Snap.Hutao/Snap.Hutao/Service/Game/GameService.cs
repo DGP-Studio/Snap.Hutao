@@ -281,7 +281,7 @@ internal sealed partial class GameService : IGameService
     }
 
     /// <inheritdoc/>
-    public async ValueTask DetectGameAccountAsync()
+    public async ValueTask<GameAccount?> DetectGameAccountAsync()
     {
         ArgumentNullException.ThrowIfNull(gameAccounts);
 
@@ -318,7 +318,11 @@ internal sealed partial class GameService : IGameService
                     gameAccounts.Add(account);
                 }
             }
+
+            return account;
         }
+
+        return default;
     }
 
     /// <inheritdoc/>

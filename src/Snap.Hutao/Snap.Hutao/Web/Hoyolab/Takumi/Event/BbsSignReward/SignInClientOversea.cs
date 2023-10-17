@@ -57,7 +57,7 @@ internal sealed partial class SignInClientOversea : ISignInClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiOsEndpoints.SignInRewardSign)
             .SetUserCookie(userAndUid, CookieType.CookieToken)
-            .PostJson(new SignInData(userAndUid.Uid, false));
+            .PostJson(new SignInData(userAndUid.Uid, true));
 
         Response<SignInResult>? resp = await builder
             .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)
@@ -73,7 +73,7 @@ internal sealed partial class SignInClientOversea : ISignInClient
                     .SetRequestUri(ApiOsEndpoints.SignInRewardSign)
                     .SetUserCookie(userAndUid, CookieType.CookieToken)
                     .SetXrpcChallenge(challenge, validate)
-                    .PostJson(new SignInData(userAndUid.Uid, false));
+                    .PostJson(new SignInData(userAndUid.Uid, true));
 
                 resp = await verifiedBuilder
                     .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)

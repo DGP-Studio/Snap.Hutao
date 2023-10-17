@@ -39,18 +39,19 @@ internal class MiHoYoJSInterface
         document.querySelector('body').appendChild(st);
         """;
 
+    private readonly SemaphoreSlim webMessageSemaphore = new(1);
     private readonly Guid interfaceId = Guid.NewGuid();
-    private readonly IServiceProvider serviceProvider;
     private readonly UserAndUid userAndUid;
-    private CoreWebView2 webView;
 
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly ILogger<MiHoYoJSInterface> logger;
-    private readonly SemaphoreSlim webMessageSemaphore = new(1);
 
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2WebMessageReceivedEventArgs> webMessageReceivedEventHandler;
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2DOMContentLoadedEventArgs> domContentLoadedEventHandler;
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2NavigationStartingEventArgs> navigationStartingEventHandler;
+
+    private CoreWebView2 webView;
 
     public MiHoYoJSInterface(CoreWebView2 webView, UserAndUid userAndUid)
     {
@@ -374,14 +375,18 @@ internal class MiHoYoJSInterface
         await taskContext.SwitchToMainThreadAsync();
         try
         {
-            return await webView.ExecuteScriptAsync(js);
+            if (webView is not null)
+            {
+                return await webView.ExecuteScriptAsync(js);
+            }
         }
         catch (COMException)
         {
             // COMException (0x8007139F): 组或资源的状态不是执行请求操作的正确状态。 (0x8007139F)
             // webview is disposing or disposed
-            return string.Empty;
         }
+
+        return string.Empty;
     }
 
     private async void OnWebMessageReceived(CoreWebView2 webView2, CoreWebView2WebMessageReceivedEventArgs args)

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Net.Http;
 using System.Text;
@@ -66,7 +67,7 @@ internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpCon
                 The content to be serialized does not match the specified type. 
                 Expected an instance of the class "{contentType.FullName}", but got "{actualContentType.FullName}".
                 """;
-            throw new ArgumentException(message, nameof(contentType));
+            ThrowHelper.Argument(message, nameof(contentType));
         }
 
         // The contentType is optional. In that case, try to get the type on our own.

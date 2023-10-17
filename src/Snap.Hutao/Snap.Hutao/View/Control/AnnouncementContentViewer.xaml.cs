@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Web.Bridge;
@@ -131,9 +132,10 @@ internal sealed partial class AnnouncementContentViewer : UserControl
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        WebView.CoreWebView2.WebMessageReceived -= webMessageReceivedHandler;
-        Loaded -= loadEventHandler;
-        Unloaded -= unloadEventHandler;
+        if (WebView is { CoreWebView2: CoreWebView2 coreWebView2 })
+        {
+            coreWebView2.WebMessageReceived -= webMessageReceivedHandler;
+        }
     }
 
     private async ValueTask LoadAnnouncementAsync()
@@ -141,7 +143,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
         try
         {
             await WebView.EnsureCoreWebView2Async();
-            WebView.CoreWebView2.DisableDevToolsOnReleaseBuild();
+            WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
             WebView.CoreWebView2.WebMessageReceived += webMessageReceivedHandler;
 
             await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);

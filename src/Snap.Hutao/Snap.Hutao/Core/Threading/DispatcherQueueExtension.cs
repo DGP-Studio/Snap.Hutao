@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Dispatching;
+using System.Runtime.ExceptionServices;
 
 namespace Snap.Hutao.Core.Threading;
 
@@ -18,15 +19,35 @@ internal static class DispatcherQueueExtension
     /// <param name="action">执行的回调</param>
     public static void Invoke(this DispatcherQueue dispatcherQueue, Action action)
     {
-        using (ManualResetEventSlim blockEvent = new())
+        if (dispatcherQueue.HasThreadAccess)
+        {
+            action();
+            return;
+        }
+
+        ExceptionDispatchInfo? exceptionDispatchInfo = null;
+        using (ManualResetEventSlim blockEvent = new(false))
         {
             dispatcherQueue.TryEnqueue(() =>
             {
-                action();
-                blockEvent.Set();
+                try
+                {
+                    action();
+                }
+                catch (Exception ex)
+                {
+                    ExceptionDispatchInfo.Capture(ex);
+                }
+                finally
+                {
+                    blockEvent.Set();
+                }
             });
 
             blockEvent.Wait();
+#pragma warning disable CA1508
+            exceptionDispatchInfo?.Throw();
+#pragma warning restore CA1508
         }
     }
 }

@@ -105,8 +105,12 @@ internal static class SummaryHelper
     /// <returns>分数</returns>
     public static float GetPercentSubAffixScore(in ReliquarySubAffixId appendId)
     {
-        // 圣遗物相同类型副词条强化档位一共为 4 档
-        // 恰好为 70% 80% 90% 100%
+        // 圣遗物相同类型副词条强化档位一共为 4/3/2 档
+        // 五星 为 70% 80% 90% 100%
+        // 四星 为 70% 80% 90% 100%
+        // 三星 为 70% 80% 90% 100%
+        // 二星 为 70%   85%   100%
+        // 二星 为 80%         100%
         // 通过计算与最大属性的 Id 差来决定当前副词条的强化档位
         uint maxId = GetAffixMaxId(appendId);
         uint delta = maxId - appendId;
@@ -119,7 +123,11 @@ internal static class SummaryHelper
             (5 or 4 or 3, 3) => 70F,
 
             (2, 0) => 100F,
-            (2, 1) => 80F,
+            (2, 1) => 85F,
+            (2, 2) => 70F,
+
+            (1, 0) => 100F,
+            (1, 1) => 80F,
 
             _ => throw Must.NeverHappen($"Unexpected AppendId: {appendId.Value} Delta: {delta}"),
         };

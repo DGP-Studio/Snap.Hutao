@@ -91,6 +91,8 @@ internal static class AvatarIds
     public static readonly AvatarId Freminet = 10000085;
     public static readonly AvatarId Wriothesley = 10000086;
     public static readonly AvatarId Neuvillette = 10000087;
+    public static readonly AvatarId Charlotte = 10000088;
+    public static readonly AvatarId Furina = 10000089;
 
     /// <summary>
     /// 检查该角色是否为主角
