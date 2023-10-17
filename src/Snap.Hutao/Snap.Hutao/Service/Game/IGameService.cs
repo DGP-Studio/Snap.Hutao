@@ -26,11 +26,7 @@ internal interface IGameService
     /// <param name="uid">uid</param>
     void AttachGameAccountToUid(GameAccount gameAccount, string uid);
 
-    /// <summary>
-    /// 检测并尝试添加游戏内账户
-    /// </summary>
-    /// <returns>任务</returns>
-    ValueTask DetectGameAccountAsync();
+    ValueTask<GameAccount?> DetectGameAccountAsync();
 
     /// <summary>
     /// 异步获取游戏路径

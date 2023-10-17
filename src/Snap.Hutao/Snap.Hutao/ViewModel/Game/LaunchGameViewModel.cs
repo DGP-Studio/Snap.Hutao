@@ -236,7 +236,15 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     {
         try
         {
-            await gameService.DetectGameAccountAsync().ConfigureAwait(false);
+            GameAccount? account = await gameService.DetectGameAccountAsync().ConfigureAwait(false);
+
+            // If user canceled the operation, the return is null,
+            // and thus we should not set SelectedAccount
+            if (account is not null)
+            {
+                await taskContext.SwitchToMainThreadAsync();
+                SelectedGameAccount = account;
+            }
         }
         catch (UserdataCorruptedException ex)
         {
