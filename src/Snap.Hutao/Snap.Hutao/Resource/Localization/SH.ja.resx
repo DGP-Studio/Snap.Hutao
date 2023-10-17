@@ -169,10 +169,10 @@
     <value>権限不足のため、一時ファイルを作成できませんでした</value>
   </data>
   <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
-    <value>ゲームスタート</value>
+    <value>ゲームランチャー</value>
   </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
-    <value>胡桃がリアルタイムノートを更新しています | 編集や削除をしないでください</value>
+    <value>胡桃がリアルタイムノートを更新するために使用するタスクです。編集や削除をしないでください!</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>セマフォが解放され、操作がキャンセルされました</value>
@@ -295,7 +295,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
-    <value>少年</value>
+    <value>ショタ</value>
   </data>
   <data name="ModelIntrinsicBodyTypeGirl" xml:space="preserve">
     <value>少女</value>
@@ -426,52 +426,52 @@
     <value>この階層のボス</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
-    <value>A组：不同的组同时在场，各自分波独立</value>
+    <value>グループA: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupAWave1" xml:space="preserve">
-    <value>A组第一波：不同的组同时在场，各自分波独立</value>
+    <value>グループA ウェーブ1: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupAWave2" xml:space="preserve">
-    <value>A组第二波：不同的组同时在场，各自分波独立</value>
+    <value>グループA ウェーブ2: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupAWave3" xml:space="preserve">
-    <value>A组第三波：不同的组同时在场，各自分波独立</value>
+    <value>グループA ウェーブ3: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupB" xml:space="preserve">
-    <value>B组：不同的组同时在场，各自分波独立</value>
+    <value>グループB: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupBWave1" xml:space="preserve">
-    <value>B组第一波：不同的组同时在场，各自分波独立</value>
+    <value>グループB ウェーブ1: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupBWave2" xml:space="preserve">
-    <value>B组第二波：不同的组同时在场，各自分波独立</value>
+    <value>グループB ウェーブ2: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupBWave3" xml:space="preserve">
-    <value>B组第三波：不同的组同时在场，各自分波独立</value>
+    <value>グループB ウェーブ3: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupC" xml:space="preserve">
-    <value>C组：不同的组同时在场，各自分波独立</value>
+    <value>グループC: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupCWave1" xml:space="preserve">
-    <value>C组第一波：不同的组同时在场，各自分波独立</value>
+    <value>グループC ウェーブ1: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupCWave2" xml:space="preserve">
-    <value>C组第二波：不同的组同时在场，各自分波独立</value>
+    <value>グループC ウェーブ2: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupCWave3" xml:space="preserve">
-    <value>C组第三波：不同的组同时在场，各自分波独立</value>
+    <value>グループC ウェーブ3: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupD" xml:space="preserve">
-    <value>D组：不同的组同时在场，各自分波独立</value>
+    <value>グループD: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave1" xml:space="preserve">
-    <value>D组第一波：不同的组同时在场，各自分波独立</value>
+    <value>グループD ウェーブ1: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave2" xml:space="preserve">
-    <value>D组第二波：不同的组同时在场，各自分波独立</value>
+    <value>グループD ウェーブ2: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave3" xml:space="preserve">
-    <value>D组第三波：不同的组同时在场，各自分波独立</value>
+    <value>グループD ウェーブ3: 異なるグループが同時に存在し、それぞれ独立したウェーブがある</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeIndependent" xml:space="preserve">
     <value>他の敵とは独立</value>
@@ -504,7 +504,7 @@
     <value>精錬ランク{0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必须先选择一个用户与角色</value>
+    <value>ユーザーとUIDを選択する必要があります</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>{0} つのアチーブメントを追加 | {1} つのアチーブメントを更新 |{2} つのアチーブメントを削除</value>
@@ -645,7 +645,7 @@
     <value>育成計画を複数選択しています</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
-    <value>スタート</value>
+    <value>ゲームを起動</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
     <value>了解</value>
@@ -744,7 +744,7 @@
     <value>Item Id：{0} はサポートしていません</value>
   </data>
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
-    <value>UIGF ファイルの言語：{0} と胡桃の設定言語：{1} とマッチングしません。言語を切り替えて再度試してください</value>
+    <value>UIGF ファイルの言語：{0} と胡桃の設定言語：{1} がマッチングしません。言語を切り替えて再度試してください</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>一致するアカウントが複数見つかりました。重複しているアカウントを削除してください。</value>
@@ -792,7 +792,7 @@
     <value>リネーム：{0} を：{1} へ</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
-    <value>復元する：{0}</value>
+    <value>置換：{0}</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>データフォルダの名前を変更できませんでした</value>
@@ -807,7 +807,7 @@
     <value>クライアントファイルのダウンロードに失敗しました。: {0}</value>
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
-    <value>ゲームパスが見つかりません、設定にて変更してください</value>
+    <value>ゲームパスが見つかりません、設定で変更してください</value>
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>長いパスのサポートがオフになっているため、レジストリキーを編集できません。</value>
@@ -864,7 +864,7 @@
     <value>ログイン報酬リストの取得に失敗しました。</value>
   </data>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
-    <value>認証に失敗しました、MiYouSheの原神コーナーでログインボーナスを獲得してください</value>
+    <value>認証に失敗しました、MiHoYo BBSの原神コーナーでログインボーナスを獲得してください</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>ログインボーナスを獲得しました。{0}×{1}</value>
@@ -958,6 +958,9 @@
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
     <value>統計</value>
+  </data>
+  <data name="ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed" xml:space="preserve">
+    <value>現在インストールされているWebView2のバージョンは構成管理をサポートしていないため、エラーが発生する可能性があります。WebView2 コンポーネントを更新してください。</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>育成計画</value>
@@ -1068,13 +1071,13 @@
     <value>"code" は 0 の場合のみ認証成功です。他の戻り値は認証失敗となります。</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataHeader" xml:space="preserve">
-    <value>結果を返す</value>
+    <value>戻り値</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
-    <value>{0} はリクエストの際、gtに切り替えます</value>
+    <value>{0} はリクエストの際、gtに置き換えられます</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
-    <value>{1} はリクエストの際、challengeに切り替えます</value>
+    <value>{1} はリクエストの際、challengeに置き換えられます</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
     <value>GETメソッドでリクエストの処理を行います。</value>
@@ -1137,7 +1140,7 @@
     <value>ドキュメント</value>
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
-    <value>STokenが含めているCookieを入力してください</value>
+    <value>STokenが含まれたCookieを入力してください</value>
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>クッキーを設定</value>
@@ -1203,7 +1206,7 @@
     <value>アーカイブ [{0}] はすでに使用されています。別の名前で作成してください</value>
   </data>
   <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
-    <value>無効な文字が含むアーカイブを作成できません</value>
+    <value>無効な文字を含むアーカイブは作成できません</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF ファイル</value>
@@ -1248,10 +1251,10 @@
     <value>育成計画の追加に失敗しました</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>完了した：追加／更新：{0}、スキップ{1}</value>
+    <value>完了しました：追加／更新：{0}、スキップ{1}</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>一部完了した：追加／更新：{0}、スキップ{1}</value>
+    <value>操作の一部に失敗しました：追加／更新：{0}、スキップ{1}</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>選択中の育成計画に正常に追加されました</value>
@@ -1260,7 +1263,7 @@
     <value>育成計画で新規作成及びセットしてから続けてください</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
-    <value>追加完了</value>
+    <value>正常に追加されました。</value>
   </data>
   <data name="ViewModelCultivationProjectAlreadyExists" xml:space="preserve">
     <value>育成計画は同じ名前を使えません。他の名前を使用してください。</value>
@@ -1296,7 +1299,7 @@
     <value>指定された位置に保存しました</value>
   </data>
   <data name="ViewModelExportSuccessTitle" xml:space="preserve">
-    <value>エクスポート成功しました</value>
+    <value>エクスポートに成功しました</value>
   </data>
   <data name="ViewModelExportWarningMessage" xml:space="preserve">
     <value>書き込み処理でエラーが発生しました</value>
@@ -1341,7 +1344,7 @@
     <value>{0} を削除してよろしいでしょうか？</value>
   </data>
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
-    <value>胡桃クラウドから祈願履歴を同期します</value>
+    <value>胡桃クラウドで祈願履歴を同期します</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>胡桃クラウドにアップロード中</value>
@@ -1412,6 +1415,9 @@
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>データディレクトリのリセットが完了しました、再起動して変更を適用します</value>
   </data>
+  <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
+    <value>ゲームパスの保存に失敗しました</value>
+  </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>ユーザー [{0}] を正常に追加しました</value>
   </data>
@@ -1425,7 +1431,7 @@
     <value>このCookieが無効のため、操作できません</value>
   </data>
   <data name="ViewModelUserRemoved" xml:space="preserve">
-    <value>ユーザー [{0}] は削除されました</value>
+    <value>ユーザー [{0}] を削除しました</value>
   </data>
   <data name="ViewModelUserUpdated" xml:space="preserve">
     <value>ユーザー [{0}] の Cookie が更新されました。</value>
@@ -1530,7 +1536,7 @@
     <value>更新日時</value>
   </data>
   <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
-    <value>評価する</value>
+    <value>評価スコア</value>
   </data>
   <data name="ViewPageAvatarPropertySecondaryProperties" xml:space="preserve">
     <value>強化後付与のサブOP</value>
@@ -1611,7 +1617,7 @@
     <value>カードを削除</value>
   </data>
   <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
-    <value>今週の消費半減回数は消化済</value>
+    <value>今週の消費半減は消化済</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
     <value>自動更新</value>
@@ -1704,13 +1710,13 @@
     <value>現在のユーザーのCookieで祈願履歴を表示する</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
-    <value>キャッシュの再読み込み</value>
+    <value>ゲーム内ブラウザキャッシュで更新</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCacheDescription" xml:space="preserve">
     <value>ゲーム内ブラウザのキャッシュで祈願履歴を更新</value>
   </data>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
-    <value>このアーカイブを削除する</value>
+    <value>現在のアーカイブを削除する</value>
   </data>
   <data name="ViewPageGahcaLogPivotAvatar" xml:space="preserve">
     <value>キャラクター</value>
@@ -1734,13 +1740,13 @@
     <value>胡桃を {0} 回起動しました</value>
   </data>
   <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
-    <value>テイワットへようこそ</value>
+    <value>テイワットへようこそ!</value>
   </data>
   <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
     <value>あなたの言う通りだが、しかし「胡桃」はDGP Studioが開発した...</value>
   </data>
   <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
-    <value>ねぇ、旅人、今日はテイワットでの{0} 日目の冒険だよ</value>
+    <value>なあ、旅人、今日はテイワットで{0} 日目の冒険だぞ！</value>
   </data>
   <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
     <value>設定</value>
@@ -1848,7 +1854,7 @@
     <value>枠の無いポップアップウィンドウとして作成します。</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
-    <value>フレームレス</value>
+    <value>ボーダーレス</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
     <value>ゲーム内ブラウザには対応していません。ウィンドウの切り替え操作などによりゲームが強制終了する可能性があります。</value>
@@ -1953,13 +1959,13 @@
     <value>有効</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>HoYo Lab UIDを入力してください</value>
+    <value>HoYoLab UIDを入力してください</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>ログインしました</value>
   </data>
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
-    <value>Hoyoverse通行証をログイン</value>
+    <value>MiHoYo BBS通行証でログイン</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>スクリーンショットフォルダを開く</value>
@@ -2100,7 +2106,7 @@
     <value>胡桃アカウント</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
-    <value>原神およびSnap Hutaoの利用規約を全て熟読し、その後で『ゲームランチャー - 上級者向け設定』を有効にします。</value>
+    <value>原神およびSnap Hutaoの利用規約を全て熟読し、その後に『ゲームランチャー - 上級者向け設定』を有効にします。</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
     <value>上級者向け設定を有効にする</value>
@@ -2388,16 +2394,16 @@
     <value>武器一覧</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|〓任务开放时间〓).*?\d\.\d版本更新(?:完成|)后永久开放</value>
+    <value>(?:〓イベント期間〓|〓任務開始時間〓).*?\d\.\dバージョンアップ(?:完了|)後常設オープン</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓活动时间〓.*?\d\.\d版本期间持续开放</value>
+    <value>〓イベント期間〓.*?\d\.\d当バージョン期間オープン</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓イベント期間〓|祈願期間|【開始日時】).*?(\d\.\dバージョンアップ完了後).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
-    <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>〓更新日時〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
     <value>Ver.\d\.\d 更新内容</value>
@@ -2430,10 +2436,10 @@
     <value>デイリー依頼の報酬は受け取り済みです</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
-    <value>上限到達まで{0}{1:HH:mm}</value>
+    <value>上限到達まで{0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
-    <value>洞天形態未開放</value>
+    <value>塵歌壺が未解放です</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
     <value>今日</value>
