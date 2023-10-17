@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Factory.Abstraction;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
@@ -16,7 +18,7 @@ internal sealed partial class PickerFactory : IPickerFactory
 {
     private const string AnyType = "*";
 
-    private readonly MainWindow mainWindow;
+    private readonly ICurrentWindowReference currentWindow;
 
     /// <inheritdoc/>
     public FileOpenPicker GetFileOpenPicker(PickerLocationId location, string commitButton, params string[] fileTypes)
@@ -78,7 +80,10 @@ internal sealed partial class PickerFactory : IPickerFactory
     {
         // Create a folder picker.
         T picker = new();
-        InitializeWithWindow.Initialize(picker, mainWindow.WindowOptions.Hwnd);
+        if (currentWindow.Window is IWindowOptionsSource optionsSource)
+        {
+            InitializeWithWindow.Initialize(picker, optionsSource.WindowOptions.Hwnd);
+        }
 
         return picker;
     }
