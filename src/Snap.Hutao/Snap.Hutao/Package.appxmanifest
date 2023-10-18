@@ -12,7 +12,7 @@
   <Identity
     Name="60568DGPStudio.SnapHutao"
     Publisher="CN=35C8E923-85DF-49A7-9172-B39DC6312C52"
-    Version="1.7.10.0" />
+    Version="1.7.11.0" />
 
   <Properties>
     <DisplayName>Snap Hutao</DisplayName>
