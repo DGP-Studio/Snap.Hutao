@@ -23,7 +23,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         await taskContext.SwitchToMainThreadAsync();
         ContentDialog dialog = new()
         {
-            XamlRoot = currentWindowReference.Window.Content.XamlRoot,
+            XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
             Content = content,
             DefaultButton = ContentDialogButton.Primary,
@@ -39,7 +39,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         await taskContext.SwitchToMainThreadAsync();
         ContentDialog dialog = new()
         {
-            XamlRoot = currentWindowReference.Window.Content.XamlRoot,
+            XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
             Content = content,
             DefaultButton = defaultButton,
@@ -56,7 +56,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         await taskContext.SwitchToMainThreadAsync();
         ContentDialog dialog = new()
         {
-            XamlRoot = currentWindowReference.Window.Content.XamlRoot,
+            XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
             Content = new ProgressBar() { IsIndeterminate = true },
         };
@@ -69,7 +69,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     {
         await taskContext.SwitchToMainThreadAsync();
         TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
-        contentDialog.XamlRoot = currentWindowReference.Window.Content.XamlRoot;
+        contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
         return contentDialog;
     }
 
@@ -77,7 +77,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         where TContentDialog : ContentDialog
     {
         TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
-        contentDialog.XamlRoot = currentWindowReference.Window.Content.XamlRoot;
+        contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
         return contentDialog;
     }
 }

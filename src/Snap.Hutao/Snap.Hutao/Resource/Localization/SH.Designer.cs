@@ -5191,6 +5191,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 在游戏启动时修改其默认行为 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameArgumentsDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameArgumentsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 启动参数 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameArgumentsHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameArgumentsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 常规 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameCommonHeader {
@@ -5205,6 +5223,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageLaunchGameConfigurationSaveHint {
             get {
                 return ResourceManager.GetString("ViewPageLaunchGameConfigurationSaveHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 文件 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameFileHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameFileHeader", resourceCulture);
             }
         }
         
@@ -5250,6 +5277,24 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageLaunchGameOptionsHeader {
             get {
                 return ResourceManager.GetString("ViewPageLaunchGameOptionsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 进程 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameProcessHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameProcessHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 注册表 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameRegistryHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameRegistryHeader", resourceCulture);
             }
         }
         
