@@ -14,7 +14,7 @@ internal sealed partial class GeetestCustomUrlDialog : ContentDialog
     public GeetestCustomUrlDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
         Text = serviceProvider.GetRequiredService<AppOptions>().GeetestCustomCompositeUrl;
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }

@@ -22,7 +22,6 @@ internal sealed partial class UserDialog : ContentDialog
     public UserDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }

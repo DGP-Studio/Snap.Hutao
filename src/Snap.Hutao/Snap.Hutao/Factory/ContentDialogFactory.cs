@@ -68,12 +68,16 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         where TContentDialog : ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
-        return serviceProvider.CreateInstance<TContentDialog>(parameters);
+        TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
+        contentDialog.XamlRoot = currentWindowReference.Window.Content.XamlRoot;
+        return contentDialog;
     }
 
     public TContentDialog CreateInstance<TContentDialog>(params object[] parameters)
         where TContentDialog : ContentDialog
     {
-        return serviceProvider.CreateInstance<TContentDialog>(parameters);
+        TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
+        contentDialog.XamlRoot = currentWindowReference.Window.Content.XamlRoot;
+        return contentDialog;
     }
 }

@@ -25,7 +25,6 @@ internal sealed partial class AchievementImportDialog : ContentDialog
     public AchievementImportDialog(IServiceProvider serviceProvider, UIAF uiaf)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         UIAF = uiaf;

@@ -27,7 +27,6 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, CalculableOptions options)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 

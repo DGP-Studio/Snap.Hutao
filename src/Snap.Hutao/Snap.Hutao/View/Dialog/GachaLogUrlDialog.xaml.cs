@@ -20,7 +20,6 @@ internal sealed partial class GachaLogUrlDialog : ContentDialog
     public GachaLogUrlDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }

@@ -21,7 +21,6 @@ internal sealed partial class LaunchGamePackageConvertDialog : ContentDialog
     public LaunchGamePackageConvertDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         DataContext = this;
     }

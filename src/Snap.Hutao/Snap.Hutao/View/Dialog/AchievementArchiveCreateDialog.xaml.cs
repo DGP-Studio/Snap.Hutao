@@ -21,7 +21,6 @@ internal sealed partial class AchievementArchiveCreateDialog : ContentDialog
     public AchievementArchiveCreateDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }

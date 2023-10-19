@@ -24,7 +24,6 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
     public CultivateProjectDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
