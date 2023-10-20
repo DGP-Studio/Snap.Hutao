@@ -103,6 +103,15 @@ internal sealed partial class LaunchScheme
         IsOversea = true,
     };
 
+    private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelOfficial = new()
+    {
+        LauncherId = SdkStaticLauncherGlobalId,
+        Key = SdkStaticLauncherGlobalKey,
+        Channel = ChannelType.Official,
+        SubChannel = SubChannelType.Official,
+        IsOversea = true,
+    };
+
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelEpic = new()
     {
         LauncherId = SdkStaticLauncherGlobalId,
@@ -143,6 +152,7 @@ internal sealed partial class LaunchScheme
             // 国际服
             ServerGlobalChannelDefaultSubChannelDefaultCompatOnly,
             ServerGlobalChannelOfficialSubChannelDefault,
+            ServerGlobalChannelOfficialSubChannelOfficial,
             ServerGlobalChannelOfficialSubChannelEpic,
             ServerGlobalChannelOfficialSubChannelGoogle,
         };
