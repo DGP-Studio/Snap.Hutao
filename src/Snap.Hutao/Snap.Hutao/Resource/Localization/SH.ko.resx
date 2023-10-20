@@ -1883,11 +1883,20 @@
   <data name="ViewPageLaunchGameAppearanceScreenWidthHeader" xml:space="preserve">
     <value>너비</value>
   </data>
+  <data name="ViewPageLaunchGameArgumentsDescription" xml:space="preserve">
+    <value>在游戏启动时修改其默认行为</value>
+  </data>
+  <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
+    <value>启动参数</value>
+  </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>보통</value>
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>모든 설정은 게임을 성공적으로 실행한 후에 저장됩니다</value>
+  </data>
+  <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
+    <value>文件</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>지정한 모니터에서 실행</value>
@@ -1903,6 +1912,12 @@
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>게임 설정</value>
+  </data>
+  <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
+    <value>进程</value>
+  </data>
+  <data name="ViewPageLaunchGameRegistryHeader" xml:space="preserve">
+    <value>注册表</value>
   </data>
   <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
     <value>증분 패키지</value>
@@ -2419,6 +2434,9 @@
   </data>
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
     <value>{0}시간 후 종료</value>
+  </data>
+  <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
+    <value>已复制到剪贴板</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
     <value>{0}시간</value>
