@@ -51,13 +51,13 @@ internal class MiHoYoJSInterface
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2DOMContentLoadedEventArgs> domContentLoadedEventHandler;
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2NavigationStartingEventArgs> navigationStartingEventHandler;
 
-    private CoreWebView2 webView;
+    private CoreWebView2 coreWebView2;
 
     public MiHoYoJSInterface(CoreWebView2 webView, UserAndUid userAndUid)
     {
         // 由于Webview2 的作用域特殊性，我们在此处直接使用根服务
         serviceProvider = Ioc.Default;
-        this.webView = webView;
+        this.coreWebView2 = webView;
         this.userAndUid = userAndUid;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
@@ -227,7 +227,7 @@ internal class MiHoYoJSInterface
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        webView.SetCookie(userAndUid.User.CookieToken, userAndUid.User.LToken);
+        coreWebView2.SetCookie(userAndUid.User.CookieToken, userAndUid.User.LToken);
 
         ArgumentNullException.ThrowIfNull(userAndUid.User.CookieToken);
         return new() { Data = new() { [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN] } };
@@ -241,9 +241,9 @@ internal class MiHoYoJSInterface
     public virtual async ValueTask<IJsResult?> ClosePageAsync(JsParam param)
     {
         await taskContext.SwitchToMainThreadAsync();
-        if (webView.CanGoBack)
+        if (coreWebView2.CanGoBack)
         {
-            webView.GoBack();
+            coreWebView2.GoBack();
         }
         else
         {
@@ -276,7 +276,7 @@ internal class MiHoYoJSInterface
     public virtual async ValueTask<IJsResult?> PushPageAsync(JsParam<PushPagePayload> param)
     {
         await taskContext.SwitchToMainThreadAsync();
-        webView.Navigate(param.Payload.Page);
+        coreWebView2.Navigate(param.Payload.Page);
         return null;
     }
 
@@ -295,6 +295,17 @@ internal class MiHoYoJSInterface
             {
                 ["language"] = metadataOptions.LanguageCode,
                 ["timeZone"] = "GMT+8",
+            },
+        };
+    }
+
+    public virtual IJsResult? Share(JsParam<SharePayload> param)
+    {
+        return new JsResult<Dictionary<string, string>>()
+        {
+            Data = new()
+            {
+                ["type"] = param.Payload.Type,
             },
         };
     }
@@ -346,10 +357,10 @@ internal class MiHoYoJSInterface
 
     public void Detach()
     {
-        webView.WebMessageReceived -= webMessageReceivedEventHandler;
-        webView.DOMContentLoaded -= domContentLoadedEventHandler;
-        webView.NavigationStarting -= navigationStartingEventHandler;
-        webView = default!;
+        coreWebView2.WebMessageReceived -= webMessageReceivedEventHandler;
+        coreWebView2.DOMContentLoaded -= domContentLoadedEventHandler;
+        coreWebView2.NavigationStarting -= navigationStartingEventHandler;
+        coreWebView2 = default!;
     }
 
     private async ValueTask<string> ExecuteCallbackScriptAsync(string callback, string? payload = null)
@@ -375,9 +386,9 @@ internal class MiHoYoJSInterface
         await taskContext.SwitchToMainThreadAsync();
         try
         {
-            if (webView is not null)
+            if (coreWebView2 is not null)
             {
-                return await webView.ExecuteScriptAsync(js);
+                return await coreWebView2.ExecuteScriptAsync(js);
             }
         }
         catch (COMException)
@@ -436,6 +447,7 @@ internal class MiHoYoJSInterface
                 "hideLoading" => null,
                 "login" => null,
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
+                "share" => Share(param),
                 "showLoading" => null,
                 _ => LogUnhandledMessage("Unhandled Message Type: {method}", param.Method),
             };

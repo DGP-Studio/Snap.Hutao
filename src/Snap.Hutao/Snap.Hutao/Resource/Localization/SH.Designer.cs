@@ -6847,6 +6847,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 已复制到剪贴板 的本地化字符串。
+        /// </summary>
+        internal static string WebBridgeShareCopyToClipboardSuccess {
+            get {
+                return ResourceManager.GetString("WebBridgeShareCopyToClipboardSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0} 时 的本地化字符串。
         /// </summary>
         internal static string WebDailyNoteExpeditionRemainHoursFormat {
