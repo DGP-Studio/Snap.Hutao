@@ -53,11 +53,11 @@ internal class MiHoYoJSInterface
 
     private CoreWebView2 coreWebView2;
 
-    public MiHoYoJSInterface(CoreWebView2 webView, UserAndUid userAndUid)
+    public MiHoYoJSInterface(CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
         // 由于Webview2 的作用域特殊性，我们在此处直接使用根服务
         serviceProvider = Ioc.Default;
-        this.coreWebView2 = webView;
+        this.coreWebView2 = coreWebView2;
         this.userAndUid = userAndUid;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
@@ -67,9 +67,9 @@ internal class MiHoYoJSInterface
         domContentLoadedEventHandler = OnDOMContentLoaded;
         navigationStartingEventHandler = OnNavigationStarting;
 
-        webView.WebMessageReceived += webMessageReceivedEventHandler;
-        webView.DOMContentLoaded += domContentLoadedEventHandler;
-        webView.NavigationStarting += navigationStartingEventHandler;
+        coreWebView2.WebMessageReceived += webMessageReceivedEventHandler;
+        coreWebView2.DOMContentLoaded += domContentLoadedEventHandler;
+        coreWebView2.NavigationStarting += navigationStartingEventHandler;
     }
 
     public event Action? ClosePageRequested;
