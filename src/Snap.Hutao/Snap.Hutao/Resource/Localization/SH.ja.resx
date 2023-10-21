@@ -1884,10 +1884,10 @@
     <value>幅</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsDescription" xml:space="preserve">
-    <value>在游戏启动时修改其默认行为</value>
+    <value>ゲーム開始時の動作を変更します。</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
-    <value>启动参数</value>
+    <value>コマンドラインパラメーター</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>一般</value>
@@ -1896,7 +1896,7 @@
     <value>これらの設定はゲームが正常に起動した時のみ保存されます。</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
-    <value>文件</value>
+    <value>ファイル</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>指定したディスプレイで実行</value>
@@ -1914,10 +1914,10 @@
     <value>ゲームオプション</value>
   </data>
   <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
-    <value>进程</value>
+    <value>プロセス</value>
   </data>
   <data name="ViewPageLaunchGameRegistryHeader" xml:space="preserve">
-    <value>注册表</value>
+    <value>レジストリ</value>
   </data>
   <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
     <value>増分パック</value>
@@ -2436,7 +2436,7 @@
     <value>{0} 時間後に終了</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
-    <value>已复制到剪贴板</value>
+    <value>クリップボードにコピーしました。</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
     <value>{0} 時</value>
