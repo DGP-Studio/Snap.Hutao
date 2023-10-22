@@ -1,7 +1,7 @@
 name: Feature Request 功能请求 
 description: Tell us about your thought 告诉我们你的想法
 title: "[Feat]: Place your title here 在这里填写一个合适的标题"
-labels: ["功能"]
+labels: ["功能", "priority:none"]
 assignees:
   - Lightczx
 body:
