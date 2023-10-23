@@ -206,10 +206,7 @@ internal sealed partial class GameService : IGameService
                 }
             }
 
-            if (!launchScheme.IsOversea)
-            {
-                await packageConverter.EnsureDeprecatedFilesAndSdkAsync(resource, gameFolder).ConfigureAwait(false);
-            }
+            await packageConverter.EnsureDeprecatedFilesAndSdkAsync(resource, gameFolder).ConfigureAwait(false);
 
             return true;
         }
