@@ -1887,7 +1887,7 @@
     <value>在游戏启动时修改其默认行为</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
-    <value>启动参数</value>
+    <value>Start-up Arguments</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>General</value>
@@ -1914,10 +1914,10 @@
     <value>Game Options</value>
   </data>
   <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
-    <value>进程</value>
+    <value>Progress</value>
   </data>
   <data name="ViewPageLaunchGameRegistryHeader" xml:space="preserve">
-    <value>注册表</value>
+    <value>Registry</value>
   </data>
   <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
     <value>OTA Package</value>
@@ -2436,7 +2436,7 @@
     <value>End in {0} hours</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
-    <value>已复制到剪贴板</value>
+    <value>Copied to clipboard</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
     <value>{0} hrs</value>
