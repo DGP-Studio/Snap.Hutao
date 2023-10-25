@@ -27,6 +27,7 @@ internal sealed partial class ExceptionRecorder
         app.DebugSettings.XamlResourceReferenceFailed += OnXamlResourceReferenceFailed;
     }
 
+    [SuppressMessage("", "CA2012")]
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
         ValueTask<string?> task = serviceProvider

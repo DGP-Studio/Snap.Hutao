@@ -1141,6 +1141,213 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 胡桃云保存的祈愿记录存档数已达当前账号上限 的本地化字符串。
+        /// </summary>
+        internal static string ServerGachaLogServiceInsufficientRecordSlot {
+            get {
+                return ResourceManager.GetString("ServerGachaLogServiceInsufficientRecordSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未开通祈愿记录上传服务或已到期 的本地化字符串。
+        /// </summary>
+        internal static string ServerGachaLogServiceInsufficientTime {
+            get {
+                return ResourceManager.GetString("ServerGachaLogServiceInsufficientTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 祈愿数据存在无效的物品，无法保存至胡桃云 的本地化字符串。
+        /// </summary>
+        internal static string ServerGachaLogServiceInvalidGachaLogData {
+            get {
+                return ResourceManager.GetString("ServerGachaLogServiceInvalidGachaLogData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数据异常，无法保存至云端，请勿跨账号上传或尝试删除云端数据后重试 的本地化字符串。
+        /// </summary>
+        internal static string ServerGachaLogServiceServerDatabaseError {
+            get {
+                return ResourceManager.GetString("ServerGachaLogServiceServerDatabaseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 当前邮箱尚未注册 的本地化字符串。
+        /// </summary>
+        internal static string ServerPassportServiceEmailHasNotRegistered {
+            get {
+                return ResourceManager.GetString("ServerPassportServiceEmailHasNotRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 当前邮箱已被注册 的本地化字符串。
+        /// </summary>
+        internal static string ServerPassportServiceEmailHasRegistered {
+            get {
+                return ResourceManager.GetString("ServerPassportServiceEmailHasRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 注册失败，服务器异常，请尽快联系开发者解决 的本地化字符串。
+        /// </summary>
+        internal static string ServerPassportServiceInternalException {
+            get {
+                return ResourceManager.GetString("ServerPassportServiceInternalException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户不存在，注销失败 的本地化字符串。
+        /// </summary>
+        internal static string ServerPassportServiceUnregisterFailed {
+            get {
+                return ResourceManager.GetString("ServerPassportServiceUnregisterFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户不存在，获取用户信息失败 的本地化字符串。
+        /// </summary>
+        internal static string ServerPassportUserInfoNotExist {
+            get {
+                return ResourceManager.GetString("ServerPassportUserInfoNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户名或密码错误 的本地化字符串。
+        /// </summary>
+        internal static string ServerPassportUsernameOrPassportIncorrect {
+            get {
+                return ResourceManager.GetString("ServerPassportUsernameOrPassportIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证失败 的本地化字符串。
+        /// </summary>
+        internal static string ServerPassportVerifyFailed {
+            get {
+                return ResourceManager.GetString("ServerPassportVerifyFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证请求过快，请 1 分钟后再试 的本地化字符串。
+        /// </summary>
+        internal static string ServerPassportVerifyTooFrequent {
+            get {
+                return ResourceManager.GetString("ServerPassportVerifyTooFrequent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传深渊记录失败，当前 Uid 已被胡桃数据库封禁 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordBannedUid {
+            get {
+                return ResourceManager.GetString("ServerRecordBannedUid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传深渊记录失败，正在计算统计数据 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordComputingStatistics {
+            get {
+                return ResourceManager.GetString("ServerRecordComputingStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 获取数据失败，正在计算统计数据 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordComputingStatistics2 {
+            get {
+                return ResourceManager.GetString("ServerRecordComputingStatistics2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传深渊记录失败，服务器异常，请尽快联系开发者解决 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordInternalException {
+            get {
+                return ResourceManager.GetString("ServerRecordInternalException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传深渊记录失败，存在无效的数据 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordInvalidData {
+            get {
+                return ResourceManager.GetString("ServerRecordInvalidData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无效的 Uid 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordInvalidUid {
+            get {
+                return ResourceManager.GetString("ServerRecordInvalidUid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传深渊记录失败，不是本期数据 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordNotCurrentSchedule {
+            get {
+                return ResourceManager.GetString("ServerRecordNotCurrentSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传深渊记录失败，当前 Uid 的记录仍在处理中，请勿重复操作 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordPreviousRequestNotCompleted {
+            get {
+                return ResourceManager.GetString("ServerRecordPreviousRequestNotCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传深渊记录成功，获赠祈愿记录上传服务时长 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordUploadSuccessAndGachaLogServiceTimeExtended {
+            get {
+                return ResourceManager.GetString("ServerRecordUploadSuccessAndGachaLogServiceTimeExtended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传深渊记录成功，但未登录胡桃账号，无法获赠祈愿记录上传服务时长 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordUploadSuccessButNoPassport {
+            get {
+                return ResourceManager.GetString("ServerRecordUploadSuccessButNoPassport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传深渊记录成功，但不是本期首次提交，无法获赠祈愿记录上传服务时长 的本地化字符串。
+        /// </summary>
+        internal static string ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule {
+            get {
+                return ResourceManager.GetString("ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就 的本地化字符串。
         /// </summary>
         internal static string ServiceAchievementImportResultFormat {

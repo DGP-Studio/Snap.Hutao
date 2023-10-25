@@ -27,7 +27,7 @@ internal sealed partial class HomaGachaLogClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>祈愿统计信息</returns>
-    public async ValueTask<Response<GachaEventStatistics>> GetGachaEventStatisticsAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<GachaEventStatistics>> GetGachaEventStatisticsAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.GachaLogStatisticsCurrentEvents)
@@ -35,11 +35,11 @@ internal sealed partial class HomaGachaLogClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response<GachaEventStatistics>? resp = await builder
-            .TryCatchSendAsync<Response<GachaEventStatistics>>(httpClient, logger, token)
+        HutaoResponse<GachaEventStatistics>? resp = await builder
+            .TryCatchSendAsync<HutaoResponse<GachaEventStatistics>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ internal sealed partial class HomaGachaLogClient
     /// <param name="distributionType">分布类型</param>
     /// <param name="token">取消令牌</param>
     /// <returns>祈愿分布</returns>
-    public async ValueTask<Response<GachaDistribution>> GetGachaDistributionAsync(GachaDistributionType distributionType, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<GachaDistribution>> GetGachaDistributionAsync(GachaDistributionType distributionType, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.GachaLogStatisticsDistribution(distributionType))
@@ -56,11 +56,11 @@ internal sealed partial class HomaGachaLogClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response<GachaDistribution>? resp = await builder
-            .TryCatchSendAsync<Response<GachaDistribution>>(httpClient, logger, token)
+        HutaoResponse<GachaDistribution>? resp = await builder
+            .TryCatchSendAsync<HutaoResponse<GachaDistribution>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ internal sealed partial class HomaGachaLogClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>Uid 列表</returns>
-    public async ValueTask<Response<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.GachaLogEntries)
@@ -76,11 +76,11 @@ internal sealed partial class HomaGachaLogClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response<List<GachaEntry>>? resp = await builder
-            .TryCatchSendAsync<Response<List<GachaEntry>>>(httpClient, logger, token)
+        HutaoResponse<List<GachaEntry>>? resp = await builder
+            .TryCatchSendAsync<HutaoResponse<List<GachaEntry>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ internal sealed partial class HomaGachaLogClient
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>末尾Id</returns>
-    public async ValueTask<Response<EndIds>> GetEndIdsAsync(string uid, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<EndIds>> GetEndIdsAsync(string uid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.GachaLogEndIds(uid))
@@ -97,11 +97,11 @@ internal sealed partial class HomaGachaLogClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response<EndIds>? resp = await builder
-            .TryCatchSendAsync<Response<EndIds>>(httpClient, logger, token)
+        HutaoResponse<EndIds>? resp = await builder
+            .TryCatchSendAsync<HutaoResponse<EndIds>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ internal sealed partial class HomaGachaLogClient
     /// <param name="endIds">末尾 Id</param>
     /// <param name="token">取消令牌</param>
     /// <returns>云端祈愿记录</returns>
-    public async ValueTask<Response<List<GachaItem>>> RetrieveGachaItemsAsync(string uid, EndIds endIds, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<List<GachaItem>>> RetrieveGachaItemsAsync(string uid, EndIds endIds, CancellationToken token = default)
     {
         UidAndEndIds uidAndEndIds = new(uid, endIds);
 
@@ -121,11 +121,11 @@ internal sealed partial class HomaGachaLogClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response<List<GachaItem>>? resp = await builder
-            .TryCatchSendAsync<Response<List<GachaItem>>>(httpClient, logger, token)
+        HutaoResponse<List<GachaItem>>? resp = await builder
+            .TryCatchSendAsync<HutaoResponse<List<GachaItem>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ internal sealed partial class HomaGachaLogClient
     /// <param name="gachaItems">祈愿记录</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应</returns>
-    public async ValueTask<Response.Response> UploadGachaItemsAsync(string uid, List<GachaItem> gachaItems, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> UploadGachaItemsAsync(string uid, List<GachaItem> gachaItems, CancellationToken token = default)
     {
         UidAndItems uidAndItems = new(uid, gachaItems);
 
@@ -145,11 +145,11 @@ internal sealed partial class HomaGachaLogClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response.Response? resp = await builder
-            .TryCatchSendAsync<Response.Response>(httpClient, logger, token)
+        HutaoResponse? resp = await builder
+            .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -158,7 +158,7 @@ internal sealed partial class HomaGachaLogClient
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应</returns>
-    public async ValueTask<Response.Response> DeleteGachaItemsAsync(string uid, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> DeleteGachaItemsAsync(string uid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.GachaLogDelete(uid))
@@ -166,11 +166,11 @@ internal sealed partial class HomaGachaLogClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response.Response? resp = await builder
-            .TryCatchSendAsync<Response.Response>(httpClient, logger, token)
+        HutaoResponse? resp = await builder
+            .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     private sealed class UidAndEndIds

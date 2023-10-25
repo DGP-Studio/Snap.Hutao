@@ -24,20 +24,20 @@ internal sealed partial class HutaoAsAServiceClient
     private readonly MetadataOptions metadataOptions;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<Response<List<Announcement>>> GetAnnouncementListAsync(List<long> excluedeIds, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<List<Announcement>>> GetAnnouncementListAsync(List<long> excluedeIds, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.Announcement(metadataOptions.LocaleName))
             .PostJson(excluedeIds);
 
-        Response<List<Announcement>>? resp = await builder
-            .TryCatchSendAsync<Response<List<Announcement>>>(httpClient, logger, token)
+        HutaoResponse<List<Announcement>>? resp = await builder
+            .TryCatchSendAsync<HutaoResponse<List<Announcement>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response.Response> UploadAnnouncementAsync(UploadAnnouncement uploadAnnouncement, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> UploadAnnouncementAsync(UploadAnnouncement uploadAnnouncement, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.AnnouncementUpload)
@@ -45,14 +45,14 @@ internal sealed partial class HutaoAsAServiceClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response.Response? resp = await builder
-            .TryCatchSendAsync<Response.Response>(httpClient, logger, token)
+        HutaoResponse? resp = await builder
+            .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response.Response> GachaLogCompensationAsync(int days, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> GachaLogCompensationAsync(int days, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.GachaLogCompensation(days))
@@ -60,14 +60,14 @@ internal sealed partial class HutaoAsAServiceClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response.Response? resp = await builder
-            .TryCatchSendAsync<Response.Response>(httpClient, logger, token)
+        HutaoResponse? resp = await builder
+            .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response.Response> GachaLogDesignationAsync(string userName, int days, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> GachaLogDesignationAsync(string userName, int days, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.GachaLogDesignation(userName, days))
@@ -75,10 +75,10 @@ internal sealed partial class HutaoAsAServiceClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response.Response? resp = await builder
-            .TryCatchSendAsync<Response.Response>(httpClient, logger, token)
+        HutaoResponse? resp = await builder
+            .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 }

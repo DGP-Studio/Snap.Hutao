@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
 
@@ -54,7 +55,7 @@ internal readonly struct TypedWishSummaryBuilderContext
         return new(taskContext, gachaLogClient, SH.ServiceGachaLogFactoryWeaponWishName, 80, 10, IsWeaponEventWish, GachaDistributionType.WeaponEvent);
     }
 
-    public ValueTask<Response<GachaDistribution>> GetGachaDistributionAsync()
+    public ValueTask<HutaoResponse<GachaDistribution>> GetGachaDistributionAsync()
     {
         return GachaLogClient.GetGachaDistributionAsync(DistributionType);
     }
