@@ -506,6 +506,75 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>You must select a user and a role first</value>
   </data>
+  <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
+    <value>Reached max allowed number of wish history archives on Snap Hutao Cloud</value>
+  </data>
+  <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
+    <value>No valid wish history backup service privilege</value>
+  </data>
+  <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
+    <value>Wish history data contains invalid item, unable to upload to Snap Hutao Cloud</value>
+  </data>
+  <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
+    <value>Found abnormal data, unable to upload to Snap Hutao Cloud. Please do not upload across accounts or you can attempt to delete cloud data and try again.</value>
+  </data>
+  <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
+    <value>Current email adress is not registered</value>
+  </data>
+  <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
+    <value>Current emaill address is registered</value>
+  </data>
+  <data name="ServerPassportServiceInternalException" xml:space="preserve">
+    <value>Register failed, server error, please contact developer to fix it</value>
+  </data>
+  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+    <value>User does not exist, failed to delete account</value>
+  </data>
+  <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
+    <value>User does not exist, failed to fetch user's data</value>
+  </data>
+  <data name="ServerPassportUsernameOrPassportIncorrect" xml:space="preserve">
+    <value>Wrong username or password</value>
+  </data>
+  <data name="ServerPassportVerifyFailed" xml:space="preserve">
+    <value>Verification failed</value>
+  </data>
+  <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
+    <value>Validation request is too frequent. Please try again in 1 minute.</value>
+  </data>
+  <data name="ServerRecordBannedUid" xml:space="preserve">
+    <value>Failed to upload Sprial Abyss record, current UID is banned by Hutao Database</value>
+  </data>
+  <data name="ServerRecordComputingStatistics" xml:space="preserve">
+    <value>Failed to upload Sprial Abyss record, server is calculating statistical data</value>
+  </data>
+  <data name="ServerRecordComputingStatistics2" xml:space="preserve">
+    <value>Failed to fetch data, server is calculating statistical data</value>
+  </data>
+  <data name="ServerRecordInternalException" xml:space="preserve">
+    <value>Failed to upload Sprial Abyss record, server error, please contact developer to fix it</value>
+  </data>
+  <data name="ServerRecordInvalidData" xml:space="preserve">
+    <value>Failed to upload Sprial Abyss record, invalid data detected</value>
+  </data>
+  <data name="ServerRecordInvalidUid" xml:space="preserve">
+    <value>Invalid UID</value>
+  </data>
+  <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
+    <value>Failed to upload Spiral Abyss record. It is not data for the current schedule.</value>
+  </data>
+  <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
+    <value>Failed to upload Sprial Abyss record. The record for the current Uid is still being processed. Please do not repeat the operation.</value>
+  </data>
+  <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
+    <value>Uploaded Spiral Abyss record successfully. Received a privilege extension for Snap Hutao Cloud service.</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
+    <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as no Snap Hutao account logged in.</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
+    <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as there is not first upload of current schedule.</value>
+  </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>New: {0} Achievements | Updated: {1} Achievements | Delete: {2} Achievements</value>
   </data>
@@ -1043,6 +1112,12 @@
   <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
     <value>Parametric Transformer Notification</value>
   </data>
+  <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
+    <value>Input URL</value>
+  </data>
+  <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
+    <value>Realtime Note Webhook URL</value>
+  </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>Import wish history</value>
   </data>
@@ -1270,6 +1345,9 @@
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>Can't add plan with invalid name</value>
+  </data>
+  <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
+    <value>实时便笺 Webhook Url 配置成功</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLab account does not support Realtime Notes verification</value>
@@ -1595,6 +1673,15 @@
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="ViewPageDailyNoteConfigWebhookDescription" xml:space="preserve">
+    <value>Push data to specific webhook after refreshing Realtime Note</value>
+  </data>
+  <data name="ViewPageDailyNoteConfigWebhookHeader" xml:space="preserve">
+    <value>Config Webhook</value>
+  </data>
+  <data name="ViewPageDailyNoteDataInteropHeader" xml:space="preserve">
+    <value>Data Interoperability</value>
+  </data>
   <data name="ViewPageDailyNoteNotificationHeader" xml:space="preserve">
     <value>Notification</value>
   </data>
@@ -1884,7 +1971,7 @@
     <value>Width</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsDescription" xml:space="preserve">
-    <value>在游戏启动时修改其默认行为</value>
+    <value>Modify its default behavior at game startup</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
     <value>Start-up Arguments</value>
@@ -1896,7 +1983,7 @@
     <value>All options will be saved only after the game is launched successfully.</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
-    <value>文件</value>
+    <value>File</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Run the software on the selected display</value>
