@@ -506,6 +506,75 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>ユーザーとUIDを選択する必要があります</value>
   </data>
+  <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
+    <value>胡桃云保存的祈愿记录存档数已达当前账号上限</value>
+  </data>
+  <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
+    <value>未开通祈愿记录上传服务或已到期</value>
+  </data>
+  <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
+    <value>祈愿数据存在无效的物品，无法保存至胡桃云</value>
+  </data>
+  <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
+    <value>数据异常，无法保存至云端，请勿跨账号上传或尝试删除云端数据后重试</value>
+  </data>
+  <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
+    <value>当前邮箱尚未注册</value>
+  </data>
+  <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
+    <value>当前邮箱已被注册</value>
+  </data>
+  <data name="ServerPassportServiceInternalException" xml:space="preserve">
+    <value>注册失败，服务器异常，请尽快联系开发者解决</value>
+  </data>
+  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+    <value>用户不存在，注销失败</value>
+  </data>
+  <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
+    <value>用户不存在，获取用户信息失败</value>
+  </data>
+  <data name="ServerPassportUsernameOrPassportIncorrect" xml:space="preserve">
+    <value>用户名或密码错误</value>
+  </data>
+  <data name="ServerPassportVerifyFailed" xml:space="preserve">
+    <value>验证失败</value>
+  </data>
+  <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
+    <value>验证请求过快，请 1 分钟后再试</value>
+  </data>
+  <data name="ServerRecordBannedUid" xml:space="preserve">
+    <value>上传深渊记录失败，当前 Uid 已被胡桃数据库封禁</value>
+  </data>
+  <data name="ServerRecordComputingStatistics" xml:space="preserve">
+    <value>上传深渊记录失败，正在计算统计数据</value>
+  </data>
+  <data name="ServerRecordComputingStatistics2" xml:space="preserve">
+    <value>获取数据失败，正在计算统计数据</value>
+  </data>
+  <data name="ServerRecordInternalException" xml:space="preserve">
+    <value>上传深渊记录失败，服务器异常，请尽快联系开发者解决</value>
+  </data>
+  <data name="ServerRecordInvalidData" xml:space="preserve">
+    <value>上传深渊记录失败，存在无效的数据</value>
+  </data>
+  <data name="ServerRecordInvalidUid" xml:space="preserve">
+    <value>无效的 Uid</value>
+  </data>
+  <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
+    <value>上传深渊记录失败，不是本期数据</value>
+  </data>
+  <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
+    <value>上传深渊记录失败，当前 Uid 的记录仍在处理中，请勿重复操作</value>
+  </data>
+  <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
+    <value>上传深渊记录成功，获赠祈愿记录上传服务时长</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
+    <value>上传深渊记录成功，但未登录胡桃账号，无法获赠祈愿记录上传服务时长</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
+    <value>上传深渊记录成功，但不是本期首次提交，无法获赠祈愿记录上传服务时长</value>
+  </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>{0} つのアチーブメントを追加 | {1} つのアチーブメントを更新 |{2} つのアチーブメントを削除</value>
   </data>
@@ -1043,6 +1112,12 @@
   <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
     <value>参量物質変化器は使えるようになりました</value>
   </data>
+  <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
+    <value>请输入 Url</value>
+  </data>
+  <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
+    <value>实时便笺 Webhook Url</value>
+  </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>祈願記録をインポート</value>
   </data>
@@ -1270,6 +1345,9 @@
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>育成計画名に無効な言葉が入っています</value>
+  </data>
+  <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
+    <value>实时便笺 Webhook Url 配置成功</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLabユーザーのリアルタイムノートはサポートしていません。</value>
@@ -1594,6 +1672,15 @@
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>追加</value>
+  </data>
+  <data name="ViewPageDailyNoteConfigWebhookDescription" xml:space="preserve">
+    <value>在实时便笺刷新后推送到指定的 Webhook</value>
+  </data>
+  <data name="ViewPageDailyNoteConfigWebhookHeader" xml:space="preserve">
+    <value>配置 Webhook</value>
+  </data>
+  <data name="ViewPageDailyNoteDataInteropHeader" xml:space="preserve">
+    <value>数据互操作</value>
   </data>
   <data name="ViewPageDailyNoteNotificationHeader" xml:space="preserve">
     <value>通知</value>
