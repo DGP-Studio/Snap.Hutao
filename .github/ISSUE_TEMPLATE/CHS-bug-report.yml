@@ -1,5 +1,5 @@
 name: 问题反馈
-description: 告诉我们你的问题
+description: 通过这个议题向开发团队反馈你发现的程序中的问题
 title: "[Bug]: 在这里填写一个合适的标题"
 labels: ["BUG", "priority:none"]
 body:
@@ -14,7 +14,7 @@ body:
     attributes:
       label: 检查清单
       description: |-
-        请确保你已完整执行检查清单，否则你的 Issue 可能会被忽略
+        请确保你已完整执行检查清单，否则你的议题可能会被忽略
       options:
         - label: 我已阅读 Snap Hutao 文档中的[常见问题](https://hut.ao/advanced/FAQ.html)和[常见程序异常](https://hut.ao/advanced/exceptions.html)，我的问题没有在文档中得到解答
           required: true
@@ -51,6 +51,7 @@ body:
       description: | 
         在胡桃工具箱的设置界面，你可以找到并复制你的设备 ID
         如果你的问题涉及程序崩溃，请填写该项，这将有助于我们定位问题
+        如果你的程序已经无法启动，请下载并运行[此PowerShell脚本](https://github.com/DGP-Studio/ISSUE_TEMPLATES/releases/download/get_device_id/GetHutaoDeviceId.ps1)，它将显示你的设备 ID
     validations:
       required: false
 

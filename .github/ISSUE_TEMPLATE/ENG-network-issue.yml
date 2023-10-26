@@ -1,0 +1,79 @@
+name: Network Issue [English Form]
+description: Submit this issue form when network issue affect your client experience
+title: "[Network]: Place your title here"
+labels: ["area-Network"]
+assignees:
+  - Lightczx
+  - Masterain98
+body:
+  - type: markdown
+    attributes:
+      value: |
+       **Please use one sentence to briefly describe your issue as title above**
+       **Please follow the instruction below to fill the form, so we can locate the issue quickly**
+  
+  - type: textarea
+    id: network-diagnosis-report
+    attributes:
+      label: Submit Your Network Diagnosis Report
+      description: | 
+        STOP HERE!
+        **Please run our network diagnosis tool before filling this form**
+        **The diagnosis tool will generate a report and add it into a password-protected archive. Drag the `.zip` archive to the box below so it can be uploaded.**
+        - Use the following link to download the Network Diagnosis Tool:
+          - [GitHub](https://github.com/Masterain98/network-diagnosis-tool/releases/latest/download/SH-Network-Diagnosis.exe)
+          - [JIHu GitLab](https://jihulab.com/DGP-Studio/network-diagnosis-tool/-/jobs/11144011/artifacts/raw/SH-Network-Diagnosis.exe?inline=false)
+    validations:
+      required: true
+  
+  - type: input
+    id: user-geo-location
+    attributes:
+      label: Your Geographical Location
+      description: | 
+        Description accurate to country
+      placeholder: USA
+    validations:
+      required: true
+
+  - type: input
+    id: user-isp
+    attributes:
+      label: Your ISP Name
+      description: | 
+        Name of your Internet service provider
+      placeholder: AT&T
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: user-issue-category
+    attributes:
+      label: Issue Category
+      description: Select an issue category
+      options:
+        - Cannot connect to server completely
+        - Slow spped
+        - Fetched wrong page or data
+        - Image download error in the client
+        - Image set pre-download error (client welcome wizard process)
+        - Other
+    validations:
+      required: true 
+  
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Your Issue (cont.)
+      description: If you selected `Other` in previous dropdown, please explain your issue in detail here.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist-final
+    attributes:
+      label: One Last Step
+      description: Check your issue form
+      options:
+        - label: I confirm I have attached the network diagnosis report archive in the issue
+          required: true

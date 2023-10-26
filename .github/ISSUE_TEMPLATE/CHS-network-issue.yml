@@ -1,5 +1,5 @@
 name: 网络问题
-description: 当网络问题影响到你的程序使用时
+description: 通过这个议题来反馈网络问题
 title: "[Network]: 在这里填写一个合适的标题"
 labels: ["area-Network"]
 assignees:
@@ -19,10 +19,10 @@ body:
       description: | 
         停下！
         **在填写下面的问题之前请先使用我们的网络诊断工具**
-        **这个工具将会生成一份报告，请将这份报告拖入下面的框中，让其与你的工单一起被上传提交**
+        **这个工具将会生成一份报告并加密压缩，请将这份报告拖入下面的框中，让其与你的工单一起被上传提交**
         - 你可以点击下面的链接以下载网络诊断工具：
-          - [胡桃资源站](https://d.hut.ao/d/tools/network-diagnosis-hutao.exe)
-          - [GitHub](https://github.com/Masterain98/network-diagnosis-tool/releases/latest/download/network-diagnosis-hutao.exe)
+          - [GitHub](https://github.com/Masterain98/network-diagnosis-tool/releases/latest/download/SH-Network-Diagnosis.exe)
+          - [极狐 GitLab](https://jihulab.com/DGP-Studio/network-diagnosis-tool/-/jobs/11144011/artifacts/raw/SH-Network-Diagnosis.exe?inline=false)
     validations:
       required: true
   
@@ -60,7 +60,6 @@ body:
         - 完全无法连接服务器
         - 连接速度慢
         - 获取到了不正确的页面或数据
-        - 客户端提示 429 Error
         - 客户端图片下载错误
         - 客户端图片预下载错误
         - 其它
@@ -74,5 +73,12 @@ body:
       description: 如果你在上一项中选择了`其它`或者你有更多信息需要提供，请在这里写下来
     validations:
       required: false
-  
 
+  - type: checkboxes
+    id: checklist-final
+    attributes:
+      label: 最后一步
+      description: 检查你提交的议题
+      options:
+        - label: 我已经在该议题中上传了包含网络诊断报告的加密压缩包
+          required: true

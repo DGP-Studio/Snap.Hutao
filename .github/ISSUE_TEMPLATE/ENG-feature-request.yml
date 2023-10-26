@@ -1,0 +1,27 @@
+name: Feature Request [English Form]
+description: Tell us about your thought
+title: "[Feat]: Place your title here"
+labels: ["功能", "priority:none"]
+assignees:
+  - Lightczx
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill the form below
+
+  - type: textarea
+    id: back
+    attributes:
+      label: Background & Motivation
+      description: Reason why this feature is needed. If multiple features is requested, please open multiple issues for each of them.
+    validations:
+      required: true
+
+  - type: textarea
+    id: req
+    attributes:
+      label: Detail of the Feature
+      description: Descripbe the feaure in detail. The more detailed and convincing the desciprtion the more likyly feature will be accepted. 
+    validations:
+      required: true
