@@ -4561,6 +4561,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 历练点获取详情 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteAttendanceStatusInfo {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteAttendanceStatusInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 在实时便笺刷新后推送到指定的 Webhook 的本地化字符串。
         /// </summary>
         internal static string ViewPageDailyNoteConfigWebhookDescription {
@@ -7113,6 +7122,60 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string WebBridgeShareCopyToClipboardSuccess {
             get {
                 return ResourceManager.GetString("WebBridgeShareCopyToClipboardSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已完成 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteAttendanceRewardStatusFinishedNonReward {
+            get {
+                return ResourceManager.GetString("WebDailyNoteAttendanceRewardStatusFinishedNonReward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 禁止领取 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteAttendanceRewardStatusForbid {
+            get {
+                return ResourceManager.GetString("WebDailyNoteAttendanceRewardStatusForbid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无效 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteAttendanceRewardStatusInvalid {
+            get {
+                return ResourceManager.GetString("WebDailyNoteAttendanceRewardStatusInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已领取 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteAttendanceRewardStatusTakenAward {
+            get {
+                return ResourceManager.GetString("WebDailyNoteAttendanceRewardStatusTakenAward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 尚未完成 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteAttendanceRewardStatusUnfinished {
+            get {
+                return ResourceManager.GetString("WebDailyNoteAttendanceRewardStatusUnfinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 等待领取 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteAttendanceRewardStatusWaitTaken {
+            get {
+                return ResourceManager.GetString("WebDailyNoteAttendanceRewardStatusWaitTaken", resourceCulture);
             }
         }
         

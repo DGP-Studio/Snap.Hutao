@@ -100,6 +100,7 @@
     <None Remove="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <None Remove="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <None Remove="Resource\Icon\UI_Icon_Fetter.png" />
+    <None Remove="Resource\Icon\UI_Icon_Gift.png" />
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
     <None Remove="Resource\Icon\UI_Icon_Tower_Star.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
@@ -227,6 +228,7 @@
     <Content Include="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <Content Include="Resource\Icon\UI_Icon_Fetter.png" />
+    <Content Include="Resource\Icon\UI_Icon_Gift.png" />
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
     <Content Include="Resource\Icon\UI_Icon_Tower_Star.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />

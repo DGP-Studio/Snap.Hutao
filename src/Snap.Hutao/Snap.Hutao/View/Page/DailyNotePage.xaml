@@ -15,6 +15,7 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
     d:DataContext="{d:DesignInstance shvd:DailyNoteViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -369,9 +370,10 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto"/>
                                                 <ColumnDefinition/>
+                                                <ColumnDefinition Width="auto"/>
                                             </Grid.ColumnDefinitions>
                                             <ProgressBar
-                                                Grid.ColumnSpan="2"
+                                                Grid.ColumnSpan="3"
                                                 Height="40"
                                                 MinHeight="48"
                                                 Background="{x:Null}"
@@ -401,6 +403,40 @@
                                                     TextTrimming="CharacterEllipsis"
                                                     TextWrapping="NoWrap"/>
                                             </StackPanel>
+                                            <Button
+                                                Grid.Column="2"
+                                                Width="32"
+                                                Height="32"
+                                                Margin="0,0,8,0"
+                                                Padding="6"
+                                                ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageDailyNoteAttendanceStatusInfo}"
+                                                Visibility="{Binding DailyNote.DailyTask.AttendanceVisible, Mode=OneWay}">
+                                                <BitmapIcon ShowAsMonochrome="True" UriSource="ms-appx:///Resource/Icon/UI_Icon_Gift.png"/>
+                                                <Button.Flyout>
+                                                    <Flyout Placement="BottomEdgeAlignedRight">
+                                                        <Flyout.FlyoutPresenterStyle>
+                                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                                                <Setter Property="Padding" Value="6"/>
+                                                            </Style>
+                                                        </Flyout.FlyoutPresenterStyle>
+                                                        <ItemsControl Margin="0,-3,0,0" ItemsSource="{Binding DailyNote.DailyTask.AttendanceRewards}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <shvcp:CardProgressBar
+                                                                        MinWidth="120"
+                                                                        MinHeight="32"
+                                                                        Margin="0,3,0,0"
+                                                                        Description="{Binding Progress}"
+                                                                        Header="{Binding StatusFormatted}"
+                                                                        Maximum="2000"
+                                                                        ProgressForeground="{ThemeResource HyperlinkButtonForeground}"
+                                                                        Value="{Binding Progress}"/>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </Flyout>
+                                                </Button.Flyout>
+                                            </Button>
                                         </Grid>
                                         <Grid Style="{ThemeResource GridCardStyle}">
                                             <Grid.ColumnDefinitions>

@@ -9,6 +9,8 @@ internal sealed class AttendanceReward
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public AttendanceRewardStatus Status { get; set; }
 
+    public string StatusFormatted { get => Status.GetLocalizedDescription(); }
+
     [JsonPropertyName("progress")]
     public int Progress { get; set; }
 }
