@@ -212,7 +212,6 @@
                     <MenuFlyoutSeparator Grid.Column="2"/>
                 </Grid>
 
-
                 <shvcont:StatisticsSegmented
                     x:Name="StatisticsSegmented"
                     Margin="0,12,0,0"

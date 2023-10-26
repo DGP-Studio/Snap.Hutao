@@ -76,7 +76,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         {
             if (runtimeOptions.IsElevated)
             {
-                // leave below untouched if we are running in elevated privilege
+                // leave untouched when we are running in elevated privilege
                 return null;
             }
 
@@ -87,7 +87,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         {
             if (runtimeOptions.IsElevated)
             {
-                // leave below untouched if we are running in elevated privilege
+                // leave untouched when we are running in elevated privilege
                 return;
             }
 

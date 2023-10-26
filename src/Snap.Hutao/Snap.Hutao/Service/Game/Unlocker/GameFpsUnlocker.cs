@@ -72,10 +72,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     {
         ulong temp = 0;
         bool result = ReadProcessMemory((HANDLE)process.Handle, (void*)baseAddress, (byte*)&temp, 8);
-        if (!result)
-        {
-            ThrowHelper.InvalidOperation(SH.ServiceGameUnlockerReadProcessMemoryPointerAddressFailed, null);
-        }
+        Verify.Operation(result, SH.ServiceGameUnlockerReadProcessMemoryPointerAddressFailed);
 
         value = (nuint)temp;
         return result;
