@@ -1347,7 +1347,7 @@
     <value>Can't add plan with invalid name</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>实时便笺 Webhook Url 配置成功</value>
+    <value>Realtime Note Webhook URL successfully configured</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLab account does not support Realtime Notes verification</value>
@@ -1488,7 +1488,7 @@
     <value>Failed to create desktop shortcut</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
-    <value>无感验证复合 Url 配置成功</value>
+    <value>CAPTCHA Verification composite URL successfully configured</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Set data directory successfully. Restart to apply changes.</value>
