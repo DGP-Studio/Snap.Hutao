@@ -2878,6 +2878,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 请输入 Url 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogDailyNoteWebhookUrlInputPlaceholder {
+            get {
+                return ResourceManager.GetString("ViewDialogDailyNoteWebhookUrlInputPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 实时便笺 Webhook Url 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogDailyNoteWebhookUrlTitle {
+            get {
+                return ResourceManager.GetString("ViewDialogDailyNoteWebhookUrlTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 导入祈愿记录 的本地化字符串。
         /// </summary>
         internal static string ViewDialogGachaLogImportTitle {
@@ -3558,6 +3576,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewModelCultivationProjectInvalidName {
             get {
                 return ResourceManager.GetString("ViewModelCultivationProjectInvalidName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置实时便笺 Webhook Url 完成 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelDailyNoteConfigWebhookUrlComplete {
+            get {
+                return ResourceManager.GetString("ViewModelDailyNoteConfigWebhookUrlComplete", resourceCulture);
             }
         }
         
@@ -4530,6 +4557,33 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageDailyNoteAddEntryToolTip {
             get {
                 return ResourceManager.GetString("ViewPageDailyNoteAddEntryToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在实时便笺刷新后推送到指定的 Webhook 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteConfigWebhookDescription {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteConfigWebhookDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置 Webhook 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteConfigWebhookHeader {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteConfigWebhookHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数据互操作 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteDataInteropHeader {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteDataInteropHeader", resourceCulture);
             }
         }
         

@@ -159,7 +159,6 @@
                             </StackPanel>
                         </cwc:HeaderedContentControl>
 
-
                         <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteNotificationHeader}"/>
                         <cwc:SettingsCard
                             Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
@@ -173,6 +172,14 @@
                             HeaderIcon="{shcm:FontIcon Glyph=&#xEA8F;}">
                             <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsReminderNotification, Mode=TwoWay}"/>
                         </cwc:SettingsCard>
+
+                        <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteDataInteropHeader}"/>
+                        <cwc:SettingsCard
+                            Command="{Binding ConfigDailyNoteWebhookUrlCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageDailyNoteConfigWebhookDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageDailyNoteConfigWebhookHeader}"
+                            HeaderIcon="{shcm:FontIcon Glyph=&#xEE94;}"
+                            IsClickEnabled="True"/>
                     </StackPanel>
                 </ScrollViewer>
             </SplitView.Pane>

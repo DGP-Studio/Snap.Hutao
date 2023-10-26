@@ -44,4 +44,32 @@ internal static class HttpRequestMessageBuilderExtension
             return default;
         }
     }
+
+    internal static async ValueTask TryCatchSendAsync(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)
+    {
+        try
+        {
+            HttpResponseMessage message = await httpClient.SendAsync(builder.HttpRequestMessage, token).ConfigureAwait(false);
+        }
+        catch (HttpRequestException ex)
+        {
+            logger.LogWarning(ex, RequestErrorMessage);
+        }
+        catch (IOException ex)
+        {
+            logger.LogWarning(ex, RequestErrorMessage);
+        }
+        catch (JsonException ex)
+        {
+            logger.LogWarning(ex, RequestErrorMessage);
+        }
+        catch (HttpContentSerializationException ex)
+        {
+            logger.LogWarning(ex, RequestErrorMessage);
+        }
+        catch (SocketException ex)
+        {
+            logger.LogWarning(ex, RequestErrorMessage);
+        }
+    }
 }

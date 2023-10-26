@@ -123,4 +123,17 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
             }
         }
     }
+
+    [Command("ConfigDailyNoteWebhookUrlCommand")]
+    private async Task ConfigDailyNoteWebhookUrlAsync()
+    {
+        DailyNoteWebhookDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteWebhookDialog>().ConfigureAwait(false);
+        (bool isOk, string url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
+
+        if (isOk)
+        {
+            options.WebhookUrl = url;
+            infoBarService.Information(SH.ViewModelDailyNoteConfigWebhookUrlComplete);
+        }
+    }
 }

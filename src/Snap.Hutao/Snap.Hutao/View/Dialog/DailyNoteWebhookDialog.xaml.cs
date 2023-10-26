@@ -5,20 +5,12 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.View.Dialog;
 
-/// <summary>
-/// 祈愿记录Url对话框
-/// </summary>
-[HighQuality]
 [DependencyProperty("Text", typeof(string))]
-internal sealed partial class GachaLogUrlDialog : ContentDialog
+internal sealed partial class DailyNoteWebhookDialog : ContentDialog
 {
     private readonly ITaskContext taskContext;
 
-    /// <summary>
-    /// 初始化一个新的祈愿记录Url对话框
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public GachaLogUrlDialog(IServiceProvider serviceProvider)
+    public DailyNoteWebhookDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
 
@@ -33,8 +25,7 @@ internal sealed partial class GachaLogUrlDialog : ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
-        string url = Text.TrimEnd("#/log");
 
-        return new(result == ContentDialogResult.Primary, url);
+        return new(result == ContentDialogResult.Primary, Text);
     }
 }

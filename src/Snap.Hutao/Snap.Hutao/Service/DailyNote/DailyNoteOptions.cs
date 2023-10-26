@@ -27,6 +27,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
     private NameValue<int>? selectedRefreshTime;
     private bool? isReminderNotification;
     private bool? isSilentWhenPlayingGame;
+    private string? webhookUrl;
 
     /// <summary>
     /// 刷新时间
@@ -121,5 +122,11 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
     {
         get => GetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame);
         set => SetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame, value);
+    }
+
+    public string? WebhookUrl
+    {
+        get => GetOption(ref webhookUrl, SettingEntry.DailyNoteSilentWhenPlayingGame);
+        set => SetOption(ref webhookUrl, SettingEntry.DailyNoteSilentWhenPlayingGame, value);
     }
 }

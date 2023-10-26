@@ -144,6 +144,7 @@
     <None Remove="View\Dialog\CultivatePromotionDeltaBatchDialog.xaml" />
     <None Remove="View\Dialog\CultivatePromotionDeltaDialog.xaml" />
     <None Remove="View\Dialog\DailyNoteNotificationDialog.xaml" />
+    <None Remove="View\Dialog\DailyNoteWebhookDialog.xaml" />
     <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
     <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
     <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
@@ -310,6 +311,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Dialog\DailyNoteWebhookDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
