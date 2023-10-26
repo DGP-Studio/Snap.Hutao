@@ -1347,7 +1347,7 @@
     <value>不能添加名称无效的计划</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>配置实时便笺 Webhook Url 完成</value>
+    <value>实时便笺 Webhook Url 配置成功</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLab 账号不支持验证实时便笺</value>

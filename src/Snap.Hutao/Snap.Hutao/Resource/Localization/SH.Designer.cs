@@ -3580,7 +3580,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 配置实时便笺 Webhook Url 完成 的本地化字符串。
+        ///   查找类似 实时便笺 Webhook Url 配置成功 的本地化字符串。
         /// </summary>
         internal static string ViewModelDailyNoteConfigWebhookUrlComplete {
             get {
