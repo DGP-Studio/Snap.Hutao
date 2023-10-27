@@ -507,73 +507,73 @@
     <value>ユーザーとUIDを選択する必要があります</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
-    <value>胡桃云保存的祈愿记录存档数已达当前账号上限</value>
+    <value>胡桃クラウドへ保存された祈願履歴の数が現在のアカウントの上限に達しました。</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
-    <value>未开通祈愿记录上传服务或已到期</value>
+    <value>祈願履歴のアップロードサービスが無効か、有効期限が切れています。</value>
   </data>
   <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
-    <value>祈愿数据存在无效的物品，无法保存至胡桃云</value>
+    <value>祈願データに無効な項目があるため、胡桃クラウドに保存できません。</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
-    <value>数据异常，无法保存至云端，请勿跨账号上传或尝试删除云端数据后重试</value>
+    <value>データが異常なため、胡桃クラウドにアップロードできません。 複数のアカウントに跨がってアップロードしないでください。アップロードしたい場合は、クラウド データを削除してもう一度試してください。</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
-    <value>当前邮箱尚未注册</value>
+    <value>このメールアドレスは登録されていません。</value>
   </data>
   <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
-    <value>当前邮箱已被注册</value>
+    <value>このメールアドレスは登録済みです。</value>
   </data>
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
-    <value>注册失败，服务器异常，请尽快联系开发者解决</value>
+    <value>登録に失敗しました。サーバーエラーです。解決しない場合は開発者に連絡してください。</value>
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
-    <value>用户不存在，注销失败</value>
+    <value>ユーザーが存在しないため、アカウントを削除できません。</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
-    <value>用户不存在，获取用户信息失败</value>
+    <value>ユーザーが存在しないため、ユーザーデータを取得出来ません。</value>
   </data>
   <data name="ServerPassportUsernameOrPassportIncorrect" xml:space="preserve">
-    <value>用户名或密码错误</value>
+    <value>ユーザー名またはパスワードが正しくありません。</value>
   </data>
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
-    <value>验证失败</value>
+    <value>認証に失敗しました。</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
-    <value>验证请求过快，请 1 分钟后再试</value>
+    <value>認証リクエストが多すぎます。一分後にやり直してください。</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>上传深渊记录失败，当前 Uid 已被胡桃数据库封禁</value>
+    <value>深境螺旋のデータをアップロードできません。このUIDは胡桃クラウドからBANされています。</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
-    <value>上传深渊记录失败，正在计算统计数据</value>
+    <value>深境螺旋のデータをアップロードできません。サーバーが統計データを計算しています。</value>
   </data>
   <data name="ServerRecordComputingStatistics2" xml:space="preserve">
-    <value>获取数据失败，正在计算统计数据</value>
+    <value>データの取得に失敗しました。サーバーが統計データを計算しています。</value>
   </data>
   <data name="ServerRecordInternalException" xml:space="preserve">
-    <value>上传深渊记录失败，服务器异常，请尽快联系开发者解决</value>
+    <value>深境螺旋のデータをアップロードに失敗しました。サーバーエラーです。解決しない場合は開発者に連絡してください。</value>
   </data>
   <data name="ServerRecordInvalidData" xml:space="preserve">
-    <value>上传深渊记录失败，存在无效的数据</value>
+    <value>深境螺旋のデータをアップロードできません。異常なデータを検知しました。</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
-    <value>无效的 Uid</value>
+    <value>無効なUIDです。</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
-    <value>上传深渊记录失败，不是本期数据</value>
+    <value>深境螺旋のデータをアップロードできません。現行の期間のデータではありません。</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>上传深渊记录失败，当前 Uid 的记录仍在处理中，请勿重复操作</value>
+    <value>深境螺旋のデータをアップロードできません。現在このUIDのレコードを処理中です。繰り返しアップロードしないでください。</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
-    <value>上传深渊记录成功，获赠祈愿记录上传服务时长</value>
+    <value>深境螺旋のデータをアップロードしました。胡桃クラウドの利用期間延長特典を受け取りました。</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
-    <value>上传深渊记录成功，但未登录胡桃账号，无法获赠祈愿记录上传服务时长</value>
+    <value>深境螺旋のデータをアップロードしましたが、胡桃クラウドへログインしていないため、利用期間特典を受け取ることは出来ません。</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
-    <value>上传深渊记录成功，但不是本期首次提交，无法获赠祈愿记录上传服务时长</value>
+    <value>深境螺旋のデータをアップロードしました。今期は二回以上アップロードしているため、利用期間特典を受け取ることは出来ません。</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>{0} つのアチーブメントを追加 | {1} つのアチーブメントを更新 |{2} つのアチーブメントを削除</value>
@@ -1113,10 +1113,10 @@
     <value>参量物質変化器は使えるようになりました</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 Url</value>
+    <value>URLを入力</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
-    <value>实时便笺 Webhook Url</value>
+    <value>リアルタイムノートのWebhook URL</value>
   </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>祈願記録をインポート</value>
@@ -1347,7 +1347,7 @@
     <value>育成計画名に無効な言葉が入っています</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>实时便笺 Webhook Url 配置成功</value>
+    <value>リアルタイムノートのWebhook URLの設定に成功しました。</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLabユーザーのリアルタイムノートはサポートしていません。</value>
@@ -1674,16 +1674,16 @@
     <value>追加</value>
   </data>
   <data name="ViewPageDailyNoteAttendanceStatusInfo" xml:space="preserve">
-    <value>历练点获取详情</value>
+    <value>冒険ポイントのステータス</value>
   </data>
   <data name="ViewPageDailyNoteConfigWebhookDescription" xml:space="preserve">
-    <value>在实时便笺刷新后推送到指定的 Webhook</value>
+    <value>リアルタイムノートの更新時に、指定したWebhookへPOSTを送信します。</value>
   </data>
   <data name="ViewPageDailyNoteConfigWebhookHeader" xml:space="preserve">
-    <value>配置 Webhook</value>
+    <value>Webhookの設定</value>
   </data>
   <data name="ViewPageDailyNoteDataInteropHeader" xml:space="preserve">
-    <value>数据互操作</value>
+    <value>データの相互運用</value>
   </data>
   <data name="ViewPageDailyNoteNotificationHeader" xml:space="preserve">
     <value>通知</value>
@@ -2529,22 +2529,22 @@
     <value>クリップボードにコピーしました。</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
-    <value>已完成</value>
+    <value>完了しました。</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusForbid" xml:space="preserve">
-    <value>禁止领取</value>
+    <value>獲得の禁止</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusInvalid" xml:space="preserve">
-    <value>无效</value>
+    <value>無効</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusTakenAward" xml:space="preserve">
-    <value>已领取</value>
+    <value>受け取り済み</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusUnfinished" xml:space="preserve">
-    <value>尚未完成</value>
+    <value>未完了</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusWaitTaken" xml:space="preserve">
-    <value>等待领取</value>
+    <value>獲得可能</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
     <value>{0} 時</value>
@@ -2610,7 +2610,7 @@
     <value>利用可能</value>
   </data>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
-    <value>もうすぐ完成</value>
+    <value>使用可能</value>
   </data>
   <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
     <value>{0} 秒</value>
