@@ -265,10 +265,6 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="Meziantou.Framework.ResxSourceGenerator" Version="1.0.9">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
       <PrivateAssets>all</PrivateAssets>
@@ -305,7 +301,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <AdditionalFiles Include="Resource\Localization\SH.resx"/>
+    <AdditionalFiles Include="Resource\Localization\SH.resx" />
   </ItemGroup>
 
   <ItemGroup>
