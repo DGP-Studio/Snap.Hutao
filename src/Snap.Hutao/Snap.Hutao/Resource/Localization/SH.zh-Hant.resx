@@ -539,6 +539,9 @@
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
     <value>验证失败</value>
   </data>
+  <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
+    <value>验证码已发送至邮箱</value>
+  </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>验证请求过快，请 1 分钟后再试</value>
   </data>
@@ -1162,6 +1165,18 @@
   </data>
   <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
     <value>配置無感驗證接口</value>
+  </data>
+  <data name="ViewDialogHutaoPassportLoginTitle" xml:space="preserve">
+    <value>登录胡桃通行证</value>
+  </data>
+  <data name="ViewDialogHutaoPassportRegisterTitle" xml:space="preserve">
+    <value>注册胡桃通行证</value>
+  </data>
+  <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
+    <value>重置胡桃通行证密码</value>
+  </data>
+  <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
+    <value>注销胡桃通行证账号</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>匯出 App</value>
@@ -1925,6 +1940,9 @@
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>重設密碼</value>
   </data>
+  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+    <value>注销账号的数据将永远丢失，无法恢复</value>
+  </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
     <value>請輸入電郵地址</value>
   </data>
@@ -2207,8 +2225,50 @@
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>主頁</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
+    <value>三思而后行</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportDangerZoneHeader" xml:space="preserve">
+    <value>危险操作</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
+    <value>胡桃云服务到期时间</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
-    <value>Snap Hutao 賬號</value>
+    <value>胡桃通行证账号</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLicensedDeveloperDescription" xml:space="preserve">
+    <value>您可以无限制使用任何基于胡桃云服务的功能</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLicensedDeveloperHeader" xml:space="preserve">
+    <value>已认证的合作开发者</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLoginAction" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLogoutAction" xml:space="preserve">
+    <value>退出登录</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportMaintainerDescription" xml:space="preserve">
+    <value>您可以无限制的使用任何测试功能</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
+    <value>胡桃开发/运维</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
+    <value>我们有时会向某些用户赠送胡桃云兑换码</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
+    <value>使用兑换码</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
+    <value>注册</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
+    <value>修改密码</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
+    <value>注销账号</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
     <value>在完整閱讀原神和胡桃工具箱使用者協定後，我選擇啟用「啟動遊戲 - 高級功能」</value>
