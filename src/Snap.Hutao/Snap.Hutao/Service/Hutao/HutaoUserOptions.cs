@@ -21,6 +21,7 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     private bool isHutaoCloudServiceAllowed;
     private bool isLicensedDeveloper;
     private string? gachaLogExpireAt;
+    private string? gachaLogExpireAtSlim;
     private bool isMaintainer;
 
     /// <summary>
@@ -55,6 +56,8 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// </summary>
     public string? GachaLogExpireAt { get => gachaLogExpireAt; set => SetProperty(ref gachaLogExpireAt, value); }
 
+    public string? GachaLogExpireAtSlim { get => gachaLogExpireAtSlim; set => SetProperty(ref gachaLogExpireAtSlim, value); }
+
     /// <inheritdoc/>
     public HutaoUserOptions Value { get => this; }
 
@@ -69,6 +72,14 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
         this.token = token;
         IsLoggedIn = true;
         initializedTaskCompletionSource.TrySetResult();
+    }
+
+    public void LogoutOrUnregister()
+    {
+        UserName = null;
+        token = null;
+        IsLoggedIn = false;
+        ClearUserInfo();
     }
 
     /// <summary>
@@ -94,7 +105,17 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
         IsLicensedDeveloper = userInfo.IsLicensedDeveloper;
         IsMaintainer = userInfo.IsMaintainer;
         GachaLogExpireAt = Regex.Unescape(SH.ServiceHutaoUserGachaLogExpiredAt).Format(userInfo.GachaLogExpireAt);
+        GachaLogExpireAtSlim = $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}";
         IsCloudServiceAllowed = IsLicensedDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
+    }
+
+    private void ClearUserInfo()
+    {
+        IsLicensedDeveloper = false;
+        IsMaintainer = false;
+        GachaLogExpireAt = null;
+        GachaLogExpireAtSlim = null;
+        IsCloudServiceAllowed = false;
     }
 
     public async ValueTask<string?> GetTokenAsync()

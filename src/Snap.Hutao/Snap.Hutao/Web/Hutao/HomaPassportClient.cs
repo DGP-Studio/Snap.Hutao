@@ -47,7 +47,7 @@ internal sealed partial class HomaPassportClient
     /// <param name="isResetPassword">是否重置账号密码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应</returns>
-    public async ValueTask<Response.Response> VerifyAsync(string email, bool isResetPassword, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> VerifyAsync(string email, bool isResetPassword, CancellationToken token = default)
     {
         Dictionary<string, object> data = new()
         {
@@ -59,11 +59,11 @@ internal sealed partial class HomaPassportClient
             .SetRequestUri(HutaoEndpoints.PassportVerify)
             .PostJson(data);
 
-        Response.Response? resp = await builder
-            .TryCatchSendAsync<Response.Response>(httpClient, logger, token)
+        HutaoResponse? resp = await builder
+            .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ internal sealed partial class HomaPassportClient
     /// <param name="verifyCode">验证码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应，包含登录令牌</returns>
-    public async ValueTask<Response<string>> RegisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<string>> RegisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -87,11 +87,30 @@ internal sealed partial class HomaPassportClient
             .SetRequestUri(HutaoEndpoints.PassportRegister)
             .PostJson(data);
 
-        Response<string>? resp = await builder
-            .TryCatchSendAsync<Response<string>>(httpClient, logger, token)
+        HutaoResponse<string>? resp = await builder
+            .TryCatchSendAsync<HutaoResponse<string>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<HutaoResponse> UnregisterAsync(string email, string password, CancellationToken token = default)
+    {
+        Dictionary<string, string> data = new()
+        {
+            ["UserName"] = Encrypt(email),
+            ["Password"] = Encrypt(password),
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.PassportCancel)
+            .PostJson(data);
+
+        HutaoResponse? resp = await builder
+            .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -102,7 +121,7 @@ internal sealed partial class HomaPassportClient
     /// <param name="verifyCode">验证码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应，包含登录令牌</returns>
-    public async ValueTask<Response<string>> ResetPasswordAsync(string email, string password, string verifyCode, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<string>> ResetPasswordAsync(string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -115,11 +134,11 @@ internal sealed partial class HomaPassportClient
             .SetRequestUri(HutaoEndpoints.PassportResetPassword)
             .PostJson(data);
 
-        Response<string>? resp = await builder
-            .TryCatchSendAsync<Response<string>>(httpClient, logger, token)
+        HutaoResponse<string>? resp = await builder
+            .TryCatchSendAsync<HutaoResponse<string>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -129,7 +148,7 @@ internal sealed partial class HomaPassportClient
     /// <param name="password">密码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应，包含登录令牌</returns>
-    public async ValueTask<Response<string>> LoginAsync(string email, string password, CancellationToken token = default)
+    public async ValueTask<HutaoResponse<string>> LoginAsync(string email, string password, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -141,11 +160,11 @@ internal sealed partial class HomaPassportClient
             .SetRequestUri(HutaoEndpoints.PassportLogin)
             .PostJson(data);
 
-        Response<string>? resp = await builder
-            .TryCatchSendAsync<Response<string>>(httpClient, logger, token)
+        HutaoResponse<string>? resp = await builder
+            .TryCatchSendAsync<HutaoResponse<string>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -153,7 +172,7 @@ internal sealed partial class HomaPassportClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>用户信息</returns>
-    public async ValueTask<Response<UserInfo>> GetUserInfoAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<UserInfo>> GetUserInfoAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.PassportUserInfo)
@@ -161,11 +180,11 @@ internal sealed partial class HomaPassportClient
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
-        Response<UserInfo>? resp = await builder
-            .TryCatchSendAsync<Response<UserInfo>>(httpClient, logger, token)
+        HutaoResponse<UserInfo>? resp = await builder
+            .TryCatchSendAsync<HutaoResponse<UserInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return Response.Response.DefaultIfNull(resp);
+        return HutaoResponse.DefaultIfNull(resp);
     }
 
     private static string Encrypt(string text)

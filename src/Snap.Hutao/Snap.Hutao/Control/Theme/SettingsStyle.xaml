@@ -4,6 +4,9 @@
     <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
     <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
     <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+
+    <x:Double x:Key="SettingsCardContentControlMinWidth">120</x:Double>
+
     <Style
         x:Key="SettingsSectionHeaderTextBlockStyle"
         BasedOn="{StaticResource BodyStrongTextBlockStyle}"
@@ -16,16 +19,17 @@
         x:Key="SettingsContentComboBoxStyle"
         BasedOn="{StaticResource DefaultComboBoxStyle}"
         TargetType="ComboBox">
-        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="MinWidth" Value="{ThemeResource SettingsCardContentControlMinWidth}"/>
     </Style>
     <Style
         x:Key="SettingButtonStyle"
         BasedOn="{StaticResource DefaultButtonStyle}"
         TargetType="Button">
-        <Setter Property="BorderBrush" Value="{ThemeResource CardBorderBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
         <Setter Property="Padding" Value="16,6,16,6"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="MinWidth" Value="{ThemeResource SettingsCardContentControlMinWidth}"/>
     </Style>
 </ResourceDictionary>

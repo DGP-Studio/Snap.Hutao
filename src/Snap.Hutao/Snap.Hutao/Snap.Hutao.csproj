@@ -150,6 +150,10 @@
     <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
     <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
     <None Remove="View\Dialog\GeetestCustomUrlDialog.xaml" />
+    <None Remove="View\Dialog\HutaoPassportLoginDialog.xaml" />
+    <None Remove="View\Dialog\HutaoPassportRegisterDialog.xaml" />
+    <None Remove="View\Dialog\HutaoPassportResetPasswordDialog.xaml" />
+    <None Remove="View\Dialog\HutaoPassportUnregisterDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
@@ -163,7 +167,6 @@
     <None Remove="View\Page\CultivationPage.xaml" />
     <None Remove="View\Page\DailyNotePage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
-    <None Remove="View\Page\HutaoPassportPage.xaml" />
     <None Remove="View\Page\LaunchGamePage.xaml" />
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
@@ -302,6 +305,30 @@
   
   <ItemGroup>
     <AdditionalFiles Include="Resource\Localization\SH.resx" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="View\Dialog\HutaoPassportUnregisterDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="View\Dialog\HutaoPassportResetPasswordDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="View\Dialog\HutaoPassportRegisterDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="View\Dialog\HutaoPassportLoginDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
@@ -486,12 +513,6 @@
 
   <ItemGroup>
     <Page Update="View\Control\LoadingViewSlim.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Page\HutaoPassportPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
