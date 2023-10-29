@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Options;
 using Snap.Hutao.Web.Hutao;
 using System.Text.RegularExpressions;
@@ -61,17 +62,25 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// <inheritdoc/>
     public HutaoUserOptions Value { get => this; }
 
-    /// <summary>
-    /// 登录
-    /// </summary>
-    /// <param name="userName">用户名</param>
-    /// <param name="token">令牌</param>
-    public void LoginSucceed(string userName, string? token)
+    public async ValueTask<bool> PostLoginSucceedAsync(HomaPassportClient passportClient, ITaskContext taskContext, string username, string? token)
     {
-        UserName = userName;
+        await taskContext.SwitchToMainThreadAsync();
+        UserName = username;
         this.token = token;
         IsLoggedIn = true;
         initializedTaskCompletionSource.TrySetResult();
+
+        await taskContext.SwitchToBackgroundAsync();
+        Web.Response.Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(default).ConfigureAwait(false);
+        if (userInfoResponse.IsOk())
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            UpdateUserInfo(userInfoResponse.Data);
+            Ioc.Default.GetRequiredService<IMessenger>().Send(new Message.HutaoUserChangedMessage());
+            return true;
+        }
+
+        return false;
     }
 
     public void LogoutOrUnregister()
@@ -109,6 +118,12 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
         IsCloudServiceAllowed = IsLicensedDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
     }
 
+    public async ValueTask<string?> GetTokenAsync()
+    {
+        await initializedTaskCompletionSource.Task.ConfigureAwait(false);
+        return token;
+    }
+
     private void ClearUserInfo()
     {
         IsLicensedDeveloper = false;
@@ -116,11 +131,5 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
         GachaLogExpireAt = null;
         GachaLogExpireAtSlim = null;
         IsCloudServiceAllowed = false;
-    }
-
-    public async ValueTask<string?> GetTokenAsync()
-    {
-        await initializedTaskCompletionSource.Task.ConfigureAwait(false);
-        return token;
     }
 }
