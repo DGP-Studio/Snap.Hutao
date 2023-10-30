@@ -27,6 +27,7 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 
     public WebViewer()
     {
+        Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
         InitializeComponent();
         serviceProvider = Ioc.Default;
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();

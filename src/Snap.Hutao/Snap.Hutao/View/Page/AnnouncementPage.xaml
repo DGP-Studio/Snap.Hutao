@@ -51,9 +51,9 @@
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
                                     <!--  Image Layer  -->
-                                    <Border cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                    <Border cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
                                         <Border VerticalAlignment="Top" cw:VisualExtensions.NormalizedCenterPoint="0.5">
-                                            <cww:ConstrainedBox AspectRatio="1080:390" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                            <cww:ConstrainedBox AspectRatio="1080:390" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
                                                 <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
                                             </cww:ConstrainedBox>
                                             <cwa:Explicit.Animations>
