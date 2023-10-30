@@ -19,20 +19,9 @@ internal abstract class Wish
     /// </summary>
     public int TotalCount { get; set; }
 
-    /// <summary>
-    /// 统计开始时间
-    /// </summary>
-    public string FromFormatted
+    public string TimeSpanFormatted
     {
-        get => $"{From:yyyy.MM.dd}";
-    }
-
-    /// <summary>
-    /// 统计开始时间
-    /// </summary>
-    public string ToFormatted
-    {
-        get => $"{To:yyyy.MM.dd}";
+        get => $"{From:yyyy.MM.dd} - {To:yyyy.MM.dd}";
     }
 
     /// <summary>

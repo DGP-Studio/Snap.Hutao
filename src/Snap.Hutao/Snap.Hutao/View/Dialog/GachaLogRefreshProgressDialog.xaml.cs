@@ -21,7 +21,6 @@ internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
     public GachaLogRefreshProgressDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     /// <summary>

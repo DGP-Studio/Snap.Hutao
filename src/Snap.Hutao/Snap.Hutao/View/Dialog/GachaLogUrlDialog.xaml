@@ -13,6 +13,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBox x:Name="InputText" PlaceholderText="{shcm:ResourceString Name=ViewDialogGachaLogUrlInputPlaceholder}"/>
+        <TextBox PlaceholderText="{shcm:ResourceString Name=ViewDialogGachaLogUrlInputPlaceholder}" Text="{x:Bind Text, Mode=TwoWay}"/>
     </Grid>
 </ContentDialog>

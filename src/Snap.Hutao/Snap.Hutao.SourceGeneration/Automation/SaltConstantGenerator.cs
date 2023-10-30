@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.CodeAnalysis;
+using System;
 using System.Net.Http;
 using System.Runtime.Serialization;
 
@@ -10,7 +11,18 @@ namespace Snap.Hutao.SourceGeneration.Automation;
 [Generator(LanguageNames.CSharp)]
 internal sealed class SaltConstantGenerator : IIncrementalGenerator
 {
-    private static readonly HttpClient httpClient = new();
+    private static readonly HttpClient httpClient;
+    private static readonly Lazy<Response<SaltLatest>> lazySaltInfo;
+
+    static SaltConstantGenerator()
+    {
+        httpClient = new();
+        lazySaltInfo = new Lazy<Response<SaltLatest>>(() =>
+        {
+            string body = httpClient.GetStringAsync("https://internal.snapgenshin.cn/Archive/Salt/Latest").GetAwaiter().GetResult();
+            return JsonParser.FromJson<Response<SaltLatest>>(body)!;
+        });
+    }
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -19,8 +31,7 @@ internal sealed class SaltConstantGenerator : IIncrementalGenerator
 
     private static void GenerateSaltContstants(IncrementalGeneratorPostInitializationContext context)
     {
-        string body = httpClient.GetStringAsync("https://internal.snapgenshin.cn/Archive/Salt/Latest").GetAwaiter().GetResult();
-        Response<SaltLatest> saltInfo = JsonParser.FromJson<Response<SaltLatest>>(body)!;
+        Response<SaltLatest> saltInfo = lazySaltInfo.Value;
         string code = $$"""
             namespace Snap.Hutao.Web.Hoyolab;
 

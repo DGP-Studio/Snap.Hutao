@@ -10,6 +10,7 @@ src/Snap.Hutao/_ReSharper.Caches
 
 src/Snap.Hutao/Snap.Hutao/bin/
 src/Snap.Hutao/Snap.Hutao/obj/
+src/Snap.Hutao/Snap.Hutao/Resource/Localization/SH.Designer.cs
 src/Snap.Hutao/Snap.Hutao/Snap.Hutao_TemporaryKey.pfx
 
 src/Snap.Hutao/Snap.Hutao.Win32/bin/

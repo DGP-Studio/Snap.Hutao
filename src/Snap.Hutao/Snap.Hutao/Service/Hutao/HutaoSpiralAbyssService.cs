@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using Snap.Hutao.Web.Response;
 
@@ -64,7 +65,7 @@ internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
         return FromCacheOrWebAsync(nameof(TeamAppearance), homaClient.GetTeamCombinationsAsync);
     }
 
-    private async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, Func<CancellationToken, ValueTask<Response<T>>> taskFunc)
+    private async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, Func<CancellationToken, ValueTask<HutaoResponse<T>>> taskFunc)
         where T : class, new()
     {
         string key = $"{nameof(HutaoSpiralAbyssService)}.Cache.{typeName}";

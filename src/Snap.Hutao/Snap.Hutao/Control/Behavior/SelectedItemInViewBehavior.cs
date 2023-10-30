@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Xaml.Controls;
 
@@ -12,7 +13,7 @@ internal sealed class SelectedItemInViewBehavior : BehaviorBase<ListViewBase>
     {
         if (AssociatedObject.SelectedItem is { } item)
         {
-            AssociatedObject.ScrollIntoView(item);
+            AssociatedObject.SmoothScrollIntoViewWithItemAsync(item, ScrollItemPlacement.Center).SafeForget();
         }
 
         return true;

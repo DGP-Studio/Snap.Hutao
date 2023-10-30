@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Dialog;
 /// 祈愿记录Url对话框
 /// </summary>
 [HighQuality]
+[DependencyProperty("Text", typeof(string))]
 internal sealed partial class GachaLogUrlDialog : ContentDialog
 {
     private readonly ITaskContext taskContext;
@@ -20,7 +21,6 @@ internal sealed partial class GachaLogUrlDialog : ContentDialog
     public GachaLogUrlDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
@@ -33,7 +33,7 @@ internal sealed partial class GachaLogUrlDialog : ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
-        string url = InputText.Text.TrimEnd("#/log");
+        string url = Text.TrimEnd("#/log");
 
         return new(result == ContentDialogResult.Primary, url);
     }

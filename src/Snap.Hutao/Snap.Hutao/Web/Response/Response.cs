@@ -139,7 +139,7 @@ internal class Response
 /// <typeparam name="TData">数据类型</typeparam>
 [SuppressMessage("", "SA1402")]
 [HighQuality]
-internal sealed class Response<TData> : Response, IJsResult
+internal class Response<TData> : Response, IJsResult
 {
     /// <summary>
     /// 构造一个新的 Mihoyo 标准API响应

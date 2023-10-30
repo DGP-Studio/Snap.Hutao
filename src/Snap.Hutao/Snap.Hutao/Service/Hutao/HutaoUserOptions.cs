@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Options;
 using Snap.Hutao.Web.Hutao;
 using System.Text.RegularExpressions;
@@ -21,6 +22,7 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     private bool isHutaoCloudServiceAllowed;
     private bool isLicensedDeveloper;
     private string? gachaLogExpireAt;
+    private string? gachaLogExpireAtSlim;
     private bool isMaintainer;
 
     /// <summary>
@@ -55,20 +57,37 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// </summary>
     public string? GachaLogExpireAt { get => gachaLogExpireAt; set => SetProperty(ref gachaLogExpireAt, value); }
 
+    public string? GachaLogExpireAtSlim { get => gachaLogExpireAtSlim; set => SetProperty(ref gachaLogExpireAtSlim, value); }
+
     /// <inheritdoc/>
     public HutaoUserOptions Value { get => this; }
 
-    /// <summary>
-    /// 登录
-    /// </summary>
-    /// <param name="userName">用户名</param>
-    /// <param name="token">令牌</param>
-    public void LoginSucceed(string userName, string? token)
+    public async ValueTask<bool> PostLoginSucceedAsync(HomaPassportClient passportClient, ITaskContext taskContext, string username, string? token)
     {
-        UserName = userName;
+        await taskContext.SwitchToMainThreadAsync();
+        UserName = username;
         this.token = token;
         IsLoggedIn = true;
         initializedTaskCompletionSource.TrySetResult();
+
+        await taskContext.SwitchToBackgroundAsync();
+        Web.Response.Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(default).ConfigureAwait(false);
+        if (userInfoResponse.IsOk())
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            UpdateUserInfo(userInfoResponse.Data);
+            return true;
+        }
+
+        return false;
+    }
+
+    public void LogoutOrUnregister()
+    {
+        UserName = null;
+        token = null;
+        IsLoggedIn = false;
+        ClearUserInfo();
     }
 
     /// <summary>
@@ -94,6 +113,7 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
         IsLicensedDeveloper = userInfo.IsLicensedDeveloper;
         IsMaintainer = userInfo.IsMaintainer;
         GachaLogExpireAt = Regex.Unescape(SH.ServiceHutaoUserGachaLogExpiredAt).Format(userInfo.GachaLogExpireAt);
+        GachaLogExpireAtSlim = $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}";
         IsCloudServiceAllowed = IsLicensedDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
     }
 
@@ -101,5 +121,14 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     {
         await initializedTaskCompletionSource.Task.ConfigureAwait(false);
         return token;
+    }
+
+    private void ClearUserInfo()
+    {
+        IsLicensedDeveloper = false;
+        IsMaintainer = false;
+        GachaLogExpireAt = null;
+        GachaLogExpireAtSlim = null;
+        IsCloudServiceAllowed = false;
     }
 }

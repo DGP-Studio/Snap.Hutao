@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.ViewModel.GachaLog;
+using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
 
@@ -28,7 +29,7 @@ internal interface IGachaLogHutaoCloudService
     /// <returns>祈愿统计信息</returns>
     ValueTask<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default);
 
-    ValueTask<Response<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default);
+    ValueTask<HutaoResponse<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取祈愿记录

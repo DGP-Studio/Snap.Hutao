@@ -315,25 +315,11 @@
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
-                                            <StackPanel
+                                            <TextBlock
                                                 Grid.Row="2"
                                                 Margin="0,6,0,8"
                                                 Opacity="0.6"
-                                                Orientation="Horizontal">
-                                                <TextBlock
-                                                    HorizontalAlignment="Left"
-                                                    Style="{StaticResource BodyTextBlockStyle}"
-                                                    Text="{Binding FromFormatted}"/>
-                                                <TextBlock
-                                                    HorizontalAlignment="Left"
-                                                    VerticalAlignment="Center"
-                                                    Style="{StaticResource BodyTextBlockStyle}"
-                                                    Text=" - "/>
-                                                <TextBlock
-                                                    HorizontalAlignment="Left"
-                                                    Style="{StaticResource BodyTextBlockStyle}"
-                                                    Text="{Binding ToFormatted}"/>
-                                            </StackPanel>
+                                                Text="{Binding TimeSpanFormatted}"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>

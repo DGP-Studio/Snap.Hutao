@@ -24,7 +24,6 @@ internal sealed partial class GachaLogImportDialog : ContentDialog
     public GachaLogImportDialog(IServiceProvider serviceProvider, UIGF uigf)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         UIGF = uigf;

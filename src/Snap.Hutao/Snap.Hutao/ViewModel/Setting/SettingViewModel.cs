@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 using Windows.Storage.Pickers;
 using Windows.System;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.Setting;
 
 /// <summary>
 /// 设置视图模型
@@ -45,6 +45,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly INavigationService navigationService;
     private readonly IClipboardInterop clipboardInterop;
     private readonly IShellLinkInterop shellLinkInterop;
+    private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
@@ -72,6 +73,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     public HutaoUserOptions UserOptions { get => hutaoUserOptions; }
 
     public HomeCardOptions HomeCardOptions { get => homeCardOptions; }
+
+    public HutaoPassportViewModel Passport { get => hutaoPassportViewModel; }
 
     /// <summary>
     /// 选中的背景类型
@@ -225,12 +228,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         {
             infoBarService.Error(ex);
         }
-    }
-
-    [Command("NavigateToHutaoPassportCommand")]
-    private void NavigateToHutaoPassport()
-    {
-        navigationService.Navigate<View.Page.HutaoPassportPage>(INavigationAwaiter.Default);
     }
 
     [Command("OpenCacheFolderCommand")]

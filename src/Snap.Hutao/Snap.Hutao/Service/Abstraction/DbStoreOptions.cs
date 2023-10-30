@@ -153,7 +153,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <param name="key">键</param>
     /// <param name="value">值</param>
     /// <param name="propertyName">属性名称</param>
-    protected void SetOption(ref string? storage, string key, string value, [CallerMemberName] string? propertyName = null)
+    protected void SetOption(ref string? storage, string key, string? value, [CallerMemberName] string? propertyName = null)
     {
         if (!SetProperty(ref storage, value, propertyName))
         {

@@ -20,7 +20,6 @@ internal sealed partial class DailyNoteNotificationDialog : ContentDialog
     public DailyNoteNotificationDialog(IServiceProvider serviceProvider, DailyNoteEntry entry)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         DataContext = entry;
     }

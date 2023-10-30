@@ -50,6 +50,8 @@ internal class LocalizedEnumGenerator : IIncrementalGenerator
             // Copyright (c) DGP Studio. All rights reserved.
             // Licensed under the MIT license.
             
+            using System.Globalization;
+
             namespace Snap.Hutao.Resource.Localization;
 
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(LocalizedEnumGenerator)}}", "1.0.0.0")]
@@ -79,7 +81,7 @@ internal class LocalizedEnumGenerator : IIncrementalGenerator
                     }
                     else
                     {
-                        return SH.ResourceManager.GetString(key);
+                        return SH.ResourceManager.GetString(key, CultureInfo.CurrentCulture);
                     }
                 }
 
@@ -102,7 +104,7 @@ internal class LocalizedEnumGenerator : IIncrementalGenerator
                         _ => string.Empty,
                     };
 
-                    return SH.ResourceManager.GetString(key);
+                    return SH.ResourceManager.GetString(key, CultureInfo.CurrentCulture);
                 }
             }
             """);

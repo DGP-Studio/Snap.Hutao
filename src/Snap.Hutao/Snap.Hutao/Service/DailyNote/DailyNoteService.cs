@@ -3,12 +3,15 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Collections.ObjectModel;
 using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote;
 
@@ -108,6 +111,8 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
     private async ValueTask RefreshDailyNotesCoreAsync(bool forceRefresh)
     {
+        DailyNoteWebhookOperation dailyNoteWebhookOperation = serviceProvider.GetRequiredService<DailyNoteWebhookOperation>();
+
         foreach (DailyNoteEntry entry in await dailyNoteDbService.GetDailyNoteEntryIncludeUserListAsync().ConfigureAwait(false))
         {
             if (!forceRefresh && entry.DailyNote is not null)
@@ -144,6 +149,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 // database
                 entry.UpdateDailyNote(dailyNote);
                 await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
+                await dailyNoteWebhookOperation.TryPostDailyNoteToWebhookAsync(dailyNote).ConfigureAwait(false);
             }
         }
     }

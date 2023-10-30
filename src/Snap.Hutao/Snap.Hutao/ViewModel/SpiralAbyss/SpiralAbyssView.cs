@@ -148,5 +148,4 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
     {
         return ranks.Where(r => r.AvatarId != 0U).Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
     }
-
 }

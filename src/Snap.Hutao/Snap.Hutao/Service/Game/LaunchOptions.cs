@@ -53,13 +53,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     public bool IsFullScreen
     {
         get => GetOption(ref isFullScreen, SettingEntry.LaunchIsFullScreen);
-        set
-        {
-            if (SetOption(ref isFullScreen, SettingEntry.LaunchIsFullScreen, value) && value)
-            {
-                IsBorderless = false;
-            }
-        }
+        set => SetOption(ref isFullScreen, SettingEntry.LaunchIsFullScreen, value);
     }
 
     /// <summary>
@@ -68,14 +62,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     public bool IsBorderless
     {
         get => GetOption(ref isBorderless, SettingEntry.LaunchIsBorderless);
-        set
-        {
-            if (SetOption(ref isBorderless, SettingEntry.LaunchIsBorderless, value) && value)
-            {
-                IsExclusive = false;
-                IsFullScreen = false;
-            }
-        }
+        set => SetOption(ref isBorderless, SettingEntry.LaunchIsBorderless, value);
     }
 
     /// <summary>
@@ -84,13 +71,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     public bool IsExclusive
     {
         get => GetOption(ref isExclusive, SettingEntry.LaunchIsExclusive);
-        set
-        {
-            if (SetOption(ref isExclusive, SettingEntry.LaunchIsExclusive, value) && value)
-            {
-                IsFullScreen = true;
-            }
-        }
+        set => SetOption(ref isExclusive, SettingEntry.LaunchIsExclusive, value);
     }
 
     /// <summary>
@@ -153,7 +134,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private static void InitializeMonitors(List<NameValue<int>> monitors)
     {
         // This list can't use foreach
-        // https://github.com/microsoft/microsoft-ui-xaml/issues/6454
+        // https://github.com/microsoft/CsWinRT/issues/747
         IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
         for (int i = 0; i < displayAreas.Count; i++)
         {
@@ -165,12 +146,15 @@ internal sealed class LaunchOptions : DbStoreOptions
 
     private static void InitializeScreenFps(out int fps)
     {
-        HDC hDC = GetDC(HWND.Null);
-        fps = GetDeviceCaps(hDC, GET_DEVICE_CAPS_INDEX.VREFRESH);
-        if (ReleaseDC(HWND.Null, hDC) == 0)
+        HDC hDC = default;
+        try
         {
-            // not released
-            throw new Win32Exception();
+            hDC = GetDC(HWND.Null);
+            fps = GetDeviceCaps(hDC, GET_DEVICE_CAPS_INDEX.VREFRESH);
+        }
+        finally
+        {
+            _ = ReleaseDC(HWND.Null, hDC);
         }
     }
 }

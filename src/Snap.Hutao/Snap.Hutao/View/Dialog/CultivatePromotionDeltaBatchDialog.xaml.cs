@@ -14,7 +14,6 @@ internal sealed partial class CultivatePromotionDeltaBatchDialog : ContentDialog
     public CultivatePromotionDeltaBatchDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 

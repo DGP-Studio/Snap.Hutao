@@ -126,49 +126,48 @@
                                             <Border.Background>
                                                 <ImageBrush ImageSource="ms-appx:///Resource/Icon/UI_GachaShowPanel_Bg_Weapon.png"/>
                                             </Border.Background>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="auto"/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-                                                <mxi:Interaction.Behaviors>
-                                                    <shcb:AutoHeightBehavior TargetHeight="1024" TargetWidth="2048"/>
-                                                </mxi:Interaction.Behaviors>
-                                                <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
-                                                <ScrollViewer
-                                                    Grid.Column="0"
-                                                    Margin="16"
-                                                    VerticalScrollBarVisibility="Hidden">
-                                                    <StackPanel>
-                                                        <shvc:BottomTextControl MaxWidth="80" Text="{shcm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}">
-                                                            <shvc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
-                                                        </shvc:BottomTextControl>
-
-                                                        <shvc:BottomTextControl Margin="0,16,0,0" Text="{shcm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}">
-                                                            <shvc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
-                                                        </shvc:BottomTextControl>
-                                                    </StackPanel>
-                                                </ScrollViewer>
-
-                                                <Grid Grid.ColumnSpan="2">
+                                            <cwc:ConstrainedBox AspectRatio="2048:1024">
+                                                <Grid>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="176*"/>
-                                                        <ColumnDefinition Width="848*"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
-                                                    <shci:CachedImage
+                                                    <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
+                                                    <ScrollViewer
+                                                        Grid.Column="0"
+                                                        Margin="16"
+                                                        VerticalScrollBarVisibility="Hidden">
+                                                        <StackPanel>
+                                                            <shvc:BottomTextControl MaxWidth="80" Text="{shcm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}">
+                                                                <shvc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                            </shvc:BottomTextControl>
+
+                                                            <shvc:BottomTextControl Margin="0,16,0,0" Text="{shcm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}">
+                                                                <shvc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                            </shvc:BottomTextControl>
+                                                        </StackPanel>
+                                                    </ScrollViewer>
+
+                                                    <Grid Grid.ColumnSpan="2">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="176*"/>
+                                                            <ColumnDefinition Width="848*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <shci:CachedImage
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Stretch"
+                                                            Source="{Binding Selected.Icon, Converter={StaticResource GachaEquipIconConverter}}"/>
+                                                    </Grid>
+                                                    <TextBlock
                                                         Grid.Column="1"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Stretch"
-                                                        Source="{Binding Selected.Icon, Converter={StaticResource GachaEquipIconConverter}}"/>
+                                                        Margin="16"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text="{Binding Selected.Name}"/>
                                                 </Grid>
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    Margin="16"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Bottom"
-                                                    Style="{StaticResource SubtitleTextBlockStyle}"
-                                                    Text="{Binding Selected.Name}"/>
-                                            </Grid>
+                                            </cwc:ConstrainedBox>
                                         </Border>
                                     </Border>
 

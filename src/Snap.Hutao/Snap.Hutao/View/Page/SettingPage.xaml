@@ -8,9 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    d:DataContext="{d:DesignInstance shv:SettingViewModel}"
+    xmlns:shvs="using:Snap.Hutao.ViewModel.Setting"
+    d:DataContext="{d:DesignInstance shvs:SettingViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <ScrollViewer>
@@ -71,11 +71,10 @@
                         </Grid>
                     </Grid>
                 </Border>
-
                 <TextBlock
                     Grid.Row="0"
                     Margin="0,4"
-                    Text="Copyright © 2022 - 2023 DGP Studio. All Rights Reserved."
+                    Text="Copyright © 2022 - 2024 DGP Studio. All Rights Reserved."
                     TextWrapping="Wrap"/>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingAboutHeader}"/>
@@ -95,13 +94,62 @@
                         <cwc:SettingsCard Description="{Binding HutaoOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
-                <cwc:SettingsCard
-                    Command="{Binding NavigateToHutaoPassportCommand}"
+                <cwc:SettingsExpander
                     Description="{Binding UserOptions.UserName}"
                     Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE716;}"
-                    IsClickEnabled="True"/>
-
+                    IsExpanded="True">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <Button
+                            Command="{Binding Passport.LoginCommand}"
+                            Content="{shcm:ResourceString Name=ViewPageSettingHutaoPassportLoginAction}"
+                            Style="{ThemeResource SettingButtonStyle}"
+                            Visibility="{Binding UserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                        <Button
+                            Command="{Binding Passport.RegisterCommand}"
+                            Content="{shcm:ResourceString Name=ViewPageSettingHutaoPassportRegisterAction}"
+                            Style="{ThemeResource SettingButtonStyle}"
+                            Visibility="{Binding UserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                        <Button
+                            Command="{Binding Passport.LogoutCommand}"
+                            Content="{shcm:ResourceString Name=ViewPageSettingHutaoPassportLogoutAction}"
+                            Style="{ThemeResource SettingButtonStyle}"
+                            Visibility="{Binding UserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    </StackPanel>
+                    <cwc:SettingsExpander.Items>
+                        <cwc:SettingsCard
+                            Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperHeader}"
+                            Visibility="{Binding UserOptions.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <cwc:SettingsCard
+                            Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerHeader}"
+                            Visibility="{Binding UserOptions.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <cwc:SettingsCard Description="{Binding UserOptions.GachaLogExpireAtSlim}" Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}"/>
+                        <cwc:SettingsCard
+                            Command="{Binding Passport.OpenRedeemWebsiteCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeHeader}"
+                            IsClickEnabled="True"/>
+                        <cwc:SettingsCard
+                            Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportDangerZoneDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportDangerZoneHeader}">
+                            <StackPanel Orientation="Horizontal" Spacing="16">
+                                <Button
+                                    Command="{Binding Passport.ResetPasswordCommand}"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingHutaoPassportResetPasswordAction}"
+                                    Style="{ThemeResource SettingButtonStyle}"/>
+                                <Button
+                                    Command="{Binding Passport.UnregisterCommand}"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingHutaoPassportUnregisterAction}"
+                                    Style="{ThemeResource SettingButtonStyle}"/>
+                            </StackPanel>
+                        </cwc:SettingsCard>
+                    </cwc:SettingsExpander.Items>
+                </cwc:SettingsExpander>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}"/>
                 <cwc:SettingsCard

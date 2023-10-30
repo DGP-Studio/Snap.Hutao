@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core.Windowing.HotKey;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;

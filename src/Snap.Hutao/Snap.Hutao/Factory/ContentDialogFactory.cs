@@ -23,7 +23,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         await taskContext.SwitchToMainThreadAsync();
         ContentDialog dialog = new()
         {
-            XamlRoot = currentWindowReference.Window.Content.XamlRoot,
+            XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
             Content = content,
             DefaultButton = ContentDialogButton.Primary,
@@ -39,7 +39,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         await taskContext.SwitchToMainThreadAsync();
         ContentDialog dialog = new()
         {
-            XamlRoot = currentWindowReference.Window.Content.XamlRoot,
+            XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
             Content = content,
             DefaultButton = defaultButton,
@@ -56,7 +56,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         await taskContext.SwitchToMainThreadAsync();
         ContentDialog dialog = new()
         {
-            XamlRoot = currentWindowReference.Window.Content.XamlRoot,
+            XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
             Content = new ProgressBar() { IsIndeterminate = true },
         };
@@ -68,12 +68,16 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         where TContentDialog : ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
-        return serviceProvider.CreateInstance<TContentDialog>(parameters);
+        TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
+        contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
+        return contentDialog;
     }
 
     public TContentDialog CreateInstance<TContentDialog>(params object[] parameters)
         where TContentDialog : ContentDialog
     {
-        return serviceProvider.CreateInstance<TContentDialog>(parameters);
+        TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
+        contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
+        return contentDialog;
     }
 }

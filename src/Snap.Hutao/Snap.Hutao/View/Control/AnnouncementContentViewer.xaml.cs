@@ -51,6 +51,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
     /// </summary>
     public AnnouncementContentViewer()
     {
+        Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
         InitializeComponent();
 
         loadEventHandler = OnLoaded;

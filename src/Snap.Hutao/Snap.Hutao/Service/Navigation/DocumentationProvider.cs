@@ -19,7 +19,6 @@ internal sealed partial class DocumentationProvider : IDocumentationProvider
         [typeof(CultivationPage)] = "https://hut.ao/features/develop-plan.html",
         [typeof(DailyNotePage)] = "https://hut.ao/features/real-time-notes.html",
         [typeof(GachaLogPage)] = "https://hut.ao/features/wish-export.html",
-        [typeof(HutaoPassportPage)] = "https://hut.ao/zh/features/hutao-settings.html#%E8%83%A1%E6%A1%83%E5%B8%90%E5%8F%B7",
         [typeof(LaunchGamePage)] = "https://hut.ao/features/game-launcher.html",
         [typeof(LoginHoyoverseUserPage)] = "https://hut.ao/features/mhy-account-switch.html",
         [typeof(LoginMihoyoUserPage)] = "https://hut.ao/features/mhy-account-switch.html",

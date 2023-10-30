@@ -8,6 +8,7 @@ using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 using System.Collections.ObjectModel;
@@ -134,11 +135,17 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
 
                 if (response is { ReturnCode: 0 })
                 {
-                    infoBarService.Success(response.Message);
+                    if (response is ILocalizableResponse localizableResponse)
+                    {
+                        infoBarService.Success(localizableResponse.GetLocalizationMessage());
+                    }
                 }
                 else
                 {
-                    infoBarService.Warning(response.Message);
+                    if (response is ILocalizableResponse localizableResponse)
+                    {
+                        infoBarService.Warning(localizableResponse.GetLocalizationMessage());
+                    }
                 }
             }
         }

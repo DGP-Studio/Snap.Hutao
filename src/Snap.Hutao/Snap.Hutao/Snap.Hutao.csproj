@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
@@ -100,6 +100,7 @@
     <None Remove="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <None Remove="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <None Remove="Resource\Icon\UI_Icon_Fetter.png" />
+    <None Remove="Resource\Icon\UI_Icon_Gift.png" />
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
     <None Remove="Resource\Icon\UI_Icon_Tower_Star.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
@@ -144,10 +145,15 @@
     <None Remove="View\Dialog\CultivatePromotionDeltaBatchDialog.xaml" />
     <None Remove="View\Dialog\CultivatePromotionDeltaDialog.xaml" />
     <None Remove="View\Dialog\DailyNoteNotificationDialog.xaml" />
+    <None Remove="View\Dialog\DailyNoteWebhookDialog.xaml" />
     <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
     <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
     <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
     <None Remove="View\Dialog\GeetestCustomUrlDialog.xaml" />
+    <None Remove="View\Dialog\HutaoPassportLoginDialog.xaml" />
+    <None Remove="View\Dialog\HutaoPassportRegisterDialog.xaml" />
+    <None Remove="View\Dialog\HutaoPassportResetPasswordDialog.xaml" />
+    <None Remove="View\Dialog\HutaoPassportUnregisterDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
@@ -161,7 +167,6 @@
     <None Remove="View\Page\CultivationPage.xaml" />
     <None Remove="View\Page\DailyNotePage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
-    <None Remove="View\Page\HutaoPassportPage.xaml" />
     <None Remove="View\Page\LaunchGamePage.xaml" />
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
@@ -226,6 +231,7 @@
     <Content Include="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <Content Include="Resource\Icon\UI_Icon_Fetter.png" />
+    <Content Include="Resource\Icon\UI_Icon_Gift.png" />
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
     <Content Include="Resource\Icon\UI_Icon_Tower_Star.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
@@ -253,7 +259,7 @@
     <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230830" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230830" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230830" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2-build.2" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.230907" />
@@ -262,8 +268,8 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.13">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -296,20 +302,39 @@
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <Compile Update="Resource\Localization\SH.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SH.resx</DependentUpon>
-    </Compile>
+    <AdditionalFiles Include="Resource\Localization\SH.resx" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="View\Dialog\HutaoPassportUnregisterDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="View\Dialog\HutaoPassportResetPasswordDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="View\Dialog\HutaoPassportRegisterDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="View\Dialog\HutaoPassportLoginDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resource\Localization\SH.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SH.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Page Update="View\Dialog\DailyNoteWebhookDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
@@ -488,12 +513,6 @@
 
   <ItemGroup>
     <Page Update="View\Control\LoadingViewSlim.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Page\HutaoPassportPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

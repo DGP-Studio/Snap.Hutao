@@ -206,10 +206,7 @@ internal sealed partial class GameService : IGameService
                 }
             }
 
-            if (!launchScheme.IsOversea)
-            {
-                await packageConverter.EnsureDeprecatedFilesAndSdkAsync(resource, gameFolder).ConfigureAwait(false);
-            }
+            await packageConverter.EnsureDeprecatedFilesAndSdkAsync(resource, gameFolder).ConfigureAwait(false);
 
             return true;
         }
@@ -225,8 +222,8 @@ internal sealed partial class GameService : IGameService
             return false;
         }
 
-        return Process.GetProcessesByName(YuanShenProcessName) is [_, ..]
-            || Process.GetProcessesByName(GenshinImpactProcessName) is [_, ..];
+        return Process.GetProcessesByName(YuanShenProcessName).Any()
+            || Process.GetProcessesByName(GenshinImpactProcessName).Any();
     }
 
     /// <inheritdoc/>
@@ -245,6 +242,7 @@ internal sealed partial class GameService : IGameService
         {
             try
             {
+                Interlocked.Increment(ref runningGamesCounter);
                 game.Start();
                 progress.Report(new(LaunchPhase.ProcessStarted, SH.ServiceGameLaunchPhaseProcessStarted));
 

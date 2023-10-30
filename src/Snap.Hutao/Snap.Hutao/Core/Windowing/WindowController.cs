@@ -39,8 +39,11 @@ internal sealed class WindowController
 
     private static void TransformToCenterScreen(ref RectInt32 rect)
     {
-        DisplayArea displayArea = DisplayArea.GetFromRect(rect, DisplayAreaFallback.Primary);
+        DisplayArea displayArea = DisplayArea.GetFromRect(rect, DisplayAreaFallback.Nearest);
         RectInt32 workAreaRect = displayArea.WorkArea;
+
+        rect.Width = Math.Min(workAreaRect.Width, rect.Width);
+        rect.Height = Math.Min(workAreaRect.Height, rect.Height);
 
         rect.X = workAreaRect.X + ((workAreaRect.Width - rect.Width) / 2);
         rect.Y = workAreaRect.Y + ((workAreaRect.Height - rect.Height) / 2);

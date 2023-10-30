@@ -103,6 +103,11 @@ internal static class HutaoEndpoints
     public const string PassportRegister = $"{HomaSnapGenshinApi}/Passport/Register";
 
     /// <summary>
+    /// 注销账号
+    /// </summary>
+    public const string PassportCancel = $"{HomaSnapGenshinApi}/Passport/Cancel";
+
+    /// <summary>
     /// 重设密码
     /// </summary>
     public const string PassportResetPassword = $"{HomaSnapGenshinApi}/Passport/ResetPassword";
