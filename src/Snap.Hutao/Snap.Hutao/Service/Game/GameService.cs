@@ -4,6 +4,7 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
+using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.Package;
@@ -25,6 +26,7 @@ namespace Snap.Hutao.Service.Game;
 [Injection(InjectAs.Singleton, typeof(IGameService))]
 internal sealed partial class GameService : IGameService
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly PackageConverter packageConverter;
     private readonly IServiceProvider serviceProvider;
     private readonly IGameDbService gameDbService;
@@ -300,7 +302,7 @@ internal sealed partial class GameService : IGameService
             {
                 // ContentDialog must be created by main thread.
                 await taskContext.SwitchToMainThreadAsync();
-                LaunchGameAccountNameDialog dialog = serviceProvider.CreateInstance<LaunchGameAccountNameDialog>();
+                LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);
                 (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(false);
 
                 if (isOk)
