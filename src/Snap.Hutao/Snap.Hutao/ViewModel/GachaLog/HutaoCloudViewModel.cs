@@ -1,11 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Factory.Abstraction;
-using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Hutao;
@@ -22,7 +20,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 /// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel, IRecipient<HutaoUserChangedMessage>
+internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 {
     private readonly INavigationService navigationService;
     private readonly IContentDialogFactory contentDialogFactory;
@@ -48,11 +46,6 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel, IReci
     /// 获取记录命令
     /// </summary>
     internal ICommand RetrieveCommand { get; set; }
-
-    public void Receive(HutaoUserChangedMessage message)
-    {
-        RefreshUidCollectionAsync().SafeForget();
-    }
 
     /// <summary>
     /// 异步获取祈愿记录

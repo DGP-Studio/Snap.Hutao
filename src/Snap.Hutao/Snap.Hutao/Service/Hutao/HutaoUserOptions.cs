@@ -76,7 +76,6 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
         {
             await taskContext.SwitchToMainThreadAsync();
             UpdateUserInfo(userInfoResponse.Data);
-            Ioc.Default.GetRequiredService<IMessenger>().Send(new Message.HutaoUserChangedMessage());
             return true;
         }
 
