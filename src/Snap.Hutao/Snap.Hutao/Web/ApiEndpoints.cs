@@ -168,7 +168,7 @@ internal static class ApiEndpoints
     }
     #endregion
 
-    #region
+    #region ApiTakumiEventBbsSignReward
 
     /// <summary>
     /// 签到活动Id
@@ -367,6 +367,19 @@ internal static class ApiEndpoints
     public const string AccountCreateActionTicket = $"{PassportApi}/account/ma-cn-verifier/app/createActionTicketByToken";
     #endregion
 
+    #region PublicDataApi
+
+    /// <summary>
+    /// 获取 fingerprint
+    /// </summary>
+    public const string DeviceFpGetFp = $"{PublicDataApiDeviceFpApi}/getFp";
+
+    public static string DeviceFpGetExtList(int platform)
+    {
+        return $"{PublicDataApiDeviceFpApi}/getExtList?platform={platform:D}";
+    }
+    #endregion
+
     #region SdkStaticLauncherApi
 
     /// <summary>
@@ -417,6 +430,9 @@ internal static class ApiEndpoints
     private const string PassportApi = "https://passport-api.mihoyo.com";
     private const string PassportApiAuthApi = $"{PassportApi}/account/auth/api";
     private const string PassportApiV4 = "https://passport-api-v4.mihoyo.com";
+
+    private const string PublicDataApi = "https://public-data-api.mihoyo.com";
+    private const string PublicDataApiDeviceFpApi = $"{PublicDataApi}/device-fp/api";
 
     private const string SdkStatic = "https://sdk-static.mihoyo.com";
     private const string SdkStaticLauncherApi = $"{SdkStatic}/hk4e_cn/mdk/launcher/api";
