@@ -20,4 +20,10 @@
             Columns="5"
             RowSpacing="4"/>
     </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="UniformGridColumns5Spacing8Template">
+        <cwcont:UniformGrid
+            ColumnSpacing="8"
+            Columns="5"
+            RowSpacing="8"/>
+    </ItemsPanelTemplate>
 </ResourceDictionary>

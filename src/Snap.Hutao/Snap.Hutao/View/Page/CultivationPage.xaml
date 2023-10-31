@@ -20,27 +20,39 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ControlFillColorTransparentBrush}">
+                        <cwconv:BoolToObjectConverter.TrueValue>
+                            <SolidColorBrush Color="#206A890A"/>
+                        </cwconv:BoolToObjectConverter.TrueValue>
+                    </cwconv:BoolToObjectConverter>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ControlFillColorTransparentBrush}">
+                        <cwconv:BoolToObjectConverter.TrueValue>
+                            <SolidColorBrush Color="#20A5D610"/>
+                        </cwconv:BoolToObjectConverter.TrueValue>
+                    </cwconv:BoolToObjectConverter>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+            <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
 
-        <cwconv:BoolToObjectConverter x:Key="BoolToOpacityConverter">
-            <cwconv:BoolToObjectConverter.TrueValue>
-                <x:Double>0.4</x:Double>
-            </cwconv:BoolToObjectConverter.TrueValue>
-            <cwconv:BoolToObjectConverter.FalseValue>
-                <x:Double>1</x:Double>
-            </cwconv:BoolToObjectConverter.FalseValue>
-        </cwconv:BoolToObjectConverter>
+            <cwconv:BoolToObjectConverter x:Key="BoolToOpacityConverter">
+                <cwconv:BoolToObjectConverter.TrueValue>
+                    <x:Double>0.4</x:Double>
+                </cwconv:BoolToObjectConverter.TrueValue>
+                <cwconv:BoolToObjectConverter.FalseValue>
+                    <x:Double>1</x:Double>
+                </cwconv:BoolToObjectConverter.FalseValue>
+            </cwconv:BoolToObjectConverter>
 
-        <cwconv:BoolToObjectConverter
-            x:Key="BoolToStyleSelector"
-            FalseValue="{StaticResource BodyTextBlockStyle}"
-            TrueValue="{StaticResource BaseTextBlockStyle}"/>
-
-        <cwconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ControlFillColorTransparentBrush}">
-            <cwconv:BoolToObjectConverter.TrueValue>
-                <SolidColorBrush Color="#20A5D610"/>
-            </cwconv:BoolToObjectConverter.TrueValue>
-        </cwconv:BoolToObjectConverter>
+            <cwconv:BoolToObjectConverter
+                x:Key="BoolToStyleSelector"
+                FalseValue="{StaticResource BodyTextBlockStyle}"
+                TrueValue="{StaticResource BaseTextBlockStyle}"/>
+        </ResourceDictionary>
     </Page.Resources>
 
     <mxi:Interaction.Behaviors>
@@ -176,7 +188,7 @@
                                                                                 Margin="6,0,0,0"
                                                                                 HorizontalAlignment="Stretch"
                                                                                 HorizontalContentAlignment="Stretch"
-                                                                                Background="{Binding IsToday, Converter={StaticResource BoolToBrushSelector}}"
+                                                                                Background="{Binding IsToday, Converter={ThemeResource BoolToBrushSelector}}"
                                                                                 Command="{Binding Path=DataContext.FinishStateCommand, Source={StaticResource BindingProxy}}"
                                                                                 CommandParameter="{Binding}"
                                                                                 Style="{StaticResource ButtonRevealStyle}">
