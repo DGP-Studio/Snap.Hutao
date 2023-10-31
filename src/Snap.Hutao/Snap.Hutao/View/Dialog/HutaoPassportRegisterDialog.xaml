@@ -28,7 +28,7 @@
         </Grid>
         <PasswordBox
             Margin="0,16,0,0"
-            IsEnabled="{x:Bind VerifyCode, Converter={StaticResource StringBoolConverter}}"
+            IsEnabled="{x:Bind VerifyCode, Converter={StaticResource StringBoolConverter}, Mode=TwoWay}"
             Password="{x:Bind Password, Mode=TwoWay}"
             PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
         <TextBlock
