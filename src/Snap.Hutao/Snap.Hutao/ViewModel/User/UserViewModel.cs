@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;
@@ -28,6 +29,7 @@ namespace Snap.Hutao.ViewModel.User;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class UserViewModel : ObservableObject
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IDocumentationProvider documentationProvider;
     private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
@@ -131,7 +133,7 @@ internal sealed partial class UserViewModel : ObservableObject
         await taskContext.SwitchToMainThreadAsync();
 
         // Get cookie from user input
-        UserDialog dialog = serviceProvider.CreateInstance<UserDialog>();
+        UserDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserDialog>().ConfigureAwait(false);
         ValueResult<bool, string> result = await dialog.GetInputCookieAsync().ConfigureAwait(false);
 
         // User confirms the input

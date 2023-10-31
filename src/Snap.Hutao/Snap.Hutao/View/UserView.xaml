@@ -280,7 +280,6 @@
                                     Text="{shcm:ResourceString Name=ViewUserUser}"/>
                                 <ListView
                                     Grid.Row="1"
-                                    MaxHeight="224"
                                     Margin="4"
                                     ItemsSource="{Binding Users}"
                                     SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
