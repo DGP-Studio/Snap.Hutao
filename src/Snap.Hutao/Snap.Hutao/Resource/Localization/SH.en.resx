@@ -540,7 +540,7 @@
     <value>Verification failed</value>
   </data>
   <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
-    <value>验证码已发送至邮箱</value>
+    <value>The verification code has been sent to your e-mail.</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>Validation request is too frequent. Please try again in 1 minute.</value>
@@ -1167,16 +1167,16 @@
     <value>Configure Geetest CAPTCHA Verficaition API</value>
   </data>
   <data name="ViewDialogHutaoPassportLoginTitle" xml:space="preserve">
-    <value>登录胡桃通行证</value>
+    <value>Login to Snap Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportRegisterTitle" xml:space="preserve">
-    <value>注册胡桃通行证</value>
+    <value>Signup Snap Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
-    <value>重置胡桃通行证密码</value>
+    <value>Reset Password of Snap Hutao Passport</value>
   </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
-    <value>注销胡桃通行证账号</value>
+    <value>Delete Snap Hutao Passport</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Export App</value>
@@ -1941,7 +1941,7 @@
     <value>Reset Password</value>
   </data>
   <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
-    <value>注销账号的数据将永远丢失，无法恢复</value>
+    <value>Delete Snap Hutao Passport will cause your data to lose without any recovery option</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
     <value>Enter your email</value>
@@ -2226,49 +2226,49 @@
     <value>Home</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
-    <value>三思而后行</value>
+    <value>Proceed with caution</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneHeader" xml:space="preserve">
-    <value>危险操作</value>
+    <value>Danger Zone</value>
   </data>
   <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
-    <value>胡桃云服务到期时间</value>
+    <value>Snap Hutao Cloud Expiring in</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证账号</value>
+    <value>Snap Hutao Passport</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLicensedDeveloperDescription" xml:space="preserve">
-    <value>您可以无限制使用任何基于胡桃云服务的功能</value>
+    <value>You are unlimited in any Snap Hutao Cloud features</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLicensedDeveloperHeader" xml:space="preserve">
-    <value>已认证的合作开发者</value>
+    <value>Certificated Developer</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLoginAction" xml:space="preserve">
-    <value>登录</value>
+    <value>Sign in</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLogoutAction" xml:space="preserve">
-    <value>退出登录</value>
+    <value>Sign out</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerDescription" xml:space="preserve">
-    <value>您可以无限制的使用任何测试功能</value>
+    <value>You are unlimited in any testing feature</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃开发/运维</value>
+    <value>Snap Hutao developer and maintainer</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
-    <value>我们有时会向某些用户赠送胡桃云兑换码</value>
+    <value>We sometimes give away Snap Hutao Cloud redemption codes to some users</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
-    <value>使用兑换码</value>
+    <value>Use Redemption Code</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
-    <value>注册</value>
+    <value>Register</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
-    <value>修改密码</value>
+    <value>Change Password</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
-    <value>注销账号</value>
+    <value>Delete Account</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
     <value>After a full reading of the Genshin Impact and Snap Hutao user agreements, I choose to enable「Game Launcher - Advanced Features」.</value>
