@@ -137,6 +137,89 @@
                     IsLoading="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
             </Grid>
         </Flyout>
+
+        <DataTemplate x:Key="HistoryWishItemTemplate">
+            <Border Width="40" Style="{StaticResource BorderCardStyle}">
+                <StackPanel>
+                    <shvc:ItemIcon
+                        Width="40"
+                        Height="40"
+                        Icon="{Binding Icon}"
+                        Quality="{Binding Quality}"/>
+                    <TextBlock
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding Count}"
+                        TextTrimming="None"
+                        TextWrapping="NoWrap"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HistoryWishListTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+                    <TextBlock
+                        Width="32"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding Version}"/>
+                    <TextBlock
+                        Margin="0,0,0,0"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding Name}"/>
+                </StackPanel>
+
+                <TextBlock
+                    Margin="0,8,0,0"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="{Binding TotalCountFormatted}"/>
+                <ItemsControl
+                    Grid.Row="1"
+                    Margin="0,6,0,0"
+                    HorizontalAlignment="Left"
+                    ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                    ItemsPanel="{StaticResource HorizontalStackPanelSpacing2Template}"
+                    ItemsSource="{Binding OrangeUpList}"/>
+                <ItemsControl
+                    Grid.Row="1"
+                    Margin="0,6,0,0"
+                    HorizontalAlignment="Right"
+                    ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                    ItemsPanel="{StaticResource HorizontalStackPanelSpacing2Template}"
+                    ItemsSource="{Binding PurpleUpList}"/>
+                <TextBlock
+                    Grid.Row="2"
+                    Margin="0,6,0,8"
+                    Opacity="0.6"
+                    Text="{Binding TimeSpanFormatted}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HistoryWishGridTemplate">
+            <Grid>
+                <shvc:ItemIcon
+                    Badge="{Binding Badge}"
+                    Icon="{Binding Icon}"
+                    Quality="{Binding Quality}"/>
+                <Border
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#80000000"
+                    CornerRadius="0,6,0,6">
+                    <TextBlock
+                        Margin="6,0,6,2"
+                        Foreground="#FFFFFFFF"
+                        Text="{Binding Count}"/>
+                </Border>
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -232,100 +315,10 @@
                         OpenPaneLength="323"
                         PaneBackground="Transparent">
                         <SplitView.Pane>
-                            <ListView ItemsSource="{Binding Statistics.HistoryWishes}" SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
-                                            <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                                                <TextBlock
-                                                    Width="32"
-                                                    Style="{StaticResource BaseTextBlockStyle}"
-                                                    Text="{Binding Version}"/>
-                                                <TextBlock
-                                                    Margin="0,0,0,0"
-                                                    Style="{StaticResource BaseTextBlockStyle}"
-                                                    Text="{Binding Name}"/>
-                                            </StackPanel>
-
-                                            <TextBlock
-                                                Margin="0,8,0,0"
-                                                HorizontalAlignment="Right"
-                                                Style="{StaticResource BaseTextBlockStyle}"
-                                                Text="{Binding TotalCountFormatted}"/>
-                                            <ItemsControl
-                                                Grid.Row="1"
-                                                Margin="0,6,0,0"
-                                                HorizontalAlignment="Left"
-                                                ItemsSource="{Binding OrangeUpList}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal" Spacing="2"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Border Width="40" Style="{StaticResource BorderCardStyle}">
-                                                            <StackPanel>
-                                                                <shvc:ItemIcon
-                                                                    Width="40"
-                                                                    Height="40"
-                                                                    Icon="{Binding Icon}"
-                                                                    Quality="{Binding Quality}"/>
-                                                                <TextBlock
-                                                                    HorizontalTextAlignment="Center"
-                                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Count}"
-                                                                    TextTrimming="None"
-                                                                    TextWrapping="NoWrap"/>
-                                                            </StackPanel>
-                                                        </Border>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                            <ItemsControl
-                                                Grid.Row="1"
-                                                Margin="0,6,0,0"
-                                                HorizontalAlignment="Right"
-                                                ItemsSource="{Binding PurpleUpList}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal" Spacing="2"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Border Width="40" Style="{StaticResource BorderCardStyle}">
-                                                            <StackPanel>
-                                                                <shvc:ItemIcon
-                                                                    Width="40"
-                                                                    Height="40"
-                                                                    Icon="{Binding Icon}"
-                                                                    Quality="{Binding Quality}"/>
-                                                                <TextBlock
-                                                                    HorizontalTextAlignment="Center"
-                                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Count}"
-                                                                    TextTrimming="None"
-                                                                    TextWrapping="NoWrap"/>
-                                                            </StackPanel>
-                                                        </Border>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                            <TextBlock
-                                                Grid.Row="2"
-                                                Margin="0,6,0,8"
-                                                Opacity="0.6"
-                                                Text="{Binding TimeSpanFormatted}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
+                            <ListView
+                                ItemTemplate="{StaticResource HistoryWishListTemplate}"
+                                ItemsSource="{Binding Statistics.HistoryWishes}"
+                                SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}"/>
                         </SplitView.Pane>
                         <SplitView.Content>
                             <ScrollViewer>
@@ -347,91 +340,35 @@
                                         </Border>
                                     </Border>
 
-
-
                                     <TextBlock
                                         Margin="0,16,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                                         Visibility="{Binding SelectedHistoryWish.OrangeList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                    <GridView ItemsSource="{Binding SelectedHistoryWish.OrangeList}" SelectionMode="None">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <shvc:ItemIcon
-                                                        Badge="{Binding Badge}"
-                                                        Icon="{Binding Icon}"
-                                                        Quality="{Binding Quality}"/>
-                                                    <Border
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Top"
-                                                        Background="#80000000"
-                                                        CornerRadius="0,6,0,6">
-                                                        <TextBlock
-                                                            Margin="6,0,6,2"
-                                                            Foreground="#FFFFFFFF"
-                                                            Text="{Binding Count}"/>
-                                                    </Border>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
+                                    <GridView
+                                        ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                        ItemsSource="{Binding SelectedHistoryWish.OrangeList}"
+                                        SelectionMode="None"/>
 
                                     <TextBlock
                                         Margin="0,0,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                                         Visibility="{Binding SelectedHistoryWish.PurpleList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                    <GridView ItemsSource="{Binding SelectedHistoryWish.PurpleList}" SelectionMode="None">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <shvc:ItemIcon
-                                                        Badge="{Binding Badge}"
-                                                        Icon="{Binding Icon}"
-                                                        Quality="{Binding Quality}"/>
-                                                    <Border
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Top"
-                                                        Background="#80000000"
-                                                        CornerRadius="0,6,0,6">
-                                                        <TextBlock
-                                                            Margin="6,0,6,2"
-                                                            Foreground="#FFFFFFFF"
-                                                            Text="{Binding Count}"/>
-                                                    </Border>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
+                                    <GridView
+                                        ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                        ItemsSource="{Binding SelectedHistoryWish.PurpleList}"
+                                        SelectionMode="None"/>
 
                                     <TextBlock
                                         Margin="0,0,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"
                                         Visibility="{Binding SelectedHistoryWish.BlueList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                    <GridView ItemsSource="{Binding SelectedHistoryWish.BlueList}" SelectionMode="None">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <shvc:ItemIcon
-                                                        Badge="{Binding Badge}"
-                                                        Icon="{Binding Icon}"
-                                                        Quality="{Binding Quality}"/>
-                                                    <Border
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Top"
-                                                        Background="#80000000"
-                                                        CornerRadius="0,6,0,6">
-                                                        <TextBlock
-                                                            Margin="6,0,6,2"
-                                                            Foreground="#FFFFFFFF"
-                                                            Text="{Binding Count}"/>
-                                                    </Border>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
+                                    <GridView
+                                        ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                        ItemsSource="{Binding SelectedHistoryWish.BlueList}"
+                                        SelectionMode="None"/>
                                 </StackPanel>
                             </ScrollViewer>
                         </SplitView.Content>
@@ -444,55 +381,19 @@
                                 Margin="0,16,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                            <GridView ItemsSource="{Binding Statistics.OrangeAvatars}" SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <shvc:ItemIcon
-                                                Badge="{Binding Badge}"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Count}"/>
-                                            </Border>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                            <GridView
+                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemsSource="{Binding Statistics.OrangeAvatars}"
+                                SelectionMode="None"/>
 
                             <TextBlock
                                 Margin="0,0,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                            <GridView ItemsSource="{Binding Statistics.PurpleAvatars}" SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <shvc:ItemIcon
-                                                Badge="{Binding Badge}"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Count}"/>
-                                            </Border>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                            <GridView
+                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemsSource="{Binding Statistics.PurpleAvatars}"
+                                SelectionMode="None"/>
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
@@ -503,82 +404,28 @@
                                 Margin="0,16,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                            <GridView ItemsSource="{Binding Statistics.OrangeWeapons}" SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <shvc:ItemIcon
-                                                Badge="{Binding Badge}"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Count}"/>
-                                            </Border>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                            <GridView
+                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemsSource="{Binding Statistics.OrangeWeapons}"
+                                SelectionMode="None"/>
 
                             <TextBlock
                                 Margin="0,0,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                            <GridView ItemsSource="{Binding Statistics.PurpleWeapons}" SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <shvc:ItemIcon
-                                                Badge="{Binding Badge}"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Count}"/>
-                                            </Border>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                            <GridView
+                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemsSource="{Binding Statistics.PurpleWeapons}"
+                                SelectionMode="None"/>
 
                             <TextBlock
                                 Margin="0,0,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
-                            <GridView ItemsSource="{Binding Statistics.BlueWeapons}" SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <shvc:ItemIcon
-                                                Badge="{Binding Badge}"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Count}"/>
-                                            </Border>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                            <GridView
+                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemsSource="{Binding Statistics.BlueWeapons}"
+                                SelectionMode="None"/>
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
