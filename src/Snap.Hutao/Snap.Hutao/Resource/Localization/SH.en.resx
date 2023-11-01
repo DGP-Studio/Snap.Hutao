@@ -1796,6 +1796,9 @@
   <data name="ViewPageGachaLogInputAction" xml:space="preserve">
     <value>Input</value>
   </data>
+  <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
+    <value>Recover Wish Record from Snap Hutao Cloud</value>
+  </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
@@ -2485,6 +2488,9 @@
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>Upload Data</value>
+  </data>
+  <data name="ViewTitleAutoClicking" xml:space="preserve">
+    <value>Auto Click</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>Tools</value>
