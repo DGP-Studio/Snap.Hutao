@@ -2489,6 +2489,9 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>上传数据</value>
   </data>
+  <data name="ViewTitleAutoClicking" xml:space="preserve">
+    <value>自动连点</value>
+  </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>工具</value>
   </data>

@@ -30,6 +30,58 @@
                 PreferredSelectedIndex="13"
                 Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
         </DataTemplate>
+
+        <DataTemplate x:Key="WeaponListTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <shci:CachedImage
+                    Grid.Column="0"
+                    Width="48"
+                    Height="48"
+                    Margin="0,0,12,6"
+                    Source="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding Name}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CultivateItemTemplate">
+            <shvc:BottomTextControl Text="{Binding Name}">
+                <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
+            </shvc:BottomTextControl>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AffixPivotHeaderTemplate">
+            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LevelFormatted}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AffixPivotItemTemplate">
+            <shct:DescriptionTextBlock Margin="16,16,0,0" Description="{Binding Description}">
+                <shct:DescriptionTextBlock.Resources>
+                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                    </Style>
+                </shct:DescriptionTextBlock.Resources>
+            </shct:DescriptionTextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CollocationTemplate">
+            <shvc:BottomTextControl Text="{Binding Rate}" ToolTipService.ToolTip="{Binding Name}">
+                <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
+            </shvc:BottomTextControl>
+        </DataTemplate>
+
+        <DataTemplate x:Key="WeaponGridTemplate">
+            <shvc:BottomTextControl Text="{Binding Name}">
+                <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
+            </shvc:BottomTextControl>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid>
@@ -70,12 +122,10 @@
                     Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
                     Label="{shcm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
             </CommandBar>
-            <cwc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-                <cwc:SwitchPresenter.ContentTransitions>
-                    <TransitionCollection>
-                        <ContentThemeTransition/>
-                    </TransitionCollection>
-                </cwc:SwitchPresenter.ContentTransitions>
+            <cwc:SwitchPresenter
+                Grid.Row="1"
+                ContentTransitions="{ThemeResource ContentThemeTransitions}"
+                Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
                 <cwc:Case Value="List">
                     <SplitView
                         DisplayMode="Inline"
@@ -85,35 +135,14 @@
                         <SplitView.Pane>
                             <ListView
                                 Grid.Row="1"
+                                ItemTemplate="{StaticResource WeaponListTemplate}"
                                 ItemsSource="{Binding Weapons}"
                                 SelectedItem="{Binding Selected, Mode=TwoWay}"
                                 SelectionMode="Single">
                                 <mxi:Interaction.Behaviors>
                                     <shcb:SelectedItemInViewBehavior/>
                                 </mxi:Interaction.Behaviors>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <shci:CachedImage
-                                                Grid.Column="0"
-                                                Width="48"
-                                                Height="48"
-                                                Margin="0,0,12,6"
-                                                Source="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}"/>
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                Margin="12,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding Name}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
                             </ListView>
-
                         </SplitView.Pane>
                         <SplitView.Content>
                             <ScrollViewer>
@@ -186,39 +215,18 @@
                                         Text="{shcm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
                                     <GridView
                                         Margin="16,16,0,0"
+                                        ItemTemplate="{StaticResource CultivateItemTemplate}"
                                         ItemsSource="{Binding Selected.CultivationItemsView}"
-                                        SelectionMode="None">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate>
-                                                <shvc:BottomTextControl Text="{Binding Name}">
-                                                    <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
-                                                </shvc:BottomTextControl>
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
+                                        SelectionMode="None"/>
                                     <StackPanel Visibility="{Binding Selected.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                         <TextBlock
                                             Margin="16,16,0,0"
                                             Style="{StaticResource BaseTextBlockStyle}"
                                             Text="{Binding Selected.Affix.Name}"/>
-                                        <Pivot ItemsSource="{Binding Selected.Affix.Descriptions}">
-                                            <Pivot.HeaderTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LevelFormatted}"/>
-                                                </DataTemplate>
-                                            </Pivot.HeaderTemplate>
-                                            <Pivot.ItemTemplate>
-                                                <DataTemplate>
-                                                    <shct:DescriptionTextBlock Margin="16,16,0,0" Description="{Binding Description}">
-                                                        <shct:DescriptionTextBlock.Resources>
-                                                            <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                                                                <Setter Property="TextWrapping" Value="Wrap"/>
-                                                            </Style>
-                                                        </shct:DescriptionTextBlock.Resources>
-                                                    </shct:DescriptionTextBlock>
-                                                </DataTemplate>
-                                            </Pivot.ItemTemplate>
-                                        </Pivot>
+                                        <Pivot
+                                            HeaderTemplate="{StaticResource AffixPivotHeaderTemplate}"
+                                            ItemTemplate="{StaticResource AffixPivotItemTemplate}"
+                                            ItemsSource="{Binding Selected.Affix.Descriptions}"/>
                                     </StackPanel>
 
                                     <TextBlock
@@ -229,16 +237,9 @@
                                         Margin="16,16,0,0"
                                         HorizontalAlignment="Stretch"
                                         HorizontalContentAlignment="Stretch"
+                                        ItemTemplate="{StaticResource CollocationTemplate}"
                                         ItemsSource="{Binding Selected.Collocation.Avatars}"
-                                        SelectionMode="None">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate>
-                                                <shvc:BottomTextControl Text="{Binding Rate}" ToolTipService.ToolTip="{Binding Name}">
-                                                    <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
-                                                </shvc:BottomTextControl>
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
+                                        SelectionMode="None"/>
                                 </StackPanel>
 
                             </ScrollViewer>
@@ -251,19 +252,13 @@
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                        ItemTemplate="{StaticResource WeaponGridTemplate}"
                         ItemsSource="{Binding Weapons}"
                         SelectedItem="{Binding Selected, Mode=TwoWay}"
                         SelectionMode="Single">
                         <mxi:Interaction.Behaviors>
                             <shcb:SelectedItemInViewBehavior/>
                         </mxi:Interaction.Behaviors>
-                        <GridView.ItemTemplate>
-                            <DataTemplate>
-                                <shvc:BottomTextControl Text="{Binding Name}">
-                                    <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
-                                </shvc:BottomTextControl>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
                     </GridView>
                 </cwc:Case>
             </cwc:SwitchPresenter>

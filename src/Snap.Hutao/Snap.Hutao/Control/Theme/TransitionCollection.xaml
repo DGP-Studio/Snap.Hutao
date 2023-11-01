@@ -14,4 +14,10 @@
     <TransitionCollection x:Key="ReorderThemeTransitions">
         <ReorderThemeTransition/>
     </TransitionCollection>
+    <TransitionCollection x:Key="RepositionThemeTransitions">
+        <RepositionThemeTransition/>
+    </TransitionCollection>
+    <TransitionCollection x:Key="NavigationThemeTransitions">
+        <NavigationThemeTransition/>
+    </TransitionCollection>
 </ResourceDictionary>
