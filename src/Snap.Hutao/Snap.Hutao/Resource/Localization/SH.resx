@@ -1796,6 +1796,9 @@
   <data name="ViewPageGachaLogInputAction" xml:space="preserve">
     <value>输入</value>
   </data>
+  <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
+    <value>从胡桃云恢复祈愿记录</value>
+  </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>刷新</value>
   </data>
