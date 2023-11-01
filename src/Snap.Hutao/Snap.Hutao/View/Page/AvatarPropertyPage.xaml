@@ -157,7 +157,7 @@
                         Margin="6,0,0,6"
                         VerticalAlignment="Bottom"
                         ItemTemplate="{StaticResource AvatarGridViewSkillTemplate}"
-                        ItemsPanel="{StaticResource HorizontalStackPanelTemplate}"
+                        ItemsPanel="{StaticResource HorizontalStackPanelSpacing0Template}"
                         ItemsSource="{Binding Skills}"/>
                 </Grid>
             </DataTemplate>
@@ -659,7 +659,7 @@
                                                     Grid.Row="1"
                                                     Grid.Column="0"
                                                     Margin="16"
-                                                    ItemsPanel="{StaticResource HorizontalStackPanelTemplate}"
+                                                    ItemsPanel="{StaticResource HorizontalStackPanelSpacing0Template}"
                                                     ItemsSource="{Binding SelectedAvatar.Constellations}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>

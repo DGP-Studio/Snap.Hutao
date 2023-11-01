@@ -11,7 +11,7 @@
     <ItemsPanelTemplate x:Key="WrapPanelSpacing4Template">
         <cwcont:WrapPanel HorizontalSpacing="4" VerticalSpacing="4"/>
     </ItemsPanelTemplate>
-    <ItemsPanelTemplate x:Key="HorizontalStackPanelTemplate">
+    <ItemsPanelTemplate x:Key="HorizontalStackPanelSpacing0Template">
         <StackPanel Orientation="Horizontal"/>
     </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="HorizontalStackPanelSpacing2Template">
