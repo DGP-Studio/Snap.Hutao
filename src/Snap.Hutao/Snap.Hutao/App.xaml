@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Color.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Converter.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/CornerRadius.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Control/Theme/FlyoutStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/FontStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Glyph.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/InfoBarOverride.xaml"/>

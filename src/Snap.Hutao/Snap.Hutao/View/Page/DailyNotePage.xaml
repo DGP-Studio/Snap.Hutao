@@ -27,6 +27,23 @@
 
     <Page.Resources>
         <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+
+        <DataTemplate x:Key="UserAndUidTemplate">
+            <Grid Padding="0,0,0,16">
+                <TextBlock VerticalAlignment="Center" Text="{Binding Uid}"/>
+                <Button
+                    Margin="16,0,0,0"
+                    Padding="6"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Command="{Binding DataContext.TrackRoleCommand, Source={StaticResource ViewModelBindingProxy}}"
+                    CommandParameter="{Binding}"
+                    Content="&#xE710;"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Style="{StaticResource ButtonRevealStyle}"
+                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageDailyNoteAddEntryToolTip}"/>
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid>
@@ -46,54 +63,27 @@
                 Label="{shcm:ResourceString Name=ViewPageDailyNoteVerify}">
                 <AppBarButton.Flyout>
                     <Flyout
+                        FlyoutPresenterStyle="{ThemeResource WebViewerFlyoutPresenterStyle}"
                         LightDismissOverlayMode="On"
                         Placement="Full"
                         ShowMode="Standard">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
                         <shvc:WebViewer SourceProvider="{Binding VerifyUrlSource, Mode=OneWay}"/>
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentAdd}}" Label="{shcm:ResourceString Name=ViewPageDailyNoteAddEntry}">
                 <AppBarButton.Flyout>
-                    <Flyout LightDismissOverlayMode="On" Placement="Bottom">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                <Setter Property="Padding" Value="0,2,0,2"/>
-                                <Setter Property="Background" Value="{ThemeResource FlyoutPresenterBackground}"/>
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
+                    <Flyout
+                        FlyoutPresenterStyle="{StaticResource FlyoutPresenterPadding0And2Style}"
+                        LightDismissOverlayMode="On"
+                        Placement="Bottom">
                         <StackPanel>
                             <TextBlock
                                 Margin="16,12,16,16"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewPageDailyNoteAddEntryHint}"/>
                             <ScrollViewer MaxHeight="320" Padding="16,0">
-                                <ItemsControl ItemsSource="{Binding UserAndUids}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid Padding="0,0,0,16">
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding Uid}"/>
-                                                <Button
-                                                    Margin="16,0,0,0"
-                                                    Padding="6"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Center"
-                                                    Command="{Binding DataContext.TrackRoleCommand, Source={StaticResource ViewModelBindingProxy}}"
-                                                    CommandParameter="{Binding}"
-                                                    Content="&#xE710;"
-                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                    Style="{StaticResource ButtonRevealStyle}"
-                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageDailyNoteAddEntryToolTip}"/>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <ItemsControl ItemTemplate="{StaticResource UserAndUidTemplate}" ItemsSource="{Binding UserAndUids}"/>
                             </ScrollViewer>
                         </StackPanel>
                     </Flyout>

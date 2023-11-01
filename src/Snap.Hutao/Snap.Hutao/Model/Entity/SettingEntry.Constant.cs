@@ -49,6 +49,11 @@ internal sealed partial class SettingEntry
     public const string DailyNoteSilentWhenPlayingGame = "DailyNote.SilentWhenPlayingGame";
 
     /// <summary>
+    /// 实时便笺 WebhookUrl
+    /// </summary>
+    public const string DailyNoteWebhookUrl = "DailyNote.WebhookUrl";
+
+    /// <summary>
     /// 启动游戏 独占全屏
     /// </summary>
     public const string LaunchIsExclusive = "Launch.IsExclusive";
