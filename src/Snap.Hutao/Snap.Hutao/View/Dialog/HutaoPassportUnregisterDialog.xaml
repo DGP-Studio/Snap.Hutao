@@ -22,8 +22,21 @@
             Margin="0,16,0,0"
             PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
             Text="{x:Bind UserName, Mode=TwoWay}"/>
+        <Grid Margin="0,16,0,0" ColumnSpacing="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportVerifyCodeHint}" Text="{x:Bind VerifyCode, Mode=TwoWay}"/>
+            <Button
+                Grid.Column="1"
+                VerticalAlignment="Stretch"
+                Command="{x:Bind VerifyCommand}"
+                Content="{shcm:ResourceString Name=ViewPageHutaoPassportVerifyCodeAction}"/>
+        </Grid>
         <PasswordBox
             Margin="0,16,0,0"
+            IsEnabled="{x:Bind VerifyCode, Converter={StaticResource StringBoolConverter}, Mode=OneWay}"
             Password="{x:Bind Password, Mode=TwoWay}"
             PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
     </StackPanel>
