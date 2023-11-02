@@ -31,12 +31,6 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
         await Launcher.LaunchUriAsync("https://homa.snapgenshin.com/redeem.html".ToUri());
     }
 
-    private static void SaveUserNameAndPassword(string username, string password)
-    {
-        LocalSetting.Set(SettingKeys.PassportUserName, username);
-        LocalSetting.Set(SettingKeys.PassportPassword, password);
-    }
-
     [Command("RegisterCommand")]
     private async Task RegisterAsync()
     {
@@ -56,9 +50,8 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                SaveUserNameAndPassword(username, password);
                 infoBarService.Information(response.Message);
-                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, response.Data).ConfigureAwait(false);
+                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
     }
@@ -109,10 +102,8 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                SaveUserNameAndPassword(username, password);
                 infoBarService.Information(response.Message);
-
-                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, response.Data).ConfigureAwait(false);
+                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
     }
@@ -144,10 +135,8 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                SaveUserNameAndPassword(username, password);
                 infoBarService.Information(response.Message);
-
-                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, response.Data).ConfigureAwait(false);
+                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
     }

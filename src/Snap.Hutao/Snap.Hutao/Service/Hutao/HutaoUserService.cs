@@ -44,7 +44,7 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
 
             if (response.IsOk())
             {
-                if (await options.PostLoginSucceedAsync(passportClient, taskContext, userName, response.Data).ConfigureAwait(false))
+                if (await options.PostLoginSucceedAsync(passportClient, taskContext, userName, token: response.Data).ConfigureAwait(false))
                 {
                     isInitialized = true;
                 }

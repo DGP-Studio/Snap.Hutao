@@ -20,6 +20,8 @@
             Severity="Error"/>
         <TextBox
             Margin="0,16,0,0"
+            InputScope="EmailNameOrAddress"
+            IsSpellCheckEnabled="False"
             PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
             Text="{x:Bind UserName, Mode=TwoWay}"/>
         <Grid Margin="0,16,0,0" ColumnSpacing="16">
