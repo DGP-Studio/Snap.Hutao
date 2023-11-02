@@ -20,7 +20,7 @@
             Severity="Error"/>
         <TextBox
             Margin="0,16,0,0"
-            InputScope="EmailNameOrAddress"
+            InputScope="EmailSmtpAddress"
             IsSpellCheckEnabled="False"
             PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
             Text="{x:Bind UserName, Mode=TwoWay}"/>

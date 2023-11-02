@@ -14,7 +14,7 @@
 
     <StackPanel Margin="0,8,0,0">
         <TextBox
-            InputScope="EmailNameOrAddress"
+            InputScope="EmailSmtpAddress"
             IsSpellCheckEnabled="False"
             PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
             Text="{x:Bind UserName, Mode=TwoWay}"/>
