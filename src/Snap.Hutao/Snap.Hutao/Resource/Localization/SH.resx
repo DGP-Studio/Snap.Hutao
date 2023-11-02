@@ -539,8 +539,14 @@
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
     <value>验证失败</value>
   </data>
+  <data name="ServerPassportVerifyRequestNotCurrentUser" xml:space="preserve">
+    <value>验证请求失败，不是当前登录的账号</value>
+  </data>
   <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
     <value>验证码已发送至邮箱</value>
+  </data>
+  <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
+    <value>验证请求失败，当前邮箱已被注册</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>验证请求过快，请 1 分钟后再试</value>
@@ -1796,6 +1802,9 @@
   <data name="ViewPageGachaLogInputAction" xml:space="preserve">
     <value>输入</value>
   </data>
+  <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
+    <value>从胡桃云恢复祈愿记录</value>
+  </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>刷新</value>
   </data>
@@ -2485,6 +2494,9 @@
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>上传数据</value>
+  </data>
+  <data name="ViewTitleAutoClicking" xml:space="preserve">
+    <value>自动连点</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>工具</value>

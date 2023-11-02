@@ -126,7 +126,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 
     public string? WebhookUrl
     {
-        get => GetOption(ref webhookUrl, SettingEntry.DailyNoteSilentWhenPlayingGame);
-        set => SetOption(ref webhookUrl, SettingEntry.DailyNoteSilentWhenPlayingGame, value);
+        get => GetOption(ref webhookUrl, SettingEntry.DailyNoteWebhookUrl);
+        set => SetOption(ref webhookUrl, SettingEntry.DailyNoteWebhookUrl, value);
     }
 }

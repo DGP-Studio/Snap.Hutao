@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Game;
 /// 启动方案
 /// </summary>
 [HighQuality]
-internal sealed partial class LaunchScheme
+internal partial class LaunchScheme
 {
     /// <summary>
     /// 显示名称
@@ -32,29 +32,29 @@ internal sealed partial class LaunchScheme
     /// <summary>
     /// 通道
     /// </summary>
-    public ChannelType Channel { get; private set; }
+    public ChannelType Channel { get; private protected set; }
 
     /// <summary>
     /// 子通道
     /// </summary>
-    public SubChannelType SubChannel { get; private set; }
+    public SubChannelType SubChannel { get; private protected set; }
 
     /// <summary>
     /// 启动器 Id
     /// </summary>
-    public int LauncherId { get; private set; }
+    public int LauncherId { get; private protected set; }
 
     /// <summary>
     /// API Key
     /// </summary>
-    public string Key { get; private set; } = default!;
+    public string Key { get; private protected set; } = default!;
 
     /// <summary>
     /// 是否为海外
     /// </summary>
-    public bool IsOversea { get; private set; }
+    public bool IsOversea { get; private protected set; }
 
-    public bool IsNotCompatOnly { get; private set; } = true;
+    public bool IsNotCompatOnly { get; private protected set; } = true;
 
     /// <summary>
     /// 多通道相等

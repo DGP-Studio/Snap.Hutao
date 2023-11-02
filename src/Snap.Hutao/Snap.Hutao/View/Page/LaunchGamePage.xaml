@@ -26,6 +26,14 @@
     <Page.Resources>
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
         <Visibility x:Key="VisibilityCollapsed">Collapsed</Visibility>
+
+        <DataTemplate x:Key="GameResourceTemplate">
+            <shvc:LaunchGameResourceExpander
+                Margin="16,16,16,0"
+                cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
+                DataContext="{Binding Mode=OneWay}"
+                Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceDiffHeader}"/>
+        </DataTemplate>
     </Page.Resources>
     <Grid>
         <Grid
@@ -202,23 +210,35 @@
                                         <ToggleSwitch Width="156" IsOn="{Binding Options.IsBorderless, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}" Header="-screen-width">
-                                        <NumberBox
-                                            Width="156"
-                                            Padding="10,6,0,0"
-                                            Value="{Binding Options.ScreenWidth, Mode=TwoWay}"/>
+                                        <StackPanel Orientation="Horizontal" Spacing="16">
+                                            <NumberBox
+                                                Width="156"
+                                                Padding="10,6,0,0"
+                                                IsEnabled="{Binding Options.IsScreenWidthEnabled}"
+                                                Value="{Binding Options.ScreenWidth, Mode=TwoWay}"/>
+                                            <ToggleSwitch Width="156" IsOn="{Binding Options.IsScreenWidthEnabled, Mode=TwoWay}"/>
+                                        </StackPanel>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightDescription}" Header="-screen-height">
-                                        <NumberBox
-                                            Width="156"
-                                            Padding="10,6,0,0"
-                                            Value="{Binding Options.ScreenHeight, Mode=TwoWay}"/>
+                                        <StackPanel Orientation="Horizontal" Spacing="16">
+                                            <NumberBox
+                                                Width="156"
+                                                Padding="10,6,0,0"
+                                                IsEnabled="{Binding Options.IsScreenHeightEnabled}"
+                                                Value="{Binding Options.ScreenHeight, Mode=TwoWay}"/>
+                                            <ToggleSwitch Width="156" IsOn="{Binding Options.IsScreenHeightEnabled, Mode=TwoWay}"/>
+                                        </StackPanel>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsDescription}" Header="-monitor">
-                                        <ComboBox
-                                            Width="156"
-                                            DisplayMemberPath="Name"
-                                            ItemsSource="{Binding Options.Monitors}"
-                                            SelectedItem="{Binding Options.Monitor, Mode=TwoWay}"/>
+                                        <StackPanel Orientation="Horizontal" Spacing="16">
+                                            <ComboBox
+                                                Width="156"
+                                                DisplayMemberPath="Name"
+                                                IsEnabled="{Binding Options.IsMonitorEnabled}"
+                                                ItemsSource="{Binding Options.Monitors}"
+                                                SelectedItem="{Binding Options.Monitor, Mode=TwoWay}"/>
+                                            <ToggleSwitch Width="156" IsOn="{Binding Options.IsMonitorEnabled, Mode=TwoWay}"/>
+                                        </StackPanel>
                                     </cwc:SettingsCard>
                                 </cwc:SettingsExpander.Items>
                             </cwc:SettingsExpander>
@@ -266,33 +286,19 @@
                                     DataContext="{Binding GameResource.PreDownloadGame.Latest, Mode=OneWay}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameResourcePreDownloadHeader}"
                                     Visibility="{Binding FallbackValue={StaticResource VisibilityCollapsed}, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
-                                <ItemsControl Margin="0,0,0,0" ItemsSource="{Binding GameResource.PreDownloadGame.Diffs, Mode=OneWay}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <shvc:LaunchGameResourceExpander
-                                                Margin="16,16,16,0"
-                                                cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                                DataContext="{Binding Mode=OneWay}"
-                                                Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceDiffHeader}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <ItemsControl
+                                    Margin="0,0,0,0"
+                                    ItemTemplate="{StaticResource GameResourceTemplate}"
+                                    ItemsSource="{Binding GameResource.PreDownloadGame.Diffs, Mode=OneWay}"/>
                                 <shvc:LaunchGameResourceExpander
                                     Margin="16,16,16,0"
                                     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
                                     DataContext="{Binding GameResource.Game.Latest, Mode=OneWay}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceLatestHeader}"/>
-                                <ItemsControl Margin="0,0,0,16" ItemsSource="{Binding GameResource.Game.Diffs, Mode=OneWay}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <shvc:LaunchGameResourceExpander
-                                                Margin="16,16,16,0"
-                                                cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                                DataContext="{Binding Mode=OneWay}"
-                                                Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceDiffHeader}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <ItemsControl
+                                    Margin="0,0,0,16"
+                                    ItemTemplate="{StaticResource GameResourceTemplate}"
+                                    ItemsSource="{Binding GameResource.Game.Diffs, Mode=OneWay}"/>
                             </StackPanel>
                         </Grid>
                     </ScrollViewer>

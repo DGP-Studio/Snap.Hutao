@@ -164,6 +164,21 @@
                 </Grid>
             </Border>
         </DataTemplate>
+
+        <Style
+            x:Key="AchievementGoalListViewItemStyle"
+            BasedOn="{StaticResource DefaultListViewItemStyle}"
+            TargetType="ListViewItem">
+            <Setter Property="Margin" Value="0,0,6,0"/>
+        </Style>
+
+        <Style
+            x:Key="AchievementListViewItemStyle"
+            BasedOn="{StaticResource DefaultListViewItemStyle}"
+            TargetType="ListViewItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0,4,8,0"/>
+        </Style>
     </Page.Resources>
 
     <mxi:Interaction.Behaviors>
@@ -282,6 +297,7 @@
                         PaneBackground="{x:Null}">
                         <SplitView.Pane>
                             <ListView
+                                ItemContainerStyle="{StaticResource AchievementGoalListViewItemStyle}"
                                 ItemTemplate="{StaticResource AchievementGoalListTemplate}"
                                 ItemsSource="{Binding AchievementGoals}"
                                 SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
@@ -289,11 +305,6 @@
                                 <mxi:Interaction.Behaviors>
                                     <shcb:SelectedItemInViewBehavior/>
                                 </mxi:Interaction.Behaviors>
-                                <ListView.ItemContainerStyle>
-                                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                                        <Setter Property="Margin" Value="0,0,6,0"/>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
                             </ListView>
                         </SplitView.Pane>
 
@@ -301,16 +312,10 @@
                             <ListView
                                 Margin="8,0,0,0"
                                 Padding="0,0,0,8"
+                                ItemContainerStyle="{StaticResource AchievementListViewItemStyle}"
                                 ItemTemplate="{StaticResource AchievementTemplate}"
                                 ItemsSource="{Binding Achievements}"
-                                SelectionMode="None">
-                                <ListView.ItemContainerStyle>
-                                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                                        <Setter Property="Padding" Value="0"/>
-                                        <Setter Property="Margin" Value="0,4,8,0"/>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                            </ListView>
+                                SelectionMode="None"/>
                         </SplitView.Content>
                     </SplitView>
                 </cwc:Case>

@@ -17,7 +17,7 @@
         <NavigationView
             x:Name="NavView"
             CompactPaneLength="48"
-            IsBackEnabled="{Binding ElementName=ContentFrame, Path=CanGoBack}"
+            IsBackEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
             IsPaneOpen="True"
             OpenPaneLength="188"
             PaneDisplayMode="Left"
@@ -86,13 +86,10 @@
                 <shv:UserView/>
             </NavigationView.PaneFooter>
 
-            <Frame x:Name="ContentFrame" UseLayoutRounding="True">
-                <Frame.ContentTransitions>
-                    <TransitionCollection>
-                        <NavigationThemeTransition/>
-                    </TransitionCollection>
-                </Frame.ContentTransitions>
-            </Frame>
+            <Frame
+                x:Name="ContentFrame"
+                ContentTransitions="{StaticResource NavigationThemeTransitions}"
+                UseLayoutRounding="True"/>
         </NavigationView>
 
         <shv:InfoBarView/>

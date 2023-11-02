@@ -32,19 +32,19 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
     public async ValueTask InitializeInternalAsync(CancellationToken token = default)
     {
         string userName = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
-        string passport = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
+        string password = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
 
-        if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(passport))
+        if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
         {
             options.SkipLogin();
         }
         else
         {
-            Web.Response.Response<string> response = await passportClient.LoginAsync(userName, passport, token).ConfigureAwait(false);
+            Web.Response.Response<string> response = await passportClient.LoginAsync(userName, password, token).ConfigureAwait(false);
 
             if (response.IsOk())
             {
-                if (await options.PostLoginSucceedAsync(passportClient, taskContext, userName, response.Data).ConfigureAwait(false))
+                if (await options.PostLoginSucceedAsync(passportClient, taskContext, userName, password, response.Data).ConfigureAwait(false))
                 {
                     isInitialized = true;
                 }

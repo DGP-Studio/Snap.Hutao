@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Options;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Web.Hutao;
 using System.Text.RegularExpressions;
 
@@ -62,8 +63,11 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// <inheritdoc/>
     public HutaoUserOptions Value { get => this; }
 
-    public async ValueTask<bool> PostLoginSucceedAsync(HomaPassportClient passportClient, ITaskContext taskContext, string username, string? token)
+    public async ValueTask<bool> PostLoginSucceedAsync(HomaPassportClient passportClient, ITaskContext taskContext, string username, string password, string? token)
     {
+        LocalSetting.Set(SettingKeys.PassportUserName, username);
+        LocalSetting.Set(SettingKeys.PassportPassword, password);
+
         await taskContext.SwitchToMainThreadAsync();
         UserName = username;
         this.token = token;
@@ -84,6 +88,9 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
 
     public void LogoutOrUnregister()
     {
+        LocalSetting.Set(SettingKeys.PassportUserName, string.Empty);
+        LocalSetting.Set(SettingKeys.PassportPassword, string.Empty);
+
         UserName = null;
         token = null;
         IsLoggedIn = false;

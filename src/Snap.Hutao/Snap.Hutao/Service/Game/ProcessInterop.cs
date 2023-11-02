@@ -34,9 +34,9 @@ internal static class ProcessInterop
             .AppendIf("-popupwindow", options.IsBorderless)
             .AppendIf("-window-mode", options.IsExclusive, "exclusive")
             .Append("-screen-fullscreen", options.IsFullScreen ? 1 : 0)
-            .Append("-screen-width", options.ScreenWidth)
-            .Append("-screen-height", options.ScreenHeight)
-            .Append("-monitor", options.Monitor.Value)
+            .AppendIf("-screen-width", options.IsScreenWidthEnabled, options.ScreenWidth)
+            .AppendIf("-screen-height", options.IsScreenHeightEnabled, options.ScreenHeight)
+            .AppendIf("-monitor", options.IsMonitorEnabled, options.Monitor.Value)
             .ToString();
 
         return new()

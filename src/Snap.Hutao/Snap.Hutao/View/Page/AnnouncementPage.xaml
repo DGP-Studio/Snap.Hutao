@@ -29,9 +29,126 @@
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
 
         <DataTemplate x:Key="AnnouncementTemplate">
+            <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border Style="{StaticResource BorderCardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <!--  Image Layer  -->
+                        <Border cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
+                            <Border
+                                x:Name="ImageZoomBorder"
+                                VerticalAlignment="Top"
+                                cw:VisualExtensions.NormalizedCenterPoint="0.5">
+                                <cww:ConstrainedBox AspectRatio="1080:390" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
+                                    <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
+                                </cww:ConstrainedBox>
+                                <cwa:Explicit.Animations>
+                                    <cwa:AnimationSet x:Name="ImageZoomInAnimation">
+                                        <shca:ImageZoomInAnimation/>
+                                    </cwa:AnimationSet>
+                                    <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
+                                        <shca:ImageZoomOutAnimation/>
+                                    </cwa:AnimationSet>
+                                </cwa:Explicit.Animations>
+                            </Border>
+                        </Border>
+                        <!--  Time Description  -->
+                        <Grid Grid.Row="0">
+                            <Border
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Bottom"
+                                Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <ProgressBar
+                                    MinHeight="2"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    CornerRadius="0"
+                                    Maximum="1"
+                                    Value="{Binding TimePercent, Mode=OneWay}"/>
+                            </Border>
+                        </Grid>
+                        <!--  General Description  -->
+                        <Border Grid.Row="1">
+                            <StackPanel Margin="4" VerticalAlignment="Bottom">
+                                <TextBlock
+                                    Margin="4,6,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                    Text="{Binding Subtitle}"
+                                    TextTrimming="WordEllipsis"
+                                    TextWrapping="NoWrap"/>
+
+                                <TextBlock
+                                    Margin="4,6,0,0"
+                                    Opacity="0.6"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{Binding Title}"
+                                    TextTrimming="WordEllipsis"
+                                    TextWrapping="NoWrap"/>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Margin="4,4,0,4"
+                                        FontSize="10"
+                                        Opacity="0.4"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding TimeFormatted}"
+                                        TextWrapping="NoWrap"/>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="4,4,4,4"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="10"
+                                        Opacity="0.8"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding TimeDescription}"
+                                        Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <!--  公告详情网页视图  -->
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout LightDismissOverlayMode="On" Placement="Full">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="CornerRadius" Value="0"/>
+                                    <Setter Property="MaxWidth" Value="640"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <shvco:AnnouncementContentViewer Announcement="{Binding}"/>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+
+                    <mxi:Interaction.Behaviors>
+                        <mxic:EventTriggerBehavior EventName="Tapped">
+                            <shcb:OpenAttachedFlyoutAction/>
+                        </mxic:EventTriggerBehavior>
+                        <mxic:EventTriggerBehavior EventName="PointerEntered">
+                            <shcb:StartAnimationActionNoThrow Animation="{Binding ElementName=ImageZoomInAnimation}" TargetObject="{Binding ElementName=ImageZoomBorder}"/>
+                        </mxic:EventTriggerBehavior>
+                        <mxic:EventTriggerBehavior EventName="PointerExited">
+                            <shcb:StartAnimationActionNoThrow Animation="{Binding ElementName=ImageZoomOutAnimation}" TargetObject="{Binding ElementName=ImageZoomBorder}"/>
+                        </mxic:EventTriggerBehavior>
+                    </mxi:Interaction.Behaviors>
+                </Border>
+            </ItemContainer>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AnnouncementPivotItemContentTemplate">
             <ItemsRepeater
                 Margin="16,16,16,16"
                 HorizontalAlignment="Stretch"
+                ItemTemplate="{StaticResource AnnouncementTemplate}"
                 ItemsSource="{Binding List}">
                 <ItemsRepeater.Layout>
                     <UniformGridLayout
@@ -41,118 +158,6 @@
                         MinItemWidth="300"
                         MinRowSpacing="12"/>
                 </ItemsRepeater.Layout>
-                <ItemsRepeater.ItemTemplate>
-                    <DataTemplate>
-                        <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                            <Border Style="{StaticResource BorderCardStyle}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <!--  Image Layer  -->
-                                    <Border cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
-                                        <Border VerticalAlignment="Top" cw:VisualExtensions.NormalizedCenterPoint="0.5">
-                                            <cww:ConstrainedBox AspectRatio="1080:390" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
-                                                <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
-                                            </cww:ConstrainedBox>
-                                            <cwa:Explicit.Animations>
-                                                <cwa:AnimationSet x:Name="ImageZoomInAnimation">
-                                                    <shca:ImageZoomInAnimation/>
-                                                </cwa:AnimationSet>
-                                                <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
-                                                    <shca:ImageZoomOutAnimation/>
-                                                </cwa:AnimationSet>
-                                            </cwa:Explicit.Animations>
-                                        </Border>
-                                    </Border>
-                                    <!--  Time Description  -->
-                                    <Grid Grid.Row="0">
-                                        <Border
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Bottom"
-                                            Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <ProgressBar
-                                                MinHeight="2"
-                                                VerticalAlignment="Bottom"
-                                                Background="Transparent"
-                                                CornerRadius="0"
-                                                Maximum="1"
-                                                Value="{Binding TimePercent, Mode=OneWay}"/>
-                                        </Border>
-                                    </Grid>
-                                    <!--  General Description  -->
-                                    <Border Grid.Row="1">
-                                        <StackPanel Margin="4" VerticalAlignment="Bottom">
-                                            <TextBlock
-                                                Margin="4,6,0,0"
-                                                HorizontalAlignment="Stretch"
-                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                Text="{Binding Subtitle}"
-                                                TextTrimming="WordEllipsis"
-                                                TextWrapping="NoWrap"/>
-
-                                            <TextBlock
-                                                Margin="4,6,0,0"
-                                                Opacity="0.6"
-                                                Style="{StaticResource BodyTextBlockStyle}"
-                                                Text="{Binding Title}"
-                                                TextTrimming="WordEllipsis"
-                                                TextWrapping="NoWrap"/>
-
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition Width="auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock
-                                                    Margin="4,4,0,4"
-                                                    FontSize="10"
-                                                    Opacity="0.4"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding TimeFormatted}"
-                                                    TextWrapping="NoWrap"/>
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    Margin="4,4,4,4"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Bottom"
-                                                    FontSize="10"
-                                                    Opacity="0.8"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding TimeDescription}"
-                                                    Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-                                </Grid>
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout LightDismissOverlayMode="On" Placement="Full">
-                                        <Flyout.FlyoutPresenterStyle>
-                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                                <Setter Property="Padding" Value="0"/>
-                                                <Setter Property="CornerRadius" Value="0"/>
-                                                <Setter Property="MaxWidth" Value="640"/>
-                                            </Style>
-                                        </Flyout.FlyoutPresenterStyle>
-                                        <shvco:AnnouncementContentViewer Announcement="{Binding}"/>
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
-                                <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="Tapped">
-                                        <shcb:OpenAttachedFlyoutAction/>
-                                    </mxic:EventTriggerBehavior>
-                                    <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                        <cwb:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}"/>
-                                    </mxic:EventTriggerBehavior>
-                                    <mxic:EventTriggerBehavior EventName="PointerExited">
-                                        <cwb:StartAnimationAction Animation="{Binding ElementName=ImageZoomOutAnimation}"/>
-                                    </mxic:EventTriggerBehavior>
-                                </mxi:Interaction.Behaviors>
-                            </Border>
-                        </ItemContainer>
-                    </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
             </ItemsRepeater>
         </DataTemplate>
 
@@ -184,7 +189,6 @@
                 </ItemContainer.Resources>
             </ItemContainer>
         </DataTemplate>
-
     </shc:ScopedPage.Resources>
 
     <Grid>
@@ -223,11 +227,11 @@
                 <Pivot Style="{StaticResource DefaultPivotStyle}">
                     <PivotItem
                         Content="{Binding Announcement.List[0]}"
-                        ContentTemplate="{StaticResource AnnouncementTemplate}"
+                        ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
                         Header="{shcm:ResourceString Name=ViewPageAnnouncementActivity}"/>
                     <PivotItem
                         Content="{Binding Announcement.List[1]}"
-                        ContentTemplate="{StaticResource AnnouncementTemplate}"
+                        ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
                         Header="{shcm:ResourceString Name=ViewPageAnnouncementGame}"/>
                 </Pivot>
             </StackPanel>

@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
@@ -20,6 +21,206 @@
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
+
+    <Page.Resources>
+        <Flyout x:Key="HutaoCloudFlyout">
+            <Grid>
+                <mxi:Interaction.Behaviors>
+                    <shcb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudViewModel.OpenUICommand}"/>
+                </mxi:Interaction.Behaviors>
+                <Grid Visibility="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <StackPanel Margin="0,0,0,12">
+                                <TextBlock
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding HutaoCloudViewModel.Options.GachaLogExpireAt}"
+                                    TextAlignment="Center"/>
+                                <TextBlock
+                                    Margin="0,6,0,0"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudDeveloperHint}"
+                                    Visibility="{Binding HutaoCloudViewModel.Options.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </StackPanel>
+                        </Grid>
+                        <ScrollViewer Grid.Row="1" Margin="0,0,0,8">
+                            <ScrollViewer.Resources>
+                                <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+                                <shc:BindingProxy x:Key="HutaoCloudViewModelBindingProxy" DataContext="{Binding HutaoCloudViewModel}"/>
+
+                                <DataTemplate x:Key="UidOperationTemplate">
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                            <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Uid}"/>
+                                            <TextBlock
+                                                Opacity="0.7"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="{Binding ItemCount}"/>
+                                        </StackPanel>
+
+                                        <StackPanel
+                                            Grid.Column="1"
+                                            Margin="6,0,0,0"
+                                            Orientation="Horizontal">
+                                            <Button
+                                                Margin="6,0,0,0"
+                                                VerticalAlignment="Stretch"
+                                                Background="Transparent"
+                                                Command="{Binding RetrieveCommand}"
+                                                CommandParameter="{Binding Uid}"
+                                                Content="&#xE896;"
+                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                Style="{StaticResource ButtonRevealStyle}"
+                                                ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudRetrieve}"/>
+                                            <Button
+                                                Margin="6,0,0,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Stretch"
+                                                Background="Transparent"
+                                                Command="{Binding DeleteCommand}"
+                                                CommandParameter="{Binding Uid}"
+                                                Content="&#xE74D;"
+                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                Style="{StaticResource ButtonRevealStyle}"
+                                                ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudDelete}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ScrollViewer.Resources>
+                            <ItemsControl ItemTemplate="{StaticResource UidOperationTemplate}" ItemsSource="{Binding HutaoCloudViewModel.UidOperations}"/>
+                        </ScrollViewer>
+                        <Button
+                            Grid.Row="2"
+                            HorizontalAlignment="Stretch"
+                            Command="{Binding HutaoCloudViewModel.UploadCommand}"
+                            CommandParameter="{Binding SelectedArchive}"
+                            Content="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudUpload}"/>
+                    </Grid>
+                    <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityRevertConverter}}">
+                        <StackPanel.Resources>
+                            <Thickness x:Key="SettingsCardPadding">16</Thickness>
+                            <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                            <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                            <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                        </StackPanel.Resources>
+
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            Style="{StaticResource SubtitleTextBlockStyle}"
+                            Text="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudNotAllowed}"
+                            TextAlignment="Center"/>
+                        <cwc:SettingsCard
+                            Command="{Binding HutaoCloudViewModel.NavigateToSpiralAbyssRecordCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader}"
+                            IsClickEnabled="True"/>
+                        <cwc:SettingsCard
+                            Command="{Binding HutaoCloudViewModel.NavigateToAfdianSkuCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudAfdianPurchaseDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudAfdianPurchaseHeader}"
+                            IsClickEnabled="True"/>
+                    </StackPanel>
+                </Grid>
+                <shvc:LoadingViewSlim
+                    MinWidth="240"
+                    Margin="-16"
+                    IsLoading="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
+            </Grid>
+        </Flyout>
+
+        <DataTemplate x:Key="HistoryWishItemTemplate">
+            <Border Width="40" Style="{StaticResource BorderCardStyle}">
+                <StackPanel>
+                    <shvc:ItemIcon
+                        Width="40"
+                        Height="40"
+                        Icon="{Binding Icon}"
+                        Quality="{Binding Quality}"/>
+                    <TextBlock
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding Count}"
+                        TextTrimming="None"
+                        TextWrapping="NoWrap"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HistoryWishListTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+                    <TextBlock
+                        Width="32"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding Version}"/>
+                    <TextBlock
+                        Margin="0,0,0,0"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="{Binding Name}"/>
+                </StackPanel>
+
+                <TextBlock
+                    Margin="0,8,0,0"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="{Binding TotalCountFormatted}"/>
+                <ItemsControl
+                    Grid.Row="1"
+                    Margin="0,6,0,0"
+                    HorizontalAlignment="Left"
+                    ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                    ItemsPanel="{StaticResource HorizontalStackPanelSpacing2Template}"
+                    ItemsSource="{Binding OrangeUpList}"/>
+                <ItemsControl
+                    Grid.Row="1"
+                    Margin="0,6,0,0"
+                    HorizontalAlignment="Right"
+                    ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                    ItemsPanel="{StaticResource HorizontalStackPanelSpacing2Template}"
+                    ItemsSource="{Binding PurpleUpList}"/>
+                <TextBlock
+                    Grid.Row="2"
+                    Margin="0,6,0,8"
+                    Opacity="0.6"
+                    Text="{Binding TimeSpanFormatted}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HistoryWishGridTemplate">
+            <Grid>
+                <shvc:ItemIcon
+                    Badge="{Binding Badge}"
+                    Icon="{Binding Icon}"
+                    Quality="{Binding Quality}"/>
+                <Border
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#80000000"
+                    CornerRadius="0,6,0,6">
+                    <TextBlock
+                        Margin="6,0,6,2"
+                        Foreground="#FFFFFFFF"
+                        Text="{Binding Count}"/>
+                </Border>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
 
     <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
         <Grid Visibility="{Binding Statistics, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
@@ -63,126 +264,10 @@
                             </AppBarButton.Flyout>
                         </AppBarButton>
                         <AppBarSeparator/>
-                        <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE753;}" Label="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloud}">
-                            <AppBarButton.Flyout>
-                                <Flyout Placement="Bottom">
-                                    <Grid>
-                                        <mxi:Interaction.Behaviors>
-                                            <shcb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudViewModel.OpenUICommand}"/>
-                                        </mxi:Interaction.Behaviors>
-                                        <Grid Visibility="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Grid Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto"/>
-                                                    <RowDefinition Height="auto"/>
-                                                    <RowDefinition Height="auto"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid Grid.Row="0">
-                                                    <StackPanel Margin="0,0,0,12">
-                                                        <TextBlock
-                                                            HorizontalTextAlignment="Center"
-                                                            Text="{Binding HutaoCloudViewModel.Options.GachaLogExpireAt}"
-                                                            TextAlignment="Center"/>
-                                                        <TextBlock
-                                                            Margin="0,6,0,0"
-                                                            HorizontalTextAlignment="Center"
-                                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                                            Text="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudDeveloperHint}"
-                                                            Visibility="{Binding HutaoCloudViewModel.Options.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                                    </StackPanel>
-                                                </Grid>
-                                                <ScrollViewer Grid.Row="1" Margin="0,0,0,8">
-                                                    <ScrollViewer.Resources>
-                                                        <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
-                                                        <shc:BindingProxy x:Key="HutaoCloudViewModelBindingProxy" DataContext="{Binding HutaoCloudViewModel}"/>
-                                                    </ScrollViewer.Resources>
-                                                    <ItemsControl ItemsSource="{Binding HutaoCloudViewModel.UidOperations}">
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <Grid Margin="0,0,0,8">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition/>
-                                                                        <ColumnDefinition Width="auto"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Uid}"/>
-                                                                        <TextBlock
-                                                                            Opacity="0.7"
-                                                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                                                            Text="{Binding ItemCount}"/>
-                                                                    </StackPanel>
-
-                                                                    <StackPanel
-                                                                        Grid.Column="1"
-                                                                        Margin="6,0,0,0"
-                                                                        Orientation="Horizontal">
-                                                                        <Button
-                                                                            Margin="6,0,0,0"
-                                                                            VerticalAlignment="Stretch"
-                                                                            Background="Transparent"
-                                                                            Command="{Binding RetrieveCommand}"
-                                                                            CommandParameter="{Binding Uid}"
-                                                                            Content="&#xE896;"
-                                                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                                            Style="{StaticResource ButtonRevealStyle}"
-                                                                            ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudRetrieve}"/>
-                                                                        <Button
-                                                                            Margin="6,0,0,0"
-                                                                            HorizontalAlignment="Right"
-                                                                            VerticalAlignment="Stretch"
-                                                                            Background="Transparent"
-                                                                            Command="{Binding DeleteCommand}"
-                                                                            CommandParameter="{Binding Uid}"
-                                                                            Content="&#xE74D;"
-                                                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                                            Style="{StaticResource ButtonRevealStyle}"
-                                                                            ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudDelete}"/>
-                                                                    </StackPanel>
-                                                                </Grid>
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                </ScrollViewer>
-                                                <Button
-                                                    Grid.Row="2"
-                                                    HorizontalAlignment="Stretch"
-                                                    Command="{Binding HutaoCloudViewModel.UploadCommand}"
-                                                    CommandParameter="{Binding SelectedArchive}"
-                                                    Content="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudUpload}"/>
-                                            </Grid>
-                                            <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityRevertConverter}}">
-                                                <StackPanel.Resources>
-                                                    <Thickness x:Key="SettingsCardPadding">16</Thickness>
-                                                    <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
-                                                    <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
-                                                    <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
-                                                </StackPanel.Resources>
-
-                                                <TextBlock
-                                                    Margin="0,0,0,8"
-                                                    Style="{StaticResource SubtitleTextBlockStyle}"
-                                                    Text="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudNotAllowed}"
-                                                    TextAlignment="Center"/>
-                                                <cwc:SettingsCard
-                                                    Command="{Binding HutaoCloudViewModel.NavigateToSpiralAbyssRecordCommand}"
-                                                    Description="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription}"
-                                                    Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader}"
-                                                    IsClickEnabled="True"/>
-                                                <cwc:SettingsCard
-                                                    Command="{Binding HutaoCloudViewModel.NavigateToAfdianSkuCommand}"
-                                                    Description="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudAfdianPurchaseDescription}"
-                                                    Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudAfdianPurchaseHeader}"
-                                                    IsClickEnabled="True"/>
-                                            </StackPanel>
-                                        </Grid>
-                                        <shvc:LoadingViewSlim
-                                            MinWidth="240"
-                                            Margin="-16"
-                                            IsLoading="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
-                                    </Grid>
-                                </Flyout>
-                            </AppBarButton.Flyout>
-                        </AppBarButton>
+                        <AppBarButton
+                            Flyout="{StaticResource HutaoCloudFlyout}"
+                            Icon="{shcm:FontIcon Glyph=&#xE753;}"
+                            Label="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloud}"/>
                         <AppBarSeparator/>
                         <AppBarButton
                             Command="{Binding ImportFromUIGFJsonCommand}"
@@ -230,100 +315,10 @@
                         OpenPaneLength="323"
                         PaneBackground="Transparent">
                         <SplitView.Pane>
-                            <ListView ItemsSource="{Binding Statistics.HistoryWishes}" SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
-                                            <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                                                <TextBlock
-                                                    Width="32"
-                                                    Style="{StaticResource BaseTextBlockStyle}"
-                                                    Text="{Binding Version}"/>
-                                                <TextBlock
-                                                    Margin="0,0,0,0"
-                                                    Style="{StaticResource BaseTextBlockStyle}"
-                                                    Text="{Binding Name}"/>
-                                            </StackPanel>
-
-                                            <TextBlock
-                                                Margin="0,8,0,0"
-                                                HorizontalAlignment="Right"
-                                                Style="{StaticResource BaseTextBlockStyle}"
-                                                Text="{Binding TotalCountFormatted}"/>
-                                            <ItemsControl
-                                                Grid.Row="1"
-                                                Margin="0,6,0,0"
-                                                HorizontalAlignment="Left"
-                                                ItemsSource="{Binding OrangeUpList}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal" Spacing="2"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Border Width="40" Style="{StaticResource BorderCardStyle}">
-                                                            <StackPanel>
-                                                                <shvc:ItemIcon
-                                                                    Width="40"
-                                                                    Height="40"
-                                                                    Icon="{Binding Icon}"
-                                                                    Quality="{Binding Quality}"/>
-                                                                <TextBlock
-                                                                    HorizontalTextAlignment="Center"
-                                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Count}"
-                                                                    TextTrimming="None"
-                                                                    TextWrapping="NoWrap"/>
-                                                            </StackPanel>
-                                                        </Border>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                            <ItemsControl
-                                                Grid.Row="1"
-                                                Margin="0,6,0,0"
-                                                HorizontalAlignment="Right"
-                                                ItemsSource="{Binding PurpleUpList}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal" Spacing="2"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Border Width="40" Style="{StaticResource BorderCardStyle}">
-                                                            <StackPanel>
-                                                                <shvc:ItemIcon
-                                                                    Width="40"
-                                                                    Height="40"
-                                                                    Icon="{Binding Icon}"
-                                                                    Quality="{Binding Quality}"/>
-                                                                <TextBlock
-                                                                    HorizontalTextAlignment="Center"
-                                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Count}"
-                                                                    TextTrimming="None"
-                                                                    TextWrapping="NoWrap"/>
-                                                            </StackPanel>
-                                                        </Border>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                            <TextBlock
-                                                Grid.Row="2"
-                                                Margin="0,6,0,8"
-                                                Opacity="0.6"
-                                                Text="{Binding TimeSpanFormatted}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
+                            <ListView
+                                ItemTemplate="{StaticResource HistoryWishListTemplate}"
+                                ItemsSource="{Binding Statistics.HistoryWishes}"
+                                SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}"/>
                         </SplitView.Pane>
                         <SplitView.Content>
                             <ScrollViewer>
@@ -345,91 +340,35 @@
                                         </Border>
                                     </Border>
 
-
-
                                     <TextBlock
                                         Margin="0,16,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                                         Visibility="{Binding SelectedHistoryWish.OrangeList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                    <GridView ItemsSource="{Binding SelectedHistoryWish.OrangeList}" SelectionMode="None">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <shvc:ItemIcon
-                                                        Badge="{Binding Badge}"
-                                                        Icon="{Binding Icon}"
-                                                        Quality="{Binding Quality}"/>
-                                                    <Border
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Top"
-                                                        Background="#80000000"
-                                                        CornerRadius="0,6,0,6">
-                                                        <TextBlock
-                                                            Margin="6,0,6,2"
-                                                            Foreground="#FFFFFFFF"
-                                                            Text="{Binding Count}"/>
-                                                    </Border>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
+                                    <GridView
+                                        ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                        ItemsSource="{Binding SelectedHistoryWish.OrangeList}"
+                                        SelectionMode="None"/>
 
                                     <TextBlock
                                         Margin="0,0,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                                         Visibility="{Binding SelectedHistoryWish.PurpleList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                    <GridView ItemsSource="{Binding SelectedHistoryWish.PurpleList}" SelectionMode="None">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <shvc:ItemIcon
-                                                        Badge="{Binding Badge}"
-                                                        Icon="{Binding Icon}"
-                                                        Quality="{Binding Quality}"/>
-                                                    <Border
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Top"
-                                                        Background="#80000000"
-                                                        CornerRadius="0,6,0,6">
-                                                        <TextBlock
-                                                            Margin="6,0,6,2"
-                                                            Foreground="#FFFFFFFF"
-                                                            Text="{Binding Count}"/>
-                                                    </Border>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
+                                    <GridView
+                                        ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                        ItemsSource="{Binding SelectedHistoryWish.PurpleList}"
+                                        SelectionMode="None"/>
 
                                     <TextBlock
                                         Margin="0,0,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"
                                         Visibility="{Binding SelectedHistoryWish.BlueList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                    <GridView ItemsSource="{Binding SelectedHistoryWish.BlueList}" SelectionMode="None">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <shvc:ItemIcon
-                                                        Badge="{Binding Badge}"
-                                                        Icon="{Binding Icon}"
-                                                        Quality="{Binding Quality}"/>
-                                                    <Border
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Top"
-                                                        Background="#80000000"
-                                                        CornerRadius="0,6,0,6">
-                                                        <TextBlock
-                                                            Margin="6,0,6,2"
-                                                            Foreground="#FFFFFFFF"
-                                                            Text="{Binding Count}"/>
-                                                    </Border>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
+                                    <GridView
+                                        ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                        ItemsSource="{Binding SelectedHistoryWish.BlueList}"
+                                        SelectionMode="None"/>
                                 </StackPanel>
                             </ScrollViewer>
                         </SplitView.Content>
@@ -442,55 +381,19 @@
                                 Margin="0,16,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                            <GridView ItemsSource="{Binding Statistics.OrangeAvatars}" SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <shvc:ItemIcon
-                                                Badge="{Binding Badge}"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Count}"/>
-                                            </Border>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                            <GridView
+                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemsSource="{Binding Statistics.OrangeAvatars}"
+                                SelectionMode="None"/>
 
                             <TextBlock
                                 Margin="0,0,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                            <GridView ItemsSource="{Binding Statistics.PurpleAvatars}" SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <shvc:ItemIcon
-                                                Badge="{Binding Badge}"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Count}"/>
-                                            </Border>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                            <GridView
+                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemsSource="{Binding Statistics.PurpleAvatars}"
+                                SelectionMode="None"/>
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
@@ -501,82 +404,28 @@
                                 Margin="0,16,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                            <GridView ItemsSource="{Binding Statistics.OrangeWeapons}" SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <shvc:ItemIcon
-                                                Badge="{Binding Badge}"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Count}"/>
-                                            </Border>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                            <GridView
+                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemsSource="{Binding Statistics.OrangeWeapons}"
+                                SelectionMode="None"/>
 
                             <TextBlock
                                 Margin="0,0,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                            <GridView ItemsSource="{Binding Statistics.PurpleWeapons}" SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <shvc:ItemIcon
-                                                Badge="{Binding Badge}"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Count}"/>
-                                            </Border>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                            <GridView
+                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemsSource="{Binding Statistics.PurpleWeapons}"
+                                SelectionMode="None"/>
 
                             <TextBlock
                                 Margin="0,0,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
-                            <GridView ItemsSource="{Binding Statistics.BlueWeapons}" SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <shvc:ItemIcon
-                                                Badge="{Binding Badge}"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Count}"/>
-                                            </Border>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                            <GridView
+                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemsSource="{Binding Statistics.BlueWeapons}"
+                                SelectionMode="None"/>
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
@@ -647,6 +496,18 @@
                         Header="{shcm:ResourceString Name=ViewPageGachaLogImportHeader}"
                         HeaderIcon="{shcm:FontIcon Glyph=&#xE8B5;}"
                         IsClickEnabled="True"/>
+                    <cwc:SettingsCard
+                        Description="{shcm:ResourceString Name=ViewPageGachaLogRecoverFromHutaoCloudDescription}"
+                        FlyoutBase.AttachedFlyout="{StaticResource HutaoCloudFlyout}"
+                        Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloud}"
+                        HeaderIcon="{shcm:FontIcon Glyph=&#xE8B5;}"
+                        IsClickEnabled="True">
+                        <mxi:Interaction.Behaviors>
+                            <mxic:EventTriggerBehavior EventName="Click">
+                                <shcb:OpenAttachedFlyoutAction/>
+                            </mxic:EventTriggerBehavior>
+                        </mxi:Interaction.Behaviors>
+                    </cwc:SettingsCard>
                 </StackPanel>
             </StackPanel>
         </Grid>

@@ -79,6 +79,7 @@
     <None Remove="Control\Theme\Color.xaml" />
     <None Remove="Control\Theme\Converter.xaml" />
     <None Remove="Control\Theme\CornerRadius.xaml" />
+    <None Remove="Control\Theme\FlyoutStyle.xaml" />
     <None Remove="Control\Theme\FontStyle.xaml" />
     <None Remove="Control\Theme\Glyph.xaml" />
     <None Remove="Control\Theme\InfoBarOverride.xaml" />
@@ -305,6 +306,12 @@
   
   <ItemGroup>
     <AdditionalFiles Include="Resource\Localization\SH.resx" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="Control\Theme\FlyoutStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   
   <ItemGroup>

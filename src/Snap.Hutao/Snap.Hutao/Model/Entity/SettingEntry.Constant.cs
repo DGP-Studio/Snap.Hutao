@@ -49,6 +49,11 @@ internal sealed partial class SettingEntry
     public const string DailyNoteSilentWhenPlayingGame = "DailyNote.SilentWhenPlayingGame";
 
     /// <summary>
+    /// 实时便笺 WebhookUrl
+    /// </summary>
+    public const string DailyNoteWebhookUrl = "DailyNote.WebhookUrl";
+
+    /// <summary>
     /// 启动游戏 独占全屏
     /// </summary>
     public const string LaunchIsExclusive = "Launch.IsExclusive";
@@ -68,10 +73,14 @@ internal sealed partial class SettingEntry
     /// </summary>
     public const string LaunchScreenWidth = "Launch.ScreenWidth";
 
+    public const string LaunchIsScreenWidthEnabled = "Launch.IsScreenWidthEnabled";
+
     /// <summary>
     /// 启动游戏 高度
     /// </summary>
     public const string LaunchScreenHeight = "Launch.ScreenHeight";
+
+    public const string LaunchIsScreenHeightEnabled = "Launch.IsScreenHeightEnabled";
 
     /// <summary>
     /// 启动游戏 解锁帧率
@@ -87,6 +96,8 @@ internal sealed partial class SettingEntry
     /// 启动游戏 显示器编号
     /// </summary>
     public const string LaunchMonitor = "Launch.Monitor";
+
+    public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
 
     /// <summary>
     /// 启动游戏 多倍启动

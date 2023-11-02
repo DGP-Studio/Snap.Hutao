@@ -40,24 +40,28 @@ internal sealed partial class HomaPassportClient
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 异步获取验证码
-    /// </summary>
-    /// <param name="email">邮箱</param>
-    /// <param name="isResetPassword">是否重置账号密码</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>响应</returns>
-    public async ValueTask<HutaoResponse> VerifyAsync(string email, bool isResetPassword, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> RequestVerifyAsync(string email, VerifyCodeRequestType requestType, CancellationToken token = default)
     {
         Dictionary<string, object> data = new()
         {
             ["UserName"] = Encrypt(email),
-            ["IsResetPassword"] = isResetPassword,
         };
+
+        if (requestType.HasFlag(VerifyCodeRequestType.ResetPassword))
+        {
+            data["IsResetPassword"] = true;
+        }
+
+        if (requestType.HasFlag(VerifyCodeRequestType.CancelRegistration))
+        {
+            data["IsCancelRegistration"] = true;
+        }
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.PassportVerify)
             .PostJson(data);
+
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
@@ -94,17 +98,20 @@ internal sealed partial class HomaPassportClient
         return HutaoResponse.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse> UnregisterAsync(string email, string password, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> UnregisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
             ["UserName"] = Encrypt(email),
             ["Password"] = Encrypt(password),
+            ["VerifyCode"] = Encrypt(verifyCode),
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.PassportCancel)
             .PostJson(data);
+
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)

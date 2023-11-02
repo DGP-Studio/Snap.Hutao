@@ -11,13 +11,28 @@
     <ItemsPanelTemplate x:Key="WrapPanelSpacing4Template">
         <cwcont:WrapPanel HorizontalSpacing="4" VerticalSpacing="4"/>
     </ItemsPanelTemplate>
-    <ItemsPanelTemplate x:Key="HorizontalStackPanelTemplate">
+    <ItemsPanelTemplate x:Key="HorizontalStackPanelSpacing0Template">
         <StackPanel Orientation="Horizontal"/>
+    </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="HorizontalStackPanelSpacing2Template">
+        <StackPanel Orientation="Horizontal" Spacing="2"/>
+    </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="UniformGridColumns2Spacing2Template">
+        <cwcont:UniformGrid
+            ColumnSpacing="2"
+            Columns="2"
+            RowSpacing="2"/>
     </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="UniformGridColumns5Spacing4Template">
         <cwcont:UniformGrid
             ColumnSpacing="4"
             Columns="5"
             RowSpacing="4"/>
+    </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="UniformGridColumns5Spacing8Template">
+        <cwcont:UniformGrid
+            ColumnSpacing="8"
+            Columns="5"
+            RowSpacing="8"/>
     </ItemsPanelTemplate>
 </ResourceDictionary>

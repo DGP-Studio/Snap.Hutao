@@ -22,6 +22,47 @@
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
+
+    <Page.Resources>
+        <DataTemplate x:Key="MonsterListTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <shci:CachedImage
+                    Grid.Column="0"
+                    Width="48"
+                    Height="48"
+                    Margin="0,6,12,6"
+                    Source="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding Name}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MonsterBaseValueTemplate">
+            <cwc:SettingsCard Header="{Binding Name}">
+                <TextBlock Text="{Binding Value}"/>
+            </cwc:SettingsCard>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MonsterDropTemplate">
+            <shvc:BottomTextControl Text="{Binding Name}">
+                <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
+            </shvc:BottomTextControl>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MonsterGridTemplate">
+            <shvc:BottomTextControl Text="{Binding Name}">
+                <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}" Quality="QUALITY_NONE"/>
+            </shvc:BottomTextControl>
+        </DataTemplate>
+    </Page.Resources>
+
     <Grid>
         <Grid Visibility="{Binding Monsters, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid.RowDefinitions>
@@ -66,33 +107,13 @@
                         <SplitView.Pane>
                             <ListView
                                 Grid.Row="1"
+                                ItemTemplate="{StaticResource MonsterListTemplate}"
                                 ItemsSource="{Binding Monsters}"
                                 SelectedItem="{Binding Selected, Mode=TwoWay}"
                                 SelectionMode="Single">
                                 <mxi:Interaction.Behaviors>
                                     <shcb:SelectedItemInViewBehavior/>
                                 </mxi:Interaction.Behaviors>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <shci:CachedImage
-                                                Grid.Column="0"
-                                                Width="48"
-                                                Height="48"
-                                                Margin="0,6,12,6"
-                                                Source="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}"/>
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                Margin="12,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding Name}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
                             </ListView>
                         </SplitView.Pane>
                         <SplitView.Content>
@@ -126,27 +147,16 @@
                                             HorizontalContentAlignment="Stretch"
                                             BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"
                                             IsPromoteVisible="False"/>
-                                        <ItemsControl Margin="16,16,0,0" ItemsSource="{Binding Selected.BaseValue.SubHurts}">
+                                        <ItemsControl
+                                            Margin="16,16,0,0"
+                                            ItemTemplate="{StaticResource MonsterBaseValueTemplate}"
+                                            ItemsPanel="{StaticResource UniformGridColumns2Spacing2Template}"
+                                            ItemsSource="{Binding Selected.BaseValue.SubHurts}">
                                             <ItemsControl.Resources>
                                                 <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
                                                 <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
                                                 <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                                             </ItemsControl.Resources>
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <cwc:UniformGrid
-                                                        ColumnSpacing="2"
-                                                        Columns="2"
-                                                        RowSpacing="2"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <cwc:SettingsCard Header="{Binding Name}">
-                                                        <TextBlock Text="{Binding Value}"/>
-                                                    </cwc:SettingsCard>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
                                         </ItemsControl>
                                         <TextBlock
                                             Margin="16,32,0,0"
@@ -156,17 +166,10 @@
                                         <GridView
                                             Margin="16,16,-4,12"
                                             Padding="0"
+                                            ItemTemplate="{StaticResource MonsterDropTemplate}"
                                             ItemsSource="{Binding Selected.DropsView}"
                                             SelectionMode="None"
-                                            Visibility="{Binding Selected.DropsView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <shvc:BottomTextControl Text="{Binding Name}">
-                                                        <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
-                                                    </shvc:BottomTextControl>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </GridView>
+                                            Visibility="{Binding Selected.DropsView, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
                                     </StackPanel>
                                 </Grid>
                             </ScrollViewer>
@@ -179,24 +182,13 @@
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                        ItemTemplate="{StaticResource MonsterGridTemplate}"
                         ItemsSource="{Binding Monsters}"
                         SelectedItem="{Binding Selected, Mode=TwoWay}"
                         SelectionMode="Single">
                         <mxi:Interaction.Behaviors>
                             <shcb:SelectedItemInViewBehavior/>
                         </mxi:Interaction.Behaviors>
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsWrapGrid Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                        <GridView.ItemTemplate>
-                            <DataTemplate>
-                                <shvc:BottomTextControl Text="{Binding Name}">
-                                    <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}" Quality="QUALITY_NONE"/>
-                                </shvc:BottomTextControl>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
                     </GridView>
                 </cwc:Case>
             </cwc:SwitchPresenter>

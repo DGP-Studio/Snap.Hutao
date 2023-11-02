@@ -12,11 +12,9 @@
             MaxWidth="640"
             Margin="32,48,32,32"
             VerticalAlignment="Bottom"
+            ItemContainerTransitions="{StaticResource RepositionThemeTransitions}"
             ItemsSource="{x:Bind InfoBars}"
-            Visibility="{Binding ElementName=VisibilityButton, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}">
-            <ItemsControl.Transitions>
-                <RepositionThemeTransition/>
-            </ItemsControl.Transitions>
+            Visibility="{x:Bind VisibilityButton.IsChecked, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
             <ItemsControl.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>

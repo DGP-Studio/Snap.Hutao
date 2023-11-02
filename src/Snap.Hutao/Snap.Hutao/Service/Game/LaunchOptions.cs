@@ -27,10 +27,13 @@ internal sealed class LaunchOptions : DbStoreOptions
     private bool? isBorderless;
     private bool? isExclusive;
     private int? screenWidth;
+    private bool? isScreenWidthEnabled;
     private int? screenHeight;
+    private bool? isScreenHeightEnabled;
     private bool? unlockFps;
     private int? targetFps;
     private NameValue<int>? monitor;
+    private bool? isMonitorEnabled;
 
     /// <summary>
     /// 构造一个新的启动游戏选项
@@ -83,6 +86,12 @@ internal sealed class LaunchOptions : DbStoreOptions
         set => SetOption(ref screenWidth, SettingEntry.LaunchScreenWidth, value);
     }
 
+    public bool IsScreenWidthEnabled
+    {
+        get => GetOption(ref isScreenWidthEnabled, SettingEntry.LaunchIsScreenWidthEnabled, true);
+        set => SetOption(ref isScreenWidthEnabled, SettingEntry.LaunchIsScreenWidthEnabled, value);
+    }
+
     /// <summary>
     /// 屏幕高度
     /// </summary>
@@ -90,6 +99,12 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref screenHeight, SettingEntry.LaunchScreenHeight, primaryScreenHeight);
         set => SetOption(ref screenHeight, SettingEntry.LaunchScreenHeight, value);
+    }
+
+    public bool IsScreenHeightEnabled
+    {
+        get => GetOption(ref isScreenHeightEnabled, SettingEntry.LaunchIsScreenHeightEnabled, true);
+        set => SetOption(ref isScreenHeightEnabled, SettingEntry.LaunchIsScreenHeightEnabled, value);
     }
 
     /// <summary>
@@ -129,6 +144,12 @@ internal sealed class LaunchOptions : DbStoreOptions
                 SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString(CultureInfo.InvariantCulture));
             }
         }
+    }
+
+    public bool IsMonitorEnabled
+    {
+        get => GetOption(ref isMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, true);
+        set => SetOption(ref isMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, value);
     }
 
     private static void InitializeMonitors(List<NameValue<int>> monitors)

@@ -31,12 +31,6 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
         await Launcher.LaunchUriAsync("https://homa.snapgenshin.com/redeem.html".ToUri());
     }
 
-    private static void SaveUserNameAndPassword(string username, string password)
-    {
-        LocalSetting.Set(SettingKeys.PassportUserName, username);
-        LocalSetting.Set(SettingKeys.PassportPassword, password);
-    }
-
     [Command("RegisterCommand")]
     private async Task RegisterAsync()
     {
@@ -56,9 +50,8 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                SaveUserNameAndPassword(username, password);
                 infoBarService.Information(response.Message);
-                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, response.Data).ConfigureAwait(false);
+                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
     }
@@ -67,18 +60,18 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private async Task UnregisterAsync()
     {
         HutaoPassportUnregisterDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportUnregisterDialog>().ConfigureAwait(false);
-        ValueResult<bool, (string UserName, string Password)> result = await dialog.GetInputAsync().ConfigureAwait(false);
+        ValueResult<bool, (string UserName, string Password, string VerifyCode)> result = await dialog.GetInputAsync().ConfigureAwait(false);
 
         if (result.IsOk)
         {
-            (string username, string password) = result.Value;
+            (string username, string password, string verifyCode) = result.Value;
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(verifyCode))
             {
                 return;
             }
 
-            Response response = await homaPassportClient.UnregisterAsync(username, password).ConfigureAwait(false);
+            HutaoResponse response = await homaPassportClient.UnregisterAsync(username, password, verifyCode).ConfigureAwait(false);
 
             if (response.IsOk())
             {
@@ -109,10 +102,8 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                SaveUserNameAndPassword(username, password);
                 infoBarService.Information(response.Message);
-
-                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, response.Data).ConfigureAwait(false);
+                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
     }
@@ -121,6 +112,8 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private void LogoutAsync()
     {
         hutaoUserOptions.LogoutOrUnregister();
+        LocalSetting.Set(SettingKeys.PassportUserName, string.Empty);
+        LocalSetting.Set(SettingKeys.PassportPassword, string.Empty);
     }
 
     [Command("ResetPasswordCommand")]
@@ -142,10 +135,8 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                SaveUserNameAndPassword(username, password);
                 infoBarService.Information(response.Message);
-
-                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, response.Data).ConfigureAwait(false);
+                await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
     }
