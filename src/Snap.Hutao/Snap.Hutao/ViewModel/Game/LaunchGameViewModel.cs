@@ -55,7 +55,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     /// 已知的服务器方案
     /// </summary>
     [SuppressMessage("", "CA1822")]
-    public List<LaunchScheme> KnownSchemes { get => LaunchScheme.GetKnownSchemes(); }
+    public List<LaunchScheme> KnownSchemes { get => KnownLaunchSchemes.Get(); }
 
     /// <summary>
     /// 当前选择的服务器方案
