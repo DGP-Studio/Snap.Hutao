@@ -23,6 +23,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private readonly int primaryScreenHeight;
     private readonly int primaryScreenFps;
 
+    private bool? isEnabled;
     private bool? isFullScreen;
     private bool? isBorderless;
     private bool? isExclusive;
@@ -48,6 +49,15 @@ internal sealed class LaunchOptions : DbStoreOptions
 
         InitializeMonitors(Monitors);
         InitializeScreenFps(out primaryScreenFps);
+    }
+
+    /// <summary>
+    /// 是否启用启动参数
+    /// </summary>
+    public bool IsEnabled
+    {
+        get => GetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, true);
+        set => SetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, value);
     }
 
     /// <summary>
