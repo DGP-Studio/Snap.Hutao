@@ -26,13 +26,14 @@ internal static class ProcessInterop
     /// <returns>初始化后的游戏进程</returns>
     public static Process InitializeGameProcess(LaunchOptions options, string gamePath)
     {
-        Must.Argument(!(options.IsBorderless && options.IsExclusive), "无边框与独占全屏选项无法同时生效");
+        string commandLine = string.Empty;
 
-        // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
-        // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html
-        string commandLine;
-        if (options.IsLaunchOptionsEnabled)
+        if (options.IsEnabled)
         {
+            Must.Argument(!(options.IsBorderless && options.IsExclusive), "无边框与独占全屏选项无法同时生效");
+
+            // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
+            // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html
             commandLine = new CommandLineBuilder()
                 .AppendIf("-popupwindow", options.IsBorderless)
                 .AppendIf("-window-mode", options.IsExclusive, "exclusive")
@@ -41,10 +42,6 @@ internal static class ProcessInterop
                 .AppendIf("-screen-height", options.IsScreenHeightEnabled, options.ScreenHeight)
                 .AppendIf("-monitor", options.IsMonitorEnabled, options.Monitor.Value)
                 .ToString();
-        }
-        else
-        {
-            commandLine = string.Empty;
         }
 
         return new()
