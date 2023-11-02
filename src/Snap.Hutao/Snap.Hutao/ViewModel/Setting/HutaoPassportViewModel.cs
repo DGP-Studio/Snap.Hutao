@@ -78,7 +78,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
                 return;
             }
 
-            Response response = await homaPassportClient.UnregisterAsync(username, password).ConfigureAwait(false);
+            HutaoResponse response = await homaPassportClient.UnregisterAsync(username, password).ConfigureAwait(false);
 
             if (response.IsOk())
             {
