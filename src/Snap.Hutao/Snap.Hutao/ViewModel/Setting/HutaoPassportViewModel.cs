@@ -121,6 +121,8 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private void LogoutAsync()
     {
         hutaoUserOptions.LogoutOrUnregister();
+        LocalSetting.Set(SettingKeys.PassportUserName, string.Empty);
+        LocalSetting.Set(SettingKeys.PassportPassword, string.Empty);
     }
 
     [Command("ResetPasswordCommand")]
