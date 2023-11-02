@@ -61,6 +61,8 @@ internal sealed partial class HomaPassportClient
             .SetRequestUri(HutaoEndpoints.PassportVerify)
             .PostJson(data);
 
+        await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+
         HutaoResponse? resp = await builder
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
