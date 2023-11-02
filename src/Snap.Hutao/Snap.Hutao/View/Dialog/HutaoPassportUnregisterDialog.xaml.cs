@@ -26,12 +26,12 @@ internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
     }
 
-    public async ValueTask<ValueResult<bool, (string UserName, string Passport)>> GetInputAsync()
+    public async ValueTask<ValueResult<bool, (string UserName, string Passport, string VerifyCode)>> GetInputAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
 
-        return new(result is ContentDialogResult.Primary, (UserName, Password));
+        return new(result is ContentDialogResult.Primary, (UserName, Password, VerifyCode));
     }
 
     [Command("VerifyCommand")]

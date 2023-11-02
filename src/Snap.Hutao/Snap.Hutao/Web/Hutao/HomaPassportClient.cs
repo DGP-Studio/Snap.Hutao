@@ -96,12 +96,13 @@ internal sealed partial class HomaPassportClient
         return HutaoResponse.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse> UnregisterAsync(string email, string password, CancellationToken token = default)
+    public async ValueTask<HutaoResponse> UnregisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
             ["UserName"] = Encrypt(email),
             ["Password"] = Encrypt(password),
+            ["VerifyCode"] = Encrypt(verifyCode),
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()

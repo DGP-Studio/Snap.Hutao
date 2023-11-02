@@ -67,18 +67,18 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private async Task UnregisterAsync()
     {
         HutaoPassportUnregisterDialog dialog = await contentDialogFactory.CreateInstanceAsync<HutaoPassportUnregisterDialog>().ConfigureAwait(false);
-        ValueResult<bool, (string UserName, string Password)> result = await dialog.GetInputAsync().ConfigureAwait(false);
+        ValueResult<bool, (string UserName, string Password, string VerifyCode)> result = await dialog.GetInputAsync().ConfigureAwait(false);
 
         if (result.IsOk)
         {
-            (string username, string password) = result.Value;
+            (string username, string password, string verifyCode) = result.Value;
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(verifyCode))
             {
                 return;
             }
 
-            HutaoResponse response = await homaPassportClient.UnregisterAsync(username, password).ConfigureAwait(false);
+            HutaoResponse response = await homaPassportClient.UnregisterAsync(username, password, verifyCode).ConfigureAwait(false);
 
             if (response.IsOk())
             {
