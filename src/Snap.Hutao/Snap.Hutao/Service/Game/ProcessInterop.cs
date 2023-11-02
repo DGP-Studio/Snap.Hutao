@@ -30,14 +30,22 @@ internal static class ProcessInterop
 
         // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
         // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html
-        string commandLine = new CommandLineBuilder()
-            .AppendIf("-popupwindow", options.IsBorderless)
-            .AppendIf("-window-mode", options.IsExclusive, "exclusive")
-            .Append("-screen-fullscreen", options.IsFullScreen ? 1 : 0)
-            .AppendIf("-screen-width", options.IsScreenWidthEnabled, options.ScreenWidth)
-            .AppendIf("-screen-height", options.IsScreenHeightEnabled, options.ScreenHeight)
-            .AppendIf("-monitor", options.IsMonitorEnabled, options.Monitor.Value)
-            .ToString();
+        string commandLine;
+        if (options.IsLaunchOptionsEnabled)
+        {
+            commandLine = new CommandLineBuilder()
+                .AppendIf("-popupwindow", options.IsBorderless)
+                .AppendIf("-window-mode", options.IsExclusive, "exclusive")
+                .Append("-screen-fullscreen", options.IsFullScreen ? 1 : 0)
+                .AppendIf("-screen-width", options.IsScreenWidthEnabled, options.ScreenWidth)
+                .AppendIf("-screen-height", options.IsScreenHeightEnabled, options.ScreenHeight)
+                .AppendIf("-monitor", options.IsMonitorEnabled, options.Monitor.Value)
+                .ToString();
+        }
+        else
+        {
+            commandLine = string.Empty;
+        }
 
         return new()
         {
