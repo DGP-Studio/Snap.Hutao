@@ -539,8 +539,14 @@
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
     <value>验证失败</value>
   </data>
+  <data name="ServerPassportVerifyRequestNotCurrentUser" xml:space="preserve">
+    <value>验证请求失败，不是当前登录的账号</value>
+  </data>
   <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
     <value>验证码已发送至邮箱</value>
+  </data>
+  <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
+    <value>验证请求失败，当前邮箱已被注册</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>验证请求过快，请 1 分钟后再试</value>
@@ -1689,7 +1695,7 @@
     <value>新增</value>
   </data>
   <data name="ViewPageDailyNoteAttendanceStatusInfo" xml:space="preserve">
-    <value>历练点获取详情</value>
+    <value>歷練點獲取詳情</value>
   </data>
   <data name="ViewPageDailyNoteConfigWebhookDescription" xml:space="preserve">
     <value>在实时便笺刷新后推送到指定的 Webhook</value>
@@ -1797,7 +1803,7 @@
     <value>輸入</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
-    <value>从胡桃云恢复祈愿记录</value>
+    <value>從胡桃云恢復祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>重新整理</value>
