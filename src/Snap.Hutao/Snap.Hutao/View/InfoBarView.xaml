@@ -12,7 +12,7 @@
             MaxWidth="640"
             Margin="32,48,32,32"
             VerticalAlignment="Bottom"
-            ItemContainerTransitions="{StaticResource RepositionThemeTransition}"
+            ItemContainerTransitions="{StaticResource RepositionThemeTransitions}"
             ItemsSource="{x:Bind InfoBars}"
             Visibility="{x:Bind VisibilityButton.IsChecked, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
             <ItemsControl.Resources>
