@@ -38,7 +38,7 @@ internal sealed partial class PassportClientOversea : IPassportClient
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiOsEndpoints.AccountGetCookieTokenBySToken)
-            .SetUserCookie(user, CookieType.SToken)
+            .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .PostJson(data);
 
         Response<UidCookieToken>? resp = await builder
@@ -64,7 +64,7 @@ internal sealed partial class PassportClientOversea : IPassportClient
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiOsEndpoints.AccountGetLTokenBySToken)
-            .SetUserCookie(user, CookieType.SToken)
+            .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .PostJson(data);
 
         Response<LTokenWrapper>? resp = await builder

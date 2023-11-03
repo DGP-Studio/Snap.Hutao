@@ -29,7 +29,7 @@ internal sealed partial class SignInClient : ISignInClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.SignInRewardInfo(userAndUid.Uid))
-            .SetUserCookie(userAndUid, CookieType.CookieToken)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
@@ -45,7 +45,7 @@ internal sealed partial class SignInClient : ISignInClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.SignInRewardResignInfo(userAndUid.Uid))
-            .SetUserCookie(userAndUid, CookieType.CookieToken)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
@@ -61,7 +61,7 @@ internal sealed partial class SignInClient : ISignInClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.SignInRewardHome)
-            .SetUserCookie(user, CookieType.CookieToken)
+            .SetUserCookieAndFpHeader(user, CookieType.CookieToken)
             .Get();
 
         Response<Reward>? resp = await builder
@@ -75,7 +75,7 @@ internal sealed partial class SignInClient : ISignInClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.SignInRewardReSign)
-            .SetUserCookie(userAndUid, CookieType.CookieToken)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .PostJson(new SignInData(userAndUid.Uid, false));
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
@@ -91,7 +91,7 @@ internal sealed partial class SignInClient : ISignInClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.SignInRewardSign)
-            .SetUserCookie(userAndUid, CookieType.CookieToken)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .PostJson(new SignInData(userAndUid.Uid, false));
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
@@ -108,7 +108,7 @@ internal sealed partial class SignInClient : ISignInClient
             {
                 HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.SignInRewardSign)
-                    .SetUserCookie(userAndUid, CookieType.CookieToken)
+                    .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
                     .SetXrpcChallenge(challenge, validate)
                     .PostJson(new SignInData(userAndUid.Uid, false));
 

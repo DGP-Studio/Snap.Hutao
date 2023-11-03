@@ -35,7 +35,7 @@ internal sealed partial class PassportClient2
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.AccountVerifyLtoken)
-            .SetUserCookie(user, CookieType.LToken)
+            .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .PostJson(new Timestamp());
 
         Response<UserInfoWrapper>? resp = await builder

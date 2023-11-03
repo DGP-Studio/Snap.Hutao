@@ -35,7 +35,7 @@ internal sealed partial class CardClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CardCreateVerification(false))
-            .SetUserCookie(user, CookieType.LToken)
+            .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -80,7 +80,7 @@ internal sealed partial class CardClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CardWidgetData2)
-            .SetUserCookie(user, CookieType.SToken)
+            .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X6, false).ConfigureAwait(false);

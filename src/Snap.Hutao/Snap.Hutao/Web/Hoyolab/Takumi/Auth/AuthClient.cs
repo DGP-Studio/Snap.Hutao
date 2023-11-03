@@ -33,7 +33,7 @@ internal sealed partial class AuthClient
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.AuthActionTicket(action, stoken, user.Aid))
-            .SetUserCookie(user, CookieType.SToken)
+            .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.K2, true).ConfigureAwait(false);

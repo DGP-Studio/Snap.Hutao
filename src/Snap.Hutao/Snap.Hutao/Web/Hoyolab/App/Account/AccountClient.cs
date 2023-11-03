@@ -37,7 +37,7 @@ internal sealed partial class AccountClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.AppAuthGenAuthKey)
-            .SetUserCookie(user, CookieType.SToken)
+            .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .SetReferer(ApiEndpoints.AppMihoyoReferer)
             .PostJson(data);
 

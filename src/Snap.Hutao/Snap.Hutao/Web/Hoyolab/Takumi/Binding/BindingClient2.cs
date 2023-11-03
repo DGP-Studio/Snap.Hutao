@@ -36,7 +36,7 @@ internal sealed partial class BindingClient2
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.AccountGetCookieTokenBySToken)
-            .SetUserCookie(user, CookieType.SToken)
+            .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .SetReferer(ApiEndpoints.AppMihoyoReferer)
             .Get();
 
@@ -62,7 +62,7 @@ internal sealed partial class BindingClient2
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.BindingGenAuthKey)
-            .SetUserCookie(user, CookieType.SToken)
+            .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .SetReferer(ApiEndpoints.AppMihoyoReferer)
             .PostJson(data);
 

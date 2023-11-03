@@ -39,7 +39,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid))
-            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -59,7 +59,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid))
-                    .SetUserCookie(userAndUid, CookieType.Cookie)
+                    .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
                     .SetXrpcChallenge(challenge)
                     .Get();
 
@@ -85,7 +85,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordIndex(userAndUid.Uid))
-            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -105,7 +105,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordIndex(userAndUid.Uid))
-                    .SetUserCookie(userAndUid, CookieType.Cookie)
+                    .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
                     .SetXrpcChallenge(challenge)
                     .Get();
 
@@ -132,7 +132,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
-            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -152,7 +152,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
-                    .SetUserCookie(userAndUid, CookieType.Cookie)
+                    .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
                     .SetXrpcChallenge(challenge)
                     .Get();
 
@@ -178,7 +178,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordRoleBasicInfo(userAndUid.Uid))
-            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -202,7 +202,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordCharacter)
-            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -222,7 +222,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             {
                 HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordCharacter)
-                    .SetUserCookie(userAndUid, CookieType.Cookie)
+                    .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
                     .SetXrpcChallenge(challenge)
                     .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 

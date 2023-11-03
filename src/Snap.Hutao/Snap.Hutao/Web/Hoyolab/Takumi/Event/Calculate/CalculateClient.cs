@@ -35,7 +35,7 @@ internal sealed partial class CalculateClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(user.IsOversea ? ApiOsEndpoints.CalculateCompute : ApiEndpoints.CalculateCompute)
-            .SetUserCookie(user, CookieType.Cookie)
+            .SetUserCookieAndFpHeader(user, CookieType.Cookie)
             .SetReferer(user.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
             .PostJson(delta);
 
@@ -66,7 +66,7 @@ internal sealed partial class CalculateClient
 
             HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
                 .SetRequestUri(userAndUid.User.IsOversea ? ApiOsEndpoints.CalculateSyncAvatarList : ApiEndpoints.CalculateSyncAvatarList)
-                .SetUserCookie(userAndUid, CookieType.CookieToken)
+                .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
                 .SetReferer(userAndUid.User.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
                 .PostJson(filter);
 
@@ -106,7 +106,7 @@ internal sealed partial class CalculateClient
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(url)
-            .SetUserCookie(userAndUid, CookieType.CookieToken)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .SetReferer(userAndUid.User.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
@@ -128,7 +128,7 @@ internal sealed partial class CalculateClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CalculateFurnitureBlueprint(shareCode))
-            .SetUserCookie(user, CookieType.CookieToken)
+            .SetUserCookieAndFpHeader(user, CookieType.CookieToken)
             .SetReferer(user.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
@@ -152,7 +152,7 @@ internal sealed partial class CalculateClient
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CalculateFurnitureCompute)
-            .SetUserCookie(user, CookieType.CookieToken)
+            .SetUserCookieAndFpHeader(user, CookieType.CookieToken)
             .SetReferer(user.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
             .PostJson(data);
 
