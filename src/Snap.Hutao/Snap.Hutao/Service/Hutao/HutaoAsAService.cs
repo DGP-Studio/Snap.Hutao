@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using Windows.Storage;
 using HutaoAnnouncement = Snap.Hutao.Web.Hutao.HutaoAsAService.Announcement;
 
@@ -18,6 +20,7 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
 {
     private const int AnnouncementDuration = 30;
     private readonly HutaoAsAServiceClient hutaoAsServiceClient;
+    private readonly RuntimeOptions runtimeOptions;
 
     private ObservableCollection<HutaoAnnouncement>? announcements;
 
@@ -29,13 +32,27 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
 
             ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, new ApplicationDataCompositeValue());
             List<long> data = excludedIds.Select(kvp => long.Parse(kvp.Key, CultureInfo.InvariantCulture)).ToList();
-            Response<List<HutaoAnnouncement>> respose = await hutaoAsServiceClient.GetAnnouncementListAsync(data, token).ConfigureAwait(false);
+            Response<List<HutaoAnnouncement>> response = await hutaoAsServiceClient.GetAnnouncementListAsync(data, token).ConfigureAwait(false);
 
-            if (respose.IsOk())
+            if (response.IsOk())
             {
-                List<HutaoAnnouncement> list = respose.Data;
-                list.ForEach(item => item.DismissCommand = dismissCommand);
-                announcements = list.ToObservableCollection();
+                List<HutaoAnnouncement> list = response.Data;
+                List<HutaoAnnouncement> removeList = new();
+
+                foreach (HutaoAnnouncement item in list)
+                {
+                    string versionInAnnouncement = VersionRegex().Match(item.Title).Value;
+                    if (versionInAnnouncement.Length != 0 && runtimeOptions.Version >= new Version(versionInAnnouncement))
+                    {
+                        DismissAnnouncement(item);
+                        removeList.Add(item);
+                        continue;
+                    }
+
+                    item.DismissCommand = dismissCommand;
+                }
+
+                announcements = list.Except(removeList).ToObservableCollection();
             }
             else
             {
@@ -66,4 +83,7 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
             announcements.Remove(announcement);
         }
     }
+
+    [GeneratedRegex("(\\d+)\\.(\\d+)\\.(\\d+)")]
+    private partial Regex VersionRegex();
 }
