@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Control.Layout;
 
@@ -29,18 +30,19 @@ internal sealed class UniformStaggeredLayoutState
 
     internal void AddItemToColumn(UniformStaggeredItem item, int columnIndex)
     {
-        if (this.columnLayout.TryGetValue(columnIndex, out UniformStaggeredColumnLayout? columnLayout) == false)
+        if (!this.columnLayout.TryGetValue(columnIndex, out UniformStaggeredColumnLayout? columnLayout))
         {
-            columnLayout = new UniformStaggeredColumnLayout();
+            columnLayout = new();
             this.columnLayout[columnIndex] = columnLayout;
         }
 
-        if (columnLayout.Contains(item) == false)
+        if (!columnLayout.Contains(item))
         {
             columnLayout.Add(item);
         }
     }
 
+    [SuppressMessage("", "CA2201")]
     internal UniformStaggeredItem GetItemAt(int index)
     {
         if (index < 0)
@@ -93,18 +95,18 @@ internal sealed class UniformStaggeredLayoutState
     /// </remarks>
     internal double GetHeight()
     {
-        double desiredHeight = Enumerable.Max(columnLayout.Values, c => c.Height);
+        double desiredHeight = columnLayout.Values.Max(c => c.Height);
+        int itemCount = columnLayout.Values.Sum(c => c.Count);
 
-        int itemCount = Enumerable.Sum(columnLayout.Values, c => c.Count);
         if (itemCount == context.ItemCount)
         {
             return desiredHeight;
         }
 
         double averageHeight = 0;
-        foreach (KeyValuePair<int, UniformStaggeredColumnLayout> kvp in columnLayout)
+        foreach ((_, UniformStaggeredColumnLayout layout) in columnLayout)
         {
-            averageHeight += kvp.Value.Height / kvp.Value.Count;
+            averageHeight += layout.Height / layout.Count;
         }
 
         averageHeight /= columnLayout.Count;
@@ -114,7 +116,7 @@ internal sealed class UniformStaggeredLayoutState
             desiredHeight = estimatedHeight;
         }
 
-        if (Math.Abs(desiredHeight - lastAverageHeight) < 5)
+        if (Math.Abs(desiredHeight - lastAverageHeight) < 5) // Why 5?
         {
             return lastAverageHeight;
         }
@@ -140,14 +142,14 @@ internal sealed class UniformStaggeredLayoutState
         int numToRemove = items.Count - index;
         items.RemoveRange(index, numToRemove);
 
-        foreach (KeyValuePair<int, UniformStaggeredColumnLayout> kvp in columnLayout)
+        foreach ((_, UniformStaggeredColumnLayout layout) in columnLayout)
         {
-            UniformStaggeredColumnLayout layout = kvp.Value;
-            for (int i = 0; i < layout.Count; i++)
+            Span<UniformStaggeredItem> layoutSpan = CollectionsMarshal.AsSpan(layout);
+            for (int i = 0; i < layoutSpan.Length; i++)
             {
-                if (layout[i].Index >= index)
+                if (layoutSpan[i].Index >= index)
                 {
-                    numToRemove = layout.Count - i;
+                    numToRemove = layoutSpan.Length - i;
                     layout.RemoveRange(i, numToRemove);
                     break;
                 }
@@ -164,7 +166,7 @@ internal sealed class UniformStaggeredLayoutState
                 break;
             }
 
-            UniformStaggeredItem item = items[i];
+            ref readonly UniformStaggeredItem item = ref CollectionsMarshal.AsSpan(items)[i];
             item.Height = 0;
             item.Top = 0;
 
@@ -172,13 +174,14 @@ internal sealed class UniformStaggeredLayoutState
             RecycleElementAt(i);
         }
 
-        foreach ((int key, UniformStaggeredColumnLayout layout) in columnLayout)
+        foreach ((_, UniformStaggeredColumnLayout layout) in columnLayout)
         {
-            for (int i = 0; i < layout.Count; i++)
+            Span<UniformStaggeredItem> layoutSpan = CollectionsMarshal.AsSpan(layout);
+            for (int i = 0; i < layoutSpan.Length; i++)
             {
-                if ((startIndex <= layout[i].Index) && (layout[i].Index <= endIndex))
+                if ((startIndex <= layoutSpan[i].Index) && (layoutSpan[i].Index <= endIndex))
                 {
-                    int numToRemove = layout.Count - i;
+                    int numToRemove = layoutSpan.Length - i;
                     layout.RemoveRange(i, numToRemove);
                     break;
                 }
