@@ -133,9 +133,10 @@
                                     <TextBlock
                                         FontSize="10"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding Inner.Version}"/>
+                                        Text="{Binding Inner.Version}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap"/>
                                 </Border>
-
                             </StackPanel>
 
                             <TextBlock

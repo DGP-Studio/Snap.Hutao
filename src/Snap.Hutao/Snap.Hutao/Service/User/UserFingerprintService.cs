@@ -73,7 +73,7 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
             ExtFields = JsonSerializer.Serialize(extendProperties),
             AppName = "bbs_cn",
             BbsDeviceId = HoyolabOptions.DeviceId,
-            DeviceFp = GetRandomHexStringOfLength(13),
+            DeviceFp = string.IsNullOrEmpty(user.Fingerprint) ? GetRandomHexStringOfLength(13) : user.Fingerprint,
         };
 
         Response<DeviceFpWrapper> response = await deviceFpClient.GetFingerprintAsync(data, token).ConfigureAwait(false);
