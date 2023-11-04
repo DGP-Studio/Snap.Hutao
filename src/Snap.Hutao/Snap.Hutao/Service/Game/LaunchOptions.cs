@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
@@ -35,6 +36,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private int? targetFps;
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
+    private AspectRatio? selectedAspectRatio;
 
     /// <summary>
     /// 构造一个新的启动游戏选项
@@ -160,6 +162,25 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref isMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, true);
         set => SetOption(ref isMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, value);
+    }
+
+    public List<AspectRatio> AspectRatios { get; } = new()
+    {
+        new(2560, 1440),
+        new(1920, 1080),
+    };
+
+    public AspectRatio? SelectedAspectRatio
+    {
+        get => selectedAspectRatio;
+        set
+        {
+            if (SetProperty(ref selectedAspectRatio, value) && value is AspectRatio aspectRatio)
+            {
+                ScreenWidth = (int)aspectRatio.Width;
+                ScreenHeight = (int)aspectRatio.Height;
+            }
+        }
     }
 
     private static void InitializeMonitors(List<NameValue<int>> monitors)
