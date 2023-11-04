@@ -1967,6 +1967,12 @@
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>Advanced Features</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
+    <value>Resolution Ratio Shortcut</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
+    <value>Screen Resolution</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>Create window as popup, without frame</value>
   </data>
