@@ -62,6 +62,7 @@ internal sealed class UniformStaggeredLayoutState
         }
     }
 
+    [SuppressMessage("", "SH007")]
     internal UniformStaggeredColumnLayout GetColumnLayout(int columnIndex)
     {
         this.columnLayout.TryGetValue(columnIndex, out UniformStaggeredColumnLayout? columnLayout);
@@ -116,7 +117,7 @@ internal sealed class UniformStaggeredLayoutState
             desiredHeight = estimatedHeight;
         }
 
-        if (Math.Abs(desiredHeight - lastAverageHeight) < 5) // Why 5?
+        if (Math.Abs(desiredHeight - lastAverageHeight) < 5)
         {
             return lastAverageHeight;
         }

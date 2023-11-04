@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Intrinsic;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.Configuration;
 
 /// <summary>
 /// 多通道

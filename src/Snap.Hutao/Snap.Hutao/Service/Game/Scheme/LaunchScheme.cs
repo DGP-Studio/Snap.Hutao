@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Service.Game.Configuration;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.Scheme;
 
 /// <summary>
 /// 启动方案
 /// </summary>
 [HighQuality]
-internal partial class LaunchScheme
+internal class LaunchScheme
 {
     /// <summary>
     /// 显示名称

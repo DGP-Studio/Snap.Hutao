@@ -9,7 +9,9 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
+using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -42,7 +44,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     private readonly RuntimeOptions hutaoOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
-    private readonly IGameService gameService;
+    private readonly IGameServiceFacade gameService;
     private readonly IMemoryCache memoryCache;
     private readonly AppOptions appOptions;
 

@@ -19,7 +19,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 [Injection(InjectAs.Transient)]
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
-    private readonly IGameService gameService;
+    private readonly IGameServiceFacade gameService;
     private readonly MetadataOptions metadataOptions;
 
     /// <summary>

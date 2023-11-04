@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Intrinsic;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.Scheme;
 
 internal sealed class LaunchSchemeOversea : LaunchScheme
 {

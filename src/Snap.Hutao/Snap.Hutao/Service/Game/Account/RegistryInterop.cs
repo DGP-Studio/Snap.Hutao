@@ -9,7 +9,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.Account;
 
 /// <summary>
 /// 注册表操作
