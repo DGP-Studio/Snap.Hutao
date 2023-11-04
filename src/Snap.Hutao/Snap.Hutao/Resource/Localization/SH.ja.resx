@@ -540,13 +540,13 @@
     <value>認証に失敗しました。</value>
   </data>
   <data name="ServerPassportVerifyRequestNotCurrentUser" xml:space="preserve">
-    <value>验证请求失败，不是当前登录的账号</value>
+    <value>認証リクエストに失敗しました。現在ログインしているアカウントではありません。</value>
   </data>
   <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
     <value>入力されたメールアドレスへ確認コードが送信されました</value>
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
-    <value>验证请求失败，当前邮箱已被注册</value>
+    <value>認証リクエストに失敗しました。このメールアドレスは既に登録されています。</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>認証リクエストが多すぎます。一分後にやり直してください。</value>
@@ -1966,6 +1966,12 @@
   </data>
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>上級者向け設定</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
+    <value>指定した解像度に素早く切り替えます</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
+    <value>解像度</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>枠の無いポップアップウィンドウとして作成します。</value>
