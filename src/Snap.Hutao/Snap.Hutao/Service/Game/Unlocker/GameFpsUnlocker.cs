@@ -19,7 +19,7 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 [HighQuality]
 internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 {
-    private readonly Process gameProcess;
+    private readonly System.Diagnostics.Process gameProcess;
     private readonly LaunchOptions launchOptions;
     private readonly UnlockerStatus status = new();
 
@@ -33,7 +33,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="gameProcess">游戏进程</param>
-    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess)
+    public GameFpsUnlocker(IServiceProvider serviceProvider, System.Diagnostics.Process gameProcess)
     {
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
         this.gameProcess = gameProcess;
@@ -57,7 +57,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         await LoopAdjustFpsAsync(options.AdjustFpsDelay, progress, token).ConfigureAwait(false);
     }
 
-    private static unsafe bool UnsafeReadModulesMemory(Process process, in GameModule moduleEntryInfo, out VirtualMemory memory)
+    private static unsafe bool UnsafeReadModulesMemory(System.Diagnostics.Process process, in GameModule moduleEntryInfo, out VirtualMemory memory)
     {
         ref readonly Module unityPlayer = ref moduleEntryInfo.UnityPlayer;
         ref readonly Module userAssembly = ref moduleEntryInfo.UserAssembly;
@@ -68,7 +68,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             && ReadProcessMemory((HANDLE)process.Handle, (void*)userAssembly.Address, lpBuffer + unityPlayer.Size, userAssembly.Size);
     }
 
-    private static unsafe bool UnsafeReadProcessMemory(Process process, nuint baseAddress, out nuint value)
+    private static unsafe bool UnsafeReadProcessMemory(System.Diagnostics.Process process, nuint baseAddress, out nuint value)
     {
         ulong temp = 0;
         bool result = ReadProcessMemory((HANDLE)process.Handle, (void*)baseAddress, (byte*)&temp, 8);
@@ -78,7 +78,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         return result;
     }
 
-    private static unsafe bool UnsafeWriteProcessMemory(Process process, nuint baseAddress, int value)
+    private static unsafe bool UnsafeWriteProcessMemory(System.Diagnostics.Process process, nuint baseAddress, int value)
     {
         return WriteProcessMemory((HANDLE)process.Handle, (void*)baseAddress, &value, sizeof(int));
     }

@@ -37,6 +37,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
     private AspectRatio? selectedAspectRatio;
+    private bool? useStarwardPlayTimeStatistics;
 
     /// <summary>
     /// 构造一个新的启动游戏选项
@@ -181,6 +182,12 @@ internal sealed class LaunchOptions : DbStoreOptions
                 ScreenHeight = (int)aspectRatio.Height;
             }
         }
+    }
+
+    public bool UseStarwardPlayTimeStatistics
+    {
+        get => GetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, false);
+        set => SetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, value);
     }
 
     private static void InitializeMonitors(List<NameValue<int>> monitors)

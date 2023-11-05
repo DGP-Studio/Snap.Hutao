@@ -20,10 +20,10 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
     {
-        string gamePath = appOptions.GamePath;
-        string? gameFolder = Path.GetDirectoryName(gamePath);
-        ArgumentException.ThrowIfNullOrEmpty(gameFolder);
-        string gameFileName = Path.GetFileName(gamePath);
+        if (!appOptions.TryGetGameFolderAndFileName(out string? gameFolder, out string? gameFileName))
+        {
+            return false;
+        }
 
         progress.Report(new(SH.ServiceGameEnsureGameResourceQueryResourceInformation));
         Response<GameResource> response = await serviceProvider

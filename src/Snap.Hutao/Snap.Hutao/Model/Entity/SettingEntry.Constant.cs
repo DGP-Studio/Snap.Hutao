@@ -104,6 +104,8 @@ internal sealed partial class SettingEntry
 
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
 
+    public const string LaunchUseStarwardPlayTimeStatistics = "Launch.UseStarwardPlayTimeStatistics";
+
     /// <summary>
     /// 启动游戏 多倍启动
     /// </summary>

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
@@ -45,8 +45,6 @@ internal sealed partial class GameAccountService : IGameAccountService
 
             if (account is null)
             {
-                // ContentDialog must be created by main thread.
-                await taskContext.SwitchToMainThreadAsync();
                 LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);
                 (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(false);
 

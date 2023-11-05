@@ -6,7 +6,9 @@ using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Factory.Picker;
+using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog;
@@ -27,10 +29,11 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
+    private readonly HutaoCloudStatisticsViewModel hutaoCloudStatisticsViewModel;
     private readonly IGachaLogQueryProviderFactory gachaLogQueryProviderFactory;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly HutaoCloudStatisticsViewModel hutaoCloudStatisticsViewModel;
     private readonly HutaoCloudViewModel hutaoCloudViewModel;
+    private readonly IProgressFactory progressFactory;
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
@@ -162,7 +165,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 throw;
             }
 
-            IProgress<GachaLogFetchStatus> progress = taskContext.CreateProgressForMainThread<GachaLogFetchStatus>(dialog.OnReport);
+            IProgress<GachaLogFetchStatus> progress = progressFactory.CreateForMainThread<GachaLogFetchStatus>(dialog.OnReport);
             bool authkeyValid;
 
             try

@@ -153,6 +153,7 @@
                                 Message="{shcm:ResourceString Name=ViewPageLaunchGameConfigurationSaveHint}"
                                 Severity="Informational"/>
 
+                            <!--  文件  -->
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameFileHeader}"/>
                             <cwc:SettingsCard
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
@@ -179,6 +180,7 @@
                                 </StackPanel>
                             </cwc:SettingsCard>
 
+                            <!--  注册表  -->
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameRegistryHeader}"/>
                             <cwc:SettingsCard
                                 ActionIconToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountDetectAction}"
@@ -193,6 +195,8 @@
                                     ItemsSource="{Binding GameAccounts}"
                                     SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
                             </Border>
+
+                            <!--  进程  -->
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameProcessHeader}"/>
                             <cwc:SettingsExpander
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsDescription}"
@@ -292,6 +296,15 @@
                                         OffContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
                                         OnContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
                                 </StackPanel>
+                            </cwc:SettingsCard>
+
+                            <!--  进程间  -->
+                            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameInterProcessHeader}"/>
+                            <cwc:SettingsCard
+                                Description="{shcm:ResourceString Name=ViewPageLaunchGamePlayTimeDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageLaunchGamePlayTimeHeader}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xEC92;}">
+                                <ToggleSwitch Width="120" IsOn="{Binding Options.UseStarwardPlayTimeStatistics, Mode=TwoWay}"/>
                             </cwc:SettingsCard>
                         </StackPanel>
                     </Grid>

@@ -55,7 +55,7 @@ internal static class RegistryInterop
 
             try
             {
-                Process.Start(startInfo)?.WaitForExit();
+                System.Diagnostics.Process.Start(startInfo)?.WaitForExit();
             }
             catch (Win32Exception ex)
             {
