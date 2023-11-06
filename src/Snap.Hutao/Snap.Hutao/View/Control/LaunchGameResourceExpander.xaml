@@ -48,7 +48,7 @@
                     Height="38.4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Content="&#xE8A7;"
+                    Content="{StaticResource FontIconContentOpenInNewWindow}"
                     FontFamily="{StaticResource SymbolThemeFontFamily}"
                     NavigateUri="{Binding Path}"/>
             </Grid>
@@ -92,7 +92,7 @@
             Height="38.4"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Content="&#xE8A7;"
+            Content="{StaticResource FontIconContentOpenInNewWindow}"
             FontFamily="{StaticResource SymbolThemeFontFamily}"
             NavigateUri="{Binding Path}"/>
         <MenuFlyoutSeparator Grid.Row="2" Margin="4,16,4,0"/>

@@ -42,7 +42,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontSize="{ThemeResource TitleTextBlockFontSize}"
-                Glyph="&#xE7FC;"/>
+                Glyph="{StaticResource FontIconContentGame}"/>
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="0"
