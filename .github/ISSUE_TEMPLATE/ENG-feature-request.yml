@@ -1,7 +1,7 @@
 name: Feature Request [English Form]
 description: Tell us about your thought
 title: "[Feat]: Place your title here"
-labels: ["功能", "priority:none"]
+labels: ["功能", "needs-triage", "priority:none"]
 assignees:
   - Lightczx
 body:
