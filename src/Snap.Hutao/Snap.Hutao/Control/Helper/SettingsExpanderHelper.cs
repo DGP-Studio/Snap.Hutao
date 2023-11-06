@@ -12,10 +12,12 @@ public sealed partial class SettingsExpanderHelper
 {
     private static void OnIsItemsEnabledChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
     {
-        SettingsExpander expander = (SettingsExpander)dp;
-        foreach (SettingsCard item in expander.Items.Cast<SettingsCard>())
+        foreach (object item in ((SettingsExpander)dp).Items)
         {
-            item.IsEnabled = (bool)e.NewValue;
+            if (item is Microsoft.UI.Xaml.Controls.Control control)
+            {
+                control.IsEnabled = (bool)e.NewValue;
+            }
         }
     }
 }

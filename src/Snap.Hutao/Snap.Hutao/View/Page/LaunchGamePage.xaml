@@ -200,11 +200,11 @@
                             <!--  进程  -->
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameProcessHeader}"/>
                             <cwc:SettingsExpander
+                                shch:SettingsExpanderHelper.IsItemsEnabled="{Binding Options.IsEnabled}"
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE943;}"
-                                IsExpanded="True"
-                                shch:SettingsExpanderHelper.IsItemsEnabled="{Binding Options.IsEnabled}">
+                                IsExpanded="True">
                                 <ToggleSwitch Width="120" IsOn="{Binding Options.IsEnabled, Mode=TwoWay}"/>
                                 <cwc:SettingsExpander.Items>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveDescription}" Header="-window-mode exclusive">
