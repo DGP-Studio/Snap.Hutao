@@ -3,7 +3,7 @@
 
 using Windows.Storage.Pickers;
 
-namespace Snap.Hutao.Factory.Abstraction;
+namespace Snap.Hutao.Factory.Picker;
 
 /// <summary>
 /// 文件选择器工厂

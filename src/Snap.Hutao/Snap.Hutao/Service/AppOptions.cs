@@ -106,6 +106,8 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     /// <summary>
     /// 是否启用高级功能
+    /// DO NOT MOVE TO OTHER CLASS
+    /// We are binding this property in SettingPage
     /// </summary>
     public bool IsAdvancedLaunchOptionsEnabled
     {

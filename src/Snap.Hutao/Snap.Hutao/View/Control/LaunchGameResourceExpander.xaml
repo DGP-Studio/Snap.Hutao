@@ -48,9 +48,9 @@
                     Height="38.4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Content="&#xE8A7;"
-                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                    NavigateUri="{Binding Path}"/>
+                    Command="{Binding CopyPathCommand}"
+                    Content="{StaticResource FontIconContentCopy}"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"/>
             </Grid>
         </DataTemplate>
     </Expander.Resources>
@@ -92,9 +92,9 @@
             Height="38.4"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Content="&#xE8A7;"
-            FontFamily="{StaticResource SymbolThemeFontFamily}"
-            NavigateUri="{Binding Path}"/>
+            Command="{Binding CopyPathCommand}"
+            Content="{StaticResource FontIconContentCopy}"
+            FontFamily="{StaticResource SymbolThemeFontFamily}"/>
         <MenuFlyoutSeparator Grid.Row="2" Margin="4,16,4,0"/>
         <ItemsControl
             Grid.Row="3"

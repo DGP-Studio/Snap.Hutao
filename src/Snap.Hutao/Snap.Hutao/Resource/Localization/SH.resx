@@ -1967,6 +1967,12 @@
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>高级功能</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
+    <value>快速切换到指定的分辨率</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
+    <value>分辨率</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>将窗口创建为弹出窗口，不带框架</value>
   </data>
@@ -2015,6 +2021,9 @@
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>文件</value>
   </data>
+  <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
+    <value>进程间</value>
+  </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>在指定的显示器上运行</value>
   </data>
@@ -2029,6 +2038,12 @@
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>游戏选项</value>
+  </data>
+  <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
+    <value>在游戏启动后尝试启动并使用 Starward 进行游戏时长统计</value>
+  </data>
+  <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
+    <value>时长统计</value>
   </data>
   <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
     <value>进程</value>
@@ -2725,6 +2740,9 @@
   </data>
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
     <value>武器活动祈愿</value>
+  </data>
+  <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
+    <value>下载链接复制成功</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>

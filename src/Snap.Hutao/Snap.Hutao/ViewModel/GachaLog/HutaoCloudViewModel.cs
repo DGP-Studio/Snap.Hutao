@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
-using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Hutao;

@@ -75,6 +75,36 @@ internal class MiHoYoJSInterface
     public event Action? ClosePageRequested;
 
     /// <summary>
+    /// 关闭
+    /// </summary>
+    /// <param name="param">参数</param>
+    /// <returns>响应</returns>
+    public virtual async ValueTask<IJsResult?> ClosePageAsync(JsParam param)
+    {
+        await taskContext.SwitchToMainThreadAsync();
+        if (coreWebView2.CanGoBack)
+        {
+            coreWebView2.GoBack();
+        }
+        else
+        {
+            ClosePageRequested?.Invoke();
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// 调整分享设置
+    /// </summary>
+    /// <param name="param">参数</param>
+    /// <returns>响应</returns>
+    public virtual IJsResult? ConfigureShare(JsParam param)
+    {
+        return null;
+    }
+
+    /// <summary>
     /// 获取ActionTicket
     /// </summary>
     /// <param name="jsParam">参数</param>
@@ -85,24 +115,6 @@ internal class MiHoYoJSInterface
             .GetRequiredService<AuthClient>()
             .GetActionTicketBySTokenAsync(jsParam.Payload.ActionType, userAndUid.User)
             .ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// 获取Http请求头
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>Http请求头</returns>
-    public virtual JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
-    {
-        return new()
-        {
-            Data = new Dictionary<string, string>()
-            {
-                { "x-rpc-client_type", "5" },
-                { "x-rpc-device_id",  HoyolabOptions.DeviceId },
-                { "x-rpc-app_version", SaltConstants.CNVersion },
-            },
-        };
     }
 
     /// <summary>
@@ -121,6 +133,45 @@ internal class MiHoYoJSInterface
                 [Cookie.LTUID] = userAndUid.User.LToken[Cookie.LTUID],
                 [Cookie.LTOKEN] = userAndUid.User.LToken[Cookie.LTOKEN],
                 [Cookie.LOGIN_TICKET] = string.Empty,
+            },
+        };
+    }
+
+    /// <summary>
+    /// 获取CookieToken
+    /// </summary>
+    /// <param name="param">参数</param>
+    /// <returns>响应</returns>
+    public virtual async ValueTask<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
+    {
+        IUserService userService = serviceProvider.GetRequiredService<IUserService>();
+        if (param.Payload.ForceRefresh)
+        {
+            await userService.RefreshCookieTokenAsync(userAndUid.User).ConfigureAwait(false);
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        coreWebView2.SetCookie(userAndUid.User.CookieToken, userAndUid.User.LToken);
+
+        ArgumentNullException.ThrowIfNull(userAndUid.User.CookieToken);
+        return new() { Data = new() { [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN] } };
+    }
+
+    /// <summary>
+    /// 获取当前语言和时区
+    /// </summary>
+    /// <param name="param">param</param>
+    /// <returns>语言与时区</returns>
+    public virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
+    {
+        MetadataOptions metadataOptions = serviceProvider.GetRequiredService<MetadataOptions>();
+
+        return new()
+        {
+            Data = new()
+            {
+                ["language"] = metadataOptions.LanguageCode,
+                ["timeZone"] = "GMT+8",
             },
         };
     }
@@ -180,6 +231,34 @@ internal class MiHoYoJSInterface
     }
 
     /// <summary>
+    /// 获取Http请求头
+    /// </summary>
+    /// <param name="param">参数</param>
+    /// <returns>Http请求头</returns>
+    public virtual JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
+    {
+        return new()
+        {
+            Data = new Dictionary<string, string>()
+            {
+                { "x-rpc-client_type", "5" },
+                { "x-rpc-device_id",  HoyolabOptions.DeviceId },
+                { "x-rpc-app_version", SaltConstants.CNVersion },
+            },
+        };
+    }
+
+    /// <summary>
+    /// 获取状态栏高度
+    /// </summary>
+    /// <param name="param">参数</param>
+    /// <returns>结果</returns>
+    public virtual JsResult<Dictionary<string, object>> GetStatusBarHeight(JsParam param)
+    {
+        return new() { Data = new() { ["statusBarHeight"] = 0 } };
+    }
+
+    /// <summary>
     /// 获取用户基本信息
     /// </summary>
     /// <param name="param">参数</param>
@@ -213,90 +292,28 @@ internal class MiHoYoJSInterface
         }
     }
 
-    /// <summary>
-    /// 获取CookieToken
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
-    public virtual async ValueTask<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
-    {
-        IUserService userService = serviceProvider.GetRequiredService<IUserService>();
-        if (param.Payload.ForceRefresh)
-        {
-            await userService.RefreshCookieTokenAsync(userAndUid.User).ConfigureAwait(false);
-        }
-
-        await taskContext.SwitchToMainThreadAsync();
-        coreWebView2.SetCookie(userAndUid.User.CookieToken, userAndUid.User.LToken);
-
-        ArgumentNullException.ThrowIfNull(userAndUid.User.CookieToken);
-        return new() { Data = new() { [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN] } };
-    }
-
-    /// <summary>
-    /// 关闭
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
-    public virtual async ValueTask<IJsResult?> ClosePageAsync(JsParam param)
-    {
-        await taskContext.SwitchToMainThreadAsync();
-        if (coreWebView2.CanGoBack)
-        {
-            coreWebView2.GoBack();
-        }
-        else
-        {
-            ClosePageRequested?.Invoke();
-        }
-
-        return null;
-    }
-
-    /// <summary>
-    /// 调整分享设置
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
-    public virtual IJsResult? ConfigureShare(JsParam param)
-    {
-        return null;
-    }
-
-    /// <summary>
-    /// 获取状态栏高度
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>结果</returns>
-    public virtual JsResult<Dictionary<string, object>> GetStatusBarHeight(JsParam param)
-    {
-        return new() { Data = new() { ["statusBarHeight"] = 0 } };
-    }
-
     public virtual async ValueTask<IJsResult?> PushPageAsync(JsParam<PushPagePayload> param)
     {
-        await taskContext.SwitchToMainThreadAsync();
-        coreWebView2.Navigate(param.Payload.Page);
-        return null;
-    }
+        const string bbsSchema = "mihoyobbs://";
+        string pageUrl = param.Payload.Page;
 
-    /// <summary>
-    /// 获取当前语言和时区
-    /// </summary>
-    /// <param name="param">param</param>
-    /// <returns>语言与时区</returns>
-    public virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
-    {
-        MetadataOptions metadataOptions = serviceProvider.GetRequiredService<MetadataOptions>();
-
-        return new()
+        string targetUrl = pageUrl;
+        if (pageUrl.AsSpan().StartsWith(bbsSchema, StringComparison.OrdinalIgnoreCase))
         {
-            Data = new()
+            if (pageUrl.AsSpan(bbsSchema.Length).StartsWith("article/"))
             {
-                ["language"] = metadataOptions.LanguageCode,
-                ["timeZone"] = "GMT+8",
-            },
-        };
+                targetUrl = pageUrl.Replace("mihoyobbs://article/", "https://m.miyoushe.com/ys/#/article/", StringComparison.OrdinalIgnoreCase);
+            }
+            else if (pageUrl.AsSpan(bbsSchema.Length).StartsWith("webview?link="))
+            {
+                string encoded = pageUrl.Replace("mihoyobbs://webview?link=", string.Empty, StringComparison.OrdinalIgnoreCase);
+                targetUrl = Uri.UnescapeDataString(encoded);
+            }
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        coreWebView2.Navigate(targetUrl);
+        return null;
     }
 
     public virtual IJsResult? Share(JsParam<SharePayload> param)

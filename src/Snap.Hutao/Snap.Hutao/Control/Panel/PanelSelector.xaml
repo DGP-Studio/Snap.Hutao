@@ -9,11 +9,11 @@
     mc:Ignorable="d">
 
     <cwc:SegmentedItem
-        Icon="{shcm:FontIcon Glyph=&#xE8FD;}"
+        Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentBulletedList}}"
         Tag="List"
         ToolTipService.ToolTip="{shcm:ResourceString Name=ControlPanelPanelSelectorDropdownListName}"/>
     <cwc:SegmentedItem
-        Icon="{shcm:FontIcon Glyph=&#xF0E2;}"
+        Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentGridView}}"
         Tag="Grid"
         ToolTipService.ToolTip="{shcm:ResourceString Name=ControlPanelPanelSelectorDropdownGridName}"/>
 

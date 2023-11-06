@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.Factory.Abstraction;
+namespace Snap.Hutao.Factory.ContentDialog;
 
 /// <summary>
 /// 内容对话框工厂
@@ -33,11 +33,11 @@ internal interface IContentDialogFactory
     /// </summary>
     /// <param name="title">标题</param>
     /// <returns>内容对话框</returns>
-    ValueTask<ContentDialog> CreateForIndeterminateProgressAsync(string title);
+    ValueTask<Microsoft.UI.Xaml.Controls.ContentDialog> CreateForIndeterminateProgressAsync(string title);
 
     TContentDialog CreateInstance<TContentDialog>(params object[] parameters)
-        where TContentDialog : ContentDialog;
+        where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog;
 
     ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
-        where TContentDialog : ContentDialog;
+        where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog;
 }

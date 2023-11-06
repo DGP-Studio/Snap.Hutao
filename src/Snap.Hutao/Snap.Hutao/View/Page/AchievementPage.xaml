@@ -133,9 +133,10 @@
                                     <TextBlock
                                         FontSize="10"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding Inner.Version}"/>
+                                        Text="{Binding Inner.Version}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap"/>
                                 </Border>
-
                             </StackPanel>
 
                             <TextBlock
@@ -201,7 +202,10 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal">
-                    <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="8,0,0,0"/>
+                    <shcp:PanelSelector
+                        x:Name="ItemsPanelSelector"
+                        Margin="8,0,0,0"
+                        LocalSettingKeySuffixForCurrent="AchievementPage.AchievementGoals"/>
                     <Viewbox
                         Height="32"
                         MaxWidth="192"

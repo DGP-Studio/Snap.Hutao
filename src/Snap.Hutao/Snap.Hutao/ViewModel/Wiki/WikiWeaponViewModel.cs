@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Collections;
-using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;

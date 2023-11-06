@@ -10,7 +10,6 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// <summary>
 /// 米游社选项
 /// </summary>
-[Injection(InjectAs.Singleton)]
 internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
 {
     /// <summary>

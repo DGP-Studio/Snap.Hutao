@@ -104,7 +104,8 @@
             <Expander
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
-                Header="Upload Announcement">
+                Header="Upload Announcement"
+                IsExpanded="True">
                 <StackPanel Spacing="8">
                     <TextBox
                         Header="Title"
@@ -114,6 +115,10 @@
                         Header="Link"
                         PlaceholderText="Please input link"
                         Text="{Binding Announcement.Link, Mode=TwoWay}"/>
+                    <TextBox
+                        Header="Link"
+                        PlaceholderText="Max present version(leave empty to present in any version)"
+                        Text="{Binding Announcement.MaxPresentVersion, Mode=TwoWay}"/>
                     <TextBox
                         AcceptsReturn="True"
                         Header="Content"

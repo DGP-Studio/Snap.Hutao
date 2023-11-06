@@ -14,12 +14,17 @@ internal enum Arkhe
     None,
 
     /// <summary>
-    /// 芒性
+    /// 荒性
     /// </summary>
     Ousia,
 
     /// <summary>
-    /// 荒性
+    /// 芒性
     /// </summary>
     Pneuma,
+
+    /// <summary>
+    /// 圣俗杂座
+    /// </summary>
+    Furina,
 }

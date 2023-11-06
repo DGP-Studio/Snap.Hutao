@@ -5,11 +5,14 @@ using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
+using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -36,13 +39,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly INavigationService navigationService;
+    private readonly IProgressFactory progressFactory;
     private readonly IInfoBarService infoBarService;
     private readonly ResourceClient resourceClient;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
-    private readonly RuntimeOptions hutaoOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
-    private readonly IGameService gameService;
+    private readonly IGameServiceFacade gameService;
     private readonly IMemoryCache memoryCache;
     private readonly AppOptions appOptions;
 
@@ -94,7 +98,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     /// <summary>
     /// 胡桃选项
     /// </summary>
-    public RuntimeOptions HutaoOptions { get => hutaoOptions; }
+    public RuntimeOptions HutaoOptions { get => runtimeOptions; }
 
     /// <summary>
     /// 应用选项
@@ -189,45 +193,44 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
-        if (SelectedScheme is not null)
-        {
-            try
-            {
-                gameService.SetChannelOptions(SelectedScheme);
-
-                // Whether or not the channel options changed, we always ensure game resouces
-                LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
-                IProgress<PackageReplaceStatus> convertProgress = taskContext.CreateProgressForMainThread<PackageReplaceStatus>(state => dialog.State = state);
-                using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
-                {
-                    if (!await gameService.EnsureGameResourceAsync(SelectedScheme, convertProgress).ConfigureAwait(false))
-                    {
-                        infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
-                        return;
-                    }
-                }
-
-                if (SelectedGameAccount is not null)
-                {
-                    if (!gameService.SetGameAccount(SelectedGameAccount))
-                    {
-                        infoBarService.Warning(SH.ViewModelLaunchGameSwitchGameAccountFail);
-                        return;
-                    }
-                }
-
-                IProgress<LaunchStatus> launchProgress = taskContext.CreateProgressForMainThread<LaunchStatus>(status => launchStatusOptions.LaunchStatus = status);
-                await gameService.LaunchAsync(launchProgress).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ExceptionFormat.Format(ex));
-                infoBarService.Error(ex);
-            }
-        }
-        else
+        if (SelectedScheme is null)
         {
             infoBarService.Error(SH.ViewModelLaunchGameSchemeNotSelected);
+            return;
+        }
+
+        try
+        {
+            // Always ensure game resources
+            gameService.SetChannelOptions(SelectedScheme);
+
+            LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
+            IProgress<PackageReplaceStatus> convertProgress = progressFactory.CreateForMainThread<PackageReplaceStatus>(state => dialog.State = state);
+
+            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+            {
+                if (!await gameService.EnsureGameResourceAsync(SelectedScheme, convertProgress).ConfigureAwait(false))
+                {
+                    infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
+                    return;
+                }
+            }
+
+            if (SelectedGameAccount is not null)
+            {
+                if (!gameService.SetGameAccount(SelectedGameAccount))
+                {
+                    infoBarService.Warning(SH.ViewModelLaunchGameSwitchGameAccountFail);
+                    return;
+                }
+            }
+
+            IProgress<LaunchStatus> launchProgress = progressFactory.CreateForMainThread<LaunchStatus>(status => launchStatusOptions.LaunchStatus = status);
+            await gameService.LaunchAsync(launchProgress).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            infoBarService.Error(ex);
         }
     }
 

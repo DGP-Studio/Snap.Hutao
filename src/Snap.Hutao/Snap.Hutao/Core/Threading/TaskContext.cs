@@ -42,8 +42,8 @@ internal sealed class TaskContext : ITaskContext
         dispatcherQueue.Invoke(action);
     }
 
-    public IProgress<T> CreateProgressForMainThread<T>(Action<T> handler)
+    public SynchronizationContext GetSynchronizationContext()
     {
-        return new DispatcherQueueProgress<T>(handler, synchronizationContext);
+        return synchronizationContext;
     }
 }

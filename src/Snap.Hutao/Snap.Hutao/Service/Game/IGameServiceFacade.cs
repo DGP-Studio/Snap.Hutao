@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Game.Account;
+using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
+using Snap.Hutao.Service.Game.Scheme;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Game;
@@ -11,7 +14,7 @@ namespace Snap.Hutao.Service.Game;
 /// 游戏服务
 /// </summary>
 [HighQuality]
-internal interface IGameService
+internal interface IGameServiceFacade
 {
     /// <summary>
     /// 游戏内账号集合

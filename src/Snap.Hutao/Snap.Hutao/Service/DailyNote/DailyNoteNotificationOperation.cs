@@ -24,7 +24,7 @@ internal sealed partial class DailyNoteNotificationOperation
     private const string ToastAttributionUnknown = "Unknown";
 
     private readonly ITaskContext taskContext;
-    private readonly IGameService gameService;
+    private readonly IGameServiceFacade gameService;
     private readonly BindingClient bindingClient;
     private readonly DailyNoteOptions options;
 

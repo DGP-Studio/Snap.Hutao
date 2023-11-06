@@ -382,7 +382,7 @@
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                             <GridView
-                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                 ItemsSource="{Binding Statistics.OrangeAvatars}"
                                 SelectionMode="None"/>
 
@@ -391,7 +391,7 @@
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                             <GridView
-                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                 ItemsSource="{Binding Statistics.PurpleAvatars}"
                                 SelectionMode="None"/>
                         </StackPanel>
@@ -405,7 +405,7 @@
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                             <GridView
-                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                 ItemsSource="{Binding Statistics.OrangeWeapons}"
                                 SelectionMode="None"/>
 
@@ -414,7 +414,7 @@
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                             <GridView
-                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                 ItemsSource="{Binding Statistics.PurpleWeapons}"
                                 SelectionMode="None"/>
 
@@ -423,7 +423,7 @@
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
                             <GridView
-                                ItemTemplate="{StaticResource HistoryWishItemTemplate}"
+                                ItemTemplate="{StaticResource HistoryWishGridTemplate}"
                                 ItemsSource="{Binding Statistics.BlueWeapons}"
                                 SelectionMode="None"/>
                         </StackPanel>

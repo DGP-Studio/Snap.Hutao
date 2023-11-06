@@ -9,12 +9,12 @@ namespace Snap.Hutao.Web.Hoyolab;
 
 internal static class HoyolabHttpRequestMessageBuilderExtension
 {
-    internal static HttpRequestMessageBuilder SetUserCookie(this HttpRequestMessageBuilder builder, UserAndUid userAndUid, CookieType cookie)
+    internal static HttpRequestMessageBuilder SetUserCookieAndFpHeader(this HttpRequestMessageBuilder builder, UserAndUid userAndUid, CookieType cookie)
     {
-        return builder.SetUserCookie(userAndUid.User, cookie);
+        return builder.SetUserCookieAndFpHeader(userAndUid.User, cookie);
     }
 
-    internal static HttpRequestMessageBuilder SetUserCookie(this HttpRequestMessageBuilder builder, Model.Entity.User user, CookieType cookie)
+    internal static HttpRequestMessageBuilder SetUserCookieAndFpHeader(this HttpRequestMessageBuilder builder, Model.Entity.User user, CookieType cookie)
     {
         builder.RemoveHeader("Cookie");
         StringBuilder stringBuilder = new();
@@ -38,6 +38,11 @@ internal static class HoyolabHttpRequestMessageBuilderExtension
         if (!string.IsNullOrWhiteSpace(result))
         {
             builder.AddHeader("Cookie", result);
+        }
+
+        if (!string.IsNullOrEmpty(user.Fingerprint))
+        {
+            builder.SetHeader("x-rpc-device_fp", user.Fingerprint);
         }
 
         return builder;

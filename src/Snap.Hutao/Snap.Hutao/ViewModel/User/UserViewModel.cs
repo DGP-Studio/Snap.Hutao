@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
-using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;

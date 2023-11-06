@@ -120,6 +120,7 @@ internal sealed class TypedWishSummaryBuilder
         {
             // base
             Name = context.Name,
+            TypeName = $"{context.DistributionType:D}",
             From = fromTimeTracker,
             To = toTimeTracker,
             TotalCount = totalCountTracker,

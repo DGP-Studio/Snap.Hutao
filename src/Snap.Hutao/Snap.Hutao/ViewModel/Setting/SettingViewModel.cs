@@ -11,7 +11,8 @@ using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Core.Windowing;
-using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
@@ -40,12 +41,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 {
     private readonly HomeCardOptions homeCardOptions = new();
 
+    private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly INavigationService navigationService;
     private readonly IClipboardInterop clipboardInterop;
     private readonly IShellLinkInterop shellLinkInterop;
-    private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;

@@ -4,7 +4,7 @@
 using Snap.Hutao.Model.Intrinsic;
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.Configuration;
 
 internal static class IgnoredInvalidChannelOptions
 {

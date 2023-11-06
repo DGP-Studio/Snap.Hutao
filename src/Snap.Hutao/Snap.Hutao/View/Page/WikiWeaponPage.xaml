@@ -97,7 +97,10 @@
                 BorderThickness="0"
                 DefaultLabelPosition="Right">
                 <CommandBar.Content>
-                    <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
+                    <shcp:PanelSelector
+                        x:Name="ItemsPanelSelector"
+                        Margin="6,8,0,0"
+                        LocalSettingKeySuffixForCurrent="WikiWeaponPage.Weapons"/>
                 </CommandBar.Content>
                 <AppBarElementContainer>
                     <AutoSuggestBox

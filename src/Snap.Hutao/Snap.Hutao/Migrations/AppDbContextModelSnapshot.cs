@@ -15,7 +15,7 @@ namespace Snap.Hutao.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
                 {
@@ -400,7 +400,7 @@ namespace Snap.Hutao.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ScheduleId")
+                    b.Property<uint>("ScheduleId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("SpiralAbyss")
@@ -426,6 +426,9 @@ namespace Snap.Hutao.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CookieToken")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Fingerprint")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsOversea")

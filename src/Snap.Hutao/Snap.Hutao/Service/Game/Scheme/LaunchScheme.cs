@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Service.Game.Configuration;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.Scheme;
 
 /// <summary>
 /// 启动方案
 /// </summary>
 [HighQuality]
-internal partial class LaunchScheme
+internal class LaunchScheme
 {
     /// <summary>
     /// 显示名称
@@ -55,6 +56,16 @@ internal partial class LaunchScheme
     public bool IsOversea { get; private protected set; }
 
     public bool IsNotCompatOnly { get; private protected set; } = true;
+
+    public static bool ExecutableIsOversea(string gameFileName)
+    {
+        return gameFileName switch
+        {
+            GameConstants.GenshinImpactFileName => true,
+            GameConstants.YuanShenFileName => false,
+            _ => throw Requires.Fail("无效的游戏可执行文件名称：{0}", gameFileName),
+        };
+    }
 
     /// <summary>
     /// 多通道相等

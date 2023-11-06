@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Request.QueryString;

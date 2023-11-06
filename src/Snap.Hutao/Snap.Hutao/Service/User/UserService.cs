@@ -73,6 +73,16 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
             {
                 List<Model.Entity.User> entities = await userDbService.GetUserListAsync().ConfigureAwait(false);
                 List<BindingUser> users = await entities.SelectListAsync(userInitializationService.ResumeUserAsync, default).ConfigureAwait(false);
+
+                foreach (BindingUser user in users)
+                {
+                    if (user.NeedDbUpdateAfterResume)
+                    {
+                        await userDbService.UpdateUserAsync(user.Entity).ConfigureAwait(false);
+                        user.NeedDbUpdateAfterResume = false;
+                    }
+                }
+
                 userCollection = users.ToObservableCollection();
 
                 try
@@ -202,7 +212,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     private async ValueTask<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(Cookie cookie, bool isOversea)
     {
         await taskContext.SwitchToBackgroundAsync();
-        BindingUser? newUser = await userInitializationService.CreateOrDefaultUserFromCookieAsync(cookie, isOversea).ConfigureAwait(false);
+        BindingUser? newUser = await userInitializationService.CreateUserFromCookieOrDefaultAsync(cookie, isOversea).ConfigureAwait(false);
 
         if (newUser is not null)
         {

@@ -3,8 +3,18 @@
     <x:String x:Key="FontIconContentSetting">&#xE713;</x:String>
     <x:String x:Key="FontIconContentRefresh">&#xE72C;</x:String>
     <x:String x:Key="FontIconContentDelete">&#xE74D;</x:String>
+    <x:String x:Key="FontIconContentChevronRight">&#xE76C;</x:String>
+    <x:String x:Key="FontIconContentWarning">&#xE7BA;</x:String>
+    <x:String x:Key="FontIconContentGame">&#xE7FC;</x:String>
+    <x:String x:Key="FontIconContentOpenInNewWindow">&#xE8A7;</x:String>
     <x:String x:Key="FontIconContentFolder">&#xE8B7;</x:String>
+    <x:String x:Key="FontIconContentCopy">&#xE8C8;</x:String>
+    <x:String x:Key="FontIconContentBulletedList">&#xE8FD;</x:String>
     <x:String x:Key="FontIconContentCheckList">&#xE9D5;</x:String>
+    <x:String x:Key="FontIconContentWebsite">&#xEB41;</x:String>
+    <x:String x:Key="FontIconContentHomeGroup">&#xEC26;</x:String>
     <x:String x:Key="FontIconContentAsteriskBadge12">&#xEDAD;</x:String>
     <x:String x:Key="FontIconContentZipFolder">&#xF012;</x:String>
+    <x:String x:Key="FontIconContentGridView">&#xF0E2;</x:String>
+    <x:String x:Key="FontIconContentGiftboxOpen">&#xF133;</x:String>
 </ResourceDictionary>

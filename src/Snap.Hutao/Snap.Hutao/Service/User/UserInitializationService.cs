@@ -14,6 +14,7 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserInitializationService))]
 internal sealed partial class UserInitializationService : IUserInitializationService
 {
+    private readonly IUserFingerprintService userFingerprintService;
     private readonly IServiceProvider serviceProvider;
 
     public async ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default)
@@ -29,7 +30,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         return user;
     }
 
-    public async ValueTask<ViewModel.User.User?> CreateOrDefaultUserFromCookieAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
+    public async ValueTask<ViewModel.User.User?> CreateUserFromCookieOrDefaultAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
     {
         // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
         Model.Entity.User entity = Model.Entity.User.From(cookie, isOversea);
@@ -64,8 +65,6 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             return false;
         }
 
-        bool isOversea = user.Entity.IsOversea;
-
         if (!await TrySetUserLTokenAsync(user, token).ConfigureAwait(false))
         {
             return false;
@@ -85,6 +84,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         {
             return false;
         }
+
+        await userFingerprintService.TryInitializeAsync(user, token).ConfigureAwait(false);
 
         user.SelectedUserGameRole = user.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
         return user.IsInitialized = true;

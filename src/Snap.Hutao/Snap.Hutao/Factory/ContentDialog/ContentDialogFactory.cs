@@ -3,9 +3,8 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.LifeCycle;
-using Snap.Hutao.Factory.Abstraction;
 
-namespace Snap.Hutao.Factory;
+namespace Snap.Hutao.Factory.ContentDialog;
 
 /// <inheritdoc cref="IContentDialogFactory"/>
 [HighQuality]
@@ -13,15 +12,15 @@ namespace Snap.Hutao.Factory;
 [Injection(InjectAs.Singleton, typeof(IContentDialogFactory))]
 internal sealed partial class ContentDialogFactory : IContentDialogFactory
 {
+    private readonly ICurrentWindowReference currentWindowReference;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-    private readonly ICurrentWindowReference currentWindowReference;
 
     /// <inheritdoc/>
     public async ValueTask<ContentDialogResult> CreateForConfirmAsync(string title, string content)
     {
         await taskContext.SwitchToMainThreadAsync();
-        ContentDialog dialog = new()
+        Microsoft.UI.Xaml.Controls.ContentDialog dialog = new()
         {
             XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
@@ -37,7 +36,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     public async ValueTask<ContentDialogResult> CreateForConfirmCancelAsync(string title, string content, ContentDialogButton defaultButton = ContentDialogButton.Close)
     {
         await taskContext.SwitchToMainThreadAsync();
-        ContentDialog dialog = new()
+        Microsoft.UI.Xaml.Controls.ContentDialog dialog = new()
         {
             XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
@@ -51,10 +50,10 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     }
 
     /// <inheritdoc/>
-    public async ValueTask<ContentDialog> CreateForIndeterminateProgressAsync(string title)
+    public async ValueTask<Microsoft.UI.Xaml.Controls.ContentDialog> CreateForIndeterminateProgressAsync(string title)
     {
         await taskContext.SwitchToMainThreadAsync();
-        ContentDialog dialog = new()
+        Microsoft.UI.Xaml.Controls.ContentDialog dialog = new()
         {
             XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
@@ -65,7 +64,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     }
 
     public async ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
-        where TContentDialog : ContentDialog
+        where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
         TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
@@ -74,7 +73,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     }
 
     public TContentDialog CreateInstance<TContentDialog>(params object[] parameters)
-        where TContentDialog : ContentDialog
+        where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog
     {
         TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
         contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();

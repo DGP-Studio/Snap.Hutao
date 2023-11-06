@@ -9,7 +9,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Snap.Hutao.Service.Game;
+namespace Snap.Hutao.Service.Game.Account;
 
 /// <summary>
 /// 注册表操作
@@ -55,7 +55,7 @@ internal static class RegistryInterop
 
             try
             {
-                Process.Start(startInfo)?.WaitForExit();
+                System.Diagnostics.Process.Start(startInfo)?.WaitForExit();
             }
             catch (Win32Exception ex)
             {

@@ -26,4 +26,9 @@ internal class UploadAnnouncement
     /// 原帖链接
     /// </summary>
     public string Link { get; set; } = default!;
+
+    /// <summary>
+    /// 最高呈现版本
+    /// </summary>
+    public string? MaxPresentVersion { get; set; }
 }

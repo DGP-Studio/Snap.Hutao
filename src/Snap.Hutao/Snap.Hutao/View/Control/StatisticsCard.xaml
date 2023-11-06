@@ -151,6 +151,8 @@
                             x:Name="ItemsPanelSelector"
                             Margin="6,0,0,0"
                             Current="Grid"
+                            LocalSettingKeyExtraForCurrent="{Binding TypeName}"
+                            LocalSettingKeySuffixForCurrent="StatisticsCard.OrangeList"
                             Visibility="{x:Bind DetailExpander.IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
                     </StackPanel>
                 </Grid>

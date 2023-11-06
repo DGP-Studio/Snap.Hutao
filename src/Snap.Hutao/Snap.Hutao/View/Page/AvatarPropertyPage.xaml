@@ -253,6 +253,67 @@
                 </Button>
             </DataTemplate>
 
+            <DataTemplate x:Key="AvatarSkillTemplate">
+                <Button
+                    Margin="0,2,0,0"
+                    Padding="4"
+                    Background="Transparent"
+                    BorderBrush="{x:Null}">
+                    <Button.Content>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="48"/>
+                            </Grid.ColumnDefinitions>
+                            <shci:CachedImage
+                                Grid.Column="0"
+                                Width="36"
+                                Height="36"
+                                Source="{Binding Icon}"/>
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="6,0,0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Foreground="#FFFFFFFF"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{Binding Info.Level}"/>
+                        </Grid>
+                    </Button.Content>
+                    <Button.Flyout>
+                        <Flyout Placement="Left">
+                            <StackPanel MaxWidth="320">
+                                <StackPanel.Resources>
+                                    <Thickness x:Key="SettingsCardPadding">16</Thickness>
+                                    <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                    <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                    <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                </StackPanel.Resources>
+                                <shct:DescriptionTextBlock Description="{Binding Description}">
+                                    <shct:DescriptionTextBlock.Resources>
+                                        <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                                            <Setter Property="TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </shct:DescriptionTextBlock.Resources>
+                                </shct:DescriptionTextBlock>
+                                <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Info.Parameters}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <cwcont:SettingsCard
+                                                Margin="0,2,0,0"
+                                                Padding="12,0"
+                                                Header="{Binding Description}">
+                                                <TextBlock Margin="0,8" Text="{Binding Parameter}"/>
+                                            </cwcont:SettingsCard>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </DataTemplate>
+
             <DataTemplate x:Key="AvatarPropertyTemplate">
                 <Grid Padding="16,8" Background="{Binding Background, Mode=OneWay}">
                     <Grid.ColumnDefinitions>
@@ -451,7 +512,10 @@
                     DefaultLabelPosition="Right">
                     <CommandBar.Content>
                         <StackPanel Orientation="Horizontal">
-                            <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
+                            <shcp:PanelSelector
+                                x:Name="ItemsPanelSelector"
+                                Margin="6,8,0,0"
+                                LocalSettingKeySuffixForCurrent="AvatarPropertyPage.Summary.Avatars"/>
                             <ToggleButton
                                 x:Name="RefreshTimeToggle"
                                 Margin="8,8,0,0"
@@ -659,44 +723,9 @@
                                                     Grid.Row="1"
                                                     Grid.Column="0"
                                                     Margin="16"
+                                                    ItemTemplate="{StaticResource AvatarConstellationTemplate}"
                                                     ItemsPanel="{StaticResource HorizontalStackPanelSpacing0Template}"
-                                                    ItemsSource="{Binding SelectedAvatar.Constellations}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Button
-                                                                Margin="0,0,2,0"
-                                                                Padding="2"
-                                                                Background="Transparent"
-                                                                BorderBrush="{x:Null}">
-                                                                <Button.Content>
-                                                                    <Grid>
-                                                                        <shci:CachedImage
-                                                                            Width="36"
-                                                                            Height="36"
-                                                                            Opacity="{Binding IsActivated, Converter={StaticResource BoolToOpacityConverter}}"
-                                                                            Source="{Binding Icon}"/>
-                                                                        <Image
-                                                                            Width="16"
-                                                                            Height="16"
-                                                                            Source="ms-appx:///Resource/Icon/UI_Icon_Locked.png"
-                                                                            Visibility="{Binding IsActivated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                                                    </Grid>
-                                                                </Button.Content>
-                                                                <Button.Flyout>
-                                                                    <Flyout Placement="Bottom">
-                                                                        <shct:DescriptionTextBlock MaxWidth="320" Description="{Binding Description}">
-                                                                            <shct:DescriptionTextBlock.Resources>
-                                                                                <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                                                                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                                                                </Style>
-                                                                            </shct:DescriptionTextBlock.Resources>
-                                                                        </shct:DescriptionTextBlock>
-                                                                    </Flyout>
-                                                                </Button.Flyout>
-                                                            </Button>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
+                                                    ItemsSource="{Binding SelectedAvatar.Constellations}"/>
 
                                                 <StackPanel Grid.Column="1" Margin="16">
                                                     <TextBlock
@@ -729,7 +758,7 @@
                                                     Grid.Column="1"
                                                     Margin="16"
                                                     VerticalAlignment="Bottom"
-                                                    ItemTemplate="{StaticResource AvatarConstellationTemplate}"
+                                                    ItemTemplate="{StaticResource AvatarSkillTemplate}"
                                                     ItemsSource="{Binding SelectedAvatar.Skills}"/>
                                             </Grid>
                                         </Border>
