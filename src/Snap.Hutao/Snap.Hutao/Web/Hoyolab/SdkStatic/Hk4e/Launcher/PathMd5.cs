@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Service.Notification;
 
 namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 
@@ -31,6 +32,8 @@ internal partial class PathMd5
     [Command("CopyPathCommand")]
     private void CopyPathToClipboard()
     {
-        Ioc.Default.GetRequiredService<IClipboardInterop>().SetText(Path);
+        IServiceProvider serviceProvider = Ioc.Default;
+        serviceProvider.GetRequiredService<IClipboardInterop>().SetText(Path);
+        serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.WebGameResourcePathCopySucceed);
     }
 }

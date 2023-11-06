@@ -49,7 +49,7 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Command="{Binding CopyPathCommand}"
-                    Content="{StaticResource FontIconContentOpenInNewWindow}"
+                    Content="{StaticResource FontIconContentCopy}"
                     FontFamily="{StaticResource SymbolThemeFontFamily}"/>
             </Grid>
         </DataTemplate>
@@ -93,7 +93,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Command="{Binding CopyPathCommand}"
-            Content="{StaticResource FontIconContentOpenInNewWindow}"
+            Content="{StaticResource FontIconContentCopy}"
             FontFamily="{StaticResource SymbolThemeFontFamily}"/>
         <MenuFlyoutSeparator Grid.Row="2" Margin="4,16,4,0"/>
         <ItemsControl
