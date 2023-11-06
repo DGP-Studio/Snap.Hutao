@@ -19,6 +19,11 @@ internal sealed partial class TypedWishSummary : Wish
     private double probabilityOfNextPullIsOrange;
 
     /// <summary>
+    /// 类型名称，不受语言影响
+    /// </summary>
+    public string? TypeName { get; set; }
+
+    /// <summary>
     /// 最大五星抽数
     /// </summary>
     public string MaxOrangePullFormatted

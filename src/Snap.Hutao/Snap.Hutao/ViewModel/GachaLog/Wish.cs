@@ -15,11 +15,6 @@ internal abstract class Wish
     public string Name { get; set; } = default!;
 
     /// <summary>
-    /// 类型名称，不受语言影响
-    /// </summary>
-    public string? TypeName { get; set; }
-
-    /// <summary>
     /// 总数
     /// </summary>
     public int TotalCount { get; set; }
