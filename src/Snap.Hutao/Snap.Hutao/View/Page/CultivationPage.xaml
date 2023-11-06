@@ -278,18 +278,14 @@
                                     ItemTemplate="{StaticResource CultivateEntryTemplate}"
                                     ItemsSource="{Binding CultivateEntries}"
                                     SelectionMode="None">
+                                    <ItemsView.ItemTransitionProvider>
+                                        <shcl:DefaultItemCollectionTransitionProvider/>
+                                    </ItemsView.ItemTransitionProvider>
                                     <ItemsView.Layout>
                                         <shcl:UniformStaggeredLayout
                                             MinColumnSpacing="12"
                                             MinItemWidth="300"
                                             MinRowSpacing="-4"/>
-                                        <!--
-                                            ItemsJustification="Start"
-                                            ItemsStretch="Fill"
-                                            MinColumnSpacing="12"
-                                            MinItemWidth="300"
-                                            MinRowSpacing="-4"
-                                        -->
                                     </ItemsView.Layout>
                                 </ItemsView>
                             </PivotItem>
