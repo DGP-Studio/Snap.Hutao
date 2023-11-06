@@ -539,8 +539,14 @@
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
     <value>验证失败</value>
   </data>
+  <data name="ServerPassportVerifyRequestNotCurrentUser" xml:space="preserve">
+    <value>验证请求失败，不是当前登录的账号</value>
+  </data>
   <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
     <value>验证码已发送至邮箱</value>
+  </data>
+  <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
+    <value>验证请求失败，当前邮箱已被注册</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>验证请求过快，请 1 分钟后再试</value>
@@ -1689,7 +1695,7 @@
     <value>新增</value>
   </data>
   <data name="ViewPageDailyNoteAttendanceStatusInfo" xml:space="preserve">
-    <value>历练点获取详情</value>
+    <value>歷練點獲取詳情</value>
   </data>
   <data name="ViewPageDailyNoteConfigWebhookDescription" xml:space="preserve">
     <value>在实时便笺刷新后推送到指定的 Webhook</value>
@@ -1795,6 +1801,9 @@
   </data>
   <data name="ViewPageGachaLogInputAction" xml:space="preserve">
     <value>輸入</value>
+  </data>
+  <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
+    <value>從胡桃云恢復祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>重新整理</value>
@@ -1958,6 +1967,12 @@
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>進階功能</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
+    <value>快速切换到指定的分辨率</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
+    <value>分辨率</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>將窗口創建為彈出窗口，不帶邊框</value>
   </data>
@@ -2006,6 +2021,9 @@
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>文件</value>
   </data>
+  <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
+    <value>进程间</value>
+  </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>在指定的屏幕上運行</value>
   </data>
@@ -2020,6 +2038,12 @@
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>遊戲選項</value>
+  </data>
+  <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
+    <value>在游戏启动后尝试启动并使用 Starward 进行游戏时长统计</value>
+  </data>
+  <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
+    <value>时长统计</value>
   </data>
   <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
     <value>进程</value>
@@ -2485,6 +2509,9 @@
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>上傳資料</value>
+  </data>
+  <data name="ViewTitleAutoClicking" xml:space="preserve">
+    <value>自动连点</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>工具</value>

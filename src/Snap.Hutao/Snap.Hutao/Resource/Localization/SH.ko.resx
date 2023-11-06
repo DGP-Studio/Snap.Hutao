@@ -539,8 +539,14 @@
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
     <value>验证失败</value>
   </data>
+  <data name="ServerPassportVerifyRequestNotCurrentUser" xml:space="preserve">
+    <value>验证请求失败，不是当前登录的账号</value>
+  </data>
   <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
     <value>验证码已发送至邮箱</value>
+  </data>
+  <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
+    <value>验证请求失败，当前邮箱已被注册</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>验证请求过快，请 1 分钟后再试</value>
@@ -1796,6 +1802,9 @@
   <data name="ViewPageGachaLogInputAction" xml:space="preserve">
     <value>입력</value>
   </data>
+  <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
+    <value>从胡桃云恢复祈愿记录</value>
+  </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>동기화</value>
   </data>
@@ -1958,6 +1967,12 @@
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>고급</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
+    <value>快速切换到指定的分辨率</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
+    <value>分辨率</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>테두리 없는 창모드</value>
   </data>
@@ -2006,6 +2021,9 @@
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>文件</value>
   </data>
+  <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
+    <value>进程间</value>
+  </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>지정한 모니터에서 실행</value>
   </data>
@@ -2020,6 +2038,12 @@
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>게임 설정</value>
+  </data>
+  <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
+    <value>在游戏启动后尝试启动并使用 Starward 进行游戏时长统计</value>
+  </data>
+  <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
+    <value>时长统计</value>
   </data>
   <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
     <value>进程</value>
@@ -2485,6 +2509,9 @@
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>데이터 업로드</value>
+  </data>
+  <data name="ViewTitleAutoClicking" xml:space="preserve">
+    <value>自动连点</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>도구</value>
