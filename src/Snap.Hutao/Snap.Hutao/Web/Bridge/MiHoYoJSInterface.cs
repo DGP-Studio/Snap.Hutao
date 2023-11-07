@@ -237,14 +237,21 @@ internal class MiHoYoJSInterface
     /// <returns>Http请求头</returns>
     public virtual JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
     {
+        Dictionary<string, string> headers = new()
+        {
+            { "x-rpc-client_type", "5" },
+            { "x-rpc-device_id",  HoyolabOptions.DeviceId },
+            { "x-rpc-app_version", SaltConstants.CNVersion },
+        };
+
+        if (!userAndUid.IsOversea)
+        {
+            headers.Add("x-rpc-device_fp", userAndUid.User.Fingerprint ?? string.Empty);
+        }
+
         return new()
         {
-            Data = new Dictionary<string, string>()
-            {
-                { "x-rpc-client_type", "5" },
-                { "x-rpc-device_id",  HoyolabOptions.DeviceId },
-                { "x-rpc-app_version", SaltConstants.CNVersion },
-            },
+            Data = headers,
         };
     }
 
