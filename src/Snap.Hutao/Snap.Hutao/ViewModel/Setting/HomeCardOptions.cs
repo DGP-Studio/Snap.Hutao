@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.Setting;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.Setting;
 
 internal sealed class HomeCardOptions
 {

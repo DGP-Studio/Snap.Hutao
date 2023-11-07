@@ -2300,6 +2300,15 @@
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
     <value>启动高级功能</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
+    <value>更改自动连点功能的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
+    <value>自动连点</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>前往官网</value>
   </data>

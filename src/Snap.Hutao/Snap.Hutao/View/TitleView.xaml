@@ -29,17 +29,14 @@
             IsChecked="{x:Bind HotKeyOptions.IsMouseClickRepeatForeverOn, Mode=OneWay}"
             IsHitTestVisible="False"
             Visibility="{x:Bind RuntimeOptions.IsElevated}">
-            <Grid>
+            <Grid ColumnSpacing="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="F8"/>
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="6,0,0,0"
-                    Text="{shcm:ResourceString Name=ViewTitleAutoClicking}"/>
+                <TextBlock Grid.Column="0" Text="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
+                <TextBlock Grid.Column="1" Text="{shcm:ResourceString Name=ViewTitleAutoClicking}"/>
             </Grid>
         </ToggleButton>
     </Grid>

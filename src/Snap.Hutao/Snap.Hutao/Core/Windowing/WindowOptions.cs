@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Windows.Graphics;
@@ -19,6 +20,11 @@ internal readonly struct WindowOptions
     /// 窗体句柄
     /// </summary>
     public readonly HWND Hwnd;
+
+    /// <summary>
+    /// 非客户端区域指针源
+    /// </summary>
+    public readonly InputNonClientPointerSource InputNonClientPointerSource;
 
     /// <summary>
     /// 标题栏元素
@@ -50,6 +56,7 @@ internal readonly struct WindowOptions
     public WindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, bool persistSize = false)
     {
         Hwnd = (HWND)WindowNative.GetWindowHandle(window);
+        InputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
         TitleBar = titleBar;
         InitSize = initSize;
         PersistSize = persistSize;
@@ -59,7 +66,7 @@ internal readonly struct WindowOptions
     /// 获取窗体当前的DPI缩放比
     /// </summary>
     /// <returns>缩放比</returns>
-    public double GetWindowScale()
+    public double GetRasterizationScale()
     {
         uint dpi = GetDpiForWindow(Hwnd);
         return Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);
