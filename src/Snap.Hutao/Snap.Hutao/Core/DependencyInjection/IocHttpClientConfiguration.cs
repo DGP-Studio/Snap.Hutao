@@ -36,7 +36,7 @@ internal static partial class IocHttpClientConfiguration
     }
 
     /// <summary>
-    /// 对于需要添加动态密钥的客户端使用此配置
+    /// 对于需要添加动态密钥1的客户端使用此配置
     /// </summary>
     /// <param name="client">配置后的客户端</param>
     private static void XRpcConfiguration(HttpClient client)
@@ -50,7 +50,7 @@ internal static partial class IocHttpClientConfiguration
     }
 
     /// <summary>
-    /// 对于需要添加动态密钥的客户端使用此配置
+    /// 对于需要添加动态密钥2的客户端使用此配置
     /// </summary>
     /// <param name="client">配置后的客户端</param>
     private static void XRpc2Configuration(HttpClient client)
@@ -64,11 +64,11 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "2");
         client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId);
         client.DefaultRequestHeaders.Add("x-rpc-game_biz", "bbs_cn");
-        client.DefaultRequestHeaders.Add("x-rpc-sdk_version", "1.3.1.2");
+        client.DefaultRequestHeaders.Add("x-rpc-sdk_version", "2.16.0");
     }
 
     /// <summary>
-    /// 对于需要添加动态密钥的客户端使用此配置
+    /// 对于需要添加动态密钥1的客户端使用此配置
     /// HoYoLAB app
     /// </summary>
     /// <param name="client">配置后的客户端</param>
@@ -84,7 +84,7 @@ internal static partial class IocHttpClientConfiguration
     }
 
     /// <summary>
-    /// 对于需要添加动态密钥的客户端使用此配置
+    /// 对于需要添加动态密钥2的客户端使用此配置
     /// HoYoLAB web
     /// </summary>
     /// <param name="client">配置后的客户端</param>

@@ -184,8 +184,9 @@ internal sealed class HotKeyCombination : ObservableObject
         }
 
         HWND hwnd = currentWindowReference.GetWindowHandle();
-        registered = RegisterHotKey(hwnd, hotKeyId, Modifiers, (uint)Key);
-        return registered;
+        BOOL result = RegisterHotKey(hwnd, hotKeyId, Modifiers, (uint)Key);
+        registered = result;
+        return result;
     }
 
     public bool UnregisterForCurrentWindow()
@@ -201,8 +202,9 @@ internal sealed class HotKeyCombination : ObservableObject
         }
 
         HWND hwnd = currentWindowReference.GetWindowHandle();
-        registered = UnregisterHotKey(hwnd, hotKeyId);
-        return registered;
+        BOOL result = UnregisterHotKey(hwnd, hotKeyId);
+        registered = !result;
+        return result;
     }
 
     public override string ToString()

@@ -6,5 +6,43 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Transitions="{ThemeResource EntranceThemeTransitions}"
     mc:Ignorable="d">
-    <WebView2 x:Name="WebView" DefaultBackgroundColor="Transparent"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button
+                MinWidth="42"
+                Command="{x:Bind GoBackCommand}"
+                FontSize="12"
+                IsEnabled="{x:Bind WebView.CanGoBack, Mode=OneWay}"
+                Style="{StaticResource NavigationBackButtonSmallStyle}"/>
+            <Button
+                MinWidth="42"
+                Command="{x:Bind RefreshCommand}"
+                Content="&#xE72C;"
+                FontSize="12"
+                Style="{StaticResource NavigationBackButtonSmallStyle}"/>
+            <TextBlock
+                MaxWidth="240"
+                Margin="6"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{x:Bind DocumentTitle, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap"/>
+        </StackPanel>
+
+        <WebView2
+            x:Name="WebView"
+            Grid.Row="1"
+            DefaultBackgroundColor="Transparent"/>
+
+        <Rectangle
+            Grid.Row="2"
+            Height="8"
+            Fill="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}"/>
+    </Grid>
 </UserControl>

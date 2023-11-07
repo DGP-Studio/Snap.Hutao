@@ -216,15 +216,10 @@
                                 Style="{StaticResource DefaultAppBarButtonStyle}">
                                 <FlyoutBase.AttachedFlyout>
                                     <Flyout
+                                        FlyoutPresenterStyle="{StaticResource WebViewerFlyoutPresenterStyle}"
                                         LightDismissOverlayMode="On"
                                         Placement="Full"
                                         ShouldConstrainToRootBounds="False">
-                                        <Flyout.FlyoutPresenterStyle>
-                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                                <Setter Property="Padding" Value="0"/>
-                                                <Setter Property="CornerRadius" Value="0"/>
-                                            </Style>
-                                        </Flyout.FlyoutPresenterStyle>
                                         <Grid>
                                             <shvc:WebViewer>
                                                 <shvc:WebViewer.SourceProvider>

@@ -20,17 +20,8 @@ internal sealed class SignInJSInterface : MiHoYoJSInterface
     {
     }
 
-    /// <inheritdoc/>
-    public override JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
+    protected override void GetHttpRequestHeaderCore(Dictionary<string, string> headers)
     {
-        return new()
-        {
-            Data = new Dictionary<string, string>()
-            {
-                { "x-rpc-client_type", "2" },
-                { "x-rpc-device_id",  HoyolabOptions.DeviceId },
-                { "x-rpc-app_version", SaltConstants.CNVersion },
-            },
-        };
+        headers["x-rpc-client_type"] = "2";
     }
 }

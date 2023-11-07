@@ -74,12 +74,20 @@ internal class MiHoYoJSInterface
 
     public event Action? ClosePageRequested;
 
+    public void Detach()
+    {
+        coreWebView2.WebMessageReceived -= webMessageReceivedEventHandler;
+        coreWebView2.DOMContentLoaded -= domContentLoadedEventHandler;
+        coreWebView2.NavigationStarting -= navigationStartingEventHandler;
+        coreWebView2 = default!;
+    }
+
     /// <summary>
     /// 关闭
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual async ValueTask<IJsResult?> ClosePageAsync(JsParam param)
+    protected virtual async ValueTask<IJsResult?> ClosePageAsync(JsParam param)
     {
         await taskContext.SwitchToMainThreadAsync();
         if (coreWebView2.CanGoBack)
@@ -99,7 +107,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual IJsResult? ConfigureShare(JsParam param)
+    protected virtual IJsResult? ConfigureShare(JsParam param)
     {
         return null;
     }
@@ -109,7 +117,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="jsParam">参数</param>
     /// <returns>响应</returns>
-    public virtual async ValueTask<IJsResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
+    protected virtual async ValueTask<IJsResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
     {
         return await serviceProvider
             .GetRequiredService<AuthClient>()
@@ -122,7 +130,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual JsResult<Dictionary<string, string>> GetCookieInfo(JsParam param)
+    protected virtual JsResult<Dictionary<string, string>> GetCookieInfo(JsParam param)
     {
         ArgumentNullException.ThrowIfNull(userAndUid.User.LToken);
 
@@ -142,7 +150,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual async ValueTask<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
+    protected virtual async ValueTask<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
     {
         IUserService userService = serviceProvider.GetRequiredService<IUserService>();
         if (param.Payload.ForceRefresh)
@@ -162,7 +170,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">param</param>
     /// <returns>语言与时区</returns>
-    public virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
+    protected virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
     {
         MetadataOptions metadataOptions = serviceProvider.GetRequiredService<MetadataOptions>();
 
@@ -181,7 +189,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
+    protected virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
         string salt = HoyolabOptions.Salts[SaltType.LK2];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -212,7 +220,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
+    protected virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
         string salt = HoyolabOptions.Salts[SaltType.X4];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -235,13 +243,20 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>Http请求头</returns>
-    public virtual JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
+    protected virtual JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
     {
         Dictionary<string, string> headers = new()
         {
+            // Skip x-rpc-device_name
+            // Skip x-rpc-device_model
+            // Skip x-rpc-sys_version
+            // Skip x-rpc-game_biz
+            // Skip x-rpc-lifecycle_id
+            { "x-rpc-app_id", "bll8iq97cem8" },
             { "x-rpc-client_type", "5" },
-            { "x-rpc-device_id",  HoyolabOptions.DeviceId },
-            { "x-rpc-app_version", SaltConstants.CNVersion },
+            { "x-rpc-device_id", HoyolabOptions.DeviceId },
+            { "x-rpc-app_version", userAndUid.IsOversea ? SaltConstants.OSVersion : SaltConstants.CNVersion },
+            { "x-rpc-sdk_version", "2.16.0" },
         };
 
         if (!userAndUid.IsOversea)
@@ -249,10 +264,16 @@ internal class MiHoYoJSInterface
             headers.Add("x-rpc-device_fp", userAndUid.User.Fingerprint ?? string.Empty);
         }
 
+        GetHttpRequestHeaderCore(headers);
+
         return new()
         {
             Data = headers,
         };
+    }
+
+    protected virtual void GetHttpRequestHeaderCore(Dictionary<string, string> headers)
+    {
     }
 
     /// <summary>
@@ -260,7 +281,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>结果</returns>
-    public virtual JsResult<Dictionary<string, object>> GetStatusBarHeight(JsParam param)
+    protected virtual JsResult<Dictionary<string, object>> GetStatusBarHeight(JsParam param)
     {
         return new() { Data = new() { ["statusBarHeight"] = 0 } };
     }
@@ -270,7 +291,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual async ValueTask<JsResult<Dictionary<string, object>>> GetUserInfoAsync(JsParam param)
+    protected virtual async ValueTask<JsResult<Dictionary<string, object>>> GetUserInfoAsync(JsParam param)
     {
         Response<UserFullInfoWrapper> response = await serviceProvider
             .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
@@ -299,7 +320,7 @@ internal class MiHoYoJSInterface
         }
     }
 
-    public virtual async ValueTask<IJsResult?> PushPageAsync(JsParam<PushPagePayload> param)
+    protected virtual async ValueTask<IJsResult?> PushPageAsync(JsParam<PushPagePayload> param)
     {
         const string bbsSchema = "mihoyobbs://";
         string pageUrl = param.Payload.Page;
@@ -323,7 +344,7 @@ internal class MiHoYoJSInterface
         return null;
     }
 
-    public virtual IJsResult? Share(JsParam<SharePayload> param)
+    protected virtual IJsResult? Share(JsParam<SharePayload> param)
     {
         return new JsResult<Dictionary<string, string>>()
         {
@@ -334,57 +355,53 @@ internal class MiHoYoJSInterface
         };
     }
 
-    public virtual ValueTask<IJsResult?> ShowAlertDialogAsync(JsParam param)
+    protected virtual ValueTask<IJsResult?> ShowAlertDialogAsync(JsParam param)
     {
         return ValueTask.FromException<IJsResult?>(new NotSupportedException());
     }
 
-    public virtual IJsResult? StartRealPersonValidation(JsParam param)
+    protected virtual IJsResult? StartRealPersonValidation(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    public virtual IJsResult? StartRealnameAuth(JsParam param)
+    protected virtual IJsResult? StartRealnameAuth(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    public virtual IJsResult? GenAuthKey(JsParam param)
+    protected virtual IJsResult? GenAuthKey(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    public virtual IJsResult? GenAppAuthKey(JsParam param)
+    protected virtual IJsResult? GenAppAuthKey(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    public virtual IJsResult? OpenSystemBrowser(JsParam param)
+    protected virtual IJsResult? OpenSystemBrowser(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    public virtual IJsResult? SaveLoginTicket(JsParam param)
+    protected virtual IJsResult? SaveLoginTicket(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    public virtual ValueTask<IJsResult?> GetNotificationSettingsAsync(JsParam param)
+    protected virtual ValueTask<IJsResult?> GetNotificationSettingsAsync(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    public virtual IJsResult? ShowToast(JsParam param)
+    protected virtual IJsResult? ShowToast(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    public void Detach()
+    protected virtual void DOMContentLoaded(CoreWebView2 coreWebView2)
     {
-        coreWebView2.WebMessageReceived -= webMessageReceivedEventHandler;
-        coreWebView2.DOMContentLoaded -= domContentLoadedEventHandler;
-        coreWebView2.NavigationStarting -= navigationStartingEventHandler;
-        coreWebView2 = default!;
     }
 
     private async ValueTask<string> ExecuteCallbackScriptAsync(string callback, string? payload = null)
@@ -485,6 +502,7 @@ internal class MiHoYoJSInterface
 
     private void OnDOMContentLoaded(CoreWebView2 coreWebView2, CoreWebView2DOMContentLoadedEventArgs args)
     {
+        DOMContentLoaded(coreWebView2);
         coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget(logger);
     }
 
