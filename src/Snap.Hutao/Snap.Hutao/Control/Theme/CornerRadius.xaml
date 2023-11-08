@@ -1,4 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <CornerRadius x:Key="ControlCornerRadiusTop">4,4,0,0</CornerRadius>
     <CornerRadius x:Key="ControlCornerRadiusBottom">0,0,4,4</CornerRadius>
+    <CornerRadius x:Key="ControlCornerRadiusTopRightAndBottomLeft">0,4,0,4</CornerRadius>
 </ResourceDictionary>

@@ -212,7 +212,7 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     Background="#80000000"
-                    CornerRadius="0,6,0,6">
+                    CornerRadius="{ThemeResource ControlCornerRadiusTopRightAndBottomLeft}">
                     <TextBlock
                         Margin="6,0,6,2"
                         Foreground="#FFFFFFFF"
