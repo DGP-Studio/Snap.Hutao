@@ -24,7 +24,7 @@ namespace Snap.Hutao.Web.Bridge;
 [HighQuality]
 [SuppressMessage("", "CA1001")]
 [SuppressMessage("", "CA1308")]
-internal class MiHoYoJSInterface
+internal class MiHoYoJSBridge
 {
     private const string InitializeJsInterfaceScript2 = """
         window.MiHoYoJSInterface = {
@@ -45,7 +45,7 @@ internal class MiHoYoJSInterface
 
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-    private readonly ILogger<MiHoYoJSInterface> logger;
+    private readonly ILogger<MiHoYoJSBridge> logger;
 
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2WebMessageReceivedEventArgs> webMessageReceivedEventHandler;
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2DOMContentLoadedEventArgs> domContentLoadedEventHandler;
@@ -53,7 +53,7 @@ internal class MiHoYoJSInterface
 
     private CoreWebView2 coreWebView2;
 
-    public MiHoYoJSInterface(CoreWebView2 coreWebView2, UserAndUid userAndUid)
+    public MiHoYoJSBridge(CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
         // 由于Webview2 的作用域特殊性，我们在此处直接使用根服务
         serviceProvider = Ioc.Default;
@@ -61,7 +61,7 @@ internal class MiHoYoJSInterface
         this.userAndUid = userAndUid;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
+        logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSBridge>>();
 
         webMessageReceivedEventHandler = OnWebMessageReceived;
         domContentLoadedEventHandler = OnDOMContentLoaded;

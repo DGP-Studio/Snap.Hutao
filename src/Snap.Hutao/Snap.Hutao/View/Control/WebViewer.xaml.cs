@@ -25,7 +25,7 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
     private readonly RoutedEventHandler loadEventHandler;
     private readonly TypedEventHandler<CoreWebView2, object> documentTitleChangedEventHander;
 
-    private MiHoYoJSInterface? jsInterface;
+    private MiHoYoJSBridge? jsBridge;
     private bool isInitializingOrInitialized;
 
     public WebViewer()
@@ -129,8 +129,8 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                         coreWebView2
                             .SetCookie(user.CookieToken, user.LToken, userAndUid.IsOversea)
                             .SetMobileUserAgent(userAndUid.IsOversea);
-                        jsInterface?.Detach();
-                        jsInterface = SourceProvider.CreateJsInterface(serviceProvider, coreWebView2, userAndUid);
+                        jsBridge?.Detach();
+                        jsBridge = SourceProvider.CreateJSBridge(serviceProvider, coreWebView2, userAndUid);
 
                         await navigator.NavigateAsync(source).ConfigureAwait(true);
                     }

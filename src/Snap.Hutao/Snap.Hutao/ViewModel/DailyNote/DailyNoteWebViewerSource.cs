@@ -11,9 +11,9 @@ namespace Snap.Hutao.ViewModel.DailyNote;
 
 internal sealed class DailyNoteWebViewerSource : IWebViewerSource
 {
-    public MiHoYoJSInterface CreateJsInterface(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
+    public MiHoYoJSBridge CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
-        return serviceProvider.CreateInstance<MiHoYoJSInterface>(coreWebView2, userAndUid);
+        return serviceProvider.CreateInstance<MiHoYoJSBridge>(coreWebView2, userAndUid);
     }
 
     public string GetSource(UserAndUid userAndUid)

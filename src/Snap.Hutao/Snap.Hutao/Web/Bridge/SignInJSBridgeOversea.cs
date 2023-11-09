@@ -12,7 +12,7 @@ namespace Snap.Hutao.Web.Bridge;
 /// HoYoLAB 签到页面JS桥
 /// </summary>
 [HighQuality]
-internal sealed class SignInJSInterfaceOversea : MiHoYoJSInterface
+internal sealed class SignInJSBridgeOversea : MiHoYoJSBridge
 {
     // 移除 请旋转手机 提示所在的HTML元素
     private const string RemoveRotationWarningScript = """
@@ -20,13 +20,9 @@ internal sealed class SignInJSInterfaceOversea : MiHoYoJSInterface
         landscape.remove();
         """;
 
-    private readonly ILogger<MiHoYoJSInterface> logger;
-
-    /// <inheritdoc cref="MiHoYoJSInterface(IServiceProvider, CoreWebView2)"/>
-    public SignInJSInterfaceOversea(CoreWebView2 webView, IServiceProvider serviceProvider, UserAndUid userAndUid)
+    public SignInJSBridgeOversea(CoreWebView2 webView, UserAndUid userAndUid)
         : base(webView, userAndUid)
     {
-        logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
     }
 
     protected override void GetHttpRequestHeaderCore(Dictionary<string, string> headers)
@@ -36,6 +32,6 @@ internal sealed class SignInJSInterfaceOversea : MiHoYoJSInterface
 
     protected override void DOMContentLoaded(CoreWebView2 coreWebView2)
     {
-        coreWebView2.ExecuteScriptAsync(RemoveRotationWarningScript).AsTask().SafeForget(logger);
+        coreWebView2.ExecuteScriptAsync(RemoveRotationWarningScript).AsTask().SafeForget();
     }
 }
