@@ -58,12 +58,12 @@ internal readonly struct PlayerUid
     public TimeZoneInfo GetTimeZoneInfo()
     {
         // 美服 UTC-05
-        // 欧服 UTC+02
+        // 欧服 UTC+01
         // 其他 UTC+08
         return Region switch
         {
-            "os_usa" => ServerTimeZoneInfo.UsaTimeZone,
-            "os_euro" => ServerTimeZoneInfo.EuroTimeZone,
+            "os_usa" => ServerTimeZoneInfo.AmericaTimeZone,
+            "os_euro" => ServerTimeZoneInfo.EuropeTimeZone,
             _ => ServerTimeZoneInfo.CommonTimeZone,
         };
     }
