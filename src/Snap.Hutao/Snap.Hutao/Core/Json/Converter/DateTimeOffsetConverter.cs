@@ -27,6 +27,6 @@ internal class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
     /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString(Format, CultureInfo.CurrentCulture));
+        writer.WriteStringValue(value.ToLocalTime().ToString(Format, CultureInfo.CurrentCulture));
     }
 }

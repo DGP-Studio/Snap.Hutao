@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Request.QueryString;
+using Windows.ApplicationModel.Store.Preview.InstallControl;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
@@ -51,6 +52,19 @@ internal readonly struct PlayerUid
         {
             >= '1' and <= '5' => false,
             _ => true,
+        };
+    }
+
+    public TimeZoneInfo GetTimeZoneInfo()
+    {
+        // 美服 UTC-05
+        // 欧服 UTC+02
+        // 其他 UTC+08
+        return Region switch
+        {
+            "os_usa" => ServerTimeZoneInfo.UsaTimeZone,
+            "os_euro" => ServerTimeZoneInfo.EuroTimeZone,
+            _ => ServerTimeZoneInfo.CommonTimeZone,
         };
     }
 

@@ -225,7 +225,8 @@
                             VerticalAlignment="Center"
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
-                            SelectedItem="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}"/>
+                            SelectedItem="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}"
+                            Style="{StaticResource DefaultComboBoxStyle}"/>
                         <ToggleSwitch
                             MinWidth="120"
                             VerticalAlignment="Center"
