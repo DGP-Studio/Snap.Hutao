@@ -128,8 +128,13 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
             UniformStaggeredItem item = state.GetItemAt(i);
             if (item.Height == 0)
             {
+                // https://github.com/DGP-Studio/Snap.Hutao/issues/1079
+                // The first element must be force refreshed otherwise
+                // it will use the old one realized
+                ElementRealizationOptions options = i == 0 ? ElementRealizationOptions.ForceCreate : ElementRealizationOptions.None;
+
                 // Item has not been measured yet. Get the element and store the values
-                UIElement element = context.GetOrCreateElementAt(i);
+                UIElement element = context.GetOrCreateElementAt(i, options);
                 element.Measure(new Size(state.ColumnWidth, availableHeight));
                 item.Height = element.DesiredSize.Height;
                 item.Element = element;

@@ -272,39 +272,36 @@
                     <Grid>
                         <Pivot Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                             <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationCultivateEntry}">
-                                <ItemsView
-                                    Padding="16,0"
-                                    IsItemInvokedEnabled="False"
-                                    ItemTemplate="{StaticResource CultivateEntryTemplate}"
-                                    ItemsSource="{Binding CultivateEntries}"
-                                    SelectionMode="None">
-                                    <ItemsView.ItemTransitionProvider>
-                                        <shcl:DefaultItemCollectionTransitionProvider/>
-                                    </ItemsView.ItemTransitionProvider>
-                                    <ItemsView.Layout>
-                                        <shcl:UniformStaggeredLayout
-                                            MinColumnSpacing="12"
-                                            MinItemWidth="300"
-                                            MinRowSpacing="-4"/>
-                                    </ItemsView.Layout>
-                                </ItemsView>
+                                <ScrollView Padding="16,0">
+                                    <ItemsRepeater
+                                        Margin="0,16,0,0"
+                                        ItemTemplate="{StaticResource CultivateEntryTemplate}"
+                                        ItemsSource="{Binding CultivateEntries}">
+                                        <ItemsRepeater.Layout>
+                                            <shcl:UniformStaggeredLayout
+                                                MinColumnSpacing="12"
+                                                MinItemWidth="300"
+                                                MinRowSpacing="-4"/>
+                                        </ItemsRepeater.Layout>
+                                    </ItemsRepeater>
+                                </ScrollView>
                             </PivotItem>
                             <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationMaterialStatistics}">
-                                <ItemsView
-                                    Padding="16,0"
-                                    IsItemInvokedEnabled="False"
-                                    ItemTemplate="{StaticResource StatisticsItemTemplate}"
-                                    ItemsSource="{Binding StatisticsItems}"
-                                    SelectionMode="None">
-                                    <ItemsView.Layout>
-                                        <UniformGridLayout
-                                            ItemsJustification="Start"
-                                            ItemsStretch="Fill"
-                                            MinColumnSpacing="12"
-                                            MinItemWidth="300"
-                                            MinRowSpacing="-4"/>
-                                    </ItemsView.Layout>
-                                </ItemsView>
+                                <ScrollView Padding="16,0">
+                                    <ItemsRepeater
+                                        Margin="0,16,0,0"
+                                        ItemTemplate="{StaticResource StatisticsItemTemplate}"
+                                        ItemsSource="{Binding StatisticsItems}">
+                                        <ItemsRepeater.Layout>
+                                            <UniformGridLayout
+                                                ItemsJustification="Start"
+                                                ItemsStretch="Fill"
+                                                MinColumnSpacing="12"
+                                                MinItemWidth="300"
+                                                MinRowSpacing="-4"/>
+                                        </ItemsRepeater.Layout>
+                                    </ItemsRepeater>
+                                </ScrollView>
                             </PivotItem>
                         </Pivot>
                         <StackPanel
