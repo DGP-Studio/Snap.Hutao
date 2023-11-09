@@ -307,7 +307,7 @@ internal static class ApiOsEndpoints
     private const string BbsApiOsGameRecordAppApi = $"{BbsApiOs}/game_record/app/genshin/api";
 
     private const string Hk4eApiOs = "https://hk4e-api-os.hoyoverse.com";
-    private const string Hk4eApiOsGachaInfoApi = $"{Hk4eApiOs}/event/gacha_info/api";
+    private const string Hk4eApiOsGachaInfoApi = $"{Hk4eApiOs}/gacha_info/api";
 
     private const string SdkOsStatic = "https://sdk-os-static.mihoyo.com";
     private const string SdkOsStaticLauncherApi = $"{SdkOsStatic}/hk4e_global/mdk/launcher/api";
