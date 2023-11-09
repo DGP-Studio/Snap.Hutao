@@ -104,7 +104,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
     {
         ReadOnlySpan<byte> span = stream.ToArray();
         ReadOnlySpan<byte> match = isOversea
-            ? "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html"u8
+            ? "https://gs.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html"u8
             : "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html"u8;
 
         int index = span.LastIndexOf(match);
