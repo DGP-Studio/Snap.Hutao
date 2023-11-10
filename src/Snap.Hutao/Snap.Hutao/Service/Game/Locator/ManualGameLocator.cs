@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Factory.Picker;
 using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.Service.Game.Locator;

@@ -34,7 +34,7 @@ internal sealed partial class UserClientOversea : IUserClient
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiOsEndpoints.UserFullInfoQuery(user.Aid))
-            .SetUserCookie(user, CookieType.LToken)
+            .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .Get();
 
         Response<UserFullInfoWrapper>? resp = await builder

@@ -5,11 +5,19 @@ using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Tower;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 internal sealed class MonsterView : INameIcon, IMappingFrom<MonsterView, TowerMonster, Model.Metadata.Monster.Monster>
 {
+    private MonsterView(in MonsterRelationshipId id)
+    {
+        Name = $"Unknown {id}";
+        Icon = Web.HutaoEndpoints.UIIconNone;
+        Count = 1;
+    }
+
     private MonsterView(TowerMonster towerMonster, Model.Metadata.Monster.Monster metaMonster)
     {
         Name = metaMonster.Name;
@@ -30,6 +38,11 @@ internal sealed class MonsterView : INameIcon, IMappingFrom<MonsterView, TowerMo
     public bool IsCountOne { get => Count == 1; }
 
     public bool AttackMonolith { get; }
+
+    public static MonsterView Default(in MonsterRelationshipId id)
+    {
+        return new(id);
+    }
 
     public static MonsterView From(TowerMonster tower, Model.Metadata.Monster.Monster meta)
     {

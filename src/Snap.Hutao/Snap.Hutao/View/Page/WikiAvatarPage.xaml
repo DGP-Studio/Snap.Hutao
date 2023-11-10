@@ -199,7 +199,10 @@
                 BorderThickness="0"
                 DefaultLabelPosition="Right">
                 <CommandBar.Content>
-                    <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="8,8,0,0"/>
+                    <shcp:PanelSelector
+                        x:Name="ItemsPanelSelector"
+                        Margin="8,8,0,0"
+                        LocalSettingKeySuffixForCurrent="WikiAvatarPage.Avatars"/>
                 </CommandBar.Content>
                 <!--<AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="搜索提示"/>-->
                 <AppBarElementContainer>

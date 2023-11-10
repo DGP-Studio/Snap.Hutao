@@ -11,7 +11,9 @@ using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Core.Windowing;
-using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Core.Windowing.HotKey;
+using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
@@ -40,16 +42,17 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 {
     private readonly HomeCardOptions homeCardOptions = new();
 
+    private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly INavigationService navigationService;
     private readonly IClipboardInterop clipboardInterop;
     private readonly IShellLinkInterop shellLinkInterop;
-    private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
     private readonly IPickerFactory pickerFactory;
+    private readonly HotKeyOptions hotKeyOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
@@ -62,17 +65,13 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     /// </summary>
     public AppOptions Options { get => appOptions; }
 
-    /// <summary>
-    /// 胡桃选项
-    /// </summary>
     public RuntimeOptions HutaoOptions { get => runtimeOptions; }
 
-    /// <summary>
-    /// 胡桃用户选项
-    /// </summary>
     public HutaoUserOptions UserOptions { get => hutaoUserOptions; }
 
     public HomeCardOptions HomeCardOptions { get => homeCardOptions; }
+
+    public HotKeyOptions HotKeyOptions { get => hotKeyOptions; }
 
     public HutaoPassportViewModel Passport { get => hutaoPassportViewModel; }
 

@@ -61,6 +61,11 @@ internal sealed class User : ISelectable, IMappingFrom<User, Cookie, bool>
     public bool IsOversea { get; set; }
 
     /// <summary>
+    /// 用户指纹 Id
+    /// </summary>
+    public string? Fingerprint { get; set; }
+
+    /// <summary>
     /// 创建一个新的用户
     /// </summary>
     /// <param name="cookie">cookie</param>

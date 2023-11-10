@@ -22,25 +22,28 @@
             Text="{x:Bind Title}"
             TextWrapping="NoWrap"/>
 
-        <ToggleButton
+        <StackPanel
             Grid.Column="1"
-            Margin="0,0,6,0"
-            VerticalAlignment="Center"
-            IsChecked="{x:Bind HotKeyOptions.IsMouseClickRepeatForeverOn, Mode=OneWay}"
-            IsHitTestVisible="False"
-            Visibility="{x:Bind RuntimeOptions.IsElevated}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
+            Orientation="Horizontal"
+            Spacing="6"
+            Visibility="{x:Bind RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ToggleButton
+                Margin="0,0,6,0"
+                VerticalAlignment="Center"
+                IsChecked="{x:Bind HotKeyOptions.IsMouseClickRepeatForeverOn, Mode=OneWay}"
+                IsHitTestVisible="False"
+                Visibility="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="F8"/>
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="6,0,0,0"
-                    Text="{shcm:ResourceString Name=ViewTitleAutoClicking}"/>
-            </Grid>
-        </ToggleButton>
+                    <TextBlock Grid.Column="0" Text="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
+                    <TextBlock Grid.Column="1" Text="{shcm:ResourceString Name=ViewTitleAutoClicking}"/>
+                </Grid>
+            </ToggleButton>
+        </StackPanel>
+
     </Grid>
 </UserControl>

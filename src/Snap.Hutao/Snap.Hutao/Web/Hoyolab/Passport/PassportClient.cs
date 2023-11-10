@@ -35,7 +35,7 @@ internal sealed partial class PassportClient : IPassportClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.AccountGetCookieTokenBySToken)
-            .SetUserCookie(user, CookieType.SToken)
+            .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
@@ -58,7 +58,7 @@ internal sealed partial class PassportClient : IPassportClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.AccountGetLTokenBySToken)
-            .SetUserCookie(user, CookieType.SToken)
+            .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);

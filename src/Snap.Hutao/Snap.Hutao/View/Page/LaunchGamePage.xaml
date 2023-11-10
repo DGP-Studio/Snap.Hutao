@@ -12,6 +12,7 @@
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shccs="using:Snap.Hutao.Control.Collection.Selector"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
@@ -33,6 +34,82 @@
                 cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
                 DataContext="{Binding Mode=OneWay}"
                 Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceDiffHeader}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="GameAccountListTemplate">
+            <Grid>
+                <StackPanel Margin="0,12">
+                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock
+                        Opacity="0.8"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding AttachUid, TargetNullValue={shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidNull}}"/>
+                </StackPanel>
+                <StackPanel
+                    x:Name="ButtonPanel"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
+                    <Button
+                        MinWidth="48"
+                        Margin="4,8"
+                        VerticalAlignment="Stretch"
+                        Command="{Binding DataContext.AttachGameAccountCommand, Source={StaticResource BindingProxy}}"
+                        CommandParameter="{Binding}"
+                        Content="&#xE723;"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidToolTip}"/>
+                    <Button
+                        MinWidth="48"
+                        Margin="4,8"
+                        VerticalAlignment="Stretch"
+                        Command="{Binding DataContext.ModifyGameAccountCommand, Source={StaticResource BindingProxy}}"
+                        CommandParameter="{Binding}"
+                        Content="&#xE8AC;"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountRenameToolTip}"/>
+                    <Button
+                        MinWidth="48"
+                        Margin="4,8,0,8"
+                        VerticalAlignment="Stretch"
+                        Command="{Binding DataContext.RemoveGameAccountCommand, Source={StaticResource BindingProxy}}"
+                        CommandParameter="{Binding}"
+                        Content="&#xE74D;"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountRemoveToolTip}"/>
+                </StackPanel>
+
+                <Grid.Resources>
+                    <Storyboard x:Name="ButtonPanelVisibleStoryboard">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Visible</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+
+                    <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </Grid.Resources>
+
+                <mxi:Interaction.Behaviors>
+                    <mxic:EventTriggerBehavior EventName="PointerEntered">
+                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
+                    </mxic:EventTriggerBehavior>
+                    <mxic:EventTriggerBehavior EventName="PointerExited">
+                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
+                    </mxic:EventTriggerBehavior>
+                </mxi:Interaction.Behaviors>
+            </Grid>
         </DataTemplate>
     </Page.Resources>
     <Grid>
@@ -77,6 +154,7 @@
                                 Message="{shcm:ResourceString Name=ViewPageLaunchGameConfigurationSaveHint}"
                                 Severity="Informational"/>
 
+                            <!--  文件  -->
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameFileHeader}"/>
                             <cwc:SettingsCard
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
@@ -103,6 +181,7 @@
                                 </StackPanel>
                             </cwc:SettingsCard>
 
+                            <!--  注册表  -->
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameRegistryHeader}"/>
                             <cwc:SettingsCard
                                 ActionIconToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountDetectAction}"
@@ -112,132 +191,70 @@
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE748;}"
                                 IsClickEnabled="True"/>
                             <Border Style="{StaticResource BorderCardStyle}">
-                                <ListView ItemsSource="{Binding GameAccounts}" SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <StackPanel Margin="0,12">
-                                                    <TextBlock Text="{Binding Name}"/>
-                                                    <TextBlock
-                                                        Opacity="0.8"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding AttachUid, TargetNullValue={shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidNull}}"/>
-                                                </StackPanel>
-                                                <StackPanel
-                                                    x:Name="ButtonPanel"
-                                                    HorizontalAlignment="Right"
-                                                    Orientation="Horizontal"
-                                                    Visibility="Collapsed">
-                                                    <Button
-                                                        MinWidth="48"
-                                                        Margin="4,8"
-                                                        VerticalAlignment="Stretch"
-                                                        Command="{Binding DataContext.AttachGameAccountCommand, Source={StaticResource BindingProxy}}"
-                                                        CommandParameter="{Binding}"
-                                                        Content="&#xE723;"
-                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidToolTip}"/>
-                                                    <Button
-                                                        MinWidth="48"
-                                                        Margin="4,8"
-                                                        VerticalAlignment="Stretch"
-                                                        Command="{Binding DataContext.ModifyGameAccountCommand, Source={StaticResource BindingProxy}}"
-                                                        CommandParameter="{Binding}"
-                                                        Content="&#xE8AC;"
-                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountRenameToolTip}"/>
-                                                    <Button
-                                                        MinWidth="48"
-                                                        Margin="4,8,0,8"
-                                                        VerticalAlignment="Stretch"
-                                                        Command="{Binding DataContext.RemoveGameAccountCommand, Source={StaticResource BindingProxy}}"
-                                                        CommandParameter="{Binding}"
-                                                        Content="&#xE74D;"
-                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountRemoveToolTip}"/>
-                                                </StackPanel>
-
-                                                <Grid.Resources>
-                                                    <Storyboard x:Name="ButtonPanelVisibleStoryboard">
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
-                                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                                <DiscreteObjectKeyFrame.Value>
-                                                                    <Visibility>Visible</Visibility>
-                                                                </DiscreteObjectKeyFrame.Value>
-                                                            </DiscreteObjectKeyFrame>
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
-
-                                                    <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
-                                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                                <DiscreteObjectKeyFrame.Value>
-                                                                    <Visibility>Collapsed</Visibility>
-                                                                </DiscreteObjectKeyFrame.Value>
-                                                            </DiscreteObjectKeyFrame>
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </Grid.Resources>
-
-                                                <mxi:Interaction.Behaviors>
-                                                    <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
-                                                    </mxic:EventTriggerBehavior>
-                                                    <mxic:EventTriggerBehavior EventName="PointerExited">
-                                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
-                                                    </mxic:EventTriggerBehavior>
-                                                </mxi:Interaction.Behaviors>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                <ListView
+                                    ItemTemplate="{StaticResource GameAccountListTemplate}"
+                                    ItemsSource="{Binding GameAccounts}"
+                                    SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
                             </Border>
 
+                            <!--  进程  -->
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameProcessHeader}"/>
                             <cwc:SettingsExpander
+                                shch:SettingsExpanderHelper.IsItemsEnabled="{Binding Options.IsEnabled}"
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE943;}"
                                 IsExpanded="True">
+                                <ToggleSwitch Width="120" IsOn="{Binding Options.IsEnabled, Mode=TwoWay}"/>
                                 <cwc:SettingsExpander.Items>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveDescription}" Header="-window-mode exclusive">
-                                        <ToggleSwitch Width="156" IsOn="{Binding Options.IsExclusive, Mode=TwoWay}"/>
+                                        <ToggleSwitch Width="120" IsOn="{Binding Options.IsExclusive, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceFullscreenDescription}" Header="-screen-fullscreen">
-                                        <ToggleSwitch Width="156" IsOn="{Binding Options.IsFullScreen, Mode=TwoWay}"/>
+                                        <ToggleSwitch Width="120" IsOn="{Binding Options.IsFullScreen, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessDescription}" Header="-popupwindow">
-                                        <ToggleSwitch Width="156" IsOn="{Binding Options.IsBorderless, Mode=TwoWay}"/>
+                                        <ToggleSwitch Width="120" IsOn="{Binding Options.IsBorderless, Mode=TwoWay}"/>
+                                    </cwc:SettingsCard>
+                                    <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioDescription}" Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioHeader}">
+                                        <ComboBox
+                                            Width="156"
+                                            Margin="0,0,136,0"
+                                            ItemsSource="{Binding Options.AspectRatios}"
+                                            SelectedItem="{Binding Options.SelectedAspectRatio, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}" Header="-screen-width">
                                         <StackPanel Orientation="Horizontal" Spacing="16">
                                             <NumberBox
                                                 Width="156"
-                                                Padding="10,6,0,0"
+                                                Padding="12,6,0,0"
+                                                VerticalAlignment="Center"
                                                 IsEnabled="{Binding Options.IsScreenWidthEnabled}"
                                                 Value="{Binding Options.ScreenWidth, Mode=TwoWay}"/>
-                                            <ToggleSwitch Width="156" IsOn="{Binding Options.IsScreenWidthEnabled, Mode=TwoWay}"/>
+                                            <ToggleSwitch Width="120" IsOn="{Binding Options.IsScreenWidthEnabled, Mode=TwoWay}"/>
                                         </StackPanel>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightDescription}" Header="-screen-height">
                                         <StackPanel Orientation="Horizontal" Spacing="16">
                                             <NumberBox
                                                 Width="156"
-                                                Padding="10,6,0,0"
+                                                Padding="12,6,0,0"
+                                                VerticalAlignment="Center"
                                                 IsEnabled="{Binding Options.IsScreenHeightEnabled}"
                                                 Value="{Binding Options.ScreenHeight, Mode=TwoWay}"/>
-                                            <ToggleSwitch Width="156" IsOn="{Binding Options.IsScreenHeightEnabled, Mode=TwoWay}"/>
+                                            <ToggleSwitch Width="120" IsOn="{Binding Options.IsScreenHeightEnabled, Mode=TwoWay}"/>
                                         </StackPanel>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsDescription}" Header="-monitor">
                                         <StackPanel Orientation="Horizontal" Spacing="16">
                                             <ComboBox
                                                 Width="156"
+                                                VerticalAlignment="Center"
                                                 DisplayMemberPath="Name"
                                                 IsEnabled="{Binding Options.IsMonitorEnabled}"
                                                 ItemsSource="{Binding Options.Monitors}"
                                                 SelectedItem="{Binding Options.Monitor, Mode=TwoWay}"/>
-                                            <ToggleSwitch Width="156" IsOn="{Binding Options.IsMonitorEnabled, Mode=TwoWay}"/>
+                                            <ToggleSwitch Width="120" IsOn="{Binding Options.IsMonitorEnabled, Mode=TwoWay}"/>
                                         </StackPanel>
                                     </cwc:SettingsCard>
                                 </cwc:SettingsExpander.Items>
@@ -265,8 +282,14 @@
                                 </StackPanel>
                             </cwc:SettingsCard>
 
-
-                            <StackPanel Spacing="{StaticResource SettingsCardSpacing}"/>
+                            <!--  进程间  -->
+                            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameInterProcessHeader}"/>
+                            <cwc:SettingsCard
+                                Description="{shcm:ResourceString Name=ViewPageLaunchGamePlayTimeDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageLaunchGamePlayTimeHeader}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xEC92;}">
+                                <ToggleSwitch Width="120" IsOn="{Binding Options.UseStarwardPlayTimeStatistics, Mode=TwoWay}"/>
+                            </cwc:SettingsCard>
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>

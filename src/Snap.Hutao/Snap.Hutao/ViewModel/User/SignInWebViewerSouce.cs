@@ -10,11 +10,11 @@ namespace Snap.Hutao.ViewModel.User;
 
 internal sealed class SignInWebViewerSouce : DependencyObject, IWebViewerSource
 {
-    public MiHoYoJSInterface CreateJsInterface(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
+    public MiHoYoJSBridge CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
         return userAndUid.User.IsOversea
-            ? serviceProvider.CreateInstance<SignInJSInterfaceOversea>(coreWebView2, userAndUid)
-            : serviceProvider.CreateInstance<SignInJSInterface>(coreWebView2, userAndUid);
+            ? serviceProvider.CreateInstance<SignInJSBridgeOversea>(coreWebView2, userAndUid)
+            : serviceProvider.CreateInstance<SignInJSBridge>(coreWebView2, userAndUid);
     }
 
     public string GetSource(UserAndUid userAndUid)

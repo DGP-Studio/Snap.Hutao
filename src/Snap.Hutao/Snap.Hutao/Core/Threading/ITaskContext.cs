@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.Threading;
 /// </summary>
 internal interface ITaskContext
 {
-    IProgress<T> CreateProgressForMainThread<T>(Action<T> handler);
+    SynchronizationContext GetSynchronizationContext();
 
     /// <summary>
     /// 在主线程上同步等待执行操作

@@ -13,7 +13,11 @@
     mc:Ignorable="d">
 
     <StackPanel Margin="0,8,0,0">
-        <TextBox PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportUserNameHint}" Text="{x:Bind UserName, Mode=TwoWay}"/>
+        <TextBox
+            InputScope="EmailSmtpAddress"
+            IsSpellCheckEnabled="False"
+            PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
+            Text="{x:Bind UserName, Mode=TwoWay}"/>
         <PasswordBox
             Margin="0,16,0,0"
             Password="{x:Bind Password, Mode=TwoWay}"

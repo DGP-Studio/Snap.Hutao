@@ -45,7 +45,7 @@ internal sealed class WindowSubclass : IDisposable
     {
         windowProc = OnSubclassProcedure;
         bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, 0);
-        hotKeyController.Register(options.Hwnd);
+        hotKeyController.RegisterAll();
 
         bool titleBarHooked = true;
 
@@ -72,7 +72,7 @@ internal sealed class WindowSubclass : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        hotKeyController.Unregister(options.Hwnd);
+        hotKeyController.UnregisterAll();
 
         RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
         windowProc = null;
@@ -93,7 +93,7 @@ internal sealed class WindowSubclass : IDisposable
                 {
                     if (window is IMinMaxInfoHandler handler)
                     {
-                        handler.HandleMinMaxInfo(ref *(MINMAXINFO*)lParam.Value, options.GetWindowScale());
+                        handler.HandleMinMaxInfo(ref *(MINMAXINFO*)lParam.Value, options.GetRasterizationScale());
                     }
 
                     break;

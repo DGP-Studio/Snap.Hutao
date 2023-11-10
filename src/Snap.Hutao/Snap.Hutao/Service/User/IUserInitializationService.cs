@@ -7,7 +7,7 @@ namespace Snap.Hutao.Service.User;
 
 internal interface IUserInitializationService
 {
-    ValueTask<ViewModel.User.User?> CreateOrDefaultUserFromCookieAsync(Cookie cookie, bool isOversea, CancellationToken token = default(CancellationToken));
+    ValueTask<ViewModel.User.User?> CreateUserFromCookieOrDefaultAsync(Cookie cookie, bool isOversea, CancellationToken token = default(CancellationToken));
 
     ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default(CancellationToken));
 }

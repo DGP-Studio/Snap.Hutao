@@ -12,9 +12,9 @@ namespace Snap.Hutao.View.Control;
 [DependencyProperty("OverseaSource", typeof(string))]
 internal sealed partial class StaticWebview2ViewerSource : DependencyObject, IWebViewerSource
 {
-    public MiHoYoJSInterface CreateJsInterface(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
+    public MiHoYoJSBridge CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
-        return serviceProvider.CreateInstance<MiHoYoJSInterface>(coreWebView2, userAndUid);
+        return serviceProvider.CreateInstance<MiHoYoJSBridge>(coreWebView2, userAndUid);
     }
 
     public string GetSource(UserAndUid userAndUid)

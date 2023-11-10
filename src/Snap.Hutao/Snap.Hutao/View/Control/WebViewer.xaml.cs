@@ -10,19 +10,22 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
+using Windows.Foundation;
 using WinRT;
 using WinRT.Interop;
 
 namespace Snap.Hutao.View.Control;
 
 [DependencyProperty("SourceProvider", typeof(IWebViewerSource))]
+[DependencyProperty("DocumentTitle", typeof(string))]
 internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly RoutedEventHandler loadEventHandler;
+    private readonly TypedEventHandler<CoreWebView2, object> documentTitleChangedEventHander;
 
-    private MiHoYoJSInterface? jsInterface;
+    private MiHoYoJSBridge? jsBridge;
     private bool isInitializingOrInitialized;
 
     public WebViewer()
@@ -34,6 +37,7 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
         serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
         loadEventHandler = OnLoaded;
+        documentTitleChangedEventHander = OnDocumentTitleChanged;
 
         Loaded += loadEventHandler;
     }
@@ -42,6 +46,21 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
     {
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         taskContext.InvokeOnMainThread(RefreshWebview2Content);
+    }
+
+    [Command("GoBackCommand")]
+    private void GoBack()
+    {
+        if (WebView.CanGoBack)
+        {
+            WebView.GoBack();
+        }
+    }
+
+    [Command("RefreshCommand")]
+    private void Refresh()
+    {
+        WebView.Reload();
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -60,7 +79,13 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 
         await WebView.EnsureCoreWebView2Async();
         WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
+        WebView.CoreWebView2.DocumentTitleChanged += documentTitleChangedEventHander;
         RefreshWebview2Content();
+    }
+
+    private void OnDocumentTitleChanged(CoreWebView2 sender, object args)
+    {
+        DocumentTitle = sender.DocumentTitle;
     }
 
     private async void RefreshWebview2Content()
@@ -104,8 +129,8 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                         coreWebView2
                             .SetCookie(user.CookieToken, user.LToken, userAndUid.IsOversea)
                             .SetMobileUserAgent(userAndUid.IsOversea);
-                        jsInterface?.Detach();
-                        jsInterface = SourceProvider.CreateJsInterface(serviceProvider, coreWebView2, userAndUid);
+                        jsBridge?.Detach();
+                        jsBridge = SourceProvider.CreateJSBridge(serviceProvider, coreWebView2, userAndUid);
 
                         await navigator.NavigateAsync(source).ConfigureAwait(true);
                     }

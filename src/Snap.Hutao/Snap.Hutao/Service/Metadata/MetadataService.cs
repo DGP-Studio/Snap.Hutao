@@ -83,6 +83,11 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 return false;
             }
         }
+        catch (JsonException ex)
+        {
+            infoBarService.Error(ex, SH.ServiceMetadataRequestFailed);
+            return false;
+        }
         catch (HttpRequestException ex)
         {
             if (ex.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.NotFound)

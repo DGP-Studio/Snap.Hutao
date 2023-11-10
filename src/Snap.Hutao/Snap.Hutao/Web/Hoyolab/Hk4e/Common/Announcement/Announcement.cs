@@ -7,8 +7,11 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 /// 公告
 /// </summary>
 [HighQuality]
+[SuppressMessage("", "SA1124")]
 internal sealed class Announcement : AnnouncementContent
 {
+    #region Binding
+
     /// <summary>
     /// 是否应展示时间
     /// </summary>
@@ -81,6 +84,7 @@ internal sealed class Announcement : AnnouncementContent
     {
         get => $"{StartTime:yyyy.MM.dd HH:mm} - {EndTime:yyyy.MM.dd HH:mm}";
     }
+    #endregion
 
     /// <summary>
     /// 类型标签

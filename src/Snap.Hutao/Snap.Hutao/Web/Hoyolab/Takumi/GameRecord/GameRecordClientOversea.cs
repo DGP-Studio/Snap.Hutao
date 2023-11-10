@@ -36,7 +36,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiOsEndpoints.GameRecordDailyNote(userAndUid.Uid))
-            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
@@ -59,7 +59,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiOsEndpoints.GameRecordIndex(userAndUid.Uid))
-            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
@@ -83,7 +83,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiOsEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
-            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
@@ -107,7 +107,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiOsEndpoints.GameRecordCharacter)
-            .SetUserCookie(userAndUid, CookieType.Cookie)
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 
         await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);

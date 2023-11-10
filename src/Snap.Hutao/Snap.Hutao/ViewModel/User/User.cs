@@ -62,6 +62,8 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMapping
         }
     }
 
+    public string? Fingerprint { get => inner.Fingerprint; set => inner.Fingerprint = value; }
+
     public Guid InnerId { get => inner.InnerId; }
 
     /// <inheritdoc cref="EntityUser.IsSelected"/>
@@ -101,6 +103,8 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMapping
     /// 内部的用户实体
     /// </summary>
     public EntityUser Entity { get => inner; }
+
+    public bool NeedDbUpdateAfterResume { get; set; }
 
     public static User From(EntityUser user, IServiceProvider provider)
     {

@@ -16,7 +16,7 @@ namespace Snap.Hutao.ViewModel.Game;
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>
 {
-    private readonly IGameService gameService;
+    private readonly IGameServiceFacade gameService;
     private readonly ITaskContext taskContext;
     private readonly IInfoBarService infoBarService;
 

@@ -19,7 +19,7 @@
             CompactPaneLength="48"
             IsBackEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
             IsPaneOpen="True"
-            OpenPaneLength="188"
+            OpenPaneLength="192"
             PaneDisplayMode="Left"
             UseLayoutRounding="False">
             <NavigationView.MenuItems>

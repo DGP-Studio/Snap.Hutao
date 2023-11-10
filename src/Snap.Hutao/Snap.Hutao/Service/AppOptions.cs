@@ -19,12 +19,7 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
-    private readonly List<NameValue<BackdropType>> supportedBackdropTypesInner = new()
-    {
-        new("Acrylic", BackdropType.Acrylic),
-        new("Mica", BackdropType.Mica),
-        new("MicaAlt", BackdropType.MicaAlt),
-    };
+    private readonly List<NameValue<BackdropType>> supportedBackdropTypesInner = CollectionsNameValue.ListFromEnum<BackdropType>();
 
     private readonly List<NameValue<string>> supportedCulturesInner = new()
     {
@@ -106,6 +101,8 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     /// <summary>
     /// 是否启用高级功能
+    /// DO NOT MOVE TO OTHER CLASS
+    /// We are binding this property in SettingPage
     /// </summary>
     public bool IsAdvancedLaunchOptionsEnabled
     {

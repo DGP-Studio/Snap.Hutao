@@ -29,11 +29,11 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
 
             ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, new ApplicationDataCompositeValue());
             List<long> data = excludedIds.Select(kvp => long.Parse(kvp.Key, CultureInfo.InvariantCulture)).ToList();
-            Response<List<HutaoAnnouncement>> respose = await hutaoAsServiceClient.GetAnnouncementListAsync(data, token).ConfigureAwait(false);
+            Response<List<HutaoAnnouncement>> response = await hutaoAsServiceClient.GetAnnouncementListAsync(data, token).ConfigureAwait(false);
 
-            if (respose.IsOk())
+            if (response.IsOk())
             {
-                List<HutaoAnnouncement> list = respose.Data;
+                List<HutaoAnnouncement> list = response.Data;
                 list.ForEach(item => item.DismissCommand = dismissCommand);
                 announcements = list.ToObservableCollection();
             }

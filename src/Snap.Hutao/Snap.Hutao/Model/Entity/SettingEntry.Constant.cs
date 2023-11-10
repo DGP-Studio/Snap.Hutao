@@ -54,6 +54,11 @@ internal sealed partial class SettingEntry
     public const string DailyNoteWebhookUrl = "DailyNote.WebhookUrl";
 
     /// <summary>
+    /// 启动游戏 总开关
+    /// </summary>
+    public const string LaunchIsLaunchOptionsEnabled = "Launch.IsLaunchOptionsEnabled";
+
+    /// <summary>
     /// 启动游戏 独占全屏
     /// </summary>
     public const string LaunchIsExclusive = "Launch.IsExclusive";
@@ -98,6 +103,8 @@ internal sealed partial class SettingEntry
     public const string LaunchMonitor = "Launch.Monitor";
 
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
+
+    public const string LaunchUseStarwardPlayTimeStatistics = "Launch.UseStarwardPlayTimeStatistics";
 
     /// <summary>
     /// 启动游戏 多倍启动

@@ -36,7 +36,7 @@ internal sealed class SummaryItem : Item
     /// </summary>
     public string TimeFormatted
     {
-        get => $"{Time:yyy.MM.dd HH:mm:ss}";
+        get => $"{Time.ToLocalTime():yyy.MM.dd HH:mm:ss}";
     }
 
     /// <summary>

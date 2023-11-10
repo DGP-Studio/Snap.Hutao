@@ -27,5 +27,5 @@ internal sealed class DeviceFpData
     public string AppName { get; set; } = default!;
 
     [JsonPropertyName("ext_fields")]
-    public Dictionary<string, string> ExtFields { get; set; } = default!;
+    public string ExtFields { get; set; } = default!;
 }

@@ -69,7 +69,7 @@ internal sealed partial class BindingClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.UserGameRolesByActionTicket(actionTicket))
-            .SetUserCookie(user, CookieType.LToken)
+            .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .Get();
 
         Response<ListWrapper<UserGameRole>>? resp = await builder
@@ -90,7 +90,7 @@ internal sealed partial class BindingClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiOsEndpoints.UserGameRolesByCookie)
-            .SetUserCookie(user, CookieType.LToken)
+            .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .Get();
 
         Response<ListWrapper<UserGameRole>>? resp = await builder

@@ -48,7 +48,7 @@ internal sealed partial class HutaoPassportRegisterDialog : ContentDialog
             return;
         }
 
-        HutaoResponse response = await homaPassportClient.VerifyAsync(UserName, false).ConfigureAwait(false);
+        HutaoResponse response = await homaPassportClient.RequestVerifyAsync(UserName, VerifyCodeRequestType.Registration).ConfigureAwait(false);
         infoBarService.Information(response.GetLocalizationMessage());
     }
 }
