@@ -2753,6 +2753,9 @@
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>ダウンロードリンクのコピーに成功しました</value>
   </data>
+  <data name="WebHoyolabInvalidUid" xml:space="preserve">
+    <value>无效的 UID</value>
+  </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>認証に失敗しました。 手動で認証するか、MiHoYo BBS - 戦績 を確認してください。</value>
   </data>
