@@ -5,6 +5,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Windowing;
 using Windows.Storage.Pickers;
+using Windows.Win32.Foundation;
 using WinRT.Interop;
 
 namespace Snap.Hutao.Factory.Picker;
@@ -79,10 +80,8 @@ internal sealed partial class PickerFactory : IPickerFactory
     {
         // Create a folder picker.
         T picker = new();
-        nint hwnd = currentWindowReference.Window is IWindowOptionsSource optionsSource
-            ? (nint)optionsSource.WindowOptions.Hwnd
-            : WindowNative.GetWindowHandle(currentWindowReference.Window);
 
+        HWND hwnd = currentWindowReference.GetWindowHandle();
         InitializeWithWindow.Initialize(picker, hwnd);
 
         return picker;

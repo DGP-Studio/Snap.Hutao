@@ -321,19 +321,6 @@ internal static class ApiEndpoints
     public const string AnnContent = $"{Hk4eApiAnnouncementApi}/getAnnContent?{AnnouncementQuery}";
     #endregion
 
-    #region Hk4eApiGachaInfoApi
-
-    /// <summary>
-    /// 获取祈愿记录
-    /// </summary>
-    /// <param name="query">query string</param>
-    /// <returns>祈愿记录信息Url</returns>
-    public static string GachaInfoGetGachaLog(string query)
-    {
-        return $"{Hk4eApiGachaInfoApi}/getGachaLog?{query}";
-    }
-    #endregion
-
     #region PassportApi | PassportApiV4
 
     /// <summary>
@@ -377,6 +364,19 @@ internal static class ApiEndpoints
     public static string DeviceFpGetExtList(int platform)
     {
         return $"{PublicDataApiDeviceFpApi}/getExtList?platform={platform:D}";
+    }
+    #endregion
+
+    #region PublicOperationHk4eGachaInfoApi
+
+    /// <summary>
+    /// 获取祈愿记录
+    /// </summary>
+    /// <param name="query">query string</param>
+    /// <returns>祈愿记录信息Url</returns>
+    public static string GachaInfoGetGachaLog(string query)
+    {
+        return $"{PublicOperationHk4eGachaInfoApi}/getGachaLog?{query}";
     }
     #endregion
 
@@ -425,7 +425,6 @@ internal static class ApiEndpoints
 
     private const string Hk4eApi = "https://hk4e-api.mihoyo.com";
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";
-    private const string Hk4eApiGachaInfoApi = $"{Hk4eApi}/event/gacha_info/api";
 
     private const string PassportApi = "https://passport-api.mihoyo.com";
     private const string PassportApiAuthApi = $"{PassportApi}/account/auth/api";
@@ -433,6 +432,9 @@ internal static class ApiEndpoints
 
     private const string PublicDataApi = "https://public-data-api.mihoyo.com";
     private const string PublicDataApiDeviceFpApi = $"{PublicDataApi}/device-fp/api";
+
+    private const string PublicOperationHk4e = "https://public-operation-hk4e.mihoyo.com";
+    private const string PublicOperationHk4eGachaInfoApi = $"{PublicOperationHk4e}/gacha_info/api";
 
     private const string SdkStatic = "https://sdk-static.mihoyo.com";
     private const string SdkStaticLauncherApi = $"{SdkStatic}/hk4e_cn/mdk/launcher/api";

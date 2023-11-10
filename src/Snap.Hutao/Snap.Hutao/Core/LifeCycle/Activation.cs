@@ -163,7 +163,7 @@ internal sealed partial class Activation : IActivation
         {
             await taskContext.SwitchToMainThreadAsync();
 
-            currentWindowReference.Window = serviceProvider.GetRequiredService<MainWindow>();
+            serviceProvider.GetRequiredService<MainWindow>();
 
             serviceProvider
                 .GetRequiredService<IMetadataService>()
@@ -270,7 +270,7 @@ internal sealed partial class Activation : IActivation
 
         if (currentWindowReference.Window is null)
         {
-            currentWindowReference.Window = serviceProvider.GetRequiredService<LaunchGameWindow>();
+            serviceProvider.GetRequiredService<LaunchGameWindow>();
         }
         else
         {

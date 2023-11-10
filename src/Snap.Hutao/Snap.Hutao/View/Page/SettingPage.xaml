@@ -195,6 +195,46 @@
                         SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingKeyShortcutHeader}"/>
+                <cwc:SettingsCard
+                    Description="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingDescription}"
+                    Header="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE92E;}">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <CheckBox
+                            MinWidth="64"
+                            VerticalAlignment="Center"
+                            Content="Win"
+                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}"/>
+                        <CheckBox
+                            MinWidth="64"
+                            VerticalAlignment="Center"
+                            Content="Ctrl"
+                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasControl, Mode=TwoWay}"/>
+                        <CheckBox
+                            MinWidth="64"
+                            VerticalAlignment="Center"
+                            Content="Shift"
+                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasShift, Mode=TwoWay}"/>
+                        <CheckBox
+                            MinWidth="64"
+                            VerticalAlignment="Center"
+                            Content="Alt"
+                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}"/>
+                        <ComboBox
+                            VerticalAlignment="Center"
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
+                            SelectedItem="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}"
+                            Style="{StaticResource DefaultComboBoxStyle}"/>
+                        <ToggleSwitch
+                            MinWidth="120"
+                            VerticalAlignment="Center"
+                            IsOn="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Mode=TwoWay}"/>
+                    </StackPanel>
+
+                </cwc:SettingsCard>
+
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewpageSettingHomeHeader}"/>
                 <cwc:SettingsExpander
                     Description="{shcm:ResourceString Name=ViewpageSettingHomeCardDescription}"
@@ -295,9 +335,7 @@
                     Header="{shcm:ResourceString Name=ViewPageSettingSetDataFolderHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE8DE;}"
                     IsClickEnabled="True"/>
-
                 <cwc:SettingsCard
-                    Margin="0,3,0,0"
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingStorageOpenAction}"
                     Command="{Binding OpenCacheFolderCommand}"
@@ -318,7 +356,6 @@
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                     Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewPageSettingDangerousHeader}"/>
-
                 <InfoBar
                     IsClosable="False"
                     IsOpen="{Binding Options.IsAdvancedLaunchOptionsEnabled}"

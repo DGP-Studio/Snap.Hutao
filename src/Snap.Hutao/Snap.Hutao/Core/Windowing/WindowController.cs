@@ -6,6 +6,7 @@ using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
 using System.IO;
@@ -32,8 +33,9 @@ internal sealed class WindowController
         this.options = options;
         this.serviceProvider = serviceProvider;
 
+        // Window reference must be set before Window Subclass created
+        serviceProvider.GetRequiredService<ICurrentWindowReference>().Window = window;
         subclass = new(window, options, serviceProvider);
-
         InitializeCore();
     }
 
@@ -78,7 +80,7 @@ internal sealed class WindowController
     private void RecoverOrInitWindowSize()
     {
         // Set first launch size
-        double scale = options.GetWindowScale();
+        double scale = options.GetRasterizationScale();
         SizeInt32 scaledSize = options.InitSize.Scale(scale);
         RectInt32 rect = StructMarshal.RectInt32(scaledSize);
 
@@ -108,14 +110,14 @@ internal sealed class WindowController
         // prevent save value when we are maximized.
         if (!windowPlacement.showCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
         {
-            double scale = 1 / options.GetWindowScale();
+            double scale = 1.0 / options.GetRasterizationScale();
             LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)window.AppWindow.GetRect().Scale(scale));
         }
     }
 
     private void OnOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(AppOptions.BackdropType))
+        if (e.PropertyName is nameof(AppOptions.BackdropType))
         {
             if (sender is AppOptions options)
             {
@@ -198,7 +200,7 @@ internal sealed class WindowController
     {
         AppWindowTitleBar appTitleBar = window.AppWindow.TitleBar;
 
-        double scale = options.GetWindowScale();
+        double scale = options.GetRasterizationScale();
 
         // 48 is the navigation button leftInset
         RectInt32 dragRect = StructMarshal.RectInt32(48, 0, options.TitleBar.ActualSize).Scale(scale);

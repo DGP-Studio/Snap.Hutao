@@ -2300,6 +2300,15 @@
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
     <value>고급 기능 활성화</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
+    <value>更改自动连点功能的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
+    <value>自动连点</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>공식 홈페이지로 이동</value>
   </data>
@@ -2526,7 +2535,7 @@
     <value>当前用户</value>
   </data>
   <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
-    <value>我的角色</value>
+    <value>旅行工具</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>웹 로그인</value>
@@ -2740,6 +2749,12 @@
   </data>
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
     <value>무기 이벤트 기원</value>
+  </data>
+  <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
+    <value>下载链接复制成功</value>
+  </data>
+  <data name="WebHoyolabInvalidUid" xml:space="preserve">
+    <value>无效的 UID</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>

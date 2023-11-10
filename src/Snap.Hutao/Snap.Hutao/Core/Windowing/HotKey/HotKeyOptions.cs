@@ -2,13 +2,34 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Model;
+using Windows.System;
 
 namespace Snap.Hutao.Core.Windowing.HotKey;
 
 [Injection(InjectAs.Singleton)]
-internal sealed class HotKeyOptions : ObservableObject
+internal sealed partial class HotKeyOptions : ObservableObject
 {
-    private bool isVirtualKeyF8Pressed;
+    private bool isMouseClickRepeatForeverOn;
+    private HotKeyCombination mouseClickRepeatForeverKeyCombination;
 
-    public bool IsMouseClickRepeatForeverOn { get => isVirtualKeyF8Pressed; set => SetProperty(ref isVirtualKeyF8Pressed, value); }
+    public HotKeyOptions(IServiceProvider serviceProvider)
+    {
+        mouseClickRepeatForeverKeyCombination = new(serviceProvider, SettingKeys.HotKeyMouseClickRepeatForever, 100000, default, VirtualKey.F8);
+    }
+
+    public List<NameValue<VirtualKey>> VirtualKeys { get; } = HotKey.VirtualKeys.GetList();
+
+    public bool IsMouseClickRepeatForeverOn
+    {
+        get => isMouseClickRepeatForeverOn;
+        set => SetProperty(ref isMouseClickRepeatForeverOn, value);
+    }
+
+    public HotKeyCombination MouseClickRepeatForeverKeyCombination
+    {
+        get => mouseClickRepeatForeverKeyCombination;
+        set => SetProperty(ref mouseClickRepeatForeverKeyCombination, value);
+    }
 }

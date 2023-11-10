@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Control;
 
 internal interface IWebViewerSource
 {
-    MiHoYoJSInterface CreateJsInterface(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid);
+    MiHoYoJSBridge CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid);
 
     string GetSource(UserAndUid userAndUid);
 }

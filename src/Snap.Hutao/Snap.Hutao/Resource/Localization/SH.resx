@@ -2300,6 +2300,15 @@
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
     <value>启动高级功能</value>
   </data>
+  <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
+    <value>更改自动连点功能的快捷键</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
+    <value>自动连点</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>前往官网</value>
   </data>
@@ -2526,7 +2535,7 @@
     <value>当前用户</value>
   </data>
   <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
-    <value>我的角色</value>
+    <value>旅行工具</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>网页登录</value>
@@ -2743,6 +2752,9 @@
   </data>
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>下载链接复制成功</value>
+  </data>
+  <data name="WebHoyolabInvalidUid" xml:space="preserve">
+    <value>无效的 UID</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>

@@ -2,69 +2,38 @@
 // Licensed under the MIT license.
 
 using System.Runtime.InteropServices;
-using Windows.Win32.Foundation;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Core.Windowing.HotKey;
 
 [SuppressMessage("", "CA1001")]
-internal sealed class HotKeyController : IHotKeyController
+[ConstructorGenerated]
+internal sealed partial class HotKeyController : IHotKeyController
 {
-    private const int DefaultId = 100000;
+    private static readonly WaitCallback RunMouseClickRepeatForever = MouseClickRepeatForever;
 
     private readonly object locker = new();
-    private readonly WaitCallback runMouseClickRepeatForever;
+
     private readonly HotKeyOptions hotKeyOptions;
-    private readonly RuntimeOptions runtimeOptions;
+
     private volatile CancellationTokenSource? cancellationTokenSource;
 
-    public HotKeyController(IServiceProvider serviceProvider)
+    public void RegisterAll()
     {
-        hotKeyOptions = serviceProvider.GetRequiredService<HotKeyOptions>();
-        runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        runMouseClickRepeatForever = MouseClickRepeatForever;
+        hotKeyOptions.MouseClickRepeatForeverKeyCombination.RegisterForCurrentWindow();
     }
 
-    public bool Register(in HWND hwnd)
+    public void UnregisterAll()
     {
-        if (runtimeOptions.IsElevated)
-        {
-            return RegisterHotKey(hwnd, DefaultId, default, (uint)VIRTUAL_KEY.VK_F8);
-        }
-
-        return false;
-    }
-
-    public bool Unregister(in HWND hwnd)
-    {
-        if (runtimeOptions.IsElevated)
-        {
-            return UnregisterHotKey(hwnd, DefaultId);
-        }
-
-        return false;
+        hotKeyOptions.MouseClickRepeatForeverKeyCombination.UnregisterForCurrentWindow();
     }
 
     public void OnHotKeyPressed(in HotKeyParameter parameter)
     {
-        if (parameter is { Key: VIRTUAL_KEY.VK_F8, NativeModifier: 0 })
+        if (parameter.Equals(hotKeyOptions.MouseClickRepeatForeverKeyCombination))
         {
-            lock (locker)
-            {
-                if (hotKeyOptions.IsMouseClickRepeatForeverOn)
-                {
-                    cancellationTokenSource?.Cancel();
-                    cancellationTokenSource = default;
-                    hotKeyOptions.IsMouseClickRepeatForeverOn = false;
-                }
-                else
-                {
-                    cancellationTokenSource = new();
-                    ThreadPool.QueueUserWorkItem(runMouseClickRepeatForever, cancellationTokenSource.Token);
-                    hotKeyOptions.IsMouseClickRepeatForeverOn = true;
-                }
-            }
+            ToggleMouseClickRepeatForever();
         }
     }
 
@@ -76,7 +45,7 @@ internal sealed class HotKeyController : IHotKeyController
     }
 
     [SuppressMessage("", "SH007")]
-    private unsafe void MouseClickRepeatForever(object? state)
+    private static unsafe void MouseClickRepeatForever(object? state)
     {
         CancellationToken token = (CancellationToken)state!;
 
@@ -100,6 +69,27 @@ internal sealed class HotKeyController : IHotKeyController
             }
 
             Thread.Sleep(Random.Shared.Next(100, 150));
+        }
+    }
+
+    private void ToggleMouseClickRepeatForever()
+    {
+        lock (locker)
+        {
+            if (hotKeyOptions.IsMouseClickRepeatForeverOn)
+            {
+                // Turn off
+                cancellationTokenSource?.Cancel();
+                cancellationTokenSource = default;
+                hotKeyOptions.IsMouseClickRepeatForeverOn = false;
+            }
+            else
+            {
+                // Turn on
+                cancellationTokenSource = new();
+                ThreadPool.QueueUserWorkItem(RunMouseClickRepeatForever, cancellationTokenSource.Token);
+                hotKeyOptions.IsMouseClickRepeatForeverOn = true;
+            }
         }
     }
 }

@@ -125,7 +125,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                         {
                             SelectedScheme = KnownSchemes
                                 .Where(scheme => scheme.IsOversea == options.IsOversea)
-                                .Single(scheme => scheme.MultiChannelEqual(options));
+                                .Single(scheme => scheme.Equals(options));
                         }
                         catch (InvalidOperationException)
                         {

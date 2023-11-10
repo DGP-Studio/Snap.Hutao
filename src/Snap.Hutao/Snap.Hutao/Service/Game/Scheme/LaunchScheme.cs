@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.Game.Scheme;
 /// 启动方案
 /// </summary>
 [HighQuality]
-internal class LaunchScheme
+internal class LaunchScheme : IEquatable<ChannelOptions>
 {
     /// <summary>
     /// 显示名称
@@ -67,14 +67,10 @@ internal class LaunchScheme
         };
     }
 
-    /// <summary>
-    /// 多通道相等
-    /// </summary>
-    /// <param name="multiChannel">多通道</param>
-    /// <returns>是否相等</returns>
-    public bool MultiChannelEqual(in ChannelOptions multiChannel)
+    [SuppressMessage("", "SH002")]
+    public bool Equals(ChannelOptions other)
     {
-        return Channel == multiChannel.Channel && SubChannel == multiChannel.SubChannel;
+        return Channel == other.Channel && SubChannel == other.SubChannel;
     }
 
     public bool ExecutableMatches(string gameFileName)

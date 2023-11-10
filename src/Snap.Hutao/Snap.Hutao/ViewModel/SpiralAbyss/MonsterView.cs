@@ -11,7 +11,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 internal sealed class MonsterView : INameIcon, IMappingFrom<MonsterView, TowerMonster, Model.Metadata.Monster.Monster>
 {
-    private MonsterView(MonsterRelationshipId id)
+    private MonsterView(in MonsterRelationshipId id)
     {
         Name = $"Unknown {id}";
         Icon = Web.HutaoEndpoints.UIIconNone;
@@ -27,11 +27,6 @@ internal sealed class MonsterView : INameIcon, IMappingFrom<MonsterView, TowerMo
         AttackMonolith = towerMonster.AttackMonolith;
     }
 
-    public static MonsterView Default(MonsterRelationshipId id)
-    {
-        return new(id);
-    }
-
     public string Name { get; }
 
     public Uri Icon { get; }
@@ -43,6 +38,11 @@ internal sealed class MonsterView : INameIcon, IMappingFrom<MonsterView, TowerMo
     public bool IsCountOne { get => Count == 1; }
 
     public bool AttackMonolith { get; }
+
+    public static MonsterView Default(in MonsterRelationshipId id)
+    {
+        return new(id);
+    }
 
     public static MonsterView From(TowerMonster tower, Model.Metadata.Monster.Monster meta)
     {
