@@ -50,11 +50,6 @@ internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
         }
     }
 
-    /// <summary>
-    /// 确认当前UIGF对象的版本是否受支持
-    /// </summary>
-    /// <param name="version">版本</param>
-    /// <returns>当前UIAF对象是否受支持</returns>
     public bool IsCurrentVersionSupported(out UIGFVersion version)
     {
         version = Info.UIGFVersion switch
@@ -69,11 +64,6 @@ internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
         return version != UIGFVersion.NotSupported;
     }
 
-    /// <summary>
-    /// 列表物品是否正常
-    /// </summary>
-    /// <param name="id">首个出错的Id</param>
-    /// <returns>是否正常</returns>
     public bool IsMajor2Minor2OrLowerListValid([NotNullWhen(false)] out long id)
     {
         foreach (ref readonly UIGFItem item in CollectionsMarshal.AsSpan(List))
