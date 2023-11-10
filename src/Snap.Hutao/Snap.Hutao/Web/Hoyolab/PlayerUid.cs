@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using System.Text.RegularExpressions;
-using Windows.ApplicationModel.Store.Preview.InstallControl;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
@@ -62,7 +61,7 @@ internal readonly partial struct PlayerUid
         };
     }
 
-    public static TimeZoneInfo GetTimeZoneInfo(string uid)
+    public static TimeSpan GetRegionTimeZoneUtcOffset(string uid)
     {
         // We make this a static method rather than property,
         // to avoid unnecessary memory allocation (Region field).
@@ -73,15 +72,10 @@ internal readonly partial struct PlayerUid
         // 其他 UTC+08
         return uid.AsSpan()[0] switch
         {
-            '6' => ServerTimeZoneInfo.AmericaTimeZone,
-            '7' => ServerTimeZoneInfo.EuropeTimeZone,
-            _ => ServerTimeZoneInfo.CommonTimeZone,
+            '6' => ServerRegionTimeZone.AmericaServerOffset,
+            '7' => ServerRegionTimeZone.EuropeServerOffset,
+            _ => ServerRegionTimeZone.CommonOffset,
         };
-    }
-
-    public static TimeSpan GetRegionTimeZoneUtcOffset(string uid)
-    {
-        return GetTimeZoneInfo(uid).BaseUtcOffset;
     }
 
     /// <inheritdoc/>
@@ -107,6 +101,6 @@ internal readonly partial struct PlayerUid
         };
     }
 
-    [GeneratedRegex("[1-9][0-9]{8}")]
+    [GeneratedRegex("^[1-9][0-9]{8}$")]
     private static partial Regex UidRegex();
 }

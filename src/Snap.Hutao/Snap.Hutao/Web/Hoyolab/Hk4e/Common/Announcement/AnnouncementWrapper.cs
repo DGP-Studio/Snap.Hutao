@@ -9,7 +9,7 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 /// 公告包装器
 /// </summary>
 [HighQuality]
-internal sealed class AnnouncementWrapper : ListWrapper<AnnouncementListWrapper>
+internal sealed class AnnouncementWrapper : ListWrapper<AnnouncementListWrapper>, IJsonOnDeserialized
 {
     /// <summary>
     /// 总数
@@ -46,4 +46,18 @@ internal sealed class AnnouncementWrapper : ListWrapper<AnnouncementListWrapper>
     /// </summary>
     [JsonPropertyName("t")]
     public string TimeStamp { get; set; } = default!;
+
+    public void OnDeserialized()
+    {
+        TimeSpan offset = new(TimeZone, 0, 0);
+
+        foreach (AnnouncementListWrapper wrapper in List)
+        {
+            foreach (Announcement item in wrapper.List)
+            {
+                item.StartTime = UnsafeDateTimeOffset.AdjustOffsetOnly(item.StartTime, offset);
+                item.EndTime = UnsafeDateTimeOffset.AdjustOffsetOnly(item.EndTime, offset);
+            }
+        }
+    }
 }

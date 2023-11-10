@@ -34,6 +34,7 @@ internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
     public void OnSerializing()
     {
         TimeSpan offset = GetRegionTimeZoneUtcOffset();
+
         foreach (UIGFItem item in List)
         {
             item.Time = item.Time.ToOffset(offset);
@@ -44,9 +45,10 @@ internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
     {
         // Adjust items timezone
         TimeSpan offset = GetRegionTimeZoneUtcOffset();
+
         foreach (UIGFItem item in List)
         {
-            item.Time = item.Time.UnsafeAdjustOffsetOnly(offset);
+            item.Time = UnsafeDateTimeOffset.AdjustOffsetOnly(item.Time, offset);
         }
     }
 

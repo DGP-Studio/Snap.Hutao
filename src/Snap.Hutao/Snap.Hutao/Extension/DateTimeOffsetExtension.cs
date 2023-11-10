@@ -42,18 +42,4 @@ internal static class DateTimeOffsetExtension
             return defaultValue;
         }
     }
-
-    [SuppressMessage("", "SH002")]
-    public static unsafe DateTimeOffset UnsafeAdjustOffsetOnly(this DateTimeOffset dateTimeOffset, in TimeSpan offset)
-    {
-        UnsafeWritableDateTimeOffset* pUnsafe = (UnsafeWritableDateTimeOffset*)&dateTimeOffset;
-        pUnsafe->OffsetMinutes = (short)(offset.Ticks / TimeSpan.TicksPerMinute);
-        return dateTimeOffset;
-    }
-
-    private struct UnsafeWritableDateTimeOffset
-    {
-        public DateTime DateTime;
-        public short OffsetMinutes;
-    }
 }
