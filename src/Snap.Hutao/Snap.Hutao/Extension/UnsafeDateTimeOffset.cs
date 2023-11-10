@@ -8,6 +8,8 @@ internal struct UnsafeDateTimeOffset
     private DateTime dateTime;
     private short offsetMinutes;
 
+    public DateTime DateTime { readonly get => dateTime; set => dateTime = value; }
+
     [SuppressMessage("", "SH002")]
     public static unsafe DateTimeOffset AdjustOffsetOnly(DateTimeOffset dateTimeOffset, in TimeSpan offset)
     {

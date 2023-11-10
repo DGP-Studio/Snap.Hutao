@@ -67,11 +67,6 @@ internal class LaunchScheme : IEquatable<ChannelOptions>
         };
     }
 
-    /// <summary>
-    /// 多通道相等
-    /// </summary>
-    /// <param name="multiChannel">多通道</param>
-    /// <returns>是否相等</returns>
     [SuppressMessage("", "SH002")]
     public bool Equals(ChannelOptions other)
     {

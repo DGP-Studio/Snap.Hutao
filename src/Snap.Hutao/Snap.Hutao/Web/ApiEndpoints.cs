@@ -425,7 +425,6 @@ internal static class ApiEndpoints
 
     private const string Hk4eApi = "https://hk4e-api.mihoyo.com";
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";
-    private const string Hk4eApiGachaInfoApi = $"{Hk4eApi}/event/gacha_info/api";
 
     private const string PassportApi = "https://passport-api.mihoyo.com";
     private const string PassportApiAuthApi = $"{PassportApi}/account/auth/api";

@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core.Threading;
 [Injection(InjectAs.Singleton, typeof(ITaskContext))]
 internal sealed class TaskContext : ITaskContext
 {
-    private readonly DispatcherQueueSynchronizationContextSendSupport synchronizationContext;
+    private readonly DispatcherQueueSynchronizationContext synchronizationContext;
     private readonly DispatcherQueue dispatcherQueue;
 
     /// <summary>
