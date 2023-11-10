@@ -5,6 +5,7 @@ using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.View.Control;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Request.QueryString;
 
 namespace Snap.Hutao.ViewModel.DailyNote;

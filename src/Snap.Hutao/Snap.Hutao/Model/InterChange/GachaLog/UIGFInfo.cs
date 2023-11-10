@@ -4,6 +4,7 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Model.InterChange.GachaLog;
 
@@ -58,6 +59,12 @@ internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, Metadata
     [JsonPropertyName("uigf_version")]
     public string UIGFVersion { get; set; } = default!;
 
+    /// <summary>
+    /// 时区偏移
+    /// </summary>
+    [JsonPropertyName("region_time_zone")]
+    public int? RegionTimeZone { get; set; } = default!;
+
     public static UIGFInfo From(RuntimeOptions runtimeOptions, MetadataOptions metadataOptions, string uid)
     {
         return new()
@@ -68,6 +75,7 @@ internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, Metadata
             ExportApp = SH.AppName,
             ExportAppVersion = runtimeOptions.Version.ToString(),
             UIGFVersion = UIGF.CurrentVersion,
+            RegionTimeZone = PlayerUid.GetRegionTimeZoneUtcOffset(uid).Hours,
         };
     }
 }

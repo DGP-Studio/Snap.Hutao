@@ -2753,6 +2753,9 @@
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>下载链接复制成功</value>
   </data>
+  <data name="WebHoyolabInvalidUid" xml:space="preserve">
+    <value>无效的 UID</value>
+  </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>
   </data>
