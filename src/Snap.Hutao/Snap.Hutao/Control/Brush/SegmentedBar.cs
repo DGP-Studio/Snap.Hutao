@@ -35,9 +35,9 @@ internal sealed partial class SegmentedBar : ContentControl
             double offset = 0;
             foreach (ref readonly IColorSegment segment in CollectionsMarshal.AsSpan(list))
             {
-                collection.Add(new GradientStop() { Color = segment.Color, Offset = offset, });
+                collection.Add(new() { Color = segment.Color, Offset = offset, });
                 offset += segment.Value / total;
-                collection.Add(new GradientStop() { Color = segment.Color, Offset = offset, });
+                collection.Add(new() { Color = segment.Color, Offset = offset, });
             }
         }
     }

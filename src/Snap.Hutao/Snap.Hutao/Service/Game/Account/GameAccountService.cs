@@ -108,7 +108,7 @@ internal sealed partial class GameAccountService : IGameAccountService
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
         await taskContext.SwitchToMainThreadAsync();
-        LaunchGameAccountNameDialog dialog = serviceProvider.CreateInstance<LaunchGameAccountNameDialog>();
+        LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);
         (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(true);
 
         if (isOk)
