@@ -1529,8 +1529,20 @@
   <data name="ViewModelUserInvalid" xml:space="preserve">
     <value>此 Cookie 无效，操作失败</value>
   </data>
+  <data name="ViewModelUserLogin" xml:space="preserve">
+    <value>登录成功</value>
+  </data>
+  <data name="ViewModelUserRegister" xml:space="preserve">
+    <value>注册成功</value>
+  </data>
   <data name="ViewModelUserRemoved" xml:space="preserve">
     <value>用户 [{0}] 成功移除</value>
+  </data>
+  <data name="ViewModelUserResetPassword" xml:space="preserve">
+    <value>密码设置成功</value>
+  </data>
+  <data name="ViewModelUserUnregister" xml:space="preserve">
+    <value>用户注销成功</value>
   </data>
   <data name="ViewModelUserUpdated" xml:space="preserve">
     <value>用户 [{0}] 的 Cookie 更新成功</value>

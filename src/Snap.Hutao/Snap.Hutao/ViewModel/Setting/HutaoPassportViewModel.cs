@@ -50,7 +50,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                infoBarService.Information(response.Message);
+                infoBarService.Information(SH.ViewModelUserRegister);
                 await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
@@ -75,7 +75,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                infoBarService.Information(response.Message);
+                infoBarService.Information(SH.ViewModelUserUnregister);
 
                 await taskContext.SwitchToMainThreadAsync();
                 hutaoUserOptions.LogoutOrUnregister();
@@ -102,7 +102,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                infoBarService.Information(response.Message);
+                infoBarService.Information(SH.ViewModelUserLogin);
                 await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
@@ -135,7 +135,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                infoBarService.Information(response.Message);
+                infoBarService.Information(SH.ViewModelUserResetPassword);
                 await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
