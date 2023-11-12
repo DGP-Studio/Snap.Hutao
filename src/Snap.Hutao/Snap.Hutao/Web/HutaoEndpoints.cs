@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hutao.GachaLog;
+using System.Data.SqlTypes;
 
 namespace Snap.Hutao.Web;
 
@@ -268,6 +269,11 @@ internal static class HutaoEndpoints
         return $"{StaticZipSnapGenshinApi}/{fileName}.zip";
     }
     #endregion
+
+    public static string Website(string path)
+    {
+        return $"{HomaSnapGenshinApi}/{path}";
+    }
 
     private const string HomaSnapGenshinApi = "https://homa.snapgenshin.com";
     private const string HutaoMetadataSnapGenshinApi = "https://hutao-metadata.snapgenshin.com";
