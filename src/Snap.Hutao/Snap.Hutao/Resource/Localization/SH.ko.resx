@@ -518,6 +518,15 @@
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>数据异常，无法保存至云端，请勿跨账号上传或尝试删除云端数据后重试</value>
   </data>
+  <data name="ServerPassportLoginSucceed" xml:space="preserve">
+    <value>登录成功</value>
+  </data>
+  <data name="ServerPassportRegisterSucceed" xml:space="preserve">
+    <value>注册成功</value>
+  </data>
+  <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
+    <value>新密码设置成功</value>
+  </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>当前邮箱尚未注册</value>
   </data>
@@ -529,6 +538,9 @@
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
     <value>用户不存在，注销失败</value>
+  </data>
+  <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
+    <value>用户注销成功</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>用户不存在，获取用户信息失败</value>

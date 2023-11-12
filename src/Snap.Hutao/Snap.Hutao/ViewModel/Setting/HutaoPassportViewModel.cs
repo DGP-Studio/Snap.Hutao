@@ -6,6 +6,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.Web;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
 using Windows.System;
@@ -28,7 +29,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     [Command("OpenRedeemWebsiteCommand")]
     private static async Task OpenRedeemWebsiteAsync()
     {
-        await Launcher.LaunchUriAsync("https://homa.snapgenshin.com/redeem.html".ToUri());
+        await Launcher.LaunchUriAsync(HutaoEndpoints.Website("redeem.html").ToUri());
     }
 
     [Command("RegisterCommand")]
@@ -46,11 +47,11 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
                 return;
             }
 
-            Response<string> response = await homaPassportClient.RegisterAsync(username, password, verifyCode).ConfigureAwait(false);
+            HutaoResponse<string> response = await homaPassportClient.RegisterAsync(username, password, verifyCode).ConfigureAwait(false);
 
             if (response.IsOk())
             {
-                infoBarService.Information(response.Message);
+                infoBarService.Information(response.GetLocalizationMessageOrMessage());
                 await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
@@ -75,7 +76,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
             if (response.IsOk())
             {
-                infoBarService.Information(response.Message);
+                infoBarService.Information(response.GetLocalizationMessageOrMessage());
 
                 await taskContext.SwitchToMainThreadAsync();
                 hutaoUserOptions.LogoutOrUnregister();
@@ -98,11 +99,11 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
                 return;
             }
 
-            Response<string> response = await homaPassportClient.LoginAsync(username, password).ConfigureAwait(false);
+            HutaoResponse<string> response = await homaPassportClient.LoginAsync(username, password).ConfigureAwait(false);
 
             if (response.IsOk())
             {
-                infoBarService.Information(response.Message);
+                infoBarService.Information(response.GetLocalizationMessageOrMessage());
                 await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }
@@ -112,8 +113,6 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private void LogoutAsync()
     {
         hutaoUserOptions.LogoutOrUnregister();
-        LocalSetting.Set(SettingKeys.PassportUserName, string.Empty);
-        LocalSetting.Set(SettingKeys.PassportPassword, string.Empty);
     }
 
     [Command("ResetPasswordCommand")]
@@ -131,11 +130,11 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
                 return;
             }
 
-            Response<string> response = await homaPassportClient.ResetPasswordAsync(username, password, verifyCode).ConfigureAwait(false);
+            HutaoResponse<string> response = await homaPassportClient.ResetPasswordAsync(username, password, verifyCode).ConfigureAwait(false);
 
             if (response.IsOk())
             {
-                infoBarService.Information(response.Message);
+                infoBarService.Information(response.GetLocalizationMessageOrMessage());
                 await hutaoUserOptions.PostLoginSucceedAsync(homaPassportClient, taskContext, username, password, response.Data).ConfigureAwait(false);
             }
         }

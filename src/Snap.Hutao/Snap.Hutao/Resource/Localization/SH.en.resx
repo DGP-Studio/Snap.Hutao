@@ -518,6 +518,15 @@
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>Found abnormal data, unable to upload to Snap Hutao Cloud. Please do not upload across accounts or you can attempt to delete cloud data and try again.</value>
   </data>
+  <data name="ServerPassportLoginSucceed" xml:space="preserve">
+    <value>Login successfully</value>
+  </data>
+  <data name="ServerPassportRegisterSucceed" xml:space="preserve">
+    <value>Register successfully</value>
+  </data>
+  <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
+    <value>Password has been set successfully</value>
+  </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>Current email adress is not registered</value>
   </data>
@@ -529,6 +538,9 @@
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
     <value>User does not exist, failed to delete account</value>
+  </data>
+  <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
+    <value>Unregister successfully</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>User does not exist, failed to fetch user's data</value>

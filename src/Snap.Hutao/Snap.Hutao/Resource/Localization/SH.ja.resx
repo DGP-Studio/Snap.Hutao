@@ -518,6 +518,15 @@
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>データが異常なため、胡桃クラウドにアップロードできません。 複数のアカウントに跨がってアップロードしないでください。アップロードしたい場合は、クラウド データを削除してもう一度試してください。</value>
   </data>
+  <data name="ServerPassportLoginSucceed" xml:space="preserve">
+    <value>登录成功</value>
+  </data>
+  <data name="ServerPassportRegisterSucceed" xml:space="preserve">
+    <value>注册成功</value>
+  </data>
+  <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
+    <value>新密码设置成功</value>
+  </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>このメールアドレスは登録されていません。</value>
   </data>
@@ -529,6 +538,9 @@
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
     <value>ユーザーが存在しないため、アカウントを削除できません。</value>
+  </data>
+  <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
+    <value>用户注销成功</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>ユーザーが存在しないため、ユーザーデータを取得出来ません。</value>
