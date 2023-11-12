@@ -5,7 +5,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Game.Unlocker;
 using System.IO;
-using Windows.System;
 using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game.Process;

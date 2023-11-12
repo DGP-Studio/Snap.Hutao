@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Diagnostics;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Memory;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.ProcessStatus;

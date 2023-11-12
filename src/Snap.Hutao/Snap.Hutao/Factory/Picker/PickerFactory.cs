@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
-using Snap.Hutao.Core.Windowing;
 using Windows.Storage.Pickers;
 using Windows.Win32.Foundation;
 using WinRT.Interop;

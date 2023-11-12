@@ -4,7 +4,6 @@
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.GachaLog;
-using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 

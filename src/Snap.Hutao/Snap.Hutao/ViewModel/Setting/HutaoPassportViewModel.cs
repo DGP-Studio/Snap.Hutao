@@ -1,14 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web;
 using Snap.Hutao.Web.Hutao;
-using Snap.Hutao.Web.Response;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;

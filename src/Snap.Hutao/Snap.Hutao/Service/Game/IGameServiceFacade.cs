@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service.Game.Account;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.Scheme;

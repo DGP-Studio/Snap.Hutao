@@ -11,8 +11,6 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
 using Windows.Foundation;
-using WinRT;
-using WinRT.Interop;
 
 namespace Snap.Hutao.View.Control;
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hutao.GachaLog;
-using System.Data.SqlTypes;
 
 namespace Snap.Hutao.Web;
 

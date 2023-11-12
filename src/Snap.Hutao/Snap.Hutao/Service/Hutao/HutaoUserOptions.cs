@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Options;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Web.Hutao;
