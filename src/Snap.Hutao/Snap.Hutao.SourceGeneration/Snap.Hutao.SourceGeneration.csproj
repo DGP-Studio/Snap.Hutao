@@ -7,16 +7,8 @@
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-    <Configurations>Debug;Release;Debug As Fake Elevated</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="stylecop.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" Version="3.3.4" />

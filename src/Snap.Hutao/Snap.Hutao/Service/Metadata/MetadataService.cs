@@ -9,6 +9,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -90,13 +91,14 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         }
         catch (HttpRequestException ex)
         {
-            if (ex.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.NotFound)
+            if (ex.StatusCode is (HttpStatusCode)418)
             {
                 infoBarService.Error(SH.ServiceMetadataVersionNotSupported);
             }
             else
             {
-                infoBarService.Error(ex, SH.ServiceMetadataRequestFailed);
+                int code = (int)(ex.StatusCode ?? 0);
+                infoBarService.Error(SH.FormatServiceMetadataHttpRequestFailed(CultureInfo.CurrentCulture, code));
             }
 
             return false;

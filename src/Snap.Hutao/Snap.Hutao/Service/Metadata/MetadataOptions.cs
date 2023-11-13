@@ -69,7 +69,15 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     /// </summary>
     public string LanguageCode
     {
-        get => LocaleNames.LocaleNameLanguageCodeMap[LocaleName];
+        get
+        {
+            if (LocaleNames.TryGetLanguageCodeFromLocaleName(LocaleName, out string? languageCode))
+            {
+                return languageCode;
+            }
+
+            throw new KeyNotFoundException($"Invalid localeName: '{LocaleName}'");
+        }
     }
 
     /// <inheritdoc/>
@@ -84,7 +92,7 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     {
         while (true)
         {
-            if (LocaleNames.LanguageNameLocaleNameMap.TryGetValue(cultureInfo.Name, out string? localeName))
+            if (LocaleNames.TryGetLocaleNameFromLanguageName(cultureInfo.Name, out string? localeName))
             {
                 return localeName;
             }

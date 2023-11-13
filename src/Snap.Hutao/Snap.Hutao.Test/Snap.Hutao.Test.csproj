@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <Configurations>Debug;Release;Debug As Fake Elevated</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

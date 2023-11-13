@@ -932,6 +932,9 @@
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>无法找到缓存的元数据文件</value>
   </data>
+  <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
+    <value>HTTP {0}：元数据校验文件下载失败</value>
+  </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>元数据服务尚未初始化，或初始化失败</value>
   </data>
