@@ -36,7 +36,7 @@ internal static class DispatcherQueueExtension
                 }
                 catch (Exception ex)
                 {
-                    ExceptionDispatchInfo.Capture(ex);
+                    exceptionDispatchInfo = ExceptionDispatchInfo.Capture(ex);
                 }
                 finally
                 {
