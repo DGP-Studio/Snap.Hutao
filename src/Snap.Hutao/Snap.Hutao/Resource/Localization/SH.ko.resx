@@ -932,6 +932,9 @@
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>无法找到缓存的元数据文件</value>
   </data>
+  <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
+    <value>HTTP {0}：元数据校验文件下载失败</value>
+  </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>메타데이터 서비스가 초기되지 않았거나 초기화에 실패했습니다</value>
   </data>
