@@ -519,13 +519,13 @@
     <value>データが異常なため、胡桃クラウドにアップロードできません。 複数のアカウントに跨がってアップロードしないでください。アップロードしたい場合は、クラウド データを削除してもう一度試してください。</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
-    <value>登录成功</value>
+    <value>ログイン成功</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
-    <value>注册成功</value>
+    <value>登録が完了しました</value>
   </data>
   <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
-    <value>新密码设置成功</value>
+    <value>新しいパスワードを設定しました</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>このメールアドレスは登録されていません。</value>
@@ -540,7 +540,7 @@
     <value>ユーザーが存在しないため、アカウントを削除できません。</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
-    <value>用户注销成功</value>
+    <value>アカウントを削除しました</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>ユーザーが存在しないため、ユーザーデータを取得出来ません。</value>
@@ -933,7 +933,7 @@
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
-    <value>HTTP {0}：元数据校验文件下载失败</value>
+    <value>HTTP {0}: メタデータ検証ファイルのダウンロードに失敗しました</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>メタデータサービスが初期化されていないか、または初期化できませんでした</value>
@@ -2769,7 +2769,7 @@
     <value>ダウンロードリンクのコピーに成功しました</value>
   </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
-    <value>无效的 UID</value>
+    <value>無効なUIDです</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>認証に失敗しました。 手動で認証するか、MiHoYo BBS - 戦績 を確認してください。</value>
