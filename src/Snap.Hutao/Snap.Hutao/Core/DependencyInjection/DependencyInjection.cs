@@ -55,6 +55,9 @@ internal static class DependencyInjection
 
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
+
         ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
+
+        SH.Culture = cultureInfo;
     }
 }

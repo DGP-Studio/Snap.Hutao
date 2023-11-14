@@ -2,11 +2,14 @@
 // Licensed under the MIT license.
 
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.Win32;
+using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
+using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Core.Shell;
 
@@ -37,16 +40,17 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
             return false;
         }
 
-        IShellLinkW shellLink = (IShellLinkW)new ShellLink();
+        HRESULT result = CoCreateInstance<ShellLink, IShellLinkW>(null, CLSCTX.CLSCTX_INPROC_SERVER, out IShellLinkW shellLink);
+        Marshal.ThrowExceptionForHR(result);
+
         shellLink.SetPath("powershell");
         shellLink.SetArguments($"""
             -Command "Start-Process shell:AppsFolder\{runtimeOptions.FamilyName}!App -verb runas"
             """);
         shellLink.SetShowCmd(SHOW_WINDOW_CMD.SW_SHOWMINNOACTIVE);
-
         shellLink.SetIconLocation(targetLogoPath, 0);
         string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        string target = Path.Combine(desktop, $"{SH.AppNameAndVersion.Format(runtimeOptions.Version)}.lnk");
+        string target = Path.Combine(desktop, $"{SH.FormatAppNameAndVersion(runtimeOptions.Version)}.lnk");
 
         IPersistFile persistFile = (IPersistFile)shellLink;
         try

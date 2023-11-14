@@ -315,12 +315,6 @@ public sealed class ResxGenerator : IIncrementalGenerator
 
                         sb.AppendLine($$"""
                                 /// {{comment}}
-                                public static string Format{{ToCSharpNameIdentifier(entry.Name!)}}(global::System.Globalization.CultureInfo? provider, {{inParams}})
-                                {
-                                    return GetString(provider, "{{entry.Name}}", {{callParams}})!;
-                                }
-
-                                /// {{comment}}
                                 public static string Format{{ToCSharpNameIdentifier(entry.Name!)}}({{inParams}})
                                 {
                                     return GetString("{{entry.Name}}", {{callParams}})!;

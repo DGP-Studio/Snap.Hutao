@@ -28,6 +28,7 @@ WaitForSingleObject
 WriteProcessMemory
 
 // OLE32
+CoCreateInstance
 CoWaitForMultipleObjects
 
 // USER32
