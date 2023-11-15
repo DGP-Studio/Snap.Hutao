@@ -18,8 +18,13 @@ internal static class ServiceProviderExtension
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsDisposedSlow(this IServiceProvider serviceProvider)
+    public static bool IsDisposedSlow(this IServiceProvider? serviceProvider)
     {
+        if (serviceProvider is null)
+        {
+            return false;
+        }
+
         return serviceProvider.GetType().GetField("_disposed")?.GetValue(serviceProvider) is true;
     }
 }

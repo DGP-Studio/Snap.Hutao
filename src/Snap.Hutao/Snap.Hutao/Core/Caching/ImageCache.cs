@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.IO;
 using System.Collections.Concurrent;
+using System.Collections.Frozen;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -25,16 +26,16 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     private const string CacheFolderName = nameof(ImageCache);
 
     // TODO: use FrozenDictionary
-    private static readonly Dictionary<int, TimeSpan> RetryCountToDelay = new()
+    private static readonly FrozenDictionary<int, TimeSpan> RetryCountToDelay = new Dictionary<int, TimeSpan>()
     {
         [0] = TimeSpan.FromSeconds(4),
         [1] = TimeSpan.FromSeconds(16),
         [2] = TimeSpan.FromSeconds(64),
-    };
+    }.ToFrozenDictionary();
 
-    private readonly ILogger logger;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IServiceProvider serviceProvider;
+    private readonly ILogger<ImageCache> logger;
 
     private readonly ConcurrentDictionary<string, Task> concurrentTasks = new();
 

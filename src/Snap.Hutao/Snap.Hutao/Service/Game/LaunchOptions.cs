@@ -141,7 +141,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     /// <summary>
     /// 所有监视器
     /// </summary>
-    public List<NameValue<int>> Monitors { get; } = new();
+    public List<NameValue<int>> Monitors { get; } = [];
 
     /// <summary>
     /// 目标帧率

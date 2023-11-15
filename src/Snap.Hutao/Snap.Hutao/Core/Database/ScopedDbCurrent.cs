@@ -43,7 +43,6 @@ internal sealed partial class ScopedDbCurrent<TEntity, TMessage>
                 return;
             }
 
-            // TODO: Troubeshooting why the serviceProvider will NRE
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -102,7 +101,6 @@ internal sealed partial class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
                 return;
             }
 
-            // TODO: Troubeshooting why the serviceProvider will NRE
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();

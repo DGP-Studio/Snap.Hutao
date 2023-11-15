@@ -66,7 +66,6 @@ internal struct GachaLogFetchContext
     /// </summary>
     /// <param name="configType">卡池类型</param>
     /// <param name="query">查询</param>
-    [SuppressMessage("", "SA1010")]
     public void ResetForProcessingType(GachaConfigType configType, in GachaLogQuery query)
     {
         DbEndId = null;

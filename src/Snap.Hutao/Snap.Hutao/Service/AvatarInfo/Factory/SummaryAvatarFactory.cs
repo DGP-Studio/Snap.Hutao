@@ -110,12 +110,12 @@ internal sealed class SummaryAvatarFactory
         }
     }
 
-    private ReliquaryAndWeapon ProcessEquip(List<Web.Enka.Model.Equip> equipments)
+    private ReliquaryAndWeapon ProcessEquip(List<Equip> equipments)
     {
-        List<PropertyReliquary> reliquaryList = new();
+        List<PropertyReliquary> reliquaryList = [];
         PropertyWeapon? weapon = null;
 
-        foreach (Web.Enka.Model.Equip equip in equipments)
+        foreach (Equip equip in equipments)
         {
             switch (equip.Flat.ItemType)
             {
@@ -132,7 +132,7 @@ internal sealed class SummaryAvatarFactory
         return new(reliquaryList, weapon);
     }
 
-    private PropertyWeapon CreateWeapon(Web.Enka.Model.Equip equip)
+    private PropertyWeapon CreateWeapon(Equip equip)
     {
         MetadataWeapon weapon = metadataContext.IdWeaponMap[equip.ItemId];
 

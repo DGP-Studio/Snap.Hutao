@@ -39,8 +39,7 @@ internal static class AppInstanceExtension
 
         ReadOnlySpan<HANDLE> handles = new(ref redirectEventHandle);
         CoWaitForMultipleObjects((uint)CWMO_FLAGS.CWMO_DEFAULT, INFINITE, handles, out uint _);
-
-        // TODO: Release handle
+        CloseHandle(redirectEventHandle);
     }
 
     [SuppressMessage("", "SH007")]

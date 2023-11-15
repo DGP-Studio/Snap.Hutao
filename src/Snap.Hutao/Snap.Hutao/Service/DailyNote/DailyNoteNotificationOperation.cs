@@ -35,7 +35,7 @@ internal sealed partial class DailyNoteNotificationOperation
             return;
         }
 
-        List<DailyNoteNotifyInfo> notifyInfos = new();
+        List<DailyNoteNotifyInfo> notifyInfos = [];
 
         CheckNotifySuppressed(entry, notifyInfos);
 

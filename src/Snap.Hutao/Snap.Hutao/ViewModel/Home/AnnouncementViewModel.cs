@@ -114,7 +114,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 
     private void InitializeDashboard()
     {
-        List<CardReference> result = new();
+        List<CardReference> result = [];
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardLaunchGamePresented, true))
         {

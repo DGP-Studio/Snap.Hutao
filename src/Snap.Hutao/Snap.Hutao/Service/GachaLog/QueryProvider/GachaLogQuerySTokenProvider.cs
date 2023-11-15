@@ -51,7 +51,6 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
         }
     }
 
-    [SuppressMessage("", "SA1010")]
     private static string ComposeQueryString(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)
     {
         NameValueCollection collection = [];
