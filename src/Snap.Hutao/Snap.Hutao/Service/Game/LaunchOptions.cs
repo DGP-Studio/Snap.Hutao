@@ -165,11 +165,11 @@ internal sealed class LaunchOptions : DbStoreOptions
         set => SetOption(ref isMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, value);
     }
 
-    public List<AspectRatio> AspectRatios { get; } = new()
-    {
+    public List<AspectRatio> AspectRatios { get; } =
+    [
         new(2560, 1440),
         new(1920, 1080),
-    };
+    ];
 
     public AspectRatio? SelectedAspectRatio
     {

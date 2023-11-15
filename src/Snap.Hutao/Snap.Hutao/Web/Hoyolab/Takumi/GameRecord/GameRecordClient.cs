@@ -53,7 +53,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         {
             // Replace message
             resp.Message = SH.WebDailyNoteVerificationFailed;
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
             {
@@ -99,7 +99,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         {
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
             {
@@ -146,7 +146,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         {
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
             {
@@ -156,9 +156,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                     .SetXrpcChallenge(challenge)
                     .Get();
 
-                await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+                await verifiedbuilder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
-                resp = await builder
+                resp = await verifiedbuilder
                     .TryCatchSendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
@@ -216,7 +216,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         {
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
             {

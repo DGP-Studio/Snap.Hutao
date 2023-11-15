@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Frozen;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
@@ -17,10 +18,7 @@ internal sealed class Expedition
     private const string Keqing = "https://upload-bbs.mihoyo.com/game_record/genshin/character_side_icon/UI_AvatarIcon_Side_Keqing.png";
     private const string Sara = "https://upload-bbs.mihoyo.com/game_record/genshin/character_side_icon/UI_AvatarIcon_Side_Sara.png";
 
-    private static readonly ImmutableList<string> ShortExpeditionTimeAvatars = new List<string>()
-    {
-        Bennett, Chongyun, Fischl, Keqing, Sara,
-    }.ToImmutableList();
+    private static readonly FrozenSet<string> ShortExpeditionTimeAvatars = FrozenSet.ToFrozenSet([Bennett, Chongyun, Fischl, Keqing, Sara]);
 
     /// <summary>
     /// 图标

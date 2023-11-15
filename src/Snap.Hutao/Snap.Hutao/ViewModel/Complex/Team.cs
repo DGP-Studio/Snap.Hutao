@@ -23,8 +23,7 @@ internal sealed class Team : List<AvatarView>
     public Team(ItemRate<string, int> team, Dictionary<AvatarId, Avatar> idAvatarMap)
         : base(4)
     {
-        // TODO use Collection Literials
-        foreach (StringSegment item in new StringTokenizer(team.Item, new char[] { ',' }))
+        foreach (StringSegment item in new StringTokenizer(team.Item, [',']))
         {
             uint id = uint.Parse(item.AsSpan(), CultureInfo.InvariantCulture);
             Add(new(idAvatarMap[id]));

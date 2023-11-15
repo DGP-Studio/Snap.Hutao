@@ -8,7 +8,6 @@ namespace Snap.Hutao.Web.Hoyolab;
 
 internal static class PlayerUidExtension
 {
-    [SuppressMessage("", "SA1010")]
     public static string ToQueryString(this in PlayerUid playerUid)
     {
         NameValueCollection collection = [];

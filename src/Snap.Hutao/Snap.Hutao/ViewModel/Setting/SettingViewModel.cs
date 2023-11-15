@@ -230,15 +230,15 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     }
 
     [Command("OpenCacheFolderCommand")]
-    private Task OpenCacheFolderAsync()
+    private async Task OpenCacheFolderAsync()
     {
-        return Launcher.LaunchFolderPathAsync(runtimeOptions.LocalCache).AsTask();
+        await Launcher.LaunchFolderPathAsync(runtimeOptions.LocalCache);
     }
 
     [Command("OpenDataFolderCommand")]
-    private Task OpenDataFolderAsync()
+    private async Task OpenDataFolderAsync()
     {
-        return Launcher.LaunchFolderPathAsync(runtimeOptions.DataFolder).AsTask();
+        await Launcher.LaunchFolderPathAsync(runtimeOptions.DataFolder);
     }
 
     [Command("DeleteUsersCommand")]

@@ -92,15 +92,15 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
         List<Avatar> avatars = await metadataService.GetAvatarsAsync().ConfigureAwait(false);
-        List<Avatar> sorted = avatars
+        IOrderedEnumerable<Avatar> sorted = avatars
             .OrderByDescending(avatar => avatar.BeginTime)
-            .ThenByDescending(avatar => avatar.Sort)
-            .ToList();
+            .ThenByDescending(avatar => avatar.Sort);
+        List<Avatar> list = [.. sorted];
 
-        await CombineComplexDataAsync(sorted, idMaterialMap).ConfigureAwait(false);
+        await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
         await taskContext.SwitchToMainThreadAsync();
-        Avatars = new AdvancedCollectionView(sorted, true);
+        Avatars = new AdvancedCollectionView(list, true);
         Selected = Avatars.Cast<Avatar>().FirstOrDefault();
         return true;
     }
@@ -192,13 +192,13 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         Dictionary<FightProperty, GrowCurveType> avatarGrowCurve = avatar.GrowCurves.ToDictionary(g => g.Type, g => g.Value);
         FightProperty promoteProperty = avatarPromoteMap[0].AddProperties.Last().Type;
 
-        List<PropertyCurveValue> propertyCurveValues = new()
-        {
+        List<PropertyCurveValue> propertyCurveValues =
+        [
             new(FightProperty.FIGHT_PROP_BASE_HP, avatarGrowCurve, avatar.BaseValue),
             new(FightProperty.FIGHT_PROP_BASE_ATTACK, avatarGrowCurve, avatar.BaseValue),
             new(FightProperty.FIGHT_PROP_BASE_DEFENSE, avatarGrowCurve, avatar.BaseValue),
             new(promoteProperty, avatarGrowCurve, avatar.BaseValue),
-        };
+        ];
 
         ArgumentNullException.ThrowIfNull(levelAvatarCurveMap);
         BaseValueInfo = new(avatar.MaxLevel, propertyCurveValues, levelAvatarCurveMap, avatarPromoteMap);

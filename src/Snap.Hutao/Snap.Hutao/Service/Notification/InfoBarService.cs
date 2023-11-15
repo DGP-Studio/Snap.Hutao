@@ -31,7 +31,7 @@ internal sealed class InfoBarService : IInfoBarService
     /// <inheritdoc/>
     public ObservableCollection<InfoBar> Collection
     {
-        get => collection ??= new();
+        get => collection ??= [];
     }
 
     /// <inheritdoc/>
@@ -121,7 +121,7 @@ internal sealed class InfoBarService : IInfoBarService
             Title = title,
             Message = message,
             IsOpen = true,
-            Transitions = new() { new AddDeleteThemeTransition() },
+            Transitions = [new AddDeleteThemeTransition()],
         };
 
         infoBar.Closed += infobarClosedEventHandler;

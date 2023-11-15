@@ -109,7 +109,7 @@ internal static class StaticResource
 
     public static HashSet<string> GetUnfulfilledCategorySet()
     {
-        HashSet<string> result = new();
+        HashSet<string> result = [];
         ApplicationDataCompositeValue map = LocalSetting.Get(ContractMap, DefaultResourceVersionMap);
         foreach ((string key, object value) in LatestResourceVersionMap)
         {

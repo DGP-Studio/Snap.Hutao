@@ -461,7 +461,7 @@ internal class MiHoYoJSBridge
     }
 
     [SuppressMessage("", "CA2254")]
-    private IJsResult? LogUnhandledMessage([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string message, params object?[] param)
+    private IJsResult? LogUnhandledMessage(string message, params object?[] param)
     {
         logger.LogWarning(message, param);
         return default;
@@ -490,7 +490,7 @@ internal class MiHoYoJSBridge
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
                 "share" => Share(param),
                 "showLoading" => null,
-                _ => LogUnhandledMessage("Unhandled Message Type: {method}", param.Method),
+                _ => LogUnhandledMessage("Unhandled Message Type: {Method}", param.Method),
             };
         }
         catch (ObjectDisposedException)

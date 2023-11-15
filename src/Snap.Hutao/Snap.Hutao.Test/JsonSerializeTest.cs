@@ -7,6 +7,10 @@ namespace Snap.Hutao.Test;
 [TestClass]
 public class JsonSerializeTest
 {
+    private TestContext? testContext;
+
+    public TestContext? TestContext { get => testContext; set => testContext = value; }
+
     private readonly JsonSerializerOptions AlowStringNumberOptions = new()
     {
         NumberHandling = JsonNumberHandling.AllowReadingFromString,
@@ -53,6 +57,27 @@ public class JsonSerializeTest
         Assert.AreEqual(sample[111], "12");
     }
 
+    [TestMethod]
+    public void ByteArraySerializeAsBase64()
+    {
+        byte[] array =
+#if NET8_0_OR_GREATER
+            [1, 2, 3, 4, 5];
+#else
+            { 1, 2, 3, 4, 5 };
+#endif
+        ByteArraySample sample = new()
+        {
+            Array = array,
+        };
+
+        string result = JsonSerializer.Serialize(sample);
+        TestContext!.WriteLine($"ByteArray Serialize Result: {result}");
+        Assert.AreEqual(result, """
+            {"Array":"AQIDBAU="}
+            """);
+    }
+
     private sealed class Sample
     {
         public int A { get => B; set => B = value; }
@@ -63,5 +88,10 @@ public class JsonSerializeTest
     {
         [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
         public int A { get; set; }
+    }
+
+    private sealed class ByteArraySample
+    {
+        public byte[]? Array { get; set; }
     }
 }

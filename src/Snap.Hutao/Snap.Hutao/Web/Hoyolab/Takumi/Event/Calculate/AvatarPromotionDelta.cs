@@ -53,12 +53,12 @@ internal sealed class AvatarPromotionDelta
         return new()
         {
             AvatarLevelTarget = LocalSetting.Get(SettingKeys.CultivationAvatarLevelTarget, 90U),
-            SkillList = new()
-            {
+            SkillList =
+            [
                 new() { LevelTarget = LocalSetting.Get(SettingKeys.CultivationAvatarSkillATarget, 10U), },
                 new() { LevelTarget = LocalSetting.Get(SettingKeys.CultivationAvatarSkillETarget, 10U), },
                 new() { LevelTarget = LocalSetting.Get(SettingKeys.CultivationAvatarSkillQTarget, 10U), },
-            },
+            ],
             Weapon = new() { LevelTarget = LocalSetting.Get(SettingKeys.CultivationWeapon90LevelTarget, 90U), },
         };
     }

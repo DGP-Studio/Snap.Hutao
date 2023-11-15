@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Snap.Hutao.SourceGeneration.Primitive;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ internal sealed class DependencyPropertyGenerator : IIncrementalGenerator
 
             string propertyName = (string)arguments[0].Value!;
             string propertyType = arguments[1].Value!.ToString();
-            string defaultValue = GetLiteralString(arguments.ElementAtOrDefault(2)) ?? "default";
+            string defaultValue = arguments.ElementAtOrDefault(2).ToCSharpString() ?? "default";
             string propertyChangedCallback = arguments.ElementAtOrDefault(3) is { IsNull: false } arg3 ? $", {arg3.Value}" : string.Empty;
 
             string code;
@@ -124,26 +125,5 @@ internal sealed class DependencyPropertyGenerator : IIncrementalGenerator
             string normalizedClassName = context2.Symbol.ToDisplayString().Replace('<', '{').Replace('>', '}');
             production.AddSource($"{normalizedClassName}.{propertyName}.g.cs", code);
         }
-    }
-
-    private static string? GetLiteralString(TypedConstant typedConstant)
-    {
-        if (typedConstant.IsNull)
-        {
-            return default;
-        }
-
-        if (typedConstant.Value is bool boolValue)
-        {
-            return boolValue ? "true" : "false";
-        }
-
-        string result = typedConstant.Value!.ToString();
-        if (string.IsNullOrEmpty(result))
-        {
-            return default;
-        }
-
-        return result;
     }
 }

@@ -14,7 +14,6 @@ internal sealed class ReliquarySetsConverter : JsonConverter<ReliquarySets>
     private const char Separator = ',';
 
     /// <inheritdoc/>
-    [SuppressMessage("", "SA1010")]
     public override ReliquarySets? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.GetString() is { } source)

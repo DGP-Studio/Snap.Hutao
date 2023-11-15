@@ -39,7 +39,7 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
             }
             else
             {
-                return new();
+                return [];
             }
         }
 

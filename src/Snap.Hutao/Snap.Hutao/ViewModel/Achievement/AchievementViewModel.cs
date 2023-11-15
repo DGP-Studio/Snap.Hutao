@@ -252,7 +252,6 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    [SuppressMessage("", "SA1010")]
     [Command("ExportAsUIAFToFileCommand")]
     private async Task ExportAsUIAFToFileAsync()
     {

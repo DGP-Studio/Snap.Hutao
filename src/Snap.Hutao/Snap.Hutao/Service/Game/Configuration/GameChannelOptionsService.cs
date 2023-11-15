@@ -48,7 +48,7 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
         {
             using (FileStream readStream = File.OpenRead(configPath))
             {
-                elements = IniSerializer.Deserialize(readStream).ToList();
+                elements = [.. IniSerializer.Deserialize(readStream)];
             }
         }
         catch (FileNotFoundException ex)

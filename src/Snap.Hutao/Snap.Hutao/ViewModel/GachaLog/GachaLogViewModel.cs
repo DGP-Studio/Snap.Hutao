@@ -231,7 +231,6 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
-    [SuppressMessage("", "SA1010")]
     [Command("ExportToUIGFJsonCommand")]
     private async Task ExportToUIGFJsonAsync()
     {

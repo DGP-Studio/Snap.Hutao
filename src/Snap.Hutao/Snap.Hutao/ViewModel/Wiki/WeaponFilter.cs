@@ -22,7 +22,6 @@ internal static class WeaponFilter
         return (object o) => o is Weapon weapon && DoFilter(input, weapon);
     }
 
-    [SuppressMessage("", "SA1010")]
     private static bool DoFilter(string input, Weapon weapon)
     {
         List<bool> matches = [];

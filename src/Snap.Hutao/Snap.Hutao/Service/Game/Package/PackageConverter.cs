@@ -178,11 +178,11 @@ internal sealed partial class PackageConverter
 
     private async ValueTask<Dictionary<string, VersionItem>> GetVersionItemsAsync(Stream stream)
     {
-        Dictionary<string, VersionItem> results = new();
+        Dictionary<string, VersionItem> results = [];
         using (StreamReader reader = new(stream))
         {
             Regex dataFolderRegex = DataFolderRegex();
-            while (await reader.ReadLineAsync().ConfigureAwait(false) is { } row && !string.IsNullOrEmpty(row))
+            while (await reader.ReadLineAsync().ConfigureAwait(false) is { Length: > 0 } row)
             {
                 VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, options);
                 ArgumentNullException.ThrowIfNull(item);
