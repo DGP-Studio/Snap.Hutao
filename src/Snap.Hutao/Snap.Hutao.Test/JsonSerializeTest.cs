@@ -7,6 +7,11 @@ namespace Snap.Hutao.Test;
 [TestClass]
 public class JsonSerializeTest
 {
+    private readonly JsonSerializerOptions AlowStringNumberOptions = new()
+    {
+        NumberHandling = JsonNumberHandling.AllowReadingFromString,
+    };
+
     private const string SmapleObjectJson = """
         {
             "A" :1
@@ -44,12 +49,7 @@ public class JsonSerializeTest
     [TestMethod]
     public void NumberStringKeyCanSerializeAsKey()
     {
-        JsonSerializerOptions options = new()
-        {
-            NumberHandling = JsonNumberHandling.AllowReadingFromString,
-        };
-
-        Dictionary<int, string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SmapleNumberKeyDictionaryJson, options)!;
+        Dictionary<int, string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SmapleNumberKeyDictionaryJson, AlowStringNumberOptions)!;
         Assert.AreEqual(sample[111], "12");
     }
 

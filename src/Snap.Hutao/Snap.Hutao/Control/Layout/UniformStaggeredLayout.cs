@@ -118,7 +118,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
 
         Span<double> columnHeights = new double[numberOfColumns];
         Span<int> itemsPerColumn = new int[numberOfColumns];
-        HashSet<int> deadColumns = new();
+        HashSet<int> deadColumns = [];
 
         for (int i = 0; i < context.ItemCount; i++)
         {

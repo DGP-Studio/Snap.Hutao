@@ -252,6 +252,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
+    [SuppressMessage("", "SA1010")]
     [Command("ExportAsUIAFToFileCommand")]
     private async Task ExportAsUIAFToFileAsync()
     {
@@ -260,7 +261,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             string fileName = $"{achievementService.CurrentArchive?.Name}.json";
             Dictionary<string, IList<string>> fileTypes = new()
             {
-                [SH.ViewModelAchievementExportFileType] = ".json".Enumerate().ToList(),
+                [SH.ViewModelAchievementExportFileType] = [".json"],
             };
 
             FileSavePicker picker = pickerFactory

@@ -243,7 +243,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
         if (distinctCount < dbInfos.Count)
         {
             avatarInfoDbService.RemoveAvatarInfoRangeByUid(uid);
-            dbInfos = new();
+            dbInfos = [];
         }
     }
 }

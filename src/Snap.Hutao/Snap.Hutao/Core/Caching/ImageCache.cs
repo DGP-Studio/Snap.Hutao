@@ -62,7 +62,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     /// <inheritdoc/>
     public void Remove(Uri uriForCachedItem)
     {
-        Remove(new ReadOnlySpan<Uri>(uriForCachedItem));
+        Remove(new ReadOnlySpan<Uri>(ref uriForCachedItem));
     }
 
     /// <inheritdoc/>
@@ -76,7 +76,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
         string folder = GetCacheFolder();
         string[] files = Directory.GetFiles(folder);
 
-        List<string> filesToDelete = new();
+        List<string> filesToDelete = [];
         foreach (ref readonly Uri uri in uriForCachedItems)
         {
             string filePath = Path.Combine(folder, GetCacheFileName(uri));

@@ -69,7 +69,7 @@ internal static partial class EnumerableExtension
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static List<TSource> EmptyIfNull<TSource>(this List<TSource>? source)
     {
-        return source ?? new();
+        return source ?? [];
     }
 
     public static List<T> GetRange<T>(this List<T> list, in Range range)

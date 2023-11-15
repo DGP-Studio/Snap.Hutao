@@ -231,6 +231,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
+    [SuppressMessage("", "SA1010")]
     [Command("ExportToUIGFJsonCommand")]
     private async Task ExportToUIGFJsonAsync()
     {
@@ -238,7 +239,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             Dictionary<string, IList<string>> fileTypes = new()
             {
-                [SH.ViewModelGachaLogExportFileType] = ".json".Enumerate().ToList(),
+                [SH.ViewModelGachaLogExportFileType] = [".json"],
             };
 
             FileSavePicker picker = pickerFactory.GetFileSavePicker(

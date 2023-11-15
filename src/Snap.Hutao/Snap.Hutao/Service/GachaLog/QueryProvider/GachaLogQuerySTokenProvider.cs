@@ -4,9 +4,10 @@
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using Snap.Hutao.Web.Request;
 using Snap.Hutao.Web.Response;
+using System.Collections.Specialized;
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
@@ -37,7 +38,7 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
 
             if (authkeyResponse.IsOk())
             {
-                return new(true, new(GachaLogQueryOptions.ToQueryString(data, authkeyResponse.Data, metadataOptions.LanguageCode)));
+                return new(true, new(ComposeQueryString(data, authkeyResponse.Data, metadataOptions.LanguageCode)));
             }
             else
             {
@@ -48,5 +49,18 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
         {
             return new(false, SH.MustSelectUserAndUid);
         }
+    }
+
+    [SuppressMessage("", "SA1010")]
+    private static string ComposeQueryString(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)
+    {
+        NameValueCollection collection = [];
+        collection.Set("lang", lang);
+        collection.Set("auth_appid", genAuthKeyData.AuthAppId);
+        collection.Set("authkey", gameAuthKey.AuthKey);
+        collection.Set("authkey_ver", $"{gameAuthKey.AuthKeyVersion:D}");
+        collection.Set("sign_type", $"{gameAuthKey.SignType:D}");
+
+        return collection.ToQueryString();
     }
 }

@@ -9,10 +9,7 @@ public sealed class ForEachRuntimeBehaviorTest
     [TestMethod]
     public void ListOfStringCanEnumerateAsReadOnlySpanOfChar()
     {
-        List<string> strings = new()
-        {
-            "a", "b", "c"
-        };
+        List<string> strings = ["a", "b", "c"];
 
         int count = 0;
         foreach (ReadOnlySpan<char> chars in strings)

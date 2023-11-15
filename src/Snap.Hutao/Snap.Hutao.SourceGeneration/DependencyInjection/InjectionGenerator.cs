@@ -81,7 +81,7 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
 
     private static void FillUpWithAddServices(StringBuilder sourceBuilder, SourceProductionContext production, ImmutableArray<GeneratorSyntaxContext2> contexts)
     {
-        List<string> lines = new();
+        List<string> lines = [];
         StringBuilder lineBuilder = new();
 
         foreach (GeneratorSyntaxContext2 context in contexts.DistinctBy(c => c.Symbol.ToDisplayString()))

@@ -204,6 +204,6 @@ internal sealed class WindowController
 
         // 48 is the navigation button leftInset
         RectInt32 dragRect = StructMarshal.RectInt32(48, 0, options.TitleBar.ActualSize).Scale(scale);
-        appTitleBar.SetDragRectangles(dragRect.ToArray());
+        appTitleBar.SetDragRectangles([dragRect]);
     }
 }

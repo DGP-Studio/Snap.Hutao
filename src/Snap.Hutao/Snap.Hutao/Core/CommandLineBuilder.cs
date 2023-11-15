@@ -12,7 +12,8 @@ namespace Snap.Hutao.Core;
 internal sealed class CommandLineBuilder
 {
     private const char WhiteSpace = ' ';
-    private readonly Dictionary<string, string?> options = new();
+
+    private readonly Dictionary<string, string?> options = [];
 
     /// <summary>
     /// 当符合条件时添加参数

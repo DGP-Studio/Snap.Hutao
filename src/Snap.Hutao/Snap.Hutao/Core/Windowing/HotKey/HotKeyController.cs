@@ -8,6 +8,7 @@ using static Windows.Win32.PInvoke;
 namespace Snap.Hutao.Core.Windowing.HotKey;
 
 [SuppressMessage("", "CA1001")]
+[Injection(InjectAs.Singleton, typeof(IHotKeyController))]
 [ConstructorGenerated]
 internal sealed partial class HotKeyController : IHotKeyController
 {
@@ -53,10 +54,10 @@ internal sealed partial class HotKeyController : IHotKeyController
         while (!token.IsCancellationRequested)
         {
             INPUT[] inputs =
-            {
+            [
                 CreateInputForMouseEvent(MOUSE_EVENT_FLAGS.MOUSEEVENTF_LEFTDOWN),
                 CreateInputForMouseEvent(MOUSE_EVENT_FLAGS.MOUSEEVENTF_LEFTUP),
-            };
+            ];
 
             if (SendInput(inputs.AsSpan(), sizeof(INPUT)) is 0)
             {

@@ -21,14 +21,14 @@ internal sealed partial class AppOptions : DbStoreOptions
 {
     private readonly List<NameValue<BackdropType>> supportedBackdropTypesInner = CollectionsNameValue.ListFromEnum<BackdropType>();
 
-    private readonly List<NameValue<string>> supportedCulturesInner = new()
-    {
+    private readonly List<NameValue<string>> supportedCulturesInner =
+    [
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
         ToNameValue(CultureInfo.GetCultureInfo("en")),
         ToNameValue(CultureInfo.GetCultureInfo("ko")),
         ToNameValue(CultureInfo.GetCultureInfo("ja")),
-    };
+    ];
 
     private string? gamePath;
     private string? powerShellPath;
@@ -126,7 +126,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         string? paths = Environment.GetEnvironmentVariable("Path");
         if (!string.IsNullOrEmpty(paths))
         {
-            foreach (StringSegment path in new StringTokenizer(paths, ';'.ToArray()))
+            foreach (StringSegment path in new StringTokenizer(paths, [';']))
             {
                 if (path is { HasValue: true, Length: > 0 })
                 {

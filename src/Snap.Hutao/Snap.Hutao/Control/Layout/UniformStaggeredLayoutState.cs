@@ -9,9 +9,9 @@ namespace Snap.Hutao.Control.Layout;
 
 internal sealed class UniformStaggeredLayoutState
 {
-    private readonly List<UniformStaggeredItem> items = new();
+    private readonly List<UniformStaggeredItem> items = [];
     private readonly VirtualizingLayoutContext context;
-    private readonly Dictionary<int, UniformStaggeredColumnLayout> columnLayout = new();
+    private readonly Dictionary<int, UniformStaggeredColumnLayout> columnLayout = [];
     private double lastAverageHeight;
 
     public UniformStaggeredLayoutState(VirtualizingLayoutContext context)
@@ -32,7 +32,7 @@ internal sealed class UniformStaggeredLayoutState
     {
         if (!this.columnLayout.TryGetValue(columnIndex, out UniformStaggeredColumnLayout? columnLayout))
         {
-            columnLayout = new();
+            columnLayout = [];
             this.columnLayout[columnIndex] = columnLayout;
         }
 

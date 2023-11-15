@@ -6,7 +6,7 @@ public sealed class UnsafeRuntimeBehaviorTest
     [TestMethod]
     public unsafe void UInt32AllSetIs()
     {
-        byte[] bytes = { 0xFF, 0xFF, 0xFF, 0xFF, };
+        byte[] bytes = [0xFF, 0xFF, 0xFF, 0xFF,];
 
         fixed (byte* pBytes = bytes)
         {

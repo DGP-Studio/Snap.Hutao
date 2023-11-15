@@ -19,7 +19,7 @@ internal sealed partial class AvatarInfoDbService : IAvatarInfoDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.AvatarInfos.AsNoTracking().Where(i => i.Uid == uid).ToList();
+            return [.. appDbContext.AvatarInfos.AsNoTracking().Where(i => i.Uid == uid)];
         }
     }
 
