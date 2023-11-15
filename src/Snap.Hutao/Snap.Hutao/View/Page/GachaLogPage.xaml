@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Page.GachaLogPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -323,7 +324,10 @@
                             <ScrollViewer>
                                 <StackPanel Margin="16,0,16,0">
 
-                                    <Border Margin="0,16,0,0" HorizontalAlignment="Left">
+                                    <Border
+                                        Margin="0,16,0,0"
+                                        HorizontalAlignment="Left"
+                                        cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                         <Border HorizontalAlignment="Center" Style="{StaticResource BorderCardStyle}">
                                             <cwc:ConstrainedBox MaxWidth="720" AspectRatio="1080:533">
                                                 <shci:CachedImage

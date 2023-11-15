@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Page.WikiAvatarPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -455,7 +456,7 @@
                                             Margin="16,32,0,0"
                                             Style="{StaticResource BaseTextBlockStyle}"
                                             Text="{shcm:ResourceString Name=ViewPageWiKiAvatarMiscHeader}"/>
-                                        <Border Margin="16,16,0,0">
+                                        <Border Margin="16,16,0,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                             <cwc:ConstrainedBox AspectRatio="2048:1024">
                                                 <Grid Style="{ThemeResource GridCardStyle}">
                                                     <Grid.ColumnDefinitions>
