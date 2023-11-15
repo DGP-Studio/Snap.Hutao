@@ -1,10 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Web.Request.Builder;
-using System.Net.Http;
-using System.Text;
-
 namespace Snap.Hutao.Web.Hoyolab.DataSigning;
 
 internal static class DataSignAlgorithm
