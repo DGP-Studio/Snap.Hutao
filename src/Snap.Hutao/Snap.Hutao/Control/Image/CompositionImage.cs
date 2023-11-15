@@ -196,7 +196,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
             {
                 await AnimationBuilder
                     .Create()
-                    .Opacity(from: 0D, to: 1D, duration: AnimationDurations.ImageFadeIn)
+                    .Opacity(from: 0D, to: 1D, duration: ControlAnimationConstants.ImageFadeIn)
                     .StartAsync(this, token)
                     .ConfigureAwait(true);
             }
@@ -217,7 +217,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
             {
                 await AnimationBuilder
                     .Create()
-                    .Opacity(from: 1D, to: 0D, duration: AnimationDurations.ImageFadeOut)
+                    .Opacity(from: 1D, to: 0D, duration: ControlAnimationConstants.ImageFadeOut)
                     .StartAsync(this, token)
                     .ConfigureAwait(true);
             }

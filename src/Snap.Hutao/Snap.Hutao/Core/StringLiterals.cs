@@ -12,26 +12,6 @@ namespace Snap.Hutao.Core;
 internal static class StringLiterals
 {
     /// <summary>
-    /// 1
-    /// </summary>
-    public const string One = "1";
-
-    /// <summary>
-    /// 1.1
-    /// </summary>
-    public const string OnePointOne = "1.1";
-
-    /// <summary>
-    /// True
-    /// </summary>
-    public const string True = "True";
-
-    /// <summary>
-    /// False
-    /// </summary>
-    public const string False = "False";
-
-    /// <summary>
     /// CRLF 换行符
     /// </summary>
     public const string CRLF = "\r\n";

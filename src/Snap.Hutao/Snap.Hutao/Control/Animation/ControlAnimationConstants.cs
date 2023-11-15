@@ -3,12 +3,18 @@
 
 namespace Snap.Hutao.Control.Animation;
 
-/// <summary>
-/// 动画时长
-/// </summary>
-[HighQuality]
-internal static class AnimationDurations
+internal static class ControlAnimationConstants
 {
+    /// <summary>
+    /// 1
+    /// </summary>
+    public const string One = "1";
+
+    /// <summary>
+    /// 1.1
+    /// </summary>
+    public const string OnePointOne = "1.1";
+
     /// <summary>
     /// 图片缩放动画
     /// </summary>
