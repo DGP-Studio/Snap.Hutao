@@ -16,4 +16,10 @@ internal static class ServiceProviderExtension
     {
         return ActivatorUtilities.CreateInstance<T>(serviceProvider, parameters);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsDisposedSlow(this IServiceProvider serviceProvider)
+    {
+        return serviceProvider.GetType().GetField("_disposed")?.GetValue(serviceProvider) is true;
+    }
 }

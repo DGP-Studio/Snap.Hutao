@@ -38,6 +38,11 @@ internal sealed partial class ScopedDbCurrent<TEntity, TMessage>
                 return;
             }
 
+            if (serviceProvider.IsDisposedSlow())
+            {
+                return;
+            }
+
             // TODO: Troubeshooting why the serviceProvider will NRE
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
@@ -88,6 +93,11 @@ internal sealed partial class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
         {
             // prevent useless sets
             if (current == value)
+            {
+                return;
+            }
+
+            if (serviceProvider.IsDisposedSlow())
             {
                 return;
             }
