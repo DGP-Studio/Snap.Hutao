@@ -2,7 +2,6 @@
     x:Class="Snap.Hutao.View.Page.LaunchGamePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -31,7 +30,6 @@
         <DataTemplate x:Key="GameResourceTemplate">
             <shvc:LaunchGameResourceExpander
                 Margin="16,16,16,0"
-                cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
                 DataContext="{Binding Mode=OneWay}"
                 Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceDiffHeader}"/>
         </DataTemplate>
@@ -305,7 +303,6 @@
                             <StackPanel>
                                 <shvc:LaunchGameResourceExpander
                                     Margin="16,16,16,0"
-                                    cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
                                     DataContext="{Binding GameResource.PreDownloadGame.Latest, Mode=OneWay}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameResourcePreDownloadHeader}"
                                     Visibility="{Binding FallbackValue={StaticResource VisibilityCollapsed}, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
@@ -315,7 +312,6 @@
                                     ItemsSource="{Binding GameResource.PreDownloadGame.Diffs, Mode=OneWay}"/>
                                 <shvc:LaunchGameResourceExpander
                                     Margin="16,16,16,0"
-                                    cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
                                     DataContext="{Binding GameResource.Game.Latest, Mode=OneWay}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceLatestHeader}"/>
                                 <ItemsControl

@@ -587,7 +587,7 @@
                                         MaxWidth="800"
                                         HorizontalAlignment="Left">
                                         <!--  卡片面板  -->
-                                        <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                        <Border Margin="16">
                                             <Grid cw:UIElementExtensions.ClipToBounds="True" Style="{ThemeResource GridCardStyle}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition/>
@@ -623,10 +623,7 @@
                                                             <ColumnDefinition/>
                                                             <ColumnDefinition Width="auto"/>
                                                         </Grid.ColumnDefinitions>
-                                                        <shvcont:ItemIcon
-                                                            cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                                            Icon="{Binding SelectedAvatar.Icon}"
-                                                            Quality="{Binding SelectedAvatar.Quality}"/>
+                                                        <shvcont:ItemIcon Icon="{Binding SelectedAvatar.Icon}" Quality="{Binding SelectedAvatar.Quality}"/>
                                                         <StackPanel Grid.Column="1" Margin="16,0,0,0">
                                                             <TextBlock
                                                                 Foreground="#FFFFFFFF"
@@ -665,7 +662,6 @@
                                                         </Grid.ColumnDefinitions>
                                                         <Button
                                                             Padding="0"
-                                                            cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
                                                             BorderBrush="{x:Null}"
                                                             BorderThickness="0">
                                                             <Button.Content>
