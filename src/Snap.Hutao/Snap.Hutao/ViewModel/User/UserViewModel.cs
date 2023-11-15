@@ -203,7 +203,7 @@ internal sealed partial class UserViewModel : ObservableObject
                 .AppendIf(user.LToken is not null, ';')
                 .Append(user.CookieToken)
                 .ToString();
-            serviceProvider.GetRequiredService<IClipboardInterop>().SetText(cookieString);
+            serviceProvider.GetRequiredService<IClipboardProvider>().SetText(cookieString);
 
             ArgumentNullException.ThrowIfNull(user.UserInfo);
             infoBarService.Success(SH.ViewModelUserCookieCopied.Format(user.UserInfo.Nickname));

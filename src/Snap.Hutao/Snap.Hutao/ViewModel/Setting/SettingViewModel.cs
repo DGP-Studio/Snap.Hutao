@@ -46,7 +46,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly INavigationService navigationService;
-    private readonly IClipboardInterop clipboardInterop;
+    private readonly IClipboardProvider clipboardInterop;
     private readonly IShellLinkInterop shellLinkInterop;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;

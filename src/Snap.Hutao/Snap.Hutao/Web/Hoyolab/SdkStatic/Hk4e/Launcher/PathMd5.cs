@@ -33,7 +33,7 @@ internal partial class PathMd5
     private void CopyPathToClipboard()
     {
         IServiceProvider serviceProvider = Ioc.Default;
-        serviceProvider.GetRequiredService<IClipboardInterop>().SetText(Path);
+        serviceProvider.GetRequiredService<IClipboardProvider>().SetText(Path);
         serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.WebGameResourcePathCopySucceed);
     }
 }

@@ -6,12 +6,9 @@ using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Core.IO.DataTransfer;
 
-/// <summary>
-/// 剪贴板互操作
-/// </summary>
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IClipboardInterop))]
-internal sealed partial class ClipboardInterop : IClipboardInterop
+[Injection(InjectAs.Transient, typeof(IClipboardProvider))]
+internal sealed partial class ClipboardProvider : IClipboardProvider
 {
     private readonly JsonSerializerOptions options;
     private readonly ITaskContext taskContext;

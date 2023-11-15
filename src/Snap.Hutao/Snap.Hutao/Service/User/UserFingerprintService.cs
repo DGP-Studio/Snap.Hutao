@@ -4,7 +4,6 @@
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.PublicData.DeviceFp;
 using Snap.Hutao.Web.Response;
-using System.Text;
 
 namespace Snap.Hutao.Service.User;
 
@@ -27,7 +26,7 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
             return;
         }
 
-        string model = GetRandomStringOfLength(6);
+        string model = Core.Random.GetUpperAndNumberString(6);
         Dictionary<string, string> extendProperties = new()
         {
             { "cpuType", "arm64-v8a" },
@@ -66,48 +65,18 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
 
         DeviceFpData data = new()
         {
-            DeviceId = GetRandomHexStringOfLength(16),
+            DeviceId = Core.Random.GetLowerHexString(16),
             SeedId = $"{Guid.NewGuid()}",
             Platform = "2",
             SeedTime = $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}",
             ExtFields = JsonSerializer.Serialize(extendProperties),
             AppName = "bbs_cn",
             BbsDeviceId = HoyolabOptions.DeviceId,
-            DeviceFp = string.IsNullOrEmpty(user.Fingerprint) ? GetRandomHexStringOfLength(13) : user.Fingerprint,
+            DeviceFp = string.IsNullOrEmpty(user.Fingerprint) ? Core.Random.GetLowerHexString(13) : user.Fingerprint,
         };
 
         Response<DeviceFpWrapper> response = await deviceFpClient.GetFingerprintAsync(data, token).ConfigureAwait(false);
         user.Fingerprint = response.IsOk() ? response.Data.DeviceFp : string.Empty;
         user.NeedDbUpdateAfterResume = true;
-    }
-
-    private static string GetRandomHexStringOfLength(int length)
-    {
-        const string RandomRange = "0123456789abcdef";
-
-        StringBuilder sb = new(length);
-
-        for (int i = 0; i < length; i++)
-        {
-            int pos = Random.Shared.Next(0, RandomRange.Length);
-            sb.Append(RandomRange[pos]);
-        }
-
-        return sb.ToString();
-    }
-
-    private static string GetRandomStringOfLength(int length)
-    {
-        const string RandomRange = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        StringBuilder sb = new(length);
-
-        for (int i = 0; i < length; i++)
-        {
-            int pos = Random.Shared.Next(0, RandomRange.Length);
-            sb.Append(RandomRange[pos]);
-        }
-
-        return sb.ToString();
     }
 }

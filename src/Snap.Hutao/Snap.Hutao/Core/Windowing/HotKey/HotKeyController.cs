@@ -69,7 +69,7 @@ internal sealed partial class HotKeyController : IHotKeyController
                 return;
             }
 
-            Thread.Sleep(Random.Shared.Next(100, 150));
+            Thread.Sleep(System.Random.Shared.Next(100, 150));
         }
     }
 

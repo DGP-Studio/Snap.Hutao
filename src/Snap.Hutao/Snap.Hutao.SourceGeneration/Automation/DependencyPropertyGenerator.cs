@@ -70,6 +70,7 @@ internal sealed class DependencyPropertyGenerator : IIncrementalGenerator
             string propertyName = (string)arguments[0].Value!;
             string propertyType = arguments[1].Value!.ToString();
             string defaultValue = arguments.ElementAtOrDefault(2).ToCSharpString() ?? "default";
+            defaultValue = defaultValue == "null" ? "default" : defaultValue;
             string propertyChangedCallback = arguments.ElementAtOrDefault(3) is { IsNull: false } arg3 ? $", {arg3.Value}" : string.Empty;
 
             string code;

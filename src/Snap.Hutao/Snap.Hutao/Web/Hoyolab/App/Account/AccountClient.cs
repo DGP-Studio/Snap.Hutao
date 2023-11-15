@@ -4,7 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -41,7 +41,7 @@ internal sealed partial class AccountClient
             .SetReferer(ApiEndpoints.AppMihoyoReferer)
             .PostJson(data);
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.K2, false).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.K2, false).ConfigureAwait(false);
 
         Response<GameAuthKey>? resp = await builder
             .TryCatchSendAsync<Response<GameAuthKey>>(httpClient, logger, token)

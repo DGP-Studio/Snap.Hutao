@@ -1,13 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
+namespace Snap.Hutao.Web.Hoyolab.DataSigning;
 
 /// <summary>
 /// 动态密钥版本
 /// </summary>
 [HighQuality]
-internal enum DynamicSecretVersion
+internal enum DataSignAlgorithmVersion
 {
     /// <summary>
     /// 一代

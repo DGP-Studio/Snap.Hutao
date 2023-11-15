@@ -4,7 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -40,7 +40,7 @@ internal sealed partial class BindingClient2
             .SetReferer(ApiEndpoints.AppMihoyoReferer)
             .Get();
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<ListWrapper<UserGameRole>>? resp = await builder
             .TryCatchSendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
@@ -66,7 +66,7 @@ internal sealed partial class BindingClient2
             .SetReferer(ApiEndpoints.AppMihoyoReferer)
             .PostJson(data);
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<GameAuthKey>? resp = await builder
             .TryCatchSendAsync<Response<GameAuthKey>>(httpClient, logger, token)

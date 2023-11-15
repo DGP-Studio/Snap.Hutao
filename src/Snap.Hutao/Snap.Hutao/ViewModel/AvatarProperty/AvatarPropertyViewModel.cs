@@ -42,7 +42,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly IAppResourceProvider appResourceProvider;
     private readonly ICultivationService cultivationService;
     private readonly IAvatarInfoService avatarInfoService;
-    private readonly IClipboardInterop clipboardInterop;
+    private readonly IClipboardProvider clipboardInterop;
     private readonly CalculatorClient calculatorClient;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
