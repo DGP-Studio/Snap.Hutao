@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using System.Collections.Frozen;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -14,11 +15,11 @@ internal static class GachaLog
     /// <summary>
     /// 查询类型
     /// </summary>
-    public static readonly ImmutableList<GachaConfigType> QueryTypes = new List<GachaConfigType>
-    {
+    public static readonly FrozenSet<GachaConfigType> QueryTypes = FrozenSet.ToFrozenSet(
+    [
         GachaConfigType.NoviceWish,
         GachaConfigType.StandardWish,
         GachaConfigType.AvatarEventWish,
         GachaConfigType.WeaponEventWish,
-    }.ToImmutableList(); // TODO: FrozenSet
+    ]);
 }

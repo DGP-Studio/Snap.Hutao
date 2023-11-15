@@ -39,8 +39,10 @@ public sealed class ResxGenerator : IIncrementalGenerator
     private static void Execute(SourceProductionContext context, AnalyzerConfigOptionsProvider options, string? assemblyName, bool supportNullableReferenceTypes, ImmutableArray<AdditionalText> files)
     {
         // Group additional file by resource kind ((a.resx, a.en.resx, a.en-us.resx), (b.resx, b.en-us.resx))
-        List<IGrouping<string, AdditionalText>> resxGroups = [.. files.GroupBy(file => GetResourceName(file.Path), StringComparer.OrdinalIgnoreCase).OrderBy(x => x.Key, StringComparer.Ordinal)];
-            
+        IOrderedEnumerable<IGrouping<string, AdditionalText>> group = files
+            .GroupBy(file => GetResourceName(file.Path), StringComparer.OrdinalIgnoreCase)
+            .OrderBy(x => x.Key, StringComparer.Ordinal);
+        List<IGrouping<string, AdditionalText>> resxGroups = [.. group];
 
         foreach (IGrouping<string, AdditionalText>? resxGroug in resxGroups)
         {

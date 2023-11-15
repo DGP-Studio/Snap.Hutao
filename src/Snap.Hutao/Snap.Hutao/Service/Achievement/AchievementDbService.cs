@@ -129,7 +129,8 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return [.. appDbContext.Achievements.AsNoTracking().Where(i => i.ArchiveId == archiveId)];
+            IQueryable<EntityAchievement> result = appDbContext.Achievements.AsNoTracking().Where(i => i.ArchiveId == archiveId);
+            return [.. result];
         }
     }
 
@@ -151,7 +152,8 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return [.. appDbContext.AchievementArchives.AsNoTracking()];
+            IQueryable<AchievementArchive> result = appDbContext.AchievementArchives.AsNoTracking();
+            return [.. result];
         }
     }
 

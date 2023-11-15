@@ -160,7 +160,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     private async ValueTask DownloadStaticResourceAsync()
     {
-        HashSet<DownloadSummary> downloadSummaries = new();
+        HashSet<DownloadSummary> downloadSummaries = [];
 
         HashSet<string> categories = StaticResource.GetUnfulfilledCategorySet();
 
