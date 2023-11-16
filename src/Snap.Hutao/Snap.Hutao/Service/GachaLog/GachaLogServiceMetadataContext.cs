@@ -18,7 +18,7 @@ internal readonly struct GachaLogServiceMetadataContext
     /// <summary>
     /// 物品缓存
     /// </summary>
-    public readonly Dictionary<string, Item> ItemCache = new();
+    public readonly Dictionary<string, Item> ItemCache = [];
 
     /// <summary>
     /// Id 角色 映射

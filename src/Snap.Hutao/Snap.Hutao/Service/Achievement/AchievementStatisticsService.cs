@@ -21,7 +21,7 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
     {
         await taskContext.SwitchToBackgroundAsync();
 
-        List<AchievementStatistics> results = new();
+        List<AchievementStatistics> results = [];
         foreach (AchievementArchive archive in await achievementDbService.GetAchievementArchiveListAsync().ConfigureAwait(false))
         {
             int finishedCount = await achievementDbService

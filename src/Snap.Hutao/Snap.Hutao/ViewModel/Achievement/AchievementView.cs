@@ -54,7 +54,7 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
             if (SetProperty(ref isChecked, value))
             {
                 (Entity.Status, Entity.Time) = value
-                    ? (AchievementStatus.STATUS_REWARD_TAKEN, DateTimeOffset.Now)
+                    ? (AchievementStatus.STATUS_REWARD_TAKEN, DateTimeOffset.UtcNow)
                     : (AchievementStatus.STATUS_INVALID, default);
 
                 OnPropertyChanged(nameof(Time));
@@ -67,6 +67,6 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
     /// </summary>
     public string Time
     {
-        get => $"{Entity.Time:yyyy.MM.dd HH:mm:ss}";
+        get => $"{Entity.Time.ToLocalTime():yyyy.MM.dd HH:mm:ss}";
     }
 }

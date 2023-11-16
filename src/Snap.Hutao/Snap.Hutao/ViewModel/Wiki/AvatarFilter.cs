@@ -24,10 +24,8 @@ internal static class AvatarFilter
 
     private static bool DoFilter(string input, Avatar avatar)
     {
-        List<bool> matches = new();
-
-        // TODO: use Collection Literals
-        foreach (StringSegment segment in new StringTokenizer(input, new char[] { ' ' }))
+        List<bool> matches = [];
+        foreach (StringSegment segment in new StringTokenizer(input, [' ']))
         {
             string value = segment.ToString();
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
@@ -46,7 +45,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly INavigationService navigationService;
-    private readonly IClipboardInterop clipboardInterop;
+    private readonly IClipboardProvider clipboardInterop;
     private readonly IShellLinkInterop shellLinkInterop;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
@@ -180,7 +179,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             }
             else
             {
-                infoBarService.Warning(SH.ViewModelSettingClearWebCachePathInvalid.Format(cacheFolder));
+                infoBarService.Warning(SH.FormatViewModelSettingClearWebCachePathInvalid(cacheFolder));
             }
         }
     }
@@ -230,15 +229,15 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     }
 
     [Command("OpenCacheFolderCommand")]
-    private Task OpenCacheFolderAsync()
+    private async Task OpenCacheFolderAsync()
     {
-        return Launcher.LaunchFolderPathAsync(runtimeOptions.LocalCache).AsTask();
+        await Launcher.LaunchFolderPathAsync(runtimeOptions.LocalCache);
     }
 
     [Command("OpenDataFolderCommand")]
-    private Task OpenDataFolderAsync()
+    private async Task OpenDataFolderAsync()
     {
-        return Launcher.LaunchFolderPathAsync(runtimeOptions.DataFolder).AsTask();
+        await Launcher.LaunchFolderPathAsync(runtimeOptions.DataFolder);
     }
 
     [Command("DeleteUsersCommand")]

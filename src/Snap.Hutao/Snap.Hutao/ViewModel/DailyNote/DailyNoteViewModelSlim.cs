@@ -38,7 +38,7 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
 
             // 此处使用浅拷贝的列表以避免当导航到实时便笺页面后
             // 由于主页尚未卸载，添加或删除便笺可能会崩溃的问题
-            List<DailyNoteEntry> entryList = entries.ToList();
+            List<DailyNoteEntry> entryList = [.. entries];
 
             await taskContext.SwitchToMainThreadAsync();
             DailyNoteEntries = entryList;

@@ -35,7 +35,7 @@ internal sealed partial class DailyNoteNotificationOperation
             return;
         }
 
-        List<DailyNoteNotifyInfo> notifyInfos = new();
+        List<DailyNoteNotifyInfo> notifyInfos = [];
 
         CheckNotifySuppressed(entry, notifyInfos);
 
@@ -139,7 +139,7 @@ internal sealed partial class DailyNoteNotificationOperation
                     SH.ServiceDailyNoteNotifierResin,
                     Web.HutaoEndpoints.StaticFile("ItemIcon", "UI_ItemIcon_210.png"),
                     $"{entry.DailyNote.CurrentResin}",
-                    SH.ServiceDailyNoteNotifierResinCurrent.Format(entry.DailyNote.CurrentResin)));
+                    SH.FormatServiceDailyNoteNotifierResinCurrent(entry.DailyNote.CurrentResin)));
                 entry.ResinNotifySuppressed = true;
             }
         }
@@ -160,7 +160,7 @@ internal sealed partial class DailyNoteNotificationOperation
                     SH.ServiceDailyNoteNotifierHomeCoin,
                     Web.HutaoEndpoints.StaticFile("ItemIcon", "UI_ItemIcon_204.png"),
                     $"{entry.DailyNote.CurrentHomeCoin}",
-                    SH.ServiceDailyNoteNotifierHomeCoinCurrent.Format(entry.DailyNote.CurrentHomeCoin)));
+                    SH.FormatServiceDailyNoteNotifierHomeCoinCurrent(entry.DailyNote.CurrentHomeCoin)));
                 entry.HomeCoinNotifySuppressed = true;
             }
         }

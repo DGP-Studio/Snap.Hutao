@@ -33,7 +33,8 @@ internal sealed class WindowSubclass : IDisposable
         this.window = window;
         this.options = options;
         this.serviceProvider = serviceProvider;
-        hotKeyController = new HotKeyController(serviceProvider);
+
+        hotKeyController = serviceProvider.GetRequiredService<IHotKeyController>();
     }
 
     /// <summary>

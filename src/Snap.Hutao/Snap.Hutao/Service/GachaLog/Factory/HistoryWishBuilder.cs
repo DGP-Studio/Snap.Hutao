@@ -16,11 +16,11 @@ internal sealed class HistoryWishBuilder
 {
     private readonly GachaEvent gachaEvent;
 
-    private readonly Dictionary<IStatisticsItemSource, int> orangeUpCounter = new();
-    private readonly Dictionary<IStatisticsItemSource, int> purpleUpCounter = new();
-    private readonly Dictionary<IStatisticsItemSource, int> orangeCounter = new();
-    private readonly Dictionary<IStatisticsItemSource, int> purpleCounter = new();
-    private readonly Dictionary<IStatisticsItemSource, int> blueCounter = new();
+    private readonly Dictionary<IStatisticsItemSource, int> orangeUpCounter = [];
+    private readonly Dictionary<IStatisticsItemSource, int> purpleUpCounter = [];
+    private readonly Dictionary<IStatisticsItemSource, int> orangeCounter = [];
+    private readonly Dictionary<IStatisticsItemSource, int> purpleCounter = [];
+    private readonly Dictionary<IStatisticsItemSource, int> blueCounter = [];
 
     private int totalCountTracker;
 

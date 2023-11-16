@@ -140,6 +140,8 @@ internal sealed class AttributeGenerator : IIncrementalGenerator
                 public InjectionAttribute(InjectAs injectAs, Type interfaceType)
                 {
                 }
+
+                public object Key { get; set; }
             }
             """;
         context.AddSource("Snap.Hutao.Core.DependencyInjection.Annotation.Attributes.g.cs", coreDependencyInjectionAnnotations);

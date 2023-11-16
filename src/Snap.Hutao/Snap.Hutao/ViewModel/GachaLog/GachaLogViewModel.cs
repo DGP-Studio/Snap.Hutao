@@ -238,7 +238,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             Dictionary<string, IList<string>> fileTypes = new()
             {
-                [SH.ViewModelGachaLogExportFileType] = ".json".Enumerate().ToList(),
+                [SH.ViewModelGachaLogExportFileType] = [".json"],
             };
 
             FileSavePicker picker = pickerFactory.GetFileSavePicker(
@@ -270,7 +270,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         if (Archives is not null && SelectedArchive is not null)
         {
             ContentDialogResult result = await contentDialogFactory
-                .CreateForConfirmCancelAsync(SH.ViewModelGachaLogRemoveArchiveTitle.Format(SelectedArchive.Uid), SH.ViewModelGachaLogRemoveArchiveDescription)
+                .CreateForConfirmCancelAsync(SH.FormatViewModelGachaLogRemoveArchiveTitle(SelectedArchive.Uid), SH.ViewModelGachaLogRemoveArchiveDescription)
                 .ConfigureAwait(false);
 
             if (result == ContentDialogResult.Primary)

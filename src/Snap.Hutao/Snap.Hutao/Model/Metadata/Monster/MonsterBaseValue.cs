@@ -58,8 +58,8 @@ internal sealed class MonsterBaseValue : BaseValue
     {
         get
         {
-            return new()
-            {
+            return
+            [
                 FightPropertyFormat.ToNameValue(FightProperty.FIGHT_PROP_FIRE_SUB_HURT, FireSubHurt),
                 FightPropertyFormat.ToNameValue(FightProperty.FIGHT_PROP_WATER_SUB_HURT, WaterSubHurt),
                 FightPropertyFormat.ToNameValue(FightProperty.FIGHT_PROP_GRASS_SUB_HURT, GrassSubHurt),
@@ -68,7 +68,7 @@ internal sealed class MonsterBaseValue : BaseValue
                 FightPropertyFormat.ToNameValue(FightProperty.FIGHT_PROP_ICE_SUB_HURT, IceSubHurt),
                 FightPropertyFormat.ToNameValue(FightProperty.FIGHT_PROP_ROCK_SUB_HURT, RockSubHurt),
                 FightPropertyFormat.ToNameValue(FightProperty.FIGHT_PROP_PHYSICAL_SUB_HURT, PhysicalSubHurt),
-            };
+            ];
         }
     }
 }

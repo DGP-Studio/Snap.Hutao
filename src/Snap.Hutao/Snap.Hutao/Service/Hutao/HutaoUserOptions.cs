@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Options;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Web.Hutao;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Hutao;
@@ -118,9 +119,10 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     {
         IsLicensedDeveloper = userInfo.IsLicensedDeveloper;
         IsMaintainer = userInfo.IsMaintainer;
-        GachaLogExpireAt = Regex.Unescape(SH.ServiceHutaoUserGachaLogExpiredAt).Format(userInfo.GachaLogExpireAt);
+        string unescaped = Regex.Unescape(SH.ServiceHutaoUserGachaLogExpiredAt);
+        GachaLogExpireAt = string.Format(CultureInfo.CurrentCulture, unescaped, userInfo.GachaLogExpireAt);
         GachaLogExpireAtSlim = $"{userInfo.GachaLogExpireAt:yyyy.MM.dd HH:mm:ss}";
-        IsCloudServiceAllowed = IsLicensedDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
+        IsCloudServiceAllowed = IsLicensedDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.UtcNow;
     }
 
     public async ValueTask<string?> GetTokenAsync()

@@ -41,10 +41,10 @@ public static class JsonParser
     public static T? FromJson<T>(this string json)
     {
         // Initialize, if needed, the ThreadStatic variables
-        propertyInfoCache ??= new Dictionary<Type, Dictionary<string, PropertyInfo>>();
-        fieldInfoCache ??= new Dictionary<Type, Dictionary<string, FieldInfo>>();
-        stringBuilder ??= new StringBuilder();
-        splitArrayPool ??= new Stack<List<string>>();
+        propertyInfoCache ??= [];
+        fieldInfoCache ??= [];
+        stringBuilder ??= new();
+        splitArrayPool ??= [];
 
         // Remove all whitespace not within strings to make parsing simpler
         stringBuilder.Length = 0;
@@ -99,7 +99,7 @@ public static class JsonParser
     // Splits { <value>:<value>, <value>:<value> } and [ <value>, <value> ] into a list of <value> strings
     private static List<string> Split(string json)
     {
-        List<string> splitArray = splitArrayPool!.Count > 0 ? splitArrayPool.Pop() : new List<string>();
+        List<string> splitArray = splitArrayPool!.Count > 0 ? splitArrayPool.Pop() : [];
         splitArray.Clear();
         if (json.Length == 2)
         {

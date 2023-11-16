@@ -107,14 +107,14 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             }
             else if (rand == 1)
             {
-                GreetingText = SH.ViewPageHomeGreetingTextCommon2.Format(LocalSetting.Get(SettingKeys.LaunchTimes, 0));
+                GreetingText = SH.FormatViewPageHomeGreetingTextCommon2(LocalSetting.Get(SettingKeys.LaunchTimes, 0));
             }
         }
     }
 
     private void InitializeDashboard()
     {
-        List<CardReference> result = new();
+        List<CardReference> result = [];
 
         if (LocalSetting.Get(SettingKeys.IsHomeCardLaunchGamePresented, true))
         {

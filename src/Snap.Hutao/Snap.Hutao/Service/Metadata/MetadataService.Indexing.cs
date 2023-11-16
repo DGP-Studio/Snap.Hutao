@@ -84,7 +84,6 @@ internal sealed partial class MetadataService
         Dictionary<MaterialId, DisplayItem> displays = await FromCacheAsDictionaryAsync<MaterialId, DisplayItem>(FileNameDisplayItem, a => a.Id, token).ConfigureAwait(false);
         Dictionary<MaterialId, Material> materials = await GetIdToMaterialMapAsync(token).ConfigureAwait(false);
 
-        // TODO: Cache this
         Dictionary<MaterialId, DisplayItem> results = new(displays);
 
         foreach ((MaterialId id, DisplayItem material) in materials)

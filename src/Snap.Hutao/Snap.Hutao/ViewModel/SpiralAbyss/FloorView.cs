@@ -14,7 +14,7 @@ internal sealed class FloorView : IMappingFrom<FloorView, TowerFloor, SpiralAbys
 {
     public FloorView(TowerFloor floor, SpiralAbyssMetadataContext context)
     {
-        Index = SH.ModelBindingHutaoComplexRankFloor.Format(floor.Index);
+        Index = SH.FormatModelBindingHutaoComplexRankFloor(floor.Index);
         IndexValue = floor.Index;
         Disorders = floor.Descriptions;
 

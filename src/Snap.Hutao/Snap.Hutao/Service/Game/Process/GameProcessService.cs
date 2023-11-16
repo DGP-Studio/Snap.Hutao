@@ -30,8 +30,8 @@ internal sealed partial class GameProcessService : IGameProcessService
             return false;
         }
 
-        return System.Diagnostics.Process.GetProcessesByName(YuanShenProcessName).Any()
-            || System.Diagnostics.Process.GetProcessesByName(GenshinImpactProcessName).Any();
+        return System.Diagnostics.Process.GetProcessesByName(YuanShenProcessName).Length > 0
+            || System.Diagnostics.Process.GetProcessesByName(GenshinImpactProcessName).Length > 0;
     }
 
     public async ValueTask LaunchAsync(IProgress<LaunchStatus> progress)
@@ -126,7 +126,9 @@ internal sealed partial class GameProcessService : IGameProcessService
 
     private ValueTask UnlockFpsAsync(System.Diagnostics.Process game, IProgress<LaunchStatus> progress, CancellationToken token = default)
     {
+#pragma warning disable CA1859
         IGameFpsUnlocker unlocker = serviceProvider.CreateInstance<GameFpsUnlocker>(game);
+#pragma warning restore CA1859
         UnlockTimingOptions options = new(100, 20000, 3000);
         Progress<UnlockerStatus> lockerProgress = new(unlockStatus => progress.Report(LaunchStatus.FromUnlockStatus(unlockStatus)));
         return unlocker.UnlockAsync(options, lockerProgress, token);

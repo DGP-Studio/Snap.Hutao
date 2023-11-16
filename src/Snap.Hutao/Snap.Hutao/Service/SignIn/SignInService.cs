@@ -33,7 +33,7 @@ internal sealed partial class SignInService : ISignInService
                 {
                     int index = infoResponse.Data.TotalSignDay - 1;
                     Award award = rewardResponse.Data.Awards[index];
-                    return new(true, SH.ServiceSignInSuccessRewardFormat.Format(award.Name, award.Count));
+                    return new(true, SH.FormatServiceSignInSuccessRewardFormat(award.Name, award.Count));
                 }
                 else
                 {
@@ -54,7 +54,7 @@ internal sealed partial class SignInService : ISignInService
                     message = $"RiskCode: {resultResponse.Data?.RiskCode}";
                 }
 
-                return new(false, SH.ServiceSignInClaimRewardFailedFormat.Format(message));
+                return new(false, SH.FormatServiceSignInClaimRewardFailedFormat(message));
             }
         }
         else

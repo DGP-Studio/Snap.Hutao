@@ -7,6 +7,15 @@ namespace Snap.Hutao.Test;
 [TestClass]
 public class JsonSerializeTest
 {
+    private TestContext? testContext;
+
+    public TestContext? TestContext { get => testContext; set => testContext = value; }
+
+    private readonly JsonSerializerOptions AlowStringNumberOptions = new()
+    {
+        NumberHandling = JsonNumberHandling.AllowReadingFromString,
+    };
+
     private const string SmapleObjectJson = """
         {
             "A" :1
@@ -44,13 +53,29 @@ public class JsonSerializeTest
     [TestMethod]
     public void NumberStringKeyCanSerializeAsKey()
     {
-        JsonSerializerOptions options = new()
+        Dictionary<int, string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SmapleNumberKeyDictionaryJson, AlowStringNumberOptions)!;
+        Assert.AreEqual(sample[111], "12");
+    }
+
+    [TestMethod]
+    public void ByteArraySerializeAsBase64()
+    {
+        byte[] array =
+#if NET8_0_OR_GREATER
+            [1, 2, 3, 4, 5];
+#else
+            { 1, 2, 3, 4, 5 };
+#endif
+        ByteArraySample sample = new()
         {
-            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+            Array = array,
         };
 
-        Dictionary<int, string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SmapleNumberKeyDictionaryJson, options)!;
-        Assert.AreEqual(sample[111], "12");
+        string result = JsonSerializer.Serialize(sample);
+        TestContext!.WriteLine($"ByteArray Serialize Result: {result}");
+        Assert.AreEqual(result, """
+            {"Array":"AQIDBAU="}
+            """);
     }
 
     private sealed class Sample
@@ -63,5 +88,10 @@ public class JsonSerializeTest
     {
         [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
         public int A { get; set; }
+    }
+
+    private sealed class ByteArraySample
+    {
+        public byte[]? Array { get; set; }
     }
 }

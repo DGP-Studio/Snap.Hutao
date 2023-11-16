@@ -14,7 +14,6 @@ namespace Snap.Hutao.Service.Game.Account;
 internal sealed partial class GameAccountService : IGameAccountService
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IServiceProvider serviceProvider;
     private readonly IGameDbService gameDbService;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;

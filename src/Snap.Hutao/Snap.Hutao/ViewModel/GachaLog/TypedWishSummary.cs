@@ -28,7 +28,7 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     public string MaxOrangePullFormatted
     {
-        get => SH.ModelBindingGachaTypedWishSummaryMaxOrangePullFormat.Format(MaxOrangePull);
+        get => SH.FormatModelBindingGachaTypedWishSummaryMaxOrangePullFormat(MaxOrangePull);
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     public string MinOrangePullFormatted
     {
-        get => SH.ModelBindingGachaTypedWishSummaryMinOrangePullFormat.Format(MinOrangePull);
+        get => SH.FormatModelBindingGachaTypedWishSummaryMinOrangePullFormat(MinOrangePull);
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     public string AverageOrangePullFormatted
     {
-        get => SH.ModelBindingGachaTypedWishSummaryAveragePullFormat.Format(AverageOrangePull);
+        get => SH.FormatModelBindingGachaTypedWishSummaryAveragePullFormat(AverageOrangePull);
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     public string AverageUpOrangePullFormatted
     {
-        get => SH.ModelBindingGachaTypedWishSummaryAveragePullFormat.Format(AverageUpOrangePull);
+        get => SH.FormatModelBindingGachaTypedWishSummaryAveragePullFormat(AverageUpOrangePull);
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     public string PredictedPullLeftToOrangeFormatted
     {
-        get => SH.ViewModelGachaLogPredictedPullLeftToOrange.Format(PredictedPullLeftToOrange, ProbabilityOfPredictedPullLeftToOrange);
+        get => SH.FormatViewModelGachaLogPredictedPullLeftToOrange(PredictedPullLeftToOrange, ProbabilityOfPredictedPullLeftToOrange);
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     public string ProbabilityOfNextPullIsOrangeFormatted
     {
-        get => SH.ViewModelGachaLogProbabilityOfNextPullIsOrange.Format(ProbabilityOfNextPullIsOrange);
+        get => SH.FormatViewModelGachaLogProbabilityOfNextPullIsOrange(ProbabilityOfNextPullIsOrange);
     }
 
     /// <summary>

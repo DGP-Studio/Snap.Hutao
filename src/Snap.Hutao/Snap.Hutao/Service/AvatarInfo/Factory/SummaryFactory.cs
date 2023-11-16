@@ -31,17 +31,15 @@ internal sealed partial class SummaryFactory : ISummaryFactory
             Reliquaries = await metadataService.GetReliquariesAsync(token).ConfigureAwait(false),
         };
 
+        IOrderedEnumerable<AvatarView> avatars = avatarInfos
+            .Where(a => !AvatarIds.IsPlayer(a.Info.AvatarId))
+            .Select(a => new SummaryAvatarFactory(metadataContext, a).Create())
+            .OrderByDescending(a => a.LevelNumber)
+            .ThenBy(a => a.Name);
+
         return new()
         {
-            Avatars = avatarInfos
-                .Where(a => !AvatarIds.IsPlayer(a.Info.AvatarId))
-                .Select(a => new SummaryAvatarFactory(metadataContext, a).Create())
-                .OrderByDescending(a => a.LevelNumber)
-                .ThenBy(a => a.Name)
-                .ToList(),
-
-            // .ThenByDescending(a => a.Quality)
-            // .ThenByDescending(a => a.ActivatedConstellationCount)
+            Avatars = [.. avatars],
         };
     }
 }

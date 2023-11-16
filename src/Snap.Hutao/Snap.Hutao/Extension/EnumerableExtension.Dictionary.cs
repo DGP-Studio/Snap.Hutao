@@ -80,7 +80,7 @@ internal static partial class EnumerableExtension
     public static Dictionary<TKey, TSource> ToDictionaryIgnoringDuplicateKeys<TKey, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         where TKey : notnull
     {
-        Dictionary<TKey, TSource> dictionary = new();
+        Dictionary<TKey, TSource> dictionary = [];
 
         foreach (TSource value in source)
         {
@@ -94,7 +94,7 @@ internal static partial class EnumerableExtension
     public static Dictionary<TKey, TValue> ToDictionaryIgnoringDuplicateKeys<TKey, TValue, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> elementSelector)
         where TKey : notnull
     {
-        Dictionary<TKey, TValue> dictionary = new();
+        Dictionary<TKey, TValue> dictionary = [];
 
         foreach (TSource value in source)
         {

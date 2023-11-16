@@ -24,9 +24,9 @@ internal static class WeaponFilter
 
     private static bool DoFilter(string input, Weapon weapon)
     {
-        List<bool> matches = new();
+        List<bool> matches = [];
 
-        foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
+        foreach (StringSegment segment in new StringTokenizer(input, [' ']))
         {
             string value = segment.ToString();
 

@@ -49,7 +49,7 @@ internal sealed class UIAFInfo : IMappingFrom<UIAFInfo, RuntimeOptions>
     {
         return new()
         {
-            ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
+            ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
             ExportAppVersion = runtimeOptions.Version.ToString(),
             UIAFVersion = UIAF.CurrentVersion,

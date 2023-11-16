@@ -38,7 +38,7 @@ internal sealed partial class CultivationService : ICultivationService
             Guid projectId = cultivateProject.InnerId;
             List<InventoryItem> entities = cultivationDbService.GetInventoryItemListByProjectId(projectId);
 
-            List<InventoryItemView> results = new();
+            List<InventoryItemView> results = [];
             foreach (Material meta in metadata.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id.Value))
             {
                 InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.From(projectId, meta.Id);
@@ -64,7 +64,7 @@ internal sealed partial class CultivationService : ICultivationService
         List<CultivateEntryView> resultEntries = new(entries.Count);
         foreach (CultivateEntry entry in entries)
         {
-            List<CultivateItemView> entryItems = new();
+            List<CultivateItemView> entryItems = [];
             foreach (CultivateItem item in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId).ConfigureAwait(false))
             {
                 entryItems.Add(new(item, materials.Single(m => m.Id == item.ItemId)));
@@ -94,7 +94,7 @@ internal sealed partial class CultivationService : ICultivationService
         CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<StatisticsCultivateItem> resultItems = new();
+        List<StatisticsCultivateItem> resultItems = [];
 
         Guid projectId = cultivateProject.InnerId;
 

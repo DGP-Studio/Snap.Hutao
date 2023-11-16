@@ -57,23 +57,13 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
 
     private static void CompilationStart(CompilationStartAnalysisContext context)
     {
-        SyntaxKind[] types =
-        {
-            SyntaxKind.ClassDeclaration,
-            SyntaxKind.InterfaceDeclaration,
-            SyntaxKind.StructDeclaration,
-            SyntaxKind.EnumDeclaration,
-        };
+        SyntaxKind[] types = [SyntaxKind.ClassDeclaration, SyntaxKind.InterfaceDeclaration, SyntaxKind.StructDeclaration, SyntaxKind.EnumDeclaration,];
         context.RegisterSyntaxNodeAction(HandleTypeShouldBeInternal, types);
         context.RegisterSyntaxNodeAction(HandleMethodParameterShouldUseRefLikeKeyword, SyntaxKind.MethodDeclaration);
         context.RegisterSyntaxNodeAction(HandleMethodReturnTypeShouldUseValueTaskInsteadOfTask, SyntaxKind.MethodDeclaration);
         context.RegisterSyntaxNodeAction(HandleConstructorParameterShouldUseRefLikeKeyword, SyntaxKind.ConstructorDeclaration);
 
-        SyntaxKind[] expressions =
-        {
-            SyntaxKind.EqualsExpression,
-            SyntaxKind.NotEqualsExpression,
-        };
+        SyntaxKind[] expressions = [SyntaxKind.EqualsExpression, SyntaxKind.NotEqualsExpression,];
         context.RegisterSyntaxNodeAction(HandleEqualsAndNotEqualsExpressionShouldUsePatternMatching, expressions);
         context.RegisterSyntaxNodeAction(HandleIsPatternShouldUseRecursivePattern, SyntaxKind.IsPatternExpression);
         context.RegisterSyntaxNodeAction(HandleArgumentNullExceptionThrowIfNull, SyntaxKind.SuppressNullableWarningExpression);

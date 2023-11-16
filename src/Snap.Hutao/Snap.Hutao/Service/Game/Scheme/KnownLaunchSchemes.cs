@@ -28,8 +28,9 @@ internal static class KnownLaunchSchemes
     /// <returns>已知的启动方案</returns>
     public static List<LaunchScheme> Get()
     {
-        return new List<LaunchScheme>()
-        {
+        return
+        [
+
             // 官服
             ServerChineseChannelDefaultSubChannelDefaultCompat,
             ServerChineseChannelOfficialSubChannelDefault,
@@ -47,6 +48,6 @@ internal static class KnownLaunchSchemes
             ServerGlobalChannelOfficialSubChannelOfficial,
             ServerGlobalChannelOfficialSubChannelEpic,
             ServerGlobalChannelOfficialSubChannelGoogle,
-        };
+        ];
     }
 }

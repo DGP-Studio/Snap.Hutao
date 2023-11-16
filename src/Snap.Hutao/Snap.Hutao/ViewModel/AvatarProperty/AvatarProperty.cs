@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Control.Collection.Alternating;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
+using System.Collections.Frozen;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
@@ -16,8 +17,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 [HighQuality]
 internal sealed class AvatarProperty : ObservableObject, INameIcon, IAlternatingItem
 {
-    // TODO: use FrozenDictionary
-    private static readonly ImmutableDictionary<FightProperty, Uri> PropertyIcons = new Dictionary<FightProperty, Uri>()
+    private static readonly FrozenDictionary<FightProperty, Uri> PropertyIcons = new Dictionary<FightProperty, Uri>()
     {
         [FightProperty.FIGHT_PROP_SKILL_CD_MINUS_RATIO] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_CDReduce.png").ToUri(),
         [FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_ChargeEfficiency.png").ToUri(),
@@ -37,7 +37,7 @@ internal sealed class AvatarProperty : ObservableObject, INameIcon, IAlternating
         [FightProperty.FIGHT_PROP_MAX_HP] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_MaxHp.png").ToUri(),
         [FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_PhysicalAttackUp.png").ToUri(),
         [FightProperty.FIGHT_PROP_SHIELD_COST_MINUS_RATIO] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_ShieldCostMinus.png").ToUri(),
-    }.ToImmutableDictionary();
+    }.ToFrozenDictionary();
 
     private Brush? background;
 

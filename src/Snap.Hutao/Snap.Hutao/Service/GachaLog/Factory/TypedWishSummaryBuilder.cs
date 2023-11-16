@@ -32,9 +32,9 @@ internal sealed class TypedWishSummaryBuilder
 
     private readonly TypedWishSummaryBuilderContext context;
 
-    private readonly List<int> averageOrangePullTracker = new();
-    private readonly List<int> averageUpOrangePullTracker = new();
-    private readonly List<SummaryItem> summaryItems = new();
+    private readonly List<int> averageOrangePullTracker = [];
+    private readonly List<int> averageUpOrangePullTracker = [];
+    private readonly List<SummaryItem> summaryItems = [];
 
     private int maxOrangePullTracker;
     private int minOrangePullTracker;

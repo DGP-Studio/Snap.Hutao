@@ -70,7 +70,7 @@ internal struct GachaLogFetchContext
     {
         DbEndId = null;
         CurrentType = configType;
-        ItemsToAdd = new();
+        ItemsToAdd = [];
         FetchStatus = new(configType);
         QueryOptions = new(query, configType);
     }

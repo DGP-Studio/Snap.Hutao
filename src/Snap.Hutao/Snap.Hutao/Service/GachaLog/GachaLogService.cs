@@ -99,7 +99,7 @@ internal sealed partial class GachaLogService : IGachaLogService
         await InitializeAsync(token).ConfigureAwait(false);
         ArgumentNullException.ThrowIfNull(ArchiveCollection);
 
-        List<GachaStatisticsSlim> statistics = new();
+        List<GachaStatisticsSlim> statistics = [];
         foreach (GachaArchive archive in ArchiveCollection)
         {
             List<GachaItem> items = await gachaLogDbService.GetGachaItemListByArchiveIdAsync(archive.InnerId).ConfigureAwait(false);

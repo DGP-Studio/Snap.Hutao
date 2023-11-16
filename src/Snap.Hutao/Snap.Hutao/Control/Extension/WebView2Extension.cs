@@ -1,16 +1,17 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using System.Diagnostics;
 
-namespace Snap.Hutao.Web.Bridge;
+namespace Snap.Hutao.Control.Extension;
 
 /// <summary>
 /// Bridge 拓展
 /// </summary>
 [HighQuality]
-internal static class CoreWebView2Extension
+internal static class WebView2Extension
 {
     [Conditional("RELEASE")]
     public static void DisableDevToolsForReleaseBuild(this CoreWebView2 webView)
@@ -36,5 +37,10 @@ internal static class CoreWebView2Extension
         {
             manager.DeleteCookie(item);
         }
+    }
+
+    public static bool IsDisposed(this WebView2 webView2)
+    {
+        return WinRTExtension.IsDisposed(webView2);
     }
 }

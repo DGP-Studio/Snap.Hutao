@@ -26,7 +26,7 @@ internal sealed class HutaoStatisticsFactory
         // TODO: when in new verion
         // due to lack of newer metadata
         // this can crash
-        DateTimeOffset now = DateTimeOffset.Now;
+        DateTimeOffset now = DateTimeOffset.UtcNow;
         avatarEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish);
         avatarEvent2 = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish2);
         weaponEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.WeaponEventWish);
@@ -44,10 +44,10 @@ internal sealed class HutaoStatisticsFactory
 
     private HutaoWishSummary CreateWishSummary(GachaEvent gachaEvent, List<ItemCount> items)
     {
-        List<StatisticsItem> upItems = new();
-        List<StatisticsItem> orangeItems = new();
-        List<StatisticsItem> purpleItems = new();
-        List<StatisticsItem> blueItems = new();
+        List<StatisticsItem> upItems = [];
+        List<StatisticsItem> orangeItems = [];
+        List<StatisticsItem> purpleItems = [];
+        List<StatisticsItem> blueItems = [];
 
         foreach (ref readonly ItemCount item in CollectionsMarshal.AsSpan(items))
         {
@@ -55,7 +55,7 @@ internal sealed class HutaoStatisticsFactory
             {
                 8U => context.IdAvatarMap[item.Item],
                 5U => context.IdWeaponMap[item.Item],
-                _ => throw ThrowHelper.UserdataCorrupted(SH.ServiceGachaStatisticsFactoryItemIdInvalid.Format(item.Item), default!),
+                _ => throw ThrowHelper.UserdataCorrupted(SH.FormatServiceGachaStatisticsFactoryItemIdInvalid(item.Item), default!),
             };
             StatisticsItem statisticsItem = source.ToStatisticsItem(unchecked((int)item.Count));
 
@@ -80,10 +80,10 @@ internal sealed class HutaoStatisticsFactory
         return new()
         {
             Event = gachaEvent,
-            UpItems = upItems.OrderByDescending(i => i.Quality).ThenByDescending(i => i.Count).ToList(),
-            OrangeItems = orangeItems.OrderByDescending(i => i.Count).ToList(),
-            PurpleItems = purpleItems.OrderByDescending(i => i.Count).ToList(),
-            BlueItems = blueItems.OrderByDescending(i => i.Count).ToList(),
+            UpItems = [.. upItems.OrderByDescending(i => i.Quality).ThenByDescending(i => i.Count)],
+            OrangeItems = [.. orangeItems.OrderByDescending(i => i.Count)],
+            PurpleItems = [.. purpleItems.OrderByDescending(i => i.Count)],
+            BlueItems = [.. blueItems.OrderByDescending(i => i.Count)],
         };
     }
 }

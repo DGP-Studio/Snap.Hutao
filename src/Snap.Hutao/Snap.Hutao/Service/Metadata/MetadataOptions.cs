@@ -108,7 +108,7 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     /// </summary>
     /// <param name="languageCode">语言代码</param>
     /// <returns>是否为当前语言名称</returns>
-    public bool IsCurrentLocale(string languageCode)
+    public bool IsCurrentLocale(string? languageCode)
     {
         if (string.IsNullOrEmpty(languageCode))
         {

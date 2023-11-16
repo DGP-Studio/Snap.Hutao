@@ -60,7 +60,6 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
             // Copyright (c) DGP Studio. All rights reserved.
             // Licensed under the MIT license.
 
-            using Snap.Hutao.Web.Hoyolab.DynamicSecret;
             using System.Net.Http;
             
             namespace Snap.Hutao.Core.DependencyInjection;
@@ -86,7 +85,7 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
 
     private static void FillUpWithAddHttpClient(StringBuilder sourceBuilder, SourceProductionContext production, ImmutableArray<GeneratorSyntaxContext2> contexts)
     {
-        List<string> lines = new();
+        List<string> lines = [];
         StringBuilder lineBuilder = new();
 
         foreach (GeneratorSyntaxContext2 context in contexts.DistinctBy(c => c.Symbol.ToDisplayString()))

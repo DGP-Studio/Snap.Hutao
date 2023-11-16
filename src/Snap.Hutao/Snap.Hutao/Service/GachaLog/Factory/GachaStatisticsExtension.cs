@@ -50,10 +50,10 @@ internal static class GachaStatisticsExtension
     public static List<StatisticsItem> ToStatisticsList<TItem>(this Dictionary<TItem, int> dict)
         where TItem : IStatisticsItemSource
     {
-        return dict
+        IOrderedEnumerable<StatisticsItem> result = dict
             .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))
-            .OrderByDescending(item => item.Count)
-            .ToList();
+            .OrderByDescending(item => item.Count);
+        return [.. result];
     }
 
     [SuppressMessage("", "IDE0057")]

@@ -206,13 +206,13 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                     case ArchiveAddResult.Added:
                         await taskContext.SwitchToMainThreadAsync();
                         SelectedArchive = achievementService.CurrentArchive;
-                        infoBarService.Success(SH.ViewModelAchievementArchiveAdded.Format(name));
+                        infoBarService.Success(SH.FormatViewModelAchievementArchiveAdded(name));
                         break;
                     case ArchiveAddResult.InvalidName:
                         infoBarService.Warning(SH.ViewModelAchievementArchiveInvalidName);
                         break;
                     case ArchiveAddResult.AlreadyExists:
-                        infoBarService.Warning(SH.ViewModelAchievementArchiveAlreadyExists.Format(name));
+                        infoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name));
                         break;
                     default:
                         throw Must.NeverHappen();
@@ -226,7 +226,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         if (Archives is not null && SelectedArchive is not null)
         {
-            string title = SH.ViewModelAchievementRemoveArchiveTitle.Format(SelectedArchive.Name);
+            string title = SH.FormatViewModelAchievementRemoveArchiveTitle(SelectedArchive.Name);
             string content = SH.ViewModelAchievementRemoveArchiveContent;
             ContentDialogResult result = await contentDialogFactory
                 .CreateForConfirmCancelAsync(title, content)
@@ -260,7 +260,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             string fileName = $"{achievementService.CurrentArchive?.Name}.json";
             Dictionary<string, IList<string>> fileTypes = new()
             {
-                [SH.ViewModelAchievementExportFileType] = ".json".Enumerate().ToList(),
+                [SH.ViewModelAchievementExportFileType] = [".json"],
             };
 
             FileSavePicker picker = pickerFactory

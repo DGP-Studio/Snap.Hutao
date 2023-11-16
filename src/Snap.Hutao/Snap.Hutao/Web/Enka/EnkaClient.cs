@@ -6,6 +6,7 @@ using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -37,7 +38,7 @@ internal sealed partial class EnkaClient
     /// <returns>Enka API 响应</returns>
     public ValueTask<EnkaResponse?> GetForwardDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(EnkaAPIHutaoForward.Format(playerUid.Value), token);
+        return TryGetEnkaResponseCoreAsync(string.Format(CultureInfo.CurrentCulture, EnkaAPIHutaoForward, playerUid.Value), token);
     }
 
     /// <summary>
@@ -48,7 +49,7 @@ internal sealed partial class EnkaClient
     /// <returns>Enka API 响应</returns>
     public ValueTask<EnkaResponse?> GetDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(EnkaAPI.Format(playerUid.Value), token);
+        return TryGetEnkaResponseCoreAsync(string.Format(CultureInfo.CurrentCulture, EnkaAPI, playerUid.Value), token);
     }
 
     private async ValueTask<EnkaResponse?> TryGetEnkaResponseCoreAsync(string url, CancellationToken token = default)

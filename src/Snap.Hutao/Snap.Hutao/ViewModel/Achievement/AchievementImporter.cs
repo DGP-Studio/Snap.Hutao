@@ -26,7 +26,7 @@ internal sealed partial class AchievementImporter
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IAchievementService achievementService;
-    private readonly IClipboardInterop clipboardInterop;
+    private readonly IClipboardProvider clipboardInterop;
     private readonly IInfoBarService infoBarService;
     private readonly IPickerFactory pickerFactory;
     private readonly JsonSerializerOptions options;

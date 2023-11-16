@@ -29,7 +29,7 @@ internal abstract class Wish
     /// </summary>
     public string TotalCountFormatted
     {
-        get => SH.ModelBindingGachaWishBaseTotalCountFormat.Format(TotalCount);
+        get => SH.FormatModelBindingGachaWishBaseTotalCountFormat(TotalCount);
     }
 
     /// <summary>

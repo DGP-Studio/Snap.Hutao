@@ -22,7 +22,7 @@ internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTran
         avatarInfo.FetterInfo.ExpLevel = source.Fetter;
 
         // update level
-        avatarInfo.PropMap ??= new Dictionary<PlayerProperty, TypeValue>();
+        avatarInfo.PropMap ??= [];
         avatarInfo.PropMap[PlayerProperty.PROP_LEVEL] = new(PlayerProperty.PROP_LEVEL, source.Level);
 
         // update constellations

@@ -9,7 +9,7 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge.Model;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Response;
 using System.Runtime.InteropServices;
@@ -23,7 +23,6 @@ namespace Snap.Hutao.Web.Bridge;
 /// </summary>
 [HighQuality]
 [SuppressMessage("", "CA1001")]
-[SuppressMessage("", "CA1308")]
 internal class MiHoYoJSBridge
 {
     private const string InitializeJsInterfaceScript2 = """
@@ -191,28 +190,14 @@ internal class MiHoYoJSBridge
     /// <returns>响应</returns>
     protected virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
-        string salt = HoyolabOptions.Salts[SaltType.LK2];
-        long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        string r = GetRandomString();
-
-        string check = Core.Convert.ToMd5HexString($"salt={salt}&t={t}&r={r}").ToLowerInvariant();
-
-        return new() { Data = new() { ["DS"] = $"{t},{r},{check}", }, };
-
-        static string GetRandomString()
+        DataSignOptions options = DataSignOptions.CreateForGeneration1(SaltType.LK2, true);
+        return new()
         {
-            const string RandomRange = "abcdefghijklmnopqrstuvwxyz1234567890";
-
-            StringBuilder sb = new(6);
-
-            for (int i = 0; i < 6; i++)
+            Data = new()
             {
-                int pos = Random.Shared.Next(0, RandomRange.Length);
-                sb.Append(RandomRange[pos]);
-            }
-
-            return sb.ToString();
-        }
+                ["DS"] = DataSignAlgorithm.GetDataSign(options),
+            },
+        };
     }
 
     /// <summary>
@@ -222,20 +207,14 @@ internal class MiHoYoJSBridge
     /// <returns>响应</returns>
     protected virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
-        string salt = HoyolabOptions.Salts[SaltType.X4];
-        long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        int r = GetRandom();
-        string b = param.Payload.Body;
-        string q = param.Payload.GetQueryParam();
-        string check = Core.Convert.ToMd5HexString($"salt={salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
-
-        return new() { Data = new() { ["DS"] = $"{t},{r},{check}" } };
-
-        static int GetRandom()
+        DataSignOptions options = DataSignOptions.CreateForGeneration2(SaltType.X4, false, param.Payload.Body, param.Payload.GetQueryParam());
+        return new()
         {
-            int rand = Random.Shared.Next(100000, 200000);
-            return rand == 100000 ? 642367 : rand;
-        }
+            Data = new()
+            {
+                ["DS"] = DataSignAlgorithm.GetDataSign(options),
+            },
+        };
     }
 
     /// <summary>
@@ -461,7 +440,7 @@ internal class MiHoYoJSBridge
     }
 
     [SuppressMessage("", "CA2254")]
-    private IJsResult? LogUnhandledMessage([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string message, params object?[] param)
+    private IJsResult? LogUnhandledMessage(string message, params object?[] param)
     {
         logger.LogWarning(message, param);
         return default;
@@ -490,7 +469,7 @@ internal class MiHoYoJSBridge
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
                 "share" => Share(param),
                 "showLoading" => null,
-                _ => LogUnhandledMessage("Unhandled Message Type: {method}", param.Method),
+                _ => LogUnhandledMessage("Unhandled Message Type: {Method}", param.Method),
             };
         }
         catch (ObjectDisposedException)
@@ -512,8 +491,6 @@ internal class MiHoYoJSBridge
         ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
         if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
         {
-            // Execute this solve issue: When open same site second time,there might be no bridge init.
-            // coreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
             coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
         }
     }

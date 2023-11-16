@@ -45,9 +45,7 @@ internal static class DispatcherQueueExtension
             });
 
             blockEvent.Wait();
-#pragma warning disable CA1508
             exceptionDispatchInfo?.Throw();
-#pragma warning restore CA1508
         }
     }
 }
