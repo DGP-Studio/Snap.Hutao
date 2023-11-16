@@ -25,7 +25,6 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
     private const string CacheFolderName = nameof(ImageCache);
 
-    // TODO: use FrozenDictionary
     private static readonly FrozenDictionary<int, TimeSpan> RetryCountToDelay = new Dictionary<int, TimeSpan>()
     {
         [0] = TimeSpan.FromSeconds(4),

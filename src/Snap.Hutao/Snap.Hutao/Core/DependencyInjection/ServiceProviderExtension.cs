@@ -22,7 +22,7 @@ internal static class ServiceProviderExtension
     {
         if (serviceProvider is null)
         {
-            return false;
+            return true;
         }
 
         return serviceProvider.GetType().GetField("_disposed")?.GetValue(serviceProvider) is true;

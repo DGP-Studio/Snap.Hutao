@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Web.Bridge;

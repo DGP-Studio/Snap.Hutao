@@ -70,7 +70,7 @@ internal sealed class Announcement : AnnouncementContent
         {
             // TODO: validate correctness
             // UTC+8
-            DateTimeOffset currentTime = DateTimeOffset.UtcNow.AddHours(8);
+            DateTimeOffset currentTime = DateTimeOffset.Now;
             TimeSpan current = currentTime - StartTime;
             TimeSpan total = EndTime - StartTime;
             return current / total;
