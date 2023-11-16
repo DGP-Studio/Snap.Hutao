@@ -131,7 +131,9 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
                 // https://github.com/DGP-Studio/Snap.Hutao/issues/1079
                 // The first element must be force refreshed otherwise
                 // it will use the old one realized
-                ElementRealizationOptions options = i == 0 ? ElementRealizationOptions.ForceCreate : ElementRealizationOptions.None;
+                // https://github.com/DGP-Studio/Snap.Hutao/issues/1099
+                // Now we need to refresh the first element of each column
+                ElementRealizationOptions options = i < numberOfColumns ? ElementRealizationOptions.ForceCreate : ElementRealizationOptions.None;
 
                 // Item has not been measured yet. Get the element and store the values
                 UIElement element = context.GetOrCreateElementAt(i, options);

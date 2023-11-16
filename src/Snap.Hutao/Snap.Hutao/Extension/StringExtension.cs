@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Extension;
