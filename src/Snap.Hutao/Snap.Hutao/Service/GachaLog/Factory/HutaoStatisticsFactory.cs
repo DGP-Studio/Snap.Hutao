@@ -26,7 +26,7 @@ internal sealed class HutaoStatisticsFactory
         // TODO: when in new verion
         // due to lack of newer metadata
         // this can crash
-        DateTimeOffset now = DateTimeOffset.Now;
+        DateTimeOffset now = DateTimeOffset.UtcNow;
         avatarEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish);
         avatarEvent2 = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish2);
         weaponEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.WeaponEventWish);
@@ -55,7 +55,7 @@ internal sealed class HutaoStatisticsFactory
             {
                 8U => context.IdAvatarMap[item.Item],
                 5U => context.IdWeaponMap[item.Item],
-                _ => throw ThrowHelper.UserdataCorrupted(SH.ServiceGachaStatisticsFactoryItemIdInvalid.Format(item.Item), default!),
+                _ => throw ThrowHelper.UserdataCorrupted(SH.FormatServiceGachaStatisticsFactoryItemIdInvalid(item.Item), default!),
             };
             StatisticsItem statisticsItem = source.ToStatisticsItem(unchecked((int)item.Count));
 

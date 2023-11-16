@@ -40,6 +40,6 @@ internal readonly struct ImportResult
     /// <inheritdoc/>
     public override string ToString()
     {
-        return SH.ServiceAchievementImportResultFormat.Format(Add, Update, Remove);
+        return SH.FormatServiceAchievementImportResultFormat(Add, Update, Remove);
     }
 }

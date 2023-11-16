@@ -28,7 +28,7 @@ internal sealed class ObjectCacheEntry
     /// 获取该对象是否过期
     /// </summary>
     [NotMapped]
-    public bool IsExpired { get => ExpireTime < DateTimeOffset.Now; }
+    public bool IsExpired { get => ExpireTime < DateTimeOffset.UtcNow; }
 
     /// <summary>
     /// 值字符串

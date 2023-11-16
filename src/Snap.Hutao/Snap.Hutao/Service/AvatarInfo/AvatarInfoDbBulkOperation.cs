@@ -181,13 +181,13 @@ internal sealed partial class AvatarInfoDbBulkOperation
         if (entity is null)
         {
             entity = EntityAvatarInfo.From(uid, webInfo);
-            entity.ShowcaseRefreshTime = DateTimeOffset.Now;
+            entity.ShowcaseRefreshTime = DateTimeOffset.UtcNow;
             appDbContext.AvatarInfos.AddAndSave(entity);
         }
         else
         {
             entity.Info = webInfo;
-            entity.ShowcaseRefreshTime = DateTimeOffset.Now;
+            entity.ShowcaseRefreshTime = DateTimeOffset.UtcNow;
             appDbContext.AvatarInfos.UpdateAndSave(entity);
         }
     }
@@ -200,7 +200,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             EnkaAvatarInfo avatarInfo = new() { AvatarId = avatarId };
             transformer.Transform(ref avatarInfo, source);
             entity = EntityAvatarInfo.From(uid, avatarInfo);
-            entity.CalculatorRefreshTime = DateTimeOffset.Now;
+            entity.CalculatorRefreshTime = DateTimeOffset.UtcNow;
             appDbContext.AvatarInfos.AddAndSave(entity);
         }
         else
@@ -208,7 +208,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             EnkaAvatarInfo avatarInfo = entity.Info;
             transformer.Transform(ref avatarInfo, source);
             entity.Info = avatarInfo;
-            entity.CalculatorRefreshTime = DateTimeOffset.Now;
+            entity.CalculatorRefreshTime = DateTimeOffset.UtcNow;
             appDbContext.AvatarInfos.UpdateAndSave(entity);
         }
     }
@@ -221,7 +221,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             EnkaAvatarInfo avatarInfo = new() { AvatarId = avatarId };
             transformer.Transform(ref avatarInfo, source);
             entity = EntityAvatarInfo.From(uid, avatarInfo);
-            entity.GameRecordRefreshTime = DateTimeOffset.Now;
+            entity.GameRecordRefreshTime = DateTimeOffset.UtcNow;
             appDbContext.AvatarInfos.AddAndSave(entity);
         }
         else
@@ -229,7 +229,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             EnkaAvatarInfo avatarInfo = entity.Info;
             transformer.Transform(ref avatarInfo, source);
             entity.Info = avatarInfo;
-            entity.GameRecordRefreshTime = DateTimeOffset.Now;
+            entity.GameRecordRefreshTime = DateTimeOffset.UtcNow;
             appDbContext.AvatarInfos.UpdateAndSave(entity);
         }
     }

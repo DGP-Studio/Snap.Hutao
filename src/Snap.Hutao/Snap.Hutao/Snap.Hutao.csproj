@@ -310,6 +310,10 @@
   
   <ItemGroup>
     <AdditionalFiles Include="Resource\Localization\SH.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.en.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.ja.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.ko.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
   </ItemGroup>
   
   <ItemGroup>

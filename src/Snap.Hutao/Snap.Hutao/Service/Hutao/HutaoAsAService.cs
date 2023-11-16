@@ -54,13 +54,13 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
 
             foreach ((string key, object value) in excludedIds)
             {
-                if (value is DateTimeOffset time && time < DateTimeOffset.Now - TimeSpan.FromDays(AnnouncementDuration))
+                if (value is DateTimeOffset time && time < DateTimeOffset.UtcNow - TimeSpan.FromDays(AnnouncementDuration))
                 {
                     excludedIds.Remove(key);
                 }
             }
 
-            excludedIds.TryAdd($"{announcement.Id}", DateTimeOffset.Now + TimeSpan.FromDays(AnnouncementDuration));
+            excludedIds.TryAdd($"{announcement.Id}", DateTimeOffset.UtcNow + TimeSpan.FromDays(AnnouncementDuration));
             LocalSetting.Set(SettingKeys.ExcludedAnnouncementIds, excludedIds);
 
             announcements.Remove(announcement);

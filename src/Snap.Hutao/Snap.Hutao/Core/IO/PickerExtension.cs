@@ -98,7 +98,7 @@ internal static class PickerExtension
                 .GetRequiredService<IInfoBarService>()
                 .Warning(
                     SH.CoreIOPickerExtensionPickerExceptionInfoBarTitle,
-                    SH.CoreIOPickerExtensionPickerExceptionInfoBarMessage.Format(exception.Message));
+                    SH.FormatCoreIOPickerExtensionPickerExceptionInfoBarMessage(exception.Message));
         }
     }
 }

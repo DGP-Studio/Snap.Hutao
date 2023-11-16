@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
+using System.Globalization;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.Geetest;
@@ -25,7 +26,7 @@ internal sealed partial class HomaGeetestClient
         string url;
         try
         {
-            url = template.Format(gt, challenge);
+            url = string.Format(CultureInfo.CurrentCulture, template, gt, challenge);
         }
         catch (FormatException)
         {

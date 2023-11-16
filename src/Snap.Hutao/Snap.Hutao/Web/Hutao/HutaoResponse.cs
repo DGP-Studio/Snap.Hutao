@@ -20,20 +20,20 @@ internal sealed class HutaoResponse : Response.Response, ILocalizableResponse
     public static HutaoResponse DefaultIfNull(HutaoResponse? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        response ??= new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, null), default);
+        response ??= new(InternalFailure, SH.FormatWebResponseRequestExceptionFormat(callerName, null), default);
         return response;
     }
 
     public static HutaoResponse<TData> DefaultIfNull<TData>(HutaoResponse<TData>? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        response ??= new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default, default);
-        return response ?? new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default, default);
+        response ??= new(InternalFailure, SH.FormatWebResponseRequestExceptionFormat(callerName, typeof(TData).Name), default, default);
+        return response ?? new(InternalFailure, SH.FormatWebResponseRequestExceptionFormat(callerName, typeof(TData).Name), default, default);
     }
 
     public override string ToString()
     {
-        return SH.WebResponseFormat.Format(ReturnCode, this.GetLocalizationMessageOrDefault());
+        return SH.FormatWebResponseFormat(ReturnCode, this.GetLocalizationMessageOrDefault());
     }
 }
 
@@ -52,6 +52,6 @@ internal sealed class HutaoResponse<TData> : Response.Response<TData>, ILocaliza
 
     public override string ToString()
     {
-        return SH.WebResponseFormat.Format(ReturnCode, this.GetLocalizationMessageOrDefault());
+        return SH.FormatWebResponseFormat(ReturnCode, this.GetLocalizationMessageOrDefault());
     }
 }

@@ -80,13 +80,13 @@ internal sealed class SummaryAvatarFactory
             // times
             ShowcaseRefreshTimeFormat = showcaseRefreshTime == DateTimeOffsetExtension.DatebaseDefaultTime
                 ? SH.ServiceAvatarInfoSummaryShowcaseNotRefreshed
-                : SH.ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat.Format(showcaseRefreshTime),
+                : SH.FormatServiceAvatarInfoSummaryShowcaseRefreshTimeFormat(showcaseRefreshTime.ToLocalTime()),
             GameRecordRefreshTimeFormat = gameRecordRefreshTime == DateTimeOffsetExtension.DatebaseDefaultTime
                 ? SH.ServiceAvatarInfoSummaryGameRecordNotRefreshed
-                : SH.ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat.Format(gameRecordRefreshTime),
+                : SH.FormatServiceAvatarInfoSummaryGameRecordRefreshTimeFormat(gameRecordRefreshTime.ToLocalTime()),
             CalculatorRefreshTimeFormat = calculatorRefreshTime == DateTimeOffsetExtension.DatebaseDefaultTime
                 ? SH.ServiceAvatarInfoSummaryCalculatorNotRefreshed
-                : SH.ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat.Format(calculatorRefreshTime),
+                : SH.FormatServiceAvatarInfoSummaryCalculatorRefreshTimeFormat(calculatorRefreshTime.ToLocalTime()),
         };
 
         ApplyCostumeIconOrDefault(ref propertyAvatar, avatar);

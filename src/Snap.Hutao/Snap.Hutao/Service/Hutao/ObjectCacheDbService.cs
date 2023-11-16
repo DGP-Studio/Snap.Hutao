@@ -25,7 +25,7 @@ internal sealed partial class ObjectCacheDbService : IObjectCacheDbService
             await appDbContext.ObjectCache.AddAndSaveAsync(new()
             {
                 Key = key,
-                ExpireTime = DateTimeOffset.Now.Add(expire),
+                ExpireTime = DateTimeOffset.UtcNow.Add(expire),
                 Value = JsonSerializer.Serialize(data, jsonSerializerOptions),
             }).ConfigureAwait(false);
         }

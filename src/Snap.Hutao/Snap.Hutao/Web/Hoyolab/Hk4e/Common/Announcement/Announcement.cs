@@ -35,20 +35,20 @@ internal sealed class Announcement : AnnouncementContent
                 TimeSpan span = StartTime - now;
                 if (span.TotalDays <= 1)
                 {
-                    return SH.WebAnnouncementTimeHoursBeginFormat.Format((int)span.TotalHours);
+                    return SH.FormatWebAnnouncementTimeHoursBeginFormat((int)span.TotalHours);
                 }
 
-                return SH.WebAnnouncementTimeDaysBeginFormat.Format((int)span.TotalDays);
+                return SH.FormatWebAnnouncementTimeDaysBeginFormat((int)span.TotalDays);
             }
             else
             {
                 TimeSpan span = EndTime - now;
                 if (span.TotalDays <= 1)
                 {
-                    return SH.WebAnnouncementTimeHoursEndFormat.Format((int)span.TotalHours);
+                    return SH.FormatWebAnnouncementTimeHoursEndFormat((int)span.TotalHours);
                 }
 
-                return SH.WebAnnouncementTimeDaysEndFormat.Format((int)span.TotalDays);
+                return SH.FormatWebAnnouncementTimeDaysEndFormat((int)span.TotalDays);
             }
         }
     }
@@ -68,9 +68,7 @@ internal sealed class Announcement : AnnouncementContent
     {
         get
         {
-            // TODO: validate correctness
-            // UTC+8
-            DateTimeOffset currentTime = DateTimeOffset.Now;
+            DateTimeOffset currentTime = DateTimeOffset.UtcNow;
             TimeSpan current = currentTime - StartTime;
             TimeSpan total = EndTime - StartTime;
             return current / total;

@@ -322,11 +322,11 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                         if (result.Interrupted)
                         {
                             infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-                            infoBarService.Warning(SH.ViewModelCultivationBatchAddIncompletedFormat.Format(result.SucceedCount, result.SkippedCount));
+                            infoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompletedFormat(result.SucceedCount, result.SkippedCount));
                         }
                         else
                         {
-                            infoBarService.Success(SH.ViewModelCultivationBatchAddCompletedFormat.Format(result.SucceedCount, result.SkippedCount));
+                            infoBarService.Success(SH.FormatViewModelCultivationBatchAddCompletedFormat(result.SucceedCount, result.SkippedCount));
                         }
                     }
                 }

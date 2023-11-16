@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
@@ -180,7 +179,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             }
             else
             {
-                infoBarService.Warning(SH.ViewModelSettingClearWebCachePathInvalid.Format(cacheFolder));
+                infoBarService.Warning(SH.FormatViewModelSettingClearWebCachePathInvalid(cacheFolder));
             }
         }
     }

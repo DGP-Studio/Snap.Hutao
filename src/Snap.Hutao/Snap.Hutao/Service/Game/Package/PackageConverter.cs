@@ -8,6 +8,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -236,7 +237,7 @@ internal sealed partial class PackageConverter
     private async ValueTask SkipOrDownloadAsync(ItemOperationInfo info, PackageConvertContext context, IProgress<PackageReplaceStatus> progress)
     {
         // 还原正确的远程地址
-        string remoteName = info.Remote.RelativePath.Format(context.ToDataFolderName);
+        string remoteName = string.Format(CultureInfo.CurrentCulture, info.Remote.RelativePath, context.ToDataFolderName);
         string cacheFile = context.GetServerCacheTargetFilePath(remoteName);
 
         if (File.Exists(cacheFile))
@@ -283,7 +284,7 @@ internal sealed partial class PackageConverter
                     {
                         // System.IO.IOException: The response ended prematurely.
                         // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
-                        ThrowHelper.PackageConvert(SH.ServiceGamePackageRequestScatteredFileFailed.Format(remoteName), ex);
+                        ThrowHelper.PackageConvert(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName), ex);
                     }
                 }
             }
@@ -306,8 +307,8 @@ internal sealed partial class PackageConverter
             // 先备份
             if (moveToBackup)
             {
-                string localFileName = info.Local.RelativePath.Format(context.FromDataFolderName);
-                progress.Report(new(SH.ServiceGamePackageConvertMoveFileBackupFormat.Format(localFileName)));
+                string localFileName = string.Format(CultureInfo.CurrentCulture, info.Local.RelativePath, context.FromDataFolderName);
+                progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileBackupFormat(localFileName)));
 
                 string localFilePath = context.GetGameFolderFilePath(localFileName);
                 string cacheFilePath = context.GetServerCacheBackupFilePath(localFileName);
@@ -322,8 +323,8 @@ internal sealed partial class PackageConverter
             // 后替换
             if (moveToTarget)
             {
-                string targetFileName = info.Remote.RelativePath.Format(context.ToDataFolderName);
-                progress.Report(new(SH.ServiceGamePackageConvertMoveFileRestoreFormat.Format(targetFileName)));
+                string targetFileName = string.Format(CultureInfo.CurrentCulture, info.Remote.RelativePath, context.ToDataFolderName);
+                progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileRestoreFormat(targetFileName)));
 
                 string targetFilePath = context.GetGameFolderFilePath(targetFileName);
                 string? targetFileDirectory = Path.GetDirectoryName(targetFilePath);
@@ -339,7 +340,7 @@ internal sealed partial class PackageConverter
         // 重命名 _Data 目录
         try
         {
-            progress.Report(new(SH.ServiceGamePackageConvertMoveFileRenameFormat.Format(context.FromDataFolderName, context.ToDataFolderName)));
+            progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileRenameFormat(context.FromDataFolderName, context.ToDataFolderName)));
             DirectoryOperation.Move(context.FromDataFolder, context.ToDataFolder);
         }
         catch (IOException ex)

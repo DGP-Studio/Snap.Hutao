@@ -39,13 +39,13 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         {
             if (!metadataOptions.IsCurrentLocale(uigf.Info.Language))
             {
-                string message = SH.ServiceGachaUIGFImportLanguageNotMatch.Format(uigf.Info.Language, metadataOptions.LanguageCode);
+                string message = SH.FormatServiceGachaUIGFImportLanguageNotMatch(uigf.Info.Language, metadataOptions.LanguageCode);
                 ThrowHelper.InvalidOperation(message);
             }
 
             if (!uigf.IsMajor2Minor2OrLowerListValid(out long id))
             {
-                string message = SH.ServiceGachaLogUIGFImportItemInvalidFormat.Format(id);
+                string message = SH.FormatServiceGachaLogUIGFImportItemInvalidFormat(id);
                 ThrowHelper.InvalidOperation(message);
             }
         }
@@ -54,7 +54,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         {
             if (!uigf.IsMajor2Minor3OrHigherListValid(out long id))
             {
-                string message = SH.ServiceGachaLogUIGFImportItemInvalidFormat.Format(id);
+                string message = SH.FormatServiceGachaLogUIGFImportItemInvalidFormat(id);
                 ThrowHelper.InvalidOperation(message);
             }
         }
@@ -98,7 +98,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         // 因此从尾部开始查找
         if (currentTypeToAdd.LastOrDefault(item => item.ItemId is 0U) is { } item)
         {
-            ThrowHelper.InvalidOperation(SH.ServiceGachaLogUIGFImportItemInvalidFormat.Format(item.Id));
+            ThrowHelper.InvalidOperation(SH.FormatServiceGachaLogUIGFImportItemInvalidFormat(item.Id));
         }
     }
 }

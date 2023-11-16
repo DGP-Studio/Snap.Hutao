@@ -30,7 +30,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
         catch (SqliteException ex)
         {
-            string message = SH.ServiceGachaLogArchiveCollectionUserdataCorruptedMessage.Format(ex.Message);
+            string message = SH.FormatServiceGachaLogArchiveCollectionUserdataCorruptedMessage(ex.Message);
             throw ThrowHelper.UserdataCorrupted(message, ex);
         }
     }

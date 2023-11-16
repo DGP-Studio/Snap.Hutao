@@ -41,7 +41,7 @@ internal sealed class GachaLogFetchStatus
         {
             return AuthKeyTimeout
                 ? SH.ViewDialogGachaLogRefreshProgressAuthkeyTimeout
-                : SH.ViewDialogGachaLogRefreshProgressDescription.Format(ConfigType.GetLocalizedDescription());
+                : SH.FormatViewDialogGachaLogRefreshProgressDescription(ConfigType.GetLocalizedDescription());
         }
     }
 }

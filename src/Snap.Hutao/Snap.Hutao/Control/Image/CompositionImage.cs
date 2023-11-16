@@ -110,7 +110,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
 
         if (exception is HttpRequestException httpRequestException)
         {
-            infoBarService.Error(httpRequestException, SH.ControlImageCompositionImageHttpRequest.Format(uri));
+            infoBarService.Error(httpRequestException, SH.FormatControlImageCompositionImageHttpRequest(uri));
         }
         else
         {

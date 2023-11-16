@@ -29,7 +29,7 @@ internal sealed class Team : List<AvatarView>
             Add(new(idAvatarMap[id]));
         }
 
-        Rate = SH.ModelBindingHutaoTeamUpCountFormat.Format(team.Rate);
+        Rate = SH.FormatModelBindingHutaoTeamUpCountFormat(team.Rate);
     }
 
     /// <summary>

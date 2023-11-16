@@ -55,7 +55,7 @@ internal sealed class WindowController
     {
         RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
-        window.AppWindow.Title = SH.AppNameAndVersion.Format(hutaoOptions.Version);
+        window.AppWindow.Title = SH.FormatAppNameAndVersion(hutaoOptions.Version);
         window.AppWindow.SetIcon(Path.Combine(hutaoOptions.InstalledLocation, "Assets/Logo.ico"));
         ExtendsContentIntoTitleBar();
 

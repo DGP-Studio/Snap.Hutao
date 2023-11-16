@@ -53,11 +53,11 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
         }
         catch (FileNotFoundException ex)
         {
-            ThrowHelper.GameFileOperation(SH.ServiceGameSetMultiChannelConfigFileNotFound.Format(configPath), ex);
+            ThrowHelper.GameFileOperation(SH.FormatServiceGameSetMultiChannelConfigFileNotFound(configPath), ex);
         }
         catch (DirectoryNotFoundException ex)
         {
-            ThrowHelper.GameFileOperation(SH.ServiceGameSetMultiChannelConfigFileNotFound.Format(configPath), ex);
+            ThrowHelper.GameFileOperation(SH.FormatServiceGameSetMultiChannelConfigFileNotFound(configPath), ex);
         }
         catch (UnauthorizedAccessException ex)
         {
