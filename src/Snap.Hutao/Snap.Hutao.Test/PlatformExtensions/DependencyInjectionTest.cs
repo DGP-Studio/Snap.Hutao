@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Snap.Hutao.Test;
+namespace Snap.Hutao.Test.PlatformExtensions;
 
 [TestClass]
 public sealed class DependencyInjectionTest

@@ -51,6 +51,8 @@ IPersistFile
 IShellLinkW
 ShellLink
 SHELL_LINK_DATA_FLAGS
+FileOpenDialog
+IFileOpenDialog
 
 // WinRT
 IMemoryBufferByteAccess

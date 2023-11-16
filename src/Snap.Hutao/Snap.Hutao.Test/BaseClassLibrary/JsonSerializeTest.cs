@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Snap.Hutao.Test;
+namespace Snap.Hutao.Test.BaseClassLibrary;
 
 [TestClass]
 public class JsonSerializeTest
