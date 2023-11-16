@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using System.Collections.Frozen;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.InterChange.Inventory;
 

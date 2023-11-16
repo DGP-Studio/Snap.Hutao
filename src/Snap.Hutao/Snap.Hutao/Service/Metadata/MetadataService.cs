@@ -9,7 +9,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
-using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;

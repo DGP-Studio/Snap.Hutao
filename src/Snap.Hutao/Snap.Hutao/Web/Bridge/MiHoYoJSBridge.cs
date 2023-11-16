@@ -23,7 +23,6 @@ namespace Snap.Hutao.Web.Bridge;
 /// </summary>
 [HighQuality]
 [SuppressMessage("", "CA1001")]
-[SuppressMessage("", "CA1308")]
 internal class MiHoYoJSBridge
 {
     private const string InitializeJsInterfaceScript2 = """
@@ -492,8 +491,6 @@ internal class MiHoYoJSBridge
         ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
         if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
         {
-            // Execute this solve issue: When open same site second time,there might be no bridge init.
-            // coreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
             coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
         }
     }

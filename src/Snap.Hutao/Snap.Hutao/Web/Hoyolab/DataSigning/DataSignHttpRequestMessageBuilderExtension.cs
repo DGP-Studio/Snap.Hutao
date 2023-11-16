@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Request.Builder;
-using System.Net.Http;
-using System.Text;
 
 namespace Snap.Hutao.Web.Hoyolab.DataSigning;
 

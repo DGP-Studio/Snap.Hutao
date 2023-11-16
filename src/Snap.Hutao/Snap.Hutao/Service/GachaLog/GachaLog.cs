@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections.Frozen;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.GachaLog;
 
