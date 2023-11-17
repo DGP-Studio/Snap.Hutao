@@ -2718,7 +2718,7 @@
     <value>クールタイム中</value>
   </data>
   <data name="WebDailyNoteTransformerReached" xml:space="preserve">
-    <value>利用可能</value>
+    <value>使用可能</value>
   </data>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
     <value>使用可能</value>
