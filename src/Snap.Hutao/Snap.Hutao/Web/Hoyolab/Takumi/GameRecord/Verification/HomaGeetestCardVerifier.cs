@@ -7,7 +7,7 @@ using Snap.Hutao.Web.Hutao.Geetest;
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, Key = GeetestCardVerifierType.Custom)]
+[Injection(InjectAs.Transient, typeof(IGeetestCardVerifier), Key = GeetestCardVerifierType.Custom)]
 internal sealed partial class HomaGeetestCardVerifier : IGeetestCardVerifier
 {
     private readonly CardClient cardClient;
