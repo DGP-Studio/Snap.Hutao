@@ -599,6 +599,12 @@
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>{0} つのアチーブメントを追加 | {1} つのアチーブメントを更新 |{2} つのアチーブメントを削除</value>
   </data>
+  <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
+    <value>UIAF Json 文件</value>
+  </data>
+  <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
+    <value>打开 UIAF Json 文件</value>
+  </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>複数の同一アチーブメント Idがアーカイブに混在しています</value>
   </data>
@@ -868,6 +874,9 @@
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>ゲーム本体を選択する</value>
+  </data>
+  <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
+    <value>游戏本体</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Unity ログファイルが見つかりません</value>
@@ -1334,6 +1343,9 @@
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>{0} を削除してもよろしいでしょうか？</value>
   </data>
+  <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
+    <value>导出 UIAF Json 文件到指定路径</value>
+  </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>素材リスト取得中、しばらくお待ちください</value>
   </data>
@@ -1460,8 +1472,14 @@
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
     <value>胡桃クラウドで祈願履歴を同期します</value>
   </data>
+  <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
+    <value>导出 UIGF Json 文件到指定路径</value>
+  </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>胡桃クラウドにアップロード中</value>
+  </data>
+  <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
+    <value>导入 UIGF Json 文件</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
     <value>上記の規約を熟読し、それに同意します</value>
