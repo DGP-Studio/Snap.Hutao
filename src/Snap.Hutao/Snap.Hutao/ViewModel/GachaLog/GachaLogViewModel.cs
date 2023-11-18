@@ -17,7 +17,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
-using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
@@ -31,13 +30,13 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
     private readonly HutaoCloudStatisticsViewModel hutaoCloudStatisticsViewModel;
     private readonly IGachaLogQueryProviderFactory gachaLogQueryProviderFactory;
+    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly HutaoCloudViewModel hutaoCloudViewModel;
     private readonly IProgressFactory progressFactory;
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
-    private readonly IPickerFactory pickerFactory;
     private readonly ITaskContext taskContext;
 
     private ObservableCollection<GachaArchive>? archives;
@@ -215,52 +214,52 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("ImportFromUIGFJsonCommand")]
     private async Task ImportFromUIGFJsonAsync()
     {
-        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, SH.FilePickerImportCommit, ".json");
-        (bool isPickerOk, ValueFile file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
-        if (isPickerOk)
+        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(
+            SH.ViewModelGachaUIGFImportPickerTitile,
+            [(SH.ViewModelGachaLogExportFileType, "*.json")]);
+
+        if (!isOk)
         {
-            ValueResult<bool, UIGF?> result = await file.DeserializeFromJsonAsync<UIGF>(options).ConfigureAwait(false);
-            if (result.TryGetValue(out UIGF? uigf))
-            {
-                await TryImportUIGFInternalAsync(uigf).ConfigureAwait(false);
-            }
-            else
-            {
-                infoBarService.Error(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
-            }
+            return;
+        }
+
+        ValueResult<bool, UIGF?> result = await file.DeserializeFromJsonAsync<UIGF>(options).ConfigureAwait(false);
+        if (result.TryGetValue(out UIGF? uigf))
+        {
+            await TryImportUIGFInternalAsync(uigf).ConfigureAwait(false);
+        }
+        else
+        {
+            infoBarService.Error(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
         }
     }
 
     [Command("ExportToUIGFJsonCommand")]
     private async Task ExportToUIGFJsonAsync()
     {
-        if (SelectedArchive is not null)
+        if (SelectedArchive is null)
         {
-            Dictionary<string, IList<string>> fileTypes = new()
-            {
-                [SH.ViewModelGachaLogExportFileType] = [".json"],
-            };
+            return;
+        }
 
-            FileSavePicker picker = pickerFactory.GetFileSavePicker(
-                PickerLocationId.Desktop,
-                $"{SelectedArchive.Uid}.json",
-                SH.FilePickerExportCommit,
-                fileTypes);
+        (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
+            SH.ViewModelGachaLogUIGFExportPickerTitle,
+            $"{SelectedArchive.Uid}.json",
+            [(SH.ViewModelGachaLogExportFileType, "*.json")]);
 
-            (bool isPickerOk, ValueFile file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
+        if (!isOk)
+        {
+            return;
+        }
 
-            if (isPickerOk)
-            {
-                UIGF uigf = await gachaLogService.ExportToUIGFAsync(SelectedArchive).ConfigureAwait(false);
-                if (await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false))
-                {
-                    infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
-                }
-                else
-                {
-                    infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
-                }
-            }
+        UIGF uigf = await gachaLogService.ExportToUIGFAsync(SelectedArchive).ConfigureAwait(false);
+        if (await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false))
+        {
+            infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
+        }
+        else
+        {
+            infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
         }
     }
 

@@ -26,7 +26,6 @@ using Snap.Hutao.ViewModel.Guide;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
-using Windows.Storage.Pickers;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;
@@ -41,6 +40,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 {
     private readonly HomeCardOptions homeCardOptions = new();
 
+    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGameLocatorFactory gameLocatorFactory;
@@ -50,7 +50,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
-    private readonly IPickerFactory pickerFactory;
     private readonly HotKeyOptions hotKeyOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
@@ -143,8 +142,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("SetPowerShellPathCommand")]
     private async Task SetPowerShellPathAsync()
     {
-        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.DocumentsLibrary, SH.FilePickerPowerShellCommit, ".exe");
-        (bool isOk, ValueFile file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
+        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(SH.FilePickerPowerShellCommit, [("PowerShell", "powershell.exe")]);
 
         if (isOk && Path.GetFileNameWithoutExtension(file).Equals("POWERSHELL", StringComparison.OrdinalIgnoreCase))
         {
@@ -200,12 +198,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     }
 
     [Command("SetDataFolderCommand")]
-    private async Task SetDataFolderAsync()
+    private void SetDataFolder()
     {
-        (bool isOk, string folder) = await pickerFactory
-            .GetFolderPicker()
-            .TryPickSingleFolderAsync()
-            .ConfigureAwait(false);
+        (bool isOk, string folder) = fileSystemPickerInteraction.PickFolder();
 
         if (isOk)
         {

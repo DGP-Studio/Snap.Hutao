@@ -19,3 +19,22 @@ public sealed class UnsafeRuntimeBehaviorTest
         }
     }
 }
+
+[TestClass]
+public sealed class NewModifierRuntimeBehaviorTest
+{
+    private interface IBase
+    {
+        int GetValue();
+    }
+
+    private interface IBaseImpl : IBase
+    {
+        new int GetValue();
+    }
+
+    private sealed class Impl : IBaseImpl
+    {
+        public int GetValue() => 1;
+    }
+}

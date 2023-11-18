@@ -15,7 +15,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
-using Windows.Storage.Pickers;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
@@ -33,8 +32,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     private readonly SortDescription uncompletedItemsFirstSortDescription = new(nameof(AchievementView.IsChecked), SortDirection.Ascending);
     private readonly SortDescription completionTimeSortDescription = new(nameof(AchievementView.Time), SortDirection.Descending);
 
+    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IPickerFactory pickerFactory;
     private readonly AchievementImporter achievementImporter;
     private readonly IAchievementService achievementService;
     private readonly IMetadataService metadataService;
@@ -257,17 +256,12 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         if (SelectedArchive is not null && Achievements is not null)
         {
-            string fileName = $"{achievementService.CurrentArchive?.Name}.json";
-            Dictionary<string, IList<string>> fileTypes = new()
-            {
-                [SH.ViewModelAchievementExportFileType] = [".json"],
-            };
+            (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
+                SH.ViewModelAchievementUIAFExportPickerTitle,
+                $"{achievementService.CurrentArchive?.Name}.json",
+                [(SH.ViewModelAchievementExportFileType, "*.json")]);
 
-            FileSavePicker picker = pickerFactory
-                .GetFileSavePicker(PickerLocationId.Desktop, fileName, SH.FilePickerExportCommit, fileTypes);
-
-            (bool isPickerOk, ValueFile file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
-            if (isPickerOk)
+            if (isOk)
             {
                 UIAF uiaf = await achievementService.ExportToUIAFAsync(SelectedArchive).ConfigureAwait(false);
                 if (await file.SerializeToJsonAsync(uiaf, options).ConfigureAwait(false))

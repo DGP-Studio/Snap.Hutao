@@ -20,6 +20,7 @@
                 <ResourceDictionary Source="ms-appx:///Control/Theme/NumericValue.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/PageOverride.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/PivotOverride.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Control/Theme/ScrollViewer.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/SettingsStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/TransitionCollection.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Uri.xaml"/>

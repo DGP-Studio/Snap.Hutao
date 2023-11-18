@@ -8,8 +8,7 @@ internal static partial class PInvoke
 {
     /// <inheritdoc cref="CoCreateInstance(Guid*, object, CLSCTX, Guid*, out object)"/>
     internal static unsafe HRESULT CoCreateInstance<TClass, TInterface>(object? pUnkOuter, CLSCTX dwClsContext, out TInterface ppv)
-where TInterface : class
-
+        where TInterface : class
     {
         HRESULT hr = CoCreateInstance(typeof(TClass).GUID, pUnkOuter, dwClsContext, typeof(TInterface).GUID, out object o);
         ppv = (TInterface)o;

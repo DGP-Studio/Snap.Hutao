@@ -11,7 +11,6 @@ using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
-using Windows.Storage.Pickers;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 
 namespace Snap.Hutao.ViewModel.Achievement;
@@ -24,11 +23,11 @@ namespace Snap.Hutao.ViewModel.Achievement;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AchievementImporter
 {
+    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IAchievementService achievementService;
     private readonly IClipboardProvider clipboardInterop;
     private readonly IInfoBarService infoBarService;
-    private readonly IPickerFactory pickerFactory;
     private readonly JsonSerializerOptions options;
     private readonly ITaskContext taskContext;
 
@@ -65,10 +64,9 @@ internal sealed partial class AchievementImporter
     {
         if (achievementService.CurrentArchive is { } archive)
         {
-            ValueResult<bool, ValueFile> pickerResult = await pickerFactory
-                .GetFileOpenPicker(PickerLocationId.Desktop, SH.FilePickerImportCommit, ".json")
-                .TryPickSingleFileAsync()
-                .ConfigureAwait(false);
+            ValueResult<bool, ValueFile> pickerResult = fileSystemPickerInteraction.PickFile(
+                SH.ServiceAchievementUIAFImportPickerTitile,
+                [(SH.ServiceAchievementUIAFImportPickerFilterText, ".json")]);
 
             if (pickerResult.TryGetValue(out ValueFile file))
             {

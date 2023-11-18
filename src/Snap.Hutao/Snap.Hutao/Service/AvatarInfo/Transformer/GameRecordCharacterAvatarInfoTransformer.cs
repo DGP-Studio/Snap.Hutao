@@ -44,21 +44,18 @@ internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTran
 
         Equip equip = avatarInfo.EquipList.Last();
 
-        if (equip.ItemId != source.Weapon.Id)
+        // 切换了武器
+        equip.ItemId = source.Weapon.Id;
+        equip.Weapon = new()
         {
-            // 切换了武器
-            equip.ItemId = source.Weapon.Id;
-            equip.Weapon = new()
+            Level = source.Weapon.Level,
+            AffixMap = new()
             {
-                Level = source.Weapon.Level,
-                AffixMap = new()
-                {
-                    [100000 + source.Weapon.Id] = source.Weapon.AffixLevel - 1,
-                },
-            };
+                [100000U + source.Weapon.Id] = source.Weapon.AffixLevel - 1,
+            },
+        };
 
-            // Special case here, don't set EQUIP_WEAPON
-            equip.Flat = new() { ItemType = ItemType.ITEM_WEAPON, };
-        }
+        // Special case here, don't set EQUIP_WEAPON
+        equip.Flat = new() { ItemType = ItemType.ITEM_WEAPON, };
     }
 }

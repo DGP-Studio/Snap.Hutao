@@ -10,11 +10,6 @@ namespace Snap.Hutao.Core.Windowing;
 internal enum BackdropType
 {
     /// <summary>
-    /// 透明
-    /// </summary>
-    Transparent = -1,
-
-    /// <summary>
     /// 无
     /// </summary>
     None = 0,

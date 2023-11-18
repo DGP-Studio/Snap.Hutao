@@ -121,7 +121,10 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Inner.Title}"/>
+                                <TextBlock
+                                    Text="{Binding Inner.Title}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap"/>
                                 <Border
                                     Margin="4,0,0,0"
                                     Padding="4,1"
@@ -144,7 +147,8 @@
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding Inner.Description}"
-                                TextTrimming="CharacterEllipsis"/>
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap"/>
                         </StackPanel>
                         <TextBlock
                             Grid.Column="1"
