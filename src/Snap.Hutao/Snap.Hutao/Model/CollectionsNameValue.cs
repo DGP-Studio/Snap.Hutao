@@ -5,15 +5,14 @@ namespace Snap.Hutao.Model;
 
 internal static class CollectionsNameValue
 {
-    public static List<NameValue<TEnum>> ListFromEnum<TEnum>()
+    public static List<NameValue<TEnum>> FromEnum<TEnum>()
         where TEnum : struct, Enum
     {
-        return Enum.GetValues<TEnum>().Select(x => new NameValue<TEnum>(x.ToString(), x)).ToList();
+        return [.. Enum.GetValues<TEnum>().Select(x => new NameValue<TEnum>(x.ToString(), x))];
     }
 
-    public static List<NameValue<TEnum>> ListFromEnum<TEnum>(Func<TEnum, string> nameSelector)
-        where TEnum : struct, Enum
+    public static List<NameValue<TSource>> From<TSource>(IEnumerable<TSource> sources, Func<TSource, string> nameSelector)
     {
-        return Enum.GetValues<TEnum>().Select(x => new NameValue<TEnum>(nameSelector(x), x)).ToList();
+        return [.. sources.Select(x => new NameValue<TSource>(nameSelector(x), x))];
     }
 }

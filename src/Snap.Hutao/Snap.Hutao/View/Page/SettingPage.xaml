@@ -375,34 +375,40 @@
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                     Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewPageSettingDangerousHeader}"/>
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="{Binding Options.IsAdvancedLaunchOptionsEnabled}"
-                    Message="{shcm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
-                    Severity="Error"/>
                 <cwc:SettingsCard
-                    Description="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}"
                     IsEnabled="{Binding HutaoOptions.IsElevated}">
+                    <cwc:SettingsCard.Description>
+                        <StackPanel>
+                            <TextBlock
+                                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                Text="{shcm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
+                                Visibility="{Binding Options.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}" Visibility="{Binding Options.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                        </StackPanel>
+                    </cwc:SettingsCard.Description>
                     <StackPanel Orientation="Horizontal">
                         <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                         <ToggleSwitch Width="120" IsOn="{Binding Options.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                     </StackPanel>
                 </cwc:SettingsCard>
-                <InfoBar
-                    Margin="0,3,0,0"
-                    IsClosable="False"
-                    IsOpen="True"
-                    Message="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"
-                    Severity="Error"/>
                 <cwc:SettingsCard
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingDangerousAction}"
                     Command="{Binding DeleteUsersCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingDeleteUserDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingDeleteUserHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE756;}"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True">
+                    <cwc:SettingsCard.Description>
+                        <StackPanel>
+                            <TextBlock
+                                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                Text="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"
+                                Visibility="{Binding Options.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingDeleteUserDescription}"/>
+                        </StackPanel>
+                    </cwc:SettingsCard.Description>
+                </cwc:SettingsCard>
             </StackPanel>
         </Grid>
     </ScrollViewer>

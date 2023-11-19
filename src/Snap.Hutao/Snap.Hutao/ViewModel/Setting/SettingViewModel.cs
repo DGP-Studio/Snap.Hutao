@@ -56,7 +56,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly AppOptions appOptions;
 
     private NameValue<BackdropType>? selectedBackdropType;
-    private NameValue<string>? selectedCulture;
+    private NameValue<CultureInfo>? selectedCulture;
 
     /// <summary>
     /// 应用程序设置
@@ -73,9 +73,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public HutaoPassportViewModel Passport { get => hutaoPassportViewModel; }
 
-    /// <summary>
-    /// 选中的背景类型
-    /// </summary>
     public NameValue<BackdropType>? SelectedBackdropType
     {
         get => selectedBackdropType ??= Options.BackdropTypes.Single(t => t.Value == Options.BackdropType);
@@ -88,17 +85,14 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
-    /// <summary>
-    /// 选中的语言
-    /// </summary>
-    public NameValue<string>? SelectedCulture
+    public NameValue<CultureInfo>? SelectedCulture
     {
-        get => selectedCulture ??= Options.Cultures.FirstOrDefault(c => c.Value == Options.CurrentCulture.Name);
+        get => selectedCulture ??= Options.GetCurrentCultureForSelectionOrDefault();
         set
         {
             if (SetProperty(ref selectedCulture, value) && value is not null)
             {
-                Options.CurrentCulture = CultureInfo.GetCultureInfo(value.Value);
+                Options.CurrentCulture = value.Value;
                 AppInstance.Restart(string.Empty);
             }
         }

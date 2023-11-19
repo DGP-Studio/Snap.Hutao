@@ -25,7 +25,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     private string nextOrCompleteButtonText = SH.ViewModelGuideActionNext;
     private bool isNextOrCompleteButtonEnabled = true;
-    private NameValue<string>? selectedCulture;
+    private NameValue<CultureInfo>? selectedCulture;
     private bool isTermOfServiceAgreed;
     private bool isPrivacyPolicyAgreed;
     private bool isIssueReportAgreed;
@@ -79,14 +79,14 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
-    public NameValue<string>? SelectedCulture
+    public NameValue<CultureInfo>? SelectedCulture
     {
-        get => selectedCulture ??= AppOptions.Cultures.FirstOrDefault(c => c.Value == AppOptions.CurrentCulture.Name);
+        get => selectedCulture ??= AppOptions.GetCurrentCultureForSelectionOrDefault();
         set
         {
             if (SetProperty(ref selectedCulture, value) && value is not null)
             {
-                AppOptions.CurrentCulture = CultureInfo.GetCultureInfo(value.Value);
+                AppOptions.CurrentCulture = value.Value;
                 ++State;
                 AppInstance.Restart(string.Empty);
             }

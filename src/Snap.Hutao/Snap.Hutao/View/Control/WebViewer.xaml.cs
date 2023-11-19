@@ -43,6 +43,13 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 
     public void Receive(UserChangedMessage message)
     {
+        if (message.IsOnlyRoleChanged)
+        {
+            // Only role changed, we can't respond to this
+            // since we only set selection locally.
+            return;
+        }
+
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         taskContext.InvokeOnMainThread(RefreshWebview2Content);
     }
