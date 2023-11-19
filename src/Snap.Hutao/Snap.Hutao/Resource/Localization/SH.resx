@@ -791,6 +791,12 @@
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>参量质变仪已准备完成</value>
   </data>
+  <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
+    <value>正在提瓦特大陆中探索</value>
+  </data>
+  <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
+    <value>由 {0} 启动</value>
+  </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
     <value>无法获取祈愿记录：{0}</value>
   </data>
