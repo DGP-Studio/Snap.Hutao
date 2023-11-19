@@ -69,6 +69,11 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         {
             if (SetProperty(ref selectedArchive, value))
             {
+                if (IsViewDisposed)
+                {
+                    return;
+                }
+
                 achievementService.CurrentArchive = value;
                 UpdateAchievementsAsync(value).SafeForget();
             }
