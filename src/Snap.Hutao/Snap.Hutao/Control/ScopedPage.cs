@@ -31,22 +31,7 @@ internal class ScopedPage : Page
     {
         unloadEventHandler = OnUnloaded;
         Unloaded += unloadEventHandler;
-        currentScope = Ioc.Default.CreateScope();
-        DisposePreviousScope();
-
-        // track current
-        PreviousScopeReference.SetTarget(currentScope);
-    }
-
-    /// <summary>
-    /// 释放上个范围
-    /// </summary>
-    public static void DisposePreviousScope()
-    {
-        if (PreviousScopeReference.TryGetTarget(out IServiceScope? scope))
-        {
-            scope.Dispose();
-        }
+        currentScope = Ioc.Default.GetRequiredService<ScopedPageScopeReferenceTracker>().CreateScope();
     }
 
     /// <summary>
