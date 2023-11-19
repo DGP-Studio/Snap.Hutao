@@ -791,6 +791,12 @@
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>매개 변수 변환기가 준비되었습니다</value>
   </data>
+  <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
+    <value>正在提瓦特大陆中探索</value>
+  </data>
+  <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
+    <value>由 {0} 启动</value>
+  </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
     <value>기원 기록을 가져올 수 없음：{0}</value>
   </data>
