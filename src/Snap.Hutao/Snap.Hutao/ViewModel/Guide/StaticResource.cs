@@ -47,7 +47,7 @@ internal static class StaticResource
     {
         { "AchievementIcon", 1 },
         { "AvatarCard", 0 },
-        { "AvatarIcon", 1 },
+        { "AvatarIcon", 2 },
         { "Bg", 1 },
         { "ChapterIcon", 0 },
         { "CodexMonster", 0 },

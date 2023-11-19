@@ -4,7 +4,7 @@
 namespace Snap.Hutao.Web.Hoyolab.DataSigning;
 
 /// <summary>
-/// 动态密钥版本
+/// 数据签名版本
 /// </summary>
 [HighQuality]
 internal enum DataSignAlgorithmVersion

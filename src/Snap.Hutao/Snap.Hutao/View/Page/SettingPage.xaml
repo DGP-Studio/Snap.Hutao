@@ -108,7 +108,7 @@
                 </cwc:SettingsExpander>
                 <!--
                     https://github.com/DGP-Studio/Snap.Hutao/issues/1072
-                    ItemsRepeater will behave abnormal is no direct scrollhost wrapping it
+                    ItemsRepeater will behave abnormal if no direct scrollhost wrapping it
                 -->
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
                     <cwc:SettingsExpander
@@ -252,8 +252,6 @@
                             VerticalAlignment="Center"
                             IsOn="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Mode=TwoWay}"/>
                     </StackPanel>
-
-
                 </cwc:SettingsCard>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewpageSettingHomeHeader}"/>
