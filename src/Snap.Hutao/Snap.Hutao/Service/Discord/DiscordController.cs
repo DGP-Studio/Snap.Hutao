@@ -23,14 +23,14 @@ internal static class DiscordController
 
     public static async ValueTask<Result> ClearActivityAsync()
     {
-        ResetManager(HutaoAppId);
+        ResetManagerOrIgnore(HutaoAppId);
         ActivityManager activityManager = discordManager.GetActivityManager();
         return await activityManager.ClearActivityAsync().ConfigureAwait(false);
     }
 
     public static async ValueTask<Result> SetPlayingYuanShenAsync()
     {
-        ResetManager(YuanshenId);
+        ResetManagerOrIgnore(YuanshenId);
         ActivityManager activityManager = discordManager.GetActivityManager();
 
         Activity activity = default;
@@ -47,7 +47,7 @@ internal static class DiscordController
 
     public static async ValueTask<Result> SetPlayingGenshinImpactAsync()
     {
-        ResetManager(GenshinImpactId);
+        ResetManagerOrIgnore(GenshinImpactId);
         ActivityManager activityManager = discordManager.GetActivityManager();
 
         Activity activity = default;
@@ -77,15 +77,20 @@ internal static class DiscordController
     }
 
     [MemberNotNull(nameof(discordManager))]
-    private static unsafe void ResetManager(long clientId)
+    private static unsafe void ResetManagerOrIgnore(long clientId)
     {
+        if (discordManager?.ClientId == clientId)
+        {
+            return;
+        }
+
         lock (SyncRoot)
         {
             discordManager?.Dispose();
         }
 
         discordManager = new(clientId, CreateFlags.NoRequireDiscord);
-        discordManager.SetLogHook(Snap.Discord.GameSDK.LogLevel.Debug, SetLogHookHandler.Create(&DebugLogDiscordMessage));
+        discordManager.SetLogHook(Snap.Discord.GameSDK.LogLevel.Debug, SetLogHookHandler.Create(&DebugWriteDiscordMessage));
 
         if (isInitialized)
         {
@@ -96,7 +101,7 @@ internal static class DiscordController
         isInitialized = true;
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        static unsafe void DebugLogDiscordMessage(Snap.Discord.GameSDK.LogLevel logLevel, byte* ptr)
+        static unsafe void DebugWriteDiscordMessage(Snap.Discord.GameSDK.LogLevel logLevel, byte* ptr)
         {
             ReadOnlySpan<byte> utf8 = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(ptr);
             string message = System.Text.Encoding.UTF8.GetString(utf8);
@@ -104,6 +109,7 @@ internal static class DiscordController
         }
     }
 
+    [SuppressMessage("", "SH007")]
     private static void DiscordRunCallbacks(object? state)
     {
         CancellationToken cancellationToken = (CancellationToken)state!;
