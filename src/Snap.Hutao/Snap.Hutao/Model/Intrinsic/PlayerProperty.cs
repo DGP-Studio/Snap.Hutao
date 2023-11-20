@@ -221,8 +221,12 @@ internal enum PlayerProperty
     /// </summary>
     PROP_PLAYER_HOME_COIN = 10042,
 
-    /// <summary>
-    /// ？
-    /// </summary>
     PROP_PLAYER_WAIT_SUB_HOME_COIN = 10043,
+    PROP_IS_AUTO_UNLOCK_SPECIFIC_EQUIP = 10044,
+    PROP_PLAYER_GCG_COIN = 10045,
+    PROP_PLAYER_WAIT_SUB_GCG_COIN = 10046,
+    // 10047 Missing
+    PROP_IS_HAS_FONTAINE_BLESSING = 10048,
+    PROP_MAX_AQUATIC_STAMINA = 10049,
+    PROP_CUR_AQUATIC_STAMINA = 10050,
 }

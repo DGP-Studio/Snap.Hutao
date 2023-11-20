@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Enka.Model;
 
 /// <summary>
@@ -41,7 +43,7 @@ internal sealed class PlayerInfo
     /// Profile Namecard ID
     /// </summary>
     [JsonPropertyName("nameCardId")]
-    public uint NameCardId { get; set; }
+    public MaterialId NameCardId { get; set; }
 
     /// <summary>
     /// 完成的成就个数
@@ -76,7 +78,7 @@ internal sealed class PlayerInfo
     /// List of Namecard IDs
     /// </summary>
     [JsonPropertyName("showNameCardIdList")]
-    public List<int> ShowNameCardIdList { get; set; } = default!;
+    public List<MaterialId> ShowNameCardIdList { get; set; } = default!;
 
     /// <summary>
     /// 头像信息

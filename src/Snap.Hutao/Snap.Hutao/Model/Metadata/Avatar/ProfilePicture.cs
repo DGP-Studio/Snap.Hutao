@@ -3,14 +3,13 @@
 
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Web.Enka.Model;
+namespace Snap.Hutao.Model.Metadata.Avatar;
 
-/// <summary>
-/// 档案头像
-/// </summary>
-[HighQuality]
 internal sealed class ProfilePicture
 {
-    [JsonPropertyName("id")]
     public ProfilePictureId Id { get; set; }
+
+    public string Icon { get; set; } = default!;
+
+    public string Name { get; set; } = default!;
 }
