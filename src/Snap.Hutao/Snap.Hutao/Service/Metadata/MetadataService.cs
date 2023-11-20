@@ -96,8 +96,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             }
             else
             {
-                int code = (int)(ex.StatusCode ?? 0);
-                infoBarService.Error(SH.FormatServiceMetadataHttpRequestFailed(code));
+                infoBarService.Error(SH.FormatServiceMetadataHttpRequestFailed(ex.StatusCode, ex.HttpRequestError));
             }
 
             return false;
