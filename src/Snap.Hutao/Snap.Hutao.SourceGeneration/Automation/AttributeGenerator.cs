@@ -145,5 +145,23 @@ internal sealed class AttributeGenerator : IIncrementalGenerator
             }
             """;
         context.AddSource("Snap.Hutao.Core.DependencyInjection.Annotation.Attributes.g.cs", coreDependencyInjectionAnnotations);
+
+        string resourceLocalization = """
+            namespace Snap.Hutao.Resource.Localization;
+
+            [AttributeUsage(AttributeTargets.Enum)]
+            internal sealed class LocalizationAttribute : Attribute
+            {
+            }
+
+            [AttributeUsage(AttributeTargets.Field)]
+            internal sealed class LocalizationKeyAttribute : Attribute
+            {
+                public LocalizationKeyAttribute(string key)
+                {
+                }
+            }
+            """;
+        context.AddSource("Snap.Hutao.Resource.Localization.Attributes.g.cs", resourceLocalization);
     }
 }

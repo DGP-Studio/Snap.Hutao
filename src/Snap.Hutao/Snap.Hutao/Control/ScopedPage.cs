@@ -17,9 +17,6 @@ namespace Snap.Hutao.Control;
 [SuppressMessage("", "CA1001")]
 internal class ScopedPage : Page
 {
-    // Allow GC to Collect the IServiceScope
-    private static readonly WeakReference<IServiceScope> PreviousScopeReference = new(default!);
-
     private readonly RoutedEventHandler unloadEventHandler;
     private readonly CancellationTokenSource viewCancellationTokenSource = new();
     private readonly IServiceScope currentScope;

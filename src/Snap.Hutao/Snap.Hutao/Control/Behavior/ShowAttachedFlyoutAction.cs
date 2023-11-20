@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Xaml.Interactivity;
-using Snap.Hutao.Core;
 
 namespace Snap.Hutao.Control.Behavior;
 
