@@ -948,7 +948,7 @@
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
-    <value>HTTP {0}: メタデータ検証ファイルのダウンロードに失敗しました</value>
+    <value>HTTP {0} | Error:{1}：元数据校验文件下载失败</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>メタデータサービスが初期化されていないか、または初期化できませんでした</value>
