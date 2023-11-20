@@ -948,7 +948,7 @@
     <value>Unable to find cached metadata file</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
-    <value>HTTP {0}: Failed to download metadata verification file </value>
+    <value>HTTP {0} | Error:{1}：元数据校验文件下载失败</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>Metadata service has not been initialized or failed to initialize</value>
