@@ -948,7 +948,7 @@
     <value>無法找到暫存的元數據文件</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
-    <value>HTTP {0}：元数据校验文件下载失败</value>
+    <value>HTTP {0} | Error:{1}：元数据校验文件下载失败</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>元數據服務未初始化或初始化失敗</value>
