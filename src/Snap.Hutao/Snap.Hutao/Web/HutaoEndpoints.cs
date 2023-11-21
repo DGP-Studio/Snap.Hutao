@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hutao.GachaLog;
 
 namespace Snap.Hutao.Web;
@@ -197,36 +198,14 @@ internal static class HutaoEndpoints
     #region Metadata
 
     /// <summary>
-    /// 胡桃元数据文件
-    /// </summary>
-    /// <param name="locale">语言</param>
-    /// <param name="fileName">文件名称</param>
-    /// <returns>路径</returns>
-    public static string HutaoMetadataFile(string locale, string fileName)
-    {
-        return $"{HutaoMetadataSnapGenshinApi}/{locale}/{fileName}";
-    }
-
-    /// <summary>
     /// 胡桃元数据2文件
     /// </summary>
     /// <param name="locale">语言</param>
     /// <param name="fileName">文件名称</param>
     /// <returns>路径</returns>
-    public static string HutaoMetadata2File(string locale, string fileName)
+    public static string Metadata(string locale, string fileName)
     {
-        return $"{HutaoMetadata2SnapGenshinApi}/Genshin/{locale}/{fileName}";
-    }
-
-    /// <summary>
-    /// Github 元数据文件
-    /// </summary>
-    /// <param name="locale">语言</param>
-    /// <param name="fileName">文件名称</param>
-    /// <returns>路径</returns>
-    public static string RawGithubUserContentMetadataFile(string locale, string fileName)
-    {
-        return $"{RawGithubUserContentSnapMetadataApi}/Genshin/{locale}/{fileName}";
+        return $"{ApiSnapGenshinMetadata}/Genshin/{locale}/{fileName}";
     }
     #endregion
 
@@ -235,17 +214,17 @@ internal static class HutaoEndpoints
     /// <summary>
     /// UI_Icon_None
     /// </summary>
-    public static readonly Uri UIIconNone = StaticFile("Bg", "UI_Icon_None.png").ToUri();
+    public static readonly Uri UIIconNone = StaticRaw("Bg", "UI_Icon_None.png").ToUri();
 
     /// <summary>
     /// UI_ItemIcon_None
     /// </summary>
-    public static readonly Uri UIItemIconNone = StaticFile("Bg", "UI_ItemIcon_None.png").ToUri();
+    public static readonly Uri UIItemIconNone = StaticRaw("Bg", "UI_ItemIcon_None.png").ToUri();
 
     /// <summary>
     /// UI_AvatarIcon_Side_None
     /// </summary>
-    public static readonly Uri UIAvatarIconSideNone = StaticFile("AvatarIcon", "UI_AvatarIcon_Side_None.png").ToUri();
+    public static readonly Uri UIAvatarIconSideNone = StaticRaw("AvatarIcon", "UI_AvatarIcon_Side_None.png").ToUri();
 
     /// <summary>
     /// 图片资源
@@ -253,9 +232,9 @@ internal static class HutaoEndpoints
     /// <param name="category">分类</param>
     /// <param name="fileName">文件名称 包括后缀</param>
     /// <returns>路径</returns>
-    public static string StaticFile(string category, string fileName)
+    public static string StaticRaw(string category, string fileName)
     {
-        return $"{StaticSnapGenshinApi}/{category}/{fileName}";
+        return $"{ApiSnapGenshinStaticRaw}/{category}/{fileName}";
     }
 
     /// <summary>
@@ -265,7 +244,7 @@ internal static class HutaoEndpoints
     /// <returns>路径</returns>
     public static string StaticZip(string fileName)
     {
-        return $"{StaticZipSnapGenshinApi}/{fileName}.zip";
+        return $"{ApiSnapGenshinStaticZip}/{fileName}.zip";
     }
     #endregion
 
@@ -274,10 +253,15 @@ internal static class HutaoEndpoints
         return $"{HomaSnapGenshinApi}/{path}";
     }
 
+    public static string Enka(in PlayerUid uid)
+    {
+        return $"{ApiSnapGenshinEnka}/{uid}";
+    }
+
+    private const string ApiSnapGenshin = "https://api.snapgenshin.com";
+    private const string ApiSnapGenshinMetadata = $"{ApiSnapGenshin}/metadata";
+    private const string ApiSnapGenshinStaticRaw = $"{ApiSnapGenshin}/static/raw";
+    private const string ApiSnapGenshinStaticZip = $"{ApiSnapGenshin}/static/zip";
+    private const string ApiSnapGenshinEnka = $"{ApiSnapGenshin}/enka";
     private const string HomaSnapGenshinApi = "https://homa.snapgenshin.com";
-    private const string HutaoMetadataSnapGenshinApi = "https://hutao-metadata.snapgenshin.com";
-    private const string HutaoMetadata2SnapGenshinApi = "https://hutao-metadata2.snapgenshin.com";
-    private const string RawGithubUserContentSnapMetadataApi = "https://raw.githubusercontent.com/DGP-Studio/Snap.Metadata/main";
-    private const string StaticSnapGenshinApi = "https://static.snapgenshin.com";
-    private const string StaticZipSnapGenshinApi = "https://static-zip.snapgenshin.com";
 }

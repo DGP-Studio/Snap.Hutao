@@ -125,7 +125,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     /// <inheritdoc/>
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
-        Uri dummyUri = Web.HutaoEndpoints.StaticFile(category, fileName).ToUri();
+        Uri dummyUri = Web.HutaoEndpoints.StaticRaw(category, fileName).ToUri();
         return Path.Combine(GetCacheFolder(), GetCacheFileName(dummyUri));
     }
 

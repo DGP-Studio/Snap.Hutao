@@ -448,6 +448,11 @@ internal class MiHoYoJSBridge
 
     private async ValueTask<IJsResult?> TryGetJsResultFromJsParamAsync(JsParam param)
     {
+        if (coreWebView2.IsDisposed())
+        {
+            return default;
+        }
+
         try
         {
             return param.Method switch
@@ -472,10 +477,10 @@ internal class MiHoYoJSBridge
                 _ => LogUnhandledMessage("Unhandled Message Type: {Method}", param.Method),
             };
         }
-        catch (ObjectDisposedException)
+        catch (InvalidOperationException)
         {
-            // The dialog is already closed.
-            return null;
+            // TODO: handle Json exception
+            return default;
         }
     }
 

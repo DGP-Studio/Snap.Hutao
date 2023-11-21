@@ -28,7 +28,7 @@ internal class ScopedPage : Page
     {
         unloadEventHandler = OnUnloaded;
         Unloaded += unloadEventHandler;
-        currentScope = Ioc.Default.GetRequiredService<ScopedPageScopeReferenceTracker>().CreateScope();
+        currentScope = Ioc.Default.GetRequiredService<IScopedPageScopeReferenceTracker>().CreateScope();
     }
 
     /// <summary>

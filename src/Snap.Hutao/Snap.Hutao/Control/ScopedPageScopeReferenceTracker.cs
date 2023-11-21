@@ -8,8 +8,8 @@ namespace Snap.Hutao.Control;
 /// IServiceProvider disposes all injected services when it is disposed.
 /// </summary>
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
-internal sealed partial class ScopedPageScopeReferenceTracker : IDisposable
+[Injection(InjectAs.Singleton, typeof(IScopedPageScopeReferenceTracker))]
+internal sealed partial class ScopedPageScopeReferenceTracker : IScopedPageScopeReferenceTracker, IDisposable
 {
     private readonly IServiceProvider serviceProvider;
 

@@ -18,7 +18,7 @@ internal sealed class EmotionIconConverter : ValueConverter<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        return Web.HutaoEndpoints.StaticFile("EmotionIcon", $"{name}.png").ToUri();
+        return Web.HutaoEndpoints.StaticRaw("EmotionIcon", $"{name}.png").ToUri();
     }
 
     /// <inheritdoc/>

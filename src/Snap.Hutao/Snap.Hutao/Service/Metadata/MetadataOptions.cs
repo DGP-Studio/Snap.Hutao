@@ -137,7 +137,7 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     public string GetLocalizedRemoteFile(string fileNameWithExtension)
     {
 #if DEBUG
-        return Web.HutaoEndpoints.HutaoMetadata2File(LocaleName, fileNameWithExtension);
+        return Web.HutaoEndpoints.Metadata(LocaleName, fileNameWithExtension);
 #else
         return Web.HutaoEndpoints.HutaoMetadata2File(LocaleName, fileNameWithExtension);
 #endif

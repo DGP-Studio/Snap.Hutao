@@ -10,7 +10,9 @@ internal static class IgnoredInvalidChannelOptions
 {
     private static readonly ImmutableHashSet<ChannelOptions> InvalidOptions = new HashSet<ChannelOptions>()
     {
-        new(ChannelType.Bili, SubChannelType.Official, true),
+        new(ChannelType.Bili, SubChannelType.Default, isOversea: true),
+        new(ChannelType.Bili, SubChannelType.Official, isOversea: true),
+        new(ChannelType.Official, SubChannelType.Google, isOversea: false),
     }.ToImmutableHashSet();
 
     public static bool Contains(in ChannelOptions options)

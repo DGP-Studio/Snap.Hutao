@@ -18,7 +18,7 @@ internal sealed class AchievementIconConverter : ValueConverter<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        return Web.HutaoEndpoints.StaticFile("AchievementIcon", $"{name}.png").ToUri();
+        return Web.HutaoEndpoints.StaticRaw("AchievementIcon", $"{name}.png").ToUri();
     }
 
     /// <inheritdoc/>

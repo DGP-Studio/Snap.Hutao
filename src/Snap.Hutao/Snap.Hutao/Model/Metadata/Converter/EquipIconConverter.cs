@@ -18,7 +18,7 @@ internal sealed class EquipIconConverter : ValueConverter<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        return Web.HutaoEndpoints.StaticFile("EquipIcon", $"{name}.png").ToUri();
+        return Web.HutaoEndpoints.StaticRaw("EquipIcon", $"{name}.png").ToUri();
     }
 
     /// <inheritdoc/>
