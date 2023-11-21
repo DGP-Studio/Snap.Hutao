@@ -35,6 +35,11 @@ internal sealed partial class InvokeCommandOnLoadedBehavior : BehaviorBase<UIEle
 
     private void TryExecuteCommand()
     {
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
         if (executed)
         {
             return;

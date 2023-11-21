@@ -90,13 +90,13 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         }
         catch (HttpRequestException ex)
         {
-            if (ex.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.NotFound)
+            if (ex.StatusCode is (HttpStatusCode)418)
             {
                 infoBarService.Error(SH.ServiceMetadataVersionNotSupported);
             }
             else
             {
-                infoBarService.Error(ex, SH.ServiceMetadataRequestFailed);
+                infoBarService.Error(SH.FormatServiceMetadataHttpRequestFailed(ex.StatusCode, ex.HttpRequestError));
             }
 
             return false;

@@ -30,7 +30,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
         catch (SqliteException ex)
         {
-            string message = SH.ServiceGachaLogArchiveCollectionUserdataCorruptedMessage.Format(ex.Message);
+            string message = SH.FormatServiceGachaLogArchiveCollectionUserdataCorruptedMessage(ex.Message);
             throw ThrowHelper.UserdataCorrupted(message, ex);
         }
     }
@@ -40,11 +40,11 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.GachaItems
+            IOrderedQueryable<GachaItem> result = appDbContext.GachaItems
                 .AsNoTracking()
                 .Where(i => i.ArchiveId == archiveId)
-                .OrderBy(i => i.Id)
-                .ToList();
+                .OrderBy(i => i.Id);
+            return [.. result];
         }
     }
 
@@ -271,7 +271,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.GachaItems
+            IQueryable<Web.Hutao.GachaLog.GachaItem> result = appDbContext.GachaItems
                 .AsNoTracking()
                 .Where(i => i.ArchiveId == archiveId)
                 .Where(i => i.QueryType == queryType)
@@ -286,8 +286,8 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
                     ItemId = i.ItemId,
                     Time = i.Time,
                     Id = i.Id,
-                })
-                .ToList();
+                });
+            return [..result];
         }
     }
 

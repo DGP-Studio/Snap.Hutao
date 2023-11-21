@@ -18,8 +18,8 @@ internal sealed class ReliquarySetsConverter : JsonConverter<ReliquarySets>
     {
         if (reader.GetString() is { } source)
         {
-            List<ReliquarySet> sets = new();
-            foreach (StringSegment segment in new StringTokenizer(source, Separator.ToArray()))
+            List<ReliquarySet> sets = [];
+            foreach (StringSegment segment in new StringTokenizer(source, [Separator]))
             {
                 if (segment is { HasValue: true, Length: > 0 })
                 {

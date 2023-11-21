@@ -504,7 +504,7 @@
                         IsClickEnabled="True">
                         <mxi:Interaction.Behaviors>
                             <mxic:EventTriggerBehavior EventName="Click">
-                                <shcb:OpenAttachedFlyoutAction/>
+                                <shcb:ShowAttachedFlyoutAction/>
                             </mxic:EventTriggerBehavior>
                         </mxi:Interaction.Behaviors>
                     </cwc:SettingsCard>

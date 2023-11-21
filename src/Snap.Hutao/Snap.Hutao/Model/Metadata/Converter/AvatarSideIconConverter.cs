@@ -18,7 +18,7 @@ internal sealed class AvatarSideIconConverter : ValueConverter<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        return Web.HutaoEndpoints.StaticFile("AvatarIcon", $"{name}.png").ToUri();
+        return Web.HutaoEndpoints.StaticRaw("AvatarIcon", $"{name}.png").ToUri();
     }
 
     /// <inheritdoc/>

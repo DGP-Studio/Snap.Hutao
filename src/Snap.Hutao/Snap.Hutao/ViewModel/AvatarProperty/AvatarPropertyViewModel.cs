@@ -42,7 +42,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly IAppResourceProvider appResourceProvider;
     private readonly ICultivationService cultivationService;
     private readonly IAvatarInfoService avatarInfoService;
-    private readonly IClipboardInterop clipboardInterop;
+    private readonly IClipboardProvider clipboardInterop;
     private readonly CalculatorClient calculatorClient;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
@@ -322,11 +322,11 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                         if (result.Interrupted)
                         {
                             infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-                            infoBarService.Warning(SH.ViewModelCultivationBatchAddIncompletedFormat.Format(result.SucceedCount, result.SkippedCount));
+                            infoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompletedFormat(result.SucceedCount, result.SkippedCount));
                         }
                         else
                         {
-                            infoBarService.Success(SH.ViewModelCultivationBatchAddCompletedFormat.Format(result.SucceedCount, result.SkippedCount));
+                            infoBarService.Success(SH.FormatViewModelCultivationBatchAddCompletedFormat(result.SucceedCount, result.SkippedCount));
                         }
                     }
                 }

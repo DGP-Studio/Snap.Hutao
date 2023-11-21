@@ -19,10 +19,10 @@ internal sealed class ImageZoomOutAnimation : ImplicitAnimation<string, Vector3>
     /// </summary>
     public ImageZoomOutAnimation()
     {
-        Duration = AnimationDurations.ImageZoom;
+        Duration = ControlAnimationConstants.ImageZoom;
         EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut;
         EasingType = CommunityToolkit.WinUI.Animations.EasingType.Circle;
-        To = Core.StringLiterals.One;
+        To = ControlAnimationConstants.One;
     }
 
     /// <inheritdoc/>

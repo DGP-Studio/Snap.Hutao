@@ -5,7 +5,6 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.GachaLog;
-using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.GachaLog;
 

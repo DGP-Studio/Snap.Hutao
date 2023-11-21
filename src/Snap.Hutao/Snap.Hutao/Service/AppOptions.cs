@@ -19,16 +19,16 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
-    private readonly List<NameValue<BackdropType>> supportedBackdropTypesInner = CollectionsNameValue.ListFromEnum<BackdropType>();
+    private readonly List<NameValue<BackdropType>> supportedBackdropTypesInner = CollectionsNameValue.FromEnum<BackdropType>();
 
-    private readonly List<NameValue<string>> supportedCulturesInner = new()
-    {
+    private readonly List<NameValue<CultureInfo>> supportedCulturesInner =
+    [
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
         ToNameValue(CultureInfo.GetCultureInfo("en")),
         ToNameValue(CultureInfo.GetCultureInfo("ko")),
         ToNameValue(CultureInfo.GetCultureInfo("ja")),
-    };
+    ];
 
     private string? gamePath;
     private string? powerShellPath;
@@ -52,7 +52,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     /// </summary>
     public string PowerShellPath
     {
-        get => GetOption(ref powerShellPath, SettingEntry.PowerShellPath, GetPowerShellLocationOrEmpty());
+        get => GetOption(ref powerShellPath, SettingEntry.PowerShellPath, GetPowerShellLocationOrEmpty);
         set => SetOption(ref powerShellPath, SettingEntry.PowerShellPath, value);
     }
 
@@ -75,14 +75,14 @@ internal sealed partial class AppOptions : DbStoreOptions
     /// </summary>
     public BackdropType BackdropType
     {
-        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, Enum.Parse<BackdropType>, BackdropType.Mica);
-        set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, value => value.ToString());
+        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, v => Enum.Parse<BackdropType>(v), BackdropType.Mica).Value;
+        set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, value => value.ToString()!);
     }
 
     /// <summary>
     /// 所有支持的语言
     /// </summary>
-    public List<NameValue<string>> Cultures { get => supportedCulturesInner; }
+    public List<NameValue<CultureInfo>> Cultures { get => supportedCulturesInner; }
 
     /// <summary>
     /// 初始化前的语言
@@ -92,6 +92,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     /// <summary>
     /// 当前语言
+    /// 默认为系统语言
     /// </summary>
     public CultureInfo CurrentCulture
     {
@@ -116,9 +117,9 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, value);
     }
 
-    private static NameValue<string> ToNameValue(CultureInfo info)
+    private static NameValue<CultureInfo> ToNameValue(CultureInfo info)
     {
-        return new(info.NativeName, info.Name);
+        return new(info.NativeName, info);
     }
 
     private static string GetPowerShellLocationOrEmpty()
@@ -126,7 +127,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         string? paths = Environment.GetEnvironmentVariable("Path");
         if (!string.IsNullOrEmpty(paths))
         {
-            foreach (StringSegment path in new StringTokenizer(paths, ';'.ToArray()))
+            foreach (StringSegment path in new StringTokenizer(paths, [';']))
             {
                 if (path is { HasValue: true, Length: > 0 })
                 {

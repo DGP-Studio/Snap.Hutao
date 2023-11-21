@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hutao.Geetest;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -32,7 +32,7 @@ internal sealed partial class SignInClient : ISignInClient
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .Get();
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInRewardInfo>? resp = await builder
             .TryCatchSendAsync<Response<SignInRewardInfo>>(httpClient, logger, token)
@@ -48,7 +48,7 @@ internal sealed partial class SignInClient : ISignInClient
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .Get();
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInRewardReSignInfo>? resp = await builder
             .TryCatchSendAsync<Response<SignInRewardReSignInfo>>(httpClient, logger, token)
@@ -78,7 +78,7 @@ internal sealed partial class SignInClient : ISignInClient
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .PostJson(new SignInData(userAndUid.Uid, false));
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInResult>? resp = await builder
             .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)
@@ -94,7 +94,7 @@ internal sealed partial class SignInClient : ISignInClient
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .PostJson(new SignInData(userAndUid.Uid, false));
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInResult>? resp = await builder
             .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)
@@ -112,7 +112,7 @@ internal sealed partial class SignInClient : ISignInClient
                     .SetXrpcChallenge(challenge, validate)
                     .PostJson(new SignInData(userAndUid.Uid, false));
 
-                await verifiedBuilder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+                await verifiedBuilder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
                 resp = await verifiedBuilder
                     .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)

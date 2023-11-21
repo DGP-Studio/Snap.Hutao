@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -64,7 +65,8 @@ internal sealed partial class DailyNoteDbService : IDailyNoteDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.DailyNotes.AsNoTracking().Include(n => n.User).ToList();
+            IIncludableQueryable<DailyNoteEntry, Model.Entity.User> result = appDbContext.DailyNotes.AsNoTracking().Include(n => n.User);
+            return [.. result];
         }
     }
 

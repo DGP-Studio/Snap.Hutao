@@ -4,7 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -36,7 +36,7 @@ internal sealed partial class AuthClient
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .Get();
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen1, SaltType.K2, true).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.K2, true).ConfigureAwait(false);
 
         Response<ActionTicketWrapper>? resp = await builder
             .TryCatchSendAsync<Response<ActionTicketWrapper>>(httpClient, logger, token)

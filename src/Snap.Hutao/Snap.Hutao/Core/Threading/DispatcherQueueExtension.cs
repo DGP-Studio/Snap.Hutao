@@ -36,7 +36,7 @@ internal static class DispatcherQueueExtension
                 }
                 catch (Exception ex)
                 {
-                    ExceptionDispatchInfo.Capture(ex);
+                    exceptionDispatchInfo = ExceptionDispatchInfo.Capture(ex);
                 }
                 finally
                 {
@@ -45,9 +45,7 @@ internal static class DispatcherQueueExtension
             });
 
             blockEvent.Wait();
-#pragma warning disable CA1508
             exceptionDispatchInfo?.Throw();
-#pragma warning restore CA1508
         }
     }
 }

@@ -20,6 +20,15 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 {
     private const int OneMinute = 60;
 
+    private readonly List<NameValue<int>> refreshTimes =
+    [
+        new(SH.ViewModelDailyNoteRefreshTime4, OneMinute * 4),
+        new(SH.ViewModelDailyNoteRefreshTime8, OneMinute * 8),
+        new(SH.ViewModelDailyNoteRefreshTime30, OneMinute * 30),
+        new(SH.ViewModelDailyNoteRefreshTime40, OneMinute * 40),
+        new(SH.ViewModelDailyNoteRefreshTime60, OneMinute * 60),
+    ];
+
     private readonly RuntimeOptions runtimeOptions;
     private readonly IServiceProvider serviceProvider;
     private readonly IScheduleTaskInterop scheduleTaskInterop;
@@ -32,14 +41,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
     /// <summary>
     /// 刷新时间
     /// </summary>
-    public List<NameValue<int>> RefreshTimes { get; } = new()
-    {
-        new(SH.ViewModelDailyNoteRefreshTime4, OneMinute * 4),
-        new(SH.ViewModelDailyNoteRefreshTime8, OneMinute * 8),
-        new(SH.ViewModelDailyNoteRefreshTime30, OneMinute * 30),
-        new(SH.ViewModelDailyNoteRefreshTime40, OneMinute * 40),
-        new(SH.ViewModelDailyNoteRefreshTime60, OneMinute * 60),
-    };
+    public List<NameValue<int>> RefreshTimes { get => refreshTimes; }
 
     public bool IsAutoRefreshEnabled
     {

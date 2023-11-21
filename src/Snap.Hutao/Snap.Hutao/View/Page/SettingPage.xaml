@@ -7,77 +7,89 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvs="using:Snap.Hutao.ViewModel.Setting"
     d:DataContext="{d:DesignInstance shvs:SettingViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <ScrollViewer>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition MaxWidth="1000"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Margin="16,16,16,16" Spacing="{StaticResource SettingsCardSpacing}">
+    <ScrollViewer shch:ScrollViewerHelper.LeftPanelMaxWidth="800" Style="{StaticResource TwoPanelScrollViewerStyle}">
+        <shch:ScrollViewerHelper.RightPanel>
+            <StackPanel Width="360" Margin="0,16,16,16">
                 <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                    <Grid Height="280" Style="{ThemeResource GridCardStyle}">
-                        <Border CornerRadius="{ThemeResource ControlCornerRadius}">
-                            <Image
-                                VerticalAlignment="Center"
-                                Source="ms-appx:///Resource/BlurBackground.png"
-                                Stretch="Fill"/>
+                    <Grid Style="{ThemeResource GridCardStyle}">
+                        <Border
+                            VerticalAlignment="Stretch"
+                            cw:UIElementExtensions.ClipToBounds="True"
+                            CornerRadius="{ThemeResource ControlCornerRadius}">
+                            <Image Source="ms-appx:///Resource/BlurBackground.png" Stretch="Fill"/>
                         </Border>
-
                         <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <Image
                                 Grid.Row="0"
-                                Margin="48"
+                                MaxWidth="120"
+                                MaxHeight="120"
+                                Margin="48,48"
                                 Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
-                            <StackPanel
+                            <cwc:UniformGrid
                                 Grid.Row="1"
-                                Margin="8"
+                                Margin="8,0"
                                 VerticalAlignment="Bottom"
-                                Orientation="Horizontal">
+                                ColumnSpacing="8"
+                                Columns="2"
+                                RowSpacing="8">
                                 <HyperlinkButton
-                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
                                     Command="{Binding UpdateCheckCommand}"
                                     Content="{shcm:ResourceString Name=ViewPageSettingUpdateCheckAction}"/>
                                 <HyperlinkButton
-                                    Margin="12,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
                                     Command="{Binding StoreReviewCommand}"
                                     Content="{shcm:ResourceString Name=ViewPageSettingStoreReviewNavigate}"/>
                                 <HyperlinkButton
-                                    Margin="12,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
                                     Content="{shcm:ResourceString Name=ViewPageSettingOfficialSiteNavigate}"
                                     NavigateUri="{StaticResource DocumentLink_Home}"/>
                                 <HyperlinkButton
-                                    Margin="12,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
                                     Content="{shcm:ResourceString Name=ViewPageSettingFeedbackNavigate}"
                                     NavigateUri="{StaticResource DocumentLink_BugReport}"/>
                                 <HyperlinkButton
-                                    Margin="12,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
                                     Content="{shcm:ResourceString Name=ViewPageSettingTranslateNavigate}"
                                     NavigateUri="{StaticResource DocumentLink_Translate}"/>
                                 <HyperlinkButton
-                                    Margin="12,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
                                     Content="{shcm:ResourceString Name=ViewPageSettingSponsorNavigate}"
                                     NavigateUri="{StaticResource Sponsor_Afadian}"/>
-                            </StackPanel>
+                            </cwc:UniformGrid>
+                            <TextBlock
+                                Grid.Row="2"
+                                Margin="8"
+                                HorizontalAlignment="Center"
+                                Opacity="0.7"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="Copyright © 2022 - 2024 DGP Studio. All Rights Reserved."
+                                TextWrapping="Wrap"/>
                         </Grid>
                     </Grid>
                 </Border>
-                <TextBlock
-                    Grid.Row="0"
-                    Margin="0,4"
-                    Text="Copyright © 2022 - 2024 DGP Studio. All Rights Reserved."
-                    TextWrapping="Wrap"/>
-
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingAboutHeader}"/>
+            </StackPanel>
+        </shch:ScrollViewerHelper.RightPanel>
+        <Grid Padding="16" HorizontalAlignment="Left">
+            <StackPanel Grid.Column="0" Spacing="{StaticResource SettingsCardSpacing}">
                 <cwc:SettingsExpander
                     Description="{Binding HutaoOptions.Version}"
                     Header="{shcm:ResourceString Name=AppName}"
@@ -96,7 +108,7 @@
                 </cwc:SettingsExpander>
                 <!--
                     https://github.com/DGP-Studio/Snap.Hutao/issues/1072
-                    ItemsRepeater will behave abnormal is no direct scrollhost wrapping it
+                    ItemsRepeater will behave abnormal if no direct scrollhost wrapping it
                 -->
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
                     <cwc:SettingsExpander
@@ -200,28 +212,36 @@
                     Description="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE92E;}">
-                    <StackPanel Orientation="Horizontal" Spacing="16">
-                        <CheckBox
-                            MinWidth="64"
-                            VerticalAlignment="Center"
-                            Content="Win"
-                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}"/>
-                        <CheckBox
-                            MinWidth="64"
-                            VerticalAlignment="Center"
-                            Content="Ctrl"
-                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasControl, Mode=TwoWay}"/>
-                        <CheckBox
-                            MinWidth="64"
-                            VerticalAlignment="Center"
-                            Content="Shift"
-                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasShift, Mode=TwoWay}"/>
-                        <CheckBox
-                            MinWidth="64"
-                            VerticalAlignment="Center"
-                            Content="Alt"
-                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <cwc:UniformGrid
+                            Margin="16,-12"
+                            ColumnSpacing="16"
+                            Columns="2"
+                            Orientation="Horizontal"
+                            RowSpacing="0">
+                            <CheckBox
+                                MinWidth="64"
+                                VerticalAlignment="Center"
+                                Content="Win"
+                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}"/>
+                            <CheckBox
+                                MinWidth="64"
+                                VerticalAlignment="Center"
+                                Content="Ctrl"
+                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasControl, Mode=TwoWay}"/>
+                            <CheckBox
+                                MinWidth="64"
+                                VerticalAlignment="Center"
+                                Content="Shift"
+                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasShift, Mode=TwoWay}"/>
+                            <CheckBox
+                                MinWidth="64"
+                                VerticalAlignment="Center"
+                                Content="Alt"
+                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}"/>
+                        </cwc:UniformGrid>
                         <ComboBox
+                            MinWidth="120"
                             VerticalAlignment="Center"
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
@@ -232,7 +252,6 @@
                             VerticalAlignment="Center"
                             IsOn="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Mode=TwoWay}"/>
                     </StackPanel>
-
                 </cwc:SettingsCard>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewpageSettingHomeHeader}"/>
@@ -356,34 +375,40 @@
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                     Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewPageSettingDangerousHeader}"/>
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="{Binding Options.IsAdvancedLaunchOptionsEnabled}"
-                    Message="{shcm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
-                    Severity="Error"/>
                 <cwc:SettingsCard
-                    Description="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}"
                     IsEnabled="{Binding HutaoOptions.IsElevated}">
+                    <cwc:SettingsCard.Description>
+                        <StackPanel>
+                            <TextBlock
+                                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                Text="{shcm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
+                                Visibility="{Binding Options.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}" Visibility="{Binding Options.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                        </StackPanel>
+                    </cwc:SettingsCard.Description>
                     <StackPanel Orientation="Horizontal">
                         <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                         <ToggleSwitch Width="120" IsOn="{Binding Options.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                     </StackPanel>
                 </cwc:SettingsCard>
-                <InfoBar
-                    Margin="0,3,0,0"
-                    IsClosable="False"
-                    IsOpen="True"
-                    Message="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"
-                    Severity="Error"/>
                 <cwc:SettingsCard
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingDangerousAction}"
                     Command="{Binding DeleteUsersCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingDeleteUserDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingDeleteUserHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE756;}"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True">
+                    <cwc:SettingsCard.Description>
+                        <StackPanel>
+                            <TextBlock
+                                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                Text="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"
+                                Visibility="{Binding Options.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingDeleteUserDescription}"/>
+                        </StackPanel>
+                    </cwc:SettingsCard.Description>
+                </cwc:SettingsCard>
             </StackPanel>
         </Grid>
     </ScrollViewer>

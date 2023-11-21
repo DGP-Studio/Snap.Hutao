@@ -1,18 +1,19 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Web.Request.QueryString;
+using Snap.Hutao.Web.Request;
+using System.Collections.Specialized;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
 internal static class PlayerUidExtension
 {
-    public static QueryString ToQueryString(this in PlayerUid playerUid)
+    public static string ToQueryString(this in PlayerUid playerUid)
     {
-        QueryString queryString = new();
-        queryString.Set("role_id", playerUid.Value);
-        queryString.Set("server", playerUid.Region);
+        NameValueCollection collection = [];
+        collection.Set("role_id", playerUid.Value);
+        collection.Set("server", playerUid.Region);
 
-        return queryString;
+        return collection.ToQueryString();
     }
 }

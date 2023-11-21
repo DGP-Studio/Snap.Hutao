@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Windows.ApplicationModel.Resources;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using System.Globalization;
@@ -36,7 +35,6 @@ internal static class DependencyInjection
 
             // Discrete services
             .AddSingleton<IMessenger, WeakReferenceMessenger>()
-
             .BuildServiceProvider(true);
 
         Ioc.Default.ConfigureServices(serviceProvider);
@@ -56,6 +54,9 @@ internal static class DependencyInjection
 
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
+
         ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
+
+        SH.Culture = cultureInfo;
     }
 }

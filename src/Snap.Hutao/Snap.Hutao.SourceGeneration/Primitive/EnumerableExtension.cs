@@ -20,7 +20,7 @@ internal static class EnumerableExtension
 
         if (enumerator.MoveNext())
         {
-            HashSet<TKey> set = new();
+            HashSet<TKey> set = [];
 
             do
             {

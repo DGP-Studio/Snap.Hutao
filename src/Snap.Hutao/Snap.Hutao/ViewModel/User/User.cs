@@ -20,7 +20,7 @@ namespace Snap.Hutao.ViewModel.User;
 internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMappingFrom<User, EntityUser, IServiceProvider>, ISelectable
 {
     private readonly EntityUser inner;
-    private readonly IServiceProvider serviceProvider;
+    private readonly IMessenger messenger;
 
     private UserGameRole? selectedUserGameRole;
 
@@ -31,7 +31,7 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMapping
     private User(EntityUser user, IServiceProvider serviceProvider)
     {
         inner = user;
-        this.serviceProvider = serviceProvider;
+        messenger = serviceProvider.GetRequiredService<IMessenger>();
     }
 
     public bool IsInitialized { get; set; }
@@ -47,19 +47,12 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMapping
     public List<UserGameRole> UserGameRoles { get; set; } = default!;
 
     /// <summary>
-    /// 用户信息, 请勿访问set
+    /// 用户信息
     /// </summary>
     public UserGameRole? SelectedUserGameRole
     {
         get => selectedUserGameRole;
-        set
-        {
-            if (SetProperty(ref selectedUserGameRole, value))
-            {
-                IMessenger messenger = serviceProvider.GetRequiredService<IMessenger>();
-                messenger.Send(new Message.UserChangedMessage() { OldValue = this, NewValue = this });
-            }
-        }
+        set => SetSelectedUserGameRole(value);
     }
 
     public string? Fingerprint { get => inner.Fingerprint; set => inner.Fingerprint = value; }
@@ -109,5 +102,13 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMapping
     public static User From(EntityUser user, IServiceProvider provider)
     {
         return new(user, provider);
+    }
+
+    public void SetSelectedUserGameRole(UserGameRole? value, bool raiseMessage = true)
+    {
+        if (SetProperty(ref selectedUserGameRole, value, nameof(SelectedUserGameRole)) && raiseMessage)
+        {
+            messenger.Send(Message.UserChangedMessage.CreateOnlyRoleChanged(this));
+        }
     }
 }

@@ -46,7 +46,7 @@ internal sealed partial class HomaLogUploadClient
         return new()
         {
             Id = runtimeOptions.DeviceId,
-            Time = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
+            Time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             Info = Core.ExceptionService.ExceptionFormat.Format(exception),
         };
     }

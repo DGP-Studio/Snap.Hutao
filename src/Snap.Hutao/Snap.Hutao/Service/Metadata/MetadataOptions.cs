@@ -69,7 +69,15 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     /// </summary>
     public string LanguageCode
     {
-        get => LocaleNames.LocaleNameLanguageCodeMap[LocaleName];
+        get
+        {
+            if (LocaleNames.TryGetLanguageCodeFromLocaleName(LocaleName, out string? languageCode))
+            {
+                return languageCode;
+            }
+
+            throw new KeyNotFoundException($"Invalid localeName: '{LocaleName}'");
+        }
     }
 
     /// <inheritdoc/>
@@ -84,7 +92,7 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     {
         while (true)
         {
-            if (LocaleNames.LanguageNameLocaleNameMap.TryGetValue(cultureInfo.Name, out string? localeName))
+            if (LocaleNames.TryGetLocaleNameFromLanguageName(cultureInfo.Name, out string? localeName))
             {
                 return localeName;
             }
@@ -100,7 +108,7 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     /// </summary>
     /// <param name="languageCode">语言代码</param>
     /// <returns>是否为当前语言名称</returns>
-    public bool IsCurrentLocale(string languageCode)
+    public bool IsCurrentLocale(string? languageCode)
     {
         if (string.IsNullOrEmpty(languageCode))
         {
@@ -128,10 +136,6 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     /// <returns>服务器上的本地化元数据文件</returns>
     public string GetLocalizedRemoteFile(string fileNameWithExtension)
     {
-#if DEBUG
-        return Web.HutaoEndpoints.HutaoMetadata2File(LocaleName, fileNameWithExtension);
-#else
-        return Web.HutaoEndpoints.HutaoMetadata2File(LocaleName, fileNameWithExtension);
-#endif
+        return Web.HutaoEndpoints.Metadata(LocaleName, fileNameWithExtension);
     }
 }

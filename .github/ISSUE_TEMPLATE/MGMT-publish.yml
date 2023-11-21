@@ -1,0 +1,55 @@
+name: Publish Process
+description: FOR ADMIN USE ONLY. WILL CAUSE A BAN IF NO PERMISSION.
+title: "[Publish]: Version 1.9.98"
+labels: ["Publish"]
+assignees:
+  - Lightczx
+body:
+- type: textarea
+  id: main-body
+  attributes:
+    label: Publish Process
+    value: |
+
+      ## 创建版本
+    
+      - [ ]  同步一次 [Crowdin](https://crowdin.com/project/snap-hutao) 翻译
+      - [ ]  发布 RC 版本（Optional）
+      - [ ]  合并入主分支
+      - [ ]  整理更新内容，等待翻译
+      - [ ]  打包
+      - [ ]  提交微软商店
+          - [ ]  包含更新日志
+      - [ ]  在 [Snap.Hutao.Docs@next-patch](https://github.com/DGP-Studio/Snap.Hutao.Docs/tree/next-patch) 分支更新文档并直接开 PR
+          - [ ]  更新日志
+          - [ ]  功能文档更新
+    
+      ## 发布版本
+    
+      - [ ]  在 https://store.rg-adguard.net/ 下载新版本安装包
+          - [ ]  Store URL: https://apps.microsoft.com/store/detail/snap-hutao/9PH4NXJ2JN52
+          - [ ]  命名格式为 `Snap.Hutao x.x.x.msix`
+      - [ ]  Merge 文档 PR
+      - [ ]  发布 Release
+          - [ ]  更新日志格式（以 1.6.2 版本为例）
+    
+      ```jsx
+      ## Update log
+      https://hut.ao/en/statements/update-log.html#_1-6-2
+    
+      ## 更新日志
+      [此处从文档复制]
+    
+      ## What's Changed
+      **Full Changelog**: https://github.com/DGP-Studio/Snap.Hutao/compare/1.6.0...1.6.2
+      ```
+    
+      - [ ]  通知用户
+- type: checkboxes
+  id: checklist-final
+  attributes:
+    label: Final Check
+    description: Understand what you are doing 
+    options:
+      - label: I understand that I will get banned from repository if I don't have permission to use this template
+        required: true   

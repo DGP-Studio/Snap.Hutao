@@ -39,4 +39,6 @@ internal abstract class ValueChangedMessage<TValue>
     /// 新的值
     /// </summary>
     public TValue? NewValue { get; set; }
+
+    public Guid UniqueMessageId { get; } = Guid.NewGuid();
 }

@@ -35,7 +35,7 @@ internal sealed partial class DailyNoteNotificationOperation
             return;
         }
 
-        List<DailyNoteNotifyInfo> notifyInfos = new();
+        List<DailyNoteNotifyInfo> notifyInfos = [];
 
         CheckNotifySuppressed(entry, notifyInfos);
 
@@ -137,9 +137,9 @@ internal sealed partial class DailyNoteNotificationOperation
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierResin,
-                    Web.HutaoEndpoints.StaticFile("ItemIcon", "UI_ItemIcon_210.png"),
+                    Web.HutaoEndpoints.StaticRaw("ItemIcon", "UI_ItemIcon_210.png"),
                     $"{entry.DailyNote.CurrentResin}",
-                    SH.ServiceDailyNoteNotifierResinCurrent.Format(entry.DailyNote.CurrentResin)));
+                    SH.FormatServiceDailyNoteNotifierResinCurrent(entry.DailyNote.CurrentResin)));
                 entry.ResinNotifySuppressed = true;
             }
         }
@@ -158,9 +158,9 @@ internal sealed partial class DailyNoteNotificationOperation
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierHomeCoin,
-                    Web.HutaoEndpoints.StaticFile("ItemIcon", "UI_ItemIcon_204.png"),
+                    Web.HutaoEndpoints.StaticRaw("ItemIcon", "UI_ItemIcon_204.png"),
                     $"{entry.DailyNote.CurrentHomeCoin}",
-                    SH.ServiceDailyNoteNotifierHomeCoinCurrent.Format(entry.DailyNote.CurrentHomeCoin)));
+                    SH.FormatServiceDailyNoteNotifierHomeCoinCurrent(entry.DailyNote.CurrentHomeCoin)));
                 entry.HomeCoinNotifySuppressed = true;
             }
         }
@@ -178,7 +178,7 @@ internal sealed partial class DailyNoteNotificationOperation
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierDailyTask,
-                    Web.HutaoEndpoints.StaticFile("Bg", "UI_MarkQuest_Events_Proce.png"),
+                    Web.HutaoEndpoints.StaticRaw("Bg", "UI_MarkQuest_Events_Proce.png"),
                     SH.ServiceDailyNoteNotifierDailyTaskHint,
                     entry.DailyNote.ExtraTaskRewardDescription));
                 entry.DailyTaskNotifySuppressed = true;
@@ -198,7 +198,7 @@ internal sealed partial class DailyNoteNotificationOperation
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierTransformer,
-                    Web.HutaoEndpoints.StaticFile("ItemIcon", "UI_ItemIcon_220021.png"),
+                    Web.HutaoEndpoints.StaticRaw("ItemIcon", "UI_ItemIcon_220021.png"),
                     SH.ServiceDailyNoteNotifierTransformerAdaptiveHint,
                     SH.ServiceDailyNoteNotifierTransformerHint));
                 entry.TransformerNotifySuppressed = true;
@@ -219,7 +219,7 @@ internal sealed partial class DailyNoteNotificationOperation
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierExpedition,
-                    Web.HutaoEndpoints.StaticFile("Bg", "UI_Icon_Intee_Explore_1.png"),
+                    Web.HutaoEndpoints.StaticRaw("Bg", "UI_Icon_Intee_Explore_1.png"),
                     SH.ServiceDailyNoteNotifierExpeditionAdaptiveHint,
                     SH.ServiceDailyNoteNotifierExpeditionHint));
                 entry.ExpeditionNotifySuppressed = true;

@@ -3,8 +3,6 @@
 
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Bridge.Model;
-using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Web.Bridge;
 

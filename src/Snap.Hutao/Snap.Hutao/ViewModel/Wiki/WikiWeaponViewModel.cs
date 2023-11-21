@@ -17,7 +17,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Response;
-using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -87,17 +86,17 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
 
             List<Weapon> weapons = await metadataService.GetWeaponsAsync().ConfigureAwait(false);
-            List<Weapon> sorted = weapons
+            IEnumerable<Weapon> sorted = weapons
                 .OrderByDescending(weapon => weapon.RankLevel)
                 .ThenBy(weapon => weapon.WeaponType)
-                .ThenByDescending(weapon => weapon.Id.Value)
-                .ToList();
+                .ThenByDescending(weapon => weapon.Id.Value);
+            List<Weapon> list = [.. sorted];
 
-            await CombineComplexDataAsync(sorted, idMaterialMap).ConfigureAwait(false);
+            await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
 
-            Weapons = new AdvancedCollectionView(sorted, true);
+            Weapons = new AdvancedCollectionView(list, true);
             Selected = Weapons.Cast<Weapon>().FirstOrDefault();
         }
     }

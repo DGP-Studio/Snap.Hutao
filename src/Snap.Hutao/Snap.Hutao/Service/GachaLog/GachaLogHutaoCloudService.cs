@@ -39,7 +39,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         string uid = gachaArchive.Uid;
         if (await GetEndIdsFromCloudAsync(uid, token).ConfigureAwait(false) is { } endIds)
         {
-            List<Web.Hutao.GachaLog.GachaItem> items = new();
+            List<Web.Hutao.GachaLog.GachaItem> items = [];
             foreach ((GachaConfigType type, long endId) in endIds)
             {
                 List<Web.Hutao.GachaLog.GachaItem> part = await gachaLogDbService

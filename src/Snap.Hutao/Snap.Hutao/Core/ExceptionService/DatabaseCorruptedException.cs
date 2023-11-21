@@ -15,7 +15,7 @@ internal sealed class DatabaseCorruptedException : Exception
     /// <param name="message">消息</param>
     /// <param name="innerException">内部错误</param>
     public DatabaseCorruptedException(string message, Exception? innerException)
-        : base(SH.CoreExceptionServiceDatabaseCorruptedMessage.Format($"{message}\n{innerException?.Message}"), innerException)
+        : base(SH.FormatCoreExceptionServiceDatabaseCorruptedMessage($"{message}\n{innerException?.Message}"), innerException)
     {
     }
 }

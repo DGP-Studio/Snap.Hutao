@@ -7,7 +7,6 @@ using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 

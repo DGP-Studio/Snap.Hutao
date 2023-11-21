@@ -69,7 +69,7 @@ internal sealed class UIIFInfo
         return new()
         {
             Uid = uid,
-            ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
+            ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
             ExportAppVersion = hutaoOptions.Version.ToString(),
             UIIFVersion = UIIF.CurrentVersion,

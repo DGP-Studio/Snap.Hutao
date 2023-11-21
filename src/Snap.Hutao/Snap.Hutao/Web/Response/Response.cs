@@ -56,11 +56,11 @@ internal class Response
     public static Response DefaultIfNull(Response? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        response ??= new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, null));
+        response ??= new(InternalFailure, SH.FormatWebResponseRequestExceptionFormat(callerName, null));
 
         if (((KnownReturnCode)response.ReturnCode) is KnownReturnCode.PleaseLogin or KnownReturnCode.RET_TOKEN_INVALID)
         {
-            response.Message = SH.WebResponseRefreshCookieHintFormat.Format(response.Message);
+            response.Message = SH.FormatWebResponseRefreshCookieHintFormat(response.Message);
         }
 
         return response;
@@ -76,14 +76,14 @@ internal class Response
     public static Response<TData> DefaultIfNull<TData>(Response<TData>? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        response ??= new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
+        response ??= new(InternalFailure, SH.FormatWebResponseRequestExceptionFormat(callerName, typeof(TData).Name), default);
 
         if (((KnownReturnCode)response.ReturnCode) is KnownReturnCode.PleaseLogin or KnownReturnCode.RET_TOKEN_INVALID)
         {
-            response.Message = SH.WebResponseRefreshCookieHintFormat.Format(response.Message);
+            response.Message = SH.FormatWebResponseRefreshCookieHintFormat(response.Message);
         }
 
-        return response ?? new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
+        return response ?? new(InternalFailure, SH.FormatWebResponseRequestExceptionFormat(callerName, typeof(TData).Name), default);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ internal class Response
         else
         {
             // Magic number that hashed from "Snap.Hutao"
-            return new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
+            return new(InternalFailure, SH.FormatWebResponseRequestExceptionFormat(callerName, typeof(TData).Name), default);
         }
     }
 
@@ -129,7 +129,7 @@ internal class Response
     /// <inheritdoc/>
     public override string ToString()
     {
-        return SH.WebResponseFormat.Format(ReturnCode, Message);
+        return SH.FormatWebResponseFormat(ReturnCode, Message);
     }
 }
 

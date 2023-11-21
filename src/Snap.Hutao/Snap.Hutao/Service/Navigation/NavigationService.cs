@@ -168,6 +168,23 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         });
     }
 
+    private static IEnumerable<NavigationViewItem> EnumerateMenuItems(IList<object> items)
+    {
+        foreach (NavigationViewItem item in items.OfType<NavigationViewItem>())
+        {
+            yield return item;
+
+            // Suppress recursion method call if possible
+            if (item.MenuItems.Count > 0)
+            {
+                foreach (NavigationViewItem subItem in EnumerateMenuItems(item.MenuItems))
+                {
+                    yield return subItem;
+                }
+            }
+        }
+    }
+
     private bool SyncSelectedNavigationViewItemWith(Type? pageType)
     {
         if (NavigationView is null || pageType is null)
@@ -189,23 +206,6 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
 
         selected = NavigationView.SelectedItem as NavigationViewItem;
         return true;
-    }
-
-    private IEnumerable<NavigationViewItem> EnumerateMenuItems(IList<object> items)
-    {
-        foreach (NavigationViewItem item in items.OfType<NavigationViewItem>())
-        {
-            yield return item;
-
-            // Suppress recursion method call if possible
-            if (item.MenuItems.Count > 0)
-            {
-                foreach (NavigationViewItem subItem in EnumerateMenuItems(item.MenuItems))
-                {
-                    yield return subItem;
-                }
-            }
-        }
     }
 
     private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)

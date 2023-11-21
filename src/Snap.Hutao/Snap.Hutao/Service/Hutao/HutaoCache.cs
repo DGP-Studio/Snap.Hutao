@@ -184,7 +184,7 @@ internal sealed partial class HutaoCache : IHutaoCache
 
         AvatarAppearanceRanks = avatarAppearanceRanksRaw.SortByDescending(r => r.Floor).SelectList(rank => new AvatarRankView
         {
-            Floor = SH.ModelBindingHutaoComplexRankFloor.Format(rank.Floor),
+            Floor = SH.FormatModelBindingHutaoComplexRankFloor(rank.Floor),
             Avatars = rank.Ranks.SortByDescending(r => r.Rate).SelectList(rank => new AvatarView(idAvatarMap[rank.Item], rank.Rate)),
         });
     }
@@ -201,7 +201,7 @@ internal sealed partial class HutaoCache : IHutaoCache
 
         AvatarUsageRanks = avatarUsageRanksRaw.SortByDescending(r => r.Floor).SelectList(rank => new AvatarRankView
         {
-            Floor = SH.ModelBindingHutaoComplexRankFloor.Format(rank.Floor),
+            Floor = SH.FormatModelBindingHutaoComplexRankFloor(rank.Floor),
             Avatars = rank.Ranks.SortByDescending(r => r.Rate).SelectList(rank => new AvatarView(idAvatarMap[rank.Item], rank.Rate)),
         });
     }

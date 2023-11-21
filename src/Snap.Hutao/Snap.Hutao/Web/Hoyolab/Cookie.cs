@@ -18,7 +18,7 @@ internal sealed partial class Cookie
     /// 构造一个空白的Cookie
     /// </summary>
     public Cookie()
-        : this(new())
+        : this([])
     {
     }
 
@@ -44,7 +44,7 @@ internal sealed partial class Cookie
     /// <returns>新的Cookie对象</returns>
     public static Cookie Parse(string cookieString)
     {
-        SortedDictionary<string, string> cookieMap = new();
+        SortedDictionary<string, string> cookieMap = [];
         cookieString = cookieString.Replace(" ", string.Empty, StringComparison.Ordinal);
         string[] values = cookieString.Split(';', StringSplitOptions.RemoveEmptyEntries);
         foreach (string[] parts in values.Select(c => c.Split('=', 2)))
@@ -59,7 +59,7 @@ internal sealed partial class Cookie
 
     public static Cookie FromCoreWebView2Cookies(IReadOnlyList<CoreWebView2Cookie> webView2Cookies)
     {
-        SortedDictionary<string, string> cookieMap = new();
+        SortedDictionary<string, string> cookieMap = [];
 
         foreach (CoreWebView2Cookie cookie in webView2Cookies)
         {

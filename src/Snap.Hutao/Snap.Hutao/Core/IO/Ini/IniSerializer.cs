@@ -18,7 +18,7 @@ internal static class IniSerializer
     /// <returns>Ini 元素集合</returns>
     public static List<IniElement> Deserialize(FileStream fileStream)
     {
-        List<IniElement> results = new();
+        List<IniElement> results = [];
         using (StreamReader reader = new(fileStream))
         {
             while (reader.ReadLine() is { } line)

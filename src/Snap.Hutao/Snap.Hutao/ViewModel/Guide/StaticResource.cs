@@ -47,7 +47,7 @@ internal static class StaticResource
     {
         { "AchievementIcon", 1 },
         { "AvatarCard", 0 },
-        { "AvatarIcon", 1 },
+        { "AvatarIcon", 2 },
         { "Bg", 1 },
         { "ChapterIcon", 0 },
         { "CodexMonster", 0 },
@@ -109,7 +109,7 @@ internal static class StaticResource
 
     public static HashSet<string> GetUnfulfilledCategorySet()
     {
-        HashSet<string> result = new();
+        HashSet<string> result = [];
         ApplicationDataCompositeValue map = LocalSetting.Get(ContractMap, DefaultResourceVersionMap);
         foreach ((string key, object value) in LatestResourceVersionMap)
         {

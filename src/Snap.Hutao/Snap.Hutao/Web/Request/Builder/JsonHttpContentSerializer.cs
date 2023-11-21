@@ -62,7 +62,7 @@ internal class JsonHttpContentSerializer : HttpContentSerializer
         return JsonSerializer.Deserialize(json, contentType, JsonSerializerOptions);
     }
 
-    private HttpContent? SerializeUtf8(object? content, Type contentType)
+    private ByteArrayContent? SerializeUtf8(object? content, Type contentType)
     {
         byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(content, contentType, JsonSerializerOptions);
         ByteArrayContent httpContent = new(bytes);
@@ -75,7 +75,7 @@ internal class JsonHttpContentSerializer : HttpContentSerializer
         return httpContent;
     }
 
-    private HttpContent? SerializeOtherEncoding(object? content, Type contentType, Encoding encoding)
+    private StringContent? SerializeOtherEncoding(object? content, Type contentType, Encoding encoding)
     {
         string str = JsonSerializer.Serialize(content, contentType, JsonSerializerOptions);
         return new StringContent(str, encoding, MediaType.ApplicationJson);

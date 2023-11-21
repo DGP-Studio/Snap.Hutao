@@ -108,7 +108,9 @@ dotnet_naming_style.pascal_case.capitalization = pascal_case
 dotnet_diagnostic.SA1629.severity = none
 dotnet_diagnostic.SA1642.severity = none
 
+dotnet_diagnostic.IDE0005.severity = warning
 dotnet_diagnostic.IDE0060.severity = none
+dotnet_diagnostic.IDE0290.severity = none
 
 # SA1208: System using directives should be placed before other using directives
 dotnet_diagnostic.SA1208.severity = none
@@ -322,6 +324,8 @@ dotnet_diagnostic.CA2227.severity = suggestion
 
 # CA2251: 使用 “string.Equals”
 dotnet_diagnostic.CA2251.severity = suggestion
+csharp_style_prefer_primary_constructors = true:suggestion
+dotnet_diagnostic.SA1010.severity = none
 
 [*.vb]
 #### 命名样式 ####

@@ -4,7 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -38,7 +38,7 @@ internal sealed partial class CardClient
             .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .Get();
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<VerificationRegistration>? resp = await builder
             .TryCatchSendAsync<Response<VerificationRegistration>>(httpClient, logger, token)
@@ -60,7 +60,7 @@ internal sealed partial class CardClient
             .SetRequestUri(ApiEndpoints.CardVerifyVerification)
             .PostJson(new VerificationData(challenge, validate));
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<VerificationResult>? resp = await builder
             .TryCatchSendAsync<Response<VerificationResult>>(httpClient, logger, token)
@@ -83,7 +83,7 @@ internal sealed partial class CardClient
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .Get();
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.X6, false).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X6, false).ConfigureAwait(false);
 
         Response<DailyNote.WidgetDailyNote>? resp = await builder
             .TryCatchSendAsync<Response<DailyNote.WidgetDailyNote>>(httpClient, logger, token)

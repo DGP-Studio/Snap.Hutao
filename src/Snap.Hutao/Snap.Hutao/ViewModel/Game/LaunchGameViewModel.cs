@@ -138,7 +138,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                     }
                     else
                     {
-                        infoBarService.Warning(SH.ViewModelLaunchGameMultiChannelReadFail.Format(options.ConfigFilePath));
+                        infoBarService.Warning(SH.FormatViewModelLaunchGameMultiChannelReadFail(options.ConfigFilePath));
                     }
 
                     ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;

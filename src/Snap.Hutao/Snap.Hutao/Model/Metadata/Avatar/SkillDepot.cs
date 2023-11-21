@@ -39,21 +39,7 @@ internal sealed class SkillDepot
     /// 全部天赋，包括固有天赋
     /// 在 Wiki 中使用
     /// </summary>
-    public List<ProudableSkill> CompositeSkills
-    {
-        get
-        {
-            if (compositeSkills is null)
-            {
-                compositeSkills = new(Skills.Count + 1 + Inherents.Count);
-                compositeSkills.AddRange(Skills);
-                compositeSkills.Add(EnergySkill);
-                compositeSkills.AddRange(Inherents);
-            }
-
-            return compositeSkills;
-        }
-    }
+    public List<ProudableSkill> CompositeSkills { get => compositeSkills ??= [.. Skills, EnergySkill, .. Inherents]; }
 
     /// <summary>
     /// 命之座
@@ -66,23 +52,7 @@ internal sealed class SkillDepot
     /// <returns>天赋列表</returns>
     public List<ProudableSkill> CompositeSkillsNoInherents()
     {
-        if (compositeSkillsNoInherents is null)
-        {
-            compositeSkillsNoInherents = new(Skills.Count + 1);
-
-            foreach (ref ProudableSkill skill in CollectionsMarshal.AsSpan(Skills))
-            {
-                // 跳过 [替换冲刺的技能]
-                if (skill.Proud.Parameters.Count > 1)
-                {
-                    compositeSkillsNoInherents.Add(skill);
-                }
-            }
-
-            compositeSkillsNoInherents.Add(EnergySkill);
-        }
-
-        // No Inherents
-        return compositeSkillsNoInherents;
+        // No Inherents                                  跳过 [替换冲刺的技能]
+        return compositeSkillsNoInherents ??= [.. Skills.Where(s => s.Proud.Parameters.Count > 1), EnergySkill];
     }
 }

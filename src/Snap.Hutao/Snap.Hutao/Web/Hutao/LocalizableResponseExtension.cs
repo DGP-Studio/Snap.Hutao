@@ -18,6 +18,12 @@ internal static class LocalizableResponseExtension
         return SH.ResourceManager.GetString(key, CultureInfo.CurrentCulture);
     }
 
+    public static string GetLocalizationMessageOrMessage<TResponse>(this TResponse localizableResponse)
+        where TResponse : Response.Response, ILocalizableResponse
+    {
+        return localizableResponse.GetLocalizationMessageOrDefault() ?? localizableResponse.Message;
+    }
+
     public static string GetLocalizationMessage(this ILocalizableResponse localizableResponse)
     {
         string? key = localizableResponse.LocalizationKey;

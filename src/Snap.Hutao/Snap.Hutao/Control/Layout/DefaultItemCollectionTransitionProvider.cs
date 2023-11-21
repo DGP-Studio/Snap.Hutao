@@ -27,9 +27,9 @@ internal sealed class DefaultItemCollectionTransitionProvider : ItemCollectionTr
 
     protected override void StartTransitions(IList<ItemCollectionTransition> transitions)
     {
-        List<ItemCollectionTransition> addTransitions = new();
-        List<ItemCollectionTransition> removeTransitions = new();
-        List<ItemCollectionTransition> moveTransitions = new();
+        List<ItemCollectionTransition> addTransitions = [];
+        List<ItemCollectionTransition> removeTransitions = [];
+        List<ItemCollectionTransition> moveTransitions = [];
 
         foreach (ItemCollectionTransition transition in addTransitions)
         {

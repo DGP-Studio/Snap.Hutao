@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Collections.Immutable;
+using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.InterChange.Inventory;
 
@@ -16,10 +16,7 @@ internal sealed class UIIF
     /// </summary>
     public const string CurrentVersion = "v1.0";
 
-    private static readonly ImmutableList<string> SupportedVersion = new List<string>()
-    {
-        CurrentVersion,
-    }.ToImmutableList();
+    private static readonly FrozenSet<string> SupportedVersion = FrozenSet.ToFrozenSet([CurrentVersion]);
 
     /// <summary>
     /// 信息

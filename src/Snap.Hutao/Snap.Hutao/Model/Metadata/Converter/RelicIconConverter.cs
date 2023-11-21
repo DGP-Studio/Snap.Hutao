@@ -18,7 +18,7 @@ internal sealed class RelicIconConverter : ValueConverter<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        return Web.HutaoEndpoints.StaticFile("RelicIcon", $"{name}.png").ToUri();
+        return Web.HutaoEndpoints.StaticRaw("RelicIcon", $"{name}.png").ToUri();
     }
 
     /// <inheritdoc/>

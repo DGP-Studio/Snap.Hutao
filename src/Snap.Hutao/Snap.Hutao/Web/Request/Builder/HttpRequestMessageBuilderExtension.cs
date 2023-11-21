@@ -15,8 +15,13 @@ internal static class HttpRequestMessageBuilderExtension
     {
         try
         {
-            HttpResponseMessage message = await httpClient.SendAsync(builder.HttpRequestMessage, token).ConfigureAwait(false);
-            return await builder.HttpContentSerializer.DeserializeAsync<TResult>(message.Content, token).ConfigureAwait(false);
+            using (builder.HttpRequestMessage)
+            {
+                using (HttpResponseMessage message = await httpClient.SendAsync(builder.HttpRequestMessage, token).ConfigureAwait(false))
+                {
+                    return await builder.HttpContentSerializer.DeserializeAsync<TResult>(message.Content, token).ConfigureAwait(false);
+                }
+            }
         }
         catch (HttpRequestException ex)
         {
@@ -49,7 +54,9 @@ internal static class HttpRequestMessageBuilderExtension
     {
         try
         {
-            HttpResponseMessage message = await httpClient.SendAsync(builder.HttpRequestMessage, token).ConfigureAwait(false);
+            using (HttpResponseMessage message = await httpClient.SendAsync(builder.HttpRequestMessage, token).ConfigureAwait(false))
+            {
+            }
         }
         catch (HttpRequestException ex)
         {

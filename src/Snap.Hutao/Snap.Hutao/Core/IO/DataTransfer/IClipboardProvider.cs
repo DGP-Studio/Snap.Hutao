@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.IO.DataTransfer;
 /// <summary>
 /// 剪贴板互操作
 /// </summary>
-internal interface IClipboardInterop
+internal interface IClipboardProvider
 {
     /// <summary>
     /// 从剪贴板文本中反序列化

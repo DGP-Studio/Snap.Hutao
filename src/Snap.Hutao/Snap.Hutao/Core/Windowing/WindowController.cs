@@ -55,7 +55,7 @@ internal sealed class WindowController
     {
         RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
-        window.AppWindow.Title = SH.AppNameAndVersion.Format(hutaoOptions.Version);
+        window.AppWindow.Title = SH.FormatAppNameAndVersion(hutaoOptions.Version);
         window.AppWindow.SetIcon(Path.Combine(hutaoOptions.InstalledLocation, "Assets/Logo.ico"));
         ExtendsContentIntoTitleBar();
 
@@ -204,6 +204,6 @@ internal sealed class WindowController
 
         // 48 is the navigation button leftInset
         RectInt32 dragRect = StructMarshal.RectInt32(48, 0, options.TitleBar.ActualSize).Scale(scale);
-        appTitleBar.SetDragRectangles(dragRect.ToArray());
+        appTitleBar.SetDragRectangles([dragRect]);
     }
 }

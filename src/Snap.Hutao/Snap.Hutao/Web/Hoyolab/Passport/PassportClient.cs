@@ -4,7 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -38,7 +38,7 @@ internal sealed partial class PassportClient : IPassportClient
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .Get();
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 
         Response<UidCookieToken>? resp = await builder
             .TryCatchSendAsync<Response<UidCookieToken>>(httpClient, logger, token)
@@ -61,7 +61,7 @@ internal sealed partial class PassportClient : IPassportClient
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .Get();
 
-        await builder.SetDynamicSecretAsync(DynamicSecretVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 
         Response<LTokenWrapper>? resp = await builder
             .TryCatchSendAsync<Response<LTokenWrapper>>(httpClient, logger, token)

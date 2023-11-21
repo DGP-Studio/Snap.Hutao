@@ -5,7 +5,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Game.Unlocker;
 using System.IO;
-using Windows.System;
 using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game.Process;
@@ -31,8 +30,8 @@ internal sealed partial class GameProcessService : IGameProcessService
             return false;
         }
 
-        return System.Diagnostics.Process.GetProcessesByName(YuanShenProcessName).Any()
-            || System.Diagnostics.Process.GetProcessesByName(GenshinImpactProcessName).Any();
+        return System.Diagnostics.Process.GetProcessesByName(YuanShenProcessName).Length > 0
+            || System.Diagnostics.Process.GetProcessesByName(GenshinImpactProcessName).Length > 0;
     }
 
     public async ValueTask LaunchAsync(IProgress<LaunchStatus> progress)
@@ -98,8 +97,6 @@ internal sealed partial class GameProcessService : IGameProcessService
 
         if (launchOptions.IsEnabled)
         {
-            Must.Argument(!(launchOptions.IsBorderless && launchOptions.IsExclusive), "无边框与独占全屏选项无法同时生效");
-
             // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
             // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html
             commandLine = new CommandLineBuilder()
@@ -127,7 +124,9 @@ internal sealed partial class GameProcessService : IGameProcessService
 
     private ValueTask UnlockFpsAsync(System.Diagnostics.Process game, IProgress<LaunchStatus> progress, CancellationToken token = default)
     {
+#pragma warning disable CA1859
         IGameFpsUnlocker unlocker = serviceProvider.CreateInstance<GameFpsUnlocker>(game);
+#pragma warning restore CA1859
         UnlockTimingOptions options = new(100, 20000, 3000);
         Progress<UnlockerStatus> lockerProgress = new(unlockStatus => progress.Report(LaunchStatus.FromUnlockStatus(unlockStatus)));
         return unlocker.UnlockAsync(options, lockerProgress, token);

@@ -54,11 +54,11 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         TypedWishSummaryBuilderContext weaponContext = TypedWishSummaryBuilderContext.WeaponEventWish(taskContext, gachaLogClient);
         TypedWishSummaryBuilder weaponWishBuilder = new(weaponContext);
 
-        Dictionary<Avatar, int> orangeAvatarCounter = new();
-        Dictionary<Avatar, int> purpleAvatarCounter = new();
-        Dictionary<Weapon, int> orangeWeaponCounter = new();
-        Dictionary<Weapon, int> purpleWeaponCounter = new();
-        Dictionary<Weapon, int> blueWeaponCounter = new();
+        Dictionary<Avatar, int> orangeAvatarCounter = [];
+        Dictionary<Avatar, int> purpleAvatarCounter = [];
+        Dictionary<Weapon, int> orangeWeaponCounter = [];
+        Dictionary<Weapon, int> purpleWeaponCounter = [];
+        Dictionary<Weapon, int> blueWeaponCounter = [];
 
         // Pre group builders
         Dictionary<GachaConfigType, List<HistoryWishBuilder>> historyWishBuilderMap = historyWishBuilders
@@ -132,7 +132,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 
                 default:
                     // ItemId string length not correct.
-                    ThrowHelper.UserdataCorrupted(SH.ServiceGachaStatisticsFactoryItemIdInvalid.Format(item.ItemId), default!);
+                    ThrowHelper.UserdataCorrupted(SH.FormatServiceGachaStatisticsFactoryItemIdInvalid(item.ItemId), default!);
                     break;
             }
         }

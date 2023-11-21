@@ -46,7 +46,7 @@ internal sealed class AvatarInfo
     /// Character Skill Set ID
     /// </summary>
     [JsonPropertyName("skillDepotId")]
-    public int SkillDepotId { get; set; }
+    public uint SkillDepotId { get; set; }
 
     /// <summary>
     /// List of Unlocked Skill Ids

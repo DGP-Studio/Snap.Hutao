@@ -4,10 +4,12 @@
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.Web.Request.QueryString;
+using System.Collections.Specialized;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
@@ -69,7 +71,8 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
         {
             if (!tempFile.TryGetValue(out TempFile file))
             {
-                return new(false, Regex.Unescape(SH.ServiceGachaLogUrlProviderCachePathNotFound).Format(cacheFile));
+                string unescaped = Regex.Unescape(SH.ServiceGachaLogUrlProviderCachePathNotFound);
+                return new(false, string.Format(CultureInfo.CurrentCulture, unescaped, cacheFile));
             }
 
             using (FileStream fileStream = new(file.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -84,16 +87,15 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
                         return new(false, SH.ServiceGachaLogUrlProviderCacheUrlNotFound);
                     }
 
-                    QueryString query = QueryString.Parse(result.TrimEnd("#/log"));
-                    string queryLanguageCode = query["lang"];
+                    NameValueCollection query = HttpUtility.ParseQueryString(result.TrimEnd("#/log"));
+                    string? queryLanguageCode = query["lang"];
 
                     if (metadataOptions.IsCurrentLocale(queryLanguageCode))
                     {
                         return new(true, new(result));
                     }
 
-                    string message = SH.ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale
-                            .Format(queryLanguageCode, metadataOptions.LanguageCode);
+                    string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, metadataOptions.LanguageCode);
                     return new(false, message);
                 }
             }

@@ -19,7 +19,7 @@ internal sealed class LevelDescription
     /// 格式化的等级
     /// </summary>
     [JsonIgnore]
-    public string LevelFormatted { get => SH.ModelWeaponAffixFormat.Format(Level + 1); }
+    public string LevelFormatted { get => SH.FormatModelWeaponAffixFormat(Level + 1); }
 
     /// <summary>
     /// 描述
