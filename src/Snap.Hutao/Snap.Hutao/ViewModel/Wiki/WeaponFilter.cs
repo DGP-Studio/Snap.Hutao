@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Primitives;
-using Snap.Hutao.Model.Intrinsic.Immutable;
+using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Weapon;
 
 namespace Snap.Hutao.ViewModel.Wiki;
@@ -36,19 +36,19 @@ internal static class WeaponFilter
                 continue;
             }
 
-            if (IntrinsicImmutable.WeaponTypes.Contains(value))
+            if (IntrinsicFrozen.WeaponTypes.Contains(value))
             {
                 matches.Add(weapon.WeaponType.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
 
-            if (IntrinsicImmutable.ItemQualities.Contains(value))
+            if (IntrinsicFrozen.ItemQualities.Contains(value))
             {
                 matches.Add(weapon.Quality.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
 
-            if (IntrinsicImmutable.FightProperties.Contains(value))
+            if (IntrinsicFrozen.FightProperties.Contains(value))
             {
                 matches.Add(weapon.GrowCurves.ElementAtOrDefault(1)?.Type.GetLocalizedDescriptionOrDefault() == value);
                 continue;

@@ -7,7 +7,6 @@ using Snap.Hutao.Control.Collection.Alternating;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using System.Collections.Frozen;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 

@@ -30,6 +30,11 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <returns>值</returns>
     protected string GetOption(ref string? storage, string key, string defaultValue = "")
     {
+        return GetOption(ref storage, key, () => defaultValue);
+    }
+
+    protected string GetOption(ref string? storage, string key, Func<string> defaultValueFactory)
+    {
         if (storage is not null)
         {
             return storage;
@@ -38,7 +43,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            storage = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value ?? defaultValue;
+            storage = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value ?? defaultValueFactory();
         }
 
         return storage;
@@ -53,6 +58,11 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <returns>值</returns>
     protected bool GetOption(ref bool? storage, string key, bool defaultValue = false)
     {
+        return GetOption(ref storage, key, () => defaultValue);
+    }
+
+    protected bool GetOption(ref bool? storage, string key, Func<bool> defaultValueFactory)
+    {
         if (storage is not null)
         {
             return storage.Value;
@@ -62,7 +72,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value is null ? defaultValue : bool.Parse(value);
+            storage = value is null ? defaultValueFactory() : bool.Parse(value);
         }
 
         return storage.Value;
@@ -77,6 +87,11 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <returns>值</returns>
     protected int GetOption(ref int? storage, string key, int defaultValue = 0)
     {
+        return GetOption(ref storage, key, () => defaultValue);
+    }
+
+    protected int GetOption(ref int? storage, string key, Func<int> defaultValueFactory)
+    {
         if (storage is not null)
         {
             return storage.Value;
@@ -86,7 +101,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value is null ? defaultValue : int.Parse(value, CultureInfo.InvariantCulture);
+            storage = value is null ? defaultValueFactory() : int.Parse(value, CultureInfo.InvariantCulture);
         }
 
         return storage.Value;
@@ -101,8 +116,8 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <param name="deserializer">反序列化器</param>
     /// <param name="defaultValue">默认值</param>
     /// <returns>值</returns>
-    protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, T defaultValue)
-        where T : class
+    [return:NotNull]
+    protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, [DisallowNull] T defaultValue)
     {
         if (storage is not null)
         {
@@ -113,37 +128,27 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value is null ? defaultValue : deserializer(value);
+            storage = value is null ? defaultValue : deserializer(value)!;
         }
 
         return storage;
     }
 
-    /// <summary>
-    /// 从数据库中获取任何类型的数据
-    /// </summary>
-    /// <typeparam name="T">数据的类型</typeparam>
-    /// <param name="storage">存储字段</param>
-    /// <param name="key">键</param>
-    /// <param name="deserializer">反序列化器</param>
-    /// <param name="defaultValue">默认值</param>
-    /// <returns>值</returns>
-    protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, T defaultValue)
-        where T : struct
+    protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, Func<T> defaultValueFactory)
     {
         if (storage is not null)
         {
-            return storage.Value;
+            return storage;
         }
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value is null ? defaultValue : deserializer(value);
+            storage = value is null ? defaultValueFactory() : deserializer(value);
         }
 
-        return storage.Value;
+        return storage;
     }
 
     /// <summary>
@@ -226,32 +231,6 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <param name="serializer">序列化器</param>
     /// <param name="propertyName">属性名称</param>
     protected void SetOption<T>(ref T? storage, string key, T value, Func<T, string> serializer, [CallerMemberName] string? propertyName = null)
-        where T : class
-    {
-        if (!SetProperty(ref storage, value, propertyName))
-        {
-            return;
-        }
-
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
-            appDbContext.Settings.AddAndSave(new(key, serializer(value)));
-        }
-    }
-
-    /// <summary>
-    /// 将值存入数据库
-    /// </summary>
-    /// <typeparam name="T">数据的类型</typeparam>
-    /// <param name="storage">存储字段</param>
-    /// <param name="key">键</param>
-    /// <param name="value">值</param>
-    /// <param name="serializer">序列化器</param>
-    /// <param name="propertyName">属性名称</param>
-    protected void SetOption<T>(ref T? storage, string key, T value, Func<T, string> serializer, [CallerMemberName] string? propertyName = null)
-        where T : struct
     {
         if (!SetProperty(ref storage, value, propertyName))
         {

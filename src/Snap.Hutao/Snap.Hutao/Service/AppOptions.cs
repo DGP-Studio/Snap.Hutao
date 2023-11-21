@@ -52,7 +52,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     /// </summary>
     public string PowerShellPath
     {
-        get => GetOption(ref powerShellPath, SettingEntry.PowerShellPath, GetPowerShellLocationOrEmpty());
+        get => GetOption(ref powerShellPath, SettingEntry.PowerShellPath, GetPowerShellLocationOrEmpty);
         set => SetOption(ref powerShellPath, SettingEntry.PowerShellPath, value);
     }
 
@@ -75,8 +75,8 @@ internal sealed partial class AppOptions : DbStoreOptions
     /// </summary>
     public BackdropType BackdropType
     {
-        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, Enum.Parse<BackdropType>, BackdropType.Mica);
-        set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, value => value.ToString());
+        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, v => Enum.Parse<BackdropType>(v), BackdropType.Mica).Value;
+        set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, value => value.ToString()!);
     }
 
     /// <summary>
