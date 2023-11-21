@@ -141,7 +141,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     /// <summary>
     /// 所有监视器
     /// </summary>
-    public List<NameValue<int>> Monitors { get; } = new();
+    public List<NameValue<int>> Monitors { get; } = [];
 
     /// <summary>
     /// 目标帧率
@@ -165,11 +165,11 @@ internal sealed class LaunchOptions : DbStoreOptions
         set => SetOption(ref isMonitorEnabled, SettingEntry.LaunchIsMonitorEnabled, value);
     }
 
-    public List<AspectRatio> AspectRatios { get; } = new()
-    {
+    public List<AspectRatio> AspectRatios { get; } =
+    [
         new(2560, 1440),
         new(1920, 1080),
-    };
+    ];
 
     public AspectRatio? SelectedAspectRatio
     {

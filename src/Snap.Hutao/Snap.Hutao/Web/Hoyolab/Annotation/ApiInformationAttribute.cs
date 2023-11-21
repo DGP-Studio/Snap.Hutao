@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Hoyolab.DataSigning;
 
 namespace Snap.Hutao.Web.Hoyolab.Annotation;
 

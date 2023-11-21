@@ -28,7 +28,11 @@ WaitForSingleObject
 WriteProcessMemory
 
 // OLE32
+CoCreateInstance
 CoWaitForMultipleObjects
+
+// SHELL32
+SHCreateItemFromParsingName
 
 // USER32
 AttachThreadInput
@@ -46,6 +50,10 @@ SetForegroundWindow
 UnregisterHotKey
 
 // COM
+FileOpenDialog
+FileSaveDialog
+IFileOpenDialog
+IFileSaveDialog
 IPersistFile
 IShellLinkW
 ShellLink
@@ -56,6 +64,7 @@ IMemoryBufferByteAccess
 
 // Const value
 INFINITE
+MAX_PATH
 WM_GETMINMAXINFO
 WM_HOTKEY
 WM_NCRBUTTONDOWN
@@ -63,6 +72,8 @@ WM_NCRBUTTONUP
 WM_NULL
 
 // Type & Enum definition
+HRESULT_FROM_WIN32
+SLGP_FLAGS
 
 // System.Threading
 LPTHREAD_START_ROUTINE

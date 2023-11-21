@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Options;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
-using System.Collections.Immutable;
+using Snap.Hutao.Web.Hoyolab.DataSigning;
+using System.Collections.Frozen;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
@@ -32,7 +32,15 @@ internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
     /// </summary>
     public const string MobileUserAgentOversea = $"Mozilla/5.0 (Linux; Android 12) Mobile miHoYoBBSOversea/{SaltConstants.OSVersion}";
 
-    private static readonly ImmutableDictionary<SaltType, string> SaltsInner = new Dictionary<SaltType, string>()
+    /// <summary>
+    /// 米游社设备Id
+    /// </summary>
+    public static string DeviceId { get; } = Guid.NewGuid().ToString();
+
+    /// <summary>
+    /// 盐
+    /// </summary>
+    public static FrozenDictionary<SaltType, string> Salts { get; } = new Dictionary<SaltType, string>()
     {
         // Chinese
         [SaltType.K2] = SaltConstants.CNK2,
@@ -46,19 +54,7 @@ internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
         [SaltType.OSLK2] = SaltConstants.OSLK2,
         [SaltType.OSX4] = "h4c1d6ywfq5bsbnbhm1bzq7bxzzv6srt",
         [SaltType.OSX6] = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w",
-    }.ToImmutableDictionary();
-
-    private static string? deviceId;
-
-    /// <summary>
-    /// 米游社设备Id
-    /// </summary>
-    public static string DeviceId { get => deviceId ??= Guid.NewGuid().ToString(); }
-
-    /// <summary>
-    /// 盐
-    /// </summary>
-    public static ImmutableDictionary<SaltType, string> Salts { get => SaltsInner; }
+    }.ToFrozenDictionary();
 
     /// <inheritdoc/>
     public HoyolabOptions Value { get => this; }

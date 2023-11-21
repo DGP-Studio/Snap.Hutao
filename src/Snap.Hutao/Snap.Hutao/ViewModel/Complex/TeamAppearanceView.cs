@@ -20,7 +20,7 @@ internal sealed class TeamAppearanceView
     /// <param name="idAvatarMap">映射</param>
     public TeamAppearanceView(TeamAppearance teamRank, Dictionary<AvatarId, Avatar> idAvatarMap)
     {
-        Floor = SH.ModelBindingHutaoComplexRankFloor.Format(teamRank.Floor);
+        Floor = SH.FormatModelBindingHutaoComplexRankFloor(teamRank.Floor);
         Up = teamRank.Up.SelectList(teamRate => new Team(teamRate, idAvatarMap));
         Down = teamRank.Down.SelectList(teamRate => new Team(teamRate, idAvatarMap));
     }

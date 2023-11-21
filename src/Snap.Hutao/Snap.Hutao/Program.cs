@@ -36,7 +36,6 @@ public static partial class Program
             // In a Desktop app this runs a message pump internally,
             // and does not return until the application shuts down.
             Application.Start(AppInitializationCallback);
-            Control.ScopedPage.DisposePreviousScope();
         }
     }
 

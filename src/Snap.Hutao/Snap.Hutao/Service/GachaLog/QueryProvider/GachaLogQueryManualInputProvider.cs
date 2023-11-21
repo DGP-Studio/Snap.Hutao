@@ -4,7 +4,8 @@
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.View.Dialog;
-using Snap.Hutao.Web.Request.QueryString;
+using System.Collections.Specialized;
+using System.Web;
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
@@ -27,18 +28,18 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
 
         if (isOk)
         {
-            QueryString query = QueryString.Parse(queryString);
+            NameValueCollection query = HttpUtility.ParseQueryString(queryString);
+
             if (query.TryGetValue("auth_appid", out string? appId) && appId is "webview_gacha")
             {
-                string queryLanguageCode = query["lang"];
+                string? queryLanguageCode = query["lang"];
                 if (metadataOptions.IsCurrentLocale(queryLanguageCode))
                 {
                     return new(true, new(queryString));
                 }
                 else
                 {
-                    string message = SH.ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale
-                        .Format(queryLanguageCode, metadataOptions.LanguageCode);
+                    string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, metadataOptions.LanguageCode);
                     return new(false, message);
                 }
             }

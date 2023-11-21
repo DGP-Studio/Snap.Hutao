@@ -24,8 +24,8 @@ internal sealed class SkillIconConverter : ValueConverter<string, Uri>
         }
 
         return name.StartsWith("UI_Talent_", StringComparison.Ordinal)
-            ? Web.HutaoEndpoints.StaticFile("Talent", $"{name}.png").ToUri()
-            : Web.HutaoEndpoints.StaticFile("Skill", $"{name}.png").ToUri();
+            ? Web.HutaoEndpoints.StaticRaw("Talent", $"{name}.png").ToUri()
+            : Web.HutaoEndpoints.StaticRaw("Skill", $"{name}.png").ToUri();
     }
 
     /// <inheritdoc/>

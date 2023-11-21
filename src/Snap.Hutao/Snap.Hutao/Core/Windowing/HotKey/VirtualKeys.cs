@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.Windowing.HotKey;
 
 internal static class VirtualKeys
 {
-    private static readonly List<NameValue<VirtualKey>> Values = CollectionsNameValue.ListFromEnum<VirtualKey>();
+    private static readonly List<NameValue<VirtualKey>> Values = CollectionsNameValue.FromEnum<VirtualKey>();
 
     public static List<NameValue<VirtualKey>> GetList()
     {

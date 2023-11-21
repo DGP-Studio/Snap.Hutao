@@ -60,7 +60,7 @@ internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
     /// <summary>
     /// 视图 中使用的计划 Id 字符串
     /// </summary>
-    public string Schedule { get => SH.ModelEntitySpiralAbyssScheduleFormat.Format(ScheduleId); }
+    public string Schedule { get => SH.FormatModelEntitySpiralAbyssScheduleFormat(ScheduleId); }
 
     public SpiralAbyssEntry? Entity { get => entity; }
 

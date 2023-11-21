@@ -6,7 +6,6 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
-using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.HutaoAsAService;

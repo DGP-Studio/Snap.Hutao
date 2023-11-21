@@ -73,6 +73,7 @@ internal readonly struct ChannelOptions
         return $"[ChannelType:{Channel}] [SubChannel:{SubChannel}] [IsOversea: {IsOversea}]";
     }
 
+    // DO NOT DELETE used in HashSet
     public override int GetHashCode()
     {
         return HashCode.Combine(Channel, SubChannel, IsOversea);

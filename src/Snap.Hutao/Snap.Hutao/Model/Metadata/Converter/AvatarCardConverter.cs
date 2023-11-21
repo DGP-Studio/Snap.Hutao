@@ -12,7 +12,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 internal sealed class AvatarCardConverter : ValueConverter<string, Uri>
 {
     private const string CostumeCard = "UI_AvatarIcon_Costume_Card.png";
-    private static readonly Uri UIAvatarIconCostumeCard = Web.HutaoEndpoints.StaticFile("AvatarCard", CostumeCard).ToUri();
+    private static readonly Uri UIAvatarIconCostumeCard = Web.HutaoEndpoints.StaticRaw("AvatarCard", CostumeCard).ToUri();
 
     /// <summary>
     /// 名称转Uri
@@ -23,7 +23,7 @@ internal sealed class AvatarCardConverter : ValueConverter<string, Uri>
     {
         return string.IsNullOrEmpty(name)
             ? UIAvatarIconCostumeCard
-            : Web.HutaoEndpoints.StaticFile("AvatarCard", $"{name}_Card.png").ToUri();
+            : Web.HutaoEndpoints.StaticRaw("AvatarCard", $"{name}_Card.png").ToUri();
     }
 
     /// <inheritdoc/>

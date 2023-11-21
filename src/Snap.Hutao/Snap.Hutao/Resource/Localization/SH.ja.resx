@@ -518,6 +518,15 @@
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>データが異常なため、胡桃クラウドにアップロードできません。 複数のアカウントに跨がってアップロードしないでください。アップロードしたい場合は、クラウド データを削除してもう一度試してください。</value>
   </data>
+  <data name="ServerPassportLoginSucceed" xml:space="preserve">
+    <value>ログイン成功</value>
+  </data>
+  <data name="ServerPassportRegisterSucceed" xml:space="preserve">
+    <value>登録が完了しました</value>
+  </data>
+  <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
+    <value>新しいパスワードを設定しました</value>
+  </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>このメールアドレスは登録されていません。</value>
   </data>
@@ -529,6 +538,9 @@
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
     <value>ユーザーが存在しないため、アカウントを削除できません。</value>
+  </data>
+  <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
+    <value>アカウントを削除しました</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>ユーザーが存在しないため、ユーザーデータを取得出来ません。</value>
@@ -586,6 +598,12 @@
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>{0} つのアチーブメントを追加 | {1} つのアチーブメントを更新 |{2} つのアチーブメントを削除</value>
+  </data>
+  <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
+    <value>UIAF Json 文件</value>
+  </data>
+  <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
+    <value>打开 UIAF Json 文件</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>複数の同一アチーブメント Idがアーカイブに混在しています</value>
@@ -773,6 +791,12 @@
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>参量物質変化器は使用可能</value>
   </data>
+  <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
+    <value>正在提瓦特大陆中探索</value>
+  </data>
+  <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
+    <value>由 {0} 启动</value>
+  </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
     <value>{0}：祈願履歴を確認できません</value>
   </data>
@@ -857,6 +881,9 @@
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>ゲーム本体を選択する</value>
   </data>
+  <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
+    <value>游戏本体</value>
+  </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Unity ログファイルが見つかりません</value>
   </data>
@@ -919,6 +946,9 @@
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
+  </data>
+  <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
+    <value>HTTP {0} | Error:{1}：元数据校验文件下载失败</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>メタデータサービスが初期化されていないか、または初期化できませんでした</value>
@@ -1319,6 +1349,9 @@
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>{0} を削除してもよろしいでしょうか？</value>
   </data>
+  <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
+    <value>导出 UIAF Json 文件到指定路径</value>
+  </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>素材リスト取得中、しばらくお待ちください</value>
   </data>
@@ -1445,8 +1478,14 @@
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
     <value>胡桃クラウドで祈願履歴を同期します</value>
   </data>
+  <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
+    <value>导出 UIGF Json 文件到指定路径</value>
+  </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>胡桃クラウドにアップロード中</value>
+  </data>
+  <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
+    <value>导入 UIGF Json 文件</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
     <value>上記の規約を熟読し、それに同意します</value>
@@ -2703,7 +2742,7 @@
     <value>クールタイム中</value>
   </data>
   <data name="WebDailyNoteTransformerReached" xml:space="preserve">
-    <value>利用可能</value>
+    <value>使用可能</value>
   </data>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
     <value>使用可能</value>
@@ -2754,7 +2793,7 @@
     <value>ダウンロードリンクのコピーに成功しました</value>
   </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
-    <value>无效的 UID</value>
+    <value>無効なUIDです</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>認証に失敗しました。 手動で認証するか、MiHoYo BBS - 戦績 を確認してください。</value>

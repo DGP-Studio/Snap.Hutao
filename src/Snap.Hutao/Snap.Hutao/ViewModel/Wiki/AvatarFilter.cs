@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Primitives;
-using Snap.Hutao.Model.Intrinsic.Immutable;
+using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Avatar;
 
 namespace Snap.Hutao.ViewModel.Wiki;
@@ -24,10 +24,8 @@ internal static class AvatarFilter
 
     private static bool DoFilter(string input, Avatar avatar)
     {
-        List<bool> matches = new();
-
-        // TODO: use Collection Literals
-        foreach (StringSegment segment in new StringTokenizer(input, new char[] { ' ' }))
+        List<bool> matches = [];
+        foreach (StringSegment segment in new StringTokenizer(input, [' ']))
         {
             string value = segment.ToString();
 
@@ -37,31 +35,31 @@ internal static class AvatarFilter
                 continue;
             }
 
-            if (IntrinsicImmutable.ElementNames.Contains(value))
+            if (IntrinsicFrozen.ElementNames.Contains(value))
             {
                 matches.Add(avatar.FetterInfo.VisionBefore == value);
                 continue;
             }
 
-            if (IntrinsicImmutable.AssociationTypes.Contains(value))
+            if (IntrinsicFrozen.AssociationTypes.Contains(value))
             {
                 matches.Add(avatar.FetterInfo.Association.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
 
-            if (IntrinsicImmutable.WeaponTypes.Contains(value))
+            if (IntrinsicFrozen.WeaponTypes.Contains(value))
             {
                 matches.Add(avatar.Weapon.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
 
-            if (IntrinsicImmutable.ItemQualities.Contains(value))
+            if (IntrinsicFrozen.ItemQualities.Contains(value))
             {
                 matches.Add(avatar.Quality.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
 
-            if (IntrinsicImmutable.BodyTypes.Contains(value))
+            if (IntrinsicFrozen.BodyTypes.Contains(value))
             {
                 matches.Add(avatar.Body.GetLocalizedDescriptionOrDefault() == value);
                 continue;

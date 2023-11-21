@@ -24,7 +24,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         if (!await InitializeUserAsync(user, token).ConfigureAwait(false))
         {
             user.UserInfo = new() { Nickname = SH.ModelBindingUserInitializationFailed };
-            user.UserGameRoles = new();
+            user.UserGameRoles = [];
         }
 
         return user;
@@ -87,7 +87,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
         await userFingerprintService.TryInitializeAsync(user, token).ConfigureAwait(false);
 
-        user.SelectedUserGameRole = user.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
+        // should not raise propery changed event here
+        user.SetSelectedUserGameRole(user.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen), false);
         return user.IsInitialized = true;
     }
 
@@ -176,7 +177,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         if (userGameRolesResponse.IsOk())
         {
             user.UserGameRoles = userGameRolesResponse.Data.List;
-            return user.UserGameRoles.Any();
+            return user.UserGameRoles.Count > 0;
         }
         else
         {

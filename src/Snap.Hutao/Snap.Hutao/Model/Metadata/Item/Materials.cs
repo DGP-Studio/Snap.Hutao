@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
-using System.Collections.Immutable;
+using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Metadata.Item;
 
@@ -11,8 +11,8 @@ namespace Snap.Hutao.Model.Metadata.Item;
 /// </summary>
 internal static class Materials
 {
-    private static readonly ImmutableHashSet<MaterialId> MondayThursdayItemsInner = new HashSet<MaterialId>
-    {
+    public static FrozenSet<MaterialId> MondayThursdayItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
+    [
         104301U, 104302U, 104303U, // 「自由」
         104310U, 104311U, 104312U, // 「繁荣」
         104320U, 104321U, 104322U, // 「浮世」
@@ -23,10 +23,10 @@ internal static class Materials
         114025U, 114026U, 114027U, 114028U, // 远海夷地
         114037U, 114038U, 114039U, 114040U, // 谧林涓露
         114049U, 114050U, 114051U, 114052U, // 悠古弦音
-    }.ToImmutableHashSet();
+    ]);
 
-    private static readonly ImmutableHashSet<MaterialId> TuesdayFridayItemsInner = new HashSet<MaterialId>
-    {
+    public static FrozenSet<MaterialId> TuesdayFridayItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
+    [
         104304U, 104305U, 104306U, // 「抗争」
         104313U, 104314U, 104315U, // 「勤劳」
         104323U, 104324U, 104325U, // 「风雅」
@@ -37,10 +37,10 @@ internal static class Materials
         114029U, 114030U, 114031U, 114032U, // 鸣神御灵
         114041U, 114042U, 114043U, 114044U, // 绿洲花园
         114053U, 114054U, 114055U, 114056U, // 纯圣露滴
-    }.ToImmutableHashSet();
+    ]);
 
-    private static readonly ImmutableHashSet<MaterialId> WednesdaySaturdayItemsInner = new HashSet<MaterialId>
-    {
+    public static FrozenSet<MaterialId> WednesdaySaturdayItems { get; } = FrozenSet.ToFrozenSet<MaterialId>(
+    [
         104307U, 104308U, 104309U, // 「诗文」
         104316U, 104317U, 104318U, // 「黄金」
         104326U, 104327U, 104328U, // 「天光」
@@ -51,20 +51,5 @@ internal static class Materials
         114033U, 114034U, 114035U, 114036U, // 今昔剧画
         114045U, 114046U, 114047U, 114048U, // 谧林涓露
         114057U, 114058U, 114059U, 114060U, // 无垢之海
-    }.ToImmutableHashSet();
-
-    /// <summary>
-    /// 周一/周四
-    /// </summary>
-    public static ImmutableHashSet<MaterialId> MondayThursdayItems { get => MondayThursdayItemsInner; }
-
-    /// <summary>
-    /// 周二/周五
-    /// </summary>
-    public static ImmutableHashSet<MaterialId> TuesdayFridayItems { get => TuesdayFridayItemsInner; }
-
-    /// <summary>
-    /// 周三/周六
-    /// </summary>
-    public static ImmutableHashSet<MaterialId> WednesdaySaturdayItems { get => WednesdaySaturdayItemsInner; }
+    ]);
 }

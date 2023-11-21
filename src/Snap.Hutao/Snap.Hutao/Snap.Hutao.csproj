@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <RootNamespace>Snap.Hutao</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platform>x64</Platform>
     <Platforms>x64</Platforms>
-    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
-    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
-    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
+    <!-- https://github.com/dotnet/docs/issues/36527 -->
+    <UseRidGraph>true</UseRidGraph>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
     <UseWPF>False</UseWPF>
     <UseWindowsForms>False</UseWindowsForms>
@@ -87,6 +88,7 @@
     <None Remove="Control\Theme\NumericValue.xaml" />
     <None Remove="Control\Theme\PageOverride.xaml" />
     <None Remove="Control\Theme\PivotOverride.xaml" />
+    <None Remove="Control\Theme\ScrollViewer.xaml" />
     <None Remove="Control\Theme\SettingsStyle.xaml" />
     <None Remove="Control\Theme\TransitionCollection.xaml" />
     <None Remove="Control\Theme\Uri.xaml" />
@@ -269,21 +271,23 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.13" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.13">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+    <PackageReference Include="Snap.Discord.GameSDK" Version="1.2.0" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.507">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.IO.Hashing" Version="7.0.0" />
+    <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
     <PackageReference Include="TaskScheduler" Version="2.10.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
@@ -302,10 +306,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="Extension\EnumerableExtension.NameValueCollection.cs" />
   </ItemGroup>
   
   <ItemGroup>
     <AdditionalFiles Include="Resource\Localization\SH.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.en.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.ja.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.ko.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="Control\Theme\ScrollViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   
   <ItemGroup>

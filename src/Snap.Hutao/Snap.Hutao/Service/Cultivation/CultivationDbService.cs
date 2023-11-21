@@ -20,10 +20,8 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.InventoryItems
-                .AsNoTracking()
-                .Where(a => a.ProjectId == projectId)
-                .ToList();
+            IQueryable<InventoryItem> result = appDbContext.InventoryItems.AsNoTracking().Where(a => a.ProjectId == projectId);
+            return [.. result];
         }
     }
 

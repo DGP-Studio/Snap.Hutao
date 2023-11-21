@@ -19,7 +19,7 @@ internal sealed class GachaEquipIconConverter : ValueConverter<string, Uri>
     public static Uri IconNameToUri(string name)
     {
         string icon = name["UI_".Length..];
-        return new Uri(Web.HutaoEndpoints.StaticFile("GachaEquipIcon", $"UI_Gacha_{icon}.png"));
+        return new Uri(Web.HutaoEndpoints.StaticRaw("GachaEquipIcon", $"UI_Gacha_{icon}.png"));
     }
 
     /// <inheritdoc/>

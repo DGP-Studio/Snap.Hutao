@@ -3,10 +3,9 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Markup;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Theme;
-using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Text;
 using System.Text.RegularExpressions;

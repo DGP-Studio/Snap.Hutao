@@ -88,7 +88,6 @@ internal static partial class IocHttpClientConfiguration
     /// HoYoLAB web
     /// </summary>
     /// <param name="client">配置后的客户端</param>
-    [SuppressMessage("", "IDE0051")]
     private static void XRpc4Configuration(HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;

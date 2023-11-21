@@ -22,7 +22,7 @@ internal static class SummaryAvatarProperties
     {
         if (fightPropMap is null)
         {
-            return new();
+            return [];
         }
 
         AvatarProperty hpProp = ToAvatarProperty(FightProperty.FIGHT_PROP_BASE_HP, fightPropMap);

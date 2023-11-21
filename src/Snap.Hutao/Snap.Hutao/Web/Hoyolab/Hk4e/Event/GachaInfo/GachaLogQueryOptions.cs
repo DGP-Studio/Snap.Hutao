@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.GachaLog.QueryProvider;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using Snap.Hutao.Web.Request.QueryString;
+using System.Collections.Specialized;
+using System.Web;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
@@ -45,7 +45,7 @@ internal struct GachaLogQueryOptions
     /// size
     /// end_id
     /// </summary>
-    private readonly QueryString innerQuery;
+    private readonly NameValueCollection innerQuery;
 
     /// <summary>
     /// 构造一个新的祈愿记录请求配置
@@ -60,36 +60,17 @@ internal struct GachaLogQueryOptions
         // 对于每个类型我们需要单独创建
         // 对应类型的 GachaLogQueryOptions
         Type = queryType;
-        innerQuery = QueryString.Parse(query.Query);
-
-        // innerQuery.Set("lang", "zh-cn");
-        innerQuery.Set("gacha_type", (int)queryType);
-        innerQuery.Set("size", Size);
-    }
-
-    /// <summary>
-    /// 转换到查询字符串
-    /// </summary>
-    /// <param name="genAuthKeyData">生成信息</param>
-    /// <param name="gameAuthKey">验证包装</param>
-    /// <param name="lang">语言</param>
-    /// <returns>查询</returns>
-    public static string ToQueryString(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)
-    {
-        QueryString queryString = new();
-        queryString.Set("lang", lang);
-        queryString.Set("auth_appid", genAuthKeyData.AuthAppId);
-        queryString.Set("authkey", Uri.EscapeDataString(gameAuthKey.AuthKey));
-        queryString.Set("authkey_ver", gameAuthKey.AuthKeyVersion);
-        queryString.Set("sign_type", gameAuthKey.SignType);
-
-        return queryString.ToString();
+        innerQuery = HttpUtility.ParseQueryString(query.Query);
+        innerQuery.Set("gacha_type", $"{queryType:D}");
+        innerQuery.Set("size", $"{Size}");
     }
 
     public readonly string ToQueryString()
     {
         // Make the cached end id into query.
-        innerQuery.Set("end_id", EndId);
-        return innerQuery.ToString();
+        innerQuery.Set("end_id", $"{EndId:D}");
+        string? query = innerQuery.ToString();
+        ArgumentException.ThrowIfNullOrEmpty(query);
+        return query;
     }
 }

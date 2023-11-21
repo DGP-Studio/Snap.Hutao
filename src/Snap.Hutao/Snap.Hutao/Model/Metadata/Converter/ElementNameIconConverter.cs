@@ -45,7 +45,7 @@ internal sealed class ElementNameIconConverter : ValueConverter<string, Uri>
 
         return string.IsNullOrEmpty(element)
             ? Web.HutaoEndpoints.UIIconNone
-            : Web.HutaoEndpoints.StaticFile("IconElement", $"UI_Icon_Element_{element}.png").ToUri();
+            : Web.HutaoEndpoints.StaticRaw("IconElement", $"UI_Icon_Element_{element}.png").ToUri();
 
         // $"UI_Icon_Element_{element}.png"
     }

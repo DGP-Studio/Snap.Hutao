@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Intrinsic.Immutable;
+using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Text.RegularExpressions;
 
@@ -58,7 +58,7 @@ internal sealed class Material : DisplayItem
         // Character Level-Up Material               // 40体BOSS/周本掉落
         // Weapon Enhancement Material               // 魔矿
         // Weapon Ascension Material                 // 武器本
-        return IntrinsicImmutable.MaterialTypeDescriptions.Contains(TypeDescription);
+        return IntrinsicFrozen.MaterialTypeDescriptions.Contains(TypeDescription);
     }
 
     /// <summary>
@@ -69,12 +69,13 @@ internal sealed class Material : DisplayItem
     /// <returns>是否为当日物品</returns>
     public bool IsTodaysItem(bool treatSundayAsTrue = false)
     {
-        return DateTimeOffset.UtcNow.AddHours(4).DayOfWeek switch
+        // TODO: support different time zone
+        return (DateTimeOffset.Now - new TimeSpan(4, 0, 0)).DayOfWeek switch
         {
             DayOfWeek.Monday or DayOfWeek.Thursday => Materials.MondayThursdayItems.Contains(Id),
             DayOfWeek.Tuesday or DayOfWeek.Friday => Materials.TuesdayFridayItems.Contains(Id),
             DayOfWeek.Wednesday or DayOfWeek.Saturday => Materials.WednesdaySaturdayItems.Contains(Id),
-            _ => false,
+            _ => treatSundayAsTrue,
         };
     }
 

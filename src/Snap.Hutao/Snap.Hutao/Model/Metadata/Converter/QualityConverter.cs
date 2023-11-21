@@ -21,6 +21,6 @@ internal sealed class QualityConverter : ValueConverter<QualityType, Uri>
             name = "QUALITY_RED";
         }
 
-        return Web.HutaoEndpoints.StaticFile("Bg", $"UI_{name}.png").ToUri();
+        return Web.HutaoEndpoints.StaticRaw("Bg", $"UI_{name}.png").ToUri();
     }
 }

@@ -64,7 +64,7 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
         {
             return RefreshTime == DateTimeOffsetExtension.DatebaseDefaultTime
                 ? SH.ModelEntityDailyNoteNotRefreshed
-                : SH.ModelEntityDailyNoteRefreshTimeFormat.Format(RefreshTime);
+                : SH.FormatModelEntityDailyNoteRefreshTimeFormat(RefreshTime.ToLocalTime());
         }
     }
 
@@ -143,7 +143,7 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
         DailyNote = dailyNote;
         OnPropertyChanged(nameof(DailyNote));
 
-        RefreshTime = DateTimeOffset.Now;
+        RefreshTime = DateTimeOffset.UtcNow;
         OnPropertyChanged(nameof(RefreshTimeFormatted));
     }
 }

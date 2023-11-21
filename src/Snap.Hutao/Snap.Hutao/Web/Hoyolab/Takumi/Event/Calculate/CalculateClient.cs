@@ -57,7 +57,7 @@ internal sealed partial class CalculateClient
         int currentPage = 1;
         SyncAvatarFilter filter = new() { Uid = userAndUid.Uid.Value, Region = userAndUid.Uid.Region };
 
-        List<Avatar> avatars = new();
+        List<Avatar> avatars = [];
         Response<ListWrapper<Avatar>>? resp;
 
         do
@@ -166,10 +166,10 @@ internal sealed partial class CalculateClient
     private class SyncAvatarFilter
     {
         [JsonPropertyName("element_attr_ids")]
-        public List<int>? ElementAttrIds { get; set; } = new();
+        public List<int>? ElementAttrIds { get; set; } = [];
 
         [JsonPropertyName("weapon_cat_ids")]
-        public List<int>? WeaponCatIds { get; set; } = new();
+        public List<int>? WeaponCatIds { get; set; } = [];
 
         [JsonPropertyName("page")]
         public int Page { get; set; }

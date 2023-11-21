@@ -24,7 +24,7 @@ internal sealed class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?
         }
 
         string avatarName = ReplaceSpecialCaseNaming(avatar.Icon["UI_AvatarIcon_".Length..]);
-        return Web.HutaoEndpoints.StaticFile("NameCardPic", $"UI_NameCardPic_{avatarName}_P.png").ToUri();
+        return Web.HutaoEndpoints.StaticRaw("NameCardPic", $"UI_NameCardPic_{avatarName}_P.png").ToUri();
     }
 
     /// <inheritdoc/>

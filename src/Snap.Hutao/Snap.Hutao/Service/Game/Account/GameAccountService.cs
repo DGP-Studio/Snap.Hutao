@@ -14,7 +14,6 @@ namespace Snap.Hutao.Service.Game.Account;
 internal sealed partial class GameAccountService : IGameAccountService
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IServiceProvider serviceProvider;
     private readonly IGameDbService gameDbService;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
@@ -108,7 +107,7 @@ internal sealed partial class GameAccountService : IGameAccountService
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
         await taskContext.SwitchToMainThreadAsync();
-        LaunchGameAccountNameDialog dialog = serviceProvider.CreateInstance<LaunchGameAccountNameDialog>();
+        LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);
         (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(true);
 
         if (isOk)

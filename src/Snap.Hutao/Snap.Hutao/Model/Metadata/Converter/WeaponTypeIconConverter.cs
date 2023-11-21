@@ -29,7 +29,7 @@ internal sealed class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
             _ => throw Must.NeverHappen(),
         };
 
-        return Web.HutaoEndpoints.StaticFile("Skill", $"Skill_A_{weapon}.png").ToUri();
+        return Web.HutaoEndpoints.StaticRaw("Skill", $"Skill_A_{weapon}.png").ToUri();
     }
 
     /// <inheritdoc/>

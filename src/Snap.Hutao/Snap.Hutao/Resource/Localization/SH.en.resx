@@ -518,6 +518,15 @@
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>Found abnormal data, unable to upload to Snap Hutao Cloud. Please do not upload across accounts or you can attempt to delete cloud data and try again.</value>
   </data>
+  <data name="ServerPassportLoginSucceed" xml:space="preserve">
+    <value>Login successfully</value>
+  </data>
+  <data name="ServerPassportRegisterSucceed" xml:space="preserve">
+    <value>Register successfully</value>
+  </data>
+  <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
+    <value>Password has been set successfully</value>
+  </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>Current email adress is not registered</value>
   </data>
@@ -529,6 +538,9 @@
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
     <value>User does not exist, failed to delete account</value>
+  </data>
+  <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
+    <value>Unregister successfully</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>User does not exist, failed to fetch user's data</value>
@@ -586,6 +598,12 @@
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>New: {0} Achievements | Updated: {1} Achievements | Delete: {2} Achievements</value>
+  </data>
+  <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
+    <value>UIAF Json File</value>
+  </data>
+  <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
+    <value>Open UIAF Json File</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>Multiple identical achievement IDs found in a single achievement archive</value>
@@ -773,6 +791,12 @@
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>Parametric Transformer is ready</value>
   </data>
+  <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
+    <value>Exploring in Teyvat</value>
+  </data>
+  <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
+    <value>Started by {0}</value>
+  </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
     <value>Unable to fetch wish history: {0}</value>
   </data>
@@ -857,6 +881,9 @@
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>Select game executable</value>
   </data>
+  <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
+    <value>Game client</value>
+  </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Unity log file not found</value>
   </data>
@@ -919,6 +946,9 @@
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Unable to find cached metadata file</value>
+  </data>
+  <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
+    <value>HTTP {0} | Error:{1}：元数据校验文件下载失败</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>Metadata service has not been initialized or failed to initialize</value>
@@ -1319,6 +1349,9 @@
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>Are you sure you want to delete archive {0}?</value>
   </data>
+  <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
+    <value>Export UIAF Json file to the selected path</value>
+  </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>Fetching ascension materials...</value>
   </data>
@@ -1445,8 +1478,14 @@
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
     <value>Sync Wish History from Snap Hutao Cloud Service</value>
   </data>
+  <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
+    <value>Export UIGF Json file to the selected path</value>
+  </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>Uploading to Snap Hutao Cloud Service</value>
+  </data>
+  <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
+    <value>Import UIGF Json file</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
     <value>I've Read and Agreed Conditions Above</value>

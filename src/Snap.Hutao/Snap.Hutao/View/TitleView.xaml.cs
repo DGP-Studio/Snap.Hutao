@@ -25,20 +25,16 @@ internal sealed partial class TitleView : UserControl
     /// <summary>
     /// 标题
     /// </summary>
-    [SuppressMessage("", "CA1822")]
     public string Title
     {
+        [SuppressMessage("", "IDE0027")]
         get
         {
-            Core.RuntimeOptions hutaoOptions = Ioc.Default.GetRequiredService<Core.RuntimeOptions>();
-
-            string format =
 #if DEBUG
-                SH.AppDevNameAndVersion;
+            return SH.FormatAppDevNameAndVersion(RuntimeOptions.Version);
 #else
-                SH.AppNameAndVersion;
+            return SH.FormatAppNameAndVersion(RuntimeOptions.Version);
 #endif
-            return format.Format(hutaoOptions.Version);
         }
     }
 
@@ -50,15 +46,7 @@ internal sealed partial class TitleView : UserControl
         get => DragableGrid;
     }
 
-    [SuppressMessage("", "CA1822")]
-    public RuntimeOptions RuntimeOptions
-    {
-        get => Ioc.Default.GetRequiredService<RuntimeOptions>();
-    }
+    public RuntimeOptions RuntimeOptions { get; } = Ioc.Default.GetRequiredService<RuntimeOptions>();
 
-    [SuppressMessage("", "CA1822")]
-    public HotKeyOptions HotKeyOptions
-    {
-        get => Ioc.Default.GetRequiredService<HotKeyOptions>();
-    }
+    public HotKeyOptions HotKeyOptions { get; } = Ioc.Default.GetRequiredService<HotKeyOptions>();
 }

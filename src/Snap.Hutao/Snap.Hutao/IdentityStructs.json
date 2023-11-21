@@ -72,6 +72,12 @@
     "EqualityOperators": true
   },
   {
+    "Name": "ProfilePictureId",
+    "Documentation": "角色头像 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
     "Name": "PromoteId",
     "Documentation": "角色突破提升 Id",
     "Equatable": true,

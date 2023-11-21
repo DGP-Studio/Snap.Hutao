@@ -114,7 +114,7 @@ internal sealed class SummaryReliquaryFactory
 
     private List<ReliquaryComposedSubProperty> CreateComposedSubProperties(List<ReliquarySubAffixId> appendProps)
     {
-        List<SummaryReliquarySubPropertyCompositionInfo> infos = new();
+        List<SummaryReliquarySubPropertyCompositionInfo> infos = [];
         foreach (ref readonly ReliquarySubAffixId subAffixId in CollectionsMarshal.AsSpan(appendProps))
         {
             ReliquarySubAffix subAffix = metadataContext.IdReliquarySubAffixMap[subAffixId];
@@ -128,7 +128,7 @@ internal sealed class SummaryReliquaryFactory
             ThrowHelper.InvalidOperation("无效的圣遗物数据");
         }
 
-        List<ReliquaryComposedSubProperty> results = new();
+        List<ReliquaryComposedSubProperty> results = [];
         foreach (ref readonly SummaryReliquarySubPropertyCompositionInfo info in CollectionsMarshal.AsSpan(infos))
         {
             results.Add(info.ToReliquaryComposedSubProperty());

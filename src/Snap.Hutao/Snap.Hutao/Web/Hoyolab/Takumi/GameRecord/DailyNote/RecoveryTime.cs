@@ -67,10 +67,10 @@ internal sealed class RecoveryTime
             else
             {
                 return new StringBuilder()
-                    .AppendIf(Day > 0, SH.WebDailyNoteTransformerDaysFormat.Format(Day))
-                    .AppendIf(Hour > 0, SH.WebDailyNoteTransformerHoursFormat.Format(Hour))
-                    .AppendIf(Minute > 0, SH.WebDailyNoteTransformerMinutesFormat.Format(Minute))
-                    .AppendIf(Second > 0, SH.WebDailyNoteTransformerSecondsFormat.Format(Second))
+                    .AppendIf(Day > 0, SH.FormatWebDailyNoteTransformerDaysFormat(Day))
+                    .AppendIf(Hour > 0, SH.FormatWebDailyNoteTransformerHoursFormat(Hour))
+                    .AppendIf(Minute > 0, SH.FormatWebDailyNoteTransformerMinutesFormat(Minute))
+                    .AppendIf(Second > 0, SH.FormatWebDailyNoteTransformerSecondsFormat(Second))
                     .Append(SH.WebDailyNoteTransformerAppend)
                     .ToString();
             }
@@ -92,10 +92,10 @@ internal sealed class RecoveryTime
             else
             {
                 return new StringBuilder()
-                    .AppendIf(Day > 0, SH.WebDailyNoteTransformerDaysFormat.Format(Day))
-                    .AppendIf(Hour > 0, SH.WebDailyNoteTransformerHoursFormat.Format(Hour))
-                    .AppendIf(Minute > 0, SH.WebDailyNoteTransformerMinutesFormat.Format(Minute))
-                    .AppendIf(Second > 0, SH.WebDailyNoteTransformerSecondsFormat.Format(Second))
+                    .AppendIf(Day > 0, SH.FormatWebDailyNoteTransformerDaysFormat(Day))
+                    .AppendIf(Hour > 0, SH.FormatWebDailyNoteTransformerHoursFormat(Hour))
+                    .AppendIf(Minute > 0, SH.FormatWebDailyNoteTransformerMinutesFormat(Minute))
+                    .AppendIf(Second > 0, SH.FormatWebDailyNoteTransformerSecondsFormat(Second))
                     .ToString();
             }
         }

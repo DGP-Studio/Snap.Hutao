@@ -81,7 +81,7 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
 
     private static void FillUpWithAddServices(StringBuilder sourceBuilder, SourceProductionContext production, ImmutableArray<GeneratorSyntaxContext2> contexts)
     {
-        List<string> lines = new();
+        List<string> lines = [];
         StringBuilder lineBuilder = new();
 
         foreach (GeneratorSyntaxContext2 context in contexts.DistinctBy(c => c.Symbol.ToDisplayString()))
@@ -92,16 +92,28 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
             ImmutableArray<TypedConstant> arguments = injectionInfo.ConstructorArguments;
 
             string injectAsName = arguments[0].ToCSharpString();
-            switch (injectAsName)
+
+            bool hasKey = injectionInfo.TryGetNamedArgumentValue("Key", out TypedConstant key);
+
+            switch (injectAsName, hasKey)
             {
-                case InjectAsSingletonName:
+                case (InjectAsSingletonName, false):
                     lineBuilder.Append("        services.AddSingleton<");
                     break;
-                case InjectAsTransientName:
+                case (InjectAsSingletonName, true):
+                    lineBuilder.Append("        services.AddKeyedSingleton<");
+                    break;
+                case (InjectAsTransientName, false):
                     lineBuilder.Append("        services.AddTransient<");
                     break;
-                case InjectAsScopedName:
+                case (InjectAsTransientName, true):
+                    lineBuilder.Append("        services.AddKeyedTransient<");
+                    break;
+                case (InjectAsScopedName, false):
                     lineBuilder.Append("        services.AddScoped<");
+                    break;
+                case (InjectAsScopedName, true):
+                    lineBuilder.Append("        services.AddKeyedScoped<");
                     break;
                 default:
                     production.ReportDiagnostic(Diagnostic.Create(invalidInjectionDescriptor, context.Context.Node.GetLocation(), injectAsName));
@@ -113,7 +125,14 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
                 lineBuilder.Append($"{arguments[1].Value}, ");
             }
 
-            lineBuilder.Append($"{context.Symbol.ToDisplayString()}>();");
+            if (hasKey)
+            {
+                lineBuilder.Append($"{context.Symbol.ToDisplayString()}>({key.ToCSharpString()});");
+            }
+            else
+            {
+                lineBuilder.Append($"{context.Symbol.ToDisplayString()}>();");
+            }
 
             lines.Add(lineBuilder.ToString());
         }

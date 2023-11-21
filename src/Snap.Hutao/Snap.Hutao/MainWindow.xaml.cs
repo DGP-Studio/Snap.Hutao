@@ -16,8 +16,8 @@ namespace Snap.Hutao;
 [SuppressMessage("", "CA1001")]
 internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMaxInfoHandler
 {
-    private const int MinWidth = 848;
-    private const int MinHeight = 524;
+    private const int MinWidth = 1200;
+    private const int MinHeight = 750;
 
     private readonly WindowOptions windowOptions;
     private readonly ILogger<MainWindow> logger;

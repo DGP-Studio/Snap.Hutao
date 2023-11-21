@@ -14,13 +14,9 @@ internal sealed class LevelView : IMappingFrom<LevelView, TowerLevel, SpiralAbys
 {
     private LevelView(TowerLevel towerLevel, SpiralAbyssMetadataContext context)
     {
-        Index = SH.ModelBindingHutaoComplexRankLevel.Format(towerLevel.Index);
+        Index = SH.FormatModelBindingHutaoComplexRankLevel(towerLevel.Index);
         IndexValue = towerLevel.Index;
-        Battles = new()
-        {
-            BattleView.From(towerLevel, 1, context),
-            BattleView.From(towerLevel, 2, context),
-        };
+        Battles = [BattleView.From(towerLevel, 1, context), BattleView.From(towerLevel, 2, context)];
     }
 
     /// <summary>

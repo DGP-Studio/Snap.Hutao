@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core.Windowing.HotKey;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
@@ -34,7 +33,8 @@ internal sealed class WindowSubclass : IDisposable
         this.window = window;
         this.options = options;
         this.serviceProvider = serviceProvider;
-        hotKeyController = new HotKeyController(serviceProvider);
+
+        hotKeyController = serviceProvider.GetRequiredService<IHotKeyController>();
     }
 
     /// <summary>

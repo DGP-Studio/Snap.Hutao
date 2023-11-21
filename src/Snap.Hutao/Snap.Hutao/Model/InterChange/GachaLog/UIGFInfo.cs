@@ -71,7 +71,7 @@ internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, Metadata
         {
             Uid = uid,
             Language = metadataOptions.LanguageCode,
-            ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
+            ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
             ExportAppVersion = runtimeOptions.Version.ToString(),
             UIGFVersion = UIGF.CurrentVersion,

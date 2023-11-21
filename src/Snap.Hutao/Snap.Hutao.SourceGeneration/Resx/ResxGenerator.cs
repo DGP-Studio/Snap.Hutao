@@ -39,44 +39,44 @@ public sealed class ResxGenerator : IIncrementalGenerator
     private static void Execute(SourceProductionContext context, AnalyzerConfigOptionsProvider options, string? assemblyName, bool supportNullableReferenceTypes, ImmutableArray<AdditionalText> files)
     {
         // Group additional file by resource kind ((a.resx, a.en.resx, a.en-us.resx), (b.resx, b.en-us.resx))
-        List<IGrouping<string, AdditionalText>> resxGroups = files
+        IOrderedEnumerable<IGrouping<string, AdditionalText>> group = files
             .GroupBy(file => GetResourceName(file.Path), StringComparer.OrdinalIgnoreCase)
-            .OrderBy(x => x.Key, StringComparer.Ordinal)
-            .ToList();
+            .OrderBy(x => x.Key, StringComparer.Ordinal);
+        List<IGrouping<string, AdditionalText>> resxGroups = [.. group];
 
-        foreach (IGrouping<string, AdditionalText>? resxGroug in resxGroups)
+        foreach (IGrouping<string, AdditionalText>? resxGroup in resxGroups)
         {
-            string? rootNamespaceConfiguration = GetMetadataValue(context, options, "RootNamespace", resxGroug);
-            string? projectDirConfiguration = GetMetadataValue(context, options, "ProjectDir", resxGroug);
-            string? namespaceConfiguration = GetMetadataValue(context, options, "Namespace", "DefaultResourcesNamespace", resxGroug);
-            string? resourceNameConfiguration = GetMetadataValue(context, options, "ResourceName", globalName: null, resxGroug);
-            string? classNameConfiguration = GetMetadataValue(context, options, "ClassName", globalName: null, resxGroug);
+            string? rootNamespaceConfiguration = GetMetadataValue(context, options, "RootNamespace", resxGroup);
+            string? projectDirConfiguration = GetMetadataValue(context, options, "ProjectDir", resxGroup);
+            string? namespaceConfiguration = GetMetadataValue(context, options, "Namespace", "DefaultResourcesNamespace", resxGroup);
+            string? resourceNameConfiguration = GetMetadataValue(context, options, "ResourceName", globalName: null, resxGroup);
+            string? classNameConfiguration = GetMetadataValue(context, options, "ClassName", globalName: null, resxGroup);
 
             string rootNamespace = rootNamespaceConfiguration ?? assemblyName ?? "";
             string projectDir = projectDirConfiguration ?? assemblyName ?? "";
-            string? defaultResourceName = ComputeResourceName(rootNamespace, projectDir, resxGroug.Key);
-            string? defaultNamespace = ComputeNamespace(rootNamespace, projectDir, resxGroug.Key);
+            string? defaultResourceName = ComputeResourceName(rootNamespace, projectDir, resxGroup.Key);
+            string? defaultNamespace = ComputeNamespace(rootNamespace, projectDir, resxGroup.Key);
 
             string? ns = namespaceConfiguration ?? defaultNamespace;
             string? resourceName = resourceNameConfiguration ?? defaultResourceName;
-            string className = classNameConfiguration ?? ToCSharpNameIdentifier(Path.GetFileName(resxGroug.Key));
+            string className = classNameConfiguration ?? ToCSharpNameIdentifier(Path.GetFileName(resxGroup.Key));
 
             if (ns == null)
             {
-                context.ReportDiagnostic(Diagnostic.Create(InvalidPropertiesForNamespace, location: null, resxGroug.First().Path));
+                context.ReportDiagnostic(Diagnostic.Create(InvalidPropertiesForNamespace, location: null, resxGroup.First().Path));
             }
 
             if (resourceName == null)
             {
-                context.ReportDiagnostic(Diagnostic.Create(InvalidPropertiesForResourceName, location: null, resxGroug.First().Path));
+                context.ReportDiagnostic(Diagnostic.Create(InvalidPropertiesForResourceName, location: null, resxGroup.First().Path));
             }
 
-            List<ResxEntry>? entries = LoadResourceFiles(context, resxGroug);
+            List<ResxEntry>? entries = LoadResourceFiles(context, resxGroup);
 
             string content = $"""
                 // Debug info:
-                // key: {resxGroug.Key}
-                // files: {string.Join(", ", resxGroug.Select(f => f.Path))}
+                // key: {resxGroup.Key}
+                // files: {string.Join(", ", resxGroup.Select(f => f.Path))}
                 // RootNamespace (metadata): {rootNamespaceConfiguration}
                 // ProjectDir (metadata): {projectDirConfiguration}
                 // Namespace / DefaultResourcesNamespace (metadata): {namespaceConfiguration}
@@ -97,7 +97,7 @@ public sealed class ResxGenerator : IIncrementalGenerator
                 content += GenerateCode(ns, className, resourceName, entries, supportNullableReferenceTypes);
             }
 
-            context.AddSource($"{Path.GetFileName(resxGroug.Key)}.resx.g.cs", SourceText.From(content, Encoding.UTF8));
+            context.AddSource($"{Path.GetFileName(resxGroup.Key)}.resx.g.cs", SourceText.From(content, Encoding.UTF8));
         }
     }
 
@@ -285,7 +285,10 @@ public sealed class ResxGenerator : IIncrementalGenerator
 
                 if (!entry.IsFileRef)
                 {
-                    summary.Add(new XElement("para", $"Value: \"{entry.Value}\"."));
+                    foreach((string? each, string locale) in entry.Values.Zip(entry.Locales,(x,y)=>(x,y)))
+                    {
+                        summary.Add(new XElement("para", $"{GetStringWithPadding(locale, 8)} Value: \"{each}\""));
+                    }
                 }
 
                 string comment = summary.ToString().Replace("\r\n", "\r\n   /// ", StringComparison.Ordinal);
@@ -299,9 +302,9 @@ public sealed class ResxGenerator : IIncrementalGenerator
 
                     """);
 
-                if (entry.Value != null)
+                if (entry.Values.FirstOrDefault() is string value)
                 {
-                    int args = Regex.Matches(entry.Value, "\\{(?<num>[0-9]+)(\\:[^}]*)?\\}", RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant)
+                    int args = Regex.Matches(value, "\\{(?<num>[0-9]+)(\\:[^}]*)?\\}", RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant)
                         .Cast<Match>()
                         .Select(m => int.Parse(m.Groups["num"].Value, CultureInfo.InvariantCulture))
                         .Distinct()
@@ -314,12 +317,6 @@ public sealed class ResxGenerator : IIncrementalGenerator
                         string callParams = string.Join(", ", Enumerable.Range(0, args + 1).Select(arg => "arg" + arg.ToString(CultureInfo.InvariantCulture)));
 
                         sb.AppendLine($$"""
-                                /// {{comment}}
-                                public static string Format{{ToCSharpNameIdentifier(entry.Name!)}}(global::System.Globalization.CultureInfo? provider, {{inParams}})
-                                {
-                                    return GetString(provider, "{{entry.Name}}", {{callParams}})!;
-                                }
-
                                 /// {{comment}}
                                 public static string Format{{ToCSharpNameIdentifier(entry.Name!)}}({{inParams}})
                                 {
@@ -366,6 +363,16 @@ public sealed class ResxGenerator : IIncrementalGenerator
         return sb.ToString();
     }
 
+    private static string GetStringWithPadding(string source, int length)
+    {
+        if (source.Length >= length)
+        {
+            return source;
+        }
+
+        return source + new string('_', length - source.Length);
+    }
+
     private static string? ComputeResourceName(string rootNamespace, string projectDir, string resourcePath)
     {
         string fullProjectDir = EnsureEndSeparator(Path.GetFullPath(projectDir));
@@ -406,11 +413,11 @@ public sealed class ResxGenerator : IIncrementalGenerator
 
     private static List<ResxEntry>? LoadResourceFiles(SourceProductionContext context, IGrouping<string, AdditionalText> resxGroug)
     {
-        List<ResxEntry> entries = new();
+        List<ResxEntry> entries = [];
         foreach (AdditionalText? entry in resxGroug.OrderBy(file => file.Path, StringComparer.Ordinal))
         {
             SourceText? content = entry.GetText(context.CancellationToken);
-            if (content == null)
+            if (content is null)
             {
                 continue;
             }
@@ -429,10 +436,12 @@ public sealed class ResxGenerator : IIncrementalGenerator
                     if (existingEntry != null)
                     {
                         existingEntry.Comment ??= comment;
+                        existingEntry.Values.Add(value);
+                        existingEntry.Locales.Add(GetLocaleName(entry.Path));
                     }
                     else
                     {
-                        entries.Add(new ResxEntry { Name = name, Value = value, Comment = comment, Type = type });
+                        entries.Add(new() { Name = name, Values = [value], Locales = [GetLocaleName(entry.Path)], Comment = comment, Type = type });
                     }
                 }
             }
@@ -538,15 +547,28 @@ public sealed class ResxGenerator : IIncrementalGenerator
             return pathWithoutExtension;
         }
 
-        return Regex.IsMatch(pathWithoutExtension.Substring(indexOf + 1), "^[a-zA-Z]{2}(-[a-zA-Z]{2})?$", RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1))
+        return Regex.IsMatch(pathWithoutExtension.Substring(indexOf + 1), "^[a-zA-Z]{2}(-[a-zA-Z]{2,4})?$", RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1))
             ? pathWithoutExtension.Substring(0, indexOf)
             : pathWithoutExtension;
+    }
+
+    private static string GetLocaleName(string path)
+    {
+        string fileName = Path.GetFileNameWithoutExtension(path);
+        int indexOf = fileName.LastIndexOf('.');
+        if (indexOf < 0)
+        {
+            return "Neutral";
+        }
+
+        return fileName.Substring(indexOf + 1);
     }
 
     private sealed class ResxEntry
     {
         public string? Name { get; set; }
-        public string? Value { get; set; }
+        public List<string?> Values { get; set; } = default!;
+        public List<string> Locales { get; set; } = default!;
         public string? Comment { get; set; }
         public string? Type { get; set; }
 
@@ -559,9 +581,9 @@ public sealed class ResxGenerator : IIncrementalGenerator
                     return true;
                 }
 
-                if (Value != null)
+                if (Values.FirstOrDefault() is string value)
                 {
-                    string[] parts = Value.Split(';');
+                    string[] parts = value.Split(';');
                     if (parts.Length > 1)
                     {
                         string type = parts[1];
@@ -585,9 +607,9 @@ public sealed class ResxGenerator : IIncrementalGenerator
                     return "string";
                 }
 
-                if (Value != null)
+                if (Values.FirstOrDefault() is string value)
                 {
-                    string[] parts = Value.Split(';');
+                    string[] parts = value.Split(';');
                     if (parts.Length > 1)
                     {
                         string type = parts[1];

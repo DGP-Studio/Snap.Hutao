@@ -23,7 +23,7 @@ internal static class SummaryHelper
     /// <returns>命之座</returns>
     public static List<ConstellationView> CreateConstellations(List<Skill> talents, List<SkillId>? talentIds)
     {
-        talentIds ??= new();
+        talentIds ??= [];
 
         return talents.SelectList(talent => new ConstellationView()
         {
@@ -45,7 +45,7 @@ internal static class SummaryHelper
     {
         if (skillLevelMap.IsNullOrEmpty())
         {
-            return new();
+            return [];
         }
 
         Dictionary<SkillId, SkillLevel> skillExtraLeveledMap = new(skillLevelMap);
