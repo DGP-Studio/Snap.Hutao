@@ -2057,6 +2057,12 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>所有選項盡會在啓動游戲成功後保存</value>
   </data>
+  <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
+    <value>在我游戏时设置 Discord Activity 状态</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
+    <value>Discord Activity</value>
+  </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>文件</value>
   </data>
@@ -2757,7 +2763,7 @@
     <value>錯誤的 UID 格式</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>角色 UID 不存在</value>
+    <value>角色 UID 不存在，请稍候再试</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>遊戲維護中</value>
