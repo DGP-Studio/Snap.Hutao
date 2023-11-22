@@ -2057,6 +2057,12 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>所有选项仅会在启动游戏成功后保存</value>
   </data>
+  <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
+    <value>在我游戏时设置 Discord Activity 状态</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
+    <value>Discord Activity</value>
+  </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>文件</value>
   </data>

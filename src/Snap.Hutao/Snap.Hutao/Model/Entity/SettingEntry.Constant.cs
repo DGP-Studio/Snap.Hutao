@@ -106,6 +106,8 @@ internal sealed partial class SettingEntry
 
     public const string LaunchUseStarwardPlayTimeStatistics = "Launch.UseStarwardPlayTimeStatistics";
 
+    public const string LaunchSetDiscordActivityWhenPlaying = "Launch.SetDiscordActivityWhenPlaying";
+
     /// <summary>
     /// 启动游戏 多倍启动
     /// </summary>

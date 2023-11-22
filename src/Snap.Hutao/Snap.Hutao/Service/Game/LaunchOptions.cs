@@ -38,6 +38,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private bool? isMonitorEnabled;
     private AspectRatio? selectedAspectRatio;
     private bool? useStarwardPlayTimeStatistics;
+    private bool? setDiscordActivityWhenPlaying;
 
     /// <summary>
     /// 构造一个新的启动游戏选项
@@ -188,6 +189,12 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, false);
         set => SetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, value);
+    }
+
+    public bool SetDiscordActivityWhenPlaying
+    {
+        get => GetOption(ref setDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, true);
+        set => SetOption(ref setDiscordActivityWhenPlaying, SettingEntry.LaunchSetDiscordActivityWhenPlaying, value);
     }
 
     private static void InitializeMonitors(List<NameValue<int>> monitors)

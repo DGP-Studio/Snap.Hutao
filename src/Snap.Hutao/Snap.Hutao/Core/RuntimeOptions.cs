@@ -34,6 +34,8 @@ internal sealed class RuntimeOptions : IOptions<RuntimeOptions>
     {
         this.logger = logger;
 
+        AppLaunchTime = DateTimeOffset.UtcNow;
+
         DataFolder = GetDataFolderPath();
         LocalCache = ApplicationData.Current.LocalCacheFolder.Path;
         InstalledLocation = Package.Current.InstalledLocation.Path;
@@ -95,6 +97,8 @@ internal sealed class RuntimeOptions : IOptions<RuntimeOptions>
     /// 是否为提升的权限
     /// </summary>
     public bool IsElevated { get => isElevated ??= GetElevated(); }
+
+    public DateTimeOffset AppLaunchTime { get; }
 
     /// <inheritdoc/>
     public RuntimeOptions Value { get => this; }

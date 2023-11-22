@@ -10,6 +10,7 @@ namespace Snap.Hutao.Service.Discord;
 
 internal static class DiscordController
 {
+    // https://discord.com/developers/applications
     private const long HutaoAppId = 1173950861647552623L;
     private const long YuanshenId = 1175743396028088370L;
     private const long GenshinImpactId = 1175747474384760962L;
@@ -21,11 +22,17 @@ internal static class DiscordController
     private static Snap.Discord.GameSDK.Discord? discordManager;
     private static bool isInitialized;
 
-    public static async ValueTask<Result> ClearActivityAsync()
+    public static async ValueTask<Result> SetDefaultActivityAsync(DateTimeOffset startTime)
     {
         ResetManagerOrIgnore(HutaoAppId);
         ActivityManager activityManager = discordManager.GetActivityManager();
-        return await activityManager.ClearActivityAsync().ConfigureAwait(false);
+
+        Activity activity = default;
+        activity.Timestamps.Start = startTime.ToUnixTimeSeconds();
+        activity.Assets.LargeImage = "icon";
+        activity.Assets.LargeText = SH.AppName;
+
+        return await activityManager.UpdateActivityAsync(activity).ConfigureAwait(false);
     }
 
     public static async ValueTask<Result> SetPlayingYuanShenAsync()
@@ -87,10 +94,9 @@ internal static class DiscordController
         lock (SyncRoot)
         {
             discordManager?.Dispose();
+            discordManager = new(clientId, CreateFlags.NoRequireDiscord);
+            discordManager.SetLogHook(Snap.Discord.GameSDK.LogLevel.Debug, SetLogHookHandler.Create(&DebugWriteDiscordMessage));
         }
-
-        discordManager = new(clientId, CreateFlags.NoRequireDiscord);
-        discordManager.SetLogHook(Snap.Discord.GameSDK.LogLevel.Debug, SetLogHookHandler.Create(&DebugWriteDiscordMessage));
 
         if (isInitialized)
         {
@@ -117,7 +123,16 @@ internal static class DiscordController
         {
             lock (SyncRoot)
             {
-                discordManager?.RunCallbacks();
+                try
+                {
+                    discordManager?.RunCallbacks();
+                }
+                catch (SEHException ex)
+                {
+                    // Known error codes:
+                    // 0x80004005 E_FAIL
+                    System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK]:[ERROR]:0x{ex.ErrorCode:X}");
+                }
             }
 
             Thread.Sleep(100);

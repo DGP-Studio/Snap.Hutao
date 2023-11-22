@@ -29,9 +29,9 @@ internal static class AppOptionsExtension
         return true;
     }
 
-    public static bool TryGetGameFileName(this AppOptions appOptions, [NotNullWhen(true)] out string? gameFileName)
+    public static bool TryGetGamePathAndGameFileName(this AppOptions appOptions, out string gamePath, [NotNullWhen(true)] out string? gameFileName)
     {
-        string gamePath = appOptions.GamePath;
+        gamePath = appOptions.GamePath;
 
         gameFileName = Path.GetFileName(gamePath);
         if (string.IsNullOrEmpty(gameFileName))

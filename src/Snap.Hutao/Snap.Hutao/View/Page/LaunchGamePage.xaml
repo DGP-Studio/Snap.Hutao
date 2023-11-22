@@ -290,6 +290,12 @@
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xEC92;}">
                                 <ToggleSwitch Width="120" IsOn="{Binding Options.UseStarwardPlayTimeStatistics, Mode=TwoWay}"/>
                             </cwc:SettingsCard>
+                            <cwc:SettingsCard
+                                Description="{shcm:ResourceString Name=ViewPageLaunchGameDiscordActivityDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageLaunchGameDiscordActivityHeader}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE8CF;}">
+                                <ToggleSwitch Width="120" IsOn="{Binding Options.SetDiscordActivityWhenPlaying, Mode=TwoWay}"/>
+                            </cwc:SettingsCard>
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>
