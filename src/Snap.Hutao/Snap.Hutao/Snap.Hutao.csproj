@@ -187,6 +187,11 @@
     <AdditionalFiles Include="CodeMetricsConfig.txt" />
     <AdditionalFiles Include="IdentityStructs.json" />
     <AdditionalFiles Include="stylecop.json" />
+    <AdditionalFiles Include="Resource\Localization\SH.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.en.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.ja.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.ko.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
   </ItemGroup>
   
   <!-- Assets Files -->
@@ -306,15 +311,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
-    <None Include="Extension\EnumerableExtension.NameValueCollection.cs" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <AdditionalFiles Include="Resource\Localization\SH.resx" />
-    <AdditionalFiles Include="Resource\Localization\SH.en.resx" />
-    <AdditionalFiles Include="Resource\Localization\SH.ja.resx" />
-    <AdditionalFiles Include="Resource\Localization\SH.ko.resx" />
-    <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
   </ItemGroup>
   
   <ItemGroup>
