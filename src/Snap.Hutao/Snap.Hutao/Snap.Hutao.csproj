@@ -40,8 +40,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<AppxManifest Include="Package.appxmanifest" Condition="'$(ConfigurationName)'!='Debug'"/>
-	<AppxManifest Include="Package-Dev.appxmanifest" Condition="'$(ConfigurationName)'=='Debug'"/>
+	<AppxManifest Include="Package.appxmanifest" Condition="'$(ConfigurationName)'!='Debug'" />
+	<AppxManifest Include="Package.development.appxmanifest" Condition="'$(ConfigurationName)'=='Debug'" />
   </ItemGroup>
   
   <!-- Included Files -->

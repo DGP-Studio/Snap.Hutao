@@ -4,12 +4,18 @@
     "add": {
       "extensionToExtension": {
         "add": {
-          ".json": [ ".txt" ]
+          ".json": [
+            ".txt"
+          ]
         }
       },
       "pathSegment": {
         "add": {
-          ".*": [ ".cs", ".resx" ]
+          ".*": [
+            ".cs",
+            ".resx",
+            ".appxmanifest"
+          ]
         }
       },
       "fileSuffixToExtension": {
@@ -19,12 +25,24 @@
       },
       "fileToFile": {
         "add": {
-          ".filenesting.json": [ "App.xaml.cs" ],
-          "app.manifest": [ "App.xaml.cs" ],
-          "Package.appxmanifest": [ "App.xaml" ],
-          "Package.StoreAssociation.xml": [ "App.xaml" ],
-          ".editorconfig": [ "Program.cs" ],
-          "GlobalUsing.cs": [ "Program.cs" ]
+          ".filenesting.json": [
+            "App.xaml.cs"
+          ],
+          "app.manifest": [
+            "App.xaml.cs"
+          ],
+          "Package.appxmanifest": [
+            "App.xaml"
+          ],
+          "Package.StoreAssociation.xml": [
+            "App.xaml"
+          ],
+          ".editorconfig": [
+            "Program.cs"
+          ],
+          "GlobalUsing.cs": [
+            "Program.cs"
+          ]
         }
       }
     }
