@@ -12,40 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-        
-      # Download Assets
-      - name: Download Release
-        timeout-minutes: 5
-        uses: robinraju/release-downloader@v1.7
-        with: 
-          repository: "DGP-Studio/Snap.Hutao"
-          latest: true
-          fileName: "*.msix"
-          out-file-path: ./release-download
-          
-      # Upload to Drive
-      - name: Upload Drive
-        timeout-minutes: 15
-        env:
-          RCCONF: ${{ secrets.RCCONF }}
-        run: |
-          curl https://rclone.org/install.sh | sudo bash
-          mkdir -p ~/.config/rclone/
-          cat << EOF > ~/.config/rclone/rclone.conf
-          $RCCONF
-          EOF
-          
-          rclone copy ./release-download/* dgpODCN:/releases/
-
       # Purge Patch System Cache
       - name: Purge Patch
         env:
-          PATCH_HOSTS: ${{ secrets.PATCH_HOSTS }}
-          PURGE_TOKEN: ${{ secrets.PURGE_TOKEN }}
           PURGE_URL: ${{ secrets.PURGE_URL }}
         run: |
-          sudo echo "$PATCH_HOSTS" | sudo tee -a /etc/hosts
-          curl --header "Authorization: token $PURGE_TOKEN" $PURGE_URL
+          curl -X PATCH PURGE_URL
