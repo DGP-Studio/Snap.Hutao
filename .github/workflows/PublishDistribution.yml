@@ -17,4 +17,4 @@ jobs:
         env:
           PURGE_URL: ${{ secrets.PURGE_URL }}
         run: |
-          curl -X PATCH PURGE_URL
+          curl -X PATCH $PURGE_URL
