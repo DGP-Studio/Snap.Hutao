@@ -15,7 +15,6 @@ internal static class DiscordController
     private const long YuanshenId = 1175743396028088370L;
     private const long GenshinImpactId = 1175747474384760962L;
 
-    private static readonly WaitCallback RunDiscordRunCallbacks = DiscordRunCallbacks;
     private static readonly CancellationTokenSource StopTokenSource = new();
     private static readonly object SyncRoot = new();
 
@@ -103,7 +102,7 @@ internal static class DiscordController
             return;
         }
 
-        ThreadPool.UnsafeQueueUserWorkItem(RunDiscordRunCallbacks, StopTokenSource.Token);
+        DiscordRunCallbacksAsync(StopTokenSource.Token).SafeForget();
         isInitialized = true;
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
@@ -115,27 +114,41 @@ internal static class DiscordController
         }
     }
 
-    [SuppressMessage("", "SH007")]
-    private static void DiscordRunCallbacks(object? state)
+    private static async ValueTask DiscordRunCallbacksAsync(CancellationToken cancellationToken)
     {
-        CancellationToken cancellationToken = (CancellationToken)state!;
-        while (!cancellationToken.IsCancellationRequested)
+        using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(1000)))
         {
-            lock (SyncRoot)
+            try
             {
-                try
+                while (await timer.WaitForNextTickAsync(cancellationToken).ConfigureAwait(false))
                 {
-                    discordManager?.RunCallbacks();
-                }
-                catch (SEHException ex)
-                {
-                    // Known error codes:
-                    // 0x80004005 E_FAIL
-                    System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK]:[ERROR]:0x{ex.ErrorCode:X}");
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    lock (SyncRoot)
+                    {
+                        try
+                        {
+                            discordManager?.RunCallbacks();
+                        }
+                        catch (ResultException ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK]:[ERROR]:{ex.Result}");
+                        }
+                        catch (SEHException ex)
+                        {
+                            // Known error codes:
+                            // 0x80004005 E_FAIL
+                            System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK]:[ERROR]:0x{ex.ErrorCode:X}");
+                        }
+                    }
                 }
             }
-
-            Thread.Sleep(100);
+            catch (OperationCanceledException)
+            {
+            }
         }
     }
 }

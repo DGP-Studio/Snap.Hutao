@@ -2763,7 +2763,7 @@
     <value>错误的 UID 格式</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>角色 UID 不存在</value>
+    <value>角色 UID 不存在，请稍候再试</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>游戏维护中</value>
