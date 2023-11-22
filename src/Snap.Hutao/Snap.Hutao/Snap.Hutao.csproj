@@ -38,6 +38,11 @@
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
+
+  <ItemGroup>
+	<AppxManifest Include="Package.appxmanifest" Condition="'$(ConfigurationName)'!='Debug'" />
+	<AppxManifest Include="Package.development.appxmanifest" Condition="'$(ConfigurationName)'=='Debug'" />
+  </ItemGroup>
   
   <!-- Included Files -->
   <ItemGroup>
