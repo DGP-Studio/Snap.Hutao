@@ -760,4 +760,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <Target Name="PreBuild" Condition="'$(ConfigurationName)'=='Debug'" BeforeTargets="PreBuildEvent">
+    <Exec Command="powershell -Command &quot;$content = Get-Content $(ProjectDir)Package.appxmanifest -Encoding UTF8 | ForEach-Object { $_ -replace 'Snap Hutao', 'Snap Hutao Dev'} | ForEach-Object { $_ -replace 'SnapHutao', 'SnapHutaoDev'}; $content | Set-Content $(ProjectDir)Package.appxmanifest -Encoding UTF8&quot;" />
+  </Target>
+  <Target Name="PostBuild" Condition="'$(ConfigurationName)'=='Debug'" AfterTargets="PostBuildEvent">
+    <Exec Command="powershell -Command &quot;$content = Get-Content $(ProjectDir)Package.appxmanifest -Encoding UTF8 | ForEach-Object { $_ -replace 'Snap Hutao Dev', 'Snap Hutao'} | ForEach-Object { $_ -replace 'SnapHutaoDev', 'SnapHutao'}; $content | Set-Content $(ProjectDir)Package.appxmanifest -Encoding UTF8&quot;" />
+  </Target>
 </Project>
