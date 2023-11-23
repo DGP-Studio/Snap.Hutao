@@ -522,10 +522,10 @@
     <value>登录成功</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
-    <value>注册成功</value>
+    <value>註冊成功</value>
   </data>
   <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
-    <value>新密码设置成功</value>
+    <value>新密碼設定成功</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>当前邮箱尚未注册</value>
@@ -2763,7 +2763,7 @@
     <value>錯誤的 UID 格式</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>角色 UID 不存在，请稍候再试</value>
+    <value>角色UID不存在，請稍候再試</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>遊戲維護中</value>
