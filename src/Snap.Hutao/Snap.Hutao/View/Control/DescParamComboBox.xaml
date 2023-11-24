@@ -5,6 +5,7 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shmm="using:Snap.Hutao.Model.Metadata"
     mc:Ignorable="d">
@@ -22,11 +23,13 @@
     <StackPanel>
         <StackPanel Margin="0,0,0,0" VerticalAlignment="Top">
             <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}">
-                <ComboBox
-                    DisplayMemberPath="Level"
-                    ItemsSource="{x:Bind Source, Mode=OneWay}"
-                    SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
-                    Style="{StaticResource SettingsContentComboBoxStyle}"/>
+                <shc:SizeRestrictedContentControl>
+                    <ComboBox
+                        DisplayMemberPath="Level"
+                        ItemsSource="{x:Bind Source, Mode=OneWay}"
+                        SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
+                        Style="{StaticResource SettingsContentComboBoxStyle}"/>
+                </shc:SizeRestrictedContentControl>
             </cwc:SettingsCard>
         </StackPanel>
 

@@ -248,13 +248,15 @@
                 <Pivot.RightHeader>
                     <CommandBar DefaultLabelPosition="Right">
                         <AppBarElementContainer>
-                            <ComboBox
-                                Height="36"
-                                MinWidth="160"
-                                Margin="6,6,6,6"
-                                DisplayMemberPath="Name"
-                                ItemsSource="{Binding Projects}"
-                                SelectedItem="{Binding SelectedProject, Mode=TwoWay}"/>
+                            <shc:SizeRestrictedContentControl>
+                                <ComboBox
+                                    Height="36"
+                                    Margin="6,6,6,6"
+                                    DisplayMemberPath="Name"
+                                    ItemsSource="{Binding Projects}"
+                                    SelectedItem="{Binding SelectedProject, Mode=TwoWay}"/>
+                            </shc:SizeRestrictedContentControl>
+
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding AddProjectCommand}"

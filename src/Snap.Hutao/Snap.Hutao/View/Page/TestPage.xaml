@@ -116,7 +116,7 @@
                         PlaceholderText="Please input link"
                         Text="{Binding Announcement.Link, Mode=TwoWay}"/>
                     <TextBox
-                        Header="Link"
+                        Header="Version Threshold"
                         PlaceholderText="Max present version(leave empty to present in any version)"
                         Text="{Binding Announcement.MaxPresentVersion, Mode=TwoWay}"/>
                     <TextBox
@@ -124,14 +124,15 @@
                         Header="Content"
                         PlaceholderText="Please input content"
                         Text="{Binding Announcement.Content, Mode=TwoWay}"/>
-                    <ComboBox
-                        Header="Severity"
-                        ItemsSource="{cwh:EnumValues Type=InfoBarSeverity}"
-                        SelectedItem="{Binding Announcement.Severity, Mode=TwoWay}"/>
+                    <shc:SizeRestrictedContentControl>
+                        <ComboBox
+                            Header="Severity"
+                            ItemsSource="{cwh:EnumValues Type=InfoBarSeverity}"
+                            SelectedItem="{Binding Announcement.Severity, Mode=TwoWay}"/>
+                    </shc:SizeRestrictedContentControl>
                     <Button Command="{Binding UploadAnnouncementCommand}" Content="Upload"/>
                 </StackPanel>
             </Expander>
-
         </StackPanel>
     </ScrollViewer>
 </shc:ScopedPage>

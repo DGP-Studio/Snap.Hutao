@@ -14,32 +14,32 @@ internal static class IntrinsicFrozen
     /// <summary>
     /// 所属地区
     /// </summary>
-    public static readonly FrozenSet<string> AssociationTypes = Enum.GetValues<AssociationType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
+    public static FrozenSet<string> AssociationTypes { get; } = Enum.GetValues<AssociationType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
 
     /// <summary>
     /// 武器类型
     /// </summary>
-    public static readonly FrozenSet<string> WeaponTypes = Enum.GetValues<WeaponType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
+    public static FrozenSet<string> WeaponTypes { get; } = Enum.GetValues<WeaponType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
 
     /// <summary>
     /// 物品类型
     /// </summary>
-    public static readonly FrozenSet<string> ItemQualities = Enum.GetValues<QualityType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
+    public static FrozenSet<string> ItemQualities { get; } = Enum.GetValues<QualityType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
 
     /// <summary>
     /// 身材类型
     /// </summary>
-    public static readonly FrozenSet<string> BodyTypes = Enum.GetValues<BodyType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
+    public static FrozenSet<string> BodyTypes { get; } = Enum.GetValues<BodyType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
 
     /// <summary>
     /// 战斗属性
     /// </summary>
-    public static readonly FrozenSet<string> FightProperties = Enum.GetValues<FightProperty>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
+    public static FrozenSet<string> FightProperties { get; } = Enum.GetValues<FightProperty>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
 
     /// <summary>
     /// 元素名称
     /// </summary>
-    public static readonly FrozenSet<string> ElementNames = FrozenSet.ToFrozenSet(
+    public static FrozenSet<string> ElementNames { get; } = FrozenSet.ToFrozenSet(
     [
         SH.ModelIntrinsicElementNameFire,
         SH.ModelIntrinsicElementNameWater,
@@ -50,7 +50,7 @@ internal static class IntrinsicFrozen
         SH.ModelIntrinsicElementNameRock,
     ]);
 
-    public static readonly FrozenSet<string> MaterialTypeDescriptions = FrozenSet.ToFrozenSet(
+    public static FrozenSet<string> MaterialTypeDescriptions { get; } = FrozenSet.ToFrozenSet(
     [
         SH.ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial,
         SH.ModelMetadataMaterialCharacterEXPMaterial,
