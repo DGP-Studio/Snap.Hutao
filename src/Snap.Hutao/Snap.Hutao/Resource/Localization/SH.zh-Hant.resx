@@ -2012,6 +2012,9 @@
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>分辨率</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioPlaceHolder" xml:space="preserve">
+    <value>快捷设置分辨率</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>將窗口創建為彈出窗口，不帶邊框</value>
   </data>
