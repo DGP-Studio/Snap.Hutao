@@ -61,11 +61,11 @@
                 Content="{StaticResource FontIconContentSetting}"
                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                 ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
-            <shc:SizeRestrictedContentControl>
+            <shc:SizeRestrictedContentControl
+                Grid.Row="2"
+                Grid.ColumnSpan="3"
+                VerticalAlignment="Bottom">
                 <ComboBox
-                    Grid.Row="2"
-                    Grid.ColumnSpan="3"
-                    VerticalAlignment="Bottom"
                     DisplayMemberPath="Name"
                     ItemsSource="{Binding GameAccounts}"
                     PlaceholderText="{shcm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
