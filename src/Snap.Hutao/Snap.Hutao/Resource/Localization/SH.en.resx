@@ -2766,7 +2766,7 @@
     <value>Wrong UID format</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>角色 UID 不存在，请稍候再试</value>
+    <value>Role UID does not exist, please try again later</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>Game in maintenance</value>
