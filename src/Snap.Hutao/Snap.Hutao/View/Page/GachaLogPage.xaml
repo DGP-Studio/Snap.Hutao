@@ -231,13 +231,12 @@
                 IsHitTestVisible="False"/>
             <Pivot>
                 <Pivot.LeftHeader>
-                    <shc:SizeRestrictedContentControl>
+                    <shc:SizeRestrictedContentControl Margin="16,6,0,6">
                         <ComboBox
-                            Height="36"
-                            Margin="16,6,0,6"
                             DisplayMemberPath="Uid"
                             ItemsSource="{Binding Archives}"
-                            SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"/>
+                            SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"
+                            Style="{ThemeResource CommandBarComboBoxStyle}"/>
                     </shc:SizeRestrictedContentControl>
                 </Pivot.LeftHeader>
                 <Pivot.RightHeader>

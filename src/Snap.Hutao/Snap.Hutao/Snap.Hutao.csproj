@@ -83,6 +83,7 @@
     <None Remove="Control\Panel\PanelSelector.xaml" />
     <None Remove="Control\Theme\Card.xaml" />
     <None Remove="Control\Theme\Color.xaml" />
+    <None Remove="Control\Theme\ComboBox.xaml" />
     <None Remove="Control\Theme\Converter.xaml" />
     <None Remove="Control\Theme\CornerRadius.xaml" />
     <None Remove="Control\Theme\FlyoutStyle.xaml" />
@@ -316,6 +317,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Control\Theme\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   
   <ItemGroup>

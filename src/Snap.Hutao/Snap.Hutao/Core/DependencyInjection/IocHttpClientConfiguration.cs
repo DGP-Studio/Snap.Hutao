@@ -63,8 +63,10 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-app_version", SaltConstants.CNVersion);
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "2");
         client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId);
+        client.DefaultRequestHeaders.Add("x-rpc-device_name", string.Empty);
         client.DefaultRequestHeaders.Add("x-rpc-game_biz", "bbs_cn");
         client.DefaultRequestHeaders.Add("x-rpc-sdk_version", "2.16.0");
+        //client.DefaultRequestHeaders.Add("x-rpc-tool_verison", "v4.2.2-ys");
     }
 
     /// <summary>

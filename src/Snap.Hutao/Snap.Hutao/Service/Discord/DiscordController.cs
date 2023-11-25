@@ -78,7 +78,13 @@ internal static class DiscordController
         lock (SyncRoot)
         {
             StopTokenSource.Cancel();
-            discordManager?.Dispose();
+            try
+            {
+                discordManager?.Dispose();
+            }
+            catch (SEHException)
+            {
+            }
         }
     }
 
@@ -135,13 +141,18 @@ internal static class DiscordController
                         }
                         catch (ResultException ex)
                         {
-                            System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK]:[ERROR]:{ex.Result}");
+                            // If result is Ok
+                            // Maybe the connection is reset.
+                            if (ex.Result is not Result.Ok)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK ERROR]:{ex.Result:D} {ex.Result}");
+                            }
                         }
                         catch (SEHException ex)
                         {
                             // Known error codes:
                             // 0x80004005 E_FAIL
-                            System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK]:[ERROR]:0x{ex.ErrorCode:X}");
+                            System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK ERROR]:0x{ex.ErrorCode:X}");
                         }
                     }
                 }

@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core;
 using Windows.Foundation;
 
 namespace Snap.Hutao.Control;
@@ -20,12 +21,15 @@ internal sealed partial class SizeRestrictedContentControl : ContentControl
         {
             element.Measure(availableSize);
             Size contentDesiredSize = element.DesiredSize;
+            Size contentActualOrDesiredSize = new(
+                Math.Max(element.ActualWidth, contentDesiredSize.Width),
+                Math.Max(element.ActualHeight, contentDesiredSize.Height));
 
             if (IsWidthRestricted)
             {
-                if (contentDesiredSize.Width > minContentWidth)
+                if (contentActualOrDesiredSize.Width > minContentWidth)
                 {
-                    minContentWidth = contentDesiredSize.Width;
+                    minContentWidth = contentActualOrDesiredSize.Width;
                 }
 
                 element.MinWidth = minContentWidth;
@@ -33,9 +37,9 @@ internal sealed partial class SizeRestrictedContentControl : ContentControl
 
             if (IsHeightRestricted)
             {
-                if (contentDesiredSize.Height > minContentHeight)
+                if (contentActualOrDesiredSize.Height > minContentHeight)
                 {
-                    minContentHeight = contentDesiredSize.Height;
+                    minContentHeight = contentActualOrDesiredSize.Height;
                 }
 
                 element.MinHeight = minContentHeight;

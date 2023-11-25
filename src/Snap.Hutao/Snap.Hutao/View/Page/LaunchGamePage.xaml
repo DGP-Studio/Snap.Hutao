@@ -218,9 +218,8 @@
                                         <ToggleSwitch Width="120" IsOn="{Binding Options.IsBorderless, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioDescription}" Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioHeader}">
-                                        <shc:SizeRestrictedContentControl>
+                                        <shc:SizeRestrictedContentControl Margin="0,0,136,0">
                                             <ComboBox
-                                                Margin="0,0,136,0"
                                                 ItemsSource="{Binding Options.AspectRatios}"
                                                 PlaceholderText="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioPlaceHolder}"
                                                 SelectedItem="{Binding Options.SelectedAspectRatio, Mode=TwoWay}"/>
@@ -252,7 +251,6 @@
                                         <StackPanel Orientation="Horizontal" Spacing="16">
                                             <shc:SizeRestrictedContentControl>
                                                 <ComboBox
-                                                    VerticalAlignment="Center"
                                                     DisplayMemberPath="Name"
                                                     IsEnabled="{Binding Options.IsMonitorEnabled}"
                                                     ItemsSource="{Binding Options.Monitors}"
