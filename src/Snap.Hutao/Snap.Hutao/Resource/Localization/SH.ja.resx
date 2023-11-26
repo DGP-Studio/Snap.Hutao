@@ -2606,6 +2606,9 @@
   <data name="ViewUserDocumentationHeader" xml:space="preserve">
     <value>ドキュメント</value>
   </data>
+  <data name="ViewUserNoUserHint" xml:space="preserve">
+    <value>尚未登录</value>
+  </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>CookieTokenを更新しました。</value>
   </data>
