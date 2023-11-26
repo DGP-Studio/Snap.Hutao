@@ -135,6 +135,7 @@
     <None Remove="View\Card\GachaStatisticsCard.xaml" />
     <None Remove="View\Card\LaunchGameCard.xaml" />
     <None Remove="View\Card\Primitive\CardProgressBar.xaml" />
+    <None Remove="View\Card\Primitive\HorizontalCard.xaml" />
     <None Remove="View\Control\BaseValueSlider.xaml" />
     <None Remove="View\Control\BottomTextControl.xaml" />
     <None Remove="View\Control\DescParamComboBox.xaml" />
@@ -317,6 +318,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Card\Primitive\HorizontalCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Control\Theme\ComboBox.xaml">

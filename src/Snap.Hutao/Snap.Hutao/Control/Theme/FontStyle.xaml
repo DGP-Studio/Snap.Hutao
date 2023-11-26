@@ -93,4 +93,19 @@
     <Style BasedOn="{StaticResource DefaultScrollViewerStyle}" TargetType="ScrollViewer">
         <Setter Property="FontFamily" Value="{StaticResource MiSans}"/>
     </Style>
+
+    <SolidColorBrush x:Key="TextControlTextForeground" Color="{ThemeResource TextFillColorPrimary}"/>
+    <Thickness x:Key="TextControlTextMargin">1,0</Thickness>
+    <Style
+        x:Key="TextControlTextBlockStyle"
+        BasedOn="{StaticResource BodyTextBlockStyle}"
+        TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextControlTextForeground}"/>
+        <Setter Property="Margin" Value="{StaticResource TextControlTextMargin}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+    </Style>
 </ResourceDictionary>

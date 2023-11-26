@@ -12,31 +12,31 @@
     <UserControl.Resources>
         <Thickness x:Key="SettingsCardPadding">16,8</Thickness>
         <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+        <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+        <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
 
         <DataTemplate x:Key="ParameterDescriptionTemplate" x:DataType="shmm:ParameterDescription">
-            <cwc:SettingsCard Margin="0,3,0,0" Header="{Binding Description}">
+            <cwc:SettingsCard
+                MinHeight="40"
+                Padding="16,0,42,0"
+                Header="{Binding Description}">
                 <TextBlock Text="{Binding Parameter}"/>
             </cwc:SettingsCard>
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel>
-        <StackPanel Margin="0,0,0,0" VerticalAlignment="Top">
-            <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}">
-                <shc:SizeRestrictedContentControl>
-                    <ComboBox
-                        DisplayMemberPath="Level"
-                        ItemsSource="{x:Bind Source, Mode=OneWay}"
-                        SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
-                        Style="{StaticResource SettingsContentComboBoxStyle}"/>
-                </shc:SizeRestrictedContentControl>
-            </cwc:SettingsCard>
-        </StackPanel>
-
-        <ItemsControl
-            VerticalAlignment="Top"
-            ItemContainerTransitions="{StaticResource ContentThemeTransitions}"
-            ItemTemplate="{StaticResource ParameterDescriptionTemplate}"
-            ItemsSource="{x:Bind SelectedItem.Parameters, Mode=OneWay}"/>
-    </StackPanel>
+    <cwc:SettingsExpander
+        Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}"
+        IsExpanded="True"
+        ItemTemplate="{StaticResource ParameterDescriptionTemplate}"
+        ItemsSource="{x:Bind SelectedItem.Parameters, Mode=OneWay}"
+        Visibility="{x:Bind SelectedItem.Parameters.Count, Converter={StaticResource Int32ToVisibilityConverter}, Mode=OneWay}">
+        <shc:SizeRestrictedContentControl Margin="0,-8">
+            <ComboBox
+                x:Name="LevelSelectorComboBox"
+                DisplayMemberPath="Level"
+                SelectionChanged="OnLevelSelectorComboBoxSelectionChanged"
+                Style="{StaticResource SettingsContentComboBoxStyle}"/>
+        </shc:SizeRestrictedContentControl>
+    </cwc:SettingsExpander>
 </UserControl>

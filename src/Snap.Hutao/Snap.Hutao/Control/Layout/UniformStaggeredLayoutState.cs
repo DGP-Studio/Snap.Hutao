@@ -62,11 +62,9 @@ internal sealed class UniformStaggeredLayoutState
         }
     }
 
-    [SuppressMessage("", "SH007")]
     internal UniformStaggeredColumnLayout GetColumnLayout(int columnIndex)
     {
-        this.columnLayout.TryGetValue(columnIndex, out UniformStaggeredColumnLayout? columnLayout);
-        return columnLayout!;
+        return columnLayout[columnIndex];
     }
 
     /// <summary>

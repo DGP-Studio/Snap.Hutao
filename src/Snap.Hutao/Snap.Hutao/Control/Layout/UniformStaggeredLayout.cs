@@ -202,11 +202,8 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
         for (int columnIndex = 0; columnIndex < state.NumberOfColumns; columnIndex++)
         {
             UniformStaggeredColumnLayout layout = state.GetColumnLayout(columnIndex);
-            Span<UniformStaggeredItem> layoutSpan = CollectionsMarshal.AsSpan(layout);
-            for (int i = 0; i < layoutSpan.Length; i++)
+            foreach (ref readonly UniformStaggeredItem item in CollectionsMarshal.AsSpan(layout))
             {
-                ref readonly UniformStaggeredItem item = ref layoutSpan[i];
-
                 double bottom = item.Top + item.Height;
                 if (bottom < context.RealizationRect.Top)
                 {
