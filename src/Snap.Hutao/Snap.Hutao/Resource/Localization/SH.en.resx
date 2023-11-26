@@ -2013,7 +2013,7 @@
     <value>Screen Resolution</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioPlaceHolder" xml:space="preserve">
-    <value>快捷设置分辨率</value>
+    <value>Resolution Quick Set</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>Create window as popup, without frame</value>
@@ -2605,6 +2605,9 @@
   </data>
   <data name="ViewUserDocumentationHeader" xml:space="preserve">
     <value>Document</value>
+  </data>
+  <data name="ViewUserNoUserHint" xml:space="preserve">
+    <value>No Login</value>
   </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>Refresh CookieToken successfully</value>
