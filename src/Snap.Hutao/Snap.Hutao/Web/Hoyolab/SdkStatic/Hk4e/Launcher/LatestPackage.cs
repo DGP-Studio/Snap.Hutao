@@ -7,4 +7,6 @@ internal sealed class LatestPackage : Package
 {
     [JsonPropertyName("segments")]
     public List<PackageSegment> Segments { get; set; } = default!;
+
+    public new string DisplayName { get => Name; }
 }

@@ -10,7 +10,7 @@ namespace Snap.Hutao.Extension;
 /// <see cref="StringBuilder"/> 扩展方法
 /// </summary>
 [HighQuality]
-internal static class StringBuilderExtensions
+internal static class StringBuilderExtension
 {
     /// <summary>
     /// 当条件符合时执行 <see cref="StringBuilder.Append(string?)"/>
@@ -36,5 +36,22 @@ internal static class StringBuilderExtensions
     public static StringBuilder AppendIf(this StringBuilder sb, bool condition, string? value)
     {
         return condition ? sb.Append(value) : sb;
+    }
+
+    public static string ToStringTrimEndReturn(this StringBuilder builder)
+    {
+        Must.Argument(builder.Length >= 1, "StringBuilder 的长度必须大于 0");
+        int remove = 0;
+        if (builder[^1] is '\n')
+        {
+            remove = 1;
+
+            if (builder.Length >= 2 && builder[^2] is '\r')
+            {
+                remove = 2;
+            }
+        }
+
+        return builder.ToString(0, builder.Length - remove);
     }
 }
