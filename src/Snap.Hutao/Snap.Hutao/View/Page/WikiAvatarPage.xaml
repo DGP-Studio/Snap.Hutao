@@ -553,6 +553,9 @@
                                                         <ColumnDefinition Width="auto"/>
                                                         <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
+                                                    <!--  使其有较低的ZOrder  -->
+                                                    <shci:CachedImage Grid.ColumnSpan="2" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarImgConverter}}"/>
+
                                                     <Border
                                                         Grid.Column="0"
                                                         Margin="16"
@@ -561,9 +564,6 @@
                                                             <shci:CachedImage CornerRadius="{ThemeResource ControlCornerRadius}" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarIconConverter}}"/>
                                                         </cwc:ConstrainedBox>
                                                     </Border>
-
-                                                    <shci:CachedImage Grid.ColumnSpan="2" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarImgConverter}}"/>
-
                                                 </Grid>
                                             </cwc:ConstrainedBox>
                                         </Border>
@@ -578,7 +578,8 @@
                                                 <Expander
                                                     HorizontalAlignment="Stretch"
                                                     HorizontalContentAlignment="Stretch"
-                                                    Header="{shcm:ResourceString Name=ViewPageWiKiAvatarFoodHeader}">
+                                                    Header="{shcm:ResourceString Name=ViewPageWiKiAvatarFoodHeader}"
+                                                    IsExpanded="True">
                                                     <Grid DataContext="{Binding Selected.CookBonusView}">
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="auto"/>
@@ -634,6 +635,7 @@
                                                 </Expander>
                                             </Border>
                                         </Border>
+
                                         <!--  衣装  -->
                                         <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                             <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" CornerRadius="{ThemeResource ControlCornerRadius}">
