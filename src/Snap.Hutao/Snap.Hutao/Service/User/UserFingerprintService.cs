@@ -21,9 +21,12 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
             return;
         }
 
-        if (!string.IsNullOrEmpty(user.Fingerprint))
+        if (user.Entity.FingerprintLastUpdateTime >= DateTimeOffset.UtcNow - TimeSpan.FromDays(3))
         {
-            return;
+            if (!string.IsNullOrEmpty(user.Fingerprint))
+            {
+                return;
+            }
         }
 
         string model = Core.Random.GetUpperAndNumberString(6);
@@ -77,6 +80,8 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
 
         Response<DeviceFpWrapper> response = await deviceFpClient.GetFingerprintAsync(data, token).ConfigureAwait(false);
         user.Fingerprint = response.IsOk() ? response.Data.DeviceFp : string.Empty;
+
+        user.Entity.FingerprintLastUpdateTime = DateTimeOffset.UtcNow;
         user.NeedDbUpdateAfterResume = true;
     }
 }

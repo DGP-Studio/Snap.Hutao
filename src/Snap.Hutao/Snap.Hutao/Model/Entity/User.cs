@@ -65,6 +65,10 @@ internal sealed class User : ISelectable, IMappingFrom<User, Cookie, bool>
     /// </summary>
     public string? Fingerprint { get; set; }
 
+    public DateTimeOffset FingerprintLastUpdateTime { get; set; }
+
+    public DateTimeOffset CookieTokenLastUpdateTime { get; set; }
+
     /// <summary>
     /// 创建一个新的用户
     /// </summary>
