@@ -506,6 +506,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>必须先选择一个用户与角色</value>
   </data>
+  <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
+    <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
+  </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>胡桃云保存的祈愿记录存档数已达当前账号上限</value>
   </data>
@@ -517,6 +520,12 @@
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>数据异常，无法保存至云端，请勿跨账号上传或尝试删除云端数据后重试</value>
+  </data>
+  <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
+    <value>上传了 Uid：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
+  </data>
+  <data name="ServerPassportLoginRequired" xml:space="preserve">
+    <value>请先登录或注册胡桃账号</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>登录成功</value>
