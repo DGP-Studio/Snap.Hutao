@@ -17,6 +17,9 @@
     <ItemsPanelTemplate x:Key="HorizontalStackPanelSpacing2Template">
         <StackPanel Orientation="Horizontal" Spacing="2"/>
     </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="StackPanelSpacing4Template">
+        <StackPanel Spacing="4"/>
+    </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="UniformGridColumns2Spacing2Template">
         <cwcont:UniformGrid
             ColumnSpacing="2"

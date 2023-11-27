@@ -45,16 +45,6 @@ internal sealed class MonoChrome : CompositionImage
         return compositor.CompositeSpriteVisual(alphaMaskEffectBrush);
     }
 
-    protected override void Unloading()
-    {
-        ActualThemeChanged -= actualThemeChangedEventHandler;
-
-        backgroundBrush?.Dispose();
-        backgroundBrush = null;
-
-        base.Unloading();
-    }
-
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
         if (backgroundBrush is not null)

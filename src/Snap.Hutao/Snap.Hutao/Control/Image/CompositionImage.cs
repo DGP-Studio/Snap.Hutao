@@ -30,7 +30,6 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
 
     private readonly IServiceProvider serviceProvider;
 
-    private readonly RoutedEventHandler unloadEventHandler;
     private readonly SizeChangedEventHandler sizeChangedEventHandler;
     private readonly TypedEventHandler<LoadedImageSurface, LoadedImageSourceLoadCompletedEventArgs> loadedImageSourceLoadCompletedEventHandler;
 
@@ -45,9 +44,6 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
     {
         serviceProvider = this.ServiceProvider();
         this.DisableInteraction();
-
-        unloadEventHandler = OnUnload;
-        Unloaded += unloadEventHandler;
 
         sizeChangedEventHandler = OnSizeChanged;
         SizeChanged += sizeChangedEventHandler;
@@ -64,10 +60,6 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
     protected abstract SpriteVisual CompositeSpriteVisual(Compositor compositor, LoadedImageSurface imageSurface);
 
     protected virtual void LoadImageSurfaceCompleted(LoadedImageSurface surface)
-    {
-    }
-
-    protected virtual void Unloading()
     {
     }
 
@@ -239,15 +231,5 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
         {
             UpdateVisual(spriteVisual);
         }
-    }
-
-    private void OnUnload(object sender, RoutedEventArgs e)
-    {
-        Unloading();
-        spriteVisual?.Dispose();
-        spriteVisual = null;
-
-        SizeChanged -= sizeChangedEventHandler;
-        Unloaded -= unloadEventHandler;
     }
 }

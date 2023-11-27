@@ -34,7 +34,7 @@ internal sealed partial class CardClient
     public async ValueTask<Response<VerificationRegistration>> CreateVerificationAsync(User user, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.CardCreateVerification(false))
+            .SetRequestUri(ApiEndpoints.CardCreateVerification(true))
             .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .Get();
 

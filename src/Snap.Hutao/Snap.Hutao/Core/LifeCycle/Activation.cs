@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.DailyNote;
+using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
@@ -165,6 +166,8 @@ internal sealed partial class Activation : IActivation
 
             serviceProvider.GetRequiredService<MainWindow>();
 
+            await taskContext.SwitchToBackgroundAsync();
+
             serviceProvider
                 .GetRequiredService<IMetadataService>()
                 .As<IMetadataServiceInitialization>()?
@@ -175,6 +178,11 @@ internal sealed partial class Activation : IActivation
                 .GetRequiredService<IHutaoUserService>()
                 .As<IHutaoUserServiceInitialization>()?
                 .InitializeInternalAsync()
+                .SafeForget();
+
+            serviceProvider
+                .GetRequiredService<IDiscordService>()
+                .SetNormalActivity()
                 .SafeForget();
         }
     }

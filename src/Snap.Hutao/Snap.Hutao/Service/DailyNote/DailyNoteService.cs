@@ -127,9 +127,6 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             {
                 WebDailyNote dailyNote = dailyNoteResponse.Data;
 
-                // 发送通知
-                await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
-
                 // 集合内的实时便笺与数据库取出的非同一个对象，需要分别更新
                 // cache
                 await taskContext.SwitchToMainThreadAsync();
@@ -144,9 +141,14 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 }
 
                 // database
-                entry.UpdateDailyNote(dailyNote);
-                await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
-                await dailyNoteWebhookOperation.TryPostDailyNoteToWebhookAsync(dailyNote).ConfigureAwait(false);
+                {
+                    entry.UpdateDailyNote(dailyNote);
+
+                    // 发送通知必须早于数据库更新，否则会导致通知重复
+                    await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
+                    await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
+                    await dailyNoteWebhookOperation.TryPostDailyNoteToWebhookAsync(dailyNote).ConfigureAwait(false);
+                }
             }
         }
     }

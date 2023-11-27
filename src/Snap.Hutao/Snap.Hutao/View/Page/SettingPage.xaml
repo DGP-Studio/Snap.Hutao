@@ -192,19 +192,23 @@
                     Description="{shcm:ResourceString Name=ViewPageSettingApperanceLanguageDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingApperanceLanguageHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xF2B7;}">
-                    <ComboBox
-                        DisplayMemberPath="Name"
-                        ItemsSource="{Binding Options.Cultures}"
-                        SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"/>
+                    <shc:SizeRestrictedContentControl>
+                        <ComboBox
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding Options.Cultures}"
+                            SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"/>
+                    </shc:SizeRestrictedContentControl>
                 </cwc:SettingsCard>
                 <cwc:SettingsCard
                     Description="{shcm:ResourceString Name=ViewPageSettingBackdropMaterialDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingBackdropMaterialHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7F7;}">
-                    <ComboBox
-                        DisplayMemberPath="Name"
-                        ItemsSource="{Binding Options.BackdropTypes}"
-                        SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
+                    <shc:SizeRestrictedContentControl>
+                        <ComboBox
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding Options.BackdropTypes}"
+                            SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
+                    </shc:SizeRestrictedContentControl>
                 </cwc:SettingsCard>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingKeyShortcutHeader}"/>
@@ -240,13 +244,14 @@
                                 Content="Alt"
                                 IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}"/>
                         </cwc:UniformGrid>
-                        <ComboBox
-                            MinWidth="120"
-                            VerticalAlignment="Center"
-                            DisplayMemberPath="Name"
-                            ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
-                            SelectedItem="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}"
-                            Style="{StaticResource DefaultComboBoxStyle}"/>
+                        <shc:SizeRestrictedContentControl>
+                            <ComboBox
+                                MinWidth="120"
+                                VerticalAlignment="Center"
+                                DisplayMemberPath="Name"
+                                ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
+                                SelectedItem="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}"/>
+                        </shc:SizeRestrictedContentControl>
                         <ToggleSwitch
                             MinWidth="120"
                             VerticalAlignment="Center"

@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Game.Unlocker;
 using System.IO;
@@ -17,17 +19,18 @@ namespace Snap.Hutao.Service.Game.Process;
 internal sealed partial class GameProcessService : IGameProcessService
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly IDiscordService discordService;
     private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
     private readonly AppOptions appOptions;
 
-    private volatile int runningGamesCounter;
+    private volatile bool isGameRunning;
 
     public bool IsGameRunning()
     {
-        if (runningGamesCounter == 0)
+        if (isGameRunning)
         {
-            return false;
+            return true;
         }
 
         return System.Diagnostics.Process.GetProcessesByName(YuanShenProcessName).Length > 0
@@ -41,21 +44,24 @@ internal sealed partial class GameProcessService : IGameProcessService
             return;
         }
 
-        string gamePath = appOptions.GamePath;
-        ArgumentException.ThrowIfNullOrEmpty(gamePath);
+        if (!appOptions.TryGetGamePathAndGameFileName(out string gamePath, out string? gameFileName))
+        {
+            ArgumentException.ThrowIfNullOrEmpty(gamePath);
+            return; // null check passing, actually never reach.
+        }
+
+        bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileName);
 
         progress.Report(new(LaunchPhase.ProcessInitializing, SH.ServiceGameLaunchPhaseProcessInitializing));
         using (System.Diagnostics.Process game = InitializeGameProcess(gamePath))
         {
-            try
+            using (new GameRunningTracker(this, isOversea))
             {
-                Interlocked.Increment(ref runningGamesCounter);
                 game.Start();
                 progress.Report(new(LaunchPhase.ProcessStarted, SH.ServiceGameLaunchPhaseProcessStarted));
 
-                if (launchOptions.UseStarwardPlayTimeStatistics && appOptions.TryGetGameFileName(out string? gameFileName))
+                if (launchOptions.UseStarwardPlayTimeStatistics)
                 {
-                    bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileName);
                     await Starward.LaunchForPlayTimeStatisticsAsync(isOversea).ConfigureAwait(false);
                 }
 
@@ -83,10 +89,6 @@ internal sealed partial class GameProcessService : IGameProcessService
                     await game.WaitForExitAsync().ConfigureAwait(false);
                     progress.Report(new(LaunchPhase.ProcessExited, SH.ServiceGameLaunchPhaseProcessExited));
                 }
-            }
-            finally
-            {
-                Interlocked.Decrement(ref runningGamesCounter);
             }
         }
     }
@@ -130,5 +132,32 @@ internal sealed partial class GameProcessService : IGameProcessService
         UnlockTimingOptions options = new(100, 20000, 3000);
         Progress<UnlockerStatus> lockerProgress = new(unlockStatus => progress.Report(LaunchStatus.FromUnlockStatus(unlockStatus)));
         return unlocker.UnlockAsync(options, lockerProgress, token);
+    }
+
+    private class GameRunningTracker : IDisposable
+    {
+        private readonly GameProcessService service;
+
+        public GameRunningTracker(GameProcessService service, bool isOversea)
+        {
+            service.isGameRunning = true;
+
+            if (service.launchOptions.SetDiscordActivityWhenPlaying)
+            {
+                service.discordService.SetPlayingActivity(isOversea);
+            }
+
+            this.service = service;
+        }
+
+        public void Dispose()
+        {
+            if (service.launchOptions.SetDiscordActivityWhenPlaying)
+            {
+                service.discordService.SetNormalActivity();
+            }
+
+            service.isGameRunning = false;
+        }
     }
 }

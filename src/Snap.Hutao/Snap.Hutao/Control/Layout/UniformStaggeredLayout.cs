@@ -128,15 +128,8 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
             UniformStaggeredItem item = state.GetItemAt(i);
             if (item.Height == 0)
             {
-                // https://github.com/DGP-Studio/Snap.Hutao/issues/1079
-                // The first element must be force refreshed otherwise
-                // it will use the old one realized
-                // https://github.com/DGP-Studio/Snap.Hutao/issues/1099
-                // Now we need to refresh the first element of each column
-                ElementRealizationOptions options = i < numberOfColumns ? ElementRealizationOptions.ForceCreate : ElementRealizationOptions.None;
-
                 // Item has not been measured yet. Get the element and store the values
-                UIElement element = context.GetOrCreateElementAt(i, options);
+                UIElement element = context.GetOrCreateElementAt(i);
                 element.Measure(new Size(state.ColumnWidth, availableHeight));
                 item.Height = element.DesiredSize.Height;
                 item.Element = element;
@@ -209,11 +202,8 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
         for (int columnIndex = 0; columnIndex < state.NumberOfColumns; columnIndex++)
         {
             UniformStaggeredColumnLayout layout = state.GetColumnLayout(columnIndex);
-            Span<UniformStaggeredItem> layoutSpan = CollectionsMarshal.AsSpan(layout);
-            for (int i = 0; i < layoutSpan.Length; i++)
+            foreach (ref readonly UniformStaggeredItem item in CollectionsMarshal.AsSpan(layout))
             {
-                ref readonly UniformStaggeredItem item = ref layoutSpan[i];
-
                 double bottom = item.Top + item.Height;
                 if (bottom < context.RealizationRect.Top)
                 {

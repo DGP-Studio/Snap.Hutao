@@ -247,13 +247,13 @@
                     </CommandBar.Content>
 
                     <AppBarElementContainer>
-                        <ComboBox
-                            Height="36"
-                            MinWidth="120"
-                            Margin="2,6,3,6"
-                            DisplayMemberPath="Name"
-                            ItemsSource="{Binding Archives, Mode=OneWay}"
-                            SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"/>
+                        <shc:SizeRestrictedContentControl Margin="2,6,3,6">
+                            <ComboBox
+                                DisplayMemberPath="Name"
+                                ItemsSource="{Binding Archives, Mode=OneWay}"
+                                SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"
+                                Style="{ThemeResource CommandBarComboBoxStyle}"/>
+                        </shc:SizeRestrictedContentControl>
                     </AppBarElementContainer>
                     <AppBarButton
                         Command="{Binding AddArchiveCommand}"

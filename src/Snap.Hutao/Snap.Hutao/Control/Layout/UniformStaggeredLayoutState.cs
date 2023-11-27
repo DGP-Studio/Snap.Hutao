@@ -62,11 +62,9 @@ internal sealed class UniformStaggeredLayoutState
         }
     }
 
-    [SuppressMessage("", "SH007")]
     internal UniformStaggeredColumnLayout GetColumnLayout(int columnIndex)
     {
-        this.columnLayout.TryGetValue(columnIndex, out UniformStaggeredColumnLayout? columnLayout);
-        return columnLayout!;
+        return columnLayout[columnIndex];
     }
 
     /// <summary>
@@ -74,6 +72,21 @@ internal sealed class UniformStaggeredLayoutState
     /// </summary>
     internal void Clear()
     {
+        // https://github.com/DGP-Studio/Snap.Hutao/issues/1079
+        // The first element must be force refreshed otherwise
+        // it will use the old one realized
+        // https://github.com/DGP-Studio/Snap.Hutao/issues/1099
+        // Now we need to refresh the first element of each column
+        // https://github.com/DGP-Studio/Snap.Hutao/issues/1099
+        // Finally we need to refresh the whole layout when we reset
+        if (context.ItemCount > 0)
+        {
+            for (int i = 0; i < context.ItemCount; i++)
+            {
+                RecycleElementAt(i);
+            }
+        }
+
         columnLayout.Clear();
         items.Clear();
     }

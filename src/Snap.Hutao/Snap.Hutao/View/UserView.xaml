@@ -107,6 +107,14 @@
                         Text="{Binding SelectedUser.UserInfo.Nickname, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="1,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{shcm:ResourceString Name=ViewUserNoUserHint}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"
+                        Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
                     <FontIcon
                         Grid.Column="2"
                         Margin="0,0,8,0"

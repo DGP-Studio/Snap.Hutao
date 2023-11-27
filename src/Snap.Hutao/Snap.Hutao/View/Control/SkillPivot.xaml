@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Control.SkillPivot"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
@@ -17,22 +18,18 @@
         </Style>
 
         <DataTemplate x:Key="SkillHeaderTemplate">
-            <StackPanel>
+            <StackPanel Background="Transparent" ToolTipService.ToolTip="{Binding Name}">
                 <shci:MonoChrome shch:FrameworkElementHelper.SquareLength="36" Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
-                <TextBlock
-                    Margin="0,8,0,0"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding Name}"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
 
-    <Pivot
-        HeaderTemplate="{StaticResource SkillHeaderTemplate}"
-        ItemTemplate="{x:Bind ItemTemplate}"
-        ItemsSource="{x:Bind Skills, Mode=OneWay}"
-        SelectedItem="{x:Bind Selected}"
-        Style="{StaticResource DefaultPivotStyle}"/>
-
+    <StackPanel>
+        <cwc:Segmented
+            x:Name="SkillSelectorSegmented"
+            HorizontalAlignment="Stretch"
+            SelectionChanged="OnSkillSelectorSegmentedSelectionChanged"
+            ItemTemplate="{StaticResource SkillHeaderTemplate}"/>
+        <ContentPresenter Content="{x:Bind Selected, Mode=OneWay}" ContentTemplate="{x:Bind ItemTemplate}"/>
+    </StackPanel>
 </UserControl>

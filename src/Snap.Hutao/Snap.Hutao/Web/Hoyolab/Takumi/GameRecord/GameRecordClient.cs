@@ -40,6 +40,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -60,6 +61,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid))
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+                    .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
                     .SetXrpcChallenge(challenge)
                     .Get();
 
@@ -86,6 +88,8 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordIndex(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
+            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -106,6 +110,8 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordIndex(userAndUid.Uid))
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+                    .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
+                    .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
                     .SetXrpcChallenge(challenge)
                     .Get();
 
@@ -133,6 +139,8 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
+            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -153,6 +161,8 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+                    .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
+                    .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
                     .SetXrpcChallenge(challenge)
                     .Get();
 
@@ -179,6 +189,8 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordRoleBasicInfo(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
+            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -203,6 +215,8 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordCharacter)
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
+            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
             .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -223,6 +237,8 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                 HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordCharacter)
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+                    .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
+                    .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
                     .SetXrpcChallenge(challenge)
                     .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 

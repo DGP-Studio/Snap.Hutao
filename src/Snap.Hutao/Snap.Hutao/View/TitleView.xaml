@@ -32,18 +32,23 @@
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind HotKeyOptions.IsMouseClickRepeatForeverOn, Mode=OneWay}"
                 IsHitTestVisible="False"
-                Visibility="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                 <Grid ColumnSpacing="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" Text="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
-                    <TextBlock Grid.Column="1" Text="{shcm:ResourceString Name=ViewTitleAutoClicking}"/>
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{shcm:ResourceString Name=ViewTitleAutoClicking}"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
                 </Grid>
             </ToggleButton>
         </StackPanel>
-
     </Grid>
 </UserControl>

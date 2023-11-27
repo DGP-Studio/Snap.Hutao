@@ -30,8 +30,16 @@ internal sealed partial class DescParamComboBox : UserControl
         {
             if (args.NewValue != args.OldValue && args.NewValue is List<LevelParameters<string, ParameterDescription>> list)
             {
-                descParamComboBox.SelectedItem = list.ElementAtOrLastOrDefault(descParamComboBox.PreferredSelectedIndex);
+                LevelParameters<string, ParameterDescription>? target = list.ElementAtOrLastOrDefault(descParamComboBox.PreferredSelectedIndex);
+                descParamComboBox.SelectedItem = target;
+                descParamComboBox.LevelSelectorComboBox.ItemsSource = list;
+                descParamComboBox.LevelSelectorComboBox.SelectedItem = target;
             }
         }
+    }
+
+    private void OnLevelSelectorComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        SelectedItem = (LevelParameters<string, ParameterDescription>)((ComboBox)sender).SelectedItem;
     }
 }

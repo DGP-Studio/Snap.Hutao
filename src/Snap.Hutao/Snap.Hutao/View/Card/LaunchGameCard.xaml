@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
@@ -60,14 +61,16 @@
                 Content="{StaticResource FontIconContentSetting}"
                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                 ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
-            <ComboBox
+            <shc:SizeRestrictedContentControl
                 Grid.Row="2"
                 Grid.ColumnSpan="3"
-                VerticalAlignment="Bottom"
-                DisplayMemberPath="Name"
-                ItemsSource="{Binding GameAccounts}"
-                PlaceholderText="{shcm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
-                SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
+                VerticalAlignment="Bottom">
+                <ComboBox
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding GameAccounts}"
+                    PlaceholderText="{shcm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
+                    SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
+            </shc:SizeRestrictedContentControl>
         </Grid>
     </Grid>
 </Button>

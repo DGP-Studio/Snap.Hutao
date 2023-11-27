@@ -87,7 +87,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
         await userFingerprintService.TryInitializeAsync(user, token).ConfigureAwait(false);
 
-        // should not raise propery changed event here
+        // Should not raise propery changed event here
         user.SetSelectedUserGameRole(user.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen), false);
         return user.IsInitialized = true;
     }
@@ -122,9 +122,12 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
     private async ValueTask<bool> TrySetUserCookieTokenAsync(ViewModel.User.User user, CancellationToken token)
     {
-        if (user.CookieToken is not null)
+        if (user.Entity.CookieTokenLastUpdateTime > DateTimeOffset.UtcNow - TimeSpan.FromDays(1))
         {
-            return true;
+            if (user.CookieToken is not null)
+            {
+                return true;
+            }
         }
 
         Response<UidCookieToken> cookieTokenResponse = await serviceProvider
@@ -140,6 +143,9 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
                 [Cookie.ACCOUNT_ID] = user.Entity.Aid ?? string.Empty,
                 [Cookie.COOKIE_TOKEN] = cookieTokenResponse.Data.CookieToken,
             };
+
+            user.Entity.CookieTokenLastUpdateTime = DateTimeOffset.UtcNow;
+            user.NeedDbUpdateAfterResume = true;
             return true;
         }
         else

@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="ms-appx:///Control/Image/CachedImage.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Card.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Color.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Control/Theme/ComboBox.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Converter.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/CornerRadius.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/FlyoutStyle.xaml"/>

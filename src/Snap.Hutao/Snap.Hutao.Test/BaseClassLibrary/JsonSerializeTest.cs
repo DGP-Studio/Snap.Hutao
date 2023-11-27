@@ -7,9 +7,7 @@ namespace Snap.Hutao.Test.BaseClassLibrary;
 [TestClass]
 public class JsonSerializeTest
 {
-    private TestContext? testContext;
-
-    public TestContext? TestContext { get => testContext; set => testContext = value; }
+    public TestContext? TestContext { get; set; }
 
     private readonly JsonSerializerOptions AlowStringNumberOptions = new()
     {
