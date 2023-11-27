@@ -2012,6 +2012,9 @@
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>分辨率</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioPlaceHolder" xml:space="preserve">
+    <value>快捷设置分辨率</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>테두리 없는 창모드</value>
   </data>
@@ -2056,6 +2059,12 @@
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>모든 설정은 게임을 성공적으로 실행한 후에 저장됩니다</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
+    <value>在我游戏时设置 Discord Activity 状态</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
+    <value>Discord Activity</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>文件</value>
@@ -2597,6 +2606,9 @@
   <data name="ViewUserDocumentationHeader" xml:space="preserve">
     <value>文档</value>
   </data>
+  <data name="ViewUserNoUserHint" xml:space="preserve">
+    <value>尚未登录</value>
+  </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>CookieToken을 동기화 했습니다</value>
   </data>
@@ -2757,7 +2769,7 @@
     <value>错误的 UID 格式</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>角色 UID 不存在</value>
+    <value>角色 UID 不存在，请稍候再试</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>游戏维护中</value>

@@ -522,10 +522,10 @@
     <value>登录成功</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
-    <value>注册成功</value>
+    <value>註冊成功</value>
   </data>
   <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
-    <value>新密码设置成功</value>
+    <value>新密碼設定成功</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
     <value>当前邮箱尚未注册</value>
@@ -2012,6 +2012,9 @@
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>分辨率</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioPlaceHolder" xml:space="preserve">
+    <value>快捷设置分辨率</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>將窗口創建為彈出窗口，不帶邊框</value>
   </data>
@@ -2056,6 +2059,12 @@
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>所有選項盡會在啓動游戲成功後保存</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
+    <value>在我游戏时设置 Discord Activity 状态</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
+    <value>Discord Activity</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>文件</value>
@@ -2597,6 +2606,9 @@
   <data name="ViewUserDocumentationHeader" xml:space="preserve">
     <value>文檔</value>
   </data>
+  <data name="ViewUserNoUserHint" xml:space="preserve">
+    <value>尚未登录</value>
+  </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>刷新 CookieToken 成功</value>
   </data>
@@ -2757,7 +2769,7 @@
     <value>錯誤的 UID 格式</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>角色 UID 不存在</value>
+    <value>角色UID不存在，請稍候再試</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>遊戲維護中</value>

@@ -130,7 +130,7 @@
     <value>キャンセル</value>
   </data>
   <data name="ContentDialogCompletePrimaryButtonText" xml:space="preserve">
-    <value>完了</value>
+    <value>OK</value>
   </data>
   <data name="ContentDialogConfirmPrimaryButtonText" xml:space="preserve">
     <value>確定</value>
@@ -600,10 +600,10 @@
     <value>{0} つのアチーブメントを追加 | {1} つのアチーブメントを更新 |{2} つのアチーブメントを削除</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF Json 文件</value>
+    <value>UIAF Json ファイル</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>打开 UIAF Json 文件</value>
+    <value>UIAF Json ファイルを開く</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>複数の同一アチーブメント Idがアーカイブに混在しています</value>
@@ -792,10 +792,10 @@
     <value>参量物質変化器は使用可能</value>
   </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
-    <value>正在提瓦特大陆中探索</value>
+    <value>テイワット大陸を探索中</value>
   </data>
   <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
-    <value>由 {0} 启动</value>
+    <value>スタートから {0}</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
     <value>{0}：祈願履歴を確認できません</value>
@@ -882,7 +882,7 @@
     <value>ゲーム本体を選択する</value>
   </data>
   <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
-    <value>游戏本体</value>
+    <value>ゲームクライアント</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>Unity ログファイルが見つかりません</value>
@@ -948,7 +948,7 @@
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
-    <value>HTTP {0} | Error:{1}：元数据校验文件下载失败</value>
+    <value>HTTP {0} | Error {1}: メタデータ検証ファイルのダウンロードに失敗しました。</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>メタデータサービスが初期化されていないか、または初期化できませんでした</value>
@@ -1350,7 +1350,7 @@
     <value>{0} を削除してもよろしいでしょうか？</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIAF Json 文件到指定路径</value>
+    <value>UIAF Json ファイルを指定した場所へエクスポート</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>素材リスト取得中、しばらくお待ちください</value>
@@ -1479,13 +1479,13 @@
     <value>胡桃クラウドで祈願履歴を同期します</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
-    <value>导出 UIGF Json 文件到指定路径</value>
+    <value>UIGF Json ファイルを指定した場所へエクスポート</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>胡桃クラウドにアップロード中</value>
   </data>
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
-    <value>导入 UIGF Json 文件</value>
+    <value>UIGF Json ファイルをインポート</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
     <value>上記の規約を熟読し、それに同意します</value>
@@ -2012,6 +2012,9 @@
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>解像度</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioPlaceHolder" xml:space="preserve">
+    <value>快捷设置分辨率</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>枠の無いポップアップウィンドウとして作成します。</value>
   </data>
@@ -2056,6 +2059,12 @@
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>これらの設定はゲームが正常に起動した時のみ保存されます。</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
+    <value>ゲームをプレイしている時に、Discord Activityのステータスを変更します。</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
+    <value>Discord Activity</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>ファイル</value>
@@ -2597,6 +2606,9 @@
   <data name="ViewUserDocumentationHeader" xml:space="preserve">
     <value>ドキュメント</value>
   </data>
+  <data name="ViewUserNoUserHint" xml:space="preserve">
+    <value>尚未登录</value>
+  </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>CookieTokenを更新しました。</value>
   </data>
@@ -2757,7 +2769,7 @@
     <value>UIDは正しくありません</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>UID は存在しません</value>
+    <value>ロール UIDが存在しません。時間を置いてもう一度試してください。</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>ゲームメンテナンス中</value>

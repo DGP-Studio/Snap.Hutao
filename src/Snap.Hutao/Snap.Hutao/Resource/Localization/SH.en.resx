@@ -948,7 +948,7 @@
     <value>Unable to find cached metadata file</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
-    <value>HTTP {0} | Error:{1}：元数据校验文件下载失败</value>
+    <value>HTTP {0} | Error {1}: Failed to download metadata verification file</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>Metadata service has not been initialized or failed to initialize</value>
@@ -2012,6 +2012,9 @@
   <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
     <value>Screen Resolution</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioPlaceHolder" xml:space="preserve">
+    <value>Resolution Quick Set</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>Create window as popup, without frame</value>
   </data>
@@ -2056,6 +2059,12 @@
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>All options will be saved only after the game is launched successfully.</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
+    <value>Set My Discord Activity Status When I'm in the Game</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
+    <value>Discord Activity</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>File</value>
@@ -2597,6 +2606,9 @@
   <data name="ViewUserDocumentationHeader" xml:space="preserve">
     <value>Document</value>
   </data>
+  <data name="ViewUserNoUserHint" xml:space="preserve">
+    <value>No Login</value>
+  </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>Refresh CookieToken successfully</value>
   </data>
@@ -2757,7 +2769,7 @@
     <value>Wrong UID format</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>Role UID does not exist</value>
+    <value>Role UID does not exist, please try again later</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>Game in maintenance</value>
