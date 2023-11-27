@@ -24,8 +24,14 @@ body:
           - [ ]  更新日志
           - [ ]  功能文档更新
     
-      ## 发布版本
-    
+      ## 发布版本 [半自动]
+      
+      - [ ] 在 GitHub 个人设置中更新 [Publish-Automate Beta PAT](https://github.com/settings/tokens?type=beta)，有效期需小于预计发版需要天数
+      - [ ] 将更新的 PAT 更新至 Publish-Automate 库的 [Actions Secrets](https://github.com/DGP-Studio/Publish-Automate/settings/secrets/actions) 中 
+
+      ***
+
+      - [ ] 运行 [Auto Publish Action](https://github.com/DGP-Studio/Publish-Automate/actions/workflows/auto-publish.yml)
       - [ ]  在 https://store.rg-adguard.net/ 下载新版本安装包
           - [ ]  Store URL: https://apps.microsoft.com/store/detail/snap-hutao/9PH4NXJ2JN52
           - [ ]  命名格式为 `Snap.Hutao x.x.x.msix`
