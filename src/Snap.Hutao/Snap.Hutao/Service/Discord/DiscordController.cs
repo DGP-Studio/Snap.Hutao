@@ -24,6 +24,12 @@ internal static class DiscordController
     public static async ValueTask<Result> SetDefaultActivityAsync(DateTimeOffset startTime)
     {
         ResetManagerOrIgnore(HutaoAppId);
+
+        if (discordManager is null)
+        {
+            return Result.Ok;
+        }
+
         ActivityManager activityManager = discordManager.GetActivityManager();
 
         Activity activity = default;
@@ -37,6 +43,12 @@ internal static class DiscordController
     public static async ValueTask<Result> SetPlayingYuanShenAsync()
     {
         ResetManagerOrIgnore(YuanshenId);
+
+        if (discordManager is null)
+        {
+            return Result.Ok;
+        }
+
         ActivityManager activityManager = discordManager.GetActivityManager();
 
         Activity activity = default;
@@ -54,6 +66,12 @@ internal static class DiscordController
     public static async ValueTask<Result> SetPlayingGenshinImpactAsync()
     {
         ResetManagerOrIgnore(GenshinImpactId);
+
+        if (discordManager is null)
+        {
+            return Result.Ok;
+        }
+
         ActivityManager activityManager = discordManager.GetActivityManager();
 
         Activity activity = default;
@@ -88,10 +106,16 @@ internal static class DiscordController
         }
     }
 
-    [MemberNotNull(nameof(discordManager))]
     private static unsafe void ResetManagerOrIgnore(long clientId)
     {
         if (discordManager?.ClientId == clientId)
+        {
+            return;
+        }
+
+        // Actually requires a discord client to be running on Windows platform.
+        // If not, the following creation code will throw.
+        if (System.Diagnostics.Process.GetProcessesByName("Discord").Length == 0)
         {
             return;
         }
