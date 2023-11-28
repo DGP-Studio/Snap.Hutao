@@ -506,6 +506,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>ユーザーとUIDを選択する必要があります</value>
   </data>
+  <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
+    <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
+  </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>胡桃クラウドへ保存された祈願履歴の数が現在のアカウントの上限に達しました。</value>
   </data>
@@ -517,6 +520,12 @@
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>データが異常なため、胡桃クラウドにアップロードできません。 複数のアカウントに跨がってアップロードしないでください。アップロードしたい場合は、クラウド データを削除してもう一度試してください。</value>
+  </data>
+  <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
+    <value>上传了 Uid：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
+  </data>
+  <data name="ServerPassportLoginRequired" xml:space="preserve">
+    <value>请先登录或注册胡桃账号</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>ログイン成功</value>
@@ -545,7 +554,7 @@
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>ユーザーが存在しないため、ユーザーデータを取得出来ません。</value>
   </data>
-  <data name="ServerPassportUsernameOrPassportIncorrect" xml:space="preserve">
+  <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
     <value>ユーザー名またはパスワードが正しくありません。</value>
   </data>
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
