@@ -33,6 +33,7 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
     {
         string userName = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
         string password = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
+        await options.GetIPInfoAsync(passportClient).ConfigureAwait(false);
 
         if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
         {

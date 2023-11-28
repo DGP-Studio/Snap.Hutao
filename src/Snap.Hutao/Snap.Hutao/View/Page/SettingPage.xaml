@@ -103,6 +103,7 @@
                             Description="{Binding HutaoOptions.DeviceId}"
                             Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
                             IsClickEnabled="True"/>
+                        <cwc:SettingsCard Description="{Binding UserOptions.IPInfo}" Header="{shcm:ResourceString Name=ViewPageSettingDeviceIpHeader}"/>
                         <cwc:SettingsCard Description="{Binding HutaoOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
