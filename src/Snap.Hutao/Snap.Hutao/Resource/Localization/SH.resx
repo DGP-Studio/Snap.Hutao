@@ -2249,6 +2249,12 @@
   <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
     <value>设备 ID</value>
   </data>
+  <data name="ViewPageSettingDeviceIpDescription" xml:space="preserve">
+    <value>IP：{0}，归属：{1}</value>
+  </data>
+  <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
+    <value>设备 IP</value>
+  </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>在祈愿记录页面显示或隐藏无记录的历史祈愿活动</value>
   </data>

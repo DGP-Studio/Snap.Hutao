@@ -193,6 +193,17 @@ internal sealed partial class HomaPassportClient
         return HutaoResponse.DefaultIfNull(resp);
     }
 
+    public async ValueTask<IPInfo> GetIPInfoAsync(CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.Ip)
+            .Get();
+
+        IPInfo? resp = await builder.TryCatchSendAsync<IPInfo>(httpClient, logger, token).ConfigureAwait(false);
+
+        return resp ?? new();
+    }
+
     private static string Encrypt(string text)
     {
         byte[] plaintextBytes = Encoding.UTF8.GetBytes(text);
