@@ -506,6 +506,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>You must select a user and a role first</value>
   </data>
+  <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
+    <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
+  </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>Reached max allowed number of wish history archives on Snap Hutao Cloud</value>
   </data>
@@ -517,6 +520,12 @@
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>Found abnormal data, unable to upload to Snap Hutao Cloud. Please do not upload across accounts or you can attempt to delete cloud data and try again.</value>
+  </data>
+  <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
+    <value>上传了 Uid：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
+  </data>
+  <data name="ServerPassportLoginRequired" xml:space="preserve">
+    <value>请先登录或注册胡桃账号</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>Login successfully</value>
@@ -545,7 +554,7 @@
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>User does not exist, failed to fetch user's data</value>
   </data>
-  <data name="ServerPassportUsernameOrPassportIncorrect" xml:space="preserve">
+  <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
     <value>Wrong username or password</value>
   </data>
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
