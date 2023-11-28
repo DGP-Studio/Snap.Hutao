@@ -1,7 +1,6 @@
 desktop.ini
 
 *.csproj.user
-*.pubxml
 *.DotSettings.user
 
 .vs/
@@ -21,3 +20,4 @@ src/Snap.Hutao/Snap.Hutao.SourceGeneration/obj/
 
 src/Snap.Hutao/Snap.Hutao.Test/bin/
 src/Snap.Hutao/Snap.Hutao.Test/obj/
+src/Snap.Hutao/Snap.Hutao/Properties/PublishProfiles/FolderProfile.pubxml.user
