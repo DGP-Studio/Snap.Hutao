@@ -12,17 +12,17 @@ internal static class WinRTExtension
     {
         IObjectReference objectReference = obj.NativeObject;
 
-        lock (GetDisposedLock(objectReference))
+        lock (GetPrivateDisposedLock(objectReference))
         {
-            return GetDisposed(objectReference);
+            return GetProtectedDisposed(objectReference);
         }
     }
 
     // protected bool disposed;
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name ="disposed")]
-    private static extern ref bool GetDisposed(IObjectReference objRef);
+    private static extern ref bool GetProtectedDisposed(IObjectReference objRef);
 
     // private object _disposedLock
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_disposedLock")]
-    private static extern ref object GetDisposedLock(IObjectReference objRef);
+    private static extern ref object GetPrivateDisposedLock(IObjectReference objRef);
 }

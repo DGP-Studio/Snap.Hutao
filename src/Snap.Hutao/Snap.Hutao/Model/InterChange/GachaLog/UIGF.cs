@@ -104,6 +104,6 @@ internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
             return new TimeSpan(offsetHours, 0, 0);
         }
 
-        return PlayerUid.GetRegionTimeZoneUtcOffset(Info.Uid);
+        return PlayerUid.GetRegionTimeZoneUtcOffsetForUid(Info.Uid);
     }
 }

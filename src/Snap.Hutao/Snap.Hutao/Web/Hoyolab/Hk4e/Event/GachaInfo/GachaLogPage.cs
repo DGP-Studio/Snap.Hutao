@@ -1,13 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
+
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 /// <summary>
 /// 祈愿记录分页
 /// </summary>
 [HighQuality]
-internal sealed class GachaLogPage
+internal sealed class GachaLogPage : IJsonOnDeserialized
 {
     /// <summary>
     /// 页码
@@ -40,4 +42,15 @@ internal sealed class GachaLogPage
     /// </summary>
     [JsonPropertyName("region")]
     public string Region { get; set; } = default!;
+
+    public void OnDeserialized()
+    {
+        // Adjust items timezone
+        TimeSpan offset = PlayerUid.GetRegionTimeZoneUtcOffsetForRegion(Region);
+
+        foreach (GachaLogItem item in List)
+        {
+            item.Time = UnsafeDateTimeOffset.AdjustOffsetOnly(item.Time, offset);
+        }
+    }
 }

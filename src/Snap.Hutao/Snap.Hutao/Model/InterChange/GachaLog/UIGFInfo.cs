@@ -75,7 +75,7 @@ internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, Metadata
             ExportApp = SH.AppName,
             ExportAppVersion = runtimeOptions.Version.ToString(),
             UIGFVersion = UIGF.CurrentVersion,
-            RegionTimeZone = PlayerUid.GetRegionTimeZoneUtcOffset(uid).Hours,
+            RegionTimeZone = PlayerUid.GetRegionTimeZoneUtcOffsetForUid(uid).Hours,
         };
     }
 }
