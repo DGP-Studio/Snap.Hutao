@@ -1,4 +1,5 @@
-![](res/HutaoRepoBanner2.png)
+![Banner2-large](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/742129f4-f903-4d16-bf1e-3cbfad873ee4)
+
 
 胡桃工具箱是一款以 MIT 协议开源的原神工具箱，专为现代化 Windows 平台设计，旨在改善桌面端玩家的游戏体验。通过将既有的官方资源与开发团队设计的全新 功能相结合，它提供了一套完整且实用的工具集，且无需依赖任何移动设备。它不对游戏客户端进行任何破坏性修改以确保工具箱的安全性
 
