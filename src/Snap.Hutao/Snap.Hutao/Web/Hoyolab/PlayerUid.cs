@@ -43,15 +43,8 @@ internal readonly partial struct PlayerUid
         return new(uid);
     }
 
-    /// <summary>
-    /// 判断是否为国际服
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <returns>是否为国际服</returns>
     public static bool IsOversea(string uid)
     {
-        // We make this a static method rather than property,
-        // to avoid unnecessary memory allocation (Region field).
         Must.Argument(UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
 
         return uid.AsSpan()[0] switch
@@ -61,10 +54,8 @@ internal readonly partial struct PlayerUid
         };
     }
 
-    public static TimeSpan GetRegionTimeZoneUtcOffset(string uid)
+    public static TimeSpan GetRegionTimeZoneUtcOffsetForUid(string uid)
     {
-        // We make this a static method rather than property,
-        // to avoid unnecessary memory allocation (Region field).
         Must.Argument(UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
 
         // 美服 UTC-05
@@ -74,6 +65,19 @@ internal readonly partial struct PlayerUid
         {
             '6' => ServerRegionTimeZone.AmericaServerOffset,
             '7' => ServerRegionTimeZone.EuropeServerOffset,
+            _ => ServerRegionTimeZone.CommonOffset,
+        };
+    }
+
+    public static TimeSpan GetRegionTimeZoneUtcOffsetForRegion(string region)
+    {
+        // 美服 UTC-05
+        // 欧服 UTC+01
+        // 其他 UTC+08
+        return region switch
+        {
+            "os_usa" => ServerRegionTimeZone.AmericaServerOffset,
+            "os_euro" => ServerRegionTimeZone.EuropeServerOffset,
             _ => ServerRegionTimeZone.CommonOffset,
         };
     }
