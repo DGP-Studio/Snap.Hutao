@@ -554,7 +554,7 @@
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>用户不存在，获取用户信息失败</value>
   </data>
-  <data name="ServerPassportUsernameOrPassportIncorrect" xml:space="preserve">
+  <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
     <value>用户名或密码错误</value>
   </data>
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
