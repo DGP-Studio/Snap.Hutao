@@ -600,10 +600,10 @@
     <value>深境螺旋のデータをアップロードしました。胡桃クラウドの利用期間延長特典を受け取りました。</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
-    <value>上传深渊记录成功，但未登录胡桃通行证，无法获赠祈愿记录上传服务时长</value>
+    <value>深境螺旋のデータをアップロードしましたが、胡桃クラウドへログインしていないため、利用期間特典を受け取ることは出来ません。</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
-    <value>上传深渊记录成功，但无法找到用户，无法获赠祈愿记录上传服务时长</value>
+    <value>深境螺旋のデータをアップロードしましたが、ユーザーが見つからなかったため、利用期間特典を受け取ることができませんでした。</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
     <value>深境螺旋のデータをアップロードしました。今期は二回以上アップロードしているため、利用期間特典を受け取ることは出来ません。</value>
