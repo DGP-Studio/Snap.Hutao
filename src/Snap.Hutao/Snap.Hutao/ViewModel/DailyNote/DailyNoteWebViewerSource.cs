@@ -18,7 +18,7 @@ internal sealed class DailyNoteWebViewerSource : IWebViewerSource
 
     public string GetSource(UserAndUid userAndUid)
     {
-        string query = userAndUid.Uid.ToQueryString();
+        string query = userAndUid.Uid.ToRoleIdServerQueryString();
         return $"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/daily/?{query}";
     }
 }

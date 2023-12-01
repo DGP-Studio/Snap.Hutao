@@ -24,7 +24,7 @@ internal static class NameValueCollectionExtension
             string? key = keys[i];
             if (collection.GetValues(key) is { } values)
             {
-                foreach (string value in values)
+                foreach (ref readonly string value in values.AsSpan())
                 {
                     if (!string.IsNullOrEmpty(key))
                     {
