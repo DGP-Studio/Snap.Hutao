@@ -140,14 +140,19 @@ internal sealed partial class Activation : IActivation
     private async ValueTask HandleNormalLaunchActionAsync()
     {
         // Increase launch times
-        LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
+        LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => x + 1);
 
-        if (StaticResource.IsAnyUnfulfilledCategoryPresent())
+        // If it's the first time launch, we show the guide window anyway.
+        // Otherwise, we check if there's any unfulfilled resource category present.
+        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
         {
-            LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.StaticResourceBegin);
+            if (StaticResource.IsAnyUnfulfilledCategoryPresent())
+            {
+                UnsafeLocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, GuideState.StaticResourceBegin);
+            }
         }
 
-        if (LocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.Language) < (uint)GuideState.Completed)
+        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, GuideState.Language) < GuideState.Completed)
         {
             await taskContext.SwitchToMainThreadAsync();
             serviceProvider.GetRequiredService<GuideWindow>();
@@ -160,31 +165,33 @@ internal sealed partial class Activation : IActivation
 
     private async ValueTask WaitMainWindowAsync()
     {
-        if (currentWindowReference.Window is null)
+        if (currentWindowReference.Window is not null)
         {
-            await taskContext.SwitchToMainThreadAsync();
-
-            serviceProvider.GetRequiredService<MainWindow>();
-
-            await taskContext.SwitchToBackgroundAsync();
-
-            serviceProvider
-                .GetRequiredService<IMetadataService>()
-                .As<IMetadataServiceInitialization>()?
-                .InitializeInternalAsync()
-                .SafeForget();
-
-            serviceProvider
-                .GetRequiredService<IHutaoUserService>()
-                .As<IHutaoUserServiceInitialization>()?
-                .InitializeInternalAsync()
-                .SafeForget();
-
-            serviceProvider
-                .GetRequiredService<IDiscordService>()
-                .SetNormalActivity()
-                .SafeForget();
+            return;
         }
+
+        await taskContext.SwitchToMainThreadAsync();
+
+        serviceProvider.GetRequiredService<MainWindow>();
+
+        await taskContext.SwitchToBackgroundAsync();
+
+        serviceProvider
+            .GetRequiredService<IMetadataService>()
+            .As<IMetadataServiceInitialization>()?
+            .InitializeInternalAsync()
+            .SafeForget();
+
+        serviceProvider
+            .GetRequiredService<IHutaoUserService>()
+            .As<IHutaoUserServiceInitialization>()?
+            .InitializeInternalAsync()
+            .SafeForget();
+
+        serviceProvider
+            .GetRequiredService<IDiscordService>()
+            .SetNormalActivity()
+            .SafeForget();
     }
 
     private async ValueTask HandleUrlActivationAsync(Uri uri, bool isRedirected)
@@ -279,21 +286,22 @@ internal sealed partial class Activation : IActivation
         if (currentWindowReference.Window is null)
         {
             serviceProvider.GetRequiredService<LaunchGameWindow>();
+            return;
+        }
+
+        if (currentWindowReference.Window is MainWindow)
+        {
+            await serviceProvider
+                .GetRequiredService<INavigationService>()
+                .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
+                .ConfigureAwait(false);
+
+            return;
         }
         else
         {
-            if (currentWindowReference.Window is MainWindow)
-            {
-                await serviceProvider
-                    .GetRequiredService<INavigationService>()
-                    .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                // We have a non-Main Window, just exit current process anyway
-                Process.GetCurrentProcess().Kill();
-            }
+            // We have a non-Main Window, just exit current process anyway
+            Process.GetCurrentProcess().Kill();
         }
     }
 }

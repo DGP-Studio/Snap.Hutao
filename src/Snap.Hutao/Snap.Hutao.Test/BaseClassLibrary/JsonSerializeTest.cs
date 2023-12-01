@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace Snap.Hutao.Test.BaseClassLibrary;
 
 [TestClass]
-public class JsonSerializeTest
+public sealed class JsonSerializeTest
 {
     public TestContext? TestContext { get; set; }
 
