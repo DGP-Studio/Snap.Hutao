@@ -55,7 +55,7 @@ internal sealed partial class GameProcessService : IGameProcessService
         progress.Report(new(LaunchPhase.ProcessInitializing, SH.ServiceGameLaunchPhaseProcessInitializing));
         using (System.Diagnostics.Process game = InitializeGameProcess(gamePath))
         {
-            using (new GameRunningTracker(this, isOversea))
+            await using (await GameRunningTracker.CreateAsync(this, isOversea).ConfigureAwait(false))
             {
                 game.Start();
                 progress.Report(new(LaunchPhase.ProcessStarted, SH.ServiceGameLaunchPhaseProcessStarted));
@@ -134,27 +134,34 @@ internal sealed partial class GameProcessService : IGameProcessService
         return unlocker.UnlockAsync(options, lockerProgress, token);
     }
 
-    private class GameRunningTracker : IDisposable
+    private class GameRunningTracker : IAsyncDisposable
     {
         private readonly GameProcessService service;
+        private readonly bool previousSetDiscordActivityWhenPlaying;
 
-        public GameRunningTracker(GameProcessService service, bool isOversea)
+        private GameRunningTracker(GameProcessService service, bool isOversea)
         {
             service.isGameRunning = true;
-
-            if (service.launchOptions.SetDiscordActivityWhenPlaying)
-            {
-                service.discordService.SetPlayingActivity(isOversea);
-            }
-
+            previousSetDiscordActivityWhenPlaying = service.launchOptions.SetDiscordActivityWhenPlaying;
             this.service = service;
         }
 
-        public void Dispose()
+        public static async ValueTask<GameRunningTracker> CreateAsync(GameProcessService service, bool isOversea)
         {
-            if (service.launchOptions.SetDiscordActivityWhenPlaying)
+            GameRunningTracker tracker = new(service, isOversea);
+            if (tracker.previousSetDiscordActivityWhenPlaying)
             {
-                service.discordService.SetNormalActivity();
+                await service.discordService.SetPlayingActivity(isOversea).ConfigureAwait(false);
+            }
+
+            return tracker;
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (previousSetDiscordActivityWhenPlaying)
+            {
+                await service.discordService.SetNormalActivity().ConfigureAwait(false);
             }
 
             service.isGameRunning = false;
