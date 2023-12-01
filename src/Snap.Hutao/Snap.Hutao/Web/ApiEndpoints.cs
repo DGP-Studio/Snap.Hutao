@@ -144,49 +144,6 @@ internal static class ApiEndpoints
     }
     #endregion
 
-    #region ApiTakumiEventBbsSignReward
-
-    /// <summary>
-    /// 签到活动Id
-    /// </summary>
-    public const string SignInRewardActivityId = "e202009291139501";
-
-    /// <summary>
-    /// 签到
-    /// </summary>
-    public const string SignInRewardHome = $"{ApiTakumi}/event/bbs_sign_reward/home?act_id={SignInRewardActivityId}";
-
-    /// <summary>
-    /// 签到
-    /// </summary>
-    public const string SignInRewardSign = $"{ApiTakumi}/event/bbs_sign_reward/sign";
-
-    /// <summary>
-    /// 补签
-    /// </summary>
-    public const string SignInRewardReSign = $"{ApiTakumi}/event/bbs_sign_reward/resign";
-
-    /// <summary>
-    /// 补签信息
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <returns>补签信息字符串</returns>
-    public static string SignInRewardResignInfo(in PlayerUid uid)
-    {
-        return $"{ApiTakumi}/event/bbs_sign_reward/resign_info?act_id={SignInRewardActivityId}&region={uid.Region}&uid={uid.Value}";
-    }
-
-    /// <summary>
-    /// 签到信息
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <returns>签到信息字符串</returns>
-    public static string SignInRewardInfo(in PlayerUid uid)
-    {
-        return $"{ApiTakumi}/event/bbs_sign_reward/info?act_id={SignInRewardActivityId}&region={uid.Region}&uid={uid.Value}";
-    }
-    #endregion
-
     #region ApiTakumiEventCalculate
 
     /// <summary>
@@ -251,6 +208,34 @@ internal static class ApiEndpoints
     /// 计算器武器列表 size 20
     /// </summary>
     public const string CalculateWeaponList = $"{ApiTakumiEventCalculate}/v1/weapon/list";
+    #endregion
+
+    #region ApiTakumiEventLuna
+    public const string LunaActivityId = "e202311201442471";
+
+    public static string LunaHome(string languageCode)
+    {
+        return $"{ApiTakumiEventLuna}/home?lang={languageCode}&act_id={LunaActivityId}";
+    }
+
+    public const string LunaSign = $"{ApiTakumiEventLuna}/sign";
+
+    public const string LunaReSign = $"{ApiTakumiEventLuna}/resign";
+
+    public static string LunaExtraAward(in PlayerUid uid, string languageCode)
+    {
+        return $"{ApiTakumiEventLuna}/home?act_id={LunaActivityId}&{uid.ToUidRegionQueryString()}&lang={languageCode}";
+    }
+
+    public static string LunaResignInfo(in PlayerUid uid)
+    {
+        return $"{ApiTakumiEventLuna}/resign_info?act_id={LunaActivityId}&{uid.ToUidRegionQueryString()}";
+    }
+
+    public static string LunaInfo(in PlayerUid uid, string languageCode)
+    {
+        return $"{ApiTakumiEventLuna}/info?lang={languageCode}&act_id={LunaActivityId}&{uid.ToUidRegionQueryString()}";
+    }
     #endregion
 
     #region AppAuthApi
@@ -382,16 +367,14 @@ internal static class ApiEndpoints
 
     private const string ApiTakumiEvent = $"{ApiTakumi}/event";
     private const string ApiTakumiEventCalculate = $"{ApiTakumiEvent}/e20200928calculate";
+    private const string ApiTakumiEventLuna = $"{ApiTakumiEvent}/luna";
 
     private const string ApiTakumiRecord = "https://api-takumi-record.mihoyo.com";
     private const string ApiTakumiRecordApi = $"{ApiTakumiRecord}/game_record/app/genshin/api";
     private const string ApiTakumiRecordAapi = $"{ApiTakumiRecord}/game_record/app/genshin/aapi";
 
-    /// <summary>
-    /// Referer: https://app.mihoyo.com
-    /// </summary>
-    public const string AppMihoyoReferer = "https://app.mihoyo.com";
     private const string AppAuthApi = $"{AppMihoyoReferer}/account/auth/api";
+    public const string AppMihoyoReferer = "https://app.mihoyo.com";
 
     private const string BbsApi = "https://bbs-api.mihoyo.com";
     private const string BbsApiUserApi = $"{BbsApi}/user/wapi";

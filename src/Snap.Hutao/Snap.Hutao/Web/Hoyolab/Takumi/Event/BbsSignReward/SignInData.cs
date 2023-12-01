@@ -16,7 +16,7 @@ internal sealed class SignInData
     [SuppressMessage("", "SH002")]
     public SignInData(PlayerUid uid, bool isOversea)
     {
-        ActivityId = isOversea ? ApiOsEndpoints.SignInRewardActivityId : ApiEndpoints.SignInRewardActivityId;
+        ActivityId = isOversea ? ApiOsEndpoints.SignInRewardActivityId : ApiEndpoints.LunaActivityId;
         Region = uid.Region;
         Uid = uid.Value;
     }

@@ -24,20 +24,15 @@
                     </mxic:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>
-                    <Flyout LightDismissOverlayMode="On" Placement="Full">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-                        <Grid>
-                            <shvc:WebViewer>
-                                <shvc:WebViewer.SourceProvider>
-                                    <shvc:StaticWebview2ViewerSource ChineseSource="http://webstatic.mihoyo.com/ys/event/e20200923adopt_calculator/index.html?bbs_presentation_style=fullscreen&amp;bbs_auth_required=true&amp;utm_source=bbs&amp;utm_medium=mys&amp;utm_campaign=GameRecord"/>
-                                </shvc:WebViewer.SourceProvider>
-                            </shvc:WebViewer>
-                        </Grid>
+                    <Flyout
+                        FlyoutPresenterStyle="{ThemeResource WebViewerFlyoutPresenterStyle}"
+                        LightDismissOverlayMode="On"
+                        Placement="Full">
+                        <shvc:WebViewer>
+                            <shvc:WebViewer.SourceProvider>
+                                <shvc:StaticWebview2ViewerSource ChineseSource="http://webstatic.mihoyo.com/ys/event/e20200923adopt_calculator/index.html?bbs_presentation_style=fullscreen&amp;bbs_auth_required=true&amp;utm_source=bbs&amp;utm_medium=mys&amp;utm_campaign=GameRecord"/>
+                            </shvc:WebViewer.SourceProvider>
+                        </shvc:WebViewer>
                     </Flyout>
                 </FlyoutBase.AttachedFlyout>
             </cwc:SettingsCard>
@@ -50,22 +45,34 @@
                 </mxi:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>
                     <Flyout
+                        FlyoutPresenterStyle="{ThemeResource WebViewerFlyoutPresenterStyle}"
                         LightDismissOverlayMode="On"
-                        Placement="Full"
-                        ShouldConstrainToRootBounds="False">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-                        <Grid>
-                            <shvc:WebViewer>
-                                <shvc:WebViewer.SourceProvider>
-                                    <shvc:StaticWebview2ViewerSource ChineseSource="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
-                                </shvc:WebViewer.SourceProvider>
-                            </shvc:WebViewer>
-                        </Grid>
+                        Placement="Full">
+                        <shvc:WebViewer>
+                            <shvc:WebViewer.SourceProvider>
+                                <shvc:StaticWebview2ViewerSource ChineseSource="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
+                            </shvc:WebViewer.SourceProvider>
+                        </shvc:WebViewer>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </cwc:SettingsCard>
+
+            <cwc:SettingsCard Header="SignIn Reward" IsClickEnabled="True">
+                <mxi:Interaction.Behaviors>
+                    <mxic:EventTriggerBehavior EventName="Click">
+                        <shcb:ShowAttachedFlyoutAction/>
+                    </mxic:EventTriggerBehavior>
+                </mxi:Interaction.Behaviors>
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout
+                        FlyoutPresenterStyle="{ThemeResource WebViewerFlyoutPresenterStyle}"
+                        LightDismissOverlayMode="On"
+                        Placement="Full">
+                        <shvc:WebViewer>
+                            <shvc:WebViewer.SourceProvider>
+                                <shvc:StaticWebview2ViewerSource ChineseSource="https://act.mihoyo.com/bbs/event/signin/hk4e/index.html?act_id=e202311201442471"/>
+                            </shvc:WebViewer.SourceProvider>
+                        </shvc:WebViewer>
                     </Flyout>
                 </FlyoutBase.AttachedFlyout>
             </cwc:SettingsCard>
