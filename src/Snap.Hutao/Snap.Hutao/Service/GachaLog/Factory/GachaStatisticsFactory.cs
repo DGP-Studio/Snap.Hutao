@@ -31,7 +31,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
     public async ValueTask<GachaStatistics> CreateAsync(List<Model.Entity.GachaItem> items, GachaLogServiceMetadataContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
+        List<GachaEvent> gachaEvents = await metadataService.GetGachaEventListAsync().ConfigureAwait(false);
         List<HistoryWishBuilder> historyWishBuilders = gachaEvents.SelectList(gachaEvent => new HistoryWishBuilder(gachaEvent, context));
 
         return CreateCore(taskContext, homaGachaLogClient, items, historyWishBuilders, context, options.IsEmptyHistoryWishVisible);

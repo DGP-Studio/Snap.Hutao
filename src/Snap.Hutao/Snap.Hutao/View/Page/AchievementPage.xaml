@@ -228,6 +228,11 @@
                     Grid.Column="1"
                     Margin="16,0,0,0"
                     DefaultLabelPosition="Right">
+                    <CommandBar.Resources>
+                        <StaticResource x:Key="CommandBarBackgroundOpen" ResourceKey="ControlFillColorTransparentBrush"/>
+                        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                    </CommandBar.Resources>
+
                     <CommandBar.Content>
                         <AutoSuggestBox
                             Width="300"
@@ -294,11 +299,10 @@
             </Grid>
             <cwc:SwitchPresenter
                 Grid.Row="1"
-                ContentTransitions="{StaticResource ContentThemeTransitions}"
+                ContentTransitions="{StaticResource EntranceThemeTransitions}"
                 Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
                 <cwc:Case Value="List">
                     <SplitView
-                        Grid.Row="1"
                         DisplayMode="Inline"
                         IsPaneOpen="True"
                         OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"

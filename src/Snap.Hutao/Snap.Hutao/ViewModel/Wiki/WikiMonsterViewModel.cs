@@ -55,7 +55,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
         {
             levelMonsterCurveMap = await metadataService.GetLevelToMonsterCurveMapAsync().ConfigureAwait(false);
 
-            List<Monster> monsters = await metadataService.GetMonstersAsync().ConfigureAwait(false);
+            List<Monster> monsters = await metadataService.GetMonsterListAsync().ConfigureAwait(false);
             Dictionary<MaterialId, DisplayItem> idDisplayMap = await metadataService.GetIdToDisplayItemAndMaterialMapAsync().ConfigureAwait(false);
             foreach (Monster monster in monsters)
             {

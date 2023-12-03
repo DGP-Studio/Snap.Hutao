@@ -27,8 +27,8 @@ internal sealed partial class SummaryFactory : ISummaryFactory
             IdReliquaryAffixWeightMap = await metadataService.GetIdToReliquaryAffixWeightMapAsync(token).ConfigureAwait(false),
             IdReliquaryMainAffixMap = await metadataService.GetIdToReliquaryMainPropertyMapAsync(token).ConfigureAwait(false),
             IdReliquarySubAffixMap = await metadataService.GetIdToReliquarySubAffixMapAsync(token).ConfigureAwait(false),
-            ReliquaryLevels = await metadataService.GetReliquaryLevelsAsync(token).ConfigureAwait(false),
-            Reliquaries = await metadataService.GetReliquariesAsync(token).ConfigureAwait(false),
+            ReliquaryLevels = await metadataService.GetReliquaryLevelListAsync(token).ConfigureAwait(false),
+            Reliquaries = await metadataService.GetReliquaryListAsync(token).ConfigureAwait(false),
         };
 
         IOrderedEnumerable<AvatarView> avatars = avatarInfos
