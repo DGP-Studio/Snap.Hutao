@@ -27,4 +27,18 @@ internal static class StringExtension
     {
         return source.AsSpan().TrimEnd(value).ToString();
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool EqualsAny(this string source, in ReadOnlySpan<string> values, StringComparison comparisonType)
+    {
+        foreach (ref readonly string value in values)
+        {
+            if (source.Equals(value, comparisonType))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
