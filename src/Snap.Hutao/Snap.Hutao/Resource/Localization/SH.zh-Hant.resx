@@ -1152,7 +1152,7 @@
     <value>洞天寶錢提醒閥值</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
-    <value>洞天寶錢提醒閾值</value>
+    <value>原粹樹脂提醒閥值</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
     <value>在主頁顯示卡片</value>
