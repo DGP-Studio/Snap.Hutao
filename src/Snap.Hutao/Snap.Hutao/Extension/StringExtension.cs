@@ -27,4 +27,10 @@ internal static class StringExtension
     {
         return source.AsSpan().TrimEnd(value).ToString();
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool EqualsAny(this string source, string[] values, StringComparison comparisonType) 
+    {
+        return values.Any(value => source.Equals(value, comparisonType));
+    }
 }

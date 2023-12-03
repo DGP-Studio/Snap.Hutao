@@ -138,7 +138,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     {
         (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(SH.FilePickerPowerShellCommit, [("PowerShell", "powershell.exe;pwsh.exe")]);
 
-        if (isOk && Path.GetFileNameWithoutExtension(file).Equals("POWERSHELL", StringComparison.OrdinalIgnoreCase))
+        if (isOk && Path.GetFileNameWithoutExtension(file).EqualsAny(["POWERSHELL", "PWSH"], StringComparison.OrdinalIgnoreCase))
         {
             await taskContext.SwitchToMainThreadAsync();
             Options.PowerShellPath = file;
