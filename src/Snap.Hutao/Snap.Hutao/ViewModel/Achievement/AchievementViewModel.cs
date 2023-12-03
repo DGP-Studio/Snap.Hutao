@@ -168,7 +168,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                 using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                 {
                     List<MetadataAchievementGoal> goals = await metadataService
-                        .GetAchievementGoalsAsync(CancellationToken)
+                        .GetAchievementGoalListAsync(CancellationToken)
                         .ConfigureAwait(false);
 
                     sortedGoals = goals.SortBy(goal => goal.Order).SelectList(AchievementGoalView.From);
@@ -309,7 +309,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        List<MetadataAchievement> achievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
+        List<MetadataAchievement> achievements = await metadataService.GetAchievementListAsync(CancellationToken).ConfigureAwait(false);
 
         if (TryGetAchievements(archive, achievements, out List<AchievementView>? combined))
         {

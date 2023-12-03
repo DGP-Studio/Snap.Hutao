@@ -36,7 +36,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private readonly ICultivationService cultivationService;
     private readonly ITaskContext taskContext;
     private readonly IMetadataService metadataService;
-    private readonly IHutaoCache hutaoCache;
+    private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
@@ -82,10 +82,10 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             levelWeaponCurveMap = await metadataService.GetLevelToWeaponCurveMapAsync().ConfigureAwait(false);
-            promotes = await metadataService.GetWeaponPromotesAsync().ConfigureAwait(false);
+            promotes = await metadataService.GetWeaponPromoteListAsync().ConfigureAwait(false);
             Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
 
-            List<Weapon> weapons = await metadataService.GetWeaponsAsync().ConfigureAwait(false);
+            List<Weapon> weapons = await metadataService.GetWeaponListAsync().ConfigureAwait(false);
             IEnumerable<Weapon> sorted = weapons
                 .OrderByDescending(weapon => weapon.RankLevel)
                 .ThenBy(weapon => weapon.WeaponType)
@@ -103,7 +103,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
     private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, Dictionary<MaterialId, Material> idMaterialMap)
     {
-        if (await hutaoCache.InitializeForWikiWeaponViewModelAsync().ConfigureAwait(false))
+        if (await hutaoCache.InitializeForWikiWeaponViewAsync().ConfigureAwait(false))
         {
             ArgumentNullException.ThrowIfNull(hutaoCache.WeaponCollocations);
 

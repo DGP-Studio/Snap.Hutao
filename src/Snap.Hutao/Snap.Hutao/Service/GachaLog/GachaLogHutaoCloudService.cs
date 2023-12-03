@@ -96,7 +96,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
             {
                 Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
                 Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
-                List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync(token).ConfigureAwait(false);
+                List<GachaEvent> gachaEvents = await metadataService.GetGachaEventListAsync(token).ConfigureAwait(false);
                 HutaoStatisticsFactoryMetadataContext context = new(idAvatarMap, idWeaponMap, gachaEvents);
 
                 GachaEventStatistics raw = response.Data;

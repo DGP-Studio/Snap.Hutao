@@ -12,7 +12,7 @@ namespace Snap.Hutao.Service.Hutao;
 /// 胡桃 API 缓存
 /// </summary>
 [HighQuality]
-internal interface IHutaoCache
+internal interface IHutaoSpiralAbyssStatisticsCache
 {
     /// <summary>
     /// 角色使用率
@@ -53,17 +53,17 @@ internal interface IHutaoCache
     /// 为数据库视图模型初始化
     /// </summary>
     /// <returns>是否初始化完成</returns>
-    ValueTask<bool> InitializeForDatabaseViewModelAsync();
+    ValueTask<bool> InitializeForSpiralAbyssViewAsync();
 
     /// <summary>
     /// 为Wiki角色视图模型初始化
     /// </summary>
     /// <returns>是否初始化完成</returns>
-    ValueTask<bool> InitializeForWikiAvatarViewModelAsync();
+    ValueTask<bool> InitializeForWikiAvatarViewAsync();
 
     /// <summary>
     /// 为Wiki武器视图模型初始化
     /// </summary>
     /// <returns>是否初始化完成</returns>
-    ValueTask<bool> InitializeForWikiWeaponViewModelAsync();
+    ValueTask<bool> InitializeForWikiWeaponViewAsync();
 }

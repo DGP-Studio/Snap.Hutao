@@ -12,13 +12,10 @@ using Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 namespace Snap.Hutao.Service.Hutao;
 
-/// <summary>
-/// 胡桃 API 缓存
-/// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IHutaoCache))]
-internal sealed partial class HutaoCache : IHutaoCache
+[Injection(InjectAs.Singleton, typeof(IHutaoSpiralAbyssStatisticsCache))]
+internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbyssStatisticsCache
 {
     private readonly IMetadataService metadataService;
     private readonly IServiceProvider serviceProvider;
@@ -51,7 +48,7 @@ internal sealed partial class HutaoCache : IHutaoCache
     public Dictionary<WeaponId, WeaponCollocationView>? WeaponCollocations { get; set; }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> InitializeForDatabaseViewModelAsync()
+    public async ValueTask<bool> InitializeForSpiralAbyssViewAsync()
     {
         if (databaseViewModelTaskSource is not null)
         {
@@ -82,7 +79,7 @@ internal sealed partial class HutaoCache : IHutaoCache
     }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> InitializeForWikiAvatarViewModelAsync()
+    public async ValueTask<bool> InitializeForWikiAvatarViewAsync()
     {
         if (wikiAvatarViewModelTaskSource is not null)
         {
@@ -106,7 +103,7 @@ internal sealed partial class HutaoCache : IHutaoCache
     }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> InitializeForWikiWeaponViewModelAsync()
+    public async ValueTask<bool> InitializeForWikiWeaponViewAsync()
     {
         if (wikiWeaponViewModelTaskSource is not null)
         {

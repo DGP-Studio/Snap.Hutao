@@ -321,7 +321,7 @@
         <cwcont:SwitchPresenter
             Grid.Row="2"
             Margin="12,0"
-            ContentTransitions="{StaticResource ContentThemeTransitions}"
+            ContentTransitions="{StaticResource EntranceThemeTransitions}"
             Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
             <cwcont:Case Value="List">
                 <ListView
