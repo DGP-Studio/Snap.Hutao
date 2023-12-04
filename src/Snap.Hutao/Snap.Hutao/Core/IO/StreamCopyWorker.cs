@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Diagnostics;
 using System.IO;
 
 namespace Snap.Hutao.Core.IO;
@@ -46,6 +47,8 @@ internal class StreamCopyWorker<TStatus>
     /// <returns>任务</returns>
     public async ValueTask CopyAsync(IProgress<TStatus> progress)
     {
+        ValueStopwatch stopwatch = ValueStopwatch.StartNew();
+
         long totalBytesRead = 0;
         int bytesRead;
         Memory<byte> buffer = new byte[bufferSize];
@@ -53,10 +56,20 @@ internal class StreamCopyWorker<TStatus>
         do
         {
             bytesRead = await source.ReadAsync(buffer).ConfigureAwait(false);
+            if (bytesRead == 0)
+            {
+                progress.Report(statusFactory(totalBytesRead));
+                break;
+            }
+
             await destination.WriteAsync(buffer[..bytesRead]).ConfigureAwait(false);
 
             totalBytesRead += bytesRead;
-            progress.Report(statusFactory(totalBytesRead));
+            if (stopwatch.GetElapsedTime().TotalMilliseconds > 500)
+            {
+                progress.Report(statusFactory(totalBytesRead));
+                stopwatch = ValueStopwatch.StartNew();
+            }
         }
         while (bytesRead > 0);
     }
