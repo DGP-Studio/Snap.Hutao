@@ -58,7 +58,7 @@ internal static class ThrowHelper
 
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static PackageConvertException PackageConvert(string message, Exception? inner)
+    public static PackageConvertException PackageConvert(string message, Exception? inner = default)
     {
         throw new PackageConvertException(message, inner);
     }

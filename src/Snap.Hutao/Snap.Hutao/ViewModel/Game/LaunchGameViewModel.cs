@@ -123,9 +123,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                     {
                         try
                         {
-                            SelectedScheme = KnownSchemes
-                                .Where(scheme => scheme.IsOversea == options.IsOversea)
-                                .Single(scheme => scheme.Equals(options));
+                            SelectedScheme = KnownSchemes.Single(scheme => scheme.Equals(options));
                         }
                         catch (InvalidOperationException)
                         {
@@ -201,7 +199,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 
         try
         {
-            // Always ensure game resources
             gameService.SetChannelOptions(SelectedScheme);
 
             LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
@@ -209,6 +206,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 
             using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
             {
+                // Always ensure game resources
                 if (!await gameService.EnsureGameResourceAsync(SelectedScheme, convertProgress).ConfigureAwait(false))
                 {
                     infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
