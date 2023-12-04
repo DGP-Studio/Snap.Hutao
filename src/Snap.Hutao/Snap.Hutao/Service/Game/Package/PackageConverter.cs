@@ -6,6 +6,7 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
+using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.Globalization;
@@ -31,15 +32,6 @@ internal sealed partial class PackageConverter
     private readonly HttpClient httpClient;
     private readonly ILogger<PackageConverter> logger;
 
-    /// <summary>
-    /// 异步检查替换游戏资源
-    /// 调用前需要确认本地文件与服务器上的不同
-    /// </summary>
-    /// <param name="targetScheme">目标启动方案</param>
-    /// <param name="gameResource">游戏资源</param>
-    /// <param name="gameFolder">游戏目录</param>
-    /// <param name="progress">进度</param>
-    /// <returns>替换结果与资源</returns>
     public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResource, string gameFolder, IProgress<PackageReplaceStatus> progress)
     {
         // 以 国服 => 国际 为例
@@ -83,13 +75,6 @@ internal sealed partial class PackageConverter
         return await ReplaceGameResourceAsync(diffOperations, context, progress).ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// 检查过时文件与Sdk
-    /// 只在国服环境有效
-    /// </summary>
-    /// <param name="resource">游戏资源</param>
-    /// <param name="gameFolder">游戏文件夹</param>
-    /// <returns>任务</returns>
     public async ValueTask EnsureDeprecatedFilesAndSdkAsync(GameResource resource, string gameFolder)
     {
         string sdkDllBackup = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll.backup");
@@ -182,12 +167,11 @@ internal sealed partial class PackageConverter
         Dictionary<string, VersionItem> results = [];
         using (StreamReader reader = new(stream))
         {
-            Regex dataFolderRegex = DataFolderRegex();
             while (await reader.ReadLineAsync().ConfigureAwait(false) is { Length: > 0 } row)
             {
                 VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, options);
                 ArgumentNullException.ThrowIfNull(item);
-                item.RelativePath = dataFolderRegex.Replace(item.RelativePath, "{0}");
+                item.RelativePath = DataFolderRegex().Replace(item.RelativePath, "{0}");
                 results.Add(item.RelativePath, item);
             }
         }
@@ -244,8 +228,7 @@ internal sealed partial class PackageConverter
         {
             if (info.Remote.FileSize == new FileInfo(cacheFile).Length)
             {
-                string cacheMd5 = await MD5.HashFileAsync(cacheFile).ConfigureAwait(false);
-                if (info.Remote.Md5.Equals(cacheMd5, StringComparison.OrdinalIgnoreCase))
+                if (info.Remote.Md5.Equals(await MD5.HashFileAsync(cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
                 {
                     return;
                 }
@@ -259,35 +242,33 @@ internal sealed partial class PackageConverter
         string? directory = Path.GetDirectoryName(cacheFile);
         ArgumentException.ThrowIfNullOrEmpty(directory);
         Directory.CreateDirectory(directory);
-        using (FileStream fileStream = File.Create(cacheFile))
+
+        string remoteUrl = context.GetScatteredFilesUrl(remoteName);
+        HttpShardCopyWorkerOptions<PackageReplaceStatus> options = new()
         {
-            string remoteUrl = context.GetScatteredFilesUrl(remoteName);
-            using (HttpResponseMessage response = await httpClient.GetAsync(remoteUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+            HttpClient = httpClient,
+            SourceUrl = remoteUrl,
+            DestinationFilePath = cacheFile,
+            StatusFactory = (bytesRead, totalBytes) => new(remoteName, bytesRead, totalBytes),
+        };
+
+        using (HttpShardCopyWorker<PackageReplaceStatus> worker = await HttpShardCopyWorker<PackageReplaceStatus>.CreateAsync(options).ConfigureAwait(false))
+        {
+            try
             {
-                // This stream's length is incorrect,
-                // so we use length in the header
-                long totalBytes = response.Content.Headers.ContentLength ?? 0;
-                using (Stream webStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                {
-                    try
-                    {
-                        StreamCopyWorker<PackageReplaceStatus> streamCopyWorker = new(webStream, fileStream, bytesRead => new(remoteName, bytesRead, totalBytes));
-                        await streamCopyWorker.CopyAsync(progress).ConfigureAwait(false);
-                        fileStream.Position = 0;
-                        string cacheMd5 = await MD5.HashAsync(fileStream).ConfigureAwait(false);
-                        if (string.Equals(info.Remote.Md5, cacheMd5, StringComparison.OrdinalIgnoreCase))
-                        {
-                            return;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // System.IO.IOException: The response ended prematurely.
-                        // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
-                        ThrowHelper.PackageConvert(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName), ex);
-                    }
-                }
+                await worker.CopyAsync(progress).ConfigureAwait(false);
             }
+            catch (Exception ex)
+            {
+                // System.IO.IOException: The response ended prematurely.
+                // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+                ThrowHelper.PackageConvert(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName), ex);
+            }
+        }
+
+        if (!string.Equals(info.Remote.Md5, await MD5.HashFileAsync(cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
+        {
+            ThrowHelper.PackageConvert(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName));
         }
     }
 

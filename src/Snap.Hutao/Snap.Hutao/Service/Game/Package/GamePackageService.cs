@@ -31,37 +31,30 @@ internal sealed partial class GamePackageService : IGamePackageService
             .GetResourceAsync(launchScheme)
             .ConfigureAwait(false);
 
-        if (response.IsOk())
+        if (!response.IsOk())
         {
-            GameResource resource = response.Data;
-
-            if (!launchScheme.ExecutableMatches(gameFileName))
-            {
-                bool replaced = await packageConverter
-                    .EnsureGameResourceAsync(launchScheme, resource, gameFolder, progress)
-                    .ConfigureAwait(false);
-
-                if (replaced)
-                {
-                    // We need to change the gamePath if we switched.
-                    string exeName = launchScheme.IsOversea ? GenshinImpactFileName : YuanShenFileName;
-
-                    await taskContext.SwitchToMainThreadAsync();
-                    appOptions.GamePath = Path.Combine(gameFolder, exeName);
-                }
-                else
-                {
-                    // We can't start the game
-                    // when we failed to convert game
-                    return false;
-                }
-            }
-
-            await packageConverter.EnsureDeprecatedFilesAndSdkAsync(resource, gameFolder).ConfigureAwait(false);
-
-            return true;
+            return false;
         }
 
-        return false;
+        GameResource resource = response.Data;
+
+        if (!launchScheme.ExecutableMatches(gameFileName))
+        {
+            // We can't start the game
+            // when we failed to convert game
+            if (!await packageConverter.EnsureGameResourceAsync(launchScheme, resource, gameFolder, progress).ConfigureAwait(false))
+            {
+                return false;
+            }
+
+            // We need to change the gamePath if we switched.
+            string exeName = launchScheme.IsOversea ? GenshinImpactFileName : YuanShenFileName;
+
+            await taskContext.SwitchToMainThreadAsync();
+            appOptions.GamePath = Path.Combine(gameFolder, exeName);
+        }
+
+        await packageConverter.EnsureDeprecatedFilesAndSdkAsync(resource, gameFolder).ConfigureAwait(false);
+        return true;
     }
 }
