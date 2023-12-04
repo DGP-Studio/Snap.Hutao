@@ -9,7 +9,7 @@ namespace Snap.Hutao.Core.IO;
 internal sealed class StreamCopyWorker : StreamCopyWorker<StreamCopyStatus>
 {
     public StreamCopyWorker(Stream source, Stream destination, long totalBytes, int bufferSize = 81920)
-        : base(source, destination, totalBytes => new StreamCopyStatus(totalBytes, totalBytes), bufferSize)
+        : base(source, destination, bytes => new StreamCopyStatus(bytes, totalBytes), bufferSize)
     {
     }
 }
