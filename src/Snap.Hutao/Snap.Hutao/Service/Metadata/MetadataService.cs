@@ -13,7 +13,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
-using Windows.ApplicationModel.Appointments;
 
 namespace Snap.Hutao.Service.Metadata;
 
