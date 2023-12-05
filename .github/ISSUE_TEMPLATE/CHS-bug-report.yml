@@ -85,7 +85,9 @@ body:
     id: what-happened
     attributes:
       label: 发生了什么？
-      description: 详细的描述问题发生前后的行为，以便我们解决问题。**如果你的问题涉及程序崩溃，你应当检查 Windows 事件查看器，并将相关的 `.Net 错误`详情附上**
+      description: |
+        详细的描述问题发生前后的行为，以便我们解决问题。**如果你的问题涉及程序崩溃，你应当检查 Windows 事件查看器，并将相关的 `.Net 错误`详情附上**
+        如果你无法找到该日志，请下载并运行[此PowerShell脚本](https://github.com/DGP-Studio/ISSUE_TEMPLATES/releases/download/dump_log_script/dump_log_zh.ps1)，它将输出错误日志
     validations:
       required: true
 
