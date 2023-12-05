@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -507,28 +507,28 @@
     <value>必須先選擇一個用戶與角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
+    <value>刪除了 Uid：{0} 的 {1} 筆祈願記錄</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
-    <value>胡桃云保存的祈愿记录存档数已达当前账号上限</value>
+    <value>胡桃雲保存的祈願記錄存檔數已達當前帳號上限</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
-    <value>未开通祈愿记录上传服务或已到期</value>
+    <value>未開通祈願紀錄上傳服務或已到期</value>
   </data>
   <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
-    <value>祈愿数据存在无效的物品，无法保存至胡桃云</value>
+    <value>祈願數據存在無效的物品，無法保存至胡桃雲</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
-    <value>数据异常，无法保存至云端，请勿跨账号上传或尝试删除云端数据后重试</value>
+    <value>數據異常，無法保存至雲端，請勿跨帳號上傳或嘗試删除雲端數據後重試</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>上传了 Uid：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
+    <value>上傳了 Uid：{0} 的 {1} 筆祈願記錄，儲存了 {2} 筆</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
-    <value>请先登录或注册胡桃账号</value>
+    <value>請先登錄或注冊胡桃帳號</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
-    <value>登录成功</value>
+    <value>登錄成功</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
     <value>註冊成功</value>
@@ -537,76 +537,76 @@
     <value>新密碼設定成功</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
-    <value>当前邮箱尚未注册</value>
+    <value>當前郵箱尚未註冊</value>
   </data>
   <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
-    <value>当前邮箱已被注册</value>
+    <value>當前郵箱已被註冊</value>
   </data>
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
-    <value>注册失败，服务器异常，请尽快联系开发者解决</value>
+    <value>註冊失敗，伺服器異常，請盡快聯繫開發者解決</value>
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
-    <value>用户不存在，注销失败</value>
+    <value>使用者不存在，刪除帳號失敗</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
-    <value>用户注销成功</value>
+    <value>使用者刪除成功</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
-    <value>用户不存在，获取用户信息失败</value>
+    <value>使用者不存在，獲取使用者信息失敗</value>
   </data>
   <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
-    <value>用户名或密码错误</value>
+    <value>使用者名稱或密碼錯誤</value>
   </data>
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
-    <value>验证失败</value>
+    <value>驗證失敗</value>
   </data>
   <data name="ServerPassportVerifyRequestNotCurrentUser" xml:space="preserve">
-    <value>验证请求失败，不是当前登录的账号</value>
+    <value>驗證請求失敗，不是當前登錄的帳號</value>
   </data>
   <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
-    <value>验证码已发送至邮箱</value>
+    <value>驗證碼已發送至郵箱</value>
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
-    <value>验证请求失败，当前邮箱已被注册</value>
+    <value>驗證請求失敗，當前郵箱已被註冊</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
-    <value>验证请求过快，请 1 分钟后再试</value>
+    <value>驗證請求過快，請 1 分鐘後再試</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>上传深渊记录失败，当前 Uid 已被胡桃数据库封禁</value>
+    <value>上傳深淵記錄失敗，當前 Uid 已被胡桃數據庫封禁</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
-    <value>上传深渊记录失败，正在计算统计数据</value>
+    <value>上傳深淵記錄失敗，正在計算統計數據</value>
   </data>
   <data name="ServerRecordComputingStatistics2" xml:space="preserve">
-    <value>获取数据失败，正在计算统计数据</value>
+    <value>獲取數據失敗，正在計算統計數據</value>
   </data>
   <data name="ServerRecordInternalException" xml:space="preserve">
-    <value>上传深渊记录失败，服务器异常，请尽快联系开发者解决</value>
+    <value>上傳深淵記錄失敗，伺服器異常，請盡快聯繫開發者解決</value>
   </data>
   <data name="ServerRecordInvalidData" xml:space="preserve">
-    <value>上传深渊记录失败，存在无效的数据</value>
+    <value>上傳深淵記錄失敗，存在無效的數據</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
-    <value>无效的 Uid</value>
+    <value>無效的 Uid</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
-    <value>上传深渊记录失败，不是本期数据</value>
+    <value>上傳深淵記錄失敗，不是本期數據</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>上传深渊记录失败，当前 Uid 的记录仍在处理中，请勿重复操作</value>
+    <value>上傳深淵記錄失敗，當前 Uid 的紀錄仍在處理中，請勿重複操作</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
-    <value>上传深渊记录成功，获赠祈愿记录上传服务时长</value>
+    <value>上傳深淵記錄成功，獲贈祈願記錄上傳服務時長</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
-    <value>上传深渊记录成功，但未登录胡桃通行证，无法获赠祈愿记录上传服务时长</value>
+    <value>上傳深淵記錄成功，但未登錄胡桃通行證，無法獲贈祈願記錄上傳服務時長</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
-    <value>上传深渊记录成功，但无法找到用户，无法获赠祈愿记录上传服务时长</value>
+    <value>上傳深淵記錄成功，但無法找到使用者，無法獲贈祈願記錄上傳服務時長</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
-    <value>上传深渊记录成功，但不是本期首次提交，无法获赠祈愿记录上传服务时长</value>
+    <value>上傳深淵記錄成功，但不是本期首次提交，無法獲贈祈願記錄上傳服務時長</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>新增：{0} 個成就 | 更新：{1} 個成就 | 删除：{2} 個成就</value>
@@ -615,7 +615,7 @@
     <value>UIAF Json 文件</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
-    <value>打开 UIAF Json 文件</value>
+    <value>打開 UIAF Json 文件</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>單個成就存檔內發現多個相同的成就 Id</value>
@@ -804,10 +804,10 @@
     <value>參量質變儀已準備完成</value>
   </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
-    <value>正在提瓦特大陆中探索</value>
+    <value>正在提瓦特大陸中探索</value>
   </data>
   <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
-    <value>由 {0} 启动</value>
+    <value>由 {0} 啟動</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
     <value>無法獲取祈願記錄：{0}</value>
@@ -863,6 +863,9 @@
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多個匹配賬號，請刪除重複的賬號</value>
   </data>
+  <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
+    <value>文件系統權限不足，無法轉換伺服器</value>
+  </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>查詢遊戲資源信息</value>
   </data>
@@ -894,7 +897,7 @@
     <value>請選擇遊戲本體</value>
   </data>
   <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
-    <value>游戏本体</value>
+    <value>遊戲本體</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>找不到 Unity 日誌文件</value>
@@ -960,7 +963,7 @@
     <value>無法找到暫存的元數據文件</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
-    <value>HTTP {0} | Error:{1}：元数据校验文件下载失败</value>
+    <value>HTTP {0} | Error:{1}：元資料校驗文件下載失敗</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>元數據服務未初始化或初始化失敗</value>
@@ -978,7 +981,7 @@
     <value>簽到失敗，{0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
-    <value>获取签到次数失败</value>
+    <value>獲取簽到次數失敗</value>
   </data>
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
     <value>獲取獎勵列表失敗</value>
@@ -1224,7 +1227,7 @@
     <value>重置胡桃通行证密码</value>
   </data>
   <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
-    <value>注销胡桃通行证账号</value>
+    <value>刪除胡桃通行證帳號</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>匯出 App</value>
@@ -2001,7 +2004,7 @@
     <value>重設密碼</value>
   </data>
   <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
-    <value>注销账号的数据将永远丢失，无法恢复</value>
+    <value>刪除帳號的數據將永遠丢失，無法恢復</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
     <value>請輸入電郵地址</value>
@@ -2352,7 +2355,7 @@
     <value>修改密码</value>
   </data>
   <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
-    <value>注销账号</value>
+    <value>刪除帳號</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
     <value>在完整閱讀原神和胡桃工具箱使用者協定後，我選擇啟用「啟動遊戲 - 高級功能」</value>
