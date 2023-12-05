@@ -96,21 +96,7 @@ internal sealed partial class PackageConverter
             {
                 using (Stream sdkWebStream = await httpClient.GetStreamAsync(resource.Sdk.Path).ConfigureAwait(false))
                 {
-                    using (ZipArchive zip = new(sdkWebStream))
-                    {
-                        foreach (ZipArchiveEntry entry in zip.Entries)
-                        {
-                            // skip folder entry.
-                            if (entry.Length != 0)
-                            {
-                                string targetPath = Path.Combine(gameFolder, entry.FullName);
-                                string? directory = Path.GetDirectoryName(targetPath);
-                                ArgumentException.ThrowIfNullOrEmpty(directory);
-                                Directory.CreateDirectory(directory);
-                                entry.ExtractToFile(targetPath, true);
-                            }
-                        }
-                    }
+                    ZipFile.ExtractToDirectory(sdkWebStream, gameFolder, true);
                 }
             }
         }
@@ -342,7 +328,7 @@ internal sealed partial class PackageConverter
         {
             string versionFileName = Path.GetFileName(versionFilePath);
 
-            if (versionFileName == "sdk_pkg_version")
+            if (string.Equals(versionFileName, "sdk_pkg_version", StringComparison.OrdinalIgnoreCase))
             {
                 // Skipping the sdk_pkg_version file,
                 // it can't be claimed from remote.

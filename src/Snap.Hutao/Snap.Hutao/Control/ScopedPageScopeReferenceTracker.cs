@@ -22,6 +22,7 @@ internal sealed partial class ScopedPageScopeReferenceTracker : IScopedPageScope
 
     public IServiceScope CreateScope()
     {
+        GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true);
         IServiceScope currentScope = serviceProvider.CreateScope();
 
         // In case previous one is not disposed.

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using Snap.Hutao.Web.Response;
@@ -22,6 +23,12 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         if (!appOptions.TryGetGameFolderAndFileName(out string? gameFolder, out string? gameFileName))
         {
+            return false;
+        }
+
+        if (!CheckDirectoryPermissions(gameFolder))
+        {
+            progress.Report(new(SH.ServiceGameEnsureGameResourceInsufficientDirectoryPermissions));
             return false;
         }
 
@@ -56,5 +63,34 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await packageConverter.EnsureDeprecatedFilesAndSdkAsync(resource, gameFolder).ConfigureAwait(false);
         return true;
+    }
+
+    private static bool CheckDirectoryPermissions(string folder)
+    {
+        try
+        {
+            string tempFilePath = Path.Combine(folder, $"{Guid.NewGuid():N}.tmp");
+            string tempFilePathMove = Path.Combine(folder, $"{Guid.NewGuid():N}.tmp");
+
+            // Test create file
+            using (SafeFileHandle handle = File.OpenHandle(tempFilePath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, preallocationSize: 32 * 1024))
+            {
+                // Test write file
+                RandomAccess.Write(handle, "SNAP HUTAO DIRECTORY PERMISSION CHECK"u8, 0);
+                RandomAccess.FlushToDisk(handle);
+            }
+
+            // Test move file
+            File.Move(tempFilePath, tempFilePathMove);
+
+            // Test delete file
+            File.Delete(tempFilePathMove);
+
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }
