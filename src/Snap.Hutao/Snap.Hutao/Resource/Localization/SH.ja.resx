@@ -506,6 +506,9 @@
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>ユーザーとUIDを選択する必要があります</value>
   </data>
+  <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
+    <value>UID: {0} の祈願履歴を {1} 件 削除しました</value>
+  </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>胡桃クラウドへ保存された祈願履歴の数が現在のアカウントの上限に達しました。</value>
   </data>
@@ -517,6 +520,12 @@
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
     <value>データが異常なため、胡桃クラウドにアップロードできません。 複数のアカウントに跨がってアップロードしないでください。アップロードしたい場合は、クラウド データを削除してもう一度試してください。</value>
+  </data>
+  <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
+    <value>UID: {0} の祈願履歴を {1} 件アップロードしました。保存済みは {2} 件です。</value>
+  </data>
+  <data name="ServerPassportLoginRequired" xml:space="preserve">
+    <value>最初に胡桃アカウントにログインするか、アカウントを登録してください。</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>ログイン成功</value>
@@ -592,6 +601,9 @@
   </data>
   <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
     <value>深境螺旋のデータをアップロードしましたが、胡桃クラウドへログインしていないため、利用期間特典を受け取ることは出来ません。</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
+    <value>深境螺旋のデータをアップロードしましたが、ユーザーが見つからなかったため、利用期間特典を受け取ることができませんでした。</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
     <value>深境螺旋のデータをアップロードしました。今期は二回以上アップロードしているため、利用期間特典を受け取ることは出来ません。</value>
@@ -2013,7 +2025,7 @@
     <value>解像度</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceAspectRatioPlaceHolder" xml:space="preserve">
-    <value>快捷设置分辨率</value>
+    <value>解像度のクイック設定</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>枠の無いポップアップウィンドウとして作成します。</value>
@@ -2607,7 +2619,7 @@
     <value>ドキュメント</value>
   </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
-    <value>尚未登录</value>
+    <value>ログインしていません</value>
   </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>CookieTokenを更新しました。</value>
