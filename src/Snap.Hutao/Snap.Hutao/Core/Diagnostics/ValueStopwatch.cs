@@ -53,26 +53,8 @@ internal readonly struct ValueStopwatch
     /// 获取经过的时间
     /// </summary>
     /// <returns>经过的时间</returns>
-    public long GetElapsedTimestamp()
-    {
-        // Start timestamp can't be zero in an initialized ValueStopwatch.
-        // It would have to be literally the first thing executed when the machine boots to be 0.
-        // So it being 0 is a clear indication of default(ValueStopwatch)
-        Verify.Operation(IsActive, $"An uninitialized, or 'default', {nameof(ValueStopwatch)} cannot be used to get elapsed time.");
-
-        long end = Stopwatch.GetTimestamp();
-        long timestampDelta = end - startTimestamp;
-        long ticks = (long)(TimestampToTicks * timestampDelta);
-
-        return ticks;
-    }
-
-    /// <summary>
-    /// 获取经过的时间
-    /// </summary>
-    /// <returns>经过的时间</returns>
     public TimeSpan GetElapsedTime()
     {
-        return new TimeSpan(GetElapsedTimestamp());
+        return Stopwatch.GetElapsedTime(startTimestamp);
     }
 }

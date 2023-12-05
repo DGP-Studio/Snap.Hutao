@@ -135,7 +135,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     {
         if (project is not null)
         {
-            List<Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
+            List<Material> materials = await metadataService.GetMaterialListAsync().ConfigureAwait(false);
             Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
             Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
 
@@ -194,7 +194,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             ObservableCollection<StatisticsCultivateItem> statistics;
             try
             {
-                List<Material> materials = await metadataService.GetMaterialsAsync(token).ConfigureAwait(false);
+                List<Material> materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
                 statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(SelectedProject, materials, token).ConfigureAwait(false);
             }
             catch (OperationCanceledException)

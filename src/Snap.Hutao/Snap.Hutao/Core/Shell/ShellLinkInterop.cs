@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Storage;
@@ -18,6 +19,7 @@ namespace Snap.Hutao.Core.Shell;
 internal sealed partial class ShellLinkInterop : IShellLinkInterop
 {
     private readonly RuntimeOptions runtimeOptions;
+    private readonly AppOptions appOptions;
 
     public async ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync()
     {
@@ -43,7 +45,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
         HRESULT result = CoCreateInstance<ShellLink, IShellLinkW>(null, CLSCTX.CLSCTX_INPROC_SERVER, out IShellLinkW shellLink);
         Marshal.ThrowExceptionForHR(result);
 
-        shellLink.SetPath("powershell");
+        shellLink.SetPath(appOptions.PowerShellPath);
         shellLink.SetArguments($"""
             -Command "Start-Process shell:AppsFolder\{runtimeOptions.FamilyName}!App -verb runas"
             """);

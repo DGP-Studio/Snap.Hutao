@@ -58,6 +58,9 @@ internal static class DependencyInjection
         CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
+        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
         ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
 
         SH.Culture = cultureInfo;

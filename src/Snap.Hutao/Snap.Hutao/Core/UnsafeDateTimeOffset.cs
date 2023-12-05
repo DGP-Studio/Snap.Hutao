@@ -1,20 +1,20 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
+
 namespace Snap.Hutao.Core;
 
-internal struct UnsafeDateTimeOffset
+internal static class UnsafeDateTimeOffset
 {
-    private DateTime dateTime;
-    private short offsetMinutes;
-
-    public DateTime DateTime { readonly get => dateTime; set => dateTime = value; }
-
+    [Pure]
     [SuppressMessage("", "SH002")]
     public static unsafe DateTimeOffset AdjustOffsetOnly(DateTimeOffset dateTimeOffset, in TimeSpan offset)
     {
-        UnsafeDateTimeOffset* pUnsafe = (UnsafeDateTimeOffset*)&dateTimeOffset;
-        pUnsafe->offsetMinutes = (short)(offset.Ticks / TimeSpan.TicksPerMinute);
-        return dateTimeOffset;
+        return new(GetPrivateDateTime(ref dateTimeOffset), offset);
     }
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_dateTime")]
+    private static extern ref readonly DateTime GetPrivateDateTime(ref DateTimeOffset dateTimeOffset);
 }

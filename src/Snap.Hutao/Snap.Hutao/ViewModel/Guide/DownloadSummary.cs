@@ -26,7 +26,6 @@ internal sealed class DownloadSummary : ObservableObject
     private readonly Progress<StreamCopyStatus> progress;
     private string description = SH.ViewModelWelcomeDownloadSummaryDefault;
     private double progressValue;
-    private long updateCount;
 
     /// <summary>
     /// 构造一个新的下载信息
@@ -104,11 +103,8 @@ internal sealed class DownloadSummary : ObservableObject
 
     private void UpdateProgressStatus(StreamCopyStatus status)
     {
-        if (Interlocked.Increment(ref updateCount) % 40 == 0)
-        {
-            Description = $"{Converters.ToFileSizeString(status.BytesCopied)}/{Converters.ToFileSizeString(status.TotalBytes)}";
-            ProgressValue = status.TotalBytes == 0 ? 0 : (double)status.BytesCopied / status.TotalBytes;
-        }
+        Description = $"{Converters.ToFileSizeString(status.BytesCopied)}/{Converters.ToFileSizeString(status.TotalBytes)}";
+        ProgressValue = status.TotalBytes == 0 ? 0 : (double)status.BytesCopied / status.TotalBytes;
     }
 
     private void ExtractFiles(Stream stream)

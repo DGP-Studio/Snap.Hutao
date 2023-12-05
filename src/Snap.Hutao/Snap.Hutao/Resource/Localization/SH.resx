@@ -554,7 +554,7 @@
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>用户不存在，获取用户信息失败</value>
   </data>
-  <data name="ServerPassportUsernameOrPassportIncorrect" xml:space="preserve">
+  <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
     <value>用户名或密码错误</value>
   </data>
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
@@ -600,7 +600,10 @@
     <value>上传深渊记录成功，获赠祈愿记录上传服务时长</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
-    <value>上传深渊记录成功，但未登录胡桃账号，无法获赠祈愿记录上传服务时长</value>
+    <value>上传深渊记录成功，但未登录胡桃通行证，无法获赠祈愿记录上传服务时长</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
+    <value>上传深渊记录成功，但无法找到用户，无法获赠祈愿记录上传服务时长</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
     <value>上传深渊记录成功，但不是本期首次提交，无法获赠祈愿记录上传服务时长</value>
@@ -859,6 +862,9 @@
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多个匹配账号，请删除重复的账号</value>
+  </data>
+  <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
+    <value>文件系统权限不足，无法转换服务器</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>查询游戏资源信息</value>

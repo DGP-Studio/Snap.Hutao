@@ -136,9 +136,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("SetPowerShellPathCommand")]
     private async Task SetPowerShellPathAsync()
     {
-        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(SH.FilePickerPowerShellCommit, [("PowerShell", "powershell.exe")]);
+        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(SH.FilePickerPowerShellCommit, [("PowerShell", "powershell.exe;pwsh.exe")]);
 
-        if (isOk && Path.GetFileNameWithoutExtension(file).Equals("POWERSHELL", StringComparison.OrdinalIgnoreCase))
+        if (isOk && Path.GetFileNameWithoutExtension(file).EqualsAny(["POWERSHELL", "PWSH"], StringComparison.OrdinalIgnoreCase))
         {
             await taskContext.SwitchToMainThreadAsync();
             Options.PowerShellPath = file;

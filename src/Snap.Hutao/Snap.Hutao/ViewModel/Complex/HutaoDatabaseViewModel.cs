@@ -15,7 +15,7 @@ namespace Snap.Hutao.ViewModel.Complex;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel
 {
-    private readonly IHutaoCache hutaoCache;
+    private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
     private readonly ITaskContext taskContext;
 
     private List<AvatarRankView>? avatarUsageRanks;
@@ -61,7 +61,7 @@ internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        if (await hutaoCache.InitializeForDatabaseViewModelAsync().ConfigureAwait(false))
+        if (await hutaoCache.InitializeForSpiralAbyssViewAsync().ConfigureAwait(false))
         {
             await taskContext.SwitchToMainThreadAsync();
             AvatarAppearanceRanks = hutaoCache.AvatarAppearanceRanks;

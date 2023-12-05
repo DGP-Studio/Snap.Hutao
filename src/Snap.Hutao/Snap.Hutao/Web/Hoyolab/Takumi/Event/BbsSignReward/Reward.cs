@@ -17,9 +17,15 @@ internal sealed class Reward
     [JsonPropertyName("awards")]
     public List<Award> Awards { get; set; } = default!;
 
+    [JsonPropertyName("biz")]
+    public string Biz { get; set; } = default!;
+
     /// <summary>
     /// 支持补签
     /// </summary>
     [JsonPropertyName("resign")]
     public bool Resign { get; set; }
+
+    [JsonPropertyName("short_extra_award")]
+    public ShortExtraAward ShortExtraAward { get; set; } = default!;
 }

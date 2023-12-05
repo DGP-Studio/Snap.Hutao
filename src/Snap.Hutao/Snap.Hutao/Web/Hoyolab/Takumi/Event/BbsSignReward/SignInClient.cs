@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hutao.Geetest;
@@ -22,14 +23,33 @@ internal sealed partial class SignInClient : ISignInClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly HomaGeetestClient homaGeetestClient;
+    private readonly MetadataOptions metadataOptions;
     private readonly ILogger<SignInClient> logger;
     private readonly HttpClient httpClient;
+
+    public async ValueTask<Response<ExtraAwardInfo>> GetExtraAwardInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.LunaExtraAward(userAndUid.Uid, metadataOptions.LanguageCode))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .SetHeader("x-rpc-signgame", "hk4e")
+            .Get();
+
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
+
+        Response<ExtraAwardInfo>? resp = await builder
+            .TryCatchSendAsync<Response<ExtraAwardInfo>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
 
     public async ValueTask<Response<SignInRewardInfo>> GetInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.SignInRewardInfo(userAndUid.Uid))
+            .SetRequestUri(ApiEndpoints.LunaInfo(userAndUid.Uid, metadataOptions.LanguageCode))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .SetHeader("x-rpc-signgame", "hk4e")
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
@@ -44,8 +64,9 @@ internal sealed partial class SignInClient : ISignInClient
     public async ValueTask<Response<SignInRewardReSignInfo>> GetResignInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.SignInRewardResignInfo(userAndUid.Uid))
+            .SetRequestUri(ApiEndpoints.LunaResignInfo(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .SetHeader("x-rpc-signgame", "hk4e")
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
@@ -60,8 +81,9 @@ internal sealed partial class SignInClient : ISignInClient
     public async ValueTask<Response<Reward>> GetRewardAsync(Model.Entity.User user, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.SignInRewardHome)
+            .SetRequestUri(ApiEndpoints.LunaHome(metadataOptions.LanguageCode))
             .SetUserCookieAndFpHeader(user, CookieType.CookieToken)
+            .SetHeader("x-rpc-signgame", "hk4e")
             .Get();
 
         Response<Reward>? resp = await builder
@@ -74,8 +96,9 @@ internal sealed partial class SignInClient : ISignInClient
     public async ValueTask<Response<SignInResult>> ReSignAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.SignInRewardReSign)
+            .SetRequestUri(ApiEndpoints.LunaReSign)
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .SetHeader("x-rpc-signgame", "hk4e")
             .PostJson(new SignInData(userAndUid.Uid, false));
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
@@ -90,8 +113,9 @@ internal sealed partial class SignInClient : ISignInClient
     public async ValueTask<Response<SignInResult>> SignAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.SignInRewardSign)
+            .SetRequestUri(ApiEndpoints.LunaSign)
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+            .SetHeader("x-rpc-signgame", "hk4e")
             .PostJson(new SignInData(userAndUid.Uid, false));
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
@@ -107,8 +131,9 @@ internal sealed partial class SignInClient : ISignInClient
             if (verifyResponse is { Code: 0, Data: { Validate: string validate, Challenge: string challenge } })
             {
                 HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
-                    .SetRequestUri(ApiEndpoints.SignInRewardSign)
+                    .SetRequestUri(ApiEndpoints.LunaSign)
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
+                    .SetHeader("x-rpc-signgame", "hk4e")
                     .SetXrpcChallenge(challenge, validate)
                     .PostJson(new SignInData(userAndUid.Uid, false));
 

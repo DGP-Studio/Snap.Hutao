@@ -38,7 +38,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private readonly ICultivationService cultivationService;
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
-    private readonly IHutaoCache hutaoCache;
+    private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
     private readonly IInfoBarService infoBarService;
     private readonly CalculateClient calculateClient;
     private readonly IUserService userService;
@@ -87,10 +87,10 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
 
         levelAvatarCurveMap = await metadataService.GetLevelToAvatarCurveMapAsync().ConfigureAwait(false);
-        promotes = await metadataService.GetAvatarPromotesAsync().ConfigureAwait(false);
+        promotes = await metadataService.GetAvatarPromoteListAsync().ConfigureAwait(false);
 
         Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
-        List<Avatar> avatars = await metadataService.GetAvatarsAsync().ConfigureAwait(false);
+        List<Avatar> avatars = await metadataService.GetAvatarListAsync().ConfigureAwait(false);
         IOrderedEnumerable<Avatar> sorted = avatars
             .OrderByDescending(avatar => avatar.BeginTime)
             .ThenByDescending(avatar => avatar.Sort);
@@ -106,7 +106,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, Dictionary<MaterialId, Material> idMaterialMap)
     {
-        if (!await hutaoCache.InitializeForWikiAvatarViewModelAsync().ConfigureAwait(false))
+        if (!await hutaoCache.InitializeForWikiAvatarViewAsync().ConfigureAwait(false))
         {
             return;
         }

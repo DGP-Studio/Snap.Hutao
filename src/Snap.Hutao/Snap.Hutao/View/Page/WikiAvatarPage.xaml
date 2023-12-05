@@ -276,18 +276,16 @@
             </CommandBar>
             <cwc:SwitchPresenter
                 Grid.Row="1"
-                ContentTransitions="{ThemeResource ContentThemeTransitions}"
+                ContentTransitions="{ThemeResource EntranceThemeTransitions}"
                 Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
                 <cwc:Case Value="List">
                     <SplitView
-                        Grid.Row="1"
                         DisplayMode="Inline"
                         IsPaneOpen="True"
                         OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
                         PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
                         <SplitView.Pane>
                             <ListView
-                                Grid.Row="1"
                                 ItemTemplate="{StaticResource AvatarListTemplate}"
                                 ItemsSource="{Binding Avatars}"
                                 SelectedItem="{Binding Selected, Mode=TwoWay}"

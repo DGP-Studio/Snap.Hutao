@@ -552,7 +552,7 @@
 
                 <cwcont:SwitchPresenter
                     Grid.Row="1"
-                    ContentTransitions="{ThemeResource ContentThemeTransitions}"
+                    ContentTransitions="{ThemeResource EntranceThemeTransitions}"
                     Value="{Binding ElementName=ItemsPanelSelector, Path=Current, Mode=OneWay}">
                     <cwcont:Case Value="Grid">
                         <ScrollViewer>

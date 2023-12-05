@@ -44,6 +44,12 @@ internal static class LocalSetting
     }
 
     /// <inheritdoc cref="Get{T}(string, T)"/>
+    public static long Get(string key, long defaultValue)
+    {
+        return Get<long>(key, defaultValue);
+    }
+
+    /// <inheritdoc cref="Get{T}(string, T)"/>
     public static ulong Get(string key, ulong defaultValue)
     {
         return Get<ulong>(key, defaultValue);
@@ -151,6 +157,12 @@ internal static class LocalSetting
     }
 
     /// <inheritdoc cref="Set{T}(string, T)"/>
+    public static void Set(string key, long value)
+    {
+        Set<long>(key, value);
+    }
+
+    /// <inheritdoc cref="Set{T}(string, T)"/>
     public static void Set(string key, ulong value)
     {
         Set<ulong>(key, value);
@@ -227,13 +239,11 @@ internal static class LocalSetting
         Set<ApplicationDataCompositeValue>(key, value);
     }
 
-    /// <summary>
-    /// 获取设置项的值
-    /// </summary>
-    /// <typeparam name="T">设置项的类型</typeparam>
-    /// <param name="key">键</param>
-    /// <param name="defaultValue">默认值</param>
-    /// <returns>获取的值</returns>
+    public static void Update(string key, int defaultValue, Func<int, int> modifier)
+    {
+        Set<int?>(key, modifier(Get<int>(key, defaultValue)));
+    }
+
     private static T Get<T>(string key, T defaultValue = default!)
     {
         if (Container.Values.TryGetValue(key, out object? value))
@@ -248,12 +258,6 @@ internal static class LocalSetting
         }
     }
 
-    /// <summary>
-    /// 设置设置项的值
-    /// </summary>
-    /// <typeparam name="T">设置项的类型</typeparam>
-    /// <param name="key">键</param>
-    /// <param name="value">值</param>
     private static void Set<T>(string key, T value)
     {
         Container.Values[key] = value;

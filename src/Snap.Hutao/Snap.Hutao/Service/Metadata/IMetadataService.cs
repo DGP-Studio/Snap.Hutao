@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 namespace Snap.Hutao.Service.Metadata;
@@ -9,12 +10,13 @@ namespace Snap.Hutao.Service.Metadata;
 /// 元数据服务
 /// </summary>
 [HighQuality]
-internal interface IMetadataService : ICastService,
-    IMetadataServiceRawData,
-    IMetadataServiceIdDataMap,
-    IMetadataServiceNameDataMap,
-    IMetadataServiceNameLevelCurveMap
+internal interface IMetadataService : ICastService
 {
+    IMemoryCache MemoryCache { get; }
+
+    ValueTask<T> FromCacheOrFileAsync<T>(string fileName, CancellationToken token)
+        where T : class;
+
     /// <summary>
     /// 异步初始化服务，尝试更新元数据
     /// </summary>
