@@ -86,18 +86,16 @@ internal sealed partial class PackageConverter
         // Only bilibili's sdk is not null
         if (resource.Sdk is not null)
         {
+            using (Stream sdkWebStream = await httpClient.GetStreamAsync(resource.Sdk.Path).ConfigureAwait(false))
+            {
+                ZipFile.ExtractToDirectory(sdkWebStream, gameFolder, true);
+            }
+
             // TODO: verify sdk md5
             if (File.Exists(sdkDllBackup) && File.Exists(sdkVersionBackup))
             {
-                FileOperation.Move(sdkDllBackup, sdkDll, false);
-                FileOperation.Move(sdkVersionBackup, sdkVersion, false);
-            }
-            else
-            {
-                using (Stream sdkWebStream = await httpClient.GetStreamAsync(resource.Sdk.Path).ConfigureAwait(false))
-                {
-                    ZipFile.ExtractToDirectory(sdkWebStream, gameFolder, true);
-                }
+                File.Delete(sdkDllBackup);
+                File.Delete(sdkVersionBackup);
             }
         }
         else
