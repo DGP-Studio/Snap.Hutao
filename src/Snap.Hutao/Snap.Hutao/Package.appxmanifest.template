@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -10,13 +10,13 @@
   IgnorableNamespaces="com uap desktop rescap mp">
 
   <Identity
-    Name="60568DGPStudio.SnapHutaoDev"
-    Publisher="CN=35C8E923-85DF-49A7-9172-B39DC6312C52"
-    Version="1.8.4.0" />
+    Name="${IdentityName}"
+    Publisher="CN=${IdentityPublisher}"
+    Version="${IdentityVersion}" />
 
   <Properties>
-    <DisplayName>Snap Hutao Dev</DisplayName>
-    <PublisherDisplayName>DGP Studio</PublisherDisplayName>
+    <DisplayName>${DisplayName}</DisplayName>
+    <PublisherDisplayName>${PublisherDisplayName}</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -34,8 +34,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Snap Hutao Dev"
-        Description="A Snap Hutao Dev Software"
+        DisplayName="${DisplayName}"
+        Description="A ${DisplayName} Software"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
@@ -48,14 +48,14 @@
         </desktop:Extension>
         <com:Extension Category="windows.comServer">
           <com:ComServer>
-            <com:ExeServer Executable="Snap.Hutao.exe" Arguments="-ToastActivated" DisplayName="Snap Hutao Dev Toast Activator">
-              <com:Class Id="5760ec4d-f7e8-4666-a965-9886d7dffe7d" DisplayName="Snap Hutao Dev Toast Activator"/>
+            <com:ExeServer Executable="Snap.Hutao.exe" Arguments="-ToastActivated" DisplayName="${DisplayName} Toast Activator">
+              <com:Class Id="5760ec4d-f7e8-4666-a965-9886d7dffe7d" DisplayName="${DisplayName} Toast Activator"/>
             </com:ExeServer>
           </com:ComServer>
         </com:Extension>
         <uap:Extension Category="windows.protocol">
           <uap:Protocol Name="hutao">
-            <uap:DisplayName>胡桃 Dev</uap:DisplayName>
+            <uap:DisplayName>${ProtocolDisplayName}</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
       </Extensions>

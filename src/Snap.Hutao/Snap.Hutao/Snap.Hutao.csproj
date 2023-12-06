@@ -3,6 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+	<CurrentVersion>1.8.4.0</CurrentVersion>
     <RootNamespace>Snap.Hutao</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x64</Platforms>
@@ -46,10 +47,52 @@
     <SelfContained>true</SelfContained>
   </PropertyGroup>
 
-  <ItemGroup>
-	<AppxManifest Include="Package.appxmanifest" Condition="'$(ConfigurationName)'!='Debug'" />
-	<AppxManifest Include="Package.development.appxmanifest" Condition="'$(ConfigurationName)'=='Debug'" />
-  </ItemGroup>
+  <Target Name="GenerateAppxManifest" BeforeTargets="PreBuildEvent">
+    <Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="LatestCommit" />
+    </Exec>
+    <Exec Command="powershell -Command &quot;$tag = '$(CurrentVersion)'; $tag = $tag.substring(0, $tag.length-2); if ((git tag -l $tag).length -eq 0) { 'None' } else { git rev-parse --short $tag }&quot;" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="VersionCommit"/>
+    </Exec>
+
+    <PropertyGroup>
+      <IsDev Condition="'$(ConfigurationName)'=='Debug'">true</IsDev>
+      <IsAlpha Condition="'$(ConfigurationName)'!='Debug' And '$(LatestCommit)'!='$(VersionCommit)'">true</IsAlpha>
+      <IsRelease Condition="'$(IsDev)'!='true' And '$(IsAlpha)'!='true'">true</IsRelease>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Tokens Include="IdentityName">
+        <ReplacementValue Condition="'$(IsRelease)'=='true'">60568DGPStudio.SnapHutao</ReplacementValue>
+        <ReplacementValue Condition="'$(IsDev)'=='true'">7A208292-C89B-4C07-9885-ABF5B9A038E0</ReplacementValue>
+        <ReplacementValue Condition="'$(IsAlpha)'=='true'">7f0db578-026f-4e0b-a75b-d5d06bb0a74c</ReplacementValue>
+      </Tokens>
+      <Tokens Include="IdentityPublisher">
+        <ReplacementValue Condition="'$(IsRelease)'=='true' Or '$(IsDev)'=='true'">35C8E923-85DF-49A7-9172-B39DC6312C52</ReplacementValue>
+        <ReplacementValue Condition="'$(IsAlpha)'=='true'">DGP Studio CI</ReplacementValue>
+      </Tokens>
+      <Tokens Include="IdentityVersion">
+        <ReplacementValue Condition="'$(IsRelease)'=='true' Or '$(IsDev)'=='true'">$(CurrentVersion)</ReplacementValue>
+        <ReplacementValue Condition="'$(IsAlpha)'=='true'">$(build_date).$(rev_number)</ReplacementValue>
+      </Tokens>
+      <Tokens Include="DisplayName">
+        <ReplacementValue Condition="'$(IsRelease)'=='true'">Snap Hutao</ReplacementValue>
+        <ReplacementValue Condition="'$(IsDev)'=='true'">Snap Hutao Dev</ReplacementValue>
+        <ReplacementValue Condition="'$(IsAlpha)'=='true'">Snap Hutao Alpha</ReplacementValue>
+      </Tokens>
+      <Tokens Include="PublisherDisplayName">
+        <ReplacementValue Condition="'$(IsRelease)'=='true' Or '$(IsDev)'=='true'">DGP Studio</ReplacementValue>
+        <ReplacementValue Condition="'$(IsAlpha)'=='true'">DGP Studio CI</ReplacementValue>
+      </Tokens>
+      <Tokens Include="ProtocolDisplayName">
+        <ReplacementValue Condition="'$(IsRelease)'=='true'">胡桃</ReplacementValue>
+        <ReplacementValue Condition="'$(IsDev)'=='true'">胡桃 Dev</ReplacementValue>
+        <ReplacementValue Condition="'$(IsAlpha)'=='true'">胡桃 Alpha</ReplacementValue>
+      </Tokens>
+    </ItemGroup>
+
+    <TemplateFile Template="Package.appxmanifest.template" OutputFilename="Package.appxmanifest" Tokens="@(Tokens)" />
+  </Target>
   
   <!-- Included Files -->
   <ItemGroup>
@@ -301,6 +344,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+	<PackageReference Include="MSBuildTasks" Version="1.5.0.235">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.5.0" />
     <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.0.1">
       <PrivateAssets>all</PrivateAssets>

@@ -58,10 +58,6 @@ steps:
     version: '8.x'
     includePreviewVersions: true
 
-- task: NuGetToolInstaller@1
-  name: 'NuGetToolInstaller'
-  displayName: 'NuGet Installer'
-
 - task: NuGetCommand@2
   displayName: NuGet restore
   inputs:
@@ -84,22 +80,6 @@ steps:
     msbuildLocationMethod: 'location'
     msbuildLocation: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Msbuild\Current\Bin\MSBuild.exe'
 
-- task: MagicChunks@2
-  inputs:
-    sourcePath: '$(Build.SourcesDirectory)\src\Snap.Hutao\Snap.Hutao\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64\AppxManifest.xml'
-    fileType: 'Xml'
-    targetPathType: 'source'
-    transformationType: 'json'
-    transformations: |
-      {
-        "Package/Identity/@Name": "7f0db578-026f-4e0b-a75b-d5d06bb0a74c",
-        "Package/Identity/@Publisher": "CN=DGP Studio CI",
-        "Package/Identity/@Version": "$(build_date).$(rev_number)",
-        "Package/Properties/DisplayName": "胡桃 Alpha",
-        "Package/Properties/PublisherDisplayName":"DGP Studio CI",
-        "Package/Applications/Application/uap:VisualElements/@DisplayName": "胡桃 Alpha"
-      }
-
 - task: CmdLine@2
   displayName: Create resources folder
   inputs:
@@ -109,7 +89,6 @@ steps:
       mkdir Resource
     workingDirectory: '$(Build.SourcesDirectory)\src\Snap.Hutao\Snap.Hutao\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64'
       
-
 - task: CopyFiles@2
   displayName: Copy Assets Folder
   inputs:
@@ -137,14 +116,6 @@ steps:
     certificate: 'DGP_Studio_CI.pfx'
     passwordVariable: 'pw'
   condition: succeeded()
-
-
-#- task: PublishPipelineArtifact@1
-#  displayName: 'Upload Output'
-#  inputs:
-#    targetPath: '$(Build.ArtifactStagingDirectory)/'
-#    artifact: 'Output'
-#    publishLocation: 'pipeline'
 
 - task: DownloadSecureFile@1
   name: cerFile
