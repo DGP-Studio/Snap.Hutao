@@ -23,6 +23,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.Guide;
+using Snap.Hutao.Web.Hutao;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -41,6 +42,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly HomeCardOptions homeCardOptions = new();
 
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
+    private readonly HutaoInfrastructureClient hutaoInfrastructureClient;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGameLocatorFactory gameLocatorFactory;
@@ -57,6 +59,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<CultureInfo>? selectedCulture;
+    private IPInformation? ipInformation;
 
     /// <summary>
     /// 应用程序设置
@@ -96,6 +99,18 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
                 AppInstance.Restart(string.Empty);
             }
         }
+    }
+
+    public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
+
+    protected override async ValueTask<bool> InitializeUIAsync()
+    {
+        IPInformation? information = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+
+        await taskContext.SwitchToMainThreadAsync();
+        IPInformation = information;
+
+        return true;
     }
 
     [Command("ResetStaticResourceCommand")]

@@ -16,10 +16,10 @@ namespace Snap.Hutao.Web.Hutao.Log;
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed partial class HomaLogUploadClient
+internal sealed partial class HutaoLogUploadClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HomaLogUploadClient> logger;
+    private readonly ILogger<HutaoLogUploadClient> logger;
     private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
 

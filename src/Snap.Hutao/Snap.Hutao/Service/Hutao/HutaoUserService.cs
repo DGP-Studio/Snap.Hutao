@@ -15,7 +15,7 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
 {
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
-    private readonly HomaPassportClient passportClient;
+    private readonly HutaoPassportClient passportClient;
     private readonly ITaskContext taskContext;
     private readonly HutaoUserOptions options;
 
@@ -33,7 +33,6 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
     {
         string userName = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
         string password = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
-        await options.GetIPInfoAsync(passportClient).ConfigureAwait(false);
 
         if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
         {

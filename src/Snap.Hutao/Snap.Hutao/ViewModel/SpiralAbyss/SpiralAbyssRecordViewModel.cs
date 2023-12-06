@@ -24,7 +24,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
-    private readonly HomaSpiralAbyssClient spiralAbyssClient;
+    private readonly HutaoSpiralAbyssClient spiralAbyssClient;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;

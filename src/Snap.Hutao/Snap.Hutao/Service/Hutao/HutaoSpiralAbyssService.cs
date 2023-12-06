@@ -19,7 +19,7 @@ internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
     private readonly TimeSpan cacheExpireTime = TimeSpan.FromHours(4);
 
     private readonly IObjectCacheDbService objectCacheDbService;
-    private readonly HomaSpiralAbyssClient homaClient;
+    private readonly HutaoSpiralAbyssClient homaClient;
     private readonly JsonSerializerOptions options;
     private readonly IMemoryCache memoryCache;
 

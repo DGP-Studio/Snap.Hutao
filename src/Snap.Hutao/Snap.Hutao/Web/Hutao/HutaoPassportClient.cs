@@ -17,7 +17,7 @@ namespace Snap.Hutao.Web.Hutao;
 [HighQuality]
 [HttpClient(HttpClientConfiguration.Default)]
 [ConstructorGenerated(ResolveHttpClient = true)]
-internal sealed partial class HomaPassportClient
+internal sealed partial class HutaoPassportClient
 {
     /// <summary>
     /// 通行证请求公钥
@@ -35,7 +35,7 @@ internal sealed partial class HomaPassportClient
         """;
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HomaPassportClient> logger;
+    private readonly ILogger<HutaoPassportClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 
@@ -191,17 +191,6 @@ internal sealed partial class HomaPassportClient
             .ConfigureAwait(false);
 
         return HutaoResponse.DefaultIfNull(resp);
-    }
-
-    public async ValueTask<IPInfo> GetIPInfoAsync(CancellationToken token = default)
-    {
-        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.Ip)
-            .Get();
-
-        IPInfo? resp = await builder.TryCatchSendAsync<IPInfo>(httpClient, logger, token).ConfigureAwait(false);
-
-        return resp ?? new();
     }
 
     private static string Encrypt(string text)

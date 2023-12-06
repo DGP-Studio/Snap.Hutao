@@ -11,7 +11,6 @@ namespace Snap.Hutao.Web;
 /// </summary>
 [HighQuality]
 [SuppressMessage("", "SA1201")]
-[SuppressMessage("", "SA1203")]
 [SuppressMessage("", "SA1124")]
 internal static class HutaoEndpoints
 {
@@ -22,8 +21,6 @@ internal static class HutaoEndpoints
     }
 
     public const string AnnouncementUpload = $"{HomaSnapGenshinApi}/Service/Announcement/Upload";
-
-    public const string Ip = $"{ApiSnapGenshin}/ip";
 
     public static string GachaLogCompensation(int days)
     {
@@ -250,6 +247,8 @@ internal static class HutaoEndpoints
         return $"{ApiSnapGenshinStaticZip}/{fileName}.zip";
     }
     #endregion
+
+    public const string Ip = $"{ApiSnapGenshin}/ip";
 
     public static string Website(string path)
     {

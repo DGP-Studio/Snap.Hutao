@@ -6,7 +6,7 @@ using Snap.Hutao.Web.Request.Builder;
 
 namespace Snap.Hutao.Web.Hutao;
 
-internal static class HomaPassportHttpRequestMessageBuilderExtension
+internal static class HutaoPassportHttpRequestMessageBuilderExtension
 {
     public static async ValueTask TrySetTokenAsync(this HttpRequestMessageBuilder builder, HutaoUserOptions hutaoUserOptions)
     {

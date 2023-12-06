@@ -19,7 +19,6 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     private readonly TaskCompletionSource initializedTaskCompletionSource = new();
     private string? userName = SH.ViewServiceHutaoUserLoginOrRegisterHint;
     private string? token;
-    private IPInfo ipInfo = new();
     private bool isLoggedIn;
     private bool isHutaoCloudServiceAllowed;
     private bool isLicensedDeveloper;
@@ -36,11 +35,6 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// 真正的用户名
     /// </summary>
     public string? ActualUserName { get => IsLoggedIn ? UserName : null; }
-
-    /// <summary>
-    /// 设备当前IP
-    /// </summary>
-    public IPInfo IPInfo { get => ipInfo; set => ipInfo = value;  }
 
     /// <summary>
     /// 是否已登录
@@ -69,7 +63,7 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// <inheritdoc/>
     public HutaoUserOptions Value { get => this; }
 
-    public async ValueTask<bool> PostLoginSucceedAsync(HomaPassportClient passportClient, ITaskContext taskContext, string username, string password, string? token)
+    public async ValueTask<bool> PostLoginSucceedAsync(HutaoPassportClient passportClient, ITaskContext taskContext, string username, string password, string? token)
     {
         LocalSetting.Set(SettingKeys.PassportUserName, username);
         LocalSetting.Set(SettingKeys.PassportPassword, password);
@@ -135,11 +129,6 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     {
         await initializedTaskCompletionSource.Task.ConfigureAwait(false);
         return token;
-    }
-
-    public async ValueTask GetIPInfoAsync(HomaPassportClient passportClient)
-    {
-        IPInfo = await passportClient.GetIPInfoAsync().ConfigureAwait(false);
     }
 
     private void ClearUserInfo()

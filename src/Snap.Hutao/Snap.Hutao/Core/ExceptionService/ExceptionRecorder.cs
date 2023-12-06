@@ -31,7 +31,7 @@ internal sealed partial class ExceptionRecorder
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
         ValueTask<string?> task = serviceProvider
-            .GetRequiredService<Web.Hutao.Log.HomaLogUploadClient>()
+            .GetRequiredService<Web.Hutao.Log.HutaoLogUploadClient>()
             .UploadLogAsync(e.Exception);
 
         if (!task.IsCompleted)
