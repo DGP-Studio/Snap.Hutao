@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
+using Snap.Hutao.Web.Response;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -19,13 +20,13 @@ internal sealed partial class HutaoInfrastructureClient
     private readonly ILogger<HutaoInfrastructureClient> logger;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<IPInformation> GetIPInformationAsync(CancellationToken token = default)
+    public async ValueTask<Response<IPInformation>> GetIPInformationAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.Ip)
             .Get();
 
-        IPInformation? resp = await builder.TryCatchSendAsync<IPInformation>(httpClient, logger, token).ConfigureAwait(false);
-        return resp ?? IPInformation.Default;
+        Response<IPInformation>? resp = await builder.TryCatchSendAsync<Response<IPInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        return Response.Response.DefaultIfNull(resp);
     }
 }

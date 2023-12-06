@@ -24,6 +24,7 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Response;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -105,10 +106,13 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
-        IPInformation? information = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+        Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
 
-        await taskContext.SwitchToMainThreadAsync();
-        IPInformation = information;
+        if (resp.IsOk())
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            IPInformation = resp.Data;
+        }
 
         return true;
     }
