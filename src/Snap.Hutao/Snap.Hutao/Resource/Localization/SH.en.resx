@@ -2249,6 +2249,12 @@
   <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
     <value>Device ID</value>
   </data>
+  <data name="ViewPageSettingDeviceIpDescription" xml:space="preserve">
+    <value>IP：{0} 归属服务器：{1}</value>
+  </data>
+  <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
+    <value>设备 IP</value>
+  </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>Show or hide wish event with no wish history</value>
   </data>
@@ -2821,6 +2827,9 @@
   </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
     <value>Invalid UID</value>
+  </data>
+  <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
+    <value>胡桃服务维护中</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>Verification failed. Please verify manually or check MiHoYo BBS - My Characters page</value>
