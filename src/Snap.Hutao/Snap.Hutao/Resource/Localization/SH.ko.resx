@@ -2249,6 +2249,12 @@
   <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
     <value>디바이스 ID</value>
   </data>
+  <data name="ViewPageSettingDeviceIpDescription" xml:space="preserve">
+    <value>IP：{0} 归属服务器：{1}</value>
+  </data>
+  <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
+    <value>设备 IP</value>
+  </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>기원 기록 페이지에 기록되지 않은 오래된 기원 이벤트를 표시하거나 숨깁니다</value>
   </data>
@@ -2821,6 +2827,9 @@
   </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
     <value>无效的 UID</value>
+  </data>
+  <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
+    <value>胡桃服务维护中</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>
