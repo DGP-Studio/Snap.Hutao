@@ -5,10 +5,12 @@ namespace Snap.Hutao.Web.Hutao;
 
 internal sealed class IPInformation
 {
+    private const string Unknown = "Unknown";
+
     public static IPInformation Default { get; } = new()
     {
-        Ip = "Unknown",
-        Division = "Unknown",
+        Ip = Unknown,
+        Division = Unknown,
     };
 
     [JsonPropertyName("ip")]
@@ -19,6 +21,11 @@ internal sealed class IPInformation
 
     public override string ToString()
     {
+        if (Ip is Unknown && Division is Unknown)
+        {
+            return SH.WebHutaoServiceUnAvailable;
+        }
+
         return SH.FormatViewPageSettingDeviceIpDescription(Ip, Division);
     }
 }

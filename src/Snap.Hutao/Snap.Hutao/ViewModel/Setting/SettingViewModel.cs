@@ -107,12 +107,19 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     protected override async ValueTask<bool> InitializeUIAsync()
     {
         Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+        IPInformation info;
 
         if (resp.IsOk())
         {
-            await taskContext.SwitchToMainThreadAsync();
-            IPInformation = resp.Data;
+            info = resp.Data;
         }
+        else
+        {
+            info = IPInformation.Default;
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        IPInformation = info;
 
         return true;
     }
