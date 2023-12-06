@@ -248,6 +248,8 @@ internal static class HutaoEndpoints
     }
     #endregion
 
+    public const string Ip = $"{ApiSnapGenshin}/ip";
+
     public static string Website(string path)
     {
         return $"{HomaSnapGenshinApi}/{path}";

@@ -19,7 +19,7 @@ namespace Snap.Hutao.ViewModel.Setting;
 internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly HomaPassportClient homaPassportClient;
+    private readonly HutaoPassportClient homaPassportClient;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;

@@ -22,10 +22,10 @@ namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed partial class HomaSpiralAbyssClient
+internal sealed partial class HutaoSpiralAbyssClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HomaSpiralAbyssClient> logger;
+    private readonly ILogger<HutaoSpiralAbyssClient> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
 

@@ -63,7 +63,7 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// <inheritdoc/>
     public HutaoUserOptions Value { get => this; }
 
-    public async ValueTask<bool> PostLoginSucceedAsync(HomaPassportClient passportClient, ITaskContext taskContext, string username, string password, string? token)
+    public async ValueTask<bool> PostLoginSucceedAsync(HutaoPassportClient passportClient, ITaskContext taskContext, string username, string password, string? token)
     {
         LocalSetting.Set(SettingKeys.PassportUserName, username);
         LocalSetting.Set(SettingKeys.PassportPassword, password);

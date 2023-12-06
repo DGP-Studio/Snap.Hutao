@@ -13,7 +13,7 @@ namespace Snap.Hutao.View.Dialog;
 [DependencyProperty("VerifyCode", typeof(string))]
 internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
 {
-    private readonly HomaPassportClient homaPassportClient;
+    private readonly HutaoPassportClient homaPassportClient;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
@@ -22,7 +22,7 @@ internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
         InitializeComponent();
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        homaPassportClient = serviceProvider.GetRequiredService<HomaPassportClient>();
+        homaPassportClient = serviceProvider.GetRequiredService<HutaoPassportClient>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
     }
 

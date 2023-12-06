@@ -15,7 +15,7 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
 {
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
-    private readonly HomaPassportClient passportClient;
+    private readonly HutaoPassportClient passportClient;
     private readonly ITaskContext taskContext;
     private readonly HutaoUserOptions options;
 
