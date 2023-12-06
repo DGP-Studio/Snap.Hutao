@@ -2249,6 +2249,12 @@
   <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
     <value>デバイス ID</value>
   </data>
+  <data name="ViewPageSettingDeviceIpDescription" xml:space="preserve">
+    <value>IP：{0} 归属服务器：{1}</value>
+  </data>
+  <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
+    <value>设备 IP</value>
+  </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>祈願履歴のないイベント限定祈願を祈願履歴に表示するかを変更します。</value>
   </data>
@@ -2821,6 +2827,9 @@
   </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
     <value>無効なUIDです</value>
+  </data>
+  <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
+    <value>胡桃服务维护中</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>認証に失敗しました。 手動で認証するか、MiHoYo BBS - 戦績 を確認してください。</value>
