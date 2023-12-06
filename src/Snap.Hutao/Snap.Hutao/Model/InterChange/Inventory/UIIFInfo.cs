@@ -35,7 +35,7 @@ internal sealed class UIIFInfo
     [JsonIgnore]
     public DateTimeOffset ExportDateTime
     {
-        get => DateTimeOffsetExtension.FromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
+        get => DateTimeOffsetExtension.UnsafeRelaxedFromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
     }
 
     /// <summary>

@@ -233,7 +233,7 @@ internal sealed partial class HutaoSpiralAbyssClient
                 if (spiralAbyssResponse.IsOk())
                 {
                     HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
-                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data, options.ActualUserName);
+                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data, options.GetActualUserName());
                 }
             }
         }

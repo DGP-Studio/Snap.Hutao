@@ -90,7 +90,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
                     NameValueCollection query = HttpUtility.ParseQueryString(result.TrimEnd("#/log"));
                     string? queryLanguageCode = query["lang"];
 
-                    if (metadataOptions.IsCurrentLocale(queryLanguageCode))
+                    if (metadataOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
                     {
                         return new(true, new(result));
                     }

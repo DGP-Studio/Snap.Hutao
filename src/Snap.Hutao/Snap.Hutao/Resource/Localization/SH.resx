@@ -2250,7 +2250,7 @@
     <value>设备 ID</value>
   </data>
   <data name="ViewPageSettingDeviceIpDescription" xml:space="preserve">
-    <value>IP：{0}，归属：{1}</value>
+    <value>IP：{0} 归属服务器：{1}</value>
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>设备 IP</value>

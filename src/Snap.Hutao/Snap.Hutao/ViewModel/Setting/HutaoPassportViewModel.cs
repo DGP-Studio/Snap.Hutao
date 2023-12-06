@@ -77,7 +77,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
                 infoBarService.Information(response.GetLocalizationMessageOrMessage());
 
                 await taskContext.SwitchToMainThreadAsync();
-                hutaoUserOptions.LogoutOrUnregister();
+                hutaoUserOptions.PostLogoutOrUnregister();
             }
         }
     }
@@ -110,7 +110,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     [Command("LogoutCommand")]
     private void LogoutAsync()
     {
-        hutaoUserOptions.LogoutOrUnregister();
+        hutaoUserOptions.PostLogoutOrUnregister();
     }
 
     [Command("ResetPasswordCommand")]

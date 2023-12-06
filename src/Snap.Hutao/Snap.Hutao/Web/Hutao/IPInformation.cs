@@ -8,7 +8,7 @@ internal sealed class IPInformation
     public static IPInformation Default { get; } = new()
     {
         Ip = "Unknown",
-        Division = "Unknown"
+        Division = "Unknown",
     };
 
     [JsonPropertyName("ip")]

@@ -36,7 +36,7 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
 
         if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
         {
-            options.SkipLogin();
+            options.PostLoginSkipped();
         }
         else
         {
@@ -52,7 +52,7 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
             else
             {
                 await taskContext.SwitchToMainThreadAsync();
-                options.LoginFailed();
+                options.PostLoginFailed();
             }
         }
 
