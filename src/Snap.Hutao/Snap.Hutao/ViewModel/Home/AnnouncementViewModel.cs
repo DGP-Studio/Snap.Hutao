@@ -39,7 +39,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     /// <summary>
     /// 用户选项
     /// </summary>
-    public HutaoUserOptions UserOptions { get => hutaoUserOptions; }
+    public HutaoUserOptions HutaoUserOptions { get => hutaoUserOptions; }
 
     /// <summary>
     /// 欢迎语

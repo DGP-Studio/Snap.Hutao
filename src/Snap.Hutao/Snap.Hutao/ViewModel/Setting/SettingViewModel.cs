@@ -62,10 +62,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private NameValue<CultureInfo>? selectedCulture;
     private IPInformation? ipInformation;
 
-    /// <summary>
-    /// 应用程序设置
-    /// </summary>
-    public AppOptions Options { get => appOptions; }
+    public AppOptions AppOptions { get => appOptions; }
 
     public RuntimeOptions HutaoOptions { get => runtimeOptions; }
 
@@ -79,24 +76,24 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public NameValue<BackdropType>? SelectedBackdropType
     {
-        get => selectedBackdropType ??= Options.BackdropTypes.Single(t => t.Value == Options.BackdropType);
+        get => selectedBackdropType ??= AppOptions.BackdropTypes.Single(t => t.Value == AppOptions.BackdropType);
         set
         {
             if (SetProperty(ref selectedBackdropType, value) && value is not null)
             {
-                Options.BackdropType = value.Value;
+                AppOptions.BackdropType = value.Value;
             }
         }
     }
 
     public NameValue<CultureInfo>? SelectedCulture
     {
-        get => selectedCulture ??= Options.GetCurrentCultureForSelectionOrDefault();
+        get => selectedCulture ??= AppOptions.GetCurrentCultureForSelectionOrDefault();
         set
         {
             if (SetProperty(ref selectedCulture, value) && value is not null)
             {
-                Options.CurrentCulture = value.Value;
+                AppOptions.CurrentCulture = value.Value;
                 AppInstance.Restart(string.Empty);
             }
         }
@@ -149,7 +146,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
             try
             {
-                Options.GamePath = path;
+                AppOptions.GamePath = path;
             }
             catch (SqliteException ex)
             {
@@ -167,14 +164,14 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         if (isOk && Path.GetFileNameWithoutExtension(file).EqualsAny(["POWERSHELL", "PWSH"], StringComparison.OrdinalIgnoreCase))
         {
             await taskContext.SwitchToMainThreadAsync();
-            Options.PowerShellPath = file;
+            AppOptions.PowerShellPath = file;
         }
     }
 
     [Command("DeleteGameWebCacheCommand")]
     private void DeleteGameWebCache()
     {
-        string gamePath = Options.GamePath;
+        string gamePath = AppOptions.GamePath;
 
         if (!string.IsNullOrEmpty(gamePath))
         {

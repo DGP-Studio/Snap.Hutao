@@ -469,13 +469,13 @@
                                     Description="{shcm:ResourceString Name=ViewPageDailyNoteSettingAutoRefreshDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageDailyNoteSettingAutoRefresh}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE72C;}">
-                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsAutoRefreshEnabled, Mode=TwoWay}"/>
+                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsAutoRefreshEnabled, Mode=TwoWay}"/>
                                 </cwc:SettingsCard>
                                 <RadioButtons
                                     Margin="1,11,0,5"
-                                    IsEnabled="{Binding Options.IsAutoRefreshEnabled}"
-                                    ItemsSource="{Binding Options.RefreshTimes}"
-                                    SelectedItem="{Binding Options.SelectedRefreshTime, Mode=TwoWay}">
+                                    IsEnabled="{Binding DailyNoteOptions.IsAutoRefreshEnabled}"
+                                    ItemsSource="{Binding DailyNoteOptions.RefreshTimes}"
+                                    SelectedItem="{Binding DailyNoteOptions.SelectedRefreshTime, Mode=TwoWay}">
                                     <RadioButtons.Header>
                                         <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteRefreshTime}"/>
                                     </RadioButtons.Header>
@@ -493,13 +493,13 @@
                             Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
                             Header="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
                             HeaderIcon="{shcm:FontIcon Glyph=&#xE7ED;}">
-                            <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
+                            <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
                         </cwc:SettingsCard>
                         <cwc:SettingsCard
                             Description="{shcm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
                             Header="{shcm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
                             HeaderIcon="{shcm:FontIcon Glyph=&#xEA8F;}">
-                            <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsReminderNotification, Mode=TwoWay}"/>
+                            <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsReminderNotification, Mode=TwoWay}"/>
                         </cwc:SettingsCard>
 
                         <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteDataInteropHeader}"/>

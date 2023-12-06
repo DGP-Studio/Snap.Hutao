@@ -88,21 +88,12 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     /// </summary>
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
-    /// <summary>
-    /// 启动选项
-    /// </summary>
-    public LaunchOptions Options { get => launchOptions; }
+    public LaunchOptions LaunchOptions { get => launchOptions; }
 
     public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
 
-    /// <summary>
-    /// 胡桃选项
-    /// </summary>
-    public RuntimeOptions HutaoOptions { get => runtimeOptions; }
+    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
-    /// <summary>
-    /// 应用选项
-    /// </summary>
     public AppOptions AppOptions { get => appOptions; }
 
     /// <summary>

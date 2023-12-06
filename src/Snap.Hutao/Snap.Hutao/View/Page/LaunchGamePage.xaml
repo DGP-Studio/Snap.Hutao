@@ -159,7 +159,7 @@
                             <cwc:SettingsCard
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE8AB;}"
-                                IsEnabled="{Binding HutaoOptions.IsElevated}">
+                                IsEnabled="{Binding RuntimeOptions.IsElevated}">
                                 <cwc:SettingsCard.Description>
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeDescription}"/>
@@ -170,7 +170,7 @@
                                     </StackPanel>
                                 </cwc:SettingsCard.Description>
                                 <StackPanel Orientation="Horizontal">
-                                    <shvc:Elevation Margin="0,0,36,0" Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                    <shvc:Elevation Margin="0,0,36,0" Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                     <shc:SizeRestrictedContentControl>
                                         <shccs:ComboBox2
                                             DisplayMemberPath="DisplayName"
@@ -201,28 +201,28 @@
                             <!--  进程  -->
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameProcessHeader}"/>
                             <cwc:SettingsExpander
-                                shch:SettingsExpanderHelper.IsItemsEnabled="{Binding Options.IsEnabled}"
+                                shch:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.IsEnabled}"
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE943;}"
                                 IsExpanded="True">
-                                <ToggleSwitch Width="120" IsOn="{Binding Options.IsEnabled, Mode=TwoWay}"/>
+                                <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsEnabled, Mode=TwoWay}"/>
                                 <cwc:SettingsExpander.Items>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveDescription}" Header="-window-mode exclusive">
-                                        <ToggleSwitch Width="120" IsOn="{Binding Options.IsExclusive, Mode=TwoWay}"/>
+                                        <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsExclusive, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceFullscreenDescription}" Header="-screen-fullscreen">
-                                        <ToggleSwitch Width="120" IsOn="{Binding Options.IsFullScreen, Mode=TwoWay}"/>
+                                        <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsFullScreen, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessDescription}" Header="-popupwindow">
-                                        <ToggleSwitch Width="120" IsOn="{Binding Options.IsBorderless, Mode=TwoWay}"/>
+                                        <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsBorderless, Mode=TwoWay}"/>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioDescription}" Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioHeader}">
                                         <shc:SizeRestrictedContentControl Margin="0,0,136,0">
                                             <ComboBox
-                                                ItemsSource="{Binding Options.AspectRatios}"
+                                                ItemsSource="{Binding LaunchOptions.AspectRatios}"
                                                 PlaceholderText="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioPlaceHolder}"
-                                                SelectedItem="{Binding Options.SelectedAspectRatio, Mode=TwoWay}"/>
+                                                SelectedItem="{Binding LaunchOptions.SelectedAspectRatio, Mode=TwoWay}"/>
                                         </shc:SizeRestrictedContentControl>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}" Header="-screen-width">
@@ -231,9 +231,9 @@
                                                 Width="156"
                                                 Padding="12,6,0,0"
                                                 VerticalAlignment="Center"
-                                                IsEnabled="{Binding Options.IsScreenWidthEnabled}"
-                                                Value="{Binding Options.ScreenWidth, Mode=TwoWay}"/>
-                                            <ToggleSwitch Width="120" IsOn="{Binding Options.IsScreenWidthEnabled, Mode=TwoWay}"/>
+                                                IsEnabled="{Binding LaunchOptions.IsScreenWidthEnabled}"
+                                                Value="{Binding LaunchOptions.ScreenWidth, Mode=TwoWay}"/>
+                                            <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsScreenWidthEnabled, Mode=TwoWay}"/>
                                         </StackPanel>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightDescription}" Header="-screen-height">
@@ -242,9 +242,9 @@
                                                 Width="156"
                                                 Padding="12,6,0,0"
                                                 VerticalAlignment="Center"
-                                                IsEnabled="{Binding Options.IsScreenHeightEnabled}"
-                                                Value="{Binding Options.ScreenHeight, Mode=TwoWay}"/>
-                                            <ToggleSwitch Width="120" IsOn="{Binding Options.IsScreenHeightEnabled, Mode=TwoWay}"/>
+                                                IsEnabled="{Binding LaunchOptions.IsScreenHeightEnabled}"
+                                                Value="{Binding LaunchOptions.ScreenHeight, Mode=TwoWay}"/>
+                                            <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsScreenHeightEnabled, Mode=TwoWay}"/>
                                         </StackPanel>
                                     </cwc:SettingsCard>
                                     <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsDescription}" Header="-monitor">
@@ -252,11 +252,11 @@
                                             <shc:SizeRestrictedContentControl>
                                                 <ComboBox
                                                     DisplayMemberPath="Name"
-                                                    IsEnabled="{Binding Options.IsMonitorEnabled}"
-                                                    ItemsSource="{Binding Options.Monitors}"
-                                                    SelectedItem="{Binding Options.Monitor, Mode=TwoWay}"/>
+                                                    IsEnabled="{Binding LaunchOptions.IsMonitorEnabled}"
+                                                    ItemsSource="{Binding LaunchOptions.Monitors}"
+                                                    SelectedItem="{Binding LaunchOptions.Monitor, Mode=TwoWay}"/>
                                             </shc:SizeRestrictedContentControl>
-                                            <ToggleSwitch Width="120" IsOn="{Binding Options.IsMonitorEnabled, Mode=TwoWay}"/>
+                                            <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsMonitorEnabled, Mode=TwoWay}"/>
                                         </StackPanel>
                                     </cwc:SettingsCard>
                                 </cwc:SettingsExpander.Items>
@@ -265,20 +265,20 @@
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE785;}"
-                                IsEnabled="{Binding HutaoOptions.IsElevated}"
+                                IsEnabled="{Binding RuntimeOptions.IsElevated}"
                                 Visibility="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <StackPanel Orientation="Horizontal">
-                                    <shvc:Elevation Margin="0,0,36,0" Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                    <shvc:Elevation Margin="0,0,36,0" Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                     <NumberBox
                                         MinWidth="156"
                                         Padding="10,8,0,0"
                                         Maximum="720"
                                         Minimum="60"
                                         SpinButtonPlacementMode="Inline"
-                                        Value="{Binding Options.TargetFps, Mode=TwoWay}"/>
+                                        Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
                                     <ToggleSwitch
                                         Width="120"
-                                        IsOn="{Binding Options.UnlockFps, Mode=TwoWay}"
+                                        IsOn="{Binding LaunchOptions.UnlockFps, Mode=TwoWay}"
                                         OffContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
                                         OnContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
                                 </StackPanel>
@@ -290,13 +290,13 @@
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGamePlayTimeDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGamePlayTimeHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xEC92;}">
-                                <ToggleSwitch Width="120" IsOn="{Binding Options.UseStarwardPlayTimeStatistics, Mode=TwoWay}"/>
+                                <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.UseStarwardPlayTimeStatistics, Mode=TwoWay}"/>
                             </cwc:SettingsCard>
                             <cwc:SettingsCard
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameDiscordActivityDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameDiscordActivityHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE8CF;}">
-                                <ToggleSwitch Width="120" IsOn="{Binding Options.SetDiscordActivityWhenPlaying, Mode=TwoWay}"/>
+                                <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.SetDiscordActivityWhenPlaying, Mode=TwoWay}"/>
                             </cwc:SettingsCard>
                         </StackPanel>
                     </Grid>

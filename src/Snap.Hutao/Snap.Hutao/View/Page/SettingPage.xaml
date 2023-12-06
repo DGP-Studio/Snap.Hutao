@@ -203,7 +203,7 @@
                     <shc:SizeRestrictedContentControl>
                         <ComboBox
                             DisplayMemberPath="Name"
-                            ItemsSource="{Binding Options.Cultures}"
+                            ItemsSource="{Binding AppOptions.Cultures}"
                             SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"/>
                     </shc:SizeRestrictedContentControl>
                 </cwc:SettingsCard>
@@ -214,7 +214,7 @@
                     <shc:SizeRestrictedContentControl>
                         <ComboBox
                             DisplayMemberPath="Name"
-                            ItemsSource="{Binding Options.BackdropTypes}"
+                            ItemsSource="{Binding AppOptions.BackdropTypes}"
                             SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
                     </shc:SizeRestrictedContentControl>
                 </cwc:SettingsCard>
@@ -312,7 +312,7 @@
                     <cwc:SettingsCard.Description>
                         <StackPanel>
                             <TextBlock Foreground="{ThemeResource SystemErrorTextColor}" Text="{shcm:ResourceString Name=ViewPageSettingSetGamePathHint}"/>
-                            <TextBlock Text="{Binding Options.GamePath}"/>
+                            <TextBlock Text="{Binding AppOptions.GamePath}"/>
                         </StackPanel>
                     </cwc:SettingsCard.Description>
                 </cwc:SettingsCard>
@@ -326,7 +326,7 @@
                     <cwc:SettingsCard.Description>
                         <StackPanel>
                             <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingSetPowerShellDescription}"/>
-                            <TextBlock Text="{Binding Options.PowerShellPath}"/>
+                            <TextBlock Text="{Binding AppOptions.PowerShellPath}"/>
                         </StackPanel>
                     </cwc:SettingsCard.Description>
                 </cwc:SettingsCard>
@@ -345,7 +345,7 @@
                     Header="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE81C;}">
                     <ToggleSwitch
-                        IsOn="{Binding Options.IsEmptyHistoryWishVisible, Mode=TwoWay}"
+                        IsOn="{Binding AppOptions.IsEmptyHistoryWishVisible, Mode=TwoWay}"
                         OffContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
                         OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
                 </cwc:SettingsCard>
@@ -397,13 +397,13 @@
                             <TextBlock
                                 Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                 Text="{shcm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
-                                Visibility="{Binding Options.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}" Visibility="{Binding Options.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                Visibility="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}" Visibility="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                         </StackPanel>
                     </cwc:SettingsCard.Description>
                     <StackPanel Orientation="Horizontal">
                         <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                        <ToggleSwitch Width="120" IsOn="{Binding Options.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
+                        <ToggleSwitch Width="120" IsOn="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                     </StackPanel>
                 </cwc:SettingsCard>
                 <cwc:SettingsCard
@@ -417,7 +417,7 @@
                             <TextBlock
                                 Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                 Text="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"
-                                Visibility="{Binding Options.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                Visibility="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingDeleteUserDescription}"/>
                         </StackPanel>
                     </cwc:SettingsCard.Description>
