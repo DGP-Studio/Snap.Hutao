@@ -19,7 +19,7 @@ internal static class WinRTExtension
     }
 
     // protected bool disposed;
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name ="disposed")]
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "disposed")]
     private static extern ref bool GetProtectedDisposed(IObjectReference objRef);
 
     // private object _disposedLock

@@ -279,41 +279,6 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
     }
 
-    [Command("ExportAsImageCommand")]
-    private async Task ExportAsImageAsync(FrameworkElement? element)
-    {
-        if (element is { IsLoaded: true })
-        {
-            RenderTargetBitmap bitmap = new();
-            await bitmap.RenderAsync(element);
-
-            IBuffer buffer = await bitmap.GetPixelsAsync();
-            bool clipboardOpened = false;
-            using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
-            {
-                Bgra32 tint = appResourceProvider.GetResource<Color>("CompatBackgroundColor");
-                softwareBitmap.NormalBlend(tint);
-                using (InMemoryRandomAccessStream memory = new())
-                {
-                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memory);
-                    encoder.SetSoftwareBitmap(softwareBitmap);
-                    await encoder.FlushAsync();
-
-                    clipboardOpened = clipboardInterop.SetBitmap(memory);
-                }
-            }
-
-            if (clipboardOpened)
-            {
-                infoBarService.Success(SH.ViewModelAvatarPropertyExportImageSuccess);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelAvatarPropertyOpenClipboardFail);
-            }
-        }
-    }
-
     private async ValueTask<CultivateCoreResult> CultivateCoreAsync(Model.Entity.User user, CalculatorAvatarPromotionDelta delta, AvatarView avatar)
     {
         Response<CalculatorConsumption> consumptionResponse = await calculatorClient.ComputeAsync(user, delta).ConfigureAwait(false);
@@ -351,5 +316,40 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         return CultivateCoreResult.Ok;
+    }
+
+    [Command("ExportAsImageCommand")]
+    private async Task ExportAsImageAsync(FrameworkElement? element)
+    {
+        if (element is { IsLoaded: true })
+        {
+            RenderTargetBitmap bitmap = new();
+            await bitmap.RenderAsync(element);
+
+            IBuffer buffer = await bitmap.GetPixelsAsync();
+            bool clipboardOpened = false;
+            using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
+            {
+                Bgra32 tint = appResourceProvider.GetResource<Color>("CompatBackgroundColor");
+                softwareBitmap.NormalBlend(tint);
+                using (InMemoryRandomAccessStream memory = new())
+                {
+                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memory);
+                    encoder.SetSoftwareBitmap(softwareBitmap);
+                    await encoder.FlushAsync();
+
+                    clipboardOpened = clipboardInterop.SetBitmap(memory);
+                }
+            }
+
+            if (clipboardOpened)
+            {
+                infoBarService.Success(SH.ViewModelAvatarPropertyExportImageSuccess);
+            }
+            else
+            {
+                infoBarService.Warning(SH.ViewModelAvatarPropertyOpenClipboardFail);
+            }
+        }
     }
 }

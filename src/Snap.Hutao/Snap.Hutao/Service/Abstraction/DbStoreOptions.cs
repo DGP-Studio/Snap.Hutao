@@ -116,7 +116,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <param name="deserializer">反序列化器</param>
     /// <param name="defaultValue">默认值</param>
     /// <returns>值</returns>
-    [return:NotNull]
+    [return: NotNull]
     protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, [DisallowNull] T defaultValue)
     {
         if (storage is not null)

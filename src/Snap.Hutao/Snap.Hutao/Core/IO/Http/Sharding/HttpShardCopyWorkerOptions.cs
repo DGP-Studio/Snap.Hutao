@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
+using Snap.Hutao.Web.Request.Builder;
 using System.IO;
 using System.Net.Http;
-using Snap.Hutao.Web.Request.Builder;
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
