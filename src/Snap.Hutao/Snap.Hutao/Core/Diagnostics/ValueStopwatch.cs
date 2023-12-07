@@ -11,8 +11,6 @@ namespace Snap.Hutao.Core.Diagnostics;
 /// </summary>
 internal readonly struct ValueStopwatch
 {
-    private static readonly double TimestampToTicks = TimeSpan.TicksPerSecond / (double)Stopwatch.Frequency;
-
     private readonly long startTimestamp;
 
     private ValueStopwatch(long startTimestamp)

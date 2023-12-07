@@ -7,6 +7,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web;
 using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.Response;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;

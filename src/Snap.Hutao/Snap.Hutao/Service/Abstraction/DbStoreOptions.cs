@@ -128,7 +128,16 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value is null ? defaultValue : deserializer(value)!;
+            if (value is null)
+            {
+                storage = defaultValue;
+            }
+            else
+            {
+                T targetValue = deserializer(value);
+                ArgumentNullException.ThrowIfNull(targetValue);
+                storage = targetValue;
+            }
         }
 
         return storage;

@@ -5,7 +5,7 @@ namespace Snap.Hutao.Web.Hutao.Geetest;
 
 internal sealed class GeetestResponse
 {
-    public static GeetestResponse InternalFailure { get; } = new() { Code = Response.Response.InternalFailure };
+    public static GeetestResponse InternalFailure { get; } = new() { Code = Web.Response.Response.InternalFailure };
 
     [JsonPropertyName("code")]
     public int Code { get; set; }

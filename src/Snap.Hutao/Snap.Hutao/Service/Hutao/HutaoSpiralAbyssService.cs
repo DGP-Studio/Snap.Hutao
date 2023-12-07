@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using Snap.Hutao.Web.Response;
 

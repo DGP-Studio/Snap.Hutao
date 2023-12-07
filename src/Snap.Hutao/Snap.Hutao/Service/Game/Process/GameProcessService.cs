@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Game.Unlocker;

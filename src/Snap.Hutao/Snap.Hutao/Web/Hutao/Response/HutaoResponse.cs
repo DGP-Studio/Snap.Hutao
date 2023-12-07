@@ -3,9 +3,9 @@
 
 using System.Runtime.CompilerServices;
 
-namespace Snap.Hutao.Web.Hutao;
+namespace Snap.Hutao.Web.Hutao.Response;
 
-internal sealed class HutaoResponse : Response.Response, ILocalizableResponse
+internal sealed class HutaoResponse : Web.Response.Response, ILocalizableResponse
 {
     [JsonConstructor]
     public HutaoResponse(int returnCode, string message, string? localizationKey)
@@ -38,7 +38,7 @@ internal sealed class HutaoResponse : Response.Response, ILocalizableResponse
 }
 
 [SuppressMessage("", "SA1402")]
-internal sealed class HutaoResponse<TData> : Response.Response<TData>, ILocalizableResponse
+internal sealed class HutaoResponse<TData> : Web.Response.Response<TData>, ILocalizableResponse
 {
     [JsonConstructor]
     public HutaoResponse(int returnCode, string message, TData? data, string? localizationKey)

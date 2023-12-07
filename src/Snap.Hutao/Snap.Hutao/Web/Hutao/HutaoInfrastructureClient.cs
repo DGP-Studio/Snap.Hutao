@@ -2,13 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Snap.Hutao.Web.Hutao;
 
@@ -27,6 +24,6 @@ internal sealed partial class HutaoInfrastructureClient
             .Get();
 
         Response<IPInformation>? resp = await builder.TryCatchSendAsync<Response<IPInformation>>(httpClient, logger, token).ConfigureAwait(false);
-        return Response.Response.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 }
