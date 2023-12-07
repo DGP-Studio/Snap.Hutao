@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -46,6 +47,20 @@ internal sealed partial class CultivationDbService : ICultivationDbService
             return await appDbContext.CultivateEntries
                 .AsNoTracking()
                 .Where(e => e.ProjectId == projectId)
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask<List<CultivateEntry>> GetCultivateEntryIncludeLevelInformationListByProjectIdAsync(Guid projectId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.CultivateEntries
+                .AsNoTracking()
+                .Where(e => e.ProjectId == projectId)
+                .Include(e => e.LevelInformation)
                 .ToListAsync()
                 .ConfigureAwait(false);
         }

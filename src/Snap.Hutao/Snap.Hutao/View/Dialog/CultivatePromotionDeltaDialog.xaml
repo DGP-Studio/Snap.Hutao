@@ -74,7 +74,7 @@
             Margin="0,8,0,0"
             Visibility="{x:Bind Avatar, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid
-                Margin="8"
+                Padding="8"
                 DataContext="{x:Bind Avatar}"
                 Style="{ThemeResource GridCardStyle}">
                 <Grid.ColumnDefinitions>
@@ -124,10 +124,10 @@
 
         <StackPanel
             Grid.Row="1"
-            Margin="0,8,0,0"
+            Margin="0,6,0,0"
             Visibility="{x:Bind Weapon, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid
-                Margin="8"
+                Padding="8"
                 DataContext="{x:Bind Weapon}"
                 Style="{ThemeResource GridCardStyle}">
                 <Grid.ColumnDefinitions>
@@ -172,6 +172,6 @@
                     Value="{Binding LevelTarget, Mode=TwoWay}"/>
             </Grid>
         </StackPanel>
-        
+
     </Grid>
 </ContentDialog>

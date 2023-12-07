@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Entity;
+using System.Text;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
@@ -11,13 +13,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 [HighQuality]
 internal sealed class CultivateEntryView : Item
 {
-    /// <summary>
-    /// 构造一个新的养成清单入口
-    /// </summary>
-    /// <param name="entry">实体入口</param>
-    /// <param name="item">对应物品</param>
-    /// <param name="items">物品列表</param>
-    public CultivateEntryView(Model.Entity.CultivateEntry entry, Item item, List<CultivateItemView> items)
+    public CultivateEntryView(CultivateEntry entry, Item item, List<CultivateItemView> items)
     {
         Id = entry.Id;
         EntryId = entry.InnerId;
@@ -26,33 +22,75 @@ internal sealed class CultivateEntryView : Item
         Badge = item.Badge;
         Quality = item.Quality;
         Items = items;
+
+        Description = ParseDescription(entry);
+        IsToday = items.Any(i => i.IsToday);
+        DaysOfWeek = items.FirstOrDefault(i => i.DaysOfWeek != DaysOfWeek.Any)?.DaysOfWeek ?? DaysOfWeek.Any;
+
+        static string ParseDescription(CultivateEntry entry)
+        {
+            if (entry.LevelInformation is null)
+            {
+                return SH.ViewModelCultivationEntryViewDescriptionDefault;
+            }
+
+            CultivateEntryLevelInformation info = entry.LevelInformation;
+
+            switch (entry.Type)
+            {
+                case Model.Entity.Primitive.CultivateType.AvatarAndSkill:
+                    {
+                        StringBuilder stringBuilder = new();
+
+                        if (info.AvatarLevelFrom != info.AvatarLevelTo)
+                        {
+                            stringBuilder.Append("Lv.").Append(info.AvatarLevelFrom).Append(" → Lv.").Append(info.AvatarLevelTo).Append(' ');
+                        }
+
+                        if (info.SkillALevelFrom != info.SkillALevelTo)
+                        {
+                            stringBuilder.Append("A: ").Append(info.SkillALevelFrom).Append(" → ").Append(info.SkillALevelTo).Append(' ');
+                        }
+
+                        if (info.SkillELevelFrom != info.SkillELevelTo)
+                        {
+                            stringBuilder.Append("E: ").Append(info.SkillELevelFrom).Append(" → ").Append(info.SkillELevelTo).Append(' ');
+                        }
+
+                        if (info.SkillQLevelFrom != info.SkillQLevelTo)
+                        {
+                            stringBuilder.Append("Q: ").Append(info.SkillQLevelFrom).Append(" → ").Append(info.SkillQLevelTo).Append(' ');
+                        }
+
+                        return stringBuilder.ToStringTrimEnd();
+                    }
+
+                case Model.Entity.Primitive.CultivateType.Weapon:
+                    {
+                        StringBuilder stringBuilder = new();
+
+                        if (info.WeaponLevelFrom != info.WeaponLevelTo)
+                        {
+                            stringBuilder.Append("Lv.").Append(info.WeaponLevelFrom).Append(" → Lv.").Append(info.WeaponLevelTo);
+                        }
+
+                        return stringBuilder.ToString();
+                    }
+            }
+
+            return string.Empty;
+        }
     }
 
-    /// <summary>
-    /// 实体
-    /// </summary>
     public List<CultivateItemView> Items { get; set; } = default!;
 
-    /// <summary>
-    /// 是否为今日的材料
-    /// </summary>
-    public bool IsToday { get => Items.Any(i => i.IsToday); }
+    public bool IsToday { get; }
 
-    /// <summary>
-    /// 星期中的日期
-    /// </summary>
-    public DaysOfWeek DaysOfWeek
-    {
-        get => Items.FirstOrDefault(i => i.DaysOfWeek != DaysOfWeek.Any)?.DaysOfWeek ?? DaysOfWeek.Any;
-    }
+    public DaysOfWeek DaysOfWeek { get; }
 
-    /// <summary>
-    /// Id
-    /// </summary>
+    public string Description { get; }
+
     internal uint Id { get; set; }
 
-    /// <summary>
-    /// 入口Id
-    /// </summary>
     internal Guid EntryId { get; set; }
 }

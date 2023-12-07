@@ -38,9 +38,23 @@ internal static class StringBuilderExtension
         return condition ? sb.Append(value) : sb;
     }
 
+    public static string ToStringTrimEnd(this StringBuilder builder)
+    {
+        if (builder.Length > 1 && char.IsWhiteSpace(builder[^1]))
+        {
+            return builder.ToString(0, builder.Length - 1);
+        }
+
+        return builder.ToString();
+    }
+
     public static string ToStringTrimEndReturn(this StringBuilder builder)
     {
-        Must.Argument(builder.Length >= 1, "StringBuilder 的长度必须大于 0");
+        if (builder.Length < 1)
+        {
+            return string.Empty;
+        }
+
         int remove = 0;
         if (builder[^1] is '\n')
         {

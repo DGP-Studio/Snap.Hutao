@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Cultivation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("cultivate_entry_level_informations")]
-internal sealed class CultivateEntryLevelInformation : IMappingFrom<CultivateEntryLevelInformation, Guid, LevelInformation>
+internal sealed class CultivateEntryLevelInformation : IMappingFrom<CultivateEntryLevelInformation, Guid, CultivateType, LevelInformation>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -40,21 +41,29 @@ internal sealed class CultivateEntryLevelInformation : IMappingFrom<CultivateEnt
 
     public uint WeaponLevelTo { get; set; }
 
-    public static CultivateEntryLevelInformation From(Guid entryId, LevelInformation source)
+    public static CultivateEntryLevelInformation From(Guid entryId, CultivateType type, LevelInformation source)
     {
-        return new()
+        return type switch
         {
-            EntryId = entryId,
-            AvatarLevelFrom = source.AvatarLevelFrom,
-            AvatarLevelTo = source.AvatarLevelTo,
-            SkillALevelFrom = source.SkillALevelFrom,
-            SkillALevelTo = source.SkillALevelTo,
-            SkillELevelFrom = source.SkillELevelFrom,
-            SkillELevelTo = source.SkillELevelTo,
-            SkillQLevelFrom = source.SkillQLevelFrom,
-            SkillQLevelTo = source.SkillQLevelTo,
-            WeaponLevelFrom = source.WeaponLevelFrom,
-            WeaponLevelTo = source.WeaponLevelTo,
+            CultivateType.AvatarAndSkill => new()
+            {
+                EntryId = entryId,
+                AvatarLevelFrom = source.AvatarLevelFrom,
+                AvatarLevelTo = source.AvatarLevelTo,
+                SkillALevelFrom = source.SkillALevelFrom,
+                SkillALevelTo = source.SkillALevelTo,
+                SkillELevelFrom = source.SkillELevelFrom,
+                SkillELevelTo = source.SkillELevelTo,
+                SkillQLevelFrom = source.SkillQLevelFrom,
+                SkillQLevelTo = source.SkillQLevelTo,
+            },
+            CultivateType.Weapon => new()
+            {
+                EntryId = entryId,
+                WeaponLevelFrom = source.WeaponLevelFrom,
+                WeaponLevelTo = source.WeaponLevelTo,
+            },
+            _ => throw Must.NeverHappen($"不支持的养成类型{type}"),
         };
     }
 }

@@ -54,19 +54,19 @@ internal sealed partial class CultivationService : ICultivationService
     {
         await taskContext.SwitchToBackgroundAsync();
         List<CultivateEntry> entries = await cultivationDbService
-            .GetCultivateEntryListByProjectIdAsync(cultivateProject.InnerId)
+            .GetCultivateEntryIncludeLevelInformationListByProjectIdAsync(cultivateProject.InnerId)
             .ConfigureAwait(false);
 
         List<CultivateEntryView> resultEntries = new(entries.Count);
         foreach (CultivateEntry entry in entries)
         {
             List<CultivateItemView> entryItems = [];
-            foreach (CultivateItem item in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId).ConfigureAwait(false))
+            foreach (CultivateItem cultivateItem in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId).ConfigureAwait(false))
             {
-                entryItems.Add(new(item, context.GetMaterial(item.ItemId)));
+                entryItems.Add(new(cultivateItem, context.GetMaterial(cultivateItem.ItemId)));
             }
 
-            Item itemBase = entry.Type switch
+            Item item = entry.Type switch
             {
                 CultivateType.AvatarAndSkill => context.GetAvatar(entry.Id).ToItem(),
                 CultivateType.Weapon => context.GetWeapon(entry.Id).ToItem(),
@@ -75,7 +75,7 @@ internal sealed partial class CultivationService : ICultivationService
                 _ => default!,
             };
 
-            resultEntries.Add(new(entry, itemBase, entryItems));
+            resultEntries.Add(new(entry, item, entryItems));
         }
 
         return resultEntries
@@ -184,7 +184,7 @@ internal sealed partial class CultivationService : ICultivationService
         Guid entryId = entry.InnerId;
 
         await cultivationDbService.RemoveLevelInformationByEntryIdAsync(entryId).ConfigureAwait(false);
-        CultivateEntryLevelInformation entryLevelInformation = CultivateEntryLevelInformation.From(entryId, levelInformation);
+        CultivateEntryLevelInformation entryLevelInformation = CultivateEntryLevelInformation.From(entryId, type, levelInformation);
         await cultivationDbService.AddLevelInformationAsync(entryLevelInformation).ConfigureAwait(false);
 
         await cultivationDbService.RemoveCultivateItemRangeByEntryIdAsync(entryId).ConfigureAwait(false);
