@@ -77,7 +77,7 @@ steps:
 - task: GitHubRelease@1
   inputs:
     gitHubConnection: 'github.com_Masterain'
-    repositoryName: 'DGP-Studio/Snap.Hutao.CI.Test'
+    repositoryName: 'DGP-Studio/Snap.Hutao'
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
