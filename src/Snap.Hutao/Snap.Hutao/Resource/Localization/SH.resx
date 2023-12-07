@@ -504,7 +504,7 @@
     <value>精炼 {0} 阶</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必须先选择一个用户与角色</value>
+    <value>必须登录 米游社/HoYoLAB 并选择一个用户与角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
