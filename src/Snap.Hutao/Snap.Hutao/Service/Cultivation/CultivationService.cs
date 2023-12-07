@@ -7,8 +7,8 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Metadata.Item;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Inventroy;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.ObjectModel;
 
@@ -29,7 +29,7 @@ internal sealed partial class CultivationService : ICultivationService
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand)
+    public List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -39,7 +39,7 @@ internal sealed partial class CultivationService : ICultivationService
             List<InventoryItem> entities = cultivationDbService.GetInventoryItemListByProjectId(projectId);
 
             List<InventoryItemView> results = [];
-            foreach (Material meta in metadata.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id.Value))
+            foreach (Material meta in context.EnumerateInventroyMaterial())
             {
                 InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.From(projectId, meta.Id);
                 results.Add(new(entity, meta, saveCommand));
@@ -50,11 +50,7 @@ internal sealed partial class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public async ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(
-        CultivateProject cultivateProject,
-        List<Material> materials,
-        Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap,
-        Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap)
+    public async ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject, ICultivationMetadataContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
         List<CultivateEntry> entries = await cultivationDbService
@@ -67,13 +63,13 @@ internal sealed partial class CultivationService : ICultivationService
             List<CultivateItemView> entryItems = [];
             foreach (CultivateItem item in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId).ConfigureAwait(false))
             {
-                entryItems.Add(new(item, materials.Single(m => m.Id == item.ItemId)));
+                entryItems.Add(new(item, context.GetMaterial(item.ItemId)));
             }
 
             Item itemBase = entry.Type switch
             {
-                CultivateType.AvatarAndSkill => idAvatarMap[entry.Id].ToItem(),
-                CultivateType.Weapon => idWeaponMap[entry.Id].ToItem(),
+                CultivateType.AvatarAndSkill => context.GetAvatar(entry.Id).ToItem(),
+                CultivateType.Weapon => context.GetWeapon(entry.Id).ToItem(),
 
                 // TODO: support furniture calc
                 _ => default!,
@@ -89,9 +85,7 @@ internal sealed partial class CultivationService : ICultivationService
 
     /// <inheritdoc/>
     public async ValueTask<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(
-        CultivateProject cultivateProject,
-        List<Material> materials,
-        CancellationToken token)
+        CultivateProject cultivateProject, ICultivationMetadataContext context, CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();
         List<StatisticsCultivateItem> resultItems = [];
@@ -115,7 +109,7 @@ internal sealed partial class CultivationService : ICultivationService
                 }
                 else
                 {
-                    resultItems.Add(new(materials.Single(m => m.Id == item.ItemId), item));
+                    resultItems.Add(new(context.GetMaterial(item.ItemId), item));
                 }
             }
         }
@@ -158,7 +152,7 @@ internal sealed partial class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> SaveConsumptionAsync(CultivateType type, uint itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items)
+    public async ValueTask<bool> SaveConsumptionAsync(CultivateType type, uint itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items, LevelInformation levelInformation)
     {
         if (items.Count == 0)
         {
@@ -188,8 +182,12 @@ internal sealed partial class CultivationService : ICultivationService
         }
 
         Guid entryId = entry.InnerId;
-        await cultivationDbService.RemoveCultivateItemRangeByEntryIdAsync(entryId).ConfigureAwait(false);
 
+        await cultivationDbService.RemoveLevelInformationByEntryIdAsync(entryId).ConfigureAwait(false);
+        CultivateEntryLevelInformation entryLevelInformation = CultivateEntryLevelInformation.From(entryId, levelInformation);
+        await cultivationDbService.AddLevelInformationAsync(entryLevelInformation).ConfigureAwait(false);
+
+        await cultivationDbService.RemoveCultivateItemRangeByEntryIdAsync(entryId).ConfigureAwait(false);
         IEnumerable<CultivateItem> toAdd = items.Select(item => CultivateItem.From(entryId, item));
         await cultivationDbService.AddCultivateItemRangeAsync(toAdd).ConfigureAwait(false);
 

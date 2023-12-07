@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
@@ -61,5 +62,42 @@ internal sealed class AvatarPromotionDelta
             ],
             Weapon = new() { LevelTarget = LocalSetting.Get(SettingKeys.CultivationWeapon90LevelTarget, 90U), },
         };
+    }
+
+    public static bool TryGetNonErrorCopy(AvatarPromotionDelta source, AvatarView avatar, out AvatarPromotionDelta? copy)
+    {
+        copy = new()
+        {
+            AvatarId = avatar.Id,
+            AvatarLevelCurrent = Math.Min(avatar.LevelNumber, source.AvatarLevelTarget),
+        };
+
+        if (avatar.Skills is [SkillView skillA, SkillView skillE, SkillView skillQ, ..])
+        {
+            copy.SkillList = new(3);
+            copy.SkillList.Add(new()
+            {
+                Id = skillA.GroupId,
+                LevelCurrent = Math.Min(skillA.LevelNumber, skillA.LevelTarget),
+            });
+            copy.SkillList[0].Id = skillA.GroupId;
+            copy.SkillList[0].LevelCurrent = Math.Min(skillA.LevelNumber, copy.SkillList[0].LevelTarget);
+        }
+        else
+        {
+            return false;
+        }
+
+        target = new()
+        {
+            AvatarId = source.AvatarId,
+            AvatarLevelCurrent = source.AvatarLevelCurrent,
+            AvatarLevelTarget = source.AvatarLevelTarget,
+            ElementAttrId = source.ElementAttrId,
+            SkillList = source.SkillList?.Select(i => i.Clone()).ToList(),
+            Weapon = source.Weapon?.Clone(),
+        };
+
+        return true;
     }
 }

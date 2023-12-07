@@ -187,9 +187,9 @@ internal sealed partial class CalculateClient
     private class IdCount
     {
         [JsonPropertyName("cnt")]
-        public int Count { get; set; }
+        public uint Count { get; set; }
 
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public uint Id { get; set; }
     }
 }

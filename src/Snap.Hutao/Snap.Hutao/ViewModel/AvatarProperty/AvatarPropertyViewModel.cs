@@ -169,60 +169,60 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         if (userService.Current is null)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
+            return;
         }
-        else
+
+        if (avatar.Weapon is null)
         {
-            if (avatar.Weapon is null)
-            {
-                infoBarService.Warning(SH.ViewModelAvatarPropertyCalculateWeaponNull);
-                return;
-            }
+            infoBarService.Warning(SH.ViewModelAvatarPropertyCalculateWeaponNull);
+            return;
+        }
 
-            CalculableOptions options = new(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
-            CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
-            (bool isOk, CalculatorAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+        CalculableOptions options = new(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
+        CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
+        (bool isOk, CalculatorAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
-            if (!isOk)
-            {
-                return;
-            }
+        if (!isOk)
+        {
+            return;
+        }
 
-            Response<CalculatorConsumption> consumptionResponse = await calculatorClient
-                .ComputeAsync(userService.Current.Entity, delta)
+        Response<CalculatorConsumption> consumptionResponse = await calculatorClient
+            .ComputeAsync(userService.Current.Entity, delta)
+            .ConfigureAwait(false);
+
+        if (!consumptionResponse.IsOk())
+        {
+            return;
+        }
+
+        CalculatorConsumption consumption = consumptionResponse.Data;
+        LevelInformation levelInformation = LevelInformation.From(delta);
+
+        List<CalculatorItem> items = CalculatorItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
+        bool avatarSaved = await cultivationService
+            .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items, levelInformation)
+            .ConfigureAwait(false);
+
+        try
+        {
+            // Take a hot path if avatar is not saved.
+            bool avatarAndWeaponSaved = avatarSaved && await cultivationService
+                .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull(), levelInformation)
                 .ConfigureAwait(false);
 
-            if (!consumptionResponse.IsOk())
+            if (avatarAndWeaponSaved)
             {
-                return;
+                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
             }
-
-            CalculatorConsumption consumption = consumptionResponse.Data;
-
-            List<CalculatorItem> items = CalculatorItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
-            bool avatarSaved = await cultivationService
-                .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
-                .ConfigureAwait(false);
-
-            try
+            else
             {
-                // take a hot path if avatar is not saved.
-                bool avatarAndWeaponSaved = avatarSaved && await cultivationService
-                    .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
-                    .ConfigureAwait(false);
-
-                if (avatarAndWeaponSaved)
-                {
-                    infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-                }
-                else
-                {
-                    infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-                }
+                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
             }
-            catch (Core.ExceptionService.UserdataCorruptedException ex)
-            {
-                infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
-            }
+        }
+        catch (Core.ExceptionService.UserdataCorruptedException ex)
+        {
+            infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
         }
     }
 
@@ -274,8 +274,11 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                                 continue;
                             }
 
+                            // TODO: handle this correctly.
+                            // We should always create a new baseline each time.
                             baseline.Weapon.Id = avatar.Weapon.Id;
                             baseline.Weapon.LevelCurrent = Math.Min(avatar.Weapon.LevelNumber, baseline.Weapon.LevelTarget);
+                            baseline.Weapon.LevelTarget = Math.Min(avatar.Weapon.MaxLevel, baseline.Weapon.LevelTarget);
 
                             Response<CalculatorConsumption> consumptionResponse = await calculatorClient
                                 .ComputeAsync(userService.Current.Entity, baseline)
@@ -289,17 +292,18 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                             else
                             {
                                 CalculatorConsumption consumption = consumptionResponse.Data;
+                                LevelInformation levelInformation = LevelInformation.From(baseline);
 
                                 List<CalculatorItem> items = CalculatorItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
                                 bool avatarSaved = await cultivationService
-                                    .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
+                                    .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items, levelInformation)
                                     .ConfigureAwait(false);
 
                                 try
                                 {
                                     // take a hot path if avatar is not saved.
                                     bool avatarAndWeaponSaved = avatarSaved && await cultivationService
-                                        .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
+                                        .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull(), levelInformation)
                                         .ConfigureAwait(false);
 
                                     if (avatarAndWeaponSaved)

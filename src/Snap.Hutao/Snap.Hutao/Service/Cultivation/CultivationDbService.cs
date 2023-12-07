@@ -161,4 +161,22 @@ internal sealed partial class CultivationDbService : ICultivationDbService
             return appDbContext.CultivateProjects.AsNoTracking().ToObservableCollection();
         }
     }
+
+    public async ValueTask RemoveLevelInformationByEntryIdAsync(Guid entryId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.LevelInformations.ExecuteDeleteWhereAsync(l => l.EntryId == entryId).ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask AddLevelInformationAsync(CultivateEntryLevelInformation levelInformation)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.LevelInformations.AddAndSaveAsync(levelInformation).ConfigureAwait(false);
+        }
+    }
 }

@@ -30,7 +30,7 @@ internal sealed class StatisticsCultivateItem
     /// <summary>
     /// 对应背包物品的个数
     /// </summary>
-    public int Count { get; set; }
+    public uint Count { get; set; }
 
     /// <summary>
     /// 对应背包物品的个数

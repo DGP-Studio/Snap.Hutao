@@ -3,10 +3,9 @@
 
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Metadata.Item;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
@@ -38,14 +37,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private ObservableCollection<CultivateEntryView>? cultivateEntries;
     private ObservableCollection<StatisticsCultivateItem>? statisticsItems;
 
-    /// <summary>
-    /// 项目
-    /// </summary>
     public ObservableCollection<CultivateProject>? Projects { get => projects; set => SetProperty(ref projects, value); }
 
-    /// <summary>
-    /// 当前选中的计划
-    /// </summary>
     public CultivateProject? SelectedProject
     {
         get => selectedProject; set
@@ -58,19 +51,10 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    /// <summary>
-    /// 物品列表
-    /// </summary>
     public List<InventoryItemView>? InventoryItems { get => inventoryItems; set => SetProperty(ref inventoryItems, value); }
 
-    /// <summary>
-    /// 养成列表
-    /// </summary>
     public ObservableCollection<CultivateEntryView>? CultivateEntries { get => cultivateEntries; set => SetProperty(ref cultivateEntries, value); }
 
-    /// <summary>
-    /// 统计列表
-    /// </summary>
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
     protected override async ValueTask<bool> InitializeUIAsync()
@@ -95,60 +79,61 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         CultivateProjectDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivateProjectDialog>().ConfigureAwait(false);
         (bool isOk, CultivateProject project) = await dialog.CreateProjectAsync().ConfigureAwait(false);
 
-        if (isOk)
+        if (!isOk)
         {
-            ProjectAddResult result = await cultivationService.TryAddProjectAsync(project).ConfigureAwait(false);
+            return;
+        }
 
-            switch (result)
-            {
-                case ProjectAddResult.Added:
-                    infoBarService.Success(SH.ViewModelCultivationProjectAdded);
-                    await taskContext.SwitchToMainThreadAsync();
-                    SelectedProject = project;
-                    break;
-                case ProjectAddResult.InvalidName:
-                    infoBarService.Information(SH.ViewModelCultivationProjectInvalidName);
-                    break;
-                case ProjectAddResult.AlreadyExists:
-                    infoBarService.Information(SH.ViewModelCultivationProjectAlreadyExists);
-                    break;
-                default:
-                    throw Must.NeverHappen();
-            }
+        switch (await cultivationService.TryAddProjectAsync(project).ConfigureAwait(false))
+        {
+            case ProjectAddResult.Added:
+                infoBarService.Success(SH.ViewModelCultivationProjectAdded);
+                await taskContext.SwitchToMainThreadAsync();
+                SelectedProject = project;
+                break;
+            case ProjectAddResult.InvalidName:
+                infoBarService.Information(SH.ViewModelCultivationProjectInvalidName);
+                break;
+            case ProjectAddResult.AlreadyExists:
+                infoBarService.Information(SH.ViewModelCultivationProjectAlreadyExists);
+                break;
+            default:
+                throw Must.NeverHappen();
         }
     }
 
     [Command("RemoveProjectCommand")]
     private async Task RemoveProjectAsync(CultivateProject? project)
     {
-        if (project is not null)
+        if (project is null)
         {
-            await cultivationService.RemoveProjectAsync(project).ConfigureAwait(false);
-
-            await taskContext.SwitchToMainThreadAsync();
-            ArgumentNullException.ThrowIfNull(Projects);
-            SelectedProject = Projects.FirstOrDefault();
+            return;
         }
+
+        await cultivationService.RemoveProjectAsync(project).ConfigureAwait(false);
+        await taskContext.SwitchToMainThreadAsync();
+        ArgumentNullException.ThrowIfNull(Projects);
+        SelectedProject = Projects.FirstOrDefault();
     }
 
     private async ValueTask UpdateEntryCollectionAsync(CultivateProject? project)
     {
-        if (project is not null)
+        if (project is null)
         {
-            List<Material> materials = await metadataService.GetMaterialListAsync().ConfigureAwait(false);
-            Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
-
-            ObservableCollection<CultivateEntryView> entries = await cultivationService
-                .GetCultivateEntriesAsync(project, materials, idAvatarMap, idWeaponMap)
-                .ConfigureAwait(false);
-
-            await taskContext.SwitchToMainThreadAsync();
-            CultivateEntries = entries;
-            InventoryItems = cultivationService.GetInventoryItemViews(project, materials, SaveInventoryItemCommand);
-
-            await UpdateStatisticsItemsAsync().ConfigureAwait(false);
+            return;
         }
+
+        CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
+
+        ObservableCollection<CultivateEntryView> entries = await cultivationService
+            .GetCultivateEntriesAsync(project, context)
+            .ConfigureAwait(false);
+
+        await taskContext.SwitchToMainThreadAsync();
+        CultivateEntries = entries;
+        InventoryItems = cultivationService.GetInventoryItemViews(project, context, SaveInventoryItemCommand);
+
+        await UpdateStatisticsItemsAsync().ConfigureAwait(false);
     }
 
     [Command("RemoveEntryCommand")]
@@ -194,8 +179,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             ObservableCollection<StatisticsCultivateItem> statistics;
             try
             {
-                List<Material> materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
-                statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(SelectedProject, materials, token).ConfigureAwait(false);
+                CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
+                statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(SelectedProject, context, token).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {

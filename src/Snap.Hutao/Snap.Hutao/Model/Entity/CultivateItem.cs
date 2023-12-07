@@ -35,12 +35,12 @@ internal sealed class CultivateItem : IDbMappingForeignKeyFrom<CultivateItem, We
     /// <summary>
     /// 物品 Id
     /// </summary>
-    public int ItemId { get; set; }
+    public uint ItemId { get; set; }
 
     /// <summary>
     /// 物品个数
     /// </summary>
-    public int Count { get; set; }
+    public uint Count { get; set; }
 
     /// <summary>
     /// 是否完成此项
