@@ -45,14 +45,15 @@
       is disclosed within the first two lines of the description in the Store. 
     -->
     <SelfContained>true</SelfContained>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
-  <Target Name="GenerateAppxManifest" BeforeTargets="PreBuildEvent">
+  <Target Name="CheckBuildTarget" BeforeTargets="PreBuildEvent">
     <Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true">
       <Output TaskParameter="ConsoleOutput" PropertyName="LatestCommit" />
     </Exec>
     <Exec Command="powershell -Command &quot;$tag = '$(CurrentVersion)'; $tag = $tag.substring(0, $tag.length-2); if ((git tag -l $tag).length -eq 0) { 'None' } else { git rev-parse --short $tag }&quot;" ConsoleToMSBuild="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="VersionCommit"/>
+      <Output TaskParameter="ConsoleOutput" PropertyName="VersionCommit" />
     </Exec>
 
     <PropertyGroup>
@@ -60,38 +61,42 @@
       <IsAlpha Condition="'$(ConfigurationName)'!='Debug' And '$(LatestCommit)'!='$(VersionCommit)'">true</IsAlpha>
       <IsRelease Condition="'$(IsDev)'!='true' And '$(IsAlpha)'!='true'">true</IsRelease>
     </PropertyGroup>
+  </Target>
 
+  <Target Name="GenerateAppxManifest" AfterTargets="CheckBuildTarget" Condition="'$(IsRelease)'!='true'">
+	<Copy SourceFiles="Package.appxmanifest" DestinationFiles="Package.appxmanifest.bak" />
     <ItemGroup>
       <Tokens Include="IdentityName">
-        <ReplacementValue Condition="'$(IsRelease)'=='true'">60568DGPStudio.SnapHutao</ReplacementValue>
-        <ReplacementValue Condition="'$(IsDev)'=='true'">7A208292-C89B-4C07-9885-ABF5B9A038E0</ReplacementValue>
+        <ReplacementValue Condition="'$(IsDev)'=='true'">60568DGPStudio.SnapHutaoDev</ReplacementValue>
         <ReplacementValue Condition="'$(IsAlpha)'=='true'">7f0db578-026f-4e0b-a75b-d5d06bb0a74c</ReplacementValue>
       </Tokens>
       <Tokens Include="IdentityPublisher">
-        <ReplacementValue Condition="'$(IsRelease)'=='true' Or '$(IsDev)'=='true'">35C8E923-85DF-49A7-9172-B39DC6312C52</ReplacementValue>
+        <ReplacementValue Condition="'$(IsDev)'=='true'">35C8E923-85DF-49A7-9172-B39DC6312C52</ReplacementValue>
         <ReplacementValue Condition="'$(IsAlpha)'=='true'">DGP Studio CI</ReplacementValue>
       </Tokens>
       <Tokens Include="IdentityVersion">
-        <ReplacementValue Condition="'$(IsRelease)'=='true' Or '$(IsDev)'=='true'">$(CurrentVersion)</ReplacementValue>
+        <ReplacementValue Condition="'$(IsDev)'=='true'">$(CurrentVersion)</ReplacementValue>
         <ReplacementValue Condition="'$(IsAlpha)'=='true'">$(build_date).$(rev_number)</ReplacementValue>
       </Tokens>
       <Tokens Include="DisplayName">
-        <ReplacementValue Condition="'$(IsRelease)'=='true'">Snap Hutao</ReplacementValue>
         <ReplacementValue Condition="'$(IsDev)'=='true'">Snap Hutao Dev</ReplacementValue>
         <ReplacementValue Condition="'$(IsAlpha)'=='true'">Snap Hutao Alpha</ReplacementValue>
       </Tokens>
       <Tokens Include="PublisherDisplayName">
-        <ReplacementValue Condition="'$(IsRelease)'=='true' Or '$(IsDev)'=='true'">DGP Studio</ReplacementValue>
+        <ReplacementValue Condition="'$(IsDev)'=='true'">DGP Studio</ReplacementValue>
         <ReplacementValue Condition="'$(IsAlpha)'=='true'">DGP Studio CI</ReplacementValue>
       </Tokens>
       <Tokens Include="ProtocolDisplayName">
-        <ReplacementValue Condition="'$(IsRelease)'=='true'">胡桃</ReplacementValue>
         <ReplacementValue Condition="'$(IsDev)'=='true'">胡桃 Dev</ReplacementValue>
         <ReplacementValue Condition="'$(IsAlpha)'=='true'">胡桃 Alpha</ReplacementValue>
       </Tokens>
     </ItemGroup>
 
-    <TemplateFile Template="Package.appxmanifest.template" OutputFilename="Package.appxmanifest" Tokens="@(Tokens)" />
+    <TemplateFile Condition="'$(IsRelease)'!='true'" Template="Package.appxmanifest.template" OutputFilename="Package.appxmanifest" Tokens="@(Tokens)" />
+  </Target>
+
+  <Target Name="RestoreAppxManifest" AfterTargets="PostBuildEvent" Condition="'$(IsRelease)'!='true'">
+    <Move SourceFiles="Package.appxmanifest.bak" DestinationFiles="Package.appxmanifest" />
   </Target>
   
   <!-- Included Files -->
