@@ -32,8 +32,17 @@ internal sealed partial class GameProcessService : IGameProcessService
             return true;
         }
 
-        return System.Diagnostics.Process.GetProcessesByName(YuanShenProcessName).Length > 0
-            || System.Diagnostics.Process.GetProcessesByName(GenshinImpactProcessName).Length > 0;
+        // Original two GetProcessesByName is O(2n)
+        // GetProcesses once and manually loop is O(n)
+        foreach (ref System.Diagnostics.Process process in System.Diagnostics.Process.GetProcesses().AsSpan())
+        {
+            if (process.ProcessName is YuanShenProcessName or GenshinImpactProcessName)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public async ValueTask LaunchAsync(IProgress<LaunchStatus> progress)
