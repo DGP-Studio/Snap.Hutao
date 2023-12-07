@@ -64,7 +64,7 @@
   </Target>
 
   <Target Name="GenerateAppxManifest" AfterTargets="CheckBuildTarget" Condition="'$(IsRelease)'!='true'">
-	<Copy SourceFiles="Package.appxmanifest" DestinationFiles="Package.appxmanifest.bak" />
+    <Copy SourceFiles="Package.appxmanifest" DestinationFiles="Package.appxmanifest.bak" />
     <ItemGroup>
       <Tokens Include="IdentityName">
         <ReplacementValue Condition="'$(IsDev)'=='true'">60568DGPStudio.SnapHutaoDev</ReplacementValue>
