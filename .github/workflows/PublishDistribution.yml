@@ -18,3 +18,11 @@ jobs:
           PURGE_URL: ${{ secrets.PURGE_URL }}
         run: |
           curl -X PATCH $PURGE_URL
+      
+      - name: Sync development appxmanifest
+        env:
+          VERSION: ${{ github.ref }}
+        shell: pwsh
+        run: |
+          $ver = '  Version="'+$Env:VERSION+'.0"'
+          $content = (Get-Content src/Snap.Hutao/Snap.Hutao/Package.development.appxmanifest -Encoding UTF8) -replace '  Version="([0-9\\.]+)"', $ver
