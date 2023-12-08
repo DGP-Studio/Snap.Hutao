@@ -24,6 +24,8 @@ internal sealed class TaskContext : ITaskContext
         SynchronizationContext.SetSynchronizationContext(synchronizationContext);
     }
 
+    public SynchronizationContext SynchronizationContext { get => synchronizationContext; }
+
     /// <inheritdoc/>
     public ThreadPoolSwitchOperation SwitchToBackgroundAsync()
     {
@@ -42,8 +44,8 @@ internal sealed class TaskContext : ITaskContext
         dispatcherQueue.Invoke(action);
     }
 
-    public SynchronizationContext GetSynchronizationContext()
+    public void BeginInvokeOnMainThread(Action action)
     {
-        return synchronizationContext;
+        dispatcherQueue.TryEnqueue(() => action());
     }
 }
