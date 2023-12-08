@@ -96,7 +96,7 @@ Task("Build MSIX")
     .Does(() =>
 {
     var p = StartProcess(
-        "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\makeappx.exe",
+        "makeappx.exe",
         new ProcessSettings
         {
             Arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix")
@@ -113,7 +113,7 @@ Task("Sign MSIX")
     .Does(() =>
 {
     var p = StartProcess(
-        "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\signtool.exe",
+        "signtool.exe",
         new ProcessSettings
         {
             Arguments = "sign /debug /v /a /fd SHA256 /f " + System.IO.Path.Combine(AzurePipelines.Environment.Agent.HomeDirectory.FullPath, "_work", "_temp", "DGP_Studio_CI.pfx") + " /p " + pw + " " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix")
