@@ -504,7 +504,7 @@
     <value>精煉 {0} 階</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必須先選擇一個用戶與角色</value>
+    <value>必须登录 米游社/HoYoLAB 并选择一个用户与角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>刪除了 Uid：{0} 的 {1} 筆祈願記錄</value>
@@ -1406,6 +1406,9 @@
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
     <value>請先前往養成計劃頁面創建計劃並選中</value>
   </data>
+  <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
+    <value>重新添加物品以查看养成描述</value>
+  </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>新增成功</value>
   </data>
@@ -1561,6 +1564,9 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>创建桌面快捷方式失败</value>
+  </data>
+  <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
+    <value>已使用磁盘空间：{0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>无感验证复合 Url 配置成功</value>
@@ -2202,7 +2208,7 @@
     <value>圖片緩存存放在此</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
-    <value>打開緩存文件夾</value>
+    <value>缓存 文件夹</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>複製</value>
@@ -2229,7 +2235,7 @@
     <value>用戶數據/元數據 存放在此</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>打開數據文件夾</value>
+    <value>数据 文件夹</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>刪除</value>
@@ -2521,6 +2527,9 @@
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>立即登入或註冊</value>
+  </data>
+  <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
+    <value>打开文件夹</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>角色出場率 = 本層上陣該角色次數（層內重複出現只記一次）/ 深淵記錄總數</value>
