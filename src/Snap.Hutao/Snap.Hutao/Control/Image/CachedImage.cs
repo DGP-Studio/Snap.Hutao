@@ -20,7 +20,7 @@ internal sealed class CachedImage : Implementation.ImageEx
     public CachedImage()
     {
         IsCacheEnabled = true;
-        EnableLazyLoading = true;
+        EnableLazyLoading = false;
     }
 
     /// <inheritdoc/>
