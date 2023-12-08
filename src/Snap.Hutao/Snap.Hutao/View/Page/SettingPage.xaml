@@ -151,7 +151,12 @@
                                 Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
                                 Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerHeader}"
-                                Visibility="{Binding UserOptions.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                Visibility="{Binding UserOptions.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Button
+                                    Command="{Binding OpenTestPageCommand}"
+                                    Content="TEST"
+                                    Style="{ThemeResource SettingButtonStyle}"/>
+                            </cwc:SettingsCard>
                             <cwc:SettingsCard Description="{Binding UserOptions.GachaLogExpireAtSlim}" Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}"/>
                             <cwc:SettingsCard
                                 Command="{Binding Passport.OpenRedeemWebsiteCommand}"
@@ -351,38 +356,47 @@
                 </cwc:SettingsCard>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingStorageHeader}"/>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingStorageOpenAction}"
-                    Command="{Binding OpenDataFolderCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingDataFolderDescription}"
+                <cwc:SettingsExpander
+                    Description="{Binding DataFolderView.Size}"
                     Header="{shcm:ResourceString Name=ViewPageSettingDataFolderHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xEC25;}"
-                    IsClickEnabled="True"/>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingStorageSetAction}"
-                    Command="{Binding SetDataFolderCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingSetDataFolderDescription}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingSetDataFolderHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE8DE;}"
-                    IsClickEnabled="True"/>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingStorageOpenAction}"
-                    Command="{Binding OpenCacheFolderCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingCacheFolderDescription}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xEC25;}">
+                    <cwc:SettingsExpander.Content>
+                        <Button
+                            Command="{Binding DataFolderView.OpenFolderCommand}"
+                            Content="{shcm:ResourceString Name=ViewSettingFolderViewOpenFolderAction}"
+                            Style="{ThemeResource SettingButtonStyle}"/>
+                    </cwc:SettingsExpander.Content>
+                    <cwc:SettingsExpander.Items>
+                        <cwc:SettingsCard
+                            ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
+                            ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingStorageSetAction}"
+                            Command="{Binding SetDataFolderCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingSetDataFolderDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingSetDataFolderHeader}"
+                            IsClickEnabled="True"/>
+                    </cwc:SettingsExpander.Items>
+                </cwc:SettingsExpander>
+
+                <cwc:SettingsExpander
+                    Description="{Binding CacheFolderView.Size}"
                     Header="{shcm:ResourceString Name=ViewPageSettingCacheFolderHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE8B7;}"
-                    IsClickEnabled="True"/>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingResetAction}"
-                    Command="{Binding ResetStaticResourceCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingResetStaticResourceDescription}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingResetStaticResourceHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xEBC4;}"
-                    IsClickEnabled="True"/>
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE8B7;}">
+                    <cwc:SettingsExpander.Content>
+                        <Button
+                            Command="{Binding CacheFolderView.OpenFolderCommand}"
+                            Content="{shcm:ResourceString Name=ViewSettingFolderViewOpenFolderAction}"
+                            Style="{ThemeResource SettingButtonStyle}"/>
+                    </cwc:SettingsExpander.Content>
+                    <cwc:SettingsExpander.Items>
+                        <cwc:SettingsCard
+                            ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
+                            ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingResetAction}"
+                            Command="{Binding ResetStaticResourceCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingResetStaticResourceDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingResetStaticResourceHeader}"
+                            IsClickEnabled="True"/>
+                    </cwc:SettingsExpander.Items>
+                </cwc:SettingsExpander>
 
                 <TextBlock
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"

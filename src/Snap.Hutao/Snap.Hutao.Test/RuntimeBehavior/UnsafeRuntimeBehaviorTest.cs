@@ -24,6 +24,18 @@ public sealed class UnsafeRuntimeBehaviorTest
     }
 
     [TestMethod]
+    public unsafe void UInt32LayoutIsLittleEndian()
+    {
+        ulong testValue = 0x1234567887654321;
+        ref BuildVersion version = ref Unsafe.As<ulong, BuildVersion>(ref testValue);
+
+        Assert.AreEqual(0x1234, version.Major);
+        Assert.AreEqual(0x5678, version.Minor);
+        Assert.AreEqual(0x8765, version.Patch);
+        Assert.AreEqual(0x4321, version.Build);
+    }
+
+    [TestMethod]
     public unsafe void ReadOnlyStructCanBeModifiedInCtor()
     {
         TestStruct testStruct = new([4444, 7878, 5656, 1212]);
@@ -33,6 +45,8 @@ public sealed class UnsafeRuntimeBehaviorTest
         Assert.AreEqual(5656, testStruct.Value3);
         Assert.AreEqual(1212, testStruct.Value4);
     }
+
+
 
     private readonly struct TestStruct
     {
@@ -45,5 +59,13 @@ public sealed class UnsafeRuntimeBehaviorTest
         {
             CollectionsMarshal.AsSpan(list).CopyTo(MemoryMarshal.CreateSpan(ref Unsafe.As<TestStruct, int>(ref this), 4));
         }
+    }
+
+    private readonly struct BuildVersion
+    {
+        public readonly ushort Build;
+        public readonly ushort Patch;
+        public readonly ushort Minor;
+        public readonly ushort Major;
     }
 }

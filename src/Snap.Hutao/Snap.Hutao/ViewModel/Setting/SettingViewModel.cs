@@ -61,6 +61,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<CultureInfo>? selectedCulture;
     private IPInformation? ipInformation;
+    private FolderViewModel? cacheFolderView;
+    private FolderViewModel? dataFolderView;
 
     public AppOptions AppOptions { get => appOptions; }
 
@@ -99,10 +101,17 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    public FolderViewModel? CacheFolderView { get => cacheFolderView; set => SetProperty(ref cacheFolderView, value); }
+
+    public FolderViewModel? DataFolderView { get => dataFolderView; set => SetProperty(ref dataFolderView, value); }
+
     public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
+        CacheFolderView = new(taskContext, runtimeOptions.LocalCache);
+        DataFolderView = new(taskContext, runtimeOptions.DataFolder);
+
         Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
         IPInformation info;
 
@@ -125,7 +134,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private static void ResetStaticResource()
     {
         StaticResource.FailAll();
-        LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.StaticResourceBegin);
+        UnsafeLocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, GuideState.StaticResourceBegin);
         AppInstance.Restart(string.Empty);
     }
 
@@ -133,6 +142,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private static async Task StoreReviewAsync()
     {
         await Launcher.LaunchUriAsync(new("ms-windows-store://review/?ProductId=9PH4NXJ2JN52"));
+    }
+
+    [Command("UpdateCheckCommand")]
+    private static async Task CheckUpdateAsync()
+    {
+        await Launcher.LaunchUriAsync(new("ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
     }
 
     [Command("SetGamePathCommand")]
@@ -199,19 +214,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("UpdateCheckCommand")]
-    private async Task CheckUpdateAsync()
+    [Command("OpenTestPageCommand")]
+    private async Task OpenTestPageAsync()
     {
-        if (hutaoUserOptions.IsMaintainer)
-        {
-            await navigationService
-                .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            await Launcher.LaunchUriAsync(new("ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
-        }
+        await navigationService
+            .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
+            .ConfigureAwait(false);
     }
 
     [Command("SetDataFolderCommand")]
@@ -238,18 +246,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         {
             infoBarService.Error(ex);
         }
-    }
-
-    [Command("OpenCacheFolderCommand")]
-    private async Task OpenCacheFolderAsync()
-    {
-        await Launcher.LaunchFolderPathAsync(runtimeOptions.LocalCache);
-    }
-
-    [Command("OpenDataFolderCommand")]
-    private async Task OpenDataFolderAsync()
-    {
-        await Launcher.LaunchFolderPathAsync(runtimeOptions.DataFolder);
     }
 
     [Command("DeleteUsersCommand")]

@@ -18,40 +18,29 @@ namespace Snap.Hutao.Core.Caching;
 /// The class's name will become the cache folder's name
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
 [HttpClient(HttpClientConfiguration.Default)]
 [PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
-internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
+internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
     private const string CacheFolderName = nameof(ImageCache);
 
-    private static readonly FrozenDictionary<int, TimeSpan> RetryCountToDelay = new Dictionary<int, TimeSpan>()
+    private readonly FrozenDictionary<int, TimeSpan> retryCountToDelay = new Dictionary<int, TimeSpan>()
     {
         [0] = TimeSpan.FromSeconds(4),
         [1] = TimeSpan.FromSeconds(16),
         [2] = TimeSpan.FromSeconds(64),
     }.ToFrozenDictionary();
 
+    private readonly ConcurrentDictionary<string, Task> concurrentTasks = new();
+
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<ImageCache> logger;
 
-    private readonly ConcurrentDictionary<string, Task> concurrentTasks = new();
-
     private string? baseFolder;
     private string? cacheFolder;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ImageCache"/> class.
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public ImageCache(IServiceProvider serviceProvider)
-    {
-        logger = serviceProvider.GetRequiredService<ILogger<ImageCache>>();
-        httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
-
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <inheritdoc/>
     public void RemoveInvalid()
@@ -62,7 +51,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     /// <inheritdoc/>
     public void Remove(Uri uriForCachedItem)
     {
-        Remove(new ReadOnlySpan<Uri>(ref uriForCachedItem));
+        Remove([uriForCachedItem]);
     }
 
     /// <inheritdoc/>
@@ -191,7 +180,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
                     case HttpStatusCode.TooManyRequests:
                         {
                             retryCount++;
-                            TimeSpan delay = message.Headers.RetryAfter?.Delta ?? RetryCountToDelay[retryCount];
+                            TimeSpan delay = message.Headers.RetryAfter?.Delta ?? retryCountToDelay[retryCount];
                             logger.LogInformation("Retry {Uri} after {Delay}.", uri, delay);
                             await Task.Delay(delay).ConfigureAwait(false);
                             break;

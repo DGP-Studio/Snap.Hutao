@@ -23,7 +23,7 @@
     <SolidColorBrush x:Key="PurpleColorBrush" Color="{ThemeResource PurpleColor}"/>
     <SolidColorBrush x:Key="OrangeColorBrush" Color="{ThemeResource OrangeColor}"/>
 
-    <SolidColorBrush x:Key="GuaranteePullCoolorBrush" Color="{ThemeResource GuaranteePullColor}"/>
+    <SolidColorBrush x:Key="GuaranteePullColorBrush" Color="{ThemeResource GuaranteePullColor}"/>
     <SolidColorBrush x:Key="UpPullColorBrush" Color="{ThemeResource UpPullColor}"/>
 
     <SolidColorBrush x:Key="DarkOnlyOverlayMaskColorBrush" Color="{ThemeResource DarkOnlyOverlayMaskColor}"/>

@@ -1565,6 +1565,9 @@
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>创建桌面快捷方式失败</value>
   </data>
+  <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
+    <value>已使用磁盘空间：{0}</value>
+  </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>无感验证复合 Url 配置成功</value>
   </data>
@@ -2205,7 +2208,7 @@
     <value>图片缓存 在此处存放</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
-    <value>打开 缓存 文件夹</value>
+    <value>缓存 文件夹</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>复制</value>
@@ -2232,7 +2235,7 @@
     <value>用户数据/元数据 在此处存放</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>打开 数据 文件夹</value>
+    <value>数据 文件夹</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>删除</value>
@@ -2524,6 +2527,9 @@
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>立即登录或注册</value>
+  </data>
+  <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
+    <value>打开文件夹</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>角色出场率 = 本层上阵该角色次数（层内重复出现只记一次）/ 深渊记录总数</value>

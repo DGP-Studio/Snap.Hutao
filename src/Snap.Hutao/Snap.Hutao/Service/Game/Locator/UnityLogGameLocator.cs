@@ -29,7 +29,7 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
         // Fallback to the CN server.
         string logFilePathFinal = File.Exists(logFilePathOversea) ? logFilePathOversea : logFilePathChinese;
 
-        if (TempFile.CopyFrom(logFilePathFinal) is TempFile file)
+        if (TempFile.CopyFrom(logFilePathFinal) is { } file)
         {
             using (file)
             {

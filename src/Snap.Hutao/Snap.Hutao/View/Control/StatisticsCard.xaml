@@ -59,7 +59,7 @@
                     <TextBlock
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
-                        Foreground="{StaticResource GuaranteePullCoolorBrush}"
+                        Foreground="{StaticResource GuaranteePullColorBrush}"
                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardGuaranteeText}"
                         Visibility="{Binding IsGuarantee, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <TextBlock
