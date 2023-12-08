@@ -17,8 +17,6 @@ var version = HttpGet(
     );
 Information($"Version: {version}");
 
-var pw = HasArgument("pw") ? Argument<string>("pw") : throw new Exception("Empty pw");
-
 // Pre-define
 
 var repoDir = "repoDir";
@@ -51,8 +49,7 @@ else if (AppVeyor.IsRunningOnAppVeyor)
 Task("Build")
     .IsDependentOn("Build binary package")
     .IsDependentOn("Copy files")
-    .IsDependentOn("Build MSIX")
-    .IsDependentOn("Sign MSIX");
+    .IsDependentOn("Build MSIX");
 
 Task("NuGet Restore")
     .Does(() =>
@@ -140,23 +137,6 @@ Task("Build MSIX")
         new ProcessSettings
         {
             Arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix")
-        }
-    );
-    if (p != 0)
-    {
-        throw new InvalidOperationException("Build failed with exit code " + p);
-    }
-});
-
-Task("Sign MSIX")
-    .IsDependentOn("Build MSIX")
-    .Does(() =>
-{
-    var p = StartProcess(
-        "signtool.exe",
-        new ProcessSettings
-        {
-            Arguments = "sign /debug /v /a /fd SHA256 /f " + pfxFile + " /p " + pw + " " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix")
         }
     );
     if (p != 0)

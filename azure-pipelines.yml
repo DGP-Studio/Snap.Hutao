@@ -42,7 +42,6 @@ variables:
   project: $(Build.SourcesDirectory)/src/Snap.Hutao/Snap.Hutao/Snap.Hutao.csproj'
   buildPlatform: 'x64'
   buildConfiguration: 'Release'
-  build_date: $[ format('{0:yyyy}.{0:M}.{0:d}', pipeline.startTime) ]
 
 
 steps:
@@ -56,18 +55,22 @@ steps:
 - task: CmdLine@2
   displayName: dotnet cake
   inputs:
-    script: dotnet tool restore && dotnet cake --pw=$(pw)
+    script: dotnet tool restore && dotnet cake
+
+- task: MsixSigning@1
+  name: signMsix
+  displayName: Sign MSIX package
+  inputs:
+    package: '$(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(version).msix'
+    certificate: 'DGP_Studio_CI.pfx'
+    passwordVariable: 'pw'
+  condition: succeeded()
 
 - task: DownloadSecureFile@1
   name: cerFile
   displayName: Download Root CA
   inputs:
     secureFile: 'Snap.Hutao.CI.cer'
-
-- task: DownloadSecureFile@1
-  displayName: Download PFX
-  inputs:
-    secureFile: 'DGP_Studio_CI.pfx'
 
 - task: GitHubRelease@1
   inputs:
