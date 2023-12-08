@@ -504,7 +504,7 @@
     <value>재련 {0}단계</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>유저와 UID를 선택하세요</value>
+    <value>必须登录 米游社/HoYoLAB 并选择一个用户与角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
@@ -1406,6 +1406,9 @@
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
     <value>육성 계획 페이지로 이동하여 계획을 만들고 택하세요</value>
   </data>
+  <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
+    <value>重新添加物品以查看养成描述</value>
+  </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>성공적으로 추가됨</value>
   </data>
@@ -1561,6 +1564,9 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>创建桌面快捷方式失败</value>
+  </data>
+  <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
+    <value>已使用磁盘空间：{0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>无感验证复合 Url 配置成功</value>
@@ -2202,7 +2208,7 @@
     <value>여기에 저장된 이미지 캐시</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
-    <value>캐시 폴더 열기</value>
+    <value>缓存 文件夹</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>복사</value>
@@ -2229,7 +2235,7 @@
     <value>사용자 데이터/메타데이터는 이 곳에 저장됩니다</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>데이터 폴더 열기</value>
+    <value>数据 文件夹</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>삭제</value>
@@ -2521,6 +2527,9 @@
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>회원가입 또는 로그인</value>
+  </data>
+  <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
+    <value>打开文件夹</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>角色出场率 = 本层上阵该角色次数（层内重复出现只记一次）/ 深渊记录总数</value>
