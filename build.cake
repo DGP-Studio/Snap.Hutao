@@ -43,6 +43,10 @@ if (AzurePipelines.IsRunningOnAzurePipelines)
 
     pfxFile = System.IO.Path.Combine(AzurePipelines.Environment.Agent.HomeDirectory.FullPath, "_work", "_temp", "DGP_Studio_CI.pfx");
 }
+else if (AppVeyor.IsRunningOnAppVeyor)
+{
+    throw new NotImplementedException();
+}
 
 Task("Build")
     .IsDependentOn("Build binary package")
