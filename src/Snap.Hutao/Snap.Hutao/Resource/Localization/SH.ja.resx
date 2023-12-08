@@ -504,7 +504,7 @@
     <value>精錬ランク{0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>ユーザーとUIDを選択する必要があります</value>
+    <value>必须登录 米游社/HoYoLAB 并选择一个用户与角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件 削除しました</value>
@@ -1406,6 +1406,9 @@
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
     <value>育成計画で新規作成及びセットしてから続けてください</value>
   </data>
+  <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
+    <value>重新添加物品以查看养成描述</value>
+  </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>正常に追加されました。</value>
   </data>
@@ -1561,6 +1564,9 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>デスクトップへのショートカット作成に失敗しました</value>
+  </data>
+  <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
+    <value>已使用磁盘空间：{0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>非探知認証複合URLの構成に成功しました</value>
@@ -2202,7 +2208,7 @@
     <value>イメージキャッシュはここに格納されます</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
-    <value>イメージキャッシュフォルダを開く</value>
+    <value>缓存 文件夹</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>コピー</value>
@@ -2229,7 +2235,7 @@
     <value>ユーザーデータ／メタデータはここに格納</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>データフォルダを開く</value>
+    <value>数据 文件夹</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>削除</value>
@@ -2521,6 +2527,9 @@
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>ログインまたはサインアップ</value>
+  </data>
+  <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
+    <value>打开文件夹</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>キャラクター出場率 = この階層における出場回数（最初の一回のみカウント） / この階層のアップロード総数</value>
