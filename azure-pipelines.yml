@@ -46,11 +46,6 @@ variables:
 
 
 steps:
-- task: GetRevision@1
-  displayName: get Pipelines revision number
-  inputs:
-    VariableName: 'rev_number'
-
 - task: UseDotNet@2
   displayName: Install dotNet
   inputs:
@@ -61,7 +56,7 @@ steps:
 - task: CmdLine@2
   displayName: dotnet cake
   inputs:
-    script: dotnet tool restore && dotnet cake --Version=$(build_date).$(rev_number) --pw=$(pw)
+    script: dotnet tool restore && dotnet cake --pw=$(pw)
 
 - task: DownloadSecureFile@1
   name: cerFile
@@ -81,8 +76,8 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
-    tag: '$(build_date).$(rev_number)'
-    title: '$(build_date).$(rev_number)'
+    tag: '$(version)'
+    title: '$(version)'
     releaseNotesSource: 'inline'
     releaseNotesInline: |
       ## 普通用户请勿下载
@@ -102,12 +97,12 @@ steps:
   displayName: Upload CI via Rclone
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   inputs:
-    arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix downloadDGPCN:/releases/Alpha/'
+    arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(version).msix downloadDGPCN:/releases/Alpha/'
     configPath: 'C:\agent\_work\_tasks\rclone.conf'
 
 - task: rclone@1
   displayName: Upload PR CI via Rclone
   condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
   inputs:
-    arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix downloadDGPCN:/releases/PR/'
+    arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(version).msix downloadDGPCN:/releases/PR/'
     configPath: 'C:\agent\_work\_tasks\rclone.conf'

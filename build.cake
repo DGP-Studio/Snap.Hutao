@@ -1,20 +1,48 @@
 #tool "nuget:?package=nuget.commandline&version=6.5.0"
+#addin nuget:?package=Cake.Http&version=3.0.2
+
 var target = Argument("target", "Build");
 var configuration = Argument("configuration", "Release");
 
-var version = HasArgument("Version") ? Argument<string>("Version") : throw new Exception("Empty Version");
+var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
+var version = HttpGet(
+    "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
+    new HttpSettings
+    {
+        Headers = new Dictionary<string, string>
+            {
+                { "Authorization", versionAuth }
+            }
+    }
+    );
+Information($"Version: {version}");
+
 var pw = HasArgument("pw") ? Argument<string>("pw") : throw new Exception("Empty pw");
 
-// Default Azure Pipelines
+// Pre-define
 
-var repoDir = AzurePipelines.Environment.Build.SourcesDirectory.FullPath;
-var outputPath = AzurePipelines.Environment.Build.ArtifactStagingDirectory.FullPath;
+var repoDir = "repoDir";
+var outputPath = "outputPath";
 
-var solution = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao.sln");
-var project = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "Snap.Hutao.csproj");
-var binPath = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "bin", "x64", "Release", "net8.0-windows10.0.22621.0", "win-x64");
+var solution = "solution";
+var project = "project";
+var binPath = "binPath";
 
-var pfxFile = System.IO.Path.Combine(AzurePipelines.Environment.Agent.HomeDirectory.FullPath, "_work", "_temp", "DGP_Studio_CI.pfx");
+var pfxFile = "pfxFile";
+
+if (AzurePipelines.IsRunningOnAzurePipelines)
+{
+    AzurePipelines.Commands.SetVariable("version", version);
+
+    repoDir = AzurePipelines.Environment.Build.SourcesDirectory.FullPath;
+    outputPath = AzurePipelines.Environment.Build.ArtifactStagingDirectory.FullPath;
+
+    solution = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao.sln");
+    project = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "Snap.Hutao.csproj");
+    binPath = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "bin", "x64", "Release", "net8.0-windows10.0.22621.0", "win-x64");
+
+    pfxFile = System.IO.Path.Combine(AzurePipelines.Environment.Agent.HomeDirectory.FullPath, "_work", "_temp", "DGP_Studio_CI.pfx");
+}
 
 Task("Build")
     .IsDependentOn("Build binary package")
