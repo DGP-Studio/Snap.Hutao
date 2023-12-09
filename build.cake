@@ -11,8 +11,28 @@ var version = "version";
 var repoDir = "repoDir";
 var outputPath = "outputPath";
 
+string solution
+{
+    get => System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao.sln");
+}
+string project
+{
+    get => System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "Snap.Hutao.csproj");
+}
+string binPath
+{
+    get => System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "bin", "x64", "Release", "net8.0-windows10.0.22621.0", "win-x64");
+}
+string manifest
+{
+    get => System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "Package.appxmanifest");
+}
+
 if (AzurePipelines.IsRunningOnAzurePipelines)
 {
+    repoDir = AzurePipelines.Environment.Build.SourcesDirectory.FullPath;
+    outputPath = AzurePipelines.Environment.Build.ArtifactStagingDirectory.FullPath;
+
     var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
     version = HttpGet(
     "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
@@ -27,23 +47,18 @@ if (AzurePipelines.IsRunningOnAzurePipelines)
     Information($"Version: {version}");
 
     AzurePipelines.Commands.SetVariable("version", version);
-
-    repoDir = AzurePipelines.Environment.Build.SourcesDirectory.FullPath;
-    outputPath = AzurePipelines.Environment.Build.ArtifactStagingDirectory.FullPath;
 }
 else if (AppVeyor.IsRunningOnAppVeyor)
 {
-    // TODO: AppVeyor version
-    version = string.Empty;
-    Information("version");
-
     repoDir = AppVeyor.Environment.Build.Folder;
     outputPath = System.IO.Path.Combine(repoDir, "src", "output");
-}
 
-var solution = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao.sln");
-var project = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "Snap.Hutao.csproj");
-var binPath = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "bin", "x64", "Release", "net8.0-windows10.0.22621.0", "win-x64");
+    version = XmlPeek(manifest, "appx:Package/appx:Identity/@Version", new XmlPeekSettings
+    {
+        Namespaces = new Dictionary<string, string> { { "appx", "http://schemas.microsoft.com/appx/manifest/foundation/windows10" } }
+    })[..^2];
+    Information($"Version: {version}");
+}
 
 Task("Build")
     .IsDependentOn("Build binary package")
@@ -69,7 +84,6 @@ Task("Generate AppxManifest")
 {
     Information("Generating AppxManifest...");
 
-    var manifest = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "Package.appxmanifest");
     var content = System.IO.File.ReadAllText(manifest);
 
     if (AzurePipelines.IsRunningOnAzurePipelines)
