@@ -19,7 +19,6 @@
                             Name="PlaceholderImage"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                            Opacity="1.0"
                             Source="{TemplateBinding PlaceholderSource}"
                             Stretch="{TemplateBinding PlaceholderStretch}"/>
                         <Image
@@ -27,7 +26,6 @@
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             NineGrid="{TemplateBinding NineGrid}"
-                            Opacity="0.0"
                             Stretch="{TemplateBinding Stretch}"/>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">

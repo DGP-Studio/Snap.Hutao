@@ -7,6 +7,7 @@ using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service;
@@ -68,9 +69,9 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
     {
         // 将公告内容联入公告列表
-        foreach (ref AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
+        foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
         {
-            foreach (ref Announcement item in CollectionsMarshal.AsSpan(listWrapper.List))
+            foreach (ref readonly Announcement item in CollectionsMarshal.AsSpan(listWrapper.List))
             {
                 contentMap.TryGetValue(item.AnnId, out string? rawContent);
                 item.Content = rawContent ?? string.Empty;
@@ -79,10 +80,11 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
         AdjustAnnouncementTime(announcementListWrappers);
 
-        foreach (ref AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
+        foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
         {
-            foreach (ref Announcement item in CollectionsMarshal.AsSpan(listWrapper.List))
+            foreach (ref readonly Announcement item in CollectionsMarshal.AsSpan(listWrapper.List))
             {
+                item.Subtitle = new StringBuilder(item.Subtitle).Replace("\r<br>", string.Empty).ToString();
                 item.Content = AnnouncementRegex.XmlTimeTagRegex.Replace(item.Content, x => x.Groups[1].Value);
             }
         }

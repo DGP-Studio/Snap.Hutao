@@ -51,7 +51,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         }
     }
 
-    [Command("LaunchCommand", AllowConcurrentExecutions = true)]
+    [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
         IInfoBarService infoBarService = ServiceProvider.GetRequiredService<IInfoBarService>();

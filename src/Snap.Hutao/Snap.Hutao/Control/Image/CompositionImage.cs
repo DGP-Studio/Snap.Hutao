@@ -80,19 +80,22 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
         ILogger<CompositionImage> logger = serviceProvider.GetRequiredService<ILogger<CompositionImage>>();
 
         // source is valid
-        if (arg.NewValue is Uri inner && !string.IsNullOrEmpty(inner.OriginalString))
+        if (arg.NewValue is Uri inner)
         {
-            // value is different from old one
-            if (inner != (arg.OldValue as Uri))
+            if (!string.IsNullOrEmpty(inner.OriginalString))
             {
-                image
-                    .ApplyImageAsync(inner, token)
-                    .SafeForget(logger, ex => OnApplyImageFailed(serviceProvider, inner, ex));
+                // value is different from old one
+                if (inner != (arg.OldValue as Uri))
+                {
+                    image
+                        .ApplyImageAsync(inner, token)
+                        .SafeForget(logger, ex => OnApplyImageFailed(serviceProvider, inner, ex));
+                }
             }
-        }
-        else
-        {
-            image.HideAsync(token).SafeForget(logger);
+            else
+            {
+                image.HideAsync(token).SafeForget(logger);
+            }
         }
     }
 
@@ -130,8 +133,9 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
             {
                 imageSurface = await LoadImageSurfaceAsync(file, token).ConfigureAwait(true);
             }
-            catch (COMException)
+            catch (COMException ex)
             {
+                _ = ex;
                 imageCache.Remove(uri);
             }
             catch (IOException)
@@ -163,7 +167,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
             surface.LoadCompleted += loadedImageSourceLoadCompletedEventHandler;
             if (surface.DecodedPhysicalSize.Size() <= 0D)
             {
-                await surfaceLoadTaskCompletionSource.Task.ConfigureAwait(true);
+                await Task.WhenAny(surfaceLoadTaskCompletionSource.Task, Task.Delay(5000, token)).ConfigureAwait(true);
             }
 
             LoadImageSurfaceCompleted(surface);

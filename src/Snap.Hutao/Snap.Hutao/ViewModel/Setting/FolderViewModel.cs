@@ -21,6 +21,7 @@ internal sealed partial class FolderViewModel : ObservableObject
 
         async ValueTask SetFolderSizeAsync()
         {
+            await taskContext.SwitchToBackgroundAsync();
             long totalSize = 0;
 
             foreach (string file in Directory.EnumerateFiles(folder, "*.*", SearchOption.AllDirectories))

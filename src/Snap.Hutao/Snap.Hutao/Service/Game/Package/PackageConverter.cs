@@ -27,6 +27,7 @@ namespace Snap.Hutao.Service.Game.Package;
 internal sealed partial class PackageConverter
 {
     private const string PackageVersion = "pkg_version";
+
     private readonly JsonSerializerOptions options;
     private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;

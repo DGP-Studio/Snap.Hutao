@@ -2133,7 +2133,7 @@
     <value>预下载</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
-    <value>该账号尚未绑定 UID</value>
+    <value>该账号尚未绑定实时便笺通知 UID</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
     <value>绑定当前用户的角色</value>
