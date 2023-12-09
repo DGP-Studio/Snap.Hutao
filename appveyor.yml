@@ -1,8 +1,7 @@
 version: 1.0.{build}
 branches:
   only:
-    - "main"
-skip_non_tags: true
+    - "release"
 build_cloud: HUTAO-SERVER
 image: Visual Studio 2022
 clone_depth: 3
