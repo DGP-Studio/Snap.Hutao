@@ -35,14 +35,14 @@ if (AzurePipelines.IsRunningOnAzurePipelines)
 
     var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
     version = HttpGet(
-    "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
-    new HttpSettings
-    {
-        Headers = new Dictionary<string, string>
-            {
-                { "Authorization", versionAuth }
-            }
-    }
+        "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
+        new HttpSettings
+        {
+            Headers = new Dictionary<string, string>
+                {
+                    { "Authorization", versionAuth }
+                }
+        }
     );
     Information($"Version: {version}");
 
@@ -54,9 +54,9 @@ else if (AppVeyor.IsRunningOnAppVeyor)
     outputPath = System.IO.Path.Combine(repoDir, "src", "output");
 
     version = XmlPeek(manifest, "appx:Package/appx:Identity/@Version", new XmlPeekSettings
-    {
-        Namespaces = new Dictionary<string, string> { { "appx", "http://schemas.microsoft.com/appx/manifest/foundation/windows10" } }
-    })[..^2];
+        {
+            Namespaces = new Dictionary<string, string> { { "appx", "http://schemas.microsoft.com/appx/manifest/foundation/windows10" } }
+        })[..^2];
     Information($"Version: {version}");
 }
 
@@ -72,11 +72,11 @@ Task("NuGet Restore")
 
     var nugetConfig = System.IO.Path.Combine(repoDir, "NuGet.Config");
     DotNetRestore(project, new DotNetRestoreSettings
-    {
-        Verbosity = DotNetVerbosity.Detailed,
-        Interactive = false,
-        ConfigFile = nugetConfig
-    });
+        {
+            Verbosity = DotNetVerbosity.Detailed,
+            Interactive = false,
+            ConfigFile = nugetConfig
+        });
 });
 
 Task("Generate AppxManifest")
@@ -90,9 +90,9 @@ Task("Generate AppxManifest")
     {
         Information("Using CI configuraion");
         content = content
-        .Replace("Snap Hutao", "Snap Hutao Alpha")
-        .Replace("胡桃", "胡桃 Alpha")
-        .Replace("DGP Studio", "DGP Studio CI");
+            .Replace("Snap Hutao", "Snap Hutao Alpha")
+            .Replace("胡桃", "胡桃 Alpha")
+            .Replace("DGP Studio", "DGP Studio CI");
         content = System.Text.RegularExpressions.Regex.Replace(content, "  Name=\"([^\"]*)\"", "  Name=\"7f0db578-026f-4e0b-a75b-d5d06bb0a74c\"");
         content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"CN=DGP Studio CI\"");
         content = System.Text.RegularExpressions.Regex.Replace(content, "  Version=\"([0-9\\.]+)\"", $"  Version=\"{version}\"");
