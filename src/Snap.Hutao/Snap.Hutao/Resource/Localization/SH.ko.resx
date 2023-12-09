@@ -2133,7 +2133,7 @@
     <value>사전 다운로드</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
-    <value>계정이 아직 UID에 연결되지 않았습니다</value>
+    <value>该账号尚未绑定实时便笺通知 UID</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
     <value>현재 사용자와 계정 연결</value>
