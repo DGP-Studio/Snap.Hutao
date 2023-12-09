@@ -1,0 +1,21 @@
+version: 1.0.{build}
+branches:
+  only:
+    - "release"
+build_cloud: HUTAO-SERVER
+image: Visual Studio 2022
+clone_depth: 3
+clone_folder: D:\appveyor\project\Snap.Hutao.Project
+install:
+- pwsh: dotnet tool restore
+build_script:
+- pwsh: dotnet cake
+artifacts:
+- path: src/output/*.msix
+  type: file
+deploy:
+- provider: Webhook
+  url: https://app.signpath.io/API/v1/7a941fa3-64d8-4c45-bd03-92a02bcd4964/Integrations/AppVeyor?ProjectSlug=Snap.Hutao&SigningPolicySlug=test-signing&ArtifactConfigurationSlug=msix
+  # url: https://app.signpath.io/API/v1/7a941fa3-64d8-4c45-bd03-92a02bcd4964/Integrations/AppVeyor?ProjectSlug=Snap.Hutao&SigningPolicySlug=release-signing&ArtifactConfigurationSlug=msix
+  authorization:
+    secure: j8srQ5/UYWhI+jlm3Vo3D3QfXoRyQ9hOn3ynJGtwusKui4+uDi4gykdUFYCITZxK+C/fOCAZNJ+YaKSm/OaiXw==
