@@ -7,29 +7,30 @@
 # 5. Connect the GitHub in project settings
 # 6. Run
 
-trigger:
-  branches:
-    include:
-    - main
-    - develop
-  paths:
-    exclude:
-    - README.md
-    - azure-pipelines.yml
-    - .github/ISSUE_TEMPLATE/*.yml
-    - .github/workflows/*.yml
-    - src/Snap.Hutao/Snap.Hutao/Resource/Localization/*.resx
-pr:
-  branches:
-   include:
-   - main
-  paths:
-   exclude:
-     - README.md
-     - azure-pipelines.yml
-     - .github/ISSUE_TEMPLATE/*.yml
-     - .github/workflows/*.yml
-     - src/Snap.Hutao/Snap.Hutao/Resource/Localization/*.resx
+trigger: none
+# trigger:
+#   branches:
+#     include:
+#     - main
+#     - develop
+#   paths:
+#     exclude:
+#     - README.md
+#     - azure-pipelines.yml
+#     - .github/ISSUE_TEMPLATE/*.yml
+#     - .github/workflows/*.yml
+#     - src/Snap.Hutao/Snap.Hutao/Resource/Localization/*.resx
+# pr:
+#   branches:
+#    include:
+#    - main
+#   paths:
+#    exclude:
+#      - README.md
+#      - azure-pipelines.yml
+#      - .github/ISSUE_TEMPLATE/*.yml
+#      - .github/workflows/*.yml
+#      - src/Snap.Hutao/Snap.Hutao/Resource/Localization/*.resx
 
 
 pool:
