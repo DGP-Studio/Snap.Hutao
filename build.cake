@@ -4,8 +4,17 @@
 var target = Argument("target", "Build");
 var configuration = Argument("configuration", "Release");
 
-var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
-var version = HttpGet(
+// Pre-define
+
+var version = "version";
+
+var repoDir = "repoDir";
+var outputPath = "outputPath";
+
+if (AzurePipelines.IsRunningOnAzurePipelines)
+{
+    var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
+    version = HttpGet(
     "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
     new HttpSettings
     {
@@ -15,36 +24,26 @@ var version = HttpGet(
             }
     }
     );
-Information($"Version: {version}");
+    Information($"Version: {version}");
 
-// Pre-define
-
-var repoDir = "repoDir";
-var outputPath = "outputPath";
-
-var solution = "solution";
-var project = "project";
-var binPath = "binPath";
-
-var pfxFile = "pfxFile";
-
-if (AzurePipelines.IsRunningOnAzurePipelines)
-{
     AzurePipelines.Commands.SetVariable("version", version);
 
     repoDir = AzurePipelines.Environment.Build.SourcesDirectory.FullPath;
     outputPath = AzurePipelines.Environment.Build.ArtifactStagingDirectory.FullPath;
-
-    solution = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao.sln");
-    project = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "Snap.Hutao.csproj");
-    binPath = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "bin", "x64", "Release", "net8.0-windows10.0.22621.0", "win-x64");
-
-    pfxFile = System.IO.Path.Combine(AzurePipelines.Environment.Agent.HomeDirectory.FullPath, "_work", "_temp", "DGP_Studio_CI.pfx");
 }
 else if (AppVeyor.IsRunningOnAppVeyor)
 {
-    throw new NotImplementedException();
+    // TODO: AppVeyor version
+    version = string.Empty;
+    Information("version");
+
+    repoDir = AppVeyor.Environment.Build.Folder;
+    outputPath = System.IO.Path.Combine(repoDir, "src", "output");
 }
+
+var solution = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao.sln");
+var project = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "Snap.Hutao.csproj");
+var binPath = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "bin", "x64", "Release", "net8.0-windows10.0.22621.0", "win-x64");
 
 Task("Build")
     .IsDependentOn("Build binary package")
@@ -73,13 +72,23 @@ Task("Generate AppxManifest")
     var manifest = System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "Package.appxmanifest");
     var content = System.IO.File.ReadAllText(manifest);
 
-    content = content
+    if (AzurePipelines.IsRunningOnAzurePipelines)
+    {
+        Information("Using CI configuraion");
+        content = content
         .Replace("Snap Hutao", "Snap Hutao Alpha")
         .Replace("胡桃", "胡桃 Alpha")
         .Replace("DGP Studio", "DGP Studio CI");
-    content = System.Text.RegularExpressions.Regex.Replace(content, "  Name=\"([^\"]*)\"", "  Name=\"7f0db578-026f-4e0b-a75b-d5d06bb0a74c\"");
-    content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"CN=DGP Studio CI\"");
-    content = System.Text.RegularExpressions.Regex.Replace(content, "  Version=\"([0-9\\.]+)\"", $"  Version=\"{version}\"");
+        content = System.Text.RegularExpressions.Regex.Replace(content, "  Name=\"([^\"]*)\"", "  Name=\"7f0db578-026f-4e0b-a75b-d5d06bb0a74c\"");
+        content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"CN=DGP Studio CI\"");
+        content = System.Text.RegularExpressions.Regex.Replace(content, "  Version=\"([0-9\\.]+)\"", $"  Version=\"{version}\"");
+    }
+    else if (AppVeyor.IsRunningOnAppVeyor)
+    {
+        Information("Using Release configuration");
+        // TODO: release subject
+        content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"CN=Test certificate for 'Snap Hutao [OSS]'\"");
+    }
 
     System.IO.File.WriteAllText(manifest, content);
 
@@ -132,11 +141,20 @@ Task("Build MSIX")
     .IsDependentOn("Copy files")
     .Does(() =>
 {
+    var arguments = "arguments";
+    if (AzurePipelines.IsRunningOnAzurePipelines)
+    {
+        arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix");
+    }
+    else if (AppVeyor.IsRunningOnAppVeyor)
+    {
+        arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao-{version}.msix");
+    }
     var p = StartProcess(
         "makeappx.exe",
         new ProcessSettings
         {
-            Arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix")
+            Arguments = arguments
         }
     );
     if (p != 0)
