@@ -28,11 +28,9 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     public async ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(CancellationToken cancellationToken = default)
     {
         // 缓存中存在记录，直接返回
-        if (memoryCache.TryGetValue(CacheKey, out object? cache))
+        if (memoryCache.TryGetRequiredValue(CacheKey, out AnnouncementWrapper? cache))
         {
-            AnnouncementWrapper? wrapper = (AnnouncementWrapper?)cache;
-            ArgumentNullException.ThrowIfNull(wrapper);
-            return wrapper;
+            return cache;
         }
 
         await taskContext.SwitchToBackgroundAsync();
@@ -40,30 +38,32 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             .GetAnnouncementsAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        if (announcementWrapperResponse.IsOk())
+        if (!announcementWrapperResponse.IsOk())
         {
-            AnnouncementWrapper wrapper = announcementWrapperResponse.Data;
-            Response<ListWrapper<AnnouncementContent>> announcementContentResponse = await announcementClient
-                .GetAnnouncementContentsAsync(cancellationToken)
-                .ConfigureAwait(false);
-
-            if (announcementContentResponse.IsOk())
-            {
-                List<AnnouncementContent> contents = announcementContentResponse.Data.List;
-
-                Dictionary<int, string> contentMap = contents
-                    .ToDictionary(id => id.AnnId, content => content.Content);
-
-                // 将活动公告置于前方
-                wrapper.List.Reverse();
-
-                PreprocessAnnouncements(contentMap, wrapper.List);
-
-                return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
-            }
+            return default!;
         }
 
-        return default!;
+        AnnouncementWrapper wrapper = announcementWrapperResponse.Data;
+        Response<ListWrapper<AnnouncementContent>> announcementContentResponse = await announcementClient
+            .GetAnnouncementContentsAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        if (!announcementContentResponse.IsOk())
+        {
+            return default!;
+        }
+
+        List<AnnouncementContent> contents = announcementContentResponse.Data.List;
+
+        Dictionary<int, string> contentMap = contents
+            .ToDictionary(id => id.AnnId, content => content.Content);
+
+        // 将活动公告置于前方
+        wrapper.List.Reverse();
+
+        PreprocessAnnouncements(contentMap, wrapper.List);
+
+        return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
     }
 
     private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
@@ -103,56 +103,60 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             .List
             .Single(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title));
 
-        if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is { Success: true } match)
+        if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } match)
         {
-            DateTimeOffset versionUpdateTime = DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
-            _ = 1;
-            foreach (ref readonly Announcement announcement in CollectionsMarshal.AsSpan(activities))
+            return;
+        }
+
+        DateTimeOffset versionUpdateTime = DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
+
+        foreach (ref readonly Announcement announcement in CollectionsMarshal.AsSpan(activities))
+        {
+            if (AnnouncementRegex.PermanentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } permanent)
             {
-                if (AnnouncementRegex.PermanentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } permanent)
+                announcement.StartTime = versionUpdateTime;
+                continue;
+            }
+
+            if (AnnouncementRegex.PersistentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } persistent)
+            {
+                announcement.StartTime = versionUpdateTime;
+                announcement.EndTime = versionUpdateTime + TimeSpan.FromDays(42);
+                continue;
+            }
+
+            if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
+            {
+                announcement.StartTime = versionUpdateTime;
+                announcement.EndTime = DateTimeOffset.Parse(transient.Groups[2].ValueSpan, CultureInfo.InvariantCulture);
+                continue;
+            }
+
+            MatchCollection matches = AnnouncementRegex.XmlTimeTagRegex.Matches(announcement.Content);
+            if (matches.Count < 2)
+            {
+                continue;
+            }
+
+            List<DateTimeOffset> dateTimes = matches.Select(match => DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture)).ToList();
+            DateTimeOffset min = DateTimeOffset.MaxValue;
+            DateTimeOffset max = DateTimeOffset.MinValue;
+
+            foreach (DateTimeOffset time in dateTimes)
+            {
+                if (time < min)
                 {
-                    announcement.StartTime = versionUpdateTime;
-                    continue;
+                    min = time;
                 }
 
-                if (AnnouncementRegex.PersistentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } persistent)
+                if (time > max)
                 {
-                    announcement.StartTime = versionUpdateTime;
-                    announcement.EndTime = versionUpdateTime + TimeSpan.FromDays(42);
-                    continue;
-                }
-
-                if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
-                {
-                    announcement.StartTime = versionUpdateTime;
-                    announcement.EndTime = DateTimeOffset.Parse(transient.Groups[2].ValueSpan, CultureInfo.InvariantCulture);
-                    continue;
-                }
-
-                MatchCollection matches = AnnouncementRegex.XmlTimeTagRegex.Matches(announcement.Content);
-                if (matches.Count >= 2)
-                {
-                    List<DateTimeOffset> dateTimes = matches.Select(match => DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture)).ToList();
-                    DateTimeOffset min = DateTimeOffset.MaxValue;
-                    DateTimeOffset max = DateTimeOffset.MinValue;
-
-                    foreach (DateTimeOffset time in dateTimes)
-                    {
-                        if (time < min)
-                        {
-                            min = time;
-                        }
-
-                        if (time > max)
-                        {
-                            max = time;
-                        }
-                    }
-
-                    announcement.StartTime = min;
-                    announcement.EndTime = max;
+                    max = time;
                 }
             }
+
+            announcement.StartTime = min;
+            announcement.EndTime = max;
         }
     }
 }

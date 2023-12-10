@@ -21,41 +21,42 @@ internal static class AchievementFinishPercent
         int totalFinished = 0;
         int totalCount = 0;
 
-        if (viewModel.Achievements is { } achievements)
+        if (viewModel.Achievements is not { } achievements)
         {
-            if (viewModel.AchievementGoals is { } achievementGoals)
+            return;
+        }
+
+        if (viewModel.AchievementGoals is not { } achievementGoals)
+        {
+            return;
+        }
+
+        if (achievements.SourceCollection is not List<AchievementView> list)
+        {
+            // Fast path
+            throw Must.NeverHappen("AchievementViewModel.Achievements.SourceCollection 应为 List<AchievementView>");
+        }
+
+        Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.ToDictionary(x => x.Id, AchievementGoalStatistics.From);
+
+        foreach (ref readonly AchievementView achievement in CollectionsMarshal.AsSpan(list))
+        {
+            ref AchievementGoalStatistics goalStat = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievement.Inner.Goal);
+
+            goalStat.TotalCount += 1;
+            totalCount += 1;
+            if (achievement.IsChecked)
             {
-                Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.ToDictionary(x => x.Id, AchievementGoalStatistics.From);
-
-                // Fast path
-                if (achievements.SourceCollection is List<AchievementView> list)
-                {
-                    foreach (ref readonly AchievementView achievement in CollectionsMarshal.AsSpan(list))
-                    {
-                        // Make the state update as fast as possible
-                        ref AchievementGoalStatistics stat = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievement.Inner.Goal);
-
-                        stat.TotalCount += 1;
-                        totalCount += 1;
-                        if (achievement.IsChecked)
-                        {
-                            stat.Finished += 1;
-                            totalFinished += 1;
-                        }
-                    }
-                }
-                else
-                {
-                    Must.NeverHappen("AchievementViewModel.Achievements.SourceCollection 应为 List<AchievementView>");
-                }
-
-                foreach (AchievementGoalStatistics statistics in counter.Values)
-                {
-                    statistics.AchievementGoal.UpdateFinishDescriptionAndPercent(statistics);
-                }
-
-                viewModel.FinishDescription = AchievementStatistics.Format(totalFinished, totalCount, out _);
+                goalStat.Finished += 1;
+                totalFinished += 1;
             }
         }
+
+        foreach (AchievementGoalStatistics statistics in counter.Values)
+        {
+            statistics.AchievementGoal.UpdateFinishDescriptionAndPercent(statistics);
+        }
+
+        viewModel.FinishDescription = AchievementStatistics.Format(totalFinished, totalCount, out _);
     }
 }

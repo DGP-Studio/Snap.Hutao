@@ -10,13 +10,6 @@ namespace Snap.Hutao.Extension;
 /// </summary>
 internal static class MemoryCacheExtension
 {
-    /// <summary>
-    /// 尝试从 IMemoryCache 中移除并返回具有指定键的值
-    /// </summary>
-    /// <param name="memoryCache">缓存</param>
-    /// <param name="key">键</param>
-    /// <param name="value">值</param>
-    /// <returns>是否移除成功</returns>
     public static bool TryRemove(this IMemoryCache memoryCache, string key, out object? value)
     {
         if (!memoryCache.TryGetValue(key, out value))
@@ -25,6 +18,18 @@ internal static class MemoryCacheExtension
         }
 
         memoryCache.Remove(key);
+        return true;
+    }
+
+    public static bool TryGetRequiredValue<T>(this IMemoryCache memoryCache, string key, [NotNullWhen(true)] out T? value)
+        where T : class
+    {
+        if (!memoryCache.TryGetValue(key, out value))
+        {
+            return false;
+        }
+
+        ArgumentNullException.ThrowIfNull(value);
         return true;
     }
 }
