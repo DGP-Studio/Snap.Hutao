@@ -15,7 +15,6 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.View.Page;
 using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Hoyolab.Hk4e.QrCode;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Account;
 using Snap.Hutao.Web.Response;
@@ -178,16 +177,16 @@ internal sealed partial class UserViewModel : ObservableObject
         }
     }
 
-    [Command("LoginQrCodeCommand")]
-    private async Task LoginQrCode()
+    [Command("LoginByQrCodeCommand")]
+    private async Task LoginByQrCode()
     {
         // ContentDialog must be created by main thread.
         await taskContext.SwitchToMainThreadAsync();
 
         QrCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<QrCodeDialog>().ConfigureAwait(false);
-        ValueResult<bool, QrCodeAccount> result = await dialog.GetAccountAsync().ConfigureAwait(false);
+        ValueResult<bool, UidGameToken> result = await dialog.GetAccountAsync().ConfigureAwait(false);
 
-        if (result.TryGetValue(out QrCodeAccount account))
+        if (result.TryGetValue(out UidGameToken account))
         {
             Response<LoginResult> gameTokenResp = await sessionAppClient.PostSTokenByGameTokenAsync(account).ConfigureAwait(false);
 

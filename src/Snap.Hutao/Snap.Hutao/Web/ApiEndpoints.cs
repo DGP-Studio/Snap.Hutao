@@ -16,15 +16,6 @@ namespace Snap.Hutao.Web;
 [SuppressMessage("", "SA1124")]
 internal static class ApiEndpoints
 {
-    #region ApiTakumiAccountSessionApp
-
-    /// <summary>
-    /// 通过 GameToken 获取 SToken (V2)
-    /// </summary>
-    public const string STokenByGameToken = $"{ApiTakumiAccountSessionApp}/getTokenByGameToken";
-
-    #endregion
-
     #region ApiTakumiAuthApi
 
     /// <summary>
@@ -305,6 +296,11 @@ internal static class ApiEndpoints
     public const string AccountGetLTokenBySToken = $"{PassportApiAuthApi}/getLTokenBySToken";
 
     /// <summary>
+    /// 通过GameToken获取V2SToken
+    /// </summary>
+    public const string AccountGetSTokenByGameToken = $"{PassportApi}/account/ma-cn-session/app/getTokenByGameToken";
+
+    /// <summary>
     /// 获取V2SToken
     /// </summary>
     public const string AccountGetSTokenByOldToken = $"{PassportApi}/account/ma-cn-session/app/getTokenBySToken";
@@ -378,7 +374,6 @@ internal static class ApiEndpoints
     #region Hosts | Queries
     private const string ApiTakumi = "https://api-takumi.mihoyo.com";
     private const string ApiTakumiAuthApi = $"{ApiTakumi}/auth/api";
-    private const string ApiTakumiAccountSessionApp = $"{ApiTakumi}/account/ma-cn-session/app";
     private const string ApiTaKumiBindingApi = $"{ApiTakumi}/binding/api";
 
     private const string ApiTakumiCardApi = $"{ApiTakumiRecord}/game_record/app/card/api";

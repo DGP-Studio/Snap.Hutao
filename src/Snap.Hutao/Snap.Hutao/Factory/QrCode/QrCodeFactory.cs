@@ -9,7 +9,7 @@ namespace Snap.Hutao.Factory.QrCode;
 [Injection(InjectAs.Singleton, typeof(IQrCodeFactory))]
 internal class QrCodeFactory : IQrCodeFactory
 {
-    public byte[] CreateByteArr(string source)
+    public byte[] CreateQrCodeByteArray(string source)
     {
         using (QRCodeGenerator generator = new())
         {

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Web.Hoyolab.Hk4e.QrCode;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -27,16 +26,16 @@ internal sealed partial class SessionAppClient
     /// <param name="account">扫码获得的账户信息</param>
     /// <param name="token">取消令牌</param>
     /// <returns>登录结果</returns>
-    public async ValueTask<Response<LoginResult>> PostSTokenByGameTokenAsync(QrCodeAccount account, CancellationToken token = default)
+    public async ValueTask<Response<LoginResult>> PostSTokenByGameTokenAsync(UidGameToken account, CancellationToken token = default)
     {
         GameTokenWrapper wrapper = new()
         {
-            Stuid = int.Parse(account.Stuid, CultureInfo.CurrentCulture),
+            Stuid = int.Parse(account.Uid, CultureInfo.CurrentCulture),
             GameToken = account.GameToken,
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.STokenByGameToken)
+            .SetRequestUri(ApiEndpoints.AccountGetSTokenByGameToken)
             .PostJson(wrapper);
 
         Response<LoginResult>? resp = await builder

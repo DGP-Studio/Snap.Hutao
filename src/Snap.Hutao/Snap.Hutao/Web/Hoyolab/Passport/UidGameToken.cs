@@ -1,13 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Web.Hoyolab.Hk4e.QrCode;
+namespace Snap.Hutao.Web.Hoyolab.Passport;
 
 [HighQuality]
-internal sealed class QrCodeAccount
+internal sealed class UidGameToken
 {
     [JsonPropertyName("uid")]
-    public string Stuid { get; set; } = default!;
+    public string Uid { get; set; } = default!;
 
     [JsonPropertyName("token")]
     public string GameToken { get; set; } = default!;

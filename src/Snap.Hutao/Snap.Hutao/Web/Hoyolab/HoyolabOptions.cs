@@ -38,6 +38,11 @@ internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
     public static string DeviceId { get; } = Guid.NewGuid().ToString();
 
     /// <summary>
+    /// 扫码登录设备Id
+    /// </summary>
+    public static string Device { get; } = Core.Random.GetLetterAndNumberString(64);
+
+    /// <summary>
     /// 盐
     /// </summary>
     public static FrozenDictionary<SaltType, string> Salts { get; } = new Dictionary<SaltType, string>()

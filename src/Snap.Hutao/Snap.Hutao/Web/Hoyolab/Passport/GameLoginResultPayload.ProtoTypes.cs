@@ -4,9 +4,9 @@
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.QrCode;
 
 /// <summary>
-/// Proto 常量
+/// Proto 类型常量
 /// </summary>
-internal sealed partial class QrCodeQueryPayload
+internal sealed partial class GameLoginResultPayload
 {
     public const string ACCOUNT = "Account";
     public const string RAW = "Raw";

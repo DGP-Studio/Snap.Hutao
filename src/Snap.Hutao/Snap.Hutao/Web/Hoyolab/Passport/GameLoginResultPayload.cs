@@ -3,8 +3,11 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.QrCode;
 
+/// <summary>
+/// 扫码登录结果Payload
+/// </summary>
 [HighQuality]
-internal sealed partial class QrCodeQueryPayload
+internal sealed partial class GameLoginResultPayload
 {
     [JsonPropertyName("proto")]
     public string Proto { get; set; } = default!;
