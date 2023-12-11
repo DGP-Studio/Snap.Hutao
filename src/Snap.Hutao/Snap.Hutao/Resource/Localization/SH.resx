@@ -1265,6 +1265,9 @@
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
     <value>正在转换客户端</value>
   </data>
+  <data name="ViewDialogQrCodeTitle" xml:space="preserve">
+    <value>使用米游社扫描二维码</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>该操作是不可逆的，所有用户登录状态会丢失</value>
   </data>
@@ -2617,6 +2620,9 @@
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>网页登录</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginQrCodeAction" xml:space="preserve">
+    <value>扫码登录</value>
   </data>
   <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
     <value>手动输入</value>

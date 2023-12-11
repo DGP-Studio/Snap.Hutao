@@ -158,6 +158,13 @@
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
+                                Command="{Binding LoginQrCodeCommand}"
+                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentQrCode}}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginQrCodeAction}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
                                 Command="{Binding AddUserCommand}"
                                 Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>

@@ -138,4 +138,9 @@ internal enum KnownReturnCode
     /// 实时便笺
     /// </summary>
     CODE10104 = 10104,
+
+    /// <summary>
+    /// 二维码已过期
+    /// </summary>
+    QrCodeExpired = -106,
 }

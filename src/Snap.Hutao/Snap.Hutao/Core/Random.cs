@@ -19,4 +19,9 @@ internal static class Random
     {
         return new(System.Random.Shared.GetItems("0123456789abcdefghijklmnopqrstuvwxyz".AsSpan(), length));
     }
+
+    public static string GetLetterAndNumberString(int length)
+    {
+        return new(System.Random.Shared.GetItems("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".AsSpan(), length));
+    }
 }

@@ -17,4 +17,5 @@
     <x:String x:Key="FontIconContentZipFolder">&#xF012;</x:String>
     <x:String x:Key="FontIconContentGridView">&#xF0E2;</x:String>
     <x:String x:Key="FontIconContentGiftboxOpen">&#xF133;</x:String>
+    <x:String x:Key="FontIconContentQrCode">&#xED14;</x:String>
 </ResourceDictionary>

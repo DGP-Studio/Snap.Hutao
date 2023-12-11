@@ -16,6 +16,15 @@ namespace Snap.Hutao.Web;
 [SuppressMessage("", "SA1124")]
 internal static class ApiEndpoints
 {
+    #region ApiTakumiAccountSessionApp
+
+    /// <summary>
+    /// 通过 GameToken 获取 SToken (V2)
+    /// </summary>
+    public const string STokenByGameToken = $"{ApiTakumiAccountSessionApp}/getTokenByGameToken";
+
+    #endregion
+
     #region ApiTakumiAuthApi
 
     /// <summary>
@@ -40,6 +49,7 @@ internal static class ApiEndpoints
     {
         return $"{ApiTakumiAuthApi}/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3";
     }
+
     #endregion
 
     #region ApiTaKumiBindingApi
@@ -357,9 +367,18 @@ internal static class ApiEndpoints
     // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?key=eYd89JmJ&language=zh-cn&launcher_id=18
     #endregion
 
+    #region Hk4eSdk
+
+    public const string QrCodeFetch = $"{Hk4eSdk}/hk4e_cn/combo/panda/qrcode/fetch";
+
+    public const string QrCodeQuery = $"{Hk4eSdk}/hk4e_cn/combo/panda/qrcode/query";
+
+    #endregion
+
     #region Hosts | Queries
     private const string ApiTakumi = "https://api-takumi.mihoyo.com";
     private const string ApiTakumiAuthApi = $"{ApiTakumi}/auth/api";
+    private const string ApiTakumiAccountSessionApp = $"{ApiTakumi}/account/ma-cn-session/app";
     private const string ApiTaKumiBindingApi = $"{ApiTakumi}/binding/api";
 
     private const string ApiTakumiCardApi = $"{ApiTakumiRecord}/game_record/app/card/api";
@@ -381,6 +400,8 @@ internal static class ApiEndpoints
 
     private const string Hk4eApi = "https://hk4e-api.mihoyo.com";
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";
+
+    private const string Hk4eSdk = "https://hk4e-sdk.mihoyo.com";
 
     private const string PassportApi = "https://passport-api.mihoyo.com";
     private const string PassportApiAuthApi = $"{PassportApi}/account/auth/api";
