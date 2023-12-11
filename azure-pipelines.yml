@@ -76,7 +76,7 @@ steps:
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)'
-    artifact: '*'
+    artifact: 'Snap.Hutao.Alpha-$(version).msix'
     publishLocation: 'pipeline'
 
 #- task: GitHubRelease@1
