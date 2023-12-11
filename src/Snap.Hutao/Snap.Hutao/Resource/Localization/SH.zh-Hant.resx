@@ -2528,6 +2528,12 @@
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>立即登入或註冊</value>
   </data>
+  <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
+    <value>控制胡桃启动时是否开启控制台，重启后生效</value>
+  </data>
+  <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
+    <value>调试控制台</value>
+  </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>打开文件夹</value>
   </data>
