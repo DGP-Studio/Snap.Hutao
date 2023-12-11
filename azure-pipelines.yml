@@ -73,11 +73,11 @@ steps:
   inputs:
     secureFile: 'Snap.Hutao.CI.cer'
 
-- task: PublishBuildArtifacts@1
+- task: PublishPipelineArtifact@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: '*'
-    publishLocation: 'Container'
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifact: '*'
+    publishLocation: 'pipeline'
 
 #- task: GitHubRelease@1
 #  inputs:
