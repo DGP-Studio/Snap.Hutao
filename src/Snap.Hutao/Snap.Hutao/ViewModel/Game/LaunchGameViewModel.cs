@@ -55,37 +55,38 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     private GameAccount? selectedGameAccount;
     private GameResource? gameResource;
 
-    /// <summary>
-    /// 已知的服务器方案
-    /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public List<LaunchScheme> KnownSchemes { get => KnownLaunchSchemes.Get(); }
+    public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
-    /// <summary>
-    /// 当前选择的服务器方案
-    /// </summary>
     public LaunchScheme? SelectedScheme
     {
-        get => selectedScheme; set
+        get => selectedScheme;
+        set
         {
-            if (SetProperty(ref selectedScheme, value))
+            SetProperty(ref selectedScheme, value, UpdateGameResourceAsync);
+
+            async ValueTask UpdateGameResourceAsync(LaunchScheme? scheme)
             {
-                if (value is not null)
+                if (scheme is null)
                 {
-                    UpdateGameResourceAsync(value).SafeForget();
+                    return;
+                }
+
+                await taskContext.SwitchToBackgroundAsync();
+                Web.Response.Response<GameResource> response = await resourceClient
+                    .GetResourceAsync(scheme)
+                    .ConfigureAwait(false);
+
+                if (response.IsOk())
+                {
+                    await taskContext.SwitchToMainThreadAsync();
+                    GameResource = response.Data;
                 }
             }
         }
     }
 
-    /// <summary>
-    /// 游戏账号集合
-    /// </summary>
     public ObservableCollection<GameAccount>? GameAccounts { get => gameAccounts; set => SetProperty(ref gameAccounts, value); }
 
-    /// <summary>
-    /// 选中的账号
-    /// </summary>
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
     public LaunchOptions LaunchOptions { get => launchOptions; }
@@ -96,9 +97,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 
     public AppOptions AppOptions { get => appOptions; }
 
-    /// <summary>
-    /// 游戏资源
-    /// </summary>
     public GameResource? GameResource { get => gameResource; set => SetProperty(ref gameResource, value); }
 
     protected override async ValueTask<bool> InitializeUIAsync()
@@ -163,20 +161,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         }
 
         return true;
-    }
-
-    private async ValueTask UpdateGameResourceAsync(LaunchScheme scheme)
-    {
-        await taskContext.SwitchToBackgroundAsync();
-        Web.Response.Response<GameResource> response = await resourceClient
-            .GetResourceAsync(scheme)
-            .ConfigureAwait(false);
-
-        if (response.IsOk())
-        {
-            await taskContext.SwitchToMainThreadAsync();
-            GameResource = response.Data;
-        }
     }
 
     [Command("LaunchCommand")]

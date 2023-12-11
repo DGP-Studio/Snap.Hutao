@@ -403,6 +403,13 @@
                     Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewPageSettingDangerousHeader}"/>
                 <cwc:SettingsCard
+                    Description="{shcm:ResourceString Name=ViewSettingAllocConsoleDescription}"
+                    Header="{shcm:ResourceString Name=ViewSettingAllocConsoleHeader}"
+                    HeaderIcon="{cw:FontIcon Glyph=&#xE756;}">
+                    <ToggleSwitch Width="120" IsOn="{Binding IsAllocConsoleDebugModeEnabled, Mode=TwoWay}"/>
+                </cwc:SettingsCard>
+
+                <cwc:SettingsCard
                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}"
                     IsEnabled="{Binding HutaoOptions.IsElevated}">

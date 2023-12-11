@@ -10,9 +10,11 @@ DwmSetWindowAttribute
 GetDeviceCaps
 
 // KERNEL32
+AllocConsole
 CloseHandle
 CreateEventW
 CreateRemoteThread
+FreeConsole
 GetModuleHandleW
 GetProcAddress
 K32EnumProcessModules

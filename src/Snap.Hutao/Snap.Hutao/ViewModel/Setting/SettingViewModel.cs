@@ -107,6 +107,13 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
 
+    [SuppressMessage("", "CA1822")]
+    public bool IsAllocConsoleDebugModeEnabled
+    {
+        get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
+        set => LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, value);
+    }
+
     protected override async ValueTask<bool> InitializeUIAsync()
     {
         CacheFolderView = new(taskContext, runtimeOptions.LocalCache);
