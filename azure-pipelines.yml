@@ -73,28 +73,34 @@ steps:
   inputs:
     secureFile: 'Snap.Hutao.CI.cer'
 
-- task: GitHubRelease@1
+- task: PublishBuildArtifacts@1
   inputs:
-    gitHubConnection: 'github.com_Masterain'
-    repositoryName: 'DGP-Automation/Hutao-Auto-Release'
-    action: 'create'
-    target: '$(Build.SourceVersion)'
-    tagSource: 'userSpecifiedTag'
-    tag: '$(version)'
-    title: '$(version)'
-    releaseNotesSource: 'inline'
-    releaseNotesInline: |
-      ## 普通用户请勿下载
-      该版本是由 CI 程序自动打包生成的 `Alpha` 测试版本，**仅供开发者测试使用**
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: '*'
+    publishLocation: 'Container'
 
-      普通用户请[点击这里](https://github.com/DGP-Studio/Snap.Hutao/releases/latest/)下载最新的稳定版本
-
-    assets: |
-      $(Build.ArtifactStagingDirectory)/*
-      $(cerFile.secureFilePath)
-    isPreRelease: true
-    changeLogCompareToRelease: 'lastFullRelease'
-    changeLogType: 'commitBased'
+#- task: GitHubRelease@1
+#  inputs:
+#    gitHubConnection: 'github.com_Masterain'
+#    repositoryName: 'DGP-Automation/Hutao-Auto-Release'
+#    action: 'create'
+#    target: '$(Build.SourceVersion)'
+#    tagSource: 'userSpecifiedTag'
+#    tag: '$(version)'
+#    title: '$(version)'
+#    releaseNotesSource: 'inline'
+#    releaseNotesInline: |
+#      ## 普通用户请勿下载
+#      该版本是由 CI 程序自动打包生成的 `Alpha` 测试版本，**仅供开发者测试使用**
+#
+#      普通用户请[点击这里](https://github.com/DGP-Studio/Snap.Hutao/releases/latest/)下载最新的稳定版本
+#
+#    assets: |
+#      $(Build.ArtifactStagingDirectory)/*
+#      $(cerFile.secureFilePath)
+#    isPreRelease: true
+#    changeLogCompareToRelease: 'lastFullRelease'
+#    changeLogType: 'commitBased'
 
 
 - task: rclone@1
