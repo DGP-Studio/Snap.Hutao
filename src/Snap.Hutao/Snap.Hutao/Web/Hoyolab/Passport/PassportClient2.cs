@@ -73,7 +73,7 @@ internal sealed partial class PassportClient2
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>二维码原始链接</returns>
-    public async ValueTask<Response<GameLoginRequestResult>> PostQrCodeFetchAsync(CancellationToken token = default)
+    public async ValueTask<Response<UrlWrapper>> QRCodeFetchAsync(CancellationToken token = default)
     {
         GameLoginRequestOptions options = GameLoginRequestOptions.Create(4, HoyolabOptions.Device);
 
@@ -81,8 +81,8 @@ internal sealed partial class PassportClient2
             .SetRequestUri(ApiEndpoints.QrCodeFetch)
             .PostJson(options);
 
-        Response<GameLoginRequestResult>? resp = await builder
-            .TryCatchSendAsync<Response<GameLoginRequestResult>>(httpClient, logger, token)
+        Response<UrlWrapper>? resp = await builder
+            .TryCatchSendAsync<Response<UrlWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -94,7 +94,7 @@ internal sealed partial class PassportClient2
     /// <param name="ticket">扫码链接中的ticket</param>
     /// <param name="token">取消令牌</param>
     /// <returns>扫码结果</returns>
-    public async ValueTask<Response<GameLoginResult>> PostQrCodeQueryAsync(string ticket, CancellationToken token = default)
+    public async ValueTask<Response<GameLoginResult>> QRCodeQueryAsync(string ticket, CancellationToken token = default)
     {
         GameLoginResultOptions options = GameLoginResultOptions.Create(4, HoyolabOptions.Device, ticket);
 

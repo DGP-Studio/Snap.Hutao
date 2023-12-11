@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Factory.QrCode;
 
-internal interface IQrCodeFactory
+internal interface IQRCodeFactory
 {
-    byte[] CreateQrCodeByteArray(string source);
+    byte[] Create(string source);
 }

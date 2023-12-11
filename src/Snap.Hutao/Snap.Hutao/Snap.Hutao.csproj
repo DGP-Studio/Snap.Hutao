@@ -173,8 +173,8 @@
     <None Remove="View\Dialog\HutaoPassportUnregisterDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
-    <None Remove="View\Dialog\QrCodeDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
+    <None Remove="View\Dialog\UserQRCodeDialog.xaml" />
     <None Remove="View\Guide\GuideView.xaml" />
     <None Remove="View\InfoBarView.xaml" />
     <None Remove="View\MainView.xaml" />
@@ -332,7 +332,7 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Dialog\QrCodeDialog.xaml">
+    <Page Update="View\Dialog\UserQRCodeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

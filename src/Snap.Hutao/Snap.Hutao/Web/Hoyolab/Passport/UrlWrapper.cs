@@ -3,11 +3,7 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-/// <summary>
-/// 扫码登录请求结果
-/// </summary>
-[HighQuality]
-internal sealed class GameLoginRequestResult
+internal sealed class UrlWrapper
 {
     [JsonPropertyName("url")]
     public string Url { get; set; } = default!;

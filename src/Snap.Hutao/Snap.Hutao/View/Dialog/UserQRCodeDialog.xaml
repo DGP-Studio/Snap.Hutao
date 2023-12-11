@@ -1,11 +1,12 @@
 <ContentDialog
-    x:Class="Snap.Hutao.View.Dialog.QrCodeDialog"
+    x:Class="Snap.Hutao.View.Dialog.UserQRCodeDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    Title="{shcm:ResourceString Name=ViewDialogQrCodeTitle}"
+    Title="{shcm:ResourceString Name=ViewDialogQRCodeTitle}"
+    CloseButtonCommand="{x:Bind CancelCommand}"
     CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Close"
     Style="{StaticResource DefaultContentDialogStyle}"
@@ -13,8 +14,8 @@
 
     <StackPanel>
         <Image
-            x:Name="ImageView"
-            Width="200"
-            Height="200" />
+            Width="320"
+            Height="320"
+            Source="{x:Bind QRCodeSource}"/>
     </StackPanel>
 </ContentDialog>

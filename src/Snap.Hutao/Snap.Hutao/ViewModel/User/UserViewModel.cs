@@ -183,8 +183,8 @@ internal sealed partial class UserViewModel : ObservableObject
         // ContentDialog must be created by main thread.
         await taskContext.SwitchToMainThreadAsync();
 
-        QrCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<QrCodeDialog>().ConfigureAwait(false);
-        ValueResult<bool, UidGameToken> result = await dialog.GetAccountAsync().ConfigureAwait(false);
+        UserQRCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserQRCodeDialog>().ConfigureAwait(false);
+        ValueResult<bool, UidGameToken> result = await dialog.GetUidGameTokenAsync().ConfigureAwait(false);
 
         if (result.TryGetValue(out UidGameToken account))
         {

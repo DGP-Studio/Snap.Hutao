@@ -283,6 +283,14 @@ internal static class ApiEndpoints
     public const string AnnContent = $"{Hk4eApiAnnouncementApi}/getAnnContent?{AnnouncementQuery}";
     #endregion
 
+    #region Hk4eSdk
+
+    public const string QrCodeFetch = $"{Hk4eSdk}/hk4e_cn/combo/panda/qrcode/fetch";
+
+    public const string QrCodeQuery = $"{Hk4eSdk}/hk4e_cn/combo/panda/qrcode/query";
+
+    #endregion
+
     #region PassportApi | PassportApiV4
 
     /// <summary>
@@ -361,14 +369,6 @@ internal static class ApiEndpoints
 
     // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?filter_adv=true&key=eYd89JmJ&language=zh-cn&launcher_id=18
     // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?key=eYd89JmJ&language=zh-cn&launcher_id=18
-    #endregion
-
-    #region Hk4eSdk
-
-    public const string QrCodeFetch = $"{Hk4eSdk}/hk4e_cn/combo/panda/qrcode/fetch";
-
-    public const string QrCodeQuery = $"{Hk4eSdk}/hk4e_cn/combo/panda/qrcode/query";
-
     #endregion
 
     #region Hosts | Queries

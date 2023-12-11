@@ -6,10 +6,10 @@ using QRCoder;
 namespace Snap.Hutao.Factory.QrCode;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IQrCodeFactory))]
-internal class QrCodeFactory : IQrCodeFactory
+[Injection(InjectAs.Singleton, typeof(IQRCodeFactory))]
+internal class QRCodeFactory : IQRCodeFactory
 {
-    public byte[] CreateQrCodeByteArray(string source)
+    public byte[] Create(string source)
     {
         using (QRCodeGenerator generator = new())
         {
