@@ -159,7 +159,7 @@
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding LoginByQRCodeCommand}"
-                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentQrCode}}"
+                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentQRCode}}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginQRCodeAction}"/>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
