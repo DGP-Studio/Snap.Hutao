@@ -8,6 +8,7 @@
 # 6. Run
 
 trigger: none
+pr: none
 # trigger:
 #   branches:
 #     include:
