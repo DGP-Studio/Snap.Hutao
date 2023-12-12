@@ -1265,6 +1265,9 @@
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
     <value>ゲームランチャー切り替え中</value>
   </data>
+  <data name="ViewDialogQRCodeTitle" xml:space="preserve">
+    <value>使用米游社扫描二维码</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>この操作は取り消せません。すべてのユーザーのログイン状態が解除されます。</value>
   </data>
@@ -2623,6 +2626,9 @@
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>ウェブ上でログイン</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
+    <value>扫码登录</value>
   </data>
   <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
     <value>手入力</value>
