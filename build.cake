@@ -48,6 +48,26 @@ if (AzurePipelines.IsRunningOnAzurePipelines)
 
     AzurePipelines.Commands.SetVariable("version", version);
 }
+else if (GitHubActions.IsRunningOnGitHubActions)
+{
+    repoDir = GitHubActions.Environment.Runner.Workspace.FullPath;
+    outputPath = System.IO.Path.Combine(repoDir, "src", "output");
+
+    var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
+    version = HttpGet(
+        "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
+        new HttpSettings
+        {
+            Headers = new Dictionary<string, string>
+                {
+                    { "Authorization", versionAuth }
+                }
+        }
+    );
+    Information($"Version: {version}");
+
+    GitHubActions.Commands.SetOutputParameter("version", version);
+}
 else if (AppVeyor.IsRunningOnAppVeyor)
 {
     repoDir = AppVeyor.Environment.Build.Folder;
@@ -86,7 +106,7 @@ Task("Generate AppxManifest")
 
     var content = System.IO.File.ReadAllText(manifest);
 
-    if (AzurePipelines.IsRunningOnAzurePipelines)
+    if (AzurePipelines.IsRunningOnAzurePipelines || GitHubActions.IsRunningOnGitHubActions)
     {
         Information("Using CI configuraion");
         content = content

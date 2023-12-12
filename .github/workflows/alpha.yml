@@ -1,0 +1,47 @@
+name: Snap Hutao Alpha
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths-ignore:
+      - '.gitattributes'
+      - '.github/**'
+      - '.gitignore'
+      - '.gitmodules'
+      - '**.md'
+      - 'LICENSE'
+
+jobs:
+  publish-alpha:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: 8.0
+
+      - name: Cake
+        shell: pwsh
+        run: dotnet tool restore && dotnet cake
+        env:
+          VERSION_API_TOKEN: ${{ secrets.VERSION_API_TOKEN }}
+
+      - name: Sign Msix
+        id: signing
+        uses: skymatic/code-sign-action@v1
+        with:
+          certificate: ${{ secrets.CERTIFICATE }}
+          password: ${{ secrets.PW }}
+          certificatename: DGP Studio CI
+          folder: src/output
+
+      - name: Upload signed msix
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: Snap.Hutao.${{ steps.signing.outputs.version }}
+          path: ${{ github.workspace }}/app/build/outputs/apk/foss/release
