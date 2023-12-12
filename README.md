@@ -49,7 +49,8 @@ Snap Hutao is an open-source Genshin Impact toolkit under MIT license, designed 
 
 Snap Hutao is currently using sponsored software from the following service providers.
 
-![](https://www.netlify.com/v3/img/components/netlify-light.svg) ![](https://badges.crowdin.net/badge/light/crowdin-on-dark.png)![](https://gitlab.cn/images/icons/logos/logo-121-75.svg)![image](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/e11836f7-8fee-4469-86bc-09c68042dd96)
+|![netlify](https://www.netlify.com/v3/img/components/netlify-light.svg)|![crowdin](https://badges.crowdin.net/badge/light/crowdin-on-dark.png)|![极狐](https://gitlab.cn/images/icons/logos/logo-121-75.svg)|![SignPath](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/e11836f7-8fee-4469-86bc-09c68042dd96)|
+|-|-|-|-|
 
 - Netlify provides document and home page hosting service for Snap Hutao
 
