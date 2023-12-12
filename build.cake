@@ -100,7 +100,7 @@ Task("Generate AppxManifest")
     else if (AppVeyor.IsRunningOnAppVeyor)
     {
         Information("Using Release configuration");
-        content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"CN=SignPath Foundation, O=SignPath Foundation, C=US, S=DE, L=Lewes\"");
+        content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"CN=SignPath Foundation, O=SignPath Foundation, L=Lewes, S=Delaware, C=US\"");
     }
 
     System.IO.File.WriteAllText(manifest, content);
