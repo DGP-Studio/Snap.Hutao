@@ -50,7 +50,7 @@ if (AzurePipelines.IsRunningOnAzurePipelines)
 }
 else if (GitHubActions.IsRunningOnGitHubActions)
 {
-    repoDir = GitHubActions.Environment.Runner.Workspace.FullPath;
+    repoDir = GitHubActions.Environment.Workflow.Workspace.FullPath;
     outputPath = System.IO.Path.Combine(repoDir, "src", "output");
 
     var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
@@ -74,9 +74,9 @@ else if (AppVeyor.IsRunningOnAppVeyor)
     outputPath = System.IO.Path.Combine(repoDir, "src", "output");
 
     version = XmlPeek(manifest, "appx:Package/appx:Identity/@Version", new XmlPeekSettings
-        {
-            Namespaces = new Dictionary<string, string> { { "appx", "http://schemas.microsoft.com/appx/manifest/foundation/windows10" } }
-        })[..^2];
+    {
+        Namespaces = new Dictionary<string, string> { { "appx", "http://schemas.microsoft.com/appx/manifest/foundation/windows10" } }
+    })[..^2];
     Information($"Version: {version}");
 }
 
@@ -92,11 +92,11 @@ Task("NuGet Restore")
 
     var nugetConfig = System.IO.Path.Combine(repoDir, "NuGet.Config");
     DotNetRestore(project, new DotNetRestoreSettings
-        {
-            Verbosity = DotNetVerbosity.Detailed,
-            Interactive = false,
-            ConfigFile = nugetConfig
-        });
+    {
+        Verbosity = DotNetVerbosity.Detailed,
+        Interactive = false,
+        ConfigFile = nugetConfig
+    });
 });
 
 Task("Generate AppxManifest")
@@ -175,7 +175,7 @@ Task("Build MSIX")
     .Does(() =>
 {
     var arguments = "arguments";
-    if (AzurePipelines.IsRunningOnAzurePipelines)
+    if (AzurePipelines.IsRunningOnAzurePipelines || GitHubActions.IsRunningOnGitHubActions)
     {
         arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix");
     }

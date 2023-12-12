@@ -1,5 +1,6 @@
 name: Snap Hutao Alpha
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -14,7 +15,7 @@ on:
 
 jobs:
   publish-alpha:
-    runs-on: windows-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -25,23 +26,21 @@ jobs:
           dotnet-version: 8.0
 
       - name: Cake
+        id: cake
         shell: pwsh
         run: dotnet tool restore && dotnet cake
         env:
           VERSION_API_TOKEN: ${{ secrets.VERSION_API_TOKEN }}
 
       - name: Sign Msix
-        id: signing
-        uses: skymatic/code-sign-action@v1
-        with:
-          certificate: ${{ secrets.CERTIFICATE }}
-          password: ${{ secrets.PW }}
-          certificatename: DGP Studio CI
-          folder: src/output
+        shell: pwsh
+        run: |
+          [System.Convert]::FromBase64String("${{ secrets.CERTIFICATE }}") | Set-Content -AsByteStream temp.pfx
+          signtool.exe sign /debug /v /a /fd SHA256 /f temp.pfx /p ${{ secrets.PW }} ${{ github.workspace }}\src\output\Snap.Hutao.Alpha-${{ steps.cake.outputs.version }}.msix
 
       - name: Upload signed msix
         if: success()
         uses: actions/upload-artifact@v3
         with:
-          name: Snap.Hutao.${{ steps.signing.outputs.version }}
-          path: ${{ github.workspace }}/app/build/outputs/apk/foss/release
+          name: Snap.Hutao.Alpha-${{ steps.cake.outputs.version }}
+          path: ${{ github.workspace }}/src/output/Snap.Hutao.Alpha-${{ steps.cake.outputs.version }}.msix
