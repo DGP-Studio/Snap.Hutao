@@ -50,13 +50,6 @@ internal interface IUserService
     /// <returns>处理的结果</returns>
     ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea);
 
-    /// <summary>
-    /// 异步刷新 Cookie 的 CookieToken
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <returns>是否刷新成功</returns>
-    ValueTask<bool> RefreshCookieTokenAsync(BindingUser user);
-
     ValueTask<bool> RefreshCookieTokenAsync(Model.Entity.User user);
 
     /// <summary>

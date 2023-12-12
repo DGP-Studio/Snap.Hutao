@@ -5,6 +5,7 @@ using CommunityToolkit.Common;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.Response;
 
 namespace Snap.Hutao.View.Dialog;
 
@@ -13,7 +14,7 @@ namespace Snap.Hutao.View.Dialog;
 [DependencyProperty("VerifyCode", typeof(string))]
 internal sealed partial class HutaoPassportRegisterDialog : ContentDialog
 {
-    private readonly HomaPassportClient homaPassportClient;
+    private readonly HutaoPassportClient homaPassportClient;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
@@ -22,7 +23,7 @@ internal sealed partial class HutaoPassportRegisterDialog : ContentDialog
         InitializeComponent();
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        homaPassportClient = serviceProvider.GetRequiredService<HomaPassportClient>();
+        homaPassportClient = serviceProvider.GetRequiredService<HutaoPassportClient>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
     }
 

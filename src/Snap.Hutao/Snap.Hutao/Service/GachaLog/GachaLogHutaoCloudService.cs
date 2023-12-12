@@ -10,8 +10,8 @@ using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.GachaLog;
+using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.GachaLog;

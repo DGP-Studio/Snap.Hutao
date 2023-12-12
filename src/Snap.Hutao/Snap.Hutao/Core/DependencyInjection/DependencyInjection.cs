@@ -24,7 +24,7 @@ internal static class DependencyInjection
         ServiceProvider serviceProvider = new ServiceCollection()
 
             // Microsoft extension
-            .AddLogging(builder => builder.AddUnconditionalDebug())
+            .AddLogging(builder => builder.AddConsoleWindow())
             .AddMemoryCache()
 
             // Hutao extensions
@@ -39,6 +39,7 @@ internal static class DependencyInjection
 
         Ioc.Default.ConfigureServices(serviceProvider);
 
+        serviceProvider.InitializeConsoleWindow();
         serviceProvider.InitializeCulture();
 
         return serviceProvider;
@@ -52,17 +53,18 @@ internal static class DependencyInjection
 
         CultureInfo cultureInfo = appOptions.CurrentCulture;
 
+        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
-        
-        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-
-        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
         ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
 
         SH.Culture = cultureInfo;
+    }
+
+    private static void InitializeConsoleWindow(this IServiceProvider serviceProvider)
+    {
+        _ = serviceProvider.GetRequiredService<ConsoleWindowLifeTime>();
     }
 }

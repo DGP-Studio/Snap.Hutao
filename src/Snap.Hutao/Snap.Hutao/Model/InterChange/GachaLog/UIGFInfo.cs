@@ -38,7 +38,7 @@ internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, Metadata
     [JsonIgnore]
     public DateTimeOffset ExportDateTime
     {
-        get => DateTimeOffsetExtension.FromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
+        get => DateTimeOffsetExtension.UnsafeRelaxedFromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
     }
 
     /// <summary>

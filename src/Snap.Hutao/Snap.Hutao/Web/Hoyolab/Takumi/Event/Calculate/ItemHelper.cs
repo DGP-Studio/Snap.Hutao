@@ -1,25 +1,18 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.InteropServices;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
-/// <summary>
-/// 物品帮助类
-/// </summary>
 [HighQuality]
 internal static class ItemHelper
 {
-    /// <summary>
-    /// 合并两个物品列表
-    /// </summary>
-    /// <param name="left">左列表</param>
-    /// <param name="right">右列表</param>
-    /// <returns>合并且排序好的列表</returns>
     public static List<Item> Merge(List<Item>? left, List<Item>? right)
     {
         if (left.IsNullOrEmpty() && right.IsNullOrEmpty())
         {
-            return new(0);
+            return [];
         }
 
         if (left.IsNullOrEmpty() && !right.IsNullOrEmpty())
@@ -38,9 +31,10 @@ internal static class ItemHelper
         List<Item> result = new(left.Count + right.Count);
         result.AddRange(left);
 
-        foreach (Item item in right)
+        foreach (ref readonly Item item in CollectionsMarshal.AsSpan(right))
         {
-            if (result.SingleOrDefault(i => i.Id == item.Id) is { } existed)
+            uint id = item.Id;
+            if (result.SingleOrDefault(i => i.Id == id) is { } existed)
             {
                 existed.Num += item.Num;
             }

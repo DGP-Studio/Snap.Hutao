@@ -8,6 +8,7 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -22,10 +23,10 @@ namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed partial class HomaSpiralAbyssClient
+internal sealed partial class HutaoSpiralAbyssClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HomaSpiralAbyssClient> logger;
+    private readonly ILogger<HutaoSpiralAbyssClient> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
 
@@ -233,7 +234,7 @@ internal sealed partial class HomaSpiralAbyssClient
                 if (spiralAbyssResponse.IsOk())
                 {
                     HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
-                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data, options.ActualUserName);
+                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data, options.GetActualUserName());
                 }
             }
         }

@@ -26,8 +26,8 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IDailyNoteService dailyNoteService;
+    private readonly DailyNoteOptions dailyNoteOptions;
     private readonly IInfoBarService infoBarService;
-    private readonly DailyNoteOptions options;
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
@@ -35,15 +35,11 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private ObservableCollection<UserAndUid>? userAndUids;
     private ObservableCollection<DailyNoteEntry>? dailyNoteEntries;
 
-    /// <summary>
-    /// 选项
-    /// </summary>
-    public DailyNoteOptions Options { get => options; }
+    public DailyNoteOptions DailyNoteOptions { get => dailyNoteOptions; }
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
-    [SuppressMessage("", "CA1822")]
-    public IWebViewerSource VerifyUrlSource { get => new DailyNoteWebViewerSource(); }
+    public IWebViewerSource VerifyUrlSource { get; } = new DailyNoteWebViewerSource();
 
     /// <summary>
     /// 用户与角色集合
@@ -128,13 +124,13 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private async Task ConfigDailyNoteWebhookUrlAsync()
     {
         DailyNoteWebhookDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteWebhookDialog>().ConfigureAwait(true);
-        dialog.Text = options.WebhookUrl;
+        dialog.Text = dailyNoteOptions.WebhookUrl;
         (bool isOk, string url) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
         if (isOk)
         {
             await taskContext.SwitchToMainThreadAsync();
-            options.WebhookUrl = url;
+            dailyNoteOptions.WebhookUrl = url;
             infoBarService.Information(SH.ViewModelDailyNoteConfigWebhookUrlComplete);
         }
     }

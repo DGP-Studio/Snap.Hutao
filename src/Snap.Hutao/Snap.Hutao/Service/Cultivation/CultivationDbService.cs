@@ -51,6 +51,20 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         }
     }
 
+    public async ValueTask<List<CultivateEntry>> GetCultivateEntryIncludeLevelInformationListByProjectIdAsync(Guid projectId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.CultivateEntries
+                .AsNoTracking()
+                .Where(e => e.ProjectId == projectId)
+                .Include(e => e.LevelInformation)
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+    }
+
     public async ValueTask<List<CultivateItem>> GetCultivateItemListByEntryIdAsync(Guid entryId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -159,6 +173,24 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             return appDbContext.CultivateProjects.AsNoTracking().ToObservableCollection();
+        }
+    }
+
+    public async ValueTask RemoveLevelInformationByEntryIdAsync(Guid entryId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.LevelInformations.ExecuteDeleteWhereAsync(l => l.EntryId == entryId).ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask AddLevelInformationAsync(CultivateEntryLevelInformation levelInformation)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.LevelInformations.AddAndSaveAsync(levelInformation).ConfigureAwait(false);
         }
     }
 }

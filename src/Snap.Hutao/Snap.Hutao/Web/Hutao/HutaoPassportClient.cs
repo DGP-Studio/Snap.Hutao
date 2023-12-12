@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Net.Http;
@@ -17,7 +18,7 @@ namespace Snap.Hutao.Web.Hutao;
 [HighQuality]
 [HttpClient(HttpClientConfiguration.Default)]
 [ConstructorGenerated(ResolveHttpClient = true)]
-internal sealed partial class HomaPassportClient
+internal sealed partial class HutaoPassportClient
 {
     /// <summary>
     /// 通行证请求公钥
@@ -35,7 +36,7 @@ internal sealed partial class HomaPassportClient
         """;
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<HomaPassportClient> logger;
+    private readonly ILogger<HutaoPassportClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
 

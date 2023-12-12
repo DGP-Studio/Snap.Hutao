@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using System.Numerics;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Extension;
 
@@ -18,9 +17,9 @@ internal static class SpanExtension
     /// <param name="span">Span</param>
     /// <returns>最大值的下标</returns>
     public static int IndexOfMax<T>(this in ReadOnlySpan<T> span)
-        where T : INumber<T>
+        where T : INumber<T>, IMinMaxValue<T>
     {
-        T max = T.Zero;
+        T max = T.MinValue;
         int maxIndex = 0;
         for (int i = 0; i < span.Length; i++)
         {
@@ -74,10 +73,5 @@ internal static class SpanExtension
         }
 
         return unchecked((byte)(sum / count));
-    }
-
-    public static Span<T> AsSpan<T>(this List<T> list)
-    {
-        return CollectionsMarshal.AsSpan(list);
     }
 }

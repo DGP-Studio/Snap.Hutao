@@ -233,7 +233,7 @@ internal class MiHoYoJSBridge
             // Skip x-rpc-lifecycle_id
             { "x-rpc-app_id", "bll8iq97cem8" },
             { "x-rpc-client_type", "5" },
-            { "x-rpc-device_id", HoyolabOptions.DeviceId },
+            { "x-rpc-device_id", HoyolabOptions.DeviceId36 },
             { "x-rpc-app_version", userAndUid.IsOversea ? SaltConstants.OSVersion : SaltConstants.CNVersion },
             { "x-rpc-sdk_version", "2.16.0" },
         };

@@ -3,7 +3,7 @@
 
 using System.Globalization;
 
-namespace Snap.Hutao.Web.Hutao;
+namespace Snap.Hutao.Web.Hutao.Response;
 
 internal static class LocalizableResponseExtension
 {
@@ -19,7 +19,7 @@ internal static class LocalizableResponseExtension
     }
 
     public static string GetLocalizationMessageOrMessage<TResponse>(this TResponse localizableResponse)
-        where TResponse : Response.Response, ILocalizableResponse
+        where TResponse : Web.Response.Response, ILocalizableResponse
     {
         return localizableResponse.GetLocalizationMessageOrDefault() ?? localizableResponse.Message;
     }

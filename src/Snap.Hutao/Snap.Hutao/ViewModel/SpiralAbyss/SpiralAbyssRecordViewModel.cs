@@ -8,7 +8,7 @@ using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 using System.Collections.ObjectModel;
@@ -24,7 +24,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
-    private readonly HomaSpiralAbyssClient spiralAbyssClient;
+    private readonly HutaoSpiralAbyssClient spiralAbyssClient;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;

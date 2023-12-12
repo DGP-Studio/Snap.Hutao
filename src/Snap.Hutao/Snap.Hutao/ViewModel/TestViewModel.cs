@@ -16,10 +16,10 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
-    private readonly MainWindow mainWindow;
+    private readonly HutaoAsAServiceClient homaAsAServiceClient;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
-    private readonly HutaoAsAServiceClient homaAsAServiceClient;
+    private readonly MainWindow mainWindow;
 
     private UploadAnnouncement announcement = new();
 
@@ -39,15 +39,10 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         set => LocalSetting.Set(SettingKeys.OverrideElevationRequirement, value);
     }
 
-    protected override ValueTask<bool> InitializeUIAsync()
-    {
-        return ValueTask.FromResult(true);
-    }
-
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {
-        LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.Language);
+        UnsafeLocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, GuideState.Language);
     }
 
     [Command("ExceptionCommand")]
@@ -59,11 +54,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ResetMainWindowSizeCommand")]
     private void ResetMainWindowSize()
     {
-        mainWindow.AppWindow.Resize(new(1280, 720));
+        double scale = mainWindow.WindowOptions.GetRasterizationScale();
+        mainWindow.AppWindow.Resize(new Windows.Graphics.SizeInt32(1280, 720).Scale(scale));
     }
 
     [Command("UploadAnnouncementCommand")]
-    private async void UploadAnnouncementAsync()
+    private async Task UploadAnnouncementAsync()
     {
         Web.Response.Response response = await homaAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
         if (response.IsOk())
@@ -75,7 +71,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     }
 
     [Command("CompensationGachaLogServiceTimeCommand")]
-    private async void CompensationGachaLogServiceTimeAsync()
+    private async Task CompensationGachaLogServiceTimeAsync()
     {
         Web.Response.Response response = await homaAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
         if (response.IsOk())

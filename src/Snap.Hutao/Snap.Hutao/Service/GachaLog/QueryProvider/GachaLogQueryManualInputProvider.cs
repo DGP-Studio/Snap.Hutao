@@ -30,10 +30,10 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
         {
             NameValueCollection query = HttpUtility.ParseQueryString(queryString);
 
-            if (query.TryGetValue("auth_appid", out string? appId) && appId is "webview_gacha")
+            if (query.TryGetSingleValue("auth_appid", out string? appId) && appId is "webview_gacha")
             {
                 string? queryLanguageCode = query["lang"];
-                if (metadataOptions.IsCurrentLocale(queryLanguageCode))
+                if (metadataOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
                 {
                     return new(true, new(queryString));
                 }

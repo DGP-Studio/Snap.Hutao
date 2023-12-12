@@ -17,4 +17,22 @@ internal static class NullableExtension
         value = default;
         return false;
     }
+
+    public static string ToStringOrEmpty<T>(this in T? nullable)
+        where T : struct
+    {
+        string? result = default;
+
+        if (nullable.HasValue)
+        {
+            result = nullable.Value.ToString();
+        }
+
+        if (string.IsNullOrEmpty(result))
+        {
+            result = string.Empty;
+        }
+
+        return result;
+    }
 }

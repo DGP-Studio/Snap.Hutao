@@ -167,7 +167,7 @@ internal static partial class EnumerableExtension
         return results;
     }
 
-    public static async ValueTask<List<TResult>> SelectListAsync<TSource, TResult>(this List<TSource> list, Func<TSource, CancellationToken, ValueTask<TResult>> selector, CancellationToken token)
+    public static async ValueTask<List<TResult>> SelectListAsync<TSource, TResult>(this List<TSource> list, Func<TSource, CancellationToken, ValueTask<TResult>> selector, CancellationToken token = default)
     {
         List<TResult> results = new(list.Count);
 

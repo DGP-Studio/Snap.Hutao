@@ -135,8 +135,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        // ContentDialog must be created by main thread.
-        await taskContext.SwitchToMainThreadAsync();
         CalculableOptions options = new(avatar.ToCalculable(), null);
         CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
         (bool isOk, CalculateAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
@@ -156,11 +154,12 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
 
         CalculateConsumption consumption = consumptionResponse.Data;
+        LevelInformation levelInformation = LevelInformation.From(delta);
         List<CalculateItem> items = CalculateItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
         try
         {
             bool saved = await cultivationService
-                .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
+                .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items, levelInformation)
                 .ConfigureAwait(false);
 
             if (saved)

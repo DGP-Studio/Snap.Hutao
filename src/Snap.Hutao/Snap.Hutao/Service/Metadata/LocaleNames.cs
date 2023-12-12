@@ -8,6 +8,8 @@ namespace Snap.Hutao.Service.Metadata;
 /// </summary>
 internal static class LocaleNames
 {
+    public const string CHS = "CHS";    // Chinese (Simplified)
+    public const string CHT = "CHT";    // Chinese (Traditional)
     public const string DE = "DE";      // German
     public const string EN = "EN";      // English
     public const string ES = "ES";      // Spanish
@@ -21,8 +23,6 @@ internal static class LocaleNames
     public const string TH = "TH";      // Thai
     public const string TR = "TR";      // Turkish
     public const string VI = "VI";      // Vietnamese
-    public const string CHS = "CHS";    // Chinese (Simplified)
-    public const string CHT = "CHT";    // Chinese (Traditional)
 
     public static bool TryGetLocaleNameFromLanguageName(string languageName, [NotNullWhen(true)] out string? localeName)
     {

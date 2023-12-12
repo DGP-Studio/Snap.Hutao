@@ -287,7 +287,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
                     Time = i.Time,
                     Id = i.Id,
                 });
-            return [..result];
+            return [.. result];
         }
     }
 

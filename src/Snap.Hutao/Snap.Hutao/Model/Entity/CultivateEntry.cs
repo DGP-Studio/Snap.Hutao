@@ -33,6 +33,8 @@ internal sealed class CultivateEntry : IDbMappingForeignKeyFrom<CultivateEntry, 
     [ForeignKey(nameof(ProjectId))]
     public CultivateProject Project { get; set; } = default!;
 
+    public CultivateEntryLevelInformation? LevelInformation { get; set; }
+
     /// <summary>
     /// 养成类型
     /// </summary>
@@ -58,5 +60,11 @@ internal sealed class CultivateEntry : IDbMappingForeignKeyFrom<CultivateEntry, 
             Type = type,
             Id = id,
         };
+    }
+
+    public static CultivateEntry Join(CultivateEntry entry, CultivateEntryLevelInformation levelInformation)
+    {
+        entry.LevelInformation = levelInformation;
+        return entry;
     }
 }

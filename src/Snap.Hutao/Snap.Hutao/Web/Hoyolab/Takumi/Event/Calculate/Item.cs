@@ -15,7 +15,7 @@ internal sealed class Item
     /// Id
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public uint Id { get; set; }
 
     /// <summary>
     /// 名称
@@ -33,7 +33,7 @@ internal sealed class Item
     /// 数量
     /// </summary>
     [JsonPropertyName("num")]
-    public int Num { get; set; }
+    public uint Num { get; set; }
 
     /// <summary>
     /// 物品星级 仅有家具为有效值

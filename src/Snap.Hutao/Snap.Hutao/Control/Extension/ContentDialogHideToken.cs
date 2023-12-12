@@ -24,7 +24,7 @@ internal struct ContentDialogHideToken : IDisposable, IAsyncDisposable
         if (!disposed && !disposing)
         {
             disposing = true;
-            taskContext.InvokeOnMainThread(contentDialog.Hide); // Hide() must be called on main thread.
+            taskContext.InvokeOnMainThread(contentDialog.Hide);
             disposing = false;
             disposed = true;
         }

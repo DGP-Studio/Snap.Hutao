@@ -7,6 +7,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web;
 using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.Response;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;
@@ -19,7 +20,7 @@ namespace Snap.Hutao.ViewModel.Setting;
 internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly HomaPassportClient homaPassportClient;
+    private readonly HutaoPassportClient homaPassportClient;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
@@ -77,7 +78,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
                 infoBarService.Information(response.GetLocalizationMessageOrMessage());
 
                 await taskContext.SwitchToMainThreadAsync();
-                hutaoUserOptions.LogoutOrUnregister();
+                hutaoUserOptions.PostLogoutOrUnregister();
             }
         }
     }
@@ -110,7 +111,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     [Command("LogoutCommand")]
     private void LogoutAsync()
     {
-        hutaoUserOptions.LogoutOrUnregister();
+        hutaoUserOptions.PostLogoutOrUnregister();
     }
 
     [Command("ResetPasswordCommand")]

@@ -72,17 +72,7 @@ internal sealed class AchievementGoalView : ObservableObject, INameIcon, IMappin
     /// <param name="statistics">统计</param>
     public void UpdateFinishDescriptionAndPercent(AchievementGoalStatistics statistics)
     {
-        UpdateFinishDescriptionAndPercent(statistics.Finished, statistics.TotalCount);
-    }
-
-    /// <summary>
-    /// 更新进度
-    /// </summary>
-    /// <param name="finished">完成项</param>
-    /// <param name="count">总项</param>
-    private void UpdateFinishDescriptionAndPercent(int finished, int count)
-    {
-        FinishDescription = AchievementStatistics.Format(finished, count, out double finishPercent);
+        FinishDescription = AchievementStatistics.Format(statistics.Finished, statistics.TotalCount, out double finishPercent);
         FinishPercent = finishPercent;
     }
 }

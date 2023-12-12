@@ -11,35 +11,27 @@ internal static class DateTimeOffsetExtension
 {
     public static readonly DateTimeOffset DatebaseDefaultTime = new(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0));
 
-    /// <summary>
-    /// 从Unix时间戳转换
-    /// </summary>
-    /// <param name="timestamp">时间戳</param>
-    /// <param name="defaultValue">默认值</param>
-    /// <returns>转换的时间</returns>
-    public static DateTimeOffset FromUnixTime(long? timestamp, in DateTimeOffset defaultValue)
+    public static DateTimeOffset UnsafeRelaxedFromUnixTime(long? timestamp, in DateTimeOffset defaultValue)
     {
-        if (timestamp is { } value)
+        if (timestamp is not { } value)
+        {
+            return defaultValue;
+        }
+
+        try
+        {
+            return DateTimeOffset.FromUnixTimeSeconds(value);
+        }
+        catch (ArgumentOutOfRangeException)
         {
             try
             {
-                return DateTimeOffset.FromUnixTimeSeconds(value);
+                return DateTimeOffset.FromUnixTimeMilliseconds(value);
             }
             catch (ArgumentOutOfRangeException)
             {
-                try
-                {
-                    return DateTimeOffset.FromUnixTimeMilliseconds(value);
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    return defaultValue;
-                }
+                return defaultValue;
             }
-        }
-        else
-        {
-            return defaultValue;
         }
     }
 }

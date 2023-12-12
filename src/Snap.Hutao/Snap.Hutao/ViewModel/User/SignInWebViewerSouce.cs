@@ -21,6 +21,6 @@ internal sealed class SignInWebViewerSouce : DependencyObject, IWebViewerSource
     {
         return userAndUid.User.IsOversea
             ? "https://act.hoyolab.com/ys/event/signin-sea-v3/index.html?act_id=e202102251931481"
-            : "https://webstatic.mihoyo.com/bbs/event/signin-ys/index.html?act_id=e202009291139501";
+            : "https://act.mihoyo.com/bbs/event/signin/hk4e/index.html?act_id=e202311201442471";
     }
 }

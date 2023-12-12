@@ -10,9 +10,11 @@ DwmSetWindowAttribute
 GetDeviceCaps
 
 // KERNEL32
+AllocConsole
 CloseHandle
 CreateEventW
 CreateRemoteThread
+FreeConsole
 GetModuleHandleW
 GetProcAddress
 K32EnumProcessModules
@@ -64,6 +66,7 @@ IMemoryBufferByteAccess
 
 // Const value
 INFINITE
+RPC_E_WRONG_THREAD
 MAX_PATH
 WM_GETMINMAXINFO
 WM_HOTKEY

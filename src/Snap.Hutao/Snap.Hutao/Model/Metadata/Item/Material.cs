@@ -34,6 +34,8 @@ internal sealed class Material : DisplayItem
     /// <returns>是否为物品栏物品</returns>
     public bool IsInventoryItem()
     {
+        // TODO: Add a pre-filtered metadata set to check if it's an inventory item
+
         // 原质
         if (Id == 112001U)
         {

@@ -35,4 +35,10 @@ internal interface ICultivationDbService
     void UpdateCultivateItem(CultivateItem item);
 
     ValueTask UpdateCultivateItemAsync(CultivateItem item);
+
+    ValueTask RemoveLevelInformationByEntryIdAsync(Guid entryId);
+
+    ValueTask AddLevelInformationAsync(CultivateEntryLevelInformation levelInformation);
+
+    ValueTask<List<CultivateEntry>> GetCultivateEntryIncludeLevelInformationListByProjectIdAsync(Guid projectId);
 }

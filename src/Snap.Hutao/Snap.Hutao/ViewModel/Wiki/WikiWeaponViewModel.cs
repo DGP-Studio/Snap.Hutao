@@ -148,10 +148,11 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
 
         CalculateConsumption consumption = consumptionResponse.Data;
+        LevelInformation levelInformation = LevelInformation.From(delta);
         try
         {
             bool saved = await cultivationService
-                .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, consumption.WeaponConsume.EmptyIfNull())
+                .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, consumption.WeaponConsume.EmptyIfNull(), levelInformation)
                 .ConfigureAwait(false);
 
             if (saved)

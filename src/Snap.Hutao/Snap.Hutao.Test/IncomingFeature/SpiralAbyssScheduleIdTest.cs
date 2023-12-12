@@ -15,6 +15,7 @@ public class SpiralAbyssScheduleIdTest
         DateTimeOffset dateTimeOffset = new(2020, 7, 1, 4, 0, 0, Utc8);
         Console.WriteLine($"2020-07-01 04:00:00 为第 {GetForDateTimeOffset(dateTimeOffset)} 期");
     }
+
     public static int GetForDateTimeOffset(DateTimeOffset dateTimeOffset)
     {
         // Force time in UTC+08

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using Snap.Hutao.Web.Response;
 
@@ -19,7 +19,7 @@ internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
     private readonly TimeSpan cacheExpireTime = TimeSpan.FromHours(4);
 
     private readonly IObjectCacheDbService objectCacheDbService;
-    private readonly HomaSpiralAbyssClient homaClient;
+    private readonly HutaoSpiralAbyssClient homaClient;
     private readonly JsonSerializerOptions options;
     private readonly IMemoryCache memoryCache;
 

@@ -18,21 +18,21 @@ internal static class NameValueCollectionExtension
         }
 
         StringBuilder sb = new();
-        string?[] keys = collection.AllKeys;
-        for (int i = 0; i < count; i++)
+        foreach (string? key in collection.AllKeys)
         {
-            string? key = keys[i];
-            if (collection.GetValues(key) is { } values)
+            if (collection.GetValues(key) is not { } values)
             {
-                foreach (ref readonly string value in values.AsSpan())
-                {
-                    if (!string.IsNullOrEmpty(key))
-                    {
-                        sb.Append(key).Append('=');
-                    }
+                continue;
+            }
 
-                    sb.Append(HttpUtility.UrlEncode(value)).Append('&');
+            foreach (ref readonly string value in values.AsSpan())
+            {
+                if (!string.IsNullOrEmpty(key))
+                {
+                    sb.Append(key).Append('=');
                 }
+
+                sb.Append(HttpUtility.UrlEncode(value)).Append('&');
             }
         }
 

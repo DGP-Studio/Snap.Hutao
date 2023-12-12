@@ -140,11 +140,10 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     /// <summary>
     /// 下载信息
     /// </summary>
-    public ObservableCollection<DownloadSummary>? DownloadSummaries { get => downloadSummaries; set => SetProperty(ref downloadSummaries, value); }
-
-    protected override ValueTask<bool> InitializeUIAsync()
+    public ObservableCollection<DownloadSummary>? DownloadSummaries
     {
-        return ValueTask.FromResult(true);
+        get => downloadSummaries;
+        set => SetProperty(ref downloadSummaries, value);
     }
 
     [Command("NextOrCompleteCommand")]
@@ -160,28 +159,21 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     private async ValueTask DownloadStaticResourceAsync()
     {
-        HashSet<DownloadSummary> downloadSummaries = [];
+        DownloadSummaries = StaticResource
+            .GetUnfulfilledCategorySet()
+            .Select(category => new DownloadSummary(serviceProvider, category))
+            .ToObservableCollection();
 
-        HashSet<string> categories = StaticResource.GetUnfulfilledCategorySet();
-
-        foreach (string category in categories)
-        {
-            downloadSummaries.Add(new(serviceProvider, category));
-        }
-
-        DownloadSummaries = downloadSummaries.ToObservableCollection();
-
-        await Parallel.ForEachAsync(downloadSummaries, async (summary, token) =>
+        await Parallel.ForEachAsync(DownloadSummaries, async (summary, token) =>
         {
             if (await summary.DownloadAndExtractAsync().ConfigureAwait(false))
             {
-                taskContext.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
+                taskContext.BeginInvokeOnMainThread(() => DownloadSummaries.Remove(summary));
             }
         }).ConfigureAwait(false);
 
         StaticResource.FulfillAll();
-
-        LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.Completed);
+        UnsafeLocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, GuideState.Completed);
         AppInstance.Restart(string.Empty);
     }
 }

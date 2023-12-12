@@ -11,6 +11,6 @@ internal sealed partial class ProgressFactory : IProgressFactory
 
     public IProgress<T> CreateForMainThread<T>(Action<T> handler)
     {
-        return new DispatcherQueueProgress<T>(handler, taskContext.GetSynchronizationContext());
+        return new DispatcherQueueProgress<T>(handler, taskContext.SynchronizationContext);
     }
 }

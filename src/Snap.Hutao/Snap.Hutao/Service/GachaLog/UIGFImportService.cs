@@ -37,7 +37,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         // v2.1 only support CHS
         if (version is UIGFVersion.Major2Minor2OrLower)
         {
-            if (!metadataOptions.IsCurrentLocale(uigf.Info.Language))
+            if (!metadataOptions.LanguageCodeFitsCurrentLocale(uigf.Info.Language))
             {
                 string message = SH.FormatServiceGachaUIGFImportLanguageNotMatch(uigf.Info.Language, metadataOptions.LanguageCode);
                 ThrowHelper.InvalidOperation(message);

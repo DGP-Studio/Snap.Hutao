@@ -15,6 +15,8 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.View.Page;
 using Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Web.Hoyolab.Passport;
+using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using System.Text;
 using Windows.System;
@@ -50,14 +52,12 @@ internal sealed partial class UserViewModel : ObservableObject
         get => selectedUser ??= userService.Current;
         set
         {
+            // Pre select the chosen role to avoid multiple UserChangedMessage
+            value?.SetSelectedUserGameRole(value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen), false);
+
             if (SetProperty(ref selectedUser, value))
             {
                 userService.Current = value;
-
-                if (value is not null)
-                {
-                    value.SelectedUserGameRole = value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
-                }
             }
         }
     }
@@ -170,6 +170,32 @@ internal sealed partial class UserViewModel : ObservableObject
         else
         {
             infoBarService.Warning(SH.CoreWebView2HelperVersionUndetected);
+        }
+    }
+
+    [Command("LoginByQRCodeCommand")]
+    private async Task LoginByQRCode()
+    {
+        UserQRCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserQRCodeDialog>().ConfigureAwait(false);
+        (bool isOk, UidGameToken? token) = await dialog.GetUidGameTokenAsync().ConfigureAwait(false);
+
+        if (!isOk)
+        {
+            return;
+        }
+
+        Response<LoginResult> sTokenResponse = await serviceProvider
+            .GetRequiredService<PassportClient2>()
+            .GetSTokenByGameTokenAsync(token)
+            .ConfigureAwait(false);
+
+        if (sTokenResponse.IsOk())
+        {
+            Cookie stokenV2 = Cookie.FromLoginResult(sTokenResponse.Data);
+
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(stokenV2, false).ConfigureAwait(false);
+
+            await HandleUserOptionResultAsync(optionResult, uid).ConfigureAwait(false);
         }
     }
 

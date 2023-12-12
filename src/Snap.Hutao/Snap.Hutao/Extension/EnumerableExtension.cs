@@ -18,19 +18,6 @@ internal static partial class EnumerableExtension
     }
 
     /// <summary>
-    /// 如果传入集合不为空则原路返回，
-    /// 如果传入集合为空返回一个集合的空集
-    /// </summary>
-    /// <typeparam name="TSource">源类型</typeparam>
-    /// <param name="source">源</param>
-    /// <returns>源集合或空集</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IEnumerable<TSource> EmptyIfNull<TSource>(this IEnumerable<TSource>? source)
-    {
-        return source ?? Enumerable.Empty<TSource>();
-    }
-
-    /// <summary>
     /// 寻找枚举中唯一的值,找不到时
     /// 回退到首个或默认值
     /// </summary>

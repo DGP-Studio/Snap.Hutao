@@ -23,6 +23,8 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.Guide;
+using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Response;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -41,6 +43,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly HomeCardOptions homeCardOptions = new();
 
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
+    private readonly HutaoInfrastructureClient hutaoInfrastructureClient;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGameLocatorFactory gameLocatorFactory;
@@ -57,11 +60,11 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<CultureInfo>? selectedCulture;
+    private IPInformation? ipInformation;
+    private FolderViewModel? cacheFolderView;
+    private FolderViewModel? dataFolderView;
 
-    /// <summary>
-    /// 应用程序设置
-    /// </summary>
-    public AppOptions Options { get => appOptions; }
+    public AppOptions AppOptions { get => appOptions; }
 
     public RuntimeOptions HutaoOptions { get => runtimeOptions; }
 
@@ -75,34 +78,70 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public NameValue<BackdropType>? SelectedBackdropType
     {
-        get => selectedBackdropType ??= Options.BackdropTypes.Single(t => t.Value == Options.BackdropType);
+        get => selectedBackdropType ??= AppOptions.BackdropTypes.Single(t => t.Value == AppOptions.BackdropType);
         set
         {
             if (SetProperty(ref selectedBackdropType, value) && value is not null)
             {
-                Options.BackdropType = value.Value;
+                AppOptions.BackdropType = value.Value;
             }
         }
     }
 
     public NameValue<CultureInfo>? SelectedCulture
     {
-        get => selectedCulture ??= Options.GetCurrentCultureForSelectionOrDefault();
+        get => selectedCulture ??= AppOptions.GetCurrentCultureForSelectionOrDefault();
         set
         {
             if (SetProperty(ref selectedCulture, value) && value is not null)
             {
-                Options.CurrentCulture = value.Value;
+                AppOptions.CurrentCulture = value.Value;
                 AppInstance.Restart(string.Empty);
             }
         }
+    }
+
+    public FolderViewModel? CacheFolderView { get => cacheFolderView; set => SetProperty(ref cacheFolderView, value); }
+
+    public FolderViewModel? DataFolderView { get => dataFolderView; set => SetProperty(ref dataFolderView, value); }
+
+    public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
+
+    [SuppressMessage("", "CA1822")]
+    public bool IsAllocConsoleDebugModeEnabled
+    {
+        get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
+        set => LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, value);
+    }
+
+    protected override async ValueTask<bool> InitializeUIAsync()
+    {
+        CacheFolderView = new(taskContext, runtimeOptions.LocalCache);
+        DataFolderView = new(taskContext, runtimeOptions.DataFolder);
+
+        Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+        IPInformation info;
+
+        if (resp.IsOk())
+        {
+            info = resp.Data;
+        }
+        else
+        {
+            info = IPInformation.Default;
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        IPInformation = info;
+
+        return true;
     }
 
     [Command("ResetStaticResourceCommand")]
     private static void ResetStaticResource()
     {
         StaticResource.FailAll();
-        LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.StaticResourceBegin);
+        UnsafeLocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, GuideState.StaticResourceBegin);
         AppInstance.Restart(string.Empty);
     }
 
@@ -110,6 +149,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private static async Task StoreReviewAsync()
     {
         await Launcher.LaunchUriAsync(new("ms-windows-store://review/?ProductId=9PH4NXJ2JN52"));
+    }
+
+    [Command("UpdateCheckCommand")]
+    private static async Task CheckUpdateAsync()
+    {
+        await Launcher.LaunchUriAsync(new("ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
     }
 
     [Command("SetGamePathCommand")]
@@ -123,7 +168,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
             try
             {
-                Options.GamePath = path;
+                AppOptions.GamePath = path;
             }
             catch (SqliteException ex)
             {
@@ -141,14 +186,14 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         if (isOk && Path.GetFileNameWithoutExtension(file).EqualsAny(["POWERSHELL", "PWSH"], StringComparison.OrdinalIgnoreCase))
         {
             await taskContext.SwitchToMainThreadAsync();
-            Options.PowerShellPath = file;
+            AppOptions.PowerShellPath = file;
         }
     }
 
     [Command("DeleteGameWebCacheCommand")]
     private void DeleteGameWebCache()
     {
-        string gamePath = Options.GamePath;
+        string gamePath = AppOptions.GamePath;
 
         if (!string.IsNullOrEmpty(gamePath))
         {
@@ -176,19 +221,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("UpdateCheckCommand")]
-    private async Task CheckUpdateAsync()
+    [Command("OpenTestPageCommand")]
+    private async Task OpenTestPageAsync()
     {
-        if (hutaoUserOptions.IsMaintainer)
-        {
-            await navigationService
-                .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            await Launcher.LaunchUriAsync(new("ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
-        }
+        await navigationService
+            .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
+            .ConfigureAwait(false);
     }
 
     [Command("SetDataFolderCommand")]
@@ -215,18 +253,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         {
             infoBarService.Error(ex);
         }
-    }
-
-    [Command("OpenCacheFolderCommand")]
-    private async Task OpenCacheFolderAsync()
-    {
-        await Launcher.LaunchFolderPathAsync(runtimeOptions.LocalCache);
-    }
-
-    [Command("OpenDataFolderCommand")]
-    private async Task OpenDataFolderAsync()
-    {
-        await Launcher.LaunchFolderPathAsync(runtimeOptions.DataFolder);
     }
 
     [Command("DeleteUsersCommand")]

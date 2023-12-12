@@ -3,8 +3,6 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Model.Metadata.Item;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.Cultivation;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Collections.ObjectModel;
@@ -27,38 +25,12 @@ internal interface ICultivationService
     /// </summary>
     ObservableCollection<CultivateProject> ProjectCollection { get; }
 
-    /// <summary>
-    /// 获取绑定用的养成列表
-    /// </summary>
-    /// <param name="cultivateProject">养成计划</param>
-    /// <param name="materials">材料</param>
-    /// <param name="idAvatarMap">Id 角色映射</param>
-    /// <param name="idWeaponMap">Id 武器映射</param>
-    /// <returns>绑定用的养成列表</returns>
-    ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(
-        CultivateProject cultivateProject,
-        List<Material> materials,
-        Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap,
-        Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap);
+    ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject, ICultivationMetadataContext context);
 
-    /// <summary>
-    /// 获取物品列表
-    /// </summary>
-    /// <param name="cultivateProject">养成计划</param>
-    /// <param name="metadata">元数据</param>
-    /// <param name="saveCommand">保存命令</param>
-    /// <returns>物品列表</returns>
-    List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand);
+    List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand);
 
-    /// <summary>
-    /// 异步获取统计物品列表
-    /// </summary>
-    /// <param name="cultivateProject">养成计划</param>
-    /// <param name="materials">材料</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>统计物品列表</returns>
     ValueTask<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(
-        CultivateProject cultivateProject, List<Material> materials, CancellationToken token);
+        CultivateProject cultivateProject, ICultivationMetadataContext context, CancellationToken token);
 
     /// <summary>
     /// 删除养成清单
@@ -74,14 +46,7 @@ internal interface ICultivationService
     /// <returns>任务</returns>
     ValueTask RemoveProjectAsync(CultivateProject project);
 
-    /// <summary>
-    /// 异步保存养成物品
-    /// </summary>
-    /// <param name="type">类型</param>
-    /// <param name="itemId">主Id</param>
-    /// <param name="items">待存物品</param>
-    /// <returns>是否保存成功</returns>
-    ValueTask<bool> SaveConsumptionAsync(CultivateType type, uint itemId, List<Item> items);
+    ValueTask<bool> SaveConsumptionAsync(CultivateType type, uint itemId, List<Item> items, LevelInformation levelInformation);
 
     /// <summary>
     /// 保存养成物品状态

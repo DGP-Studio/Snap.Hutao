@@ -130,11 +130,17 @@
                                 Height="48"
                                 Icon="{Binding Icon}"
                                 Quality="{Binding Quality}"/>
-                            <TextBlock
+                            <StackPanel
                                 Grid.Column="1"
                                 Margin="8,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="{Binding Name}"/>
+                                VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock
+                                    Opacity="0.7"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding Description}"/>
+                            </StackPanel>
+
                             <StackPanel Grid.Column="2" Orientation="Horizontal">
                                 <Button
                                     Width="48"
