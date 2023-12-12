@@ -14,7 +14,7 @@ on:
       - 'LICENSE'
 
 jobs:
-  publish-alpha:
+  build:
     runs-on: self-hosted
     steps:
       - name: Checkout
