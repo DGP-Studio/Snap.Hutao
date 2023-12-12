@@ -1,16 +1,16 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Options;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using System.Collections.Frozen;
+using System.Security.Cryptography;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
 /// <summary>
 /// 米游社选项
 /// </summary>
-internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
+internal static class HoyolabOptions
 {
     /// <summary>
     /// 米游社请求UA
@@ -35,12 +35,12 @@ internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
     /// <summary>
     /// 米游社设备Id
     /// </summary>
-    public static string DeviceId { get; } = Guid.NewGuid().ToString();
+    public static string DeviceId36 { get; } = Guid.NewGuid().ToString();
 
     /// <summary>
     /// 扫码登录设备Id
     /// </summary>
-    public static string Device { get; } = Core.Random.GetLetterAndNumberString(64);
+    public static string DeviceId40 { get; } = GenerateDeviceId40();
 
     /// <summary>
     /// 盐
@@ -61,6 +61,16 @@ internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
         [SaltType.OSX6] = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w",
     }.ToFrozenDictionary();
 
-    /// <inheritdoc/>
-    public HoyolabOptions Value { get => this; }
+    [SuppressMessage("", "CA1308")]
+    private static string GenerateDeviceId40()
+    {
+        Guid uuid = Core.Uuid.NewV5(DeviceId36, new("9450ea74-be9c-35c0-9568-f97407856768"));
+
+        Span<byte> uuidSpan = stackalloc byte[16];
+        Span<byte> hash = stackalloc byte[20];
+
+        Verify.Operation(uuid.TryWriteBytes(uuidSpan), "Failed to write UUID bytes");
+        Verify.Operation(SHA1.TryHashData(uuidSpan, hash, out _), "Failed to write SHA1 hash");
+        return Convert.ToHexString(hash).ToLowerInvariant();
+    }
 }

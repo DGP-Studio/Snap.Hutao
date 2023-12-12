@@ -1,13 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Web.Hoyolab.Passport;
+namespace Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 
-/// <summary>
-/// 扫码登录结果请求配置
-/// </summary>
 [HighQuality]
-internal sealed class GameLoginResultOptions
+internal sealed class GameLoginRequest
 {
     [JsonPropertyName("app_id")]
     public int AppId { get; set; }
@@ -16,11 +13,11 @@ internal sealed class GameLoginResultOptions
     public string Device { get; set; } = default!;
 
     [JsonPropertyName("ticket")]
-    public string Ticket { get; set; } = default!;
+    public string? Ticket { get; set; }
 
-    public static GameLoginResultOptions Create(int appId, string device, string ticket)
+    public static GameLoginRequest Create(int appId, string device, string? ticket = null)
     {
-        return new GameLoginResultOptions
+        return new()
         {
             AppId = appId,
             Device = device,

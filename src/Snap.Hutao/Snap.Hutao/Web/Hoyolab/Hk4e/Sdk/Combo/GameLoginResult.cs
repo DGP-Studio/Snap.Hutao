@@ -1,9 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Web.Hoyolab.Hk4e.QrCode;
-
-namespace Snap.Hutao.Web.Hoyolab.Passport;
+namespace Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 
 /// <summary>
 /// 扫码登录结果

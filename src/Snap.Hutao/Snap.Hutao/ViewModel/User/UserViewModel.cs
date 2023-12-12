@@ -16,7 +16,6 @@ using Snap.Hutao.View.Dialog;
 using Snap.Hutao.View.Page;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
-using Snap.Hutao.Web.Hoyolab.Takumi.Account;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -41,7 +40,6 @@ internal sealed partial class UserViewModel : ObservableObject
     private readonly ISignInService signInService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private readonly SessionAppClient sessionAppClient;
 
     private User? selectedUser;
     private ObservableCollection<User>? users;
@@ -177,26 +175,29 @@ internal sealed partial class UserViewModel : ObservableObject
         }
     }
 
-    [Command("LoginByQrCodeCommand")]
-    private async Task LoginByQrCode()
+    [Command("LoginByQRCodeCommand")]
+    private async Task LoginByQRCode()
     {
-        // ContentDialog must be created by main thread.
-        await taskContext.SwitchToMainThreadAsync();
-
         UserQRCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserQRCodeDialog>().ConfigureAwait(false);
-        ValueResult<bool, UidGameToken> result = await dialog.GetUidGameTokenAsync().ConfigureAwait(false);
+        (bool isOk, UidGameToken? token) = await dialog.GetUidGameTokenAsync().ConfigureAwait(false);
 
-        if (result.TryGetValue(out UidGameToken account))
+        if (!isOk)
         {
-            Response<LoginResult> gameTokenResp = await sessionAppClient.PostSTokenByGameTokenAsync(account).ConfigureAwait(false);
+            return;
+        }
 
-            if (gameTokenResp.IsOk())
-            {
-                Cookie stokenV2 = Cookie.FromLoginResult(gameTokenResp.Data);
-                (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(stokenV2, false).ConfigureAwait(false);
+        Response<LoginResult> sTokenResponse = await serviceProvider
+            .GetRequiredService<PassportClient2>()
+            .GetSTokenByGameTokenAsync(token)
+            .ConfigureAwait(false);
 
-                await HandleUserOptionResultAsync(optionResult, uid).ConfigureAwait(false);
-            }
+        if (sTokenResponse.IsOk())
+        {
+            Cookie stokenV2 = Cookie.FromLoginResult(sTokenResponse.Data);
+
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(stokenV2, false).ConfigureAwait(false);
+
+            await HandleUserOptionResultAsync(optionResult, uid).ConfigureAwait(false);
         }
     }
 

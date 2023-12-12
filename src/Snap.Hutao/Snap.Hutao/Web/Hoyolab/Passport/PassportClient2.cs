@@ -5,9 +5,11 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
+using Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
+using System.Globalization;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
@@ -68,42 +70,20 @@ internal sealed partial class PassportClient2
         return Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取扫码链接
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>二维码原始链接</returns>
-    public async ValueTask<Response<UrlWrapper>> QRCodeFetchAsync(CancellationToken token = default)
+    public async ValueTask<Response<LoginResult>> GetSTokenByGameTokenAsync(UidGameToken account, CancellationToken token = default)
     {
-        GameLoginRequestOptions options = GameLoginRequestOptions.Create(4, HoyolabOptions.Device);
+        AccountIdGameToken data = new()
+        {
+            AccountId = int.Parse(account.Uid, CultureInfo.InvariantCulture),
+            GameToken = account.GameToken,
+        };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.QrCodeFetch)
-            .PostJson(options);
+            .SetRequestUri(ApiEndpoints.AccountGetSTokenByGameToken)
+            .PostJson(data);
 
-        Response<UrlWrapper>? resp = await builder
-            .TryCatchSendAsync<Response<UrlWrapper>>(httpClient, logger, token)
-            .ConfigureAwait(false);
-
-        return Response.Response.DefaultIfNull(resp);
-    }
-
-    /// <summary>
-    /// 异步获取扫码状态
-    /// </summary>
-    /// <param name="ticket">扫码链接中的ticket</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>扫码结果</returns>
-    public async ValueTask<Response<GameLoginResult>> QRCodeQueryAsync(string ticket, CancellationToken token = default)
-    {
-        GameLoginResultOptions options = GameLoginResultOptions.Create(4, HoyolabOptions.Device, ticket);
-
-        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.QrCodeQuery)
-            .PostJson(options);
-
-        Response<GameLoginResult>? resp = await builder
-            .TryCatchSendAsync<Response<GameLoginResult>>(httpClient, logger, token)
+        Response<LoginResult>? resp = await builder
+            .TryCatchSendAsync<Response<LoginResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

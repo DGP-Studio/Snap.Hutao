@@ -1,11 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Web.Hoyolab.Hk4e.QrCode;
+namespace Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 
-/// <summary>
-/// 扫码登录结果Payload
-/// </summary>
 [HighQuality]
 internal sealed partial class GameLoginResultPayload
 {

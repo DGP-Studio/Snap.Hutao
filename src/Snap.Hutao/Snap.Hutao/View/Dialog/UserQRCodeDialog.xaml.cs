@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Factory.QrCode;
+using Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
 using System.Collections.Specialized;
@@ -18,7 +19,7 @@ namespace Snap.Hutao.View.Dialog;
 internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 {
     private readonly ITaskContext taskContext;
-    private readonly PassportClient2 passportClient2;
+    private readonly PandaClient pandaClient;
     private readonly IQRCodeFactory qrCodeFactory;
 
     private readonly CancellationTokenSource userManualCancellationTokenSource = new();
@@ -29,7 +30,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
         InitializeComponent();
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        passportClient2 = serviceProvider.GetRequiredService<PassportClient2>();
+        pandaClient = serviceProvider.GetRequiredService<PandaClient>();
         qrCodeFactory = serviceProvider.GetRequiredService<IQRCodeFactory>();
     }
 
@@ -100,7 +101,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
 
     private async ValueTask<string> FetchQRCodeAndSetImageAsync(CancellationToken token)
     {
-        Response<UrlWrapper> fetchResponse = await passportClient2.QRCodeFetchAsync(token).ConfigureAwait(false);
+        Response<UrlWrapper> fetchResponse = await pandaClient.QRCodeFetchAsync(token).ConfigureAwait(false);
         if (!fetchResponse.IsOk())
         {
             return string.Empty;
@@ -136,7 +137,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
         {
             while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
             {
-                Response<GameLoginResult> query = await passportClient2.QRCodeQueryAsync(ticket, token).ConfigureAwait(false);
+                Response<GameLoginResult> query = await pandaClient.QRCodeQueryAsync(ticket, token).ConfigureAwait(false);
 
                 if (query is { ReturnCode: 0, Data: { Stat: "Confirmed", Payload.Proto: "Account" } })
                 {
