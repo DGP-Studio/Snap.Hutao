@@ -40,6 +40,7 @@ internal static class ApiEndpoints
     {
         return $"{ApiTakumiAuthApi}/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3";
     }
+
     #endregion
 
     #region ApiTaKumiBindingApi
@@ -282,6 +283,14 @@ internal static class ApiEndpoints
     public const string AnnContent = $"{Hk4eApiAnnouncementApi}/getAnnContent?{AnnouncementQuery}";
     #endregion
 
+    #region Hk4eSdk
+
+    public const string QrCodeFetch = $"{Hk4eSdk}/hk4e_cn/combo/panda/qrcode/fetch";
+
+    public const string QrCodeQuery = $"{Hk4eSdk}/hk4e_cn/combo/panda/qrcode/query";
+
+    #endregion
+
     #region PassportApi | PassportApiV4
 
     /// <summary>
@@ -293,6 +302,11 @@ internal static class ApiEndpoints
     /// 获取LToken
     /// </summary>
     public const string AccountGetLTokenBySToken = $"{PassportApiAuthApi}/getLTokenBySToken";
+
+    /// <summary>
+    /// 通过GameToken获取V2SToken
+    /// </summary>
+    public const string AccountGetSTokenByGameToken = $"{PassportApi}/account/ma-cn-session/app/getTokenByGameToken";
 
     /// <summary>
     /// 获取V2SToken
@@ -381,6 +395,8 @@ internal static class ApiEndpoints
 
     private const string Hk4eApi = "https://hk4e-api.mihoyo.com";
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";
+
+    private const string Hk4eSdk = "https://hk4e-sdk.mihoyo.com";
 
     private const string PassportApi = "https://passport-api.mihoyo.com";
     private const string PassportApiAuthApi = $"{PassportApi}/account/auth/api";

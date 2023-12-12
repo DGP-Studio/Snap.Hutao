@@ -74,7 +74,7 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
             SeedTime = $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}",
             ExtFields = JsonSerializer.Serialize(extendProperties),
             AppName = "bbs_cn",
-            BbsDeviceId = HoyolabOptions.DeviceId,
+            BbsDeviceId = HoyolabOptions.DeviceId36,
             DeviceFp = string.IsNullOrEmpty(user.Fingerprint) ? Core.Random.GetLowerHexString(13) : user.Fingerprint,
         };
 

@@ -7,7 +7,7 @@ namespace Snap.Hutao.Extension;
 
 internal static partial class EnumerableExtension
 {
-    public static bool TryGetValue(this NameValueCollection collection, string name, [NotNullWhen(true)] out string? value)
+    public static bool TryGetSingleValue(this NameValueCollection collection, string name, [NotNullWhen(true)] out string? value)
     {
         if (collection.AllKeys.Contains(name))
         {

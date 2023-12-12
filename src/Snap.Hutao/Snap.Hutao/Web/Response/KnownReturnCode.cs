@@ -85,6 +85,11 @@ internal enum KnownReturnCode
     AppIdError = -109,
 
     /// <summary>
+    /// 二维码已过期
+    /// </summary>
+    QrCodeExpired = -106,
+
+    /// <summary>
     /// 验证密钥过期
     /// </summary>
     AuthKeyTimeOut = -101,

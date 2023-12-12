@@ -5,9 +5,11 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
+using Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
+using System.Globalization;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
@@ -60,6 +62,25 @@ internal sealed partial class PassportClient2
             .Post();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
+
+        Response<LoginResult>? resp = await builder
+            .TryCatchSendAsync<Response<LoginResult>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<LoginResult>> GetSTokenByGameTokenAsync(UidGameToken account, CancellationToken token = default)
+    {
+        AccountIdGameToken data = new()
+        {
+            AccountId = int.Parse(account.Uid, CultureInfo.InvariantCulture),
+            GameToken = account.GameToken,
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.AccountGetSTokenByGameToken)
+            .PostJson(data);
 
         Response<LoginResult>? resp = await builder
             .TryCatchSendAsync<Response<LoginResult>>(httpClient, logger, token)
