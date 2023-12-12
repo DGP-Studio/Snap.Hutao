@@ -63,7 +63,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
         if (string.IsNullOrEmpty(mid))
         {
-            return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieNoMid);
+            return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoMid);
         }
 
         // 检查 mid 对应用户是否存在
@@ -74,7 +74,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
         if (!cookie.TryGetSToken(isOversea, out Cookie? stoken))
         {
-            return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieNoSToken);
+            return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoSToken);
         }
 
         user.SToken = stoken;
@@ -82,7 +82,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         user.CookieToken = cookie.TryGetCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
 
         await userDbService.UpdateUserAsync(user.Entity).ConfigureAwait(false);
-        return new(UserOptionResult.Updated, mid);
+        return new(UserOptionResult.CookieUpdated, mid);
     }
 
     public async ValueTask<bool> RefreshCookieTokenAsync(Model.Entity.User user)

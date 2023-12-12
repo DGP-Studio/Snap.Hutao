@@ -20,6 +20,8 @@ internal interface IUserCollectionService
     UserGameRole? GetUserGameRoleByUid(string uid);
 
     ValueTask RemoveUserAsync(BindingUser user);
+
     ValueTask<ValueResult<UserOptionResult, string>> TryCreateAndAddUserFromCookieAsync(Cookie cookie, bool isOversea);
+
     bool TryGetUserByMid(string mid, [NotNullWhen(true)] out BindingUser? user);
 }

@@ -153,7 +153,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService
 
         if (newUser is null)
         {
-            return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieRequestUserInfoFailed);
+            return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieRequestUserInfoFailed);
         }
 
         await GetUserCollectionAsync().ConfigureAwait(false);

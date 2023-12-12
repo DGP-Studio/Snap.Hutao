@@ -305,7 +305,7 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.5.0" />
-    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.0.1">
+    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
