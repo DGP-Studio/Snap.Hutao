@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -7,8 +8,6 @@ namespace Snap.Hutao.Test.BaseClassLibrary;
 [TestClass]
 public sealed class JsonSerializeTest
 {
-    public TestContext? TestContext { get; set; }
-
     private readonly JsonSerializerOptions AlowStringNumberOptions = new()
     {
         NumberHandling = JsonNumberHandling.AllowReadingFromString,
@@ -36,7 +35,7 @@ public sealed class JsonSerializeTest
     [TestMethod]
     public void DelegatePropertyCanSerialize()
     {
-        Sample sample = JsonSerializer.Deserialize<Sample>(SmapleObjectJson)!;
+        SampleDelegatePropertyClass sample = JsonSerializer.Deserialize<SampleDelegatePropertyClass>(SmapleObjectJson)!;
         Assert.AreEqual(sample.B, 1);
     }
 
@@ -44,7 +43,7 @@ public sealed class JsonSerializeTest
     [ExpectedException(typeof(JsonException))]
     public void EmptyStringCannotSerializeAsNumber()
     {
-        StringNumberSample sample = JsonSerializer.Deserialize<StringNumberSample>(SmapleEmptyStringObjectJson)!;
+        SampleStringReadWriteNumberPropertyClass sample = JsonSerializer.Deserialize<SampleStringReadWriteNumberPropertyClass>(SmapleEmptyStringObjectJson)!;
         Assert.AreEqual(sample.A, 0);
     }
 
@@ -58,37 +57,28 @@ public sealed class JsonSerializeTest
     [TestMethod]
     public void ByteArraySerializeAsBase64()
     {
-        byte[] array =
-#if NET8_0_OR_GREATER
-            [1, 2, 3, 4, 5];
-#else
-            { 1, 2, 3, 4, 5 };
-#endif
-        ByteArraySample sample = new()
+        SampleByteArrayPropertyClass sample = new()
         {
-            Array = array,
+            Array = [1, 2, 3, 4, 5],
         };
 
         string result = JsonSerializer.Serialize(sample);
-        TestContext!.WriteLine($"ByteArray Serialize Result: {result}");
-        Assert.AreEqual(result, """
-            {"Array":"AQIDBAU="}
-            """);
+        Assert.AreEqual(result, """{"Array":"AQIDBAU="}""");
     }
 
-    private sealed class Sample
+    private sealed class SampleDelegatePropertyClass
     {
         public int A { get => B; set => B = value; }
         public int B { get; set; }
     }
 
-    private sealed class StringNumberSample
+    private sealed class SampleStringReadWriteNumberPropertyClass
     {
         [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
         public int A { get; set; }
     }
 
-    private sealed class ByteArraySample
+    private sealed class SampleByteArrayPropertyClass
     {
         public byte[]? Array { get; set; }
     }

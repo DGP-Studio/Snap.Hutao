@@ -52,14 +52,12 @@ internal sealed partial class UserViewModel : ObservableObject
         get => selectedUser ??= userService.Current;
         set
         {
+            // Pre select the chosen role to avoid multiple UserChangedMessage
+            value?.SetSelectedUserGameRole(value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen), false);
+
             if (SetProperty(ref selectedUser, value))
             {
                 userService.Current = value;
-
-                if (value is not null)
-                {
-                    value.SelectedUserGameRole = value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
-                }
             }
         }
     }

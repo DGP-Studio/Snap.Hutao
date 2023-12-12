@@ -159,19 +159,11 @@ public sealed class GeniusInvokationDecoding
             result.CopyTo(resultArray);
 
             ushort[] testKnownResult =
-#if NET8_0_OR_GREATER
             [
                 060, 019, 001, 079, 120, 120, 129, 151, 151, 153, 153,
                 181, 184, 184, 185, 185, 194, 194, 200, 200, 201, 201,
                 217, 217, 219, 241, 241, 244, 244, 245, 245, 270, 270,
             ];
-#else
-            {
-                060, 019, 001, 079, 120, 120, 129, 151, 151, 153, 153,
-                181, 184, 184, 185, 185, 194, 194, 200, 200, 201, 201,
-                217, 217, 219, 241, 241, 244, 244, 245, 245, 270, 270,
-            };
-#endif
 
             CollectionAssert.AreEqual(resultArray, testKnownResult);
         }
