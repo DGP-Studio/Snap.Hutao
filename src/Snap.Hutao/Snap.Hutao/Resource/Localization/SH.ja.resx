@@ -504,7 +504,7 @@
     <value>精錬ランク{0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必须登录 米游社/HoYoLAB 并选择一个用户与角色</value>
+    <value>MiyousheかHoYoLAB にログインして、ユーザーを選択する必要があります</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>UID: {0} の祈願履歴を {1} 件 削除しました</value>
@@ -864,7 +864,7 @@
     <value>一致するアカウントが複数見つかりました。重複しているアカウントを削除してください。</value>
   </data>
   <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
-    <value>文件系统权限不足，无法转换服务器</value>
+    <value>ファイル書き込みの権限が無いため、サーバー変換機能を使用できません</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>ゲームのリソース情報を確認</value>
@@ -1266,7 +1266,7 @@
     <value>ゲームランチャー切り替え中</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>使用米游社扫描二维码</value>
+    <value>MiHoYo BBS を使用して QR コードをスキャンします</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>この操作は取り消せません。すべてのユーザーのログイン状態が解除されます。</value>
@@ -1410,7 +1410,7 @@
     <value>育成計画で新規作成及びセットしてから続けてください</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
-    <value>重新添加物品以查看养成描述</value>
+    <value>アイテムを再追加して素材の説明を表示します</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>正常に追加されました。</value>
@@ -1569,7 +1569,7 @@
     <value>デスクトップへのショートカット作成に失敗しました</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
-    <value>已使用磁盘空间：{0}</value>
+    <value>使用済みディスク容量: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>非探知認証複合URLの構成に成功しました</value>
@@ -2136,7 +2136,7 @@
     <value>事前ダウンロード</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
-    <value>该账号尚未绑定实时便笺通知 UID</value>
+    <value>このアカウントはリアルタイムノート通知 UID として連携されていません。</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
     <value>現在のユーザのUIDを連携する</value>
@@ -2211,7 +2211,7 @@
     <value>イメージキャッシュはここに格納されます</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
-    <value>缓存 文件夹</value>
+    <value>キャッシュフォルダ</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>コピー</value>
@@ -2238,7 +2238,7 @@
     <value>ユーザーデータ／メタデータはここに格納</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>数据 文件夹</value>
+    <value>データフォルダ</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>削除</value>
@@ -2259,10 +2259,10 @@
     <value>デバイス ID</value>
   </data>
   <data name="ViewPageSettingDeviceIpDescription" xml:space="preserve">
-    <value>IP：{0} 归属服务器：{1}</value>
+    <value>IP: {0} サーバー: {1}</value>
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
-    <value>设备 IP</value>
+    <value>デバイスのIP</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>祈願履歴のないイベント限定祈願を祈願履歴に表示するかを変更します。</value>
@@ -2532,13 +2532,13 @@
     <value>ログインまたはサインアップ</value>
   </data>
   <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
-    <value>控制胡桃启动时是否开启控制台，重启后生效</value>
+    <value>胡桃の起動時にコンソールを開くか設定します。これは再起動後に有効になります。</value>
   </data>
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
-    <value>调试控制台</value>
+    <value>デバッグコンソール</value>
   </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
-    <value>打开文件夹</value>
+    <value>フォルダを開く</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>キャラクター出場率 = この階層における出場回数（最初の一回のみカウント） / この階層のアップロード総数</value>
@@ -2628,7 +2628,7 @@
     <value>ウェブ上でログイン</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
-    <value>扫码登录</value>
+    <value>QRコードでログイン</value>
   </data>
   <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
     <value>手入力</value>
@@ -2850,7 +2850,7 @@
     <value>無効なUIDです</value>
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
-    <value>胡桃服务维护中</value>
+    <value>胡桃サーバがメンテナンス中です</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>認証に失敗しました。 手動で認証するか、MiHoYo BBS - 戦績 を確認してください。</value>
