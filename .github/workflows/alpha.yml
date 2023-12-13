@@ -44,3 +44,20 @@ jobs:
         with:
           name: Snap.Hutao.Alpha-${{ steps.cake.outputs.version }}
           path: ${{ github.workspace }}/src/output/Snap.Hutao.Alpha-${{ steps.cake.outputs.version }}.msix
+
+      - name: Add summary
+        if: success()
+        shell: pwsh
+        run: |
+          $summary = "
+          > [!WARNING]
+          > 该版本是由 CI 程序自动打包生成的 `Alpha` 测试版本，**仅供开发者测试使用**
+
+          > [!TIP]
+          > 普通用户请[点击这里](https://github.com/DGP-Studio/Snap.Hutao/releases/latest/)下载最新的稳定版本
+
+          > [!IMPORTANT]
+          > 请安装 [Snap.Hutao.CI.cer](https://github.com/DGP-Automation/Hutao-Auto-Release/releases/download/certificate/Snap.Hutao.CI.cer) 以安装测试版安装包
+          "
+
+          echo $summary >> $Env:GITHUB_STEP_SUMMARY
