@@ -220,6 +220,9 @@
                                         <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessDescription}" Header="-popupwindow">
                                             <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsBorderless, Mode=TwoWay}"/>
                                         </cwc:SettingsCard>
+                                        <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription}" Header="-platform_type CLOUD_THIRD_PARTY_MOBILE">
+                                            <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsUseCloudThirdPartyMobile, Mode=TwoWay}"/>
+                                        </cwc:SettingsCard>
                                         <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioDescription}" Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioHeader}">
                                             <shc:SizeRestrictedContentControl Margin="0,0,136,0">
                                                 <ComboBox

@@ -116,6 +116,7 @@ internal sealed partial class GameProcessService : IGameProcessService
                 .AppendIf("-screen-width", launchOptions.IsScreenWidthEnabled, launchOptions.ScreenWidth)
                 .AppendIf("-screen-height", launchOptions.IsScreenHeightEnabled, launchOptions.ScreenHeight)
                 .AppendIf("-monitor", launchOptions.IsMonitorEnabled, launchOptions.Monitor.Value)
+                .AppendIf("-platform_type CLOUD_THIRD_PARTY_MOBILE", launchOptions.IsUseCloudThirdPartyMobile)
                 .ToString();
         }
 

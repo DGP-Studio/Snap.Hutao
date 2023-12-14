@@ -106,6 +106,8 @@ internal sealed partial class SettingEntry
 
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
 
+    public const string LaunchIsUseCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";
+
     public const string LaunchUseStarwardPlayTimeStatistics = "Launch.UseStarwardPlayTimeStatistics";
 
     public const string LaunchSetDiscordActivityWhenPlaying = "Launch.SetDiscordActivityWhenPlaying";

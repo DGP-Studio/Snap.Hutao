@@ -2045,6 +2045,9 @@
   <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
     <value>无边框</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
+    <value>启用内置触摸布局，不会响应键鼠输入</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
     <value>与游戏内浏览器不兼容，切屏等操作也能使游戏闪退</value>
   </data>
