@@ -310,20 +310,6 @@
                 <cwc:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
-                    Command="{Binding SetGamePathCommand}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingSetGamePathHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7FC;}"
-                    IsClickEnabled="True">
-                    <cwc:SettingsCard.Description>
-                        <StackPanel>
-                            <TextBlock Foreground="{ThemeResource SystemErrorTextColor}" Text="{shcm:ResourceString Name=ViewPageSettingSetGamePathHint}"/>
-                            <TextBlock Text="{Binding AppOptions.GamePath}"/>
-                        </StackPanel>
-                    </cwc:SettingsCard.Description>
-                </cwc:SettingsCard>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
                     Command="{Binding SetPowerShellPathCommand}"
                     Header="{shcm:ResourceString Name=ViewPageSettingSetPowerShellPathHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE756;}"
@@ -418,13 +404,13 @@
                             <TextBlock
                                 Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                 Text="{shcm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
-                                Visibility="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}" Visibility="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}" Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                         </StackPanel>
                     </cwc:SettingsCard.Description>
                     <StackPanel Orientation="Horizontal">
                         <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                        <ToggleSwitch Width="120" IsOn="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
+                        <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                     </StackPanel>
                 </cwc:SettingsCard>
                 <cwc:SettingsCard
@@ -435,10 +421,7 @@
                     IsClickEnabled="True">
                     <cwc:SettingsCard.Description>
                         <StackPanel>
-                            <TextBlock
-                                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                Text="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"
-                                Visibility="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"/>
                             <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingDeleteUserDescription}"/>
                         </StackPanel>
                     </cwc:SettingsCard.Description>

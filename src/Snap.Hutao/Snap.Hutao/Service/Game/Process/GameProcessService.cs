@@ -52,7 +52,7 @@ internal sealed partial class GameProcessService : IGameProcessService
             return;
         }
 
-        if (!appOptions.TryGetGamePathAndGameFileName(out string gamePath, out string? gameFileName))
+        if (!launchOptions.TryGetGamePathAndGameFileName(out string gamePath, out string? gameFileName))
         {
             ArgumentException.ThrowIfNullOrEmpty(gamePath);
             return; // null check passing, actually never reach.
@@ -73,7 +73,7 @@ internal sealed partial class GameProcessService : IGameProcessService
                     await Starward.LaunchForPlayTimeStatisticsAsync(isOversea).ConfigureAwait(false);
                 }
 
-                if (runtimeOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled && launchOptions.UnlockFps)
+                if (runtimeOptions.IsElevated && launchOptions.IsAdvancedLaunchOptionsEnabled && launchOptions.UnlockFps)
                 {
                     progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
                     try

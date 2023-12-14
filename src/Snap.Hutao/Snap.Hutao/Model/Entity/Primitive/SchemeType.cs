@@ -12,7 +12,7 @@ internal enum SchemeType
     /// <summary>
     /// 国际服
     /// </summary>
-    Mihoyo,
+    Hoyoverse,
 
     /// <summary>
     /// 国服官服

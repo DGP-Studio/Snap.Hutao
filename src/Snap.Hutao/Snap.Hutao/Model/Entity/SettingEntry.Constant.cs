@@ -13,6 +13,8 @@ internal sealed partial class SettingEntry
     /// </summary>
     public const string GamePath = "GamePath";
 
+    public const string GamePathEntries = "GamePathEntries";
+
     /// <summary>
     /// PowerShell 路径
     /// </summary>

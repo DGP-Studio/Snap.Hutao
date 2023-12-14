@@ -6,6 +6,8 @@ using Microsoft.UI.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Game.PathAbstraction;
+using System.Collections.Immutable;
 using System.Globalization;
 using Windows.Graphics;
 using Windows.Win32.Foundation;
@@ -24,7 +26,10 @@ internal sealed class LaunchOptions : DbStoreOptions
     private readonly int primaryScreenHeight;
     private readonly int primaryScreenFps;
 
+    private string? gamePath;
+    private ImmutableList<GamePathEntry>? gamePathEntries;
     private bool? isEnabled;
+    private bool? isAdvancedLaunchOptionsEnabled;
     private bool? isFullScreen;
     private bool? isBorderless;
     private bool? isExclusive;
@@ -85,10 +90,30 @@ internal sealed class LaunchOptions : DbStoreOptions
         }
     }
 
+    public string GamePath
+    {
+        get => GetOption(ref gamePath, SettingEntry.GamePath);
+        set => SetOption(ref gamePath, SettingEntry.GamePath, value);
+    }
+
+    public ImmutableList<GamePathEntry> GamePathEntries
+    {
+        // Because DbStoreOptions can't detect collection change, We use
+        // ImmutableList to imply that the whole list needs to be replaced
+        get => GetOption(ref gamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableList<GamePathEntry>>(raw), []);
+        set => SetOption(ref gamePathEntries, SettingEntry.GamePathEntries, value, value => JsonSerializer.Serialize(value));
+    }
+
     public bool IsEnabled
     {
         get => GetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, true);
         set => SetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, value);
+    }
+
+    public bool IsAdvancedLaunchOptionsEnabled
+    {
+        get => GetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled);
+        set => SetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled, value);
     }
 
     public bool IsFullScreen

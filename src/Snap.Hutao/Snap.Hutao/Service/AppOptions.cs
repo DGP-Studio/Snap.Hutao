@@ -6,6 +6,8 @@ using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Game.PathAbstraction;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 
@@ -15,19 +17,11 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
-    private string? gamePath;
     private string? powerShellPath;
     private bool? isEmptyHistoryWishVisible;
     private BackdropType? backdropType;
     private CultureInfo? currentCulture;
-    private bool? isAdvancedLaunchOptionsEnabled;
     private string? geetestCustomCompositeUrl;
-
-    public string GamePath
-    {
-        get => GetOption(ref gamePath, SettingEntry.GamePath);
-        set => SetOption(ref gamePath, SettingEntry.GamePath, value);
-    }
 
     public string PowerShellPath
     {
@@ -78,14 +72,6 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref currentCulture, SettingEntry.Culture, CultureInfo.GetCultureInfo, CultureInfo.CurrentCulture);
         set => SetOption(ref currentCulture, SettingEntry.Culture, value, value => value.Name);
-    }
-
-    public bool IsAdvancedLaunchOptionsEnabled
-    {
-        // DO NOT MOVE TO OTHER CLASS
-        // We use this property in SettingPage binding
-        get => GetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled);
-        set => SetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled, value);
     }
 
     public string GeetestCustomCompositeUrl

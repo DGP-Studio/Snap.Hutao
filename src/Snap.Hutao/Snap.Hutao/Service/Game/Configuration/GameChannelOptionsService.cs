@@ -13,11 +13,11 @@ namespace Snap.Hutao.Service.Game.Configuration;
 [Injection(InjectAs.Singleton, typeof(IGameChannelOptionsService))]
 internal sealed partial class GameChannelOptionsService : IGameChannelOptionsService
 {
-    private readonly AppOptions appOptions;
+    private readonly LaunchOptions launchOptions;
 
     public ChannelOptions GetChannelOptions()
     {
-        string gamePath = appOptions.GamePath;
+        string gamePath = launchOptions.GamePath;
         string configPath = Path.Combine(Path.GetDirectoryName(gamePath) ?? string.Empty, ConfigFileName);
         bool isOversea = string.Equals(Path.GetFileName(gamePath), GenshinImpactFileName, StringComparison.OrdinalIgnoreCase);
 
@@ -38,7 +38,7 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
 
     public bool SetChannelOptions(LaunchScheme scheme)
     {
-        string gamePath = appOptions.GamePath;
+        string gamePath = launchOptions.GamePath;
         string? directory = Path.GetDirectoryName(gamePath);
         ArgumentException.ThrowIfNullOrEmpty(directory);
         string configPath = Path.Combine(directory, ConfigFileName);

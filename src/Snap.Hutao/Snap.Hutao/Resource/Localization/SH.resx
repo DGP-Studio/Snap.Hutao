@@ -2189,6 +2189,9 @@
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>打开截图文件夹</value>
   </data>
+  <data name="ViewPageResetGamePathAction" xml:space="preserve">
+    <value>选择游戏路径</value>
+  </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>关于 胡桃</value>
   </data>
