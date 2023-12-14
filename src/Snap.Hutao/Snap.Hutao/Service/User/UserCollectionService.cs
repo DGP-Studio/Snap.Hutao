@@ -6,7 +6,6 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Message;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.ViewModel.User.User;
@@ -113,6 +112,11 @@ internal sealed partial class UserCollectionService : IUserCollectionService
             midUserMap?.Remove(user.Entity.Mid);
         }
 
+        foreach (UserGameRole role in user.UserGameRoles)
+        {
+            uidUserGameRoleMap?.Remove(role.GameUid);
+        }
+
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
         await userDbService.DeleteUserByIdAsync(user.Entity.InnerId).ConfigureAwait(false);
@@ -146,10 +150,10 @@ internal sealed partial class UserCollectionService : IUserCollectionService
         return midUserMap.TryGetValue(mid, out user);
     }
 
-    public async ValueTask<ValueResult<UserOptionResult, string>> TryCreateAndAddUserFromCookieAsync(Cookie cookie, bool isOversea)
+    public async ValueTask<ValueResult<UserOptionResult, string>> TryCreateAndAddUserFromInputCookieAsync(InputCookie inputCookie)
     {
         await taskContext.SwitchToBackgroundAsync();
-        BindingUser? newUser = await userInitializationService.CreateUserFromCookieOrDefaultAsync(cookie, isOversea).ConfigureAwait(false);
+        BindingUser? newUser = await userInitializationService.CreateUserFromInputCookieOrDefaultAsync(inputCookie).ConfigureAwait(false);
 
         if (newUser is null)
         {

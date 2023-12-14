@@ -14,19 +14,12 @@ internal sealed partial class Cookie
 {
     private readonly SortedDictionary<string, string> inner;
 
-    /// <summary>
-    /// 构造一个空白的Cookie
-    /// </summary>
     public Cookie()
         : this([])
     {
     }
 
-    /// <summary>
-    /// 构造一个新的Cookie
-    /// </summary>
-    /// <param name="dict">源</param>
-    private Cookie(SortedDictionary<string, string> dict)
+    public Cookie(SortedDictionary<string, string> dict)
     {
         inner = dict;
     }
@@ -37,11 +30,6 @@ internal sealed partial class Cookie
         set => inner[key] = value;
     }
 
-    /// <summary>
-    /// 解析Cookie字符串
-    /// </summary>
-    /// <param name="cookieString">cookie字符串</param>
-    /// <returns>新的Cookie对象</returns>
     public static Cookie Parse(string cookieString)
     {
         SortedDictionary<string, string> cookieMap = [];
@@ -69,11 +57,6 @@ internal sealed partial class Cookie
         return new(cookieMap);
     }
 
-    /// <summary>
-    /// 从登录结果创建 Cookie
-    /// </summary>
-    /// <param name="loginResult">登录结果</param>
-    /// <returns>Cookie</returns>
     public static Cookie FromLoginResult(LoginResult? loginResult)
     {
         if (loginResult is null)
@@ -91,12 +74,6 @@ internal sealed partial class Cookie
         return new(cookieMap);
     }
 
-    /// <summary>
-    /// 从 SToken 创建 Cookie
-    /// </summary>
-    /// <param name="stuid">stuid</param>
-    /// <param name="stoken">stoken</param>
-    /// <returns>Cookie</returns>
     public static Cookie FromSToken(string stuid, string stoken)
     {
         SortedDictionary<string, string> cookieMap = new()
@@ -113,119 +90,18 @@ internal sealed partial class Cookie
         return inner.Count <= 0;
     }
 
-    public bool TryGetLoginTicket([NotNullWhen(true)] out Cookie? cookie)
-    {
-        if (TryGetValue(LOGIN_TICKET, out string? loginTicket) && TryGetValue(LOGIN_UID, out string? loginUid))
-        {
-            cookie = new Cookie(new()
-            {
-                [LOGIN_TICKET] = loginTicket,
-                [LOGIN_UID] = loginUid,
-            });
-
-            return true;
-        }
-
-        cookie = null;
-        return false;
-    }
-
-    public bool TryGetSToken(bool isOversea, [NotNullWhen(true)] out Cookie? cookie)
-    {
-        return isOversea ? TryGetLegacySToken(out cookie) : TryGetSToken(out cookie);
-    }
-
-    public bool TryGetLToken([NotNullWhen(true)] out Cookie? cookie)
-    {
-        if (TryGetValue(LTOKEN, out string? ltoken) && TryGetValue(LTUID, out string? ltuid))
-        {
-            cookie = new Cookie(new()
-            {
-                [LTOKEN] = ltoken,
-                [LTUID] = ltuid,
-            });
-
-            return true;
-        }
-
-        cookie = null;
-        return false;
-    }
-
-    public bool TryGetCookieToken([NotNullWhen(true)] out Cookie? cookie)
-    {
-        if (TryGetValue(ACCOUNT_ID, out string? accountId) && TryGetValue(COOKIE_TOKEN, out string? cookieToken))
-        {
-            cookie = new Cookie(new()
-            {
-                [ACCOUNT_ID] = accountId,
-                [COOKIE_TOKEN] = cookieToken,
-            });
-
-            return true;
-        }
-
-        cookie = null;
-        return false;
-    }
-
-    /// <inheritdoc cref="Dictionary{TKey, TValue}.TryGetValue(TKey, out TValue)"/>
     public bool TryGetValue(string key, [NotNullWhen(true)] out string? value)
     {
         return inner.TryGetValue(key, out value);
     }
 
-    /// <summary>
-    /// 获取值
-    /// </summary>
-    /// <param name="key">键</param>
-    /// <returns>值或默认值</returns>
     public string? GetValueOrDefault(string key)
     {
         return inner.GetValueOrDefault(key);
     }
 
-    /// <summary>
-    /// 转换为Cookie的字符串表示
-    /// </summary>
-    /// <returns>Cookie的字符串表示</returns>
     public override string ToString()
     {
-        return string.Join(';', inner.Select(kvp => $"{kvp.Key}={kvp.Value}"));
-    }
-
-    private bool TryGetSToken([NotNullWhen(true)] out Cookie? cookie)
-    {
-        if (TryGetValue(MID, out string? mid) && TryGetValue(STOKEN, out string? stoken) && TryGetValue(STUID, out string? stuid))
-        {
-            cookie = new Cookie(new()
-            {
-                [MID] = mid,
-                [STOKEN] = stoken,
-                [STUID] = stuid,
-            });
-
-            return true;
-        }
-
-        cookie = null;
-        return false;
-    }
-
-    private bool TryGetLegacySToken([NotNullWhen(true)] out Cookie? cookie)
-    {
-        if (TryGetValue(STOKEN, out string? stoken) && TryGetValue(STUID, out string? stuid))
-        {
-            cookie = new Cookie(new()
-            {
-                [STOKEN] = stoken,
-                [STUID] = stuid,
-            });
-
-            return true;
-        }
-
-        cookie = null;
-        return false;
+        return inner.JoinToString(';', (builder, key, value) => builder.Append(key).Append('=').Append(value));
     }
 }

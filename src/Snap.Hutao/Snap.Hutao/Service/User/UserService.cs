@@ -56,20 +56,22 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         return userCollectionService.GetUserGameRoleByUid(uid);
     }
 
-    public async ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea)
+    public async ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(InputCookie inputCookie)
     {
         await taskContext.SwitchToBackgroundAsync();
-        string? mid = cookie.GetValueOrDefault(isOversea ? Cookie.STUID : Cookie.MID);
+        (Cookie cookie, bool isOversea, string? deviceFp) = inputCookie;
 
-        if (string.IsNullOrEmpty(mid))
+        string? midOrAid = cookie.GetValueOrDefault(isOversea ? Cookie.STUID : Cookie.MID);
+
+        if (string.IsNullOrEmpty(midOrAid))
         {
             return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieNoMid);
         }
 
         // 检查 mid 对应用户是否存在
-        if (!userCollectionService.TryGetUserByMid(mid, out BindingUser? user))
+        if (!userCollectionService.TryGetUserByMid(midOrAid, out BindingUser? user))
         {
-            return await userCollectionService.TryCreateAndAddUserFromCookieAsync(cookie, isOversea).ConfigureAwait(false);
+            return await userCollectionService.TryCreateAndAddUserFromInputCookieAsync(inputCookie).ConfigureAwait(false);
         }
 
         if (!cookie.TryGetSToken(isOversea, out Cookie? stoken))
@@ -80,9 +82,10 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         user.SToken = stoken;
         user.LToken = cookie.TryGetLToken(out Cookie? ltoken) ? ltoken : user.LToken;
         user.CookieToken = cookie.TryGetCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
+        user.TryUpdateFingerprint(deviceFp);
 
         await userDbService.UpdateUserAsync(user.Entity).ConfigureAwait(false);
-        return new(UserOptionResult.CookieUpdated, mid);
+        return new(UserOptionResult.CookieUpdated, midOrAid);
     }
 
     public async ValueTask<bool> RefreshCookieTokenAsync(Model.Entity.User user)

@@ -7,7 +7,6 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Bridge;
-using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.View.Page;
 
@@ -30,11 +29,11 @@ internal interface ISupportLoginByWebView
         }
     }
 
-    static async ValueTask PostHandleCurrentCookieAsync(IServiceProvider serviceProvider, Cookie cookie, bool isOversea)
+    static async ValueTask PostHandleCurrentCookieAsync(IServiceProvider serviceProvider, InputCookie inputCookie)
     {
         (UserOptionResult result, string nickname) = await serviceProvider
             .GetRequiredService<IUserService>()
-            .ProcessInputCookieAsync(cookie, isOversea)
+            .ProcessInputCookieAsync(inputCookie)
             .ConfigureAwait(false);
 
         serviceProvider.GetRequiredService<INavigationService>().GoBack();

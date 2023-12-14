@@ -6,8 +6,6 @@ using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Game.PathAbstraction;
-using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 

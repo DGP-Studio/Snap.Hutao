@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.PublicData.DeviceFp;
 using Snap.Hutao.Web.Response;
@@ -21,7 +22,7 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
             return;
         }
 
-        if (user.Entity.FingerprintLastUpdateTime >= DateTimeOffset.UtcNow - TimeSpan.FromDays(3))
+        if (user.Entity.FingerprintLastUpdateTime >= DateTimeOffset.UtcNow - TimeSpan.FromDays(7))
         {
             if (!string.IsNullOrEmpty(user.Fingerprint))
             {
@@ -79,9 +80,8 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
         };
 
         Response<DeviceFpWrapper> response = await deviceFpClient.GetFingerprintAsync(data, token).ConfigureAwait(false);
-        user.Fingerprint = response.IsOk() ? response.Data.DeviceFp : string.Empty;
+        user.TryUpdateFingerprint(response.IsOk() ? response.Data.DeviceFp : string.Empty);
 
-        user.Entity.FingerprintLastUpdateTime = DateTimeOffset.UtcNow;
         user.NeedDbUpdateAfterResume = true;
     }
 }

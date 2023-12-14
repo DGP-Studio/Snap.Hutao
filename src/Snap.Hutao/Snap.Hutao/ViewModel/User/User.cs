@@ -55,7 +55,7 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMapping
         set => SetSelectedUserGameRole(value);
     }
 
-    public string? Fingerprint { get => inner.Fingerprint; set => inner.Fingerprint = value; }
+    public string? Fingerprint { get => inner.Fingerprint; }
 
     public Guid InnerId { get => inner.InnerId; }
 

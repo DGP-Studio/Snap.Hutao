@@ -143,7 +143,7 @@ internal sealed partial class UserViewModel : ObservableObject
         if (result.TryGetValue(out string rawCookie))
         {
             Cookie cookie = Cookie.Parse(rawCookie);
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(cookie, isOversea).ConfigureAwait(false);
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateWithDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
             await HandleUserOptionResultAsync(optionResult, uid).ConfigureAwait(false);
         }
     }
@@ -192,7 +192,7 @@ internal sealed partial class UserViewModel : ObservableObject
         if (sTokenResponse.IsOk())
         {
             Cookie stokenV2 = Cookie.FromLoginResult(sTokenResponse.Data);
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(stokenV2, false).ConfigureAwait(false);
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateWithDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
             await HandleUserOptionResultAsync(optionResult, uid).ConfigureAwait(false);
         }
     }

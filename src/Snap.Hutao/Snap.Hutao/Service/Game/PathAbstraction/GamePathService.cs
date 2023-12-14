@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.Game.Locator;
-using Snap.Hutao.Service.Game.PathAbstraction;
 
 namespace Snap.Hutao.Service.Game.PathAbstraction;
 
