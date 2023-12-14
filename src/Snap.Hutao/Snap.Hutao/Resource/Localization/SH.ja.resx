@@ -2045,6 +2045,9 @@
   <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
     <value>ボーダーレス</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
+    <value>启用内置触摸布局，不会响应键鼠输入</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
     <value>ゲーム内ブラウザには対応していません。ウィンドウの切り替え操作などによりゲームが強制終了する可能性があります。</value>
   </data>
@@ -2188,6 +2191,9 @@
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>スクリーンショットフォルダを開く</value>
+  </data>
+  <data name="ViewPageResetGamePathAction" xml:space="preserve">
+    <value>选择游戏路径</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>胡桃について</value>
