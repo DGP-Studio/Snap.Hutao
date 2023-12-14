@@ -2045,6 +2045,9 @@
   <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
     <value>無邊框</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
+    <value>启用内置触摸布局，不会响应键鼠输入</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
     <value>與游戲内瀏覽器不兼容，切屏等操作也能使游戲閃退</value>
   </data>
@@ -2188,6 +2191,9 @@
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>開啟截圖資料夾</value>
+  </data>
+  <data name="ViewPageResetGamePathAction" xml:space="preserve">
+    <value>选择游戏路径</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>關於 胡桃</value>
