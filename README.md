@@ -49,8 +49,10 @@ Snap Hutao is an open-source Genshin Impact toolkit under MIT license, designed 
 
 Snap Hutao is currently using sponsored software from the following service providers.
 
-|![netlify](https://www.netlify.com/v3/img/components/netlify-light.svg)|![crowdin](https://badges.crowdin.net/badge/light/crowdin-on-dark.png)|![极狐](https://gitlab.cn/images/icons/logos/logo-121-75.svg)|![SignPath](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/e11836f7-8fee-4469-86bc-09c68042dd96)|
-|-|-|-|-|
+| [![](https://www.netlify.com/v3/img/components/netlify-light.svg)](https://www.netlify.com/) | [![](https://support.crowdin.com/assets/logos/core-logo/svg/crowdin-core-logo-cDark.svg)](https://crowdin.com/) | [![](https://gitlab.cn/images/icons/logos/logo-121-75.svg)](https://gitlab.cn/) |
+|:----------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:|
+|              [![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/73ae8b90-f3c7-4033-b2b7-f4126331ce66)](https://about.signpath.io)              |                        [![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/49aed8ee-9f19-4a8a-998c-7b93ee286d65)](https://1password.com/)                         |  [![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/ad121220-d2d3-4f49-b215-b6d063dc229d)](https://about.signpath.io)   |
+
 
 - Netlify provides document and home page hosting service for Snap Hutao
 
@@ -59,6 +61,10 @@ Snap Hutao is currently using sponsored software from the following service prov
 - Jihu GitLab (极狐) provides Git repository and CI/CD SaaS service for Snap Hutao in China
 
 - Free code signing provided by [SignPath.io](https://signpath.io/), certificate by [SignPath Foundation](https://signpath.org/)
+
+- 1Password provides Snap Hutao development team with their amazing password management software
+  
+- DigitalOcean provides reliable cloud database for Snap Hutao database backup
 
 ## 开发 / Development
 
