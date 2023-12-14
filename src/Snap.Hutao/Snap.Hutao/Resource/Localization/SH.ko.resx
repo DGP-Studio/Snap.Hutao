@@ -2045,6 +2045,9 @@
   <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
     <value>테두리 없음</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
+    <value>启用内置触摸布局，不会响应键鼠输入</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
     <value>게임 내 브라우저와 호환되지 않아 화면을 자르는 등의 작업으로 게임이 종료 될 수 있습니다</value>
   </data>
@@ -2188,6 +2191,9 @@
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>스크린샷 폴더 열기</value>
+  </data>
+  <data name="ViewPageResetGamePathAction" xml:space="preserve">
+    <value>选择游戏路径</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>호두에 대하여</value>
