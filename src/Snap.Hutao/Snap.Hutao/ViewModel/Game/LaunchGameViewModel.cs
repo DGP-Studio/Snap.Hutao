@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
@@ -11,13 +12,15 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
+using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.Package;
+using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
-using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.IO;
 
@@ -38,7 +41,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly LaunchStatusOptions launchStatusOptions;
-    private readonly INavigationService navigationService;
+    private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly IProgressFactory progressFactory;
     private readonly IInfoBarService infoBarService;
     private readonly ResourceClient resourceClient;
@@ -54,6 +57,9 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     private ObservableCollection<GameAccount>? gameAccounts;
     private GameAccount? selectedGameAccount;
     private GameResource? gameResource;
+    private bool gamePathSelectedAndValid;
+    private ImmutableList<GamePathEntry> gamePathEntries;
+    private GamePathEntry? selectedGamePathEntry;
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
@@ -99,68 +105,127 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 
     public GameResource? GameResource { get => gameResource; set => SetProperty(ref gameResource, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    public bool GamePathSelectedAndValid
     {
-        if (File.Exists(AppOptions.GamePath))
+        get => gamePathSelectedAndValid;
+        set
         {
-            try
+            if (SetProperty(ref gamePathSelectedAndValid, value) && value)
             {
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                InitializeUICoreAsync().SafeForget();
+            }
+        }
+    }
+
+    public ImmutableList<GamePathEntry> GamePathEntries { get => gamePathEntries; set => SetProperty(ref gamePathEntries, value); }
+
+    public GamePathEntry? SelectedGamePathEntry
+    {
+        get => selectedGamePathEntry;
+        set => UpdateSelectedGamePathEntry(value, true);
+    }
+
+    protected override ValueTask<bool> InitializeUIAsync()
+    {
+        GamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
+        SelectedGamePathEntry = entry;
+        return ValueTask.FromResult(true);
+    }
+
+    private async ValueTask InitializeUICoreAsync()
+    {
+        try
+        {
+            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+            {
+                ChannelOptions options = gameService.GetChannelOptions();
+                if (string.IsNullOrEmpty(options.ConfigFilePath))
                 {
-                    ChannelOptions options = gameService.GetChannelOptions();
-                    if (string.IsNullOrEmpty(options.ConfigFilePath))
+                    try
                     {
-                        try
+                        SelectedScheme = KnownSchemes.Single(scheme => scheme.Equals(options));
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        if (!IgnoredInvalidChannelOptions.Contains(options))
                         {
-                            SelectedScheme = KnownSchemes.Single(scheme => scheme.Equals(options));
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            if (!IgnoredInvalidChannelOptions.Contains(options))
-                            {
-                                // 后台收集
-                                throw new NotSupportedException($"不支持的 MultiChannel: {options}");
-                            }
+                            // 后台收集
+                            throw new NotSupportedException($"不支持的 MultiChannel: {options}");
                         }
                     }
-                    else
-                    {
-                        infoBarService.Warning(SH.FormatViewModelLaunchGameMultiChannelReadFail(options.ConfigFilePath));
-                    }
-
-                    ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
-
-                    await taskContext.SwitchToMainThreadAsync();
-                    GameAccounts = accounts;
-
-                    // Sync uid
-                    if (memoryCache.TryRemove(DesiredUid, out object? value) && value is string uid)
-                    {
-                        SelectedGameAccount = GameAccounts.FirstOrDefault(g => g.AttachUid == uid);
-                    }
-
-                    // Try set to the current account.
-                    SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
                 }
-            }
-            catch (UserdataCorruptedException ex)
-            {
-                infoBarService.Error(ex);
-            }
-            catch (OperationCanceledException)
-            {
+                else
+                {
+                    infoBarService.Warning(SH.FormatViewModelLaunchGameMultiChannelReadFail(options.ConfigFilePath));
+                }
+
+                ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
+
+                await taskContext.SwitchToMainThreadAsync();
+                GameAccounts = accounts;
+
+                // Sync uid
+                if (memoryCache.TryRemove(DesiredUid, out object? value) && value is string uid)
+                {
+                    SelectedGameAccount = GameAccounts.FirstOrDefault(g => g.AttachUid == uid);
+                }
+
+                // Try set to the current account.
+                SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
             }
         }
-        else
+        catch (UserdataCorruptedException ex)
         {
-            infoBarService.Warning(SH.ViewModelLaunchGamePathInvalid);
-            await taskContext.SwitchToMainThreadAsync();
-            await navigationService
-                .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
-                .ConfigureAwait(false);
+            infoBarService.Error(ex);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    private void UpdateSelectedGamePathEntry(GamePathEntry? value, bool setBack)
+    {
+        if (SetProperty(ref selectedGamePathEntry, value) && setBack)
+        {
+            launchOptions.GamePath = value?.Path ?? string.Empty;
+            GamePathSelectedAndValid = File.Exists(launchOptions.GamePath);
+        }
+    }
+
+    [Command("SetGamePathCommand")]
+    private async Task SetGamePathAsync()
+    {
+        IGameLocator locator = gameLocatorFactory.Create(GameLocationSource.Manual);
+
+        (bool isOk, string path) = await locator.LocateGamePathAsync().ConfigureAwait(false);
+        if (!isOk)
+        {
+            return;
         }
 
-        return true;
+        await taskContext.SwitchToMainThreadAsync();
+        try
+        {
+            GamePathEntries = launchOptions.UpdateGamePathAndRefreshEntries(path);
+        }
+        catch (SqliteException ex)
+        {
+            // 文件夹权限不足，无法写入数据库
+            infoBarService.Error(ex, SH.ViewModelSettingSetGamePathDatabaseFailedTitle);
+        }
+    }
+
+    [Command("ResetGamePathCommand")]
+    private void ResetGamePath()
+    {
+        SelectedGamePathEntry = default;
+    }
+
+    [Command("RemoveGamePathEntryCommand")]
+    private void RemoveGamePathEntry(GamePathEntry? entry)
+    {
+        GamePathEntries = launchOptions.RemoveGamePathEntry(entry, out GamePathEntry? selected);
+        SelectedGamePathEntry = selected;
     }
 
     [Command("LaunchCommand")]
@@ -186,6 +251,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 {
                     infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
                     return;
+                }
+                else
+                {
+                    GamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
+                    UpdateSelectedGamePathEntry(entry, false);
                 }
             }
 
@@ -265,7 +335,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     [Command("OpenScreenshotFolderCommand")]
     private async Task OpenScreenshotFolderAsync()
     {
-        string game = appOptions.GamePath;
+        string game = LaunchOptions.GamePath;
         string? directory = Path.GetDirectoryName(game);
         ArgumentException.ThrowIfNullOrEmpty(directory);
         string screenshot = Path.Combine(directory, "ScreenShot");
