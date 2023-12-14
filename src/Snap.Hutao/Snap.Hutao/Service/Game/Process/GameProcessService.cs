@@ -21,7 +21,6 @@ internal sealed partial class GameProcessService : IGameProcessService
     private readonly IDiscordService discordService;
     private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
-    private readonly AppOptions appOptions;
 
     private volatile bool isGameRunning;
 
