@@ -185,8 +185,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 
     private void UpdateSelectedGamePathEntry(GamePathEntry? value, bool setBack)
     {
-        if (SetProperty(ref selectedGamePathEntry, value) && setBack)
+        if (SetProperty(ref selectedGamePathEntry, value, nameof(SelectedGamePathEntry)) && setBack)
         {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
             launchOptions.GamePath = value?.Path ?? string.Empty;
             GamePathSelectedAndValid = File.Exists(launchOptions.GamePath);
         }

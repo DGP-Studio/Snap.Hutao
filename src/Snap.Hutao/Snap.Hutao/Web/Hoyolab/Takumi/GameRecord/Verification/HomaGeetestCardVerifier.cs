@@ -24,7 +24,7 @@ internal sealed partial class HomaGeetestCardVerifier : IGeetestCardVerifier
 
             if (response is { Code: 0, Data.Validate: string validate })
             {
-                Response.Response<VerificationResult> verifyResponse = await cardClient.VerifyVerificationAsync(registration.Challenge, validate, token).ConfigureAwait(false);
+                Response.Response<VerificationResult> verifyResponse = await cardClient.VerifyVerificationAsync(headers, registration.Challenge, validate, token).ConfigureAwait(false);
                 if (verifyResponse.IsOk())
                 {
                     VerificationResult result = verifyResponse.Data;

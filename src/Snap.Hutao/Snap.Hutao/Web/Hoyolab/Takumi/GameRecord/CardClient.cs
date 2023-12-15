@@ -43,17 +43,12 @@ internal sealed partial class CardClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 二次验证
-    /// </summary>
-    /// <param name="challenge">流水号</param>
-    /// <param name="validate">验证</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>验证结果</returns>
-    public async ValueTask<Response<VerificationResult>> VerifyVerificationAsync(string challenge, string validate, CancellationToken token)
+    public async ValueTask<Response<VerificationResult>> VerifyVerificationAsync(CardVerifiationHeaders headers, string challenge, string validate, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CardVerifyVerification)
+            .SetHeader("x-rpc-challenge_game", $"{headers.ChallengeGame}")
+            .SetHeader("x-rpc-challenge_path", headers.ChallengePath)
             .PostJson(new VerificationData(challenge, validate));
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
