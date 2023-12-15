@@ -102,19 +102,3 @@ internal sealed partial class CardClient
         public string GeetestSeccode { get; set; }
     }
 }
-
-internal sealed class CardVerifiationHeaders
-{
-    public int ChallengeGame { get; private set; }
-
-    public string ChallengePath { get; private set; }
-
-    public static CardVerifiationHeaders Create(string path)
-    {
-        return new()
-        {
-            ChallengeGame = 2,
-            ChallengePath = path,
-        };
-    }
-}

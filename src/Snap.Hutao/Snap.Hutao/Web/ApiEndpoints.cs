@@ -132,8 +132,10 @@ internal static class ApiEndpoints
     /// <returns>游戏记录主页字符串</returns>
     public static string GameRecordIndex(in PlayerUid uid)
     {
-        return $"{ApiTakumiRecordApi}/index?server={uid.Region}&role_id={uid.Value}";
+        return $"{GameRecordIndexPath}?server={uid.Region}&role_id={uid.Value}";
     }
+
+    public const string GameRecordIndexPath = $"{ApiTakumiRecordApi}/index";
 
     /// <summary>
     /// 深渊信息
@@ -143,8 +145,10 @@ internal static class ApiEndpoints
     /// <returns>深渊信息字符串</returns>
     public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.SpiralAbyssSchedule scheduleType, in PlayerUid uid)
     {
-        return $"{ApiTakumiRecordApi}/spiralAbyss?schedule_type={(int)scheduleType}&role_id={uid.Value}&server={uid.Region}";
+        return $"{GameRecordSpiralAbyssPath}?schedule_type={(int)scheduleType}&role_id={uid.Value}&server={uid.Region}";
     }
+
+    public const string GameRecordSpiralAbyssPath = $"{ApiTakumiRecordApi}/spiralAbyss";
     #endregion
 
     #region ApiTakumiEventCalculate

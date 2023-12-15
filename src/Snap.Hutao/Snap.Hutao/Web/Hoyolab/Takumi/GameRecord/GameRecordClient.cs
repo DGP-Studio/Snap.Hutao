@@ -28,12 +28,6 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     private readonly ILogger<GameRecordClient> logger;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 异步获取实时便笺
-    /// </summary>
-    /// <param name="userAndUid">用户与角色</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>实时便笺</returns>
     [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
     public async ValueTask<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
@@ -54,9 +48,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         {
             // Replace message
             resp.Message = SH.WebDailyNoteVerificationFailed;
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
-            CardVerifiationHeaders headers = CardVerifiationHeaders.Create(ApiEndpoints.GameRecordDailyNotePath);
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForDailyNote();
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
@@ -78,12 +72,6 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 获取玩家基础信息
-    /// </summary>
-    /// <param name="userAndUid">用户与角色</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>玩家的基础信息</returns>
     [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.X4)]
     public async ValueTask<Response<PlayerInfo>> GetPlayerInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
@@ -104,9 +92,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         {
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
-            CardVerifiationHeaders headers = CardVerifiationHeaders.Create(ApiEndpoints.GameRecordDailyNotePath);
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForIndex();
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
@@ -155,9 +143,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         {
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
-            CardVerifiationHeaders headers = CardVerifiationHeaders.Create(ApiEndpoints.GameRecordDailyNotePath);
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForSpiralAbyss();
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
@@ -230,9 +218,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         {
             // Replace message
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
-            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
-            CardVerifiationHeaders headers = CardVerifiationHeaders.Create(ApiEndpoints.GameRecordDailyNotePath);
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForCharacter();
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
