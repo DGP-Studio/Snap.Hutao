@@ -10,6 +10,11 @@ namespace Snap.Hutao.Web.Response;
 internal enum KnownReturnCode
 {
     /// <summary>
+    /// 用户不存在
+    /// </summary>
+    UserNotExist = -20001,
+
+    /// <summary>
     /// 无效请求
     /// 因战绩功能服务优化升级，V2.10及以下版本将无法正常使用战绩功能，请更新米游社至最新版本再进行使用。
     /// </summary>
