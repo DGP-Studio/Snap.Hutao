@@ -22,48 +22,70 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
             return;
         }
 
-        if (user.Entity.FingerprintLastUpdateTime >= DateTimeOffset.UtcNow - TimeSpan.FromDays(7))
-        {
-            if (!string.IsNullOrEmpty(user.Fingerprint))
-            {
-                return;
-            }
-        }
+        //if (user.Entity.FingerprintLastUpdateTime >= DateTimeOffset.UtcNow - TimeSpan.FromDays(7))
+        //{
+        //    if (!string.IsNullOrEmpty(user.Fingerprint))
+        //    {
+        //        return;
+        //    }
+        //}
 
-        string model = Core.Random.GetUpperAndNumberString(6);
-        Dictionary<string, string> extendProperties = new()
+        string device = Core.Random.GetUpperAndNumberString(12);
+        string product = Core.Random.GetUpperAndNumberString(6);
+        Dictionary<string, object> extendProperties = new()
         {
-            { "cpuType", "arm64-v8a" },
+            { "proxyStatus", 0 },
+            { "isRoot", 0 },
             { "romCapacity", "512" },
-            { "productName", model },
-            { "romRemain", "256" },
-            { "manufacturer", "XiaoMi" },
-            { "appMemory", "512" },
+            { "deviceName", device },
+            { "productName", product },
+            { "romRemain", "512" },
             { "hostname", "dg02-pool03-kvm87" },
-            { "screenSize", "1080x1920" },
-            { "osVersion", "13" },
+            { "screenSize", "1440x2905" },
+            { "isTablet", 0 },
             { "aaid", string.Empty },
-            { "vendor", "中国移动" },
-            { "accelerometer", "1.4883357x7.1712894x6.2847486" },
-            { "buildTags", "release-keys" },
-            { "model", model },
+            { "model", device },
             { "brand", "XiaoMi" },
-            { "oaid", string.Empty },
             { "hardware", "qcom" },
             { "deviceType", "OP5913L1" },
             { "devId", "REL" },
             { "serialNumber", "unknown" },
-            { "buildTime", "1687848011000" },
-            { "buildUser", "root" },
-            { "ramCapacity", "469679" },
-            { "magnetometer", "20.081251x-27.487501x2.1937501" },
-            { "display", $"{model}_13.1.0.181(CN01)" },
-            { "ramRemain", "215344" },
-            { "deviceInfo", $@"XiaoMi/{model}/OP5913L1:13/SKQ1.221119.001/T.118e6c7-5aa23-73911:user/release-keys" },
-            { "gyroscope", "0.030226856x0.014647375x0.010652636" },
+            { "sdCapacity", 512215 },
+            { "buildTime", "1693626947000" },
+            { "buildUser", "android-build" },
+            { "simState", 5 },
+            { "ramRemain", "239814" },
+            { "appUpdateTimeDiff", 1702604034482 },
+            { "deviceInfo", $@"XiaoMi\/{product}\/OP5913L1:13\/SKQ1.221119.001\/T.118e6c7-5aa23-73911:user\/release-keys" },
             { "vaid", string.Empty },
             { "buildType", "user" },
-            { "sdkVersion", "33" },
+            { "sdkVersion", "34" },
+            { "ui_mode", "UI_MODE_TYPE_NORMAL" },
+            { "isMockLocation", 0 },
+            { "cpuType", "arm64-v8a" },
+            { "isAirMode", 0 },
+            { "ringMode", 2 },
+            { "chargeStatus", 1 },
+            { "manufacturer", "XiaoMi" },
+            { "emulatorStatus", 0 },
+            { "appMemory", "512" },
+            { "osVersion", "14" },
+            { "vendor", "unknown" },
+            { "accelerometer", "1.4883357x7.1712894x6.2847486" },
+            { "sdRemain",  239600 },
+            { "buildTags", "release-keys" },
+            { "packageName", "com.mihoyo.hyperion" },
+            { "networkType", "WiFi" },
+            { "oaid", string.Empty },
+            { "debugStatus", 1 },
+            { "ramCapacity", "469679" },
+            { "magnetometer", "20.081251x-27.487501x2.1937501" },
+            { "display", $"{product}_13.1.0.181(CN01)" },
+            { "appInstallTimeDiff", 1688455751496 },
+            { "packageVersion", "2.20.1" },
+            { "gyroscope", "0.030226856x0.014647375x0.010652636" },
+            { "batteryStatus", 100 },
+            { "hasKeyboard", 0 },
             { "board", "taro" },
         };
 
