@@ -40,10 +40,7 @@ internal static class RegistryInterop
 
             string base64 = Convert.ToBase64String(target);
             string path = $"HKCU:{GenshinPath}";
-            string command = $"""
-                $value = [Convert]::FromBase64String('{base64}');
-                Set-ItemProperty -Path '{path}' -Name '{SdkChineseKey}' -Value $value -Force;
-                """;
+            string command = $"-Command \"$value = [Convert]::FromBase64String('{base64}'); Set-ItemProperty -Path '{path}' -Name '{SdkChineseKey}' -Value $value -Force;\"";
 
             ProcessStartInfo startInfo = new()
             {
