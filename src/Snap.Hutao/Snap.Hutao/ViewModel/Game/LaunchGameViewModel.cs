@@ -259,6 +259,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 }
                 else
                 {
+                    await taskContext.SwitchToMainThreadAsync();
                     GamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
                     UpdateSelectedGamePathEntry(entry, false);
                 }
