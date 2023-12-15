@@ -7,5 +7,5 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 
 internal interface IGeetestCardVerifier
 {
-    ValueTask<string?> TryValidateXrpcChallengeAsync(User user, CancellationToken token);
+    ValueTask<string?> TryValidateXrpcChallengeAsync(User user, CardVerifiationHeaders headers, CancellationToken token);
 }

@@ -120,8 +120,10 @@ internal static class ApiEndpoints
     /// <returns>游戏记录实时便笺字符串</returns>
     public static string GameRecordDailyNote(in PlayerUid uid)
     {
-        return $"{ApiTakumiRecordApi}/dailyNote?server={uid.Region}&role_id={uid.Value}";
+        return $"{GameRecordDailyNotePath}?server={uid.Region}&role_id={uid.Value}";
     }
+
+    public const string GameRecordDailyNotePath = $"{ApiTakumiRecordApi}/dailyNote";
 
     /// <summary>
     /// 游戏记录主页

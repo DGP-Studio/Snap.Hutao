@@ -56,7 +56,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebDailyNoteVerificationFailed;
             IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
-            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            CardVerifiationHeaders headers = CardVerifiationHeaders.Create(ApiEndpoints.GameRecordDailyNotePath);
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid))
@@ -88,7 +90,6 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordIndex(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
             .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
@@ -105,12 +106,13 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
             IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
-            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            CardVerifiationHeaders headers = CardVerifiationHeaders.Create(ApiEndpoints.GameRecordDailyNotePath);
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordIndex(userAndUid.Uid))
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-                    .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
                     .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
                     .SetXrpcChallenge(challenge)
                     .Get();
@@ -139,7 +141,6 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
             .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
@@ -156,12 +157,13 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
             IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
-            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            CardVerifiationHeaders headers = CardVerifiationHeaders.Create(ApiEndpoints.GameRecordDailyNotePath);
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-                    .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
                     .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
                     .SetXrpcChallenge(challenge)
                     .Get();
@@ -189,7 +191,6 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordRoleBasicInfo(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
             .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
             .Get();
 
@@ -215,7 +216,6 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordCharacter)
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
             .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
             .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 
@@ -232,12 +232,13 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
             IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
 
-            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            CardVerifiationHeaders headers = CardVerifiationHeaders.Create(ApiEndpoints.GameRecordDailyNotePath);
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
                     .SetRequestUri(ApiEndpoints.GameRecordCharacter)
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-                    .SetHeader("x-rpc-page", "v4.2.2-ys_#/ys/daily")
                     .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
                     .SetXrpcChallenge(challenge)
                     .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));

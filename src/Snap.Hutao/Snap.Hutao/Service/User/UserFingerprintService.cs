@@ -22,13 +22,13 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
             return;
         }
 
-        //if (user.Entity.FingerprintLastUpdateTime >= DateTimeOffset.UtcNow - TimeSpan.FromDays(7))
-        //{
-        //    if (!string.IsNullOrEmpty(user.Fingerprint))
-        //    {
-        //        return;
-        //    }
-        //}
+        if (user.Entity.FingerprintLastUpdateTime >= DateTimeOffset.UtcNow - TimeSpan.FromDays(7))
+        {
+            if (!string.IsNullOrEmpty(user.Fingerprint))
+            {
+                return;
+            }
+        }
 
         string device = Core.Random.GetUpperAndNumberString(12);
         string product = Core.Random.GetUpperAndNumberString(6);

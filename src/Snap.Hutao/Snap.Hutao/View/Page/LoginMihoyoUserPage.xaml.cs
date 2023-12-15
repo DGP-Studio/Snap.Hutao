@@ -74,10 +74,9 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         }
 
         Cookie stokenV2 = Cookie.FromLoginResult(loginResultResponse.Data);
-        webCookie.TryGetDeviceFp(out string? deviceFp);
 
         await ISupportLoginByWebView
-            .PostHandleCurrentCookieAsync(serviceProvider, InputCookie.Create(stokenV2, false, deviceFp))
+            .PostHandleCurrentCookieAsync(serviceProvider, InputCookie.Create(stokenV2, false, default))
             .ConfigureAwait(false);
     }
 }

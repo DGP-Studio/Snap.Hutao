@@ -13,9 +13,9 @@ internal sealed partial class HomaGeetestCardVerifier : IGeetestCardVerifier
     private readonly CardClient cardClient;
     private readonly HomaGeetestClient homaGeetestClient;
 
-    public async ValueTask<string?> TryValidateXrpcChallengeAsync(User user, CancellationToken token)
+    public async ValueTask<string?> TryValidateXrpcChallengeAsync(User user, CardVerifiationHeaders headers, CancellationToken token)
     {
-        Response.Response<VerificationRegistration> registrationResponse = await cardClient.CreateVerificationAsync(user, token).ConfigureAwait(false);
+        Response.Response<VerificationRegistration> registrationResponse = await cardClient.CreateVerificationAsync(user, headers, token).ConfigureAwait(false);
         if (registrationResponse.IsOk())
         {
             VerificationRegistration registration = registrationResponse.Data;

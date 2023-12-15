@@ -25,17 +25,13 @@ internal sealed partial class CardClient
     private readonly ILogger<CardClient> logger;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 注册验证码
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>注册结果</returns>
-    public async ValueTask<Response<VerificationRegistration>> CreateVerificationAsync(User user, CancellationToken token)
+    public async ValueTask<Response<VerificationRegistration>> CreateVerificationAsync(User user, CardVerifiationHeaders headers, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CardCreateVerification(true))
             .SetUserCookieAndFpHeader(user, CookieType.LToken)
+            .SetHeader("x-rpc-challenge_game", $"{headers.ChallengeGame}")
+            .SetHeader("x-rpc-challenge_path", headers.ChallengePath)
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -109,5 +105,21 @@ internal sealed partial class CardClient
 
         [JsonPropertyName("geetest_seccode")]
         public string GeetestSeccode { get; set; }
+    }
+}
+
+internal sealed class CardVerifiationHeaders
+{
+    public int ChallengeGame { get; private set; }
+
+    public string ChallengePath { get; private set; }
+
+    public static CardVerifiationHeaders Create(string path)
+    {
+        return new()
+        {
+            ChallengeGame = 2,
+            ChallengePath = path,
+        };
     }
 }
