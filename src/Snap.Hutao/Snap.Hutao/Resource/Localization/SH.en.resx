@@ -1266,7 +1266,7 @@
     <value>Converting Game Client</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>使用米游社扫描二维码</value>
+    <value>Scan the QR code with MiHoYo BBS App</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>This action is irreversible, and all user login status will be lost</value>
@@ -2046,7 +2046,7 @@
     <value>Borderless</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
-    <value>启用内置触摸布局，不会响应键鼠输入</value>
+    <value>Enable touchscreen layout, but the keyboard &amp; mouse are no longer usable.</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
     <value>Incompatible with embedded browsers; operations like switching window may cause the game to crash.</value>
@@ -2139,7 +2139,7 @@
     <value>Pre-download</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
-    <value>该账号尚未绑定实时便笺通知 UID</value>
+    <value>This account has not been bound to the Real-time Note notification UID.</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
     <value>Bind current user and role</value>
@@ -2193,7 +2193,7 @@
     <value>Open Screenshots Folder</value>
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
-    <value>选择游戏路径</value>
+    <value>Select game path</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>About Snap Hutao</value>
@@ -2538,7 +2538,7 @@
     <value>Sign in or register now</value>
   </data>
   <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
-    <value>控制胡桃启动时是否开启控制台，重启后生效</value>
+    <value>Open the console when Snap Hutao starts. It will take effect after restarting.</value>
   </data>
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
     <value>Debug Console</value>
@@ -2634,7 +2634,7 @@
     <value>Web Login</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
-    <value>扫码登录</value>
+    <value>Login via scanning QR code</value>
   </data>
   <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
     <value>Input Manually</value>
