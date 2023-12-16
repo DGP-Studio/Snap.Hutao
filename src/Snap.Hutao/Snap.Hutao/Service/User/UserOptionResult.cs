@@ -17,15 +17,15 @@ internal enum UserOptionResult
     /// <summary>
     /// Cookie不完整
     /// </summary>
-    Incomplete,
+    CookieIncomplete,
 
     /// <summary>
     /// Cookie信息已经失效
     /// </summary>
-    Invalid,
+    CookieInvalid,
 
     /// <summary>
     /// 用户的Cookie成功更新
     /// </summary>
-    Updated,
+    CookieUpdated,
 }

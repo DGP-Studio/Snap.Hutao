@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Model.Entity.Extension;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -30,14 +31,16 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         return user;
     }
 
-    public async ValueTask<ViewModel.User.User?> CreateUserFromCookieOrDefaultAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
+    public async ValueTask<ViewModel.User.User?> CreateUserFromInputCookieOrDefaultAsync(InputCookie inputCookie, CancellationToken token = default)
     {
         // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
+        (Cookie cookie, bool isOversea, string? deviceFp) = inputCookie;
         Model.Entity.User entity = Model.Entity.User.From(cookie, isOversea);
 
         entity.Aid = cookie.GetValueOrDefault(Cookie.STUID);
         entity.Mid = isOversea ? entity.Aid : cookie.GetValueOrDefault(Cookie.MID);
         entity.IsOversea = isOversea;
+        entity.TryUpdateFingerprint(deviceFp);
 
         if (entity.Aid is not null && entity.Mid is not null)
         {

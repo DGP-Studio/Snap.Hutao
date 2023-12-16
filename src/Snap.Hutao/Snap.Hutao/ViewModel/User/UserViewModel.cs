@@ -52,8 +52,11 @@ internal sealed partial class UserViewModel : ObservableObject
         get => selectedUser ??= userService.Current;
         set
         {
-            // Pre select the chosen role to avoid multiple UserChangedMessage
-            value?.SetSelectedUserGameRole(value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen), false);
+            if (value is { SelectedUserGameRole: null })
+            {
+                // Pre select the chosen role to avoid multiple UserChangedMessage
+                value.SetSelectedUserGameRole(value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen), false);
+            }
 
             if (SetProperty(ref selectedUser, value))
             {
@@ -87,13 +90,13 @@ internal sealed partial class UserViewModel : ObservableObject
 
                 infoBarService.Success(SH.FormatViewModelUserAdded(uid));
                 break;
-            case UserOptionResult.Incomplete:
+            case UserOptionResult.CookieIncomplete:
                 infoBarService.Information(SH.ViewModelUserIncomplete);
                 break;
-            case UserOptionResult.Invalid:
+            case UserOptionResult.CookieInvalid:
                 infoBarService.Information(SH.ViewModelUserInvalid);
                 break;
-            case UserOptionResult.Updated:
+            case UserOptionResult.CookieUpdated:
                 infoBarService.Success(SH.FormatViewModelUserUpdated(uid));
                 break;
             default:
@@ -118,16 +121,16 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("AddUserCommand")]
     private Task AddUserAsync()
     {
-        return AddUserCoreAsync(false).AsTask();
+        return AddUserByManualInputCookieAsync(false).AsTask();
     }
 
     [Command("AddOverseaUserCommand")]
     private Task AddOverseaUserAsync()
     {
-        return AddUserCoreAsync(true).AsTask();
+        return AddUserByManualInputCookieAsync(true).AsTask();
     }
 
-    private async ValueTask AddUserCoreAsync(bool isOversea)
+    private async ValueTask AddUserByManualInputCookieAsync(bool isOversea)
     {
         // ContentDialog must be created by main thread.
         await taskContext.SwitchToMainThreadAsync();
@@ -140,9 +143,7 @@ internal sealed partial class UserViewModel : ObservableObject
         if (result.TryGetValue(out string rawCookie))
         {
             Cookie cookie = Cookie.Parse(rawCookie);
-
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(cookie, isOversea).ConfigureAwait(false);
-
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateWithDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
             await HandleUserOptionResultAsync(optionResult, uid).ConfigureAwait(false);
         }
     }
@@ -150,22 +151,21 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("LoginMihoyoUserCommand")]
     private void LoginMihoyoUser()
     {
-        if (runtimeOptions.IsWebView2Supported)
-        {
-            navigationService.Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
-        }
-        else
-        {
-            infoBarService.Warning(SH.CoreWebView2HelperVersionUndetected);
-        }
+        NavigateToLoginPage<LoginMihoyoUserPage>();
     }
 
     [Command("LoginHoyoverseUserCommand")]
     private void LoginHoyoverseUser()
     {
+        NavigateToLoginPage<LoginHoyoverseUserPage>();
+    }
+
+    private void NavigateToLoginPage<TPage>()
+        where TPage : Page
+    {
         if (runtimeOptions.IsWebView2Supported)
         {
-            navigationService.Navigate<LoginHoyoverseUserPage>(INavigationAwaiter.Default);
+            navigationService.Navigate<TPage>(INavigationAwaiter.Default);
         }
         else
         {
@@ -192,9 +192,7 @@ internal sealed partial class UserViewModel : ObservableObject
         if (sTokenResponse.IsOk())
         {
             Cookie stokenV2 = Cookie.FromLoginResult(sTokenResponse.Data);
-
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(stokenV2, false).ConfigureAwait(false);
-
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateWithDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
             await HandleUserOptionResultAsync(optionResult, uid).ConfigureAwait(false);
         }
     }
@@ -202,17 +200,19 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("RemoveUserCommand")]
     private async Task RemoveUserAsync(User? user)
     {
-        if (user is not null)
+        if (user is null)
         {
-            try
-            {
-                await userService.RemoveUserAsync(user).ConfigureAwait(false);
-                infoBarService.Success(SH.FormatViewModelUserRemoved(user.UserInfo?.Nickname));
-            }
-            catch (UserdataCorruptedException ex)
-            {
-                infoBarService.Error(ex);
-            }
+            return;
+        }
+
+        try
+        {
+            await userService.RemoveUserAsync(user).ConfigureAwait(false);
+            infoBarService.Success(SH.FormatViewModelUserRemoved(user.UserInfo?.Nickname));
+        }
+        catch (UserdataCorruptedException ex)
+        {
+            infoBarService.Error(ex);
         }
     }
 
@@ -243,44 +243,42 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("RefreshCookieTokenCommand")]
     private async Task RefreshCookieTokenAsync()
     {
-        if (SelectedUser is not null)
+        if (SelectedUser is null)
         {
-            if (await userService.RefreshCookieTokenAsync(SelectedUser).ConfigureAwait(false))
-            {
-                infoBarService.Success(SH.ViewUserRefreshCookieTokenSuccess);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewUserRefreshCookieTokenWarning);
-            }
+            return;
+        }
+
+        if (await userService.RefreshCookieTokenAsync(SelectedUser).ConfigureAwait(false))
+        {
+            infoBarService.Success(SH.ViewUserRefreshCookieTokenSuccess);
+        }
+        else
+        {
+            infoBarService.Warning(SH.ViewUserRefreshCookieTokenWarning);
         }
     }
 
     [Command("ClaimSignInRewardCommand")]
     private async Task ClaimSignInRewardAsync(AppBarButton? appBarButton)
     {
-        if (SelectedUser is not null)
+        if (!UserAndUid.TryFromUser(SelectedUser, out UserAndUid? userAndUid))
         {
-            if (UserAndUid.TryFromUser(SelectedUser, out UserAndUid? userAndUid))
-            {
-                (bool isOk, string message) = await signInService.ClaimRewardAsync(userAndUid).ConfigureAwait(false);
-
-                if (isOk)
-                {
-                    infoBarService.Success(message);
-                }
-                else
-                {
-                    await taskContext.SwitchToMainThreadAsync();
-                    FlyoutBase.ShowAttachedFlyout(appBarButton);
-                    infoBarService.Warning(message);
-                }
-            }
-            else
-            {
-                infoBarService.Warning(SH.MustSelectUserAndUid);
-            }
+            infoBarService.Warning(SH.MustSelectUserAndUid);
+            return;
         }
+
+        (bool isOk, string message) = await signInService.ClaimRewardAsync(userAndUid).ConfigureAwait(false);
+
+        if (isOk)
+        {
+            infoBarService.Success(message);
+            return;
+        }
+
+        // Manual webview
+        await taskContext.SwitchToMainThreadAsync();
+        FlyoutBase.ShowAttachedFlyout(appBarButton);
+        infoBarService.Warning(message);
     }
 
     [Command("OpenDocumentationCommand")]

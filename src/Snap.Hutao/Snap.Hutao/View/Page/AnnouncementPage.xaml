@@ -183,7 +183,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CardTemplate" x:DataType="shvcp:CardReference">
-            <ItemContainer cw:Effects.Shadow="{StaticResource CompatCardShadow}" Child="{Binding Card}">
+            <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}" Child="{Binding Card}">
                 <ItemContainer.Resources>
                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                 </ItemContainer.Resources>

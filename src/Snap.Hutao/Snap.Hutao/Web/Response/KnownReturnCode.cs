@@ -10,7 +10,13 @@ namespace Snap.Hutao.Web.Response;
 internal enum KnownReturnCode
 {
     /// <summary>
+    /// 用户不存在
+    /// </summary>
+    UserNotExist = -20001,
+
+    /// <summary>
     /// 无效请求
+    /// 因战绩功能服务优化升级，V2.10及以下版本将无法正常使用战绩功能，请更新米游社至最新版本再进行使用。
     /// </summary>
     InvalidRequest = -10001,
 
@@ -120,14 +126,24 @@ internal enum KnownReturnCode
     LoginStateInvalid = 1004,
 
     /// <summary>
-    /// 账号有风险
+    /// 实时便笺 账号有风险
     /// </summary>
     CODE1034 = 1034,
 
     /// <summary>
-    /// 请登录
+    /// 实时便笺 当前账号存在风险，暂无数据
+    /// </summary>
+    CODE5003 = 5003,
+
+    /// <summary>
+    /// 请登录 登录后可查看战绩信息
     /// </summary>
     PleaseLogin = 10001,
+
+    /// <summary>
+    /// 原神战绩 查看他人战绩次数过多，请休息一会儿再试
+    /// </summary>
+    CODE10101 = 10101,
 
     /// <summary>
     /// 数据未公开
@@ -135,7 +151,7 @@ internal enum KnownReturnCode
     DataIsNotPublicForTheUser = 10102,
 
     /// <summary>
-    /// 实时便笺
+    /// 实时便笺 你的账号已被封禁，无法查看
     /// </summary>
     CODE10103 = 10103,
 

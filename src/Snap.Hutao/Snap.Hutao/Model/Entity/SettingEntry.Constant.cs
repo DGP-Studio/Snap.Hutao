@@ -13,6 +13,8 @@ internal sealed partial class SettingEntry
     /// </summary>
     public const string GamePath = "GamePath";
 
+    public const string GamePathEntries = "GamePathEntries";
+
     /// <summary>
     /// PowerShell 路径
     /// </summary>
@@ -103,6 +105,8 @@ internal sealed partial class SettingEntry
     public const string LaunchMonitor = "Launch.Monitor";
 
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";
+
+    public const string LaunchIsUseCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";
 
     public const string LaunchUseStarwardPlayTimeStatistics = "Launch.UseStarwardPlayTimeStatistics";
 

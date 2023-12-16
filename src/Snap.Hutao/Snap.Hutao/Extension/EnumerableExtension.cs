@@ -3,6 +3,7 @@
 
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Snap.Hutao.Extension;
 
@@ -43,6 +44,63 @@ internal static partial class EnumerableExtension
         return first;
     }
 
+    public static string JoinToString<T>(this IEnumerable<T> source, char separator, Action<StringBuilder, T> selector)
+    {
+        StringBuilder resultBuilder = new();
+
+        IEnumerator<T> enumerator = source.GetEnumerator();
+        if (!enumerator.MoveNext())
+        {
+            return string.Empty;
+        }
+
+        T first = enumerator.Current;
+        selector(resultBuilder, first);
+
+        if (!enumerator.MoveNext())
+        {
+            return resultBuilder.ToString();
+        }
+
+        do
+        {
+            resultBuilder.Append(separator);
+            selector(resultBuilder, enumerator.Current);
+        }
+        while (enumerator.MoveNext());
+
+        return resultBuilder.ToString();
+    }
+
+    public static string JoinToString<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source, char separator, Action<StringBuilder, TKey, TValue> selector)
+    {
+        StringBuilder resultBuilder = new();
+
+        IEnumerator<KeyValuePair<TKey, TValue>> enumerator = source.GetEnumerator();
+        if (!enumerator.MoveNext())
+        {
+            return string.Empty;
+        }
+
+        KeyValuePair<TKey, TValue> first = enumerator.Current;
+        selector(resultBuilder, first.Key, first.Value);
+
+        if (!enumerator.MoveNext())
+        {
+            return resultBuilder.ToString();
+        }
+
+        do
+        {
+            resultBuilder.Append(separator);
+            KeyValuePair<TKey, TValue> current = enumerator.Current;
+            selector(resultBuilder, current.Key, current.Value);
+        }
+        while (enumerator.MoveNext());
+
+        return resultBuilder.ToString();
+    }
+
     /// <summary>
     /// 转换到 <see cref="ObservableCollection{T}"/>
     /// </summary>
@@ -64,7 +122,6 @@ internal static partial class EnumerableExtension
     /// <returns>Converted collection into string.</returns>
     public static string ToString<T>(this IEnumerable<T> collection, char separator)
     {
-        string result = string.Join(separator, collection);
-        return result.Length > 0 ? result : string.Empty;
+        return string.Join(separator, collection);
     }
 }

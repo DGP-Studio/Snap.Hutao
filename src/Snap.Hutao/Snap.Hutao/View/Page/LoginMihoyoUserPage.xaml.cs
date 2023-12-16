@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
@@ -75,7 +76,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         Cookie stokenV2 = Cookie.FromLoginResult(loginResultResponse.Data);
 
         await ISupportLoginByWebView
-            .PostHandleCurrentCookieAsync(serviceProvider, stokenV2, false)
+            .PostHandleCurrentCookieAsync(serviceProvider, InputCookie.Create(stokenV2, false, default))
             .ConfigureAwait(false);
     }
 }

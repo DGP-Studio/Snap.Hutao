@@ -16,12 +16,12 @@ internal sealed partial class GamePackageService : IGamePackageService
 {
     private readonly PackageConverter packageConverter;
     private readonly IServiceProvider serviceProvider;
+    private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
-    private readonly AppOptions appOptions;
 
     public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
     {
-        if (!appOptions.TryGetGameFolderAndFileName(out string? gameFolder, out string? gameFileName))
+        if (!launchOptions.TryGetGameFolderAndFileName(out string? gameFolder, out string? gameFileName))
         {
             return false;
         }
@@ -58,7 +58,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             string exeName = launchScheme.IsOversea ? GenshinImpactFileName : YuanShenFileName;
 
             await taskContext.SwitchToMainThreadAsync();
-            appOptions.GamePath = Path.Combine(gameFolder, exeName);
+            launchOptions.UpdateGamePathAndRefreshEntries(Path.Combine(gameFolder, exeName));
         }
 
         await packageConverter.EnsureDeprecatedFilesAndSdkAsync(resource, gameFolder).ConfigureAwait(false);

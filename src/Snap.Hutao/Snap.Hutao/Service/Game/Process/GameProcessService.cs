@@ -21,7 +21,6 @@ internal sealed partial class GameProcessService : IGameProcessService
     private readonly IDiscordService discordService;
     private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
-    private readonly AppOptions appOptions;
 
     private volatile bool isGameRunning;
 
@@ -52,7 +51,7 @@ internal sealed partial class GameProcessService : IGameProcessService
             return;
         }
 
-        if (!appOptions.TryGetGamePathAndGameFileName(out string gamePath, out string? gameFileName))
+        if (!launchOptions.TryGetGamePathAndGameFileName(out string gamePath, out string? gameFileName))
         {
             ArgumentException.ThrowIfNullOrEmpty(gamePath);
             return; // null check passing, actually never reach.
@@ -73,7 +72,7 @@ internal sealed partial class GameProcessService : IGameProcessService
                     await Starward.LaunchForPlayTimeStatisticsAsync(isOversea).ConfigureAwait(false);
                 }
 
-                if (runtimeOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled && launchOptions.UnlockFps)
+                if (runtimeOptions.IsElevated && launchOptions.IsAdvancedLaunchOptionsEnabled && launchOptions.UnlockFps)
                 {
                     progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
                     try
@@ -116,6 +115,7 @@ internal sealed partial class GameProcessService : IGameProcessService
                 .AppendIf("-screen-width", launchOptions.IsScreenWidthEnabled, launchOptions.ScreenWidth)
                 .AppendIf("-screen-height", launchOptions.IsScreenHeightEnabled, launchOptions.ScreenHeight)
                 .AppendIf("-monitor", launchOptions.IsMonitorEnabled, launchOptions.Monitor.Value)
+                .AppendIf("-platform_type CLOUD_THIRD_PARTY_MOBILE", launchOptions.IsUseCloudThirdPartyMobile)
                 .ToString();
         }
 

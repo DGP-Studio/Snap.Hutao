@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
@@ -16,6 +15,7 @@ using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
@@ -53,6 +53,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
+    private readonly LaunchOptions launchOptions;
     private readonly HotKeyOptions hotKeyOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
@@ -73,6 +74,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     public HomeCardOptions HomeCardOptions { get => homeCardOptions; }
 
     public HotKeyOptions HotKeyOptions { get => hotKeyOptions; }
+
+    public LaunchOptions LaunchOptions { get => launchOptions; }
 
     public HutaoPassportViewModel Passport { get => hutaoPassportViewModel; }
 
@@ -157,27 +160,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         await Launcher.LaunchUriAsync(new("ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
     }
 
-    [Command("SetGamePathCommand")]
-    private async Task SetGamePathAsync()
-    {
-        IGameLocator locator = gameLocatorFactory.Create(GameLocationSource.Manual);
-
-        (bool isOk, string path) = await locator.LocateGamePathAsync().ConfigureAwait(false);
-        if (isOk)
-        {
-            await taskContext.SwitchToMainThreadAsync();
-            try
-            {
-                AppOptions.GamePath = path;
-            }
-            catch (SqliteException ex)
-            {
-                // 文件夹权限不足，无法写入数据库
-                infoBarService.Error(ex, SH.ViewModelSettingSetGamePathDatabaseFailedTitle);
-            }
-        }
-    }
-
     [Command("SetPowerShellPathCommand")]
     private async Task SetPowerShellPathAsync()
     {
@@ -193,7 +175,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("DeleteGameWebCacheCommand")]
     private void DeleteGameWebCache()
     {
-        string gamePath = AppOptions.GamePath;
+        string gamePath = launchOptions.GamePath;
 
         if (!string.IsNullOrEmpty(gamePath))
         {

@@ -16,6 +16,6 @@
         <Image
             Width="320"
             Height="320"
-            Source="{x:Bind QRCodeSource}"/>
+            Source="{x:Bind QRCodeSource, Mode=OneWay}"/>
     </StackPanel>
 </ContentDialog>

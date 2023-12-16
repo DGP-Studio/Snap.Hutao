@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.ViewModel.User.User;
@@ -42,13 +41,7 @@ internal interface IUserService
     /// <returns>对应的角色信息</returns>
     UserGameRole? GetUserGameRoleByUid(string uid);
 
-    /// <summary>
-    /// 尝试异步处理输入的Cookie
-    /// </summary>
-    /// <param name="cookie">Cookie</param>
-    /// <param name="isOversea">是否为国际服</param>
-    /// <returns>处理的结果</returns>
-    ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea);
+    ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(InputCookie inputCookie);
 
     ValueTask<bool> RefreshCookieTokenAsync(Model.Entity.User user);
 

@@ -2,6 +2,22 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cwm="using:CommunityToolkit.WinUI.Media">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <cwm:AttachedCardShadow
+                x:Key="CompatCardShadow"
+                BlurRadius="8"
+                Opacity="0.14"
+                Offset="0,4,0"/>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <cwm:AttachedCardShadow
+                x:Key="CompatCardShadow"
+                BlurRadius="8"
+                Opacity="0.28"
+                Offset="0,4,0"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
     <Style x:Key="BorderCardStyle" TargetType="Border">
         <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
@@ -14,8 +30,4 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
     </Style>
-    <cwm:AttachedCardShadow
-        x:Key="CompatCardShadow"
-        Opacity="0.1"
-        Offset="0,4,0"/>
 </ResourceDictionary>

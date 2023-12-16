@@ -71,7 +71,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
     private async ValueTask<ValueResult<bool, UidGameToken>> GetUidGameTokenCoreAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
-        await ShowAsync();
+        _ = ShowAsync();
 
         while (!userManualCancellationTokenSource.IsCancellationRequested)
         {
