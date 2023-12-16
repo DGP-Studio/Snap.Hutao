@@ -25,7 +25,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     private readonly IMemoryCache memoryCache;
 
     /// <inheritdoc/>
-    public async ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(CancellationToken cancellationToken = default)
+    public async ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, CancellationToken cancellationToken = default)
     {
         // 缓存中存在记录，直接返回
         if (memoryCache.TryGetRequiredValue(CacheKey, out AnnouncementWrapper? cache))
@@ -35,7 +35,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
         await taskContext.SwitchToBackgroundAsync();
         Response<AnnouncementWrapper> announcementWrapperResponse = await announcementClient
-            .GetAnnouncementsAsync(cancellationToken)
+            .GetAnnouncementsAsync(languageCode, cancellationToken)
             .ConfigureAwait(false);
 
         if (!announcementWrapperResponse.IsOk())
@@ -45,7 +45,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
         AnnouncementWrapper wrapper = announcementWrapperResponse.Data;
         Response<ListWrapper<AnnouncementContent>> announcementContentResponse = await announcementClient
-            .GetAnnouncementContentsAsync(cancellationToken)
+            .GetAnnouncementContentsAsync(languageCode, cancellationToken)
             .ConfigureAwait(false);
 
         if (!announcementContentResponse.IsOk())

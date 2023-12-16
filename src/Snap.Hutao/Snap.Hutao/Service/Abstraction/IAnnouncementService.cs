@@ -14,7 +14,8 @@ internal interface IAnnouncementService
     /// <summary>
     /// 异步获取游戏公告与活动,通常会进行缓存
     /// </summary>
+    /// <param name="languageCode">语言代码</param>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>公告包装器</returns>
-    ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(CancellationToken cancellationToken = default);
+    ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, CancellationToken cancellationToken = default);
 }

@@ -23,12 +23,16 @@ internal sealed partial class AnnouncementClient
     /// <summary>
     /// 异步获取公告列表
     /// </summary>
+    /// <param name="languageCode">语言代码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>公告列表</returns>
-    public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(CancellationToken token = default)
+    public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(string languageCode, CancellationToken token = default)
     {
+        // ApiOsEndpoints.AnnList(languageCode, region)
+        string annListUrl = ApiEndpoints.AnnList;
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AnnList)
+            .SetRequestUri(annListUrl)
             .Get();
 
         Response<AnnouncementWrapper>? resp = await builder
@@ -41,12 +45,16 @@ internal sealed partial class AnnouncementClient
     /// <summary>
     /// 异步获取公告内容列表
     /// </summary>
+    /// <param name="languageCode">语言代码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>公告内容列表</returns>
-    public async ValueTask<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(string languageCode, CancellationToken token = default)
     {
+        // ApiOsEndpoints.AnnContent(languageCode, region)
+        string annContentUrl = ApiEndpoints.AnnContent;
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AnnContent)
+            .SetRequestUri(annContentUrl)
             .Get();
 
         Response<ListWrapper<AnnouncementContent>>? resp = await builder
