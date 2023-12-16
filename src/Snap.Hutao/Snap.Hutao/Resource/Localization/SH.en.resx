@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -504,7 +504,7 @@
     <value>Refinement {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>You must select a user and a role first</value>
+    <value>Must sign in to your MiHoYo BBS account and select a user</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>Deleted {1} wish record from Uid: {0}</value>
@@ -600,10 +600,10 @@
     <value>Uploaded Spiral Abyss record successfully. Received a privilege extension for Snap Hutao Cloud service.</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
-    <value>上传深渊记录成功，但未登录胡桃通行证，无法获赠祈愿记录上传服务时长</value>
+    <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as no Snap Hutao account logged in.</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
-    <value>上传深渊记录成功，但无法找到用户，无法获赠祈愿记录上传服务时长</value>
+    <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as no Snap Hutao account found.</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
     <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as there is not first upload of current schedule.</value>
@@ -862,6 +862,9 @@
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Multiple matching accounts detected, please delete duplicate accounts</value>
+  </data>
+  <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
+    <value>No writing permission in file system, unable to start the server conversion.</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>Querying Game Resource Information</value>
@@ -1262,6 +1265,9 @@
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
     <value>Converting Game Client</value>
   </data>
+  <data name="ViewDialogQRCodeTitle" xml:space="preserve">
+    <value>Scan the QR code with MiHoYo BBS App</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>This action is irreversible, and all user login status will be lost</value>
   </data>
@@ -1402,6 +1408,9 @@
   </data>
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
     <value>Please create a plan and select it in the Development Plan feature</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
+    <value>Add item again to view cultivation description</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>Added successfully</value>
@@ -1558,6 +1567,9 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>Failed to create desktop shortcut</value>
+  </data>
+  <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
+    <value>Used disk space: {0}</value>
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>CAPTCHA Verification composite URL successfully configured</value>
@@ -2033,6 +2045,9 @@
   <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
     <value>Borderless</value>
   </data>
+  <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
+    <value>Enable touchscreen layout, but the keyboard &amp; mouse are no longer usable.</value>
+  </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
     <value>Incompatible with embedded browsers; operations like switching window may cause the game to crash.</value>
   </data>
@@ -2124,7 +2139,7 @@
     <value>Pre-download</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
-    <value>No UID bound</value>
+    <value>This account has not been bound to the Real-time Note notification UID.</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
     <value>Bind current user and role</value>
@@ -2177,6 +2192,9 @@
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>Open Screenshots Folder</value>
   </data>
+  <data name="ViewPageResetGamePathAction" xml:space="preserve">
+    <value>Select game path</value>
+  </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>About Snap Hutao</value>
   </data>
@@ -2199,7 +2217,7 @@
     <value>Images cache are saved here</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
-    <value>Open Cache Folder</value>
+    <value>Cache Folder</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Copy</value>
@@ -2226,7 +2244,7 @@
     <value>User data and metadata are saved here</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>Open Data Folder</value>
+    <value>Data Folder</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>Delete</value>
@@ -2245,6 +2263,12 @@
   </data>
   <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
     <value>Device ID</value>
+  </data>
+  <data name="ViewPageSettingDeviceIpDescription" xml:space="preserve">
+    <value>IP: {0} Server: {1}</value>
+  </data>
+  <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
+    <value>Device IP</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>Show or hide wish event with no wish history</value>
@@ -2513,6 +2537,15 @@
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>Sign in or register now</value>
   </data>
+  <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
+    <value>Open the console when Snap Hutao starts. It will take effect after restarting.</value>
+  </data>
+  <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
+    <value>Debug Console</value>
+  </data>
+  <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
+    <value>Open Folder</value>
+  </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>Character Appearance Rate = Character Appearance in this Floor (only count for 1 if repeated) / Total Number of Abyss Record of this Floor</value>
   </data>
@@ -2600,6 +2633,9 @@
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Web Login</value>
   </data>
+  <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
+    <value>Login via scanning QR code</value>
+  </data>
   <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
     <value>Input Manually</value>
   </data>
@@ -2658,16 +2694,16 @@
     <value>Weapon WIKI</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|〓任务开放时间〓).*?\d\.\d版本更新(?:完成|)后永久开放</value>
+    <value>(?:〓Event Duration〓|〓Quest Start Time〓).*?\d\.\dthe Version update(?:after|)Permanently available</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓活动时间〓.*?\d\.\d版本期间持续开放</value>
+    <value>〓Event Duration〓.*?\d\.\d Available throughout the entirety of Version</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓Event Duration〓|Event Wish Duration|【Availability Duration】).*?(\d\.\dAfter the Version update).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
-    <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>〓Update Maintenance Duration.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
     <value>Version \d\.\d Update Maintenance Preview</value>
@@ -2818,6 +2854,9 @@
   </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
     <value>Invalid UID</value>
+  </data>
+  <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
+    <value>Snap Hutao server is under maintenance</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
     <value>Verification failed. Please verify manually or check MiHoYo BBS - My Characters page</value>
