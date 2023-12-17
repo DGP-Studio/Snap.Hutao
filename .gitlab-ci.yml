@@ -1,0 +1,19 @@
+stages:
+  - fetch
+
+Fetch:
+  stage: fetch
+  rules:
+    - when: manual
+  tags:
+    - us3
+  script:
+    - apt-get update -qy
+    - apt-get install -y curl jq
+    - RELEASE_INFO=$(curl -sSL "https://api.github.com/repos/$CI_PROJECT_PATH/releases/latest")
+    - ASSET_URL=$(echo "$RELEASE_INFO" | jq -r '.assets[] | select(.name | endswith(".msix")) | .browser_download_url')
+    - curl -LJO "$ASSET_URL"
+  artifacts:
+    paths:
+      - "*.msix"
+    expire_in: 180 days
