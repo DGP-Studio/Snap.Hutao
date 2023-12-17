@@ -86,7 +86,7 @@ internal class MiHoYoJSBridge
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    protected virtual async ValueTask<IJsResult?> ClosePageAsync(JsParam param)
+    protected virtual async ValueTask<IJsBridgeResult?> ClosePageAsync(JsParam param)
     {
         await taskContext.SwitchToMainThreadAsync();
         if (coreWebView2.CanGoBack)
@@ -106,7 +106,7 @@ internal class MiHoYoJSBridge
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    protected virtual IJsResult? ConfigureShare(JsParam param)
+    protected virtual IJsBridgeResult? ConfigureShare(JsParam param)
     {
         return null;
     }
@@ -116,7 +116,7 @@ internal class MiHoYoJSBridge
     /// </summary>
     /// <param name="jsParam">参数</param>
     /// <returns>响应</returns>
-    protected virtual async ValueTask<IJsResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
+    protected virtual async ValueTask<IJsBridgeResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
     {
         return await serviceProvider
             .GetRequiredService<AuthClient>()
@@ -299,7 +299,7 @@ internal class MiHoYoJSBridge
         }
     }
 
-    protected virtual async ValueTask<IJsResult?> PushPageAsync(JsParam<PushPagePayload> param)
+    protected virtual async ValueTask<IJsBridgeResult?> PushPageAsync(JsParam<PushPagePayload> param)
     {
         const string bbsSchema = "mihoyobbs://";
         string pageUrl = param.Payload.Page;
@@ -323,7 +323,7 @@ internal class MiHoYoJSBridge
         return null;
     }
 
-    protected virtual IJsResult? Share(JsParam<SharePayload> param)
+    protected virtual IJsBridgeResult? Share(JsParam<SharePayload> param)
     {
         return new JsResult<Dictionary<string, string>>()
         {
@@ -334,47 +334,47 @@ internal class MiHoYoJSBridge
         };
     }
 
-    protected virtual ValueTask<IJsResult?> ShowAlertDialogAsync(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult?> ShowAlertDialogAsync(JsParam param)
     {
-        return ValueTask.FromException<IJsResult?>(new NotSupportedException());
+        return ValueTask.FromException<IJsBridgeResult?>(new NotSupportedException());
     }
 
-    protected virtual IJsResult? StartRealPersonValidation(JsParam param)
-    {
-        throw new NotImplementedException();
-    }
-
-    protected virtual IJsResult? StartRealnameAuth(JsParam param)
+    protected virtual IJsBridgeResult? StartRealPersonValidation(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    protected virtual IJsResult? GenAuthKey(JsParam param)
+    protected virtual IJsBridgeResult? StartRealnameAuth(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    protected virtual IJsResult? GenAppAuthKey(JsParam param)
+    protected virtual IJsBridgeResult? GenAuthKey(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    protected virtual IJsResult? OpenSystemBrowser(JsParam param)
+    protected virtual IJsBridgeResult? GenAppAuthKey(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    protected virtual IJsResult? SaveLoginTicket(JsParam param)
+    protected virtual IJsBridgeResult? OpenSystemBrowser(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    protected virtual ValueTask<IJsResult?> GetNotificationSettingsAsync(JsParam param)
+    protected virtual IJsBridgeResult? SaveLoginTicket(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    protected virtual IJsResult? ShowToast(JsParam param)
+    protected virtual ValueTask<IJsBridgeResult?> GetNotificationSettingsAsync(JsParam param)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected virtual IJsBridgeResult? ShowToast(JsParam param)
     {
         throw new NotImplementedException();
     }
@@ -430,7 +430,7 @@ internal class MiHoYoJSBridge
         logger.LogInformation("[OnMessage]\nMethod  : {method}\nPayload : {payload}\nCallback: {callback}", param.Method, param.Payload, param.Callback);
         using (await webMessageSemaphore.EnterAsync().ConfigureAwait(false))
         {
-            IJsResult? result = await TryGetJsResultFromJsParamAsync(param).ConfigureAwait(false);
+            IJsBridgeResult? result = await TryGetJsResultFromJsParamAsync(param).ConfigureAwait(false);
 
             if (result is not null && param.Callback is not null)
             {
@@ -440,13 +440,13 @@ internal class MiHoYoJSBridge
     }
 
     [SuppressMessage("", "CA2254")]
-    private IJsResult? LogUnhandledMessage(string message, params object?[] param)
+    private IJsBridgeResult? LogUnhandledMessage(string message, params object?[] param)
     {
         logger.LogWarning(message, param);
         return default;
     }
 
-    private async ValueTask<IJsResult?> TryGetJsResultFromJsParamAsync(JsParam param)
+    private async ValueTask<IJsBridgeResult?> TryGetJsResultFromJsParamAsync(JsParam param)
     {
         if (coreWebView2.IsDisposed())
         {

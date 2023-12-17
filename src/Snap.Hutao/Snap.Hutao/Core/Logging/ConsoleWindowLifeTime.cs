@@ -15,6 +15,7 @@ internal sealed class ConsoleWindowLifeTime : IDisposable
         if (LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false))
         {
             consoleWindowAllocated = AllocConsole();
+            SetConsoleTitle("Snap Hutao Debug Console");
         }
     }
 

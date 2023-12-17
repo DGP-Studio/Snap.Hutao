@@ -67,7 +67,7 @@ internal sealed partial class HutaoPassportClient
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ internal sealed partial class HutaoPassportClient
             .TryCatchSendAsync<HutaoResponse<string>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     public async ValueTask<HutaoResponse> UnregisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
@@ -117,7 +117,7 @@ internal sealed partial class HutaoPassportClient
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ internal sealed partial class HutaoPassportClient
             .TryCatchSendAsync<HutaoResponse<string>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -171,7 +171,7 @@ internal sealed partial class HutaoPassportClient
             .TryCatchSendAsync<HutaoResponse<string>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -191,7 +191,7 @@ internal sealed partial class HutaoPassportClient
             .TryCatchSendAsync<HutaoResponse<UserInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     private static string Encrypt(string text)

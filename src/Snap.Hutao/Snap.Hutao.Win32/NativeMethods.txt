@@ -21,6 +21,7 @@ K32EnumProcessModules
 K32GetModuleBaseNameW
 K32GetModuleInformation
 ReadProcessMemory
+SetConsoleTitle
 SetEvent
 VirtualAlloc
 VirtualAllocEx

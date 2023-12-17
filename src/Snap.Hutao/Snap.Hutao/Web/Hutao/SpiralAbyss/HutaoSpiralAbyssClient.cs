@@ -47,7 +47,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .TryCatchSendAsync<HutaoResponse<bool>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .TryCatchSendAsync<HutaoResponse<RankInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .TryCatchSendAsync<HutaoResponse<Overview>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .TryCatchSendAsync<HutaoResponse<List<AvatarAppearanceRank>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .TryCatchSendAsync<HutaoResponse<List<AvatarUsageRank>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -143,7 +143,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .TryCatchSendAsync<HutaoResponse<List<AvatarCollocation>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -162,7 +162,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .TryCatchSendAsync<HutaoResponse<List<WeaponCollocation>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -181,7 +181,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .TryCatchSendAsync<HutaoResponse<List<AvatarConstellationInfo>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -200,7 +200,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .TryCatchSendAsync<HutaoResponse<List<TeamAppearance>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -259,6 +259,6 @@ internal sealed partial class HutaoSpiralAbyssClient
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 }

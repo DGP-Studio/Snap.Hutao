@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -65,6 +66,20 @@ public sealed class JsonSerializeTest
         Assert.AreEqual(result, """{"Array":"AQIDBAU="}""");
     }
 
+    [TestMethod]
+    public void InterfaceDefaultMethodCanSerializeActualInstanceMember()
+    {
+        ISampleInterface sample = new SampleClassImplementedInterface()
+        {
+            A = 1,
+            B = 2,
+        };
+
+        string result = sample.ToJson();
+        Console.WriteLine(result);
+        Assert.AreEqual(result, """{"A":1,"B":2}""");
+    }
+
     private sealed class SampleDelegatePropertyClass
     {
         public int A { get => B; set => B = value; }
@@ -80,5 +95,23 @@ public sealed class JsonSerializeTest
     private sealed class SampleByteArrayPropertyClass
     {
         public byte[]? Array { get; set; }
+    }
+
+    private sealed class SampleClassImplementedInterface : ISampleInterface
+    {
+        public int A { get; set; }
+
+        public int B { get; set; }
+    }
+
+    [JsonDerivedType(typeof(SampleClassImplementedInterface))]
+    private interface ISampleInterface
+    {
+        int A { get; set; }
+
+        string ToJson()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

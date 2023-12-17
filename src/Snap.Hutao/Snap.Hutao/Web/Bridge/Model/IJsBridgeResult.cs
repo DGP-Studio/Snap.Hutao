@@ -7,11 +7,10 @@ namespace Snap.Hutao.Web.Bridge.Model;
 /// 指示此为Js结果
 /// </summary>
 [HighQuality]
-internal interface IJsResult
+internal interface IJsBridgeResult
 {
-    /// <summary>
-    /// 转换到Json字符串表示
-    /// </summary>
-    /// <returns>JSON字符串</returns>
-    string ToJson();
+    string ToJson()
+    {
+        return JsonSerializer.Serialize(this);
+    }
 }

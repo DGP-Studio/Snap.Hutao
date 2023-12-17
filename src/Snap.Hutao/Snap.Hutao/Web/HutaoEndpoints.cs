@@ -15,24 +15,7 @@ namespace Snap.Hutao.Web;
 [SuppressMessage("", "SA1124")]
 internal static class HutaoEndpoints
 {
-    #region Hutao as a Service
-    public static string Announcement(string locale)
-    {
-        return $"{HomaSnapGenshinApi}/Announcement/List?locale={locale}";
-    }
-
-    public const string AnnouncementUpload = $"{HomaSnapGenshinApi}/Service/Announcement/Upload";
-
-    public static string GachaLogCompensation(int days)
-    {
-        return $"{HomaSnapGenshinApi}/Service/GachaLog/Compensation?days={days}";
-    }
-
-    public static string GachaLogDesignation(string userName, int days)
-    {
-        return $"{HomaSnapGenshinApi}/Service/GachaLog/Designation?userName={userName}&days={days}";
-    }
-    #endregion
+    #region HomaAPI
 
     #region GachaLog
 
@@ -43,28 +26,28 @@ internal static class HutaoEndpoints
     /// <returns>获取末尾Id Url</returns>
     public static string GachaLogEndIds(string uid)
     {
-        return $"{HomaSnapGenshinApi}/GachaLog/EndIds?Uid={uid}";
+        return $"{HomaSnapGenshin}/GachaLog/EndIds?Uid={uid}";
     }
 
     /// <summary>
     /// 获取祈愿记录
     /// </summary>
-    public const string GachaLogRetrieve = $"{HomaSnapGenshinApi}/GachaLog/Retrieve";
+    public const string GachaLogRetrieve = $"{HomaSnapGenshin}/GachaLog/Retrieve";
 
     /// <summary>
     /// 上传祈愿记录
     /// </summary>
-    public const string GachaLogUpload = $"{HomaSnapGenshinApi}/GachaLog/Upload";
+    public const string GachaLogUpload = $"{HomaSnapGenshin}/GachaLog/Upload";
 
     /// <summary>
     /// 获取Uid列表
     /// </summary>
-    public const string GachaLogUids = $"{HomaSnapGenshinApi}/GachaLog/Uids";
+    public const string GachaLogUids = $"{HomaSnapGenshin}/GachaLog/Uids";
 
     /// <summary>
     /// 获取Uid列表
     /// </summary>
-    public const string GachaLogEntries = $"{HomaSnapGenshinApi}/GachaLog/Entries";
+    public const string GachaLogEntries = $"{HomaSnapGenshin}/GachaLog/Entries";
 
     /// <summary>
     /// 删除祈愿记录
@@ -73,13 +56,13 @@ internal static class HutaoEndpoints
     /// <returns>删除祈愿记录 Url</returns>
     public static string GachaLogDelete(string uid)
     {
-        return $"{HomaSnapGenshinApi}/GachaLog/Delete?Uid={uid}";
+        return $"{HomaSnapGenshin}/GachaLog/Delete?Uid={uid}";
     }
 
     /// <summary>
     /// 获取祈愿统计信息
     /// </summary>
-    public const string GachaLogStatisticsCurrentEvents = $"{HomaSnapGenshinApi}/GachaLog/Statistics/CurrentEventStatistics";
+    public const string GachaLogStatisticsCurrentEvents = $"{HomaSnapGenshin}/GachaLog/Statistics/CurrentEventStatistics";
 
     /// <summary>
     /// 获取祈愿统计信息
@@ -88,41 +71,27 @@ internal static class HutaoEndpoints
     /// <returns>祈愿统计信息Url</returns>
     public static string GachaLogStatisticsDistribution(GachaDistributionType distributionType)
     {
-        return $"{HomaSnapGenshinApi}/GachaLog/Statistics/Distribution/{distributionType}";
+        return $"{HomaSnapGenshin}/GachaLog/Statistics/Distribution/{distributionType}";
     }
     #endregion
 
-    #region Passport
+    #region Hutao as a Service
+    public static string Announcement(string locale)
+    {
+        return $"{HomaSnapGenshin}/Announcement/List?locale={locale}";
+    }
 
-    /// <summary>
-    /// 获取注册验证码
-    /// </summary>
-    public const string PassportVerify = $"{HomaSnapGenshinApi}/Passport/Verify";
+    public const string AnnouncementUpload = $"{HomaSnapGenshin}/Service/Announcement/Upload";
 
-    /// <summary>
-    /// 注册账号
-    /// </summary>
-    public const string PassportRegister = $"{HomaSnapGenshinApi}/Passport/Register";
+    public static string GachaLogCompensation(int days)
+    {
+        return $"{HomaSnapGenshin}/Service/GachaLog/Compensation?days={days}";
+    }
 
-    /// <summary>
-    /// 注销账号
-    /// </summary>
-    public const string PassportCancel = $"{HomaSnapGenshinApi}/Passport/Cancel";
-
-    /// <summary>
-    /// 重设密码
-    /// </summary>
-    public const string PassportResetPassword = $"{HomaSnapGenshinApi}/Passport/ResetPassword";
-
-    /// <summary>
-    /// 登录
-    /// </summary>
-    public const string PassportLogin = $"{HomaSnapGenshinApi}/Passport/Login";
-
-    /// <summary>
-    /// 用户信息
-    /// </summary>
-    public const string PassportUserInfo = $"{HomaSnapGenshinApi}/Passport/UserInfo";
+    public static string GachaLogDesignation(string userName, int days)
+    {
+        return $"{HomaSnapGenshin}/Service/GachaLog/Designation?userName={userName}&days={days}";
+    }
     #endregion
 
     #region LogUpload
@@ -130,7 +99,40 @@ internal static class HutaoEndpoints
     /// <summary>
     /// 上传日志
     /// </summary>
-    public const string HutaoLogUpload = $"{HomaSnapGenshinApi}/HutaoLog/Upload";
+    public const string HutaoLogUpload = $"{HomaSnapGenshin}/HutaoLog/Upload";
+    #endregion
+
+    #region Passport
+
+    /// <summary>
+    /// 获取注册验证码
+    /// </summary>
+    public const string PassportVerify = $"{HomaSnapGenshin}/Passport/Verify";
+
+    /// <summary>
+    /// 注册账号
+    /// </summary>
+    public const string PassportRegister = $"{HomaSnapGenshin}/Passport/Register";
+
+    /// <summary>
+    /// 注销账号
+    /// </summary>
+    public const string PassportCancel = $"{HomaSnapGenshin}/Passport/Cancel";
+
+    /// <summary>
+    /// 重设密码
+    /// </summary>
+    public const string PassportResetPassword = $"{HomaSnapGenshin}/Passport/ResetPassword";
+
+    /// <summary>
+    /// 登录
+    /// </summary>
+    public const string PassportLogin = $"{HomaSnapGenshin}/Passport/Login";
+
+    /// <summary>
+    /// 用户信息
+    /// </summary>
+    public const string PassportUserInfo = $"{HomaSnapGenshin}/Passport/UserInfo";
     #endregion
 
     #region SpiralAbyss
@@ -142,7 +144,7 @@ internal static class HutaoEndpoints
     /// <returns>路径</returns>
     public static string RecordCheck(string uid)
     {
-        return $"{HomaSnapGenshinApi}/Record/Check?uid={uid}";
+        return $"{HomaSnapGenshin}/Record/Check?uid={uid}";
     }
 
     /// <summary>
@@ -152,49 +154,65 @@ internal static class HutaoEndpoints
     /// <returns>路径</returns>
     public static string RecordRank(string uid)
     {
-        return $"{HomaSnapGenshinApi}/Record/Rank?uid={uid}";
+        return $"{HomaSnapGenshin}/Record/Rank?uid={uid}";
     }
 
     /// <summary>
     /// 上传记录
     /// </summary>
-    public const string RecordUpload = $"{HomaSnapGenshinApi}/Record/Upload";
+    public const string RecordUpload = $"{HomaSnapGenshin}/Record/Upload";
 
     /// <summary>
     /// 统计信息
     /// </summary>
-    public const string StatisticsOverview = $"{HomaSnapGenshinApi}/Statistics/Overview";
+    public const string StatisticsOverview = $"{HomaSnapGenshin}/Statistics/Overview";
 
     /// <summary>
     /// 出场率
     /// </summary>
-    public const string StatisticsAvatarAttendanceRate = $"{HomaSnapGenshinApi}/Statistics/Avatar/AttendanceRate";
+    public const string StatisticsAvatarAttendanceRate = $"{HomaSnapGenshin}/Statistics/Avatar/AttendanceRate";
 
     /// <summary>
     /// 使用率
     /// </summary>
-    public const string StatisticsAvatarUtilizationRate = $"{HomaSnapGenshinApi}/Statistics/Avatar/UtilizationRate";
+    public const string StatisticsAvatarUtilizationRate = $"{HomaSnapGenshin}/Statistics/Avatar/UtilizationRate";
 
     /// <summary>
     /// 角色搭配
     /// </summary>
-    public const string StatisticsAvatarAvatarCollocation = $"{HomaSnapGenshinApi}/Statistics/Avatar/AvatarCollocation";
+    public const string StatisticsAvatarAvatarCollocation = $"{HomaSnapGenshin}/Statistics/Avatar/AvatarCollocation";
 
     /// <summary>
     /// 角色持有率
     /// </summary>
-    public const string StatisticsAvatarHoldingRate = $"{HomaSnapGenshinApi}/Statistics/Avatar/HoldingRate";
+    public const string StatisticsAvatarHoldingRate = $"{HomaSnapGenshin}/Statistics/Avatar/HoldingRate";
 
     /// <summary>
     /// 武器搭配
     /// </summary>
-    public const string StatisticsWeaponWeaponCollocation = $"{HomaSnapGenshinApi}/Statistics/Weapon/WeaponCollocation";
+    public const string StatisticsWeaponWeaponCollocation = $"{HomaSnapGenshin}/Statistics/Weapon/WeaponCollocation";
 
     /// <summary>
     /// 持有率
     /// </summary>
-    public const string StatisticsTeamCombination = $"{HomaSnapGenshinApi}/Statistics/Team/Combination";
+    public const string StatisticsTeamCombination = $"{HomaSnapGenshin}/Statistics/Team/Combination";
     #endregion
+
+    public static string Website(string path)
+    {
+        return $"{HomaSnapGenshin}/{path}";
+    }
+
+    #endregion
+
+    #region Infrasturcture
+
+    public static string Enka(in PlayerUid uid)
+    {
+        return $"{ApiSnapGenshinEnka}/{uid}";
+    }
+
+    public const string Ip = $"{ApiSnapGenshin}/ip";
 
     #region Metadata
 
@@ -210,7 +228,12 @@ internal static class HutaoEndpoints
     }
     #endregion
 
-    #region Static & Zip
+    #region Patch
+    public const string PatchYaeAchievement = $"{ApiSnapGenshinPatch}/yae";
+    public const string PatchSnapHutao = $"{ApiSnapGenshinPatch}/hutao";
+    #endregion
+
+    #region StaticResources
 
     /// <summary>
     /// UI_Icon_None
@@ -249,21 +272,13 @@ internal static class HutaoEndpoints
     }
     #endregion
 
-    public static string Website(string path)
-    {
-        return $"{HomaSnapGenshinApi}/{path}";
-    }
+    #endregion
 
-    public static string Enka(in PlayerUid uid)
-    {
-        return $"{ApiSnapGenshinEnka}/{uid}";
-    }
-
-    public const string Ip = $"{ApiSnapGenshin}/ip";
     private const string ApiSnapGenshin = "https://api.snapgenshin.com";
     private const string ApiSnapGenshinMetadata = $"{ApiSnapGenshin}/metadata";
+    private const string ApiSnapGenshinPatch = $"{ApiSnapGenshin}/patch";
     private const string ApiSnapGenshinStaticRaw = $"{ApiSnapGenshin}/static/raw";
     private const string ApiSnapGenshinStaticZip = $"{ApiSnapGenshin}/static/zip";
     private const string ApiSnapGenshinEnka = $"{ApiSnapGenshin}/enka";
-    private const string HomaSnapGenshinApi = "https://homa.snapgenshin.com";
+    private const string HomaSnapGenshin = "https://homa.snapgenshin.com";
 }

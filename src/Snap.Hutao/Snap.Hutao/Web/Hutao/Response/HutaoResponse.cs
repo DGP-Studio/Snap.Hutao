@@ -1,11 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.CompilerServices;
+using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Web.Hutao.Response;
 
-internal sealed class HutaoResponse : Web.Response.Response, ILocalizableResponse
+internal sealed class HutaoResponse : Web.Response.Response, ILocalizableResponse, ICommonResponse<HutaoResponse>
 {
     [JsonConstructor]
     public HutaoResponse(int returnCode, string message, string? localizationKey)
@@ -17,18 +17,9 @@ internal sealed class HutaoResponse : Web.Response.Response, ILocalizableRespons
     [JsonPropertyName("l10nKey")]
     public string? LocalizationKey { get; set; }
 
-    public static HutaoResponse DefaultIfNull(HutaoResponse? response, [CallerMemberName] string callerName = default!)
+    static HutaoResponse ICommonResponse<HutaoResponse>.CreateDefault(int returnCode, string message)
     {
-        // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        response ??= new(InternalFailure, SH.FormatWebResponseRequestExceptionFormat(callerName, null), default);
-        return response;
-    }
-
-    public static HutaoResponse<TData> DefaultIfNull<TData>(HutaoResponse<TData>? response, [CallerMemberName] string callerName = default!)
-    {
-        // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        response ??= new(InternalFailure, SH.FormatWebResponseRequestExceptionFormat(callerName, typeof(TData).Name), default, default);
-        return response ?? new(InternalFailure, SH.FormatWebResponseRequestExceptionFormat(callerName, typeof(TData).Name), default, default);
+        return new(returnCode, message, default);
     }
 
     public override string ToString()
@@ -38,7 +29,7 @@ internal sealed class HutaoResponse : Web.Response.Response, ILocalizableRespons
 }
 
 [SuppressMessage("", "SA1402")]
-internal sealed class HutaoResponse<TData> : Web.Response.Response<TData>, ILocalizableResponse
+internal sealed class HutaoResponse<TData> : Response<TData>, ILocalizableResponse, ICommonResponse<HutaoResponse<TData>>
 {
     [JsonConstructor]
     public HutaoResponse(int returnCode, string message, TData? data, string? localizationKey)
@@ -49,6 +40,11 @@ internal sealed class HutaoResponse<TData> : Web.Response.Response<TData>, ILoca
 
     [JsonPropertyName("l10nKey")]
     public string? LocalizationKey { get; set; }
+
+    static HutaoResponse<TData> ICommonResponse<HutaoResponse<TData>>.CreateDefault(int returnCode, string message)
+    {
+        return new(returnCode, message, default, default);
+    }
 
     public override string ToString()
     {
