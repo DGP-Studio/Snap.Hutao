@@ -1,10 +1,11 @@
 stages:
   - fetch
+  - release
 
 Fetch:
   stage: fetch
   rules:
-    - when: manual
+    - if: $CI_COMMIT_TAG
   tags:
     - us3
   script:
@@ -13,7 +14,42 @@ Fetch:
     - RELEASE_INFO=$(curl -sSL "https://api.github.com/repos/$CI_PROJECT_PATH/releases/latest")
     - ASSET_URL=$(echo "$RELEASE_INFO" | jq -r '.assets[] | select(.name | endswith(".msix")) | .browser_download_url')
     - curl -LJO "$ASSET_URL"
+    - FILE_NAME=$(basename "$ASSET_URL")
+    - echo "File name at script stage is $FILE_NAME"
+    - echo "THIS_FILE_NAME=$FILE_NAME" >> next.env
+  after_script:
+    - echo "Current Job ID is $CI_JOB_ID"
+    - echo "THIS_JOB_ID=$CI_JOB_ID" >> next.env
   artifacts:
     paths:
       - "*.msix"
     expire_in: 180 days
+    reports:
+      dotenv: next.env
+
+
+release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs:
+    - job: Fetch
+      artifacts: true
+  variables:
+    TAG: '$CI_COMMIT_TAG'
+  script:
+    - echo "Create Release $TAG"
+    - echo "$THIS_JOB_ID"
+    - echo "$THIS_FILE_NAME"
+  release:
+    name: '$TAG'
+    tag_name: '$TAG'
+    ref: '$TAG'
+    description: 'Release $TAG by CI'
+    assets:
+      links:
+        - name: "$THIS_FILE_NAME"
+          url: "https://$CI_SERVER_SHELL_SSH_HOST/$CI_PROJECT_PATH/-/jobs/$THIS_JOB_ID/artifacts/raw/$THIS_FILE_NAME?inline=false"        
+          link_type: package
+          
