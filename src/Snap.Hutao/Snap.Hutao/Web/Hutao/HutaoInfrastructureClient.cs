@@ -5,7 +5,6 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
-using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao;
@@ -24,7 +23,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetRequestUri(HutaoEndpoints.Ip)
             .Get();
 
-        Response<IPInformation>? resp = await builder.TryCatchSendAsync<Response<IPInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<IPInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<IPInformation>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
@@ -34,7 +33,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetRequestUri(HutaoEndpoints.PatchSnapHutao)
             .Get();
 
-        Response<HutaoVersionInformation>? resp = await builder.TryCatchSendAsync<Response<HutaoVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<HutaoVersionInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<HutaoVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
@@ -44,7 +43,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetRequestUri(HutaoEndpoints.PatchYaeAchievement)
             .Get();
 
-        Response<YaeVersionInformation>? resp = await builder.TryCatchSendAsync<Response<YaeVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<YaeVersionInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<YaeVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 }
