@@ -16,7 +16,7 @@ internal sealed class StringBoolConverter : EmptyStringToObjectConverter
     /// </summary>
     public StringBoolConverter()
     {
-        EmptyValue = BoxedValues.False;
-        NotEmptyValue = BoxedValues.True;
+        EmptyValue = false;
+        NotEmptyValue = true;
     }
 }
