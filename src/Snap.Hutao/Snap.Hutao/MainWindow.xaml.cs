@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Control;
 using Snap.Hutao.Core.Windowing;
 using Windows.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -19,10 +20,10 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     private const int MinWidth = 1000;
     private const int MinHeight = 600;
 
+    private readonly IServiceProvider serviceProvider;
     private readonly WindowOptions windowOptions;
-    private readonly ILogger<MainWindow> logger;
+
     private readonly TypedEventHandler<object, WindowEventArgs> closedEventHander;
-    private readonly TypedEventHandler<object, WindowSizeChangedEventArgs> sizeChangedEventHandler;
 
     /// <summary>
     /// 构造一个新的主窗体
@@ -31,15 +32,13 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     public MainWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+        this.serviceProvider = serviceProvider;
         windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true);
         this.InitializeController(serviceProvider);
-        logger = serviceProvider.GetRequiredService<ILogger<MainWindow>>();
 
         closedEventHander = OnClosed;
-        sizeChangedEventHandler = OnSizeChanged;
 
         Closed += closedEventHander;
-        SizeChanged += sizeChangedEventHandler;
     }
 
     /// <inheritdoc/>
@@ -54,10 +53,10 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
 
     private void OnClosed(object sender, WindowEventArgs args)
     {
-        logger.LogInformation("MainWindow Closed");
-    }
-
-    private void OnSizeChanged(object sender, WindowSizeChangedEventArgs args)
-    {
+        // The Closed event is raised before XamlRoot is unloaded.
+        using (serviceProvider.GetRequiredService<IScopedPageScopeReferenceTracker>())
+        {
+            // Thus we can eusure all viewmodels are disposed.
+        }
     }
 }

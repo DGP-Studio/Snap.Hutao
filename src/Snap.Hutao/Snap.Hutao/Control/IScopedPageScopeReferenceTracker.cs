@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Control;
 
-internal interface IScopedPageScopeReferenceTracker
+internal interface IScopedPageScopeReferenceTracker : IDisposable
 {
     IServiceScope CreateScope();
 }
