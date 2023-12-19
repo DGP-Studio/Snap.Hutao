@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
 using System.Globalization;
@@ -25,17 +26,17 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     private readonly IMemoryCache memoryCache;
 
     /// <inheritdoc/>
-    public async ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, CancellationToken cancellationToken = default)
+    public async ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, RegionType region, CancellationToken cancellationToken = default)
     {
         // 缓存中存在记录，直接返回
-        if (memoryCache.TryGetRequiredValue(CacheKey, out AnnouncementWrapper? cache))
+        if (memoryCache.TryGetRequiredValue($"{CacheKey}.{languageCode}.{region}", out AnnouncementWrapper? cache))
         {
             return cache;
         }
 
         await taskContext.SwitchToBackgroundAsync();
         Response<AnnouncementWrapper> announcementWrapperResponse = await announcementClient
-            .GetAnnouncementsAsync(languageCode, cancellationToken)
+            .GetAnnouncementsAsync(languageCode, region, cancellationToken)
             .ConfigureAwait(false);
 
         if (!announcementWrapperResponse.IsOk())
@@ -45,7 +46,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
         AnnouncementWrapper wrapper = announcementWrapperResponse.Data;
         Response<ListWrapper<AnnouncementContent>> announcementContentResponse = await announcementClient
-            .GetAnnouncementContentsAsync(languageCode, cancellationToken)
+            .GetAnnouncementContentsAsync(languageCode, region, cancellationToken)
             .ConfigureAwait(false);
 
         if (!announcementContentResponse.IsOk())

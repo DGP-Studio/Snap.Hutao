@@ -24,12 +24,21 @@ internal sealed partial class AnnouncementClient
     /// 异步获取公告列表
     /// </summary>
     /// <param name="languageCode">语言代码</param>
+    /// <param name="region">服务器</param>
     /// <param name="token">取消令牌</param>
     /// <returns>公告列表</returns>
-    public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(string languageCode, CancellationToken token = default)
+    public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(string languageCode, RegionType region, CancellationToken token = default)
     {
-        // ApiOsEndpoints.AnnList(languageCode, region)
-        string annListUrl = ApiEndpoints.AnnList;
+        string annListUrl = region switch
+        {
+            RegionType.CN_GF01 => ApiEndpoints.AnnList(languageCode, region.ToString().ToLowerInvariant()),
+            RegionType.CN_QD01 => ApiEndpoints.AnnList(languageCode, region.ToString().ToLowerInvariant()),
+            RegionType.OS_USA => ApiOsEndpoints.AnnList(languageCode, region.ToString().ToLowerInvariant()),
+            RegionType.OS_EURO => ApiOsEndpoints.AnnList(languageCode, region.ToString().ToLowerInvariant()),
+            RegionType.OS_ASIA => ApiOsEndpoints.AnnList(languageCode, region.ToString().ToLowerInvariant()),
+            RegionType.OS_CHT => ApiOsEndpoints.AnnList(languageCode, region.ToString().ToLowerInvariant()),
+            _ => ApiEndpoints.AnnList(languageCode, RegionType.CN_GF01.ToString().ToLowerInvariant()),
+        };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(annListUrl)
@@ -46,12 +55,21 @@ internal sealed partial class AnnouncementClient
     /// 异步获取公告内容列表
     /// </summary>
     /// <param name="languageCode">语言代码</param>
+    /// <param name="region">服务器</param>
     /// <param name="token">取消令牌</param>
     /// <returns>公告内容列表</returns>
-    public async ValueTask<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(string languageCode, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(string languageCode, RegionType region, CancellationToken token = default)
     {
-        // ApiOsEndpoints.AnnContent(languageCode, region)
-        string annContentUrl = ApiEndpoints.AnnContent;
+        string annContentUrl = region switch
+        {
+            RegionType.CN_GF01 => ApiEndpoints.AnnContent(languageCode, region.ToString().ToLowerInvariant()),
+            RegionType.CN_QD01 => ApiEndpoints.AnnContent(languageCode, region.ToString().ToLowerInvariant()),
+            RegionType.OS_USA => ApiOsEndpoints.AnnContent(languageCode, region.ToString().ToLowerInvariant()),
+            RegionType.OS_EURO => ApiOsEndpoints.AnnContent(languageCode, region.ToString().ToLowerInvariant()),
+            RegionType.OS_ASIA => ApiOsEndpoints.AnnContent(languageCode, region.ToString().ToLowerInvariant()),
+            RegionType.OS_CHT => ApiOsEndpoints.AnnContent(languageCode, region.ToString().ToLowerInvariant()),
+            _ => ApiEndpoints.AnnContent(languageCode, RegionType.CN_GF01.ToString().ToLowerInvariant()),
+        };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(annContentUrl)
