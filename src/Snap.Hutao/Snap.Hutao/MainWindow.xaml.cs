@@ -20,10 +20,7 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     private const int MinWidth = 1000;
     private const int MinHeight = 600;
 
-    private readonly IServiceProvider serviceProvider;
     private readonly WindowOptions windowOptions;
-
-    private readonly TypedEventHandler<object, WindowEventArgs> closedEventHander;
 
     /// <summary>
     /// 构造一个新的主窗体
@@ -32,13 +29,8 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     public MainWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        this.serviceProvider = serviceProvider;
         windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true);
         this.InitializeController(serviceProvider);
-
-        closedEventHander = OnClosed;
-
-        Closed += closedEventHander;
     }
 
     /// <inheritdoc/>
@@ -49,14 +41,5 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     {
         pInfo.ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, pInfo.ptMinTrackSize.X);
         pInfo.ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, pInfo.ptMinTrackSize.Y);
-    }
-
-    private void OnClosed(object sender, WindowEventArgs args)
-    {
-        // The Closed event is raised before XamlRoot is unloaded.
-        using (serviceProvider.GetRequiredService<IScopedPageScopeReferenceTracker>())
-        {
-            // Thus we can eusure all viewmodels are disposed.
-        }
     }
 }
