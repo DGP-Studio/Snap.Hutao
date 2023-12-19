@@ -23,6 +23,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.Guide;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
 using System.Globalization;
@@ -61,6 +62,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<CultureInfo>? selectedCulture;
+    private NameValue<RegionType>? selectedRegionType;
     private IPInformation? ipInformation;
     private FolderViewModel? cacheFolderView;
     private FolderViewModel? dataFolderView;
@@ -100,6 +102,18 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             {
                 AppOptions.CurrentCulture = value.Value;
                 AppInstance.Restart(string.Empty);
+            }
+        }
+    }
+
+    public NameValue<RegionType>? SelectedRegionType
+    {
+        get => selectedRegionType ??= AppOptions.RegionTypes.Single(t => t.Value == AppOptions.RegionType);
+        set
+        {
+            if (SetProperty(ref selectedRegionType, value) && value is not null)
+            {
+                AppOptions.RegionType = value.Value;
             }
         }
     }
