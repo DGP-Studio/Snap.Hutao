@@ -404,20 +404,12 @@ internal class MiHoYoJSBridge
         logger?.LogInformation("[{Id}][ExecuteScript: {callback}]\n{payload}", interfaceId, callback, payload);
 
         await taskContext.SwitchToMainThreadAsync();
-        try
+        if (coreWebView2 is null || coreWebView2.IsDisposed())
         {
-            if (coreWebView2 is not null)
-            {
-                return await coreWebView2.ExecuteScriptAsync(js);
-            }
-        }
-        catch (COMException)
-        {
-            // COMException (0x8007139F): 组或资源的状态不是执行请求操作的正确状态。 (0x8007139F)
-            // webview is disposing or disposed
+            return string.Empty;
         }
 
-        return string.Empty;
+        return await coreWebView2.ExecuteScriptAsync(js);
     }
 
     private async void OnWebMessageReceived(CoreWebView2 webView2, CoreWebView2WebMessageReceivedEventArgs args)
