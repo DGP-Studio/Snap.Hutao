@@ -5,8 +5,8 @@ using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Web.Hoyolab;
 using System.Globalization;
 using System.IO;
 
@@ -20,7 +20,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     private bool? isEmptyHistoryWishVisible;
     private BackdropType? backdropType;
     private CultureInfo? currentCulture;
-    private RegionType? regionType;
+    private Region? region;
     private string? geetestCustomCompositeUrl;
 
     public string PowerShellPath
@@ -74,12 +74,12 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref currentCulture, SettingEntry.Culture, value, value => value.Name);
     }
 
-    public List<NameValue<RegionType>> RegionTypes { get; } = SupportedRegionTypes.Get();
+    public List<Region> Regions { get; } = KnownRegions.Get();
 
-    public RegionType RegionType
+    public Region Region
     {
-        get => GetOption(ref regionType, SettingEntry.RegionType, v => Enum.Parse<RegionType>(v), RegionType.CN_GF01).Value;
-        set => SetOption(ref regionType, SettingEntry.RegionType, value, value => value.ToStringOrEmpty());
+        get => GetOption(ref region, SettingEntry.Region, v => Region.FromRegion(v), Regions[0]).Value;
+        set => SetOption(ref region, SettingEntry.Region, value, value => value.Value.Value);
     }
 
     public string GeetestCustomCompositeUrl

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Text.RegularExpressions;
-
 namespace Snap.Hutao.Web.Hoyolab;
 
 /// <summary>
@@ -28,7 +26,7 @@ internal readonly partial struct PlayerUid
     /// <param name="region">服务器，当提供该参数时会无条件信任</param>
     public PlayerUid(string value, string? region = default)
     {
-        Must.Argument(UidRegex().IsMatch(value), SH.WebHoyolabInvalidUid);
+        Must.Argument(HoyolabRegex.UidRegex().IsMatch(value), SH.WebHoyolabInvalidUid);
         Value = value;
         Region = region ?? EvaluateRegion(value.AsSpan()[0]);
     }
@@ -45,7 +43,7 @@ internal readonly partial struct PlayerUid
 
     public static bool IsOversea(string uid)
     {
-        Must.Argument(UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
+        Must.Argument(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
 
         return uid.AsSpan()[0] switch
         {
@@ -56,7 +54,7 @@ internal readonly partial struct PlayerUid
 
     public static TimeSpan GetRegionTimeZoneUtcOffsetForUid(string uid)
     {
-        Must.Argument(UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
+        Must.Argument(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
 
         // 美服 UTC-05
         // 欧服 UTC+01
@@ -104,7 +102,4 @@ internal readonly partial struct PlayerUid
             _ => throw Must.NeverHappen(),
         };
     }
-
-    [GeneratedRegex("^[1-9][0-9]{8}$")]
-    private static partial Regex UidRegex();
 }

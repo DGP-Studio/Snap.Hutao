@@ -65,7 +65,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     {
         try
         {
-            AnnouncementWrapper announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(metadataOptions.LanguageCode, appOptions.RegionType, CancellationToken).ConfigureAwait(false);
+            AnnouncementWrapper announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(metadataOptions.LanguageCode, appOptions.Region, CancellationToken).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             Announcement = announcementWrapper;
         }

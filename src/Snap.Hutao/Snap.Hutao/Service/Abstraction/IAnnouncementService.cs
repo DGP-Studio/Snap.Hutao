@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
 namespace Snap.Hutao.Service.Abstraction;
@@ -19,5 +19,5 @@ internal interface IAnnouncementService
     /// <param name="region">服务器</param>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>公告包装器</returns>
-    ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, RegionType region, CancellationToken cancellationToken = default);
+    ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken cancellationToken = default);
 }

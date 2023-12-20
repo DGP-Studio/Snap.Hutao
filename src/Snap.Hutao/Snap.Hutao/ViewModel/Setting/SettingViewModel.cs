@@ -13,7 +13,6 @@ using Snap.Hutao.Core.Windowing.HotKey;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model;
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
@@ -24,6 +23,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.Guide;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
 using System.Globalization;
@@ -62,7 +62,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<CultureInfo>? selectedCulture;
-    private NameValue<RegionType>? selectedRegionType;
+    private Region? selectedRegion;
     private IPInformation? ipInformation;
     private FolderViewModel? cacheFolderView;
     private FolderViewModel? dataFolderView;
@@ -106,14 +106,14 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
-    public NameValue<RegionType>? SelectedRegionType
+    public Region? SelectedRegion
     {
-        get => selectedRegionType ??= AppOptions.RegionTypes.Single(t => t.Value == AppOptions.RegionType);
+        get => selectedRegion ??= AppOptions.Region;
         set
         {
-            if (SetProperty(ref selectedRegionType, value) && value is not null)
+            if (SetProperty(ref selectedRegion, value) && value is not null)
             {
-                AppOptions.RegionType = value.Value;
+                AppOptions.Region = value.Value;
             }
         }
     }

@@ -355,24 +355,6 @@
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
     <value>一星</value>
   </data>
-  <data name="ModelIntrinsicRegionTypeCnGf01" xml:space="preserve">
-    <value>国服 官方服</value>
-  </data>
-  <data name="ModelIntrinsicRegionTypeCnQd01" xml:space="preserve">
-    <value>国服 渠道服</value>
-  </data>
-  <data name="ModelIntrinsicRegionTypeOsAsia" xml:space="preserve">
-    <value>国际服 亚服</value>
-  </data>
-  <data name="ModelIntrinsicRegionTypeOsCht" xml:space="preserve">
-    <value>国际服 台服</value>
-  </data>
-  <data name="ModelIntrinsicRegionTypeOsEuro" xml:space="preserve">
-    <value>国际服 欧服</value>
-  </data>
-  <data name="ModelIntrinsicRegionTypeOsUsa" xml:space="preserve">
-    <value>国际服 美服</value>
-  </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>弓</value>
     <comment>Need EXACT same string in game</comment>
@@ -2876,8 +2858,29 @@
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>下载链接复制成功</value>
   </data>
+  <data name="WebHoyolabInvalidRegion" xml:space="preserve">
+    <value>无效的服务器</value>
+  </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
     <value>无效的 UID</value>
+  </data>
+	<data name="WebHoyolabRegionCnGf01" xml:space="preserve">
+    <value>国服 官方服</value>
+  </data>
+	<data name="WebHoyolabRegionCnQd01" xml:space="preserve">
+    <value>国服 渠道服</value>
+  </data>
+	<data name="WebHoyolabRegionOsAsia" xml:space="preserve">
+    <value>国际服 亚服</value>
+  </data>
+	<data name="WebHoyolabRegionOsCht" xml:space="preserve">
+    <value>国际服 台服</value>
+  </data>
+	<data name="WebHoyolabRegionOsEuro" xml:space="preserve">
+    <value>国际服 欧服</value>
+  </data>
+	<data name="WebHoyolabRegionOsUsa" xml:space="preserve">
+    <value>国际服 美服</value>
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
     <value>胡桃服务维护中</value>

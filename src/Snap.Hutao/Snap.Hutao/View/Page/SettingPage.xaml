@@ -18,7 +18,7 @@
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
-        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}" />
     </mxi:Interaction.Behaviors>
 
     <ScrollViewer shch:ScrollViewerHelper.LeftPanelMaxWidth="800" Style="{StaticResource TwoPanelScrollViewerStyle}">
@@ -30,20 +30,20 @@
                             VerticalAlignment="Stretch"
                             cw:UIElementExtensions.ClipToBounds="True"
                             CornerRadius="{ThemeResource ControlCornerRadius}">
-                            <Image Source="ms-appx:///Resource/BlurBackground.png" Stretch="Fill"/>
+                            <Image Source="ms-appx:///Resource/BlurBackground.png" Stretch="Fill" />
                         </Border>
                         <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
+                                <RowDefinition />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
                             <Image
                                 Grid.Row="0"
                                 MaxWidth="120"
                                 MaxHeight="120"
                                 Margin="48,48"
-                                Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
+                                Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png" />
                             <cwc:UniformGrid
                                 Grid.Row="1"
                                 Margin="8,0"
@@ -55,32 +55,32 @@
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Left"
                                     Command="{Binding UpdateCheckCommand}"
-                                    Content="{shcm:ResourceString Name=ViewPageSettingUpdateCheckAction}"/>
+                                    Content="{shcm:ResourceString Name=ViewPageSettingUpdateCheckAction}" />
                                 <HyperlinkButton
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Left"
                                     Command="{Binding StoreReviewCommand}"
-                                    Content="{shcm:ResourceString Name=ViewPageSettingStoreReviewNavigate}"/>
+                                    Content="{shcm:ResourceString Name=ViewPageSettingStoreReviewNavigate}" />
                                 <HyperlinkButton
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Left"
                                     Content="{shcm:ResourceString Name=ViewPageSettingOfficialSiteNavigate}"
-                                    NavigateUri="{StaticResource DocumentLink_Home}"/>
+                                    NavigateUri="{StaticResource DocumentLink_Home}" />
                                 <HyperlinkButton
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Left"
                                     Content="{shcm:ResourceString Name=ViewPageSettingFeedbackNavigate}"
-                                    NavigateUri="{StaticResource DocumentLink_BugReport}"/>
+                                    NavigateUri="{StaticResource DocumentLink_BugReport}" />
                                 <HyperlinkButton
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Left"
                                     Content="{shcm:ResourceString Name=ViewPageSettingTranslateNavigate}"
-                                    NavigateUri="{StaticResource DocumentLink_Translate}"/>
+                                    NavigateUri="{StaticResource DocumentLink_Translate}" />
                                 <HyperlinkButton
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Left"
                                     Content="{shcm:ResourceString Name=ViewPageSettingSponsorNavigate}"
-                                    NavigateUri="{StaticResource Sponsor_Afadian}"/>
+                                    NavigateUri="{StaticResource Sponsor_Afadian}" />
                             </cwc:UniformGrid>
                             <TextBlock
                                 Grid.Row="2"
@@ -89,7 +89,7 @@
                                 Opacity="0.7"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="Copyright © 2022 - 2024 DGP Studio. All Rights Reserved."
-                                TextWrapping="Wrap"/>
+                                TextWrapping="Wrap" />
                         </Grid>
                     </Grid>
                 </Border>
@@ -109,9 +109,9 @@
                             Command="{Binding CopyDeviceIdCommand}"
                             Description="{Binding HutaoOptions.DeviceId}"
                             Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
-                            IsClickEnabled="True"/>
-                        <cwc:SettingsCard Description="{Binding IPInformation}" Header="{shcm:ResourceString Name=ViewPageSettingDeviceIpHeader}"/>
-                        <cwc:SettingsCard Description="{Binding HutaoOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
+                            IsClickEnabled="True" />
+                        <cwc:SettingsCard Description="{Binding IPInformation}" Header="{shcm:ResourceString Name=ViewPageSettingDeviceIpHeader}" />
+                        <cwc:SettingsCard Description="{Binding HutaoOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}" />
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
                 <!--
@@ -129,24 +129,24 @@
                                 Command="{Binding Passport.LoginCommand}"
                                 Content="{shcm:ResourceString Name=ViewPageSettingHutaoPassportLoginAction}"
                                 Style="{ThemeResource SettingButtonStyle}"
-                                Visibility="{Binding UserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                Visibility="{Binding UserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}" />
                             <Button
                                 Command="{Binding Passport.RegisterCommand}"
                                 Content="{shcm:ResourceString Name=ViewPageSettingHutaoPassportRegisterAction}"
                                 Style="{ThemeResource SettingButtonStyle}"
-                                Visibility="{Binding UserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                Visibility="{Binding UserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityRevertConverter}}" />
                             <Button
                                 Command="{Binding Passport.LogoutCommand}"
                                 Content="{shcm:ResourceString Name=ViewPageSettingHutaoPassportLogoutAction}"
                                 Style="{ThemeResource SettingButtonStyle}"
-                                Visibility="{Binding UserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                Visibility="{Binding UserOptions.IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </StackPanel>
                         <cwc:SettingsExpander.Items>
                             <cwc:SettingsCard
                                 Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
                                 Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperHeader}"
-                                Visibility="{Binding UserOptions.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                Visibility="{Binding UserOptions.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}" />
                             <cwc:SettingsCard
                                 Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
                                 Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerDescription}"
@@ -155,14 +155,14 @@
                                 <Button
                                     Command="{Binding OpenTestPageCommand}"
                                     Content="TEST"
-                                    Style="{ThemeResource SettingButtonStyle}"/>
+                                    Style="{ThemeResource SettingButtonStyle}" />
                             </cwc:SettingsCard>
-                            <cwc:SettingsCard Description="{Binding UserOptions.GachaLogExpireAtSlim}" Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}"/>
+                            <cwc:SettingsCard Description="{Binding UserOptions.GachaLogExpireAtSlim}" Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}" />
                             <cwc:SettingsCard
                                 Command="{Binding Passport.OpenRedeemWebsiteCommand}"
                                 Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportRedeemCodeHeader}"
-                                IsClickEnabled="True"/>
+                                IsClickEnabled="True" />
                             <cwc:SettingsCard
                                 Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
                                 Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportDangerZoneDescription}"
@@ -171,17 +171,17 @@
                                     <Button
                                         Command="{Binding Passport.ResetPasswordCommand}"
                                         Content="{shcm:ResourceString Name=ViewPageSettingHutaoPassportResetPasswordAction}"
-                                        Style="{ThemeResource SettingButtonStyle}"/>
+                                        Style="{ThemeResource SettingButtonStyle}" />
                                     <Button
                                         Command="{Binding Passport.UnregisterCommand}"
                                         Content="{shcm:ResourceString Name=ViewPageSettingHutaoPassportUnregisterAction}"
-                                        Style="{ThemeResource SettingButtonStyle}"/>
+                                        Style="{ThemeResource SettingButtonStyle}" />
                                 </StackPanel>
                             </cwc:SettingsCard>
                         </cwc:SettingsExpander.Items>
                     </cwc:SettingsExpander>
                 </ScrollViewer>
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}"/>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}" />
                 <cwc:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xF32A;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlAction}"
@@ -189,18 +189,18 @@
                     Description="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE776;}"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingShellExperienceHeader}"/>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingShellExperienceHeader}" />
                 <cwc:SettingsCard
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
                     Command="{Binding CreateDesktopShortcutCommand}"
                     Description="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7EF;}"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingApperanceHeader}"/>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingApperanceHeader}" />
                 <cwc:SettingsCard
                     Description="{shcm:ResourceString Name=ViewPageSettingApperanceLanguageDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingApperanceLanguageHeader}"
@@ -209,7 +209,7 @@
                         <ComboBox
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding AppOptions.Cultures}"
-                            SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"/>
+                            SelectedItem="{Binding SelectedCulture, Mode=TwoWay}" />
                     </shc:SizeRestrictedContentControl>
                 </cwc:SettingsCard>
                 <cwc:SettingsCard
@@ -220,11 +220,11 @@
                         <ComboBox
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding AppOptions.BackdropTypes}"
-                            SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
+                            SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}" />
                     </shc:SizeRestrictedContentControl>
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingKeyShortcutHeader}"/>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingKeyShortcutHeader}" />
                 <cwc:SettingsCard
                     Description="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingHeader}"
@@ -240,22 +240,22 @@
                                 MinWidth="64"
                                 VerticalAlignment="Center"
                                 Content="Win"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}"/>
+                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}" />
                             <CheckBox
                                 MinWidth="64"
                                 VerticalAlignment="Center"
                                 Content="Ctrl"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasControl, Mode=TwoWay}"/>
+                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasControl, Mode=TwoWay}" />
                             <CheckBox
                                 MinWidth="64"
                                 VerticalAlignment="Center"
                                 Content="Shift"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasShift, Mode=TwoWay}"/>
+                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasShift, Mode=TwoWay}" />
                             <CheckBox
                                 MinWidth="64"
                                 VerticalAlignment="Center"
                                 Content="Alt"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}"/>
+                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}" />
                         </cwc:UniformGrid>
                         <shc:SizeRestrictedContentControl>
                             <ComboBox
@@ -263,16 +263,16 @@
                                 VerticalAlignment="Center"
                                 DisplayMemberPath="Name"
                                 ItemsSource="{Binding HotKeyOptions.VirtualKeys}"
-                                SelectedItem="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}"/>
+                                SelectedItem="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.KeyNameValue, Mode=TwoWay}" />
                         </shc:SizeRestrictedContentControl>
                         <ToggleSwitch
                             MinWidth="120"
                             VerticalAlignment="Center"
-                            IsOn="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Mode=TwoWay}"/>
+                            IsOn="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Mode=TwoWay}" />
                     </StackPanel>
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewpageSettingHomeHeader}"/>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewpageSettingHomeHeader}" />
                 <cwc:SettingsExpander
                     Description="{shcm:ResourceString Name=ViewpageSettingHomeCardDescription}"
                     Header="{shcm:ResourceString Name=ViewpageSettingHomeCardHeader}"
@@ -283,25 +283,25 @@
                             <ToggleSwitch
                                 IsOn="{Binding HomeCardOptions.IsHomeCardLaunchGamePresented, Mode=TwoWay}"
                                 OffContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOff}"
-                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}" />
                         </cwc:SettingsCard>
                         <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewpageSettingHomeCardItemgachaStatisticsHeader}">
                             <ToggleSwitch
                                 IsOn="{Binding HomeCardOptions.IsHomeCardGachaStatisticsPresented, Mode=TwoWay}"
                                 OffContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOff}"
-                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}" />
                         </cwc:SettingsCard>
                         <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewpageSettingHomeCardItemAchievementHeader}">
                             <ToggleSwitch
                                 IsOn="{Binding HomeCardOptions.IsHomeCardAchievementPresented, Mode=TwoWay}"
                                 OffContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOff}"
-                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}" />
                         </cwc:SettingsCard>
                         <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewpageSettingHomeCardItemDailyNoteHeader}">
                             <ToggleSwitch
                                 IsOn="{Binding HomeCardOptions.IsHomeCardDailyNotePresented, Mode=TwoWay}"
                                 OffContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOff}"
-                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}" />
                         </cwc:SettingsCard>
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
@@ -311,13 +311,13 @@
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE8E4;}">
                     <shc:SizeRestrictedContentControl>
                         <ComboBox
-                            DisplayMemberPath="Name"
-                            ItemsSource="{Binding AppOptions.RegionTypes}"
-                            SelectedItem="{Binding SelectedRegionType, Mode=TwoWay}"/>
+                            DisplayMemberPath="DisplayName"
+                            ItemsSource="{Binding AppOptions.Regions}"
+                            SelectedItem="{Binding SelectedRegion, Mode=TwoWay}" />
                     </shc:SizeRestrictedContentControl>
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGameHeader}"/>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGameHeader}" />
                 <cwc:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
@@ -327,8 +327,8 @@
                     IsClickEnabled="True">
                     <cwc:SettingsCard.Description>
                         <StackPanel>
-                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingSetPowerShellDescription}"/>
-                            <TextBlock Text="{Binding AppOptions.PowerShellPath}"/>
+                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingSetPowerShellDescription}" />
+                            <TextBlock Text="{Binding AppOptions.PowerShellPath}" />
                         </StackPanel>
                     </cwc:SettingsCard.Description>
                 </cwc:SettingsCard>
@@ -339,9 +339,9 @@
                     Description="{shcm:ResourceString Name=ViewPageSettingDeleteCacheDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingDeleteCacheHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE74D;}"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGachaLogHeader}"/>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGachaLogHeader}" />
                 <cwc:SettingsCard
                     Description="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleHeader}"
@@ -349,10 +349,10 @@
                     <ToggleSwitch
                         IsOn="{Binding AppOptions.IsEmptyHistoryWishVisible, Mode=TwoWay}"
                         OffContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
-                        OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
+                        OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}" />
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingStorageHeader}"/>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingStorageHeader}" />
                 <cwc:SettingsExpander
                     Description="{Binding DataFolderView.Size}"
                     Header="{shcm:ResourceString Name=ViewPageSettingDataFolderHeader}"
@@ -361,7 +361,7 @@
                         <Button
                             Command="{Binding DataFolderView.OpenFolderCommand}"
                             Content="{shcm:ResourceString Name=ViewSettingFolderViewOpenFolderAction}"
-                            Style="{ThemeResource SettingButtonStyle}"/>
+                            Style="{ThemeResource SettingButtonStyle}" />
                     </cwc:SettingsExpander.Content>
                     <cwc:SettingsExpander.Items>
                         <cwc:SettingsCard
@@ -370,7 +370,7 @@
                             Command="{Binding SetDataFolderCommand}"
                             Description="{shcm:ResourceString Name=ViewPageSettingSetDataFolderDescription}"
                             Header="{shcm:ResourceString Name=ViewPageSettingSetDataFolderHeader}"
-                            IsClickEnabled="True"/>
+                            IsClickEnabled="True" />
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
 
@@ -382,7 +382,7 @@
                         <Button
                             Command="{Binding CacheFolderView.OpenFolderCommand}"
                             Content="{shcm:ResourceString Name=ViewSettingFolderViewOpenFolderAction}"
-                            Style="{ThemeResource SettingButtonStyle}"/>
+                            Style="{ThemeResource SettingButtonStyle}" />
                     </cwc:SettingsExpander.Content>
                     <cwc:SettingsExpander.Items>
                         <cwc:SettingsCard
@@ -391,19 +391,19 @@
                             Command="{Binding ResetStaticResourceCommand}"
                             Description="{shcm:ResourceString Name=ViewPageSettingResetStaticResourceDescription}"
                             Header="{shcm:ResourceString Name=ViewPageSettingResetStaticResourceHeader}"
-                            IsClickEnabled="True"/>
+                            IsClickEnabled="True" />
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
 
                 <TextBlock
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                     Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewPageSettingDangerousHeader}"/>
+                    Text="{shcm:ResourceString Name=ViewPageSettingDangerousHeader}" />
                 <cwc:SettingsCard
                     Description="{shcm:ResourceString Name=ViewSettingAllocConsoleDescription}"
                     Header="{shcm:ResourceString Name=ViewSettingAllocConsoleHeader}"
                     HeaderIcon="{cw:FontIcon Glyph=&#xE756;}">
-                    <ToggleSwitch Width="120" IsOn="{Binding IsAllocConsoleDebugModeEnabled, Mode=TwoWay}"/>
+                    <ToggleSwitch Width="120" IsOn="{Binding IsAllocConsoleDebugModeEnabled, Mode=TwoWay}" />
                 </cwc:SettingsCard>
 
                 <cwc:SettingsCard
@@ -415,13 +415,13 @@
                             <TextBlock
                                 Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                 Text="{shcm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
-                                Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}" Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}" Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}" />
                         </StackPanel>
                     </cwc:SettingsCard.Description>
                     <StackPanel Orientation="Horizontal">
-                        <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                        <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
+                        <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}" />
+                        <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}" />
                     </StackPanel>
                 </cwc:SettingsCard>
                 <cwc:SettingsCard
@@ -432,8 +432,8 @@
                     IsClickEnabled="True">
                     <cwc:SettingsCard.Description>
                         <StackPanel>
-                            <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"/>
-                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingDeleteUserDescription}"/>
+                            <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{shcm:ResourceString Name=ViewPageSettingDangerousHint}" />
+                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingDeleteUserDescription}" />
                         </StackPanel>
                     </cwc:SettingsCard.Description>
                 </cwc:SettingsCard>
