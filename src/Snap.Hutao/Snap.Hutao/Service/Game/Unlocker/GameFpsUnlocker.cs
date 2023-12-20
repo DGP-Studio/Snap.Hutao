@@ -228,7 +228,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
             nuint rip = localMemoryUserAssemblyAddress + (uint)offset;
             rip += 5U;
-            rip += (nuint)(*(int*)(rip + 2)) + 6U;
+            rip += (nuint)(*(int*)(rip + 2) + 6);
 
             nuint address = userAssembly.Address + (rip - localMemoryUserAssemblyAddress);
 
