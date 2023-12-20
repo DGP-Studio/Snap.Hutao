@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Core;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
@@ -62,12 +63,12 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // 将活动公告置于前方
         wrapper.List.Reverse();
 
-        PreprocessAnnouncements(contentMap, wrapper.List);
+        PreprocessAnnouncements(contentMap, wrapper.List, new(wrapper.TimeZone, 0, 0));
 
         return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
     }
 
-    private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
+    private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers, in TimeSpan offset)
     {
         // 将公告内容联入公告列表
         foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
@@ -79,7 +80,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             }
         }
 
-        AdjustAnnouncementTime(announcementListWrappers);
+        AdjustAnnouncementTime(announcementListWrappers, offset);
 
         foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
         {
@@ -91,7 +92,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         }
     }
 
-    private static void AdjustAnnouncementTime(List<AnnouncementListWrapper> announcementListWrappers)
+    private static void AdjustAnnouncementTime(List<AnnouncementListWrapper> announcementListWrappers, in TimeSpan offset)
     {
         // 活动公告
         List<Announcement> activities = announcementListWrappers
@@ -109,7 +110,8 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             return;
         }
 
-        DateTimeOffset versionUpdateTime = DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
+        DateTimeOffset rawVersionUpdateTime = DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
+        DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.AdjustOffsetOnly(rawVersionUpdateTime, offset);
 
         foreach (ref readonly Announcement announcement in CollectionsMarshal.AsSpan(activities))
         {
@@ -129,7 +131,8 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
             {
                 announcement.StartTime = versionUpdateTime;
-                announcement.EndTime = DateTimeOffset.Parse(transient.Groups[2].ValueSpan, CultureInfo.InvariantCulture);
+                DateTimeOffset rawEndTime = DateTimeOffset.Parse(transient.Groups[2].ValueSpan, CultureInfo.InvariantCulture);
+                announcement.EndTime = UnsafeDateTimeOffset.AdjustOffsetOnly(rawEndTime, offset);
                 continue;
             }
 
@@ -139,7 +142,13 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                 continue;
             }
 
-            List<DateTimeOffset> dateTimes = matches.Select(match => DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture)).ToList();
+            List<DateTimeOffset> dateTimes = [];
+            foreach (Match match2 in (IList<Match>)matches)
+            {
+                DateTimeOffset raw = DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
+                dateTimes.Add(UnsafeDateTimeOffset.AdjustOffsetOnly(raw, offset));
+            }
+
             DateTimeOffset min = DateTimeOffset.MaxValue;
             DateTimeOffset max = DateTimeOffset.MinValue;
 
