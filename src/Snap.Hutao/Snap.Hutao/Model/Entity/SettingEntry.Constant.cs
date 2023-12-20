@@ -128,5 +128,5 @@ internal sealed partial class SettingEntry
     /// </summary>
     public const string GeetestCustomCompositeUrl = "GeetestCustomCompositeUrl";
 
-    public const string Region = "Region";
+    public const string AnnouncementRegion = "AnnouncementRegion";
 }

@@ -31,7 +31,6 @@ internal sealed class SignInData
     /// 地区代码
     /// </summary>
     [JsonPropertyName("region")]
-    [JsonConverter(typeof(RegionConverter))]
     public Region Region { get; }
 
     /// <summary>

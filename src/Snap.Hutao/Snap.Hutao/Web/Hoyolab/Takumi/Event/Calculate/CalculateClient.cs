@@ -181,7 +181,6 @@ internal sealed partial class CalculateClient
         public string Uid { get; set; } = default!;
 
         [JsonPropertyName("region")]
-        [JsonConverter(typeof(RegionConverter))]
         public Region Region { get; set; } = default!;
     }
 

@@ -29,11 +29,9 @@ internal sealed partial class AnnouncementClient
     /// <returns>公告列表</returns>
     public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(string languageCode, Region region, CancellationToken token = default)
     {
-        string annListUrl = region.IsOversea switch
-        {
-            true => ApiOsEndpoints.AnnList(languageCode, region.Value),
-            false => ApiEndpoints.AnnList(languageCode, region.Value),
-        };
+        string annListUrl = region.IsOversea()
+            ? ApiOsEndpoints.AnnList(languageCode, region)
+            : ApiEndpoints.AnnList(languageCode, region);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(annListUrl)
@@ -55,11 +53,9 @@ internal sealed partial class AnnouncementClient
     /// <returns>公告内容列表</returns>
     public async ValueTask<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(string languageCode, Region region, CancellationToken token = default)
     {
-        string annContentUrl = region.IsOversea switch
-        {
-            true => ApiOsEndpoints.AnnContent(languageCode, region.Value),
-            false => ApiEndpoints.AnnContent(languageCode, region.Value),
-        };
+        string annContentUrl = region.IsOversea()
+            ? ApiOsEndpoints.AnnContent(languageCode, region)
+            : ApiEndpoints.AnnContent(languageCode, region);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(annContentUrl)

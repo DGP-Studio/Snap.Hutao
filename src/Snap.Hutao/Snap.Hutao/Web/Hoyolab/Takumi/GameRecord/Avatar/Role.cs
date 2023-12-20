@@ -25,7 +25,7 @@ internal sealed class Role
     /// 服务器名称
     /// </summary>
     [JsonPropertyName("region")]
-    public string Region { get; set; } = default!;
+    public string RegionName { get; set; } = default!;
 
     /// <summary>
     /// 等级

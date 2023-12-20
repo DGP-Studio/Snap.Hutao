@@ -50,7 +50,6 @@ internal sealed class GenAuthKeyData
     /// 区域
     /// </summary>
     [JsonPropertyName("region")]
-    [JsonConverter(typeof(RegionConverter))]
     public Region Region { get; set; } = default!;
 
     /// <summary>

@@ -39,6 +39,5 @@ internal sealed class CharacterData
     /// 服务器
     /// </summary>
     [JsonPropertyName("server")]
-    [JsonConverter(typeof(RegionConverter))]
     public Region Server { get; }
 }

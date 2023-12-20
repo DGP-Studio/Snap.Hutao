@@ -9,14 +9,14 @@ internal sealed class RegionConverter : JsonConverter<Region>
     {
         if (reader.GetString() is { } regionValue)
         {
-            return Region.FromRegion(regionValue);
+            return Region.FromRegionString(regionValue);
         }
 
-        return default;
+        throw new JsonException();
     }
 
     public override void Write(Utf8JsonWriter writer, Region value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString());
+        writer.WriteStringValue(value.Value);
     }
 }

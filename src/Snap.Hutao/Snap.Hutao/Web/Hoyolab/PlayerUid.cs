@@ -28,7 +28,7 @@ internal readonly partial struct PlayerUid
     {
         Must.Argument(HoyolabRegex.UidRegex().IsMatch(value), SH.WebHoyolabInvalidUid);
         Value = value;
-        Region = region ?? Region.FromUid(value);
+        Region = region ?? Region.FromUidString(value);
     }
 
     public static implicit operator PlayerUid(string source)

@@ -19,7 +19,6 @@ internal sealed class UserGameRole
     /// 服务器
     /// </summary>
     [JsonPropertyName("region")]
-    [JsonConverter(typeof(RegionConverter))]
     public Region Region { get; set; } = default!;
 
     /// <summary>

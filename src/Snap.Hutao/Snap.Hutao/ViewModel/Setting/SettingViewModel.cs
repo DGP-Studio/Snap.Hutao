@@ -108,7 +108,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public NameValue<Region>? SelectedRegion
     {
-        get => selectedRegion ??= AppOptions.Regions.Single(t => t.Value.Value == AppOptions.Region.Value);
+        get => selectedRegion ??= AppOptions.GetCurrentRegionForSelectionOrDefault();
         set
         {
             if (SetProperty(ref selectedRegion, value) && value is not null)

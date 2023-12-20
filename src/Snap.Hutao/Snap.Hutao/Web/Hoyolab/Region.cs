@@ -1,36 +1,37 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-
 namespace Snap.Hutao.Web.Hoyolab;
 
+[JsonConverter(typeof(RegionConverter))]
 internal readonly partial struct Region
 {
-    public readonly string DisplayName;
+    public static readonly Region CNGF01 = new("cn_gf01");
+    public static readonly Region CNQD01 = new("cn_qd01");
+    public static readonly Region OSUSA = new("os_usa");
+    public static readonly Region OSEURO = new("os_euro");
+    public static readonly Region OSASIA = new("os_asia");
+    public static readonly Region OSCHT = new("os_cht");
 
     public readonly string Value;
 
-    public readonly bool IsOversea;
-
-    public Region(string value, bool? isOversea = default)
+    public Region(string value)
     {
         Must.Argument(HoyolabRegex.RegionRegex().IsMatch(value), SH.WebHoyolabInvalidRegion);
-        DisplayName = EvaluateDisplayName(value);
         Value = value;
-        IsOversea = isOversea ?? EvaluateIsOversea(value.AsSpan()[0]);
     }
 
     public static implicit operator Region(string value)
     {
-        return FromRegion(value);
+        return FromRegionString(value);
     }
 
-    public static Region FromRegion(string value)
+    public static Region FromRegionString(string value)
     {
         return new(value);
     }
 
-    public static Region FromUid(string uid)
+    public static Region FromUidString(string uid)
     {
         return uid.AsSpan()[0] switch
         {
@@ -47,32 +48,23 @@ internal readonly partial struct Region
         };
     }
 
+    public static bool IsOversea(string value)
+    {
+        Must.Argument(HoyolabRegex.RegionRegex().IsMatch(value), SH.WebHoyolabInvalidRegion);
+        return value.AsSpan()[..2] switch
+        {
+            "os" => true,
+            _ => false,
+        };
+    }
+
+    public readonly bool IsOversea()
+    {
+        return IsOversea(Value);
+    }
+
     public override string ToString()
     {
         return Value;
-    }
-
-    private static string EvaluateDisplayName(string value)
-    {
-        return value switch
-        {
-            "cn_gf01" => SH.WebHoyolabRegionCNGF01,
-            "cn_qd01" => SH.WebHoyolabRegionCNQD01,
-            "os_usa" => SH.WebHoyolabRegionOSUSA,
-            "os_euro" => SH.WebHoyolabRegionOSEURO,
-            "os_asia" => SH.WebHoyolabRegionOSASIA,
-            "os_cht" => SH.WebHoyolabRegionOSCHT,
-            _ => throw Must.NeverHappen(),
-        };
-    }
-
-    private static bool EvaluateIsOversea(in char first)
-    {
-        return first switch
-        {
-            'c' => false,
-            'o' => true,
-            _ => throw Must.NeverHappen(),
-        };
     }
 }
