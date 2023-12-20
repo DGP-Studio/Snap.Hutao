@@ -311,7 +311,7 @@
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE8E4;}">
                     <shc:SizeRestrictedContentControl>
                         <ComboBox
-                            DisplayMemberPath="DisplayName"
+                            DisplayMemberPath="Name"
                             ItemsSource="{Binding AppOptions.Regions}"
                             SelectedItem="{Binding SelectedRegion, Mode=TwoWay}"/>
                     </shc:SizeRestrictedContentControl>

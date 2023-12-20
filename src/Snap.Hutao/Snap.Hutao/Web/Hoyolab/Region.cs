@@ -1,10 +1,17 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+
 namespace Snap.Hutao.Web.Hoyolab;
 
 internal readonly partial struct Region
 {
+    public readonly string DisplayName;
+
+    public readonly string Value;
+
+    public readonly bool IsOversea;
+
     public Region(string value, bool? isOversea = default)
     {
         Must.Argument(HoyolabRegex.RegionRegex().IsMatch(value), SH.WebHoyolabInvalidRegion);
@@ -12,12 +19,6 @@ internal readonly partial struct Region
         Value = value;
         IsOversea = isOversea ?? EvaluateIsOversea(value.AsSpan()[0]);
     }
-
-    public readonly string DisplayName { get; }
-
-    public readonly string Value { get; }
-
-    public readonly bool IsOversea { get; }
 
     public static implicit operator Region(string value)
     {

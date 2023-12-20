@@ -62,7 +62,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<CultureInfo>? selectedCulture;
-    private Region? selectedRegion;
+    private NameValue<Region>? selectedRegion;
     private IPInformation? ipInformation;
     private FolderViewModel? cacheFolderView;
     private FolderViewModel? dataFolderView;
@@ -106,9 +106,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
-    public Region? SelectedRegion
+    public NameValue<Region>? SelectedRegion
     {
-        get => selectedRegion ??= AppOptions.Region;
+        get => selectedRegion ??= AppOptions.Regions.Single(t => t.Value.Value == AppOptions.Region.Value);
         set
         {
             if (SetProperty(ref selectedRegion, value) && value is not null)

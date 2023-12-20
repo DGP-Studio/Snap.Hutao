@@ -74,11 +74,11 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref currentCulture, SettingEntry.Culture, value, value => value.Name);
     }
 
-    public List<Region> Regions { get; } = KnownRegions.Get();
+    public List<NameValue<Region>> Regions { get; } = KnownRegions.Get();
 
     public Region Region
     {
-        get => GetOption(ref region, SettingEntry.Region, v => Region.FromRegion(v), Regions[0]).Value;
+        get => GetOption(ref region, SettingEntry.Region, v => Region.FromRegion(v), Regions[0].Value).Value;
         set => SetOption(ref region, SettingEntry.Region, value, value => value.ToStringOrEmpty());
     }
 
