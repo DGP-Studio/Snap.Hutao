@@ -2864,22 +2864,22 @@
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
     <value>无效的 UID</value>
   </data>
-	<data name="WebHoyolabRegionCnGf01" xml:space="preserve">
+  <data name="WebHoyolabRegionCnGf01" xml:space="preserve">
     <value>国服 官方服</value>
   </data>
-	<data name="WebHoyolabRegionCnQd01" xml:space="preserve">
+  <data name="WebHoyolabRegionCnQd01" xml:space="preserve">
     <value>国服 渠道服</value>
   </data>
-	<data name="WebHoyolabRegionOsAsia" xml:space="preserve">
+  <data name="WebHoyolabRegionOsAsia" xml:space="preserve">
     <value>国际服 亚服</value>
   </data>
-	<data name="WebHoyolabRegionOsCht" xml:space="preserve">
+  <data name="WebHoyolabRegionOsCht" xml:space="preserve">
     <value>国际服 台服</value>
   </data>
-	<data name="WebHoyolabRegionOsEuro" xml:space="preserve">
+  <data name="WebHoyolabRegionOsEuro" xml:space="preserve">
     <value>国际服 欧服</value>
   </data>
-	<data name="WebHoyolabRegionOsUsa" xml:space="preserve">
+  <data name="WebHoyolabRegionOsUsa" xml:space="preserve">
     <value>国际服 美服</value>
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
