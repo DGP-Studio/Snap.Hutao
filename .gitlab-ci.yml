@@ -13,20 +13,25 @@ Fetch:
     - apt-get install -y curl jq
     - RELEASE_INFO=$(curl -sSL "https://api.github.com/repos/$CI_PROJECT_PATH/releases/latest")
     - ASSET_URL=$(echo "$RELEASE_INFO" | jq -r '.assets[] | select(.name | endswith(".msix")) | .browser_download_url')
+    - SHA256SUMS_URL=$(echo "$RELEASE_INFO" | jq -r '.assets[] | select(.name == "SHA256SUMS") | .browser_download_url')
     - curl -LJO "$ASSET_URL"
+    - curl -LJO "$SHA256SUMS_URL"
     - FILE_NAME=$(basename "$ASSET_URL")
+    - SHA256SUMS_NAME=$(basename "$SHA256SUMS_URL")
     - echo "File name at script stage is $FILE_NAME"
+    - echo "SHA256SUMS name at script stage is $SHA256SUMS_NAME"
     - echo "THIS_FILE_NAME=$FILE_NAME" >> next.env
+    - echo "THIS_SHA256SUMS_NAME=$SHA256SUMS_NAME" >> next.env
   after_script:
     - echo "Current Job ID is $CI_JOB_ID"
     - echo "THIS_JOB_ID=$CI_JOB_ID" >> next.env
   artifacts:
     paths:
       - "*.msix"
+      - "SHA256SUMS"
     expire_in: 180 days
     reports:
       dotenv: next.env
-
 
 release:
   stage: release
@@ -50,6 +55,8 @@ release:
     assets:
       links:
         - name: "$THIS_FILE_NAME"
-          url: "https://$CI_SERVER_SHELL_SSH_HOST/$CI_PROJECT_PATH/-/jobs/$THIS_JOB_ID/artifacts/raw/$THIS_FILE_NAME?inline=false"        
+          url: "https://$CI_SERVER_SHELL_SSH_HOST/$CI_PROJECT_PATH/-/jobs/$THIS_JOB_ID/artifacts/raw/$THIS_FILE_NAME?inline=false"
           link_type: package
-          
+        - name: "$THIS_SHA256SUMS_NAME"
+          url: "https://$CI_SERVER_SHELL_SSH_HOST/$CI_PROJECT_PATH/-/jobs/$THIS_JOB_ID/artifacts/raw/$THIS_SHA256SUMS_NAME?inline=false"
+          link_type: other
