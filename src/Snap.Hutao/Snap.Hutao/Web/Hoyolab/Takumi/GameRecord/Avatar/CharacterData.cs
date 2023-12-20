@@ -20,7 +20,7 @@ internal sealed class CharacterData
     {
         CharacterIds = characterIds;
         Uid = uid.Value;
-        Server = uid.Region.Value;
+        Server = uid.Region;
     }
 
     /// <summary>
@@ -39,5 +39,6 @@ internal sealed class CharacterData
     /// 服务器
     /// </summary>
     [JsonPropertyName("server")]
-    public string Server { get; }
+    [JsonConverter(typeof(RegionConverter))]
+    public Region Server { get; }
 }

@@ -55,7 +55,7 @@ internal sealed partial class CalculateClient
     public async ValueTask<List<Avatar>> GetAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         int currentPage = 1;
-        SyncAvatarFilter filter = new() { Uid = userAndUid.Uid.Value, Region = userAndUid.Uid.Region.Value };
+        SyncAvatarFilter filter = new() { Uid = userAndUid.Uid.Value, Region = userAndUid.Uid.Region };
 
         List<Avatar> avatars = [];
         Response<ListWrapper<Avatar>>? resp;

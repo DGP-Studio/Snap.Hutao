@@ -22,11 +22,10 @@ internal sealed class Role
     public string Nickname { get; set; } = default!;
 
     /// <summary>
-    /// 服务器
+    /// 服务器名称
     /// </summary>
     [JsonPropertyName("region")]
-    [JsonConverter(typeof(RegionConverter))]
-    public Region Region { get; set; } = default!;
+    public string Region { get; set; } = default!;
 
     /// <summary>
     /// 等级

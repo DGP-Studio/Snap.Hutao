@@ -25,7 +25,7 @@ internal sealed class GenAuthKeyData
         AuthAppId = authAppId;
         GameBiz = gameBiz;
         GameUid = int.Parse(uid.Value, CultureInfo.InvariantCulture);
-        Region = uid.Region.Value;
+        Region = uid.Region;
     }
 
     /// <summary>

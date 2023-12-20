@@ -17,7 +17,7 @@ internal sealed class SignInData
     public SignInData(PlayerUid uid, bool isOversea)
     {
         ActivityId = isOversea ? ApiOsEndpoints.SignInRewardActivityId : ApiEndpoints.LunaActivityId;
-        Region = uid.Region.Value;
+        Region = uid.Region;
         Uid = uid.Value;
     }
 
