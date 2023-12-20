@@ -46,6 +46,11 @@ internal readonly partial struct Region
         };
     }
 
+    public override string ToString()
+    {
+        return Value;
+    }
+
     private static string EvaluateDisplayName(string value)
     {
         return value switch

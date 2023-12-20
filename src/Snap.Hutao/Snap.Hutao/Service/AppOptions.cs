@@ -79,7 +79,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     public Region Region
     {
         get => GetOption(ref region, SettingEntry.Region, v => Region.FromRegion(v), Regions[0]).Value;
-        set => SetOption(ref region, SettingEntry.Region, value, value => value.Value.Value);
+        set => SetOption(ref region, SettingEntry.Region, value, value => value.ToStringOrEmpty());
     }
 
     public string GeetestCustomCompositeUrl
