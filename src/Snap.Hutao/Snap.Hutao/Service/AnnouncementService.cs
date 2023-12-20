@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
 using System.Globalization;

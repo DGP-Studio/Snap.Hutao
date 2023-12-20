@@ -5,8 +5,8 @@ using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Web.Hoyolab;
 using System.Globalization;
 using System.IO;
 
@@ -74,7 +74,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref currentCulture, SettingEntry.Culture, value, value => value.Name);
     }
 
-    public List<NameValue<RegionType>> RegionTypes { get; } = CollectionsNameValue.FromEnum<RegionType>();
+    public List<NameValue<RegionType>> RegionTypes { get; } = SupportedRegionTypes.Get();
 
     public RegionType RegionType
     {

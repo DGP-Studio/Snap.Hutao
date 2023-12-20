@@ -355,6 +355,24 @@
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
     <value>一星</value>
   </data>
+  <data name="ModelIntrinsicRegionTypeCnGf01" xml:space="preserve">
+    <value>国服 官方服</value>
+  </data>
+  <data name="ModelIntrinsicRegionTypeCnQd01" xml:space="preserve">
+    <value>国服 渠道服</value>
+  </data>
+  <data name="ModelIntrinsicRegionTypeOsAsia" xml:space="preserve">
+    <value>国际服 亚服</value>
+  </data>
+  <data name="ModelIntrinsicRegionTypeOsCht" xml:space="preserve">
+    <value>国际服 台服</value>
+  </data>
+  <data name="ModelIntrinsicRegionTypeOsEuro" xml:space="preserve">
+    <value>国际服 欧服</value>
+  </data>
+  <data name="ModelIntrinsicRegionTypeOsUsa" xml:space="preserve">
+    <value>国际服 美服</value>
+  </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>弓</value>
     <comment>Need EXACT same string in game</comment>
