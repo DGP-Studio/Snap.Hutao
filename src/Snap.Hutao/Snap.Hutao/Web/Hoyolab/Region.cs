@@ -55,12 +55,12 @@ internal readonly partial struct Region
     {
         return value switch
         {
-            "cn_gf01" => SH.WebHoyolabRegionCnGf01,
-            "cn_qd01" => SH.WebHoyolabRegionCnQd01,
-            "os_usa" => SH.WebHoyolabRegionOsUsa,
-            "os_euro" => SH.WebHoyolabRegionOsEuro,
-            "os_asia" => SH.WebHoyolabRegionOsAsia,
-            "os_cht" => SH.WebHoyolabRegionOsCht,
+            "cn_gf01" => SH.WebHoyolabRegionCNGF01,
+            "cn_qd01" => SH.WebHoyolabRegionCNQD01,
+            "os_usa" => SH.WebHoyolabRegionOSUSA,
+            "os_euro" => SH.WebHoyolabRegionOSEURO,
+            "os_asia" => SH.WebHoyolabRegionOSASIA,
+            "os_cht" => SH.WebHoyolabRegionOSCHT,
             _ => throw Must.NeverHappen(),
         };
     }
