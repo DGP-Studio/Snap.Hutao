@@ -41,7 +41,8 @@ internal sealed class GachaLogPage : IJsonOnDeserialized
     /// 地区
     /// </summary>
     [JsonPropertyName("region")]
-    public string Region { get; set; } = default!;
+    [JsonConverter(typeof(RegionConverter))]
+    public Region Region { get; set; } = default!;
 
     public void OnDeserialized()
     {

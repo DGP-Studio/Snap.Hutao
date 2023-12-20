@@ -20,7 +20,7 @@ internal sealed class CharacterData
     {
         CharacterIds = characterIds;
         Uid = uid.Value;
-        Server = uid.Region;
+        Server = uid.Region.Value;
     }
 
     /// <summary>

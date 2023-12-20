@@ -55,7 +55,7 @@ internal sealed partial class CalculateClient
     public async ValueTask<List<Avatar>> GetAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         int currentPage = 1;
-        SyncAvatarFilter filter = new() { Uid = userAndUid.Uid.Value, Region = userAndUid.Uid.Region };
+        SyncAvatarFilter filter = new() { Uid = userAndUid.Uid.Value, Region = userAndUid.Uid.Region.Value };
 
         List<Avatar> avatars = [];
         Response<ListWrapper<Avatar>>? resp;
@@ -181,7 +181,8 @@ internal sealed partial class CalculateClient
         public string Uid { get; set; } = default!;
 
         [JsonPropertyName("region")]
-        public string Region { get; set; } = default!;
+        [JsonConverter(typeof(RegionConverter))]
+        public Region Region { get; set; } = default!;
     }
 
     private class IdCount

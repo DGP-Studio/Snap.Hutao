@@ -25,7 +25,7 @@ internal sealed class GenAuthKeyData
         AuthAppId = authAppId;
         GameBiz = gameBiz;
         GameUid = int.Parse(uid.Value, CultureInfo.InvariantCulture);
-        Region = uid.Region;
+        Region = uid.Region.Value;
     }
 
     /// <summary>
@@ -50,7 +50,8 @@ internal sealed class GenAuthKeyData
     /// 区域
     /// </summary>
     [JsonPropertyName("region")]
-    public string Region { get; set; } = default!;
+    [JsonConverter(typeof(RegionConverter))]
+    public Region Region { get; set; } = default!;
 
     /// <summary>
     /// 创建为祈愿记录验证密钥提交数据

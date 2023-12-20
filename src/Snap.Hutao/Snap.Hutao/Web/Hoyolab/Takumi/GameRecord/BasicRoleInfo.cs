@@ -26,7 +26,8 @@ internal sealed class BasicRoleInfo
     /// 区域代码
     /// </summary>
     [JsonPropertyName("region")]
-    public string Region { get; set; } = default!;
+    [JsonConverter(typeof(RegionConverter))]
+    public Region Region { get; set; } = default!;
 
     /// <summary>
     /// 等级
