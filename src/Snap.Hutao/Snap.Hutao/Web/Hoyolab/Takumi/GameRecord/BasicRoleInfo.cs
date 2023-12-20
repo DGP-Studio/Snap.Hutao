@@ -23,10 +23,10 @@ internal sealed class BasicRoleInfo
     public string Nickname { get; set; } = default!;
 
     /// <summary>
-    /// 区域代码
+    /// 服务器名称
     /// </summary>
     [JsonPropertyName("region")]
-    public string Region { get; set; } = default!;
+    public string RegionName { get; set; } = default!;
 
     /// <summary>
     /// 等级

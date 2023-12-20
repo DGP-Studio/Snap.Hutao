@@ -305,6 +305,17 @@
                         </cwc:SettingsCard>
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
+                <cwc:SettingsCard
+                    Description="{shcm:ResourceString Name=ViewPageSettingHomeAnnouncementRegionDescription}"
+                    Header="{shcm:ResourceString Name=ViewPageSettingHomeAnnouncementRegionHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE8E4;}">
+                    <shc:SizeRestrictedContentControl>
+                        <ComboBox
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding AppOptions.Regions}"
+                            SelectedItem="{Binding SelectedRegion, Mode=TwoWay}"/>
+                    </shc:SizeRestrictedContentControl>
+                </cwc:SettingsCard>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGameHeader}"/>
                 <cwc:SettingsCard

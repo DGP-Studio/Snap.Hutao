@@ -23,12 +23,18 @@ internal sealed partial class AnnouncementClient
     /// <summary>
     /// 异步获取公告列表
     /// </summary>
+    /// <param name="languageCode">语言代码</param>
+    /// <param name="region">服务器</param>
     /// <param name="token">取消令牌</param>
     /// <returns>公告列表</returns>
-    public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(CancellationToken token = default)
+    public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(string languageCode, Region region, CancellationToken token = default)
     {
+        string annListUrl = region.IsOversea()
+            ? ApiOsEndpoints.AnnList(languageCode, region)
+            : ApiEndpoints.AnnList(languageCode, region);
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AnnList)
+            .SetRequestUri(annListUrl)
             .Get();
 
         Response<AnnouncementWrapper>? resp = await builder
@@ -41,12 +47,18 @@ internal sealed partial class AnnouncementClient
     /// <summary>
     /// 异步获取公告内容列表
     /// </summary>
+    /// <param name="languageCode">语言代码</param>
+    /// <param name="region">服务器</param>
     /// <param name="token">取消令牌</param>
     /// <returns>公告内容列表</returns>
-    public async ValueTask<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(string languageCode, Region region, CancellationToken token = default)
     {
+        string annContentUrl = region.IsOversea()
+            ? ApiOsEndpoints.AnnContent(languageCode, region)
+            : ApiEndpoints.AnnContent(languageCode, region);
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AnnContent)
+            .SetRequestUri(annContentUrl)
             .Get();
 
         Response<ListWrapper<AnnouncementContent>>? resp = await builder

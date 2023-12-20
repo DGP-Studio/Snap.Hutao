@@ -2306,6 +2306,12 @@
   <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
     <value>无感验证</value>
   </data>
+  <data name="ViewPageSettingHomeAnnouncementRegionDescription" xml:space="preserve">
+    <value>选择想要获取公告的游戏服务器</value>
+  </data>
+  <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
+    <value>公告所属服务器</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>管理主页仪表板中的卡片</value>
   </data>
@@ -2852,8 +2858,29 @@
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>下载链接复制成功</value>
   </data>
+  <data name="WebHoyolabInvalidRegion" xml:space="preserve">
+    <value>无效的服务器</value>
+  </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
     <value>无效的 UID</value>
+  </data>
+  <data name="WebHoyolabRegionCNGF01" xml:space="preserve">
+    <value>国服 官方服</value>
+  </data>
+  <data name="WebHoyolabRegionCNQD01" xml:space="preserve">
+    <value>国服 渠道服</value>
+  </data>
+  <data name="WebHoyolabRegionOSASIA" xml:space="preserve">
+    <value>国际服 亚服</value>
+  </data>
+  <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
+    <value>国际服 台服</value>
+  </data>
+  <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
+    <value>国际服 欧服</value>
+  </data>
+  <data name="WebHoyolabRegionOSUSA" xml:space="preserve">
+    <value>国际服 美服</value>
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
     <value>胡桃服务维护中</value>

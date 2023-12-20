@@ -31,7 +31,7 @@ internal sealed class SignInData
     /// 地区代码
     /// </summary>
     [JsonPropertyName("region")]
-    public string Region { get; }
+    public Region Region { get; }
 
     /// <summary>
     /// Uid
