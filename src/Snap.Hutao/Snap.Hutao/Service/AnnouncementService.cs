@@ -110,8 +110,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             return;
         }
 
-        DateTimeOffset rawVersionUpdateTime = DateTimeOffset.Parse(versionMatch.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
-        DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.AdjustOffsetOnly(rawVersionUpdateTime, offset);
+        DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(versionMatch.Groups[1].ValueSpan, offset);
 
         foreach (ref readonly Announcement announcement in CollectionsMarshal.AsSpan(activities))
         {
@@ -131,8 +130,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
             {
                 announcement.StartTime = versionUpdateTime;
-                DateTimeOffset rawEndTime = DateTimeOffset.Parse(transient.Groups[2].ValueSpan, CultureInfo.InvariantCulture);
-                announcement.EndTime = UnsafeDateTimeOffset.AdjustOffsetOnly(rawEndTime, offset);
+                announcement.EndTime = UnsafeDateTimeOffset.ParseDateTime(transient.Groups[2].ValueSpan, offset);
                 continue;
             }
 
@@ -145,8 +143,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             List<DateTimeOffset> dateTimes = [];
             foreach (Match timeMatch in (IList<Match>)matches)
             {
-                DateTimeOffset raw = DateTimeOffset.Parse(timeMatch.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
-                dateTimes.Add(UnsafeDateTimeOffset.AdjustOffsetOnly(raw, offset));
+                dateTimes.Add(UnsafeDateTimeOffset.ParseDateTime(timeMatch.Groups[1].ValueSpan, offset));
             }
 
             DateTimeOffset min = DateTimeOffset.MaxValue;
