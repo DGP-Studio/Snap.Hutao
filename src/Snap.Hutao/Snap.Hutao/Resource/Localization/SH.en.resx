@@ -2712,7 +2712,7 @@
     <value>〓Update Maintenance Duration.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>Version \d\.\d Update Maintenance Preview</value>
+    <value>Version \d\.\d Update Details</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>Start in {0} days</value>
