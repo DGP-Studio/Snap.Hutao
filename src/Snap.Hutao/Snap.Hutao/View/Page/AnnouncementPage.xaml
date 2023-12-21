@@ -171,7 +171,7 @@
                 Message="{Binding Content}"
                 Severity="{Binding Severity}">
                 <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                    <HyperlinkButton Content="查看详情" NavigateUri="{Binding Link}"/>
+                    <HyperlinkButton Content="{shcm:ResourceString Name=ViewPageAnnouncementViewDetails}" NavigateUri="{Binding Link}"/>
                     <TextBlock
                         Margin="8,0,0,2"
                         VerticalAlignment="Center"
