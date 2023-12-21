@@ -2306,6 +2306,12 @@
   <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
     <value>CAPTCHA</value>
   </data>
+  <data name="ViewPageSettingHomeAnnouncementRegionDescription" xml:space="preserve">
+    <value>Select the game server for which you want to get announcements</value>
+  </data>
+  <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
+    <value>Announcement Server</value>
+  </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Manage cards on home dashboard</value>
   </data>
@@ -2852,8 +2858,29 @@
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
     <value>Copy Link Successful</value>
   </data>
+  <data name="WebHoyolabInvalidRegion" xml:space="preserve">
+    <value>Invalid server</value>
+  </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
     <value>Invalid UID</value>
+  </data>
+  <data name="WebHoyolabRegionCNGF01" xml:space="preserve">
+    <value>National Server Official Server</value>
+  </data>
+  <data name="WebHoyolabRegionCNQD01" xml:space="preserve">
+    <value>National Server Channel Server</value>
+  </data>
+  <data name="WebHoyolabRegionOSASIA" xml:space="preserve">
+    <value>International Server Asian Server</value>
+  </data>
+  <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
+    <value>International Server Taiwan Server</value>
+  </data>
+  <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
+    <value>International Server European Server</value>
+  </data>
+  <data name="WebHoyolabRegionOSUSA" xml:space="preserve">
+    <value>International Server US Server</value>
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
     <value>Snap Hutao server is under maintenance</value>
