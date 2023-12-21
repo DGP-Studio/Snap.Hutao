@@ -105,12 +105,12 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             .List
             .Single(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title));
 
-        if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } match)
+        if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } versionMatch)
         {
             return;
         }
 
-        DateTimeOffset rawVersionUpdateTime = DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
+        DateTimeOffset rawVersionUpdateTime = DateTimeOffset.Parse(versionMatch.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
         DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.AdjustOffsetOnly(rawVersionUpdateTime, offset);
 
         foreach (ref readonly Announcement announcement in CollectionsMarshal.AsSpan(activities))
@@ -143,9 +143,9 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             }
 
             List<DateTimeOffset> dateTimes = [];
-            foreach (Match match2 in (IList<Match>)matches)
+            foreach (Match timeMatch in (IList<Match>)matches)
             {
-                DateTimeOffset raw = DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
+                DateTimeOffset raw = DateTimeOffset.Parse(timeMatch.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
                 dateTimes.Add(UnsafeDateTimeOffset.AdjustOffsetOnly(raw, offset));
             }
 
