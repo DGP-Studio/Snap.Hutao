@@ -2865,22 +2865,22 @@
     <value>Invalid UID</value>
   </data>
   <data name="WebHoyolabRegionCNGF01" xml:space="preserve">
-    <value>National Server Official Server</value>
+    <value>CN Server: Official</value>
   </data>
   <data name="WebHoyolabRegionCNQD01" xml:space="preserve">
-    <value>National Server Channel Server</value>
+    <value>CN Server: bilibili</value>
   </data>
   <data name="WebHoyolabRegionOSASIA" xml:space="preserve">
-    <value>International Server Asian Server</value>
+    <value>Oversea Server: Asian</value>
   </data>
   <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
     <value>International Server Taiwan Server</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
-    <value>International Server European Server</value>
+    <value>Oversea Server: EU</value>
   </data>
   <data name="WebHoyolabRegionOSUSA" xml:space="preserve">
-    <value>International Server US Server</value>
+    <value>Oversea Server: NA</value>
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
     <value>Snap Hutao server is under maintenance</value>
