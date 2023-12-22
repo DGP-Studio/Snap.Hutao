@@ -16,6 +16,6 @@ internal static class AppOptionsExtension
 
     public static NameValue<Region>? GetCurrentRegionForSelectionOrDefault(this AppOptions appOptions)
     {
-        return appOptions.Regions.SingleOrDefault(c => c.Value.Value == appOptions.Region.Value);
+        return appOptions.LazyRegions.Value.SingleOrDefault(c => c.Value.Value == appOptions.Region.Value);
     }
 }

@@ -13,6 +13,7 @@ internal static class SupportedCultures
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
         ToNameValue(CultureInfo.GetCultureInfo("en")),
+        ToNameValue(CultureInfo.GetCultureInfo("ru")),
         ToNameValue(CultureInfo.GetCultureInfo("ja")),
         ToNameValue(CultureInfo.GetCultureInfo("id")),
         ToNameValue(CultureInfo.GetCultureInfo("ko")),

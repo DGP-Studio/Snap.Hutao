@@ -74,7 +74,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref currentCulture, SettingEntry.Culture, value, value => value.Name);
     }
 
-    public List<NameValue<Region>> Regions { get; } = KnownRegions.Get();
+    public Lazy<List<NameValue<Region>>> LazyRegions { get; } = new(KnownRegions.Get);
 
     public Region Region
     {

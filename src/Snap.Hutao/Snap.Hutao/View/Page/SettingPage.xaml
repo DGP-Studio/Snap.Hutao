@@ -312,7 +312,7 @@
                     <shc:SizeRestrictedContentControl>
                         <ComboBox
                             DisplayMemberPath="Name"
-                            ItemsSource="{Binding AppOptions.Regions}"
+                            ItemsSource="{Binding AppOptions.LazyRegions.Value}"
                             SelectedItem="{Binding SelectedRegion, Mode=TwoWay}"/>
                     </shc:SizeRestrictedContentControl>
                 </cwc:SettingsCard>

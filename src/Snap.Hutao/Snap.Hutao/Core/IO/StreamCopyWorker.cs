@@ -65,7 +65,7 @@ internal class StreamCopyWorker<TStatus>
             await destination.WriteAsync(buffer[..bytesRead]).ConfigureAwait(false);
 
             totalBytesRead += bytesRead;
-            if (stopwatch.GetElapsedTime().TotalMilliseconds > 500)
+            if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000)
             {
                 progress.Report(statusFactory(totalBytesRead));
                 stopwatch = ValueStopwatch.StartNew();
