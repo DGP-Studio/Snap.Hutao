@@ -55,7 +55,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private void ResetMainWindowSize()
     {
         double scale = mainWindow.WindowOptions.GetRasterizationScale();
-        mainWindow.AppWindow.Resize(new Windows.Graphics.SizeInt32(1920, 1080).Scale(scale));
+        mainWindow.AppWindow.Resize(new Windows.Graphics.SizeInt32(1715, 965).Scale(scale));
     }
 
     [Command("UploadAnnouncementCommand")]
