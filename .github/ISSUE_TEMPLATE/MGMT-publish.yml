@@ -12,50 +12,31 @@ body:
     value: |
 
       ## 创建版本
-    
+
       - [ ]  同步一次 [Crowdin](https://crowdin.com/project/snap-hutao) 翻译
       - [ ]  发布 RC 版本（Optional）
       - [ ]  合并入主分支
       - [ ]  整理更新内容，等待翻译
-      - [ ]  打包
-      - [ ]  提交微软商店
-          - [ ]  包含更新日志
       - [ ]  在 [Snap.Hutao.Docs@next-patch](https://github.com/DGP-Studio/Snap.Hutao.Docs/tree/next-patch) 分支更新文档并直接开 PR
           - [ ]  更新日志
           - [ ]  功能文档更新
-    
+
       ## 发布版本 [半自动]
-      
+
       - [ ] 在 GitHub 个人设置中更新 [Publish-Automate Beta PAT](https://github.com/settings/tokens?type=beta)，有效期需小于预计发版需要天数
-      - [ ] 将更新的 PAT 更新至 Publish-Automate 库的 [Actions Secrets](https://github.com/DGP-Studio/Publish-Automate/settings/secrets/actions) 中 
+      - [ ] 将更新的 PAT 更新至 Publish-Automate 库的 [Actions Secrets](https://github.com/DGP-Studio/Publish-Automate/settings/secrets/actions) 中
 
       ***
 
-      - [ ] 运行 [Auto Publish Action](https://github.com/DGP-Studio/Publish-Automate/actions/workflows/auto-publish.yml)
-      - [ ]  在 https://store.rg-adguard.net/ 下载新版本安装包
-          - [ ]  Store URL: https://apps.microsoft.com/store/detail/snap-hutao/9PH4NXJ2JN52
-          - [ ]  命名格式为 `Snap.Hutao x.x.x.msix`
-      - [ ]  Merge 文档 PR
-      - [ ]  发布 Release
-          - [ ]  更新日志格式（以 1.6.2 版本为例）
-    
-      ```jsx
-      ## Update log
-      https://hut.ao/en/statements/update-log.html#_1-6-2
-    
-      ## 更新日志
-      [此处从文档复制]
-    
-      ## What's Changed
-      **Full Changelog**: https://github.com/DGP-Studio/Snap.Hutao/compare/1.6.0...1.6.2
-      ```
-    
+      - [ ] 主分支合并入 release 分支
+      - [ ] 等待 Release 自动发布
+
       - [ ]  通知用户
 - type: checkboxes
   id: checklist-final
   attributes:
     label: Final Check
-    description: Understand what you are doing 
+    description: Understand what you are doing
     options:
       - label: I understand that I will get banned from repository if I don't have permission to use this template
-        required: true   
+        required: true
