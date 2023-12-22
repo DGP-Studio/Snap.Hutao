@@ -22,7 +22,7 @@ body:
         - label: 我知道文档站的导航栏中有**搜索功能**，且已经搜索过相关关键词
           required: true
 
-        - label: 我的问题不是[已修复](https://github.com/DGP-Studio/Snap.Hutao/issues?q=is%3Aopen+is%3Aissue+label%3A%E5%B7%B2%E4%BF%AE%E5%A4%8D)的问题也不是一个别人已发布的**重复的**问题
+        - label: 我的问题不是[已完成](https://github.com/DGP-Studio/Snap.Hutao/issues?q=is%3Aopen+is%3Aissue+label%3A%E5%B7%B2%E5%AE%8C%E6%88%90)的问题也不是一个别人已发布的**重复的**问题
           required: true
 
   - type: input
@@ -51,7 +51,7 @@ body:
       description: | 
         在胡桃工具箱的设置界面，你可以找到并复制你的设备 ID
         如果你的问题涉及程序崩溃，请填写该项，这将有助于我们定位问题
-        如果你的程序已经无法启动，请下载并运行[此PowerShell脚本](https://github.com/DGP-Studio/ISSUE_TEMPLATES/releases/download/get_device_id/GetHutaoDeviceId.ps1)，它将显示你的设备 ID
+        如果你的程序已经无法启动，请下载并运行[此工具](https://github.com/DGP-Automation/ISSUE_TEMPLATES/releases/download/diagnosis_tools/Snap.Hutao.DiagTools.exe)，它将显示你的设备 ID
     validations:
       required: false
 
@@ -87,7 +87,7 @@ body:
       label: 发生了什么？
       description: |
         详细的描述问题发生前后的行为，以便我们解决问题。**如果你的问题涉及程序崩溃，你应当检查 Windows 事件查看器，并将相关的 `.Net 错误`详情附上**
-        如果你无法找到该日志，请下载并运行[此PowerShell脚本](https://github.com/DGP-Studio/ISSUE_TEMPLATES/releases/download/dump_log_script/dump_log_zh.ps1)，它将输出错误日志
+        如果你无法找到该日志，请下载并运行[此工具](https://github.com/DGP-Automation/ISSUE_TEMPLATES/releases/download/diagnosis_tools/Snap.Hutao.DiagTools.exe)，它将转储问题日志至工具运行目录中的 `Snap.Hutao Error Log.txt`
     validations:
       required: true
 
