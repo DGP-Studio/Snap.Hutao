@@ -1649,6 +1649,9 @@
   <data name="ViewPageAnnouncementGame" xml:space="preserve">
     <value>Game Notice</value>
   </data>
+  <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
+    <value>View Details</value>
+  </data>
   <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
     <value>Artifacts Rating</value>
   </data>
