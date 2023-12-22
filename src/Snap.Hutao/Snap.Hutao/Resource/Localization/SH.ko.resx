@@ -1649,6 +1649,9 @@
   <data name="ViewPageAnnouncementGame" xml:space="preserve">
     <value>게임 공지</value>
   </data>
+  <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
+    <value>查看详情</value>
+  </data>
   <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
     <value>성유물 점수</value>
   </data>
