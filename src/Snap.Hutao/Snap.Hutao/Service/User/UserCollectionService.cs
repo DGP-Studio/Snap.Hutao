@@ -131,17 +131,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService
             return default;
         }
 
-        try
-        {
-            return uidUserGameRoleMap[uid];
-        }
-        catch (InvalidOperationException)
-        {
-            // Sequence contains more than one matching element
-            // TODO: return a specialize UserGameRole to indicate error
-        }
-
-        return default;
+        return uidUserGameRoleMap.GetValueOrDefault(uid);
     }
 
     public bool TryGetUserByMid(string mid, [NotNullWhen(true)] out BindingUser? user)
