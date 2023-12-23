@@ -38,8 +38,8 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 
     public async ValueTask<ObservableCollection<BindingUser>> GetUserCollectionAsync()
     {
-        // Force run in background thread
-        await taskContext.SwitchToBackgroundAsync();
+        // Force run in background thread, otherwise will cause reentrance
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
         using (await throttler.EnterAsync().ConfigureAwait(false))
         {
             if (userCollection is null)

@@ -31,4 +31,5 @@
     <x:String x:Key="UI_EmotionIcon250">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon250.png</x:String>
     <x:String x:Key="UI_EmotionIcon272">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon272.png</x:String>
     <x:String x:Key="UI_EmotionIcon293">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon293.png</x:String>
+    <x:String x:Key="UI_EmotionIcon445">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon445.png</x:String>
 </ResourceDictionary>

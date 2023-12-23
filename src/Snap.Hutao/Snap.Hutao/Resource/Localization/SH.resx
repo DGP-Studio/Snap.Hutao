@@ -2144,6 +2144,9 @@
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>预下载</value>
   </data>
+  <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
+    <value>选择游戏路径</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>该账号尚未绑定实时便笺通知 UID</value>
   </data>

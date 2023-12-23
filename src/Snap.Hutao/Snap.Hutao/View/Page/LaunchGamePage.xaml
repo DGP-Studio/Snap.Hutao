@@ -13,6 +13,7 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shccs="using:Snap.Hutao.Control.Collection.Selector"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
@@ -350,6 +351,16 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Spacing="3">
+                <shci:CachedImage
+                    Width="120"
+                    Height="120"
+                    EnableLazyLoading="False"
+                    Source="{StaticResource UI_EmotionIcon445}"/>
+                <TextBlock
+                    Margin="0,5,0,21"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="{shcm:ResourceString Name=ViewPageLaunchGameSelectGamePath}"/>
                 <Border Style="{ThemeResource BorderCardStyle}">
                     <ListView
                         ItemTemplate="{StaticResource GamePathEntryListTemplate}"
