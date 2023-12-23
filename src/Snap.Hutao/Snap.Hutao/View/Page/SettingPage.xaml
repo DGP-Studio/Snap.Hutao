@@ -136,17 +136,17 @@
                                 Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
                                 Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportLicensedDeveloperHeader}"
-                                Visibility="{Binding UserOptions.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <cwc:SettingsCard
-                                Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
-                                Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerDescription}"
-                                Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerHeader}"
-                                Visibility="{Binding UserOptions.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}">
+                                Visibility="{Binding UserOptions.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Button
                                     Command="{Binding OpenTestPageCommand}"
                                     Content="TEST"
                                     Style="{ThemeResource SettingButtonStyle}"/>
                             </cwc:SettingsCard>
+                            <cwc:SettingsCard
+                                Background="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
+                                Description="{shcm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportMaintainerHeader}"
+                                Visibility="{Binding UserOptions.IsMaintainer, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <cwc:SettingsCard Description="{Binding UserOptions.GachaLogExpireAtSlim}" Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportGachaLogExpiredAtHeader}"/>
                             <cwc:SettingsCard
                                 Command="{Binding Passport.OpenRedeemWebsiteCommand}"
