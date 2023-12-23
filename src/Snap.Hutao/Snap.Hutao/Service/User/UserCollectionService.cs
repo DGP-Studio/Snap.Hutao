@@ -14,7 +14,7 @@ namespace Snap.Hutao.Service.User;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IUserCollectionService))]
-internal sealed partial class UserCollectionService : IUserCollectionService
+internal sealed partial class UserCollectionService : IUserCollectionService, IDisposable
 {
     private readonly ScopedDbCurrent<BindingUser, Model.Entity.User, UserChangedMessage> dbCurrent;
     private readonly IUserInitializationService userInitializationService;
@@ -22,7 +22,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
-    private readonly Throttler throttler = new();
+    private readonly SemaphoreSlim throttler = new(1);
 
     private ObservableCollection<BindingUser>? userCollection;
     private Dictionary<string, BindingUser>? midUserMap;
@@ -38,7 +38,9 @@ internal sealed partial class UserCollectionService : IUserCollectionService
 
     public async ValueTask<ObservableCollection<BindingUser>> GetUserCollectionAsync()
     {
-        using (await throttler.ThrottleAsync().ConfigureAwait(false))
+        // Force run in background thread, otherwise will cause reentrance
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        using (await throttler.EnterAsync().ConfigureAwait(false))
         {
             if (userCollection is null)
             {
@@ -131,17 +133,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService
             return default;
         }
 
-        try
-        {
-            return uidUserGameRoleMap[uid];
-        }
-        catch (InvalidOperationException)
-        {
-            // Sequence contains more than one matching element
-            // TODO: return a specialize UserGameRole to indicate error
-        }
-
-        return default;
+        return uidUserGameRoleMap.GetValueOrDefault(uid);
     }
 
     public bool TryGetUserByMid(string mid, [NotNullWhen(true)] out BindingUser? user)
@@ -185,5 +177,10 @@ internal sealed partial class UserCollectionService : IUserCollectionService
         await userDbService.AddUserAsync(newUser.Entity).ConfigureAwait(false);
         ArgumentNullException.ThrowIfNull(newUser.UserInfo);
         return new(UserOptionResult.Added, newUser.UserInfo.Uid);
+    }
+
+    public void Dispose()
+    {
+        throttler.Dispose();
     }
 }

@@ -49,7 +49,7 @@ internal sealed partial class UpdateService : IUpdateService
 
             progress.Report(new(versionInformation.Version.ToString(), 0, 0));
 
-            if (versionInformation.Sha256 is not { } sha256)
+            if (versionInformation.Sha256 is not { Length: > 0 } sha256)
             {
                 return false;
             }

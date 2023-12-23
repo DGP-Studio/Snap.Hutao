@@ -77,7 +77,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
             List<DailyNoteEntry> entryList = await dailyNoteDbService.GetDailyNoteEntryIncludeUserListAsync().ConfigureAwait(false);
             entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
-            entries = new(entryList);
+            entries = entryList.ToObservableCollection();
         }
 
         return entries;
