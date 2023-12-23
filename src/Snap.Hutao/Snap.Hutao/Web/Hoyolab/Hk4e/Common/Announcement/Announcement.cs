@@ -80,7 +80,7 @@ internal sealed class Announcement : AnnouncementContent
     /// </summary>
     public string TimeFormatted
     {
-        get => $"{StartTime:yyyy.MM.dd HH:mm} - {EndTime:yyyy.MM.dd HH:mm}";
+        get => $"{StartTime.ToLocalTime():yyyy.MM.dd HH:mm} - {EndTime.ToLocalTime():yyyy.MM.dd HH:mm}";
     }
     #endregion
 

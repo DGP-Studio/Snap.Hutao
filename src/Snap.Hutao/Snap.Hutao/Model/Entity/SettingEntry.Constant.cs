@@ -127,4 +127,6 @@ internal sealed partial class SettingEntry
     /// 自定义极验接口
     /// </summary>
     public const string GeetestCustomCompositeUrl = "GeetestCustomCompositeUrl";
+
+    public const string AnnouncementRegion = "AnnouncementRegion";
 }

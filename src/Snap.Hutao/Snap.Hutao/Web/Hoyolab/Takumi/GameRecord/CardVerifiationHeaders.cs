@@ -40,5 +40,4 @@ internal sealed class CardVerifiationHeaders
             Page = page,
         };
     }
-
 }

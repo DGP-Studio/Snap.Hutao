@@ -281,12 +281,24 @@ internal static class ApiEndpoints
     /// <summary>
     /// 公告列表
     /// </summary>
-    public const string AnnList = $"{Hk4eApiAnnouncementApi}/getAnnList?{AnnouncementQuery}";
+    /// <param name="languageCode">语言代码</param>
+    /// <param name="region">服务器</param>
+    /// <returns>公告列表Url</returns>
+    public static string AnnList(string languageCode, in Region region)
+    {
+        return $"{Hk4eApiAnnouncementApi}/getAnnList?{AnnouncementQuery(languageCode, region)}";
+    }
 
     /// <summary>
     /// 公告内容
     /// </summary>
-    public const string AnnContent = $"{Hk4eApiAnnouncementApi}/getAnnContent?{AnnouncementQuery}";
+    /// <param name="languageCode">语言代码</param>
+    /// <param name="region">服务器</param>
+    /// <returns>公告列表Url</returns>
+    public static string AnnContent(string languageCode, in Region region)
+    {
+        return $"{Hk4eApiAnnouncementApi}/getAnnContent?{AnnouncementQuery(languageCode, region)}";
+    }
     #endregion
 
     #region Hk4eSdk
@@ -422,6 +434,9 @@ internal static class ApiEndpoints
     /// </summary>
     public const string WebStaticMihoyoReferer = "https://webstatic.mihoyo.com";
 
-    private const string AnnouncementQuery = "game=hk4e&game_biz=hk4e_cn&lang=zh-cn&bundle_id=hk4e_cn&platform=pc&region=cn_gf01&level=55&uid=100000000";
+    private static string AnnouncementQuery(string languageCode, in Region region)
+    {
+        return $"game=hk4e&game_biz=hk4e_cn&lang={languageCode}&bundle_id=hk4e_cn&platform=pc&region={region}&level=55&uid=100000000";
+    }
     #endregion
 }

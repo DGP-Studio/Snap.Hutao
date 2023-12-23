@@ -50,10 +50,8 @@ internal sealed partial class BindingClient
                 string actionTicket = actionTicketResponse.Data.Ticket;
                 return await GetUserGameRolesByActionTicketAsync(actionTicket, user, token).ConfigureAwait(false);
             }
-            else
-            {
-                return Response.Response.DefaultIfNull<ListWrapper<UserGameRole>, ActionTicketWrapper>(actionTicketResponse);
-            }
+
+            return Response.Response.CloneReturnCodeAndMessage<ListWrapper<UserGameRole>, ActionTicketWrapper>(actionTicketResponse);
         }
     }
 

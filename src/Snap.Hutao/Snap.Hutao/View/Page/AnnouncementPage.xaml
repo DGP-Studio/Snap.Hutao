@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
-    xmlns:cwb="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:cww="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -172,7 +171,7 @@
                 Message="{Binding Content}"
                 Severity="{Binding Severity}">
                 <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                    <HyperlinkButton Content="查看详情" NavigateUri="{Binding Link}"/>
+                    <HyperlinkButton Content="{shcm:ResourceString Name=ViewPageAnnouncementViewDetails}" NavigateUri="{Binding Link}"/>
                     <TextBlock
                         Margin="8,0,0,2"
                         VerticalAlignment="Center"
@@ -199,7 +198,6 @@
                         Margin="16,16,16,0"
                         Style="{StaticResource TitleTextBlockStyle}"
                         Text="{Binding GreetingText}"/>
-                    <TextBlock Margin="16,0" Text="{Binding HutaoUserOptions.UserName}"/>
 
                     <ItemsControl
                         Margin="16,8,12,0"

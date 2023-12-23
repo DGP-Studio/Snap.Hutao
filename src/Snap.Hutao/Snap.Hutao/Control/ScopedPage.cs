@@ -9,10 +9,6 @@ using Snap.Hutao.ViewModel.Abstraction;
 
 namespace Snap.Hutao.Control;
 
-/// <summary>
-/// 表示支持取消加载的异步页面
-/// 在被导航到其他页面前触发取消异步通知
-/// </summary>
 [HighQuality]
 [SuppressMessage("", "CA1001")]
 internal class ScopedPage : Page
@@ -21,9 +17,8 @@ internal class ScopedPage : Page
     private readonly CancellationTokenSource viewCancellationTokenSource = new();
     private readonly IServiceScope currentScope;
 
-    /// <summary>
-    /// 构造一个新的页面
-    /// </summary>
+    private bool inFrame = true;
+
     protected ScopedPage()
     {
         unloadEventHandler = OnUnloaded;
@@ -31,11 +26,6 @@ internal class ScopedPage : Page
         currentScope = Ioc.Default.GetRequiredService<IScopedPageScopeReferenceTracker>().CreateScope();
     }
 
-    /// <summary>
-    /// 异步通知接收器
-    /// </summary>
-    /// <param name="extra">额外内容</param>
-    /// <returns>任务</returns>
     public async ValueTask NotifyRecipientAsync(INavigationData extra)
     {
         if (extra.Data is not null && DataContext is INavigationRecipient recipient)
@@ -62,6 +52,32 @@ internal class ScopedPage : Page
     /// <inheritdoc/>
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
+        DisposeViewModel();
+        inFrame = false;
+    }
+
+    /// <inheritdoc/>
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        if (e.Parameter is INavigationData extra)
+        {
+            NotifyRecipientAsync(extra).SafeForget();
+        }
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        if (inFrame)
+        {
+            DisposeViewModel();
+        }
+
+        DataContext = null;
+        Unloaded -= unloadEventHandler;
+    }
+
+    private void DisposeViewModel()
+    {
         using (viewCancellationTokenSource)
         {
             // Cancel all tasks executed by the view model
@@ -78,20 +94,5 @@ internal class ScopedPage : Page
                 currentScope.Dispose();
             }
         }
-    }
-
-    /// <inheritdoc/>
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        if (e.Parameter is INavigationData extra)
-        {
-            NotifyRecipientAsync(extra).SafeForget();
-        }
-    }
-
-    private void OnUnloaded(object sender, RoutedEventArgs e)
-    {
-        DataContext = null;
-        Unloaded -= unloadEventHandler;
     }
 }

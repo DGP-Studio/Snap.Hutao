@@ -12,7 +12,7 @@ internal static class PlayerUidExtension
     {
         NameValueCollection collection = [];
         collection.Set("role_id", playerUid.Value);
-        collection.Set("server", playerUid.Region);
+        collection.Set("server", playerUid.Region.Value);
 
         return collection.ToQueryString();
     }
@@ -21,7 +21,7 @@ internal static class PlayerUidExtension
     {
         NameValueCollection collection = [];
         collection.Set("uid", playerUid.Value);
-        collection.Set("region", playerUid.Region);
+        collection.Set("region", playerUid.Region.Value);
 
         return collection.ToQueryString();
     }

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Text.RegularExpressions;
-
 namespace Snap.Hutao.Web.Hoyolab;
 
 /// <summary>
@@ -19,18 +17,18 @@ internal readonly partial struct PlayerUid
     /// <summary>
     /// 地区代码
     /// </summary>
-    public readonly string Region;
+    public readonly Region Region;
 
     /// <summary>
     /// 构造一个新的玩家 Uid 结构
     /// </summary>
     /// <param name="value">uid</param>
     /// <param name="region">服务器，当提供该参数时会无条件信任</param>
-    public PlayerUid(string value, string? region = default)
+    public PlayerUid(string value, in Region? region = default)
     {
-        Must.Argument(UidRegex().IsMatch(value), SH.WebHoyolabInvalidUid);
+        Must.Argument(HoyolabRegex.UidRegex().IsMatch(value), SH.WebHoyolabInvalidUid);
         Value = value;
-        Region = region ?? EvaluateRegion(value.AsSpan()[0]);
+        Region = region ?? Region.FromUidString(value);
     }
 
     public static implicit operator PlayerUid(string source)
@@ -45,7 +43,7 @@ internal readonly partial struct PlayerUid
 
     public static bool IsOversea(string uid)
     {
-        Must.Argument(UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
+        Must.Argument(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
 
         return uid.AsSpan()[0] switch
         {
@@ -56,7 +54,7 @@ internal readonly partial struct PlayerUid
 
     public static TimeSpan GetRegionTimeZoneUtcOffsetForUid(string uid)
     {
-        Must.Argument(UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
+        Must.Argument(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
 
         // 美服 UTC-05
         // 欧服 UTC+01
@@ -69,12 +67,12 @@ internal readonly partial struct PlayerUid
         };
     }
 
-    public static TimeSpan GetRegionTimeZoneUtcOffsetForRegion(string region)
+    public static TimeSpan GetRegionTimeZoneUtcOffsetForRegion(in Region region)
     {
         // 美服 UTC-05
         // 欧服 UTC+01
         // 其他 UTC+08
-        return region switch
+        return region.Value switch
         {
             "os_usa" => ServerRegionTimeZone.AmericaServerOffset,
             "os_euro" => ServerRegionTimeZone.EuropeServerOffset,
@@ -87,24 +85,4 @@ internal readonly partial struct PlayerUid
     {
         return Value;
     }
-
-    private static string EvaluateRegion(in char first)
-    {
-        return first switch
-        {
-            // CN
-            >= '1' and <= '4' => "cn_gf01", // 国服
-            '5' => "cn_qd01",               // 渠道
-
-            // OS
-            '6' => "os_usa",                // 美服
-            '7' => "os_euro",               // 欧服
-            '8' => "os_asia",               // 亚服
-            '9' => "os_cht",                // 台服
-            _ => throw Must.NeverHappen(),
-        };
-    }
-
-    [GeneratedRegex("^[1-9][0-9]{8}$")]
-    private static partial Regex UidRegex();
 }

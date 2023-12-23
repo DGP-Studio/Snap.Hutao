@@ -16,6 +16,7 @@ internal static class StaticResource
 
     private static readonly ApplicationDataCompositeValue DefaultResourceVersionMap = new()
     {
+        // DO NOT MIDIFY THIS MAP
         { "AchievementIcon", 0 },
         { "AvatarCard", 0 },
         { "AvatarIcon", 0 },
@@ -47,29 +48,29 @@ internal static class StaticResource
     {
         { "AchievementIcon", 1 },
         { "AvatarCard", 1 },
-        { "AvatarIcon", 3 },
+        { "AvatarIcon", 4 },
         { "Bg", 2 },
-        { "ChapterIcon", 1 },
+        { "ChapterIcon", 2 },
         { "CodexMonster", 0 },
         { "Costume", 1 },
-        { "EmotionIcon", 1 },
-        { "EquipIcon", 2 },
-        { "GachaAvatarIcon", 2 },
-        { "GachaAvatarImg", 2 },
-        { "GachaEquipIcon", 2 },
+        { "EmotionIcon", 2 },
+        { "EquipIcon", 3 },
+        { "GachaAvatarIcon", 3 },
+        { "GachaAvatarImg", 3 },
+        { "GachaEquipIcon", 3 },
         { "GcgCharAvatarIcon", 0 },
         { "IconElement", 2 },
-        { "ItemIcon", 2 },
+        { "ItemIcon", 3 },
         { "LoadingPic", 1 },
         { "MonsterIcon", 2 },
         { "MonsterSmallIcon", 1 },
-        { "NameCardIcon", 1 },
-        { "NameCardPic", 2 },
+        { "NameCardIcon", 2 },
+        { "NameCardPic", 3 },
         { "NameCardPicAlpha", 0 },
         { "Property", 1 },
-        { "RelicIcon", 2 },
-        { "Skill", 2 },
-        { "Talent", 2 },
+        { "RelicIcon", 3 },
+        { "Skill", 3 },
+        { "Talent", 3 },
     };
 
     public static void FulfillAll()

@@ -15,12 +15,16 @@ CloseHandle
 CreateEventW
 CreateRemoteThread
 FreeConsole
+GetConsoleMode
 GetModuleHandleW
 GetProcAddress
+GetStdHandle
 K32EnumProcessModules
 K32GetModuleBaseNameW
 K32GetModuleInformation
 ReadProcessMemory
+SetConsoleMode
+SetConsoleTitle
 SetEvent
 VirtualAlloc
 VirtualAllocEx

@@ -181,7 +181,7 @@ internal sealed partial class CalculateClient
         public string Uid { get; set; } = default!;
 
         [JsonPropertyName("region")]
-        public string Region { get; set; } = default!;
+        public Region Region { get; set; } = default!;
     }
 
     private class IdCount

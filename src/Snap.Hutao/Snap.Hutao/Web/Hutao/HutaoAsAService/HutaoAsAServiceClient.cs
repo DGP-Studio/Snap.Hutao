@@ -34,7 +34,7 @@ internal sealed partial class HutaoAsAServiceClient
             .TryCatchSendAsync<HutaoResponse<List<Announcement>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     public async ValueTask<HutaoResponse> UploadAnnouncementAsync(UploadAnnouncement uploadAnnouncement, CancellationToken token = default)
@@ -49,7 +49,7 @@ internal sealed partial class HutaoAsAServiceClient
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     public async ValueTask<HutaoResponse> GachaLogCompensationAsync(int days, CancellationToken token = default)
@@ -64,7 +64,7 @@ internal sealed partial class HutaoAsAServiceClient
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     public async ValueTask<HutaoResponse> GachaLogDesignationAsync(string userName, int days, CancellationToken token = default)
@@ -79,6 +79,6 @@ internal sealed partial class HutaoAsAServiceClient
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 }

@@ -39,7 +39,7 @@ internal sealed partial class HomaGachaLogClient
             .TryCatchSendAsync<HutaoResponse<GachaEventStatistics>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ internal sealed partial class HomaGachaLogClient
             .TryCatchSendAsync<HutaoResponse<GachaDistribution>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ internal sealed partial class HomaGachaLogClient
             .TryCatchSendAsync<HutaoResponse<List<GachaEntry>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ internal sealed partial class HomaGachaLogClient
             .TryCatchSendAsync<HutaoResponse<EndIds>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -125,7 +125,7 @@ internal sealed partial class HomaGachaLogClient
             .TryCatchSendAsync<HutaoResponse<List<GachaItem>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -149,7 +149,7 @@ internal sealed partial class HomaGachaLogClient
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ internal sealed partial class HomaGachaLogClient
             .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        return HutaoResponse.DefaultIfNull(resp);
+        return Web.Response.Response.DefaultIfNull(resp);
     }
 
     private sealed class UidAndEndIds

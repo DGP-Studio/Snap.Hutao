@@ -19,7 +19,7 @@ internal sealed class UserGameRole
     /// 服务器
     /// </summary>
     [JsonPropertyName("region")]
-    public string Region { get; set; } = default!;
+    public Region Region { get; set; } = default!;
 
     /// <summary>
     /// 游戏Uid

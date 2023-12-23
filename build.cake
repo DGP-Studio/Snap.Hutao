@@ -114,7 +114,7 @@ Task("Generate AppxManifest")
             .Replace("胡桃", "胡桃 Alpha")
             .Replace("DGP Studio", "DGP Studio CI");
         content = System.Text.RegularExpressions.Regex.Replace(content, "  Name=\"([^\"]*)\"", "  Name=\"7f0db578-026f-4e0b-a75b-d5d06bb0a74c\"");
-        content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"CN=DGP Studio CI\"");
+        content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"E=admin@dgp-studio.cn, CN=DGP Studio CI, OU=CI, O=DGP-Studio, L=San Jose, S=CA, C=US\"");
         content = System.Text.RegularExpressions.Regex.Replace(content, "  Version=\"([0-9\\.]+)\"", $"  Version=\"{version}\"");
     }
     else if (AppVeyor.IsRunningOnAppVeyor)

@@ -50,7 +50,7 @@ internal sealed class GenAuthKeyData
     /// 区域
     /// </summary>
     [JsonPropertyName("region")]
-    public string Region { get; set; } = default!;
+    public Region Region { get; set; } = default!;
 
     /// <summary>
     /// 创建为祈愿记录验证密钥提交数据

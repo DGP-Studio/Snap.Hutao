@@ -14,7 +14,8 @@
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shct="using:Snap.Hutao.Control.Text"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shvcont="using:Snap.Hutao.View.Control"
+    xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiAvatarViewModel}"
@@ -24,20 +25,29 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Page.Resources>
+        <shvconv:VisibilityToObjectConverter
+            x:Key="VisibilityToColumnSpanConverter"
+            CollapsedValue="{shcm:Int32 Value=2}"
+            VisibleValue="{shcm:Int32 Value=1}"/>
+
         <DataTemplate x:Key="SkillDataTemplate">
             <Grid Margin="0,16,0,0" ColumnSpacing="16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-                <shct:DescriptionTextBlock VerticalAlignment="Top" Description="{Binding Description}">
+                <shct:DescriptionTextBlock
+                    Grid.ColumnSpan="{Binding ElementName=ProudSelector, Path=Visibility, Converter={StaticResource VisibilityToColumnSpanConverter}}"
+                    VerticalAlignment="Top"
+                    Description="{Binding Description}">
                     <shct:DescriptionTextBlock.Resources>
                         <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
                             <Setter Property="TextWrapping" Value="Wrap"/>
                         </Style>
                     </shct:DescriptionTextBlock.Resources>
                 </shct:DescriptionTextBlock>
-                <shvc:DescParamComboBox
+                <shvcont:DescParamComboBox
+                    x:Name="ProudSelector"
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
@@ -47,7 +57,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="PropertyDataTemplate">
-            <shvc:DescParamComboBox
+            <shvcont:DescParamComboBox
                 HorizontalAlignment="Stretch"
                 PreferredSelectedIndex="13"
                 Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
@@ -86,7 +96,7 @@
         <DataTemplate x:Key="CultivationItemTemplate">
             <shvcp:HorizontalCard>
                 <shvcp:HorizontalCard.Left>
-                    <shvc:ItemIcon
+                    <shvcont:ItemIcon
                         Width="40"
                         Height="40"
                         Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}"
@@ -104,7 +114,7 @@
         <DataTemplate x:Key="CollocationTemplate">
             <shvcp:HorizontalCard>
                 <shvcp:HorizontalCard.Left>
-                    <shvc:ItemIcon
+                    <shvcont:ItemIcon
                         Width="48"
                         Height="48"
                         Icon="{Binding Icon}"
@@ -131,7 +141,7 @@
                                 <x:Int32>0</x:Int32>
                             </cwc:Case.Value>
                             <Grid>
-                                <shvc:ItemIcon
+                                <shvcont:ItemIcon
                                     Width="48"
                                     Height="48"
                                     Icon="{StaticResource UI_ItemIcon_None}"
@@ -143,7 +153,7 @@
                                 <x:Int32>1</x:Int32>
                             </cwc:Case.Value>
                             <Grid>
-                                <shvc:ItemIcon
+                                <shvcont:ItemIcon
                                     Width="48"
                                     Height="48"
                                     Icon="{Binding Icons[0]}"
@@ -155,7 +165,7 @@
                                 <x:Int32>2</x:Int32>
                             </cwc:Case.Value>
                             <Grid>
-                                <shvc:ItemIcon
+                                <shvcont:ItemIcon
                                     Width="48"
                                     Height="48"
                                     Quality="QUALITY_ORANGE"/>
@@ -225,9 +235,9 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AvatarGridTemplate">
-            <shvc:BottomTextControl Text="{Binding Name}">
-                <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
-            </shvc:BottomTextControl>
+            <shvcont:BottomTextControl Text="{Binding Name}">
+                <shvcont:ItemIcon Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
+            </shvcont:BottomTextControl>
         </DataTemplate>
     </Page.Resources>
 
@@ -339,7 +349,7 @@
                                                             Height="32"
                                                             Source="{Binding Selected.Weapon, Converter={StaticResource WeaponTypeIconConverter}}"/>
                                                     </Grid>
-                                                    <shvc:ItemIcon
+                                                    <shvcont:ItemIcon
                                                         Width="128"
                                                         Height="128"
                                                         Icon="{Binding Selected.Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}"
@@ -463,7 +473,7 @@
                                                     <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
                                                     <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
                                                 </Border.Resources>
-                                                <shvc:BaseValueSlider
+                                                <shvcont:BaseValueSlider
                                                     HorizontalAlignment="Stretch"
                                                     HorizontalContentAlignment="Stretch"
                                                     BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
@@ -476,7 +486,7 @@
                                                 Padding="16"
                                                 Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
                                                 CornerRadius="{ThemeResource ControlCornerRadius}">
-                                                <shvc:SkillPivot ItemTemplate="{StaticResource SkillDataTemplate}" Skills="{Binding Selected.SkillDepot.CompositeSkills}"/>
+                                                <shvcont:SkillPivot ItemTemplate="{StaticResource SkillDataTemplate}" Skills="{Binding Selected.SkillDepot.CompositeSkills}"/>
                                             </Border>
                                         </Border>
 
@@ -486,7 +496,7 @@
                                                 Padding="16"
                                                 Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
                                                 CornerRadius="{ThemeResource ControlCornerRadius}">
-                                                <shvc:SkillPivot ItemTemplate="{StaticResource TalentDataTemplate}" Skills="{Binding Selected.SkillDepot.Talents}"/>
+                                                <shvcont:SkillPivot ItemTemplate="{StaticResource TalentDataTemplate}" Skills="{Binding Selected.SkillDepot.Talents}"/>
                                             </Border>
                                         </Border>
 
@@ -594,25 +604,25 @@
                                                             Grid.Column="0"
                                                             Style="{StaticResource BaseTextBlockStyle}"
                                                             Text="{shcm:ResourceString Name=ViewPageWiKiAvatarSpecialFoodTitle}"/>
-                                                        <shvc:BottomTextControl
+                                                        <shvcont:BottomTextControl
                                                             Grid.Row="1"
                                                             Grid.Column="0"
                                                             Margin="0,16,0,0"
                                                             Text="{Binding Item.Name}">
-                                                            <shvc:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
-                                                        </shvc:BottomTextControl>
+                                                            <shvcont:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
+                                                        </shvcont:BottomTextControl>
                                                         <TextBlock
                                                             Grid.Column="1"
                                                             Margin="16,0,0,0"
                                                             Style="{StaticResource BaseTextBlockStyle}"
                                                             Text="{shcm:ResourceString Name=ViewPageWiKiAvatarOriginalFoodTitle}"/>
-                                                        <shvc:BottomTextControl
+                                                        <shvcont:BottomTextControl
                                                             Grid.Row="1"
                                                             Grid.Column="1"
                                                             Margin="16,16,0,0"
                                                             Text="{Binding OriginItem.Name}">
-                                                            <shvc:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
-                                                        </shvc:BottomTextControl>
+                                                            <shvcont:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
+                                                        </shvcont:BottomTextControl>
                                                         <StackPanel
                                                             Grid.RowSpan="4"
                                                             Grid.Column="2"
@@ -716,6 +726,6 @@
                 </cwc:Case>
             </cwc:SwitchPresenter>
         </Grid>
-        <shvc:LoadingView IsLoading="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+        <shvcont:LoadingView IsLoading="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>
 </shc:ScopedPage>

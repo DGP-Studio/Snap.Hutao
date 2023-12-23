@@ -2,12 +2,20 @@
 // Licensed under the MIT license.
 
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core;
 
 internal static class UnsafeDateTimeOffset
 {
+    [SuppressMessage("", "SH002")]
+    public static DateTimeOffset ParseDateTime(ReadOnlySpan<char> span, TimeSpan offset)
+    {
+        DateTime dateTime = DateTime.Parse(span, CultureInfo.InvariantCulture);
+        return new(dateTime, offset);
+    }
+
     [Pure]
     [SuppressMessage("", "SH002")]
     public static unsafe DateTimeOffset AdjustOffsetOnly(DateTimeOffset dateTimeOffset, in TimeSpan offset)

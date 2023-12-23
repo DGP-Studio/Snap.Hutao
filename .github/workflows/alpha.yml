@@ -57,7 +57,9 @@ jobs:
           > 普通用户请[点击这里](https://github.com/DGP-Studio/Snap.Hutao/releases/latest/)下载最新的稳定版本
 
           > [!IMPORTANT]
-          > 请安装 [Snap.Hutao.CI.cer](https://github.com/DGP-Automation/Hutao-Auto-Release/releases/download/certificate/Snap.Hutao.CI.cer) 以安装测试版安装包
+          > 请注意，从 Snap Hutao Alpha 2023.12.21.3 开始，我们将使用全新的 CI 证书，原有的 Snap.Hutao.CI.cer 将在几天后过期停止使用。
+          >
+          > 请安装 [DGP_Studio_CA.crt](https://github.com/DGP-Automation/Hutao-Auto-Release/releases/download/certificate-ca/DGP_Studio_CA.crt) 以安装测试版安装包
           "
 
           echo $summary >> $Env:GITHUB_STEP_SUMMARY

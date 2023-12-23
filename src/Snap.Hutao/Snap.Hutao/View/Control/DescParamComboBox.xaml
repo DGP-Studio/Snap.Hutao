@@ -8,6 +8,7 @@
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shmm="using:Snap.Hutao.Model.Metadata"
+    Visibility="{x:Bind SelectedItem.Parameters.Count, Converter={StaticResource Int32ToVisibilityConverter}, Mode=OneWay}"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="SettingsCardPadding">16,8</Thickness>
@@ -29,8 +30,7 @@
         Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}"
         IsExpanded="True"
         ItemTemplate="{StaticResource ParameterDescriptionTemplate}"
-        ItemsSource="{x:Bind SelectedItem.Parameters, Mode=OneWay}"
-        Visibility="{x:Bind SelectedItem.Parameters.Count, Converter={StaticResource Int32ToVisibilityConverter}, Mode=OneWay}">
+        ItemsSource="{x:Bind SelectedItem.Parameters, Mode=OneWay}">
         <shc:SizeRestrictedContentControl Margin="0,-8">
             <ComboBox
                 x:Name="LevelSelectorComboBox"

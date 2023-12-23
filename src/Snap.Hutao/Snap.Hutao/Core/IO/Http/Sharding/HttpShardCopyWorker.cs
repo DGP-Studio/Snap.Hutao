@@ -130,7 +130,7 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
             BytesRead = bytesRead;
         }
 
-        public int BytesRead { get; set; }
+        public int BytesRead { get; }
     }
 
     private sealed class ShardProgress : IProgress<ShardStatus>
@@ -152,11 +152,11 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
         public void Report(ShardStatus value)
         {
             Interlocked.Add(ref totalBytesRead, value.BytesRead);
-            if (stopwatch.GetElapsedTime().TotalMilliseconds > 500)
+            if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000 || totalBytesRead == contentLength)
             {
                 lock (syncRoot)
                 {
-                    if (stopwatch.GetElapsedTime().TotalMilliseconds > 500)
+                    if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000 || totalBytesRead == contentLength)
                     {
                         workerProgress.Report(statusFactory(totalBytesRead, contentLength));
                         stopwatch = ValueStopwatch.StartNew();

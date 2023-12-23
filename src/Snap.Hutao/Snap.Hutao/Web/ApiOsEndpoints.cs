@@ -100,7 +100,7 @@ internal static class ApiOsEndpoints
     /// </summary>
     /// <param name="region">地区代号</param>
     /// <returns>用户游戏角色字符串</returns>
-    public static string UserGameRolesByLtoken(string region)
+    public static string UserGameRolesByLtoken(in Region region)
     {
         return $"{ApiAccountOsBindingApi}/getUserGameRolesByLtoken?game_biz=hk4e_global&region={region}";
     }
@@ -187,6 +187,32 @@ internal static class ApiOsEndpoints
     {
         return $"{Hk4eApiOsGachaInfoApi}/getGachaLog?{query}";
     }
+    #endregion
+
+    #region Hk4eApiOsAnnouncementApi
+
+    /// <summary>
+    /// 公告列表
+    /// </summary>
+    /// <param name="languageCode">语言代码</param>
+    /// <param name="region">服务器</param>
+    /// <returns>公告列表Url</returns>
+    public static string AnnList(string languageCode, in Region region)
+    {
+        return $"{Hk4eApiOsAnnouncementApi}/getAnnList?{AnnouncementQuery(languageCode, region)}";
+    }
+
+    /// <summary>
+    /// 公告内容
+    /// </summary>
+    /// <param name="languageCode">语言代码</param>
+    /// <param name="region">服务器</param>
+    /// <returns>公告内容Url</returns>
+    public static string AnnContent(string languageCode, in Region region)
+    {
+        return $"{Hk4eApiOsAnnouncementApi}/getAnnContent?{AnnouncementQuery(languageCode, region)}";
+    }
+
     #endregion
 
     #region SgPublicApi
@@ -307,6 +333,7 @@ internal static class ApiOsEndpoints
     private const string BbsApiOsGameRecordAppApi = $"{BbsApiOs}/game_record/app/genshin/api";
 
     private const string Hk4eApiOs = "https://hk4e-api-os.hoyoverse.com";
+    private const string Hk4eApiOsAnnouncementApi = $"{Hk4eApiOs}/common/hk4e_global/announcement/api";
     private const string Hk4eApiOsGachaInfoApi = $"{Hk4eApiOs}/gacha_info/api";
 
     private const string SdkOsStatic = "https://sdk-os-static.mihoyo.com";
@@ -332,6 +359,11 @@ internal static class ApiOsEndpoints
     /// App hoyolab referer
     /// </summary>
     public const string AppHoyolabReferer = "https://app.hoyolab.com/";
+
+    private static string AnnouncementQuery(string languageCode, in Region region)
+    {
+        return $"game=hk4e&game_biz=hk4e_global&lang={languageCode}&bundle_id=hk4e_global&platform=pc&region={region}&level=55&uid=100000000";
+    }
 
     #endregion
 }

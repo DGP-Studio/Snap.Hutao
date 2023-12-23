@@ -133,23 +133,9 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     private static int IndexOfPattern(in ReadOnlySpan<byte> memory)
     {
-        // E8 ?? ?? ?? ?? 85 C0 7E 07 E8 ?? ?? ?? ?? EB 05
-        int second = 0;
-        ReadOnlySpan<byte> secondPart = [0x85, 0xC0, 0x7E, 0x07, 0xE8,];
-        ReadOnlySpan<byte> thirdPart = [0xEB, 0x05,];
-
-        while (second >= 0 && second < memory.Length)
-        {
-            second += memory[second..].IndexOf(secondPart);
-            if (memory[second - 5].Equals(0xE8) && memory.Slice(second + 9, 2).SequenceEqual(thirdPart))
-            {
-                return second - 5;
-            }
-
-            second += 5;
-        }
-
-        return -1;
+        // B9 3C 00 00 00 FF 15
+        ReadOnlySpan<byte> part = [0xB9, 0x3C, 0x00, 0x00, 0x00, 0xFF, 0x15];
+        return memory.IndexOf(part);
     }
 
     private static FindModuleResult UnsafeGetGameModuleInfo(in HANDLE hProcess, out GameModule info)
@@ -241,8 +227,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             nuint localMemoryUserAssemblyAddress = localMemoryUnityPlayerAddress + unityPlayer.Size;
 
             nuint rip = localMemoryUserAssemblyAddress + (uint)offset;
-            rip += *(uint*)(rip + 1) + 5;
-            rip += *(uint*)(rip + 3) + 7;
+            rip += 5U;
+            rip += (nuint)(*(int*)(rip + 2) + 6);
 
             nuint address = userAssembly.Address + (rip - localMemoryUserAssemblyAddress);
 

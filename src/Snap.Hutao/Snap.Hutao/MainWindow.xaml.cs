@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Control;
 using Snap.Hutao.Core.Windowing;
 using Windows.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -20,9 +21,6 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     private const int MinHeight = 600;
 
     private readonly WindowOptions windowOptions;
-    private readonly ILogger<MainWindow> logger;
-    private readonly TypedEventHandler<object, WindowEventArgs> closedEventHander;
-    private readonly TypedEventHandler<object, WindowSizeChangedEventArgs> sizeChangedEventHandler;
 
     /// <summary>
     /// 构造一个新的主窗体
@@ -33,13 +31,6 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
         InitializeComponent();
         windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true);
         this.InitializeController(serviceProvider);
-        logger = serviceProvider.GetRequiredService<ILogger<MainWindow>>();
-
-        closedEventHander = OnClosed;
-        sizeChangedEventHandler = OnSizeChanged;
-
-        Closed += closedEventHander;
-        SizeChanged += sizeChangedEventHandler;
     }
 
     /// <inheritdoc/>
@@ -50,14 +41,5 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     {
         pInfo.ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, pInfo.ptMinTrackSize.X);
         pInfo.ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, pInfo.ptMinTrackSize.Y);
-    }
-
-    private void OnClosed(object sender, WindowEventArgs args)
-    {
-        logger.LogInformation("MainWindow Closed");
-    }
-
-    private void OnSizeChanged(object sender, WindowSizeChangedEventArgs args)
-    {
     }
 }
