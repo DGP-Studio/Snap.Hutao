@@ -346,7 +346,7 @@
         </Grid>
         <Grid Visibility="{Binding GamePathSelectedAndValid, Converter={StaticResource BoolToVisibilityRevertConverter}}">
             <StackPanel
-                MaxWidth="600"
+                Margin="128,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Spacing="3">
