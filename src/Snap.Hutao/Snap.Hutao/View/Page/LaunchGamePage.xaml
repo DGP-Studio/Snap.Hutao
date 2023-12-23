@@ -375,9 +375,7 @@
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7FC;}"
                     IsClickEnabled="True">
                     <cwc:SettingsCard.Description>
-                        <StackPanel>
-                            <TextBlock Foreground="{ThemeResource SystemErrorTextColor}" Text="{shcm:ResourceString Name=ViewPageSettingSetGamePathHint}"/>
-                        </StackPanel>
+                        <TextBlock Foreground="{ThemeResource SystemErrorTextColor}" Text="{shcm:ResourceString Name=ViewPageSettingSetGamePathHint}"/>
                     </cwc:SettingsCard.Description>
                 </cwc:SettingsCard>
             </StackPanel>
