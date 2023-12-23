@@ -54,16 +54,6 @@
                                 <HyperlinkButton
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Left"
-                                    Command="{Binding UpdateCheckCommand}"
-                                    Content="{shcm:ResourceString Name=ViewPageSettingUpdateCheckAction}"/>
-                                <HyperlinkButton
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Left"
-                                    Command="{Binding StoreReviewCommand}"
-                                    Content="{shcm:ResourceString Name=ViewPageSettingStoreReviewNavigate}"/>
-                                <HyperlinkButton
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Left"
                                     Content="{shcm:ResourceString Name=ViewPageSettingOfficialSiteNavigate}"
                                     NavigateUri="{StaticResource DocumentLink_Home}"/>
                                 <HyperlinkButton

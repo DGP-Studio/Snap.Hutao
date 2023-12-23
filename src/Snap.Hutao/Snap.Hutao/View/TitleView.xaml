@@ -26,59 +26,63 @@
             Grid.Column="1"
             Margin="0,0,6,0"
             Orientation="Horizontal"
-            Spacing="6"
-            Visibility="{x:Bind RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}">
-            <ToggleButton
-                VerticalAlignment="Center"
-                IsChecked="{x:Bind HotKeyOptions.IsMouseClickRepeatForeverOn, Mode=OneWay}"
-                IsHitTestVisible="False"
-                Visibility="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                <Grid ColumnSpacing="8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Text="{shcm:ResourceString Name=ViewTitleAutoClicking}"/>
-                    <TextBlock
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
-                </Grid>
-            </ToggleButton>
+            Spacing="6">
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="6"
+                Visibility="{x:Bind RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ToggleButton
+                    VerticalAlignment="Center"
+                    IsChecked="{x:Bind HotKeyOptions.IsMouseClickRepeatForeverOn, Mode=OneWay}"
+                    IsHitTestVisible="False"
+                    Visibility="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="{shcm:ResourceString Name=ViewTitleAutoClicking}"/>
+                        <TextBlock
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{x:Bind HotKeyOptions.MouseClickRepeatForeverKeyCombination.DisplayName, Mode=OneWay}"/>
+                    </Grid>
+                </ToggleButton>
+            </StackPanel>
 
-            <Border
+            <Grid
                 Margin="0,6"
-                Style="{ThemeResource BorderCardStyle}"
+                Padding="12,0"
+                ColumnSpacing="12"
+                Style="{ThemeResource GridCardStyle}"
                 Visibility="{x:Bind UpdateStatus, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}">
-                <Grid Padding="12,0" ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <ProgressBar
-                        Grid.ColumnSpan="2"
-                        MinHeight="32"
-                        Margin="-12,0"
-                        HorizontalAlignment="Stretch"
-                        Background="Transparent"
-                        CornerRadius="{ThemeResource ControlCornerRadius}"
-                        Maximum="{x:Bind UpdateStatus.TotalBytes, Mode=OneWay}"
-                        Opacity="{ThemeResource LargeBackgroundProgressBarOpacity}"
-                        Value="{x:Bind UpdateStatus.BytesRead, Mode=OneWay}"/>
-                    <TextBlock
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Text="{x:Bind UpdateStatus.ProgressDescription, Mode=OneWay}"/>
-                    <TextBlock
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Text="{x:Bind UpdateStatus.VersionDescription, Mode=OneWay}"/>
-                </Grid>
-            </Border>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ProgressBar
+                    Grid.ColumnSpan="2"
+                    MinHeight="32"
+                    Margin="-12,0"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    CornerRadius="{ThemeResource ControlCornerRadius}"
+                    Maximum="{x:Bind UpdateStatus.TotalBytes, Mode=OneWay}"
+                    Opacity="{ThemeResource LargeBackgroundProgressBarOpacity}"
+                    Value="{x:Bind UpdateStatus.BytesRead, Mode=OneWay}"/>
+                <TextBlock
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind UpdateStatus.ProgressDescription, Mode=OneWay}"/>
+                <TextBlock
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind UpdateStatus.VersionDescription, Mode=OneWay}"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>
