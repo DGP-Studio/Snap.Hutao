@@ -995,6 +995,9 @@
   <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
     <value>Unsupported UIGF version</value>
   </data>
+  <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
+    <value>A new version {0} is available.</value>
+  </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>Multiple users recorded as selected</value>
   </data>
@@ -2621,6 +2624,12 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>Upload Data</value>
   </data>
+  <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
+    <value>Install now?</value>
+  </data>
+  <data name="ViewTitileUpdatePackageReadyTitle" xml:space="preserve">
+    <value>Snap Hutao version {0} is ready</value>
+  </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>Auto Click</value>
   </data>
@@ -2877,7 +2886,7 @@
     <value>Oversea Server: Asian</value>
   </data>
   <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
-    <value>International Server Taiwan Server</value>
+    <value>Oversea Server: TW/HK/MU server</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
     <value>Oversea Server: EU</value>

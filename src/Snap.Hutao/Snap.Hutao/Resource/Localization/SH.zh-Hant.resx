@@ -995,6 +995,9 @@
   <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
     <value>不支援的 UIGF 版本</value>
   </data>
+  <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
+    <value>发现新版本 {0}</value>
+  </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>已选中多条用户记录</value>
   </data>
@@ -2621,6 +2624,12 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>上傳資料</value>
   </data>
+  <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
+    <value>是否立即安装？</value>
+  </data>
+  <data name="ViewTitileUpdatePackageReadyTitle" xml:space="preserve">
+    <value>胡桃 {0} 版本已准备就绪</value>
+  </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>自動連續點按</value>
   </data>
@@ -2877,7 +2886,7 @@
     <value>国际服 亚服</value>
   </data>
   <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
-    <value>国际服 台服</value>
+    <value>国际服 港澳台服</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
     <value>国际服 欧服</value>
