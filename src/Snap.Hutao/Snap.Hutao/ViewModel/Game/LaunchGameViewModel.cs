@@ -23,6 +23,9 @@ using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.IO;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -42,6 +45,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
+    private readonly ILogger<LaunchGameViewModel> logger;
     private readonly IProgressFactory progressFactory;
     private readonly IInfoBarService infoBarService;
     private readonly ResourceClient resourceClient;
@@ -261,7 +265,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 {
                     await taskContext.SwitchToMainThreadAsync();
                     GamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
-                    UpdateSelectedGamePathEntry(entry, false);
+                    UpdateSelectedGamePathEntry(entry, true);
                 }
             }
 
@@ -279,6 +283,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         }
         catch (Exception ex)
         {
+            if (ex is Win32Exception win32Exception && win32Exception.HResult == HRESULT.E_FAIL)
+            {
+                // User canceled the operation. ignore
+                return;
+            }
+
+            logger.LogCritical(ex, "Launch failed");
             infoBarService.Error(ex);
         }
     }

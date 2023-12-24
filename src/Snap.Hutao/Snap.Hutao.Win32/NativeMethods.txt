@@ -69,6 +69,7 @@ SHELL_LINK_DATA_FLAGS
 IMemoryBufferByteAccess
 
 // Const value
+E_FAIL
 INFINITE
 RPC_E_WRONG_THREAD
 MAX_PATH
