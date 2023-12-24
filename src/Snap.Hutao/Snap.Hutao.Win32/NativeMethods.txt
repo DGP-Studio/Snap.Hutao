@@ -61,6 +61,7 @@ FileSaveDialog
 IFileOpenDialog
 IFileSaveDialog
 IPersistFile
+IShellLinkDataList
 IShellLinkW
 ShellLink
 SHELL_LINK_DATA_FLAGS

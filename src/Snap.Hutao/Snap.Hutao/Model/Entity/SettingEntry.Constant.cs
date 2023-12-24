@@ -15,8 +15,6 @@ internal sealed partial class SettingEntry
 
     public const string GamePathEntries = "GamePathEntries";
 
-    public const string PowerShellPath = "PowerShellPath";
-
     /// <summary>
     /// 空的历史记录卡池是否可见
     /// </summary>

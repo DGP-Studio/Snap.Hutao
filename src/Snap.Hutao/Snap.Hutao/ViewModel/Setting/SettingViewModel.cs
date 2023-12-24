@@ -174,18 +174,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         await Launcher.LaunchUriAsync(new("ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
     }
 
-    [Command("SetPowerShellPathCommand")]
-    private async Task SetPowerShellPathAsync()
-    {
-        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(SH.FilePickerPowerShellCommit, [("PowerShell", "powershell.exe;pwsh.exe")]);
-
-        if (isOk && Path.GetFileNameWithoutExtension(file).EqualsAny(["POWERSHELL", "PWSH"], StringComparison.OrdinalIgnoreCase))
-        {
-            await taskContext.SwitchToMainThreadAsync();
-            AppOptions.PowerShellPath = file;
-        }
-    }
-
     [Command("DeleteGameWebCacheCommand")]
     private void DeleteGameWebCache()
     {
