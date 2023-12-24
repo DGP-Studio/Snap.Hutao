@@ -49,7 +49,8 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
         IShellLinkDataList shellLinkDataList = (IShellLinkDataList)shellLink;
         shellLinkDataList.GetFlags(out uint flags);
-        shellLinkDataList.SetFlags(flags | (uint)SHELL_LINK_DATA_FLAGS.SLDF_RUNAS_USER);
+        flags |= (uint)SHELL_LINK_DATA_FLAGS.SLDF_RUNAS_USER;
+        shellLinkDataList.SetFlags(flags);
 
         string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         string target = Path.Combine(desktop, $"{SH.FormatAppNameAndVersion(runtimeOptions.Version)}.lnk");
