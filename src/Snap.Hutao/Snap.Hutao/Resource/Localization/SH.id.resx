@@ -2144,6 +2144,9 @@
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>Prapengunduhan</value>
   </data>
+  <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
+    <value>选择游戏路径</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>Akun ini belum terikat ke UID notifikasi Catatan Realtime.</value>
   </data>
