@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
+using Windows.Win32.Foundation;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -71,6 +72,12 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         }
         catch (Exception ex)
         {
+            if (ex is Win32Exception win32Exception && win32Exception.HResult == HRESULT.E_FAIL)
+            {
+                // User canceled the operation. ignore
+                return;
+            }
+
             infoBarService.Error(ex);
         }
     }

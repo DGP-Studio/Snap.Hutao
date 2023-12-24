@@ -20,48 +20,16 @@ internal static class RegistryInterop
     private const string GenshinKey = $@"HKEY_CURRENT_USER\{GenshinPath}";
     private const string SdkChineseKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
 
-    /// <summary>
-    /// 设置键值
-    /// 需要支持
-    /// https://learn.microsoft.com/zh-cn/windows/win32/fileio/maximum-file-path-limitation
-    /// </summary>
-    /// <param name="account">账户</param>
-    /// <param name="powerShellPath">PowerShell 路径</param>
-    /// <returns>账号是否设置</returns>
-    public static bool Set(GameAccount? account, string powerShellPath)
+    public static bool Set(GameAccount? account)
     {
         if (account is not null)
         {
             // 存回注册表的字节需要 '\0' 结尾
-            Encoding.UTF8.GetByteCount(account.MihoyoSDK);
-            byte[] tempBytes = Encoding.UTF8.GetBytes(account.MihoyoSDK);
-            byte[] target = new byte[tempBytes.Length + 1];
-            tempBytes.CopyTo(target, 0);
+            byte[] target = [.. Encoding.UTF8.GetBytes(account.MihoyoSDK), 0];
+            Registry.SetValue(GenshinKey, SdkChineseKey, target);
 
-            string base64 = Convert.ToBase64String(target);
-            string path = $"HKCU:{GenshinPath}";
-            string command = $"""
-                -Command "$value = [Convert]::FromBase64String('{base64}'); Set-ItemProperty -Path '{path}' -Name '{SdkChineseKey}' -Value $value -Force;"
-                """;
-
-            ProcessStartInfo startInfo = new()
-            {
-                Arguments = command,
-                WorkingDirectory = Path.GetDirectoryName(powerShellPath),
-                CreateNoWindow = true,
-                FileName = powerShellPath,
-            };
-
-            try
-            {
-                System.Diagnostics.Process.Start(startInfo)?.WaitForExit();
-            }
-            catch (Win32Exception ex)
-            {
-                ThrowHelper.RuntimeEnvironment(SH.ServiceGameRegisteryInteropLongPathsDisabled, ex);
-            }
-
-            if (Get() == account.MihoyoSDK)
+            string? get = Get();
+            if (get == account.MihoyoSDK)
             {
                 return true;
             }
@@ -70,10 +38,6 @@ internal static class RegistryInterop
         return false;
     }
 
-    /// <summary>
-    /// 在注册表中获取账号信息
-    /// </summary>
-    /// <returns>当前注册表中的信息</returns>
     public static unsafe string? Get()
     {
         object? sdk = Registry.GetValue(GenshinKey, SdkChineseKey, Array.Empty<byte>());

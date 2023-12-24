@@ -23,9 +23,7 @@ using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.IO;
-using Windows.Win32;
 using Windows.Win32.Foundation;
-using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.ViewModel.Game;
 

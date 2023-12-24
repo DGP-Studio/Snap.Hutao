@@ -16,7 +16,6 @@ internal sealed partial class GameAccountService : IGameAccountService
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGameDbService gameDbService;
     private readonly ITaskContext taskContext;
-    private readonly AppOptions appOptions;
 
     private ObservableCollection<GameAccount>? gameAccounts;
 
@@ -90,12 +89,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
     public bool SetGameAccount(GameAccount account)
     {
-        if (string.IsNullOrEmpty(appOptions.PowerShellPath))
-        {
-            ThrowHelper.RuntimeEnvironment(SH.ServiceGameRegisteryInteropPowershellNotFound, default!);
-        }
-
-        return RegistryInterop.Set(account, appOptions.PowerShellPath);
+        return RegistryInterop.Set(account);
     }
 
     public void AttachGameAccountToUid(GameAccount gameAccount, string uid)
