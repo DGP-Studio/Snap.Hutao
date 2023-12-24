@@ -2144,6 +2144,9 @@
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>Pre-download</value>
   </data>
+  <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
+    <value>Select Game Path</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>This account has not been bound to the Real-time Note notification UID.</value>
   </data>
