@@ -189,20 +189,7 @@
                     Header="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7EF;}"
                     IsClickEnabled="True"/>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
-                    Command="{Binding SetPowerShellPathCommand}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingSetPowerShellPathHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE756;}"
-                    IsClickEnabled="True">
-                    <cwc:SettingsCard.Description>
-                        <StackPanel>
-                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingSetPowerShellDescription}"/>
-                            <TextBlock Text="{Binding AppOptions.PowerShellPath}"/>
-                        </StackPanel>
-                    </cwc:SettingsCard.Description>
-                </cwc:SettingsCard>
+
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingApperanceHeader}"/>
                 <cwc:SettingsCard
                     Description="{shcm:ResourceString Name=ViewPageSettingApperanceLanguageDescription}"

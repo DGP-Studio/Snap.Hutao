@@ -186,9 +186,6 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>导入</value>
   </data>
-  <data name="FilePickerPowerShellCommit" xml:space="preserve">
-    <value>选择 PowerShell</value>
-  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>欢迎使用胡桃</value>
   </data>
@@ -931,9 +928,6 @@
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>未开启长路径功能，无法设置注册表键值</value>
-  </data>
-  <data name="ServiceGameRegisteryInteropPowershellNotFound" xml:space="preserve">
-    <value>找不到 PowerShell 的安装目录</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>无法读取游戏配置文件 {0}，可能是文件不存在</value>
@@ -2434,12 +2428,6 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>设置游戏路径时，请选择游戏本体（YuanShen.exe 或 GenshinImpact.exe）而不是启动器（launcher.exe）</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
-    <value>在创建的快捷方式中启动胡桃需要使用 PowerShell</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
-    <value>PowerShell 路径</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell 体验</value>

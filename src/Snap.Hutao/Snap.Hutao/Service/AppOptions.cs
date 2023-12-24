@@ -16,41 +16,11 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
-    private string? powerShellPath;
     private bool? isEmptyHistoryWishVisible;
     private BackdropType? backdropType;
     private CultureInfo? currentCulture;
     private Region? region;
     private string? geetestCustomCompositeUrl;
-
-    public string PowerShellPath
-    {
-        get
-        {
-            return GetOption(ref powerShellPath, SettingEntry.PowerShellPath, GetDefaultPowerShellLocationOrEmpty);
-
-            static string GetDefaultPowerShellLocationOrEmpty()
-            {
-                string? paths = Environment.GetEnvironmentVariable("Path");
-                if (!string.IsNullOrEmpty(paths))
-                {
-                    foreach (StringSegment path in new StringTokenizer(paths, [';']))
-                    {
-                        if (path is { HasValue: true, Length: > 0 })
-                        {
-                            if (path.Value.Contains("WindowsPowerShell", StringComparison.OrdinalIgnoreCase))
-                            {
-                                return Path.Combine(path.Value, "powershell.exe");
-                            }
-                        }
-                    }
-                }
-
-                return string.Empty;
-            }
-        }
-        set => SetOption(ref powerShellPath, SettingEntry.PowerShellPath, value);
-    }
 
     public bool IsEmptyHistoryWishVisible
     {

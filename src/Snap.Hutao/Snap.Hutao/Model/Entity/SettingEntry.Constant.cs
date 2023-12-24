@@ -15,6 +15,7 @@ internal sealed partial class SettingEntry
 
     public const string GamePathEntries = "GamePathEntries";
 
+    [Obsolete("不再使用 PowerShell")]
     public const string PowerShellPath = "PowerShellPath";
 
     /// <summary>
