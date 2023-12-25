@@ -219,35 +219,47 @@
                     Description="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE92E;}">
-                    <StackPanel Orientation="Horizontal">
-                        <cwc:UniformGrid
-                            Margin="16,-12"
-                            ColumnSpacing="16"
-                            Columns="2"
-                            Orientation="Horizontal"
-                            RowSpacing="0">
-                            <CheckBox
-                                MinWidth="64"
-                                VerticalAlignment="Center"
-                                Content="Win"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}"/>
-                            <CheckBox
-                                MinWidth="64"
-                                VerticalAlignment="Center"
-                                Content="Ctrl"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasControl, Mode=TwoWay}"/>
-                            <CheckBox
-                                MinWidth="64"
-                                VerticalAlignment="Center"
-                                Content="Shift"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasShift, Mode=TwoWay}"/>
-                            <CheckBox
-                                MinWidth="64"
-                                VerticalAlignment="Center"
-                                Content="Alt"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}"/>
-                        </cwc:UniformGrid>
-                        <shc:SizeRestrictedContentControl>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button
+                            MinWidth="32"
+                            MinHeight="32"
+                            Padding="0"
+                            VerticalAlignment="Center"
+                            Content="&#xEDA7;"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Style="{ThemeResource SettingButtonStyle}">
+                            <Button.Flyout>
+                                <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding16And10Style}">
+                                    <cwc:UniformGrid
+                                        ColumnSpacing="16"
+                                        Columns="2"
+                                        Orientation="Horizontal"
+                                        RowSpacing="0">
+                                        <CheckBox
+                                            MinWidth="64"
+                                            VerticalAlignment="Center"
+                                            Content="Win"
+                                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}"/>
+                                        <CheckBox
+                                            MinWidth="64"
+                                            VerticalAlignment="Center"
+                                            Content="Ctrl"
+                                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasControl, Mode=TwoWay}"/>
+                                        <CheckBox
+                                            MinWidth="64"
+                                            VerticalAlignment="Center"
+                                            Content="Shift"
+                                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasShift, Mode=TwoWay}"/>
+                                        <CheckBox
+                                            MinWidth="64"
+                                            VerticalAlignment="Center"
+                                            Content="Alt"
+                                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}"/>
+                                    </cwc:UniformGrid>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                        <shc:SizeRestrictedContentControl VerticalAlignment="Center">
                             <ComboBox
                                 MinWidth="120"
                                 VerticalAlignment="Center"
