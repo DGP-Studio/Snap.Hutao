@@ -186,9 +186,6 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>匯入</value>
   </data>
-  <data name="FilePickerPowerShellCommit" xml:space="preserve">
-    <value>選擇 PowerShell</value>
-  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>歡迎使用胡桃</value>
   </data>
@@ -931,9 +928,6 @@
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>未開啟長路徑功能，無法設定登錄檔機碼</value>
-  </data>
-  <data name="ServiceGameRegisteryInteropPowershellNotFound" xml:space="preserve">
-    <value>找不到 PowerShell 的安裝目錄</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>無法讀取遊戲設定檔 {0}，可能是檔案不存在</value>
@@ -2434,12 +2428,6 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>設置遊戲路徑時，請選擇遊戲本體（YuanShen.exe 或 GenshinImpact.exe） 而不是啟動器（launcher.exe）</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
-    <value>胡桃使用 PowerShell 更改註冊表中的信息以修改遊戲內賬號</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
-    <value>PowerShell 路徑</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell 體驗</value>
