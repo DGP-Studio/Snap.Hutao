@@ -186,9 +186,6 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>Impor</value>
   </data>
-  <data name="FilePickerPowerShellCommit" xml:space="preserve">
-    <value>Pilih PowerShell</value>
-  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>Selamat Datang di Snap Hutao, Traveler ~</value>
   </data>
@@ -931,9 +928,6 @@
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>Tidak dapat mengatur kunci registri tanpa mengaktifkan path panjang</value>
-  </data>
-  <data name="ServiceGameRegisteryInteropPowershellNotFound" xml:space="preserve">
-    <value>Direktori instalasi PowerShell tidak ditemukan</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>Tidak dapat membaca file konfigurasi game {0}, file mungkin tidak ada</value>
@@ -2434,12 +2428,6 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>Saat mengatur jalur permainan, pilih program permainan (Yuanshen.exe atau GenshinImpact.exe) bukan peluncur permainan (launcher.exe)</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
-    <value>Snap Hutao menggunakan PowerShell untuk memodifikasi informasi di registri untuk mengubah akun Game</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
-    <value>Path PowerShell</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Pengalaman Shell</value>
