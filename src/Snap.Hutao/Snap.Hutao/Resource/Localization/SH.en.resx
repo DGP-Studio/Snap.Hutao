@@ -186,9 +186,6 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>Import</value>
   </data>
-  <data name="FilePickerPowerShellCommit" xml:space="preserve">
-    <value>Select PowerShell</value>
-  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>Welcome to Snap Hutao, Traveler ~</value>
   </data>
@@ -931,9 +928,6 @@
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>Unable to set registry key without enabling long path</value>
-  </data>
-  <data name="ServiceGameRegisteryInteropPowershellNotFound" xml:space="preserve">
-    <value>PowerShell installation directory not found</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>Unable to read game config file {0}, file may be not exist</value>
@@ -2434,12 +2428,6 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>When setting the game path, please select the game program (Yuanshen.exe or GenshinImpact.exe) instead of the game launcher (launcher.exe)</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
-    <value>Snap Hutao uses PowerShell to modify information in registry to change game accounts</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
-    <value>PowerShell Path</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell Experience</value>
