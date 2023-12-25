@@ -186,9 +186,6 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>インポート</value>
   </data>
-  <data name="FilePickerPowerShellCommit" xml:space="preserve">
-    <value>PowerShellを選択</value>
-  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>胡桃へようこそ</value>
   </data>
@@ -931,9 +928,6 @@
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>長いパスのサポートがオフになっているため、レジストリキーを編集できません。</value>
-  </data>
-  <data name="ServiceGameRegisteryInteropPowershellNotFound" xml:space="preserve">
-    <value>PowerShellのインストールディレクトリが見つかりません</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが存在していない可能性があります。</value>
@@ -2434,12 +2428,6 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>ゲームのパスを設定する際、本体（YuanShen.exe または GenshinImpact.exe）を選んでください。ランチャー（launcher.exe）ではありません</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
-    <value>胡桃のゲームランチャーはPowershellを介してレジストリを変更し、ゲームで使用するアカウントを変更します。</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
-    <value>PowerShell パス</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell エクスペリエンス</value>
