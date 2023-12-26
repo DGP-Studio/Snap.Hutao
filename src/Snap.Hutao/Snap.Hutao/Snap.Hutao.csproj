@@ -204,8 +204,10 @@
     <AdditionalFiles Include="stylecop.json" />
     <AdditionalFiles Include="Resource\Localization\SH.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.en.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.id.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.ja.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.ko.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.ru.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
   </ItemGroup>
   
