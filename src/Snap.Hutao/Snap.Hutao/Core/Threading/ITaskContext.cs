@@ -8,8 +8,6 @@ namespace Snap.Hutao.Core.Threading;
 /// </summary>
 internal interface ITaskContext
 {
-    SynchronizationContext SynchronizationContext { get; }
-
     void BeginInvokeOnMainThread(Action action);
 
     void InvokeOnMainThread(Action action);
