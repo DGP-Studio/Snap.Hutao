@@ -4,12 +4,14 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.IO.Http.Sharding;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using Windows.Storage;
 
 namespace Snap.Hutao.Service.Update;
 
@@ -17,6 +19,8 @@ namespace Snap.Hutao.Service.Update;
 [Injection(InjectAs.Singleton, typeof(IUpdateService))]
 internal sealed partial class UpdateService : IUpdateService
 {
+    private const string UpdaterFilename = "Snap.Hutao.Deployment.exe";
+
     private readonly IServiceProvider serviceProvider;
 
     public async ValueTask<bool> CheckForUpdateAndDownloadAsync(IProgress<UpdateStatus> progress, CancellationToken token = default)
@@ -37,14 +41,17 @@ internal sealed partial class UpdateService : IUpdateService
             HutaoVersionInformation versionInformation = response.Data;
             string msixPath = GetUpdatePackagePath();
 
-            if (scope.ServiceProvider.GetRequiredService<RuntimeOptions>().Version >= versionInformation.Version)
+            if (!LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false))
             {
-                if (File.Exists(msixPath))
+                if (scope.ServiceProvider.GetRequiredService<RuntimeOptions>().Version >= versionInformation.Version)
                 {
-                    File.Delete(msixPath);
-                }
+                    if (File.Exists(msixPath))
+                    {
+                        File.Delete(msixPath);
+                    }
 
-                return false;
+                    return false;
+                }
             }
 
             progress.Report(new(versionInformation.Version.ToString(), 0, 0));
@@ -63,12 +70,27 @@ internal sealed partial class UpdateService : IUpdateService
         }
     }
 
-    public void LaunchInstaller()
+    public async ValueTask LaunchUpdaterAsync()
     {
+        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+        string updatetTargetPath = runtimeOptions.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
+
+        Uri updaterSourceUri = $"ms-appx:///{UpdaterFilename}".ToUri();
+        StorageFile updaterFile = await StorageFile.GetFileFromApplicationUriAsync(updaterSourceUri);
+        await updaterFile.OverwriteCopyAsync(updatetTargetPath).ConfigureAwait(false);
+
+        string commandLine = new CommandLineBuilder()
+            .Append("--package-path", GetUpdatePackagePath(runtimeOptions))
+            .Append("--family-name", runtimeOptions.FamilyName)
+            .Append("--update-behavior", true)
+            .ToString();
+
         Process.Start(new ProcessStartInfo()
         {
+            Arguments = commandLine,
+            WindowStyle = ProcessWindowStyle.Minimized,
+            FileName = updatetTargetPath,
             UseShellExecute = true,
-            FileName = GetUpdatePackagePath(),
         });
     }
 
@@ -78,12 +100,10 @@ internal sealed partial class UpdateService : IUpdateService
         return string.Equals(localHash, remoteHash, StringComparison.OrdinalIgnoreCase);
     }
 
-    private string GetUpdatePackagePath()
+    private string GetUpdatePackagePath(RuntimeOptions? runtimeOptions = default)
     {
-        string dataFolder = serviceProvider.GetRequiredService<RuntimeOptions>().DataFolder;
-        string directory = Path.Combine(dataFolder, "UpdateCache");
-        Directory.CreateDirectory(directory);
-        return Path.Combine(directory, "Snap.Hutao.msix");
+        runtimeOptions ??= serviceProvider.GetRequiredService<RuntimeOptions>();
+        return runtimeOptions.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix");
     }
 
     private async ValueTask<bool> DownloadUpdatePackageAsync(HutaoVersionInformation versionInformation, string filePath, IProgress<UpdateStatus> progress, CancellationToken token = default)

@@ -84,7 +84,7 @@ internal sealed partial class TitleView : UserControl
                 .ConfigureAwait(false);
             if (result == ContentDialogResult.Primary)
             {
-                updateService.LaunchInstaller();
+                await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
             }
         }
 

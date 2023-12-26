@@ -78,15 +78,17 @@
             </cwc:SettingsCard>
 
             <cwc:SettingsCard Header="Reset Guide State">
-                <StackPanel Orientation="Horizontal">
-                    <Button Command="{Binding ResetGuideStateCommand}" Content="Reset (No restart)"/>
-                </StackPanel>
+                <Button
+                    Command="{Binding ResetGuideStateCommand}"
+                    Content="Reset (No restart)"
+                    Style="{ThemeResource SettingButtonStyle}"/>
             </cwc:SettingsCard>
 
             <cwc:SettingsCard Header="Resize MainWindow">
-                <StackPanel Orientation="Horizontal">
-                    <Button Command="{Binding ResetMainWindowSizeCommand}" Content="Reset"/>
-                </StackPanel>
+                <Button
+                    Command="{Binding ResetMainWindowSizeCommand}"
+                    Content="Reset"
+                    Style="{ThemeResource SettingButtonStyle}"/>
             </cwc:SettingsCard>
 
             <cwc:SettingsCard Header="Suppress Metadata Initialization">
@@ -95,6 +97,10 @@
 
             <cwc:SettingsCard Header="Override Elevation Requirement">
                 <ToggleSwitch IsOn="{Binding OverrideElevationRequirement, Mode=TwoWay}"/>
+            </cwc:SettingsCard>
+
+            <cwc:SettingsCard Header="Override Update Version Comparison">
+                <ToggleSwitch IsOn="{Binding OverrideUpdateVersionComparison, Mode=TwoWay}"/>
             </cwc:SettingsCard>
 
             <cwc:SettingsCard

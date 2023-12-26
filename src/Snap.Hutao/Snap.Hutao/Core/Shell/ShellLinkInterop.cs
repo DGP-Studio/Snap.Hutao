@@ -21,19 +21,13 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
     public async ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync()
     {
-        Uri sourceLogoUri = "ms-appx:///Assets/Logo.ico".ToUri();
         string targetLogoPath = Path.Combine(runtimeOptions.DataFolder, "ShellLinkLogo.ico");
 
         try
         {
+            Uri sourceLogoUri = "ms-appx:///Assets/Logo.ico".ToUri();
             StorageFile iconFile = await StorageFile.GetFileFromApplicationUriAsync(sourceLogoUri);
-            using (Stream inputStream = (await iconFile.OpenReadAsync()).AsStream())
-            {
-                using (FileStream outputStream = File.Create(targetLogoPath))
-                {
-                    await inputStream.CopyToAsync(outputStream).ConfigureAwait(false);
-                }
-            }
+            await iconFile.OverwriteCopyAsync(targetLogoPath).ConfigureAwait(false);
         }
         catch
         {

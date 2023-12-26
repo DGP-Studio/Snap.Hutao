@@ -39,6 +39,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         set => LocalSetting.Set(SettingKeys.OverrideElevationRequirement, value);
     }
 
+    [SuppressMessage("", "CA1822")]
+    public bool OverrideUpdateVersionComparison
+    {
+        get => LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false);
+        set => LocalSetting.Set(SettingKeys.OverrideUpdateVersionComparison, value);
+    }
+
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {
