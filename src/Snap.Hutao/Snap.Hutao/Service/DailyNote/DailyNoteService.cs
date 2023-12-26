@@ -147,7 +147,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                     // 发送通知必须早于数据库更新，否则会导致通知重复
                     await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
                     await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
-                    await dailyNoteWebhookOperation.TryPostDailyNoteToWebhookAsync(dailyNote).ConfigureAwait(false);
+                    await dailyNoteWebhookOperation.TryPostDailyNoteToWebhookAsync(entry.Uid, dailyNote).ConfigureAwait(false);
                 }
             }
         }

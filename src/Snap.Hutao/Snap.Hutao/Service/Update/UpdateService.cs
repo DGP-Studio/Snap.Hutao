@@ -73,11 +73,11 @@ internal sealed partial class UpdateService : IUpdateService
     public async ValueTask LaunchUpdaterAsync()
     {
         RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        string updatetTargetPath = runtimeOptions.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
+        string updaterTargetPath = runtimeOptions.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
 
         Uri updaterSourceUri = $"ms-appx:///{UpdaterFilename}".ToUri();
         StorageFile updaterFile = await StorageFile.GetFileFromApplicationUriAsync(updaterSourceUri);
-        await updaterFile.OverwriteCopyAsync(updatetTargetPath).ConfigureAwait(false);
+        await updaterFile.OverwriteCopyAsync(updaterTargetPath).ConfigureAwait(false);
 
         string commandLine = new CommandLineBuilder()
             .Append("--package-path", GetUpdatePackagePath(runtimeOptions))
@@ -89,7 +89,7 @@ internal sealed partial class UpdateService : IUpdateService
         {
             Arguments = commandLine,
             WindowStyle = ProcessWindowStyle.Minimized,
-            FileName = updatetTargetPath,
+            FileName = updaterTargetPath,
             UseShellExecute = true,
         });
     }
