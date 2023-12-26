@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+
 namespace Snap.Hutao.Factory.Progress;
 
 [ConstructorGenerated]
@@ -11,6 +13,11 @@ internal sealed partial class ProgressFactory : IProgressFactory
 
     public IProgress<T> CreateForMainThread<T>(Action<T> handler)
     {
-        return new DispatcherQueueProgress<T>(handler, taskContext.SynchronizationContext);
+        if (taskContext is not ITaskContextUnsafe @unsafe)
+        {
+            throw ThrowHelper.NotSupported();
+        }
+
+        return new DispatcherQueueProgress<T>(handler, @unsafe.DispatcherQueue);
     }
 }

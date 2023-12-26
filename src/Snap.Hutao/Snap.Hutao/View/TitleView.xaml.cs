@@ -20,7 +20,7 @@ namespace Snap.Hutao.View;
 [INotifyPropertyChanged]
 internal sealed partial class TitleView : UserControl
 {
-    private CancellationTokenSource checkUpdateTaskCancellationTokenSource = new();
+    private readonly CancellationTokenSource checkUpdateTaskCancellationTokenSource = new();
     private UpdateStatus? updateStatus;
 
     public TitleView()

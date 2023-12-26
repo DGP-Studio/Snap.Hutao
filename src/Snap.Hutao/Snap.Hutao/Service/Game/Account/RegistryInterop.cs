@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
-using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 

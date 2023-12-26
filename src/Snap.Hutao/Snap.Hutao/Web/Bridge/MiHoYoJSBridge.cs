@@ -12,7 +12,6 @@ using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Response;
-using System.Runtime.InteropServices;
 using System.Text;
 using Windows.Foundation;
 
