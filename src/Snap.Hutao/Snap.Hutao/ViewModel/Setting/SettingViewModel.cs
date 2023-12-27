@@ -131,13 +131,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         set => LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, value);
     }
 
-    public string ElevatedModeHeader
-    {
-        get => HutaoOptions.IsElevated
-            ? SH.ViewModelSettingRunningInElevatedMode
-            : SH.ViewModelSettingNotRunningInElevatedMode;
-    }
-
     protected override async ValueTask<bool> InitializeUIAsync()
     {
         CacheFolderView = new(taskContext, runtimeOptions.LocalCache);
@@ -293,14 +286,13 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("RestartAsElevatedCommand")]
     private void RestartAsElevated()
     {
-        ProcessStartInfo info = new()
+        Process.Start(new ProcessStartInfo()
         {
             FileName = $"shell:AppsFolder\\{runtimeOptions.FamilyName}!App",
             UseShellExecute = true,
             Verb = "runas",
-        };
+        });
 
-        Process.Start(info);
         Process.GetCurrentProcess().Kill();
     }
 }
