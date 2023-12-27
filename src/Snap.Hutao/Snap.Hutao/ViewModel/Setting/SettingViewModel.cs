@@ -25,6 +25,7 @@ using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -128,6 +129,13 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     {
         get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
         set => LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, value);
+    }
+
+    public string ElevatedModeHeader
+    {
+        get => HutaoOptions.IsElevated
+            ? SH.ViewModelSettingRunningInElevatedMode
+            : SH.ViewModelSettingNotRunningInElevatedMode;
     }
 
     protected override async ValueTask<bool> InitializeUIAsync()
@@ -280,5 +288,19 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         {
             infoBarService.Warning(SH.ViewModelSettingCreateDesktopShortcutFailed);
         }
+    }
+
+    [Command("RestartAsElevatedCommand")]
+    private void RestartAsElevated()
+    {
+        ProcessStartInfo info = new()
+        {
+            FileName = $"shell:AppsFolder\\{runtimeOptions.FamilyName}!App",
+            UseShellExecute = true,
+            Verb = "runas",
+        };
+
+        Process.Start(info);
+        Process.GetCurrentProcess().Kill();
     }
 }

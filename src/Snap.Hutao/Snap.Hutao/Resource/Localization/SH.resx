@@ -1571,6 +1571,12 @@
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>无感验证复合 Url 配置成功</value>
   </data>
+  <data name="ViewModelSettingNotRunningInElevatedMode" xml:space="preserve">
+    <value>当前以用户身份运行</value>
+  </data>
+  <data name="ViewModelSettingRunningInElevatedMode" xml:space="preserve">
+    <value>当前以管理员身份运行</value>
+  </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>设置数据目录成功，重启以应用更改</value>
   </data>
@@ -2229,7 +2235,7 @@
     <value>创建</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
-    <value>在桌面上创建默认以管理员方式启动的快捷方式</value>
+    <value>在桌面上创建默认以管理员身份启动的快捷方式</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
     <value>创建快捷方式</value>
@@ -2272,6 +2278,15 @@
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>设备 IP</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>管理员模式会影响部分功能的可用性</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>管理员模式</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>以管理员身份重启</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>在祈愿记录页面显示或隐藏无记录的历史祈愿活动</value>

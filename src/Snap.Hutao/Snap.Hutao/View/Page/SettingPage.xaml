@@ -181,14 +181,26 @@
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE776;}"
                     IsClickEnabled="True"/>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingShellExperienceHeader}"/>
-                <cwc:SettingsCard
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
-                    Command="{Binding CreateDesktopShortcutCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutDescription}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutHeader}"
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingElevatedModeHeader}"/>
+                <cwc:SettingsExpander
+                    Description="{shcm:ResourceString Name=ViewPageSettingElevatedModeDescription}"
+                    Header="{Binding ElevatedModeHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7EF;}"
-                    IsClickEnabled="True"/>
+                    IsExpanded="True">
+                    <Button
+                        Command="{Binding RestartAsElevatedCommand}"
+                        Content="{shcm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"
+                        IsEnabled="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                        Style="{ThemeResource SettingButtonStyle}"/>
+                    <cwc:SettingsExpander.Items>
+                        <cwc:SettingsCard
+                            ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
+                            Command="{Binding CreateDesktopShortcutCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutHeader}"
+                            IsClickEnabled="True"/>
+                    </cwc:SettingsExpander.Items>
+                </cwc:SettingsExpander>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingApperanceHeader}"/>
                 <cwc:SettingsCard
