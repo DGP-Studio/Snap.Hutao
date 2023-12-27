@@ -2732,6 +2732,15 @@
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>Disalin ke clipboard</value>
   </data>
+  <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
+    <value>全部完成</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusNotOpen" xml:space="preserve">
+    <value>尚未开启</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusOngoing" xml:space="preserve">
+    <value>进行中</value>
+  </data>
   <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
     <value>Selesai</value>
   </data>
