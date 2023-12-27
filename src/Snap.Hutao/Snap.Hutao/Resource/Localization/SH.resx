@@ -1577,12 +1577,6 @@
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>无感验证复合 Url 配置成功</value>
   </data>
-  <data name="ViewModelSettingNotRunningInElevatedMode" xml:space="preserve">
-    <value>当前以用户身份运行</value>
-  </data>
-  <data name="ViewModelSettingRunningInElevatedMode" xml:space="preserve">
-    <value>当前以管理员身份运行</value>
-  </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>设置数据目录成功，重启以应用更改</value>
   </data>
