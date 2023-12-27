@@ -23,7 +23,10 @@
 
     <ScrollViewer shch:ScrollViewerHelper.LeftPanelMaxWidth="800" Style="{StaticResource TwoPanelScrollViewerStyle}">
         <shch:ScrollViewerHelper.RightPanel>
-            <StackPanel Width="360" Margin="0,16,16,16">
+            <StackPanel
+                Width="360"
+                Margin="0,16,16,16"
+                Spacing="{StaticResource SettingsCardSpacing}">
                 <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Grid Style="{ThemeResource GridCardStyle}">
                         <Border
@@ -83,6 +86,27 @@
                         </Grid>
                     </Grid>
                 </Border>
+
+                <cwc:SettingsExpander
+                    Header="{shcm:ResourceString Name=ViewPageSettingElevatedModeHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7EF;}"
+                    IsExpanded="True">
+                    <cwc:SettingsExpander.Items>
+                        <cwc:SettingsCard
+                            Command="{Binding RestartAsElevatedCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingElevatedModeDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"
+                            IsClickEnabled="True"
+                            IsEnabled="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"/>
+                        <cwc:SettingsCard
+                            ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
+                            Command="{Binding CreateDesktopShortcutCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutHeader}"
+                            IsClickEnabled="True"/>
+                    </cwc:SettingsExpander.Items>
+                </cwc:SettingsExpander>
+
             </StackPanel>
         </shch:ScrollViewerHelper.RightPanel>
         <Grid Padding="16" HorizontalAlignment="Left">
@@ -179,15 +203,6 @@
                     Description="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE776;}"
-                    IsClickEnabled="True"/>
-
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingShellExperienceHeader}"/>
-                <cwc:SettingsCard
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
-                    Command="{Binding CreateDesktopShortcutCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutDescription}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7EF;}"
                     IsClickEnabled="True"/>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingApperanceHeader}"/>

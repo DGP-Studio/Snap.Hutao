@@ -25,6 +25,7 @@ using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -280,5 +281,18 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         {
             infoBarService.Warning(SH.ViewModelSettingCreateDesktopShortcutFailed);
         }
+    }
+
+    [Command("RestartAsElevatedCommand")]
+    private void RestartAsElevated()
+    {
+        Process.Start(new ProcessStartInfo()
+        {
+            FileName = $"shell:AppsFolder\\{runtimeOptions.FamilyName}!App",
+            UseShellExecute = true,
+            Verb = "runas",
+        });
+
+        Process.GetCurrentProcess().Kill();
     }
 }
