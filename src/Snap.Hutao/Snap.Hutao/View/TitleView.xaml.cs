@@ -12,7 +12,6 @@ namespace Snap.Hutao.View;
 /// 标题视图
 /// </summary>
 [HighQuality]
-[INotifyPropertyChanged]
 internal sealed partial class TitleView : UserControl
 {
     public TitleView()
