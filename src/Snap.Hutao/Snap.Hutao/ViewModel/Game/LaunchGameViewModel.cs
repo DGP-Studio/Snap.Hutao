@@ -152,7 +152,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                         if (!IgnoredInvalidChannelOptions.Contains(options))
                         {
                             // 后台收集
-                            throw new NotSupportedException($"不支持的 MultiChannel: {options}");
+                            throw ThrowHelper.NotSupported($"不支持的 MultiChannel: {options}");
                         }
                     }
                 }

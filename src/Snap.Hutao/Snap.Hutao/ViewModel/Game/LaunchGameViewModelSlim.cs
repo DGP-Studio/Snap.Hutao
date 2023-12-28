@@ -4,6 +4,8 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Configuration;
+using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
 using Windows.Win32.Foundation;
@@ -41,10 +43,35 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         await taskContext.SwitchToMainThreadAsync();
         GameAccounts = accounts;
 
+        ChannelOptions options = gameService.GetChannelOptions();
+        LaunchScheme? scheme = default;
+        if (string.IsNullOrEmpty(options.ConfigFilePath))
+        {
+            try
+            {
+                scheme = KnownLaunchSchemes.Get().Single(scheme => scheme.Equals(options));
+            }
+            catch (InvalidOperationException)
+            {
+                if (!IgnoredInvalidChannelOptions.Contains(options))
+                {
+                    // 后台收集
+                    throw ThrowHelper.NotSupported($"不支持的 MultiChannel: {options}");
+                }
+            }
+        }
+        else
+        {
+            infoBarService.Warning(SH.FormatViewModelLaunchGameMultiChannelReadFail(options.ConfigFilePath));
+        }
+
         try
         {
-            // Try set to the current account.
-            SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
+            if (scheme is not null)
+            {
+                // Try set to the current account.
+                SelectedGameAccount ??= gameService.DetectCurrentGameAccount(scheme);
+            }
         }
         catch (UserdataCorruptedException ex)
         {
