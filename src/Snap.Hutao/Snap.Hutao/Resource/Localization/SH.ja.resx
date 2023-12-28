@@ -120,6 +120,12 @@
   <data name="AppDevNameAndVersion" xml:space="preserve">
     <value>胡桃 Dev {0}</value>
   </data>
+  <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
+    <value>胡桃Dev {0} [管理者]</value>
+  </data>
+  <data name="AppElevatedNameAndVersion" xml:space="preserve">
+    <value>胡桃 {0} [管理者]</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>胡桃</value>
   </data>
@@ -2272,6 +2278,15 @@
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>デバイスのIP</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>管理者モードは一部の機能の使用可否と動作に影響します。</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>管理者モード</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>管理者モードで再起動</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>祈願履歴のないイベント限定祈願を祈願履歴に表示するかを変更します。</value>
