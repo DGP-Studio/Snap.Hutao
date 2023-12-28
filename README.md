@@ -9,9 +9,27 @@ Snap Hutao is an open-source Genshin Impact toolkit under MIT license, designed 
 
 ![](https://ci.appveyor.com/api/projects/status/n4s40t9llru4si9y?svg=true) [![GitHub Release](https://img.shields.io/github/release/DGP-Studio/Snap.Hutao?style=flat)](https://github.com/DGP-Studio/Snap.Hutao/releases/latest) [![Github All Releases](https://img.shields.io/github/downloads/DGP-Studio/Snap.Hutao/total.svg?style=flat)]() 
 
+---
+
+#### 使用安装器安装 / Install with Snap.Hutao.Depolyment Installer
+
+Snap.Hutao.Depolyment 是一个由 DGP-Studio 重新包装的 Windows 应用安装器，适用于缺少专业计算机知识的一般用户，可以在安装时同时解决缺少必要系统环境的问题。
+
+Snap.Hutao.Depolyment is a Windows application installer repackaged by DGP-Studio for the users who lacks computer knowledge and can solve the problem of missing necessary system environment at the same time as the installation.
+
+[从 GitHub 发布页获取 / Download from GitHub release](https://github.com/DGP-Studio/Snap.Hutao.Deployment/releases/latest) 
+
+[从极狐Lab 发布页获取 / Download from Jihu Gitlab release](https://jihulab.com/DGP-Studio/Snap.Hutao.Deployment/-/releases)
+
+#### 使用 MSIX 包安装 / Install with MSIX Package
+
+直接使用 Snap Hutao MSIX 安装包，使用 Windows 内置的 App Installer 即可安装。如在安装中出现问题，请查阅我们的[常见问题](https://hut.ao/zh/advanced/FAQ.html)文档
+
+Install with Snap Hutao MSIX package, can be installed with Windows built-in App Installer. If you faced any issue, please check our [FAQ](https://hut.ao/en/advanced/FAQ.html) document.
+
 [从 GitHub 发布页获取 / Download from GitHub release](https://github.com/DGP-Studio/Snap.Hutao/releases/latest) 
 
-[从 极狐Lab 发布页获取 / Download from Jihu Gitlab release](https://jihulab.com/DGP-Studio/Snap.Hutao/-/releases)
+[从极狐Lab 发布页获取 / Download from Jihu Gitlab release](https://jihulab.com/DGP-Studio/Snap.Hutao/-/releases)
 
 ## 贡献 / Contribute
 
