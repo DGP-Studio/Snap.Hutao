@@ -1,4 +1,4 @@
-![Banner2-large](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/742129f4-f903-4d16-bf1e-3cbfad873ee4)
+![HutaoRepoBanner2-20231222](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/2d178de1-95bc-44a1-a95e-20c5f11a8628)
 
 
 胡桃工具箱是一款以 MIT 协议开源的原神工具箱，专为现代化 Windows 平台设计，旨在改善桌面端玩家的游戏体验。通过将既有的官方资源与开发团队设计的全新 功能相结合，它提供了一套完整且实用的工具集，且无需依赖任何移动设备。它不对游戏客户端进行任何破坏性修改以确保工具箱的安全性
@@ -7,7 +7,11 @@ Snap Hutao is an open-source Genshin Impact toolkit under MIT license, designed 
 
 ## 下载使用 / Download
 
-[<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://apps.microsoft.com/store/detail/snap-hutao/9PH4NXJ2JN52)
+![](https://ci.appveyor.com/api/projects/status/n4s40t9llru4si9y?svg=true) [![GitHub Release](https://img.shields.io/github/release/DGP-Studio/Snap.Hutao?style=flat)](https://github.com/DGP-Studio/Snap.Hutao/releases/latest) [![Github All Releases](https://img.shields.io/github/downloads/DGP-Studio/Snap.Hutao/total.svg?style=flat)]() 
+
+[从 GitHub 发布页获取 / Download from GitHub release](https://github.com/DGP-Studio/Snap.Hutao/releases/latest) 
+
+[从 极狐Lab 发布页获取 / Download from Jihu Gitlab release](https://jihulab.com/DGP-Studio/Snap.Hutao/-/releases)
 
 ## 贡献 / Contribute
 
