@@ -51,6 +51,13 @@ internal static class ThrowHelper
 
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
+    public static NotSupportedException NotSupported(string message)
+    {
+        throw new NotSupportedException(message);
+    }
+
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static OperationCanceledException OperationCanceled(string message, Exception? inner = default)
     {
         throw new OperationCanceledException(message, inner);

@@ -10,17 +10,17 @@ namespace Snap.Hutao.Model.Entity.Primitive;
 internal enum SchemeType
 {
     /// <summary>
-    /// 国际服
-    /// </summary>
-    Hoyoverse,
-
-    /// <summary>
     /// 国服官服
     /// </summary>
-    Official,
+    ChineseOfficial,
+
+    /// <summary>
+    /// 国际服
+    /// </summary>
+    Oversea,
 
     /// <summary>
     /// 渠道服
     /// </summary>
-    Bilibili,
+    ChineseBilibili,
 }

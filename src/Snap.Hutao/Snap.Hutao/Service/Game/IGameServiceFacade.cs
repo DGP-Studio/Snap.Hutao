@@ -28,7 +28,7 @@ internal interface IGameServiceFacade
     /// <param name="uid">uid</param>
     void AttachGameAccountToUid(GameAccount gameAccount, string uid);
 
-    ValueTask<GameAccount?> DetectGameAccountAsync();
+    ValueTask<GameAccount?> DetectGameAccountAsync(LaunchScheme scheme);
 
     /// <summary>
     /// 异步获取游戏路径
@@ -86,9 +86,5 @@ internal interface IGameServiceFacade
     /// <returns>是否更改了ini文件</returns>
     bool SetChannelOptions(LaunchScheme scheme);
 
-    /// <summary>
-    /// 检测账号
-    /// </summary>
-    /// <returns>账号</returns>
-    GameAccount? DetectCurrentGameAccount();
+    GameAccount? DetectCurrentGameAccount(LaunchScheme scheme);
 }

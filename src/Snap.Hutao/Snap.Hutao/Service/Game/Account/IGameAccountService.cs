@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Game.Scheme;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Game.Account;
@@ -12,9 +13,9 @@ internal interface IGameAccountService
 
     void AttachGameAccountToUid(GameAccount gameAccount, string uid);
 
-    GameAccount? DetectCurrentGameAccount();
+    GameAccount? DetectCurrentGameAccount(LaunchScheme scheme);
 
-    ValueTask<GameAccount?> DetectGameAccountAsync();
+    ValueTask<GameAccount?> DetectGameAccountAsync(LaunchScheme scheme);
 
     ValueTask ModifyGameAccountAsync(GameAccount gameAccount);
 

@@ -51,15 +51,15 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
     }
 
     /// <inheritdoc/>
-    public ValueTask<GameAccount?> DetectGameAccountAsync()
+    public ValueTask<GameAccount?> DetectGameAccountAsync(LaunchScheme scheme)
     {
-        return gameAccountService.DetectGameAccountAsync();
+        return gameAccountService.DetectGameAccountAsync(scheme);
     }
 
     /// <inheritdoc/>
-    public GameAccount? DetectCurrentGameAccount()
+    public GameAccount? DetectCurrentGameAccount(LaunchScheme scheme)
     {
-        return gameAccountService.DetectCurrentGameAccount();
+        return gameAccountService.DetectCurrentGameAccount(scheme);
     }
 
     /// <inheritdoc/>

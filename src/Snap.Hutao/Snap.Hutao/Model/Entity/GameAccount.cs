@@ -14,7 +14,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("game_accounts")]
-internal sealed class GameAccount : ObservableObject, IMappingFrom<GameAccount, string, string>
+internal sealed class GameAccount : ObservableObject, IMappingFrom<GameAccount, string, string, SchemeType>
 {
     /// <summary>
     /// 内部Id
@@ -40,21 +40,17 @@ internal sealed class GameAccount : ObservableObject, IMappingFrom<GameAccount, 
 
     /// <summary>
     /// [MIHOYOSDK_ADL_PROD_CN_h3123967166]
+    /// [MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810]
     /// </summary>
     public string MihoyoSDK { get; set; } = default!;
 
-    /// <summary>
-    /// 构造一个新的游戏内账号
-    /// </summary>
-    /// <param name="name">名称</param>
-    /// <param name="sdk">sdk</param>
-    /// <returns>游戏内账号</returns>
-    public static GameAccount From(string name, string sdk)
+    public static GameAccount From(string name, string sdk, SchemeType type)
     {
         return new()
         {
             Name = name,
             MihoyoSDK = sdk,
+            Type = type,
         };
     }
 

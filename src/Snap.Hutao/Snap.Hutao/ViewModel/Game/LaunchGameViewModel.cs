@@ -173,7 +173,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 }
 
                 // Try set to the current account.
-                SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
+                if (SelectedScheme is not null)
+                {
+                    SelectedGameAccount ??= gameService.DetectCurrentGameAccount(SelectedScheme);
+                }
+                else
+                {
+                    infoBarService.Warning(SH.ViewModelLaunchGameSchemeNotSelected);
+                }
             }
         }
         catch (UserdataCorruptedException ex)
@@ -297,11 +304,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     {
         try
         {
-            GameAccount? account = await gameService.DetectGameAccountAsync().ConfigureAwait(false);
+            if (SelectedScheme is null)
+            {
+                infoBarService.Error(SH.ViewModelLaunchGameSchemeNotSelected);
+                return;
+            }
 
-            // If user canceled the operation, the return is null,
-            // and thus we should not set SelectedAccount
-            if (account is not null)
+            // If user canceled the operation, the return is null
+            if (await gameService.DetectGameAccountAsync(SelectedScheme).ConfigureAwait(false) is { } account)
             {
                 await taskContext.SwitchToMainThreadAsync();
                 SelectedGameAccount = account;

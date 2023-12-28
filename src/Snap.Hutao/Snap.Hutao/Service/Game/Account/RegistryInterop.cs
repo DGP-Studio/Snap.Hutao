@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Primitive;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -13,9 +15,10 @@ namespace Snap.Hutao.Service.Game.Account;
 /// </summary>
 internal static class RegistryInterop
 {
-    private const string GenshinPath = @"Software\miHoYo\原神";
-    private const string GenshinKey = $@"HKEY_CURRENT_USER\{GenshinPath}";
-    private const string SdkChineseKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
+    private const string ChineseKeyName = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
+    private const string OverseaKeyName = @"HKEY_CURRENT_USER\Software\miHoYo\Genshin Impact";
+    private const string SdkChineseValueName = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
+    private const string SdkOverseaValueName = "MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810";
 
     public static bool Set(GameAccount? account)
     {
@@ -23,10 +26,10 @@ internal static class RegistryInterop
         {
             // 存回注册表的字节需要 '\0' 结尾
             byte[] target = [.. Encoding.UTF8.GetBytes(account.MihoyoSDK), 0];
-            Registry.SetValue(GenshinKey, SdkChineseKey, target);
+            (string keyName, string valueName) = GetKeyValueName(account.Type);
+            Registry.SetValue(keyName, valueName, target);
 
-            string? get = Get();
-            if (get == account.MihoyoSDK)
+            if (Get(account.Type) == account.MihoyoSDK)
             {
                 return true;
             }
@@ -35,9 +38,10 @@ internal static class RegistryInterop
         return false;
     }
 
-    public static unsafe string? Get()
+    public static unsafe string? Get(SchemeType scheme)
     {
-        object? sdk = Registry.GetValue(GenshinKey, SdkChineseKey, Array.Empty<byte>());
+        (string keyName, string valueName) = GetKeyValueName(scheme);
+        object? sdk = Registry.GetValue(keyName, valueName, Array.Empty<byte>());
 
         if (sdk is byte[] bytes)
         {
@@ -50,5 +54,15 @@ internal static class RegistryInterop
         }
 
         return null;
+    }
+
+    private static (string KeyName, string ValueName) GetKeyValueName(SchemeType scheme)
+    {
+        return scheme switch
+        {
+            SchemeType.ChineseOfficial => (ChineseKeyName, SdkChineseValueName),
+            SchemeType.Oversea => (OverseaKeyName, SdkOverseaValueName),
+            _ => throw ThrowHelper.NotSupported($"Invalid account SchemeType: {scheme}"),
+        };
     }
 }

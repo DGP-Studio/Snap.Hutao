@@ -4,6 +4,8 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 
@@ -24,11 +26,12 @@ internal sealed partial class GameAccountService : IGameAccountService
         get => gameAccounts ??= gameDbService.GetGameAccountCollection();
     }
 
-    public async ValueTask<GameAccount?> DetectGameAccountAsync()
+    public async ValueTask<GameAccount?> DetectGameAccountAsync(LaunchScheme scheme)
     {
         ArgumentNullException.ThrowIfNull(gameAccounts);
 
-        string? registrySdk = RegistryInterop.Get();
+        SchemeType schemeType = scheme.GetSchemeType();
+        string? registrySdk = RegistryInterop.Get(schemeType);
         if (!string.IsNullOrEmpty(registrySdk))
         {
             GameAccount? account = null;
@@ -48,7 +51,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
                 if (isOk)
                 {
-                    account = GameAccount.From(name, registrySdk);
+                    account = GameAccount.From(name, registrySdk, schemeType);
 
                     // sync database
                     await taskContext.SwitchToBackgroundAsync();
@@ -66,11 +69,11 @@ internal sealed partial class GameAccountService : IGameAccountService
         return default;
     }
 
-    public GameAccount? DetectCurrentGameAccount()
+    public GameAccount? DetectCurrentGameAccount(LaunchScheme scheme)
     {
         ArgumentNullException.ThrowIfNull(gameAccounts);
 
-        string? registrySdk = RegistryInterop.Get();
+        string? registrySdk = RegistryInterop.Get(scheme.GetSchemeType());
 
         if (!string.IsNullOrEmpty(registrySdk))
         {
