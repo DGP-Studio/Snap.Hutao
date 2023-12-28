@@ -12,7 +12,6 @@ using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.PathAbstraction;
