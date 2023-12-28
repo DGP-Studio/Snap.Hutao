@@ -120,6 +120,12 @@
   <data name="AppDevNameAndVersion" xml:space="preserve">
     <value>Snap Hutao Dev {0}</value>
   </data>
+  <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
+    <value>胡桃Dev {0} [管理员]</value>
+  </data>
+  <data name="AppElevatedNameAndVersion" xml:space="preserve">
+    <value>胡桃 {0} [管理员]</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>Snap Hutao</value>
   </data>
@@ -2272,6 +2278,15 @@
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>设备 IP</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>管理员模式会影响部分功能的可用性与行为</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>管理员模式</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>以管理员身份重启</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>在祈愿记录页面显示或隐藏无记录的历史祈愿活动</value>
