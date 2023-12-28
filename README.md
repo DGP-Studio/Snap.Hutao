@@ -1,4 +1,4 @@
-![Banner2-large](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/742129f4-f903-4d16-bf1e-3cbfad873ee4)
+![HutaoRepoBanner2-20231222](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/2d178de1-95bc-44a1-a95e-20c5f11a8628)
 
 
 胡桃工具箱是一款以 MIT 协议开源的原神工具箱，专为现代化 Windows 平台设计，旨在改善桌面端玩家的游戏体验。通过将既有的官方资源与开发团队设计的全新 功能相结合，它提供了一套完整且实用的工具集，且无需依赖任何移动设备。它不对游戏客户端进行任何破坏性修改以确保工具箱的安全性
@@ -7,7 +7,29 @@ Snap Hutao is an open-source Genshin Impact toolkit under MIT license, designed 
 
 ## 下载使用 / Download
 
-[<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://apps.microsoft.com/store/detail/snap-hutao/9PH4NXJ2JN52)
+![](https://ci.appveyor.com/api/projects/status/n4s40t9llru4si9y?svg=true) [![GitHub Release](https://img.shields.io/github/release/DGP-Studio/Snap.Hutao?style=flat)](https://github.com/DGP-Studio/Snap.Hutao/releases/latest) [![Github All Releases](https://img.shields.io/github/downloads/DGP-Studio/Snap.Hutao/total.svg?style=flat)]() 
+
+---
+
+#### 使用安装器安装 / Install with Snap.Hutao.Depolyment Installer
+
+Snap.Hutao.Depolyment 是一个由 DGP-Studio 重新包装的 Windows 应用安装器，适用于缺少专业计算机知识的一般用户，可以在安装时同时解决缺少必要系统环境的问题。
+
+Snap.Hutao.Depolyment is a Windows application installer repackaged by DGP-Studio for the users who lacks computer knowledge and can solve the problem of missing necessary system environment at the same time as the installation.
+
+[从 GitHub 发布页获取 / Download from GitHub release](https://github.com/DGP-Studio/Snap.Hutao.Deployment/releases/latest) 
+
+[从极狐Lab 发布页获取 / Download from Jihu Gitlab release](https://jihulab.com/DGP-Studio/Snap.Hutao.Deployment/-/releases)
+
+#### 使用 MSIX 包安装 / Install with MSIX Package
+
+直接使用 Snap Hutao MSIX 安装包，使用 Windows 内置的 App Installer 即可安装。如在安装中出现问题，请查阅我们的[常见问题](https://hut.ao/zh/advanced/FAQ.html)文档
+
+Install with Snap Hutao MSIX package, can be installed with Windows built-in App Installer. If you faced any issue, please check our [FAQ](https://hut.ao/en/advanced/FAQ.html) document.
+
+[从 GitHub 发布页获取 / Download from GitHub release](https://github.com/DGP-Studio/Snap.Hutao/releases/latest) 
+
+[从极狐Lab 发布页获取 / Download from Jihu Gitlab release](https://jihulab.com/DGP-Studio/Snap.Hutao/-/releases)
 
 ## 贡献 / Contribute
 
