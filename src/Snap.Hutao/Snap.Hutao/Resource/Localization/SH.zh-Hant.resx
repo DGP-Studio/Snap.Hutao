@@ -120,6 +120,12 @@
   <data name="AppDevNameAndVersion" xml:space="preserve">
     <value>胡桃 Dev {0}</value>
   </data>
+  <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
+    <value>胡桃Dev {0} [管理员]</value>
+  </data>
+  <data name="AppElevatedNameAndVersion" xml:space="preserve">
+    <value>胡桃 {0} [管理员]</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>胡桃</value>
   </data>
@@ -2229,7 +2235,7 @@
     <value>創建</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
-    <value>在桌面上創建預設以管理員方式啟動的捷徑</value>
+    <value>在桌面上創建預設以管理員方式啟動的快捷方式</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
     <value>創建捷徑</value>
@@ -2272,6 +2278,15 @@
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>設備 IP</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>管理员模式会影响部分功能的可用性与行为</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>管理员模式</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>以管理员身份重启</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>在祈願紀錄頁面顯示或隱藏無記錄的歷史祈願活動</value>
