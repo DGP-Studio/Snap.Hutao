@@ -5,7 +5,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 
@@ -26,68 +25,51 @@ internal sealed partial class GameAccountService : IGameAccountService
         get => gameAccounts ??= gameDbService.GetGameAccountCollection();
     }
 
-    public async ValueTask<GameAccount?> DetectGameAccountAsync(LaunchScheme scheme)
+    public async ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType schemeType)
     {
         ArgumentNullException.ThrowIfNull(gameAccounts);
 
-        SchemeType schemeType = scheme.GetSchemeType();
         string? registrySdk = RegistryInterop.Get(schemeType);
-        if (!string.IsNullOrEmpty(registrySdk))
+        if (string.IsNullOrEmpty(registrySdk))
         {
-            GameAccount? account = null;
-            try
-            {
-                account = gameAccounts.SingleOrDefault(a => a.MihoyoSDK == registrySdk);
-            }
-            catch (InvalidOperationException ex)
-            {
-                ThrowHelper.UserdataCorrupted(SH.ServiceGameDetectGameAccountMultiMatched, ex);
-            }
-
-            if (account is null)
-            {
-                LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);
-                (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(false);
-
-                if (isOk)
-                {
-                    account = GameAccount.From(name, registrySdk, schemeType);
-
-                    // sync database
-                    await taskContext.SwitchToBackgroundAsync();
-                    await gameDbService.AddGameAccountAsync(account).ConfigureAwait(false);
-
-                    // sync cache
-                    await taskContext.SwitchToMainThreadAsync();
-                    gameAccounts.Add(account);
-                }
-            }
-
-            return account;
+            return default;
         }
 
-        return default;
+        GameAccount? account = SingleGameAccountOrDefault(gameAccounts, registrySdk);
+        if (account is null)
+        {
+            LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);
+            (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(false);
+
+            if (isOk)
+            {
+                account = GameAccount.From(name, registrySdk, schemeType);
+
+                // sync database
+                await taskContext.SwitchToBackgroundAsync();
+                await gameDbService.AddGameAccountAsync(account).ConfigureAwait(false);
+
+                // sync cache
+                await taskContext.SwitchToMainThreadAsync();
+                gameAccounts.Add(account);
+            }
+        }
+
+        return account;
     }
 
-    public GameAccount? DetectCurrentGameAccount(LaunchScheme scheme)
+    public GameAccount? DetectCurrentGameAccount(SchemeType schemeType)
     {
         ArgumentNullException.ThrowIfNull(gameAccounts);
 
-        string? registrySdk = RegistryInterop.Get(scheme.GetSchemeType());
+        string? registrySdk = RegistryInterop.Get(schemeType);
 
-        if (!string.IsNullOrEmpty(registrySdk))
+        if (string.IsNullOrEmpty(registrySdk))
         {
-            try
-            {
-                return gameAccounts.SingleOrDefault(a => a.MihoyoSDK == registrySdk);
-            }
-            catch (InvalidOperationException ex)
-            {
-                ThrowHelper.UserdataCorrupted(SH.ServiceGameDetectGameAccountMultiMatched, ex);
-            }
+            return default;
         }
 
-        return null;
+        return SingleGameAccountOrDefault(gameAccounts, registrySdk);
     }
 
     public bool SetGameAccount(GameAccount account)
@@ -103,12 +85,12 @@ internal sealed partial class GameAccountService : IGameAccountService
 
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
-        await taskContext.SwitchToMainThreadAsync();
         LaunchGameAccountNameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameAccountNameDialog>().ConfigureAwait(false);
-        (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(true);
+        (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(false);
 
         if (isOk)
         {
+            await taskContext.SwitchToMainThreadAsync();
             gameAccount.UpdateName(name);
 
             // sync database
@@ -119,11 +101,24 @@ internal sealed partial class GameAccountService : IGameAccountService
 
     public async ValueTask RemoveGameAccountAsync(GameAccount gameAccount)
     {
-        await taskContext.SwitchToMainThreadAsync();
         ArgumentNullException.ThrowIfNull(gameAccounts);
+
+        await taskContext.SwitchToMainThreadAsync();
         gameAccounts.Remove(gameAccount);
 
         await taskContext.SwitchToBackgroundAsync();
         await gameDbService.RemoveGameAccountByIdAsync(gameAccount.InnerId).ConfigureAwait(false);
+    }
+
+    private static GameAccount? SingleGameAccountOrDefault(ObservableCollection<GameAccount> gameAccounts, string registrySdk)
+    {
+        try
+        {
+            return gameAccounts.SingleOrDefault(a => a.MihoyoSDK == registrySdk);
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw ThrowHelper.UserdataCorrupted(SH.ServiceGameDetectGameAccountMultiMatched, ex);
+        }
     }
 }

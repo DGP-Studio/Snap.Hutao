@@ -228,7 +228,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
             nuint rip = localMemoryUserAssemblyAddress + (uint)offset;
             rip += 5U;
-            rip += (nuint)(*(int*)(rip + 2) + 6);
+            rip += (nuint)(*(int*)(rip + 2U) + 6);
 
             nuint address = userAssembly.Address + (rip - localMemoryUserAssemblyAddress);
 
@@ -236,6 +236,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             SpinWait.SpinUntil(() => UnsafeReadProcessMemory(gameProcess, address, out ptr) && ptr != 0);
 
             rip = ptr - unityPlayer.Address + localMemoryUnityPlayerAddress;
+
+            // CALL or JMP
             while (*(byte*)rip == 0xE8 || *(byte*)rip == 0xE9)
             {
                 rip += (nuint)(*(int*)(rip + 1) + 5);

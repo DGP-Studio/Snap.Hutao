@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
-using Snap.Hutao.Core.Abstraction;
 
 namespace Snap.Hutao.Service.Game.Package;
 
 /// <summary>
 /// 包更新状态
 /// </summary>
-internal sealed class PackageReplaceStatus : ICloneable<PackageReplaceStatus>
+internal sealed class PackageReplaceStatus
 {
     /// <summary>
     /// 构造一个新的包更新状态
@@ -34,10 +33,6 @@ internal sealed class PackageReplaceStatus : ICloneable<PackageReplaceStatus>
         Description = $"{Converters.ToFileSizeString(bytesRead)}/{Converters.ToFileSizeString(totalBytes)}";
     }
 
-    private PackageReplaceStatus()
-    {
-    }
-
     public string Name { get; set; } = default!;
 
     /// <summary>
@@ -54,19 +49,4 @@ internal sealed class PackageReplaceStatus : ICloneable<PackageReplaceStatus>
     /// 是否有进度
     /// </summary>
     public bool IsIndeterminate { get => Percent < 0; }
-
-    /// <summary>
-    /// 克隆
-    /// </summary>
-    /// <returns>克隆的实例</returns>
-    public PackageReplaceStatus Clone()
-    {
-        // 进度需要在主线程上创建
-        return new()
-        {
-            Name = Name,
-            Description = Description,
-            Percent = Percent,
-        };
-    }
 }

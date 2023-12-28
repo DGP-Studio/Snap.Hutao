@@ -11,7 +11,7 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Transient, typeof(IGameLocator), Key = GameLocationSource.Manual)]
 internal sealed partial class ManualGameLocator : IGameLocator
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
@@ -26,7 +26,7 @@ internal sealed partial class ManualGameLocator : IGameLocator
         if (isPickerOk)
         {
             string fileName = System.IO.Path.GetFileName(file);
-            if (fileName is GameConstants.YuanShenFileName or GameConstants.GenshinImpactFileName)
+            if (fileName.ToUpperInvariant() is GameConstants.YuanShenFileNameUpper or GameConstants.GenshinImpactFileNameUpper)
             {
                 return ValueTask.FromResult<ValueResult<bool, string>>(new(true, file));
             }

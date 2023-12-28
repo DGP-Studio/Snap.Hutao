@@ -6,7 +6,7 @@ using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game.Package;
 
-internal readonly struct PackageConvertContext
+internal readonly struct PackageConverterFileSystemContext
 {
     public readonly string GameFolder;
     public readonly string ServerCacheFolder;
@@ -22,7 +22,7 @@ internal readonly struct PackageConvertContext
     public readonly string ScatteredFilesUrl;
     public readonly string PkgVersionUrl;
 
-    public PackageConvertContext(bool isTargetOversea, string dataFolder, string gameFolder, string scatteredFilesUrl)
+    public PackageConverterFileSystemContext(bool isTargetOversea, string dataFolder, string gameFolder, string scatteredFilesUrl)
     {
         GameFolder = gameFolder;
         ServerCacheFolder = Path.Combine(dataFolder, "ServerCache");
@@ -37,7 +37,8 @@ internal readonly struct PackageConvertContext
             ? (YuanShenData, GenshinImpactData)
             : (GenshinImpactData, YuanShenData);
 
-        (FromDataFolder, ToDataFolder) = (Path.Combine(GameFolder, FromDataFolderName), Path.Combine(GameFolder, ToDataFolderName));
+        FromDataFolder = Path.Combine(GameFolder, FromDataFolderName);
+        ToDataFolder = Path.Combine(GameFolder, ToDataFolderName);
 
         ScatteredFilesUrl = scatteredFilesUrl;
         PkgVersionUrl = $"{scatteredFilesUrl}/pkg_version";

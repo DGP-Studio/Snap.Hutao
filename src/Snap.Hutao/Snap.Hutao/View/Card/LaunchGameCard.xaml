@@ -67,7 +67,7 @@
                 VerticalAlignment="Bottom">
                 <ComboBox
                     DisplayMemberPath="Name"
-                    ItemsSource="{Binding GameAccounts}"
+                    ItemsSource="{Binding GameAccountsView}"
                     PlaceholderText="{shcm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
                     SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
             </shc:SizeRestrictedContentControl>

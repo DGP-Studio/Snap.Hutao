@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Collections;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Control.Extension;
@@ -56,44 +57,23 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     private readonly AppOptions appOptions;
 
     private LaunchScheme? selectedScheme;
-    private ObservableCollection<GameAccount>? gameAccounts;
+    private AdvancedCollectionView? gameAccountsView;
     private GameAccount? selectedGameAccount;
     private GameResource? gameResource;
     private bool gamePathSelectedAndValid;
     private ImmutableList<GamePathEntry> gamePathEntries;
     private GamePathEntry? selectedGamePathEntry;
+    private GameAccountFilter? gameAccountFilter;
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
     public LaunchScheme? SelectedScheme
     {
         get => selectedScheme;
-        set
-        {
-            SetProperty(ref selectedScheme, value, UpdateGameResourceAsync);
-
-            async ValueTask UpdateGameResourceAsync(LaunchScheme? scheme)
-            {
-                if (scheme is null)
-                {
-                    return;
-                }
-
-                await taskContext.SwitchToBackgroundAsync();
-                Web.Response.Response<GameResource> response = await resourceClient
-                    .GetResourceAsync(scheme)
-                    .ConfigureAwait(false);
-
-                if (response.IsOk())
-                {
-                    await taskContext.SwitchToMainThreadAsync();
-                    GameResource = response.Data;
-                }
-            }
-        }
+        set => SetSelectedSchemeAsync(value).SafeForget();
     }
 
-    public ObservableCollection<GameAccount>? GameAccounts { get => gameAccounts; set => SetProperty(ref gameAccounts, value); }
+    public AdvancedCollectionView? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
@@ -114,7 +94,54 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref gamePathSelectedAndValid, value) && value)
             {
-                InitializeUICoreAsync().SafeForget();
+                RefreshUIAsync().SafeForget();
+            }
+
+            async ValueTask RefreshUIAsync()
+            {
+                try
+                {
+                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                    {
+                        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
+
+                        await taskContext.SwitchToMainThreadAsync();
+                        await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
+
+                        // Sync uid, almost never hit, so we are not so care about performance
+                        if (memoryCache.TryRemove(DesiredUid, out object? value) && value is string uid)
+                        {
+                            ArgumentNullException.ThrowIfNull(GameAccountsView);
+
+                            // Exists in the source collection
+                            if (GameAccountsView.SourceCollection.Cast<GameAccount>().FirstOrDefault(g => g.AttachUid == uid) is { } sourceAccount)
+                            {
+                                SelectedGameAccount = GameAccountsView.Cast<GameAccount>().FirstOrDefault(g => g.AttachUid == uid);
+
+                                // But not exists in the view for current scheme
+                                if (SelectedGameAccount is null)
+                                {
+                                    infoBarService.Warning(SH.FormatViewModelLaunchGameUnableToSwitchUidAttachedGameAccount(uid, sourceAccount.Name));
+                                }
+                            }
+                        }
+
+                        // Try set to the current account.
+                        if (SelectedScheme is not null)
+                        {
+                            // The GameAccount is gaurenteed to be in the view, bacause the scheme is synced
+                            SelectedGameAccount ??= gameService.DetectCurrentGameAccount(SelectedScheme);
+                        }
+                        else
+                        {
+                            infoBarService.Warning(SH.ViewModelLaunchGameSchemeNotSelected);
+                        }
+                    }
+                }
+                catch (UserdataCorruptedException ex)
+                {
+                    infoBarService.Error(ex);
+                }
             }
         }
     }
@@ -132,64 +159,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         GamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
         SelectedGamePathEntry = entry;
         return ValueTask.FromResult(true);
-    }
-
-    private async ValueTask InitializeUICoreAsync()
-    {
-        try
-        {
-            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
-            {
-                ChannelOptions options = gameService.GetChannelOptions();
-                if (string.IsNullOrEmpty(options.ConfigFilePath))
-                {
-                    try
-                    {
-                        SelectedScheme = KnownSchemes.Single(scheme => scheme.Equals(options));
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        if (!IgnoredInvalidChannelOptions.Contains(options))
-                        {
-                            // 后台收集
-                            throw ThrowHelper.NotSupported($"不支持的 MultiChannel: {options}");
-                        }
-                    }
-                }
-                else
-                {
-                    infoBarService.Warning(SH.FormatViewModelLaunchGameMultiChannelReadFail(options.ConfigFilePath));
-                }
-
-                ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
-
-                await taskContext.SwitchToMainThreadAsync();
-                GameAccounts = accounts;
-
-                // Sync uid
-                if (memoryCache.TryRemove(DesiredUid, out object? value) && value is string uid)
-                {
-                    SelectedGameAccount = GameAccounts.FirstOrDefault(g => g.AttachUid == uid);
-                }
-
-                // Try set to the current account.
-                if (SelectedScheme is not null)
-                {
-                    SelectedGameAccount ??= gameService.DetectCurrentGameAccount(SelectedScheme);
-                }
-                else
-                {
-                    infoBarService.Warning(SH.ViewModelLaunchGameSchemeNotSelected);
-                }
-            }
-        }
-        catch (UserdataCorruptedException ex)
-        {
-            infoBarService.Error(ex);
-        }
-        catch (OperationCanceledException)
-        {
-        }
     }
 
     private void UpdateSelectedGamePathEntry(GamePathEntry? value, bool setBack)
@@ -367,6 +336,46 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         if (Directory.Exists(screenshot))
         {
             await Windows.System.Launcher.LaunchFolderPathAsync(screenshot);
+        }
+    }
+
+    private async ValueTask SetSelectedSchemeAsync(LaunchScheme? value)
+    {
+        if (SetProperty(ref selectedScheme, value, nameof(SelectedScheme)))
+        {
+            UpdateGameResourceAsync(value).SafeForget();
+            await UpdateGameAccountsViewAsync().ConfigureAwait(false);
+        }
+
+        async ValueTask UpdateGameResourceAsync(LaunchScheme? scheme)
+        {
+            if (scheme is null)
+            {
+                return;
+            }
+
+            await taskContext.SwitchToBackgroundAsync();
+            Web.Response.Response<GameResource> response = await resourceClient
+                .GetResourceAsync(scheme)
+                .ConfigureAwait(false);
+
+            if (response.IsOk())
+            {
+                await taskContext.SwitchToMainThreadAsync();
+                GameResource = response.Data;
+            }
+        }
+
+        async ValueTask UpdateGameAccountsViewAsync()
+        {
+            gameAccountFilter = new(SelectedScheme?.GetSchemeType());
+            ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
+
+            await taskContext.SwitchToMainThreadAsync();
+            GameAccountsView = new(accounts, true)
+            {
+                Filter = gameAccountFilter.Filter,
+            };
         }
     }
 }

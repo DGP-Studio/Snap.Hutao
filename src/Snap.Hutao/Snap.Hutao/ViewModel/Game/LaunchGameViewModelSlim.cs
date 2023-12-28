@@ -1,8 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Collections;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Scheme;
@@ -19,17 +22,17 @@ namespace Snap.Hutao.ViewModel.Game;
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>
 {
+    private readonly LaunchStatusOptions launchStatusOptions;
+    private readonly IProgressFactory progressFactory;
+    private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
     private readonly ITaskContext taskContext;
-    private readonly IInfoBarService infoBarService;
 
-    private ObservableCollection<GameAccount>? gameAccounts;
+    private AdvancedCollectionView? gameAccountsView;
     private GameAccount? selectedGameAccount;
+    private GameAccountFilter? gameAccountFilter;
 
-    /// <summary>
-    /// 游戏账号集合
-    /// </summary>
-    public ObservableCollection<GameAccount>? GameAccounts { get => gameAccounts; set => SetProperty(ref gameAccounts, value); }
+    public AdvancedCollectionView? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
     /// <summary>
     /// 选中的账号
@@ -39,31 +42,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
-        await taskContext.SwitchToMainThreadAsync();
-        GameAccounts = accounts;
-
-        ChannelOptions options = gameService.GetChannelOptions();
-        LaunchScheme? scheme = default;
-        if (string.IsNullOrEmpty(options.ConfigFilePath))
-        {
-            try
-            {
-                scheme = KnownLaunchSchemes.Get().Single(scheme => scheme.Equals(options));
-            }
-            catch (InvalidOperationException)
-            {
-                if (!IgnoredInvalidChannelOptions.Contains(options))
-                {
-                    // 后台收集
-                    throw ThrowHelper.NotSupported($"不支持的 MultiChannel: {options}");
-                }
-            }
-        }
-        else
-        {
-            infoBarService.Warning(SH.FormatViewModelLaunchGameMultiChannelReadFail(options.ConfigFilePath));
-        }
+        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
 
         try
         {
@@ -77,6 +56,15 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         {
             infoBarService.Error(ex);
         }
+
+        gameAccountFilter = new(scheme?.GetSchemeType());
+        ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
+
+        await taskContext.SwitchToMainThreadAsync();
+        GameAccountsView = new(accounts, true)
+        {
+            Filter = gameAccountFilter.Filter,
+        };
     }
 
     [Command("LaunchCommand")]
@@ -95,7 +83,8 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
                 }
             }
 
-            await gameService.LaunchAsync(new Progress<LaunchStatus>()).ConfigureAwait(false);
+            IProgress<LaunchStatus> launchProgress = progressFactory.CreateForMainThread<LaunchStatus>(status => launchStatusOptions.LaunchStatus = status);
+            await gameService.LaunchAsync(launchProgress).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

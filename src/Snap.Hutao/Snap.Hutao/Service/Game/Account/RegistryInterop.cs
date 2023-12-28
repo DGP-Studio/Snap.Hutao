@@ -43,17 +43,17 @@ internal static class RegistryInterop
         (string keyName, string valueName) = GetKeyValueName(scheme);
         object? sdk = Registry.GetValue(keyName, valueName, Array.Empty<byte>());
 
-        if (sdk is byte[] bytes)
+        if (sdk is not byte[] bytes)
         {
-            fixed (byte* pByte = bytes)
-            {
-                // 从注册表获取的字节数组带有 '\0' 结尾，需要舍去
-                ReadOnlySpan<byte> span = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pByte);
-                return Encoding.UTF8.GetString(span);
-            }
+            return null;
         }
 
-        return null;
+        fixed (byte* pByte = bytes)
+        {
+            // 从注册表获取的字节数组带有 '\0' 结尾，需要舍去
+            ReadOnlySpan<byte> span = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pByte);
+            return Encoding.UTF8.GetString(span);
+        }
     }
 
     private static (string KeyName, string ValueName) GetKeyValueName(SchemeType scheme)

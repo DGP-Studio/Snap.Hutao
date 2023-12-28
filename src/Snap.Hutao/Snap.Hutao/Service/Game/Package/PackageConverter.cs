@@ -15,6 +15,7 @@ using System.IO.Compression;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using static Snap.Hutao.Service.Game.GameConstants;
+using RelativePathVersionItemDictionary = System.Collections.Generic.Dictionary<string, Snap.Hutao.Service.Game.Package.VersionItem>;
 
 namespace Snap.Hutao.Service.Game.Package;
 
@@ -58,15 +59,15 @@ internal sealed partial class PackageConverter
         string scatteredFilesUrl = gameResource.Game.Latest.DecompressedPath;
         string pkgVersionUrl = $"{scatteredFilesUrl}/{PackageVersion}";
 
-        PackageConvertContext context = new(targetScheme.IsOversea, runtimeOptions.DataFolder, gameFolder, scatteredFilesUrl);
+        PackageConverterFileSystemContext context = new(targetScheme.IsOversea, runtimeOptions.DataFolder, gameFolder, scatteredFilesUrl);
 
         // Step 1
         progress.Report(new(SH.ServiceGamePackageRequestPackageVerion));
-        Dictionary<string, VersionItem> remoteItems = await GetRemoteItemsAsync(pkgVersionUrl).ConfigureAwait(false);
-        Dictionary<string, VersionItem> localItems = await GetLocalItemsAsync(gameFolder).ConfigureAwait(false);
+        RelativePathVersionItemDictionary remoteItems = await GetRemoteItemsAsync(pkgVersionUrl).ConfigureAwait(false);
+        RelativePathVersionItemDictionary localItems = await GetLocalItemsAsync(gameFolder).ConfigureAwait(false);
 
         // Step 2
-        List<ItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems).ToList();
+        List<PackageItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems).ToList();
         diffOperations.SortBy(i => i.Type);
 
         // Step 3
@@ -116,16 +117,16 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private static IEnumerable<ItemOperationInfo> GetItemOperationInfos(Dictionary<string, VersionItem> remote, Dictionary<string, VersionItem> local)
+    private static IEnumerable<PackageItemOperationInfo> GetItemOperationInfos(RelativePathVersionItemDictionary remote, RelativePathVersionItemDictionary local)
     {
         foreach ((string remoteName, VersionItem remoteItem) in remote)
         {
             if (local.TryGetValue(remoteName, out VersionItem? localItem))
             {
-                if (!remoteItem.Md5.Equals(localItem.Md5, StringComparison.OrdinalIgnoreCase))
+                if (!(remoteItem.FileSize == localItem.FileSize && remoteItem.Md5.Equals(localItem.Md5, StringComparison.OrdinalIgnoreCase)))
                 {
                     // 本地发现了同名且不同 MD5 的项，需要替换为服务器上的项
-                    yield return new(ItemOperationType.Replace, remoteItem, localItem);
+                    yield return new(PackageItemOperationType.Replace, remoteItem, localItem);
                 }
 
                 // 同名同MD5，跳过
@@ -134,22 +135,22 @@ internal sealed partial class PackageConverter
             else
             {
                 // 本地没有发现同名项
-                yield return new(ItemOperationType.Add, remoteItem, remoteItem);
+                yield return new(PackageItemOperationType.Add, remoteItem, remoteItem);
             }
         }
 
         foreach ((_, VersionItem localItem) in local)
         {
-            yield return new(ItemOperationType.Backup, localItem, localItem);
+            yield return new(PackageItemOperationType.Backup, localItem, localItem);
         }
     }
 
     [GeneratedRegex("^(?:YuanShen_Data|GenshinImpact_Data)(?=/)")]
     private static partial Regex DataFolderRegex();
 
-    private async ValueTask<Dictionary<string, VersionItem>> GetVersionItemsAsync(Stream stream)
+    private async ValueTask<RelativePathVersionItemDictionary> GetVersionItemsAsync(Stream stream)
     {
-        Dictionary<string, VersionItem> results = [];
+        RelativePathVersionItemDictionary results = [];
         using (StreamReader reader = new(stream))
         {
             while (await reader.ReadLineAsync().ConfigureAwait(false) is { Length: > 0 } row)
@@ -164,7 +165,7 @@ internal sealed partial class PackageConverter
         return results;
     }
 
-    private async ValueTask<Dictionary<string, VersionItem>> GetRemoteItemsAsync(string pkgVersionUrl)
+    private async ValueTask<RelativePathVersionItemDictionary> GetRemoteItemsAsync(string pkgVersionUrl)
     {
         try
         {
@@ -179,7 +180,7 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async ValueTask<Dictionary<string, VersionItem>> GetLocalItemsAsync(string gameFolder)
+    private async ValueTask<RelativePathVersionItemDictionary> GetLocalItemsAsync(string gameFolder)
     {
         using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, PackageVersion)))
         {
@@ -187,23 +188,23 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async ValueTask PrepareCacheFilesAsync(List<ItemOperationInfo> operations, PackageConvertContext context, IProgress<PackageReplaceStatus> progress)
+    private async ValueTask PrepareCacheFilesAsync(List<PackageItemOperationInfo> operations, PackageConverterFileSystemContext context, IProgress<PackageReplaceStatus> progress)
     {
-        foreach (ItemOperationInfo info in operations)
+        foreach (PackageItemOperationInfo info in operations)
         {
             switch (info.Type)
             {
-                case ItemOperationType.Backup:
+                case PackageItemOperationType.Backup:
                     continue;
-                case ItemOperationType.Replace:
-                case ItemOperationType.Add:
+                case PackageItemOperationType.Replace:
+                case PackageItemOperationType.Add:
                     await SkipOrDownloadAsync(info, context, progress).ConfigureAwait(false);
                     break;
             }
         }
     }
 
-    private async ValueTask SkipOrDownloadAsync(ItemOperationInfo info, PackageConvertContext context, IProgress<PackageReplaceStatus> progress)
+    private async ValueTask SkipOrDownloadAsync(PackageItemOperationInfo info, PackageConverterFileSystemContext context, IProgress<PackageReplaceStatus> progress)
     {
         // 还原正确的远程地址
         string remoteName = string.Format(CultureInfo.CurrentCulture, info.Remote.RelativePath, context.ToDataFolderName);
@@ -257,16 +258,16 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async ValueTask<bool> ReplaceGameResourceAsync(List<ItemOperationInfo> operations, PackageConvertContext context, IProgress<PackageReplaceStatus> progress)
+    private async ValueTask<bool> ReplaceGameResourceAsync(List<PackageItemOperationInfo> operations, PackageConverterFileSystemContext context, IProgress<PackageReplaceStatus> progress)
     {
         // 执行下载与移动操作
-        foreach (ItemOperationInfo info in operations)
+        foreach (PackageItemOperationInfo info in operations)
         {
             (bool moveToBackup, bool moveToTarget) = info.Type switch
             {
-                ItemOperationType.Backup => (true, false),
-                ItemOperationType.Replace => (true, true),
-                ItemOperationType.Add => (false, true),
+                PackageItemOperationType.Backup => (true, false),
+                PackageItemOperationType.Replace => (true, true),
+                PackageItemOperationType.Add => (false, true),
                 _ => (false, false),
             };
 
@@ -321,7 +322,7 @@ internal sealed partial class PackageConverter
         return true;
     }
 
-    private async ValueTask ReplacePackageVersionFilesAsync(PackageConvertContext context)
+    private async ValueTask ReplacePackageVersionFilesAsync(PackageConverterFileSystemContext context)
     {
         foreach (string versionFilePath in Directory.EnumerateFiles(context.GameFolder, "*pkg_version"))
         {

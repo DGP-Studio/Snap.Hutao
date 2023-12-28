@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.Scheme;
@@ -28,7 +29,7 @@ internal interface IGameServiceFacade
     /// <param name="uid">uid</param>
     void AttachGameAccountToUid(GameAccount gameAccount, string uid);
 
-    ValueTask<GameAccount?> DetectGameAccountAsync(LaunchScheme scheme);
+    ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme);
 
     /// <summary>
     /// 异步获取游戏路径
@@ -86,5 +87,5 @@ internal interface IGameServiceFacade
     /// <returns>是否更改了ini文件</returns>
     bool SetChannelOptions(LaunchScheme scheme);
 
-    GameAccount? DetectCurrentGameAccount(LaunchScheme scheme);
+    GameAccount? DetectCurrentGameAccount(SchemeType scheme);
 }

@@ -47,7 +47,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly HutaoInfrastructureClient hutaoInfrastructureClient;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly INavigationService navigationService;
     private readonly IClipboardProvider clipboardInterop;
     private readonly IShellLinkInterop shellLinkInterop;

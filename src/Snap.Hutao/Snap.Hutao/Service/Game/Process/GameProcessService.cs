@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Game.Unlocker;
@@ -18,6 +19,7 @@ namespace Snap.Hutao.Service.Game.Process;
 internal sealed partial class GameProcessService : IGameProcessService
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly IProgressFactory progressFactory;
     private readonly IDiscordService discordService;
     private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
@@ -138,7 +140,7 @@ internal sealed partial class GameProcessService : IGameProcessService
         IGameFpsUnlocker unlocker = serviceProvider.CreateInstance<GameFpsUnlocker>(game);
 #pragma warning restore CA1859
         UnlockTimingOptions options = new(100, 20000, 3000);
-        Progress<UnlockerStatus> lockerProgress = new(unlockStatus => progress.Report(LaunchStatus.FromUnlockStatus(unlockStatus)));
+        IProgress<UnlockerStatus> lockerProgress = progressFactory.CreateForMainThread<UnlockerStatus>(unlockStatus => progress.Report(LaunchStatus.FromUnlockStatus(unlockStatus)));
         return unlocker.UnlockAsync(options, lockerProgress, token);
     }
 

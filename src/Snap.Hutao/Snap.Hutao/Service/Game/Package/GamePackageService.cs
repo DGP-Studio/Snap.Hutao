@@ -21,7 +21,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
     {
-        if (!launchOptions.TryGetGameFolderAndFileName(out string? gameFolder, out string? gameFileName))
+        if (!launchOptions.TryGetGameDirectoryAndGameFileName(out string? gameFolder, out string? gameFileName))
         {
             return false;
         }
@@ -47,8 +47,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (!launchScheme.ExecutableMatches(gameFileName))
         {
-            // We can't start the game
-            // when we failed to convert game
+            // We can't start the game when we failed to convert game
             if (!await packageConverter.EnsureGameResourceAsync(launchScheme, resource, gameFolder, progress).ConfigureAwait(false))
             {
                 return false;

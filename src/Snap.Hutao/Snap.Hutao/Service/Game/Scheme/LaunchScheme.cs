@@ -59,11 +59,11 @@ internal class LaunchScheme : IEquatable<ChannelOptions>
 
     public static bool ExecutableIsOversea(string gameFileName)
     {
-        return gameFileName switch
+        return gameFileName.ToUpperInvariant() switch
         {
-            GameConstants.GenshinImpactFileName => true,
-            GameConstants.YuanShenFileName => false,
-            _ => throw Requires.Fail("无效的游戏可执行文件名称：{0}", gameFileName),
+            GameConstants.GenshinImpactFileNameUpper => true,
+            GameConstants.YuanShenFileNameUpper => false,
+            _ => throw Requires.Fail("Invalid game executable file name：{0}", gameFileName),
         };
     }
 

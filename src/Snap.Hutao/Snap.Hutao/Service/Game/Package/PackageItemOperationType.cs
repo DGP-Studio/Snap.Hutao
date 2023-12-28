@@ -7,7 +7,7 @@ namespace Snap.Hutao.Service.Game.Package;
 /// 包文件操作的类型
 /// </summary>
 [HighQuality]
-internal enum ItemOperationType
+internal enum PackageItemOperationType
 {
     /// <summary>
     /// 需要备份

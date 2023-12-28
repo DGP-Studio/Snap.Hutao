@@ -12,7 +12,7 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Transient, typeof(IGameLocator), Key = GameLocationSource.UnityLog)]
 internal sealed partial class UnityLogGameLocator : IGameLocator
 {
     private readonly ITaskContext taskContext;
