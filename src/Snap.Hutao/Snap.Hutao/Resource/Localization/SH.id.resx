@@ -120,6 +120,12 @@
   <data name="AppDevNameAndVersion" xml:space="preserve">
     <value>Snap Hutao Dev {0}</value>
   </data>
+  <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao Dev {0} [Administrator]</value>
+  </data>
+  <data name="AppElevatedNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao {0} [Administrator]</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>Snap Hutao</value>
   </data>
@@ -2273,6 +2279,15 @@
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>ID Perangkat</value>
   </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>Mode administrator akan mengubah ketersediaan dan perilaku beberapa fitur</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>Mode Admin</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>Restart menggunakan Mode Administrator</value>
+  </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>Tampilkan atau sembunyikan acara keinginan tanpa riwayat Wish</value>
   </data>
@@ -2733,13 +2748,13 @@
     <value>Disalin ke clipboard</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
-    <value>全部完成</value>
+    <value>Selesai</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusNotOpen" xml:space="preserve">
-    <value>尚未开启</value>
+    <value>Terkunci</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusOngoing" xml:space="preserve">
-    <value>进行中</value>
+    <value>Dalam proses</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
     <value>Selesai</value>
