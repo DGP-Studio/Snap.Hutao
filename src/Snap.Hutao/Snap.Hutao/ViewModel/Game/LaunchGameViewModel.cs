@@ -225,7 +225,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 // Always ensure game resources
                 if (!await gameService.EnsureGameResourceAsync(SelectedScheme, convertProgress).ConfigureAwait(false))
                 {
-                    infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
+                    infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail, dialog.State.Name);
                     return;
                 }
                 else
@@ -334,6 +334,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         {
             UpdateGameResourceAsync(value).SafeForget();
             await UpdateGameAccountsViewAsync().ConfigureAwait(false);
+
+            // Clear the selected game account to prevent setting
+            // incorrect CN/OS account when scheme not match
+            SelectedGameAccount = default;
         }
 
         async ValueTask UpdateGameResourceAsync(LaunchScheme? scheme)
