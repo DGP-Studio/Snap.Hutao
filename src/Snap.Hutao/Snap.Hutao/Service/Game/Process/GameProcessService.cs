@@ -111,13 +111,13 @@ internal sealed partial class GameProcessService : IGameProcessService
             // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
             // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html
             commandLine = new CommandLineBuilder()
-                .AppendIf("-popupwindow", launchOptions.IsBorderless)
-                .AppendIf("-window-mode", launchOptions.IsExclusive, "exclusive")
+                .AppendIf(launchOptions.IsBorderless, "-popupwindow")
+                .AppendIf(launchOptions.IsExclusive, "-window-mode", "exclusive")
                 .Append("-screen-fullscreen", launchOptions.IsFullScreen ? 1 : 0)
-                .AppendIf("-screen-width", launchOptions.IsScreenWidthEnabled, launchOptions.ScreenWidth)
-                .AppendIf("-screen-height", launchOptions.IsScreenHeightEnabled, launchOptions.ScreenHeight)
-                .AppendIf("-monitor", launchOptions.IsMonitorEnabled, launchOptions.Monitor.Value)
-                .AppendIf("-platform_type CLOUD_THIRD_PARTY_MOBILE", launchOptions.IsUseCloudThirdPartyMobile)
+                .AppendIf(launchOptions.IsScreenWidthEnabled, "-screen-width", launchOptions.ScreenWidth)
+                .AppendIf(launchOptions.IsScreenHeightEnabled, "-screen-height", launchOptions.ScreenHeight)
+                .AppendIf(launchOptions.IsMonitorEnabled, "-monitor", launchOptions.Monitor.Value)
+                .AppendIf(launchOptions.IsUseCloudThirdPartyMobile, "-platform_type CLOUD_THIRD_PARTY_MOBILE")
                 .ToString();
         }
 

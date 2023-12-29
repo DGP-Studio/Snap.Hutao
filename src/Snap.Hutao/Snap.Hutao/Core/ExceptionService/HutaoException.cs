@@ -18,9 +18,3 @@ internal sealed class HutaoException : Exception
 
     public HutaoExceptionKind Kind { get; private set; }
 }
-
-internal enum HutaoExceptionKind
-{
-    None,
-
-}
