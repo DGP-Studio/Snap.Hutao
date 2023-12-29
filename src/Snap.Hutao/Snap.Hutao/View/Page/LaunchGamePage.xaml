@@ -198,7 +198,7 @@
                                 <Border Style="{StaticResource BorderCardStyle}">
                                     <ListView
                                         ItemTemplate="{StaticResource GameAccountListTemplate}"
-                                        ItemsSource="{Binding GameAccounts}"
+                                        ItemsSource="{Binding GameAccountsView}"
                                         SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
                                 </Border>
 

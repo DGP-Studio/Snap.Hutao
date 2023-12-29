@@ -5,9 +5,7 @@ using CommunityToolkit.WinUI.Collections;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
@@ -43,6 +41,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     protected override async Task OpenUIAsync()
     {
         LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
+        ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
 
         try
         {
@@ -58,7 +57,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         }
 
         gameAccountFilter = new(scheme?.GetSchemeType());
-        ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
 
         await taskContext.SwitchToMainThreadAsync();
         GameAccountsView = new(accounts, true)

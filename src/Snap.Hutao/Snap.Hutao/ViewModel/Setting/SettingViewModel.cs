@@ -15,7 +15,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
