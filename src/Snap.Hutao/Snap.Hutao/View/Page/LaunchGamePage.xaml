@@ -7,8 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shccs="using:Snap.Hutao.Control.Collection.Selector"
@@ -208,8 +206,7 @@
                                     shch:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.IsEnabled}"
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsHeader}"
-                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE943;}"
-                                    IsExpanded="True">
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE943;}">
                                     <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsEnabled, Mode=TwoWay}"/>
                                     <cwc:SettingsExpander.Items>
                                         <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveDescription}" Header="-window-mode exclusive">

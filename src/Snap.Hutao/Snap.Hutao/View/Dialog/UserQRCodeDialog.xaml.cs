@@ -12,6 +12,7 @@ using Snap.Hutao.Web.Response;
 using System.Collections.Specialized;
 using System.IO;
 using System.Web;
+using Windows.Foundation;
 
 namespace Snap.Hutao.View.Dialog;
 

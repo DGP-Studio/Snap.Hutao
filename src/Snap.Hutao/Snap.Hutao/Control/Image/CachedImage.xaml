@@ -17,6 +17,7 @@
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Image
                             Name="PlaceholderImage"
+                            Margin="{TemplateBinding PlaceholderMargin}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             Source="{TemplateBinding PlaceholderSource}"

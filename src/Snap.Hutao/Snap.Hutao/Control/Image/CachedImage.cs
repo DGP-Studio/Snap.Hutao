@@ -4,6 +4,8 @@
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Web;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Control.Image;
@@ -40,12 +42,7 @@ internal sealed class CachedImage : Implementation.ImageEx
         {
             // The image is corrupted, remove it.
             imageCache.Remove(imageUri);
-            return null;
-        }
-        catch (OperationCanceledException)
-        {
-            // task was explicitly canceled
-            return null;
+            return default;
         }
     }
 }
