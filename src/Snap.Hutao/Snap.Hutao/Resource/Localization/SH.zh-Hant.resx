@@ -148,7 +148,7 @@
     <value>無效的 Uri</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
-    <value>HTTP GET {0}</value>
+    <value>获取HTTP{0}</value>
   </data>
   <data name="ControlImageCompositionImageSystemException" xml:space="preserve">
     <value>應用 CompositionImage 的源時發生異常</value>
@@ -298,7 +298,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
-    <value>少男</value>
+    <value>少年</value>
   </data>
   <data name="ModelIntrinsicBodyTypeGirl" xml:space="preserve">
     <value>少女</value>
@@ -310,7 +310,7 @@
     <value>蘿莉</value>
   </data>
   <data name="ModelIntrinsicBodyTypeMale" xml:space="preserve">
-    <value>成男</value>
+    <value>成年男子</value>
   </data>
   <data name="ModelIntrinsicElementNameElec" xml:space="preserve">
     <value>雷</value>
@@ -379,7 +379,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
-    <value>旅行者</value>
+    <value>旅人</value>
   </data>
   <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
     <value>{0} 月 {1} 日</value>
@@ -486,7 +486,7 @@
     <value>第一波：擊敗所有怪物，下一波才會出現</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave1Additional" xml:space="preserve">
-    <value>第一波附加：增援第一波怪物</value>
+    <value>第一波追加：增援第一波怪物</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave2" xml:space="preserve">
     <value>第二波：擊敗所有怪物，下一波才會出現</value>
@@ -846,7 +846,7 @@
     <value>找不到原神內置瀏覽器緩存路徑：\n{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>未找到可用的 Url</value>
+    <value>找不到可用的 Url</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>提供的 Url 無效</value>
@@ -996,7 +996,7 @@
     <value>不支援的 UIGF 版本</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
-    <value>发现新版本 {0}</value>
+    <value>發現新版本 {0}</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>已选中多条用户记录</value>
