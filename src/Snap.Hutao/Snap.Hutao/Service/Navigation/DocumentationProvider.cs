@@ -23,7 +23,7 @@ internal sealed partial class DocumentationProvider : IDocumentationProvider
         [typeof(LoginHoyoverseUserPage)] = "https://hut.ao/features/mhy-account-switch.html",
         [typeof(LoginMihoyoUserPage)] = "https://hut.ao/features/mhy-account-switch.html",
         [typeof(SettingPage)] = "https://hut.ao/features/hutao-settings.html",
-        [typeof(SpiralAbyssRecordPage)] = "https://hut.ao/features/dashboard.html",
+        [typeof(SpiralAbyssRecordPage)] = "https://hut.ao/features/hutao-API.html",
         [typeof(TestPage)] = Home,
         [typeof(WikiAvatarPage)] = "https://hut.ao/features/character-wiki.html",
         [typeof(WikiMonsterPage)] = "https://hut.ao/features/monster-wiki.html",
