@@ -238,10 +238,10 @@ internal static class DiscordController
         public bool IsCompleted;
     }
 
-    private unsafe readonly struct DiscordUpdateActivityAsyncAction
+    private unsafe struct DiscordUpdateActivityAsyncAction
     {
-        private readonly DiscordAsyncAction discordAsyncAction;
         private readonly IDiscordActivityManager* activityManagerPtr;
+        private DiscordAsyncAction discordAsyncAction;
 
         public DiscordUpdateActivityAsyncAction(IDiscordActivityManager* activityManagerPtr)
         {
@@ -255,7 +255,7 @@ internal static class DiscordController
                 activityManagerPtr->update_activity(activityManagerPtr, &activity, actionPtr, &HandleResult);
             }
 
-            SpinWaitPolyfill.SpinUntil(discordAsyncAction, (state) => state.IsCompleted);
+            SpinWaitPolyfill.SpinUntil(ref discordAsyncAction, &CheckActionCompleted);
             return discordAsyncAction.Result;
         }
 
@@ -265,6 +265,11 @@ internal static class DiscordController
             DiscordAsyncAction* action = (DiscordAsyncAction*)state;
             action->Result = result;
             action->IsCompleted = true;
+        }
+
+        private static bool CheckActionCompleted(ref readonly DiscordAsyncAction state)
+        {
+            return state.IsCompleted;
         }
     }
 }
