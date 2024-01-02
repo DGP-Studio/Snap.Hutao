@@ -11,6 +11,12 @@ namespace Snap.Hutao.Test.IncomingFeature;
 [TestClass]
 public class GameRegistryContentTest
 {
+    private static readonly JsonSerializerOptions RegistryContentSerializerOptions = new()
+    {
+        WriteIndented = true,
+        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+    };
+
     [TestMethod]
     [SupportedOSPlatform("windows")]
     public void GetRegistryContent()
@@ -33,28 +39,29 @@ public class GameRegistryContentTest
                 data[valueName] = gameKey.GetValueKind(valueName) switch
                 {
                     RegistryValueKind.DWord => (int)gameKey.GetValue(valueName)!,
-                    RegistryValueKind.Binary => GetString((byte[])gameKey.GetValue(valueName)!),
+                    RegistryValueKind.Binary => GetStringOrObject((byte[])gameKey.GetValue(valueName)!),
                     _ => throw new NotImplementedException()
                 };
             }
 
-            JsonSerializerOptions options = new()
-            {
-                WriteIndented = true,
-                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            };
-
             Console.WriteLine($"Subkey: {subkey}");
-            Console.WriteLine(JsonSerializer.Serialize(data, options));
+            Console.WriteLine(JsonSerializer.Serialize(data, RegistryContentSerializerOptions));
         }
     }
 
-    private static unsafe string GetString(byte[] bytes)
+    private static unsafe object GetStringOrObject(byte[] bytes)
     {
         fixed (byte* pByte = bytes)
         {
             ReadOnlySpan<byte> span = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pByte);
-            return Encoding.UTF8.GetString(span);
+            string temp = Encoding.UTF8.GetString(span);
+
+            if (temp.AsSpan()[0] is '{' or '[')
+            {
+                return JsonSerializer.Deserialize<JsonElement>(temp);
+            }
+
+            return temp;
         }
     }
 }
