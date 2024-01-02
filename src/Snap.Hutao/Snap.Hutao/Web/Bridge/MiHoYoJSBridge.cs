@@ -2,10 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
-using Qhy04.WebView2.DevTools.Protocol.WinUI3;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
-using Snap.Hutao.Core.IO;
-using Snap.Hutao.Factory.Picker;
+using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -16,8 +14,12 @@ using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Response;
+using System.IO;
+using System.Net.Http;
 using System.Text;
 using Windows.Foundation;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Web.Bridge;
 
@@ -88,7 +90,6 @@ internal class MiHoYoJSBridge
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly ILogger<MiHoYoJSBridge> logger;
-    private readonly DevToolsProtocolHelper devToolsProtocolHelper;
 
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2WebMessageReceivedEventArgs> webMessageReceivedEventHandler;
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2DOMContentLoadedEventArgs> domContentLoadedEventHandler;
@@ -105,7 +106,6 @@ internal class MiHoYoJSBridge
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSBridge>>();
-        devToolsProtocolHelper = coreWebView2.GetDevToolsProtocolHelper();
 
         webMessageReceivedEventHandler = OnWebMessageReceived;
         domContentLoadedEventHandler = OnDOMContentLoaded;
@@ -371,81 +371,75 @@ internal class MiHoYoJSBridge
     protected virtual async ValueTask<IJsBridgeResult?> Share(JsParam<SharePayload> param)
     {
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        IFileSystemPickerInteraction fileSystemPickerInteraction = serviceProvider.GetRequiredService<IFileSystemPickerInteraction>();
+        IClipboardProvider clipboardProvider = serviceProvider.GetRequiredService<IClipboardProvider>();
 
         string shareType = param.Payload.Type;
         ShareContent shareContent = param.Payload.Content;
-        if (shareType == "image")
+        if (shareType is "image")
         {
             if (shareContent.ImageUrl is not null)
             {
-                string fileName = shareContent.ImageUrl.Split("/").Last();
-                string format = fileName.Split(".").Last();
-
-                (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
-                    "保存分享图片",
-                    fileName,
-                    [("图片文件", format)]);
-
-                if (isOk)
+                using (HttpClient httpClient = new())
                 {
-                    if (await file.DownloadAsync(shareContent.ImageUrl).ConfigureAwait(false))
+                    using (Stream stream = await httpClient.GetStreamAsync(shareContent.ImageUrl).ConfigureAwait(false))
                     {
-                        infoBarService.Success("保存成功", "成功保存到指定位置");
-                    }
-                    else
-                    {
-                        infoBarService.Error("保存失败", "无法保存到指定位置");
+                        using (InMemoryRandomAccessStream origStream = new())
+                        {
+                            await stream.CopyToAsync(origStream.AsStreamForWrite()).ConfigureAwait(false);
+                            using (InMemoryRandomAccessStream imageStream = new())
+                            {
+                                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, imageStream);
+                                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(origStream);
+                                encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
+                                await encoder.FlushAsync();
+                                if (clipboardProvider.SetBitmap(imageStream))
+                                {
+                                    infoBarService.Success("复制成功", "图片已复制到剪贴板");
+                                }
+                                else
+                                {
+                                    infoBarService.Error("复制失败", string.Empty);
+                                }
+                            }
+                        }
                     }
                 }
             }
             else if (shareContent.ImageBase64 is not null)
             {
-                string fileName = "image.png";
-                string format = "png";
-
-                (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
-                    "保存分享图片",
-                    fileName,
-                    [("图片文件", format)]);
-
-                if (isOk)
+                using (MemoryStream imageStream = new())
                 {
-                    if (await file.WritePngBase64Async(shareContent.ImageBase64).ConfigureAwait(false))
+                    await imageStream.WriteAsync(Convert.FromBase64String(shareContent.ImageBase64)).ConfigureAwait(false);
+                    if (clipboardProvider.SetBitmap(imageStream.AsRandomAccessStream()))
                     {
-                        infoBarService.Success("保存成功", "成功保存到指定位置");
+                        infoBarService.Success("复制成功", "图片已复制到剪贴板");
                     }
                     else
                     {
-                        infoBarService.Error("保存失败", "无法保存到指定位置");
+                        infoBarService.Error("复制失败", string.Empty);
                     }
                 }
             }
         }
-        else if (shareType == "screenshot")
+        else if (shareType is "screenshot")
         {
-            string fileName = "image.png";
-            string format = "png";
-
-            (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
-                "保存分享图片",
-                fileName,
-                [("图片文件", format)]);
-
-            if (isOk)
+            if (shareContent.Preview)
             {
-                if (shareContent.Preview)
-                {
-                    await taskContext.SwitchToMainThreadAsync();
-                    string base64 = await devToolsProtocolHelper.Page.CaptureScreenshotAsync(format: "png", captureBeyondViewport: true).ConfigureAwait(false);
+                await taskContext.SwitchToMainThreadAsync();
+                string base64Json = await coreWebView2.CallDevToolsProtocolMethodAsync("Page.captureScreenshot", """{"format":"png","captureBeyondViewport":true}""");
+                string? base64 = JsonDocument.Parse(base64Json).RootElement.GetProperty("data").GetString();
+                ArgumentNullException.ThrowIfNull(base64);
 
-                    if (await file.WritePngBase64Async(base64).ConfigureAwait(false))
+                using (MemoryStream imageStream = new())
+                {
+                    await imageStream.WriteAsync(Convert.FromBase64String(base64)).ConfigureAwait(false);
+                    if (clipboardProvider.SetBitmap(imageStream.AsRandomAccessStream()))
                     {
-                        infoBarService.Success("保存成功", "成功保存到指定位置");
+                        infoBarService.Success("复制成功", "图片已复制到剪贴板");
                     }
                     else
                     {
-                        infoBarService.Error("保存失败", "无法保存到指定位置");
+                        infoBarService.Error("复制失败", string.Empty);
                     }
                 }
             }
