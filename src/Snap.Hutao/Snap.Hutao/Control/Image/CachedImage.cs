@@ -4,8 +4,6 @@
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Model.Metadata.Converter;
-using Snap.Hutao.Web;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Control.Image;

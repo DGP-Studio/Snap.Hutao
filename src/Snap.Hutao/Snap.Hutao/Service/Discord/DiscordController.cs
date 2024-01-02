@@ -1,10 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Discord.GameSDK;
 using Snap.Discord.GameSDK.ABI;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text.Unicode;
 
 namespace Snap.Hutao.Service.Discord;
 
@@ -18,75 +18,94 @@ internal static class DiscordController
     private static readonly CancellationTokenSource StopTokenSource = new();
     private static readonly object SyncRoot = new();
 
-    private static Snap.Discord.GameSDK.Discord? discordManager;
+    private static long currentClientId;
+    private static unsafe IDiscordCore* discordCorePtr;
     private static bool isInitialized;
 
-    public static async ValueTask<Result> SetDefaultActivityAsync(DateTimeOffset startTime)
+    public static async ValueTask<DiscordResult> SetDefaultActivityAsync(DateTimeOffset startTime)
     {
-        ResetManagerOrIgnore(HutaoAppId);
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        return SetDefaultActivity(startTime);
 
-        if (discordManager is null)
+        static unsafe DiscordResult SetDefaultActivity(in DateTimeOffset startTime)
         {
-            return Result.Ok;
+            ResetManagerOrIgnore(HutaoAppId);
+
+            if (discordCorePtr is null)
+            {
+                return DiscordResult.Ok;
+            }
+
+            IDiscordActivityManager* activityManagerPtr = discordCorePtr->get_activity_manager(discordCorePtr);
+
+            DiscordActivity activity = default;
+            activity.timestamps.start = startTime.ToUnixTimeSeconds();
+            SetString(activity.assets.large_image, 128, "icon"u8);
+            SetString(activity.assets.large_text, 128, SH.AppName);
+
+            return new DiscordUpdateActivityAsyncAction(activityManagerPtr).WaitUpdateActivity(activity);
         }
-
-        ActivityManager activityManager = discordManager.GetActivityManager();
-
-        Activity activity = default;
-        activity.Timestamps.Start = startTime.ToUnixTimeSeconds();
-        activity.Assets.LargeImage = "icon";
-        activity.Assets.LargeText = SH.AppName;
-
-        return await activityManager.UpdateActivityAsync(activity).ConfigureAwait(false);
     }
 
-    public static async ValueTask<Result> SetPlayingYuanShenAsync()
+    public static async ValueTask<DiscordResult> SetPlayingYuanShenAsync()
     {
-        ResetManagerOrIgnore(YuanshenId);
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        return SetPlayingYuanShen();
 
-        if (discordManager is null)
+        static unsafe DiscordResult SetPlayingYuanShen()
         {
-            return Result.Ok;
+            ResetManagerOrIgnore(YuanshenId);
+
+            if (discordCorePtr is null)
+            {
+                return DiscordResult.Ok;
+            }
+
+            IDiscordActivityManager* activityManagerPtr = discordCorePtr->get_activity_manager(discordCorePtr);
+
+            DiscordActivity activity = default;
+            SetString(activity.state, 128, SH.FormatServiceDiscordGameLaunchedBy(SH.AppName));
+            SetString(activity.details, 128, SH.ServiceDiscordGameActivityDetails);
+            activity.timestamps.start = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            SetString(activity.assets.large_image, 128, "icon"u8);
+            SetString(activity.assets.large_text, 128, "原神"u8);
+            SetString(activity.assets.small_image, 128, "app"u8);
+            SetString(activity.assets.small_text, 128, SH.AppName);
+
+            return new DiscordUpdateActivityAsyncAction(activityManagerPtr).WaitUpdateActivity(activity);
         }
-
-        ActivityManager activityManager = discordManager.GetActivityManager();
-
-        Activity activity = default;
-        activity.State = SH.FormatServiceDiscordGameLaunchedBy(SH.AppName);
-        activity.Details = SH.ServiceDiscordGameActivityDetails;
-        activity.Timestamps.Start = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        activity.Assets.LargeImage = "icon";
-        activity.Assets.LargeText = "原神";
-        activity.Assets.SmallImage = "app";
-        activity.Assets.SmallText = SH.AppName;
-
-        return await activityManager.UpdateActivityAsync(activity).ConfigureAwait(false);
     }
 
-    public static async ValueTask<Result> SetPlayingGenshinImpactAsync()
+    public static async ValueTask<DiscordResult> SetPlayingGenshinImpactAsync()
     {
-        ResetManagerOrIgnore(GenshinImpactId);
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        return SetPlayingGenshinImpact();
 
-        if (discordManager is null)
+        static unsafe DiscordResult SetPlayingGenshinImpact()
         {
-            return Result.Ok;
+            ResetManagerOrIgnore(GenshinImpactId);
+
+            if (discordCorePtr is null)
+            {
+                return DiscordResult.Ok;
+            }
+
+            IDiscordActivityManager* activityManagerPtr = discordCorePtr->get_activity_manager(discordCorePtr);
+
+            DiscordActivity activity = default;
+            SetString(activity.state, 128, SH.FormatServiceDiscordGameLaunchedBy(SH.AppName));
+            SetString(activity.details, 128, SH.ServiceDiscordGameActivityDetails);
+            activity.timestamps.start = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            SetString(activity.assets.large_image, 128, "icon"u8);
+            SetString(activity.assets.large_text, 128, "Genshin Impact"u8);
+            SetString(activity.assets.small_image, 128, "app"u8);
+            SetString(activity.assets.small_text, 128, SH.AppName);
+
+            return new DiscordUpdateActivityAsyncAction(activityManagerPtr).WaitUpdateActivity(activity);
         }
-
-        ActivityManager activityManager = discordManager.GetActivityManager();
-
-        Activity activity = default;
-        activity.State = SH.FormatServiceDiscordGameLaunchedBy(SH.AppName);
-        activity.Details = SH.ServiceDiscordGameActivityDetails;
-        activity.Timestamps.Start = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        activity.Assets.LargeImage = "icon";
-        activity.Assets.LargeText = "Genshin Impact";
-        activity.Assets.SmallImage = "app";
-        activity.Assets.SmallText = SH.AppName;
-
-        return await activityManager.UpdateActivityAsync(activity).ConfigureAwait(false);
     }
 
-    public static void Stop()
+    public static unsafe void Stop()
     {
         if (!isInitialized)
         {
@@ -98,7 +117,7 @@ internal static class DiscordController
             StopTokenSource.Cancel();
             try
             {
-                discordManager?.Dispose();
+                discordCorePtr = default;
             }
             catch (SEHException)
             {
@@ -108,23 +127,30 @@ internal static class DiscordController
 
     private static unsafe void ResetManagerOrIgnore(long clientId)
     {
-        if (discordManager?.ClientId == clientId)
+        if (currentClientId == clientId)
         {
             return;
         }
 
         // Actually requires a discord client to be running on Windows platform.
         // If not, the following creation code will throw.
-        if (System.Diagnostics.Process.GetProcessesByName("Discord").Length == 0)
+        if (System.Diagnostics.Process.GetProcessesByName("Discord").Length <= 0)
         {
             return;
         }
 
         lock (SyncRoot)
         {
-            discordManager?.Dispose();
-            discordManager = new(clientId, CreateFlags.NoRequireDiscord);
-            discordManager.SetLogHook(Snap.Discord.GameSDK.LogLevel.Debug, SetLogHookHandler.Create(&DebugWriteDiscordMessage));
+            DiscordCreateParams @params = default;
+            Methods.DiscordCreateParamsSetDefault(&@params);
+            @params.client_id = clientId;
+            @params.flags = (uint)DiscordCreateFlags.Default;
+            IDiscordCore* ptr = default;
+            Methods.DiscordCreate(3, &@params, &ptr);
+
+            currentClientId = clientId;
+            discordCorePtr = ptr;
+            discordCorePtr->set_log_hook(discordCorePtr, DiscordLogLevel.Debug, default, &DebugWriteDiscordMessage);
         }
 
         if (isInitialized)
@@ -135,10 +161,10 @@ internal static class DiscordController
         DiscordRunCallbacksAsync(StopTokenSource.Token).SafeForget();
         isInitialized = true;
 
-        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-        static unsafe void DebugWriteDiscordMessage(Snap.Discord.GameSDK.LogLevel logLevel, byte* ptr)
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+        static unsafe void DebugWriteDiscordMessage(void* state, DiscordLogLevel logLevel, sbyte* ptr)
         {
-            ReadOnlySpan<byte> utf8 = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(ptr);
+            ReadOnlySpan<byte> utf8 = MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)ptr);
             string message = System.Text.Encoding.UTF8.GetString(utf8);
             System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK]:[{logLevel}]:{message}");
         }
@@ -161,15 +187,10 @@ internal static class DiscordController
                     {
                         try
                         {
-                            discordManager?.RunCallbacks();
-                        }
-                        catch (ResultException ex)
-                        {
-                            // If result is Ok
-                            // Maybe the connection is reset.
-                            if (ex.Result is not Result.Ok)
+                            DiscordResult result = DiscordCoreRunRunCallbacks();
+                            if (result is not DiscordResult.Ok)
                             {
-                                System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK ERROR]:{ex.Result:D} {ex.Result}");
+                                System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK ERROR]:{result:D} {result}");
                             }
                         }
                         catch (SEHException ex)
@@ -184,6 +205,66 @@ internal static class DiscordController
             catch (OperationCanceledException)
             {
             }
+        }
+
+        unsafe DiscordResult DiscordCoreRunRunCallbacks()
+        {
+            if (discordCorePtr is not null)
+            {
+                return discordCorePtr->run_callbacks(discordCorePtr);
+            }
+
+            return DiscordResult.Ok;
+        }
+    }
+
+    private static unsafe void SetString(sbyte* reference, int length, string source)
+    {
+        Span<sbyte> sbytes = new(reference, length);
+        sbytes.Clear();
+        Utf8.FromUtf16(source.AsSpan(), MemoryMarshal.Cast<sbyte, byte>(sbytes), out _, out _);
+    }
+
+    private static unsafe void SetString(sbyte* reference, int length, in ReadOnlySpan<byte> source)
+    {
+        Span<sbyte> sbytes = new(reference, length);
+        sbytes.Clear();
+        source.CopyTo(MemoryMarshal.Cast<sbyte, byte>(sbytes));
+    }
+
+    private struct DiscordAsyncAction
+    {
+        public DiscordResult Result;
+        public bool IsCompleted;
+    }
+
+    private unsafe readonly struct DiscordUpdateActivityAsyncAction
+    {
+        private readonly DiscordAsyncAction discordAsyncAction;
+        private readonly IDiscordActivityManager* activityManagerPtr;
+
+        public DiscordUpdateActivityAsyncAction(IDiscordActivityManager* activityManagerPtr)
+        {
+            this.activityManagerPtr = activityManagerPtr;
+        }
+
+        public DiscordResult WaitUpdateActivity(DiscordActivity activity)
+        {
+            fixed (DiscordAsyncAction* actionPtr = &discordAsyncAction)
+            {
+                activityManagerPtr->update_activity(activityManagerPtr, &activity, actionPtr, &HandleResult);
+            }
+
+            SpinWaitPolyfill.SpinUntil(discordAsyncAction, (state) => state.IsCompleted);
+            return discordAsyncAction.Result;
+        }
+
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+        private static void HandleResult(void* state, DiscordResult result)
+        {
+            DiscordAsyncAction* action = (DiscordAsyncAction*)state;
+            action->Result = result;
+            action->IsCompleted = true;
         }
     }
 }

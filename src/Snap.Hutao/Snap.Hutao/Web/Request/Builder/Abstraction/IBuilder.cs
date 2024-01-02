@@ -3,6 +3,4 @@
 
 namespace Snap.Hutao.Web.Request.Builder.Abstraction;
 
-internal interface IBuilder
-{
-}
+internal interface IBuilder;
