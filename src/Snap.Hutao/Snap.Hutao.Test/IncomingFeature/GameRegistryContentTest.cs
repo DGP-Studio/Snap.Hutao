@@ -15,9 +15,16 @@ public class GameRegistryContentTest
     [SupportedOSPlatform("windows")]
     public void GetRegistryContent()
     {
+        GetRegistryContentCore(@"Software\miHoYo\原神");
+        GetRegistryContentCore(@"Software\miHoYo\Genshin Impact");
+    }
+
+    [SupportedOSPlatform("windows")]
+    private static void GetRegistryContentCore(string subkey)
+    {
         using (RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
         {
-            RegistryKey? gameKey = key.OpenSubKey(@"Software\miHoYo\原神");
+            RegistryKey? gameKey = key.OpenSubKey(subkey);
             Assert.IsNotNull(gameKey);
 
             Dictionary<string, object> data = [];
@@ -37,6 +44,7 @@ public class GameRegistryContentTest
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             };
 
+            Console.WriteLine($"Subkey: {subkey}");
             Console.WriteLine(JsonSerializer.Serialize(data, options));
         }
     }
