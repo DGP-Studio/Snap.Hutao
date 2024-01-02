@@ -2,8 +2,12 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
+using Qhy04.WebView2.DevTools.Protocol.WinUI3;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.IO;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge.Model;
@@ -84,6 +88,7 @@ internal class MiHoYoJSBridge
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly ILogger<MiHoYoJSBridge> logger;
+    private readonly DevToolsProtocolHelper devToolsProtocolHelper;
 
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2WebMessageReceivedEventArgs> webMessageReceivedEventHandler;
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2DOMContentLoadedEventArgs> domContentLoadedEventHandler;
@@ -100,6 +105,7 @@ internal class MiHoYoJSBridge
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSBridge>>();
+        devToolsProtocolHelper = coreWebView2.GetDevToolsProtocolHelper();
 
         webMessageReceivedEventHandler = OnWebMessageReceived;
         domContentLoadedEventHandler = OnDOMContentLoaded;
@@ -362,8 +368,89 @@ internal class MiHoYoJSBridge
         return null;
     }
 
-    protected virtual IJsBridgeResult? Share(JsParam<SharePayload> param)
+    protected virtual async ValueTask<IJsBridgeResult?> Share(JsParam<SharePayload> param)
     {
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        IFileSystemPickerInteraction fileSystemPickerInteraction = serviceProvider.GetRequiredService<IFileSystemPickerInteraction>();
+
+        string shareType = param.Payload.Type;
+        ShareContent shareContent = param.Payload.Content;
+        if (shareType == "image")
+        {
+            if (shareContent.ImageUrl is not null)
+            {
+                string fileName = shareContent.ImageUrl.Split("/").Last();
+                string format = fileName.Split(".").Last();
+
+                (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
+                    "保存分享图片",
+                    fileName,
+                    [("图片文件", format)]);
+
+                if (isOk)
+                {
+                    if (await file.DownloadAsync(shareContent.ImageUrl).ConfigureAwait(false))
+                    {
+                        infoBarService.Success("保存成功", "成功保存到指定位置");
+                    }
+                    else
+                    {
+                        infoBarService.Error("保存失败", "无法保存到指定位置");
+                    }
+                }
+            }
+            else if (shareContent.ImageBase64 is not null)
+            {
+                string fileName = "image.png";
+                string format = "png";
+
+                (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
+                    "保存分享图片",
+                    fileName,
+                    [("图片文件", format)]);
+
+                if (isOk)
+                {
+                    if (await file.WritePngBase64Async(shareContent.ImageBase64).ConfigureAwait(false))
+                    {
+                        infoBarService.Success("保存成功", "成功保存到指定位置");
+                    }
+                    else
+                    {
+                        infoBarService.Error("保存失败", "无法保存到指定位置");
+                    }
+                }
+            }
+        }
+        else if (shareType == "screenshot")
+        {
+            string fileName = "image.png";
+            string format = "png";
+
+            (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
+                "保存分享图片",
+                fileName,
+                [("图片文件", format)]);
+
+            if (isOk)
+            {
+                if (shareContent.Preview)
+                {
+                    await taskContext.SwitchToMainThreadAsync();
+                    string base64 = await devToolsProtocolHelper.Page.CaptureScreenshotAsync(format: "png", captureBeyondViewport: true).ConfigureAwait(false);
+
+                    if (await file.WritePngBase64Async(base64).ConfigureAwait(false))
+                    {
+                        infoBarService.Success("保存成功", "成功保存到指定位置");
+                    }
+                    else
+                    {
+                        infoBarService.Error("保存失败", "无法保存到指定位置");
+                    }
+                }
+            }
+        }
+
         return new JsResult<Dictionary<string, string>>()
         {
             Data = new()
@@ -503,7 +590,7 @@ internal class MiHoYoJSBridge
                 "hideLoading" => null,
                 "login" => null,
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
-                "share" => Share(param),
+                "share" => await Share(param).ConfigureAwait(false),
                 "showLoading" => null,
                 _ => LogUnhandledMessage("Unhandled Message Type: {Method}", param.Method),
             };
