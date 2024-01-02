@@ -37,6 +37,48 @@ internal class MiHoYoJSBridge
         document.querySelector('body').appendChild(st);
         """;
 
+    private const string ConvertMouseToTouchScript = """
+        function mouseListener (e, event) {
+            console.log(event);
+            let touch = new Touch({
+                identifier: Date.now(),
+                target: e.target,
+                clientX: e.clientX,
+                clientY: e.clientY,
+                screenX: e.screenX,
+                screenY: e.screenY,
+                pageX: e.pageX,
+                pageY: e.pageY,
+            });
+            let touchEvent = new TouchEvent(event, {
+                cancelable: true,
+                bubbles: true,
+                touches: [touch],
+                targetTouches: [touch],
+                changedTouches: [touch],
+            });
+            console.log(touchEvent);
+            e.target.dispatchEvent(touchEvent);
+        }
+
+        let mouseMoveListener = (e) => {
+            mouseListener(e, 'touchmove'); 
+        };
+
+        let mouseUpListener = (e) => {
+            mouseListener(e, 'touchend'); 
+            document.removeEventListener('mousemove', mouseMoveListener);
+            document.removeEventListener('mouseup', mouseUpListener);
+        };
+
+        let mouseDownListener = (e) => {
+            mouseListener(e, 'touchstart'); 
+            document.addEventListener('mousemove', mouseMoveListener);
+            document.addEventListener('mouseup', mouseUpListener);
+        };
+        document.addEventListener('mousedown', mouseDownListener);
+        """;
+
     private readonly SemaphoreSlim webMessageSemaphore = new(1);
     private readonly Guid interfaceId = Guid.NewGuid();
     private readonly UserAndUid userAndUid;
@@ -479,6 +521,7 @@ internal class MiHoYoJSBridge
     {
         DOMContentLoaded(coreWebView2);
         coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget(logger);
+        coreWebView2.ExecuteScriptAsync(ConvertMouseToTouchScript).AsTask().SafeForget(logger);
     }
 
     private void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
