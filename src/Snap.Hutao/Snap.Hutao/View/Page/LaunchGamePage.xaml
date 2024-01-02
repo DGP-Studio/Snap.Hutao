@@ -199,6 +199,12 @@
                                         ItemsSource="{Binding GameAccountsView}"
                                         SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
                                 </Border>
+                                <cwc:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameWindowsHDRDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameWindowsHDRHeader}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7F7;}">
+                                    <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsWindowsHDREnabled, Mode=TwoWay}"/>
+                                </cwc:SettingsCard>
 
                                 <!--  进程  -->
                                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameProcessHeader}"/>

@@ -4,6 +4,7 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Discord;
+using Snap.Hutao.Service.Game.Account;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Game.Unlocker;
 using System.IO;
@@ -60,6 +61,11 @@ internal sealed partial class GameProcessService : IGameProcessService
         }
 
         bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileName);
+
+        if (launchOptions.IsWindowsHDREnabled)
+        {
+            RegistryInterop.SetWindowsHDR(isOversea);
+        }
 
         progress.Report(new(LaunchPhase.ProcessInitializing, SH.ServiceGameLaunchPhaseProcessInitializing));
         using (System.Diagnostics.Process game = InitializeGameProcess(gamePath))

@@ -20,6 +20,8 @@ internal static class RegistryInterop
     private const string SdkChineseValueName = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
     private const string SdkOverseaValueName = "MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810";
 
+    private const string WindowsHDROnValueName = "WINDOWS_HDR_ON_h3132281285";
+
     public static bool Set(GameAccount? account)
     {
         if (account is not null)
@@ -54,6 +56,12 @@ internal static class RegistryInterop
             ReadOnlySpan<byte> span = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pByte);
             return Encoding.UTF8.GetString(span);
         }
+    }
+
+    public static void SetWindowsHDR(bool isOversea)
+    {
+        string keyName = isOversea ? OverseaKeyName : ChineseKeyName;
+        Registry.SetValue(keyName, WindowsHDROnValueName, 1);
     }
 
     private static (string KeyName, string ValueName) GetKeyValueName(SchemeType scheme)

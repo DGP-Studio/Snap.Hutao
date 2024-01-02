@@ -121,7 +121,7 @@
     <value>胡桃 Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>胡桃Dev {0} [管理员]</value>
+    <value>胡桃 Dev {0} [管理员]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
     <value>胡桃 {0} [管理员]</value>
@@ -2191,6 +2191,12 @@
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>启用</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>充分利用支持高动态范围的显示器获得更亮、更生动、更精细的画面</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>请输入你的 HoYoLab Uid</value>

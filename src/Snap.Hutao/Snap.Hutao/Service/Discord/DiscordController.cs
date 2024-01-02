@@ -172,7 +172,7 @@ internal static class DiscordController
 
     private static async ValueTask DiscordRunCallbacksAsync(CancellationToken cancellationToken)
     {
-        using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(1000)))
+        using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
         {
             try
             {
