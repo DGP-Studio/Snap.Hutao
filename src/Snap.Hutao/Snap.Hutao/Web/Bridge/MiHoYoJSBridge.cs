@@ -24,7 +24,7 @@ namespace Snap.Hutao.Web.Bridge;
 [SuppressMessage("", "CA1001")]
 internal class MiHoYoJSBridge
 {
-    private const string InitializeJsInterfaceScript2 = """
+    private const string InitializeJsInterfaceScript = """
         window.MiHoYoJSInterface = {
             postMessage: function(arg) { chrome.webview.postMessage(arg) },
             closePage: function() { this.postMessage('{"method":"closePage"}') },
@@ -39,7 +39,6 @@ internal class MiHoYoJSBridge
 
     private const string ConvertMouseToTouchScript = """
         function mouseListener (e, event) {
-            console.log(event);
             let touch = new Touch({
                 identifier: Date.now(),
                 target: e.target,
@@ -57,7 +56,6 @@ internal class MiHoYoJSBridge
                 targetTouches: [touch],
                 changedTouches: [touch],
             });
-            console.log(touchEvent);
             e.target.dispatchEvent(touchEvent);
         }
 
@@ -530,7 +528,7 @@ internal class MiHoYoJSBridge
         ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
         if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
         {
-            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
+            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget(logger);
         }
     }
 }
