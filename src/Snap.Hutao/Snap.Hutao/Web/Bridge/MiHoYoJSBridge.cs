@@ -90,6 +90,9 @@ internal class MiHoYoJSBridge
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly ILogger<MiHoYoJSBridge> logger;
+    private readonly IInfoBarService infoBarService;
+    private readonly IClipboardProvider clipboardProvider;
+    private readonly HttpClient httpClient;
 
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2WebMessageReceivedEventArgs> webMessageReceivedEventHandler;
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2DOMContentLoadedEventArgs> domContentLoadedEventHandler;
@@ -106,6 +109,9 @@ internal class MiHoYoJSBridge
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSBridge>>();
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        clipboardProvider = serviceProvider.GetRequiredService<IClipboardProvider>();
+        httpClient = serviceProvider.GetRequiredService<HttpClient>();
 
         webMessageReceivedEventHandler = OnWebMessageReceived;
         domContentLoadedEventHandler = OnDOMContentLoaded;
@@ -370,79 +376,47 @@ internal class MiHoYoJSBridge
 
     protected virtual async ValueTask<IJsBridgeResult?> Share(JsParam<SharePayload> param)
     {
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        IClipboardProvider clipboardProvider = serviceProvider.GetRequiredService<IClipboardProvider>();
-
-        string shareType = param.Payload.Type;
-        ShareContent shareContent = param.Payload.Content;
-        if (shareType is "image")
+        if (param.Payload.Type is "image")
         {
-            if (shareContent.ImageUrl is not null)
+            if (param.Payload.Content.ImageUrl is { } imageUrl)
             {
-                using (HttpClient httpClient = new())
+                using (Stream stream = await httpClient.GetStreamAsync(imageUrl).ConfigureAwait(false))
                 {
-                    using (Stream stream = await httpClient.GetStreamAsync(shareContent.ImageUrl).ConfigureAwait(false))
+                    using (InMemoryRandomAccessStream origStream = new())
                     {
-                        using (InMemoryRandomAccessStream origStream = new())
+                        await stream.CopyToAsync(origStream.AsStreamForWrite()).ConfigureAwait(false);
+                        using (InMemoryRandomAccessStream imageStream = new())
                         {
-                            await stream.CopyToAsync(origStream.AsStreamForWrite()).ConfigureAwait(false);
-                            using (InMemoryRandomAccessStream imageStream = new())
+                            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, imageStream);
+                            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(origStream);
+                            encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
+                            await encoder.FlushAsync();
+                            await taskContext.SwitchToMainThreadAsync();
+                            if (clipboardProvider.SetBitmap(imageStream))
                             {
-                                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, imageStream);
-                                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(origStream);
-                                encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
-                                await encoder.FlushAsync();
-                                if (clipboardProvider.SetBitmap(imageStream))
-                                {
-                                    infoBarService.Success("复制成功", "图片已复制到剪贴板");
-                                }
-                                else
-                                {
-                                    infoBarService.Error("复制失败", string.Empty);
-                                }
+                                infoBarService.Success(SH.WebBridgeShareCopyToClipboardSuccess);
+                            }
+                            else
+                            {
+                                infoBarService.Error(SH.WebBridgeShareCopyToClipboardFailed);
                             }
                         }
                     }
                 }
             }
-            else if (shareContent.ImageBase64 is not null)
+            else if (param.Payload.Content.ImageBase64 is { } imageBase64)
             {
-                using (MemoryStream imageStream = new())
-                {
-                    await imageStream.WriteAsync(Convert.FromBase64String(shareContent.ImageBase64)).ConfigureAwait(false);
-                    if (clipboardProvider.SetBitmap(imageStream.AsRandomAccessStream()))
-                    {
-                        infoBarService.Success("复制成功", "图片已复制到剪贴板");
-                    }
-                    else
-                    {
-                        infoBarService.Error("复制失败", string.Empty);
-                    }
-                }
+                await ShareImageBase64CoreAsync(imageBase64).ConfigureAwait(false);
             }
         }
-        else if (shareType is "screenshot")
+        else if (param.Payload.Type is "screenshot")
         {
-            if (shareContent.Preview)
-            {
-                await taskContext.SwitchToMainThreadAsync();
-                string base64Json = await coreWebView2.CallDevToolsProtocolMethodAsync("Page.captureScreenshot", """{"format":"png","captureBeyondViewport":true}""");
-                string? base64 = JsonDocument.Parse(base64Json).RootElement.GetProperty("data").GetString();
-                ArgumentNullException.ThrowIfNull(base64);
+            await taskContext.SwitchToMainThreadAsync();
+            string base64Json = await coreWebView2.CallDevToolsProtocolMethodAsync("Page.captureScreenshot", """{"format":"png","captureBeyondViewport":true}""");
+            string? base64 = JsonDocument.Parse(base64Json).RootElement.GetProperty("data").GetString();
+            ArgumentNullException.ThrowIfNull(base64);
 
-                using (MemoryStream imageStream = new())
-                {
-                    await imageStream.WriteAsync(Convert.FromBase64String(base64)).ConfigureAwait(false);
-                    if (clipboardProvider.SetBitmap(imageStream.AsRandomAccessStream()))
-                    {
-                        infoBarService.Success("复制成功", "图片已复制到剪贴板");
-                    }
-                    else
-                    {
-                        infoBarService.Error("复制失败", string.Empty);
-                    }
-                }
-            }
+            await ShareImageBase64CoreAsync(base64).ConfigureAwait(false);
         }
 
         return new JsResult<Dictionary<string, string>>()
@@ -452,6 +426,30 @@ internal class MiHoYoJSBridge
                 ["type"] = param.Payload.Type,
             },
         };
+    }
+
+    private async ValueTask ShareImageBase64CoreAsync(string base64)
+    {
+        using (MemoryStream imageStream = new())
+        {
+            await imageStream.WriteAsync(Convert.FromBase64String(base64)).ConfigureAwait(false);
+            using (InMemoryRandomAccessStream stream = new())
+            {
+                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream.AsRandomAccessStream());
+                encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
+                await encoder.FlushAsync();
+                await taskContext.SwitchToMainThreadAsync();
+                if (clipboardProvider.SetBitmap(stream))
+                {
+                    infoBarService.Success(SH.WebBridgeShareCopyToClipboardSuccess);
+                }
+                else
+                {
+                    infoBarService.Error(SH.WebBridgeShareCopyToClipboardFailed);
+                }
+            }
+        }
     }
 
     protected virtual ValueTask<IJsBridgeResult?> ShowAlertDialogAsync(JsParam param)
