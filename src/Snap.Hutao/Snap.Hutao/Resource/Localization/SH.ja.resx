@@ -1271,6 +1271,12 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>MiHoYo BBS を使用して QR コードをスキャンします</value>
   </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>请输入你正在启用的功能标题</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>你正在启用一个危险功能</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>この操作は取り消せません。すべてのユーザーのログイン状態が解除されます。</value>
   </data>
@@ -1573,6 +1579,12 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>デスクトップへのショートカット作成に失敗しました</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
+    <value>后续转换会重新下载所需的文件，确定要删除吗？</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
+    <value>删除转换服务器游戏客户端缓存</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>使用済みディスク容量: {0}</value>
@@ -2192,6 +2204,12 @@
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>有効</value>
   </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>HDRをサポートするディスプレイを活用して、より明るく鮮やかなグラフィックを実現します。</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
+  </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>HoYoLab UIDを入力してください</value>
   </data>
@@ -2564,6 +2582,12 @@
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
     <value>デバッグコンソール</value>
   </data>
+  <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
+    <value>在启动游戏中转换服务器后会产生对应的游戏客户端文件用作缓存</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
+    <value>删除转换服务器缓存</value>
+  </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>フォルダを開く</value>
   </data>
@@ -2746,6 +2770,9 @@
   </data>
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
     <value>{0} 時間後に終了</value>
+  </data>
+  <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
+    <value>打开剪贴板失败</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>クリップボードにコピーしました。</value>
