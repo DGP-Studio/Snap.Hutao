@@ -29,6 +29,11 @@ internal sealed partial class GameAccountService : IGameAccountService
     {
         ArgumentNullException.ThrowIfNull(gameAccounts);
 
+        if (schemeType is SchemeType.ChineseBilibili)
+        {
+            return default;
+        }
+
         string? registrySdk = RegistryInterop.Get(schemeType);
         if (string.IsNullOrEmpty(registrySdk))
         {
@@ -61,6 +66,11 @@ internal sealed partial class GameAccountService : IGameAccountService
     public GameAccount? DetectCurrentGameAccount(SchemeType schemeType)
     {
         ArgumentNullException.ThrowIfNull(gameAccounts);
+
+        if (schemeType is SchemeType.ChineseBilibili)
+        {
+            return default;
+        }
 
         string? registrySdk = RegistryInterop.Get(schemeType);
 
