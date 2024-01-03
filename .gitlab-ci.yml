@@ -1,6 +1,7 @@
 stages:
   - fetch
   - release
+  - refresh
 
 Fetch:
   stage: fetch
@@ -60,3 +61,13 @@ release:
         - name: "$THIS_SHA256SUMS_NAME"
           url: "https://$CI_SERVER_SHELL_SSH_HOST/$CI_PROJECT_PATH/-/jobs/$THIS_JOB_ID/artifacts/raw/$THIS_SHA256SUMS_NAME?inline=false"
           link_type: other
+          
+Refresh:
+  stage: refresh
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs:
+    - job: release
+  script:
+    - apt-get install -y curl
+    - curl -X PATCH $PURGE_URL
