@@ -268,6 +268,26 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("DeleteServerCacheFolderCommand")]
+    private async Task DeleteServerCacheFolderAsync()
+    {
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            SH.ViewModelSettingDeleteServerCacheFolderTitle,
+            SH.ViewModelSettingDeleteServerCacheFolderContent)
+            .ConfigureAwait(false);
+
+        if (result is ContentDialogResult.Primary)
+        {
+            string cacheFolder = runtimeOptions.GetDataFolderServerCacheFolder();
+            if (Directory.Exists(cacheFolder))
+            {
+                Directory.Delete(cacheFolder, true);
+            }
+
+            infoBarService.Information(SH.ViewModelSettingActionComplete);
+        }
+    }
+
     [Command("CopyDeviceIdCommand")]
     private void CopyDeviceId()
     {

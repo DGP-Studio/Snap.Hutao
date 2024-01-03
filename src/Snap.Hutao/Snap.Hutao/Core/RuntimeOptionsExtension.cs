@@ -13,4 +13,9 @@ internal static class RuntimeOptionsExtension
         Directory.CreateDirectory(directory);
         return Path.Combine(directory, fileName);
     }
+
+    public static string GetDataFolderServerCacheFolder(this RuntimeOptions options)
+    {
+        return Path.Combine(options.DataFolder, "ServerCache");
+    }
 }

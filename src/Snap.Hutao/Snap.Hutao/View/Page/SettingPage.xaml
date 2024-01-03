@@ -374,6 +374,12 @@
                             Description="{shcm:ResourceString Name=ViewPageSettingSetDataFolderDescription}"
                             Header="{shcm:ResourceString Name=ViewPageSettingSetDataFolderHeader}"
                             IsClickEnabled="True"/>
+                        <cwc:SettingsCard
+                            ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
+                            Command="{Binding DeleteServerCacheFolderCommand}"
+                            Description="{shcm:ResourceString Name=ViewSettingDeleteServerCacheFolderDescription}"
+                            Header="{shcm:ResourceString Name=ViewSettingDeleteServerCacheFolderHeader}"
+                            IsClickEnabled="True"/>
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
                 <cwc:SettingsExpander
