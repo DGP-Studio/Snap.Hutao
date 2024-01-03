@@ -1271,6 +1271,12 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>使用米游社扫描二维码</value>
   </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>请输入你正在启用的功能标题</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>你正在启用一个危险功能</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>该操作是不可逆的，所有用户登录状态会丢失</value>
   </data>
@@ -1573,6 +1579,12 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>创建桌面快捷方式失败</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
+    <value>后续转换会重新下载所需的文件，确定要删除吗？</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
+    <value>删除转换服务器游戏客户端缓存</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>已使用磁盘空间：{0}</value>
@@ -2192,6 +2204,12 @@
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>启用</value>
   </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>充分利用支持高动态范围的显示器获得更亮、更生动、更精细的画面</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
+  </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>请输入你的 HoYoLab Uid</value>
   </data>
@@ -2564,6 +2582,12 @@
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
     <value>调试控制台</value>
   </data>
+  <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
+    <value>在启动游戏中转换服务器后会产生对应的游戏客户端文件用作缓存</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
+    <value>删除转换服务器缓存</value>
+  </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>打开文件夹</value>
   </data>
@@ -2746,6 +2770,9 @@
   </data>
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
     <value>{0} 小时后结束</value>
+  </data>
+  <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
+    <value>打开剪贴板失败</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>已复制到剪贴板</value>
