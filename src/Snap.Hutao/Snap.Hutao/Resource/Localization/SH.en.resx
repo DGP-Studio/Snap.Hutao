@@ -121,7 +121,7 @@
     <value>Snap Hutao Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>Snap Hutao Dev {0} [Administrator]</value>
+    <value>胡桃Dev {0} [管理员]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
     <value>Snap Hutao {0} [Administrator]</value>
@@ -1271,6 +1271,12 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>Scan the QR code with MiHoYo BBS App</value>
   </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>Please Enter Title of Feature You Are Enabling</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>You are Enabling a Dangerous Feature</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>This action is irreversible, and all user login status will be lost</value>
   </data>
@@ -1573,6 +1579,12 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>Failed to create desktop shortcut</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
+    <value>You will need to re-download needed files, are you sure to delete?</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
+    <value>Delete Sever Conversion Client Cache</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>Used disk space: {0}</value>
@@ -2192,6 +2204,12 @@
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>Enabled</value>
   </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>Take advantage of displays that support HDR for brighter, more vivid, and more detailed pictures</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
+  </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>Enter your HoYoLab UID</value>
   </data>
@@ -2564,6 +2582,12 @@
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
     <value>Debug Console</value>
   </data>
+  <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
+    <value>Cache file are downloaded for server conversion in Game Launcher</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
+    <value>Delete Server Conversion Cache</value>
+  </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>Open Folder</value>
   </data>
@@ -2746,6 +2770,9 @@
   </data>
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
     <value>End in {0} hours</value>
+  </data>
+  <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
+    <value>Failed to open clipboard</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>Copied to clipboard</value>
