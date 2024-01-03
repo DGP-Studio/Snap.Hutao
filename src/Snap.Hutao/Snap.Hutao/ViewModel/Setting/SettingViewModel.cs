@@ -122,11 +122,56 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
 
-    [SuppressMessage("", "CA1822")]
     public bool IsAllocConsoleDebugModeEnabled
     {
         get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
-        set => LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, value);
+        set
+        {
+            ConfirmSetIsAllocConsoleDebugModeEnabledAsync(value).SafeForget();
+
+            async ValueTask ConfirmSetIsAllocConsoleDebugModeEnabledAsync(bool value)
+            {
+                if (value)
+                {
+                    ReconfirmDialog dialog = await contentDialogFactory.CreateInstanceAsync<ReconfirmDialog>().ConfigureAwait(false);
+                    if (await dialog.ConfirmAsync(SH.ViewSettingAllocConsoleHeader).ConfigureAwait(true))
+                    {
+                        LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, true);
+                        OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                        return;
+                    }
+                }
+
+                LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
+                OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+            }
+        }
+    }
+
+    public bool IsAdvancedLaunchOptionsEnabled
+    {
+        get => launchOptions.IsAdvancedLaunchOptionsEnabled;
+        set
+        {
+            ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(value).SafeForget();
+
+            async ValueTask ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(bool value)
+            {
+                if (value)
+                {
+                    ReconfirmDialog dialog = await contentDialogFactory.CreateInstanceAsync<ReconfirmDialog>().ConfigureAwait(false);
+                    if (await dialog.ConfirmAsync(SH.ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader).ConfigureAwait(true))
+                    {
+                        launchOptions.IsAdvancedLaunchOptionsEnabled = true;
+                        OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                        return;
+                    }
+                }
+
+                launchOptions.IsAdvancedLaunchOptionsEnabled = false;
+                OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+            }
+        }
     }
 
     protected override async ValueTask<bool> InitializeUIAsync()

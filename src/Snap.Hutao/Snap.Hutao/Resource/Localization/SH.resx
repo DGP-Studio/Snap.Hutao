@@ -1271,6 +1271,12 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>使用米游社扫描二维码</value>
   </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>请输入你正在启用的功能标题</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>你正在启用一个危险功能</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>该操作是不可逆的，所有用户登录状态会丢失</value>
   </data>
@@ -2415,7 +2421,7 @@
     <value>在完整阅读原神和胡桃工具箱用户协议后，我选择启用「启动游戏-高级功能」</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
-    <value>启动高级功能</value>
+    <value>启用高级功能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
     <value>更改自动连点功能的快捷键</value>

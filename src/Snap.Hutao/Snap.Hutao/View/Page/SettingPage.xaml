@@ -376,7 +376,6 @@
                             IsClickEnabled="True"/>
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
-
                 <cwc:SettingsExpander
                     Description="{Binding CacheFolderView.Size}"
                     Header="{shcm:ResourceString Name=ViewPageSettingCacheFolderHeader}"
@@ -408,7 +407,6 @@
                     HeaderIcon="{cw:FontIcon Glyph=&#xE756;}">
                     <ToggleSwitch Width="120" IsOn="{Binding IsAllocConsoleDebugModeEnabled, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
-
                 <cwc:SettingsCard
                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}"
@@ -424,7 +422,7 @@
                     </cwc:SettingsCard.Description>
                     <StackPanel Orientation="Horizontal">
                         <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                        <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
+                        <ToggleSwitch Width="120" IsOn="{Binding IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                     </StackPanel>
                 </cwc:SettingsCard>
                 <cwc:SettingsCard
