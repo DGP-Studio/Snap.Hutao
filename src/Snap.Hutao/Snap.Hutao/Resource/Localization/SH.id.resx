@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -119,6 +119,12 @@
   </resheader>
   <data name="AppDevNameAndVersion" xml:space="preserve">
     <value>Snap Hutao Dev {0}</value>
+  </data>
+  <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao Dev {0} [Administrator]</value>
+  </data>
+  <data name="AppElevatedNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao {0} [Administrator]</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>Snap Hutao</value>
@@ -990,7 +996,7 @@
     <value>Versi UIGF tidak didukung</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
-    <value>发现新版本 {0}</value>
+    <value>Versi terbau {0} sudah tersedia.</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>Beberapa pengguna tercatat sebagai dipilih</value>
@@ -1547,6 +1553,9 @@
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>Gagal ganti akun game</value>
   </data>
+  <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
+    <value>Tidak bisa memilih akun [{1}] dengan UID [{0}], Akun itu tidak berada pada server tersebut</value>
+  </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Tindakan selesai</value>
   </data>
@@ -2091,7 +2100,7 @@
     <value>Mengatur Status Aktivitas Discord Saya Ketika Saya Sedang Bermain Game</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
-    <value>Discord Activity</value>
+    <value>Aktifitas Discord</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>Berkas</value>
@@ -2137,6 +2146,9 @@
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>Prapengunduhan</value>
+  </data>
+  <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
+    <value>Pilih Path Game</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>Akun ini belum terikat ke UID notifikasi Catatan Realtime.</value>
@@ -2269,6 +2281,15 @@
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>ID Perangkat</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>Mode administrator akan mengubah ketersediaan dan perilaku beberapa fitur</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>Mode Admin</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>Restart menggunakan Mode Administrator</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>Tampilkan atau sembunyikan acara keinginan tanpa riwayat Wish</value>
@@ -2613,10 +2634,10 @@
     <value>Mengunggah Data</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
-    <value>是否立即安装？</value>
+    <value>Pasang sekarang?</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本已准备就绪</value>
+    <value>Snap Hutao versi {0} sudah siap</value>
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>Auto Click</value>
@@ -2728,6 +2749,15 @@
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>Disalin ke clipboard</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
+    <value>Selesai</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusNotOpen" xml:space="preserve">
+    <value>Terkunci</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusOngoing" xml:space="preserve">
+    <value>Dalam proses</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
     <value>Selesai</value>
@@ -2874,7 +2904,7 @@
     <value>Server Internasional Server Asia</value>
   </data>
   <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
-    <value>国际服 港澳台服</value>
+    <value>Server International: Server TW/HK/MU</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
     <value>Server Internasional Server Eropa</value>
