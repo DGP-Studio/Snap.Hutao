@@ -70,4 +70,4 @@ Refresh:
     - job: release
   script:
     - apt-get install -y curl
-    - curl -X PATCH $PURGE_URL
+    - curl -X PATCH "$PURGE_URL"

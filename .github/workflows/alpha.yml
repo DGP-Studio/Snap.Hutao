@@ -12,6 +12,7 @@ on:
       - '.gitmodules'
       - '**.md'
       - 'LICENSE'
+      - '**.yml'
 
 jobs:
   build:
