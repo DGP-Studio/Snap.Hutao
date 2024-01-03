@@ -11,10 +11,6 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.Control.Image.Implementation;
 
-internal delegate void ImageExFailedEventHandler(object sender, ImageExFailedEventArgs e);
-
-internal delegate void ImageExOpenedEventHandler(object sender, ImageExOpenedEventArgs e);
-
 [SuppressMessage("", "CA1001")]
 [SuppressMessage("", "SH003")]
 [TemplateVisualState(Name = LoadingState, GroupName = CommonGroup)]
@@ -22,97 +18,33 @@ internal delegate void ImageExOpenedEventHandler(object sender, ImageExOpenedEve
 [TemplateVisualState(Name = UnloadedState, GroupName = CommonGroup)]
 [TemplateVisualState(Name = FailedState, GroupName = CommonGroup)]
 [TemplatePart(Name = PartImage, Type = typeof(object))]
-internal abstract class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlphaMaskProvider
+[TemplatePart(Name = PartPlaceholderImage, Type = typeof(object))]
+[DependencyProperty("Stretch", typeof(Stretch), Stretch.Uniform)]
+[DependencyProperty("DecodePixelHeight", typeof(int), 0)]
+[DependencyProperty("DecodePixelWidth", typeof(int), 0)]
+[DependencyProperty("DecodePixelType", typeof(DecodePixelType), DecodePixelType.Physical)]
+[DependencyProperty("IsCacheEnabled", typeof(bool), false)]
+[DependencyProperty("EnableLazyLoading", typeof(bool), false, nameof(EnableLazyLoadingChanged))]
+[DependencyProperty("LazyLoadingThreshold", typeof(double), default(double), nameof(LazyLoadingThresholdChanged))]
+[DependencyProperty("PlaceholderSource", typeof(object), default(object))]
+[DependencyProperty("PlaceholderStretch", typeof(Stretch), Stretch.Uniform)]
+[DependencyProperty("PlaceholderMargin", typeof(Thickness))]
+[DependencyProperty("Source", typeof(object), default(object), nameof(SourceChanged))]
+internal abstract partial class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlphaMaskProvider
 {
     protected const string PartImage = "Image";
+    protected const string PartPlaceholderImage = "PlaceholderImage";
     protected const string CommonGroup = "CommonStates";
     protected const string LoadingState = "Loading";
     protected const string LoadedState = "Loaded";
     protected const string UnloadedState = "Unloaded";
     protected const string FailedState = "Failed";
 
-    private static readonly DependencyProperty StretchProperty = DependencyProperty.Register(nameof(Stretch), typeof(Stretch), typeof(ImageExBase), new PropertyMetadata(Stretch.Uniform));
-    private static readonly DependencyProperty DecodePixelHeightProperty = DependencyProperty.Register(nameof(DecodePixelHeight), typeof(int), typeof(ImageExBase), new PropertyMetadata(0));
-    private static readonly DependencyProperty DecodePixelTypeProperty = DependencyProperty.Register(nameof(DecodePixelType), typeof(int), typeof(ImageExBase), new PropertyMetadata(DecodePixelType.Physical));
-    private static readonly DependencyProperty DecodePixelWidthProperty = DependencyProperty.Register(nameof(DecodePixelWidth), typeof(int), typeof(ImageExBase), new PropertyMetadata(0));
-    private static readonly DependencyProperty IsCacheEnabledProperty = DependencyProperty.Register(nameof(IsCacheEnabled), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false));
-    private static readonly DependencyProperty EnableLazyLoadingProperty = DependencyProperty.Register(nameof(EnableLazyLoading), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false, EnableLazyLoadingChanged));
-    private static readonly DependencyProperty LazyLoadingThresholdProperty = DependencyProperty.Register(nameof(LazyLoadingThreshold), typeof(double), typeof(ImageExBase), new PropertyMetadata(default(double), LazyLoadingThresholdChanged));
-    private static readonly DependencyProperty PlaceholderSourceProperty = DependencyProperty.Register(nameof(PlaceholderSource), typeof(ImageSource), typeof(ImageExBase), new PropertyMetadata(default(ImageSource), PlaceholderSourceChanged));
-    private static readonly DependencyProperty PlaceholderStretchProperty = DependencyProperty.Register(nameof(PlaceholderStretch), typeof(Stretch), typeof(ImageExBase), new PropertyMetadata(default(Stretch)));
-    private static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageExBase), new PropertyMetadata(null, SourceChanged));
-
     private CancellationTokenSource? tokenSource;
     private object? lazyLoadingSource;
     private bool isInViewport;
 
-    public event ImageExFailedEventHandler? ImageExFailed;
-
-    public event ImageExOpenedEventHandler? ImageExOpened;
-
-    public event EventHandler? ImageExInitialized;
-
     public bool IsInitialized { get; private set; }
-
-    public int DecodePixelHeight
-    {
-        get => (int)GetValue(DecodePixelHeightProperty);
-        set => SetValue(DecodePixelHeightProperty, value);
-    }
-
-    public DecodePixelType DecodePixelType
-    {
-        get => (DecodePixelType)GetValue(DecodePixelTypeProperty);
-        set => SetValue(DecodePixelTypeProperty, value);
-    }
-
-    public int DecodePixelWidth
-    {
-        get => (int)GetValue(DecodePixelWidthProperty);
-        set => SetValue(DecodePixelWidthProperty, value);
-    }
-
-    public Stretch Stretch
-    {
-        get => (Stretch)GetValue(StretchProperty);
-        set => SetValue(StretchProperty, value);
-    }
-
-    public bool IsCacheEnabled
-    {
-        get => (bool)GetValue(IsCacheEnabledProperty);
-        set => SetValue(IsCacheEnabledProperty, value);
-    }
-
-    public bool EnableLazyLoading
-    {
-        get => (bool)GetValue(EnableLazyLoadingProperty);
-        set => SetValue(EnableLazyLoadingProperty, value);
-    }
-
-    public double LazyLoadingThreshold
-    {
-        get => (double)GetValue(LazyLoadingThresholdProperty);
-        set => SetValue(LazyLoadingThresholdProperty, value);
-    }
-
-    public ImageSource PlaceholderSource
-    {
-        get => (ImageSource)GetValue(PlaceholderSourceProperty);
-        set => SetValue(PlaceholderSourceProperty, value);
-    }
-
-    public Stretch PlaceholderStretch
-    {
-        get => (Stretch)GetValue(PlaceholderStretchProperty);
-        set => SetValue(PlaceholderStretchProperty, value);
-    }
-
-    public object Source
-    {
-        get => GetValue(SourceProperty);
-        set => SetValue(SourceProperty, value);
-    }
 
     public bool WaitUntilLoaded
     {
@@ -121,11 +53,9 @@ internal abstract class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlpha
 
     protected object? Image { get; private set; }
 
-    public abstract CompositionBrush GetAlphaMask();
+    protected object? PlaceholderImage { get; private set; }
 
-    protected virtual void OnPlaceholderSourceChanged(DependencyPropertyChangedEventArgs e)
-    {
-    }
+    public abstract CompositionBrush GetAlphaMask();
 
     protected virtual Task<ImageSource?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
@@ -136,61 +66,11 @@ internal abstract class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlpha
     protected virtual void OnImageOpened(object sender, RoutedEventArgs e)
     {
         VisualStateManager.GoToState(this, LoadedState, true);
-        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
     }
 
     protected virtual void OnImageFailed(object sender, ExceptionRoutedEventArgs e)
     {
         VisualStateManager.GoToState(this, FailedState, true);
-        ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new FileNotFoundException(e.ErrorMessage)));
-    }
-
-    protected void AttachImageOpened(RoutedEventHandler handler)
-    {
-        if (Image is Microsoft.UI.Xaml.Controls.Image image)
-        {
-            image.ImageOpened += handler;
-        }
-        else if (Image is ImageBrush brush)
-        {
-            brush.ImageOpened += handler;
-        }
-    }
-
-    protected void RemoveImageOpened(RoutedEventHandler handler)
-    {
-        if (Image is Microsoft.UI.Xaml.Controls.Image image)
-        {
-            image.ImageOpened -= handler;
-        }
-        else if (Image is ImageBrush brush)
-        {
-            brush.ImageOpened -= handler;
-        }
-    }
-
-    protected void AttachImageFailed(ExceptionRoutedEventHandler handler)
-    {
-        if (Image is Microsoft.UI.Xaml.Controls.Image image)
-        {
-            image.ImageFailed += handler;
-        }
-        else if (Image is ImageBrush brush)
-        {
-            brush.ImageFailed += handler;
-        }
-    }
-
-    protected void RemoveImageFailed(ExceptionRoutedEventHandler handler)
-    {
-        if (Image is Microsoft.UI.Xaml.Controls.Image image)
-        {
-            image.ImageFailed -= handler;
-        }
-        else if (Image is ImageBrush brush)
-        {
-            brush.ImageFailed -= handler;
-        }
     }
 
     protected override void OnApplyTemplate()
@@ -199,10 +79,9 @@ internal abstract class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlpha
         RemoveImageFailed(OnImageFailed);
 
         Image = GetTemplateChild(PartImage);
+        PlaceholderImage = GetTemplateChild(PartPlaceholderImage);
 
         IsInitialized = true;
-
-        ImageExInitialized?.Invoke(this, EventArgs.Empty);
 
         if (Source is null || !EnableLazyLoading || isInViewport)
         {
@@ -218,23 +97,73 @@ internal abstract class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlpha
         AttachImageFailed(OnImageFailed);
 
         base.OnApplyTemplate();
+
+        void AttachImageOpened(RoutedEventHandler handler)
+        {
+            if (Image is Microsoft.UI.Xaml.Controls.Image image)
+            {
+                image.ImageOpened += handler;
+            }
+            else if (Image is ImageBrush brush)
+            {
+                brush.ImageOpened += handler;
+            }
+        }
+
+        void AttachImageFailed(ExceptionRoutedEventHandler handler)
+        {
+            if (Image is Microsoft.UI.Xaml.Controls.Image image)
+            {
+                image.ImageFailed += handler;
+            }
+            else if (Image is ImageBrush brush)
+            {
+                brush.ImageFailed += handler;
+            }
+        }
+
+        void RemoveImageOpened(RoutedEventHandler handler)
+        {
+            if (Image is Microsoft.UI.Xaml.Controls.Image image)
+            {
+                image.ImageOpened -= handler;
+            }
+            else if (Image is ImageBrush brush)
+            {
+                brush.ImageOpened -= handler;
+            }
+        }
+
+        void RemoveImageFailed(ExceptionRoutedEventHandler handler)
+        {
+            if (Image is Microsoft.UI.Xaml.Controls.Image image)
+            {
+                image.ImageFailed -= handler;
+            }
+            else if (Image is ImageBrush brush)
+            {
+                brush.ImageFailed -= handler;
+            }
+        }
     }
 
     private static void EnableLazyLoadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is ImageExBase control)
+        if (d is not ImageExBase control)
         {
-            bool value = (bool)e.NewValue;
-            if (value)
-            {
-                control.LayoutUpdated += control.ImageExBase_LayoutUpdated;
+            return;
+        }
 
-                control.InvalidateLazyLoading();
-            }
-            else
-            {
-                control.LayoutUpdated -= control.ImageExBase_LayoutUpdated;
-            }
+        bool value = (bool)e.NewValue;
+        if (value)
+        {
+            control.LayoutUpdated += control.OnImageExBaseLayoutUpdated;
+
+            control.InvalidateLazyLoading();
+        }
+        else
+        {
+            control.LayoutUpdated -= control.OnImageExBaseLayoutUpdated;
         }
     }
 
@@ -246,14 +175,6 @@ internal abstract class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlpha
         }
     }
 
-    private static void PlaceholderSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is ImageExBase control)
-        {
-            control.OnPlaceholderSourceChanged(e);
-        }
-    }
-
     private static void SourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not ImageExBase control)
@@ -261,17 +182,19 @@ internal abstract class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlpha
             return;
         }
 
-        if (e.OldValue is null || e.NewValue is null || !e.OldValue.Equals(e.NewValue))
+        if (e.OldValue is not null && e.NewValue is not null && e.OldValue.Equals(e.NewValue))
         {
-            if (e.NewValue is null || !control.EnableLazyLoading || control.isInViewport)
-            {
-                control.lazyLoadingSource = null;
-                control.SetSource(e.NewValue);
-            }
-            else
-            {
-                control.lazyLoadingSource = e.NewValue;
-            }
+            return;
+        }
+
+        if (e.NewValue is null || !control.EnableLazyLoading || control.isInViewport)
+        {
+            control.lazyLoadingSource = null;
+            control.SetSource(e.NewValue);
+        }
+        else
+        {
+            control.lazyLoadingSource = e.NewValue;
         }
     }
 
@@ -301,11 +224,24 @@ internal abstract class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlpha
         else if (source is BitmapSource { PixelHeight: > 0, PixelWidth: > 0 })
         {
             VisualStateManager.GoToState(this, LoadedState, true);
-            ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
         }
     }
 
-    [SuppressMessage("", "IDE0019")]
+    private void AttachPlaceholderSource(ImageSource? source)
+    {
+        // Setting the source at this point should call ImageExOpened/VisualStateManager.GoToState
+        // as we register to both the ImageOpened/ImageFailed events of the underlying control.
+        // We only need to call those methods if we fail in other cases before we get here.
+        if (PlaceholderImage is Microsoft.UI.Xaml.Controls.Image image)
+        {
+            image.Source = source;
+        }
+        else if (PlaceholderImage is ImageBrush brush)
+        {
+            brush.ImageSource = source;
+        }
+    }
+
     private async void SetSource(object? source)
     {
         if (!IsInitialized)
@@ -326,22 +262,19 @@ internal abstract class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlpha
 
         VisualStateManager.GoToState(this, LoadingState, true);
 
-        ImageSource? imageSource = source as ImageSource;
-        if (imageSource is not null)
+        if (source as ImageSource is { } imageSource)
         {
             AttachSource(imageSource);
 
             return;
         }
 
-        Uri? uri = source as Uri;
-        if (uri is null)
+        if (source as Uri is not { } uri)
         {
             string? url = source as string ?? source.ToString();
             if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri))
             {
                 VisualStateManager.GoToState(this, FailedState, true);
-                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new UriFormatException("Invalid uri specified.")));
                 return;
             }
         }
@@ -355,61 +288,131 @@ internal abstract class ImageExBase : Microsoft.UI.Xaml.Controls.Control, IAlpha
         {
             await LoadImageAsync(uri, tokenSource.Token).ConfigureAwait(true);
         }
+        catch (Exception ex)
+        {
+            SetPlaceholderSource(PlaceholderSource);
+
+            if (ex is OperationCanceledException)
+            {
+                // nothing to do as cancellation has been requested.
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, FailedState, true);
+            }
+        }
+    }
+
+    private async void SetPlaceholderSource(object? source)
+    {
+        if (!IsInitialized)
+        {
+            return;
+        }
+
+        tokenSource?.Cancel();
+
+        tokenSource = new CancellationTokenSource();
+
+        AttachPlaceholderSource(null);
+
+        if (source is null)
+        {
+            return;
+        }
+
+        if (source as ImageSource is { } imageSource)
+        {
+            AttachPlaceholderSource(imageSource);
+
+            return;
+        }
+
+        if (source as Uri is not { } uri)
+        {
+            string? url = source as string ?? source.ToString();
+            if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri))
+            {
+                return;
+            }
+        }
+
+        if (!IsHttpUri(uri) && !uri.IsAbsoluteUri)
+        {
+            uri = new Uri("ms-appx:///" + uri.OriginalString.TrimStart('/'));
+        }
+
+        try
+        {
+            if (uri is null)
+            {
+                return;
+            }
+
+            ImageSource? img = await ProvideCachedResourceAsync(uri, tokenSource.Token).ConfigureAwait(true);
+
+            ArgumentNullException.ThrowIfNull(tokenSource);
+            if (!tokenSource.IsCancellationRequested)
+            {
+                // Only attach our image if we still have a valid request.
+                AttachPlaceholderSource(img);
+            }
+        }
         catch (OperationCanceledException)
         {
             // nothing to do as cancellation has been requested.
         }
-        catch (Exception e)
+        catch
         {
-            VisualStateManager.GoToState(this, FailedState, true);
-            ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
         }
     }
 
     private async Task LoadImageAsync(Uri imageUri, CancellationToken token)
     {
-        if (imageUri is not null)
+        if (imageUri is null)
         {
-            if (IsCacheEnabled)
+            return;
+        }
+
+        if (IsCacheEnabled)
+        {
+            ImageSource? img = await ProvideCachedResourceAsync(imageUri, token).ConfigureAwait(true);
+
+            ArgumentNullException.ThrowIfNull(tokenSource);
+            if (!tokenSource.IsCancellationRequested)
             {
-                ImageSource? img = await ProvideCachedResourceAsync(imageUri, token).ConfigureAwait(true);
+                // Only attach our image if we still have a valid request.
+                AttachSource(img);
+            }
+        }
+        else if (string.Equals(imageUri.Scheme, "data", StringComparison.OrdinalIgnoreCase))
+        {
+            string source = imageUri.OriginalString;
+            const string base64Head = "base64,";
+            int index = source.IndexOf(base64Head, StringComparison.Ordinal);
+            if (index >= 0)
+            {
+                byte[] bytes = Convert.FromBase64String(source[(index + base64Head.Length)..]);
+                BitmapImage bitmap = new();
+                await bitmap.SetSourceAsync(new MemoryStream(bytes).AsRandomAccessStream());
 
                 ArgumentNullException.ThrowIfNull(tokenSource);
                 if (!tokenSource.IsCancellationRequested)
                 {
-                    // Only attach our image if we still have a valid request.
-                    AttachSource(img);
+                    AttachSource(bitmap);
                 }
             }
-            else if (string.Equals(imageUri.Scheme, "data", StringComparison.OrdinalIgnoreCase))
+        }
+        else
+        {
+            AttachSource(new BitmapImage(imageUri)
             {
-                string source = imageUri.OriginalString;
-                const string base64Head = "base64,";
-                int index = source.IndexOf(base64Head, StringComparison.Ordinal);
-                if (index >= 0)
-                {
-                    byte[] bytes = Convert.FromBase64String(source[(index + base64Head.Length)..]);
-                    BitmapImage bitmap = new();
-                    await bitmap.SetSourceAsync(new MemoryStream(bytes).AsRandomAccessStream());
-
-                    ArgumentNullException.ThrowIfNull(tokenSource);
-                    if (!tokenSource.IsCancellationRequested)
-                    {
-                        AttachSource(bitmap);
-                    }
-                }
-            }
-            else
-            {
-                AttachSource(new BitmapImage(imageUri)
-                {
-                    CreateOptions = BitmapCreateOptions.IgnoreImageCache,
-                });
-            }
+                CreateOptions = BitmapCreateOptions.IgnoreImageCache,
+            });
         }
     }
 
-    private void ImageExBase_LayoutUpdated(object? sender, object e)
+    private void OnImageExBaseLayoutUpdated(object? sender, object e)
     {
         InvalidateLazyLoading();
     }

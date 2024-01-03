@@ -34,21 +34,6 @@ internal readonly struct ChannelOptions
     /// </summary>
     public readonly string? ConfigFilePath;
 
-    /// <summary>
-    /// 构造一个新的多通道
-    /// </summary>
-    /// <param name="channel">通道</param>
-    /// <param name="subChannel">子通道</param>
-    /// <param name="isOversea">是否为国际服</param>
-    /// <param name="configFilePath">配置文件路径</param>
-    public ChannelOptions(string? channel, string? subChannel, bool isOversea, string? configFilePath = null)
-    {
-        _ = Enum.TryParse(channel, out Channel);
-        _ = Enum.TryParse(subChannel, out SubChannel);
-        IsOversea = isOversea;
-        ConfigFilePath = configFilePath;
-    }
-
     public ChannelOptions(ChannelType channel, SubChannelType subChannel, bool isOversea)
     {
         Channel = channel;
@@ -56,24 +41,33 @@ internal readonly struct ChannelOptions
         IsOversea = isOversea;
     }
 
-    /// <summary>
-    /// 配置文件未找到
-    /// </summary>
-    /// <param name="isOversea">是否为国际服</param>
-    /// <param name="configFilePath">配置文件期望路径</param>
-    /// <returns>选项</returns>
+    public ChannelOptions(string? channel, string? subChannel, bool isOversea)
+    {
+        _ = Enum.TryParse(channel, out Channel);
+        _ = Enum.TryParse(subChannel, out SubChannel);
+        IsOversea = isOversea;
+    }
+
+    private ChannelOptions(bool isOversea, string? configFilePath)
+    {
+        IsOversea = isOversea;
+        ConfigFilePath = configFilePath;
+    }
+
     public static ChannelOptions FileNotFound(bool isOversea, string configFilePath)
     {
-        return new(null, null, isOversea, configFilePath);
+        return new(isOversea, configFilePath);
     }
 
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"[ChannelType:{Channel}] [SubChannel:{SubChannel}] [IsOversea: {IsOversea}]";
+        return $$"""
+            { ChannelType: {{Channel}}, SubChannel: {{SubChannel}}, IsOversea: {{IsOversea}}}
+            """;
     }
 
-    // DO NOT DELETE used in HashSet
+    // DO NOT DELETE, used in HashSet
     public override int GetHashCode()
     {
         return HashCode.Combine(Channel, SubChannel, IsOversea);

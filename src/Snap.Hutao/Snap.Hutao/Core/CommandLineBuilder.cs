@@ -18,11 +18,11 @@ internal sealed class CommandLineBuilder
     /// <summary>
     /// 当符合条件时添加参数
     /// </summary>
-    /// <param name="name">参数名称</param>
     /// <param name="condition">条件</param>
+    /// <param name="name">参数名称</param>
     /// <param name="value">值</param>
     /// <returns>命令行建造器</returns>
-    public CommandLineBuilder AppendIf(string name, bool condition, object? value = null)
+    public CommandLineBuilder AppendIf(bool condition, string name, object? value = null)
     {
         return condition ? Append(name, value) : this;
     }
@@ -35,7 +35,7 @@ internal sealed class CommandLineBuilder
     /// <returns>命令行建造器</returns>
     public CommandLineBuilder AppendIfNotNull(string name, object? value = null)
     {
-        return AppendIf(name, value is not null, value);
+        return AppendIf(value is not null, name, value);
     }
 
     /// <summary>

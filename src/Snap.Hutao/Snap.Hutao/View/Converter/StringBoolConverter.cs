@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Converters;
-using Snap.Hutao.Control;
 
 namespace Snap.Hutao.View.Converter;
 

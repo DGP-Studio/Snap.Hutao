@@ -120,6 +120,12 @@
   <data name="AppDevNameAndVersion" xml:space="preserve">
     <value>호두 Dev {0}</value>
   </data>
+  <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
+    <value>胡桃Dev {0} [管理员]</value>
+  </data>
+  <data name="AppElevatedNameAndVersion" xml:space="preserve">
+    <value>胡桃 {0} [管理员]</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>호두</value>
   </data>
@@ -185,9 +191,6 @@
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>가져오기</value>
-  </data>
-  <data name="FilePickerPowerShellCommit" xml:space="preserve">
-    <value>选择 PowerShell</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>欢迎使用胡桃</value>
@@ -932,9 +935,6 @@
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>긴 경로 기능이 켜지지 않아 레지스트리 키 값을 설정할 수 없습니다</value>
   </data>
-  <data name="ServiceGameRegisteryInteropPowershellNotFound" xml:space="preserve">
-    <value>PowerShell 설치 경로를 찾을 수 없습니다</value>
-  </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>无法读取游戏配置文件 {0}，可能是文件不存在</value>
   </data>
@@ -1553,6 +1553,9 @@
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>계정 전환 살패</value>
   </data>
+  <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
+    <value>无法选择UID [{0}] 对应的账号 [{1}]，该账号不属于当前服务器</value>
+  </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
   </data>
@@ -2144,6 +2147,9 @@
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>사전 다운로드</value>
   </data>
+  <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
+    <value>选择游戏路径</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>该账号尚未绑定实时便笺通知 UID</value>
   </data>
@@ -2275,6 +2281,15 @@
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>设备 IP</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>管理员模式会影响部分功能的可用性与行为</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>管理员模式</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>以管理员身份重启</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>기원 기록 페이지에 기록되지 않은 오래된 기원 이벤트를 표시하거나 숨깁니다</value>
@@ -2431,12 +2446,6 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>게임 경로를 설정할 때 런쳐(launcher.exe) 대신 게임(YuanShen.exe 또는 GenshinImpact.exe)를 선택하세요</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
-    <value>胡桃使用 PowerShell 更改注册表中的信息以修改游戏内账号</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
-    <value>PowerShell 路径</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell 体验</value>
@@ -2740,6 +2749,15 @@
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>已复制到剪贴板</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
+    <value>全部完成</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusNotOpen" xml:space="preserve">
+    <value>尚未开启</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusOngoing" xml:space="preserve">
+    <value>进行中</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
     <value>已完成</value>

@@ -4,10 +4,11 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-  IgnorableNamespaces="com uap desktop rescap mp">
+  IgnorableNamespaces="com uap desktop desktop6 rescap mp">
 
   <Identity
     Name="60568DGPStudio.SnapHutaoDev"
@@ -18,6 +19,7 @@
     <DisplayName>Snap Hutao Dev</DisplayName>
     <PublisherDisplayName>DGP Studio</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
+    <desktop6:RegistryWriteVirtualization>disabled</desktop6:RegistryWriteVirtualization>
   </Properties>
 
   <Dependencies>
@@ -64,5 +66,6 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust"/>
+    <rescap:Capability Name="unvirtualizedResources"/>
   </Capabilities>
 </Package>

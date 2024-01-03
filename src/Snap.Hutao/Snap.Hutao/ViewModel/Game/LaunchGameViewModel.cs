@@ -1,17 +1,17 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Data.Sqlite;
+using CommunityToolkit.WinUI.Collections;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Diagnostics.CodeAnalysis;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.PathAbstraction;
@@ -23,6 +23,7 @@ using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.IO;
+using Windows.Win32.Foundation;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -42,6 +43,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
+    private readonly ILogger<LaunchGameViewModel> logger;
     private readonly IProgressFactory progressFactory;
     private readonly IInfoBarService infoBarService;
     private readonly ResourceClient resourceClient;
@@ -54,46 +56,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     private readonly AppOptions appOptions;
 
     private LaunchScheme? selectedScheme;
-    private ObservableCollection<GameAccount>? gameAccounts;
+    private AdvancedCollectionView? gameAccountsView;
     private GameAccount? selectedGameAccount;
     private GameResource? gameResource;
     private bool gamePathSelectedAndValid;
     private ImmutableList<GamePathEntry> gamePathEntries;
     private GamePathEntry? selectedGamePathEntry;
-
-    public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
-
-    public LaunchScheme? SelectedScheme
-    {
-        get => selectedScheme;
-        set
-        {
-            SetProperty(ref selectedScheme, value, UpdateGameResourceAsync);
-
-            async ValueTask UpdateGameResourceAsync(LaunchScheme? scheme)
-            {
-                if (scheme is null)
-                {
-                    return;
-                }
-
-                await taskContext.SwitchToBackgroundAsync();
-                Web.Response.Response<GameResource> response = await resourceClient
-                    .GetResourceAsync(scheme)
-                    .ConfigureAwait(false);
-
-                if (response.IsOk())
-                {
-                    await taskContext.SwitchToMainThreadAsync();
-                    GameResource = response.Data;
-                }
-            }
-        }
-    }
-
-    public ObservableCollection<GameAccount>? GameAccounts { get => gameAccounts; set => SetProperty(ref gameAccounts, value); }
-
-    public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
+    private GameAccountFilter? gameAccountFilter;
 
     public LaunchOptions LaunchOptions { get => launchOptions; }
 
@@ -103,8 +72,22 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 
     public AppOptions AppOptions { get => appOptions; }
 
+    public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
+
+    [AlsoAsyncSets(nameof(GameResource), nameof(GameAccountsView))]
+    public LaunchScheme? SelectedScheme
+    {
+        get => selectedScheme;
+        set => SetSelectedSchemeAsync(value).SafeForget();
+    }
+
+    public AdvancedCollectionView? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
+
+    public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
+
     public GameResource? GameResource { get => gameResource; set => SetProperty(ref gameResource, value); }
 
+    [AlsoAsyncSets(nameof(SelectedScheme), nameof(GameAccountsView))]
     public bool GamePathSelectedAndValid
     {
         get => gamePathSelectedAndValid;
@@ -112,112 +95,100 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref gamePathSelectedAndValid, value) && value)
             {
-                InitializeUICoreAsync().SafeForget();
+                RefreshUIAsync().SafeForget();
+            }
+
+            async ValueTask RefreshUIAsync()
+            {
+                try
+                {
+                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                    {
+                        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
+
+                        await taskContext.SwitchToMainThreadAsync();
+                        await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
+                        TrySetGameAccountByDesiredUid();
+
+                        // Try set to the current account.
+                        if (SelectedScheme is not null)
+                        {
+                            // The GameAccount is gaurenteed to be in the view, bacause the scheme is synced
+                            SelectedGameAccount ??= gameService.DetectCurrentGameAccount(SelectedScheme);
+                        }
+                        else
+                        {
+                            infoBarService.Warning(SH.ViewModelLaunchGameSchemeNotSelected);
+                        }
+                    }
+                }
+                catch (UserdataCorruptedException ex)
+                {
+                    infoBarService.Error(ex);
+                }
+            }
+
+            void TrySetGameAccountByDesiredUid()
+            {
+                // Sync uid, almost never hit, so we are not so care about performance
+                if (memoryCache.TryRemove(DesiredUid, out object? value) && value is string uid)
+                {
+                    ArgumentNullException.ThrowIfNull(GameAccountsView);
+
+                    // Exists in the source collection
+                    if (GameAccountsView.SourceCollection.Cast<GameAccount>().FirstOrDefault(g => g.AttachUid == uid) is { } sourceAccount)
+                    {
+                        SelectedGameAccount = GameAccountsView.Cast<GameAccount>().FirstOrDefault(g => g.AttachUid == uid);
+
+                        // But not exists in the view for current scheme
+                        if (SelectedGameAccount is null)
+                        {
+                            infoBarService.Warning(SH.FormatViewModelLaunchGameUnableToSwitchUidAttachedGameAccount(uid, sourceAccount.Name));
+                        }
+                    }
+                }
             }
         }
     }
 
     public ImmutableList<GamePathEntry> GamePathEntries { get => gamePathEntries; set => SetProperty(ref gamePathEntries, value); }
 
+    [AlsoSets(nameof(GamePathSelectedAndValid))]
     public GamePathEntry? SelectedGamePathEntry
     {
         get => selectedGamePathEntry;
-        set => UpdateSelectedGamePathEntry(value, true);
+        set
+        {
+            if (SetProperty(ref selectedGamePathEntry, value, nameof(SelectedGamePathEntry)))
+            {
+                if (IsViewDisposed)
+                {
+                    return;
+                }
+
+                launchOptions.GamePath = value?.Path ?? string.Empty;
+                GamePathSelectedAndValid = File.Exists(launchOptions.GamePath);
+            }
+        }
     }
 
     protected override ValueTask<bool> InitializeUIAsync()
     {
-        GamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
-        SelectedGamePathEntry = entry;
+        SyncGamePathEntriesAndSelectedGamePathEntryFromLaunchOptions();
         return ValueTask.FromResult(true);
-    }
-
-    private async ValueTask InitializeUICoreAsync()
-    {
-        try
-        {
-            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
-            {
-                ChannelOptions options = gameService.GetChannelOptions();
-                if (string.IsNullOrEmpty(options.ConfigFilePath))
-                {
-                    try
-                    {
-                        SelectedScheme = KnownSchemes.Single(scheme => scheme.Equals(options));
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        if (!IgnoredInvalidChannelOptions.Contains(options))
-                        {
-                            // 后台收集
-                            throw new NotSupportedException($"不支持的 MultiChannel: {options}");
-                        }
-                    }
-                }
-                else
-                {
-                    infoBarService.Warning(SH.FormatViewModelLaunchGameMultiChannelReadFail(options.ConfigFilePath));
-                }
-
-                ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
-
-                await taskContext.SwitchToMainThreadAsync();
-                GameAccounts = accounts;
-
-                // Sync uid
-                if (memoryCache.TryRemove(DesiredUid, out object? value) && value is string uid)
-                {
-                    SelectedGameAccount = GameAccounts.FirstOrDefault(g => g.AttachUid == uid);
-                }
-
-                // Try set to the current account.
-                SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
-            }
-        }
-        catch (UserdataCorruptedException ex)
-        {
-            infoBarService.Error(ex);
-        }
-        catch (OperationCanceledException)
-        {
-        }
-    }
-
-    private void UpdateSelectedGamePathEntry(GamePathEntry? value, bool setBack)
-    {
-        if (SetProperty(ref selectedGamePathEntry, value, nameof(SelectedGamePathEntry)) && setBack)
-        {
-            if (IsViewDisposed)
-            {
-                return;
-            }
-
-            launchOptions.GamePath = value?.Path ?? string.Empty;
-            GamePathSelectedAndValid = File.Exists(launchOptions.GamePath);
-        }
     }
 
     [Command("SetGamePathCommand")]
     private async Task SetGamePathAsync()
     {
-        IGameLocator locator = gameLocatorFactory.Create(GameLocationSource.Manual);
-
-        (bool isOk, string path) = await locator.LocateGamePathAsync().ConfigureAwait(false);
+        (bool isOk, string path) = await gameLocatorFactory.LocateAsync(GameLocationSource.Manual).ConfigureAwait(false);
         if (!isOk)
         {
             return;
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        try
-        {
-            GamePathEntries = launchOptions.UpdateGamePathAndRefreshEntries(path);
-        }
-        catch (SqliteException ex)
-        {
-            // 文件夹权限不足，无法写入数据库
-            infoBarService.Error(ex, SH.ViewModelSettingSetGamePathDatabaseFailedTitle);
-        }
+        GamePathEntries = launchOptions.UpdateGamePathAndRefreshEntries(path);
     }
 
     [Command("ResetGamePathCommand")]
@@ -254,24 +225,20 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 // Always ensure game resources
                 if (!await gameService.EnsureGameResourceAsync(SelectedScheme, convertProgress).ConfigureAwait(false))
                 {
-                    infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
+                    infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail, dialog.State.Name);
                     return;
                 }
                 else
                 {
                     await taskContext.SwitchToMainThreadAsync();
-                    GamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
-                    UpdateSelectedGamePathEntry(entry, false);
+                    SyncGamePathEntriesAndSelectedGamePathEntryFromLaunchOptions();
                 }
             }
 
-            if (SelectedGameAccount is not null)
+            if (SelectedGameAccount is not null && !gameService.SetGameAccount(SelectedGameAccount))
             {
-                if (!gameService.SetGameAccount(SelectedGameAccount))
-                {
-                    infoBarService.Warning(SH.ViewModelLaunchGameSwitchGameAccountFail);
-                    return;
-                }
+                infoBarService.Warning(SH.ViewModelLaunchGameSwitchGameAccountFail);
+                return;
             }
 
             IProgress<LaunchStatus> launchProgress = progressFactory.CreateForMainThread<LaunchStatus>(status => launchStatusOptions.LaunchStatus = status);
@@ -279,6 +246,13 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         }
         catch (Exception ex)
         {
+            if (ex is Win32Exception win32Exception && win32Exception.HResult == HRESULT.E_FAIL)
+            {
+                // User canceled the operation. ignore
+                return;
+            }
+
+            logger.LogCritical(ex, "Launch failed");
             infoBarService.Error(ex);
         }
     }
@@ -288,11 +262,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     {
         try
         {
-            GameAccount? account = await gameService.DetectGameAccountAsync().ConfigureAwait(false);
+            if (SelectedScheme is null)
+            {
+                infoBarService.Error(SH.ViewModelLaunchGameSchemeNotSelected);
+                return;
+            }
 
-            // If user canceled the operation, the return is null,
-            // and thus we should not set SelectedAccount
-            if (account is not null)
+            // If user canceled the operation, the return is null
+            if (await gameService.DetectGameAccountAsync(SelectedScheme).ConfigureAwait(false) is { } account)
             {
                 await taskContext.SwitchToMainThreadAsync();
                 SelectedGameAccount = account;
@@ -349,5 +326,55 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         {
             await Windows.System.Launcher.LaunchFolderPathAsync(screenshot);
         }
+    }
+
+    private async ValueTask SetSelectedSchemeAsync(LaunchScheme? value)
+    {
+        if (SetProperty(ref selectedScheme, value, nameof(SelectedScheme)))
+        {
+            UpdateGameResourceAsync(value).SafeForget();
+            await UpdateGameAccountsViewAsync().ConfigureAwait(false);
+
+            // Clear the selected game account to prevent setting
+            // incorrect CN/OS account when scheme not match
+            SelectedGameAccount = default;
+        }
+
+        async ValueTask UpdateGameResourceAsync(LaunchScheme? scheme)
+        {
+            if (scheme is null)
+            {
+                return;
+            }
+
+            await taskContext.SwitchToBackgroundAsync();
+            Web.Response.Response<GameResource> response = await resourceClient
+                .GetResourceAsync(scheme)
+                .ConfigureAwait(false);
+
+            if (response.IsOk())
+            {
+                await taskContext.SwitchToMainThreadAsync();
+                GameResource = response.Data;
+            }
+        }
+
+        async ValueTask UpdateGameAccountsViewAsync()
+        {
+            gameAccountFilter = new(SelectedScheme?.GetSchemeType());
+            ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
+
+            await taskContext.SwitchToMainThreadAsync();
+            GameAccountsView = new(accounts, true)
+            {
+                Filter = gameAccountFilter.Filter,
+            };
+        }
+    }
+
+    private void SyncGamePathEntriesAndSelectedGamePathEntryFromLaunchOptions()
+    {
+        GamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
+        SelectedGamePathEntry = entry;
     }
 }

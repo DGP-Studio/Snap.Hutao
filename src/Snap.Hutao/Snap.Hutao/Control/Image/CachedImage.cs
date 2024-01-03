@@ -40,12 +40,7 @@ internal sealed class CachedImage : Implementation.ImageEx
         {
             // The image is corrupted, remove it.
             imageCache.Remove(imageUri);
-            return null;
-        }
-        catch (OperationCanceledException)
-        {
-            // task was explicitly canceled
-            return null;
+            return default;
         }
     }
 }

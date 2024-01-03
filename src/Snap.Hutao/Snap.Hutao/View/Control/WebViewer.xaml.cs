@@ -76,16 +76,15 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
 
     private async ValueTask InitializeAsync()
     {
-        if (isInitializingOrInitialized)
+        if (!isInitializingOrInitialized)
         {
-            return;
+            isInitializingOrInitialized = true;
+
+            await WebView.EnsureCoreWebView2Async();
+            WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
+            WebView.CoreWebView2.DocumentTitleChanged += documentTitleChangedEventHander;
         }
 
-        isInitializingOrInitialized = true;
-
-        await WebView.EnsureCoreWebView2Async();
-        WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
-        WebView.CoreWebView2.DocumentTitleChanged += documentTitleChangedEventHander;
         RefreshWebview2Content();
     }
 
@@ -128,6 +127,9 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
         string source = SourceProvider.GetSource(userAndUid);
         if (!string.IsNullOrEmpty(source))
         {
+            CoreWebView2Navigator navigator = new(coreWebView2);
+            await navigator.NavigateAsync("about:blank").ConfigureAwait(true);
+
             try
             {
                 await coreWebView2.Profile.ClearBrowsingDataAsync();
@@ -137,9 +139,6 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
                 infoBarService.Warning(SH.ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed);
                 await coreWebView2.DeleteCookiesAsync(userAndUid.IsOversea).ConfigureAwait(true);
             }
-
-            CoreWebView2Navigator navigator = new(coreWebView2);
-            await navigator.NavigateAsync("about:blank").ConfigureAwait(true);
 
             coreWebView2
                 .SetCookie(user.CookieToken, user.LToken, userAndUid.IsOversea)

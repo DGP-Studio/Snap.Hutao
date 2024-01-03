@@ -7,30 +7,30 @@ namespace Snap.Hutao.Core.Setting;
 /// 设置键
 /// </summary>
 [HighQuality]
+[SuppressMessage("", "SA1124")]
 internal static class SettingKeys
 {
+    #region MainWindow
     public const string WindowRect = "WindowRect";
-
     public const string IsNavPaneOpen = "IsNavPaneOpen";
-
-    public const string LaunchTimes = "LaunchTimes";
-
-    public const string DataFolderPath = "DataFolderPath";
-
-    public const string PassportUserName = "PassportUserName";
-
-    public const string PassportPassword = "PassportPassword";
-
     public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
-
-    public const string Major1Minor7Revision0GuideState = "Major1Minor7Revision0GuideState";
-
     public const string ExcludedAnnouncementIds = "ExcludedAnnouncementIds";
+    #endregion
 
-    public const string SuppressMetadataInitialization = "SuppressMetadataInitialization";
+    #region Application
+    public const string LaunchTimes = "LaunchTimes";
+    public const string DataFolderPath = "DataFolderPath";
+    public const string Major1Minor7Revision0GuideState = "Major1Minor7Revision0GuideState";
+    public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
+    public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled";
+    #endregion
 
-    public const string OverrideElevationRequirement = "OverrideElevationRequirement";
+    #region Passport
+    public const string PassportUserName = "PassportUserName";
+    public const string PassportPassword = "PassportPassword";
+    #endregion
 
+    #region Cultivation
     public const string CultivationAvatarLevelCurrent = "CultivationAvatarLevelCurrent";
     public const string CultivationAvatarLevelTarget = "CultivationAvatarLevelTarget";
     public const string CultivationAvatarSkillACurrent = "CultivationAvatarSkillACurrent";
@@ -43,13 +43,18 @@ internal static class SettingKeys
     public const string CultivationWeapon90LevelTarget = "CultivationWeapon90LevelTarget";
     public const string CultivationWeapon70LevelCurrent = "CultivationWeapon70LevelCurrent";
     public const string CultivationWeapon70LevelTarget = "CultivationWeapon70LevelTarget";
+    #endregion
 
+    #region HomeCard Dashboard
     public const string IsHomeCardLaunchGamePresented = "IsHomeCardLaunchGamePresented";
     public const string IsHomeCardGachaStatisticsPresented = "IsHomeCardGachaStatisticsPresented";
     public const string IsHomeCardAchievementPresented = "IsHomeCardAchievementPresented";
     public const string IsHomeCardDailyNotePresented = "IsHomeCardDailyNotePresented";
+    #endregion
 
-    public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
-
-    public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled";
+    #region DevTool
+    public const string SuppressMetadataInitialization = "SuppressMetadataInitialization";
+    public const string OverrideElevationRequirement = "OverrideElevationRequirement";
+    public const string OverrideUpdateVersionComparison = "OverrideUpdateVersionComparison";
+    #endregion
 }

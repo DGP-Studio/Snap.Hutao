@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Net.Http;
@@ -18,7 +19,7 @@ internal sealed partial class DailyNoteWebhookOperation
     private readonly DailyNoteOptions dailyNoteOptions;
     private readonly HttpClient httpClient;
 
-    public async ValueTask TryPostDailyNoteToWebhookAsync(WebDailyNote dailyNote, CancellationToken token = default)
+    public async ValueTask TryPostDailyNoteToWebhookAsync(PlayerUid playerUid, WebDailyNote dailyNote, CancellationToken token = default)
     {
         string? targetUrl = dailyNoteOptions.WebhookUrl;
         if (string.IsNullOrEmpty(targetUrl) || !Uri.TryCreate(targetUrl, UriKind.Absolute, out Uri? targetUri))
@@ -28,6 +29,7 @@ internal sealed partial class DailyNoteWebhookOperation
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(targetUri)
+            .SetHeader("x-uid", $"{playerUid}")
             .PostJson(dailyNote);
 
         await builder.TryCatchSendAsync(httpClient, logger, token).ConfigureAwait(false);

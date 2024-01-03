@@ -120,6 +120,12 @@
   <data name="AppDevNameAndVersion" xml:space="preserve">
     <value>胡桃 Dev {0}</value>
   </data>
+  <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
+    <value>胡桃Dev {0} [管理员]</value>
+  </data>
+  <data name="AppElevatedNameAndVersion" xml:space="preserve">
+    <value>胡桃 {0} [管理员]</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>胡桃</value>
   </data>
@@ -142,7 +148,7 @@
     <value>無效的 Uri</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
-    <value>HTTP GET {0}</value>
+    <value>获取HTTP{0}</value>
   </data>
   <data name="ControlImageCompositionImageSystemException" xml:space="preserve">
     <value>應用 CompositionImage 的源時發生異常</value>
@@ -185,9 +191,6 @@
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>匯入</value>
-  </data>
-  <data name="FilePickerPowerShellCommit" xml:space="preserve">
-    <value>選擇 PowerShell</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>歡迎使用胡桃</value>
@@ -295,7 +298,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
-    <value>少男</value>
+    <value>少年</value>
   </data>
   <data name="ModelIntrinsicBodyTypeGirl" xml:space="preserve">
     <value>少女</value>
@@ -307,7 +310,7 @@
     <value>蘿莉</value>
   </data>
   <data name="ModelIntrinsicBodyTypeMale" xml:space="preserve">
-    <value>成男</value>
+    <value>成年男子</value>
   </data>
   <data name="ModelIntrinsicElementNameElec" xml:space="preserve">
     <value>雷</value>
@@ -376,7 +379,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
-    <value>旅行者</value>
+    <value>旅人</value>
   </data>
   <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
     <value>{0} 月 {1} 日</value>
@@ -483,7 +486,7 @@
     <value>第一波：擊敗所有怪物，下一波才會出現</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave1Additional" xml:space="preserve">
-    <value>第一波附加：增援第一波怪物</value>
+    <value>第一波追加：增援第一波怪物</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave2" xml:space="preserve">
     <value>第二波：擊敗所有怪物，下一波才會出現</value>
@@ -843,7 +846,7 @@
     <value>找不到原神內置瀏覽器緩存路徑：\n{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>未找到可用的 Url</value>
+    <value>找不到可用的 Url</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>提供的 Url 無效</value>
@@ -932,9 +935,6 @@
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>未開啓長路徑功能，無法設定注冊表鍵值</value>
   </data>
-  <data name="ServiceGameRegisteryInteropPowershellNotFound" xml:space="preserve">
-    <value>找不到 PowerShell 的安裝目錄</value>
-  </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>無法讀取遊戲設定檔 {0}，可能是檔案不存在</value>
   </data>
@@ -996,7 +996,7 @@
     <value>不支援的 UIGF 版本</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
-    <value>发现新版本 {0}</value>
+    <value>發現新版本 {0}</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>已选中多条用户记录</value>
@@ -1552,6 +1552,9 @@
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>切換帳號失敗</value>
+  </data>
+  <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
+    <value>无法选择UID [{0}] 对应的账号 [{1}]，该账号不属于当前服务器</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
@@ -2144,6 +2147,9 @@
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>預下載</value>
   </data>
+  <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
+    <value>选择游戏路径</value>
+  </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>該用戶尚未綁定即時便箋通知 UID</value>
   </data>
@@ -2275,6 +2281,15 @@
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>設備 IP</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>管理员模式会影响部分功能的可用性与行为</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>管理员模式</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>以管理员身份重启</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>在祈願紀錄頁面顯示或隱藏無記錄的歷史祈願活動</value>
@@ -2431,12 +2446,6 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>設置游戲路徑時，請選擇游戲本體（YuanShen.exe 或 GenshinImpact.exe） 而不是啓動器（launcher.exe）</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
-    <value>胡桃使用 PowerShell 更改註冊表中的信息以修改遊戲內賬號</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
-    <value>PowerShell 路徑</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell 體驗</value>
@@ -2740,6 +2749,15 @@
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>已複製到剪貼簿</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
+    <value>全部完成</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusNotOpen" xml:space="preserve">
+    <value>尚未开启</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusOngoing" xml:space="preserve">
+    <value>进行中</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
     <value>已完成</value>

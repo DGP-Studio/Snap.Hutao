@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Game.PathAbstraction;
 [Injection(InjectAs.Singleton, typeof(IGamePathService))]
 internal sealed partial class GamePathService : IGamePathService
 {
-    private readonly IServiceProvider serviceProvider;
+    private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly LaunchOptions launchOptions;
 
     public async ValueTask<ValueResult<bool, string>> SilentGetGamePathAsync()
@@ -17,24 +17,16 @@ internal sealed partial class GamePathService : IGamePathService
         // Cannot find in setting
         if (string.IsNullOrEmpty(launchOptions.GamePath))
         {
-            IGameLocatorFactory locatorFactory = serviceProvider.GetRequiredService<IGameLocatorFactory>();
-
             bool isOk;
             string path;
 
             // Try locate by unity log
-            (isOk, path) = await locatorFactory
-                .Create(GameLocationSource.UnityLog)
-                .LocateGamePathAsync()
-                .ConfigureAwait(false);
+            (isOk, path) = await gameLocatorFactory.LocateAsync(GameLocationSource.UnityLog).ConfigureAwait(false);
 
             if (!isOk)
             {
                 // Try locate by registry
-                (isOk, path) = await locatorFactory
-                    .Create(GameLocationSource.Registry)
-                    .LocateGamePathAsync()
-                    .ConfigureAwait(false);
+                (isOk, path) = await gameLocatorFactory.LocateAsync(GameLocationSource.Registry).ConfigureAwait(false);
             }
 
             if (isOk)
@@ -48,13 +40,11 @@ internal sealed partial class GamePathService : IGamePathService
             }
         }
 
-        if (!string.IsNullOrEmpty(launchOptions.GamePath))
-        {
-            return new(true, launchOptions.GamePath);
-        }
-        else
+        if (string.IsNullOrEmpty(launchOptions.GamePath))
         {
             return new(false, default!);
         }
+
+        return new(true, launchOptions.GamePath);
     }
 }

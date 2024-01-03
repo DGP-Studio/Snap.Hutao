@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
@@ -16,7 +15,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
@@ -26,6 +24,7 @@ using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -47,7 +46,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly HutaoInfrastructureClient hutaoInfrastructureClient;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly INavigationService navigationService;
     private readonly IClipboardProvider clipboardInterop;
     private readonly IShellLinkInterop shellLinkInterop;
@@ -124,11 +122,56 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
 
-    [SuppressMessage("", "CA1822")]
     public bool IsAllocConsoleDebugModeEnabled
     {
         get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
-        set => LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, value);
+        set
+        {
+            ConfirmSetIsAllocConsoleDebugModeEnabledAsync(value).SafeForget();
+
+            async ValueTask ConfirmSetIsAllocConsoleDebugModeEnabledAsync(bool value)
+            {
+                if (value)
+                {
+                    ReconfirmDialog dialog = await contentDialogFactory.CreateInstanceAsync<ReconfirmDialog>().ConfigureAwait(false);
+                    if (await dialog.ConfirmAsync(SH.ViewSettingAllocConsoleHeader).ConfigureAwait(true))
+                    {
+                        LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, true);
+                        OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                        return;
+                    }
+                }
+
+                LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
+                OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+            }
+        }
+    }
+
+    public bool IsAdvancedLaunchOptionsEnabled
+    {
+        get => launchOptions.IsAdvancedLaunchOptionsEnabled;
+        set
+        {
+            ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(value).SafeForget();
+
+            async ValueTask ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(bool value)
+            {
+                if (value)
+                {
+                    ReconfirmDialog dialog = await contentDialogFactory.CreateInstanceAsync<ReconfirmDialog>().ConfigureAwait(false);
+                    if (await dialog.ConfirmAsync(SH.ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader).ConfigureAwait(true))
+                    {
+                        launchOptions.IsAdvancedLaunchOptionsEnabled = true;
+                        OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                        return;
+                    }
+                }
+
+                launchOptions.IsAdvancedLaunchOptionsEnabled = false;
+                OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+            }
+        }
     }
 
     protected override async ValueTask<bool> InitializeUIAsync()
@@ -172,18 +215,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private static async Task CheckUpdateAsync()
     {
         await Launcher.LaunchUriAsync(new("ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
-    }
-
-    [Command("SetPowerShellPathCommand")]
-    private async Task SetPowerShellPathAsync()
-    {
-        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(SH.FilePickerPowerShellCommit, [("PowerShell", "powershell.exe;pwsh.exe")]);
-
-        if (isOk && Path.GetFileNameWithoutExtension(file).EqualsAny(["POWERSHELL", "PWSH"], StringComparison.OrdinalIgnoreCase))
-        {
-            await taskContext.SwitchToMainThreadAsync();
-            AppOptions.PowerShellPath = file;
-        }
     }
 
     [Command("DeleteGameWebCacheCommand")]
@@ -234,6 +265,26 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         {
             LocalSetting.Set(SettingKeys.DataFolderPath, folder);
             infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
+        }
+    }
+
+    [Command("DeleteServerCacheFolderCommand")]
+    private async Task DeleteServerCacheFolderAsync()
+    {
+        ContentDialogResult result = await contentDialogFactory.CreateForConfirmCancelAsync(
+            SH.ViewModelSettingDeleteServerCacheFolderTitle,
+            SH.ViewModelSettingDeleteServerCacheFolderContent)
+            .ConfigureAwait(false);
+
+        if (result is ContentDialogResult.Primary)
+        {
+            string cacheFolder = runtimeOptions.GetDataFolderServerCacheFolder();
+            if (Directory.Exists(cacheFolder))
+            {
+                Directory.Delete(cacheFolder, true);
+            }
+
+            infoBarService.Information(SH.ViewModelSettingActionComplete);
         }
     }
 
@@ -293,5 +344,18 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         {
             infoBarService.Warning(SH.ViewModelSettingCreateDesktopShortcutFailed);
         }
+    }
+
+    [Command("RestartAsElevatedCommand")]
+    private void RestartAsElevated()
+    {
+        Process.Start(new ProcessStartInfo()
+        {
+            FileName = $"shell:AppsFolder\\{runtimeOptions.FamilyName}!App",
+            UseShellExecute = true,
+            Verb = "runas",
+        });
+
+        Process.GetCurrentProcess().Kill();
     }
 }

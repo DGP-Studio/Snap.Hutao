@@ -69,12 +69,12 @@ public sealed partial class App : Application
             if (firstInstance.IsCurrent)
             {
                 logger.LogInformation(ConsoleBanner);
+                LogDiagnosticInformation();
 
                 // manually invoke
                 activation.NonRedirectToActivate(firstInstance, activatedEventArgs);
                 activation.InitializeWith(firstInstance);
 
-                LogDiagnosticInformation();
                 serviceProvider.GetRequiredService<IJumpListInterop>().ConfigureAsync().SafeForget();
             }
             else

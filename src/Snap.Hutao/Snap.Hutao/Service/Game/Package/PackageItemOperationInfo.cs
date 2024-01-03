@@ -10,12 +10,12 @@ namespace Snap.Hutao.Service.Game.Package;
 /// </summary>
 [HighQuality]
 [DebuggerDisplay("Action:{Type} Target:{Target} Cache:{Cache}")]
-internal readonly struct ItemOperationInfo
+internal readonly struct PackageItemOperationInfo
 {
     /// <summary>
     /// 操作的类型
     /// </summary>
-    public readonly ItemOperationType Type;
+    public readonly PackageItemOperationType Type;
 
     /// <summary>
     /// 目标文件
@@ -33,7 +33,7 @@ internal readonly struct ItemOperationInfo
     /// <param name="type">操作类型</param>
     /// <param name="remote">远程</param>
     /// <param name="local">本地</param>
-    public ItemOperationInfo(ItemOperationType type, VersionItem remote, VersionItem local)
+    public PackageItemOperationInfo(PackageItemOperationType type, VersionItem remote, VersionItem local)
     {
         Type = type;
         Remote = remote;

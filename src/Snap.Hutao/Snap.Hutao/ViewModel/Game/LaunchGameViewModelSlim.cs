@@ -1,11 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Collections;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
+using Windows.Win32.Foundation;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -16,17 +20,17 @@ namespace Snap.Hutao.ViewModel.Game;
 [ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>
 {
+    private readonly LaunchStatusOptions launchStatusOptions;
+    private readonly IProgressFactory progressFactory;
+    private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
     private readonly ITaskContext taskContext;
-    private readonly IInfoBarService infoBarService;
 
-    private ObservableCollection<GameAccount>? gameAccounts;
+    private AdvancedCollectionView? gameAccountsView;
     private GameAccount? selectedGameAccount;
+    private GameAccountFilter? gameAccountFilter;
 
-    /// <summary>
-    /// 游戏账号集合
-    /// </summary>
-    public ObservableCollection<GameAccount>? GameAccounts { get => gameAccounts; set => SetProperty(ref gameAccounts, value); }
+    public AdvancedCollectionView? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
     /// <summary>
     /// 选中的账号
@@ -36,19 +40,29 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
+        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
         ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
-        await taskContext.SwitchToMainThreadAsync();
-        GameAccounts = accounts;
 
         try
         {
-            // Try set to the current account.
-            SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
+            if (scheme is not null)
+            {
+                // Try set to the current account.
+                SelectedGameAccount ??= gameService.DetectCurrentGameAccount(scheme);
+            }
         }
         catch (UserdataCorruptedException ex)
         {
             infoBarService.Error(ex);
         }
+
+        gameAccountFilter = new(scheme?.GetSchemeType());
+
+        await taskContext.SwitchToMainThreadAsync();
+        GameAccountsView = new(accounts, true)
+        {
+            Filter = gameAccountFilter.Filter,
+        };
     }
 
     [Command("LaunchCommand")]
@@ -67,10 +81,17 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
                 }
             }
 
-            await gameService.LaunchAsync(new Progress<LaunchStatus>()).ConfigureAwait(false);
+            IProgress<LaunchStatus> launchProgress = progressFactory.CreateForMainThread<LaunchStatus>(status => launchStatusOptions.LaunchStatus = status);
+            await gameService.LaunchAsync(launchProgress).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
+            if (ex is Win32Exception win32Exception && win32Exception.HResult == HRESULT.E_FAIL)
+            {
+                // User canceled the operation. ignore
+                return;
+            }
+
             infoBarService.Error(ex);
         }
     }

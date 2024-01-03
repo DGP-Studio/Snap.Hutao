@@ -42,6 +42,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
     private bool? isUseCloudThirdPartyMobile;
+    private bool? isWindowsHDREnabled;
     private AspectRatio? selectedAspectRatio;
     private bool? useStarwardPlayTimeStatistics;
     private bool? setDiscordActivityWhenPlaying;
@@ -196,6 +197,12 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref isUseCloudThirdPartyMobile, SettingEntry.LaunchIsUseCloudThirdPartyMobile, false);
         set => SetOption(ref isUseCloudThirdPartyMobile, SettingEntry.LaunchIsUseCloudThirdPartyMobile, value);
+    }
+
+    public bool IsWindowsHDREnabled
+    {
+        get => GetOption(ref isWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, false);
+        set => SetOption(ref isWindowsHDREnabled, SettingEntry.LaunchIsWindowsHDREnabled, value);
     }
 
     public List<AspectRatio> AspectRatios { get; } =

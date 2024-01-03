@@ -4,8 +4,7 @@
 using Microsoft.Win32;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
-using System.Diagnostics;
-using System.IO;
+using Snap.Hutao.Model.Entity.Primitive;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -16,52 +15,23 @@ namespace Snap.Hutao.Service.Game.Account;
 /// </summary>
 internal static class RegistryInterop
 {
-    private const string GenshinPath = @"Software\miHoYo\原神";
-    private const string GenshinKey = $@"HKEY_CURRENT_USER\{GenshinPath}";
-    private const string SdkChineseKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
+    private const string ChineseKeyName = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
+    private const string OverseaKeyName = @"HKEY_CURRENT_USER\Software\miHoYo\Genshin Impact";
+    private const string SdkChineseValueName = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
+    private const string SdkOverseaValueName = "MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810";
 
-    /// <summary>
-    /// 设置键值
-    /// 需要支持
-    /// https://learn.microsoft.com/zh-cn/windows/win32/fileio/maximum-file-path-limitation
-    /// </summary>
-    /// <param name="account">账户</param>
-    /// <param name="powerShellPath">PowerShell 路径</param>
-    /// <returns>账号是否设置</returns>
-    public static bool Set(GameAccount? account, string powerShellPath)
+    private const string WindowsHDROnValueName = "WINDOWS_HDR_ON_h3132281285";
+
+    public static bool Set(GameAccount? account)
     {
         if (account is not null)
         {
             // 存回注册表的字节需要 '\0' 结尾
-            Encoding.UTF8.GetByteCount(account.MihoyoSDK);
-            byte[] tempBytes = Encoding.UTF8.GetBytes(account.MihoyoSDK);
-            byte[] target = new byte[tempBytes.Length + 1];
-            tempBytes.CopyTo(target, 0);
+            byte[] target = [.. Encoding.UTF8.GetBytes(account.MihoyoSDK), 0];
+            (string keyName, string valueName) = GetKeyValueName(account.Type);
+            Registry.SetValue(keyName, valueName, target);
 
-            string base64 = Convert.ToBase64String(target);
-            string path = $"HKCU:{GenshinPath}";
-            string command = $"""
-                -Command "$value = [Convert]::FromBase64String('{base64}'); Set-ItemProperty -Path '{path}' -Name '{SdkChineseKey}' -Value $value -Force;"
-                """;
-
-            ProcessStartInfo startInfo = new()
-            {
-                Arguments = command,
-                WorkingDirectory = Path.GetDirectoryName(powerShellPath),
-                CreateNoWindow = true,
-                FileName = powerShellPath,
-            };
-
-            try
-            {
-                System.Diagnostics.Process.Start(startInfo)?.WaitForExit();
-            }
-            catch (Win32Exception ex)
-            {
-                ThrowHelper.RuntimeEnvironment(SH.ServiceGameRegisteryInteropLongPathsDisabled, ex);
-            }
-
-            if (Get() == account.MihoyoSDK)
+            if (Get(account.Type) == account.MihoyoSDK)
             {
                 return true;
             }
@@ -70,24 +40,37 @@ internal static class RegistryInterop
         return false;
     }
 
-    /// <summary>
-    /// 在注册表中获取账号信息
-    /// </summary>
-    /// <returns>当前注册表中的信息</returns>
-    public static unsafe string? Get()
+    public static unsafe string? Get(SchemeType scheme)
     {
-        object? sdk = Registry.GetValue(GenshinKey, SdkChineseKey, Array.Empty<byte>());
+        (string keyName, string valueName) = GetKeyValueName(scheme);
+        object? sdk = Registry.GetValue(keyName, valueName, Array.Empty<byte>());
 
-        if (sdk is byte[] bytes)
+        if (sdk is not byte[] bytes)
         {
-            fixed (byte* pByte = bytes)
-            {
-                // 从注册表获取的字节数组带有 '\0' 结尾，需要舍去
-                ReadOnlySpan<byte> span = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pByte);
-                return Encoding.UTF8.GetString(span);
-            }
+            return null;
         }
 
-        return null;
+        fixed (byte* pByte = bytes)
+        {
+            // 从注册表获取的字节数组带有 '\0' 结尾，需要舍去
+            ReadOnlySpan<byte> span = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pByte);
+            return Encoding.UTF8.GetString(span);
+        }
+    }
+
+    public static void SetWindowsHDR(bool isOversea)
+    {
+        string keyName = isOversea ? OverseaKeyName : ChineseKeyName;
+        Registry.SetValue(keyName, WindowsHDROnValueName, 1);
+    }
+
+    private static (string KeyName, string ValueName) GetKeyValueName(SchemeType scheme)
+    {
+        return scheme switch
+        {
+            SchemeType.ChineseOfficial => (ChineseKeyName, SdkChineseValueName),
+            SchemeType.Oversea => (OverseaKeyName, SdkOverseaValueName),
+            _ => throw ThrowHelper.NotSupported($"Invalid account SchemeType: {scheme}"),
+        };
     }
 }

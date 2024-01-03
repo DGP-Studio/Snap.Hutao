@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Discord;
+using Snap.Hutao.Service.Game.Account;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Game.Unlocker;
 using System.IO;
@@ -18,6 +20,7 @@ namespace Snap.Hutao.Service.Game.Process;
 internal sealed partial class GameProcessService : IGameProcessService
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly IProgressFactory progressFactory;
     private readonly IDiscordService discordService;
     private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
@@ -58,6 +61,11 @@ internal sealed partial class GameProcessService : IGameProcessService
         }
 
         bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileName);
+
+        if (launchOptions.IsWindowsHDREnabled)
+        {
+            RegistryInterop.SetWindowsHDR(isOversea);
+        }
 
         progress.Report(new(LaunchPhase.ProcessInitializing, SH.ServiceGameLaunchPhaseProcessInitializing));
         using (System.Diagnostics.Process game = InitializeGameProcess(gamePath))
@@ -109,13 +117,13 @@ internal sealed partial class GameProcessService : IGameProcessService
             // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
             // https://docs.unity3d.com/2017.4/Documentation/Manual/CommandLineArguments.html
             commandLine = new CommandLineBuilder()
-                .AppendIf("-popupwindow", launchOptions.IsBorderless)
-                .AppendIf("-window-mode", launchOptions.IsExclusive, "exclusive")
+                .AppendIf(launchOptions.IsBorderless, "-popupwindow")
+                .AppendIf(launchOptions.IsExclusive, "-window-mode", "exclusive")
                 .Append("-screen-fullscreen", launchOptions.IsFullScreen ? 1 : 0)
-                .AppendIf("-screen-width", launchOptions.IsScreenWidthEnabled, launchOptions.ScreenWidth)
-                .AppendIf("-screen-height", launchOptions.IsScreenHeightEnabled, launchOptions.ScreenHeight)
-                .AppendIf("-monitor", launchOptions.IsMonitorEnabled, launchOptions.Monitor.Value)
-                .AppendIf("-platform_type CLOUD_THIRD_PARTY_MOBILE", launchOptions.IsUseCloudThirdPartyMobile)
+                .AppendIf(launchOptions.IsScreenWidthEnabled, "-screen-width", launchOptions.ScreenWidth)
+                .AppendIf(launchOptions.IsScreenHeightEnabled, "-screen-height", launchOptions.ScreenHeight)
+                .AppendIf(launchOptions.IsMonitorEnabled, "-monitor", launchOptions.Monitor.Value)
+                .AppendIf(launchOptions.IsUseCloudThirdPartyMobile, "-platform_type CLOUD_THIRD_PARTY_MOBILE")
                 .ToString();
         }
 
@@ -138,7 +146,7 @@ internal sealed partial class GameProcessService : IGameProcessService
         IGameFpsUnlocker unlocker = serviceProvider.CreateInstance<GameFpsUnlocker>(game);
 #pragma warning restore CA1859
         UnlockTimingOptions options = new(100, 20000, 3000);
-        Progress<UnlockerStatus> lockerProgress = new(unlockStatus => progress.Report(LaunchStatus.FromUnlockStatus(unlockStatus)));
+        IProgress<UnlockerStatus> lockerProgress = progressFactory.CreateForMainThread<UnlockerStatus>(unlockStatus => progress.Report(LaunchStatus.FromUnlockStatus(unlockStatus)));
         return unlocker.UnlockAsync(options, lockerProgress, token);
     }
 

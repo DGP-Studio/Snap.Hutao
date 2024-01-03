@@ -23,7 +23,10 @@
 
     <ScrollViewer shch:ScrollViewerHelper.LeftPanelMaxWidth="800" Style="{StaticResource TwoPanelScrollViewerStyle}">
         <shch:ScrollViewerHelper.RightPanel>
-            <StackPanel Width="360" Margin="0,16,16,16">
+            <StackPanel
+                Width="360"
+                Margin="0,16,16,16"
+                Spacing="{StaticResource SettingsCardSpacing}">
                 <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <Grid Style="{ThemeResource GridCardStyle}">
                         <Border
@@ -83,6 +86,27 @@
                         </Grid>
                     </Grid>
                 </Border>
+
+                <cwc:SettingsExpander
+                    Header="{shcm:ResourceString Name=ViewPageSettingElevatedModeHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7EF;}"
+                    IsExpanded="True">
+                    <cwc:SettingsExpander.Items>
+                        <cwc:SettingsCard
+                            Command="{Binding RestartAsElevatedCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingElevatedModeDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"
+                            IsClickEnabled="True"
+                            IsEnabled="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"/>
+                        <cwc:SettingsCard
+                            ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
+                            Command="{Binding CreateDesktopShortcutCommand}"
+                            Description="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutHeader}"
+                            IsClickEnabled="True"/>
+                    </cwc:SettingsExpander.Items>
+                </cwc:SettingsExpander>
+
             </StackPanel>
         </shch:ScrollViewerHelper.RightPanel>
         <Grid Padding="16" HorizontalAlignment="Left">
@@ -181,15 +205,6 @@
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE776;}"
                     IsClickEnabled="True"/>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingShellExperienceHeader}"/>
-                <cwc:SettingsCard
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
-                    Command="{Binding CreateDesktopShortcutCommand}"
-                    Description="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutDescription}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7EF;}"
-                    IsClickEnabled="True"/>
-
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingApperanceHeader}"/>
                 <cwc:SettingsCard
                     Description="{shcm:ResourceString Name=ViewPageSettingApperanceLanguageDescription}"
@@ -219,35 +234,47 @@
                     Description="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE92E;}">
-                    <StackPanel Orientation="Horizontal">
-                        <cwc:UniformGrid
-                            Margin="16,-12"
-                            ColumnSpacing="16"
-                            Columns="2"
-                            Orientation="Horizontal"
-                            RowSpacing="0">
-                            <CheckBox
-                                MinWidth="64"
-                                VerticalAlignment="Center"
-                                Content="Win"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}"/>
-                            <CheckBox
-                                MinWidth="64"
-                                VerticalAlignment="Center"
-                                Content="Ctrl"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasControl, Mode=TwoWay}"/>
-                            <CheckBox
-                                MinWidth="64"
-                                VerticalAlignment="Center"
-                                Content="Shift"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasShift, Mode=TwoWay}"/>
-                            <CheckBox
-                                MinWidth="64"
-                                VerticalAlignment="Center"
-                                Content="Alt"
-                                IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}"/>
-                        </cwc:UniformGrid>
-                        <shc:SizeRestrictedContentControl>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button
+                            MinWidth="32"
+                            MinHeight="32"
+                            Padding="0"
+                            VerticalAlignment="Center"
+                            Content="&#xEDA7;"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Style="{ThemeResource SettingButtonStyle}">
+                            <Button.Flyout>
+                                <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding16And10Style}">
+                                    <cwc:UniformGrid
+                                        ColumnSpacing="16"
+                                        Columns="2"
+                                        Orientation="Horizontal"
+                                        RowSpacing="0">
+                                        <CheckBox
+                                            MinWidth="64"
+                                            VerticalAlignment="Center"
+                                            Content="Win"
+                                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}"/>
+                                        <CheckBox
+                                            MinWidth="64"
+                                            VerticalAlignment="Center"
+                                            Content="Ctrl"
+                                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasControl, Mode=TwoWay}"/>
+                                        <CheckBox
+                                            MinWidth="64"
+                                            VerticalAlignment="Center"
+                                            Content="Shift"
+                                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasShift, Mode=TwoWay}"/>
+                                        <CheckBox
+                                            MinWidth="64"
+                                            VerticalAlignment="Center"
+                                            Content="Alt"
+                                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasAlt, Mode=TwoWay}"/>
+                                    </cwc:UniformGrid>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                        <shc:SizeRestrictedContentControl VerticalAlignment="Center">
                             <ComboBox
                                 MinWidth="120"
                                 VerticalAlignment="Center"
@@ -310,20 +337,6 @@
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGameHeader}"/>
                 <cwc:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
-                    Command="{Binding SetPowerShellPathCommand}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingSetPowerShellPathHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE756;}"
-                    IsClickEnabled="True">
-                    <cwc:SettingsCard.Description>
-                        <StackPanel>
-                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingSetPowerShellDescription}"/>
-                            <TextBlock Text="{Binding AppOptions.PowerShellPath}"/>
-                        </StackPanel>
-                    </cwc:SettingsCard.Description>
-                </cwc:SettingsCard>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingDeleteCacheAction}"
                     Command="{Binding DeleteGameWebCacheCommand}"
                     Description="{shcm:ResourceString Name=ViewPageSettingDeleteCacheDescription}"
@@ -361,9 +374,14 @@
                             Description="{shcm:ResourceString Name=ViewPageSettingSetDataFolderDescription}"
                             Header="{shcm:ResourceString Name=ViewPageSettingSetDataFolderHeader}"
                             IsClickEnabled="True"/>
+                        <cwc:SettingsCard
+                            ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
+                            Command="{Binding DeleteServerCacheFolderCommand}"
+                            Description="{shcm:ResourceString Name=ViewSettingDeleteServerCacheFolderDescription}"
+                            Header="{shcm:ResourceString Name=ViewSettingDeleteServerCacheFolderHeader}"
+                            IsClickEnabled="True"/>
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
-
                 <cwc:SettingsExpander
                     Description="{Binding CacheFolderView.Size}"
                     Header="{shcm:ResourceString Name=ViewPageSettingCacheFolderHeader}"
@@ -395,7 +413,6 @@
                     HeaderIcon="{cw:FontIcon Glyph=&#xE756;}">
                     <ToggleSwitch Width="120" IsOn="{Binding IsAllocConsoleDebugModeEnabled, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
-
                 <cwc:SettingsCard
                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}"
@@ -411,7 +428,7 @@
                     </cwc:SettingsCard.Description>
                     <StackPanel Orientation="Horizontal">
                         <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                        <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
+                        <ToggleSwitch Width="120" IsOn="{Binding IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                     </StackPanel>
                 </cwc:SettingsCard>
                 <cwc:SettingsCard

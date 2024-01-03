@@ -9,5 +9,5 @@ internal interface IUpdateService
 {
     ValueTask<bool> CheckForUpdateAndDownloadAsync(IProgress<UpdateStatus> progress, CancellationToken token = default);
 
-    void LaunchInstaller();
+    ValueTask LaunchUpdaterAsync();
 }

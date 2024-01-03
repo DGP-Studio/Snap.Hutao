@@ -49,7 +49,7 @@ internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpCon
         }
         catch (Exception ex) when (ex is not HttpContentSerializationException)
         {
-            throw new HttpContentSerializationException(null, ex);
+            throw await HttpContentSerializationException.CreateAsync(httpContent, ex).ConfigureAwait(false);
         }
     }
 

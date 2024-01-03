@@ -3,7 +3,9 @@
 
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge.Model;
@@ -12,7 +14,7 @@ using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Response;
-using System.Runtime.InteropServices;
+using System.Net.Http;
 using System.Text;
 using Windows.Foundation;
 
@@ -25,7 +27,7 @@ namespace Snap.Hutao.Web.Bridge;
 [SuppressMessage("", "CA1001")]
 internal class MiHoYoJSBridge
 {
-    private const string InitializeJsInterfaceScript2 = """
+    private const string InitializeJsInterfaceScript = """
         window.MiHoYoJSInterface = {
             postMessage: function(arg) { chrome.webview.postMessage(arg) },
             closePage: function() { this.postMessage('{"method":"closePage"}') },
@@ -38,8 +40,48 @@ internal class MiHoYoJSBridge
         document.querySelector('body').appendChild(st);
         """;
 
+    private const string ConvertMouseToTouchScript = """
+        function mouseListener (e, event) {
+            let touch = new Touch({
+                identifier: Date.now(),
+                target: e.target,
+                clientX: e.clientX,
+                clientY: e.clientY,
+                screenX: e.screenX,
+                screenY: e.screenY,
+                pageX: e.pageX,
+                pageY: e.pageY,
+            });
+            let touchEvent = new TouchEvent(event, {
+                cancelable: true,
+                bubbles: true,
+                touches: [touch],
+                targetTouches: [touch],
+                changedTouches: [touch],
+            });
+            e.target.dispatchEvent(touchEvent);
+        }
+
+        let mouseMoveListener = (e) => {
+            mouseListener(e, 'touchmove'); 
+        };
+
+        let mouseUpListener = (e) => {
+            mouseListener(e, 'touchend'); 
+            document.removeEventListener('mousemove', mouseMoveListener);
+            document.removeEventListener('mouseup', mouseUpListener);
+        };
+
+        let mouseDownListener = (e) => {
+            mouseListener(e, 'touchstart'); 
+            document.addEventListener('mousemove', mouseMoveListener);
+            document.addEventListener('mouseup', mouseUpListener);
+        };
+        document.addEventListener('mousedown', mouseDownListener);
+        """;
+
     private readonly SemaphoreSlim webMessageSemaphore = new(1);
-    private readonly Guid interfaceId = Guid.NewGuid();
+    private readonly Guid bridgeId = Guid.NewGuid();
     private readonly UserAndUid userAndUid;
 
     private readonly IServiceProvider serviceProvider;
@@ -81,11 +123,6 @@ internal class MiHoYoJSBridge
         coreWebView2 = default!;
     }
 
-    /// <summary>
-    /// 关闭
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual async ValueTask<IJsBridgeResult?> ClosePageAsync(JsParam param)
     {
         await taskContext.SwitchToMainThreadAsync();
@@ -101,21 +138,11 @@ internal class MiHoYoJSBridge
         return null;
     }
 
-    /// <summary>
-    /// 调整分享设置
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual IJsBridgeResult? ConfigureShare(JsParam param)
     {
         return null;
     }
 
-    /// <summary>
-    /// 获取ActionTicket
-    /// </summary>
-    /// <param name="jsParam">参数</param>
-    /// <returns>响应</returns>
     protected virtual async ValueTask<IJsBridgeResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
     {
         return await serviceProvider
@@ -124,11 +151,6 @@ internal class MiHoYoJSBridge
             .ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// 异步获取账户信息
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual JsResult<Dictionary<string, string>> GetCookieInfo(JsParam param)
     {
         ArgumentNullException.ThrowIfNull(userAndUid.User.LToken);
@@ -144,11 +166,6 @@ internal class MiHoYoJSBridge
         };
     }
 
-    /// <summary>
-    /// 获取CookieToken
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual async ValueTask<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
     {
         IUserService userService = serviceProvider.GetRequiredService<IUserService>();
@@ -164,11 +181,6 @@ internal class MiHoYoJSBridge
         return new() { Data = new() { [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN] } };
     }
 
-    /// <summary>
-    /// 获取当前语言和时区
-    /// </summary>
-    /// <param name="param">param</param>
-    /// <returns>语言与时区</returns>
     protected virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
     {
         MetadataOptions metadataOptions = serviceProvider.GetRequiredService<MetadataOptions>();
@@ -183,11 +195,6 @@ internal class MiHoYoJSBridge
         };
     }
 
-    /// <summary>
-    /// 获取1代动态密钥
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
         DataSignOptions options = DataSignOptions.CreateForGeneration1(SaltType.LK2, true);
@@ -200,11 +207,6 @@ internal class MiHoYoJSBridge
         };
     }
 
-    /// <summary>
-    /// 获取2代动态密钥
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
         DataSignOptions options = DataSignOptions.CreateForGeneration2(SaltType.X4, false, param.Payload.Body, param.Payload.GetQueryParam());
@@ -217,11 +219,6 @@ internal class MiHoYoJSBridge
         };
     }
 
-    /// <summary>
-    /// 获取Http请求头
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>Http请求头</returns>
     protected virtual JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
     {
         Dictionary<string, string> headers = new()
@@ -255,21 +252,11 @@ internal class MiHoYoJSBridge
     {
     }
 
-    /// <summary>
-    /// 获取状态栏高度
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>结果</returns>
     protected virtual JsResult<Dictionary<string, object>> GetStatusBarHeight(JsParam param)
     {
         return new() { Data = new() { ["statusBarHeight"] = 0 } };
     }
 
-    /// <summary>
-    /// 获取用户基本信息
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual async ValueTask<JsResult<Dictionary<string, object>>> GetUserInfoAsync(JsParam param)
     {
         Response<UserFullInfoWrapper> response = await serviceProvider
@@ -323,15 +310,19 @@ internal class MiHoYoJSBridge
         return null;
     }
 
-    protected virtual IJsBridgeResult? Share(JsParam<SharePayload> param)
+    protected virtual async ValueTask<IJsBridgeResult?> ShareAsync(JsParam<SharePayload> param)
     {
-        return new JsResult<Dictionary<string, string>>()
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            Data = new()
-            {
-                ["type"] = param.Payload.Type,
-            },
-        };
+            JsonSerializerOptions jsonSerializerOptions = scope.ServiceProvider.GetRequiredService<JsonSerializerOptions>();
+            HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
+            IClipboardProvider clipboardProvider = scope.ServiceProvider.GetRequiredService<IClipboardProvider>();
+            IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
+
+            BridgeShareContext context = new(coreWebView2, taskContext, httpClient, infoBarService, clipboardProvider, jsonSerializerOptions);
+
+            return await BridgeShareImplmentation.ShareAsync(param, context).ConfigureAwait(false);
+        }
     }
 
     protected virtual ValueTask<IJsBridgeResult?> ShowAlertDialogAsync(JsParam param)
@@ -401,7 +392,7 @@ internal class MiHoYoJSBridge
             .Append(')')
             .ToString();
 
-        logger?.LogInformation("[{Id}][ExecuteScript: {callback}]\n{payload}", interfaceId, callback, payload);
+        logger?.LogInformation("[{Id}][ExecuteScript: {callback}]\n{payload}", bridgeId, callback, payload);
 
         await taskContext.SwitchToMainThreadAsync();
         if (coreWebView2 is null || coreWebView2.IsDisposed())
@@ -415,7 +406,7 @@ internal class MiHoYoJSBridge
     private async void OnWebMessageReceived(CoreWebView2 webView2, CoreWebView2WebMessageReceivedEventArgs args)
     {
         string message = args.TryGetWebMessageAsString();
-        logger.LogInformation("[{Id}][OnRawMessage]\n{message}", interfaceId, message);
+        logger.LogInformation("[{Id}][OnRawMessage]\n{message}", bridgeId, message);
         JsParam? param = JsonSerializer.Deserialize<JsParam>(message);
 
         ArgumentNullException.ThrowIfNull(param);
@@ -464,7 +455,7 @@ internal class MiHoYoJSBridge
                 "hideLoading" => null,
                 "login" => null,
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
-                "share" => Share(param),
+                "share" => await ShareAsync(param).ConfigureAwait(false),
                 "showLoading" => null,
                 _ => LogUnhandledMessage("Unhandled Message Type: {Method}", param.Method),
             };
@@ -480,6 +471,7 @@ internal class MiHoYoJSBridge
     {
         DOMContentLoaded(coreWebView2);
         coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget(logger);
+        coreWebView2.ExecuteScriptAsync(ConvertMouseToTouchScript).AsTask().SafeForget(logger);
     }
 
     private void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
@@ -488,7 +480,7 @@ internal class MiHoYoJSBridge
         ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
         if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
         {
-            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
+            coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript).AsTask().SafeForget(logger);
         }
     }
 }

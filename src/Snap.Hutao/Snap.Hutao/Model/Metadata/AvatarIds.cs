@@ -93,6 +93,10 @@ internal static class AvatarIds
     public static readonly AvatarId Neuvillette = 10000087;
     public static readonly AvatarId Charlotte = 10000088;
     public static readonly AvatarId Furina = 10000089;
+    public static readonly AvatarId Chevreuse = 10000090;
+    public static readonly AvatarId Navia = 10000091;
+    public static readonly AvatarId Gaming = 10000092;
+    public static readonly AvatarId Xianyun = 10000093;
 
     /// <summary>
     /// 检查该角色是否为主角

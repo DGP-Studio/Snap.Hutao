@@ -9,12 +9,25 @@ namespace Snap.Hutao.Service.Game;
 
 internal static class LaunchOptionsExtension
 {
-    public static bool TryGetGameFolderAndFileName(this LaunchOptions options, [NotNullWhen(true)] out string? gameFolder, [NotNullWhen(true)] out string? gameFileName)
+    public static bool TryGetGamePathAndGameDirectory(this LaunchOptions options, out string gamePath, [NotNullWhen(true)] out string? gameDirectory)
+    {
+        gamePath = options.GamePath;
+
+        gameDirectory = Path.GetDirectoryName(gamePath);
+        if (string.IsNullOrEmpty(gameDirectory))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static bool TryGetGameDirectoryAndGameFileName(this LaunchOptions options, [NotNullWhen(true)] out string? gameDirectory, [NotNullWhen(true)] out string? gameFileName)
     {
         string gamePath = options.GamePath;
 
-        gameFolder = Path.GetDirectoryName(gamePath);
-        if (string.IsNullOrEmpty(gameFolder))
+        gameDirectory = Path.GetDirectoryName(gamePath);
+        if (string.IsNullOrEmpty(gameDirectory))
         {
             gameFileName = default;
             return false;
@@ -40,6 +53,18 @@ internal static class LaunchOptionsExtension
         }
 
         return true;
+    }
+
+    public static bool TryGetGamePathAndFilePathByName(this LaunchOptions options, string fileName, out string gamePath, [NotNullWhen(true)] out string? filePath)
+    {
+        if (options.TryGetGamePathAndGameDirectory(out gamePath, out string? gameDirectory))
+        {
+            filePath = Path.Combine(gameDirectory, fileName);
+            return true;
+        }
+
+        filePath = default;
+        return false;
     }
 
     public static ImmutableList<GamePathEntry> GetGamePathEntries(this LaunchOptions options, out GamePathEntry? entry)

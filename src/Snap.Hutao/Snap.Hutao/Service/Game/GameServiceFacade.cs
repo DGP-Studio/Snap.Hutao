@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game.Account;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
@@ -51,15 +52,15 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
     }
 
     /// <inheritdoc/>
-    public ValueTask<GameAccount?> DetectGameAccountAsync()
+    public ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme)
     {
-        return gameAccountService.DetectGameAccountAsync();
+        return gameAccountService.DetectGameAccountAsync(scheme);
     }
 
     /// <inheritdoc/>
-    public GameAccount? DetectCurrentGameAccount()
+    public GameAccount? DetectCurrentGameAccount(SchemeType scheme)
     {
-        return gameAccountService.DetectCurrentGameAccount();
+        return gameAccountService.DetectCurrentGameAccount(scheme);
     }
 
     /// <inheritdoc/>

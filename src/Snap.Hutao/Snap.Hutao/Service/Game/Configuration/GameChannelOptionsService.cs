@@ -17,9 +17,12 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
 
     public ChannelOptions GetChannelOptions()
     {
-        string gamePath = launchOptions.GamePath;
-        string configPath = Path.Combine(Path.GetDirectoryName(gamePath) ?? string.Empty, ConfigFileName);
-        bool isOversea = string.Equals(Path.GetFileName(gamePath), GenshinImpactFileName, StringComparison.OrdinalIgnoreCase);
+        if (!launchOptions.TryGetGamePathAndFilePathByName(ConfigFileName, out string gamePath, out string? configPath))
+        {
+            throw ThrowHelper.InvalidOperation($"Invalid game path: {gamePath}");
+        }
+
+        bool isOversea = LaunchScheme.ExecutableIsOversea(Path.GetFileName(gamePath));
 
         if (!File.Exists(configPath))
         {
@@ -38,10 +41,10 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
 
     public bool SetChannelOptions(LaunchScheme scheme)
     {
-        string gamePath = launchOptions.GamePath;
-        string? directory = Path.GetDirectoryName(gamePath);
-        ArgumentException.ThrowIfNullOrEmpty(directory);
-        string configPath = Path.Combine(directory, ConfigFileName);
+        if (!launchOptions.TryGetGamePathAndFilePathByName(ConfigFileName, out string gamePath, out string? configPath))
+        {
+            return false;
+        }
 
         List<IniElement> elements = default!;
         try
@@ -70,14 +73,16 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
         {
             if (element is IniParameter parameter)
             {
-                if (parameter.Key == "channel")
+                if (parameter.Key is ChannelOptions.ChannelName)
                 {
                     changed = parameter.Set(scheme.Channel.ToString("D")) || changed;
+                    continue;
                 }
 
-                if (parameter.Key == "sub_channel")
+                if (parameter.Key is ChannelOptions.SubChannelName)
                 {
                     changed = parameter.Set(scheme.SubChannel.ToString("D")) || changed;
+                    continue;
                 }
             }
         }

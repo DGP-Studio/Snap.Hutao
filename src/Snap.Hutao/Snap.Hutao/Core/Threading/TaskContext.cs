@@ -9,7 +9,7 @@ namespace Snap.Hutao.Core.Threading;
 /// 任务上下文
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(ITaskContext))]
-internal sealed class TaskContext : ITaskContext
+internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
 {
     private readonly DispatcherQueueSynchronizationContext synchronizationContext;
     private readonly DispatcherQueue dispatcherQueue;
@@ -24,7 +24,7 @@ internal sealed class TaskContext : ITaskContext
         SynchronizationContext.SetSynchronizationContext(synchronizationContext);
     }
 
-    public SynchronizationContext SynchronizationContext { get => synchronizationContext; }
+    public DispatcherQueue DispatcherQueue { get => dispatcherQueue; }
 
     /// <inheritdoc/>
     public ThreadPoolSwitchOperation SwitchToBackgroundAsync()

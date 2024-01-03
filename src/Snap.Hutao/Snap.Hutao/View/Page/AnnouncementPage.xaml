@@ -42,7 +42,12 @@
                                 VerticalAlignment="Top"
                                 cw:VisualExtensions.NormalizedCenterPoint="0.5">
                                 <cww:ConstrainedBox AspectRatio="1080:390" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
-                                    <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
+                                    <shci:CachedImage
+                                        VerticalAlignment="Center"
+                                        PlaceholderMargin="16"
+                                        PlaceholderSource="{StaticResource UI_EmotionIcon271}"
+                                        Source="{Binding Banner}"
+                                        Stretch="UniformToFill"/>
                                 </cww:ConstrainedBox>
                                 <cwa:Explicit.Animations>
                                     <cwa:AnimationSet x:Name="ImageZoomInAnimation">

@@ -13,9 +13,10 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Transient, typeof(IGameLocator), Key = GameLocationSource.Registry)]
 internal sealed partial class RegistryLauncherLocator : IGameLocator
 {
+    private const string RegistryKeyName = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神";
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
@@ -29,50 +30,37 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
         {
             return result;
         }
-        else
-        {
-            string? path = Path.GetDirectoryName(result.Value);
-            ArgumentException.ThrowIfNullOrEmpty(path);
-            string configPath = Path.Combine(path, GameConstants.ConfigFileName);
-            string? escapedPath;
-            using (FileStream stream = File.OpenRead(configPath))
-            {
-                IEnumerable<IniElement> elements = IniSerializer.Deserialize(stream);
-                escapedPath = elements
-                    .OfType<IniParameter>()
-                    .FirstOrDefault(p => p.Key == "game_install_path")?.Value;
-            }
 
-            if (escapedPath is not null)
-            {
-                string gamePath = Path.Combine(Unescape(escapedPath), GameConstants.YuanShenFileName);
-                return new(true, gamePath);
-            }
+        string? path = Path.GetDirectoryName(result.Value);
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        string configPath = Path.Combine(path, GameConstants.ConfigFileName);
+
+        string? escapedPath;
+        using (FileStream stream = File.OpenRead(configPath))
+        {
+            IEnumerable<IniElement> elements = IniSerializer.Deserialize(stream);
+            escapedPath = elements
+                .OfType<IniParameter>()
+                .FirstOrDefault(p => p.Key == "game_install_path")?.Value;
+        }
+
+        if (!string.IsNullOrEmpty(escapedPath))
+        {
+            string gamePath = Path.Combine(Unescape(escapedPath), GameConstants.YuanShenFileName);
+            return new(true, gamePath);
         }
 
         return new(false, string.Empty);
     }
 
-    private static ValueResult<bool, string> LocateInternal(string key)
+    private static ValueResult<bool, string> LocateInternal(string valueName)
     {
-        using (RegistryKey? uninstallKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神"))
+        if (Registry.GetValue(RegistryKeyName, valueName, null) is string path)
         {
-            if (uninstallKey is not null)
-            {
-                if (uninstallKey.GetValue(key) is string path)
-                {
-                    return new(true, path);
-                }
-                else
-                {
-                    return new(false, default!);
-                }
-            }
-            else
-            {
-                return new(false, default!);
-            }
+            return new(true, path);
         }
+
+        return new(false, default!);
     }
 
     private static string Unescape(string str)

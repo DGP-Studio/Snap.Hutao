@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Control;
 using Snap.Hutao.Core.Windowing;
-using Windows.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Snap.Hutao;

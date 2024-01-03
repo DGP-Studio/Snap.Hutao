@@ -120,6 +120,12 @@
   <data name="AppDevNameAndVersion" xml:space="preserve">
     <value>Snap Hutao Dev {0}</value>
   </data>
+  <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao Dev {0} [Administrator]</value>
+  </data>
+  <data name="AppElevatedNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao {0} [Administrator]</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>Snap Hutao</value>
   </data>
@@ -185,9 +191,6 @@
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>Impor</value>
-  </data>
-  <data name="FilePickerPowerShellCommit" xml:space="preserve">
-    <value>Pilih PowerShell</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>Selamat Datang di Snap Hutao, Traveler ~</value>
@@ -932,9 +935,6 @@
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>Tidak dapat mengatur kunci registri tanpa mengaktifkan path panjang</value>
   </data>
-  <data name="ServiceGameRegisteryInteropPowershellNotFound" xml:space="preserve">
-    <value>Direktori instalasi PowerShell tidak ditemukan</value>
-  </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>Tidak dapat membaca file konfigurasi game {0}, file mungkin tidak ada</value>
   </data>
@@ -996,7 +996,7 @@
     <value>Versi UIGF tidak didukung</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
-    <value>发现新版本 {0}</value>
+    <value>Versi terbau {0} sudah tersedia.</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>Beberapa pengguna tercatat sebagai dipilih</value>
@@ -1553,6 +1553,9 @@
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>Gagal ganti akun game</value>
   </data>
+  <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
+    <value>Tidak bisa memilih akun [{1}] dengan UID [{0}], Akun itu tidak berada pada server tersebut</value>
+  </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Tindakan selesai</value>
   </data>
@@ -2097,7 +2100,7 @@
     <value>Mengatur Status Aktivitas Discord Saya Ketika Saya Sedang Bermain Game</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
-    <value>Discord Activity</value>
+    <value>Aktifitas Discord</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
     <value>Berkas</value>
@@ -2143,6 +2146,9 @@
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>Prapengunduhan</value>
+  </data>
+  <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
+    <value>Pilih Path Game</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>Akun ini belum terikat ke UID notifikasi Catatan Realtime.</value>
@@ -2275,6 +2281,15 @@
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
     <value>ID Perangkat</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>Mode administrator akan mengubah ketersediaan dan perilaku beberapa fitur</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>Mode Admin</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>Restart menggunakan Mode Administrator</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>Tampilkan atau sembunyikan acara keinginan tanpa riwayat Wish</value>
@@ -2431,12 +2446,6 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>Saat mengatur jalur permainan, pilih program permainan (Yuanshen.exe atau GenshinImpact.exe) bukan peluncur permainan (launcher.exe)</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
-    <value>Snap Hutao menggunakan PowerShell untuk memodifikasi informasi di registri untuk mengubah akun Game</value>
-  </data>
-  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
-    <value>Path PowerShell</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Pengalaman Shell</value>
@@ -2625,10 +2634,10 @@
     <value>Mengunggah Data</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
-    <value>是否立即安装？</value>
+    <value>Pasang sekarang?</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本已准备就绪</value>
+    <value>Snap Hutao versi {0} sudah siap</value>
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>Auto Click</value>
@@ -2740,6 +2749,15 @@
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>Disalin ke clipboard</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
+    <value>Selesai</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusNotOpen" xml:space="preserve">
+    <value>Terkunci</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusOngoing" xml:space="preserve">
+    <value>Dalam proses</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
     <value>Selesai</value>
@@ -2886,7 +2904,7 @@
     <value>Server Internasional Server Asia</value>
   </data>
   <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
-    <value>国际服 港澳台服</value>
+    <value>Server International: Server TW/HK/MU</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
     <value>Server Internasional Server Eropa</value>
