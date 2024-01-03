@@ -13,7 +13,16 @@ internal static class LaunchGameShared
 {
     public static LaunchScheme? GetCurrentLaunchSchemeFromConfigFile(IGameServiceFacade gameService, IInfoBarService infoBarService)
     {
-        ChannelOptions options = gameService.GetChannelOptions();
+        ChannelOptions options;
+        try
+        {
+            options = gameService.GetChannelOptions();
+        }
+        catch (InvalidOperationException)
+        {
+            return default;
+        }
+
         if (string.IsNullOrEmpty(options.ConfigFilePath))
         {
             try
