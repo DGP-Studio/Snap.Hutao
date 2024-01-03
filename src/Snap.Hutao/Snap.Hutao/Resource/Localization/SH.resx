@@ -1584,7 +1584,7 @@
     <value>后续转换会重新下载所需的文件，确定要删除吗？</value>
   </data>
   <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
-    <value>删除转换服务器缓存</value>
+    <value>删除转换服务器游戏客户端缓存</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>已使用磁盘空间：{0}</value>
@@ -2586,7 +2586,7 @@
     <value>在启动游戏中转换服务器后会产生对应的游戏客户端文件用作缓存</value>
   </data>
   <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
-    <value>清理转换服务器缓存</value>
+    <value>删除转换服务器缓存</value>
   </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>打开文件夹</value>
