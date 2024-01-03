@@ -17,7 +17,7 @@ internal sealed class PackageReplaceStatus
     public PackageReplaceStatus(string name)
     {
         Name = name;
-        Description = default!;
+        Description = name;
     }
 
     /// <summary>

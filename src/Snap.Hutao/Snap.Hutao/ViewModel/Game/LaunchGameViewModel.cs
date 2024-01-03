@@ -225,7 +225,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 // Always ensure game resources
                 if (!await gameService.EnsureGameResourceAsync(SelectedScheme, convertProgress).ConfigureAwait(false))
                 {
-                    infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail, dialog.State.Name);
+                    infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail, dialog.State?.Name ?? string.Empty);
                     return;
                 }
                 else
