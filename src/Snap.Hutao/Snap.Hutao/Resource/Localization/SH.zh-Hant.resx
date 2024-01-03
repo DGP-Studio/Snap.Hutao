@@ -124,7 +124,7 @@
     <value>胡桃Dev {0} [管理员]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
-    <value>胡桃 {0} [管理员]</value>
+    <value>胡桃 {0} [系統管理員]</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>胡桃</value>
@@ -1271,6 +1271,12 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>使用米遊社掃描 QR 碼</value>
   </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>請輸入你正在啟用的功能標題</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>你正在啟用一個危險功能</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>該操作是不可逆，所有用戶登錄狀態會遺失</value>
   </data>
@@ -1554,7 +1560,7 @@
     <value>切換帳號失敗</value>
   </data>
   <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
-    <value>无法选择UID [{0}] 对应的账号 [{1}]，该账号不属于当前服务器</value>
+    <value>無法選擇 UID [{0}] 對應的帳號 [{1}]，該帳號不屬於當前伺服器</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>操作完成</value>
@@ -1573,6 +1579,12 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>創建桌面捷徑失敗</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
+    <value>後續轉換會重新下載所需檔案，確定要刪除嗎？</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
+    <value>删除转换服务器游戏客户端缓存</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>已使用磁碟空間：{0}</value>
@@ -1656,7 +1668,7 @@
     <value>遊戲公告</value>
   </data>
   <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
-    <value>查看详情</value>
+    <value>檢視詳情</value>
   </data>
   <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
     <value>聖遺物評分</value>
@@ -2148,7 +2160,7 @@
     <value>預下載</value>
   </data>
   <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
-    <value>选择游戏路径</value>
+    <value>選擇遊戲路徑</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>該用戶尚未綁定即時便箋通知 UID</value>
@@ -2191,6 +2203,12 @@
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>啟用</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>充分利用支援 HDR 的顯示器以獲得更亮、更生動、更精細的畫面</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>請輸入您的 HoYoLAB UID</value>
@@ -2283,13 +2301,13 @@
     <value>設備 IP</value>
   </data>
   <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
-    <value>管理员模式会影响部分功能的可用性与行为</value>
+    <value>系統管理員模式會影響部分功能的可用性與行為</value>
   </data>
   <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
-    <value>管理员模式</value>
+    <value>系統管理員模式</value>
   </data>
   <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
-    <value>以管理员身份重启</value>
+    <value>以系統管理員身分重啟動</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>在祈願紀錄頁面顯示或隱藏無記錄的歷史祈願活動</value>
@@ -2328,10 +2346,10 @@
     <value>無感驗證</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionDescription" xml:space="preserve">
-    <value>选择想要获取公告的游戏服务器</value>
+    <value>選擇想要獲取公告的遊戲伺服器</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>公告所属服务器</value>
+    <value>公告所屬伺服器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>管理主頁儀表板中的卡片</value>
@@ -2361,7 +2379,7 @@
     <value>主頁</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
-    <value>三思而后行</value>
+    <value>三思而後行</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneHeader" xml:space="preserve">
     <value>危險操作</value>
@@ -2564,6 +2582,12 @@
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
     <value>偵錯主控台</value>
   </data>
+  <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
+    <value>在啟動遊戲中轉換伺服器後會產生對應的遊戲用戶端檔案用作暫存</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
+    <value>删除转换服务器缓存</value>
+  </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>打開檔案夾</value>
   </data>
@@ -2634,10 +2658,10 @@
     <value>上傳資料</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
-    <value>是否立即安装？</value>
+    <value>是否立即安裝？</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本已准备就绪</value>
+    <value>胡桃 {0} 版本已準備就緒</value>
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>自動連續點按</value>
@@ -2747,6 +2771,9 @@
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
     <value>{0} 小時後結束</value>
   </data>
+  <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
+    <value>打開剪貼簿失敗</value>
+  </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>已複製到剪貼簿</value>
   </data>
@@ -2754,10 +2781,10 @@
     <value>全部完成</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusNotOpen" xml:space="preserve">
-    <value>尚未开启</value>
+    <value>尚未開啟</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusOngoing" xml:space="preserve">
-    <value>进行中</value>
+    <value>進行中</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
     <value>已完成</value>
@@ -2889,28 +2916,28 @@
     <value>下載連結複製成功</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
-    <value>无效的服务器</value>
+    <value>無效的伺服器</value>
   </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
     <value>無效的 UID</value>
   </data>
   <data name="WebHoyolabRegionCNGF01" xml:space="preserve">
-    <value>国服 官方服</value>
+    <value>陸服 官方服</value>
   </data>
   <data name="WebHoyolabRegionCNQD01" xml:space="preserve">
-    <value>国服 渠道服</value>
+    <value>陸服 渠道服</value>
   </data>
   <data name="WebHoyolabRegionOSASIA" xml:space="preserve">
-    <value>国际服 亚服</value>
+    <value>國際服 亞服</value>
   </data>
   <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
-    <value>国际服 港澳台服</value>
+    <value>國際服 港澳台服</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
-    <value>国际服 欧服</value>
+    <value>國際服 歐服</value>
   </data>
   <data name="WebHoyolabRegionOSUSA" xml:space="preserve">
-    <value>国际服 美服</value>
+    <value>國際服 美服</value>
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
     <value>胡桃服務維護中</value>
