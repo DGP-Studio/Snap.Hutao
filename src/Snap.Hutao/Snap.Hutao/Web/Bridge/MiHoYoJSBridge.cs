@@ -84,15 +84,12 @@ internal class MiHoYoJSBridge
         """;
 
     private readonly SemaphoreSlim webMessageSemaphore = new(1);
-    private readonly Guid interfaceId = Guid.NewGuid();
+    private readonly Guid bridgeId = Guid.NewGuid();
     private readonly UserAndUid userAndUid;
 
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly ILogger<MiHoYoJSBridge> logger;
-    private readonly IInfoBarService infoBarService;
-    private readonly IClipboardProvider clipboardProvider;
-    private readonly HttpClient httpClient;
 
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2WebMessageReceivedEventArgs> webMessageReceivedEventHandler;
     private readonly TypedEventHandler<CoreWebView2, CoreWebView2DOMContentLoadedEventArgs> domContentLoadedEventHandler;
@@ -109,9 +106,6 @@ internal class MiHoYoJSBridge
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSBridge>>();
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        clipboardProvider = serviceProvider.GetRequiredService<IClipboardProvider>();
-        httpClient = serviceProvider.GetRequiredService<HttpClient>();
 
         webMessageReceivedEventHandler = OnWebMessageReceived;
         domContentLoadedEventHandler = OnDOMContentLoaded;
@@ -132,11 +126,6 @@ internal class MiHoYoJSBridge
         coreWebView2 = default!;
     }
 
-    /// <summary>
-    /// 关闭
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual async ValueTask<IJsBridgeResult?> ClosePageAsync(JsParam param)
     {
         await taskContext.SwitchToMainThreadAsync();
@@ -152,21 +141,11 @@ internal class MiHoYoJSBridge
         return null;
     }
 
-    /// <summary>
-    /// 调整分享设置
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual IJsBridgeResult? ConfigureShare(JsParam param)
     {
         return null;
     }
 
-    /// <summary>
-    /// 获取ActionTicket
-    /// </summary>
-    /// <param name="jsParam">参数</param>
-    /// <returns>响应</returns>
     protected virtual async ValueTask<IJsBridgeResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
     {
         return await serviceProvider
@@ -175,11 +154,6 @@ internal class MiHoYoJSBridge
             .ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// 异步获取账户信息
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual JsResult<Dictionary<string, string>> GetCookieInfo(JsParam param)
     {
         ArgumentNullException.ThrowIfNull(userAndUid.User.LToken);
@@ -195,11 +169,6 @@ internal class MiHoYoJSBridge
         };
     }
 
-    /// <summary>
-    /// 获取CookieToken
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual async ValueTask<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
     {
         IUserService userService = serviceProvider.GetRequiredService<IUserService>();
@@ -215,11 +184,6 @@ internal class MiHoYoJSBridge
         return new() { Data = new() { [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN] } };
     }
 
-    /// <summary>
-    /// 获取当前语言和时区
-    /// </summary>
-    /// <param name="param">param</param>
-    /// <returns>语言与时区</returns>
     protected virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
     {
         MetadataOptions metadataOptions = serviceProvider.GetRequiredService<MetadataOptions>();
@@ -234,11 +198,6 @@ internal class MiHoYoJSBridge
         };
     }
 
-    /// <summary>
-    /// 获取1代动态密钥
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
         DataSignOptions options = DataSignOptions.CreateForGeneration1(SaltType.LK2, true);
@@ -251,11 +210,6 @@ internal class MiHoYoJSBridge
         };
     }
 
-    /// <summary>
-    /// 获取2代动态密钥
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
         DataSignOptions options = DataSignOptions.CreateForGeneration2(SaltType.X4, false, param.Payload.Body, param.Payload.GetQueryParam());
@@ -268,11 +222,6 @@ internal class MiHoYoJSBridge
         };
     }
 
-    /// <summary>
-    /// 获取Http请求头
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>Http请求头</returns>
     protected virtual JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
     {
         Dictionary<string, string> headers = new()
@@ -306,21 +255,11 @@ internal class MiHoYoJSBridge
     {
     }
 
-    /// <summary>
-    /// 获取状态栏高度
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>结果</returns>
     protected virtual JsResult<Dictionary<string, object>> GetStatusBarHeight(JsParam param)
     {
         return new() { Data = new() { ["statusBarHeight"] = 0 } };
     }
 
-    /// <summary>
-    /// 获取用户基本信息
-    /// </summary>
-    /// <param name="param">参数</param>
-    /// <returns>响应</returns>
     protected virtual async ValueTask<JsResult<Dictionary<string, object>>> GetUserInfoAsync(JsParam param)
     {
         Response<UserFullInfoWrapper> response = await serviceProvider
@@ -374,81 +313,18 @@ internal class MiHoYoJSBridge
         return null;
     }
 
-    protected virtual async ValueTask<IJsBridgeResult?> Share(JsParam<SharePayload> param)
+    protected virtual async ValueTask<IJsBridgeResult?> ShareAsync(JsParam<SharePayload> param)
     {
-        if (param.Payload.Type is "image")
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            if (param.Payload.Content.ImageUrl is { } imageUrl)
-            {
-                using (Stream stream = await httpClient.GetStreamAsync(imageUrl).ConfigureAwait(false))
-                {
-                    using (InMemoryRandomAccessStream origStream = new())
-                    {
-                        await stream.CopyToAsync(origStream.AsStreamForWrite()).ConfigureAwait(false);
-                        using (InMemoryRandomAccessStream imageStream = new())
-                        {
-                            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, imageStream);
-                            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(origStream);
-                            encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
-                            await encoder.FlushAsync();
-                            await taskContext.SwitchToMainThreadAsync();
-                            if (clipboardProvider.SetBitmap(imageStream))
-                            {
-                                infoBarService.Success(SH.WebBridgeShareCopyToClipboardSuccess);
-                            }
-                            else
-                            {
-                                infoBarService.Error(SH.WebBridgeShareCopyToClipboardFailed);
-                            }
-                        }
-                    }
-                }
-            }
-            else if (param.Payload.Content.ImageBase64 is { } imageBase64)
-            {
-                await ShareImageBase64CoreAsync(imageBase64).ConfigureAwait(false);
-            }
-        }
-        else if (param.Payload.Type is "screenshot")
-        {
-            await taskContext.SwitchToMainThreadAsync();
-            string base64Json = await coreWebView2.CallDevToolsProtocolMethodAsync("Page.captureScreenshot", """{"format":"png","captureBeyondViewport":true}""");
-            string? base64 = JsonDocument.Parse(base64Json).RootElement.GetProperty("data").GetString();
-            ArgumentNullException.ThrowIfNull(base64);
+            JsonSerializerOptions jsonSerializerOptions = scope.ServiceProvider.GetRequiredService<JsonSerializerOptions>();
+            HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
+            IClipboardProvider clipboardProvider = scope.ServiceProvider.GetRequiredService<IClipboardProvider>();
+            IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
 
-            await ShareImageBase64CoreAsync(base64).ConfigureAwait(false);
-        }
+            BridgeShareContext context = new(coreWebView2, taskContext, httpClient, infoBarService, clipboardProvider, jsonSerializerOptions);
 
-        return new JsResult<Dictionary<string, string>>()
-        {
-            Data = new()
-            {
-                ["type"] = param.Payload.Type,
-            },
-        };
-    }
-
-    private async ValueTask ShareImageBase64CoreAsync(string base64)
-    {
-        using (MemoryStream imageStream = new())
-        {
-            await imageStream.WriteAsync(Convert.FromBase64String(base64)).ConfigureAwait(false);
-            using (InMemoryRandomAccessStream stream = new())
-            {
-                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
-                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream.AsRandomAccessStream());
-                encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
-                await encoder.FlushAsync();
-                await taskContext.SwitchToMainThreadAsync();
-                if (clipboardProvider.SetBitmap(stream))
-                {
-                    infoBarService.Success(SH.WebBridgeShareCopyToClipboardSuccess);
-                }
-                else
-                {
-                    infoBarService.Error(SH.WebBridgeShareCopyToClipboardFailed);
-                }
-            }
+            return await BridgeShareImplmentation.ShareAsync(param, context).ConfigureAwait(false);
         }
     }
 
@@ -519,7 +395,7 @@ internal class MiHoYoJSBridge
             .Append(')')
             .ToString();
 
-        logger?.LogInformation("[{Id}][ExecuteScript: {callback}]\n{payload}", interfaceId, callback, payload);
+        logger?.LogInformation("[{Id}][ExecuteScript: {callback}]\n{payload}", bridgeId, callback, payload);
 
         await taskContext.SwitchToMainThreadAsync();
         if (coreWebView2 is null || coreWebView2.IsDisposed())
@@ -533,7 +409,7 @@ internal class MiHoYoJSBridge
     private async void OnWebMessageReceived(CoreWebView2 webView2, CoreWebView2WebMessageReceivedEventArgs args)
     {
         string message = args.TryGetWebMessageAsString();
-        logger.LogInformation("[{Id}][OnRawMessage]\n{message}", interfaceId, message);
+        logger.LogInformation("[{Id}][OnRawMessage]\n{message}", bridgeId, message);
         JsParam? param = JsonSerializer.Deserialize<JsParam>(message);
 
         ArgumentNullException.ThrowIfNull(param);
@@ -582,7 +458,7 @@ internal class MiHoYoJSBridge
                 "hideLoading" => null,
                 "login" => null,
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
-                "share" => await Share(param).ConfigureAwait(false),
+                "share" => await ShareAsync(param).ConfigureAwait(false),
                 "showLoading" => null,
                 _ => LogUnhandledMessage("Unhandled Message Type: {Method}", param.Method),
             };
