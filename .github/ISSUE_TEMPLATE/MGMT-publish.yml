@@ -21,17 +21,11 @@ body:
           - [ ]  更新日志
           - [ ]  功能文档更新
 
-      ## 发布版本 [半自动]
-
-      - [ ] 在 GitHub 个人设置中更新 [Publish-Automate Beta PAT](https://github.com/settings/tokens?type=beta)，有效期需小于预计发版需要天数
-      - [ ] 将更新的 PAT 更新至 Publish-Automate 库的 [Actions Secrets](https://github.com/DGP-Automation/Publish-Automate/settings/secrets/actions) 中
-
-      ***
+       ***
 
       - [ ] 主分支合并入 release 分支
       - [ ] 等待 Release 自动发布
       - [ ] 检查极狐是否同步完成 Release
-
       - [ ] 通知用户
 - type: checkboxes
   id: checklist-final
