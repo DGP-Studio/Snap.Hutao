@@ -164,7 +164,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
             .Select(category => new DownloadSummary(serviceProvider, category))
             .ToObservableCollection();
 
-        await Parallel.ForEachAsync(DownloadSummaries, async (summary, token) =>
+        await Parallel.ForEachAsync([..DownloadSummaries], async (summary, token) =>
         {
             if (await summary.DownloadAndExtractAsync().ConfigureAwait(false))
             {
