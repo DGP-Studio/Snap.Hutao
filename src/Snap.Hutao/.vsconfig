@@ -1,0 +1,11 @@
+{
+    "version": "1.0",
+    "components": [
+        "Microsoft.VisualStudio.Workload.ManagedDesktop",
+        "Microsoft.VisualStudio.Workload.NativeDesktop",
+        "Microsoft.VisualStudio.Workload.Universal"
+    ],
+    "extensions": [
+        "https://marketplace.visualstudio.com/items?itemName=ProjectReunion.MicrosoftSingleProjectMSIXPackagingToolsDev17"
+    ]
+}
