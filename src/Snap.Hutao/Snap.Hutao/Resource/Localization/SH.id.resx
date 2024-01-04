@@ -1272,10 +1272,10 @@
     <value>Pindai kode QR dengan Aplikasi MiHoYo BBS</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>请输入你正在启用的功能标题</value>
+    <value>Mohon Tambahkan Judul Dari Fitur Yang Anda Aktifkan</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
-    <value>你正在启用一个危险功能</value>
+    <value>Anda Mengaktifkan Fitur Berbahaya</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>Tindakan ini tidak dapat dibatalkan, dan semua status login pengguna akan hilang.</value>
@@ -1581,10 +1581,10 @@
     <value>Gagal membuat shortcut di desktop</value>
   </data>
   <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
-    <value>后续转换会重新下载所需的文件，确定要删除吗？</value>
+    <value>Anda akan diminta mengunduh file yang diperlukan, Yakin ingin menghapus?</value>
   </data>
   <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
-    <value>删除转换服务器游戏客户端缓存</value>
+    <value>Menghapus Cache Server Konfersi</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>Ruang disk yang digunakan: {0}</value>
@@ -2583,10 +2583,10 @@
     <value>Konsol debug</value>
   </data>
   <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
-    <value>在启动游戏中转换服务器后会产生对应的游戏客户端文件用作缓存</value>
+    <value>File Cache diunduh untuk Server Konfersi pada Game Launcher</value>
   </data>
   <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
-    <value>删除转换服务器缓存</value>
+    <value>Menghapus Cache Server Konfersi</value>
   </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>Buka berkas</value>
