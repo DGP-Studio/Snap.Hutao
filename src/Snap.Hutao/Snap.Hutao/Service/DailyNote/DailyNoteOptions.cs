@@ -58,7 +58,11 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
             {
                 if (SelectedRefreshTime is not null)
                 {
-                    scheduleTaskInterop.RegisterForDailyNoteRefresh(SelectedRefreshTime.Value);
+                    if (!scheduleTaskInterop.RegisterForDailyNoteRefresh(SelectedRefreshTime.Value))
+                    {
+                        serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteRegisterTaskFail);
+                        return;
+                    }
                 }
             }
             else
