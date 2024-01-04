@@ -875,6 +875,9 @@
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>游戏文件操作失败：{0}</value>
   </data>
+  <data name="ServiceGameLaunchExecutionSetChannelOptionsGamePathNotValid" xml:space="preserve">
+    <value>请选择游戏路径</value>
+  </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>游戏进程已退出</value>
   </data>
