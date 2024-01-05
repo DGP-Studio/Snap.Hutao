@@ -513,7 +513,7 @@
     <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
-    <value>胡桃云保存的祈愿记录存档数已达当前账号上限</value>
+    <value>Достигнуто максимально допустимое количество архивов истории желаний в облаке Snap Hutao</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
     <value>未开通祈愿记录上传服务或已到期</value>
@@ -2757,201 +2757,201 @@
     <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>\d\.\d版本更新说明</value>
+    <value>Версия \d\.\d Подробности обновления</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
-    <value>{0} 天后开始</value>
+    <value>Начало через {0} дней</value>
   </data>
   <data name="WebAnnouncementTimeDaysEndFormat" xml:space="preserve">
-    <value>{0} 天后结束</value>
+    <value>Закончится через {0} дней</value>
   </data>
   <data name="WebAnnouncementTimeHoursBeginFormat" xml:space="preserve">
-    <value>{0} 小时后开始</value>
+    <value>Начинается через {0} часов</value>
   </data>
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
-    <value>{0} 小时后结束</value>
+    <value>Закончится через {0} часов</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
-    <value>打开剪贴板失败</value>
+    <value>Не удалось открыть буфер обмена</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
-    <value>已复制到剪贴板</value>
+    <value>Скопировано в буфер обмена</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
-    <value>全部完成</value>
+    <value>Завершенно</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusNotOpen" xml:space="preserve">
-    <value>尚未开启</value>
+    <value>Недоступно</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusOngoing" xml:space="preserve">
-    <value>进行中</value>
+    <value>В процессе</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
-    <value>已完成</value>
+    <value>Выполнено</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusForbid" xml:space="preserve">
-    <value>禁止领取</value>
+    <value>Forbid to Claim</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusInvalid" xml:space="preserve">
-    <value>无效</value>
+    <value>Недействительно</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusTakenAward" xml:space="preserve">
-    <value>已领取</value>
+    <value>Получено</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusUnfinished" xml:space="preserve">
-    <value>尚未完成</value>
+    <value>Незаконченно</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusWaitTaken" xml:space="preserve">
-    <value>等待领取</value>
+    <value>Ready to claim</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
-    <value>{0} 时</value>
+    <value>{0} часов</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainMinutesFormat" xml:space="preserve">
-    <value>{0} 分</value>
+    <value>{0} минут</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
-    <value>今日完成委托数量不足</value>
+    <value>Incomplete Daily Commissions</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
-    <value>「每日委托」奖励未领取</value>
+    <value>Ежедневная награда не собрана</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
-    <value>「每日委托」奖励已领取</value>
+    <value>Ежедневная награда собрана</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
-    <value>预计 {0} {1:HH:mm} 达到存储上限</value>
+    <value>Будет заполнен через {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
-    <value>尚未解锁洞天</value>
+    <value>Serenitea Pot not Unlocked</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
-    <value>今天</value>
+    <value>Сегодня</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay1" xml:space="preserve">
-    <value>明天</value>
+    <value>Завтра</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
-    <value>后天</value>
+    <value>Послезавтра</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDayFormat" xml:space="preserve">
-    <value>{0} 天</value>
+    <value>{0} день</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
-    <value>原粹树脂已完全恢复</value>
+    <value>Смола заполнена</value>
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
-    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
+    <value>Будет пополнен через {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
-    <value>后可再次使用</value>
+    <value>Снова готов к использованию после</value>
   </data>
   <data name="WebDailyNoteTransformerDaysFormat" xml:space="preserve">
-    <value>{0} 天</value>
+    <value>{0} дней</value>
   </data>
   <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
-    <value>{0} 时</value>
+    <value>{0} часов</value>
   </data>
   <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
-    <value>{0} 分</value>
+    <value>{0} минут</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
-    <value>尚未获得</value>
+    <value>Не получен</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtainedDetail" xml:space="preserve">
-    <value>尚未获得参量质变仪</value>
+    <value>Transformer not obtained</value>
   </data>
   <data name="WebDailyNoteTransformerNotReached" xml:space="preserve">
-    <value>冷却中</value>
+    <value>Перезарядка</value>
   </data>
   <data name="WebDailyNoteTransformerReached" xml:space="preserve">
-    <value>可使用</value>
+    <value>Разрешить</value>
   </data>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
-    <value>已准备完成</value>
+    <value>Готов</value>
   </data>
   <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
-    <value>{0} 秒</value>
+    <value>{0} Секунд</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-我的角色-实时便笺」页面查看</value>
+    <value>Проверка не удалась. Пожалуйста, проверьте miHoYo BBS - Мой персонаж - Заметки в реальном времени вручную</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
-    <value>错误的 UID 格式</value>
+    <value>Неправильный формат UID</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>角色 UID 不存在，请稍候再试</value>
+    <value>Идентификатор UID не существует, пожалуйста, повторите попытку позже</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
-    <value>游戏维护中</value>
+    <value>Игра на обновлении</value>
   </data>
   <data name="WebEnkaResponseStatusCode429" xml:space="preserve">
-    <value>请求过快，请稍后再试</value>
+    <value>Слишком много запросов, пожалуйста, повторите попытку позже</value>
   </data>
   <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
-    <value>服务器偶发错误</value>
+    <value>Случайная ошибка сервера</value>
   </data>
   <data name="WebEnkaResponseStatusCode503" xml:space="preserve">
-    <value>服务器严重错误</value>
+    <value>Критическая ошибка сервера.</value>
   </data>
   <data name="WebEnkaResponseStatusCodeUnknown" xml:space="preserve">
-    <value>未知的服务器错误</value>
+    <value>Неизвестная ошибка сервера</value>
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
-    <value>角色活动祈愿</value>
+    <value>Молитва события персонажа</value>
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
-    <value>角色活动祈愿-2</value>
+    <value>Молитва события персонажа - 2</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
-    <value>新手祈愿</value>
+    <value>Молитва новичка</value>
   </data>
   <data name="WebGachaConfigTypePermanentWish" xml:space="preserve">
-    <value>常驻祈愿</value>
+    <value>Стандартная молитва</value>
   </data>
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
-    <value>武器活动祈愿</value>
+    <value>Молитва события оружия</value>
   </data>
   <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
-    <value>下载链接复制成功</value>
+    <value>Ссылка успешно скопирована</value>
   </data>
   <data name="WebHoyolabInvalidRegion" xml:space="preserve">
-    <value>无效的服务器</value>
+    <value>Ошибка сервера</value>
   </data>
   <data name="WebHoyolabInvalidUid" xml:space="preserve">
-    <value>无效的 UID</value>
+    <value>Invalid UID</value>
   </data>
   <data name="WebHoyolabRegionCNGF01" xml:space="preserve">
-    <value>国服 官方服</value>
+    <value>CN Server: Official</value>
   </data>
   <data name="WebHoyolabRegionCNQD01" xml:space="preserve">
-    <value>国服 渠道服</value>
+    <value>CN Server: bilibili</value>
   </data>
   <data name="WebHoyolabRegionOSASIA" xml:space="preserve">
-    <value>国际服 亚服</value>
+    <value>Oversea Server: Asian</value>
   </data>
   <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
-    <value>国际服 港澳台服</value>
+    <value>Oversea Server: TW/HK/MU server</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
-    <value>国际服 欧服</value>
+    <value>Oversea Server: EU</value>
   </data>
   <data name="WebHoyolabRegionOSUSA" xml:space="preserve">
-    <value>国际服 美服</value>
+    <value>Oversea Server: NA</value>
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
-    <value>胡桃服务维护中</value>
+    <value>Сервер Snap Hutao находится на техническом обслуживании</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>
+    <value>Проверка не удалась. Пожалуйста, подтвердите вручную или зайдите на страницу miHoYo BBS - Мои персонажи</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
-    <value>状态：{0} | 信息：{1}</value>
+    <value>Код возврата: {0} | Сообщение: {1}</value>
   </data>
   <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
-    <value>请刷新 Cookie，原始消息：{0}</value>
+    <value>Пожалуйста, обновите файл cookie, необработанное сообщение: {0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
-    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+    <value>[{1}] исключение сетевого запроса в [{0}] пожалуйста, повторите попытку позже</value>
   </data>
 </root>
