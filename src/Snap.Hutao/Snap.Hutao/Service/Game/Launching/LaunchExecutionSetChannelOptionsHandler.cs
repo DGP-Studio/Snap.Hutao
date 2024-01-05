@@ -9,14 +9,12 @@ namespace Snap.Hutao.Service.Game.Launching;
 
 internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecutionDelegateHandler
 {
-    private const string ConfigFileName = "config.ini";
-
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.Options.TryGetGamePathAndFilePathByName(ConfigFileName, out string gamePath, out string? configPath))
+        if (!context.Options.TryGetGamePathAndFilePathByName(GameConstants.ConfigFileName, out string gamePath, out string? configPath))
         {
             context.Result.Kind = LaunchExecutionResultKind.NoActiveGamePath;
-            context.Result.ErrorMessage = SH.ServiceGameLaunchExecutionSetChannelOptionsGamePathNotValid;
+            context.Result.ErrorMessage = SH.ServiceGameLaunchExecutionGamePathNotValid;
             return;
         }
 
@@ -42,7 +40,7 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
         }
         catch (UnauthorizedAccessException)
         {
-            context.Result.Kind = LaunchExecutionResultKind.GameConfigUnauthorizedAccess;
+            context.Result.Kind = LaunchExecutionResultKind.GameConfigInsufficientPermissions;
             context.Result.ErrorMessage = SH.ServiceGameSetMultiChannelUnauthorizedAccess;
             return;
         }

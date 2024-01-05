@@ -218,7 +218,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
             gameService.SetChannelOptions(SelectedScheme);
 
             LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
-            IProgress<PackageReplaceStatus> convertProgress = progressFactory.CreateForMainThread<PackageReplaceStatus>(state => dialog.State = state);
+            IProgress<PackageConvertStatus> convertProgress = progressFactory.CreateForMainThread<PackageConvertStatus>(state => dialog.State = state);
 
             using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
             {

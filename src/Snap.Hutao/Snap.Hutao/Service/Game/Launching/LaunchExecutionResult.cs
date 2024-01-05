@@ -15,7 +15,12 @@ internal enum LaunchExecutionResultKind
     Ok,
     NoActiveScheme,
     NoActiveGamePath,
+    GameProcessRunning,
     GameConfigFileNotFound,
     GameConfigDirectoryNotFound,
-    GameConfigUnauthorizedAccess,
+    GameConfigInsufficientPermissions,
+    GameDirectoryInsufficientPermissions,
+    GameResourceIndexQueryInvalidResponse,
+    GameResourcePackageConvertInternalError,
+    GameAccountRegistryWriteResultNotMatch,
 }

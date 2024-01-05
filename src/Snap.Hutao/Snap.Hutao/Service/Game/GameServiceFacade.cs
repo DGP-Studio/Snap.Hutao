@@ -100,7 +100,7 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
     }
 
     /// <inheritdoc/>
-    public ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
+    public ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageConvertStatus> progress)
     {
         return gamePackageService.EnsureGameResourceAsync(launchScheme, progress);
     }

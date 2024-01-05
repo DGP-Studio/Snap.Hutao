@@ -167,7 +167,7 @@ internal sealed partial class GameProcessService : IGameProcessService
             GameRunningTracker tracker = new(service, isOversea);
             if (tracker.previousSetDiscordActivityWhenPlaying)
             {
-                await service.discordService.SetPlayingActivity(isOversea).ConfigureAwait(false);
+                await service.discordService.SetPlayingActivityAsync(isOversea).ConfigureAwait(false);
             }
 
             return tracker;
@@ -177,7 +177,7 @@ internal sealed partial class GameProcessService : IGameProcessService
         {
             if (previousSetDiscordActivityWhenPlaying)
             {
-                await service.discordService.SetNormalActivity().ConfigureAwait(false);
+                await service.discordService.SetNormalActivityAsync().ConfigureAwait(false);
             }
 
             service.isGameRunning = false;

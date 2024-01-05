@@ -5,7 +5,7 @@ namespace Snap.Hutao.Service.Discord;
 
 internal interface IDiscordService
 {
-    ValueTask SetNormalActivity();
+    ValueTask SetNormalActivityAsync();
 
-    ValueTask SetPlayingActivity(bool isOversea);
+    ValueTask SetPlayingActivityAsync(bool isOversea);
 }

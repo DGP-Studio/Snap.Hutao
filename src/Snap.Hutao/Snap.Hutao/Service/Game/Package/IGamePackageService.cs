@@ -7,5 +7,5 @@ namespace Snap.Hutao.Service.Game.Package;
 
 internal interface IGamePackageService
 {
-    ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress);
+    ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageConvertStatus> progress);
 }

@@ -19,7 +19,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
 
-    public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
+    public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageConvertStatus> progress)
     {
         if (!launchOptions.TryGetGameDirectoryAndGameFileName(out string? gameFolder, out string? gameFileName))
         {
