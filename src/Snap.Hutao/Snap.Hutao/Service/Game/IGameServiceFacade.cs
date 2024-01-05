@@ -4,8 +4,6 @@
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game.Configuration;
-using Snap.Hutao.Service.Game.Package;
-using Snap.Hutao.Service.Game.Scheme;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Game;
