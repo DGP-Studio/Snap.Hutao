@@ -16,7 +16,7 @@ internal sealed partial class LaunchExecutionContext
     private readonly LaunchOptions options;
 
     [SuppressMessage("", "SH007")]
-    public LaunchExecutionContext(IServiceProvider serviceProvider,IViewModelSupportLaunchExecution viewModel, LaunchScheme? scheme, GameAccount? account)
+    public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, LaunchScheme? scheme, GameAccount? account)
         : this(serviceProvider)
     {
         ViewModel = viewModel;

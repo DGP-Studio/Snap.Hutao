@@ -14,5 +14,8 @@ internal sealed class LaunchExecutionStatusProgressHandler : ILaunchExecutionDel
         context.Progress = progressFactory.CreateForMainThread<LaunchStatus>(status => statusOptions.LaunchStatus = status);
 
         await next().ConfigureAwait(false);
+
+        // Clear status
+        context.Progress.Report(default!);
     }
 }
