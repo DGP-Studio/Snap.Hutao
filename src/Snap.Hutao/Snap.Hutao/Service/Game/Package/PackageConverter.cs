@@ -34,7 +34,7 @@ internal sealed partial class PackageConverter
     private readonly HttpClient httpClient;
     private readonly ILogger<PackageConverter> logger;
 
-    public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResource, string gameFolder, IProgress<PackageReplaceStatus> progress)
+    public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResource, string gameFolder, IProgress<PackageConvertStatus> progress)
     {
         // 以 国服 => 国际 为例
         // 1. 下载国际服的 pkg_version 文件，转换为索引字典
@@ -188,7 +188,7 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async ValueTask PrepareCacheFilesAsync(List<PackageItemOperationInfo> operations, PackageConverterFileSystemContext context, IProgress<PackageReplaceStatus> progress)
+    private async ValueTask PrepareCacheFilesAsync(List<PackageItemOperationInfo> operations, PackageConverterFileSystemContext context, IProgress<PackageConvertStatus> progress)
     {
         foreach (PackageItemOperationInfo info in operations)
         {
@@ -204,7 +204,7 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async ValueTask SkipOrDownloadAsync(PackageItemOperationInfo info, PackageConverterFileSystemContext context, IProgress<PackageReplaceStatus> progress)
+    private async ValueTask SkipOrDownloadAsync(PackageItemOperationInfo info, PackageConverterFileSystemContext context, IProgress<PackageConvertStatus> progress)
     {
         // 还原正确的远程地址
         string remoteName = string.Format(CultureInfo.CurrentCulture, info.Remote.RelativePath, context.ToDataFolderName);
@@ -230,7 +230,7 @@ internal sealed partial class PackageConverter
         Directory.CreateDirectory(directory);
 
         string remoteUrl = context.GetScatteredFilesUrl(remoteName);
-        HttpShardCopyWorkerOptions<PackageReplaceStatus> options = new()
+        HttpShardCopyWorkerOptions<PackageConvertStatus> options = new()
         {
             HttpClient = httpClient,
             SourceUrl = remoteUrl,
@@ -238,7 +238,7 @@ internal sealed partial class PackageConverter
             StatusFactory = (bytesRead, totalBytes) => new(remoteName, bytesRead, totalBytes),
         };
 
-        using (HttpShardCopyWorker<PackageReplaceStatus> worker = await HttpShardCopyWorker<PackageReplaceStatus>.CreateAsync(options).ConfigureAwait(false))
+        using (HttpShardCopyWorker<PackageConvertStatus> worker = await HttpShardCopyWorker<PackageConvertStatus>.CreateAsync(options).ConfigureAwait(false))
         {
             try
             {
@@ -258,7 +258,7 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async ValueTask<bool> ReplaceGameResourceAsync(List<PackageItemOperationInfo> operations, PackageConverterFileSystemContext context, IProgress<PackageReplaceStatus> progress)
+    private async ValueTask<bool> ReplaceGameResourceAsync(List<PackageItemOperationInfo> operations, PackageConverterFileSystemContext context, IProgress<PackageConvertStatus> progress)
     {
         // 执行下载与移动操作
         foreach (PackageItemOperationInfo info in operations)

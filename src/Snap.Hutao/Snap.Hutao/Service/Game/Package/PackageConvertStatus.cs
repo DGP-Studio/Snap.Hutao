@@ -8,25 +8,15 @@ namespace Snap.Hutao.Service.Game.Package;
 /// <summary>
 /// 包更新状态
 /// </summary>
-internal sealed class PackageReplaceStatus
+internal sealed class PackageConvertStatus
 {
-    /// <summary>
-    /// 构造一个新的包更新状态
-    /// </summary>
-    /// <param name="name">描述</param>
-    public PackageReplaceStatus(string name)
+    public PackageConvertStatus(string name)
     {
         Name = name;
         Description = name;
     }
 
-    /// <summary>
-    /// 构造一个新的包更新状态
-    /// </summary>
-    /// <param name="name">名称</param>
-    /// <param name="bytesRead">读取的字节数</param>
-    /// <param name="totalBytes">总字节数</param>
-    public PackageReplaceStatus(string name, long bytesRead, long totalBytes)
+    public PackageConvertStatus(string name, long bytesRead, long totalBytes)
     {
         Percent = (double)bytesRead / totalBytes;
         Name = name;

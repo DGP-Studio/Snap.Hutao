@@ -49,8 +49,6 @@ internal interface IGameServiceFacade
     /// <returns>是否正在运行</returns>
     bool IsGameRunning();
 
-    ValueTask LaunchAsync(IProgress<LaunchStatus> progress);
-
     /// <summary>
     /// 异步修改游戏账号名称
     /// </summary>
@@ -64,28 +62,6 @@ internal interface IGameServiceFacade
     /// <param name="gameAccount">账号</param>
     /// <returns>任务</returns>
     ValueTask RemoveGameAccountAsync(GameAccount gameAccount);
-
-    /// <summary>
-    /// 替换游戏资源
-    /// </summary>
-    /// <param name="launchScheme">目标启动方案</param>
-    /// <param name="progress">进度</param>
-    /// <returns>是否替换成功</returns>
-    ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress);
-
-    /// <summary>
-    /// 修改注册表中的账号信息
-    /// </summary>
-    /// <param name="account">账号</param>
-    /// <returns>是否设置成功</returns>
-    bool SetGameAccount(GameAccount account);
-
-    /// <summary>
-    /// 设置多通道值
-    /// </summary>
-    /// <param name="scheme">方案</param>
-    /// <returns>是否更改了ini文件</returns>
-    bool SetChannelOptions(LaunchScheme scheme);
 
     GameAccount? DetectCurrentGameAccount(SchemeType scheme);
 }

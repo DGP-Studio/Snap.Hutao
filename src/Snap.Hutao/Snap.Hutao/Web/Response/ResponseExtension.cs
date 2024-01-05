@@ -24,4 +24,19 @@ internal static class ResponseExtension
             return false;
         }
     }
+
+    public static bool TryGetDataWithoutUINotification<TData>(this Response<TData> response, [NotNullWhen(true)] out TData? data)
+    {
+        if (response.ReturnCode == 0)
+        {
+            ArgumentNullException.ThrowIfNull(response.Data);
+            data = response.Data;
+            return true;
+        }
+        else
+        {
+            data = default;
+            return false;
+        }
+    }
 }
