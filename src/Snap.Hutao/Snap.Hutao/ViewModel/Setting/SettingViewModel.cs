@@ -284,6 +284,11 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
                 Directory.Delete(cacheFolder, true);
             }
 
+            if (DataFolderView is not null)
+            {
+                await DataFolderView.SetFolderSizeAsync().ConfigureAwait(false);
+            }
+
             infoBarService.Information(SH.ViewModelSettingActionComplete);
         }
     }
