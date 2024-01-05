@@ -15,7 +15,18 @@ internal sealed partial class LaunchExecutionContext
     private readonly ITaskContext taskContext;
     private readonly LaunchOptions options;
 
+    [SuppressMessage("", "SH007")]
+    public LaunchExecutionContext(IServiceProvider serviceProvider,IViewModelSupportLaunchExecution viewModel, LaunchScheme? scheme, GameAccount? account)
+        : this(serviceProvider)
+    {
+        ViewModel = viewModel;
+        Scheme = scheme!;
+        Account = account;
+    }
+
     public LaunchExecutionResult Result { get; } = new();
+
+    public CancellationToken CancellationToken { get; set; }
 
     public IServiceProvider ServiceProvider { get => serviceProvider; }
 
@@ -31,5 +42,7 @@ internal sealed partial class LaunchExecutionContext
 
     public GameAccount? Account { get; set; }
 
-    public IProgress<LaunchStatus> Progress { get; set; }
+    public IProgress<LaunchStatus> Progress { get; set; } = default!;
+
+    public System.Diagnostics.Process Process { get; set; } = default!;
 }

@@ -9,18 +9,3 @@ internal sealed class LaunchExecutionResult
 
     public string ErrorMessage { get; set; } = default!;
 }
-
-internal enum LaunchExecutionResultKind
-{
-    Ok,
-    NoActiveScheme,
-    NoActiveGamePath,
-    GameProcessRunning,
-    GameConfigFileNotFound,
-    GameConfigDirectoryNotFound,
-    GameConfigInsufficientPermissions,
-    GameDirectoryInsufficientPermissions,
-    GameResourceIndexQueryInvalidResponse,
-    GameResourcePackageConvertInternalError,
-    GameAccountRegistryWriteResultNotMatch,
-}

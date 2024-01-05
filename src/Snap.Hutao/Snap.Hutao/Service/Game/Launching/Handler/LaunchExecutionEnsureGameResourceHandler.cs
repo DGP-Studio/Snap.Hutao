@@ -13,7 +13,7 @@ using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.IO;
 
-namespace Snap.Hutao.Service.Game.Launching;
+namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutionDelegateHandler
 {
@@ -50,6 +50,8 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             context.Result.ErrorMessage = SH.ServiceGameLaunchExecutionGamePathNotValid;
             return false;
         }
+
+        context.Logger.LogInformation("Game folder: {GameFolder}", gameFolder);
 
         if (!CheckDirectoryPermissions(gameFolder))
         {

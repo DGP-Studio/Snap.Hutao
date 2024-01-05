@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Service.Game.Account;
 
-namespace Snap.Hutao.Service.Game.Launching;
+namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionSetWindowsHDRHandler : ILaunchExecutionDelegateHandler
 {
@@ -11,6 +11,7 @@ internal sealed class LaunchExecutionSetWindowsHDRHandler : ILaunchExecutionDele
     {
         if (context.Options.IsWindowsHDREnabled)
         {
+            context.Logger.LogInformation("Set Windows HDR");
             RegistryInterop.SetWindowsHDR(context.Scheme.IsOversea);
         }
 

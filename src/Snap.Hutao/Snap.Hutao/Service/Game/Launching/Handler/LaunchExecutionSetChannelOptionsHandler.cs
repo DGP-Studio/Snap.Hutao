@@ -5,7 +5,7 @@ using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Configuration;
 using System.IO;
 
-namespace Snap.Hutao.Service.Game.Launching;
+namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecutionDelegateHandler
 {
@@ -17,6 +17,8 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
             context.Result.ErrorMessage = SH.ServiceGameLaunchExecutionGamePathNotValid;
             return;
         }
+
+        context.Logger.LogInformation("Game config file path: {ConfigPath}", configPath);
 
         List<IniElement> elements = default!;
         try

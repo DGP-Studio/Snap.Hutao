@@ -875,6 +875,9 @@
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>游戏文件操作失败：{0}</value>
   </data>
+  <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
+    <value>解锁帧率上限失败</value>
+  </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
     <value>游戏进程运行中</value>
   </data>

@@ -5,10 +5,8 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game.Account;
 using Snap.Hutao.Service.Game.Configuration;
-using Snap.Hutao.Service.Game.Package;
+using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;
-using Snap.Hutao.Service.Game.Process;
-using Snap.Hutao.Service.Game.Scheme;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Game;
@@ -23,8 +21,6 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
 {
     private readonly IGameChannelOptionsService gameChannelOptionsService;
     private readonly IGameAccountService gameAccountService;
-    private readonly IGameProcessService gameProcessService;
-    private readonly IGamePackageService gamePackageService;
     private readonly IGamePathService gamePathService;
 
     /// <inheritdoc/>
@@ -46,12 +42,6 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
     }
 
     /// <inheritdoc/>
-    public bool SetChannelOptions(LaunchScheme scheme)
-    {
-        return gameChannelOptionsService.SetChannelOptions(scheme);
-    }
-
-    /// <inheritdoc/>
     public ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme)
     {
         return gameAccountService.DetectGameAccountAsync(scheme);
@@ -61,12 +51,6 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
     public GameAccount? DetectCurrentGameAccount(SchemeType scheme)
     {
         return gameAccountService.DetectCurrentGameAccount(scheme);
-    }
-
-    /// <inheritdoc/>
-    public bool SetGameAccount(GameAccount account)
-    {
-        return gameAccountService.SetGameAccount(account);
     }
 
     /// <inheritdoc/>
@@ -90,18 +74,6 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
     /// <inheritdoc/>
     public bool IsGameRunning()
     {
-        return gameProcessService.IsGameRunning();
-    }
-
-    /// <inheritdoc/>
-    public ValueTask LaunchAsync(IProgress<LaunchStatus> progress)
-    {
-        return gameProcessService.LaunchAsync(progress);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageConvertStatus> progress)
-    {
-        return gamePackageService.EnsureGameResourceAsync(launchScheme, progress);
+        return LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(out _);
     }
 }

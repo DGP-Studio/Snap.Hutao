@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Factory.Progress;
 
-namespace Snap.Hutao.Service.Game.Launching;
+namespace Snap.Hutao.Service.Game.Launching.Handler;
 
 internal sealed class LaunchExecutionStatusProgressHandler : ILaunchExecutionDelegateHandler
 {

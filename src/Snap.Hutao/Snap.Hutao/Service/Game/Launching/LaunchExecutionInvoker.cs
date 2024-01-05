@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Service.Game.Launching.Handler;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
@@ -22,6 +23,10 @@ internal sealed class LaunchExecutionInvoker
         handlers.Enqueue(new LaunchExecutionStatusProgressHandler());
         handlers.Enqueue(new LaunchExecutionGameProcessInitializationHandler());
         handlers.Enqueue(new LaunchExecutionSetDiscordActivityHandler());
+        handlers.Enqueue(new LaunchExecutionGameProcessStartHandler());
+        handlers.Enqueue(new LaunchExecutionStarwardPlayTimeStatisticsHandler());
+        handlers.Enqueue(new LaunchExecutionUnlockFpsHandler());
+        handlers.Enqueue(new LaunchExecutionGameProcessExitHandler());
     }
 
     public async ValueTask<LaunchExecutionResult> InvokeAsync(LaunchExecutionContext context)
@@ -34,8 +39,10 @@ internal sealed class LaunchExecutionInvoker
     {
         if (handlers.TryDequeue(out ILaunchExecutionDelegateHandler? handler))
         {
-            context.Logger.LogInformation("Handler[{Handler}] begin execution", TypeNameHelper.GetTypeDisplayName(handler));
+            string typeName = TypeNameHelper.GetTypeDisplayName(handler, false);
+            context.Logger.LogInformation("Handler[{Handler}] begin execution", typeName);
             await handler.OnExecutionAsync(context, () => InvokeHandlerAsync(context)).ConfigureAwait(false);
+            context.Logger.LogInformation("Handler[{Handler}] end execution", typeName);
         }
 
         return context;
