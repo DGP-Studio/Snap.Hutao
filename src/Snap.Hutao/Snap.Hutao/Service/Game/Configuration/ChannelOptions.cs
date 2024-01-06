@@ -47,7 +47,7 @@ internal readonly struct ChannelOptions
         IsOversea = isOversea;
     }
 
-    private ChannelOptions(ChannelOptionsErrorKind errorKind,string? filePath)
+    private ChannelOptions(ChannelOptionsErrorKind errorKind, string? filePath)
     {
         ErrorKind = errorKind;
         FilePath = filePath;

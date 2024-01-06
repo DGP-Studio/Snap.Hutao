@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Service.Game.PathAbstraction;
 using System.Collections.Immutable;
-using System.IO;
 
 namespace Snap.Hutao.Service.Game;
 
