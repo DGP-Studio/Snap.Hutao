@@ -43,8 +43,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                 }
 
                 await context.TaskContext.SwitchToMainThreadAsync();
-                ImmutableList<GamePathEntry> gamePathEntries = context.Options.GetGamePathEntries(out GamePathEntry? selected);
-                context.ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, selected);
+                context.UpdateGamePathEntry();
             }
         }
 

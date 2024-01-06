@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.ViewModel.Game;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game.Launching;
 
@@ -67,5 +69,14 @@ internal sealed partial class LaunchExecutionContext
 
         this.gameFileSystem = gameFileSystem;
         return true;
+    }
+
+    public void UpdateGamePathEntry()
+    {
+        ImmutableList<GamePathEntry> gamePathEntries = Options.GetGamePathEntries(out GamePathEntry? selectedEntry);
+        ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, selectedEntry);
+
+        // invalidate game file system
+        gameFileSystem = null;
     }
 }
