@@ -259,6 +259,10 @@
                                         </cwc:SettingsCard>
                                         <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsDescription}" Header="-monitor">
                                             <StackPanel Orientation="Horizontal" Spacing="16">
+                                                <Button
+                                                    Width="120"
+                                                    Command="{Binding IdentifyMonitorsCommand}"
+                                                    Content="检测显示器"/>
                                                 <shc:SizeRestrictedContentControl>
                                                     <ComboBox
                                                         DisplayMemberPath="Name"

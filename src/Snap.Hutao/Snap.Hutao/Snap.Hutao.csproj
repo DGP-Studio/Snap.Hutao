@@ -107,6 +107,7 @@
     <None Remove="Control\Theme\Uri.xaml" />
     <None Remove="Control\Theme\WindowOverride.xaml" />
     <None Remove="GuideWindow.xaml" />
+    <None Remove="IdentifyMonitorWindow.xaml" />
     <None Remove="IdentityStructs.json" />
     <None Remove="LaunchGameWindow.xaml" />
     <None Remove="Resource\BlurBackground.png" />
@@ -544,7 +545,13 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-
+	
+  <ItemGroup>
+    <Page Update="IdentifyMonitorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+	
   <ItemGroup>
     <Page Update="View\Control\HutaoStatisticsCard.xaml">
       <Generator>MSBuild:Compile</Generator>

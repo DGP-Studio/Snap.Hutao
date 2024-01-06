@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.UI.Windowing;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Diagnostics.CodeAnalysis;
 using Snap.Hutao.Core.ExceptionService;
@@ -19,6 +20,7 @@ using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.IO;
+using Windows.Graphics;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -337,5 +339,43 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 Filter = gameAccountFilter.Filter,
             };
         }
+    }
+
+    [Command("IdentifyMonitorsCommand")]
+    private async Task IdentifyMonitorsAsync()
+    {
+        List<IdentifyMonitorWindow> windows = [];
+
+        IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
+        for (int i = 0; i < displayAreas.Count; i++)
+        {
+            DisplayArea displayArea = displayAreas[i];
+            int index = i + 1;
+
+            // Refresh thread to avoid access violation
+            await taskContext.SwitchToBackgroundAsync();
+            await taskContext.SwitchToMainThreadAsync();
+            IdentifyMonitorWindow window = new($"{displayArea.DisplayId.Value:X8}:{index}");
+            AppWindow appWindow = window.AppWindow;
+
+            OverlappedPresenter presenter = OverlappedPresenter.Create();
+            presenter.SetBorderAndTitleBar(false, false);
+            presenter.IsAlwaysOnTop = true;
+            appWindow.SetPresenter(presenter);
+
+            SizeInt32 size = new((int)(displayArea.WorkArea.Width * 0.15), (int)(displayArea.WorkArea.Height * 0.15));
+            PointInt32 point = new(displayArea.WorkArea.X, displayArea.WorkArea.Y);
+            appWindow.Resize(size);
+            appWindow.Move(point);
+
+            window.Activate();
+
+            windows.Add(window);
+        }
+
+        await Delay.FromSeconds(3).ConfigureAwait(false);
+
+        await taskContext.SwitchToMainThreadAsync();
+        windows.ForEach(window => window.Close());
     }
 }
