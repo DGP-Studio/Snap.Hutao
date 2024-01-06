@@ -262,7 +262,7 @@
                                                 <Button
                                                     Width="120"
                                                     Command="{Binding IdentifyMonitorsCommand}"
-                                                    Content="检测显示器"/>
+                                                    Content="{shcm:ResourceString Name=ViewModelLaunchGameIdentifyMonitorsAction}"/>
                                                 <shc:SizeRestrictedContentControl>
                                                     <ComboBox
                                                         DisplayMemberPath="Name"

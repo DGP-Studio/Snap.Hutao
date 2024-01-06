@@ -1358,6 +1358,9 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深渊统计</value>
   </data>
+  <data name="ViewIdentifyMonitorPrefix" xml:space="preserve">
+    <value>当前显示器为：</value>
+  </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
   </data>
@@ -1558,6 +1561,9 @@
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切换服务器失败</value>
+  </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>识别显示器</value>
   </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
     <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
