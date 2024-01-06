@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Game.PathAbstraction;
 
-internal enum GamePathKind
+internal enum GamePathEntryKind
 {
     None,
     ChineseClient,

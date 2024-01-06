@@ -15,7 +15,7 @@ internal sealed class LaunchExecutionInvoker
     {
         handlers = [];
         handlers.Enqueue(new LaunchExecutionEnsureGameNotRunningHandler());
-        handlers.Enqueue(new LaunchExecutionEnsureSchemeNotExistsHandler());
+        handlers.Enqueue(new LaunchExecutionEnsureSchemeHandler());
         handlers.Enqueue(new LaunchExecutionSetChannelOptionsHandler());
         handlers.Enqueue(new LaunchExecutionEnsureGameResourceHandler());
         handlers.Enqueue(new LaunchExecutionSetGameAccountHandler());

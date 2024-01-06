@@ -11,22 +11,19 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.Options.TryGetGamePathAndFilePathByName(GameConstants.ConfigFileName, out string gamePath, out string? configPath))
+        if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
         {
-            context.Result.Kind = LaunchExecutionResultKind.NoActiveGamePath;
-            context.Result.ErrorMessage = SH.ServiceGameLaunchExecutionGamePathNotValid;
+            // context.Result is set in TryGetGameFileSystem
             return;
         }
 
+        string configPath = gameFileSystem.GameConfigFilePath;
         context.Logger.LogInformation("Game config file path: {ConfigPath}", configPath);
 
         List<IniElement> elements = default!;
         try
         {
-            using (FileStream readStream = File.OpenRead(configPath))
-            {
-                elements = [.. IniSerializer.Deserialize(readStream)];
-            }
+            elements = [.. IniSerializer.DeserializeFromFile(configPath)];
         }
         catch (FileNotFoundException)
         {
@@ -47,32 +44,27 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
             return;
         }
 
-        bool changed = false;
-
         foreach (IniElement element in elements)
         {
             if (element is IniParameter parameter)
             {
                 if (parameter.Key is ChannelOptions.ChannelName)
                 {
-                    changed = parameter.Set(context.Scheme.Channel.ToString("D")) || changed;
+                    context.ChannelOptionsChanged = parameter.Set(context.Scheme.Channel.ToString("D")) || context.ChannelOptionsChanged;
                     continue;
                 }
 
                 if (parameter.Key is ChannelOptions.SubChannelName)
                 {
-                    changed = parameter.Set(context.Scheme.SubChannel.ToString("D")) || changed;
+                    context.ChannelOptionsChanged = parameter.Set(context.Scheme.SubChannel.ToString("D")) || context.ChannelOptionsChanged;
                     continue;
                 }
             }
         }
 
-        if (changed)
+        if (context.ChannelOptionsChanged)
         {
-            using (FileStream writeStream = File.Create(configPath))
-            {
-                IniSerializer.Serialize(writeStream, elements);
-            }
+            IniSerializer.SerializeToFile(configPath, elements);
         }
 
         await next().ConfigureAwait(false);

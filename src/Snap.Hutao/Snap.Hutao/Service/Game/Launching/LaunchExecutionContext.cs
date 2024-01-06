@@ -15,6 +15,8 @@ internal sealed partial class LaunchExecutionContext
     private readonly ITaskContext taskContext;
     private readonly LaunchOptions options;
 
+    private GameFileSystem? gameFileSystem;
+
     [SuppressMessage("", "SH007")]
     public LaunchExecutionContext(IServiceProvider serviceProvider, IViewModelSupportLaunchExecution viewModel, LaunchScheme? scheme, GameAccount? account)
         : this(serviceProvider)
@@ -36,13 +38,34 @@ internal sealed partial class LaunchExecutionContext
 
     public LaunchOptions Options { get => options; }
 
-    public IViewModelSupportLaunchExecution ViewModel { get; set; } = default!;
+    public IViewModelSupportLaunchExecution ViewModel { get; private set; } = default!;
 
-    public LaunchScheme Scheme { get; set; } = default!;
+    public LaunchScheme Scheme { get; private set; } = default!;
 
-    public GameAccount? Account { get; set; }
+    public GameAccount? Account { get; private set; }
+
+    public bool ChannelOptionsChanged { get; set; }
 
     public IProgress<LaunchStatus> Progress { get; set; } = default!;
 
     public System.Diagnostics.Process Process { get; set; } = default!;
+
+    public bool TryGetGameFileSystem([NotNullWhen(true)] out GameFileSystem? gameFileSystem)
+    {
+        if (this.gameFileSystem is not null)
+        {
+            gameFileSystem = this.gameFileSystem;
+            return true;
+        }
+
+        if (!Options.TryGetGameFileSystem(out gameFileSystem))
+        {
+            Result.Kind = LaunchExecutionResultKind.NoActiveGamePath;
+            Result.ErrorMessage = SH.ServiceGameLaunchExecutionGamePathNotValid;
+            return false;
+        }
+
+        this.gameFileSystem = gameFileSystem;
+        return true;
+    }
 }

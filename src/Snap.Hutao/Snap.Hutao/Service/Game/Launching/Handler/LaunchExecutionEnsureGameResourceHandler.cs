@@ -5,6 +5,7 @@ using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.View.Dialog;
@@ -19,37 +20,67 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        IServiceProvider serviceProvider = context.ServiceProvider;
-        IContentDialogFactory contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
-        IProgressFactory progressFactory = serviceProvider.GetRequiredService<IProgressFactory>();
-
-        LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
-        IProgress<PackageConvertStatus> convertProgress = progressFactory.CreateForMainThread<PackageConvertStatus>(state => dialog.State = state);
-
-        using (await dialog.BlockAsync(context.TaskContext).ConfigureAwait(false))
+        if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
         {
-            if (!await EnsureGameResourceAsync(context, convertProgress).ConfigureAwait(false))
-            {
-                // context.Result is set in EnsureGameResourceAsync
-                return;
-            }
+            return;
+        }
 
-            await context.TaskContext.SwitchToMainThreadAsync();
-            ImmutableList<GamePathEntry> gamePathEntries = context.Options.GetGamePathEntries(out GamePathEntry? selected);
-            context.ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, selected);
+        if (ShouldConvert(context, gameFileSystem))
+        {
+            IServiceProvider serviceProvider = context.ServiceProvider;
+            IContentDialogFactory contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
+            IProgressFactory progressFactory = serviceProvider.GetRequiredService<IProgressFactory>();
+
+            LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
+            IProgress<PackageConvertStatus> convertProgress = progressFactory.CreateForMainThread<PackageConvertStatus>(state => dialog.State = state);
+
+            using (await dialog.BlockAsync(context.TaskContext).ConfigureAwait(false))
+            {
+                if (!await EnsureGameResourceAsync(context, gameFileSystem, convertProgress).ConfigureAwait(false))
+                {
+                    // context.Result is set in EnsureGameResourceAsync
+                    return;
+                }
+
+                await context.TaskContext.SwitchToMainThreadAsync();
+                ImmutableList<GamePathEntry> gamePathEntries = context.Options.GetGamePathEntries(out GamePathEntry? selected);
+                context.ViewModel.SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, selected);
+            }
         }
 
         await next().ConfigureAwait(false);
     }
 
-    private static async ValueTask<bool> EnsureGameResourceAsync(LaunchExecutionContext context, IProgress<PackageConvertStatus> progress)
+    private static bool ShouldConvert(LaunchExecutionContext context, GameFileSystem gameFileSystem)
     {
-        if (!context.Options.TryGetGameDirectoryAndGameFileName(out string? gameFolder, out string? gameFileName))
+        // Configuration file changed
+        if (context.ChannelOptionsChanged)
         {
-            context.Result.Kind = LaunchExecutionResultKind.NoActiveGamePath;
-            context.Result.ErrorMessage = SH.ServiceGameLaunchExecutionGamePathNotValid;
-            return false;
+            return true;
         }
+
+        // Executable name not match
+        if (!context.Scheme.ExecutableMatches(gameFileSystem.GameFileName))
+        {
+            return true;
+        }
+
+        if (!context.Scheme.IsOversea)
+        {
+            // [It's Bilibili channel xor PCGameSDK.dll exists] means we need to convert
+            if (context.Scheme.Channel is ChannelType.Bili ^ File.Exists(gameFileSystem.PCGameSDKFilePath))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static async ValueTask<bool> EnsureGameResourceAsync(LaunchExecutionContext context, GameFileSystem gameFileSystem, IProgress<PackageConvertStatus> progress)
+    {
+        string gameFolder = gameFileSystem.GameDirectory;
+        string gameFileName = gameFileSystem.GameFileName;
 
         context.Logger.LogInformation("Game folder: {GameFolder}", gameFolder);
 

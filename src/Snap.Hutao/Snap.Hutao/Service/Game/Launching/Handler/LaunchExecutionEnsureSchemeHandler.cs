@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
 
-internal sealed class LaunchExecutionEnsureSchemeNotExistsHandler : ILaunchExecutionDelegateHandler
+internal sealed class LaunchExecutionEnsureSchemeHandler : ILaunchExecutionDelegateHandler
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
@@ -14,7 +14,7 @@ internal sealed class LaunchExecutionEnsureSchemeNotExistsHandler : ILaunchExecu
             return;
         }
 
-        context.Logger.LogInformation("Scheme[{Scheme}] is selected", context.Scheme.DisplayName);
+        context.Logger.LogInformation("Scheme [{Scheme}] is selected", context.Scheme.DisplayName);
         await next().ConfigureAwait(false);
     }
 }

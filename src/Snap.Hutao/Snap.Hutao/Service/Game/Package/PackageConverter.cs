@@ -93,7 +93,6 @@ internal sealed partial class PackageConverter
                 ZipFile.ExtractToDirectory(sdkWebStream, gameFolder, true);
             }
 
-            // TODO: verify sdk md5
             if (File.Exists(sdkDllBackup) && File.Exists(sdkVersionBackup))
             {
                 File.Delete(sdkDllBackup);

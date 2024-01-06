@@ -17,25 +17,22 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
 
     public ChannelOptions GetChannelOptions()
     {
-        if (!launchOptions.TryGetGamePathAndFilePathByName(ConfigFileName, out string gamePath, out string? configPath))
+        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
         {
-            throw ThrowHelper.InvalidOperation($"Invalid game path: {gamePath}");
+            return ChannelOptions.GamePathNullOrEmpty();
         }
 
-        bool isOversea = LaunchScheme.ExecutableIsOversea(Path.GetFileName(gamePath));
+        bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
 
-        if (!File.Exists(configPath))
+        if (!File.Exists(gameFileSystem.GameConfigFilePath))
         {
-            return ChannelOptions.FileNotFound(isOversea, configPath);
+            return ChannelOptions.ConfigurationFileNotFound(gameFileSystem.GameConfigFilePath);
         }
 
-        using (FileStream stream = File.OpenRead(configPath))
-        {
-            List<IniParameter> parameters = IniSerializer.Deserialize(stream).OfType<IniParameter>().ToList();
-            string? channel = parameters.FirstOrDefault(p => p.Key == ChannelOptions.ChannelName)?.Value;
-            string? subChannel = parameters.FirstOrDefault(p => p.Key == ChannelOptions.SubChannelName)?.Value;
+        List<IniParameter> parameters = IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath).OfType<IniParameter>().ToList();
+        string? channel = parameters.FirstOrDefault(p => p.Key == ChannelOptions.ChannelName)?.Value;
+        string? subChannel = parameters.FirstOrDefault(p => p.Key == ChannelOptions.SubChannelName)?.Value;
 
-            return new(channel, subChannel, isOversea);
-        }
+        return new(channel, subChannel, isOversea);
     }
 }

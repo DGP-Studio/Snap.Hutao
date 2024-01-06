@@ -10,21 +10,19 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
 {
     public async ValueTask OnExecutionAsync(LaunchExecutionContext context, LaunchExecutionDelegate next)
     {
-        if (!context.Options.TryGetGamePathAndGameFileName(out string gamePath, out string? gameFileName))
+        if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
         {
-            context.Result.Kind = LaunchExecutionResultKind.NoActiveGamePath;
-            context.Result.ErrorMessage = SH.ServiceGameLaunchExecutionGamePathNotValid;
             return;
         }
 
         context.Progress.Report(new(LaunchPhase.ProcessInitializing, SH.ServiceGameLaunchPhaseProcessInitializing));
-        using (context.Process = InitializeGameProcess(context, gamePath))
+        using (context.Process = InitializeGameProcess(context, gameFileSystem))
         {
             await next().ConfigureAwait(false);
         }
     }
 
-    private static System.Diagnostics.Process InitializeGameProcess(LaunchExecutionContext context, string gamePath)
+    private static System.Diagnostics.Process InitializeGameProcess(LaunchExecutionContext context, GameFileSystem gameFileSystem)
     {
         LaunchOptions launchOptions = context.Options;
 
@@ -51,10 +49,10 @@ internal sealed class LaunchExecutionGameProcessInitializationHandler : ILaunchE
             StartInfo = new()
             {
                 Arguments = commandLine,
-                FileName = gamePath,
+                FileName = gameFileSystem.GameFilePath,
                 UseShellExecute = true,
                 Verb = "runas",
-                WorkingDirectory = Path.GetDirectoryName(gamePath),
+                WorkingDirectory = gameFileSystem.GameDirectory,
             },
         };
     }
