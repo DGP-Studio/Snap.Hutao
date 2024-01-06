@@ -107,6 +107,7 @@
     <None Remove="Control\Theme\Uri.xaml" />
     <None Remove="Control\Theme\WindowOverride.xaml" />
     <None Remove="GuideWindow.xaml" />
+    <None Remove="IdentifyMonitorWindow.xaml" />
     <None Remove="IdentityStructs.json" />
     <None Remove="LaunchGameWindow.xaml" />
     <None Remove="Resource\BlurBackground.png" />
@@ -321,7 +322,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.507">
+    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -544,7 +545,13 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-
+	
+  <ItemGroup>
+    <Page Update="IdentifyMonitorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+	
   <ItemGroup>
     <Page Update="View\Control\HutaoStatisticsCard.xaml">
       <Generator>MSBuild:Compile</Generator>

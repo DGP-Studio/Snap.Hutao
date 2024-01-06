@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.UI.Windowing;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Diagnostics.CodeAnalysis;
 using Snap.Hutao.Core.ExceptionService;
@@ -336,6 +337,30 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             {
                 Filter = gameAccountFilter.Filter,
             };
+        }
+    }
+
+    [Command("IdentifyMonitorsCommand")]
+    private async Task IdentifyMonitorsAsync()
+    {
+        List<IdentifyMonitorWindow> windows = [];
+
+        IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
+        for (int i = 0; i < displayAreas.Count; i++)
+        {
+            windows.Add(new IdentifyMonitorWindow(displayAreas[i], i + 1));
+        }
+
+        foreach (IdentifyMonitorWindow window in windows)
+        {
+            window.Activate();
+        }
+
+        await Delay.FromSeconds(3).ConfigureAwait(true);
+
+        foreach (IdentifyMonitorWindow window in windows)
+        {
+            window.Close();
         }
     }
 }

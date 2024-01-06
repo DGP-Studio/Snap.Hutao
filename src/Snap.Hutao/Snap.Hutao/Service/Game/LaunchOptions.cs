@@ -218,8 +218,7 @@ internal sealed class LaunchOptions : DbStoreOptions
         {
             if (SetProperty(ref selectedAspectRatio, value) && value is AspectRatio aspectRatio)
             {
-                ScreenWidth = (int)aspectRatio.Width;
-                ScreenHeight = (int)aspectRatio.Height;
+                (ScreenWidth, ScreenHeight) = ((int)aspectRatio.Width, (int)aspectRatio.Height);
             }
         }
     }
