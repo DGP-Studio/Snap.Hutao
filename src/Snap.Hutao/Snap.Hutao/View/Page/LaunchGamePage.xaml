@@ -228,7 +228,7 @@
                                             <ToggleSwitch Width="120" IsOn="{Binding LaunchOptions.IsUseCloudThirdPartyMobile, Mode=TwoWay}"/>
                                         </cwc:SettingsCard>
                                         <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioDescription}" Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioHeader}">
-                                            <shc:SizeRestrictedContentControl Margin="0,0,136,0">
+                                            <shc:SizeRestrictedContentControl Margin="0,0,136,0" VerticalAlignment="Center">
                                                 <ComboBox
                                                     ItemsSource="{Binding LaunchOptions.AspectRatios}"
                                                     PlaceholderText="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceAspectRatioPlaceHolder}"
@@ -263,7 +263,7 @@
                                                     Width="120"
                                                     Command="{Binding IdentifyMonitorsCommand}"
                                                     Content="{shcm:ResourceString Name=ViewModelLaunchGameIdentifyMonitorsAction}"/>
-                                                <shc:SizeRestrictedContentControl>
+                                                <shc:SizeRestrictedContentControl VerticalAlignment="Center">
                                                     <ComboBox
                                                         DisplayMemberPath="Name"
                                                         IsEnabled="{Binding LaunchOptions.IsMonitorEnabled}"

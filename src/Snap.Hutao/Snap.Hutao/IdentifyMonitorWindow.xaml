@@ -6,12 +6,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     mc:Ignorable="d">
-    <Grid Padding="16">
-        <TextBlock Text="{shcm:ResourceString Name=ViewIdentifyMonitorPrefix}"/>
+    <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Spacing="3">
+        <TextBlock Text="{shcm:ResourceString Name=WindowIdentifyMonitorHeader}"/>
         <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            Style="{StaticResource SubtitleTextBlockStyle}"
             Text="{x:Bind Monitor}"
             TextAlignment="Center"/>
-    </Grid>
+    </StackPanel>
 </Window>

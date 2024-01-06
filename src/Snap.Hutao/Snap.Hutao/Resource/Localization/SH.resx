@@ -1358,9 +1358,6 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深渊统计</value>
   </data>
-  <data name="ViewIdentifyMonitorPrefix" xml:space="preserve">
-    <value>当前显示器为：</value>
-  </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
   </data>
@@ -2971,5 +2968,8 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>显示器编号</value>
   </data>
 </root>

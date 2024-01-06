@@ -349,33 +349,19 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
         for (int i = 0; i < displayAreas.Count; i++)
         {
-            DisplayArea displayArea = displayAreas[i];
-            int index = i + 1;
-
-            // Refresh thread to avoid access violation
-            await taskContext.SwitchToBackgroundAsync();
-            await taskContext.SwitchToMainThreadAsync();
-            IdentifyMonitorWindow window = new($"{displayArea.DisplayId.Value:X8}:{index}");
-            AppWindow appWindow = window.AppWindow;
-
-            OverlappedPresenter presenter = OverlappedPresenter.Create();
-            presenter.SetBorderAndTitleBar(false, false);
-            presenter.IsAlwaysOnTop = true;
-            appWindow.SetPresenter(presenter);
-
-            SizeInt32 size = new((int)(displayArea.WorkArea.Width * 0.15), (int)(displayArea.WorkArea.Height * 0.15));
-            PointInt32 point = new(displayArea.WorkArea.X, displayArea.WorkArea.Y);
-            appWindow.Resize(size);
-            appWindow.Move(point);
-
-            window.Activate();
-
-            windows.Add(window);
+            windows.Add(new IdentifyMonitorWindow(displayAreas[i], i + 1));
         }
 
-        await Delay.FromSeconds(3).ConfigureAwait(false);
+        foreach (IdentifyMonitorWindow window in windows)
+        {
+            window.Activate();
+        }
 
-        await taskContext.SwitchToMainThreadAsync();
-        windows.ForEach(window => window.Close());
+        await Delay.FromSeconds(3).ConfigureAwait(true);
+
+        foreach (IdentifyMonitorWindow window in windows)
+        {
+            window.Close();
+        }
     }
 }
