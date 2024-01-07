@@ -27,6 +27,10 @@
                     shvh:NavHelper.NavigateTo="shvp:AnnouncementPage"
                     Content="{shcm:ResourceString Name=ViewAnnouncementHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Announcement.png}"/>
+                <NavigationViewItem
+                    shvh:NavHelper.NavigateTo="shvp:FeedbackPage"
+                    Content="{shcm:ResourceString Name=ViewFeedbackHeader}"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Feedback.png}"/>
 
                 <NavigationViewItemHeader Content="{shcm:ResourceString Name=ViewToolHeader}"/>
 

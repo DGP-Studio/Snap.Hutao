@@ -13,21 +13,23 @@ internal sealed partial class DocumentationProvider : IDocumentationProvider
 
     private static readonly Dictionary<Type, string> TypeDocumentations = new()
     {
-        [typeof(AchievementPage)] = "https://hut.ao/features/achievements.html",
         [typeof(AnnouncementPage)] = "https://hut.ao/features/dashboard.html",
-        [typeof(AvatarPropertyPage)] = "https://hut.ao/features/character-data.html",
-        [typeof(CultivationPage)] = "https://hut.ao/features/develop-plan.html",
-        [typeof(DailyNotePage)] = "https://hut.ao/features/real-time-notes.html",
-        [typeof(GachaLogPage)] = "https://hut.ao/features/wish-export.html",
         [typeof(LaunchGamePage)] = "https://hut.ao/features/game-launcher.html",
-        [typeof(LoginHoyoverseUserPage)] = "https://hut.ao/features/mhy-account-switch.html",
-        [typeof(LoginMihoyoUserPage)] = "https://hut.ao/features/mhy-account-switch.html",
-        [typeof(SettingPage)] = "https://hut.ao/features/hutao-settings.html",
+        [typeof(GachaLogPage)] = "https://hut.ao/features/wish-export.html",
+        [typeof(AchievementPage)] = "https://hut.ao/features/achievements.html",
+        [typeof(DailyNotePage)] = "https://hut.ao/features/real-time-notes.html",
+        [typeof(AvatarPropertyPage)] = "https://hut.ao/features/character-data.html",
         [typeof(SpiralAbyssRecordPage)] = "https://hut.ao/features/hutao-API.html",
-        [typeof(TestPage)] = Home,
+        [typeof(CultivationPage)] = "https://hut.ao/features/develop-plan.html",
         [typeof(WikiAvatarPage)] = "https://hut.ao/features/character-wiki.html",
         [typeof(WikiMonsterPage)] = "https://hut.ao/features/monster-wiki.html",
         [typeof(WikiWeaponPage)] = "https://hut.ao/features/weapon-wiki.html",
+        [typeof(SettingPage)] = "https://hut.ao/features/hutao-settings.html",
+
+        [typeof(LoginHoyoverseUserPage)] = "https://hut.ao/features/mhy-account-switch.html",
+        [typeof(LoginMihoyoUserPage)] = "https://hut.ao/features/mhy-account-switch.html",
+
+        [typeof(TestPage)] = Home,
     };
 
     private readonly INavigationService navigationService;

@@ -20,7 +20,7 @@ internal sealed partial class HutaoDocumentationClient
     private readonly ILogger<HutaoDocumentationClient> logger;
     private readonly HttpClient httpClient;
 
-    public async ValueTask<AlgoliaResponse?> QueryAsync(string query, string language, CancellationToken token)
+    public async ValueTask<AlgoliaResponse?> QueryAsync(string query, string language, CancellationToken token = default)
     {
         AlgoliaRequestsWrapper data = new()
         {

@@ -111,23 +111,6 @@
         </shch:ScrollViewerHelper.RightPanel>
         <Grid Padding="16" HorizontalAlignment="Left">
             <StackPanel Grid.Column="0" Spacing="{StaticResource SettingsCardSpacing}">
-                <cwc:SettingsExpander
-                    Description="{Binding RuntimeOptions.Version}"
-                    Header="{shcm:ResourceString Name=AppName}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"
-                    IsExpanded="True">
-                    <cwc:SettingsExpander.Items>
-                        <cwc:SettingsCard
-                            ActionIcon="{shcm:FontIcon Glyph=&#xE8C8;}"
-                            ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"
-                            Command="{Binding CopyDeviceIdCommand}"
-                            Description="{Binding RuntimeOptions.DeviceId}"
-                            Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
-                            IsClickEnabled="True"/>
-                        <cwc:SettingsCard Description="{Binding IPInformation}" Header="{shcm:ResourceString Name=ViewPageSettingDeviceIpHeader}"/>
-                        <cwc:SettingsCard Description="{Binding RuntimeOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
-                    </cwc:SettingsExpander.Items>
-                </cwc:SettingsExpander>
                 <!--
                     https://github.com/DGP-Studio/Snap.Hutao/issues/1072
                     ItemsRepeater will behave abnormal if no direct scrollhost wrapping it

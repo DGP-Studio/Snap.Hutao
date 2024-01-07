@@ -1,19 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Web.Hutao.Response;
-using Snap.Hutao.Web.Request.Builder;
-using Snap.Hutao.Web.Request.Builder.Abstraction;
-using System.Net.Http;
-
 namespace Snap.Hutao.Web.Hutao.Algolia;
 
 internal sealed class AlgoliaHierarchy
 {
-    [JsonPropertyName("lvl0")]
-    public string? Lvl0 { get; set; }
-
     [JsonPropertyName("lvl1")]
     public string? Lvl1 { get; set; }
 
@@ -31,4 +22,56 @@ internal sealed class AlgoliaHierarchy
 
     [JsonPropertyName("lvl6")]
     public string? Lvl6 { get; set; }
+
+    public IEnumerable<string> DisplayLevels
+    {
+        get
+        {
+            return GetDisplayLevels();
+            IEnumerable<string> GetDisplayLevels()
+            {
+                if (string.IsNullOrEmpty(Lvl1))
+                {
+                    yield break;
+                }
+
+                yield return Lvl1;
+
+                if (string.IsNullOrEmpty(Lvl2))
+                {
+                    yield break;
+                }
+
+                yield return Lvl2;
+
+                if (string.IsNullOrEmpty(Lvl3))
+                {
+                    yield break;
+                }
+
+                yield return Lvl3;
+
+                if (string.IsNullOrEmpty(Lvl4))
+                {
+                    yield break;
+                }
+
+                yield return Lvl4;
+
+                if (string.IsNullOrEmpty(Lvl5))
+                {
+                    yield break;
+                }
+
+                yield return Lvl5;
+
+                if (string.IsNullOrEmpty(Lvl6))
+                {
+                    yield break;
+                }
+
+                yield return Lvl6;
+            }
+        }
+    }
 }

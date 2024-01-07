@@ -7,6 +7,7 @@ namespace Snap.Hutao.Control;
 
 [TemplateVisualState(Name = "LoadingIn", GroupName = "CommonStates")]
 [TemplateVisualState(Name = "LoadingOut", GroupName = "CommonStates")]
+[TemplatePart(Name = "ContentGrid", Type = typeof(FrameworkElement))]
 internal class Loading : Microsoft.UI.Xaml.Controls.ContentControl
 {
     public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(nameof(IsLoading), typeof(bool), typeof(Loading), new PropertyMetadata(default(bool), IsLoadingPropertyChanged));

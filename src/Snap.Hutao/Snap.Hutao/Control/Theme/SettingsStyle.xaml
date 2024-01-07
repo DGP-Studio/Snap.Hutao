@@ -11,6 +11,7 @@
     <x:Double x:Key="SettingsCardContentControlSpacing">10</x:Double>
 
     <Thickness x:Key="SettingsCardAlignSettingsExpanderPadding">16,16,44,16</Thickness>
+    <Thickness x:Key="SettingsExpanderItemHasIconPadding">16,8,16,8</Thickness>
 
     <Style
         x:Key="SettingsSectionHeaderTextBlockStyle"

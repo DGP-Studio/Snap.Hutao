@@ -74,4 +74,15 @@ internal static class LocaleNames
 
         return !string.IsNullOrEmpty(languageCode);
     }
+
+    public static string GetLanguageCodeForDocumentationSearchFromLocaleName(string localeName)
+    {
+        return localeName switch
+        {
+            ID => "id-id",
+            RU => "ru-ru",
+            CHS => "zh-cn",
+            _ => "en-us",
+        };
+    }
 }

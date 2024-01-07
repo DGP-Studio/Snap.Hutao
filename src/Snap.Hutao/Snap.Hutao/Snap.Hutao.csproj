@@ -128,6 +128,7 @@
     <None Remove="Resource\Navigation\DailyNote.png" />
     <None Remove="Resource\Navigation\Database.png" />
     <None Remove="Resource\Navigation\Documentation.png" />
+    <None Remove="Resource\Navigation\Feedback.png" />
     <None Remove="Resource\Navigation\GachaLog.png" />
     <None Remove="Resource\Navigation\LaunchGame.png" />
     <None Remove="Resource\Navigation\SpiralAbyss.png" />
@@ -186,6 +187,7 @@
     <None Remove="View\Page\AvatarPropertyPage.xaml" />
     <None Remove="View\Page\CultivationPage.xaml" />
     <None Remove="View\Page\DailyNotePage.xaml" />
+    <None Remove="View\Page\FeedbackPage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
     <None Remove="View\Page\LaunchGamePage.xaml" />
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
@@ -269,6 +271,7 @@
     <Content Include="Resource\Navigation\DailyNote.png" />
     <Content Include="Resource\Navigation\Database.png" />
     <Content Include="Resource\Navigation\Documentation.png" />
+    <Content Include="Resource\Navigation\Feedback.png" />
     <Content Include="Resource\Navigation\GachaLog.png" />
     <Content Include="Resource\Navigation\LaunchGame.png" />
     <Content Include="Resource\Navigation\SpiralAbyss.png" />
@@ -344,6 +347,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\FeedbackPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\ReconfirmDialog.xaml">

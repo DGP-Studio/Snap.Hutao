@@ -20,6 +20,9 @@
     <ItemsPanelTemplate x:Key="StackPanelSpacing4Template">
         <StackPanel Spacing="4"/>
     </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="StackPanelSpacing8Template">
+        <StackPanel Spacing="8"/>
+    </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="UniformGridColumns2Spacing2Template">
         <cwcont:UniformGrid
             ColumnSpacing="2"

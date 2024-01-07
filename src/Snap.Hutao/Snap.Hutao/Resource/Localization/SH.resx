@@ -1310,6 +1310,9 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>设置 Cookie</value>
   </data>
+  <data name="ViewFeedbackHeader" xml:space="preserve">
+    <value>反馈中心</value>
+  </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈愿记录</value>
   </data>
@@ -1849,6 +1852,12 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>验证当前用户与角色</value>
+  </data>
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+    <value>搜索问题与建议</value>
+  </data>
+  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
+    <value>基本信息</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>全量刷新</value>
@@ -2605,6 +2614,9 @@
   </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>打开文件夹</value>
+  </data>
+  <data name="ViewSettingHeader" xml:space="preserve">
+    <value>设置</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>角色出场率 = 本层上阵该角色次数（层内重复出现只记一次）/ 深渊记录总数</value>

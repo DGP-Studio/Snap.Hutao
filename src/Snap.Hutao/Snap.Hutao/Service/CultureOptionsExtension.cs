@@ -25,6 +25,11 @@ internal static class CultureOptionsExtension
         return GetLocaleName(cultureInfo) == options.LocaleName;
     }
 
+    public static string GetLanguageCodeForDocumentationSearch(this CultureOptions options)
+    {
+        return LocaleNames.GetLanguageCodeForDocumentationSearchFromLocaleName(options.LocaleName);
+    }
+
     internal static string GetLocaleName(CultureInfo cultureInfo)
     {
         while (true)

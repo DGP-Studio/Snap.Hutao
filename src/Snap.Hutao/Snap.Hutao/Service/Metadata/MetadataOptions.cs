@@ -23,7 +23,7 @@ internal sealed partial class MetadataOptions
         {
             if (fallbackDataFolder is null)
             {
-                fallbackDataFolder = Path.Combine(runtimeOptions.DataFolder, "Metadata", "CHS");
+                fallbackDataFolder = Path.Combine(runtimeOptions.DataFolder, "Metadata", LocaleNames.CHS);
                 Directory.CreateDirectory(fallbackDataFolder);
             }
 

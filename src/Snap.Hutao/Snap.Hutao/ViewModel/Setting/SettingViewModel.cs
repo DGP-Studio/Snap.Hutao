@@ -43,11 +43,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly HomeCardOptions homeCardOptions = new();
 
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
-    private readonly HutaoInfrastructureClient hutaoInfrastructureClient;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
-    private readonly IClipboardProvider clipboardInterop;
     private readonly IShellLinkInterop shellLinkInterop;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
@@ -62,7 +60,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<CultureInfo>? selectedCulture;
     private NameValue<Region>? selectedRegion;
-    private IPInformation? ipInformation;
     private FolderViewModel? cacheFolderView;
     private FolderViewModel? dataFolderView;
 
@@ -123,8 +120,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public FolderViewModel? DataFolderView { get => dataFolderView; set => SetProperty(ref dataFolderView, value); }
 
-    public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
-
     public bool IsAllocConsoleDebugModeEnabled
     {
         get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
@@ -177,27 +172,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override ValueTask<bool> InitializeUIAsync()
     {
         CacheFolderView = new(taskContext, runtimeOptions.LocalCache);
         DataFolderView = new(taskContext, runtimeOptions.DataFolder);
 
-        Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
-        IPInformation info;
-
-        if (resp.IsOk())
-        {
-            info = resp.Data;
-        }
-        else
-        {
-            info = IPInformation.Default;
-        }
-
-        await taskContext.SwitchToMainThreadAsync();
-        IPInformation = info;
-
-        return true;
+        return ValueTask.FromResult(true);
     }
 
     [Command("ResetStaticResourceCommand")]
@@ -293,20 +273,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             }
 
             infoBarService.Information(SH.ViewModelSettingActionComplete);
-        }
-    }
-
-    [Command("CopyDeviceIdCommand")]
-    private void CopyDeviceId()
-    {
-        try
-        {
-            clipboardInterop.SetText(RuntimeOptions.DeviceId);
-            infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
-        }
-        catch (COMException ex)
-        {
-            infoBarService.Error(ex);
         }
     }
 
