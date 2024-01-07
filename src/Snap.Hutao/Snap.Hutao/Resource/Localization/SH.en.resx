@@ -121,7 +121,7 @@
     <value>Snap Hutao Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>胡桃Dev {0} [管理员]</value>
+    <value>Snap Hutao Dev {0} [Administrator]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
     <value>Snap Hutao {0} [Administrator]</value>
@@ -870,22 +870,22 @@
     <value>No writing permission in file system, unable to start the server conversion.</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
-    <value>下载游戏资源索引</value>
+    <value>Download game resource index</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>Failed to operate on game file: {0}</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
-    <value>解锁帧率上限失败</value>
+    <value>Failed to unlock frame rate limit</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
-    <value>游戏进程运行中</value>
+    <value>Game in process</value>
   </data>
   <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
-    <value>请选择游戏路径</value>
+    <value>Select Game Path</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
-    <value>下载游戏资源索引失败: {0}</value>
+    <value>Failed to download game resource index: {0}</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Game process closed</value>
@@ -1558,6 +1558,9 @@
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Convert server failed</value>
+  </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>Identify Monitors</value>
   </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
     <value>Unable to read game config file: {0}, file may be not exist not lack of user permission</value>
@@ -2965,5 +2968,8 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{1}] network request exception in [{0}] please try again later</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>Monitor ID</value>
   </data>
 </root>
