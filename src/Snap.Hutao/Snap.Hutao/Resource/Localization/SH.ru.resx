@@ -1559,6 +1559,9 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切换服务器失败</value>
   </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>识别显示器</value>
+  </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
     <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
   </data>
@@ -2965,5 +2968,8 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{1}] исключение сетевого запроса в [{0}] пожалуйста, повторите попытку позже</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>显示器编号</value>
   </data>
 </root>
