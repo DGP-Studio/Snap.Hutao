@@ -18,7 +18,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly MetadataOptions metadataOptions;
+    private readonly CultureOptions cultureOptions;
 
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
@@ -33,13 +33,13 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
             if (query.TryGetSingleValue("auth_appid", out string? appId) && appId is "webview_gacha")
             {
                 string? queryLanguageCode = query["lang"];
-                if (metadataOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
+                if (cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
                 {
                     return new(true, new(queryString));
                 }
                 else
                 {
-                    string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, metadataOptions.LanguageCode);
+                    string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, cultureOptions.LanguageCode);
                     return new(false, message);
                 }
             }

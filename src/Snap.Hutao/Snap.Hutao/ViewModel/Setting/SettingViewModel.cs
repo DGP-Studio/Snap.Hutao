@@ -51,6 +51,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly IShellLinkInterop shellLinkInterop;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
+    private readonly CultureOptions cultureOptions;
     private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
     private readonly HotKeyOptions hotKeyOptions;
@@ -67,7 +68,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public AppOptions AppOptions { get => appOptions; }
 
-    public RuntimeOptions HutaoOptions { get => runtimeOptions; }
+    public CultureOptions CultureOptions { get => cultureOptions; }
+
+    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public HutaoUserOptions UserOptions { get => hutaoUserOptions; }
 
@@ -93,12 +96,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public NameValue<CultureInfo>? SelectedCulture
     {
-        get => selectedCulture ??= AppOptions.GetCurrentCultureForSelectionOrDefault();
+        get => selectedCulture ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
         set
         {
             if (SetProperty(ref selectedCulture, value) && value is not null)
             {
-                AppOptions.CurrentCulture = value.Value;
+                CultureOptions.CurrentCulture = value.Value;
                 AppInstance.Restart(string.Empty);
             }
         }
@@ -298,7 +301,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     {
         try
         {
-            clipboardInterop.SetText(HutaoOptions.DeviceId);
+            clipboardInterop.SetText(RuntimeOptions.DeviceId);
             infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
         }
         catch (COMException ex)

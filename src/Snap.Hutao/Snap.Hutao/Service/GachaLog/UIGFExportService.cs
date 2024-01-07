@@ -17,7 +17,7 @@ internal sealed partial class UIGFExportService : IUIGFExportService
 {
     private readonly IGachaLogDbService gachaLogDbService;
     private readonly RuntimeOptions runtimeOptions;
-    private readonly MetadataOptions metadataOptions;
+    private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
@@ -31,7 +31,7 @@ internal sealed partial class UIGFExportService : IUIGFExportService
 
         UIGF uigf = new()
         {
-            Info = UIGFInfo.From(runtimeOptions, metadataOptions, archive.Uid),
+            Info = UIGFInfo.From(runtimeOptions, cultureOptions, archive.Uid),
             List = list,
         };
 

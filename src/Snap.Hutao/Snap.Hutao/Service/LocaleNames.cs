@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Service.Metadata;
+namespace Snap.Hutao.Service;
 
 /// <summary>
 /// 本地化名称

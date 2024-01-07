@@ -97,7 +97,7 @@
                             Description="{shcm:ResourceString Name=ViewPageSettingElevatedModeDescription}"
                             Header="{shcm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"
                             IsClickEnabled="True"
-                            IsEnabled="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"/>
+                            IsEnabled="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"/>
                         <cwc:SettingsCard
                             ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
                             Command="{Binding CreateDesktopShortcutCommand}"
@@ -112,7 +112,7 @@
         <Grid Padding="16" HorizontalAlignment="Left">
             <StackPanel Grid.Column="0" Spacing="{StaticResource SettingsCardSpacing}">
                 <cwc:SettingsExpander
-                    Description="{Binding HutaoOptions.Version}"
+                    Description="{Binding RuntimeOptions.Version}"
                     Header="{shcm:ResourceString Name=AppName}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"
                     IsExpanded="True">
@@ -121,11 +121,11 @@
                             ActionIcon="{shcm:FontIcon Glyph=&#xE8C8;}"
                             ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"
                             Command="{Binding CopyDeviceIdCommand}"
-                            Description="{Binding HutaoOptions.DeviceId}"
+                            Description="{Binding RuntimeOptions.DeviceId}"
                             Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
                             IsClickEnabled="True"/>
                         <cwc:SettingsCard Description="{Binding IPInformation}" Header="{shcm:ResourceString Name=ViewPageSettingDeviceIpHeader}"/>
-                        <cwc:SettingsCard Description="{Binding HutaoOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
+                        <cwc:SettingsCard Description="{Binding RuntimeOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
                     </cwc:SettingsExpander.Items>
                 </cwc:SettingsExpander>
                 <!--
@@ -213,7 +213,7 @@
                     <shc:SizeRestrictedContentControl>
                         <ComboBox
                             DisplayMemberPath="Name"
-                            ItemsSource="{Binding AppOptions.Cultures}"
+                            ItemsSource="{Binding CultureOptions.Cultures}"
                             SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"/>
                     </shc:SizeRestrictedContentControl>
                 </cwc:SettingsCard>
@@ -416,7 +416,7 @@
                 <cwc:SettingsCard
                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}"
-                    IsEnabled="{Binding HutaoOptions.IsElevated}">
+                    IsEnabled="{Binding RuntimeOptions.IsElevated}">
                     <cwc:SettingsCard.Description>
                         <StackPanel>
                             <TextBlock
@@ -427,7 +427,7 @@
                         </StackPanel>
                     </cwc:SettingsCard.Description>
                     <StackPanel Orientation="Horizontal">
-                        <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                        <shvc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                         <ToggleSwitch Width="120" IsOn="{Binding IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                     </StackPanel>
                 </cwc:SettingsCard>

@@ -20,7 +20,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 {
     private readonly BindingClient2 bindingClient2;
-    private readonly MetadataOptions metadataOptions;
+    private readonly CultureOptions cultureOptions;
     private readonly IUserService userService;
 
     /// <inheritdoc/>
@@ -38,7 +38,7 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
 
             if (authkeyResponse.IsOk())
             {
-                return new(true, new(ComposeQueryString(data, authkeyResponse.Data, metadataOptions.LanguageCode)));
+                return new(true, new(ComposeQueryString(data, authkeyResponse.Data, cultureOptions.LanguageCode)));
             }
             else
             {

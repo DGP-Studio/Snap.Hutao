@@ -64,14 +64,14 @@ internal sealed class UIIFInfo
     /// <returns>专用 UIGF 信息</returns>
     public static UIIFInfo From(IServiceProvider serviceProvider, string uid)
     {
-        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         return new()
         {
             Uid = uid,
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
-            ExportAppVersion = hutaoOptions.Version.ToString(),
+            ExportAppVersion = runtimeOptions.Version.ToString(),
             UIIFVersion = UIIF.CurrentVersion,
         };
     }

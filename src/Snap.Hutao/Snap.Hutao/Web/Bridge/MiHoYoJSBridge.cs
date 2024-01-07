@@ -4,6 +4,7 @@
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -183,13 +184,13 @@ internal class MiHoYoJSBridge
 
     protected virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
     {
-        MetadataOptions metadataOptions = serviceProvider.GetRequiredService<MetadataOptions>();
+        CultureOptions cultureOptions = serviceProvider.GetRequiredService<CultureOptions>();
 
         return new()
         {
             Data = new()
             {
-                ["language"] = metadataOptions.LanguageCode,
+                ["language"] = cultureOptions.LanguageCode,
                 ["timeZone"] = "GMT+8",
             },
         };

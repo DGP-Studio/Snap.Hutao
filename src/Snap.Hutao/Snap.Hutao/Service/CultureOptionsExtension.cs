@@ -1,24 +1,19 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model;
 using System.Globalization;
-using System.IO;
 
-namespace Snap.Hutao.Service.Metadata;
+namespace Snap.Hutao.Service;
 
-internal static class MetadataOptionsExtension
+internal static class CultureOptionsExtension
 {
-    public static string GetLocalizedLocalFile(this MetadataOptions options, string fileNameWithExtension)
+    public static NameValue<CultureInfo>? GetCurrentCultureForSelectionOrDefault(this CultureOptions options)
     {
-        return Path.Combine(options.LocalizedDataFolder, fileNameWithExtension);
+        return options.Cultures.SingleOrDefault(c => c.Value == options.CurrentCulture);
     }
 
-    public static string GetLocalizedRemoteFile(this MetadataOptions options, string fileNameWithExtension)
-    {
-        return Web.HutaoEndpoints.Metadata(options.LocaleName, fileNameWithExtension);
-    }
-
-    public static bool LanguageCodeFitsCurrentLocale(this MetadataOptions options, string? languageCode)
+    public static bool LanguageCodeFitsCurrentLocale(this CultureOptions options, string? languageCode)
     {
         if (string.IsNullOrEmpty(languageCode))
         {

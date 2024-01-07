@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using System.Globalization;
 using System.IO;
 
 namespace Snap.Hutao.Service.Metadata;
@@ -10,10 +11,9 @@ namespace Snap.Hutao.Service.Metadata;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class MetadataOptions
 {
-    private readonly AppOptions appOptions;
-    private readonly RuntimeOptions hutaoOptions;
+    private readonly CultureOptions cultureOptions;
+    private readonly RuntimeOptions runtimeOptions;
 
-    private string? localeName;
     private string? fallbackDataFolder;
     private string? localizedDataFolder;
 
@@ -23,7 +23,7 @@ internal sealed partial class MetadataOptions
         {
             if (fallbackDataFolder is null)
             {
-                fallbackDataFolder = Path.Combine(hutaoOptions.DataFolder, "Metadata", "CHS");
+                fallbackDataFolder = Path.Combine(runtimeOptions.DataFolder, "Metadata", "CHS");
                 Directory.CreateDirectory(fallbackDataFolder);
             }
 
@@ -37,7 +37,7 @@ internal sealed partial class MetadataOptions
         {
             if (localizedDataFolder is null)
             {
-                localizedDataFolder = Path.Combine(hutaoOptions.DataFolder, "Metadata", LocaleName);
+                localizedDataFolder = Path.Combine(runtimeOptions.DataFolder, "Metadata", cultureOptions.LocaleName);
                 Directory.CreateDirectory(localizedDataFolder);
             }
 
@@ -45,21 +45,13 @@ internal sealed partial class MetadataOptions
         }
     }
 
-    public string LocaleName
+    public string GetLocalizedLocalFile(string fileNameWithExtension)
     {
-        get => localeName ??= MetadataOptionsExtension.GetLocaleName(appOptions.CurrentCulture);
+        return Path.Combine(LocalizedDataFolder, fileNameWithExtension);
     }
 
-    public string LanguageCode
+    public string GetLocalizedRemoteFile(string fileNameWithExtension)
     {
-        get
-        {
-            if (LocaleNames.TryGetLanguageCodeFromLocaleName(LocaleName, out string? languageCode))
-            {
-                return languageCode;
-            }
-
-            throw new KeyNotFoundException($"Invalid localeName: '{LocaleName}'");
-        }
+        return Web.HutaoEndpoints.Metadata(cultureOptions.LocaleName, fileNameWithExtension);
     }
 }

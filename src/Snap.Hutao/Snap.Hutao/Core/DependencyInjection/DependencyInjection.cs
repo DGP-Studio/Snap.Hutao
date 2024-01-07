@@ -48,10 +48,10 @@ internal static class DependencyInjection
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void InitializeCulture(this IServiceProvider serviceProvider)
     {
-        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
-        appOptions.PreviousCulture = CultureInfo.CurrentCulture;
+        CultureOptions cultureOptions = serviceProvider.GetRequiredService<CultureOptions>();
+        cultureOptions.SystemCulture = CultureInfo.CurrentCulture;
 
-        CultureInfo cultureInfo = appOptions.CurrentCulture;
+        CultureInfo cultureInfo = cultureOptions.CurrentCulture;
 
         CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;

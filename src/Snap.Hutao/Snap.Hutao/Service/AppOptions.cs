@@ -6,7 +6,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab;
-using System.Globalization;
 
 namespace Snap.Hutao.Service;
 
@@ -16,7 +15,6 @@ internal sealed partial class AppOptions : DbStoreOptions
 {
     private bool? isEmptyHistoryWishVisible;
     private BackdropType? backdropType;
-    private CultureInfo? currentCulture;
     private Region? region;
     private string? geetestCustomCompositeUrl;
 
@@ -34,14 +32,6 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, value => value.ToStringOrEmpty());
     }
 
-    public List<NameValue<CultureInfo>> Cultures { get; } = SupportedCultures.Get();
-
-    public CultureInfo CurrentCulture
-    {
-        get => GetOption(ref currentCulture, SettingEntry.Culture, CultureInfo.GetCultureInfo, CultureInfo.CurrentCulture);
-        set => SetOption(ref currentCulture, SettingEntry.Culture, value, value => value.Name);
-    }
-
     public Lazy<List<NameValue<Region>>> LazyRegions { get; } = new(KnownRegions.Get);
 
     public Region Region
@@ -55,6 +45,4 @@ internal sealed partial class AppOptions : DbStoreOptions
         get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl);
         set => SetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, value);
     }
-
-    internal CultureInfo PreviousCulture { get; set; } = default!;
 }
