@@ -1559,6 +1559,9 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>서버 변경 실패</value>
   </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>识别显示器</value>
+  </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
     <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
   </data>
@@ -2965,5 +2968,8 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>显示器编号</value>
   </data>
 </root>
