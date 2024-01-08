@@ -1310,6 +1310,9 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Setel Cookie</value>
   </data>
+  <data name="ViewFeedbackHeader" xml:space="preserve">
+    <value>Pusat Umpan Balik</value>
+  </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>Riwayat Wish</value>
   </data>
@@ -1560,7 +1563,7 @@
     <value>Konversi server gagal</value>
   </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
-    <value>识别显示器</value>
+    <value>Identifikasi Monitor</value>
   </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
     <value>Tidak dapat membaca file konfigurasi game: {0}, file mungkin tidak ada atau kurang izin pengguna</value>
@@ -1849,6 +1852,33 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Verifikasi Pengguna dan Role Saat Ini</value>
+  </data>
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+    <value>Cari pertanyaan dan saran</value>
+  </data>
+  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
+    <value>Informasi Dasar</value>
+  </data>
+  <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
+    <value>Tautan Berguna</value>
+  </data>
+  <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
+    <value>Tetap berhubungan dengan kami</value>
+  </data>
+  <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
+    <value>Dokumen Fitur</value>
+  </data>
+  <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
+    <value>Kami selalu memberikan prioritas pada masalah di GitHub</value>
+  </data>
+  <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
+    <value>Roadmap Pengembangan</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
+    <value>Pemantau Ketersediaan Layanan Snap Hutao</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
+    <value>Servis Snap Hutao</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>Segarkan Seutuhnya</value>
@@ -2606,6 +2636,9 @@
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>Buka berkas</value>
   </data>
+  <data name="ViewSettingHeader" xml:space="preserve">
+    <value>Pengaturan</value>
+  </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>Rasio Penampilan Karakter = Penampilan Karakter di Lantai Ini (hanya dihitung sekali jika berulang) / Total Jumlah Rekor Abyss di Lantai Ini</value>
   </data>
@@ -2970,6 +3003,6 @@
     <value>[{1}] pengecualian permintaan jaringan di [{0}], harap coba lagi nanti</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
-    <value>显示器编号</value>
+    <value>ID Monitor</value>
   </data>
 </root>
