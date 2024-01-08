@@ -58,13 +58,13 @@
                                     Command="{Binding NavigateToUriCommand}"
                                     CommandParameter="https://github.com/DGP-Studio/Snap.Hutao/issues/new/choose"
                                     Description="{shcm:ResourceString Name=ViewPageFeedbackGithubIssuesDescription}"
-                                    Header="Github Issues"
+                                    Header="GitHub Issues"
                                     IsClickEnabled="True"/>
                                 <cwc:SettingsCard
                                     Command="{Binding NavigateToUriCommand}"
                                     CommandParameter="https://github.com/orgs/DGP-Studio/projects/2"
                                     Description="{shcm:ResourceString Name=ViewPageFeedbackRoadmapDescription}"
-                                    Header="Github Projects"
+                                    Header="GitHub Projects"
                                     IsClickEnabled="True"/>
                                 <cwc:SettingsCard
                                     Command="{Binding NavigateToUriCommand}"
