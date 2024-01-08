@@ -1,4 +1,15 @@
-﻿// COMCTL32
+﻿// ADVAPI32
+RegCloseKey
+RegOpenKeyExW
+RegNotifyChangeKeyValue
+REG_NOTIFY_FILTER
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+HKEY_CURRENT_CONFIG
+
+// COMCTL32
 DefSubclassProc
 RemoveWindowSubclass
 SetWindowSubclass
