@@ -1310,6 +1310,9 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>クッキーを設定</value>
   </data>
+  <data name="ViewFeedbackHeader" xml:space="preserve">
+    <value>反馈中心</value>
+  </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈願履歴</value>
   </data>
@@ -1849,6 +1852,33 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>現在のユーザーとUIDを確認する</value>
+  </data>
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+    <value>搜索问题与建议</value>
+  </data>
+  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
+    <value>常用链接</value>
+  </data>
+  <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
+    <value>与我们密切联系</value>
+  </data>
+  <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
+    <value>功能指南</value>
+  </data>
+  <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
+    <value>我们总是优先处理 Github 上的问题</value>
+  </data>
+  <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
+    <value>开发路线规划</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
+    <value>胡桃服务可用性监控</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
+    <value>胡桃服务</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>すべて更新</value>
@@ -2605,6 +2635,9 @@
   </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>フォルダを開く</value>
+  </data>
+  <data name="ViewSettingHeader" xml:space="preserve">
+    <value>设置</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>キャラクター出場率 = この階層における出場回数（最初の一回のみカウント） / この階層のアップロード総数</value>
