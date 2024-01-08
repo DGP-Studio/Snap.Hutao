@@ -870,10 +870,22 @@
     <value>ファイル書き込みの権限が無いため、サーバー変換機能を使用できません</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
-    <value>ゲームのリソース情報を確認</value>
+    <value>下载游戏资源索引</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>ゲームファイルの操作に失敗しました。: {0}</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
+    <value>解锁帧率上限失败</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
+    <value>游戏进程运行中</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
+    <value>请选择游戏路径</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
+    <value>下载游戏资源索引失败: {0}</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>ゲームプロセスが終了しました</value>
@@ -1271,6 +1283,12 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>MiHoYo BBS を使用して QR コードをスキャンします</value>
   </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>请输入你正在启用的功能标题</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>你正在启用一个危险功能</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>この操作は取り消せません。すべてのユーザーのログイン状態が解除されます。</value>
   </data>
@@ -1291,6 +1309,9 @@
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>クッキーを設定</value>
+  </data>
+  <data name="ViewFeedbackHeader" xml:space="preserve">
+    <value>反馈中心</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈願履歴</value>
@@ -1541,6 +1562,9 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>サーバーの切り替えができませんでした</value>
   </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>识别显示器</value>
+  </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
     <value>ゲーム設定ファイル {0} の読み込みに失敗しました。ファイルが無いか、権限が不足している可能性があります。</value>
   </data>
@@ -1573,6 +1597,12 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>デスクトップへのショートカット作成に失敗しました</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
+    <value>后续转换会重新下载所需的文件，确定要删除吗？</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
+    <value>删除转换服务器游戏客户端缓存</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>使用済みディスク容量: {0}</value>
@@ -1822,6 +1852,33 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>現在のユーザーとUIDを確認する</value>
+  </data>
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+    <value>搜索问题与建议</value>
+  </data>
+  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
+    <value>常用链接</value>
+  </data>
+  <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
+    <value>与我们密切联系</value>
+  </data>
+  <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
+    <value>功能指南</value>
+  </data>
+  <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
+    <value>我们总是优先处理 Github 上的问题</value>
+  </data>
+  <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
+    <value>开发路线规划</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
+    <value>胡桃服务可用性监控</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
+    <value>胡桃服务</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>すべて更新</value>
@@ -2191,6 +2248,12 @@
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>有効</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>HDRをサポートするディスプレイを活用して、より明るく鮮やかなグラフィックを実現します。</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>HoYoLab UIDを入力してください</value>
@@ -2564,8 +2627,17 @@
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
     <value>デバッグコンソール</value>
   </data>
+  <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
+    <value>在启动游戏中转换服务器后会产生对应的游戏客户端文件用作缓存</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
+    <value>删除转换服务器缓存</value>
+  </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>フォルダを開く</value>
+  </data>
+  <data name="ViewSettingHeader" xml:space="preserve">
+    <value>设置</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>キャラクター出場率 = この階層における出場回数（最初の一回のみカウント） / この階層のアップロード総数</value>
@@ -2747,6 +2819,9 @@
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
     <value>{0} 時間後に終了</value>
   </data>
+  <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
+    <value>打开剪贴板失败</value>
+  </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>クリップボードにコピーしました。</value>
   </data>
@@ -2926,5 +3001,8 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] の[{1}] のリクエストにエラーが発生、時間をおいてから試してください</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>显示器编号</value>
   </data>
 </root>

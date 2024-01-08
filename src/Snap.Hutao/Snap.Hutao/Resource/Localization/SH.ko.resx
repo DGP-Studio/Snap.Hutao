@@ -870,10 +870,22 @@
     <value>文件系统权限不足，无法转换服务器</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
-    <value>게임 리소스 정보 조회</value>
+    <value>下载游戏资源索引</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>게임 파일 작업 실패：{0}</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
+    <value>解锁帧率上限失败</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
+    <value>游戏进程运行中</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
+    <value>请选择游戏路径</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
+    <value>下载游戏资源索引失败: {0}</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>游戏进程已退出</value>
@@ -1271,6 +1283,12 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>使用米游社扫描二维码</value>
   </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>请输入你正在启用的功能标题</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>你正在启用一个危险功能</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>이 작업은 되돌릴 수 없으며, 모든 사용자 로그인 상태가 해제됩니다</value>
   </data>
@@ -1291,6 +1309,9 @@
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>쿠키 설정</value>
+  </data>
+  <data name="ViewFeedbackHeader" xml:space="preserve">
+    <value>反馈中心</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>기원 기록</value>
@@ -1541,6 +1562,9 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>서버 변경 실패</value>
   </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>识别显示器</value>
+  </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
     <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
   </data>
@@ -1573,6 +1597,12 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>创建桌面快捷方式失败</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
+    <value>后续转换会重新下载所需的文件，确定要删除吗？</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
+    <value>删除转换服务器游戏客户端缓存</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>已使用磁盘空间：{0}</value>
@@ -1822,6 +1852,33 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>현재 사용자와 캐릭터 확인</value>
+  </data>
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+    <value>搜索问题与建议</value>
+  </data>
+  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
+    <value>常用链接</value>
+  </data>
+  <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
+    <value>与我们密切联系</value>
+  </data>
+  <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
+    <value>功能指南</value>
+  </data>
+  <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
+    <value>我们总是优先处理 Github 上的问题</value>
+  </data>
+  <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
+    <value>开发路线规划</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
+    <value>胡桃服务可用性监控</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
+    <value>胡桃服务</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>전체 동기화</value>
@@ -2191,6 +2248,12 @@
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>활성화</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>充分利用支持高动态范围的显示器获得更亮、更生动、更精细的画面</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>HoYoLab Uid를 입력하세요</value>
@@ -2564,8 +2627,17 @@
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
     <value>调试控制台</value>
   </data>
+  <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
+    <value>在启动游戏中转换服务器后会产生对应的游戏客户端文件用作缓存</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
+    <value>删除转换服务器缓存</value>
+  </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>打开文件夹</value>
+  </data>
+  <data name="ViewSettingHeader" xml:space="preserve">
+    <value>设置</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>角色出场率 = 本层上阵该角色次数（层内重复出现只记一次）/ 深渊记录总数</value>
@@ -2747,6 +2819,9 @@
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
     <value>{0}시간 후 종료</value>
   </data>
+  <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
+    <value>打开剪贴板失败</value>
+  </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>已复制到剪贴板</value>
   </data>
@@ -2926,5 +3001,8 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>显示器编号</value>
   </data>
 </root>

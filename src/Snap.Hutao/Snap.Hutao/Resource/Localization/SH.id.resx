@@ -121,7 +121,7 @@
     <value>Snap Hutao Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>Snap Hutao Dev {0} [Administrator]</value>
+    <value>胡桃Dev {0} [管理员]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
     <value>Snap Hutao {0} [Administrator]</value>
@@ -870,10 +870,22 @@
     <value>Tidak ada izin menulis dalam sistem berkas, tidak dapat memulai konversi server.</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
-    <value>Mencari Informasi Sumber Daya Game</value>
+    <value>Unduh indeks sumber daya game</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>Gagal melakukan operasi pada file game: {0}</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
+    <value>Gagal membuka batas frame rate</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
+    <value>Proses game sedang berjalan</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
+    <value>Mohon pilih path game</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
+    <value>Gagal mengunduh indeks sumber daya game: {0}</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Proses game ditutup</value>
@@ -1271,6 +1283,12 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>Pindai kode QR dengan Aplikasi MiHoYo BBS</value>
   </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>Mohon Tambahkan Judul Dari Fitur Yang Anda Aktifkan</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>Anda Mengaktifkan Fitur Berbahaya</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>Tindakan ini tidak dapat dibatalkan, dan semua status login pengguna akan hilang.</value>
   </data>
@@ -1291,6 +1309,9 @@
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Setel Cookie</value>
+  </data>
+  <data name="ViewFeedbackHeader" xml:space="preserve">
+    <value>Pusat Umpan Balik</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>Riwayat Wish</value>
@@ -1541,6 +1562,9 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Konversi server gagal</value>
   </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>Identifikasi Monitor</value>
+  </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
     <value>Tidak dapat membaca file konfigurasi game: {0}, file mungkin tidak ada atau kurang izin pengguna</value>
   </data>
@@ -1573,6 +1597,12 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>Gagal membuat shortcut di desktop</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
+    <value>Anda akan diminta mengunduh file yang diperlukan, Yakin ingin menghapus?</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
+    <value>Menghapus Cache Server Konfersi</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>Ruang disk yang digunakan: {0}</value>
@@ -1822,6 +1852,33 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Verifikasi Pengguna dan Role Saat Ini</value>
+  </data>
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+    <value>Cari pertanyaan dan saran</value>
+  </data>
+  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
+    <value>Informasi Dasar</value>
+  </data>
+  <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
+    <value>Tautan Berguna</value>
+  </data>
+  <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
+    <value>Tetap berhubungan dengan kami</value>
+  </data>
+  <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
+    <value>Dokumen Fitur</value>
+  </data>
+  <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
+    <value>Kami selalu memberikan prioritas pada masalah di GitHub</value>
+  </data>
+  <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
+    <value>Roadmap Pengembangan</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
+    <value>Pemantau Ketersediaan Layanan Snap Hutao</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
+    <value>Servis Snap Hutao</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>Segarkan Seutuhnya</value>
@@ -2191,6 +2248,12 @@
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>Aktifkan</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>Manfaatkan tampilan yang mendukung rentang dinamis tinggi untuk gambar yang lebih terang, lebih jelas, dan lebih detail</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>Masukkan UID HoYoLab Anda</value>
@@ -2564,8 +2627,17 @@
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
     <value>Konsol debug</value>
   </data>
+  <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
+    <value>File Cache diunduh untuk Server Konfersi pada Game Launcher</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
+    <value>Menghapus Cache Server Konfersi</value>
+  </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>Buka berkas</value>
+  </data>
+  <data name="ViewSettingHeader" xml:space="preserve">
+    <value>Pengaturan</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>Rasio Penampilan Karakter = Penampilan Karakter di Lantai Ini (hanya dihitung sekali jika berulang) / Total Jumlah Rekor Abyss di Lantai Ini</value>
@@ -2747,6 +2819,9 @@
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
     <value>Selesai {0} jam</value>
   </data>
+  <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
+    <value>Gagal membuka clipboard</value>
+  </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>Disalin ke clipboard</value>
   </data>
@@ -2926,5 +3001,8 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{1}] pengecualian permintaan jaringan di [{0}], harap coba lagi nanti</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>ID Monitor</value>
   </data>
 </root>
