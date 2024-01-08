@@ -11,6 +11,12 @@ internal static class CollectionsNameValue
         return [.. Enum.GetValues<TEnum>().Select(x => new NameValue<TEnum>(x.ToString(), x))];
     }
 
+    public static List<NameValue<TEnum>> FromEnum<TEnum>(Func<TEnum, bool> codiction)
+        where TEnum : struct, Enum
+    {
+        return [.. Enum.GetValues<TEnum>().Where(codiction).Select(x => new NameValue<TEnum>(x.ToString(), x))];
+    }
+
     public static List<NameValue<TSource>> From<TSource>(IEnumerable<TSource> sources, Func<TSource, string> nameSelector)
     {
         return [.. sources.Select(x => new NameValue<TSource>(nameSelector(x), x))];

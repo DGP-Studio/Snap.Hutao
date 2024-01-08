@@ -24,7 +24,7 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible, value);
     }
 
-    public List<NameValue<BackdropType>> BackdropTypes { get; } = CollectionsNameValue.FromEnum<BackdropType>();
+    public List<NameValue<BackdropType>> BackdropTypes { get; } = CollectionsNameValue.FromEnum<BackdropType>(type => type >= 0);
 
     public BackdropType BackdropType
     {
