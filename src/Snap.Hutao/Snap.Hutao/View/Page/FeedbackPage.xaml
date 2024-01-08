@@ -51,7 +51,33 @@
                             </cwc:SettingsExpander.Items>
                         </cwc:SettingsExpander>
                         <cwc:SettingsExpander
-                            Header="功能指南"
+                            Description="{shcm:ResourceString Name=ViewPageFeedbackEngageWithUsDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageFeedbackCommonLinksHeader}"
+                            HeaderIcon="{shcm:FontIcon Glyph=&#xE71B;}"
+                            IsExpanded="True">
+                            <cwc:SettingsExpander.Items>
+                                <cwc:SettingsCard
+                                    Command="{Binding NavigateToUriCommand}"
+                                    CommandParameter="https://github.com/DGP-Studio/Snap.Hutao/issues/new/choose"
+                                    Description="{shcm:ResourceString Name=ViewPageFeedbackGithubIssuesDescription}"
+                                    Header="Github Issues"
+                                    IsClickEnabled="True"/>
+                                <cwc:SettingsCard
+                                    Command="{Binding NavigateToUriCommand}"
+                                    CommandParameter="https://github.com/orgs/DGP-Studio/projects/2"
+                                    Description="{shcm:ResourceString Name=ViewPageFeedbackRoadmapDescription}"
+                                    Header="Github Projects"
+                                    IsClickEnabled="True"/>
+                                <cwc:SettingsCard
+                                    Command="{Binding NavigateToUriCommand}"
+                                    CommandParameter="https://status.hut.ao"
+                                    Description="{shcm:ResourceString Name=ViewPageFeedbackServerStatusDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageFeedbackServerStatusHeader}"
+                                    IsClickEnabled="True"/>
+                            </cwc:SettingsExpander.Items>
+                        </cwc:SettingsExpander>
+                        <cwc:SettingsExpander
+                            Header="{shcm:ResourceString Name=ViewPageFeedbackFeatureGuideHeader}"
                             HeaderIcon="{shcm:FontIcon Glyph=&#xF8A5;}"
                             IsExpanded="True">
                             <cwc:SettingsExpander.Items>

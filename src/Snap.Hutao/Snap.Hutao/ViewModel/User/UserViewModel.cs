@@ -32,7 +32,6 @@ namespace Snap.Hutao.ViewModel.User;
 internal sealed partial class UserViewModel : ObservableObject
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IDocumentationProvider documentationProvider;
     private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
@@ -279,11 +278,5 @@ internal sealed partial class UserViewModel : ObservableObject
         await taskContext.SwitchToMainThreadAsync();
         FlyoutBase.ShowAttachedFlyout(appBarButton);
         infoBarService.Warning(message);
-    }
-
-    [Command("OpenDocumentationCommand")]
-    private async Task OpenDocumentationAsync()
-    {
-        await Launcher.LaunchUriAsync(new(documentationProvider.GetDocumentation()));
     }
 }
