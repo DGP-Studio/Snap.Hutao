@@ -18,7 +18,7 @@ internal sealed partial class DynamicHttpProxy : IWebProxy, IDisposable
     {
         UpdateProxy();
 
-        watcher = RegistryWatcher.Create(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections", OnRegistryChanged);
+        watcher = new (@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections");
         watcher.Start();
     }
 

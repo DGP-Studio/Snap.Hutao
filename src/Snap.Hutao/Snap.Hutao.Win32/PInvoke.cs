@@ -15,12 +15,4 @@ internal static partial class PInvoke
         ppv = (TInterface)o;
         return hr;
     }
-
-    internal static unsafe WIN32_ERROR RegOpenKeyEx(HKEY hKey, string lpSubKey, uint ulOptions, REG_SAM_FLAGS samDesired, out HKEY phkResult)
-    {
-        HKEY hKeyResult;
-        WIN32_ERROR __result = PInvoke.RegOpenKeyEx(hKey, lpSubKey, ulOptions, samDesired, &hKeyResult);
-        phkResult = hKeyResult;
-        return __result;
-    }
 }

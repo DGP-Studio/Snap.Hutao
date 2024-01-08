@@ -1,146 +1,153 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Windows.Win32;
+using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Registry;
+using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Core.Shell;
 
 internal sealed partial class RegistryWatcher : IDisposable
 {
-    private readonly ManualResetEvent eventTerminate = new(false);
+    private const REG_SAM_FLAGS RegSamFlags =
+        REG_SAM_FLAGS.KEY_QUERY_VALUE |
+        REG_SAM_FLAGS.KEY_NOTIFY |
+        REG_SAM_FLAGS.KEY_READ;
+
+    private const REG_NOTIFY_FILTER RegNotifyFilters =
+        REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_NAME |
+        REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_ATTRIBUTES |
+        REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_LAST_SET |
+        REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_SECURITY;
+
+    private readonly ManualResetEvent disposeEvent = new(false);
     private readonly CancellationTokenSource cancellationTokenSource = new();
 
-    private readonly REG_SAM_FLAGS samFlags = REG_SAM_FLAGS.KEY_QUERY_VALUE | REG_SAM_FLAGS.KEY_NOTIFY | REG_SAM_FLAGS.KEY_READ;
-    private readonly REG_NOTIFY_FILTER notiftFilters = REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_NAME | REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_ATTRIBUTES |
-                                              REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_LAST_SET | REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_SECURITY;
-
-    private HKEY hKey;
-    private string subKey = default!;
+    private readonly HKEY hKey;
+    private readonly string subKey = default!;
+    private readonly Action valueChangedCallback;
+    private readonly object syncRoot = new();
     private bool disposed;
 
-    public RegistryWatcher(string name, EventHandler eventHandler)
+    public RegistryWatcher(string keyName, Action valueChangedCallback)
     {
-        ArgumentException.ThrowIfNullOrEmpty(name);
+        ArgumentException.ThrowIfNullOrEmpty(keyName);
+        string[] pathArray = keyName.Split('\\');
 
-        InitRegistryKey(name);
-        RegChanged += eventHandler;
-    }
+        hKey = pathArray[0] switch
+        {
+            nameof(HKEY.HKEY_CLASSES_ROOT) => HKEY.HKEY_CLASSES_ROOT,
+            nameof(HKEY.HKEY_CURRENT_USER) => HKEY.HKEY_CURRENT_USER,
+            nameof(HKEY.HKEY_LOCAL_MACHINE) => HKEY.HKEY_LOCAL_MACHINE,
+            nameof(HKEY.HKEY_USERS) => HKEY.HKEY_USERS,
+            nameof(HKEY.HKEY_CURRENT_CONFIG) => HKEY.HKEY_CURRENT_CONFIG,
+            _ => throw new ArgumentException("The registry hive '" + pathArray[0] + "' is not supported", nameof(keyName)),
+        };
 
-    public event EventHandler? RegChanged;
-
-    public static RegistryWatcher Create(string name, EventHandler eventHandler)
-    {
-        return new RegistryWatcher(name, eventHandler);
+        subKey = string.Join("\\", pathArray[1..]);
+        this.valueChangedCallback = valueChangedCallback;
     }
 
     public void Start()
     {
         ObjectDisposedException.ThrowIf(disposed, this);
-
-        eventTerminate.Reset();
-        MonitorCoreAsync(cancellationTokenSource.Token).SafeForget();
+        WatchAsync(cancellationTokenSource.Token).SafeForget();
     }
 
     public void Dispose()
     {
-        eventTerminate.Dispose();
-        cancellationTokenSource.Cancel();
-        cancellationTokenSource.Dispose();
-        disposed = true;
-        GC.SuppressFinalize(this);
-    }
-
-    private void InitRegistryKey(string name)
-    {
-        string[] nameParts = name.Split('\\');
-
-        switch (nameParts[0])
+        // Standard no-reentrancy pattern
+        if (disposed)
         {
-            case "HKEY_CLASSES_ROOT":
-            case "HKCR":
-                hKey = HKEY.HKEY_CLASSES_ROOT;
-                break;
-
-            case "HKEY_CURRENT_USER":
-            case "HKCU":
-                hKey = HKEY.HKEY_CURRENT_USER;
-                break;
-
-            case "HKEY_LOCAL_MACHINE":
-            case "HKLM":
-                hKey = HKEY.HKEY_LOCAL_MACHINE;
-                break;
-
-            case "HKEY_USERS":
-                hKey = HKEY.HKEY_USERS;
-                break;
-
-            case "HKEY_CURRENT_CONFIG":
-                hKey = HKEY.HKEY_CURRENT_CONFIG;
-                break;
-
-            default:
-                hKey = HKEY.Null;
-                throw new ArgumentException("The registry hive '" + nameParts[0] + "' is not supported", nameof(name));
+            return;
         }
 
-        subKey = string.Join("\\", nameParts, 1, nameParts.Length - 1);
+        lock (syncRoot)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            // First cancel the outer while loop
+            cancellationTokenSource.Cancel();
+
+            // Then signal the inner while loop to exit
+            disposeEvent.Set();
+
+            // Wait for both loops to exit
+            disposeEvent.WaitOne();
+
+            disposeEvent.Dispose();
+            cancellationTokenSource.Dispose();
+
+            disposed = true;
+
+            GC.SuppressFinalize(this);
+        }
     }
 
-    private async ValueTask MonitorCoreAsync(CancellationToken token)
+    [SuppressMessage("", "SH002")]
+    private static unsafe void UnsafeRegOpenKeyEx(HKEY hKey, string subKey, uint ulOptions, REG_SAM_FLAGS samDesired, out HKEY result)
     {
-        using (PeriodicTimer timer = new(TimeSpan.FromSeconds(1)))
+        fixed (HKEY* resultPtr = &result)
         {
-            try
+            HRESULT hResult = HRESULT_FROM_WIN32(RegOpenKeyEx(hKey, subKey, ulOptions, samDesired, resultPtr));
+            Marshal.ThrowExceptionForHR(hResult);
+        }
+    }
+
+    [SuppressMessage("", "SH002")]
+    private static unsafe void UnsafeRegNotifyChangeKeyValue(HKEY hKey, BOOL bWatchSubtree, REG_NOTIFY_FILTER dwNotifyFilter, HANDLE hEvent, BOOL fAsynchronous)
+    {
+        HRESULT hRESULT = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(hKey, bWatchSubtree, dwNotifyFilter, hEvent, fAsynchronous));
+        Marshal.ThrowExceptionForHR(hRESULT);
+    }
+
+    private async ValueTask WatchAsync(CancellationToken token)
+    {
+        try
+        {
+            while (!token.IsCancellationRequested)
             {
-                while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
+                await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+
+                UnsafeRegOpenKeyEx(hKey, subKey, 0, RegSamFlags, out HKEY registryKey);
+
+                using (ManualResetEvent notifyEvent = new(false))
                 {
-                    if (token.IsCancellationRequested)
-                    {
-                        break;
-                    }
-
-                    WIN32_ERROR result = PInvoke.RegOpenKeyEx(hKey, subKey, 0, samFlags, out HKEY registryKey);
-                    if (result != WIN32_ERROR.ERROR_SUCCESS)
-                    {
-                        throw new Win32Exception((int)result);
-                    }
-
-                    AutoResetEvent eventNotify = new(false);
+                    HANDLE hEvent = (HANDLE)notifyEvent.SafeWaitHandle.DangerousGetHandle();
 
                     try
                     {
-                        WaitHandle[] waitHandles = [eventNotify, eventTerminate];
-                        while (!eventTerminate.WaitOne(0, true))
+                        // If terminateEvent is signaled, the Dispose method
+                        // has been called and the object is shutting down.
+                        // The outer token has already canceled, so we can
+                        // skip both loops and exit the method.
+                        while (!disposeEvent.WaitOne(0, true))
                         {
-                            result = PInvoke.RegNotifyChangeKeyValue(registryKey, true, notiftFilters, (HANDLE)eventNotify.SafeWaitHandle.DangerousGetHandle(), true);
-                            if (result != 0)
-                            {
-                                throw new Win32Exception((int)result);
-                            }
+                            UnsafeRegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, hEvent, true);
 
-                            if (WaitHandle.WaitAny(waitHandles) == 0)
+                            if (WaitHandle.WaitAny([notifyEvent, disposeEvent]) is 0)
                             {
-                                RegChanged?.Invoke(this, EventArgs.Empty);
+                                valueChangedCallback();
+                                notifyEvent.Reset();
                             }
                         }
                     }
                     finally
                     {
-                        if (registryKey != IntPtr.Zero)
-                        {
-                            PInvoke.RegCloseKey(registryKey);
-                        }
-
-                        eventNotify.Dispose();
+                        RegCloseKey(registryKey);
                     }
                 }
             }
-            catch (OperationCanceledException)
-            {
-            }
+
+            // Before exiting, signal the Dispose method.
+            disposeEvent.Reset();
+        }
+        catch (OperationCanceledException)
+        {
         }
     }
 }
