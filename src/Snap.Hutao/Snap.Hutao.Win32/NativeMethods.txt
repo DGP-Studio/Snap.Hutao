@@ -47,12 +47,14 @@ GetCursorPos
 GetDC
 GetDpiForWindow
 GetForegroundWindow
+GetWindowLongPtrW
 GetWindowPlacement
 GetWindowThreadProcessId
 ReleaseDC
 RegisterHotKey
 SendInput
 SetForegroundWindow
+SetWindowLongPtrW
 UnregisterHotKey
 
 // COM
@@ -74,6 +76,7 @@ E_FAIL
 INFINITE
 RPC_E_WRONG_THREAD
 MAX_PATH
+WM_ERASEBKGND
 WM_GETMINMAXINFO
 WM_HOTKEY
 WM_NCRBUTTONDOWN
@@ -89,6 +92,7 @@ LPTHREAD_START_ROUTINE
 
 // UI.WindowsAndMessaging
 MINMAXINFO
+WINDOW_EX_STYLE
 
 // System.Com
 CWMO_FLAGS

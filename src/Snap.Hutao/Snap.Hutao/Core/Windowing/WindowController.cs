@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
+using System.Diagnostics;
 using System.IO;
 using Windows.Graphics;
 using Windows.UI;
@@ -157,6 +158,7 @@ internal sealed class WindowController
     {
         window.SystemBackdrop = backdropType switch
         {
+            BackdropType.Transparent => new Backdrop.TransparentBackdrop(),
             BackdropType.MicaAlt => new MicaBackdrop() { Kind = MicaKind.BaseAlt },
             BackdropType.Mica => new MicaBackdrop() { Kind = MicaKind.Base },
             BackdropType.Acrylic => new DesktopAcrylicBackdrop(),
