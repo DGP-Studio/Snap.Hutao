@@ -3,23 +3,23 @@
 
 using Snap.Hutao.Core.Shell;
 using System.Net;
+using System.Reflection;
 
 namespace Snap.Hutao.Core.IO.Http.DynamicProxy;
 
 [Injection(InjectAs.Singleton)]
 internal sealed partial class DynamicHttpProxy : IWebProxy, IDisposable
 {
-    private readonly RegistryMonitor registryMonitor;
+    private readonly RegistryWatcher watcher;
 
-    private IWebProxy innerProxy;
+    private IWebProxy innerProxy = default!;
 
     public DynamicHttpProxy()
     {
-        HttpWindowsProxy.TryCreate(out IWebProxy? proxy);
-        innerProxy = proxy ?? new HttpNoProxy();
+        UpdateProxy();
 
-        registryMonitor = RegistryMonitor.Create(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections", OnRegistryChanged);
-        registryMonitor.Start();
+        watcher = RegistryWatcher.Create(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections", OnRegistryChanged);
+        watcher.Start();
     }
 
     /// <inheritdoc/>
@@ -50,8 +50,14 @@ internal sealed partial class DynamicHttpProxy : IWebProxy, IDisposable
 
     public void UpdateProxy()
     {
-        HttpWindowsProxy.TryCreate(out IWebProxy? proxy);
-        InnerProxy = proxy ?? new HttpNoProxy();
+        Assembly httpNamespace = Assembly.Load("System.Net.Http");
+        Type? systemProxyInfoType = httpNamespace.GetType("System.Net.Http.SystemProxyInfo");
+        ArgumentNullException.ThrowIfNull(systemProxyInfoType);
+        MethodInfo? constructSystemProxyMethod = systemProxyInfoType.GetMethod("ConstructSystemProxy", BindingFlags.Static | BindingFlags.Public);
+        ArgumentNullException.ThrowIfNull(constructSystemProxyMethod);
+        IWebProxy? proxy = (IWebProxy?)constructSystemProxyMethod.Invoke(null, null);
+        ArgumentNullException.ThrowIfNull(proxy);
+        InnerProxy = proxy;
     }
 
     public Uri? GetProxy(Uri destination)
@@ -71,7 +77,7 @@ internal sealed partial class DynamicHttpProxy : IWebProxy, IDisposable
             disposable.Dispose();
         }
 
-        registryMonitor.Dispose();
+        watcher.Dispose();
     }
 
     private void OnRegistryChanged(object? sender, EventArgs e)

@@ -7,7 +7,7 @@ using Windows.Win32.System.Registry;
 
 namespace Snap.Hutao.Core.Shell;
 
-internal sealed partial class RegistryMonitor : IDisposable
+internal sealed partial class RegistryWatcher : IDisposable
 {
     private readonly ManualResetEvent eventTerminate = new(false);
     private readonly CancellationTokenSource cancellationTokenSource = new();
@@ -20,7 +20,7 @@ internal sealed partial class RegistryMonitor : IDisposable
     private string subKey = default!;
     private bool disposed;
 
-    public RegistryMonitor(string name, EventHandler eventHandler)
+    public RegistryWatcher(string name, EventHandler eventHandler)
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
 
@@ -30,9 +30,9 @@ internal sealed partial class RegistryMonitor : IDisposable
 
     public event EventHandler? RegChanged;
 
-    public static RegistryMonitor Create(string name, EventHandler eventHandler)
+    public static RegistryWatcher Create(string name, EventHandler eventHandler)
     {
-        return new RegistryMonitor(name, eventHandler);
+        return new RegistryWatcher(name, eventHandler);
     }
 
     public void Start()
