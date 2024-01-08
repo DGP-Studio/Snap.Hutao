@@ -1,7 +1,7 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Shell;
+using Snap.Hutao.Win32.Registry;
 using System.Net;
 using System.Reflection;
 
@@ -10,15 +10,29 @@ namespace Snap.Hutao.Core.IO.Http.DynamicProxy;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class DynamicHttpProxy : IWebProxy, IDisposable
 {
+    private const string ProxySettingPath = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections";
+
+    private static readonly MethodInfo ConstructSystemProxyMethod;
+
     private readonly RegistryWatcher watcher;
 
     private IWebProxy innerProxy = default!;
+
+    static DynamicHttpProxy()
+    {
+        Type? systemProxyInfoType = typeof(System.Net.Http.SocketsHttpHandler).Assembly.GetType("System.Net.Http.SystemProxyInfo");
+        ArgumentNullException.ThrowIfNull(systemProxyInfoType);
+
+        MethodInfo? constructSystemProxyMethod = systemProxyInfoType.GetMethod("ConstructSystemProxy", BindingFlags.Static | BindingFlags.Public);
+        ArgumentNullException.ThrowIfNull(constructSystemProxyMethod);
+        ConstructSystemProxyMethod = constructSystemProxyMethod;
+    }
 
     public DynamicHttpProxy()
     {
         UpdateProxy();
 
-        watcher = new (@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections");
+        watcher = new(ProxySettingPath, UpdateProxy);
         watcher.Start();
     }
 
@@ -32,6 +46,8 @@ internal sealed partial class DynamicHttpProxy : IWebProxy, IDisposable
     private IWebProxy InnerProxy
     {
         get => innerProxy;
+
+        [MemberNotNull(nameof(innerProxy))]
         set
         {
             if (ReferenceEquals(innerProxy, value))
@@ -39,24 +55,17 @@ internal sealed partial class DynamicHttpProxy : IWebProxy, IDisposable
                 return;
             }
 
-            if (innerProxy is IDisposable disposable)
-            {
-                disposable.Dispose();
-            }
-
+            (innerProxy as IDisposable)?.Dispose();
             innerProxy = value;
         }
     }
 
+    [MemberNotNull(nameof(innerProxy))]
     public void UpdateProxy()
     {
-        Assembly httpNamespace = Assembly.Load("System.Net.Http");
-        Type? systemProxyInfoType = httpNamespace.GetType("System.Net.Http.SystemProxyInfo");
-        ArgumentNullException.ThrowIfNull(systemProxyInfoType);
-        MethodInfo? constructSystemProxyMethod = systemProxyInfoType.GetMethod("ConstructSystemProxy", BindingFlags.Static | BindingFlags.Public);
-        ArgumentNullException.ThrowIfNull(constructSystemProxyMethod);
-        IWebProxy? proxy = (IWebProxy?)constructSystemProxyMethod.Invoke(null, null);
+        IWebProxy? proxy = ConstructSystemProxyMethod.Invoke(default, default) as IWebProxy;
         ArgumentNullException.ThrowIfNull(proxy);
+
         InnerProxy = proxy;
     }
 
@@ -72,16 +81,7 @@ internal sealed partial class DynamicHttpProxy : IWebProxy, IDisposable
 
     public void Dispose()
     {
-        if (innerProxy is IDisposable disposable)
-        {
-            disposable.Dispose();
-        }
-
+        (innerProxy as IDisposable)?.Dispose();
         watcher.Dispose();
-    }
-
-    private void OnRegistryChanged(object? sender, EventArgs e)
-    {
-        UpdateProxy();
     }
 }

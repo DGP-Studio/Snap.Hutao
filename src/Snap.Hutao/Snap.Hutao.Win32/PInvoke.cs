@@ -1,7 +1,6 @@
 ﻿using System;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
-using Windows.Win32.System.Registry;
 
 namespace Windows.Win32;
 

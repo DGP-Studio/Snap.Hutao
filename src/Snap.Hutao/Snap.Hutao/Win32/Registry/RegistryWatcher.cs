@@ -6,7 +6,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.System.Registry;
 using static Windows.Win32.PInvoke;
 
-namespace Snap.Hutao.Core.Shell;
+namespace Snap.Hutao.Win32.Registry;
 
 internal sealed partial class RegistryWatcher : IDisposable
 {
@@ -32,7 +32,6 @@ internal sealed partial class RegistryWatcher : IDisposable
 
     public RegistryWatcher(string keyName, Action valueChangedCallback)
     {
-        ArgumentException.ThrowIfNullOrEmpty(keyName);
         string[] pathArray = keyName.Split('\\');
 
         hKey = pathArray[0] switch
@@ -143,8 +142,11 @@ internal sealed partial class RegistryWatcher : IDisposable
                 }
             }
 
-            // Before exiting, signal the Dispose method.
-            disposeEvent.Reset();
+            if (!disposed)
+            {
+                // Before exiting, signal the Dispose method.
+                disposeEvent.Reset();
+            }
         }
         catch (OperationCanceledException)
         {
