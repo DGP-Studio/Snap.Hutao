@@ -247,7 +247,7 @@
     <value>Not refreshed</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
-    <value>Refresh at {0:MM.dd HH:mm:ss}</value>
+    <value>Refreshed at {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>Schedule {0}</value>
@@ -738,7 +738,7 @@
     <value>Avatar Calculator: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>My Characters: N/A</value>
+    <value>My Character: Not Refreshed</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
     <value>My Characters: {0:MM-dd HH:mm}</value>
@@ -1284,7 +1284,7 @@
     <value>Scan the QR code with MiHoYo BBS App</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>Please Enter Title of Feature You Are Enabling</value>
+    <value>To avoid enable in a mistake, please input &lt;b&gt;title name&lt;/b&gt; of feature you are enabling</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>You are Enabling a Dangerous Feature</value>
@@ -1389,7 +1389,7 @@
     <value>This operation is irreversible. The achievement archive will be lost.</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
-    <value>Are you sure you want to delete archive {0}?</value>
+    <value>Are you sure to delete archive {0}?</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
     <value>Export UIAF Json file to the selected path</value>
@@ -1656,7 +1656,7 @@
     <value>Create New Archive</value>
   </data>
   <data name="ViewPageAchievementAddArchiveHint" xml:space="preserve">
-    <value>Create new archive to continue</value>
+    <value>Create New Archive to Continue</value>
   </data>
   <data name="ViewPageAchievementExportLabel" xml:space="preserve">
     <value>Export</value>
@@ -1677,7 +1677,7 @@
     <value>Name, description, version or ID</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
-    <value>Prefer incomplete</value>
+    <value>Prefer Incomplete</value>
   </data>
   <data name="ViewPageAnnouncementActivity" xml:space="preserve">
     <value>Event Notice</value>
@@ -1701,7 +1701,7 @@
     <value>CRIT Rating</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
-    <value>No character data fetched</value>
+    <value>No Character Data Fetched</value>
   </data>
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
     <value>Export as Image</value>
@@ -1728,7 +1728,7 @@
     <value>Sync character talents data</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>Sync from MiHoYo BBS My Characters</value>
+    <value>Sync from MiHoYo BBS My Character</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>Sync most data other than character talent</value>
@@ -1752,7 +1752,7 @@
     <value>Create</value>
   </data>
   <data name="ViewPageCultivationAddProjectContinue" xml:space="preserve">
-    <value>Create plan to continue</value>
+    <value>Create Plan to Continue</value>
   </data>
   <data name="ViewPageCultivationAddProjectDescription" xml:space="preserve">
     <value>You can add development plan items later from other pages</value>
@@ -1869,10 +1869,13 @@
     <value>Feature Documents</value>
   </data>
   <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
-    <value>We always prioritize issues on GitHub</value>
+    <value>We always prioritize issues reported on GitHub</value>
   </data>
   <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
     <value>Development Roadmap</value>
+  </data>
+  <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
+    <value>No Result</value>
   </data>
   <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
     <value>Snap Hutao Service Availability Monitor</value>
@@ -1932,7 +1935,7 @@
     <value>Input</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
-    <value>Recover Wish Record from Snap Hutao Cloud</value>
+    <value>Recover Wish Records from Snap Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>Refresh</value>
@@ -2112,10 +2115,10 @@
     <value>Borderless</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
-    <value>Enable touchscreen layout, but the keyboard &amp; mouse are no longer usable.</value>
+    <value>Enable touchscreen layout, but the keyboard &amp; mouse are no longer usable</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
-    <value>Incompatible with embedded browsers; operations like switching window may cause the game to crash.</value>
+    <value>Incompatible with embedded browsers; operations like switching window may cause the game to crash</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
     <value>Exclusive Fullscreen</value>
@@ -2145,7 +2148,7 @@
     <value>Modify its default behavior at game startup</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
-    <value>Start-up Arguments</value>
+    <value>Launch Parameters</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>General</value>
@@ -2199,7 +2202,7 @@
     <value>Resource Download</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
-    <value>Client</value>
+    <value>Full Package</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>Pre-download</value>
@@ -2268,7 +2271,7 @@
     <value>Open Screenshots Folder</value>
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
-    <value>Select game path</value>
+    <value>Select Game Path</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>About Snap Hutao</value>
@@ -2733,7 +2736,7 @@
     <value>Web Login</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
-    <value>Login via scanning QR code</value>
+    <value>Login via QR code</value>
   </data>
   <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
     <value>Input Manually</value>
@@ -2886,10 +2889,10 @@
     <value>{0} day</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
-    <value>Original Resin is full</value>
+    <value>Original Resin is Full</value>
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
-    <value>Will be replenished in {0} {1:HH:mm}</value>
+    <value>Will be Replenished in {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Ready for use again after</value>
