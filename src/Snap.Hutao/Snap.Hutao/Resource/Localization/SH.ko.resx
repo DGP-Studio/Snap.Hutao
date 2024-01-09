@@ -738,10 +738,10 @@
     <value>养成计算：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>我的角色：尚未刷新</value>
+    <value>原神战绩：尚未刷新</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
-    <value>我的角色：{0:MM-dd HH:mm}</value>
+    <value>原神战绩：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
     <value>角色橱窗：尚未刷新</value>
@@ -1284,7 +1284,7 @@
     <value>使用米游社扫描二维码</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>请输入你正在启用的功能标题</value>
+    <value>为防止你在无意间启用，请输入正在启用的功能开关的&lt;b&gt;标题名称&lt;/b&gt;</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>你正在启用一个危险功能</value>
@@ -1728,7 +1728,7 @@
     <value>캐릭터 특성 정보 동기화</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>HoYoLAB에서 내 캐릭터 동기화</value>
+    <value>从米游社原神战绩同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>캐릭터 특성을 제외한 대부분의 정보 동기화</value>
@@ -1869,10 +1869,13 @@
     <value>功能指南</value>
   </data>
   <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
-    <value>我们总是优先处理 Github 上的问题</value>
+    <value>我们总是优先处理 GitHub 上的问题</value>
   </data>
   <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
     <value>开发路线规划</value>
+  </data>
+  <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
+    <value>暂无搜索结果</value>
   </data>
   <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
     <value>胡桃服务可用性监控</value>
@@ -2922,7 +2925,7 @@
     <value>{0}초</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>인증에 실패했습니다. 수동으로 인증하거나 'HoYoLAB-전적-실시간 메모' 페이지에서 확인하시기 바랍니다.</value>
+    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩-实时便笺」页面查看</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>错误的 UID 格式</value>
@@ -2991,7 +2994,7 @@
     <value>胡桃服务维护中</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>
+    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩」页面查看</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>상태：{0} | 정보：{1}</value>
