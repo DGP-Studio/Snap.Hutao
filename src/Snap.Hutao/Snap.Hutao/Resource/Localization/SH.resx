@@ -1284,7 +1284,7 @@
     <value>使用米游社扫描二维码</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>请输入你正在启用的功能标题</value>
+    <value>为防止你在无意间启用，请输入正在启用的功能开关的&lt;b&gt;标题名称&lt;/b&gt;</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>你正在启用一个危险功能</value>
