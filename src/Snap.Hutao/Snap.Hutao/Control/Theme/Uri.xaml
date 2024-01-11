@@ -27,6 +27,7 @@
 
     <!--  EmotionIcon  -->
     <x:String x:Key="UI_EmotionIcon25">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon25.png</x:String>
+    <x:String x:Key="UI_EmotionIcon52">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon52.png</x:String>
     <x:String x:Key="UI_EmotionIcon71">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon71.png</x:String>
     <x:String x:Key="UI_EmotionIcon250">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon250.png</x:String>
     <x:String x:Key="UI_EmotionIcon271">https://api.snapgenshin.com/static/raw/EmotionIcon/UI_EmotionIcon271.png</x:String>

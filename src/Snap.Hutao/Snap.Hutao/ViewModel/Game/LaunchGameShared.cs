@@ -13,17 +13,9 @@ internal static class LaunchGameShared
 {
     public static LaunchScheme? GetCurrentLaunchSchemeFromConfigFile(IGameServiceFacade gameService, IInfoBarService infoBarService)
     {
-        ChannelOptions options;
-        try
-        {
-            options = gameService.GetChannelOptions();
-        }
-        catch (InvalidOperationException)
-        {
-            return default;
-        }
+        ChannelOptions options = gameService.GetChannelOptions();
 
-        if (string.IsNullOrEmpty(options.ConfigFilePath))
+        if (options.ErrorKind is ChannelOptionsErrorKind.None)
         {
             try
             {
@@ -40,7 +32,7 @@ internal static class LaunchGameShared
         }
         else
         {
-            infoBarService.Warning(SH.FormatViewModelLaunchGameMultiChannelReadFail(options.ConfigFilePath));
+            infoBarService.Warning($"{options.ErrorKind}", SH.FormatViewModelLaunchGameMultiChannelReadFail(options.FilePath));
         }
 
         return default;

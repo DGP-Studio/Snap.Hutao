@@ -8,12 +8,12 @@ internal readonly struct Delay
     /// <summary>
     /// 随机延迟
     /// </summary>
-    /// <param name="minMilliSeconds">最小，闭</param>
-    /// <param name="maxMilliSeconds">最小，开</param>
+    /// <param name="min">最小，闭</param>
+    /// <param name="max">最小，开</param>
     /// <returns>任务</returns>
-    public static ValueTask Random(int minMilliSeconds, int maxMilliSeconds)
+    public static ValueTask RandomMilliSeconds(int min, int max)
     {
-        return Task.Delay((int)(System.Random.Shared.NextDouble() * (maxMilliSeconds - minMilliSeconds)) + minMilliSeconds).AsValueTask();
+        return Task.Delay((int)(System.Random.Shared.NextDouble() * (max - min)) + min).AsValueTask();
     }
 
     public static ValueTask FromSeconds(int seconds)

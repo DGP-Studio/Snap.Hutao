@@ -5,7 +5,6 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Hutao;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.View.Card;
 using Snap.Hutao.View.Card.Primitive;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
@@ -24,8 +23,8 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     private readonly IHutaoAsAService hutaoAsAService;
     private readonly IAnnouncementService announcementService;
     private readonly HutaoUserOptions hutaoUserOptions;
+    private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
-    private readonly MetadataOptions metadataOptions;
     private readonly AppOptions appOptions;
 
     private AnnouncementWrapper? announcement;
@@ -65,7 +64,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     {
         try
         {
-            AnnouncementWrapper announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(metadataOptions.LanguageCode, appOptions.Region, CancellationToken).ConfigureAwait(false);
+            AnnouncementWrapper announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(cultureOptions.LanguageCode, appOptions.Region, CancellationToken).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             Announcement = announcementWrapper;
         }

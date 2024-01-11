@@ -190,7 +190,7 @@ internal sealed partial class Activation : IActivation
 
         serviceProvider
             .GetRequiredService<IDiscordService>()
-            .SetNormalActivity()
+            .SetNormalActivityAsync()
             .SafeForget();
     }
 

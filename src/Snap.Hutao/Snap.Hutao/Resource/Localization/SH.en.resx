@@ -247,7 +247,7 @@
     <value>Not refreshed</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
-    <value>Refresh at {0:MM.dd HH:mm:ss}</value>
+    <value>Refreshed at {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>Schedule {0}</value>
@@ -738,7 +738,7 @@
     <value>Avatar Calculator: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>My Characters: N/A</value>
+    <value>My Character: Not Refreshed</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
     <value>My Characters: {0:MM-dd HH:mm}</value>
@@ -870,10 +870,22 @@
     <value>No writing permission in file system, unable to start the server conversion.</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
-    <value>Querying Game Resource Information</value>
+    <value>Download game resource index</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>Failed to operate on game file: {0}</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
+    <value>Failed to unlock frame rate limit</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
+    <value>Game in process</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
+    <value>Select Game Path</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
+    <value>Failed to download game resource index: {0}</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>Game process closed</value>
@@ -1271,6 +1283,12 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>Scan the QR code with MiHoYo BBS App</value>
   </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>To avoid enable in a mistake, please input &lt;b&gt;title name&lt;/b&gt; of feature you are enabling</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>You are Enabling a Dangerous Feature</value>
+  </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
     <value>This action is irreversible, and all user login status will be lost</value>
   </data>
@@ -1291,6 +1309,9 @@
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Set Cookie</value>
+  </data>
+  <data name="ViewFeedbackHeader" xml:space="preserve">
+    <value>Feedback Center</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>Wish History</value>
@@ -1368,7 +1389,7 @@
     <value>This operation is irreversible. The achievement archive will be lost.</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
-    <value>Are you sure you want to delete archive {0}?</value>
+    <value>Are you sure to delete archive {0}?</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
     <value>Export UIAF Json file to the selected path</value>
@@ -1541,6 +1562,9 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Convert server failed</value>
   </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>Identify Monitors</value>
+  </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
     <value>Unable to read game config file: {0}, file may be not exist not lack of user permission</value>
   </data>
@@ -1573,6 +1597,12 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>Failed to create desktop shortcut</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
+    <value>You will need to re-download needed files, are you sure to delete?</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
+    <value>Delete Sever Conversion Client Cache</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>Used disk space: {0}</value>
@@ -1626,7 +1656,7 @@
     <value>Create New Archive</value>
   </data>
   <data name="ViewPageAchievementAddArchiveHint" xml:space="preserve">
-    <value>Create new archive to continue</value>
+    <value>Create New Archive to Continue</value>
   </data>
   <data name="ViewPageAchievementExportLabel" xml:space="preserve">
     <value>Export</value>
@@ -1647,7 +1677,7 @@
     <value>Name, description, version or ID</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
-    <value>Prefer incomplete</value>
+    <value>Prefer Incomplete</value>
   </data>
   <data name="ViewPageAnnouncementActivity" xml:space="preserve">
     <value>Event Notice</value>
@@ -1671,7 +1701,7 @@
     <value>CRIT Rating</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
-    <value>No character data fetched</value>
+    <value>No Character Data Fetched</value>
   </data>
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
     <value>Export as Image</value>
@@ -1698,7 +1728,7 @@
     <value>Sync character talents data</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>Sync from MiHoYo BBS My Characters</value>
+    <value>Sync from MiHoYo BBS My Character</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>Sync most data other than character talent</value>
@@ -1722,7 +1752,7 @@
     <value>Create</value>
   </data>
   <data name="ViewPageCultivationAddProjectContinue" xml:space="preserve">
-    <value>Create plan to continue</value>
+    <value>Create Plan to Continue</value>
   </data>
   <data name="ViewPageCultivationAddProjectDescription" xml:space="preserve">
     <value>You can add development plan items later from other pages</value>
@@ -1823,6 +1853,36 @@
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Verify Current User and Role</value>
   </data>
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+    <value>Search for questions and suggestions</value>
+  </data>
+  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
+    <value>Basic Information</value>
+  </data>
+  <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
+    <value>Useful Links</value>
+  </data>
+  <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
+    <value>Keep in touch with us</value>
+  </data>
+  <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
+    <value>Feature Documents</value>
+  </data>
+  <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
+    <value>We always prioritize issues reported on GitHub</value>
+  </data>
+  <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
+    <value>Development Roadmap</value>
+  </data>
+  <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
+    <value>No Result</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
+    <value>Snap Hutao Service Availability Monitor</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
+    <value>Snap Hutao Services</value>
+  </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>Full Refresh</value>
   </data>
@@ -1875,7 +1935,7 @@
     <value>Input</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
-    <value>Recover Wish Record from Snap Hutao Cloud</value>
+    <value>Recover Wish Records from Snap Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>Refresh</value>
@@ -2055,10 +2115,10 @@
     <value>Borderless</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
-    <value>Enable touchscreen layout, but the keyboard &amp; mouse are no longer usable.</value>
+    <value>Enable touchscreen layout, but the keyboard &amp; mouse are no longer usable</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
-    <value>Incompatible with embedded browsers; operations like switching window may cause the game to crash.</value>
+    <value>Incompatible with embedded browsers; operations like switching window may cause the game to crash</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
     <value>Exclusive Fullscreen</value>
@@ -2088,7 +2148,7 @@
     <value>Modify its default behavior at game startup</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
-    <value>Start-up Arguments</value>
+    <value>Launch Parameters</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>General</value>
@@ -2142,7 +2202,7 @@
     <value>Resource Download</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
-    <value>Client</value>
+    <value>Full Package</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>Pre-download</value>
@@ -2192,6 +2252,12 @@
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>Enabled</value>
   </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>Take advantage of displays that support HDR for brighter, more vivid, and more detailed pictures</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
+  </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>Enter your HoYoLab UID</value>
   </data>
@@ -2205,7 +2271,7 @@
     <value>Open Screenshots Folder</value>
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
-    <value>Select game path</value>
+    <value>Select Game Path</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>About Snap Hutao</value>
@@ -2564,8 +2630,17 @@
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
     <value>Debug Console</value>
   </data>
+  <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
+    <value>Cache file are downloaded for server conversion in Game Launcher</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
+    <value>Delete Server Conversion Cache</value>
+  </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>Open Folder</value>
+  </data>
+  <data name="ViewSettingHeader" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>Character Appearance Rate = Character Appearance in this Floor (only count for 1 if repeated) / Total Number of Abyss Record of this Floor</value>
@@ -2661,7 +2736,7 @@
     <value>Web Login</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
-    <value>Login via scanning QR code</value>
+    <value>Login via QR code</value>
   </data>
   <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
     <value>Input Manually</value>
@@ -2747,6 +2822,9 @@
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
     <value>End in {0} hours</value>
   </data>
+  <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
+    <value>Failed to open clipboard</value>
+  </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>Copied to clipboard</value>
   </data>
@@ -2811,10 +2889,10 @@
     <value>{0} day</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
-    <value>Original Resin is full</value>
+    <value>Original Resin is Full</value>
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
-    <value>Will be replenished in {0} {1:HH:mm}</value>
+    <value>Will be Replenished in {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Ready for use again after</value>
@@ -2926,5 +3004,8 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{1}] network request exception in [{0}] please try again later</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>Monitor ID</value>
   </data>
 </root>

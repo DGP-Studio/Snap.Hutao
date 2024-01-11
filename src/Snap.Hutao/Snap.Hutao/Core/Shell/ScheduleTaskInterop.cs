@@ -39,6 +39,11 @@ internal sealed class ScheduleTaskInterop : IScheduleTaskInterop
         }
         catch (Exception)
         {
+            if (WScriptExists(DailyNoteRefreshScriptName, out string fullPath))
+            {
+                File.Delete(fullPath);
+            }
+
             return false;
         }
     }

@@ -40,6 +40,7 @@
             </Grid.RowDefinitions>
             <FontIcon
                 Grid.Row="0"
+                Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontSize="{ThemeResource TitleTextBlockFontSize}"
@@ -61,16 +62,22 @@
                 Content="{StaticResource FontIconContentSetting}"
                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                 ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
-            <shc:SizeRestrictedContentControl
+            <StackPanel
                 Grid.Row="2"
-                Grid.ColumnSpan="3"
-                VerticalAlignment="Bottom">
-                <ComboBox
-                    DisplayMemberPath="Name"
-                    ItemsSource="{Binding GameAccountsView}"
-                    PlaceholderText="{shcm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
-                    SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
-            </shc:SizeRestrictedContentControl>
+                VerticalAlignment="Bottom"
+                Spacing="8">
+                <TextBlock
+                    Opacity="0.7"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{Binding LaunchStatusOptions.LaunchStatus.Description, Mode=OneWay}"/>
+                <shc:SizeRestrictedContentControl VerticalAlignment="Bottom">
+                    <ComboBox
+                        DisplayMemberPath="Name"
+                        ItemsSource="{Binding GameAccountsView}"
+                        PlaceholderText="{shcm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
+                        SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
+                </shc:SizeRestrictedContentControl>
+            </StackPanel>
         </Grid>
     </Grid>
 </Button>

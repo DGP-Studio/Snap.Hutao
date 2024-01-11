@@ -6,6 +6,12 @@
     <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
 
     <x:Double x:Key="SettingsCardContentControlMinWidth">120</x:Double>
+    <x:Double x:Key="SettingsCardContentControlMinWidth2">160</x:Double>
+
+    <x:Double x:Key="SettingsCardContentControlSpacing">10</x:Double>
+
+    <Thickness x:Key="SettingsCardAlignSettingsExpanderPadding">16,16,44,16</Thickness>
+    <Thickness x:Key="SettingsExpanderItemHasIconPadding">16,8,16,8</Thickness>
 
     <Style
         x:Key="SettingsSectionHeaderTextBlockStyle"

@@ -55,7 +55,7 @@
                     <GridView
                         Grid.Row="0"
                         ItemTemplate="{StaticResource LanguageTemplate}"
-                        ItemsSource="{Binding AppOptions.Cultures}"
+                        ItemsSource="{Binding CultureOptions.Cultures}"
                         SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"
                         SelectionMode="Single"/>
                 </Grid>

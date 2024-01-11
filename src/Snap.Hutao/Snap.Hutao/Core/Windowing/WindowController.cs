@@ -53,10 +53,10 @@ internal sealed class WindowController
 
     private void InitializeCore()
     {
-        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
-        window.AppWindow.Title = SH.FormatAppNameAndVersion(hutaoOptions.Version);
-        window.AppWindow.SetIcon(Path.Combine(hutaoOptions.InstalledLocation, "Assets/Logo.ico"));
+        window.AppWindow.Title = SH.FormatAppNameAndVersion(runtimeOptions.Version);
+        window.AppWindow.SetIcon(Path.Combine(runtimeOptions.InstalledLocation, "Assets/Logo.ico"));
         ExtendsContentIntoTitleBar();
 
         RecoverOrInitWindowSize();
@@ -157,6 +157,7 @@ internal sealed class WindowController
     {
         window.SystemBackdrop = backdropType switch
         {
+            BackdropType.Transparent => new Backdrop.TransparentBackdrop(),
             BackdropType.MicaAlt => new MicaBackdrop() { Kind = MicaKind.BaseAlt },
             BackdropType.Mica => new MicaBackdrop() { Kind = MicaKind.Base },
             BackdropType.Acrylic => new DesktopAcrylicBackdrop(),

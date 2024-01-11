@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9A95A964-04B1-477A-BDE7-505525B3CAD8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.vsconfig = .vsconfig
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Hutao.Test", "Snap.Hutao.Test\Snap.Hutao.Test.csproj", "{D691BA9F-904C-4229-87A5-E14F2EFF2F64}"
@@ -87,11 +88,11 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_AutoApplyExistingTranslations = False
-		RESX_NeutralResourcesLanguage = zh-CN
-		SolutionGuid = {E4449B1C-0E6A-4D19-955E-1CA491656ABA}
-		RESX_SortFileContentOnSave = True
-		RESX_ShowErrorsInErrorList = False
 		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail","PunctuationLead"]}
+		RESX_ShowErrorsInErrorList = False
+		RESX_SortFileContentOnSave = True
+		SolutionGuid = {E4449B1C-0E6A-4D19-955E-1CA491656ABA}
+		RESX_NeutralResourcesLanguage = zh-CN
+		RESX_AutoApplyExistingTranslations = False
 	EndGlobalSection
 EndGlobal

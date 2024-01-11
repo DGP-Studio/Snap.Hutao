@@ -3,13 +3,14 @@
 
 using CommunityToolkit.WinUI.Collections;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Launching;
+using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using Windows.Win32.Foundation;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -18,10 +19,10 @@ namespace Snap.Hutao.ViewModel.Game;
 /// </summary>
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>
+internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>, IViewModelSupportLaunchExecution
 {
     private readonly LaunchStatusOptions launchStatusOptions;
-    private readonly IProgressFactory progressFactory;
+    private readonly ILogger<LaunchGameViewModelSlim> logger;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
     private readonly ITaskContext taskContext;
@@ -30,12 +31,18 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private GameAccount? selectedGameAccount;
     private GameAccountFilter? gameAccountFilter;
 
+    public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
+
     public AdvancedCollectionView? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
     /// <summary>
     /// 选中的账号
     /// </summary>
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
+
+    public void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableList<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
+    {
+    }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
@@ -69,29 +76,21 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private async Task LaunchAsync()
     {
         IInfoBarService infoBarService = ServiceProvider.GetRequiredService<IInfoBarService>();
+        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
 
         try
         {
-            if (SelectedGameAccount is not null)
-            {
-                if (!gameService.SetGameAccount(SelectedGameAccount))
-                {
-                    infoBarService.Warning(SH.ViewModelLaunchGameSwitchGameAccountFail);
-                    return;
-                }
-            }
+            LaunchExecutionContext context = new(Ioc.Default, this, scheme, SelectedGameAccount);
+            LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
 
-            IProgress<LaunchStatus> launchProgress = progressFactory.CreateForMainThread<LaunchStatus>(status => launchStatusOptions.LaunchStatus = status);
-            await gameService.LaunchAsync(launchProgress).ConfigureAwait(false);
+            if (result.Kind is not LaunchExecutionResultKind.Ok)
+            {
+                infoBarService.Warning(result.ErrorMessage);
+            }
         }
         catch (Exception ex)
         {
-            if (ex is Win32Exception win32Exception && win32Exception.HResult == HRESULT.E_FAIL)
-            {
-                // User canceled the operation. ignore
-                return;
-            }
-
+            logger.LogCritical(ex, "Launch failed");
             infoBarService.Error(ex);
         }
     }

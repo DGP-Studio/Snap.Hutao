@@ -1,4 +1,9 @@
-﻿// COMCTL32
+﻿// ADVAPI32
+RegCloseKey
+RegOpenKeyExW
+RegNotifyChangeKeyValue
+
+// COMCTL32
 DefSubclassProc
 RemoveWindowSubclass
 SetWindowSubclass
@@ -47,12 +52,14 @@ GetCursorPos
 GetDC
 GetDpiForWindow
 GetForegroundWindow
+GetWindowLongPtrW
 GetWindowPlacement
 GetWindowThreadProcessId
 ReleaseDC
 RegisterHotKey
 SendInput
 SetForegroundWindow
+SetWindowLongPtrW
 UnregisterHotKey
 
 // COM
@@ -69,26 +76,42 @@ SHELL_LINK_DATA_FLAGS
 // WinRT
 IMemoryBufferByteAccess
 
+// Macro
+HRESULT_FROM_WIN32
+
 // Const value
-E_FAIL
 INFINITE
-RPC_E_WRONG_THREAD
 MAX_PATH
+WM_ERASEBKGND
 WM_GETMINMAXINFO
 WM_HOTKEY
 WM_NCRBUTTONDOWN
 WM_NCRBUTTONUP
 WM_NULL
 
-// Type & Enum definition
-HRESULT_FROM_WIN32
-SLGP_FLAGS
+// HKEY
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+
+// HRESULT
+E_FAIL
+RPC_E_WRONG_THREAD
+
+// System.Com
+CWMO_FLAGS
+
+// System.Registry
+REG_NOTIFY_FILTER
 
 // System.Threading
 LPTHREAD_START_ROUTINE
 
+// UI.Shell
+SLGP_FLAGS
+
 // UI.WindowsAndMessaging
 MINMAXINFO
-
-// System.Com
-CWMO_FLAGS
+WINDOW_EX_STYLE

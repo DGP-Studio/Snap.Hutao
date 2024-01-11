@@ -11,14 +11,14 @@ internal sealed partial class DiscordService : IDiscordService, IDisposable
 {
     private readonly RuntimeOptions runtimeOptions;
 
-    public async ValueTask SetPlayingActivity(bool isOversea)
+    public async ValueTask SetPlayingActivityAsync(bool isOversea)
     {
         _ = isOversea
             ? await DiscordController.SetPlayingGenshinImpactAsync().ConfigureAwait(false)
             : await DiscordController.SetPlayingYuanShenAsync().ConfigureAwait(false);
     }
 
-    public async ValueTask SetNormalActivity()
+    public async ValueTask SetNormalActivityAsync()
     {
         _ = await DiscordController.SetDefaultActivityAsync(runtimeOptions.AppLaunchTime).ConfigureAwait(false);
     }

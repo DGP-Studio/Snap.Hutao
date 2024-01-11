@@ -131,6 +131,11 @@ internal enum KnownReturnCode
     CODE1034 = 1034,
 
     /// <summary>
+    /// Hoyolab 登录失败
+    /// </summary>
+    SignInError = 2001,
+
+    /// <summary>
     /// 实时便笺 当前账号存在风险，暂无数据
     /// </summary>
     CODE5003 = 5003,

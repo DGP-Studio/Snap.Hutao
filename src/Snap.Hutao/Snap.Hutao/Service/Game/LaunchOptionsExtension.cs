@@ -3,68 +3,23 @@
 
 using Snap.Hutao.Service.Game.PathAbstraction;
 using System.Collections.Immutable;
-using System.IO;
 
 namespace Snap.Hutao.Service.Game;
 
 internal static class LaunchOptionsExtension
 {
-    public static bool TryGetGamePathAndGameDirectory(this LaunchOptions options, out string gamePath, [NotNullWhen(true)] out string? gameDirectory)
-    {
-        gamePath = options.GamePath;
-
-        gameDirectory = Path.GetDirectoryName(gamePath);
-        if (string.IsNullOrEmpty(gameDirectory))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static bool TryGetGameDirectoryAndGameFileName(this LaunchOptions options, [NotNullWhen(true)] out string? gameDirectory, [NotNullWhen(true)] out string? gameFileName)
+    public static bool TryGetGameFileSystem(this LaunchOptions options, [NotNullWhen(true)] out GameFileSystem? fileSystem)
     {
         string gamePath = options.GamePath;
 
-        gameDirectory = Path.GetDirectoryName(gamePath);
-        if (string.IsNullOrEmpty(gameDirectory))
+        if (string.IsNullOrEmpty(gamePath))
         {
-            gameFileName = default;
+            fileSystem = default;
             return false;
         }
 
-        gameFileName = Path.GetFileName(gamePath);
-        if (string.IsNullOrEmpty(gameFileName))
-        {
-            return false;
-        }
-
+        fileSystem = new GameFileSystem(gamePath);
         return true;
-    }
-
-    public static bool TryGetGamePathAndGameFileName(this LaunchOptions options, out string gamePath, [NotNullWhen(true)] out string? gameFileName)
-    {
-        gamePath = options.GamePath;
-
-        gameFileName = Path.GetFileName(gamePath);
-        if (string.IsNullOrEmpty(gameFileName))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static bool TryGetGamePathAndFilePathByName(this LaunchOptions options, string fileName, out string gamePath, [NotNullWhen(true)] out string? filePath)
-    {
-        if (options.TryGetGamePathAndGameDirectory(out gamePath, out string? gameDirectory))
-        {
-            filePath = Path.Combine(gameDirectory, fileName);
-            return true;
-        }
-
-        filePath = default;
-        return false;
     }
 
     public static ImmutableList<GamePathEntry> GetGamePathEntries(this LaunchOptions options, out GamePathEntry? entry)

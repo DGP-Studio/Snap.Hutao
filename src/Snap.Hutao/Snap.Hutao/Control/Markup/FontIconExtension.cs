@@ -18,12 +18,15 @@ internal sealed class FontIconExtension : MarkupExtension
     /// </summary>
     public string Glyph { get; set; } = default!;
 
+    public double FontSize { get; set; } = 12;
+
     /// <inheritdoc/>
     protected override object ProvideValue()
     {
         return new FontIcon()
         {
             Glyph = Glyph,
+            FontSize = FontSize,
         };
     }
 }
