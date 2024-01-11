@@ -118,7 +118,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public bool IsAllocConsoleDebugModeEnabled
     {
-        get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
+        get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled2, false);
         set
         {
             ConfirmSetIsAllocConsoleDebugModeEnabledAsync(value).SafeForget();
@@ -130,13 +130,13 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
                     ReconfirmDialog dialog = await contentDialogFactory.CreateInstanceAsync<ReconfirmDialog>().ConfigureAwait(false);
                     if (await dialog.ConfirmAsync(SH.ViewSettingAllocConsoleHeader).ConfigureAwait(true))
                     {
-                        LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, true);
+                        LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled2, true);
                         OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
                         return;
                     }
                 }
 
-                LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
+                LocalSetting.Set(SettingKeys.IsAllocConsoleDebugModeEnabled2, false);
                 OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
             }
         }

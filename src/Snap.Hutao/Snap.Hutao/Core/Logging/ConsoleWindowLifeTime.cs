@@ -14,7 +14,7 @@ internal sealed class ConsoleWindowLifeTime : IDisposable
 
     public ConsoleWindowLifeTime()
     {
-        if (LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false))
+        if (LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled2, false))
         {
             consoleWindowAllocated = AllocConsole();
             if (consoleWindowAllocated)

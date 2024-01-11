@@ -22,7 +22,7 @@ internal static class SettingKeys
     public const string DataFolderPath = "DataFolderPath";
     public const string Major1Minor7Revision0GuideState = "Major1Minor7Revision0GuideState";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
-    public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled";
+    public const string IsAllocConsoleDebugModeEnabled2 = "IsAllocConsoleDebugModeEnabled2";
     #endregion
 
     #region Passport
@@ -56,5 +56,10 @@ internal static class SettingKeys
     public const string SuppressMetadataInitialization = "SuppressMetadataInitialization";
     public const string OverrideElevationRequirement = "OverrideElevationRequirement";
     public const string OverrideUpdateVersionComparison = "OverrideUpdateVersionComparison";
+    #endregion
+
+    #region Obsolete
+    [Obsolete("重置调试控制台开关")]
+    public const string IsAllocConsoleDebugModeEnabledLegacy1 = "IsAllocConsoleDebugModeEnabled";
     #endregion
 }
