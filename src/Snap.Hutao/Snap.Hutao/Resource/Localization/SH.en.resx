@@ -738,10 +738,10 @@
     <value>Avatar Calculator: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>My Character: Not Refreshed</value>
+    <value>Battle Chronicle: Not Refreshed</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
-    <value>My Characters: {0:MM-dd HH:mm}</value>
+    <value>Battle Chronicle: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
     <value>Enka: N/A</value>
@@ -1728,7 +1728,7 @@
     <value>Sync character talents data</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>Sync from MiHoYo BBS My Character</value>
+    <value>Sync from MiHoYo BBS Battle Chronicle</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>Sync most data other than character talent</value>
@@ -2475,7 +2475,7 @@
     <value>After a full reading of the Genshin Impact and Snap Hutao user agreements, I choose to enable「Game Launcher - Advanced Features」.</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
-    <value>Enable Advanced Features</value>
+    <value>Advanced Features</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
     <value>Change Auto Click Shortcut</value>
@@ -2925,7 +2925,7 @@
     <value>{0} Seconds</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>Verification failed. Please check MiHoYo BBS - My Character - Realtime Notes manually</value>
+    <value>Verification failed. Please check MiHoYo BBS - Toolbox - Realtime Notes manually</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>Wrong UID format</value>
@@ -2994,7 +2994,7 @@
     <value>Snap Hutao server is under maintenance</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>Verification failed. Please verify manually or check MiHoYo BBS - My Characters page</value>
+    <value>Verification failed. Please verify manually or check MiHoYo BBS - Battle Chronicle page</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Return Code: {0} | Message: {1}</value>
