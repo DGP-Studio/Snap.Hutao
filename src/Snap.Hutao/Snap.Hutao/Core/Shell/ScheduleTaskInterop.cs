@@ -68,7 +68,7 @@ internal sealed class ScheduleTaskInterop : IScheduleTaskInterop
 
     public bool IsDailyNoteRefreshEnabled()
     {
-        return WScriptExists(DailyNoteRefreshScriptName, out _);
+        return TaskService.Instance.RootFolder.Tasks.SingleOrDefault(task => task.Name is DailyNoteRefreshTaskName) is not null;
     }
 
     /// <summary>
