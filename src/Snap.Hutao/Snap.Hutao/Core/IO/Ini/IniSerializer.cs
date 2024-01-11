@@ -11,11 +11,14 @@ namespace Snap.Hutao.Core.IO.Ini;
 [HighQuality]
 internal static class IniSerializer
 {
-    /// <summary>
-    /// 反序列化
-    /// </summary>
-    /// <param name="fileStream">文件流</param>
-    /// <returns>Ini 元素集合</returns>
+    public static List<IniElement> DeserializeFromFile(string filePath)
+    {
+        using (FileStream readStream = File.OpenRead(filePath))
+        {
+            return Deserialize(readStream);
+        }
+    }
+
     public static List<IniElement> Deserialize(FileStream fileStream)
     {
         List<IniElement> results = [];
@@ -50,11 +53,14 @@ internal static class IniSerializer
         return results;
     }
 
-    /// <summary>
-    /// 序列化
-    /// </summary>
-    /// <param name="fileStream">写入的流</param>
-    /// <param name="elements">元素</param>
+    public static void SerializeToFile(string filePath, IEnumerable<IniElement> elements)
+    {
+        using (FileStream writeStream = File.Create(filePath))
+        {
+            Serialize(writeStream, elements);
+        }
+    }
+
     public static void Serialize(FileStream fileStream, IEnumerable<IniElement> elements)
     {
         using (StreamWriter writer = new(fileStream))

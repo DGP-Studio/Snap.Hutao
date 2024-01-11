@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections.ObjectModel;
 
@@ -18,7 +17,7 @@ namespace Snap.Hutao.Service.GachaLog;
 internal sealed partial class UIGFImportService : IUIGFImportService
 {
     private readonly ILogger<UIGFImportService> logger;
-    private readonly MetadataOptions metadataOptions;
+    private readonly CultureOptions cultureOptions;
     private readonly IGachaLogDbService gachaLogDbService;
     private readonly ITaskContext taskContext;
 
@@ -37,9 +36,9 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         // v2.1 only support CHS
         if (version is UIGFVersion.Major2Minor2OrLower)
         {
-            if (!metadataOptions.LanguageCodeFitsCurrentLocale(uigf.Info.Language))
+            if (!cultureOptions.LanguageCodeFitsCurrentLocale(uigf.Info.Language))
             {
-                string message = SH.FormatServiceGachaUIGFImportLanguageNotMatch(uigf.Info.Language, metadataOptions.LanguageCode);
+                string message = SH.FormatServiceGachaUIGFImportLanguageNotMatch(uigf.Info.Language, cultureOptions.LanguageCode);
                 ThrowHelper.InvalidOperation(message);
             }
 

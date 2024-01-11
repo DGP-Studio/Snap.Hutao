@@ -61,31 +61,6 @@
             </ResourceDictionary>
         </StackPanel.Resources>
 
-        <Button
-            Margin="4,0"
-            Padding="6,6"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Stretch"
-            Command="{Binding OpenDocumentationCommand}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <BitmapIcon
-                    Grid.Column="0"
-                    Width="24"
-                    Height="24"
-                    ShowAsMonochrome="False"
-                    UriSource="ms-appx:///Resource/Navigation/Documentation.png"/>
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="13,0,0,0"
-                    VerticalAlignment="Center"
-                    Text="{shcm:ResourceString Name=ViewUserDocumentationHeader}"/>
-            </Grid>
-        </Button>
-
         <Button MaxHeight="40" Margin="4,0">
             <Button.Content>
                 <Grid>

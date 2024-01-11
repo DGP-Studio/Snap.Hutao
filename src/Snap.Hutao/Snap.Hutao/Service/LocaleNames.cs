@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Service.Metadata;
+namespace Snap.Hutao.Service;
 
 /// <summary>
 /// 本地化名称
@@ -73,5 +73,16 @@ internal static class LocaleNames
         };
 
         return !string.IsNullOrEmpty(languageCode);
+    }
+
+    public static string GetLanguageCodeForDocumentationSearchFromLocaleName(string localeName)
+    {
+        return localeName switch
+        {
+            ID => "id-id",
+            RU => "ru-ru",
+            CHS => "zh-cn",
+            _ => "en-us",
+        };
     }
 }

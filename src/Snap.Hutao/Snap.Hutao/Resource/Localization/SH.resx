@@ -738,10 +738,10 @@
     <value>养成计算：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>我的角色：尚未刷新</value>
+    <value>原神战绩：尚未刷新</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
-    <value>我的角色：{0:MM-dd HH:mm}</value>
+    <value>原神战绩：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
     <value>角色橱窗：尚未刷新</value>
@@ -870,10 +870,22 @@
     <value>文件系统权限不足，无法转换服务器</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
-    <value>查询游戏资源信息</value>
+    <value>下载游戏资源索引</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>游戏文件操作失败：{0}</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
+    <value>解锁帧率上限失败</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
+    <value>游戏进程运行中</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
+    <value>请选择游戏路径</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
+    <value>下载游戏资源索引失败: {0}</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
     <value>游戏进程已退出</value>
@@ -1272,7 +1284,7 @@
     <value>使用米游社扫描二维码</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>请输入你正在启用的功能标题</value>
+    <value>为防止你在无意间启用，请输入正在启用的功能开关的&lt;b&gt;标题名称&lt;/b&gt;</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>你正在启用一个危险功能</value>
@@ -1297,6 +1309,9 @@
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>设置 Cookie</value>
+  </data>
+  <data name="ViewFeedbackHeader" xml:space="preserve">
+    <value>反馈中心</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈愿记录</value>
@@ -1547,6 +1562,9 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切换服务器失败</value>
   </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>识别显示器</value>
+  </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
     <value>无法读取游戏配置文件: {0}，可能是文件不存在或权限不足</value>
   </data>
@@ -1710,7 +1728,7 @@
     <value>同步角色天赋信息</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>从米游社我的角色同步</value>
+    <value>从米游社原神战绩同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>同步角色天赋外的大部分信息</value>
@@ -1834,6 +1852,36 @@
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>验证当前用户与角色</value>
+  </data>
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+    <value>搜索问题与建议</value>
+  </data>
+  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
+    <value>常用链接</value>
+  </data>
+  <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
+    <value>与我们密切联系</value>
+  </data>
+  <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
+    <value>功能指南</value>
+  </data>
+  <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
+    <value>我们总是优先处理 GitHub 上的问题</value>
+  </data>
+  <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
+    <value>开发路线规划</value>
+  </data>
+  <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
+    <value>暂无搜索结果</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
+    <value>胡桃服务可用性监控</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
+    <value>胡桃服务</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>全量刷新</value>
@@ -2591,6 +2639,9 @@
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>打开文件夹</value>
   </data>
+  <data name="ViewSettingHeader" xml:space="preserve">
+    <value>设置</value>
+  </data>
   <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
     <value>角色出场率 = 本层上阵该角色次数（层内重复出现只记一次）/ 深渊记录总数</value>
   </data>
@@ -2874,7 +2925,7 @@
     <value>{0} 秒</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-我的角色-实时便笺」页面查看</value>
+    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩-实时便笺」页面查看</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>错误的 UID 格式</value>
@@ -2943,7 +2994,7 @@
     <value>胡桃服务维护中</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-我的角色」页面查看</value>
+    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩」页面查看</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>状态：{0} | 信息：{1}</value>
@@ -2953,5 +3004,8 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>显示器编号</value>
   </data>
 </root>

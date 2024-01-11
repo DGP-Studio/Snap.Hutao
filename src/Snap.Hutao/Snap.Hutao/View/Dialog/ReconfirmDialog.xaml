@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shct="using:Snap.Hutao.Control.Text"
     Title="{shcm:ResourceString Name=ViewDialogReconfirmTitle}"
     CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Close"
@@ -16,6 +17,12 @@
     <TextBox
         Margin="0,0,0,8"
         VerticalAlignment="Top"
-        Header="{shcm:ResourceString Name=ViewDialogReconfirmTextHeader}"
-        Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        Style="{StaticResource DefaultTextBoxStyle}"
+        Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <TextBox.HeaderTemplate>
+            <DataTemplate>
+                <shct:HtmlDescriptionTextBlock Description="{shcm:ResourceString Name=ViewDialogReconfirmTextHeader}"/>
+            </DataTemplate>
+        </TextBox.HeaderTemplate>
+    </TextBox>
 </ContentDialog>

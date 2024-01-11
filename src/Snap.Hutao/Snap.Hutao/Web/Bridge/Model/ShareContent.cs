@@ -3,7 +3,6 @@
 
 namespace Snap.Hutao.Web.Bridge.Model;
 
-[SuppressMessage("", "SA1124")]
 internal sealed class ShareContent
 {
     [JsonPropertyName("preview")]

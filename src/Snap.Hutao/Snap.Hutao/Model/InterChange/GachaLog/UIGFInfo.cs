@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Abstraction;
-using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service;
 using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Model.InterChange.GachaLog;
@@ -12,7 +12,7 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 /// UIGF格式的信息
 /// </summary>
 [HighQuality]
-internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, MetadataOptions, string>
+internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, CultureOptions, string>
 {
     /// <summary>
     /// 用户Uid
@@ -65,12 +65,12 @@ internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, Metadata
     [JsonPropertyName("region_time_zone")]
     public int? RegionTimeZone { get; set; } = default!;
 
-    public static UIGFInfo From(RuntimeOptions runtimeOptions, MetadataOptions metadataOptions, string uid)
+    public static UIGFInfo From(RuntimeOptions runtimeOptions, CultureOptions cultureOptions, string uid)
     {
         return new()
         {
             Uid = uid,
-            Language = metadataOptions.LanguageCode,
+            Language = cultureOptions.LanguageCode,
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
             ExportAppVersion = runtimeOptions.Version.ToString(),

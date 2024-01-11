@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Windowing.Backdrop;
 using Snap.Hutao.Core.Windowing.HotKey;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
@@ -108,6 +109,16 @@ internal sealed class WindowSubclass : IDisposable
             case WM_HOTKEY:
                 {
                     hotKeyController.OnHotKeyPressed(*(HotKeyParameter*)&lParam);
+                    break;
+                }
+
+            case WM_ERASEBKGND:
+                {
+                    if (window.SystemBackdrop is IBackdropNeedEraseBackground)
+                    {
+                        return (LRESULT)(int)(BOOL)true;
+                    }
+
                     break;
                 }
         }

@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Core.Windowing;
@@ -22,12 +21,9 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Hutao;
-using Snap.Hutao.Web.Response;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;
@@ -43,14 +39,13 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly HomeCardOptions homeCardOptions = new();
 
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
-    private readonly HutaoInfrastructureClient hutaoInfrastructureClient;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
-    private readonly IClipboardProvider clipboardInterop;
     private readonly IShellLinkInterop shellLinkInterop;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly IInfoBarService infoBarService;
+    private readonly CultureOptions cultureOptions;
     private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
     private readonly HotKeyOptions hotKeyOptions;
@@ -61,13 +56,14 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<CultureInfo>? selectedCulture;
     private NameValue<Region>? selectedRegion;
-    private IPInformation? ipInformation;
     private FolderViewModel? cacheFolderView;
     private FolderViewModel? dataFolderView;
 
     public AppOptions AppOptions { get => appOptions; }
 
-    public RuntimeOptions HutaoOptions { get => runtimeOptions; }
+    public CultureOptions CultureOptions { get => cultureOptions; }
+
+    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public HutaoUserOptions UserOptions { get => hutaoUserOptions; }
 
@@ -93,12 +89,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public NameValue<CultureInfo>? SelectedCulture
     {
-        get => selectedCulture ??= AppOptions.GetCurrentCultureForSelectionOrDefault();
+        get => selectedCulture ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
         set
         {
             if (SetProperty(ref selectedCulture, value) && value is not null)
             {
-                AppOptions.CurrentCulture = value.Value;
+                CultureOptions.CurrentCulture = value.Value;
                 AppInstance.Restart(string.Empty);
             }
         }
@@ -119,8 +115,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     public FolderViewModel? CacheFolderView { get => cacheFolderView; set => SetProperty(ref cacheFolderView, value); }
 
     public FolderViewModel? DataFolderView { get => dataFolderView; set => SetProperty(ref dataFolderView, value); }
-
-    public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
 
     public bool IsAllocConsoleDebugModeEnabled
     {
@@ -174,27 +168,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override ValueTask<bool> InitializeUIAsync()
     {
         CacheFolderView = new(taskContext, runtimeOptions.LocalCache);
         DataFolderView = new(taskContext, runtimeOptions.DataFolder);
 
-        Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
-        IPInformation info;
-
-        if (resp.IsOk())
-        {
-            info = resp.Data;
-        }
-        else
-        {
-            info = IPInformation.Default;
-        }
-
-        await taskContext.SwitchToMainThreadAsync();
-        IPInformation = info;
-
-        return true;
+        return ValueTask.FromResult(true);
     }
 
     [Command("ResetStaticResourceCommand")]
@@ -284,21 +263,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
                 Directory.Delete(cacheFolder, true);
             }
 
-            infoBarService.Information(SH.ViewModelSettingActionComplete);
-        }
-    }
+            if (DataFolderView is not null)
+            {
+                await DataFolderView.SetFolderSizeAsync().ConfigureAwait(false);
+            }
 
-    [Command("CopyDeviceIdCommand")]
-    private void CopyDeviceId()
-    {
-        try
-        {
-            clipboardInterop.SetText(HutaoOptions.DeviceId);
-            infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
-        }
-        catch (COMException ex)
-        {
-            infoBarService.Error(ex);
+            infoBarService.Information(SH.ViewModelSettingActionComplete);
         }
     }
 

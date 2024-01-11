@@ -6,8 +6,6 @@
     <RootNamespace>Snap.Hutao</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x64</Platforms>
-    <!-- https://github.com/dotnet/docs/issues/36527 -->
-    <UseRidGraph>true</UseRidGraph>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <UseWinUI>true</UseWinUI>
     <UseWPF>False</UseWPF>
@@ -107,6 +105,7 @@
     <None Remove="Control\Theme\Uri.xaml" />
     <None Remove="Control\Theme\WindowOverride.xaml" />
     <None Remove="GuideWindow.xaml" />
+    <None Remove="IdentifyMonitorWindow.xaml" />
     <None Remove="IdentityStructs.json" />
     <None Remove="LaunchGameWindow.xaml" />
     <None Remove="Resource\BlurBackground.png" />
@@ -127,6 +126,7 @@
     <None Remove="Resource\Navigation\DailyNote.png" />
     <None Remove="Resource\Navigation\Database.png" />
     <None Remove="Resource\Navigation\Documentation.png" />
+    <None Remove="Resource\Navigation\Feedback.png" />
     <None Remove="Resource\Navigation\GachaLog.png" />
     <None Remove="Resource\Navigation\LaunchGame.png" />
     <None Remove="Resource\Navigation\SpiralAbyss.png" />
@@ -185,6 +185,7 @@
     <None Remove="View\Page\AvatarPropertyPage.xaml" />
     <None Remove="View\Page\CultivationPage.xaml" />
     <None Remove="View\Page\DailyNotePage.xaml" />
+    <None Remove="View\Page\FeedbackPage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
     <None Remove="View\Page\LaunchGamePage.xaml" />
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
@@ -268,6 +269,7 @@
     <Content Include="Resource\Navigation\DailyNote.png" />
     <Content Include="Resource\Navigation\Database.png" />
     <Content Include="Resource\Navigation\Documentation.png" />
+    <Content Include="Resource\Navigation\Feedback.png" />
     <Content Include="Resource\Navigation\GachaLog.png" />
     <Content Include="Resource\Navigation\LaunchGame.png" />
     <Content Include="Resource\Navigation\SpiralAbyss.png" />
@@ -286,16 +288,16 @@
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230830" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230830" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.230907" />
-    <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.0.230907" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.230907" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.0.230907" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.230907" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
-    <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.230907" />
+    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -310,7 +312,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
     <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.9.0">
@@ -321,7 +323,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.507">
+    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -343,6 +345,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\FeedbackPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\ReconfirmDialog.xaml">
@@ -544,7 +551,13 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-
+	
+  <ItemGroup>
+    <Page Update="IdentifyMonitorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+	
   <ItemGroup>
     <Page Update="View\Control\HutaoStatisticsCard.xaml">
       <Generator>MSBuild:Compile</Generator>

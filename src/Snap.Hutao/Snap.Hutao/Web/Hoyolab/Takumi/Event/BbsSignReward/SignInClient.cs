@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hutao.Geetest;
@@ -23,14 +23,14 @@ internal sealed partial class SignInClient : ISignInClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly HomaGeetestClient homaGeetestClient;
-    private readonly MetadataOptions metadataOptions;
+    private readonly CultureOptions cultureOptions;
     private readonly ILogger<SignInClient> logger;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<ExtraAwardInfo>> GetExtraAwardInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.LunaExtraAward(userAndUid.Uid, metadataOptions.LanguageCode))
+            .SetRequestUri(ApiEndpoints.LunaExtraAward(userAndUid.Uid, cultureOptions.LanguageCode))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .SetHeader("x-rpc-signgame", "hk4e")
             .Get();
@@ -47,7 +47,7 @@ internal sealed partial class SignInClient : ISignInClient
     public async ValueTask<Response<SignInRewardInfo>> GetInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.LunaInfo(userAndUid.Uid, metadataOptions.LanguageCode))
+            .SetRequestUri(ApiEndpoints.LunaInfo(userAndUid.Uid, cultureOptions.LanguageCode))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.CookieToken)
             .SetHeader("x-rpc-signgame", "hk4e")
             .Get();
@@ -81,7 +81,7 @@ internal sealed partial class SignInClient : ISignInClient
     public async ValueTask<Response<Reward>> GetRewardAsync(Model.Entity.User user, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.LunaHome(metadataOptions.LanguageCode))
+            .SetRequestUri(ApiEndpoints.LunaHome(cultureOptions.LanguageCode))
             .SetUserCookieAndFpHeader(user, CookieType.CookieToken)
             .SetHeader("x-rpc-signgame", "hk4e")
             .Get();

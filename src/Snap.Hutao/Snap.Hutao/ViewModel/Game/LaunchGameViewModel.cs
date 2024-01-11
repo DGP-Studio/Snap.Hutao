@@ -3,27 +3,23 @@
 
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Control.Extension;
+using Microsoft.UI.Windowing;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Diagnostics.CodeAnalysis;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Launching;
 using Snap.Hutao.Service.Game.Locator;
-using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.IO;
-using Windows.Win32.Foundation;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -33,18 +29,16 @@ namespace Snap.Hutao.ViewModel.Game;
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
+internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution
 {
     /// <summary>
     /// 启动游戏目标 Uid
     /// </summary>
     public const string DesiredUid = nameof(DesiredUid);
 
-    private readonly IContentDialogFactory contentDialogFactory;
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly ILogger<LaunchGameViewModel> logger;
-    private readonly IProgressFactory progressFactory;
     private readonly IInfoBarService infoBarService;
     private readonly ResourceClient resourceClient;
     private readonly RuntimeOptions runtimeOptions;
@@ -172,9 +166,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         }
     }
 
+    public void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableList<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
+    {
+        GamePathEntries = gamePathEntries;
+        SelectedGamePathEntry = selectedEntry;
+    }
+
     protected override ValueTask<bool> InitializeUIAsync()
     {
-        SyncGamePathEntriesAndSelectedGamePathEntryFromLaunchOptions();
+        ImmutableList<GamePathEntry> gamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
+        SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, entry);
         return ValueTask.FromResult(true);
     }
 
@@ -207,51 +208,18 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
-        if (SelectedScheme is null)
-        {
-            infoBarService.Error(SH.ViewModelLaunchGameSchemeNotSelected);
-            return;
-        }
-
         try
         {
-            gameService.SetChannelOptions(SelectedScheme);
+            LaunchExecutionContext context = new(Ioc.Default, this, SelectedScheme, SelectedGameAccount);
+            LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
 
-            LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
-            IProgress<PackageReplaceStatus> convertProgress = progressFactory.CreateForMainThread<PackageReplaceStatus>(state => dialog.State = state);
-
-            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+            if (result.Kind is not LaunchExecutionResultKind.Ok)
             {
-                // Always ensure game resources
-                if (!await gameService.EnsureGameResourceAsync(SelectedScheme, convertProgress).ConfigureAwait(false))
-                {
-                    infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail, dialog.State?.Name ?? string.Empty);
-                    return;
-                }
-                else
-                {
-                    await taskContext.SwitchToMainThreadAsync();
-                    SyncGamePathEntriesAndSelectedGamePathEntryFromLaunchOptions();
-                }
+                infoBarService.Warning(result.ErrorMessage);
             }
-
-            if (SelectedGameAccount is not null && !gameService.SetGameAccount(SelectedGameAccount))
-            {
-                infoBarService.Warning(SH.ViewModelLaunchGameSwitchGameAccountFail);
-                return;
-            }
-
-            IProgress<LaunchStatus> launchProgress = progressFactory.CreateForMainThread<LaunchStatus>(status => launchStatusOptions.LaunchStatus = status);
-            await gameService.LaunchAsync(launchProgress).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            if (ex is Win32Exception win32Exception && win32Exception.HResult == HRESULT.E_FAIL)
-            {
-                // User canceled the operation. ignore
-                return;
-            }
-
             logger.LogCritical(ex, "Launch failed");
             infoBarService.Error(ex);
         }
@@ -372,9 +340,27 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         }
     }
 
-    private void SyncGamePathEntriesAndSelectedGamePathEntryFromLaunchOptions()
+    [Command("IdentifyMonitorsCommand")]
+    private async Task IdentifyMonitorsAsync()
     {
-        GamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
-        SelectedGamePathEntry = entry;
+        List<IdentifyMonitorWindow> windows = [];
+
+        IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
+        for (int i = 0; i < displayAreas.Count; i++)
+        {
+            windows.Add(new IdentifyMonitorWindow(displayAreas[i], i + 1));
+        }
+
+        foreach (IdentifyMonitorWindow window in windows)
+        {
+            window.Activate();
+        }
+
+        await Delay.FromSeconds(3).ConfigureAwait(true);
+
+        foreach (IdentifyMonitorWindow window in windows)
+        {
+            window.Close();
+        }
     }
 }

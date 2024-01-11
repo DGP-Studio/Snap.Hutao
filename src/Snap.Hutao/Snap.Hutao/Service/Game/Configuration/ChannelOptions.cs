@@ -29,10 +29,9 @@ internal readonly struct ChannelOptions
     /// </summary>
     public readonly bool IsOversea;
 
-    /// <summary>
-    /// 配置文件路径 当不为 null 时则存在文件读写问题
-    /// </summary>
-    public readonly string? ConfigFilePath;
+    public readonly ChannelOptionsErrorKind ErrorKind;
+
+    public readonly string? FilePath;
 
     public ChannelOptions(ChannelType channel, SubChannelType subChannel, bool isOversea)
     {
@@ -48,15 +47,20 @@ internal readonly struct ChannelOptions
         IsOversea = isOversea;
     }
 
-    private ChannelOptions(bool isOversea, string? configFilePath)
+    private ChannelOptions(ChannelOptionsErrorKind errorKind, string? filePath)
     {
-        IsOversea = isOversea;
-        ConfigFilePath = configFilePath;
+        ErrorKind = errorKind;
+        FilePath = filePath;
     }
 
-    public static ChannelOptions FileNotFound(bool isOversea, string configFilePath)
+    public static ChannelOptions ConfigurationFileNotFound(string filePath)
     {
-        return new(isOversea, configFilePath);
+        return new(ChannelOptionsErrorKind.ConfigurationFileNotFound, filePath);
+    }
+
+    public static ChannelOptions GamePathNullOrEmpty()
+    {
+        return new(ChannelOptionsErrorKind.GamePathNullOrEmpty, string.Empty);
     }
 
     /// <inheritdoc/>

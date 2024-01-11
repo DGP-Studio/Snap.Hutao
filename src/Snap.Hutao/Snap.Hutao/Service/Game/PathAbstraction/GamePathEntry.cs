@@ -9,7 +9,7 @@ internal sealed class GamePathEntry
     public string Path { get; set; } = default!;
 
     [JsonIgnore]
-    public GamePathKind Kind { get => GetKind(Path); }
+    public GamePathEntryKind Kind { get => GetKind(Path); }
 
     public static GamePathEntry Create(string path)
     {
@@ -19,8 +19,8 @@ internal sealed class GamePathEntry
         };
     }
 
-    private static GamePathKind GetKind(string path)
+    private static GamePathEntryKind GetKind(string path)
     {
-        return GamePathKind.None;
+        return GamePathEntryKind.None;
     }
 }

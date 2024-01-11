@@ -2,9 +2,11 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Core.IO.Http.DynamicProxy;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using System.Globalization;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using Windows.Globalization;
 
@@ -41,6 +43,7 @@ internal static class DependencyInjection
 
         serviceProvider.InitializeConsoleWindow();
         serviceProvider.InitializeCulture();
+        serviceProvider.InitializedDynamicHttpProxy();
 
         return serviceProvider;
     }
@@ -48,10 +51,10 @@ internal static class DependencyInjection
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void InitializeCulture(this IServiceProvider serviceProvider)
     {
-        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
-        appOptions.PreviousCulture = CultureInfo.CurrentCulture;
+        CultureOptions cultureOptions = serviceProvider.GetRequiredService<CultureOptions>();
+        cultureOptions.SystemCulture = CultureInfo.CurrentCulture;
 
-        CultureInfo cultureInfo = appOptions.CurrentCulture;
+        CultureInfo cultureInfo = cultureOptions.CurrentCulture;
 
         CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
@@ -66,5 +69,10 @@ internal static class DependencyInjection
     private static void InitializeConsoleWindow(this IServiceProvider serviceProvider)
     {
         _ = serviceProvider.GetRequiredService<ConsoleWindowLifeTime>();
+    }
+
+    private static void InitializedDynamicHttpProxy(this IServiceProvider serviceProvider)
+    {
+        HttpClient.DefaultProxy = serviceProvider.GetRequiredService<DynamicHttpProxy>();
     }
 }

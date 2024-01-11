@@ -4,13 +4,15 @@
 
 ### Setup Snap.Hutao Project
 
-1. Download and install [Visual Studio 2022 Community](https://visualstudio.microsoft.com/downloads/)
-2. Open Visual Studio Installer to complete Visual Studio installation
-   - You need to install `.NET desktop development`, `Desktop development with C++` and `Universal Windows Platform development` components
-3. Install `Single-project MSIX Packaging Tools for VS 2022` provided by Microsoft in Visual Studio marketplace
-4. Use git to clone the project `https://github.com/DGP-Studio/Snap.Hutao.git` to your local device 
-5. Switch git branch to `develop`
-6. Open project solution with your Visual Studio and then you are ready to go
+1. Download and install [Visual Studio 2022 Community](https://visualstudio.microsoft.com/downloads/).
+   - No need to select workloads; Visual Studio will handle it automatically.
+   - Close Visual Studio Installer to ensure a smooth installation experience for workloads.
+   - If using Visual Studio 2022 17.9 preview, skip step 5, as automatic extension installation is supported in this version.
+2. Use git to clone the project `https://github.com/DGP-Studio/Snap.Hutao.git` to your local device.
+3. Switch to the`develop` branch using git.
+4. Open the project solution with your Visual Studio. Visual Studio will prompt you to install the necessary workloads, closing and reopening automatically.
+5. (For Visual Studio 2022 17.8) Install the [Single-project MSIX Packaging Tools for VS 2022](https://marketplace.visualstudio.com/items?itemName=ProjectReunion.MicrosoftSingleProjectMSIXPackagingToolsDev17) provided by Microsoft in Visual Studio marketplace.
+6. Open the project solution with your Visual Studio, and you are ready to go.
 
 ### Start Pull Request
 

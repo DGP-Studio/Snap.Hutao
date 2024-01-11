@@ -69,4 +69,9 @@ internal static class StructMarshal
     {
         return new(point.X, point.Y, size.Width, size.Height);
     }
+
+    public static SizeInt32 SizeInt32(RectInt32 rect)
+    {
+        return new(rect.Width, rect.Height);
+    }
 }

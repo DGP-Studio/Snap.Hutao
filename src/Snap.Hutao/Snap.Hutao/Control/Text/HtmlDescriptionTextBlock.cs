@@ -156,7 +156,7 @@ internal sealed partial class HtmlDescriptionTextBlock : ContentControl
         text.Inlines.Add(new Run
         {
             Text = slice.ToString(),
-            FontWeight = FontWeights.Bold,
+            FontWeight = FontWeights.SemiBold,
         });
     }
 

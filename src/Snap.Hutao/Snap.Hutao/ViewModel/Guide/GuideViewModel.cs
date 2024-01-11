@@ -20,7 +20,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-    private readonly AppOptions appOptions;
+    private readonly CultureOptions cultureOptions;
     private readonly RuntimeOptions runtimeOptions;
 
     private string nextOrCompleteButtonText = SH.ViewModelGuideActionNext;
@@ -75,18 +75,18 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public bool IsNextOrCompleteButtonEnabled { get => isNextOrCompleteButtonEnabled; set => SetProperty(ref isNextOrCompleteButtonEnabled, value); }
 
-    public AppOptions AppOptions { get => appOptions; }
+    public CultureOptions CultureOptions { get => cultureOptions; }
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public NameValue<CultureInfo>? SelectedCulture
     {
-        get => selectedCulture ??= AppOptions.GetCurrentCultureForSelectionOrDefault();
+        get => selectedCulture ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
         set
         {
             if (SetProperty(ref selectedCulture, value) && value is not null)
             {
-                AppOptions.CurrentCulture = value.Value;
+                CultureOptions.CurrentCulture = value.Value;
                 ++State;
                 AppInstance.Restart(string.Empty);
             }
@@ -164,7 +164,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
             .Select(category => new DownloadSummary(serviceProvider, category))
             .ToObservableCollection();
 
-        await Parallel.ForEachAsync(DownloadSummaries, async (summary, token) =>
+        await Parallel.ForEachAsync([..DownloadSummaries], async (summary, token) =>
         {
             if (await summary.DownloadAndExtractAsync().ConfigureAwait(false))
             {

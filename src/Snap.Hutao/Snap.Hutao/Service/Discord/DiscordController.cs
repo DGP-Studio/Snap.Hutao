@@ -172,6 +172,8 @@ internal static class DiscordController
 
     private static async ValueTask DiscordRunCallbacksAsync(CancellationToken cancellationToken)
     {
+        int notRunningCounter = 0;
+
         using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
         {
             try
@@ -190,7 +192,18 @@ internal static class DiscordController
                             DiscordResult result = DiscordCoreRunRunCallbacks();
                             if (result is not DiscordResult.Ok)
                             {
-                                System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK ERROR]:{result:D} {result}");
+                                if (result is DiscordResult.NotRunning)
+                                {
+                                    if (++notRunningCounter > 20)
+                                    {
+                                        Stop();
+                                    }
+                                }
+                                else
+                                {
+                                    notRunningCounter = 0;
+                                    System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK ERROR]:{result:D} {result}");
+                                }
                             }
                         }
                         catch (SEHException ex)
