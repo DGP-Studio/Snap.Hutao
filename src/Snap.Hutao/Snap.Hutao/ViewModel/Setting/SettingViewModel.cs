@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Core.Windowing;
@@ -22,12 +21,9 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Hutao;
-using Snap.Hutao.Web.Response;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;

@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
-using System.Diagnostics;
 using System.IO;
 using Windows.Graphics;
 using Windows.UI;

@@ -4,7 +4,6 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Model.InterChange.GachaLog;

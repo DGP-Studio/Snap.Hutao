@@ -5,7 +5,6 @@ using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;

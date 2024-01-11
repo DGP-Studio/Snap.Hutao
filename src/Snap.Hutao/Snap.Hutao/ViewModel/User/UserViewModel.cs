@@ -19,7 +19,6 @@ using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using System.Text;
-using Windows.System;
 
 namespace Snap.Hutao.ViewModel.User;
 
