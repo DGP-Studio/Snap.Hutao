@@ -22,7 +22,7 @@ internal static class SettingKeys
     public const string DataFolderPath = "DataFolderPath";
     public const string Major1Minor7Revision0GuideState = "Major1Minor7Revision0GuideState";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
-    public const string IsAllocConsoleDebugModeEnabled2 = "IsAllocConsoleDebugModeEnabled2";
+    public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled2";
     #endregion
 
     #region Passport
