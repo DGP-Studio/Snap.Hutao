@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
-using System.Globalization;
 using System.IO;
 
 namespace Snap.Hutao.Service.Metadata;

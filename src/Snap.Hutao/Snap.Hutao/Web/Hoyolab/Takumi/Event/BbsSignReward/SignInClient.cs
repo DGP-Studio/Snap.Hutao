@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hutao.Geetest;

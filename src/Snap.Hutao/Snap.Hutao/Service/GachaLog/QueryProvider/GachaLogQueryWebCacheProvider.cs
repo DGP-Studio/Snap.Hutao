@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Metadata;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
