@@ -738,10 +738,10 @@
     <value>養成計算：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>原神战绩：尚未刷新</value>
+    <value>原神戰績：尚未更新</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
-    <value>原神战绩：{0:MM-dd HH:mm}</value>
+    <value>原神戰績：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
     <value>角色櫥窗：尚未刷新</value>
@@ -1284,7 +1284,7 @@
     <value>使用米遊社掃描 QR 碼</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>为防止你在无意间启用，请输入正在启用的功能开关的&lt;b&gt;标题名称&lt;/b&gt;</value>
+    <value>為防止你在無意間啟用，請輸入正在啟用的功能開關的&lt;b&gt;標題名稱&lt;/b&gt;</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>你正在啟用一個危險功能</value>
@@ -1860,22 +1860,22 @@
     <value>基本資訊</value>
   </data>
   <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
-    <value>常用链接</value>
+    <value>常用連結</value>
   </data>
   <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
-    <value>与我们密切联系</value>
+    <value>與我們密切聯繫</value>
   </data>
   <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
     <value>功能指南</value>
   </data>
   <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
-    <value>我们总是优先处理 GitHub 上的问题</value>
+    <value>我們總是優先處理 GitHub 上的問題</value>
   </data>
   <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
-    <value>开发路线规划</value>
+    <value>開發路線規劃</value>
   </data>
   <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
-    <value>暂无搜索结果</value>
+    <value>暫無搜尋結果</value>
   </data>
   <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
     <value>胡桃服务可用性监控</value>
