@@ -68,7 +68,7 @@ internal sealed class ScheduleTaskInterop : IScheduleTaskInterop
 
     public bool IsDailyNoteRefreshEnabled()
     {
-        return TaskService.Instance.RootFolder.Tasks.SingleOrDefault(task => task.Name is DailyNoteRefreshTaskName) is not null;
+        return TaskService.Instance.RootFolder.Tasks.Any(task => task.Name is DailyNoteRefreshTaskName);
     }
 
     /// <summary>
