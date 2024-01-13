@@ -2271,7 +2271,7 @@
     <value>スクリーンショットフォルダを開く</value>
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
-    <value>ゲームのフォルダを選択してください。</value>
+    <value>ゲームフォルダを選択</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>胡桃について</value>
