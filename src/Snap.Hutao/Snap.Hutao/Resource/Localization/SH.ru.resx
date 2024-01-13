@@ -738,10 +738,10 @@
     <value>Калькулятор аватара: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>原神战绩：尚未刷新</value>
+    <value>Запись Genshin Impact: еще не обновлены</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
-    <value>原神战绩：{0:MM-dd HH:mm}</value>
+    <value>Боевые достижения в Genshin Impact：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
     <value>Enka: N/A</value>
@@ -783,16 +783,16 @@
     <value>Realm Currency</value>
   </data>
   <data name="ServiceDailyNoteNotifierHomeCoinCurrent" xml:space="preserve">
-    <value>当前洞天宝钱：{0}</value>
+    <value>Текущий баланс сокровищ в Дунтянь: {0}</value>
   </data>
   <data name="ServiceDailyNoteNotifierMultiValueReached" xml:space="preserve">
-    <value>多个提醒项达到设定值</value>
+    <value>Несколько напоминаний достигли установленного значения</value>
   </data>
   <data name="ServiceDailyNoteNotifierResin" xml:space="preserve">
-    <value>原粹树脂</value>
+    <value>Оригинальная смола</value>
   </data>
   <data name="ServiceDailyNoteNotifierResinCurrent" xml:space="preserve">
-    <value>当前原粹树脂：{0}</value>
+    <value>Текущая оригинальная смола：{0}</value>
   </data>
   <data name="ServiceDailyNoteNotifierTitle" xml:space="preserve">
     <value>实时便笺提醒</value>
