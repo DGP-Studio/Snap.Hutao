@@ -1728,7 +1728,7 @@
     <value>同步角色天賦信息</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>从米游社原神战绩同步</value>
+    <value>從米遊社原神戰績同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>同步角色天賦外的大部分信息</value>
@@ -1878,10 +1878,10 @@
     <value>暫無搜尋結果</value>
   </data>
   <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
-    <value>胡桃服务可用性监控</value>
+    <value>胡桃服務可用性監控</value>
   </data>
   <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
-    <value>胡桃服务</value>
+    <value>胡桃服務</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>全量式重整</value>
@@ -2925,7 +2925,7 @@
     <value>{0} 秒</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩-实时便笺」页面查看</value>
+    <value>驗證失敗，請手動進行驗證或前往「米遊社-旅行工具-原神戰績-實時便箋」頁面查看。</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>錯誤的 UID 格式</value>
@@ -2994,7 +2994,7 @@
     <value>胡桃服務維護中</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩」页面查看</value>
+    <value>驗證失敗，請手動進行驗證或前往「米遊社-旅行工具-原神戰績」頁面查看。</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>狀態：{0} | 信息：{1}</value>
