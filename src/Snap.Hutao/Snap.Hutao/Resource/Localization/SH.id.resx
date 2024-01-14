@@ -1284,7 +1284,7 @@
     <value>Pindai kode QR dengan Aplikasi MiHoYo BBS</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>为防止你在无意间启用，请输入正在启用的功能开关的&lt;b&gt;标题名称&lt;/b&gt;</value>
+    <value>Untuk menghindari mengaktifkan secara keliru, harap masukkan &lt;b&gt;nama judul&lt;/b&gt; dari fitur yang Anda aktifkan</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>Anda Mengaktifkan Fitur Berbahaya</value>
@@ -1728,7 +1728,7 @@
     <value>Sinkronisasi Data Talenta Karakter</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>从米游社原神战绩同步</value>
+    <value>Sinkronisasi dari MiHoYo BBS Battle Chronicle</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>Sinkronkan sebagian besar data kecuali talent karakter.</value>
@@ -1869,13 +1869,13 @@
     <value>Dokumen Fitur</value>
   </data>
   <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
-    <value>我们总是优先处理 GitHub 上的问题</value>
+    <value>Kami selalu memberikan prioritas pada masalah yang dilaporkan di GitHub.</value>
   </data>
   <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
     <value>Roadmap Pengembangan</value>
   </data>
   <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
-    <value>暂无搜索结果</value>
+    <value>Tidak ada hasil</value>
   </data>
   <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
     <value>Pemantau Ketersediaan Layanan Snap Hutao</value>
@@ -2925,7 +2925,7 @@
     <value>{0} detik</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩-实时便笺」页面查看</value>
+    <value>Verifikasi gagal. Harap periksa MiHoYo BBS - Toolbox - Catatan Real-time secara manual.</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>Format UID Salah</value>
@@ -2994,7 +2994,7 @@
     <value>Server Snap Hutao sedang dalam perbaikan</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩」页面查看</value>
+    <value>Verifikasi gagal. Harap verifikasi secara manual atau periksa halaman MiHoYo BBS - Battle Chronicle.</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Kode Kembali: {0} | Pesan: {1}</value>
