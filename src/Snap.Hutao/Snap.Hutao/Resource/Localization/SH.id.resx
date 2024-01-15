@@ -1451,6 +1451,9 @@
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>Akun HoYoLab tidak mendukung verifikasi Catatan Realtime.</value>
   </data>
+  <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
+    <value>Gagal mengubah tugas terjadwal</value>
+  </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 min | 3.75 Resin</value>
   </data>
@@ -1465,9 +1468,6 @@
   </data>
   <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
     <value>8 min | 1 Resin</value>
-  </data>
-  <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
-    <value>Gagal menambahkan Tugas Terjadwal, silakan coba lagi dalam mode administrator.</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
     <value>Mengambil data Catatan Realtime, mohon tunggu.</value>
