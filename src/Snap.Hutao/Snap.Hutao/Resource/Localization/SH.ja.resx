@@ -1451,6 +1451,9 @@
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLabユーザーのリアルタイムノートはサポートしていません。</value>
   </data>
+  <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
+    <value>スケジュールされたタスクの変更に失敗しました</value>
+  </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 分 | 3.75樹脂</value>
   </data>
@@ -1465,9 +1468,6 @@
   </data>
   <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
     <value>8 分 | 1樹脂</value>
-  </data>
-  <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
-    <value>タスク スケジューラーへの追加に失敗しました。管理者モードで再度お試しください。</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
     <value>リアルタイムノートの情報を取得中、しばらくお待ちください</value>
