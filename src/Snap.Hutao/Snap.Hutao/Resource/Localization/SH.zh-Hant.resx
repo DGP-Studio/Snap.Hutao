@@ -1451,6 +1451,9 @@
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLAB 賬號不支持驗證實时便箋</value>
   </data>
+  <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
+    <value>修改計劃任務失敗</value>
+  </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 分鐘 | 3.75 樹脂</value>
   </data>
@@ -1465,9 +1468,6 @@
   </data>
   <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
     <value>8 分鐘 | 1 樹脂</value>
-  </data>
-  <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
-    <value>注冊計劃任務失敗，請以管理員模式重試</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
     <value>正在獲取實時便箋信息，請稍候</value>
