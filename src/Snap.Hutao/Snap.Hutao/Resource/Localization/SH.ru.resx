@@ -810,7 +810,7 @@
     <value>正在提瓦特大陆中探索</value>
   </data>
   <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
-    <value>由 {0} 启动</value>
+    <value>Started by {0}</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
     <value>无法获取祈愿记录：{0}</value>
@@ -852,16 +852,16 @@
     <value>提供的 Url 无效</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
-    <value>HoYoLab 账号不支持使用 SToken 刷新祈愿记录</value>
+    <value>SToken refresh не поддерживает учетную запись HoYoLab</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>Url 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>Язык в URL: {0} не соответствует языку Walnut: {1}, пожалуйста, переключитесь на соответствующий язык и повторите попытку</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
-    <value>不支持的 Item Id：{0}</value>
+    <value>Неподдерживаемый Item ID: {0}</value>
   </data>
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
-    <value>UIGF 文件的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>Язык файла UIGF: {0} не соответствует языку Snap Hutao: {1}, пожалуйста, повторите попытку после переключения языка клиента на целевой язык файла UIGF</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多个匹配账号，请删除重复的账号</value>
@@ -918,16 +918,16 @@
     <value>找不到 Unity 日志文件</value>
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
-    <value>在 Unity 日志文件中找不到游戏路径</value>
+    <value>Путь к игре не найден в файле журнала Unity</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
-    <value>备份：{0}</value>
+    <value>Резервная копия：{0}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
-    <value>重命名：{0} 到：{1}</value>
+    <value>Переименовать: {0} в:{1}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
-    <value>替换：{0}</value>
+    <value>Изменить: {0}</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>重命名数据文件夹名称失败</value>
@@ -975,7 +975,7 @@
     <value>无法找到缓存的元数据文件</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
-    <value>HTTP {0} | Error:{1}：元数据校验文件下载失败</value>
+    <value>HTTP {0} | Ошибка {1}: Не удалось загрузить файл проверки метаданных</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>元数据服务尚未初始化，或初始化失败</value>
@@ -1332,10 +1332,10 @@
     <value>用户使用协议与法律声明</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
-    <value>文档</value>
+    <value>Документация</value>
   </data>
   <data name="ViewGuideStepEnvironment" xml:space="preserve">
-    <value>环境</value>
+    <value>Environments</value>
   </data>
   <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
     <value>安装完成后重启胡桃以查看是否正常生效</value>
@@ -1353,10 +1353,10 @@
     <value>下载并自行安装运行时</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
-    <value>语言</value>
+    <value>Язык</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
-    <value>资源</value>
+    <value>Assets</value>
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深渊统计</value>
@@ -1536,10 +1536,10 @@
     <value>我已阅读并同意上方的条款</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
-    <value>完成</value>
+    <value>Завершено</value>
   </data>
   <data name="ViewModelGuideActionNext" xml:space="preserve">
-    <value>下一步</value>
+    <value>Далее</value>
   </data>
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
     <value>下载资源文件中，请稍候</value>
@@ -2010,28 +2010,28 @@
     <value>角色使用</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewConstellation0" xml:space="preserve">
-    <value>0 命</value>
+    <value>C 0</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewConstellation1" xml:space="preserve">
-    <value>1 命</value>
+    <value>C 1</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewConstellation2" xml:space="preserve">
-    <value>2 命</value>
+    <value>C 2</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewConstellation3" xml:space="preserve">
-    <value>3 命</value>
+    <value>C 3</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewConstellation4" xml:space="preserve">
-    <value>4 命</value>
+    <value>C 4</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewConstellation5" xml:space="preserve">
-    <value>5 命</value>
+    <value>C 5</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewConstellation6" xml:space="preserve">
-    <value>6 命</value>
+    <value>C 6</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewConstellationAvatar" xml:space="preserve">
-    <value>角色</value>
+    <value>Персонаж</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewConstellationHolding" xml:space="preserve">
     <value>持有</value>
@@ -2538,7 +2538,7 @@
     <value>前往商店</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
-    <value>Webview2 运行时</value>
+    <value>Webview2 Runtime</value>
   </data>
   <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
     <value>搭配圣遗物</value>
