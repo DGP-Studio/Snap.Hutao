@@ -61,6 +61,9 @@ release:
         - name: "$THIS_SHA256SUMS_NAME"
           url: "https://$CI_SERVER_SHELL_SSH_HOST/$CI_PROJECT_PATH/-/jobs/$THIS_JOB_ID/artifacts/raw/$THIS_SHA256SUMS_NAME?inline=false"
           link_type: other
+        - name: "artifact_archive"
+          url: "https://$CI_SERVER_SHELL_SSH_HOST/$CI_PROJECT_PATH/-/jobs/$THIS_JOB_ID/artifacts/download?file_type=archive"
+          link_type: other
           
 Refresh:
   stage: refresh
