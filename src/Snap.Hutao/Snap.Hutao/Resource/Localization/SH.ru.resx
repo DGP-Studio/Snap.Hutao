@@ -969,7 +969,7 @@
     <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈愿记录上传服务有效期至\n{0:yyyy.MM.dd HH:mm:ss}</value>
+    <value>Запись молитв доступна до \n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>无法找到缓存的元数据文件</value>
@@ -978,91 +978,91 @@
     <value>HTTP {0} | Ошибка {1}: Не удалось загрузить файл проверки метаданных</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
-    <value>元数据服务尚未初始化，或初始化失败</value>
+    <value>Служба метаданных не была инициализирована или инициализация завершилась неудачно</value>
   </data>
   <data name="ServiceMetadataParseFailed" xml:space="preserve">
-    <value>元数据校验文件解析失败</value>
+    <value>Не удалось прочитать файл проверки метаданных.</value>
   </data>
   <data name="ServiceMetadataRequestFailed" xml:space="preserve">
-    <value>元数据校验文件下载失败</value>
+    <value>Не удалось загрузить файл проверки метаданных.</value>
   </data>
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
-    <value>你的胡桃版本过低，请尽快升级</value>
+    <value>Ваша версия Snap Hutao устарела. Пожалуйста, обновите приложение</value>
   </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
-    <value>签到失败，{0}</value>
+    <value>Ошибка регистрации, {0}</value>
   </data>
   <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
-    <value>获取签到次数失败</value>
+    <value>Не удалось получить количество дней регистрации</value>
   </data>
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
-    <value>获取奖励列表失败</value>
+    <value>Не удалось получить список наград за регистрацию.</value>
   </data>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
-    <value>验证失败，请前往米游社原神签到页面自行领取奖励</value>
+    <value>Проверка не удалась. Пожалуйста, перейдите на страницу регистрации HoYoLab в Genshin Impact, чтобы вручную получить награду.</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
-    <value>签到成功，{0}×{1}</value>
+    <value>Перемещение успешно, {0} × {1}.</value>
   </data>
   <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
-    <value>不支持的 UIGF 版本</value>
+    <value>Неподдерживаемая версия UIGF.</value>
   </data>
   <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
-    <value>发现新版本 {0}</value>
+    <value>Доступна новая версия {0}.</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
-    <value>多个用户记录为选中状态</value>
+    <value>Зафиксирован выбор нескольких записей пользователей.</value>
   </data>
   <data name="ServiceUserCurrentUpdateAndSaveFailed" xml:space="preserve">
-    <value>用户 {0} 状态保存失败</value>
+    <value>Не удалось сохранить состояние пользователя {0}.</value>
   </data>
   <data name="ServiceUserProcessCookieNoMid" xml:space="preserve">
-    <value>输入的 Cookie 必须包含 Mid</value>
+    <value>Введенные Cookie должны включать Mid.</value>
   </data>
   <data name="ServiceUserProcessCookieNoSToken" xml:space="preserve">
-    <value>输入的 Cookie 必须包含 SToken</value>
+    <value>Введенные Cookie должны включать SToken.</value>
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
-    <value>输入的 Cookie 无法获取用户信息</value>
+    <value>Предоставленные Cookie не позволяют получить информацию о пользователе.</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
-    <value>成就管理</value>
+    <value>Достижения</value>
   </data>
   <data name="ViewAnnouncementHeader" xml:space="preserve">
-    <value>主页</value>
+    <value>Главная</value>
   </data>
   <data name="ViewAvatarPropertyHeader" xml:space="preserve">
-    <value>我的角色</value>
+    <value>Мои персонажи</value>
   </data>
   <data name="ViewAvatarPropertySyncDataButtonLabel" xml:space="preserve">
-    <value>同步角色信息</value>
+    <value>Синхронизация данных персонажа.</value>
   </data>
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
-    <value>成就统计</value>
+    <value>Статистика достижений.</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
-    <value>保底计数</value>
+    <value>Pity Count</value>
   </data>
   <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
-    <value>选择账号或直接启动</value>
+    <value>Выберите аккаунт для начала</value>
   </data>
   <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
-    <value>等级</value>
+    <value>Уровень</value>
   </data>
   <data name="ViewControlBaseValueSliderPromoted" xml:space="preserve">
-    <value>突破后</value>
+    <value>After Ascension</value>
   </data>
   <data name="ViewControlElevationText" xml:space="preserve">
     <value>需要管理员权限</value>
   </data>
   <data name="ViewControlLoadingText" xml:space="preserve">
-    <value>加载中，请稍候</value>
+    <value>Загрузка, пожалуйста подождите</value>
   </data>
   <data name="ViewControlStatisticsCardBlueText" xml:space="preserve">
-    <value>三星</value>
+    <value>3 Звезды</value>
   </data>
   <data name="ViewControlStatisticsCardGuaranteeText" xml:space="preserve">
-    <value>保底</value>
+    <value>Гарант</value>
   </data>
   <data name="ViewControlStatisticsCardOrangeAveragePullText" xml:space="preserve">
     <value>五星平均抽数</value>
