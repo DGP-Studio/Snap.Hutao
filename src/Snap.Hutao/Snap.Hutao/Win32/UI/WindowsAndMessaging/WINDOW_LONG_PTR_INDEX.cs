@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
+[SuppressMessage("", "CA1069")]
 internal enum WINDOW_LONG_PTR_INDEX
 {
     GWL_EXSTYLE = -20,

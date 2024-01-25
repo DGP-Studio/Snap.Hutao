@@ -6,21 +6,20 @@ using Snap.Hutao.Win32.Foundation;
 namespace Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
 [SuppressMessage("", "SA1202")]
-[SuppressMessage("", "SA1300")]
 [SuppressMessage("", "SA1307")]
 internal struct WINDOWPLACEMENT
 {
     public uint length;
     public WINDOWPLACEMENT_FLAGS flags;
-    private uint privateShowCmd;
+    private uint showCmd;
     public POINT ptMinPosition;
     public POINT ptMaxPosition;
     public RECT rcNormalPosition;
 
-    public SHOW_WINDOW_CMD showCmd
+    public SHOW_WINDOW_CMD ShowCmd
     {
-        get => (SHOW_WINDOW_CMD)privateShowCmd;
-        set => privateShowCmd = (uint)value;
+        readonly get => (SHOW_WINDOW_CMD)showCmd;
+        set => showCmd = (uint)value;
     }
 
     public static unsafe WINDOWPLACEMENT Create()

@@ -7,7 +7,6 @@ using Snap.Hutao.Core.Windowing.HotKey;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.ComCtl32;
 using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.User32;

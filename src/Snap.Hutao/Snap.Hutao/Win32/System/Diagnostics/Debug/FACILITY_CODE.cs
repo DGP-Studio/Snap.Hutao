@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.Diagnostics.Debug;
 
+[SuppressMessage("", "CA1069")]
 internal enum FACILITY_CODE : uint
 {
     FACILITY_NULL = 0u,

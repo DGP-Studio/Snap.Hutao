@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
+[SuppressMessage("", "CA1069")]
 [Flags]
 internal enum WINDOW_EX_STYLE : uint
 {

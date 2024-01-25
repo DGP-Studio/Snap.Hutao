@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.Console;
 
+[SuppressMessage("", "CA1069")]
 [Flags]
 internal enum CONSOLE_MODE : uint
 {

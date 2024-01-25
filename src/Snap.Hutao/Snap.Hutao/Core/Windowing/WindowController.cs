@@ -109,7 +109,7 @@ internal sealed class WindowController
         GetWindowPlacement(options.Hwnd, ref windowPlacement);
 
         // prevent save value when we are maximized.
-        if (!windowPlacement.showCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
+        if (!windowPlacement.ShowCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
         {
             double scale = 1.0 / options.GetRasterizationScale();
             LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)window.AppWindow.GetRect().Scale(scale));

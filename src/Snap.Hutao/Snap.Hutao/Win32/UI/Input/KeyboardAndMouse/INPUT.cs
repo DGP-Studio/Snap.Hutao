@@ -12,7 +12,7 @@ internal struct INPUT
     public AnonymousUnion Anonymous;
 
     [StructLayout(LayoutKind.Explicit)]
-    public struct AnonymousUnion
+    internal struct AnonymousUnion
     {
         [FieldOffset(0)]
         public MOUSEINPUT mi;

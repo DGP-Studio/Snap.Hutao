@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.Com;
 
+[SuppressMessage("", "CA1069")]
 internal enum STGM : uint
 {
     STGM_DIRECT = 0u,

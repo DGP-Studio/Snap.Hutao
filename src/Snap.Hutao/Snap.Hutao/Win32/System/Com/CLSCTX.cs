@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.Com;
 
+[SuppressMessage("", "CA1069")]
 [Flags]
 internal enum CLSCTX : uint
 {

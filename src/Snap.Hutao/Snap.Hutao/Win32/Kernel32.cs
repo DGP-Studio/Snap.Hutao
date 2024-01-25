@@ -10,6 +10,8 @@ using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32;
 
+[SuppressMessage("", "SH002")]
+[SuppressMessage("", "SYSLIB1054")]
 internal static class Kernel32
 {
     [DllImport("KERNEL32.dll", ExactSpelling = true, SetLastError = true)]

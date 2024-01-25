@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Win32;
 
+[SuppressMessage("", "SH002")]
 internal static class Macros
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

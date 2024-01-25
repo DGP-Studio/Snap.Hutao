@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.SystemServices;
 
+[SuppressMessage("", "CA1069")]
 [Flags]
 internal enum SFGAO_FLAGS : uint
 {

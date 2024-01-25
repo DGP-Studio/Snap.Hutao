@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.Registry;
 
+[SuppressMessage("", "CA1069")]
 [Flags]
 internal enum REG_SAM_FLAGS : uint
 {

@@ -4,6 +4,7 @@
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [Flags]
+[SuppressMessage("", "CA1069")]
 internal enum SIATTRIBFLAGS
 {
     SIATTRIBFLAGS_AND = 1,
