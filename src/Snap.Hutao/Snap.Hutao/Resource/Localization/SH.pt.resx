@@ -405,7 +405,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
-    <value>^[\u4e00-\u9fa5]{2}Local Specialty$</value>
+    <value>^Especialidade de {2}$</value>
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
@@ -816,7 +816,7 @@
     <value>Não é possível obter o histórico de orações: {0}</value>
   </data>
   <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
-    <value>Unable to resolve wish history End Id</value>
+    <value>Não foi possível resolver o histórico de orações End Id</value>
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
     <value>Evento de oração de personagem</value>
@@ -828,10 +828,10 @@
     <value>Encarnação Divina</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudEndIdFetchFailed" xml:space="preserve">
-    <value>Falha ao buscar o histórico de oração da nuvem</value>
+    <value>Falha ao buscar o histórico de orações da nuvem</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
-    <value>O serviço de envio de histórico de oração não está disponível</value>
+    <value>O serviço de envio de histórico de orações não está disponível</value>
   </data>
   <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
     <value>Os dados contêm um item inesperado, Id: {0}</value>
@@ -875,7 +875,7 @@
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
     <value>Falha ao operar no arquivo do jogo: {0}</value>
   </data>
-    <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
+  <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
     <value>Falha ao desbloquear o limite da taxa de quadros</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
@@ -915,10 +915,10 @@
     <value>Cliente do jogo</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
-    <value>Unity log file not found</value>
+    <value>Arquivo de log do Unity não encontrado</value>
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
-    <value>Game path not found in Unity log file</value>
+    <value>Caminho do jogo não encontrado no arquivo de log do Unity</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
     <value>Backup：{0}</value>
@@ -969,7 +969,7 @@
     <value>Erro ao ler a memória dos módulos de processo: não foi possível ler um valor válido no endereço fornecido</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>O serviço de backup de dados do histórico de oração expirará em \n{0:dd.MM.yyyy HH:mm:ss}</value>
+    <value>O serviço de backup de dados do histórico de orações expirará em \n{0:dd.MM.yyyy HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Não foi possível localizar o arquivo de metadados em cache</value>
@@ -1017,7 +1017,7 @@
     <value>Falha ao salvar o status do usuário {0}</value>
   </data>
   <data name="ServiceUserProcessCookieNoMid" xml:space="preserve">
-    <value>Mid must be included in the entered Cookie</value>
+    <value>O Mid deve estar incluso no cookie inserido</value>
   </data>
   <data name="ServiceUserProcessCookieNoSToken" xml:space="preserve">
     <value>O cookie inserido deve conter o SToken</value>
@@ -1191,13 +1191,13 @@
     <value>Importar histórico de orações</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>O URL do histórico de oração expirou. Por favor, obtenha-o novamente.</value>
+    <value>O URL do histórico de orações expirou. Por favor, obtenha-o novamente.</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>Buscando {0}</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressTitle" xml:space="preserve">
-    <value>Obtendo de itens de oração</value>
+    <value>Obtendo itens de oração</value>
   </data>
   <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
     <value>Insira o URL</value>
@@ -1218,10 +1218,10 @@
     <value>Dados retornados</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
-    <value>{0} will be replaced with gt during a request</value>
+    <value>{0} será substituído por gt durante uma solicitação</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
-    <value>{1} will be replaced with challenge during a request</value>
+    <value>{1} será substituído por challenge durante uma solicitação</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
     <value>As solicitações serão enviadas às interfaces via GET</value>
@@ -1282,7 +1282,7 @@
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>Escaneie o código QR com o aplicativo MiHoYo BBS</value>
-    </data>
+  </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>Para evitar erros na ativação, insira o &lt;b&gt;nome do título&lt;/b&gt; do recurso que está ativando</value>
   </data>
@@ -1309,7 +1309,7 @@
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Definir cookie</value>
-    </data>
+  </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
     <value>Centro de feedback</value>
   </data>
@@ -1512,7 +1512,7 @@
     <value>Falha ao buscar o histórico de orações</value>
   </data>
   <data name="ViewModelGachaLogRefreshOperationCancel" xml:space="preserve">
-    <value>A atualização do histórico de oração foi cancelada inesperadamente</value>
+    <value>A atualização do histórico de orações foi cancelada inesperadamente</value>
   </data>
   <data name="ViewModelGachaLogRemoveArchiveDescription" xml:space="preserve">
     <value>Essa operação é irreversível. O arquivo do histórico de desejos será perdido.</value>
@@ -1521,7 +1521,7 @@
     <value>Tem certeza de que deseja excluir o arquivo {0}?</value>
   </data>
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
-    <value>Sincronização do histórico de oração do serviço Cloud Snap Hutao</value>
+    <value>Sincronizar histórico de orações do serviço Cloud Snap Hutao</value>
   </data>
   <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
     <value>Exportar o arquivo Json UIGF para o caminho selecionado</value>
@@ -1562,7 +1562,7 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Falha ao converter o servidor</value>
   </data>
-<data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>Identificar monitores</value>
   </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
@@ -1597,7 +1597,7 @@
   </data>
   <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
     <value>Falha ao criar um atalho para a área de trabalho</value>
-    </data>
+  </data>
   <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
     <value>Você precisará fazer o download novamente dos arquivos necessários. Tem certeza de que quer excluir?</value>
   </data>
@@ -1830,7 +1830,7 @@
     <value>Remover personagem</value>
   </data>
   <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
-    <value>Cost-halving Used</value>
+    <value>Redução de custos usada</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
     <value>Atualização automática</value>
@@ -1853,7 +1853,7 @@
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Verificar o usuário e o personagem atuais</value>
   </data>
-    <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
     <value>Buscar perguntas e sugestões</value>
   </data>
   <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
@@ -1935,7 +1935,7 @@
     <value>Inserir</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
-    <value>Recuperar o registro de oração do Snap Hutao Cloud</value>
+    <value>Recuperar o registro de orações do Snap Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>Atualizar</value>
@@ -2251,7 +2251,7 @@
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
     <value>Ativado</value>
-    </data>
+  </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
     <value>Aproveite as vantagens das telas que suportam HDR para obter imagens mais brilhantes, mais vívidas e mais detalhadas</value>
   </data>
@@ -2358,10 +2358,10 @@
     <value>Reiniciar com o modo de administrador</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
-    <value>Mostrar ou ocultar eventos de oração sem o histórico de oração</value>
+    <value>Mostrar ou ocultar eventos de oração sem o histórico de orações</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleHeader" xml:space="preserve">
-    <value>Mostrar evento de oração sem o histórico de oração</value>
+    <value>Mostrar evento de oração sem o histórico de orações</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleOff" xml:space="preserve">
     <value>Esconder</value>
@@ -2376,7 +2376,7 @@
     <value>Feedback</value>
   </data>
   <data name="ViewPageSettingGachaLogHeader" xml:space="preserve">
-    <value>Histórico de oração</value>
+    <value>Histórico de orações</value>
   </data>
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>Jogo</value>
@@ -2629,7 +2629,7 @@
   </data>
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
     <value>Console de depuração</value>
-    </data>
+  </data>
   <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
     <value>O arquivo de cache é baixado para conversão do servidor no inicializador</value>
   </data>
@@ -2638,7 +2638,7 @@
   </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>Abrir pasta</value>
-    </data>
+  </data>
   <data name="ViewSettingHeader" xml:space="preserve">
     <value>Configurações</value>
   </data>
@@ -2821,7 +2821,7 @@
   </data>
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
     <value>Acaba em {0} horas</value>
-    </data>
+  </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
     <value>Falha ao abrir a área de transferência</value>
   </data>
@@ -3005,7 +3005,7 @@
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{1}] erro de solicitação de rede em [{0}], tente novamente mais tarde</value>
   </data>
-    <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>ID do monitor</value>
   </data>
 </root>
