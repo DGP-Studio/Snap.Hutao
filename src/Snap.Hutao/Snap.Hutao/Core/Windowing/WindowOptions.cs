@@ -4,10 +4,10 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Win32.Foundation;
 using Windows.Graphics;
-using Windows.Win32.Foundation;
 using WinRT.Interop;
-using static Windows.Win32.PInvoke;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Core.Windowing;
 
@@ -55,7 +55,7 @@ internal readonly struct WindowOptions
     /// <param name="persistSize">持久化尺寸</param>
     public WindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, bool persistSize = false)
     {
-        Hwnd = (HWND)WindowNative.GetWindowHandle(window);
+        Hwnd = WindowNative.GetWindowHandle(window);
         InputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
         TitleBar = titleBar;
         InitSize = initSize;
@@ -80,8 +80,8 @@ internal readonly struct WindowOptions
     {
         HWND fgHwnd = GetForegroundWindow();
 
-        uint threadIdHwnd = GetWindowThreadProcessId(Hwnd);
-        uint threadIdFgHwnd = GetWindowThreadProcessId(fgHwnd);
+        uint threadIdHwnd = GetWindowThreadProcessId(Hwnd, default);
+        uint threadIdFgHwnd = GetWindowThreadProcessId(fgHwnd, default);
 
         if (threadIdHwnd != threadIdFgHwnd)
         {

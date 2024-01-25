@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.ViewModel.Game;
-using Windows.Win32.UI.WindowsAndMessaging;
+using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
 namespace Snap.Hutao;
 
@@ -50,9 +50,9 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOpt
     /// <inheritdoc/>
     public unsafe void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor)
     {
-        info.ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, info.ptMinTrackSize.X);
-        info.ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, info.ptMinTrackSize.Y);
-        info.ptMaxTrackSize.X = (int)Math.Min(MaxWidth * scalingFactor, info.ptMaxTrackSize.X);
-        info.ptMaxTrackSize.Y = (int)Math.Min(MaxHeight * scalingFactor, info.ptMaxTrackSize.Y);
+        info.ptMinTrackSize.x = (int)Math.Max(MinWidth * scalingFactor, info.ptMinTrackSize.x);
+        info.ptMinTrackSize.y = (int)Math.Max(MinHeight * scalingFactor, info.ptMinTrackSize.y);
+        info.ptMaxTrackSize.x = (int)Math.Min(MaxWidth * scalingFactor, info.ptMaxTrackSize.x);
+        info.ptMaxTrackSize.y = (int)Math.Min(MaxHeight * scalingFactor, info.ptMaxTrackSize.y);
     }
 }

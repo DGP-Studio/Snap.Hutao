@@ -50,7 +50,6 @@ public sealed partial class App : Application
     {
         // Load app resource
         InitializeComponent();
-
         activation = serviceProvider.GetRequiredService<IActivation>();
         logger = serviceProvider.GetRequiredService<ILogger<App>>();
         serviceProvider.GetRequiredService<ExceptionRecorder>().Record(this);

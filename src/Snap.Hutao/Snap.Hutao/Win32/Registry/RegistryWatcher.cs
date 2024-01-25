@@ -1,10 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
-using Windows.Win32.Foundation;
-using Windows.Win32.System.Registry;
-using static Windows.Win32.PInvoke;
+using static Snap.Hutao.Win32.AdvApi32;
+using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Win32.Registry;
 
@@ -41,7 +41,7 @@ internal sealed partial class RegistryWatcher : IDisposable
             nameof(HKEY.HKEY_LOCAL_MACHINE) => HKEY.HKEY_LOCAL_MACHINE,
             nameof(HKEY.HKEY_USERS) => HKEY.HKEY_USERS,
             nameof(HKEY.HKEY_CURRENT_CONFIG) => HKEY.HKEY_CURRENT_CONFIG,
-            _ => throw new ArgumentException("The registry hive '" + pathArray[0] + "' is not supported", nameof(keyName)),
+            _ => throw new ArgumentException($"The registry hive '{pathArray[0]}' is not supported", nameof(keyName)),
         };
 
         subKey = string.Join("\\", pathArray[1..]);
@@ -87,23 +87,6 @@ internal sealed partial class RegistryWatcher : IDisposable
         }
     }
 
-    [SuppressMessage("", "SH002")]
-    private static unsafe void UnsafeRegOpenKeyEx(HKEY hKey, string subKey, uint ulOptions, REG_SAM_FLAGS samDesired, out HKEY result)
-    {
-        fixed (HKEY* resultPtr = &result)
-        {
-            HRESULT hResult = HRESULT_FROM_WIN32(RegOpenKeyEx(hKey, subKey, ulOptions, samDesired, resultPtr));
-            Marshal.ThrowExceptionForHR(hResult);
-        }
-    }
-
-    [SuppressMessage("", "SH002")]
-    private static unsafe void UnsafeRegNotifyChangeKeyValue(HKEY hKey, BOOL bWatchSubtree, REG_NOTIFY_FILTER dwNotifyFilter, HANDLE hEvent, BOOL fAsynchronous)
-    {
-        HRESULT hRESULT = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(hKey, bWatchSubtree, dwNotifyFilter, hEvent, fAsynchronous));
-        Marshal.ThrowExceptionForHR(hRESULT);
-    }
-
     private async ValueTask WatchAsync(CancellationToken token)
     {
         try
@@ -112,7 +95,8 @@ internal sealed partial class RegistryWatcher : IDisposable
             {
                 await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
 
-                UnsafeRegOpenKeyEx(hKey, subKey, 0, RegSamFlags, out HKEY registryKey);
+                HRESULT hResult = HRESULT_FROM_WIN32(RegOpenKeyExW(hKey, subKey, 0, RegSamFlags, out HKEY registryKey));
+                Marshal.ThrowExceptionForHR(hResult);
 
                 using (ManualResetEvent notifyEvent = new(false))
                 {
@@ -126,7 +110,8 @@ internal sealed partial class RegistryWatcher : IDisposable
                         // skip both loops and exit the method.
                         while (!disposeEvent.WaitOne(0, true))
                         {
-                            UnsafeRegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, hEvent, true);
+                            HRESULT hRESULT = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, hEvent, true));
+                            Marshal.ThrowExceptionForHR(hRESULT);
 
                             if (WaitHandle.WaitAny([notifyEvent, disposeEvent]) is 0)
                             {

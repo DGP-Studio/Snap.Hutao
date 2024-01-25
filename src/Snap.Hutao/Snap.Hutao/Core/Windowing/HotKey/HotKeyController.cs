@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Runtime.InteropServices;
-using Windows.Win32.UI.Input.KeyboardAndMouse;
-using static Windows.Win32.PInvoke;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Core.Windowing.HotKey;
 
@@ -14,7 +14,7 @@ internal sealed partial class HotKeyController : IHotKeyController
 {
     private static readonly WaitCallback RunMouseClickRepeatForever = MouseClickRepeatForever;
 
-    private readonly object locker = new();
+    private readonly object syncRoot = new();
 
     private readonly HotKeyOptions hotKeyOptions;
 
@@ -75,7 +75,7 @@ internal sealed partial class HotKeyController : IHotKeyController
 
     private void ToggleMouseClickRepeatForever()
     {
-        lock (locker)
+        lock (syncRoot)
         {
             if (hotKeyOptions.IsMouseClickRepeatForeverOn)
             {

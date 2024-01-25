@@ -18,6 +18,7 @@ internal sealed partial class DynamicHttpProxy : IWebProxy, IDisposable
 
     private IWebProxy innerProxy = default!;
 
+    [SuppressMessage("", "CA1810")]
     static DynamicHttpProxy()
     {
         Type? systemProxyInfoType = typeof(System.Net.Http.SocketsHttpHandler).Assembly.GetType("System.Net.Http.SystemProxyInfo");

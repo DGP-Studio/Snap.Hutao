@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing;
-using Windows.Win32.Foundation;
+using Snap.Hutao.Win32.Foundation;
 using WinRT.Interop;
 
 namespace Snap.Hutao.Core.LifeCycle;
@@ -19,6 +19,6 @@ internal static class CurrentWindowReferenceExtension
     {
         return reference.Window is IWindowOptionsSource optionsSource
             ? optionsSource.WindowOptions.Hwnd
-            : (HWND)WindowNative.GetWindowHandle(reference.Window);
+            : WindowNative.GetWindowHandle(reference.Window);
     }
 }

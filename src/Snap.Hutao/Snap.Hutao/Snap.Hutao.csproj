@@ -334,9 +334,6 @@
   </ItemGroup>
 
   <!-- Projects -->
-  <ItemGroup>
-    <ProjectReference Include="..\Snap.Hutao.Win32\Snap.Hutao.Win32.csproj" />
-  </ItemGroup>
 
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
        Tools extension to be activated for this project even if the Windows App SDK Nuget

@@ -1,8 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Windows.Win32.System.Memory;
-using static Windows.Win32.PInvoke;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.Memory;
 
@@ -28,8 +27,7 @@ internal readonly unsafe struct VirtualMemory : IUnmanagedMemory
     public unsafe VirtualMemory(uint dwSize)
     {
         size = dwSize;
-        VIRTUAL_ALLOCATION_TYPE commitAndReserve = VIRTUAL_ALLOCATION_TYPE.MEM_COMMIT | VIRTUAL_ALLOCATION_TYPE.MEM_RESERVE;
-        pointer = VirtualAlloc(default, dwSize, commitAndReserve, PAGE_PROTECTION_FLAGS.PAGE_READWRITE);
+        pointer = NativeMemory.Alloc(dwSize);
     }
 
     /// <inheritdoc/>
@@ -41,6 +39,6 @@ internal readonly unsafe struct VirtualMemory : IUnmanagedMemory
     /// <inheritdoc/>
     public void Dispose()
     {
-        VirtualFree(pointer, 0, VIRTUAL_FREE_TYPE.MEM_RELEASE);
+        NativeMemory.Free(pointer);
     }
 }

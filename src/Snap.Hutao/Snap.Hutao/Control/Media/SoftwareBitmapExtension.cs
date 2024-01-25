@@ -1,10 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32.System.WinRT;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
-using Windows.Win32;
-using Windows.Win32.System.WinRT;
 using WinRT;
 
 namespace Snap.Hutao.Control.Media;

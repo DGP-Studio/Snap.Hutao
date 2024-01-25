@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Setting;
-using Windows.Win32.Foundation;
-using Windows.Win32.System.Console;
-using static Windows.Win32.PInvoke;
+using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.System.Console;
+using static Snap.Hutao.Win32.Kernel32;
 
 namespace Snap.Hutao.Core.Logging;
 
@@ -26,7 +26,7 @@ internal sealed class ConsoleWindowLifeTime : IDisposable
                     SetConsoleMode(inputHandle, mode);
                 }
 
-                SetConsoleTitle("Snap Hutao Debug Console");
+                SetConsoleTitleW("Snap Hutao Debug Console");
             }
         }
     }

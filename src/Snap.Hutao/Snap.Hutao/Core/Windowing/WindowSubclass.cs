@@ -4,10 +4,13 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing.Backdrop;
 using Snap.Hutao.Core.Windowing.HotKey;
-using Windows.Win32.Foundation;
-using Windows.Win32.UI.Shell;
-using Windows.Win32.UI.WindowsAndMessaging;
-using static Windows.Win32.PInvoke;
+using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.UI.Shell;
+using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Runtime.InteropServices;
+using static Snap.Hutao.Win32.ComCtl32;
+using static Snap.Hutao.Win32.ConstValues;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Core.Windowing;
 
@@ -26,8 +29,8 @@ internal sealed class WindowSubclass : IDisposable
     private readonly IHotKeyController hotKeyController;
 
     // We have to explicitly hold a reference to SUBCLASSPROC
-    private SUBCLASSPROC? windowProc;
-    private SUBCLASSPROC? legacyDragBarProc;
+    private SUBCLASSPROC windowProc = default!;
+    private SUBCLASSPROC legacyDragBarProc = default!;
 
     public WindowSubclass(Window window, in WindowOptions options, IServiceProvider serviceProvider)
     {
@@ -57,7 +60,7 @@ internal sealed class WindowSubclass : IDisposable
         }
 
         titleBarHooked = false;
-        HWND hwndDragBar = FindWindowEx(options.Hwnd, default, "DRAG_BAR_WINDOW_CLASS", default);
+        HWND hwndDragBar = FindWindowExW(options.Hwnd, default, "DRAG_BAR_WINDOW_CLASS", default);
 
         if (hwndDragBar.IsNull)
         {
@@ -76,12 +79,12 @@ internal sealed class WindowSubclass : IDisposable
         hotKeyController.UnregisterAll();
 
         RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
-        windowProc = null;
+        windowProc = default!;
 
         if (options.UseLegacyDragBarImplementation)
         {
             RemoveWindowSubclass(options.Hwnd, legacyDragBarProc, DragBarSubclassId);
-            legacyDragBarProc = null;
+            legacyDragBarProc = default!;
         }
     }
 

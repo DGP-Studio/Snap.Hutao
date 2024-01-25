@@ -9,13 +9,14 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
+using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.Graphics.Dwm;
+using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.IO;
 using Windows.Graphics;
 using Windows.UI;
-using Windows.Win32.Foundation;
-using Windows.Win32.Graphics.Dwm;
-using Windows.Win32.UI.WindowsAndMessaging;
-using static Windows.Win32.PInvoke;
+using static Snap.Hutao.Win32.DwmApi;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Core.Windowing;
 
@@ -104,7 +105,7 @@ internal sealed class WindowController
             return;
         }
 
-        WINDOWPLACEMENT windowPlacement = Win32.StructMarshal.WINDOWPLACEMENT();
+        WINDOWPLACEMENT windowPlacement = WINDOWPLACEMENT.Create();
         GetWindowPlacement(options.Hwnd, ref windowPlacement);
 
         // prevent save value when we are maximized.
@@ -194,7 +195,7 @@ internal sealed class WindowController
     private unsafe void UpdateImmersiveDarkMode(FrameworkElement titleBar, object discard)
     {
         BOOL isDarkMode = Control.Theme.ThemeHelper.IsDarkMode(titleBar.ActualTheme);
-        DwmSetWindowAttribute(options.Hwnd, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, &isDarkMode, unchecked((uint)sizeof(BOOL)));
+        DwmSetWindowAttribute(options.Hwnd, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref isDarkMode);
     }
 
     private void UpdateDragRectangles()
