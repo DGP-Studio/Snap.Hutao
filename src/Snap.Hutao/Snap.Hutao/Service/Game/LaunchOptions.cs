@@ -207,7 +207,9 @@ internal sealed class LaunchOptions : DbStoreOptions
 
     public List<AspectRatio> AspectRatios { get; } =
     [
+        new(2560, 1600),
         new(2560, 1440),
+        new(2410, 1080),
         new(1920, 1080),
     ];
 
