@@ -88,7 +88,6 @@ internal sealed partial class UpdateService : IUpdateService
         Process.Start(new ProcessStartInfo()
         {
             Arguments = commandLine,
-            WindowStyle = ProcessWindowStyle.Minimized,
             FileName = updaterTargetPath,
             UseShellExecute = true,
         });
@@ -120,6 +119,7 @@ internal sealed partial class UpdateService : IUpdateService
                         HttpClient = httpClient,
                         SourceUrl = url,
                         DestinationFilePath = filePath,
+                        MaxDegreeOfParallelism = Math.Clamp(Environment.ProcessorCount, 2, 6),
                         StatusFactory = (bytesRead, totalBytes) => new UpdateStatus(version, bytesRead, totalBytes),
                     };
 
