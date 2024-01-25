@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -16,6 +17,7 @@ internal static class Ole32
     [SupportedOSPlatform("windows5.0")]
     public static unsafe extern HRESULT CoCreateInstance(Guid* rclsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, Guid* riid, void** ppv);
 
+    [DebuggerStepThrough]
     public static unsafe HRESULT CoCreateInstance<T>(ref readonly Guid clsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, ref readonly Guid iid, out T* pv)
         where T : unmanaged
     {
@@ -39,6 +41,7 @@ internal static class Ole32
     public static unsafe extern HRESULT CoWaitForMultipleObjects(uint dwFlags, uint dwTimeout, uint cHandles, HANDLE* pHandles, uint* lpdwindex);
 
     [SuppressMessage("", "SH002")]
+    [DebuggerStepThrough]
     public static unsafe HRESULT CoWaitForMultipleObjects(uint dwFlags, uint dwTimeout, ReadOnlySpan<HANDLE> handles, out uint dwindex)
     {
         fixed (HANDLE* pHandles = handles)

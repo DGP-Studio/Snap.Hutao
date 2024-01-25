@@ -5,6 +5,7 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Gdi;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -22,6 +23,7 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static extern HWND FindWindowExW([AllowNull] HWND hWndParent, [AllowNull] HWND hWndChildAfter, [AllowNull] PCWSTR lpszClass, [AllowNull] PCWSTR lpszWindow);
 
+    [DebuggerStepThrough]
     public static unsafe HWND FindWindowExW([AllowNull] HWND hWndParent, [AllowNull] HWND hWndChildAfter, [AllowNull] string szClass, [AllowNull] string szWindow)
     {
         fixed (char* lpszClass = szClass)
@@ -53,6 +55,7 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static unsafe extern BOOL GetWindowPlacement(HWND hWnd, WINDOWPLACEMENT* lpwndpl);
 
+    [DebuggerStepThrough]
     public static unsafe BOOL GetWindowPlacement(HWND hWnd, ref WINDOWPLACEMENT wndpl)
     {
         fixed (WINDOWPLACEMENT* lpwndpl = &wndpl)
@@ -65,6 +68,7 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static unsafe extern uint GetWindowThreadProcessId(HWND hWnd, [MaybeNull] uint* lpdwProcessId);
 
+    [DebuggerStepThrough]
     public static unsafe uint GetWindowThreadProcessId(HWND hWnd, [MaybeNull] out uint dwProcessId)
     {
         fixed (uint* lpdwProcessId = &dwProcessId)
@@ -85,6 +89,7 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static unsafe extern uint SendInput(uint cInputs, INPUT* pInputs, int cbSize);
 
+    [DebuggerStepThrough]
     public static unsafe uint SendInput(ReadOnlySpan<INPUT> inputs, int cbSize)
     {
         fixed (INPUT* pInputs = inputs)

@@ -11,14 +11,14 @@ namespace Snap.Hutao.Win32.Memory;
 internal readonly unsafe struct VirtualMemory : IUnmanagedMemory
 {
     /// <summary>
-    /// 缓冲区地址
-    /// </summary>
-    private readonly void* pointer;
-
-    /// <summary>
     /// 长度
     /// </summary>
     private readonly uint size;
+
+    /// <summary>
+    /// 缓冲区地址
+    /// </summary>
+    private readonly void* pointer;
 
     /// <summary>
     /// 构造一个新的本地内存
@@ -31,10 +31,10 @@ internal readonly unsafe struct VirtualMemory : IUnmanagedMemory
     }
 
     /// <inheritdoc/>
-    public void* Pointer { get => pointer; }
+    public uint Size { get => size; }
 
     /// <inheritdoc/>
-    public uint Size { get => size; }
+    public void* Pointer { get => pointer; }
 
     /// <inheritdoc/>
     public void Dispose()

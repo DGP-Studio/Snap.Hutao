@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Runtime.InteropServices;
+using Snap.Hutao.Win32.Foundation;
 
 namespace Snap.Hutao.Win32.UI.Shell.Common;
 
@@ -10,5 +11,5 @@ namespace Snap.Hutao.Win32.UI.Shell.Common;
 internal struct SHITEMID
 {
     public ushort cb;
-    public unsafe byte* abID;
+    public FlexibleArray<byte> abID;
 }

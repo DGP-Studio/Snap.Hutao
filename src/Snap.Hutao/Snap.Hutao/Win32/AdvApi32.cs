@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Registry;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -22,8 +23,9 @@ internal static class AdvApi32
 
     [DllImport("ADVAPI32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern WIN32_ERROR RegOpenKeyExW(HKEY hKey, [AllowNull] PCWSTR lpSubKey, [AllowNull] uint ulOptions, REG_SAM_FLAGS samDesired, [Out] HKEY* phkResult);
+    public static unsafe extern WIN32_ERROR RegOpenKeyExW(HKEY hKey, [AllowNull] PCWSTR lpSubKey, [AllowNull] uint ulOptions, REG_SAM_FLAGS samDesired, HKEY* phkResult);
 
+    [DebuggerStepThrough]
     public static unsafe WIN32_ERROR RegOpenKeyExW(HKEY hKey, ReadOnlySpan<char> subKey, uint ulOptions, REG_SAM_FLAGS samDesired, out HKEY hkResult)
     {
         fixed (char* lpSubKey = subKey)
