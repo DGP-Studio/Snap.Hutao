@@ -15,6 +15,10 @@ internal static class AdvApi32
 {
     [DllImport("ADVAPI32.dll", ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL EqualSid(PSID pSid1, PSID pSid2);
+
+    [DllImport("ADVAPI32.dll", ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
     public static extern WIN32_ERROR RegCloseKey(HKEY hKey);
 
     [DllImport("ADVAPI32.dll", ExactSpelling = true)]
