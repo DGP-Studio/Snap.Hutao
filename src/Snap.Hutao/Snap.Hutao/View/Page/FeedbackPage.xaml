@@ -55,6 +55,7 @@
                                         Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
                                         IsClickEnabled="True"/>
                                     <cwc:SettingsCard Description="{Binding IPInformation}" Header="{shcm:ResourceString Name=ViewPageSettingDeviceIpHeader}"/>
+                                    <cwc:SettingsCard Description="{Binding DynamicHttpProxy.CurrentProxy}" Header="{shcm:ResourceString Name=ViewPageFeedbackCurrentProxyHeader}"/>
                                     <cwc:SettingsCard Description="{Binding RuntimeOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
                                 </cwc:SettingsExpander.Items>
                             </cwc:SettingsExpander>
