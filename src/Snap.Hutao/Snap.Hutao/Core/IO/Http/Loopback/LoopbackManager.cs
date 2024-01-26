@@ -65,9 +65,7 @@ internal sealed unsafe class LoopbackManager : ObservableObject, IDisposable
             Attributes = 0,
         });
 
-        NetworkIsolationSetAppContainerConfig(sids.ToArray());
-
-        IsLoopbackEnabled = true;
+        IsLoopbackEnabled = NetworkIsolationSetAppContainerConfig(sids.ToArray()) is 0U;
 
         taskContext.InvokeOnMainThread(() => OnPropertyChanged(nameof(IsLoopbackEnabled)));
     }

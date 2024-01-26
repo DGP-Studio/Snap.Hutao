@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.NetworkManagement.WindowsFirewall;
 using Snap.Hutao.Win32.Security;
 using System.Diagnostics;

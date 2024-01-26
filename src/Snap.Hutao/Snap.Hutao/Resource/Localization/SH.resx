@@ -1875,7 +1875,7 @@
     <value>无代理</value>
   </data>
   <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
-    <value>已启用</value>
+    <value>已解除</value>
   </data>
   <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
     <value>解除 Loopback 限制</value>
