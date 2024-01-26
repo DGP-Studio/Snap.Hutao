@@ -7,16 +7,25 @@ using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell.Common;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [SupportedOSPlatform("windows5.1.2600")]
+[Guid("000214F9-0000-0000-C000-000000000046")]
 internal unsafe struct IShellLinkW
 {
-    internal static Guid IID = new(136441u, 0, 0, 192, 0, 0, 0, 0, 0, 0, 70);
+    public readonly Vftbl* ThisPtr;
 
-    private readonly Vftbl* thisPtr;
+    internal static unsafe ref readonly Guid IID
+    {
+        get
+        {
+            ReadOnlySpan<byte> data = [0xF9, 0x14, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46];
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
+        }
+    }
 
     public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
         where TInterface : unmanaged
@@ -25,31 +34,31 @@ internal unsafe struct IShellLinkW
         {
             fixed (TInterface** ppvObject = &pvObject)
             {
-                return thisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
+                return ThisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
             }
         }
     }
 
     public uint AddRef()
     {
-        return thisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public uint Release()
     {
-        return thisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public HRESULT SetShowCmd(SHOW_WINDOW_CMD iShowCmd)
     {
-        return thisPtr->SetShowCmd((IShellLinkW*)Unsafe.AsPointer(ref this), iShowCmd);
+        return ThisPtr->SetShowCmd((IShellLinkW*)Unsafe.AsPointer(ref this), iShowCmd);
     }
 
     public HRESULT SetIconLocation(string szIconPath, int iIcon)
     {
         fixed (char* pszIconPath = szIconPath)
         {
-            return thisPtr->SetIconLocation((IShellLinkW*)Unsafe.AsPointer(ref this), pszIconPath, iIcon);
+            return ThisPtr->SetIconLocation((IShellLinkW*)Unsafe.AsPointer(ref this), pszIconPath, iIcon);
         }
     }
 
@@ -57,7 +66,7 @@ internal unsafe struct IShellLinkW
     {
         fixed (char* pszFile = szFile)
         {
-            return thisPtr->SetPath((IShellLinkW*)Unsafe.AsPointer(ref this), pszFile);
+            return ThisPtr->SetPath((IShellLinkW*)Unsafe.AsPointer(ref this), pszFile);
         }
     }
 

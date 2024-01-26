@@ -4,14 +4,25 @@
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
+[SupportedOSPlatform("windows6.0.6000")]
+[Guid("973510DB-7D7F-452B-8975-74A85828D354")]
 internal unsafe struct IFileDialogEvents
 {
-    internal static Guid IID = new(2536837339u, 32127, 17707, 137, 117, 116, 168, 88, 40, 211, 84);
+    public readonly Vftbl* ThisPtr;
 
-    private Vftbl* thisPtr;
+    internal static unsafe ref readonly Guid IID
+    {
+        get
+        {
+            ReadOnlySpan<byte> data = [0xDB, 0x10, 0x35, 0x97, 0x7F, 0x7D, 0x2B, 0x45, 0x89, 0x75, 0x74, 0xA8, 0x58, 0x28, 0xD3, 0x54];
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
+        }
+    }
 
     public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
         where TInterface : unmanaged
@@ -20,19 +31,19 @@ internal unsafe struct IFileDialogEvents
         {
             fixed (TInterface** ppvObject = &pvObject)
             {
-                return thisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
+                return ThisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
             }
         }
     }
 
     public uint AddRef()
     {
-        return thisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public uint Release()
     {
-        return thisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     internal readonly struct Vftbl
