@@ -121,7 +121,7 @@
     <value>胡桃 Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>胡桃Dev {0} [管理者]</value>
+    <value>胡桃 Dev {0} [管理者]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
     <value>胡桃 {0} [管理者]</value>
