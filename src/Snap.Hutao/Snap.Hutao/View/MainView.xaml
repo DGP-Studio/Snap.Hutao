@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.View"
     xmlns:shvh="using:Snap.Hutao.View.Helper"
@@ -12,16 +13,34 @@
     <UserControl.Resources>
         <Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>
         <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">24</x:Double>
+        <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent"/>
+        <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemControlBaseHighAcrylicElementBrush"/>
+        <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
     </UserControl.Resources>
     <Grid>
+
+        <Image
+            Opacity="0.35"
+            Source="ms-appx:///Resource/TestBackground.jpg"
+            Stretch="UniformToFill"/>
+
         <NavigationView
             x:Name="NavView"
+            Margin="-1,0,0,-1"
+            shch:NavigationViewHelper.PaneCornerRadius="8,0,0,8"
             CompactPaneLength="48"
             IsBackEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
             IsPaneOpen="True"
             OpenPaneLength="192"
             PaneDisplayMode="Left"
             UseLayoutRounding="False">
+
+            <NavigationView.Resources>
+                <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemControlBaseHighAcrylicElementBrush"/>
+                <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
+                <CornerRadius x:Key="OverlayCornerRadius">0</CornerRadius>
+            </NavigationView.Resources>
+
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AnnouncementPage"

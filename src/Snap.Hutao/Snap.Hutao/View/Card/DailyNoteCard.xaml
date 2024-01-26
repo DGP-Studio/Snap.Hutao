@@ -16,6 +16,7 @@
     VerticalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
     d:DataContext="{d:DesignInstance shvd:DailyNoteViewModelSlim}"
+    Background="Transparent"
     Command="{Binding NavigateCommand}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">

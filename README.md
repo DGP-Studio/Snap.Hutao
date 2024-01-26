@@ -44,9 +44,7 @@ Install with Snap Hutao MSIX package, can be installed with Windows built-in App
 
 ### 特定的原神项目 / Specific Genshin-related Projects
 
-* [biuuu/genshin-wish-export](https://github.com/biuuu/genshin-wish-export)
-* [xunkong/xunkong](https://github.com/xunkong/xunkong)
-* [YuehaiTeam/cocogoat](https://github.com/YuehaiTeam/cocogoat)
+* [Scighost/Starward](https://github.com/Scighost/Starward)
 
 ### 使用的技术栈 / Tech Stack
 
@@ -57,7 +55,6 @@ Install with Snap Hutao MSIX package, can be installed with Windows built-in App
 * [dotnet/efcore](https://github.com/dotnet/efcore)
 * [dotnet/runtime](https://github.com/dotnet/runtime)
 * [DotNetAnalyzers/StyleCopAnalyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers)
-* [microsoft/CsWin32](https://github.com/microsoft/CsWin32)
 * [microsoft/vs-validation](https://github.com/microsoft/vs-validation)
 * [microsoft/WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
 * [microsoft/microsoft-ui-xaml](https://github.com/microsoft/microsoft-ui-xaml)

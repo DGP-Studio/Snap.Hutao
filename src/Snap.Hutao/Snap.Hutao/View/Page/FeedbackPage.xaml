@@ -21,6 +21,15 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
+    <Page.Resources>
+        <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+    </Page.Resources>
+
     <Grid>
         <SplitView
             DisplayMode="Inline"
@@ -31,154 +40,160 @@
             <SplitView.Pane>
                 <ScrollViewer>
                     <StackPanel Margin="16" Spacing="3">
-                        <cwc:SettingsExpander
-                            Description="{Binding RuntimeOptions.Version}"
-                            Header="{shcm:ResourceString Name=AppName}"
-                            HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"
-                            IsExpanded="True">
-                            <cwc:SettingsExpander.Items>
-                                <cwc:SettingsCard
-                                    ActionIcon="{shcm:FontIcon Glyph=&#xE8C8;}"
-                                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"
-                                    Command="{Binding CopyDeviceIdCommand}"
-                                    Description="{Binding RuntimeOptions.DeviceId}"
-                                    Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard Description="{Binding IPInformation}" Header="{shcm:ResourceString Name=ViewPageSettingDeviceIpHeader}"/>
-                                <cwc:SettingsCard Description="{Binding RuntimeOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
-                            </cwc:SettingsExpander.Items>
-                        </cwc:SettingsExpander>
-                        <cwc:SettingsExpander
-                            Description="{shcm:ResourceString Name=ViewPageFeedbackEngageWithUsDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageFeedbackCommonLinksHeader}"
-                            HeaderIcon="{shcm:FontIcon Glyph=&#xE71B;}"
-                            IsExpanded="True">
-                            <cwc:SettingsExpander.Items>
-                                <cwc:SettingsCard
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://github.com/DGP-Studio/Snap.Hutao/issues/new/choose"
-                                    Description="{shcm:ResourceString Name=ViewPageFeedbackGithubIssuesDescription}"
-                                    Header="GitHub Issues"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://github.com/orgs/DGP-Studio/projects/2"
-                                    Description="{shcm:ResourceString Name=ViewPageFeedbackRoadmapDescription}"
-                                    Header="GitHub Projects"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://status.hut.ao"
-                                    Description="{shcm:ResourceString Name=ViewPageFeedbackServerStatusDescription}"
-                                    Header="{shcm:ResourceString Name=ViewPageFeedbackServerStatusHeader}"
-                                    IsClickEnabled="True"/>
-                            </cwc:SettingsExpander.Items>
-                        </cwc:SettingsExpander>
-                        <cwc:SettingsExpander
-                            Header="{shcm:ResourceString Name=ViewPageFeedbackFeatureGuideHeader}"
-                            HeaderIcon="{shcm:FontIcon Glyph=&#xF8A5;}"
-                            IsExpanded="True">
-                            <cwc:SettingsExpander.Items>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/dashboard.html"
-                                    Header="{shcm:ResourceString Name=ViewAnnouncementHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Announcement.png}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/game-launcher.html"
-                                    Header="{shcm:ResourceString Name=ViewLaunchGameHeader}"
-                                    IsClickEnabled="True">
-                                    <cwc:SettingsCard.HeaderIcon>
-                                        <!--  This icon is not a square  -->
-                                        <BitmapIcon
-                                            Width="24"
-                                            Height="24"
-                                            ShowAsMonochrome="False"
-                                            UriSource="ms-appx:///Resource/Navigation/LaunchGame.png"/>
-                                    </cwc:SettingsCard.HeaderIcon>
-                                </cwc:SettingsCard>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/wish-export.html"
-                                    Header="{shcm:ResourceString Name=ViewGachaLogHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/GachaLog.png}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/achievements.html"
-                                    Header="{shcm:ResourceString Name=ViewAchievementHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Achievement.png}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/real-time-notes.html"
-                                    Header="{shcm:ResourceString Name=ViewDailyNoteHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/DailyNote.png}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/character-data.html"
-                                    Header="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/AvatarProperty.png}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/hutao-API.html"
-                                    Header="{shcm:ResourceString Name=ViewSpiralAbyssHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/SpiralAbyss.png}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/develop-plan.html"
-                                    Header="{shcm:ResourceString Name=ViewCultivationHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/character-wiki.html"
-                                    Header="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/weapon-wiki.html"
-                                    Header="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/monster-wiki.html"
-                                    Header="{shcm:ResourceString Name=ViewWikiMonsterHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiMonster.png}"
-                                    IsClickEnabled="True"/>
-                                <cwc:SettingsCard
-                                    Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                    Command="{Binding NavigateToUriCommand}"
-                                    CommandParameter="https://hut.ao/features/hutao-settings.html"
-                                    Header="{shcm:ResourceString Name=ViewSettingHeader}"
-                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE713;}"
-                                    IsClickEnabled="True"/>
-                            </cwc:SettingsExpander.Items>
-                        </cwc:SettingsExpander>
+                        <Border Style="{ThemeResource AcrylicBorderlessBorderCardStyle}">
+                            <cwc:SettingsExpander
+                                Description="{Binding RuntimeOptions.Version}"
+                                Header="{shcm:ResourceString Name=AppName}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"
+                                IsExpanded="True">
+                                <cwc:SettingsExpander.Items>
+                                    <cwc:SettingsCard
+                                        ActionIcon="{shcm:FontIcon Glyph=&#xE8C8;}"
+                                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"
+                                        Command="{Binding CopyDeviceIdCommand}"
+                                        Description="{Binding RuntimeOptions.DeviceId}"
+                                        Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard Description="{Binding IPInformation}" Header="{shcm:ResourceString Name=ViewPageSettingDeviceIpHeader}"/>
+                                    <cwc:SettingsCard Description="{Binding RuntimeOptions.WebView2Version}" Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
+                                </cwc:SettingsExpander.Items>
+                            </cwc:SettingsExpander>
+                        </Border>
+                        <Border Style="{ThemeResource AcrylicBorderlessBorderCardStyle}">
+                            <cwc:SettingsExpander
+                                Description="{shcm:ResourceString Name=ViewPageFeedbackEngageWithUsDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageFeedbackCommonLinksHeader}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE71B;}"
+                                IsExpanded="True">
+                                <cwc:SettingsExpander.Items>
+                                    <cwc:SettingsCard
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://github.com/DGP-Studio/Snap.Hutao/issues/new/choose"
+                                        Description="{shcm:ResourceString Name=ViewPageFeedbackGithubIssuesDescription}"
+                                        Header="GitHub Issues"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://github.com/orgs/DGP-Studio/projects/2"
+                                        Description="{shcm:ResourceString Name=ViewPageFeedbackRoadmapDescription}"
+                                        Header="GitHub Projects"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://status.hut.ao"
+                                        Description="{shcm:ResourceString Name=ViewPageFeedbackServerStatusDescription}"
+                                        Header="{shcm:ResourceString Name=ViewPageFeedbackServerStatusHeader}"
+                                        IsClickEnabled="True"/>
+                                </cwc:SettingsExpander.Items>
+                            </cwc:SettingsExpander>
+                        </Border>
+                        <Border Style="{ThemeResource AcrylicBorderlessBorderCardStyle}">
+                            <cwc:SettingsExpander
+                                Header="{shcm:ResourceString Name=ViewPageFeedbackFeatureGuideHeader}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xF8A5;}"
+                                IsExpanded="True">
+                                <cwc:SettingsExpander.Items>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/dashboard.html"
+                                        Header="{shcm:ResourceString Name=ViewAnnouncementHeader}"
+                                        HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Announcement.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/game-launcher.html"
+                                        Header="{shcm:ResourceString Name=ViewLaunchGameHeader}"
+                                        IsClickEnabled="True">
+                                        <cwc:SettingsCard.HeaderIcon>
+                                            <!--  This icon is not a square  -->
+                                            <BitmapIcon
+                                                Width="24"
+                                                Height="24"
+                                                ShowAsMonochrome="False"
+                                                UriSource="ms-appx:///Resource/Navigation/LaunchGame.png"/>
+                                        </cwc:SettingsCard.HeaderIcon>
+                                    </cwc:SettingsCard>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/wish-export.html"
+                                        Header="{shcm:ResourceString Name=ViewGachaLogHeader}"
+                                        HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/GachaLog.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/achievements.html"
+                                        Header="{shcm:ResourceString Name=ViewAchievementHeader}"
+                                        HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Achievement.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/real-time-notes.html"
+                                        Header="{shcm:ResourceString Name=ViewDailyNoteHeader}"
+                                        HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/DailyNote.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/character-data.html"
+                                        Header="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
+                                        HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/AvatarProperty.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/hutao-API.html"
+                                        Header="{shcm:ResourceString Name=ViewSpiralAbyssHeader}"
+                                        HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/SpiralAbyss.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/develop-plan.html"
+                                        Header="{shcm:ResourceString Name=ViewCultivationHeader}"
+                                        HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/character-wiki.html"
+                                        Header="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
+                                        HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/weapon-wiki.html"
+                                        Header="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
+                                        HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/monster-wiki.html"
+                                        Header="{shcm:ResourceString Name=ViewWikiMonsterHeader}"
+                                        HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiMonster.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwc:SettingsCard
+                                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                        Command="{Binding NavigateToUriCommand}"
+                                        CommandParameter="https://hut.ao/features/hutao-settings.html"
+                                        Header="{shcm:ResourceString Name=ViewSettingHeader}"
+                                        HeaderIcon="{shcm:FontIcon Glyph=&#xE713;}"
+                                        IsClickEnabled="True"/>
+                                </cwc:SettingsExpander.Items>
+                            </cwc:SettingsExpander>
+                        </Border>
                     </StackPanel>
                 </ScrollViewer>
             </SplitView.Pane>
-            <Grid>
+            <Grid Margin="16,16,0,16" Style="{ThemeResource AcrylicGridCardStyle}">
                 <Grid
-                    Padding="16,16,0,16"
+                    Padding="16"
                     RowSpacing="8"
                     Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                     <Grid.RowDefinitions>

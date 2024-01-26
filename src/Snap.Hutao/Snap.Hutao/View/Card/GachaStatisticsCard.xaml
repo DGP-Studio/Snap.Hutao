@@ -15,6 +15,7 @@
     VerticalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
     d:DataContext="{d:DesignInstance shvg:GachaLogViewModelSlim}"
+    Background="Transparent"
     Command="{Binding NavigateCommand}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">

@@ -356,39 +356,44 @@
             </Pivot>
         </Grid>
         <Grid Visibility="{Binding GamePathSelectedAndValid, Converter={StaticResource BoolToVisibilityRevertConverter}}">
-            <StackPanel
+            <Border
                 Margin="128,0"
-                HorizontalAlignment="Center"
+                Padding="16"
                 VerticalAlignment="Center"
-                Spacing="3">
-                <shci:CachedImage
-                    Height="120"
-                    MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                    EnableLazyLoading="False"
-                    Source="{StaticResource UI_EmotionIcon445}"/>
-                <TextBlock
-                    Margin="0,5,0,21"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewPageLaunchGameSelectGamePath}"/>
-                <Border Style="{ThemeResource BorderCardStyle}">
-                    <ListView
-                        ItemTemplate="{StaticResource GamePathEntryListTemplate}"
-                        ItemsSource="{Binding GamePathEntries}"
-                        SelectedItem="{Binding SelectedGamePathEntry, Mode=TwoWay}"/>
-                </Border>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
-                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
-                    Command="{Binding SetGamePathCommand}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingSetGamePathHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7FC;}"
-                    IsClickEnabled="True">
-                    <cwc:SettingsCard.Description>
-                        <TextBlock Foreground="{ThemeResource SystemErrorTextColor}" Text="{shcm:ResourceString Name=ViewPageSettingSetGamePathHint}"/>
-                    </cwc:SettingsCard.Description>
-                </cwc:SettingsCard>
-            </StackPanel>
+                Style="{ThemeResource AcrylicBorderCardStyle}">
+                <StackPanel
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Spacing="3">
+                    <shci:CachedImage
+                        Height="120"
+                        MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                        EnableLazyLoading="False"
+                        Source="{StaticResource UI_EmotionIcon445}"/>
+                    <TextBlock
+                        Margin="0,5,0,21"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
+                        Text="{shcm:ResourceString Name=ViewPageLaunchGameSelectGamePath}"/>
+                    <Border Style="{ThemeResource BorderCardStyle}">
+                        <ListView
+                            ItemTemplate="{StaticResource GamePathEntryListTemplate}"
+                            ItemsSource="{Binding GamePathEntries}"
+                            SelectedItem="{Binding SelectedGamePathEntry, Mode=TwoWay}"/>
+                    </Border>
+                    <cwc:SettingsCard
+                        ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
+                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
+                        Command="{Binding SetGamePathCommand}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingSetGamePathHeader}"
+                        HeaderIcon="{shcm:FontIcon Glyph=&#xE7FC;}"
+                        IsClickEnabled="True">
+                        <cwc:SettingsCard.Description>
+                            <TextBlock Foreground="{ThemeResource SystemErrorTextColor}" Text="{shcm:ResourceString Name=ViewPageSettingSetGamePathHint}"/>
+                        </cwc:SettingsCard.Description>
+                    </cwc:SettingsCard>
+                </StackPanel>
+            </Border>
         </Grid>
     </Grid>
 </shc:ScopedPage>

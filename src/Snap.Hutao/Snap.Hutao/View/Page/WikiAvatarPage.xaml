@@ -322,7 +322,7 @@
                                         Spacing="16">
                                         <!--  简介  -->
                                         <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Grid Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" Style="{ThemeResource GridCardStyle}">
+                                            <Grid Style="{ThemeResource AcrylicGridCardStyle}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition/>
                                                     <RowDefinition/>
