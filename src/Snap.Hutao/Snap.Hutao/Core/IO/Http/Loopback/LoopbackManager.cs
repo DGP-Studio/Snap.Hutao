@@ -18,7 +18,7 @@ internal sealed unsafe class LoopbackManager : ObservableObject
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
-    private readonly SID hutaoContainerSID;
+    private readonly string hutaoContainerStringSID = default!;
     private bool isLoopbackEnabled;
 
     public LoopbackManager(IServiceProvider serviceProvider)
@@ -35,30 +35,30 @@ internal sealed unsafe class LoopbackManager : ObservableObject
             {
                 INET_FIREWALL_APP_CONTAINER* pContainer = pContainers + i;
                 ReadOnlySpan<char> appContainerName = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pContainer->appContainerName);
-                if (appContainerName.Equals(runtimeOptions.FamilyName))
+                if (appContainerName.Equals(runtimeOptions.FamilyName, StringComparison.Ordinal))
                 {
-                    hutaoContainerSID = *pContainer->appContainerSid;
+                    ConvertSidToStringSidW(pContainer->appContainerSid, out PWSTR stringSid);
+                    hutaoContainerStringSID = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid).ToString();
                     break;
                 }
             }
         }
         finally
         {
-            uint retVal = NetworkIsolationFreeAppContainers(pContainers);
-            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(*(WIN32_ERROR*)&retVal));
+            // This function returns 1 rather than 0 specfied in the document.
+            _ = NetworkIsolationFreeAppContainers(pContainers);
         }
 
         WIN32_ERROR error2 = NetworkIsolationGetAppContainerConfig(out uint accCount, out SID_AND_ATTRIBUTES* pSids);
         Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error2));
-        fixed (SID* phutaoContainerSID = &hutaoContainerSID)
+        for (uint i = 0; i < accCount; i++)
         {
-            for (uint i = 0; i < accCount; i++)
+            ConvertSidToStringSidW((pSids + i)->Sid, out PWSTR stringSid);
+            ReadOnlySpan<char> stringSidSpan = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid);
+            if (stringSidSpan.Equals(hutaoContainerStringSID, StringComparison.Ordinal))
             {
-                if (EqualSid(phutaoContainerSID, (pSids + i)->Sid))
-                {
-                    IsLoopbackEnabled = true;
-                    break;
-                }
+                IsLoopbackEnabled = true;
+                break;
             }
         }
     }
@@ -74,12 +74,10 @@ internal sealed unsafe class LoopbackManager : ObservableObject
             sids.Add(*(pSids + i));
         }
 
-        fixed (SID* phutaoContainerSID = &hutaoContainerSID)
-        {
-            SID_AND_ATTRIBUTES sidAndAttributes = default;
-            sidAndAttributes.Sid = phutaoContainerSID;
-            sids.Add(sidAndAttributes);
-            IsLoopbackEnabled = NetworkIsolationSetAppContainerConfig(CollectionsMarshal.AsSpan(sids)) is WIN32_ERROR.ERROR_SUCCESS;
-        }
+        ConvertStringSidToSidW(hutaoContainerStringSID, out PSID pSid);
+        SID_AND_ATTRIBUTES sidAndAttributes = default;
+        sidAndAttributes.Sid = pSid;
+        sids.Add(sidAndAttributes);
+        IsLoopbackEnabled = NetworkIsolationSetAppContainerConfig(CollectionsMarshal.AsSpan(sids)) is WIN32_ERROR.ERROR_SUCCESS;
     }
 }
