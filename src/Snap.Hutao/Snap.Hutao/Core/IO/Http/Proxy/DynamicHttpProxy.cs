@@ -7,7 +7,7 @@ using Snap.Hutao.Win32.Registry;
 using System.Net;
 using System.Reflection;
 
-namespace Snap.Hutao.Core.IO.Http.DynamicProxy;
+namespace Snap.Hutao.Core.IO.Http.Proxy;
 
 [Injection(InjectAs.Singleton)]
 internal sealed partial class DynamicHttpProxy : ObservableObject, IWebProxy, IDisposable

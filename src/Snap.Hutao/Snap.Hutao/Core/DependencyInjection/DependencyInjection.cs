@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Snap.Hutao.Core.IO.Http.DynamicProxy;
+using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using System.Globalization;

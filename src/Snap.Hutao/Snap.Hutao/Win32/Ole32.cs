@@ -42,13 +42,13 @@ internal static class Ole32
 
     [SuppressMessage("", "SH002")]
     [DebuggerStepThrough]
-    public static unsafe HRESULT CoWaitForMultipleObjects(uint dwFlags, uint dwTimeout, ReadOnlySpan<HANDLE> handles, out uint dwindex)
+    public static unsafe HRESULT CoWaitForMultipleObjects(CWMO_FLAGS dwFlags, uint dwTimeout, ReadOnlySpan<HANDLE> handles, out uint dwindex)
     {
         fixed (HANDLE* pHandles = handles)
         {
             fixed (uint* lpdwindex = &dwindex)
             {
-                return CoWaitForMultipleObjects(dwFlags, dwTimeout, (uint)handles.Length, pHandles, lpdwindex);
+                return CoWaitForMultipleObjects((uint)dwFlags, dwTimeout, (uint)handles.Length, pHandles, lpdwindex);
             }
         }
     }
