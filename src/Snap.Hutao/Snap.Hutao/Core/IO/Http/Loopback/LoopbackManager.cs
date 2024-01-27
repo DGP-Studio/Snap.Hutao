@@ -19,7 +19,6 @@ internal sealed unsafe class LoopbackManager : ObservableObject, IDisposable
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
-
     public LoopbackManager(IServiceProvider serviceProvider)
     {
         runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
