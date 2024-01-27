@@ -130,6 +130,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
         if (result is ContentDialogResult.Primary)
         {
+            await taskContext.SwitchToMainThreadAsync();
             LoopbackManager.EnableLoopback();
         }
     }

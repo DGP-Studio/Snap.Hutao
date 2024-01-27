@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -14,50 +14,34 @@ internal sealed partial class DynamicHttpProxy : ObservableObject, IWebProxy, ID
 {
     private const string ProxySettingPath = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections";
 
-    private static readonly MethodInfo ConstructSystemProxyMethod;
+    private static readonly Lazy<MethodInfo> LazyConstructSystemProxyMethod = new(GetConstructSystemProxyMethod);
 
+    private readonly IServiceProvider serviceProvider;
     private readonly RegistryWatcher watcher;
 
     private IWebProxy innerProxy = default!;
 
-    [SuppressMessage("", "CA1810")]
-    static DynamicHttpProxy()
+    public DynamicHttpProxy(IServiceProvider serviceProvider)
     {
-        Type? systemProxyInfoType = typeof(System.Net.Http.SocketsHttpHandler).Assembly.GetType("System.Net.Http.SystemProxyInfo");
-        ArgumentNullException.ThrowIfNull(systemProxyInfoType);
+        this.serviceProvider = serviceProvider;
+        UpdateInnerProxy();
 
-        MethodInfo? constructSystemProxyMethod = systemProxyInfoType.GetMethod("ConstructSystemProxy", BindingFlags.Static | BindingFlags.Public);
-        ArgumentNullException.ThrowIfNull(constructSystemProxyMethod);
-        ConstructSystemProxyMethod = constructSystemProxyMethod;
-    }
-
-    public DynamicHttpProxy()
-    {
-        UpdateProxy();
-
-        watcher = new(ProxySettingPath, OnProxyChanged);
+        watcher = new(ProxySettingPath, OnSystemProxySettingsChanged);
         watcher.Start();
     }
 
-    /// <inheritdoc/>
-    public ICredentials? Credentials
-    {
-        get => InnerProxy.Credentials;
-        set => InnerProxy.Credentials = value;
-    }
-
-    public string CurrentProxy
+    public string CurrentProxyUri
     {
         get
         {
-            Uri? proxyUri = GetProxy(HutaoEndpoints.Website(string.Empty).ToUri());
+            Uri? proxyUri = GetProxy("https://hut.ao".ToUri());
             return proxyUri is null
                 ? SH.ViewPageFeedbackCurrentProxyNoProxyDescription
                 : proxyUri.AbsoluteUri;
         }
     }
 
-    private IWebProxy InnerProxy
+    public IWebProxy InnerProxy
     {
         get => innerProxy;
 
@@ -72,6 +56,12 @@ internal sealed partial class DynamicHttpProxy : ObservableObject, IWebProxy, ID
             (innerProxy as IDisposable)?.Dispose();
             innerProxy = value;
         }
+    }
+
+    public ICredentials? Credentials
+    {
+        get => InnerProxy.Credentials;
+        set => InnerProxy.Credentials = value;
     }
 
     public Uri? GetProxy(Uri destination)
@@ -90,17 +80,30 @@ internal sealed partial class DynamicHttpProxy : ObservableObject, IWebProxy, ID
         watcher.Dispose();
     }
 
-    public void OnProxyChanged()
+    public void OnSystemProxySettingsChanged()
     {
-        UpdateProxy();
+        UpdateInnerProxy();
 
-        Ioc.Default.GetRequiredService<ITaskContext>().InvokeOnMainThread(() => OnPropertyChanged(nameof(CurrentProxy)));
+        // TaskContext can't be injected directly since there are some recursive dependencies.
+        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        taskContext.BeginInvokeOnMainThread(() => OnPropertyChanged(nameof(CurrentProxyUri)));
+    }
+
+    private static MethodInfo GetConstructSystemProxyMethod()
+    {
+        Type? systemProxyInfoType = typeof(System.Net.Http.SocketsHttpHandler).Assembly.GetType("System.Net.Http.SystemProxyInfo");
+        ArgumentNullException.ThrowIfNull(systemProxyInfoType);
+
+        MethodInfo? constructSystemProxyMethod = systemProxyInfoType.GetMethod("ConstructSystemProxy", BindingFlags.Static | BindingFlags.Public);
+        ArgumentNullException.ThrowIfNull(constructSystemProxyMethod);
+
+        return constructSystemProxyMethod;
     }
 
     [MemberNotNull(nameof(innerProxy))]
-    private void UpdateProxy()
+    private void UpdateInnerProxy()
     {
-        IWebProxy? proxy = ConstructSystemProxyMethod.Invoke(default, default) as IWebProxy;
+        IWebProxy? proxy = LazyConstructSystemProxyMethod.Value.Invoke(default, default) as IWebProxy;
         ArgumentNullException.ThrowIfNull(proxy);
 
         InnerProxy = proxy;

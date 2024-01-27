@@ -13,8 +13,8 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SYSLIB1054")]
 internal static class AdvApi32
 {
-    [DllImport("ADVAPI32.dll", ExactSpelling = true)]
-    [SupportedOSPlatform("windows5.0")]
+    [DllImport("ADVAPI32.dll", ExactSpelling = true, SetLastError = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
     public static extern BOOL EqualSid(PSID pSid1, PSID pSid2);
 
     [DllImport("ADVAPI32.dll", ExactSpelling = true)]
