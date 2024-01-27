@@ -1187,6 +1187,12 @@
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>Realtime Note Webhook URL</value>
   </data>
+  <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
+    <value>解除限制后需要使用其他工具恢复限制</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
+    <value>是否解除 Loopback 限制</value>
+  </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>Import wish history</value>
   </data>
@@ -1861,6 +1867,18 @@
   </data>
   <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
     <value>Useful Links</value>
+  </data>
+  <data name="ViewPageFeedbackCurrentProxyHeader" xml:space="preserve">
+    <value>Current Proxy</value>
+  </data>
+  <data name="ViewPageFeedbackCurrentProxyNoProxyDescription" xml:space="preserve">
+    <value>No Proxy</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
+    <value>已解除</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
+    <value>解除 Loopback 限制</value>
   </data>
   <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
     <value>Keep in touch with us</value>
