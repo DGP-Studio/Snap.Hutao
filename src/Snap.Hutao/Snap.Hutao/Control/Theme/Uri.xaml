@@ -4,6 +4,7 @@
     <x:String x:Key="DocumentLink_Home">https://hut.ao</x:String>
     <x:String x:Key="DocumentLink_MhyAccountSwitch">https://hut.ao/features/mhy-account-switch.html</x:String>
     <x:String x:Key="DocumentLink_Translate">https://translate.hut.ao</x:String>
+    <x:String x:Key="DocumentLink_Loopback">https://hut.ao/zh/advanced/FAQ.html#%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86%E4%BD%BF%E7%94%A8%E8%83%A1%E6%A1%83%E5%B7%A5%E5%85%B7%E7%AE%B1</x:String>
 
     <!--  Other  -->
     <x:String x:Key="HolographicHat_GetToken_Release">https://github.com/HolographicHat/GetToken/releases/latest</x:String>

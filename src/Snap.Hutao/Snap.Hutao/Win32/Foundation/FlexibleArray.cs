@@ -3,8 +3,8 @@
 
 namespace Snap.Hutao.Win32.Foundation;
 
-internal unsafe struct FlexibleArray<T>
-    where T : unmanaged
+internal unsafe struct FlexibleArray<TElement>
+    where TElement : unmanaged
 {
-    public T* Reference;
+    public TElement* Reference;
 }
