@@ -29,6 +29,7 @@
         x:Key="AcrylicBorderCardStyle"
         BasedOn="{StaticResource BorderCardStyle}"
         TargetType="Border">
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Background" Value="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"/>
     </Style>
 
@@ -43,14 +44,15 @@
         x:Key="AcrylicGridCardStyle"
         BasedOn="{StaticResource GridCardStyle}"
         TargetType="Grid">
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Background" Value="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"/>
     </Style>
 
     <Style
-        x:Key="AcrylicBorderlessBorderCardStyle"
-        BasedOn="{StaticResource AcrylicBorderCardStyle}"
-        TargetType="Border">
+        x:Key="AcrylicBaseHighGridCardStyle"
+        BasedOn="{StaticResource GridCardStyle}"
+        TargetType="Grid">
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Background" Value="{ThemeResource SystemControlBaseHighAcrylicElementBrush}"/>
     </Style>
 </ResourceDictionary>

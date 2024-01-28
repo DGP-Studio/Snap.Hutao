@@ -13,9 +13,10 @@
     <UserControl.Resources>
         <Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>
         <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">24</x:Double>
-        <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent"/>
-        <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemControlBaseHighAcrylicElementBrush"/>
-        <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
+        <!--<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent"/>-->
+        <!--<ThemeResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemControlBaseHighAcrylicElementBrush"/>-->
+        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
+        <Thickness x:Key="NavigationViewContentGridBorderThickness">0,1,0,0</Thickness>
     </UserControl.Resources>
     <Grid>
 
@@ -34,12 +35,6 @@
             OpenPaneLength="192"
             PaneDisplayMode="Left"
             UseLayoutRounding="False">
-
-            <NavigationView.Resources>
-                <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemControlBaseHighAcrylicElementBrush"/>
-                <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
-                <CornerRadius x:Key="OverlayCornerRadius">0</CornerRadius>
-            </NavigationView.Resources>
 
             <NavigationView.MenuItems>
                 <NavigationViewItem

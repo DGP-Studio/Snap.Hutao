@@ -50,7 +50,7 @@
             <SplitView.Pane>
                 <ScrollViewer>
                     <StackPanel Margin="16" Spacing="3">
-                        <Border Style="{ThemeResource AcrylicBorderlessBorderCardStyle}">
+                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                             <cwcont:SettingsExpander
                                 Description="{Binding RuntimeOptions.Version}"
                                 Header="{shcm:ResourceString Name=AppName}"
@@ -79,7 +79,7 @@
                                 </cwcont:SettingsExpander.Items>
                             </cwcont:SettingsExpander>
                         </Border>
-                        <Border Style="{ThemeResource AcrylicBorderlessBorderCardStyle}">
+                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                             <cwcont:SettingsExpander
                                 Description="{shcm:ResourceString Name=ViewPageFeedbackEngageWithUsDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageFeedbackCommonLinksHeader}"
@@ -107,7 +107,7 @@
                                 </cwcont:SettingsExpander.Items>
                             </cwcont:SettingsExpander>
                         </Border>
-                        <Border Style="{ThemeResource AcrylicBorderlessBorderCardStyle}">
+                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                             <cwcont:SettingsExpander
                                 Header="{shcm:ResourceString Name=ViewPageFeedbackFeatureGuideHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xF8A5;}"
@@ -282,10 +282,7 @@
                     </ScrollViewer>
                 </Grid>
 
-                <clw:Shimmer
-                    CornerRadius="0"
-                    IsActive="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityRevertConverter}, Mode=OneWay}"/>
+                <clw:Shimmer IsActive="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityRevertConverter}, Mode=OneWay}"/>
             </Grid>
         </SplitView>
     </Grid>
