@@ -2220,7 +2220,7 @@
     <value>리소스 다운로드</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
-    <value>클라이언트</value>
+    <value>完整包</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>사전 다운로드</value>
