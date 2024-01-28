@@ -2220,7 +2220,7 @@
     <value>資源下載</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
-    <value>用戶端</value>
+    <value>完整包</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>預下載</value>
