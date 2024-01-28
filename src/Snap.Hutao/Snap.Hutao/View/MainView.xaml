@@ -18,8 +18,7 @@
         <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
         <Thickness x:Key="NavigationViewContentGridBorderThickness">0,1,0,0</Thickness>
     </UserControl.Resources>
-    <Grid>
-
+    <Grid Transitions="{ThemeResource EntranceThemeTransitions}">
         <Image
             Opacity="0.35"
             Source="ms-appx:///Resource/TestBackground.jpg"
