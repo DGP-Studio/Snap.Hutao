@@ -46,6 +46,12 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         set => LocalSetting.Set(SettingKeys.OverrideUpdateVersionComparison, value);
     }
 
+    public bool OverridePackageConvertDirectoryPermissionsRequirement
+    {
+        get => LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false);
+        set => LocalSetting.Set(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
+    }
+
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {

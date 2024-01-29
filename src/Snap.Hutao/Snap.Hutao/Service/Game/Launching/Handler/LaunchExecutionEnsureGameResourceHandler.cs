@@ -3,6 +3,7 @@
 
 using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Intrinsic;
@@ -124,6 +125,11 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
     private static bool CheckDirectoryPermissions(string folder)
     {
+        if (LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false))
+        {
+            return true;
+        }
+
         // Program Files has special permissions limitation.
         string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
         if (folder.StartsWith(programFiles, StringComparison.OrdinalIgnoreCase))
