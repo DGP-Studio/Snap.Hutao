@@ -6,6 +6,7 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using System.Diagnostics;
@@ -70,7 +71,7 @@ internal sealed partial class UpdateService : IUpdateService
         }
     }
 
-    public async ValueTask LaunchUpdaterAsync()
+    public async ValueTask<bool> LaunchUpdaterAsync()
     {
         RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         string updaterTargetPath = runtimeOptions.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
@@ -85,12 +86,22 @@ internal sealed partial class UpdateService : IUpdateService
             .Append("--update-behavior", true)
             .ToString();
 
-        Process.Start(new ProcessStartInfo()
+        try
         {
-            Arguments = commandLine,
-            FileName = updaterTargetPath,
-            UseShellExecute = true,
-        });
+            Process.Start(new ProcessStartInfo()
+            {
+                Arguments = commandLine,
+                FileName = updaterTargetPath,
+                UseShellExecute = true,
+            });
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
+            return false;
+        }
     }
 
     private static async ValueTask<bool> CheckUpdateCacheSHA256Async(string filePath, string remoteHash, CancellationToken token = default)

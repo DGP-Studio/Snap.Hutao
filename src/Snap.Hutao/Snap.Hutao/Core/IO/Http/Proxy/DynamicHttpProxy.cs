@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Web;
 using Snap.Hutao.Win32.Registry;
 using System.Net;
 using System.Reflection;

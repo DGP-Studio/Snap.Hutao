@@ -6,6 +6,7 @@ using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Shell;
 using System.Diagnostics;
 
@@ -36,8 +37,6 @@ public sealed partial class App : Application
         ----------------------------------------------------------------
         """;
 
-    private const string AppInstanceKey = "main";
-
     private readonly IServiceProvider serviceProvider;
     private readonly IActivation activation;
     private readonly ILogger<App> logger;
@@ -63,25 +62,21 @@ public sealed partial class App : Application
         try
         {
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
-            AppInstance firstInstance = AppInstance.FindOrRegisterForKey(AppInstanceKey);
 
-            if (firstInstance.IsCurrent)
+            if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
             {
-                logger.LogInformation(ConsoleBanner);
-                LogDiagnosticInformation();
-
-                // manually invoke
-                activation.NonRedirectToActivate(firstInstance, activatedEventArgs);
-                activation.InitializeWith(firstInstance);
-
-                serviceProvider.GetRequiredService<IJumpListInterop>().ConfigureAsync().SafeForget();
+                Exit();
+                return;
             }
-            else
-            {
-                // Redirect the activation (and args) to the "main" instance, and exit.
-                firstInstance.RedirectActivationTo(activatedEventArgs);
-                Process.GetCurrentProcess().Kill();
-            }
+
+            logger.LogInformation(ConsoleBanner);
+            LogDiagnosticInformation();
+
+            // manually invoke
+            activation.Activate(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
+            activation.Initialize();
+
+            serviceProvider.GetRequiredService<IJumpListInterop>().ConfigureAsync().SafeForget();
         }
         catch
         {

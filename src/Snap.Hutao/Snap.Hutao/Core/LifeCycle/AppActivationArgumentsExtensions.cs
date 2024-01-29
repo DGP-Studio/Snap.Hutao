@@ -36,7 +36,7 @@ internal static class AppActivationArgumentsExtensions
     /// <param name="activatedEventArgs">应用程序激活参数</param>
     /// <param name="arguments">参数</param>
     /// <returns>是否存在参数</returns>
-    public static bool TryGetLaunchActivatedArgument(this AppActivationArguments activatedEventArgs, [NotNullWhen(true)] out string? arguments)
+    public static bool TryGetLaunchActivatedArguments(this AppActivationArguments activatedEventArgs, [NotNullWhen(true)] out string? arguments)
     {
         arguments = null;
         if (activatedEventArgs.Data is not ILaunchActivatedEventArgs launchArgs)
