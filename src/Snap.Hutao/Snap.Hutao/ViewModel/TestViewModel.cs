@@ -46,6 +46,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         set => LocalSetting.Set(SettingKeys.OverrideUpdateVersionComparison, value);
     }
 
+    [SuppressMessage("", "CA1822")]
     public bool OverridePackageConvertDirectoryPermissionsRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false);
