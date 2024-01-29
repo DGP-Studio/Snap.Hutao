@@ -96,7 +96,7 @@ internal sealed class DownloadSummary : ObservableObject
             await taskContext.SwitchToMainThreadAsync();
             Description = ex is HttpRequestException httpRequestException
                 ? $"{SH.ViewModelWelcomeDownloadSummaryException} - HTTP {httpRequestException.StatusCode:D}"
-                : SH.ViewModelWelcomeDownloadSummaryException;
+                : ex.Message;
             return false;
         }
     }

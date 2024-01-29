@@ -22,6 +22,7 @@ internal static class HttpRequestMessageBuilderExtension
             {
                 using (HttpResponseMessage message = await httpClient.SendAsync(builder.HttpRequestMessage, token).ConfigureAwait(false))
                 {
+                    message.EnsureSuccessStatusCode();
                     return await builder.HttpContentSerializer.DeserializeAsync<TResult>(message.Content, token).ConfigureAwait(false);
                 }
             }
