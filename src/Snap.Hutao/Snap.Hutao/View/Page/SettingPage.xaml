@@ -22,22 +22,7 @@
     </mxi:Interaction.Behaviors>
 
     <Grid x:Name="SettingPageGrid">
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <cw:ControlSizeTrigger MinWidth="1000" TargetElement="{Binding ElementName=SettingPageGrid}"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ScrollViwerRightPanel.Visibility" Value="Visible"/>
-                        <Setter Target="ScrollViwerTopPanel.Visibility" Value="Collapsed"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
-        <ScrollViewer shch:ScrollViewerHelper.LeftPanelMaxWidth="1000" Style="{StaticResource TwoPanelScrollViewerStyle}">
+        <ScrollViewer Style="{StaticResource TwoPanelScrollViewerStyle}">
             <shch:ScrollViewerHelper.RightPanel>
                 <StackPanel
                     x:Name="ScrollViwerRightPanel"
@@ -129,7 +114,7 @@
 
                     <StackPanel
                         x:Name="ScrollViwerTopPanel"
-                        Margin="0,0,0,4"
+                        Margin="0,0,0,3"
                         Spacing="{StaticResource SettingsCardSpacing}"
                         Visibility="Visible">
                         <Border Margin="1,0,1,2" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
@@ -224,7 +209,7 @@
                         ItemsRepeater will behave abnormal if no direct scrollhost wrapping it
                     -->
                     <ScrollViewer
-                        Margin="0,-4,0,0"
+                        Margin="0,-3,0,0"
                         HorizontalScrollBarVisibility="Disabled"
                         VerticalScrollBarVisibility="Disabled">
                         <cwc:SettingsExpander
@@ -542,7 +527,19 @@
             </Grid>
         </ScrollViewer>
 
-
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <cw:ControlSizeTrigger MinWidth="1000" TargetElement="{Binding ElementName=SettingPageGrid}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ScrollViwerRightPanel.Visibility" Value="Visible"/>
+                        <Setter Target="ScrollViwerTopPanel.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 
 </shc:ScopedPage>
