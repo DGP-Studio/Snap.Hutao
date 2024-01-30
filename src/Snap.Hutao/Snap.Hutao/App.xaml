@@ -32,6 +32,7 @@
                 x:Key="LargeGridViewItemStyle"
                 BasedOn="{StaticResource DefaultGridViewItemStyle}"
                 TargetType="GridViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="Margin" Value="0,0,12,12"/>
             </Style>
             <Style

@@ -492,62 +492,66 @@
             </Pivot>
         </Grid>
         <Grid Visibility="{Binding Statistics, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <shci:CachedImage
-                    Width="120"
-                    Height="120"
-                    Source="{StaticResource UI_EmotionIcon71}"/>
-                <TextBlock
-                    Margin="0,16,0,0"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewPageGachaLogHint}"/>
-                <StackPanel
-                    Margin="0,24,0,0"
-                    HorizontalAlignment="Center"
-                    Spacing="{StaticResource SettingsCardSpacing}">
-                    <cwc:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
-                        Command="{Binding RefreshBySTokenCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySTokenDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySToken}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE192;}"
-                        IsClickEnabled="True"/>
-                    <cwc:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
-                        Command="{Binding RefreshByWebCacheCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCacheDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCache}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE81E;}"
-                        IsClickEnabled="True"/>
-                    <cwc:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogInputAction}"
-                        Command="{Binding RefreshByManualInputCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInputDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInput}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE765;}"
-                        IsClickEnabled="True"/>
-                    <cwc:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogImportAction}"
-                        Command="{Binding ImportFromUIGFJsonCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogImportDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogImportHeader}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE8B5;}"
-                        IsClickEnabled="True"/>
-                    <cwc:SettingsCard
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogRecoverFromHutaoCloudDescription}"
-                        FlyoutBase.AttachedFlyout="{StaticResource HutaoCloudFlyout}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloud}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE8B5;}"
-                        IsClickEnabled="True">
-                        <mxi:Interaction.Behaviors>
-                            <mxic:EventTriggerBehavior EventName="Click">
-                                <shcb:ShowAttachedFlyoutAction/>
-                            </mxic:EventTriggerBehavior>
-                        </mxi:Interaction.Behaviors>
-                    </cwc:SettingsCard>
-                </StackPanel>
-            </StackPanel>
+            <Border
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
+                    <StackPanel>
+                        <shci:CachedImage Height="120" Source="{StaticResource UI_EmotionIcon71}"/>
+                        <TextBlock
+                            Margin="0,16,0,0"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource SubtitleTextBlockStyle}"
+                            Text="{shcm:ResourceString Name=ViewPageGachaLogHint}"/>
+                        <StackPanel
+                            Margin="0,24,0,0"
+                            HorizontalAlignment="Center"
+                            Spacing="{StaticResource SettingsCardSpacing}">
+                            <cwc:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
+                                Command="{Binding RefreshBySTokenCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySTokenDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySToken}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE192;}"
+                                IsClickEnabled="True"/>
+                            <cwc:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
+                                Command="{Binding RefreshByWebCacheCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCacheDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCache}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE81E;}"
+                                IsClickEnabled="True"/>
+                            <cwc:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogInputAction}"
+                                Command="{Binding RefreshByManualInputCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInputDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInput}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE765;}"
+                                IsClickEnabled="True"/>
+                            <cwc:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogImportAction}"
+                                Command="{Binding ImportFromUIGFJsonCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageGachaLogImportDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageGachaLogImportHeader}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE8B5;}"
+                                IsClickEnabled="True"/>
+                            <cwc:SettingsCard
+                                Description="{shcm:ResourceString Name=ViewPageGachaLogRecoverFromHutaoCloudDescription}"
+                                FlyoutBase.AttachedFlyout="{StaticResource HutaoCloudFlyout}"
+                                Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloud}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE753;}"
+                                IsClickEnabled="True">
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="Click">
+                                        <shcb:ShowAttachedFlyoutAction/>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </cwc:SettingsCard>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Border>
         </Grid>
     </Grid>
 </shc:ScopedPage>
