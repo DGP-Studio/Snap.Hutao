@@ -497,6 +497,9 @@
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
     <value>ウェーブ 4: すべての敵を倒すと、次のウェーブの敵が出現する。</value>
   </data>
+  <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
+    <value>维持场上 3 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+  </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>キャラクターラインナップを更新する</value>
   </data>
@@ -2220,7 +2223,7 @@
     <value>リソースダウンロード</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
-    <value>完整包</value>
+    <value>クライアント</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>事前ダウンロード</value>
