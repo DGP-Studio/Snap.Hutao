@@ -497,6 +497,9 @@
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
     <value>第四波：擊敗所有怪物，下一波才會出現</value>
   </data>
+  <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
+    <value>维持场上 3 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+  </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>請更新角色櫥窗數據</value>
   </data>
@@ -2220,7 +2223,7 @@
     <value>資源下載</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
-    <value>完整包</value>
+    <value>用戶端</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>預下載</value>
