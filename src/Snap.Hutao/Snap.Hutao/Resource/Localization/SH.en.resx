@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -497,6 +497,9 @@
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
     <value>Wave 4: A wave will spawn only after killing all enemies in the previous wave</value>
   </data>
+  <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
+    <value>维持场上 3 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+  </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>Please update showcase data</value>
   </data>
@@ -510,7 +513,7 @@
     <value>Must sign in to your MiHoYo BBS account and select a user</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>Deleted {1} wish record from Uid: {0}</value>
+    <value>Deleted {1} wish records from Uid: {0}</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>Reached max allowed number of wish history archives on Snap Hutao Cloud</value>
@@ -573,7 +576,7 @@
     <value>The verification request failed, the current email address has been registered</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
-    <value>Validation request is too frequent. Please try again in 1 minute.</value>
+    <value>Verification request is too frequent. Please try again in 1 minute.</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
     <value>Failed to upload Sprial Abyss record, current UID is banned by Hutao Database</value>
@@ -609,7 +612,7 @@
     <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as no Snap Hutao account found.</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
-    <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as there is not first upload of current schedule.</value>
+    <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as this is not the first upload of current schedule.</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>New: {0} Achievements | Updated: {1} Achievements | Delete: {2} Achievements</value>
@@ -732,10 +735,10 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
-    <value>Dev Plan: N/A</value>
+    <value>Enhancement Progression Calculator: N/A</value>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat" xml:space="preserve">
-    <value>Avatar Calculator: {0:MM-dd HH:mm}</value>
+    <value>Enhancement Progression Calculator: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
     <value>Battle Chronicle: Not Refreshed</value>
@@ -750,10 +753,10 @@
     <value>Character Showcase: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
-    <value>Failed to save development plan status</value>
+    <value>Failed to save Enhancement Progression Plan status</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
-    <value>Multiple development plan are selected</value>
+    <value>Multiple Enhancement Progression Plan are selected</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>Launch Game</value>
@@ -855,7 +858,7 @@
     <value>SToken refresh does not support HoYoLab account</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>UIGF file language: {0} does not match Snap Hutao language: {1}, please retry after switching client language to target UIGF file language</value>
+    <value>URL language: {0} does not match Snap Hutao language: {1}, please retry after switching client language to target URL language</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>Unsupported Item ID: {0}</value>
@@ -987,7 +990,7 @@
     <value>Failed to download Metadata validation file</value>
   </data>
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
-    <value>Your Snap Hutao version is too low. Please update as soon as possible.</value>
+    <value>Your Snap Hutao is outdated. Please update as soon as possible.</value>
   </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Check-in failed, {0}</value>
@@ -999,7 +1002,7 @@
     <value>Fetch Signin reward list failed</value>
   </data>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
-    <value>Verification failed, please visit MiYouShe checkin page to manually claim reward</value>
+    <value>Verification failed, please visit HoYoLab checkin page to manually claim reward</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>Check-in successfully, {0} x {1}</value>
@@ -1077,10 +1080,10 @@
     <value>4 Stars</value>
   </data>
   <data name="ViewControlStatisticsCardToLastOrangeText" xml:space="preserve">
-    <value>Last 5 Stars</value>
+    <value>Last 5 Star</value>
   </data>
   <data name="ViewControlStatisticsCardToLastPurpleText" xml:space="preserve">
-    <value>Last 4 Stars</value>
+    <value>Last 4 Star</value>
   </data>
   <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
     <value>Luckiness Avg</value>
@@ -1101,7 +1104,7 @@
     <value>The current version of WebView2 does not support management configuration, continue to use may cause abnormalities, please upgrade as soon as possible</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
-    <value>Dev Plan</value>
+    <value>Enhancement Progression Plan</value>
   </data>
   <data name="ViewDailyNoteHeader" xml:space="preserve">
     <value>Realtime Notes</value>
@@ -1155,22 +1158,22 @@
     <value>Create new plan</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
-    <value>Batch add or update to current Dev Plan</value>
+    <value>Batch add or update to current Enhancement Progression Plan</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
-    <value>Add or update to current Dev Plan</value>
+    <value>Add or update to current Enhancement Progression Plan</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>Daily Commission Availability Notification</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationExpeditionNotify" xml:space="preserve">
-    <value>Expedition Reward Notification</value>
+    <value>Expedition Completion Notification</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
-    <value>Realm Currency Alarm Threshold</value>
+    <value>Realm Currency Notification Threshold</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
-    <value>Original Resin Alarm Threshold</value>
+    <value>Original Resin Notification Threshold</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
     <value>Show widget on Home page</value>
@@ -1224,10 +1227,10 @@
     <value>Returned data</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
-    <value>{0} will be replaced with gt during a request</value>
+    <value>{0} will be replaced with "gt" during a request</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
-    <value>{1} will be replaced with challenge during a request</value>
+    <value>{1} will be replaced with "challenge" during a request</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
     <value>Requests will be sent to interfaces via GET</value>
@@ -1281,7 +1284,7 @@
     <value>Name the account</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
-    <value>Conversion may take some time. Do not turn off the software.</value>
+    <value>Conversion may take some time. Please don't close HuTao.</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
     <value>Converting Game Client</value>
@@ -1290,7 +1293,7 @@
     <value>Scan the QR code with MiHoYo BBS App</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>To avoid enable in a mistake, please input &lt;b&gt;title name&lt;/b&gt; of feature you are enabling</value>
+    <value>To avoid enabling unintentionally, please input the &lt;b&gt;title name&lt;/b&gt; of feature you are enabling</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>You are Enabling a Dangerous Feature</value>
