@@ -14,113 +14,99 @@ namespace Snap.Hutao.Core;
 [Injection(InjectAs.Singleton)]
 internal sealed class RuntimeOptions
 {
-    private readonly bool isWebView2Supported;
-    private readonly string webView2Version = SH.CoreWebView2HelperVersionUndetected;
+    private readonly Lazy<(Version Version, string UserAgent)> lazyVersionAndUserAgent = new(() =>
+    {
+        Version version = Package.Current.Id.Version.ToVersion();
+        return (version, $"Snap Hutao/{version}");
+    });
 
-    private bool? isElevated;
+    private readonly Lazy<string> lazyDataFolder = new(() =>
+    {
+        string preferredPath = LocalSetting.Get(SettingKeys.DataFolderPath, string.Empty);
+
+        if (!string.IsNullOrEmpty(preferredPath))
+        {
+            Directory.CreateDirectory(preferredPath);
+            return preferredPath;
+        }
+
+        // Fallback to MyDocuments
+        string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+#if RELEASE
+        // 将测试版与正式版的文件目录分离
+        string folderName = Package.Current.PublisherDisplayName == "DGP Studio CI" ? "HutaoAlpha" : "Hutao";
+#else
+        // 使得迁移能正常生成
+        string folderName = "Hutao";
+#endif
+        string path = Path.GetFullPath(Path.Combine(myDocuments, folderName));
+        Directory.CreateDirectory(path);
+        return path;
+    });
+
+    private readonly Lazy<string> lazyDeviceId = new(() =>
+    {
+        string userName = Environment.UserName;
+        object? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\", "MachineGuid", userName);
+        return Convert.ToMd5HexString($"{userName}{machineGuid}");
+    });
+
+    private readonly Lazy<(string Version, bool Supported)> lazyWebViewEnvironment = new(() =>
+    {
+        try
+        {
+            string version = CoreWebView2Environment.GetAvailableBrowserVersionString();
+            return (version, true);
+        }
+        catch (FileNotFoundException)
+        {
+            return (SH.CoreWebView2HelperVersionUndetected, false);
+        }
+    });
+
+    private readonly Lazy<bool> lazyElevated = new(() =>
+    {
+        if (LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false))
+        {
+            return true;
+        }
+
+        using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+        {
+            WindowsPrincipal principal = new(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+    });
+
+    private readonly Lazy<string> lazyLocalCache = new(() => ApplicationData.Current.LocalCacheFolder.Path);
+    private readonly Lazy<string> lazyInstalledLocation = new(() => Package.Current.InstalledLocation.Path);
+    private readonly Lazy<string> lazyFamilyName = new(() => Package.Current.Id.FamilyName);
 
     public RuntimeOptions(ILogger<RuntimeOptions> logger)
     {
         AppLaunchTime = DateTimeOffset.UtcNow;
-
-        DataFolder = GetDataFolderPath();
-        LocalCache = ApplicationData.Current.LocalCacheFolder.Path;
-        InstalledLocation = Package.Current.InstalledLocation.Path;
-        FamilyName = Package.Current.Id.FamilyName;
-
-        Version = Package.Current.Id.Version.ToVersion();
-        UserAgent = $"Snap Hutao/{Version}";
-
-        DeviceId = GetUniqueUserId();
-        DetectWebView2Environment(logger, out webView2Version, out isWebView2Supported);
-
-        static string GetDataFolderPath()
-        {
-            string preferredPath = LocalSetting.Get(SettingKeys.DataFolderPath, string.Empty);
-
-            if (!string.IsNullOrEmpty(preferredPath))
-            {
-                Directory.CreateDirectory(preferredPath);
-                return preferredPath;
-            }
-
-            // Fallback to MyDocuments
-            string myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-#if RELEASE
-            // 将测试版与正式版的文件目录分离
-            string folderName = Package.Current.PublisherDisplayName == "DGP Studio CI" ? "HutaoAlpha" : "Hutao";
-#else
-            // 使得迁移能正常生成
-            string folderName = "Hutao";
-#endif
-            string path = Path.GetFullPath(Path.Combine(myDocuments, folderName));
-            Directory.CreateDirectory(path);
-            return path;
-        }
-
-        static string GetUniqueUserId()
-        {
-            string userName = Environment.UserName;
-            object? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\", "MachineGuid", userName);
-            return Convert.ToMd5HexString($"{userName}{machineGuid}");
-        }
-
-        static void DetectWebView2Environment(ILogger<RuntimeOptions> logger, out string webView2Version, out bool isWebView2Supported)
-        {
-            try
-            {
-                webView2Version = CoreWebView2Environment.GetAvailableBrowserVersionString();
-                isWebView2Supported = true;
-            }
-            catch (FileNotFoundException ex)
-            {
-                webView2Version = SH.CoreWebView2HelperVersionUndetected;
-                isWebView2Supported = false;
-                logger.LogError(ex, "WebView2 Runtime not installed.");
-            }
-        }
     }
 
-    public Version Version { get; }
+    public Version Version { get => lazyVersionAndUserAgent.Value.Version; }
 
-    public string UserAgent { get; }
+    public string UserAgent { get => lazyVersionAndUserAgent.Value.UserAgent; }
 
-    public string InstalledLocation { get; }
+    public string InstalledLocation { get => lazyInstalledLocation.Value; }
 
-    public string DataFolder { get; }
+    public string DataFolder { get => lazyDataFolder.Value; }
 
-    public string LocalCache { get; }
+    public string LocalCache { get => lazyLocalCache.Value; }
 
-    public string FamilyName { get; }
+    public string FamilyName { get => lazyFamilyName.Value; }
 
-    public string DeviceId { get; }
+    public string DeviceId { get => lazyDeviceId.Value; }
 
-    public string WebView2Version { get => webView2Version; }
+    public string WebView2Version { get => lazyWebViewEnvironment.Value.Version; }
 
-    public bool IsWebView2Supported { get => isWebView2Supported; }
+    public bool IsWebView2Supported { get => lazyWebViewEnvironment.Value.Supported; }
 
-    public bool IsElevated
-    {
-        get
-        {
-            return isElevated ??= GetElevated();
-
-            static bool GetElevated()
-            {
-                if (LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false))
-                {
-                    return true;
-                }
-
-                using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
-                {
-                    WindowsPrincipal principal = new(identity);
-                    return principal.IsInRole(WindowsBuiltInRole.Administrator);
-                }
-            }
-        }
-    }
+    public bool IsElevated { get => lazyElevated.Value; }
 
     public DateTimeOffset AppLaunchTime { get; }
 }

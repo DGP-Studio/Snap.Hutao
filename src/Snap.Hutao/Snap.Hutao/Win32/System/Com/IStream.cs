@@ -3,14 +3,25 @@
 
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32.System.Com;
 
+[SupportedOSPlatform("windows5.0")]
+[Guid("0000000C-0000-0000-C000-000000000046")]
 internal unsafe struct IStream
 {
-    internal static Guid IID = new(12u, 0, 0, 192, 0, 0, 0, 0, 0, 0, 70);
+    public readonly Vftbl* ThisPtr;
 
-    private Vftbl* thisPtr;
+    internal static unsafe ref readonly Guid IID
+    {
+        get
+        {
+            ReadOnlySpan<byte> data = [0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46];
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
+        }
+    }
 
     public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
         where TInterface : unmanaged
@@ -19,19 +30,19 @@ internal unsafe struct IStream
         {
             fixed (TInterface** ppvObject = &pvObject)
             {
-                return thisPtr->ISequentialStreamVftbl.IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
+                return ThisPtr->ISequentialStreamVftbl.IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
             }
         }
     }
 
     public uint AddRef()
     {
-        return thisPtr->ISequentialStreamVftbl.IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->ISequentialStreamVftbl.IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public uint Release()
     {
-        return thisPtr->ISequentialStreamVftbl.IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->ISequentialStreamVftbl.IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     internal readonly struct Vftbl

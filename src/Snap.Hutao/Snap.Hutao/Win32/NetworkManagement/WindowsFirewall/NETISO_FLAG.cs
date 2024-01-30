@@ -6,5 +6,5 @@ namespace Snap.Hutao.Win32.NetworkManagement.WindowsFirewall;
 internal enum NETISO_FLAG
 {
     NETISO_FLAG_FORCE_COMPUTE_BINARIES = 1,
-    NETISO_FLAG_MAX = 2
+    NETISO_FLAG_MAX = 2,
 }

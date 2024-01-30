@@ -3,7 +3,7 @@
 
 using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Discord;
@@ -24,24 +24,9 @@ namespace Snap.Hutao.Core.LifeCycle;
 [SuppressMessage("", "CA1001")]
 internal sealed partial class Activation : IActivation
 {
-    /// <summary>
-    /// 操作
-    /// </summary>
     public const string Action = nameof(Action);
-
-    /// <summary>
-    /// Uid
-    /// </summary>
     public const string Uid = nameof(Uid);
-
-    /// <summary>
-    /// 启动游戏启动参数
-    /// </summary>
     public const string LaunchGame = nameof(LaunchGame);
-
-    /// <summary>
-    /// 从剪贴板导入成就
-    /// </summary>
     public const string ImportUIAFFromClipboard = nameof(ImportUIAFFromClipboard);
 
     private const string CategoryAchievement = "ACHIEVEMENT";
@@ -55,29 +40,20 @@ internal sealed partial class Activation : IActivation
     private readonly SemaphoreSlim activateSemaphore = new(1);
 
     /// <inheritdoc/>
-    public void Activate(object? sender, AppActivationArguments args)
+    public void Activate(HutaoActivationArguments args)
     {
-        _ = sender;
-        if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
+        if (ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
         {
-            HandleActivationAsync(args, true).SafeForget();
+            return;
         }
+
+        HandleActivationAsync(args).SafeForget();
     }
 
     /// <inheritdoc/>
-    public void NonRedirectToActivate(object? sender, AppActivationArguments args)
+    public void Initialize()
     {
-        _ = sender;
-        if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
-        {
-            HandleActivationAsync(args, false).SafeForget();
-        }
-    }
-
-    /// <inheritdoc/>
-    public void InitializeWith(AppInstance appInstance)
-    {
-        appInstance.Activated += Activate;
+        serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget();
         ToastNotificationManagerCompat.OnActivated += NotificationActivate;
     }
 
@@ -95,44 +71,40 @@ internal sealed partial class Activation : IActivation
         }
     }
 
-    private async ValueTask HandleActivationAsync(AppActivationArguments args, bool isRedirected)
+    private async ValueTask HandleActivationAsync(HutaoActivationArguments args)
     {
         if (activateSemaphore.CurrentCount > 0)
         {
             using (await activateSemaphore.EnterAsync().ConfigureAwait(false))
             {
-                await HandleActivationCoreAsync(args, isRedirected).ConfigureAwait(false);
+                await HandleActivationCoreAsync(args).ConfigureAwait(false);
             }
         }
     }
 
-    private async ValueTask HandleActivationCoreAsync(AppActivationArguments args, bool isRedirected)
+    private async ValueTask HandleActivationCoreAsync(HutaoActivationArguments args)
     {
-        if (args.Kind == ExtendedActivationKind.Protocol)
+        if (args.Kind is HutaoActivationKind.Protocol)
         {
-            if (args.TryGetProtocolActivatedUri(out Uri? uri))
-            {
-                await HandleUrlActivationAsync(uri, isRedirected).ConfigureAwait(false);
-            }
+            ArgumentNullException.ThrowIfNull(args.ProtocolActivatedUri);
+            await HandleUrlActivationAsync(args.ProtocolActivatedUri, args.IsRedirectTo).ConfigureAwait(false);
         }
-        else if (args.Kind == ExtendedActivationKind.Launch)
+        else if (args.Kind is HutaoActivationKind.Launch)
         {
-            if (args.TryGetLaunchActivatedArgument(out string? arguments))
+            ArgumentNullException.ThrowIfNull(args.LaunchActivatedArguments);
+            switch (args.LaunchActivatedArguments)
             {
-                switch (arguments)
-                {
-                    case LaunchGame:
-                        {
-                            await HandleLaunchGameActionAsync().ConfigureAwait(false);
-                            break;
-                        }
+                case LaunchGame:
+                    {
+                        await HandleLaunchGameActionAsync().ConfigureAwait(false);
+                        break;
+                    }
 
-                    default:
-                        {
-                            await HandleNormalLaunchActionAsync().ConfigureAwait(false);
-                            break;
-                        }
-                }
+                default:
+                    {
+                        await HandleNormalLaunchActionAsync().ConfigureAwait(false);
+                        break;
+                    }
             }
         }
     }
@@ -194,7 +166,7 @@ internal sealed partial class Activation : IActivation
             .SafeForget();
     }
 
-    private async ValueTask HandleUrlActivationAsync(Uri uri, bool isRedirected)
+    private async ValueTask HandleUrlActivationAsync(Uri uri, bool isRedirectTo)
     {
         UriBuilder builder = new(uri);
 
@@ -207,13 +179,13 @@ internal sealed partial class Activation : IActivation
             case CategoryAchievement:
                 {
                     await WaitMainWindowAsync().ConfigureAwait(false);
-                    await HandleAchievementActionAsync(action, parameter, isRedirected).ConfigureAwait(false);
+                    await HandleAchievementActionAsync(action, parameter, isRedirectTo).ConfigureAwait(false);
                     break;
                 }
 
             case CategoryDailyNote:
                 {
-                    await HandleDailyNoteActionAsync(action, parameter, isRedirected).ConfigureAwait(false);
+                    await HandleDailyNoteActionAsync(action, parameter, isRedirectTo).ConfigureAwait(false);
                     break;
                 }
 
@@ -225,10 +197,10 @@ internal sealed partial class Activation : IActivation
         }
     }
 
-    private async ValueTask HandleAchievementActionAsync(string action, string parameter, bool isRedirected)
+    private async ValueTask HandleAchievementActionAsync(string action, string parameter, bool isRedirectTo)
     {
         _ = parameter;
-        _ = isRedirected;
+        _ = isRedirectTo;
         switch (action)
         {
             case UrlActionImport:
@@ -245,7 +217,7 @@ internal sealed partial class Activation : IActivation
         }
     }
 
-    private async ValueTask HandleDailyNoteActionAsync(string action, string parameter, bool isRedirected)
+    private async ValueTask HandleDailyNoteActionAsync(string action, string parameter, bool isRedirectTo)
     {
         _ = parameter;
         switch (action)
@@ -264,7 +236,7 @@ internal sealed partial class Activation : IActivation
                     }
 
                     // Check if it's redirected.
-                    if (!isRedirected)
+                    if (!isRedirectTo)
                     {
                         // It's a direct open process, should exit immediately.
                         Process.GetCurrentProcess().Kill();

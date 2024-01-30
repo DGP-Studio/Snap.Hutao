@@ -16,6 +16,7 @@
     VerticalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
     d:DataContext="{d:DesignInstance shvd:DailyNoteViewModelSlim}"
+    Background="Transparent"
     Command="{Binding NavigateCommand}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">
@@ -97,7 +98,7 @@
                         Grid.Row="1"
                         ImageSource="{StaticResource UI_ItemIcon_220021}"
                         IsDotVisible="{Binding TransformerNotifySuppressed}"
-                        Text="{Binding DailyNote.Transformer.RecoveryTime.TimeLeftFormatted}"/>
+                        Text="{Binding DailyNote.Transformer.ObtainedAndReachedFormatted}"/>
                 </Grid>
             </Grid>
         </DataTemplate>

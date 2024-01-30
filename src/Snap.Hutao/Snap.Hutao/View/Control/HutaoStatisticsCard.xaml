@@ -26,7 +26,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Style="{ThemeResource GridCardStyle}">
+    <Grid Style="{ThemeResource AcrylicGridCardStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
@@ -50,6 +50,7 @@
             <StackPanel Margin="16,0,12,16">
                 <TextBlock
                     Margin="0,16,0,8"
+                    Foreground="{ThemeResource UpPullColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"/>
                 <ItemsControl
@@ -59,6 +60,7 @@
 
                 <TextBlock
                     Margin="0,16,0,8"
+                    Foreground="{ThemeResource OrangeColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                 <ItemsControl
@@ -68,6 +70,7 @@
 
                 <TextBlock
                     Margin="0,16,0,8"
+                    Foreground="{ThemeResource PurpleColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                 <ItemsControl
@@ -77,6 +80,7 @@
 
                 <TextBlock
                     Margin="0,16,0,8"
+                    Foreground="{ThemeResource BlueColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
                 <ItemsControl

@@ -29,7 +29,7 @@
 
         <DataTemplate x:Key="AnnouncementTemplate">
             <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                <Border Style="{StaticResource BorderCardStyle}">
+                <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" Style="{StaticResource BorderCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -187,10 +187,14 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CardTemplate" x:DataType="shvcp:CardReference">
-            <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}" Child="{Binding Card}">
+            <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <ItemContainer.Resources>
                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                 </ItemContainer.Resources>
+
+                <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" CornerRadius="{ThemeResource ControlCornerRadius}">
+                    <ContentControl HorizontalContentAlignment="Stretch" Content="{Binding Card}"/>
+                </Border>
             </ItemContainer>
         </DataTemplate>
     </shc:ScopedPage.Resources>
@@ -205,7 +209,7 @@
                         Text="{Binding GreetingText}"/>
 
                     <ItemsControl
-                        Margin="16,8,12,0"
+                        Margin="16,8,16,0"
                         ItemTemplate="{StaticResource HutaoAnnouncementTemplate}"
                         ItemsSource="{Binding HutaoAnnouncements}"
                         Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>

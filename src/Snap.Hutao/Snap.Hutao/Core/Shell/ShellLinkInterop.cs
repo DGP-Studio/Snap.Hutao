@@ -41,21 +41,21 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
         bool result = false;
 
         // DO NOT revert if condition, COM interfaces need to be released properly
-        HRESULT hr = CoCreateInstance(ref ShellLink.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, ref IShellLinkW.IID, out IShellLinkW* pShellLink);
+        HRESULT hr = CoCreateInstance(in ShellLink.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IShellLinkW.IID, out IShellLinkW* pShellLink);
         if (SUCCEEDED(hr))
         {
             pShellLink->SetPath($"shell:AppsFolder\\{runtimeOptions.FamilyName}!App");
             pShellLink->SetShowCmd(SHOW_WINDOW_CMD.SW_NORMAL);
             pShellLink->SetIconLocation(targetLogoPath, 0);
 
-            if (SUCCEEDED(pShellLink->QueryInterface(ref IShellLinkDataList.IID, out IShellLinkDataList* pShellLinkDataList)))
+            if (SUCCEEDED(pShellLink->QueryInterface(in IShellLinkDataList.IID, out IShellLinkDataList* pShellLinkDataList)))
             {
                 pShellLinkDataList->GetFlags(out uint flags);
                 pShellLinkDataList->SetFlags(flags | (uint)SHELL_LINK_DATA_FLAGS.SLDF_RUNAS_USER);
                 pShellLinkDataList->Release();
             }
 
-            if (SUCCEEDED(pShellLink->QueryInterface(ref IPersistFile.IID, out IPersistFile* pPersistFile)))
+            if (SUCCEEDED(pShellLink->QueryInterface(in IPersistFile.IID, out IPersistFile* pPersistFile)))
             {
                 string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 string target = Path.Combine(desktop, $"{SH.FormatAppNameAndVersion(runtimeOptions.Version)}.lnk");

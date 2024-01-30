@@ -40,7 +40,7 @@ internal static class AppInstanceExtension
                 SetEvent(redirectEventHandle);
             });
 
-            CoWaitForMultipleObjects((uint)CWMO_FLAGS.CWMO_DEFAULT, INFINITE, [redirectEventHandle], out uint _);
+            CoWaitForMultipleObjects(CWMO_FLAGS.CWMO_DEFAULT, INFINITE, [redirectEventHandle], out uint _);
         }
         finally
         {

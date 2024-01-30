@@ -22,7 +22,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
     public unsafe ValueResult<bool, ValueFile> PickFile(string? title, string? defaultFileName, (string Name, string Type)[]? filters)
     {
-        HRESULT hr = CoCreateInstance(ref FileOpenDialog.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, ref IFileDialog.IID, out IFileDialog* pFileDialog);
+        HRESULT hr = CoCreateInstance(in FileOpenDialog.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileDialog.IID, out IFileDialog* pFileDialog);
         Marshal.ThrowExceptionForHR(hr);
 
         FILEOPENDIALOGOPTIONS options =
@@ -77,7 +77,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
     public unsafe ValueResult<bool, ValueFile> SaveFile(string? title, string? defaultFileName, (string Name, string Type)[]? filters)
     {
-        HRESULT hr = CoCreateInstance(ref FileSaveDialog.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, ref IFileDialog.IID, out IFileDialog* pFileDialog);
+        HRESULT hr = CoCreateInstance(in FileSaveDialog.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileDialog.IID, out IFileDialog* pFileDialog);
         Marshal.ThrowExceptionForHR(hr);
 
         FILEOPENDIALOGOPTIONS options =
@@ -133,7 +133,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
 
     public unsafe ValueResult<bool, string> PickFolder(string? title)
     {
-        HRESULT hr = CoCreateInstance(ref FileOpenDialog.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, ref IFileDialog.IID, out IFileDialog* pFileDialog);
+        HRESULT hr = CoCreateInstance(in FileOpenDialog.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileDialog.IID, out IFileDialog* pFileDialog);
         Marshal.ThrowExceptionForHR(hr);
 
         FILEOPENDIALOGOPTIONS options =
@@ -204,7 +204,7 @@ internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInt
     private static unsafe void SetDesktopAsStartupFolder(IFileDialog* pFileDialog)
     {
         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        HRESULT hr = SHCreateItemFromParsingName(desktopPath, default, ref IShellItem.IID, out IShellItem* pShellItem);
+        HRESULT hr = SHCreateItemFromParsingName(desktopPath, default, in IShellItem.IID, out IShellItem* pShellItem);
         Marshal.ThrowExceptionForHR(hr);
         pFileDialog->SetFolder(pShellItem);
     }

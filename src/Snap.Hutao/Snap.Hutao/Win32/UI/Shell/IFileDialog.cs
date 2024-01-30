@@ -5,17 +5,26 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell.Common;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [SuppressMessage("", "SH002")]
 [SupportedOSPlatform("windows6.0.6000")]
+[Guid("42F85136-DB7E-439C-85F1-E4075D135FC8")]
 internal unsafe struct IFileDialog
 {
-    internal static Guid IID = new(1123569974u, 56190, 17308, 133, 241, 228, 7, 93, 19, 95, 200);
+    public readonly Vftbl* ThisPtr;
 
-    private Vftbl* thisPtr;
+    internal static unsafe ref readonly Guid IID
+    {
+        get
+        {
+            ReadOnlySpan<byte> data = [0x36, 0x51, 0xF8, 0x42, 0x7E, 0xDB, 0x9C, 0x43, 0x85, 0xF1, 0xE4, 0x07, 0x5D, 0x13, 0x5F, 0xC8];
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
+        }
+    }
 
     public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
         where TInterface : unmanaged
@@ -24,49 +33,49 @@ internal unsafe struct IFileDialog
         {
             fixed (TInterface** ppvObject = &pvObject)
             {
-                return thisPtr->IModalWindowVftbl.IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
+                return ThisPtr->IModalWindowVftbl.IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
             }
         }
     }
 
     public uint AddRef()
     {
-        return thisPtr->IModalWindowVftbl.IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->IModalWindowVftbl.IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public uint Release()
     {
-        return thisPtr->IModalWindowVftbl.IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->IModalWindowVftbl.IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public HRESULT Show([AllowNull] HWND hwndOwner)
     {
-        return thisPtr->IModalWindowVftbl.Show((IModalWindow*)Unsafe.AsPointer(ref this), hwndOwner);
+        return ThisPtr->IModalWindowVftbl.Show((IModalWindow*)Unsafe.AsPointer(ref this), hwndOwner);
     }
 
     public HRESULT SetFileTypes(ReadOnlySpan<COMDLG_FILTERSPEC> filterSpecs)
     {
         fixed (COMDLG_FILTERSPEC* rgFilterSpec = filterSpecs)
         {
-            return thisPtr->SetFileTypes((IFileDialog*)Unsafe.AsPointer(ref this), (uint)filterSpecs.Length, rgFilterSpec);
+            return ThisPtr->SetFileTypes((IFileDialog*)Unsafe.AsPointer(ref this), (uint)filterSpecs.Length, rgFilterSpec);
         }
     }
 
     public HRESULT SetOptions(FILEOPENDIALOGOPTIONS fos)
     {
-        return thisPtr->SetOptions((IFileDialog*)Unsafe.AsPointer(ref this), fos);
+        return ThisPtr->SetOptions((IFileDialog*)Unsafe.AsPointer(ref this), fos);
     }
 
     public HRESULT SetFolder(IShellItem* si)
     {
-        return thisPtr->SetFolder((IFileDialog*)Unsafe.AsPointer(ref this), si);
+        return ThisPtr->SetFolder((IFileDialog*)Unsafe.AsPointer(ref this), si);
     }
 
     public HRESULT SetFileName(string szName)
     {
         fixed (char* pszName = szName)
         {
-            return thisPtr->SetFileName((IFileDialog*)Unsafe.AsPointer(ref this), pszName);
+            return ThisPtr->SetFileName((IFileDialog*)Unsafe.AsPointer(ref this), pszName);
         }
     }
 
@@ -74,7 +83,7 @@ internal unsafe struct IFileDialog
     {
         fixed (char* pszTitle = szTitle)
         {
-            return thisPtr->SetTitle((IFileDialog*)Unsafe.AsPointer(ref this), pszTitle);
+            return ThisPtr->SetTitle((IFileDialog*)Unsafe.AsPointer(ref this), pszTitle);
         }
     }
 
@@ -82,7 +91,7 @@ internal unsafe struct IFileDialog
     {
         fixed (IShellItem** ppsi = &psi)
         {
-            return thisPtr->GetResult((IFileDialog*)Unsafe.AsPointer(ref this), ppsi);
+            return ThisPtr->GetResult((IFileDialog*)Unsafe.AsPointer(ref this), ppsi);
         }
     }
 

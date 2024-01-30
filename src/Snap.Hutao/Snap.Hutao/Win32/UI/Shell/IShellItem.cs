@@ -5,14 +5,25 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.System.SystemServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
+[SupportedOSPlatform("windows5.1.2600")]
+[Guid("43826D1E-E718-42EE-BC55-A1E261C37BFE")]
 internal unsafe struct IShellItem
 {
-    internal static Guid IID = new(1132621086u, 59160, 17134, 188, 85, 161, 226, 97, 195, 123, 254);
+    public readonly Vftbl* ThisPtr;
 
-    private Vftbl* thisPtr;
+    internal static unsafe ref readonly Guid IID
+    {
+        get
+        {
+            ReadOnlySpan<byte> data = [0x1E, 0x6D, 0x82, 0x43, 0x18, 0xE7, 0xEE, 0x42, 0xBC, 0x55, 0xA1, 0xE2, 0x61, 0xC3, 0x7B, 0xFE];
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
+        }
+    }
 
     public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
         where TInterface : unmanaged
@@ -21,26 +32,26 @@ internal unsafe struct IShellItem
         {
             fixed (TInterface** ppvObject = &pvObject)
             {
-                return thisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
+                return ThisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
             }
         }
     }
 
     public uint AddRef()
     {
-        return thisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public uint Release()
     {
-        return thisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public HRESULT GetDisplayName(SIGDN sigdnName, out PWSTR pszName)
     {
         fixed (PWSTR* ppszName = &pszName)
         {
-            return thisPtr->GetDisplayName((IShellItem*)Unsafe.AsPointer(ref this), sigdnName, ppszName);
+            return ThisPtr->GetDisplayName((IShellItem*)Unsafe.AsPointer(ref this), sigdnName, ppszName);
         }
     }
 

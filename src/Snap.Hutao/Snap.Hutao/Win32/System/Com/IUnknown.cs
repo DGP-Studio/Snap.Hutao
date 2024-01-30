@@ -3,14 +3,23 @@
 
 using Snap.Hutao.Win32.Foundation;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.System.Com;
 
+[Guid("00000000-0000-0000-C000-000000000046")]
 internal unsafe struct IUnknown
 {
-    internal static Guid IID = new(0u, 0, 0, 192, 0, 0, 0, 0, 0, 0, 70);
+    public readonly Vftbl* ThisPtr;
 
-    private Vftbl* thisPtr;
+    internal static unsafe ref readonly Guid IID
+    {
+        get
+        {
+            ReadOnlySpan<byte> data = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46];
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
+        }
+    }
 
     public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
         where TInterface : unmanaged
@@ -19,19 +28,19 @@ internal unsafe struct IUnknown
         {
             fixed (TInterface** ppvObject = &pvObject)
             {
-                return thisPtr->QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
+                return ThisPtr->QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
             }
         }
     }
 
     public uint AddRef()
     {
-        return thisPtr->AddRef((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->AddRef((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public uint Release()
     {
-        return thisPtr->Release((IUnknown*)Unsafe.AsPointer(ref this));
+        return ThisPtr->Release((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     internal unsafe readonly struct Vftbl
