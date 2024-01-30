@@ -1170,7 +1170,7 @@
     <value>Realm Currency Alarm Threshold</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
-    <value>Realm Currency Alarm Threshold</value>
+    <value>Original Resin Alarm Threshold</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
     <value>Show widget on Home page</value>
@@ -1186,6 +1186,12 @@
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>Realtime Note Webhook URL</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
+    <value>You need other tools to restore the loopback after it is exempted</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
+    <value>Confirm to Config Loopback Exemption</value>
   </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>Import wish history</value>
@@ -1473,7 +1479,7 @@
     <value>Fetching Realtime Notes data, please wait</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
-    <value>Successfully saved to selected patch</value>
+    <value>Successfully saved to selected path</value>
   </data>
   <data name="ViewModelExportSuccessTitle" xml:space="preserve">
     <value>Export successfully</value>
@@ -1512,7 +1518,7 @@
     <value>Failed to fetch wish history</value>
   </data>
   <data name="ViewModelGachaLogRefreshOperationCancel" xml:space="preserve">
-    <value>Wish history refresh is canceled unexpectedly</value>
+    <value>Wish history refresh was canceled unexpectedly</value>
   </data>
   <data name="ViewModelGachaLogRemoveArchiveDescription" xml:space="preserve">
     <value>This operation is irreversible. The wish history archive will be lost.</value>
@@ -1867,6 +1873,12 @@
   </data>
   <data name="ViewPageFeedbackCurrentProxyNoProxyDescription" xml:space="preserve">
     <value>No Proxy</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
+    <value>Exempted</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
+    <value>Config Loopback Exemption</value>
   </data>
   <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
     <value>Keep in touch with us</value>
@@ -2592,7 +2604,7 @@
     <value>Quotes</value>
   </data>
   <data name="ViewPageWiKiAvatarSpecialFoodTitle" xml:space="preserve">
-    <value>Special Food</value>
+    <value>Special Dish</value>
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Stories</value>
