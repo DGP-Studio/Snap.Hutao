@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Graphics;
 
-namespace Snap.Hutao.Core;
+namespace Snap.Hutao.Win32;
 
 /// <summary>
 /// 结构体封送
