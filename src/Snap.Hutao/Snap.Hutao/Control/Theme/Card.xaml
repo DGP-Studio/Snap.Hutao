@@ -26,6 +26,14 @@
     </Style>
 
     <Style
+        x:Key="AcrylicBaseHighBorderCardStyle"
+        BasedOn="{StaticResource BorderCardStyle}"
+        TargetType="Border">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{ThemeResource SystemControlBaseHighAcrylicElementBrush}"/>
+    </Style>
+
+    <Style
         x:Key="AcrylicBorderCardStyle"
         BasedOn="{StaticResource BorderCardStyle}"
         TargetType="Border">

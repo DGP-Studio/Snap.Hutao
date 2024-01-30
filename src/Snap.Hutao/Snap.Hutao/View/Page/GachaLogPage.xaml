@@ -496,7 +496,10 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
+                <Border
+                    MinWidth="480"
+                    Padding="16"
+                    Style="{ThemeResource AcrylicBorderCardStyle}">
                     <StackPanel>
                         <shci:CachedImage Height="120" Source="{StaticResource UI_EmotionIcon71}"/>
                         <TextBlock
