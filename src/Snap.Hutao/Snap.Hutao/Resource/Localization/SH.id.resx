@@ -497,6 +497,9 @@
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
     <value>Gelombang 4: Gelombang akan muncul hanya setelah membunuh semua musuh di gelombang sebelumnya</value>
   </data>
+  <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
+    <value>维持场上 3 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+  </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>Silakan perbarui data tampilan.</value>
   </data>
@@ -2220,7 +2223,7 @@
     <value>Pengunduhan Sumber Daya</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
-    <value>完整包</value>
+    <value>Klien</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>Prapengunduhan</value>
