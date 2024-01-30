@@ -498,7 +498,7 @@
     <value>第四波：击败所有怪物，下一波才会出现</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
-    <value>维持场上 3 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+    <value>维持场上 4 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>请更新角色橱窗数据</value>
