@@ -40,7 +40,8 @@ internal sealed partial class HotKeyController : IHotKeyController
 
     private static unsafe INPUT CreateInputForMouseEvent(MOUSE_EVENT_FLAGS flags)
     {
-        INPUT input = new() { type = INPUT_TYPE.INPUT_MOUSE, };
+        INPUT input = default;
+        input.type = INPUT_TYPE.INPUT_MOUSE;
         input.Anonymous.mi.dwFlags = flags;
         return input;
     }

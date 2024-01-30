@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Web.Hoyolab;
 using System.Net.Http;
 
@@ -14,12 +15,26 @@ internal static partial class IocHttpClientConfiguration
 {
     private const string ApplicationJson = "application/json";
 
-    /// <summary>
-    /// 添加 <see cref="HttpClient"/>
-    /// 此方法将会自动生成
-    /// </summary>
-    /// <param name="services">集合</param>
-    /// <returns>可继续操作的集合</returns>
+    public static IServiceCollection AddAllHttpClients(this IServiceCollection services)
+    {
+        services
+            .ConfigureHttpClientDefaults(clientBuilder =>
+            {
+                clientBuilder
+                    .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler())
+                    .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
+                    {
+                        HttpClientHandler clientHandler = (HttpClientHandler)handler;
+                        clientHandler.UseProxy = true;
+                        clientHandler.Proxy = provider.GetRequiredService<DynamicHttpProxy>();
+                    });
+            })
+            .AddHttpClients();
+
+        return services;
+    }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static partial IServiceCollection AddHttpClients(this IServiceCollection services);
 
     /// <summary>

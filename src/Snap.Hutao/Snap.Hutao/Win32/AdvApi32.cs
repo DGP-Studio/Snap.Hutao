@@ -28,7 +28,7 @@ internal static class AdvApi32
 
     [DllImport("ADVAPI32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern BOOL ConvertStringSidToSidW(PCWSTR StringSid, [Out] PSID* Sid);
+    public static unsafe extern BOOL ConvertStringSidToSidW(PCWSTR StringSid, PSID* Sid);
 
     public static unsafe BOOL ConvertStringSidToSidW(ReadOnlySpan<char> StringSid, out PSID Sid)
     {
