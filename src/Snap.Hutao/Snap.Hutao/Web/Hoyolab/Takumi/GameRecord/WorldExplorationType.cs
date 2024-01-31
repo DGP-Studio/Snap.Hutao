@@ -10,12 +10,17 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 internal enum WorldExplorationType
 {
     /// <summary>
+    /// 供奉
+    /// </summary>
+    Offering,
+
+    /// <summary>
     /// 声望
     /// </summary>
     Reputation,
 
     /// <summary>
-    /// 供奉
+    /// 沉玉谷
     /// </summary>
-    Offering,
+    TypeUnknow,
 }
