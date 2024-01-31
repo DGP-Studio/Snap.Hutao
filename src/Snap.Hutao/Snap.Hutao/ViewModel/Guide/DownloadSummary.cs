@@ -95,7 +95,7 @@ internal sealed class DownloadSummary : ObservableObject
             logger.LogError(ex, "Download Static Zip failed");
             await taskContext.SwitchToMainThreadAsync();
             Description = ex is HttpRequestException httpRequestException
-                ? $"{SH.ViewModelWelcomeDownloadSummaryException} - HTTP {httpRequestException.StatusCode:D}"
+                ? $"{SH.ViewModelWelcomeDownloadSummaryException} - HTTP {httpRequestException.HttpRequestError} {httpRequestException.StatusCode:D}"
                 : ex.Message;
             return false;
         }

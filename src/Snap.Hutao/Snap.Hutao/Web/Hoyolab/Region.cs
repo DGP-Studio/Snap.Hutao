@@ -4,7 +4,7 @@
 namespace Snap.Hutao.Web.Hoyolab;
 
 [JsonConverter(typeof(RegionConverter))]
-internal readonly partial struct Region
+internal readonly struct Region
 {
     public static readonly Region CNGF01 = new("cn_gf01");
     public static readonly Region CNQD01 = new("cn_qd01");
