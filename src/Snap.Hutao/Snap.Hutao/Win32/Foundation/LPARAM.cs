@@ -6,4 +6,6 @@ namespace Snap.Hutao.Win32.Foundation;
 internal readonly struct LPARAM
 {
     public readonly nint Value;
+
+    public static unsafe implicit operator void*(LPARAM value) => *(void**)&value;
 }

@@ -96,7 +96,7 @@ internal sealed class WindowSubclass : IDisposable
                 {
                     if (window is IMinMaxInfoHandler handler)
                     {
-                        handler.HandleMinMaxInfo(ref *(MINMAXINFO*)lParam.Value, options.GetRasterizationScale());
+                        handler.HandleMinMaxInfo(ref *(MINMAXINFO*)lParam, options.GetRasterizationScale());
                     }
 
                     break;
@@ -118,7 +118,7 @@ internal sealed class WindowSubclass : IDisposable
                 {
                     if (window.SystemBackdrop is IBackdropNeedEraseBackground)
                     {
-                        return (LRESULT)(int)(BOOL)true;
+                        return (LRESULT)(int)BOOL.TRUE;
                     }
 
                     break;
