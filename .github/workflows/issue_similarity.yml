@@ -13,7 +13,7 @@ jobs:
         with:
           filter-threshold: 0.5
           comment-title: '### Probable Similar Topics'
-          title-excludes: 'Publish'
+          title-excludes: '[Publish]:,[Bug]:,[Feat]:,[Network]:,[ENG]'
           comment-body: '${index}. ${similarity} #${number}'
           show-footer: false
           show-mentioned: true
