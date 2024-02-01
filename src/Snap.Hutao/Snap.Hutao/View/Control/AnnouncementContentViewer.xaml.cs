@@ -7,6 +7,7 @@ using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using Windows.Foundation;
@@ -76,6 +77,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
         }
 
         content = StyleRegex().Replace(content, string.Empty);
+        content = RemRegex().Replace(content, "calc($1 * 10) rem");
 
         bool isDarkMode = ThemeHelper.IsDarkMode(theme);
 
@@ -124,6 +126,9 @@ internal sealed partial class AnnouncementContentViewer : UserControl
 
     [GeneratedRegex(" style=\"(?!\")*?vertical-align:middle;\"")]
     private static partial Regex StyleRegex();
+
+    [GeneratedRegex("([0-9]+\\.[0-9]+)rem")]
+    private static partial Regex RemRegex();
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
