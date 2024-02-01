@@ -77,8 +77,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
         }
 
         content = StyleRegex().Replace(content, string.Empty);
-
-        content = RemRegex().Replace(content, x => $"{double.Parse(x.Groups[1].Value, CultureInfo.InvariantCulture) * 10}rem");
+        content = RemRegex().Replace(content, "calc($1 * 10) rem");
 
         bool isDarkMode = ThemeHelper.IsDarkMode(theme);
 
@@ -128,7 +127,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
     [GeneratedRegex(" style=\"(?!\")*?vertical-align:middle;\"")]
     private static partial Regex StyleRegex();
 
-    [GeneratedRegex("([0-9]+\\.[0-9]{1,3})rem")]
+    [GeneratedRegex("([0-9]+\\.[0-9]+)rem")]
     private static partial Regex RemRegex();
 
     private void OnLoaded(object sender, RoutedEventArgs e)
