@@ -159,18 +159,6 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>List</value>
   </data>
-  <data name="ControlTextMetadataSpecialNameMaleFemale" xml:space="preserve">
-    <value>Tranvler (male): $1\r\nTravler (female): $2</value>
-  </data>
-  <data name="ControlTextMetadataSpecialNameMetaAvatarSexProD" xml:space="preserve">
-    <value>Prince/Princess</value>
-  </data>
-  <data name="ControlTextMetadataSpecialNamePlayerAvatarSexPro" xml:space="preserve">
-    <value>his/her</value>
-  </data>
-  <data name="ControlTextMetadataSpecialNameRealNameId1" xml:space="preserve">
-    <value>Wanderer</value>
-  </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
     <value>Database is corrupted: {0}</value>
   </data>
@@ -209,6 +197,21 @@
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>Select Account to Launch</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameNickname" xml:space="preserve">
+    <value>Traveler</value>
+  </data>
+  <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>Wanderer</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Refine {0}</value>
