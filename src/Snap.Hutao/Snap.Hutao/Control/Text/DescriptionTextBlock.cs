@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Media;
 using Snap.Hutao.Control.Theme;
-using System.Diagnostics;
+using Snap.Hutao.Metadata;
 using Windows.Foundation;
 using Windows.UI;
 
@@ -55,7 +55,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         TextBlock textBlock = (TextBlock)((DescriptionTextBlock)d).Content;
-        ReadOnlySpan<char> description = MetadataSpecialNames.Handle((string)e.NewValue);
+        ReadOnlySpan<char> description = SpecialNameHandler.Handle((string)e.NewValue);
 
         try
         {
