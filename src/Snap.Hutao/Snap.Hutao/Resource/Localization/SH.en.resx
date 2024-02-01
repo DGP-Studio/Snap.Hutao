@@ -159,6 +159,18 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>List</value>
   </data>
+  <data name="ControlTextMetadataSpecialNameMaleFemale" xml:space="preserve">
+    <value>Tranvler (male): $1\r\nTravler (female): $2</value>
+  </data>
+  <data name="ControlTextMetadataSpecialNameMetaAvatarSexProD" xml:space="preserve">
+    <value>Prince/Princess</value>
+  </data>
+  <data name="ControlTextMetadataSpecialNamePlayerAvatarSexPro" xml:space="preserve">
+    <value>his/her</value>
+  </data>
+  <data name="ControlTextMetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>Wanderer</value>
+  </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
     <value>Database is corrupted: {0}</value>
   </data>
@@ -1995,7 +2007,7 @@
     <value>Overview</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
-    <value>Statistics</value>
+    <value>Global Wish Stats</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>Weapon</value>
