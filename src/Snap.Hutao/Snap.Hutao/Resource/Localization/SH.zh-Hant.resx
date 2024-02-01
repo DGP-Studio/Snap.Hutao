@@ -159,6 +159,18 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>清單</value>
   </data>
+  <data name="ControlTextMetadataSpecialNameMaleFemale" xml:space="preserve">
+    <value>旅行者（男）：$1\r\n旅行者（女）：$2</value>
+  </data>
+  <data name="ControlTextMetadataSpecialNameMetaAvatarSexProD" xml:space="preserve">
+    <value>王子/公主</value>
+  </data>
+  <data name="ControlTextMetadataSpecialNamePlayerAvatarSexPro" xml:space="preserve">
+    <value>他/她</value>
+  </data>
+  <data name="ControlTextMetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>流浪者</value>
+  </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
     <value>資料庫已損壞：{0}</value>
   </data>
@@ -1995,7 +2007,7 @@
     <value>總覽</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
-    <value>統計</value>
+    <value>全球祈愿统计</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>武器</value>
