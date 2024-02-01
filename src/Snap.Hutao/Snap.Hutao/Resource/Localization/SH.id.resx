@@ -159,18 +159,6 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>Daftar</value>
   </data>
-  <data name="ControlTextMetadataSpecialNameMaleFemale" xml:space="preserve">
-    <value>旅行者（男）：$1\r\n旅行者（女）：$2</value>
-  </data>
-  <data name="ControlTextMetadataSpecialNameMetaAvatarSexProD" xml:space="preserve">
-    <value>王子/公主</value>
-  </data>
-  <data name="ControlTextMetadataSpecialNamePlayerAvatarSexPro" xml:space="preserve">
-    <value>他/她</value>
-  </data>
-  <data name="ControlTextMetadataSpecialNameRealNameId1" xml:space="preserve">
-    <value>流浪者</value>
-  </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
     <value>Database mengalami kerusakan: {0}</value>
   </data>
@@ -209,6 +197,21 @@
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>Pilih akun untuk memulai</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameNickname" xml:space="preserve">
+    <value>Pengembara</value>
+  </data>
+  <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>流浪者</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Perbaiki {0}</value>
