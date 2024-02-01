@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Media;
 using Snap.Hutao.Control.Theme;
+using System.Diagnostics;
 using Windows.Foundation;
 using Windows.UI;
 
@@ -23,8 +24,11 @@ namespace Snap.Hutao.Control.Text;
 [DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
 internal sealed partial class DescriptionTextBlock : ContentControl
 {
-    private static readonly int ColorTagFullLength = "<color=#FFFFFFFF></color>".Length;
-    private static readonly int ColorTagLeftLength = "<color=#FFFFFFFF>".Length;
+    private static readonly int RgbaColorTagFullLength = "<color=#FFFFFFFF></color>".Length;
+    private static readonly int RgbaColorTagLeftLength = "<color=#FFFFFFFF>".Length;
+
+    private static readonly int RgbColorTagFullLength = "<color=#FFFFFF></color>".Length;
+    private static readonly int RgbColorTagLeftLength = "<color=#FFFFFF>".Length;
 
     private static readonly int ItalicTagFullLength = "<i></i>".Length;
     private static readonly int ItalicTagLeftLength = "<i>".Length;
@@ -53,7 +57,14 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         TextBlock textBlock = (TextBlock)((DescriptionTextBlock)d).Content;
         ReadOnlySpan<char> description = MetadataSpecialNames.Handle((string)e.NewValue);
 
-        UpdateDescription(textBlock, description);
+        try
+        {
+            UpdateDescription(textBlock, description);
+        }
+        catch (Exception ex)
+        {
+            _ = ex;
+        }
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -81,13 +92,32 @@ internal sealed partial class DescriptionTextBlock : ContentControl
             // color tag
             else if (description[i..].StartsWith("<c"))
             {
-                AppendText(textBlock, description[last..i]);
-                Rgba32 color = new(description.Slice(i + 8, 8).ToString());
-                int length = description[(i + ColorTagLeftLength)..].IndexOf('<');
-                AppendColorText(textBlock, description.Slice(i + ColorTagLeftLength, length), color);
+                switch (description[i..].IndexOf('>'))
+                {
+                    case 16: // RgbaColorTag
+                        {
+                            AppendText(textBlock, description[last..i]);
+                            Rgba32 color = new(description.Slice(i + 8, 8).ToString());
+                            int length = description[(i + RgbaColorTagLeftLength)..].IndexOf('<');
+                            AppendColorText(textBlock, description.Slice(i + RgbaColorTagLeftLength, length), color);
 
-                i += length + ColorTagFullLength;
-                last = i;
+                            i += length + RgbaColorTagFullLength;
+                            last = i;
+                            break;
+                        }
+
+                    case 14: // RgbColorTag
+                        {
+                            AppendText(textBlock, description[last..i]);
+                            Rgba32 color = new(description.Slice(i + 8, 6).ToString());
+                            int length = description[(i + RgbColorTagLeftLength)..].IndexOf('<');
+                            AppendColorText(textBlock, description.Slice(i + RgbColorTagLeftLength, length), color);
+
+                            i += length + RgbColorTagFullLength;
+                            last = i;
+                            break;
+                        }
+                }
             }
 
             // italic

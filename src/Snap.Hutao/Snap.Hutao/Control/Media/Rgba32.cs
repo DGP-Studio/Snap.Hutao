@@ -49,7 +49,8 @@ internal struct Rgba32
     /// <param name="code">RGBA 代码</param>
     public unsafe Rgba32(uint code)
     {
-        // RRGGBBAA -> AABBGGRR
+        // uint layout: 0xRRGGBBAA -> AABBGGRR
+        // AABBGGRR -> RRGGBBAA
         fixed (Rgba32* pSelf = &this)
         {
             *(uint*)pSelf = BinaryPrimitives.ReverseEndianness(code);
