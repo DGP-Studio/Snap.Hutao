@@ -17,4 +17,6 @@ internal interface IGameDbService
     void UpdateGameAccount(GameAccount gameAccount);
 
     ValueTask UpdateGameAccountAsync(GameAccount gameAccount);
+
+    void ReorderGameAccounts(IEnumerable<GameAccount> reorderedGameAccounts);
 }

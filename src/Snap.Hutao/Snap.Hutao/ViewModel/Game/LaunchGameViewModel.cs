@@ -172,6 +172,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SelectedGamePathEntry = selectedEntry;
     }
 
+    public void ReorderGameAccounts(IEnumerable<GameAccount> reorderedGameAccounts)
+    {
+        gameService.ReorderGameAccounts(reorderedGameAccounts);
+    }
+
     protected override ValueTask<bool> InitializeUIAsync()
     {
         ImmutableList<GamePathEntry> gamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);

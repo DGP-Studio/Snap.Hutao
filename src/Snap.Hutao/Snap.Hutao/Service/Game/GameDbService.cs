@@ -59,4 +59,19 @@ internal sealed partial class GameDbService : IGameDbService
             await appDbContext.GameAccounts.ExecuteDeleteWhereAsync(a => a.InnerId == id).ConfigureAwait(false);
         }
     }
+
+    public void ReorderGameAccounts(IEnumerable<GameAccount> reorderedGameAccounts)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.GameAccounts.ExecuteDelete();
+
+            // Use foreach to avoid ORDER BY InnerId
+            foreach (GameAccount gameAccount in reorderedGameAccounts)
+            {
+                appDbContext.GameAccounts.AddAndSave(gameAccount);
+            }
+        }
+    }
 }

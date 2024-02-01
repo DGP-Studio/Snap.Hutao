@@ -76,4 +76,9 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
     {
         return LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(out _);
     }
+
+    public void ReorderGameAccounts(IEnumerable<GameAccount> reorderedGameAccounts)
+    {
+        gameAccountService.ReorderGameAccounts(reorderedGameAccounts);
+    }
 }

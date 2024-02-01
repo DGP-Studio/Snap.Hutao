@@ -120,6 +120,11 @@ internal sealed partial class GameAccountService : IGameAccountService
         await gameDbService.RemoveGameAccountByIdAsync(gameAccount.InnerId).ConfigureAwait(false);
     }
 
+    public void ReorderGameAccounts(IEnumerable<GameAccount> reorderedGameAccounts)
+    {
+        gameDbService.ReorderGameAccounts(reorderedGameAccounts);
+    }
+
     private static GameAccount? SingleGameAccountOrDefault(ObservableCollection<GameAccount> gameAccounts, string registrySdk)
     {
         try

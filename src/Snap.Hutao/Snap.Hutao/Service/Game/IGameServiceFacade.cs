@@ -62,4 +62,6 @@ internal interface IGameServiceFacade
     ValueTask RemoveGameAccountAsync(GameAccount gameAccount);
 
     GameAccount? DetectCurrentGameAccount(SchemeType scheme);
+
+    void ReorderGameAccounts(IEnumerable<GameAccount> reorderedGameAccounts);
 }

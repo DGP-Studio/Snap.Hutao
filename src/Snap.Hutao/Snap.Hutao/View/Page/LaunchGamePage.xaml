@@ -202,6 +202,10 @@
                                             IsClickEnabled="True"/>
                                         <Border Padding="0,1" Style="{StaticResource BorderCardStyle}">
                                             <ListView
+                                                AllowDrop="True"
+                                                CanDragItems="True"
+                                                CanReorderItems="True"
+                                                DragItemsCompleted="OnAccountListViewReordered"
                                                 ItemTemplate="{StaticResource GameAccountListTemplate}"
                                                 ItemsSource="{Binding GameAccountsView}"
                                                 SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>

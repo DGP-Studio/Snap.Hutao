@@ -14,7 +14,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("game_accounts")]
-internal sealed class GameAccount : ObservableObject, IMappingFrom<GameAccount, string, string, SchemeType>
+internal sealed class GameAccount : ObservableObject, IMappingFrom<GameAccount, string, string, SchemeType>, ICloneable<GameAccount>
 {
     /// <summary>
     /// 内部Id
@@ -51,6 +51,17 @@ internal sealed class GameAccount : ObservableObject, IMappingFrom<GameAccount, 
             Name = name,
             MihoyoSDK = sdk,
             Type = type,
+        };
+    }
+
+    public GameAccount Clone()
+    {
+        return new()
+        {
+            AttachUid = AttachUid,
+            Name = Name,
+            MihoyoSDK = MihoyoSDK,
+            Type = Type,
         };
     }
 

@@ -22,4 +22,6 @@ internal interface IGameAccountService
     ValueTask RemoveGameAccountAsync(GameAccount gameAccount);
 
     bool SetGameAccount(GameAccount account);
+
+    void ReorderGameAccounts(IEnumerable<GameAccount> reorderedGameAccounts);
 }
