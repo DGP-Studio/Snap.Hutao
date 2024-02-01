@@ -159,18 +159,6 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>목록</value>
   </data>
-  <data name="ControlTextMetadataSpecialNameMaleFemale" xml:space="preserve">
-    <value>旅行者（男）：$1\r\n旅行者（女）：$2</value>
-  </data>
-  <data name="ControlTextMetadataSpecialNameMetaAvatarSexProD" xml:space="preserve">
-    <value>王子/公主</value>
-  </data>
-  <data name="ControlTextMetadataSpecialNamePlayerAvatarSexPro" xml:space="preserve">
-    <value>他/她</value>
-  </data>
-  <data name="ControlTextMetadataSpecialNameRealNameId1" xml:space="preserve">
-    <value>流浪者</value>
-  </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
     <value>数据库已损坏：{0}</value>
   </data>
@@ -209,6 +197,21 @@
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>계정 선택 및 시작</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameNickname" xml:space="preserve">
+    <value>旅行者</value>
+  </data>
+  <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>流浪者</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>재련 {0}</value>
@@ -265,13 +268,13 @@
     <value>제 {0} 호</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
-    <value>角色</value>
+    <value>캐릭터</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
     <value>未知</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
-    <value>武器</value>
+    <value>무기</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
     <value>우인단</value>
@@ -319,7 +322,7 @@
     <value>여성</value>
   </data>
   <data name="ModelIntrinsicBodyTypeLoli" xml:space="preserve">
-    <value>萝莉</value>
+    <value>로리</value>
   </data>
   <data name="ModelIntrinsicBodyTypeMale" xml:space="preserve">
     <value>남성</value>
@@ -1182,7 +1185,7 @@
     <value>탐색 파견 완료 알림</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
-    <value>洞天宝钱提醒阈值</value>
+    <value>原粹树脂提醒阈值</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
     <value>선계 화폐 한도 알림</value>
@@ -1197,7 +1200,7 @@
     <value>매개 변수 변환기 알림</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 Url</value>
+    <value>Url 입력</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>实时便笺 Webhook Url</value>
@@ -1353,7 +1356,7 @@
     <value>用户使用协议与法律声明</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
-    <value>文档</value>
+    <value>문서</value>
   </data>
   <data name="ViewGuideStepEnvironment" xml:space="preserve">
     <value>环境</value>
@@ -1374,7 +1377,7 @@
     <value>下载并自行安装运行时</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
-    <value>语言</value>
+    <value>언어</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>资源</value>
@@ -1557,7 +1560,7 @@
     <value>我已阅读并同意上方的条款</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
-    <value>完成</value>
+    <value>완료</value>
   </data>
   <data name="ViewModelGuideActionNext" xml:space="preserve">
     <value>下一步</value>
@@ -1863,7 +1866,7 @@
     <value>这些选项仅允许在非管理员模式下更改</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
-    <value>刷新</value>
+    <value>동기화</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>원신을 플레이 할 때 알리지 않음</value>
@@ -1977,10 +1980,10 @@
     <value>가져오기</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>手动输入 Url</value>
+    <value>Url 수동 입력</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 Url 刷新祈愿记录</value>
+    <value>제공된 Url을 이용해 기원 기록을 동기화합니다</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken 동기화</value>
@@ -2439,25 +2442,25 @@
     <value>主页卡片</value>
   </data>
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
-    <value>成就管理</value>
+    <value>업적 관리</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>实时便笺</value>
+    <value>실시간 메모</value>
   </data>
   <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>祈愿记录</value>
+    <value>기원 기록</value>
   </data>
   <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>게임 시작</value>
   </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
-    <value>隐藏</value>
+    <value>숨김</value>
   </data>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
-    <value>显示</value>
+    <value>표시</value>
   </data>
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
-    <value>主页</value>
+    <value>홈페이지</value>
   </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>三思而后行</value>
@@ -2478,7 +2481,7 @@
     <value>已认证的合作开发者</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLoginAction" xml:space="preserve">
-    <value>登录</value>
+    <value>로그인</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLogoutAction" xml:space="preserve">
     <value>退出登录</value>
@@ -2496,7 +2499,7 @@
     <value>使用兑换码</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
-    <value>注册</value>
+    <value>회원가입</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>修改密码</value>
@@ -2643,7 +2646,7 @@
     <value>드롭 아이템</value>
   </data>
   <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
-    <value>突破后</value>
+    <value>돌파 후</value>
   </data>
   <data name="ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder" xml:space="preserve">
     <value>筛选武器</value>
@@ -2787,7 +2790,7 @@
     <value>먼저 로그인하세요</value>
   </data>
   <data name="ViewUserDocumentationHeader" xml:space="preserve">
-    <value>文档</value>
+    <value>문서</value>
   </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
     <value>尚未登录</value>
@@ -2856,7 +2859,7 @@
     <value>{0}시간 후 종료</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
-    <value>打开剪贴板失败</value>
+    <value>클립보드를 열지 못했습니다</value>
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>已复制到剪贴板</value>
@@ -2871,7 +2874,7 @@
     <value>进行中</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
-    <value>已完成</value>
+    <value>완료됨</value>
   </data>
   <data name="WebDailyNoteAttendanceRewardStatusForbid" xml:space="preserve">
     <value>禁止领取</value>
