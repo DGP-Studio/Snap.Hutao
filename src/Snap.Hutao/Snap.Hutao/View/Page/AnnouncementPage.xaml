@@ -149,20 +149,22 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AnnouncementPivotItemContentTemplate">
-            <ItemsRepeater
-                Margin="16,16,16,16"
-                HorizontalAlignment="Stretch"
-                ItemTemplate="{StaticResource AnnouncementTemplate}"
-                ItemsSource="{Binding List}">
-                <ItemsRepeater.Layout>
-                    <UniformGridLayout
-                        ItemsJustification="Start"
-                        ItemsStretch="Fill"
-                        MinColumnSpacing="12"
-                        MinItemWidth="300"
-                        MinRowSpacing="12"/>
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
+            <ScrollViewer>
+                <ItemsRepeater
+                    Margin="16,16,16,16"
+                    HorizontalAlignment="Stretch"
+                    ItemTemplate="{StaticResource AnnouncementTemplate}"
+                    ItemsSource="{Binding List}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout
+                            ItemsJustification="Start"
+                            ItemsStretch="Fill"
+                            MinColumnSpacing="12"
+                            MinItemWidth="300"
+                            MinRowSpacing="12"/>
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </ScrollViewer>
         </DataTemplate>
 
         <DataTemplate x:Key="HutaoAnnouncementTemplate">
@@ -192,7 +194,7 @@
                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                 </ItemContainer.Resources>
 
-                <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" CornerRadius="{ThemeResource ControlCornerRadius}">
+                <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                     <ContentControl HorizontalContentAlignment="Stretch" Content="{Binding Card}"/>
                 </Border>
             </ItemContainer>
@@ -231,21 +233,16 @@
                     </ItemsRepeater>
                 </StackPanel>
 
-                <ScrollViewer
-                    HorizontalScrollBarVisibility="Disabled"
-                    HorizontalScrollMode="Disabled"
-                    VerticalScrollBarVisibility="Hidden">
-                    <Pivot Style="{StaticResource DefaultPivotStyle}">
-                        <PivotItem
-                            Content="{Binding Announcement.List[0]}"
-                            ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
-                            Header="{shcm:ResourceString Name=ViewPageAnnouncementActivity}"/>
-                        <PivotItem
-                            Content="{Binding Announcement.List[1]}"
-                            ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
-                            Header="{shcm:ResourceString Name=ViewPageAnnouncementGame}"/>
-                    </Pivot>
-                </ScrollViewer>
+                <Pivot Style="{StaticResource DefaultPivotStyle}">
+                    <PivotItem
+                        Content="{Binding Announcement.List[0]}"
+                        ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
+                        Header="{shcm:ResourceString Name=ViewPageAnnouncementActivity}"/>
+                    <PivotItem
+                        Content="{Binding Announcement.List[1]}"
+                        ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
+                        Header="{shcm:ResourceString Name=ViewPageAnnouncementGame}"/>
+                </Pivot>
 
             </StackPanel>
         </ScrollViewer>
