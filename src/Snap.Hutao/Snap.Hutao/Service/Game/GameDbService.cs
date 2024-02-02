@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
-using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -15,12 +14,12 @@ internal sealed partial class GameDbService : IGameDbService
 {
     private readonly IServiceProvider serviceProvider;
 
-    public ObservableCollection<GameAccount> GetGameAccountCollection()
+    public ObservableReorderableDbCollection<GameAccount> GetGameAccountCollection()
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.GameAccounts.AsNoTracking().ToObservableCollection();
+            return appDbContext.GameAccounts.AsNoTracking().OrderBy(account => account.Index).ToObservableReorderableDbCollection(serviceProvider);
         }
     }
 

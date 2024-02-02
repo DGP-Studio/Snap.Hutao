@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Model.Entity.Database;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Runtime.InteropServices;
@@ -11,13 +12,12 @@ namespace Snap.Hutao.Core.Database;
 internal sealed class ObservableReorderableDbCollection<T> : ObservableCollection<T>
     where T : class, IReorderable
 {
-    private readonly DbContext dbContext;
-    private bool previousChangeIsRemoved;
+    private readonly IServiceProvider serviceProvider;
 
-    public ObservableReorderableDbCollection(List<T> items, DbContext dbContext)
+    public ObservableReorderableDbCollection(List<T> items, IServiceProvider serviceProvider)
         : base(AdjustIndex(items))
     {
-        this.dbContext = dbContext;
+        this.serviceProvider = serviceProvider;
     }
 
     protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
@@ -27,16 +27,8 @@ internal sealed class ObservableReorderableDbCollection<T> : ObservableCollectio
         switch (e.Action)
         {
             case NotifyCollectionChangedAction.Remove:
-                previousChangeIsRemoved = true;
-                break;
             case NotifyCollectionChangedAction.Add:
-                if (!previousChangeIsRemoved)
-                {
-                    return;
-                }
-
                 OnReorder();
-                previousChangeIsRemoved = false;
                 break;
         }
     }
@@ -57,10 +49,15 @@ internal sealed class ObservableReorderableDbCollection<T> : ObservableCollectio
     {
         AdjustIndex((List<T>)Items);
 
-        DbSet<T> dbSet = dbContext.Set<T>();
-        foreach (ref readonly T item in CollectionsMarshal.AsSpan((List<T>)Items))
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            dbSet.UpdateAndSave(item);
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            DbSet<T> dbSet = appDbContext.Set<T>();
+            foreach (ref readonly T item in CollectionsMarshal.AsSpan((List<T>)Items))
+            {
+                dbSet.UpdateAndSave(item);
+            }
         }
     }
 }

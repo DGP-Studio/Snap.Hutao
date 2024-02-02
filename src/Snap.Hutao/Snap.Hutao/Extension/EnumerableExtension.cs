@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -111,6 +112,13 @@ internal static partial class EnumerableExtension
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source)
     {
         return new ObservableCollection<T>(source);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ObservableReorderableDbCollection<T> ToObservableReorderableDbCollection<T>(this IEnumerable<T> source, IServiceProvider serviceProvider)
+        where T : class, IReorderable
+    {
+        return new ObservableReorderableDbCollection<T>([.. source], serviceProvider);
     }
 
     /// <summary>

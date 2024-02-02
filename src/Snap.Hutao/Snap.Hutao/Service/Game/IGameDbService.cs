@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -12,7 +12,7 @@ internal interface IGameDbService
 
     ValueTask RemoveGameAccountByIdAsync(Guid id);
 
-    ObservableCollection<GameAccount> GetGameAccountCollection();
+    ObservableReorderableDbCollection<GameAccount> GetGameAccountCollection();
 
     void UpdateGameAccount(GameAccount gameAccount);
 
