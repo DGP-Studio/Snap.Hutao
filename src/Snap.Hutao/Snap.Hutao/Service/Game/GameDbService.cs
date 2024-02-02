@@ -19,7 +19,7 @@ internal sealed partial class GameDbService : IGameDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.GameAccounts.AsNoTracking().OrderBy(account => account.Index).ToObservableReorderableDbCollection(serviceProvider);
+            return appDbContext.GameAccounts.AsNoTracking().ToObservableReorderableDbCollection(serviceProvider);
         }
     }
 

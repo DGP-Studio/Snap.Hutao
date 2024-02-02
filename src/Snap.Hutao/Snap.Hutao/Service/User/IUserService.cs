@@ -1,10 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.ViewModel.User.User;
+using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Service.User;
 
@@ -32,7 +34,7 @@ internal interface IUserService
     /// 此操作不能取消
     /// </summary>
     /// <returns>准备完成的用户信息集合</returns>
-    ValueTask<ObservableCollection<BindingUser>> GetUserCollectionAsync();
+    ValueTask<ObservableReorderableDbCollection<BindingUser, EntityUser>> GetUserCollectionAsync();
 
     /// <summary>
     /// 获取角色信息
