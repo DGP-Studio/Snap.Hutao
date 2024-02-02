@@ -15,7 +15,7 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SYSLIB1054")]
 internal static class ApiMsWinNetIsolation
 {
-    [DllImport("api-ms-win-net-isolation-l1-1-0.dll", ExactSpelling = true)]
+    [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.0")]
     public static unsafe extern uint NetworkIsolationEnumAppContainers(uint Flags, uint* pdwNumPublicAppCs, INET_FIREWALL_APP_CONTAINER** ppPublicAppCs);
 
@@ -32,7 +32,7 @@ internal static class ApiMsWinNetIsolation
         }
     }
 
-    [DllImport("api-ms-win-net-isolation-l1-1-0.dll", ExactSpelling = true)]
+    [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.0")]
     public static unsafe extern uint NetworkIsolationFreeAppContainers(INET_FIREWALL_APP_CONTAINER* pPublicAppCs);
 
@@ -46,7 +46,7 @@ internal static class ApiMsWinNetIsolation
         }
     }
 
-    [DllImport("api-ms-win-net-isolation-l1-1-0.dll", ExactSpelling = true)]
+    [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.0")]
     public static unsafe extern uint NetworkIsolationGetAppContainerConfig(uint* pdwNumPublicAppCs, SID_AND_ATTRIBUTES** appContainerSids);
 
@@ -63,7 +63,7 @@ internal static class ApiMsWinNetIsolation
         }
     }
 
-    [DllImport("api-ms-win-net-isolation-l1-1-0.dll", ExactSpelling = true)]
+    [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.0")]
     public static unsafe extern uint NetworkIsolationSetAppContainerConfig(uint dwNumPublicAppCs, SID_AND_ATTRIBUTES* appContainerSids);
 

@@ -13,7 +13,7 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SYSLIB1054")]
 internal static class Shell32
 {
-    [DllImport("SHELL32.dll", ExactSpelling = true)]
+    [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows6.0.6000")]
     public static unsafe extern HRESULT SHCreateItemFromParsingName(PCWSTR pszPath, [AllowNull] IBindCtx pbc, Guid* riid, void** ppv);
 

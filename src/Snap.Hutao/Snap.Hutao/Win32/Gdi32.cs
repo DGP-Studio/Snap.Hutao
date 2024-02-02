@@ -12,7 +12,7 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SYSLIB1054")]
 internal static class Gdi32
 {
-    [DllImport("GDI32.dll", ExactSpelling = true)]
+    [DllImport("GDI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern int GetDeviceCaps([AllowNull] HDC hdc, int index);
 

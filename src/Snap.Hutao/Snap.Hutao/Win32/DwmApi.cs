@@ -13,7 +13,7 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SYSLIB1054")]
 internal static class DwmApi
 {
-    [DllImport("dwmapi.dll", ExactSpelling = true)]
+    [DllImport("dwmapi.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows6.0.6000")]
     public static unsafe extern HRESULT DwmSetWindowAttribute(HWND hwnd, uint dwAttribute, void* pvAttribute, uint cbAttribute);
 

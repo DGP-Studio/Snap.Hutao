@@ -15,11 +15,11 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SYSLIB1054")]
 internal static class User32
 {
-    [DllImport("USER32.dll", ExactSpelling = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern BOOL AttachThreadInput(uint idAttach, uint idAttachTo, BOOL fAttach);
 
-    [DllImport("USER32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern HWND FindWindowExW([AllowNull] HWND hWndParent, [AllowNull] HWND hWndChildAfter, [AllowNull] PCWSTR lpszClass, [AllowNull] PCWSTR lpszWindow);
 
@@ -35,23 +35,23 @@ internal static class User32
         }
     }
 
-    [DllImport("USER32.dll", ExactSpelling = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern HDC GetDC([AllowNull] HWND hWnd);
 
-    [DllImport("USER32.dll", ExactSpelling = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows10.0.14393")]
     public static extern uint GetDpiForWindow(HWND hwnd);
 
-    [DllImport("USER32.dll", ExactSpelling = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern HWND GetForegroundWindow();
 
-    [DllImport("USER32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern nint GetWindowLongPtrW(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex);
 
-    [DllImport("USER32.dll", ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static unsafe extern BOOL GetWindowPlacement(HWND hWnd, WINDOWPLACEMENT* lpwndpl);
 
@@ -64,7 +64,7 @@ internal static class User32
         }
     }
 
-    [DllImport("USER32.dll", ExactSpelling = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static unsafe extern uint GetWindowThreadProcessId(HWND hWnd, [MaybeNull] uint* lpdwProcessId);
 
@@ -77,15 +77,15 @@ internal static class User32
         }
     }
 
-    [DllImport("USER32.dll", ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows6.0.6000")]
     public static extern BOOL RegisterHotKey([AllowNull] HWND hWnd, int id, HOT_KEY_MODIFIERS fsModifiers, uint vk);
 
-    [DllImport("USER32.dll", ExactSpelling = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern int ReleaseDC([AllowNull] HWND hWnd, HDC hDC);
 
-    [DllImport("USER32.dll", ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static unsafe extern uint SendInput(uint cInputs, INPUT* pInputs, int cbSize);
 
@@ -98,15 +98,15 @@ internal static class User32
         }
     }
 
-    [DllImport("USER32.dll", ExactSpelling = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL SetForegroundWindow(HWND hWnd);
 
-    [DllImport("USER32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern nint SetWindowLongPtrW(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex, nint dwNewLong);
 
-    [DllImport("USER32.dll", ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL UnregisterHotKey([AllowNull] HWND hWnd, int id);
 }
