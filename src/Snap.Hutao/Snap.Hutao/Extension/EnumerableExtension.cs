@@ -119,7 +119,9 @@ internal static partial class EnumerableExtension
     public static ObservableReorderableDbCollection<TEntity> ToObservableReorderableDbCollection<TEntity>(this IEnumerable<TEntity> source, IServiceProvider serviceProvider)
         where TEntity : class, IReorderable
     {
-        return new ObservableReorderableDbCollection<TEntity>([.. source], serviceProvider);
+        return source is List<TEntity> list
+            ? new ObservableReorderableDbCollection<TEntity>(list, serviceProvider)
+            : new ObservableReorderableDbCollection<TEntity>([.. source], serviceProvider);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -127,7 +129,9 @@ internal static partial class EnumerableExtension
         where TEntityOnly : class, IEntityOnly<TEntity>
         where TEntity : class, IReorderable
     {
-        return new ObservableReorderableDbCollection<TEntityOnly, TEntity>([.. source], serviceProvider);
+        return source is List<TEntityOnly> list
+            ? new ObservableReorderableDbCollection<TEntityOnly, TEntity>(list, serviceProvider)
+            : new ObservableReorderableDbCollection<TEntityOnly, TEntity>([.. source], serviceProvider);
     }
 
     /// <summary>

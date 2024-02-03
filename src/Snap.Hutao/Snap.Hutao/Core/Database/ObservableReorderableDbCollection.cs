@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Collections;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
@@ -10,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Core.Database;
 
-internal sealed partial class ObservableReorderableDbCollection<TEntity> : ObservableCollection<TEntity>
+internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCollection<TEntity>
     where TEntity : class, IReorderable
 {
     private readonly IServiceProvider serviceProvider;
@@ -20,6 +21,8 @@ internal sealed partial class ObservableReorderableDbCollection<TEntity> : Obser
     {
         this.serviceProvider = serviceProvider;
     }
+
+    public IAdvancedCollectionView? View { get; set; }
 
     protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
     {
@@ -48,22 +51,25 @@ internal sealed partial class ObservableReorderableDbCollection<TEntity> : Obser
 
     private void OnReorder()
     {
-        AdjustIndex((List<TEntity>)Items);
-
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        using (View?.DeferRefresh())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            AdjustIndex((List<TEntity>)Items);
 
-            DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
-            foreach (ref readonly TEntity item in CollectionsMarshal.AsSpan((List<TEntity>)Items))
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                dbSet.UpdateAndSave(item);
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
+                foreach (ref readonly TEntity item in CollectionsMarshal.AsSpan((List<TEntity>)Items))
+                {
+                    dbSet.UpdateAndSave(item);
+                }
             }
         }
     }
 }
 
-internal sealed partial class ObservableReorderableDbCollection<TEntityOnly, TEntity> : ObservableCollection<TEntityOnly>
+[SuppressMessage("", "SA1402")]
+internal sealed class ObservableReorderableDbCollection<TEntityOnly, TEntity> : ObservableCollection<TEntityOnly>
     where TEntityOnly : class, IEntityOnly<TEntity>
     where TEntity : class, IReorderable
 {
@@ -74,6 +80,8 @@ internal sealed partial class ObservableReorderableDbCollection<TEntityOnly, TEn
     {
         this.serviceProvider = serviceProvider;
     }
+
+    public IAdvancedCollectionView? View { get; set; }
 
     protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
     {
@@ -100,23 +108,21 @@ internal sealed partial class ObservableReorderableDbCollection<TEntityOnly, TEn
         return list;
     }
 
-    private static TEntity EntitySelector(TEntityOnly entityOnly)
-    {
-        return entityOnly.Entity;
-    }
-
     private void OnReorder()
     {
-        AdjustIndex((List<TEntityOnly>)Items);
-
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        using (View?.DeferRefresh())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            AdjustIndex((List<TEntityOnly>)Items);
 
-            DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
-            foreach (ref readonly TEntity item in CollectionsMarshal.AsSpan(((List<TEntityOnly>)Items).SelectList(EntitySelector)))
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                dbSet.UpdateAndSave(item);
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
+                foreach (ref readonly TEntityOnly item in CollectionsMarshal.AsSpan((List<TEntityOnly>)Items))
+                {
+                    dbSet.UpdateAndSave(item.Entity);
+                }
             }
         }
     }
