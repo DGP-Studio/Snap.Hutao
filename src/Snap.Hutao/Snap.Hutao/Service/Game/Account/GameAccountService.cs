@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
@@ -18,9 +19,9 @@ internal sealed partial class GameAccountService : IGameAccountService
     private readonly IGameDbService gameDbService;
     private readonly ITaskContext taskContext;
 
-    private ObservableCollection<GameAccount>? gameAccounts;
+    private ObservableReorderableDbCollection<GameAccount>? gameAccounts;
 
-    public ObservableCollection<GameAccount> GameAccountCollection
+    public ObservableReorderableDbCollection<GameAccount> GameAccountCollection
     {
         get => gameAccounts ??= gameDbService.GetGameAccountCollection();
     }

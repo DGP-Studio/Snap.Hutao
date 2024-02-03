@@ -5,6 +5,7 @@ using CommunityToolkit.WinUI.Collections;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics.CodeAnalysis;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
@@ -18,7 +19,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.Collections.Immutable;
-using System.Collections.ObjectModel;
 using System.IO;
 
 namespace Snap.Hutao.ViewModel.Game;
@@ -241,6 +241,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             {
                 await taskContext.SwitchToMainThreadAsync();
                 SelectedGameAccount = account;
+
+                await UpdateGameAccountsViewAsync().ConfigureAwait(false);
             }
         }
         catch (UserdataCorruptedException ex)
@@ -326,18 +328,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 GameResource = response.Data;
             }
         }
-
-        async ValueTask UpdateGameAccountsViewAsync()
-        {
-            gameAccountFilter = new(SelectedScheme?.GetSchemeType());
-            ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
-
-            await taskContext.SwitchToMainThreadAsync();
-            GameAccountsView = new(accounts, true)
-            {
-                Filter = gameAccountFilter.Filter,
-            };
-        }
     }
 
     [Command("IdentifyMonitorsCommand")]
@@ -362,5 +352,17 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             window.Close();
         }
+    }
+
+    private async ValueTask UpdateGameAccountsViewAsync()
+    {
+        gameAccountFilter = new(SelectedScheme?.GetSchemeType());
+        ObservableReorderableDbCollection<GameAccount> accounts = gameService.GameAccountCollection;
+
+        await taskContext.SwitchToMainThreadAsync();
+        GameAccountsView = new(accounts, true)
+        {
+            Filter = gameAccountFilter.Filter,
+        };
     }
 }

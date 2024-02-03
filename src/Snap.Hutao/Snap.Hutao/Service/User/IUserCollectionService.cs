@@ -1,10 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.ViewModel.User.User;
+using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Service.User;
 
@@ -14,7 +16,7 @@ internal interface IUserCollectionService
 
     ValueTask<ObservableCollection<UserAndUid>> GetUserAndUidCollectionAsync();
 
-    ValueTask<ObservableCollection<BindingUser>> GetUserCollectionAsync();
+    ValueTask<ObservableReorderableDbCollection<BindingUser, EntityUser>> GetUserCollectionAsync();
 
     UserGameRole? GetUserGameRoleByUid(string uid);
 

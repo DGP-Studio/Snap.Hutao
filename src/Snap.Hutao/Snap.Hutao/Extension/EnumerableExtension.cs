@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
+using Snap.Hutao.Model;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -111,6 +113,25 @@ internal static partial class EnumerableExtension
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source)
     {
         return new ObservableCollection<T>(source);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ObservableReorderableDbCollection<TEntity> ToObservableReorderableDbCollection<TEntity>(this IEnumerable<TEntity> source, IServiceProvider serviceProvider)
+        where TEntity : class, IReorderable
+    {
+        return source is List<TEntity> list
+            ? new ObservableReorderableDbCollection<TEntity>(list, serviceProvider)
+            : new ObservableReorderableDbCollection<TEntity>([.. source], serviceProvider);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ObservableReorderableDbCollection<TEntityOnly, TEntity> ToObservableReorderableDbCollection<TEntityOnly, TEntity>(this IEnumerable<TEntityOnly> source, IServiceProvider serviceProvider)
+        where TEntityOnly : class, IEntityOnly<TEntity>
+        where TEntity : class, IReorderable
+    {
+        return source is List<TEntityOnly> list
+            ? new ObservableReorderableDbCollection<TEntityOnly, TEntity>(list, serviceProvider)
+            : new ObservableReorderableDbCollection<TEntityOnly, TEntity>([.. source], serviceProvider);
     }
 
     /// <summary>

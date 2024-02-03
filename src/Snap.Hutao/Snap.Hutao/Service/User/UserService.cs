@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
@@ -9,6 +10,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.ViewModel.User.User;
+using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Service.User;
 
@@ -41,7 +43,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         await userDbService.RemoveUsersAsync().ConfigureAwait(false);
     }
 
-    public ValueTask<ObservableCollection<BindingUser>> GetUserCollectionAsync()
+    public ValueTask<ObservableReorderableDbCollection<BindingUser, EntityUser>> GetUserCollectionAsync()
     {
         return userCollectionService.GetUserCollectionAsync();
     }

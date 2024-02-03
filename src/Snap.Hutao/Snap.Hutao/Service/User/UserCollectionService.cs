@@ -9,6 +9,7 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.ViewModel.User.User;
+using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Service.User;
 
@@ -18,13 +19,14 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 {
     private readonly ScopedDbCurrent<BindingUser, Model.Entity.User, UserChangedMessage> dbCurrent;
     private readonly IUserInitializationService userInitializationService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IUserDbService userDbService;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
     private readonly SemaphoreSlim throttler = new(1);
 
-    private ObservableCollection<BindingUser>? userCollection;
+    private ObservableReorderableDbCollection<BindingUser, EntityUser>? userCollection;
     private Dictionary<string, BindingUser>? midUserMap;
 
     private ObservableCollection<UserAndUid>? userAndUidCollection;
@@ -36,7 +38,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
         set => dbCurrent.Current = value;
     }
 
-    public async ValueTask<ObservableCollection<BindingUser>> GetUserCollectionAsync()
+    public async ValueTask<ObservableReorderableDbCollection<BindingUser, EntityUser>> GetUserCollectionAsync()
     {
         // Force run in background thread, otherwise will cause reentrance
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
@@ -62,7 +64,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
                     }
                 }
 
-                userCollection = users.ToObservableCollection();
+                userCollection = users.ToObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider);
 
                 try
                 {

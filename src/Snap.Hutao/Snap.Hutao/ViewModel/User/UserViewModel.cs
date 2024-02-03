@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Factory.ContentDialog;
@@ -17,8 +18,8 @@ using Snap.Hutao.View.Page;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
-using System.Collections.ObjectModel;
 using System.Text;
+using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.ViewModel.User;
 
@@ -40,7 +41,7 @@ internal sealed partial class UserViewModel : ObservableObject
     private readonly IUserService userService;
 
     private User? selectedUser;
-    private ObservableCollection<User>? users;
+    private ObservableReorderableDbCollection<User, EntityUser>? users;
 
     /// <summary>
     /// 当前选择的用户信息
@@ -66,7 +67,7 @@ internal sealed partial class UserViewModel : ObservableObject
     /// <summary>
     /// 用户信息集合
     /// </summary>
-    public ObservableCollection<User>? Users { get => users; set => SetProperty(ref users, value); }
+    public ObservableReorderableDbCollection<User, EntityUser>? Users { get => users; set => SetProperty(ref users, value); }
 
     /// <summary>
     /// 处理用户操作结果
