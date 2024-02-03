@@ -197,104 +197,108 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Margin="16" Style="{ThemeResource AcrylicBaseHighGridCardStyle}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{StaticResource CompatGridLength2}"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal">
-                    <shcp:PanelSelector
-                        x:Name="ItemsPanelSelector"
-                        Margin="8,0,0,0"
-                        LocalSettingKeySuffixForCurrent="AchievementPage.AchievementGoals"/>
-                    <Viewbox
-                        Height="32"
-                        MaxWidth="192"
-                        Margin="8,0,0,0"
-                        HorizontalAlignment="Left"
-                        Stretch="Uniform"
-                        StretchDirection="Both">
-                        <TextBlock
+            <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Grid Style="{ThemeResource AcrylicBaseHighGridCardStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource CompatGridLength2}"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+                        <shcp:PanelSelector
+                            x:Name="ItemsPanelSelector"
+                            Margin="8,0,0,0"
+                            LocalSettingKeySuffixForCurrent="AchievementPage.AchievementGoals"/>
+                        <Viewbox
+                            Height="32"
+                            MaxWidth="192"
+                            Margin="8,0,0,0"
                             HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Text="{Binding FinishDescription}"/>
-                    </Viewbox>
-                </StackPanel>
+                            Stretch="Uniform"
+                            StretchDirection="Both">
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{Binding FinishDescription}"/>
+                        </Viewbox>
+                    </StackPanel>
 
-                <CommandBar
-                    Grid.Column="1"
-                    Margin="16,0,0,0"
-                    DefaultLabelPosition="Right">
-                    <CommandBar.Resources>
-                        <StaticResource x:Key="CommandBarBackgroundOpen" ResourceKey="ControlFillColorTransparentBrush"/>
-                        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
-                    </CommandBar.Resources>
+                    <CommandBar
+                        Grid.Column="1"
+                        Margin="16,0,0,0"
+                        DefaultLabelPosition="Right">
+                        <CommandBar.Resources>
+                            <StaticResource x:Key="CommandBarBackgroundOpen" ResourceKey="ControlFillColorTransparentBrush"/>
+                            <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                        </CommandBar.Resources>
 
-                    <CommandBar.Content>
-                        <AutoSuggestBox
-                            Width="300"
-                            Height="36"
-                            Margin="3,6,6,0"
-                            HorizontalAlignment="Stretch"
-                            VerticalContentAlignment="Center"
-                            PlaceholderText="{shcm:ResourceString Name=ViewPageAchievementSearchPlaceholder}"
-                            QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
-                            Text="{Binding SearchText, Mode=TwoWay}">
-                            <mxi:Interaction.Behaviors>
-                                <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                                    <mxic:InvokeCommandAction Command="{Binding SearchAchievementCommand}" CommandParameter="{Binding SearchText}"/>
-                                </mxic:EventTriggerBehavior>
-                            </mxi:Interaction.Behaviors>
-                        </AutoSuggestBox>
-                    </CommandBar.Content>
+                        <CommandBar.Content>
+                            <AutoSuggestBox
+                                Width="300"
+                                Height="36"
+                                Margin="3,6,6,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                PlaceholderText="{shcm:ResourceString Name=ViewPageAchievementSearchPlaceholder}"
+                                QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
+                                Text="{Binding SearchText, Mode=TwoWay}">
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="QuerySubmitted">
+                                        <mxic:InvokeCommandAction Command="{Binding SearchAchievementCommand}" CommandParameter="{Binding SearchText}"/>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </AutoSuggestBox>
+                        </CommandBar.Content>
 
-                    <AppBarElementContainer>
-                        <shc:SizeRestrictedContentControl Margin="2,6,3,6">
-                            <ComboBox
-                                DisplayMemberPath="Name"
-                                ItemsSource="{Binding Archives, Mode=OneWay}"
-                                SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"
-                                Style="{ThemeResource CommandBarComboBoxStyle}"/>
-                        </shc:SizeRestrictedContentControl>
-                    </AppBarElementContainer>
-                    <AppBarButton
-                        Command="{Binding AddArchiveCommand}"
-                        Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                        Label="{shcm:ResourceString Name=ViewPageAchievementAddArchive}"/>
-                    <AppBarButton
-                        Command="{Binding RemoveArchiveCommand}"
-                        Icon="{shcm:FontIcon Glyph=&#xE74D;}"
-                        Label="{shcm:ResourceString Name=ViewPageAchievementRemoveArchive}"/>
-                    <AppBarSeparator/>
+                        <AppBarElementContainer>
+                            <shc:SizeRestrictedContentControl Margin="2,6,3,6">
+                                <ComboBox
+                                    DisplayMemberPath="Name"
+                                    ItemsSource="{Binding Archives, Mode=OneWay}"
+                                    SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"
+                                    Style="{ThemeResource CommandBarComboBoxStyle}"/>
+                            </shc:SizeRestrictedContentControl>
+                        </AppBarElementContainer>
+                        <AppBarButton
+                            Command="{Binding AddArchiveCommand}"
+                            Icon="{shcm:FontIcon Glyph=&#xE710;}"
+                            Label="{shcm:ResourceString Name=ViewPageAchievementAddArchive}"/>
+                        <AppBarButton
+                            Command="{Binding RemoveArchiveCommand}"
+                            Icon="{shcm:FontIcon Glyph=&#xE74D;}"
+                            Label="{shcm:ResourceString Name=ViewPageAchievementRemoveArchive}"/>
+                        <AppBarSeparator/>
 
-                    <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8B5;}" Label="{shcm:ResourceString Name=ViewPageAchievementImportLabel}">
-                        <AppBarButton.Flyout>
-                            <MenuFlyout Placement="BottomEdgeAlignedRight">
-                                <MenuFlyoutItem
-                                    Command="{Binding ImportUIAFFromClipboardCommand}"
-                                    Icon="{shcm:FontIcon Glyph=&#xE77F;}"
-                                    Text="{shcm:ResourceString Name=ViewPageAchievementImportFromClipboard}"/>
-                                <MenuFlyoutItem
-                                    Command="{Binding ImportUIAFFromFileCommand}"
-                                    Icon="{shcm:FontIcon Glyph=&#xE8E5;}"
-                                    Text="{shcm:ResourceString Name=ViewPageAchievementImportFromFile}"/>
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <AppBarButton
-                        Command="{Binding ExportAsUIAFToFileCommand}"
-                        Icon="{shcm:FontIcon Glyph=&#xEDE1;}"
-                        Label="{shcm:ResourceString Name=ViewPageAchievementExportLabel}"/>
-                    <AppBarSeparator/>
+                        <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8B5;}" Label="{shcm:ResourceString Name=ViewPageAchievementImportLabel}">
+                            <AppBarButton.Flyout>
+                                <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                    <MenuFlyoutItem
+                                        Command="{Binding ImportUIAFFromClipboardCommand}"
+                                        Icon="{shcm:FontIcon Glyph=&#xE77F;}"
+                                        Text="{shcm:ResourceString Name=ViewPageAchievementImportFromClipboard}"/>
+                                    <MenuFlyoutItem
+                                        Command="{Binding ImportUIAFFromFileCommand}"
+                                        Icon="{shcm:FontIcon Glyph=&#xE8E5;}"
+                                        Text="{shcm:ResourceString Name=ViewPageAchievementImportFromFile}"/>
+                                </MenuFlyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
+                        <AppBarButton
+                            Command="{Binding ExportAsUIAFToFileCommand}"
+                            Icon="{shcm:FontIcon Glyph=&#xEDE1;}"
+                            Label="{shcm:ResourceString Name=ViewPageAchievementExportLabel}"/>
+                        <AppBarSeparator/>
 
-                    <AppBarToggleButton
-                        Command="{Binding SortUncompletedSwitchCommand}"
-                        Icon="{shcm:FontIcon Glyph=&#xE8CB;}"
-                        IsChecked="{Binding IsUncompletedItemsFirst, Mode=TwoWay}"
-                        Label="{shcm:ResourceString Name=ViewPageAchievementSortIncompletedItemsFirst}"/>
-                </CommandBar>
-            </Grid>
+                        <AppBarToggleButton
+                            Command="{Binding SortUncompletedSwitchCommand}"
+                            Icon="{shcm:FontIcon Glyph=&#xE8CB;}"
+                            IsChecked="{Binding IsUncompletedItemsFirst, Mode=TwoWay}"
+                            Label="{shcm:ResourceString Name=ViewPageAchievementSortIncompletedItemsFirst}"/>
+                    </CommandBar>
+                </Grid>
+            </Border>
+
             <Border
                 Grid.Row="1"
                 Margin="16,0,16,16"

@@ -513,7 +513,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <shcp:PanelSelector
                                         x:Name="ItemsPanelSelector"
-                                        Margin="6,8,0,0"
+                                        Margin="4,8,0,0"
                                         LocalSettingKeySuffixForCurrent="AvatarPropertyPage.Summary.Avatars"/>
                                     <ToggleButton
                                         x:Name="RefreshTimeToggle"

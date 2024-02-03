@@ -149,22 +149,24 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AnnouncementPivotItemContentTemplate">
-            <ScrollViewer>
-                <ItemsRepeater
-                    Margin="16,16,16,16"
-                    HorizontalAlignment="Stretch"
-                    ItemTemplate="{StaticResource AnnouncementTemplate}"
-                    ItemsSource="{Binding List}">
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsJustification="Start"
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="12"
-                            MinItemWidth="300"
-                            MinRowSpacing="12"/>
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
-            </ScrollViewer>
+            <ItemsRepeaterScrollHost>
+                <ScrollViewer>
+                    <ItemsRepeater
+                        Margin="16,16,16,16"
+                        HorizontalAlignment="Stretch"
+                        ItemTemplate="{StaticResource AnnouncementTemplate}"
+                        ItemsSource="{Binding List}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsJustification="Start"
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="12"
+                                MinItemWidth="300"
+                                MinRowSpacing="12"/>
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </ScrollViewer>
+            </ItemsRepeaterScrollHost>
         </DataTemplate>
 
         <DataTemplate x:Key="HutaoAnnouncementTemplate">
@@ -202,7 +204,7 @@
     </shc:ScopedPage.Resources>
 
     <Grid>
-        <ScrollViewer Padding="0">
+        <ScrollViewer Padding="0" Style="{StaticResource DefaultScrollViewerStyle}">
             <StackPanel>
                 <StackPanel>
                     <TextBlock
@@ -243,7 +245,6 @@
                         ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
                         Header="{shcm:ResourceString Name=ViewPageAnnouncementGame}"/>
                 </Pivot>
-
             </StackPanel>
         </ScrollViewer>
     </Grid>
