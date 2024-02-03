@@ -9,4 +9,9 @@ internal sealed class MiHoYoPlainTextSyntax : MiHoYoSyntaxNode
         : base(MiHoYoSyntaxKind.PlainText, text, start, end)
     {
     }
+
+    public MiHoYoPlainTextSyntax(string text, TextPosition position)
+        : base(MiHoYoSyntaxKind.PlainText, text, position)
+    {
+    }
 }

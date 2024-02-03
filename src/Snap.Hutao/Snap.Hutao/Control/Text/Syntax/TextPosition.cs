@@ -22,7 +22,12 @@ internal readonly struct TextPosition
         get => End - Start;
     }
 
-    public TextPosition Add(int offset)
+    public TextPosition LeftShift(int offset)
+    {
+        return new(Start - offset, End - offset);
+    }
+
+    public TextPosition RightShift(int offset)
     {
         return new(Start + offset, End + offset);
     }

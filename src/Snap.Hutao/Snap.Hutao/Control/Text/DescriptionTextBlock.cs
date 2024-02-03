@@ -46,7 +46,6 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         TextBlock textBlock = (TextBlock)((DescriptionTextBlock)d).Content;
-        ReadOnlySpan<char> description = SpecialNameHandler.Handle((string)e.NewValue);
 
         try
         {
@@ -81,9 +80,6 @@ internal sealed partial class DescriptionTextBlock : ContentControl
                 }
 
                 break;
-            case MiHoYoSyntaxKind.Line:
-                AppendLine(textBlock, inlines, (MiHoYoLineSyntax)node);
-                break;
             case MiHoYoSyntaxKind.PlainText:
                 AppendPlainText(textBlock, inlines, (MiHoYoPlainTextSyntax)node);
                 break;
@@ -93,19 +89,6 @@ internal sealed partial class DescriptionTextBlock : ContentControl
             case MiHoYoSyntaxKind.ItalicText:
                 AppendItalicText(textBlock, inlines, (MiHoYoItalicTextSyntax)node);
                 break;
-        }
-    }
-
-    private static void AppendLine(TextBlock textBlock, InlineCollection inlines, MiHoYoLineSyntax line)
-    {
-        foreach (MiHoYoSyntaxNode node in line.Children)
-        {
-            AppendNode(textBlock, inlines, node);
-        }
-
-        if (line.HasTailingNewLine)
-        {
-            inlines.Add(new LineBreak());
         }
     }
 
@@ -131,7 +114,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
             targetColor = Rgba32.FromHsl(hsl);
         }
 
-        if (colorText.Children.Count > 0)
+        if (colorText.Children.Count > 1)
         {
             Span span = new()
             {
@@ -155,7 +138,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
 
     private static void AppendItalicText(TextBlock textBlock, InlineCollection inlines, MiHoYoItalicTextSyntax italicText)
     {
-        if (italicText.Children.Count > 0)
+        if (italicText.Children.Count > 1)
         {
             Span span = new()
             {

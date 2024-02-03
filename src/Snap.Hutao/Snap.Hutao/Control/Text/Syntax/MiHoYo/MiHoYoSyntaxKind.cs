@@ -7,7 +7,6 @@ internal enum MiHoYoSyntaxKind
 {
     None,
     Root,
-    Line,
     PlainText,
     ColorText,
     ItalicText,

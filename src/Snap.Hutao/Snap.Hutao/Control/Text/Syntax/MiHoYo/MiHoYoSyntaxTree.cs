@@ -12,7 +12,7 @@ internal sealed class MiHoYoSyntaxTree
     public static MiHoYoSyntaxTree Parse(string text)
     {
         MiHoYoRootSyntax root = new(text, 0, text.Length);
-        ParseLines(text, root);
+        ParseComponents(text, root);
 
         MiHoYoSyntaxTree tree = new()
         {
@@ -23,110 +23,93 @@ internal sealed class MiHoYoSyntaxTree
         return tree;
     }
 
-    private static void ParseLines(string text, MiHoYoRootSyntax syntax)
-    {
-        ReadOnlySpan<char> textSpan = text.AsSpan();
-        int previousProcessedIndexOfText = 0;
-
-        while (true)
-        {
-            int newLineIndexAtSlicedText = textSpan[previousProcessedIndexOfText..].IndexOf('\n');
-
-            if (newLineIndexAtSlicedText < 0)
-            {
-                MiHoYoLineSyntax line = new(false, text, previousProcessedIndexOfText, textSpan.Length);
-                ParseComponents(text, line);
-                syntax.Children.Add(line);
-                break;
-            }
-
-            MiHoYoLineSyntax lineWithBreaking = new(true, text, previousProcessedIndexOfText, previousProcessedIndexOfText + newLineIndexAtSlicedText + 1);
-            ParseComponents(text, lineWithBreaking);
-            syntax.Children.Add(lineWithBreaking);
-
-            previousProcessedIndexOfText = lineWithBreaking.Position.End;
-        }
-    }
-
     private static void ParseComponents(string text, MiHoYoSyntaxNode syntax)
     {
         TextPosition contentPosition = syntax switch
         {
             MiHoYoXmlElementSyntax xmlSyntax => xmlSyntax.ContentPosition,
-            MiHoYoLineSyntax lineSyntax => lineSyntax.TextPosition,
             _ => syntax.Position,
         };
         ReadOnlySpan<char> contentSpan = text.AsSpan().Slice(contentPosition.Start, contentPosition.Length);
 
-        int previousProcessedIndexOfContent = 0;
+        int endOfProcessedAtContent = 0;
         while (true)
         {
-            int fullXmlOpeningIndexOfContent = contentSpan[previousProcessedIndexOfContent..].IndexOf('<');
+            if (endOfProcessedAtContent >= contentSpan.Length)
+            {
+                break;
+            }
+
+            int indexOfXmlLeftOpeningAtUnprocessedContent = contentSpan[endOfProcessedAtContent..].IndexOf('<');
 
             // End of content
-            if (fullXmlOpeningIndexOfContent < 0)
+            if (indexOfXmlLeftOpeningAtUnprocessedContent < 0)
             {
-                MiHoYoPlainTextSyntax plainText = new(text, contentPosition.Start + previousProcessedIndexOfContent, contentPosition.End);
+                TextPosition position = new(contentPosition.Start + endOfProcessedAtContent, contentPosition.End);
+                MiHoYoPlainTextSyntax plainText = new(text, position);
                 syntax.Children.Add(plainText);
                 break;
             }
 
             // We have plain text between xml elements
-            if (previousProcessedIndexOfContent < fullXmlOpeningIndexOfContent)
+            if (indexOfXmlLeftOpeningAtUnprocessedContent > 0)
             {
-                MiHoYoPlainTextSyntax plainText = new(text, contentPosition.Start + previousProcessedIndexOfContent, contentPosition.End);
+                TextPosition position = new(0, indexOfXmlLeftOpeningAtUnprocessedContent);
+                TextPosition positionAtContent = position.RightShift(endOfProcessedAtContent);
+                TextPosition positionAtText = positionAtContent.RightShift(contentPosition.Start);
+                MiHoYoPlainTextSyntax plainText = new(text, positionAtText);
                 syntax.Children.Add(plainText);
+                endOfProcessedAtContent = positionAtContent.End;
+                continue;
             }
 
             // Peek the next character after '<'
-            switch (contentSpan[previousProcessedIndexOfContent + fullXmlOpeningIndexOfContent + 1])
+            int indexOfXmlLeftOpeningAtContent = endOfProcessedAtContent + indexOfXmlLeftOpeningAtUnprocessedContent;
+            switch (contentSpan[indexOfXmlLeftOpeningAtContent + 1])
             {
                 case 'c':
                     {
-                        // <color=#FFFFFFFF></color>
-                        // <color=#FFFFFF></color>
-                        int colorTagClosingEndOfSlicedContent = IndexOfClosingEnd(contentSpan[fullXmlOpeningIndexOfContent..], out int colorTagLeftClosingEndOfSlicedContent);
+                        int endOfXmlColorRightClosingAtUnprocessedContent = EndOfXmlClosing(contentSpan[indexOfXmlLeftOpeningAtContent..], out int endOfXmlColorLeftClosingAtUnprocessedContent);
 
-                        MiHoYoColorKind colorKind = colorTagLeftClosingEndOfSlicedContent switch
+                        MiHoYoColorKind colorKind = endOfXmlColorLeftClosingAtUnprocessedContent switch
                         {
                             17 => MiHoYoColorKind.Rgba,
                             15 => MiHoYoColorKind.Rgb,
                             _ => throw Must.NeverHappen(),
                         };
 
-                        TextPosition positionOfColorElement = new(0, colorTagClosingEndOfSlicedContent);
-                        TextPosition positionAtContent = positionOfColorElement.Add(fullXmlOpeningIndexOfContent);
-                        TextPosition positionAtText = positionAtContent.Add(contentPosition.Start + previousProcessedIndexOfContent);
+                        TextPosition position = new(0, endOfXmlColorRightClosingAtUnprocessedContent);
+                        TextPosition positionAtContent = position.RightShift(endOfProcessedAtContent);
+                        TextPosition positionAtText = positionAtContent.RightShift(contentPosition.Start);
 
                         MiHoYoColorTextSyntax colorText = new(colorKind, text, positionAtText);
                         ParseComponents(text, colorText);
                         syntax.Children.Add(colorText);
-                        previousProcessedIndexOfContent = positionAtContent.End;
+                        endOfProcessedAtContent = positionAtContent.End;
                         break;
                     }
 
                 case 'i':
                     {
-                        // <i>sometext</i> 14
-                        int italicTagClosingEndOfSlicedContent = IndexOfClosingEnd(contentSpan[fullXmlOpeningIndexOfContent..], out _);
+                        int endOfXmlItalicRightClosingAtUnprocessedContent = EndOfXmlClosing(contentSpan[indexOfXmlLeftOpeningAtContent..], out _);
 
-                        TextPosition positionOfItalicElement = new(0, italicTagClosingEndOfSlicedContent);
-                        TextPosition positionAtContent = positionOfItalicElement.Add(fullXmlOpeningIndexOfContent);
-                        TextPosition positionAtText = positionAtContent.Add(contentPosition.Start + previousProcessedIndexOfContent);
+                        TextPosition position = new(0, endOfXmlItalicRightClosingAtUnprocessedContent);
+                        TextPosition positionAtContent = position.RightShift(endOfProcessedAtContent);
+                        TextPosition positionAtText = positionAtContent.RightShift(contentPosition.Start);
 
                         MiHoYoItalicTextSyntax italicText = new(text, positionAtText);
                         ParseComponents(text, italicText);
                         syntax.Children.Add(italicText);
-                        previousProcessedIndexOfContent = positionAtContent.End;
+                        endOfProcessedAtContent = positionAtContent.End;
                         break;
                     }
             }
         }
     }
 
-    private static int IndexOfClosingEnd(in ReadOnlySpan<char> span, out int leftClosingEnd)
+    private static int EndOfXmlClosing(in ReadOnlySpan<char> span, out int endOfLeftClosing)
     {
-        leftClosingEnd = 0;
+        endOfLeftClosing = 0;
 
         int openingCount = 0;
         int closingCount = 0;
@@ -151,7 +134,7 @@ internal sealed class MiHoYoSyntaxTree
 
             if (openingCount is 1 && closingCount is 0)
             {
-                leftClosingEnd = current;
+                endOfLeftClosing = current;
             }
 
             if (openingCount == closingCount)
