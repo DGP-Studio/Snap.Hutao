@@ -31,9 +31,9 @@ internal readonly struct Region
         return new(value);
     }
 
-    public static Region FromUidString(string uid)
+    public static Region UnsafeFromUidString(string uid)
     {
-        return uid.AsSpan()[0] switch
+        return uid.AsSpan()[^9] switch
         {
             // CN
             >= '1' and <= '4' => new("cn_gf01"), // 国服
