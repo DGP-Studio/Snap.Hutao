@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using Snap.Hutao.Core.Setting;
@@ -14,6 +15,8 @@ namespace Snap.Hutao.Core;
 [Injection(InjectAs.Singleton)]
 internal sealed class RuntimeOptions
 {
+    private readonly IServiceProvider serviceProvider;
+
     private readonly Lazy<(Version Version, string UserAgent)> lazyVersionAndUserAgent = new(() =>
     {
         Version version = Package.Current.Id.Version.ToVersion();
@@ -83,8 +86,14 @@ internal sealed class RuntimeOptions
     private readonly Lazy<string> lazyInstalledLocation = new(() => Package.Current.InstalledLocation.Path);
     private readonly Lazy<string> lazyFamilyName = new(() => Package.Current.Id.FamilyName);
 
-    public RuntimeOptions(ILogger<RuntimeOptions> logger)
+    private bool isToastAvailable;
+    private bool isToastAvailableInitialized;
+    private object locker = new();
+
+    public RuntimeOptions(IServiceProvider serviceProvider, ILogger<RuntimeOptions> logger)
     {
+        this.serviceProvider = serviceProvider;
+
         AppLaunchTime = DateTimeOffset.UtcNow;
     }
 
@@ -107,6 +116,20 @@ internal sealed class RuntimeOptions
     public bool IsWebView2Supported { get => lazyWebViewEnvironment.Value.Supported; }
 
     public bool IsElevated { get => lazyElevated.Value; }
+
+    public bool IsToastAvailable
+    {
+        get
+        {
+            return LazyInitializer.EnsureInitialized(ref isToastAvailable, ref isToastAvailableInitialized, ref locker, () =>
+            {
+                return serviceProvider.GetRequiredService<ITaskContext>().InvokeOnMainThread(() =>
+                {
+                    return ToastNotificationManagerCompat.CreateToastNotifier().Setting is Windows.UI.Notifications.NotificationSetting.Enabled;
+                });
+            });
+        }
+    }
 
     public DateTimeOffset AppLaunchTime { get; }
 }

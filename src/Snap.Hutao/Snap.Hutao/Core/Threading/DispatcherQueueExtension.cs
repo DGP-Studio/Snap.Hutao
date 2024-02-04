@@ -48,4 +48,45 @@ internal static class DispatcherQueueExtension
             exceptionDispatchInfo?.Throw();
         }
     }
+
+    /// <summary>
+    /// 在调度器队列同步调用，直到执行结束，会持续阻塞当前线程
+    /// </summary>
+    /// <param name="dispatcherQueue">调度器队列</param>
+    /// <param name="action">执行的回调</param>
+    /// <typeparam name="T">返回类型</typeparam>
+    /// <returns>回调返回值</returns>
+    public static T Invoke<T>(this DispatcherQueue dispatcherQueue, Func<T> action)
+    {
+        T result = default!;
+
+        if (dispatcherQueue.HasThreadAccess)
+        {
+            return action();
+        }
+
+        ExceptionDispatchInfo? exceptionDispatchInfo = null;
+        using (ManualResetEventSlim blockEvent = new(false))
+        {
+            dispatcherQueue.TryEnqueue(() =>
+            {
+                try
+                {
+                    result = action();
+                }
+                catch (Exception ex)
+                {
+                    exceptionDispatchInfo = ExceptionDispatchInfo.Capture(ex);
+                }
+                finally
+                {
+                    blockEvent.Set();
+                }
+            });
+
+            blockEvent.Wait();
+            exceptionDispatchInfo?.Throw();
+            return result;
+        }
+    }
 }

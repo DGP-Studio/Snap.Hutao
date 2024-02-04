@@ -27,9 +27,15 @@ internal sealed partial class DailyNoteNotificationOperation
     private readonly IGameServiceFacade gameService;
     private readonly BindingClient bindingClient;
     private readonly DailyNoteOptions options;
+    private readonly RuntimeOptions runtimeOptions;
 
     public async ValueTask SendAsync(DailyNoteEntry entry)
     {
+        if (!runtimeOptions.IsToastAvailable)
+        {
+            return;
+        }
+
         if (entry.DailyNote is null)
         {
             return;
