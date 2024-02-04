@@ -149,24 +149,20 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AnnouncementPivotItemContentTemplate">
-            <ItemsRepeaterScrollHost>
-                <ScrollViewer>
-                    <ItemsRepeater
-                        Margin="16,16,16,16"
-                        HorizontalAlignment="Stretch"
-                        ItemTemplate="{StaticResource AnnouncementTemplate}"
-                        ItemsSource="{Binding List}">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout
-                                ItemsJustification="Start"
-                                ItemsStretch="Fill"
-                                MinColumnSpacing="12"
-                                MinItemWidth="300"
-                                MinRowSpacing="12"/>
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
-                </ScrollViewer>
-            </ItemsRepeaterScrollHost>
+            <ItemsRepeater
+                Margin="16,16,16,16"
+                HorizontalAlignment="Stretch"
+                ItemTemplate="{StaticResource AnnouncementTemplate}"
+                ItemsSource="{Binding List}">
+                <ItemsRepeater.Layout>
+                    <UniformGridLayout
+                        ItemsJustification="Start"
+                        ItemsStretch="Fill"
+                        MinColumnSpacing="12"
+                        MinItemWidth="300"
+                        MinRowSpacing="12"/>
+                </ItemsRepeater.Layout>
+            </ItemsRepeater>
         </DataTemplate>
 
         <DataTemplate x:Key="HutaoAnnouncementTemplate">
@@ -217,22 +213,26 @@
                         ItemTemplate="{StaticResource HutaoAnnouncementTemplate}"
                         ItemsSource="{Binding HutaoAnnouncements}"
                         Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                    <ItemsRepeater
-                        Margin="16"
-                        HorizontalAlignment="Stretch"
-                        ItemTemplate="{StaticResource CardTemplate}"
-                        ItemsSource="{Binding Cards, Mode=OneWay}">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout
-                                ItemsJustification="Start"
-                                ItemsStretch="Fill"
-                                MinColumnSpacing="12"
-                                MinItemHeight="180"
-                                MinItemWidth="300"
-                                MinRowSpacing="12"
-                                Orientation="Horizontal"/>
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
+
+                    <!--  ItemsRepeater will behave abnormal if no direct scrollhost wrapping it  -->
+                    <ScrollViewer>
+                        <ItemsRepeater
+                            Margin="16"
+                            HorizontalAlignment="Stretch"
+                            ItemTemplate="{StaticResource CardTemplate}"
+                            ItemsSource="{Binding Cards, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsJustification="Start"
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="12"
+                                    MinItemHeight="180"
+                                    MinItemWidth="300"
+                                    MinRowSpacing="12"
+                                    Orientation="Horizontal"/>
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </ScrollViewer>
                 </StackPanel>
 
                 <Pivot Style="{StaticResource DefaultPivotStyle}">

@@ -2,19 +2,19 @@
     x:Class="Snap.Hutao.View.Page.CultivationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwcont="using:CommunityToolkit.WinUI.Controls"
     xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcl="using:Snap.Hutao.Control.Layout"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvco="using:Snap.Hutao.View.Control"
+    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvcu="using:Snap.Hutao.ViewModel.Cultivation"
     d:DataContext="{d:DesignInstance shvcu:CultivationViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -108,12 +108,12 @@
             </DataTemplate>
 
             <DataTemplate x:Key="CultivateEntryTemplate">
-                <ItemContainer Margin="0,0,0,16">
+                <ItemContainer Margin="0,0,0,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                     <ItemContainer.Resources>
                         <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                         <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
                     </ItemContainer.Resources>
-                    <Grid Style="{ThemeResource GridCardStyle}">
+                    <Grid Style="{ThemeResource AcrylicGridCardStyle}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -172,31 +172,35 @@
                         <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                         <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
                     </ItemContainer.Resources>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <shvco:ItemIcon
-                            Grid.Column="0"
-                            Width="32"
-                            Height="32"
-                            Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
-                            Quality="{Binding Inner.RankLevel}"/>
-                        <TextBlock
-                            Grid.Column="1"
-                            Margin="16,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="{Binding Inner.Name}"
-                            TextTrimming="CharacterEllipsis"/>
-                        <TextBlock
-                            Grid.Column="2"
-                            Margin="16,0,4,0"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Text="{Binding CountFormatted}"/>
-                    </Grid>
+                    <shvcp:HorizontalCard>
+                        <shvcp:HorizontalCard.Left>
+                            <shvco:ItemIcon
+                                Grid.Column="0"
+                                Width="40"
+                                Height="40"
+                                Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
+                                Quality="{Binding Inner.RankLevel}"/>
+                        </shvcp:HorizontalCard.Left>
+                        <shvcp:HorizontalCard.Right>
+                            <Grid Margin="16,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Inner.Name}"
+                                    TextTrimming="CharacterEllipsis"/>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="0,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding CountFormatted}"/>
+                            </Grid>
+                        </shvcp:HorizontalCard.Right>
+                    </shvcp:HorizontalCard>
                 </ItemContainer>
             </DataTemplate>
 
@@ -245,12 +249,7 @@
 
     <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
         <Grid Visibility="{Binding Projects.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-            <Rectangle
-                Height="{StaticResource AppBarThemeCompactHeight}"
-                VerticalAlignment="Top"
-                Fill="{StaticResource CardBackgroundFillColorDefaultBrush}"
-                IsHitTestVisible="False"/>
-            <Pivot>
+            <Pivot Style="{ThemeResource CardPivotStyle}">
                 <Pivot.RightHeader>
                     <CommandBar DefaultLabelPosition="Right">
                         <AppBarElementContainer>
@@ -261,7 +260,6 @@
                                     SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
                                     Style="{ThemeResource CommandBarComboBoxStyle}"/>
                             </shc:SizeRestrictedContentControl>
-
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding AddProjectCommand}"
@@ -277,11 +275,11 @@
 
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationMaterialList}">
                     <Grid>
-                        <Pivot Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                        <Pivot Style="{ThemeResource CardPivotStyle}" Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                             <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationCultivateEntry}">
-                                <ScrollView Padding="16,0">
+                                <ScrollView Padding="0,0">
                                     <ItemsRepeater
-                                        Margin="0,16,0,0"
+                                        Margin="16,16,16,0"
                                         ItemTemplate="{StaticResource CultivateEntryTemplate}"
                                         ItemsSource="{Binding CultivateEntries}">
                                         <ItemsRepeater.Layout>
@@ -294,97 +292,129 @@
                                 </ScrollView>
                             </PivotItem>
                             <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationMaterialStatistics}">
-                                <ScrollView Padding="16,0">
-                                    <ItemsRepeater
-                                        Margin="0,16,0,0"
-                                        ItemTemplate="{StaticResource StatisticsItemTemplate}"
-                                        ItemsSource="{Binding StatisticsItems}">
-                                        <ItemsRepeater.Layout>
-                                            <UniformGridLayout
-                                                ItemsJustification="Start"
-                                                ItemsStretch="Fill"
-                                                MinColumnSpacing="12"
-                                                MinItemWidth="300"
-                                                MinRowSpacing="-4"/>
-                                        </ItemsRepeater.Layout>
-                                    </ItemsRepeater>
-                                </ScrollView>
+                                <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                                        <ScrollView Padding="16,0">
+                                            <ItemsRepeater
+                                                Margin="0,16,0,0"
+                                                ItemTemplate="{StaticResource StatisticsItemTemplate}"
+                                                ItemsSource="{Binding StatisticsItems}">
+                                                <ItemsRepeater.Layout>
+                                                    <UniformGridLayout
+                                                        ItemsJustification="Start"
+                                                        ItemsStretch="Fill"
+                                                        MinColumnSpacing="12"
+                                                        MinItemWidth="240"
+                                                        MinRowSpacing="-4"/>
+                                                </ItemsRepeater.Layout>
+                                            </ItemsRepeater>
+                                        </ScrollView>
+                                    </Border>
+                                </Border>
+
                             </PivotItem>
                         </Pivot>
-                        <StackPanel
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Spacing="{StaticResource SettingsCardSpacing}"
-                            Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
-                            <StackPanel.Resources>
-                                <Thickness x:Key="SettingsCardPadding">16</Thickness>
-                                <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
-                                <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
-                                <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
-                            </StackPanel.Resources>
-                            <cwcont:SettingsCard
-                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
-                                Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="Snap.Hutao.View.Page.WikiAvatarPage"
-                                Description="{shcm:ResourceString Name=ViewPageCultivationWikiAvatarDescription}"
-                                Header="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
-                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"
-                                IsClickEnabled="True"/>
-                            <cwcont:SettingsCard
-                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
-                                Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="Snap.Hutao.View.Page.WikiWeaponPage"
-                                Description="{shcm:ResourceString Name=ViewPageCultivationWikiWeaponDescription}"
-                                Header="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
-                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"
-                                IsClickEnabled="True"/>
-                            <cwcont:SettingsCard
-                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
-                                Command="{Binding NavigateToPageCommand}"
-                                CommandParameter="Snap.Hutao.View.Page.AvatarPropertyPage"
-                                Description="{shcm:ResourceString Name=ViewPageCultivationAvatarPropertyDescription}"
-                                Header="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
-                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"
-                                IsClickEnabled="True"/>
-                        </StackPanel>
+                        <Border Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+                            <Border
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                <Border
+                                    MinWidth="480"
+                                    Padding="16"
+                                    Style="{ThemeResource AcrylicBorderCardStyle}">
+                                    <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                                        <StackPanel.Resources>
+                                            <Thickness x:Key="SettingsCardPadding">16</Thickness>
+                                            <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                            <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                            <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                        </StackPanel.Resources>
+                                        <shci:CachedImage
+                                            Height="120"
+                                            Margin="0,0,0,16"
+                                            Source="{StaticResource UI_EmotionIcon433}"/>
+                                        <cwcont:SettingsCard
+                                            ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
+                                            Command="{Binding NavigateToPageCommand}"
+                                            CommandParameter="Snap.Hutao.View.Page.WikiAvatarPage"
+                                            Description="{shcm:ResourceString Name=ViewPageCultivationWikiAvatarDescription}"
+                                            Header="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
+                                            HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
+                                            Command="{Binding NavigateToPageCommand}"
+                                            CommandParameter="Snap.Hutao.View.Page.WikiWeaponPage"
+                                            Description="{shcm:ResourceString Name=ViewPageCultivationWikiWeaponDescription}"
+                                            Header="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
+                                            HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
+                                            Command="{Binding NavigateToPageCommand}"
+                                            CommandParameter="Snap.Hutao.View.Page.AvatarPropertyPage"
+                                            Description="{shcm:ResourceString Name=ViewPageCultivationAvatarPropertyDescription}"
+                                            Header="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
+                                            HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"
+                                            IsClickEnabled="True"/>
+                                    </StackPanel>
+                                </Border>
+                            </Border>
+                        </Border>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationInventoryItem}">
-                    <ScrollView HorizontalScrollBarVisibility="Hidden">
-                        <ItemsRepeater
-                            Margin="16"
-                            ItemTemplate="{StaticResource InventoryItemTemplate}"
-                            ItemsSource="{Binding InventoryItems}">
-                            <ItemsRepeater.Layout>
-                                <cwcont:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
-                            </ItemsRepeater.Layout>
-                        </ItemsRepeater>
-                    </ScrollView>
+                    <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <ScrollView HorizontalScrollBarVisibility="Hidden">
+                                <ItemsRepeater
+                                    Margin="16"
+                                    ItemTemplate="{StaticResource InventoryItemTemplate}"
+                                    ItemsSource="{Binding InventoryItems}">
+                                    <ItemsRepeater.Layout>
+                                        <cwcont:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
+                                    </ItemsRepeater.Layout>
+                                </ItemsRepeater>
+                            </ScrollView>
+                        </Border>
+                    </Border>
                 </PivotItem>
             </Pivot>
         </Grid>
 
         <Grid Visibility="{Binding Projects.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <shci:CachedImage
-                    Width="120"
-                    Height="120"
-                    Source="{StaticResource UI_EmotionIcon293}"/>
-                <TextBlock
-                    Margin="0,16,0,0"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewPageCultivationAddProjectContinue}"/>
-                <StackPanel Margin="0,24,0,0" HorizontalAlignment="Center">
-                    <cwcont:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationAddProjectAction}"
-                        Command="{Binding AddProjectCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageCultivationAddProjectDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageCultivationAddProject}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE710;}"
-                        IsClickEnabled="True"/>
-                </StackPanel>
-            </StackPanel>
+            <Border
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border
+                    MinWidth="480"
+                    Padding="16"
+                    Style="{ThemeResource AcrylicBorderCardStyle}">
+                    <StackPanel>
+                        <shci:CachedImage
+                            Width="120"
+                            Height="120"
+                            Source="{StaticResource UI_EmotionIcon293}"/>
+                        <TextBlock
+                            Margin="0,16,0,0"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource SubtitleTextBlockStyle}"
+                            Text="{shcm:ResourceString Name=ViewPageCultivationAddProjectContinue}"/>
+                        <StackPanel Margin="0,24,0,0" HorizontalAlignment="Center">
+                            <cwcont:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationAddProjectAction}"
+                                Command="{Binding AddProjectCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageCultivationAddProjectDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageCultivationAddProject}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE710;}"
+                                IsClickEnabled="True"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Border>
+
         </Grid>
     </Grid>
 </shc:ScopedPage>

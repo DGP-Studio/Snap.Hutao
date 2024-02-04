@@ -851,7 +851,7 @@
 
                         </PivotItem>
                     </Pivot>
-                    <shvcon:LoadingView IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+                    <shvcon:LoadingView Margin="16" IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                 </Grid>
             </PivotItem>
         </Pivot>
