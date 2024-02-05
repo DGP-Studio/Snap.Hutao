@@ -2333,6 +2333,9 @@
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>Cache Folder</value>
   </data>
+  <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
+    <value>Hutao Passport</value>
+  </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Copy</value>
   </data>
