@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.ContentDialog;
@@ -18,6 +18,8 @@ using System.Text.RegularExpressions;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
+using SortDescription = CommunityToolkit.WinUI.Collections.SortDescription;
+using SortDirection = CommunityToolkit.WinUI.Collections.SortDirection;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 

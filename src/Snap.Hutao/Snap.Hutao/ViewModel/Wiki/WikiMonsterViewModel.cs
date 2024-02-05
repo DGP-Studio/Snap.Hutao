@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Collections;
+using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;

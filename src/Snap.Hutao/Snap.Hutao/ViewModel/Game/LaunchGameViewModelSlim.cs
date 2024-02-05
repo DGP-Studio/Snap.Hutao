@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Collections;
+using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;

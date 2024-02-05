@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Collections;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Windowing;
+using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics.CodeAnalysis;
@@ -241,8 +241,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             {
                 await taskContext.SwitchToMainThreadAsync();
                 SelectedGameAccount = account;
-
-                await UpdateGameAccountsViewAsync().ConfigureAwait(false);
             }
         }
         catch (UserdataCorruptedException ex)
@@ -328,6 +326,18 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 GameResource = response.Data;
             }
         }
+
+        async ValueTask UpdateGameAccountsViewAsync()
+        {
+            gameAccountFilter = new(SelectedScheme?.GetSchemeType());
+            ObservableReorderableDbCollection<GameAccount> accounts = gameService.GameAccountCollection;
+
+            await taskContext.SwitchToMainThreadAsync();
+            GameAccountsView = new(accounts, true)
+            {
+                Filter = gameAccountFilter.Filter,
+            };
+        }
     }
 
     [Command("IdentifyMonitorsCommand")]
@@ -352,17 +362,5 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             window.Close();
         }
-    }
-
-    private async ValueTask UpdateGameAccountsViewAsync()
-    {
-        gameAccountFilter = new(SelectedScheme?.GetSchemeType());
-        ObservableReorderableDbCollection<GameAccount> accounts = gameService.GameAccountCollection;
-
-        await taskContext.SwitchToMainThreadAsync();
-        GameAccountsView = new(accounts, true)
-        {
-            Filter = gameAccountFilter.Filter,
-        };
     }
 }
