@@ -7,8 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
@@ -492,19 +490,34 @@
                             </StackPanel>
                         </cwc:HeaderedContentControl>
 
-                        <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteNotificationHeader}"/>
-                        <cwc:SettingsCard
-                            Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
-                            HeaderIcon="{shcm:FontIcon Glyph=&#xE7ED;}">
-                            <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
-                        </cwc:SettingsCard>
-                        <cwc:SettingsCard
-                            Description="{shcm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
-                            HeaderIcon="{shcm:FontIcon Glyph=&#xEA8F;}">
-                            <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsReminderNotification, Mode=TwoWay}"/>
-                        </cwc:SettingsCard>
+                        <cwc:HeaderedContentControl
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            IsEnabled="{Binding RuntimeOptions.IsToastAvailable}">
+                            <cwc:HeaderedContentControl.Header>
+                                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteNotificationHeader}"/>
+                            </cwc:HeaderedContentControl.Header>
+                            <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                                <InfoBar
+                                    Title="胡桃的通知权限已被关闭"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Warning"
+                                    Visibility="{Binding RuntimeOptions.IsToastAvailable, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                <cwc:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7ED;}">
+                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xEA8F;}">
+                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsReminderNotification, Mode=TwoWay}"/>
+                                </cwc:SettingsCard>
+                            </StackPanel>
+                        </cwc:HeaderedContentControl>
 
                         <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteDataInteropHeader}"/>
                         <cwc:SettingsCard

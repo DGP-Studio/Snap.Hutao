@@ -44,6 +44,12 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
         dispatcherQueue.Invoke(action);
     }
 
+    /// <inheritdoc/>
+    public T InvokeOnMainThread<T>(Func<T> action)
+    {
+        return dispatcherQueue.Invoke(action);
+    }
+
     public void BeginInvokeOnMainThread(Action action)
     {
         dispatcherQueue.TryEnqueue(() => action());

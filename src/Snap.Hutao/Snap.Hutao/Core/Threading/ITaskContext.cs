@@ -12,6 +12,8 @@ internal interface ITaskContext
 
     void InvokeOnMainThread(Action action);
 
+    T InvokeOnMainThread<T>(Func<T> action);
+
     ThreadPoolSwitchOperation SwitchToBackgroundAsync();
 
     DispatcherQueueSwitchOperation SwitchToMainThreadAsync();

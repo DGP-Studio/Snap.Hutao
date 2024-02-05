@@ -8,12 +8,15 @@ using System.IO;
 using System.Security.Principal;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.UI.Notifications;
 
 namespace Snap.Hutao.Core;
 
 [Injection(InjectAs.Singleton)]
 internal sealed class RuntimeOptions
 {
+    private readonly IServiceProvider serviceProvider;
+
     private readonly Lazy<(Version Version, string UserAgent)> lazyVersionAndUserAgent = new(() =>
     {
         Version version = Package.Current.Id.Version.ToVersion();
@@ -83,8 +86,14 @@ internal sealed class RuntimeOptions
     private readonly Lazy<string> lazyInstalledLocation = new(() => Package.Current.InstalledLocation.Path);
     private readonly Lazy<string> lazyFamilyName = new(() => Package.Current.Id.FamilyName);
 
-    public RuntimeOptions(ILogger<RuntimeOptions> logger)
+    private bool isToastAvailable;
+    private bool isToastAvailableInitialized;
+    private object isToastAvailableLock = new();
+
+    public RuntimeOptions(IServiceProvider serviceProvider, ILogger<RuntimeOptions> logger)
     {
+        this.serviceProvider = serviceProvider;
+
         AppLaunchTime = DateTimeOffset.UtcNow;
     }
 
@@ -107,6 +116,20 @@ internal sealed class RuntimeOptions
     public bool IsWebView2Supported { get => lazyWebViewEnvironment.Value.Supported; }
 
     public bool IsElevated { get => lazyElevated.Value; }
+
+    public bool IsToastAvailable
+    {
+        get
+        {
+            return LazyInitializer.EnsureInitialized(ref isToastAvailable, ref isToastAvailableInitialized, ref isToastAvailableLock, GetIsToastAvailable);
+
+            bool GetIsToastAvailable()
+            {
+                ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+                return taskContext.InvokeOnMainThread(() => ToastNotificationManager.CreateToastNotifier().Setting is NotificationSetting.Enabled);
+            }
+        }
+    }
 
     public DateTimeOffset AppLaunchTime { get; }
 }
