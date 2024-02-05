@@ -391,7 +391,7 @@
         </Grid.RowDefinitions>
 
         <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-            <Border Style="{ThemeResource AcrylicBaseHighBorderCardStyle}">
+            <Border Style="{ThemeResource AcrylicSecondaryBorderCardStyle}">
                 <CommandBar DefaultLabelPosition="Right">
                     <AppBarButton
                         Command="{Binding RefreshCommand}"

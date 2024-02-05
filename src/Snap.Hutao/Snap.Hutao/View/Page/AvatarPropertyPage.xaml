@@ -507,7 +507,7 @@
                 </Grid.RowDefinitions>
 
                 <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                    <Border Style="{ThemeResource AcrylicBaseHighBorderCardStyle}">
+                    <Border Style="{ThemeResource AcrylicSecondaryBorderCardStyle}">
                         <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
                             <CommandBar.Content>
                                 <StackPanel Orientation="Horizontal">

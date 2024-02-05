@@ -8,7 +8,7 @@ namespace Snap.Hutao.Control.Media;
 /// <summary>
 /// Defines a color in Hue/Saturation/Lightness (HSL) space.
 /// </summary>
-internal struct Hsl32
+internal struct Hsla32
 {
     /// <summary>
     /// The Hue in 0..360 range.

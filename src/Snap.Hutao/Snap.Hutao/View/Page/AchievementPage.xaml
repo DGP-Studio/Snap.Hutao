@@ -199,7 +199,7 @@
             </Grid.RowDefinitions>
 
             <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                <Grid Style="{ThemeResource AcrylicBaseHighGridCardStyle}">
+                <Grid Style="{ThemeResource AcrylicSecondaryGridCardStyle}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{StaticResource CompatGridLength2}"/>
                         <ColumnDefinition/>

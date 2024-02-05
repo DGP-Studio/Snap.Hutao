@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.System.WinRT;
+using System.Runtime.CompilerServices;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using WinRT;
@@ -25,8 +26,7 @@ internal static class SoftwareBitmapExtension
         {
             using (IMemoryBufferReference reference = buffer.CreateReference())
             {
-                reference.As<IMemoryBufferByteAccess>().GetBuffer(out byte* data, out uint length);
-                Span<Bgra32> bytes = new(data, unchecked((int)length / sizeof(Bgra32)));
+                reference.As<IMemoryBufferByteAccess>().GetBuffer(out Span<Bgra32> bytes);
                 foreach (ref Bgra32 pixel in bytes)
                 {
                     byte baseAlpha = pixel.A;

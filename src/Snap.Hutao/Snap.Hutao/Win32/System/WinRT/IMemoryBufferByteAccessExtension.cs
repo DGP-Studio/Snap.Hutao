@@ -17,4 +17,12 @@ internal static class IMemoryBufferByteAccessExtension
             }
         }
     }
+
+    public static unsafe HRESULT GetBuffer<T>(this IMemoryBufferByteAccess memoryBufferByteAccess, out Span<T> value)
+        where T : unmanaged
+    {
+        HRESULT retVal = memoryBufferByteAccess.GetBuffer(out byte* data, out uint capacity);
+        value = new Span<T>(data, unchecked((int)capacity / sizeof(T)));
+        return retVal;
+    }
 }
