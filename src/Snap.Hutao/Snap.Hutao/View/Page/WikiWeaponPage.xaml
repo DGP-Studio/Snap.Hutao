@@ -75,7 +75,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AffixPivotItemTemplate">
-            <shct:DescriptionTextBlock Margin="16,16,0,0" Description="{Binding Description}">
+            <shct:DescriptionTextBlock Margin="16,8,0,0" Description="{Binding Description}">
                 <shct:DescriptionTextBlock.Resources>
                     <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
                         <Setter Property="TextWrapping" Value="Wrap"/>
@@ -238,6 +238,7 @@
                                                 HorizontalContentAlignment="Stretch"
                                                 BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
 
+
                                             <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
                                                 <StackPanel Spacing="16">
                                                     <TextBlock
@@ -257,14 +258,17 @@
                                                 </StackPanel>
                                             </Border>
 
-                                            <StackPanel Visibility="{Binding Selected.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Selected.Affix.Name}"/>
-                                                <Pivot
-                                                    Margin="-16,0,0,0"
-                                                    HeaderTemplate="{StaticResource AffixPivotHeaderTemplate}"
-                                                    ItemTemplate="{StaticResource AffixPivotItemTemplate}"
-                                                    ItemsSource="{Binding Selected.Affix.Descriptions}"/>
-                                            </StackPanel>
+                                            <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                <StackPanel Spacing="16" Visibility="{Binding Selected.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                    <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Selected.Affix.Name}"/>
+                                                    <Pivot
+                                                        Margin="-16,-16,0,0"
+                                                        HeaderTemplate="{StaticResource AffixPivotHeaderTemplate}"
+                                                        ItemTemplate="{StaticResource AffixPivotItemTemplate}"
+                                                        ItemsSource="{Binding Selected.Affix.Descriptions}"/>
+                                                </StackPanel>
+                                            </Border>
+
 
                                             <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
                                                 <StackPanel Spacing="16">

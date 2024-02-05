@@ -18,7 +18,7 @@
     </UserControl.Resources>
     <Grid Transitions="{ThemeResource EntranceThemeTransitions}">
         <Image
-            Opacity="0.45"
+            Opacity="0.65"
             Source="ms-appx:///Resource/TestBackground.jpg"
             Stretch="UniformToFill"/>
 
