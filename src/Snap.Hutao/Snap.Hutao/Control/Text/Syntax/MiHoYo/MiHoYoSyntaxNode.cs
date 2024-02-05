@@ -10,7 +10,7 @@ internal abstract class MiHoYoSyntaxNode : SyntaxNode<MiHoYoSyntaxNode, MiHoYoSy
     {
     }
 
-    public MiHoYoSyntaxNode(MiHoYoSyntaxKind kind, string text, TextPosition position)
+    public MiHoYoSyntaxNode(MiHoYoSyntaxKind kind, string text, in TextPosition position)
         : base(kind, text, position)
     {
     }

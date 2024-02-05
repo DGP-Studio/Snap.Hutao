@@ -10,7 +10,7 @@ internal sealed class MiHoYoItalicTextSyntax : MiHoYoXmlElementSyntax
     {
     }
 
-    public MiHoYoItalicTextSyntax(string text, TextPosition position)
+    public MiHoYoItalicTextSyntax(string text, in TextPosition position)
         : base(MiHoYoSyntaxKind.ItalicText, text, position)
     {
     }

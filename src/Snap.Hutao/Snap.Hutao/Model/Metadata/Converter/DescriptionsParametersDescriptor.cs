@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control;
-using Snap.Hutao.Control.Text;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;

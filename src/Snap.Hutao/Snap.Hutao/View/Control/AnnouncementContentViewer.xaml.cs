@@ -7,7 +7,6 @@ using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
-using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using Windows.Foundation;

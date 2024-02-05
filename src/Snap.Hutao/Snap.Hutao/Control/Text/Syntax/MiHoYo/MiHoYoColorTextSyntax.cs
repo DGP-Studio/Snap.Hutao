@@ -11,7 +11,7 @@ internal sealed class MiHoYoColorTextSyntax : MiHoYoXmlElementSyntax
         ColorKind = colorKind;
     }
 
-    public MiHoYoColorTextSyntax(MiHoYoColorKind colorKind, string text, TextPosition position)
+    public MiHoYoColorTextSyntax(MiHoYoColorKind colorKind, string text, in TextPosition position)
         : base(MiHoYoSyntaxKind.ColorText, text, position)
     {
         ColorKind = colorKind;

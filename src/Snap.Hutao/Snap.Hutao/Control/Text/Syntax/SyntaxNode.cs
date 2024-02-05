@@ -14,7 +14,7 @@ internal abstract class SyntaxNode<TSelf, TKind>
         Position = new(start, end);
     }
 
-    public SyntaxNode(TKind kind, string text, TextPosition position)
+    public SyntaxNode(TKind kind, string text, in TextPosition position)
     {
         Kind = kind;
         Text = text;

@@ -10,7 +10,7 @@ internal sealed class MiHoYoPlainTextSyntax : MiHoYoSyntaxNode
     {
     }
 
-    public MiHoYoPlainTextSyntax(string text, TextPosition position)
+    public MiHoYoPlainTextSyntax(string text, in TextPosition position)
         : base(MiHoYoSyntaxKind.PlainText, text, position)
     {
     }

@@ -10,7 +10,7 @@ internal abstract class MiHoYoXmlElementSyntax : MiHoYoSyntaxNode
     {
     }
 
-    public MiHoYoXmlElementSyntax(MiHoYoSyntaxKind kind, string text, TextPosition position)
+    public MiHoYoXmlElementSyntax(MiHoYoSyntaxKind kind, string text, in TextPosition position)
         : base(kind, text, position)
     {
     }

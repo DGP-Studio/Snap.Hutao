@@ -2,12 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.Http;
-using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using System.Globalization;
-using System.Net.Http;
 using System.Runtime.CompilerServices;
 using Windows.Globalization;
 
