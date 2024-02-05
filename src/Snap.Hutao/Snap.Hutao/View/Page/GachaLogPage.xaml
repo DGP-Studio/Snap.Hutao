@@ -507,10 +507,7 @@
                             HorizontalAlignment="Center"
                             Style="{StaticResource SubtitleTextBlockStyle}"
                             Text="{shcm:ResourceString Name=ViewPageGachaLogHint}"/>
-                        <StackPanel
-                            Margin="0,24,0,0"
-                            HorizontalAlignment="Center"
-                            Spacing="{StaticResource SettingsCardSpacing}">
+                        <StackPanel Margin="0,24,0,0" Spacing="{StaticResource SettingsCardSpacing}">
                             <cwc:SettingsCard
                                 ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
                                 Command="{Binding RefreshBySTokenCommand}"

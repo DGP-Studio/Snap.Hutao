@@ -402,7 +402,7 @@
                             HorizontalAlignment="Center"
                             Style="{StaticResource SubtitleTextBlockStyle}"
                             Text="{shcm:ResourceString Name=ViewPageCultivationAddProjectContinue}"/>
-                        <StackPanel Margin="0,24,0,0" HorizontalAlignment="Center">
+                        <StackPanel Margin="0,24,0,0">
                             <cwcont:SettingsCard
                                 ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationAddProjectAction}"
                                 Command="{Binding AddProjectCommand}"
@@ -414,7 +414,6 @@
                     </StackPanel>
                 </Border>
             </Border>
-
         </Grid>
     </Grid>
 </shc:ScopedPage>
