@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using Snap.Hutao.Core.Setting;
@@ -9,6 +8,7 @@ using System.IO;
 using System.Security.Principal;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.UI.Notifications;
 
 namespace Snap.Hutao.Core;
 
@@ -88,7 +88,7 @@ internal sealed class RuntimeOptions
 
     private bool isToastAvailable;
     private bool isToastAvailableInitialized;
-    private object locker = new();
+    private object isToastAvailableLock = new();
 
     public RuntimeOptions(IServiceProvider serviceProvider, ILogger<RuntimeOptions> logger)
     {
@@ -121,13 +121,13 @@ internal sealed class RuntimeOptions
     {
         get
         {
-            return LazyInitializer.EnsureInitialized(ref isToastAvailable, ref isToastAvailableInitialized, ref locker, () =>
+            return LazyInitializer.EnsureInitialized(ref isToastAvailable, ref isToastAvailableInitialized, ref isToastAvailableLock, GetIsToastAvailable);
+
+            bool GetIsToastAvailable()
             {
-                return serviceProvider.GetRequiredService<ITaskContext>().InvokeOnMainThread(() =>
-                {
-                    return ToastNotificationManagerCompat.CreateToastNotifier().Setting is Windows.UI.Notifications.NotificationSetting.Enabled;
-                });
-            });
+                ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+                return taskContext.InvokeOnMainThread(() => ToastNotificationManager.CreateToastNotifier().Setting is NotificationSetting.Enabled);
+            }
         }
     }
 
