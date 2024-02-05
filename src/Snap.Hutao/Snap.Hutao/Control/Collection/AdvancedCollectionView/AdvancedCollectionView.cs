@@ -1,114 +1,95 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Collections;
+using CommunityToolkit.WinUI.Helpers;
+using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Core.ExceptionService;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using CommunityToolkit.WinUI.Collections;
-using CommunityToolkit.WinUI.Helpers;
-using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using NotifyCollectionChangedAction = global::System.Collections.Specialized.NotifyCollectionChangedAction;
+using NotifyCollectionChangedAction = System.Collections.Specialized.NotifyCollectionChangedAction;
 
 namespace Snap.Hutao.Control.Collection.AdvancedCollectionView;
 
-/// <summary>
-/// A collection view implementation that supports filtering, sorting and incremental loading
-/// https://github.com/CommunityToolkit/Windows/pull/309
-/// </summary>
-internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<object>
+internal sealed class AdvancedCollectionView : IAdvancedCollectionView, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<object>
 {
-    private readonly List<object> _view;
+    private readonly List<object> view;
+    private readonly ObservableCollection<SortDescription> sortDescriptions;
+    private readonly Dictionary<string, PropertyInfo> sortProperties;
+    private readonly bool liveShapingEnabled;
+    private readonly HashSet<string> observedFilterProperties = [];
 
-    private readonly ObservableCollection<SortDescription> _sortDescriptions;
+    private IList source;
+    private Predicate<object>? filter;
+    private int deferCounter;
+    private WeakEventListener<AdvancedCollectionView, object?, NotifyCollectionChangedEventArgs>? sourceWeakEventListener;
 
-    private readonly Dictionary<string, PropertyInfo> _sortProperties;
-
-    private readonly bool _liveShapingEnabled;
-
-    private readonly HashSet<string> _observedFilterProperties = new HashSet<string>();
-
-    private IList _source;
-
-    private Predicate<object> _filter;
-    private int _deferCounter;
-
-    private WeakEventListener<AdvancedCollectionView, object, NotifyCollectionChangedEventArgs> _sourceWeakEventListener;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AdvancedCollectionView"/> class.
-    /// </summary>
     public AdvancedCollectionView()
         : this(new List<object>(0))
     {
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AdvancedCollectionView"/> class.
-    /// </summary>
-    /// <param name="source">source IEnumerable</param>
-    /// <param name="isLiveShaping">Denotes whether or not this ACV should re-filter/re-sort if a PropertyChanged is raised for an observed property.</param>
-#pragma warning disable CS8767
-#pragma warning disable CS8769
-#pragma warning disable CS8622
-#pragma warning disable CS8600
-#pragma warning disable CS8601
-#pragma warning disable CS8604
-#pragma warning disable CS8603 // Possible null reference return.
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public AdvancedCollectionView(IList source, bool isLiveShaping = false)
     {
-        _liveShapingEnabled = isLiveShaping;
-        _view = new List<object>();
-        _sortDescriptions = new ObservableCollection<SortDescription>();
-        _sortDescriptions.CollectionChanged += SortDescriptions_CollectionChanged;
-        _sortProperties = new Dictionary<string, PropertyInfo>();
+        liveShapingEnabled = isLiveShaping;
+        view = [];
+        sortDescriptions = [];
+        sortDescriptions.CollectionChanged += SortDescriptionsCollectionChanged;
+        sortProperties = [];
         Source = source;
     }
 
-    /// <summary>
-    /// Gets or sets the source
-    /// </summary>
+    public event VectorChangedEventHandler<object>? VectorChanged;
+
+    public event EventHandler<object>? CurrentChanged;
+
+    public event CurrentChangingEventHandler? CurrentChanging;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     public IList Source
     {
-        get
-        {
-            return _source;
-        }
+        get => source;
 
+        [MemberNotNull(nameof(source))]
         set
         {
-            // ReSharper disable once PossibleUnintendedReferenceComparison
-            if (_source == value)
+            if (source == value)
             {
                 return;
             }
 
-            if (_source != null)
+            if (source is not null)
             {
-                DetachPropertyChangedHandler(_source);
+                DetachPropertyChangedHandler(source);
             }
 
-            _source = value;
-            AttachPropertyChangedHandler(_source);
+            source = value;
+            AttachPropertyChangedHandler(source);
 
-            _sourceWeakEventListener?.Detach();
+            sourceWeakEventListener?.Detach();
 
-            if (_source is INotifyCollectionChanged sourceNcc)
+            if (source is INotifyCollectionChanged sourceNcc)
             {
-                _sourceWeakEventListener =
-                    new WeakEventListener<AdvancedCollectionView, object, NotifyCollectionChangedEventArgs>(this)
+                sourceWeakEventListener =
+                    new WeakEventListener<AdvancedCollectionView, object?, NotifyCollectionChangedEventArgs>(this)
                     {
                         // Call the actual collection changed event
-                        OnEventAction = (source, changed, arg3) => SourceNcc_CollectionChanged(source, arg3),
+                        OnEventAction = (source, changed, arg3) => SourceNotifyCollectionChangedCollectionChanged(source, arg3),
 
                         // The source doesn't exist anymore
-                        OnDetachAction = (listener) => sourceNcc.CollectionChanged -= _sourceWeakEventListener!.OnEvent
+                        OnDetachAction = (listener) =>
+                        {
+                            ArgumentNullException.ThrowIfNull(sourceWeakEventListener);
+                            sourceNcc.CollectionChanged -= sourceWeakEventListener.OnEvent;
+                        },
                     };
-                sourceNcc.CollectionChanged += _sourceWeakEventListener.OnEvent;
+                sourceNcc.CollectionChanged += sourceWeakEventListener.OnEvent;
             }
 
             HandleSourceChanged();
@@ -116,300 +97,231 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
         }
     }
 
-    /// <summary>
-    /// Manually refresh the view
-    /// </summary>
+    public int Count
+    {
+        get => view.Count;
+    }
+
+    public bool IsReadOnly
+    {
+        get => source is null || source.IsReadOnly;
+    }
+
+    public IObservableVector<object> CollectionGroups
+    {
+        get => default!;
+    }
+
+    public object? CurrentItem
+    {
+        get => CurrentPosition > -1 && CurrentPosition < view.Count ? view[CurrentPosition] : null;
+        set => MoveCurrentTo(value);
+    }
+
+    public int CurrentPosition { get; private set; }
+
+    public bool HasMoreItems
+    {
+        get => (source as ISupportIncrementalLoading)?.HasMoreItems ?? false;
+    }
+
+    public bool IsCurrentAfterLast
+    {
+        get => CurrentPosition >= view.Count;
+    }
+
+    public bool IsCurrentBeforeFirst
+    {
+        get => CurrentPosition < 0;
+    }
+
+    public bool CanFilter
+    {
+        get => true;
+    }
+
+    public Predicate<object> Filter
+    {
+        get => filter;
+        set
+        {
+            if (filter == value)
+            {
+                return;
+            }
+
+            filter = value;
+            HandleFilterChanged();
+        }
+    }
+
+    public bool CanSort
+    {
+        get => true;
+    }
+
+    public IList<SortDescription> SortDescriptions
+    {
+        get => sortDescriptions;
+    }
+
+    public IEnumerable SourceCollection
+    {
+        get => source;
+    }
+
+    public object this[int index]
+    {
+        get => view[index];
+        set => view[index] = value;
+    }
+
     public void Refresh()
     {
         HandleSourceChanged();
     }
 
-    /// <inheritdoc/>
     public void RefreshFilter()
     {
         HandleFilterChanged();
     }
 
-    /// <inheritdoc/>
     public void RefreshSorting()
     {
         HandleSortChanged();
     }
 
-    /// <inheritdoc />
-    public IEnumerator<object> GetEnumerator() => _view.GetEnumerator();
+    public IEnumerator<object> GetEnumerator()
+    {
+        return view.GetEnumerator();
+    }
 
-    /// <inheritdoc />
-    IEnumerator IEnumerable.GetEnumerator() => _view.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return view.GetEnumerator();
+    }
 
-    /// <inheritdoc />
     public void Add(object item)
     {
-        if (IsReadOnly)
-        {
-            throw new NotSupportedException("Collection is read-only.");
-        }
-
-        _source.Add(item);
+        ThrowHelper.NotSupportedIf(IsReadOnly, "Collection is read-only.");
+        source.Add(item);
     }
 
-    /// <inheritdoc />
     public void Clear()
     {
-        if (IsReadOnly)
-        {
-            throw new NotSupportedException("Collection is read-only.");
-        }
-
-        _source.Clear();
+        ThrowHelper.NotSupportedIf(IsReadOnly, "Collection is read-only.");
+        source.Clear();
     }
 
-    /// <inheritdoc />
-    public bool Contains(object item) => _view.Contains(item);
+    public bool Contains(object item)
+    {
+        return view.Contains(item);
+    }
 
-    /// <inheritdoc />
-    public void CopyTo(object[] array, int arrayIndex) => _view.CopyTo(array, arrayIndex);
+    public void CopyTo(object[] array, int arrayIndex)
+    {
+        view.CopyTo(array, arrayIndex);
+    }
 
-    /// <inheritdoc />
     public bool Remove(object item)
     {
-        if (IsReadOnly)
-        {
-            throw new NotSupportedException("Collection is read-only.");
-        }
-
-        _source.Remove(item);
+        ThrowHelper.NotSupportedIf(IsReadOnly, "Collection is read-only.");
+        source.Remove(item);
         return true;
     }
 
-    /// <inheritdoc />
-    public int Count => _view.Count;
+    public int IndexOf(object item)
+    {
+        return view.IndexOf(item);
+    }
 
-    /// <inheritdoc />
-    public bool IsReadOnly => _source == null || _source.IsReadOnly;
-
-    /// <inheritdoc />
-    public int IndexOf(object item) => _view.IndexOf(item);
-
-    /// <inheritdoc />
     public void Insert(int index, object item)
     {
-        if (IsReadOnly)
+        ThrowHelper.NotSupportedIf(IsReadOnly, "Collection is read-only.");
+        source.Insert(index, item);
+    }
+
+    public void RemoveAt(int index)
+    {
+        Remove(view[index]);
+    }
+
+    public bool MoveCurrentTo(object? item)
+    {
+        return item == CurrentItem || MoveCurrentToIndex(IndexOf(item));
+    }
+
+    public bool MoveCurrentToPosition(int index)
+    {
+        return MoveCurrentToIndex(index);
+    }
+
+    public bool MoveCurrentToFirst()
+    {
+        return MoveCurrentToIndex(0);
+    }
+
+    public bool MoveCurrentToLast()
+    {
+        return MoveCurrentToIndex(view.Count - 1);
+    }
+
+    public bool MoveCurrentToNext()
+    {
+        return MoveCurrentToIndex(CurrentPosition + 1);
+    }
+
+    public bool MoveCurrentToPrevious()
+    {
+        return MoveCurrentToIndex(CurrentPosition - 1);
+    }
+
+    public IAsyncOperation<LoadMoreItemsResult>? LoadMoreItemsAsync(uint count)
+    {
+        return (source as ISupportIncrementalLoading)?.LoadMoreItemsAsync(count);
+    }
+
+    public void ObserveFilterProperty(string propertyName)
+    {
+        observedFilterProperties.Add(propertyName);
+    }
+
+    public void ClearObservedFilterProperties()
+    {
+        observedFilterProperties.Clear();
+    }
+
+    public IDisposable DeferRefresh()
+    {
+        return new NotificationDeferrer(this);
+    }
+
+    int IComparer<object>.Compare(object? x, object? y)
+    {
+        if (sortProperties.Count <= 0)
         {
-            throw new NotSupportedException("Collection is read-only.");
-        }
+            Type? listType = source?.GetType();
+            Type? type;
 
-        _source.Insert(index, item);
-    }
-
-    /// <summary>
-    /// Removes the <see cref="T:System.Collections.Generic.IList`1"/> item at the specified index.
-    /// </summary>
-    /// <param name="index">The zero-based index of the item to remove.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.</exception><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IList`1"/> is read-only.</exception>
-    public void RemoveAt(int index) => Remove(_view[index]);
-
-    /// <summary>
-    /// Gets or sets the element at the specified index.
-    /// </summary>
-    /// <returns>
-    /// The element at the specified index.
-    /// </returns>
-    /// <param name="index">The zero-based index of the element to get or set.</param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.</exception><exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:System.Collections.Generic.IList`1"/> is read-only.</exception>
-    public object this[int index]
-    {
-        get { return _view[index]; }
-        set { _view[index] = value; }
-    }
-
-    /// <summary>
-    /// Occurs when the vector changes.
-    /// </summary>
-    public event Windows.Foundation.Collections.VectorChangedEventHandler<object> VectorChanged;
-
-    /// <summary>
-    /// Move current index to item
-    /// </summary>
-    /// <param name="item">item</param>
-    /// <returns>success of operation</returns>
-    public bool MoveCurrentTo(object item) => item == CurrentItem || MoveCurrentToIndex(IndexOf(item));
-
-    /// <summary>
-    /// Moves selected item to position
-    /// </summary>
-    /// <param name="index">index</param>
-    /// <returns>success of operation</returns>
-    public bool MoveCurrentToPosition(int index) => MoveCurrentToIndex(index);
-
-    /// <summary>
-    /// Move current item to first item
-    /// </summary>
-    /// <returns>success of operation</returns>
-    public bool MoveCurrentToFirst() => MoveCurrentToIndex(0);
-
-    /// <summary>
-    /// Move current item to last item
-    /// </summary>
-    /// <returns>success of operation</returns>
-    public bool MoveCurrentToLast() => MoveCurrentToIndex(_view.Count - 1);
-
-    /// <summary>
-    /// Move current item to next item
-    /// </summary>
-    /// <returns>success of operation</returns>
-    public bool MoveCurrentToNext() => MoveCurrentToIndex(CurrentPosition + 1);
-
-    /// <summary>
-    /// Move current item to previous item
-    /// </summary>
-    /// <returns>success of operation</returns>
-    public bool MoveCurrentToPrevious() => MoveCurrentToIndex(CurrentPosition - 1);
-
-    /// <summary>
-    /// Load more items from the source
-    /// </summary>
-    /// <param name="count">number of items to load</param>
-    /// <returns>Async operation of LoadMoreItemsResult</returns>
-    /// <exception cref="NotImplementedException">Not implemented yet...</exception>
-    public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
-    {
-        var sil = _source as ISupportIncrementalLoading;
-        return sil?.LoadMoreItemsAsync(count);
-    }
-
-    /// <summary>
-    /// Gets the groups in collection
-    /// </summary>
-    public IObservableVector<object> CollectionGroups => null;
-
-    /// <summary>
-    /// Gets or sets the current item
-    /// </summary>
-    public object CurrentItem
-    {
-
-        get { return CurrentPosition > -1 && CurrentPosition < _view.Count ? _view[CurrentPosition] : null; }
-#pragma warning restore CS8603 // Possible null reference return.
-        set { MoveCurrentTo(value); }
-    }
-
-    /// <summary>
-    /// Gets the position of current item
-    /// </summary>
-    public int CurrentPosition { get; private set; }
-
-    /// <summary>
-    /// Gets a value indicating whether the source has more items
-    /// </summary>
-    public bool HasMoreItems => (_source as ISupportIncrementalLoading)?.HasMoreItems ?? false;
-
-    /// <summary>
-    /// Gets a value indicating whether the current item is after the last visible item
-    /// </summary>
-    public bool IsCurrentAfterLast => CurrentPosition >= _view.Count;
-
-    /// <summary>
-    /// Gets a value indicating whether the current item is before the first visible item
-    /// </summary>
-    public bool IsCurrentBeforeFirst => CurrentPosition < 0;
-
-    /// <summary>
-    /// Current item changed event handler
-    /// </summary>
-    public event EventHandler<object> CurrentChanged;
-
-    /// <summary>
-    /// Current item changing event handler
-    /// </summary>
-    public event CurrentChangingEventHandler CurrentChanging;
-
-    /// <summary>
-    /// Gets a value indicating whether this CollectionView can filter its items
-    /// </summary>
-    public bool CanFilter => true;
-
-    /// <summary>
-    /// Gets or sets the predicate used to filter the visible items
-    /// </summary>
-    public Predicate<object> Filter
-    {
-        get
-        {
-            return _filter;
-        }
-
-        set
-        {
-            if (_filter == value)
-            {
-                return;
-            }
-
-            _filter = value;
-            HandleFilterChanged();
-        }
-    }
-
-    /// <summary>
-    /// Gets a value indicating whether this CollectionView can sort its items
-    /// </summary>
-    public bool CanSort => true;
-
-    /// <summary>
-    /// Gets SortDescriptions to sort the visible items
-    /// </summary>
-    public IList<SortDescription> SortDescriptions => _sortDescriptions;
-
-    /*
-    /// <summary>
-    /// Gets a value indicating whether this CollectionView can group its items
-    /// </summary>
-    public bool CanGroup => false;
-
-    /// <summary>
-    /// Gets GroupDescriptions to group the visible items
-    /// </summary>
-    public IList<object> GroupDescriptions => null;
-    */
-
-    /// <summary>
-    /// Gets the source collection
-    /// </summary>
-    public IEnumerable SourceCollection => _source;
-
-    /// <summary>
-    /// IComparer implementation
-    /// </summary>
-    /// <param name="x">Object A</param>
-    /// <param name="y">Object B</param>
-    /// <returns>Comparison value</returns>
-#pragma warning disable CA1033 // Interface methods should be callable by child types
-    int IComparer<object>.Compare(object x, object y)
-#pragma warning restore CA1033 // Interface methods should be callable by child types
-    {
-        if (!_sortProperties.Any())
-        {
-            var listType = _source?.GetType();
-            Type type;
-
-            if (listType != null && listType.IsGenericType)
+            if (listType is { IsGenericType: true })
             {
                 type = listType.GetGenericArguments()[0];
             }
             else
             {
-                type = x.GetType();
+                type = x?.GetType();
             }
 
-            foreach (var sd in _sortDescriptions)
+            foreach (SortDescription sd in sortDescriptions)
             {
                 if (!string.IsNullOrEmpty(sd.PropertyName))
                 {
-                    _sortProperties[sd.PropertyName] = type.GetProperty(sd.PropertyName);
+                    sortProperties[sd.PropertyName] = type?.GetProperty(sd.PropertyName);
                 }
             }
         }
 
-        foreach (var sd in _sortDescriptions)
+        foreach (SortDescription sd in sortDescriptions)
         {
             object cx, cy;
 
@@ -420,13 +332,13 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
             }
             else
             {
-                var pi = _sortProperties[sd.PropertyName];
+                PropertyInfo pi = sortProperties[sd.PropertyName];
 
                 cx = pi.GetValue(x!);
                 cy = pi.GetValue(y!);
             }
 
-            var cmp = sd.Comparer.Compare(cx, cy);
+            int cmp = sd.Comparer.Compare(cx, cy);
 
             if (cmp != 0)
             {
@@ -437,58 +349,37 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
         return 0;
     }
 
-    /// <summary>
-    /// Occurs when a property value changes.
-    /// </summary>
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    /// <summary>
-    /// Property changed event invoker
-    /// </summary>
-    /// <param name="propertyName">name of the property that changed</param>
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
+    internal void OnPropertyChanged([CallerMemberName] string propertyName = default!)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    /// <inheritdoc/>
-    public void ObserveFilterProperty(string propertyName)
+    private void ItemOnPropertyChanged(object? item, PropertyChangedEventArgs e)
     {
-        _observedFilterProperties.Add(propertyName);
-    }
-
-    /// <inheritdoc/>
-    public void ClearObservedFilterProperties()
-    {
-        _observedFilterProperties.Clear();
-    }
-
-    private void ItemOnPropertyChanged(object item, PropertyChangedEventArgs e)
-    {
-        if (!_liveShapingEnabled)
+        if (!liveShapingEnabled)
         {
             return;
         }
 
-        var filterResult = _filter?.Invoke(item);
+        bool? filterResult = filter?.Invoke(item);
 
-        if (filterResult.HasValue && _observedFilterProperties.Contains(e.PropertyName))
+        if (filterResult.HasValue && observedFilterProperties.Contains(e.PropertyName))
         {
-            var viewIndex = _view.IndexOf(item);
+            int viewIndex = view.IndexOf(item);
             if (viewIndex != -1 && !filterResult.Value)
             {
                 RemoveFromView(viewIndex, item);
             }
             else if (viewIndex == -1 && filterResult.Value)
             {
-                var index = _source.IndexOf(item);
+                int index = source.IndexOf(item);
                 HandleItemAdded(index, item);
             }
         }
 
         if ((filterResult ?? true) && SortDescriptions.Any(sd => sd.PropertyName == e.PropertyName))
         {
-            var oldIndex = _view.IndexOf(item);
+            int oldIndex = view.IndexOf(item);
 
             // Check if item is in view:
             if (oldIndex < 0)
@@ -496,8 +387,8 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
                 return;
             }
 
-            _view.RemoveAt(oldIndex);
-            var targetIndex = _view.BinarySearch(item, this);
+            view.RemoveAt(oldIndex);
+            int targetIndex = view.BinarySearch(item, this);
             if (targetIndex < 0)
             {
                 targetIndex = ~targetIndex;
@@ -508,13 +399,13 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
             {
                 OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex, item));
 
-                _view.Insert(targetIndex, item);
+                view.Insert(targetIndex, item);
 
                 OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, item));
             }
             else
             {
-                _view.Insert(targetIndex, item);
+                view.Insert(targetIndex, item);
             }
         }
         else if (string.IsNullOrEmpty(e.PropertyName))
@@ -525,12 +416,12 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
 
     private void AttachPropertyChangedHandler(IEnumerable items)
     {
-        if (!_liveShapingEnabled || items == null)
+        if (!liveShapingEnabled || items is null)
         {
             return;
         }
 
-        foreach (var item in items.OfType<INotifyPropertyChanged>())
+        foreach (INotifyPropertyChanged item in items.OfType<INotifyPropertyChanged>())
         {
             item.PropertyChanged += ItemOnPropertyChanged;
         }
@@ -538,12 +429,12 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
 
     private void DetachPropertyChangedHandler(IEnumerable items)
     {
-        if (!_liveShapingEnabled || items == null)
+        if (!liveShapingEnabled || items is null)
         {
             return;
         }
 
-        foreach (var item in items.OfType<INotifyPropertyChanged>())
+        foreach (INotifyPropertyChanged item in items.OfType<INotifyPropertyChanged>())
         {
             item.PropertyChanged -= ItemOnPropertyChanged;
         }
@@ -551,20 +442,20 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
 
     private void HandleSortChanged()
     {
-        _sortProperties.Clear();
-        _view.Sort(this);
-        _sortProperties.Clear();
+        sortProperties.Clear();
+        view.Sort(this);
+        sortProperties.Clear();
         OnVectorChanged(new VectorChangedEventArgs(CollectionChange.Reset));
     }
 
     private void HandleFilterChanged()
     {
-        if (_filter != null)
+        if (filter is not null)
         {
-            for (var index = 0; index < _view.Count; index++)
+            for (int index = 0; index < view.Count; index++)
             {
-                var item = _view.ElementAt(index);
-                if (_filter(item))
+                object item = view.ElementAt(index);
+                if (filter(item))
                 {
                     continue;
                 }
@@ -574,11 +465,12 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
             }
         }
 
-        var viewHash = new HashSet<object>(_view);
-        var viewIndex = 0;
-        for (var index = 0; index < _source.Count; index++)
+        HashSet<object> viewHash = new(view);
+        int viewIndex = 0;
+        for (int index = 0; index < source.Count; index++)
         {
-            var item = _source[index];
+            object? item = source[index];
+            ArgumentNullException.ThrowIfNull(item);
             if (viewHash.Contains(item))
             {
                 viewIndex++;
@@ -594,49 +486,51 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
 
     private void HandleSourceChanged()
     {
-        _sortProperties.Clear();
-        var currentItem = CurrentItem;
-        _view.Clear();
-        foreach (var item in Source)
+        sortProperties.Clear();
+        object? currentItem = CurrentItem;
+        view.Clear();
+        foreach (object? item in Source)
         {
-            if (_filter != null && !_filter(item))
+            if (filter is not null && !filter(item))
             {
                 continue;
             }
 
-            if (_sortDescriptions.Any())
+            if (sortDescriptions.Any())
             {
-                var targetIndex = _view.BinarySearch(item, this);
+                int targetIndex = view.BinarySearch(item, this);
                 if (targetIndex < 0)
                 {
                     targetIndex = ~targetIndex;
                 }
 
-                _view.Insert(targetIndex, item);
+                view.Insert(targetIndex, item);
             }
             else
             {
-                _view.Add(item);
+                view.Add(item);
             }
         }
 
-        _sortProperties.Clear();
+        sortProperties.Clear();
         OnVectorChanged(new VectorChangedEventArgs(CollectionChange.Reset));
         MoveCurrentTo(currentItem);
     }
 
-    private void SourceNcc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void SourceNotifyCollectionChangedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        // ReSharper disable once SwitchStatementMissingSomeCases
         switch (e.Action)
         {
             case NotifyCollectionChangedAction.Add:
+                ArgumentNullException.ThrowIfNull(e.NewItems);
                 AttachPropertyChangedHandler(e.NewItems);
-                if (_deferCounter <= 0)
+                if (deferCounter <= 0)
                 {
                     if (e.NewItems?.Count == 1)
                     {
-                        HandleItemAdded(e.NewStartingIndex, e.NewItems[0]);
+                        object? newItem = e.NewItems[0];
+                        ArgumentNullException.ThrowIfNull(newItem);
+                        HandleItemAdded(e.NewStartingIndex, newItem);
                     }
                     else
                     {
@@ -646,12 +540,15 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
 
                 break;
             case NotifyCollectionChangedAction.Remove:
+                ArgumentNullException.ThrowIfNull(e.OldItems);
                 DetachPropertyChangedHandler(e.OldItems);
-                if (_deferCounter <= 0)
+                if (deferCounter <= 0)
                 {
                     if (e.OldItems?.Count == 1)
                     {
-                        HandleItemRemoved(e.OldStartingIndex, e.OldItems[0]);
+                        object? oldItem = e.OldItems[0];
+                        ArgumentNullException.ThrowIfNull(oldItem);
+                        HandleItemRemoved(e.OldStartingIndex, oldItem);
                     }
                     else
                     {
@@ -663,7 +560,7 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
             case NotifyCollectionChangedAction.Move:
             case NotifyCollectionChangedAction.Replace:
             case NotifyCollectionChangedAction.Reset:
-                if (_deferCounter <= 0)
+                if (deferCounter <= 0)
                 {
                     HandleSourceChanged();
                 }
@@ -674,37 +571,37 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
 
     private bool HandleItemAdded(int newStartingIndex, object newItem, int? viewIndex = null)
     {
-        if (_filter != null && !_filter(newItem))
+        if (filter is not null && !filter(newItem))
         {
             return false;
         }
 
-        var newViewIndex = _view.Count;
+        int newViewIndex = view.Count;
 
-        if (_sortDescriptions.Any())
+        if (sortDescriptions.Any())
         {
-            _sortProperties.Clear();
-            newViewIndex = _view.BinarySearch(newItem, this);
+            sortProperties.Clear();
+            newViewIndex = view.BinarySearch(newItem, this);
             if (newViewIndex < 0)
             {
                 newViewIndex = ~newViewIndex;
             }
         }
-        else if (_filter != null)
+        else if (filter is not null)
         {
-            if (_source == null)
+            if (source is null)
             {
                 HandleSourceChanged();
                 return false;
             }
 
-            if (newStartingIndex == 0 || _view.Count == 0)
+            if (newStartingIndex == 0 || view.Count == 0)
             {
                 newViewIndex = 0;
             }
-            else if (newStartingIndex == _source.Count - 1)
+            else if (newStartingIndex == source.Count - 1)
             {
-                newViewIndex = _view.Count;
+                newViewIndex = view.Count;
             }
             else if (viewIndex.HasValue)
             {
@@ -712,7 +609,7 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
             }
             else
             {
-                for (int i = 0, j = 0; i < _source.Count; i++)
+                for (int i = 0, j = 0; i < source.Count; i++)
                 {
                     if (i == newStartingIndex)
                     {
@@ -720,7 +617,7 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
                         break;
                     }
 
-                    if (_view[j] == _source[i])
+                    if (view[j] == source[i])
                     {
                         j++;
                     }
@@ -728,27 +625,26 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
             }
         }
 
-        _view.Insert(newViewIndex, newItem);
+        view.Insert(newViewIndex, newItem);
         if (newViewIndex <= CurrentPosition)
         {
             CurrentPosition++;
         }
 
-        var e = new VectorChangedEventArgs(CollectionChange.ItemInserted, newViewIndex, newItem);
-        OnVectorChanged(e);
+        OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, newViewIndex, newItem));
         return true;
     }
 
     private void HandleItemRemoved(int oldStartingIndex, object oldItem)
     {
-        if (_filter != null && !_filter(oldItem))
+        if (filter is not null && !filter(oldItem))
         {
             return;
         }
 
-        if (oldStartingIndex < 0 || oldStartingIndex >= _view.Count || !Equals(_view[oldStartingIndex], oldItem))
+        if (oldStartingIndex < 0 || oldStartingIndex >= view.Count || !Equals(view[oldStartingIndex], oldItem))
         {
-            oldStartingIndex = _view.IndexOf(oldItem);
+            oldStartingIndex = view.IndexOf(oldItem);
         }
 
         if (oldStartingIndex < 0)
@@ -761,19 +657,18 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
 
     private void RemoveFromView(int itemIndex, object item)
     {
-        _view.RemoveAt(itemIndex);
+        view.RemoveAt(itemIndex);
         if (itemIndex <= CurrentPosition)
         {
             CurrentPosition--;
         }
 
-        var e = new VectorChangedEventArgs(CollectionChange.ItemRemoved, itemIndex, item);
-        OnVectorChanged(e);
+        OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, itemIndex, item));
     }
 
-    private void SortDescriptions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void SortDescriptionsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (_deferCounter > 0)
+        if (deferCounter > 0)
         {
             return;
         }
@@ -783,7 +678,7 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
 
     private bool MoveCurrentToIndex(int i)
     {
-        if (i < -1 || i >= _view.Count)
+        if (i < -1 || i >= view.Count)
         {
             return false;
         }
@@ -793,7 +688,7 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
             return false;
         }
 
-        var e = new CurrentChangingEventArgs();
+        CurrentChangingEventArgs e = new();
         OnCurrentChanging(e);
         if (e.Cancel)
         {
@@ -801,16 +696,59 @@ internal partial class AdvancedCollectionView : IAdvancedCollectionView, INotify
         }
 
         CurrentPosition = i;
-        OnCurrentChanged(null!);
+        OnCurrentChanged(default!);
         return true;
     }
-}
 
-#pragma warning restore CS8767
-#pragma warning restore CS8769
-#pragma warning restore CS8622
-#pragma warning restore CS8601
-#pragma warning restore CS8600
-#pragma warning restore CS8604
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-#pragma warning restore CS8603 // Possible null reference return.
+    private void OnCurrentChanging(CurrentChangingEventArgs e)
+    {
+        if (deferCounter > 0)
+        {
+            return;
+        }
+
+        CurrentChanging?.Invoke(this, e);
+    }
+
+    private void OnCurrentChanged(object e)
+    {
+        if (deferCounter > 0)
+        {
+            return;
+        }
+
+        CurrentChanged?.Invoke(this, e);
+        OnPropertyChanged(nameof(CurrentItem));
+    }
+
+    private void OnVectorChanged(IVectorChangedEventArgs e)
+    {
+        if (deferCounter > 0)
+        {
+            return;
+        }
+
+        VectorChanged?.Invoke(this, e);
+        OnPropertyChanged(nameof(Count));
+    }
+
+    internal sealed class NotificationDeferrer : IDisposable
+    {
+        private readonly AdvancedCollectionView advancedCollectionView;
+        private readonly object? currentItem;
+
+        public NotificationDeferrer(AdvancedCollectionView acvs)
+        {
+            advancedCollectionView = acvs;
+            currentItem = advancedCollectionView.CurrentItem;
+            advancedCollectionView.deferCounter++;
+        }
+
+        public void Dispose()
+        {
+            advancedCollectionView.MoveCurrentTo(currentItem);
+            advancedCollectionView.deferCounter--;
+            advancedCollectionView.Refresh();
+        }
+    }
+}
