@@ -313,7 +313,7 @@
                                 PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
                                 <SplitView.Pane>
                                     <ListView
-                                        Padding="0,2,0,1"
+                                        Padding="{ThemeResource ListViewInSplitPanePadding}"
                                         ItemContainerStyle="{StaticResource AchievementGoalListViewItemStyle}"
                                         ItemTemplate="{StaticResource AchievementGoalListTemplate}"
                                         ItemsSource="{Binding AchievementGoals}"
@@ -352,7 +352,7 @@
                                 <GridView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <shcp:UniformPanel
-                                            Margin="16,16,12,0"
+                                            Margin="16,16,12,4"
                                             ColumnSpacing="0"
                                             MinItemWidth="200"/>
                                     </ItemsPanelTemplate>

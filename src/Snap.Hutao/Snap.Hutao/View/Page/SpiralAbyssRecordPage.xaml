@@ -328,6 +328,7 @@
                             PaneBackground="Transparent">
                             <SplitView.Pane>
                                 <ListView
+                                    Padding="{ThemeResource ListViewInSplitPanePadding}"
                                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                     ItemTemplate="{StaticResource SpiralAbyssListTemplate}"
                                     ItemsSource="{Binding SpiralAbyssEntries}"
@@ -851,7 +852,10 @@
 
                         </PivotItem>
                     </Pivot>
-                    <shvcon:LoadingView Margin="16" IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+                    <shvcon:LoadingView
+                        Margin="16"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                 </Grid>
             </PivotItem>
         </Pivot>

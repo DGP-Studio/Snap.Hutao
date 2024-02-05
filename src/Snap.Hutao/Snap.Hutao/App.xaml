@@ -23,6 +23,7 @@
                 <ResourceDictionary Source="ms-appx:///Control/Theme/PivotOverride.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/ScrollViewer.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/SettingsStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Control/Theme/Thickness.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/TransitionCollection.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Uri.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/WindowOverride.xaml"/>

@@ -560,7 +560,7 @@
                                 <ScrollViewer>
                                     <StackPanel x:Name="GridImageExportPanel" Background="Transparent">
                                         <GridView
-                                            Margin="16,16,4,-8"
+                                            Margin="16,16,4,-4"
                                             cwa:ItemsReorderAnimation.Duration="0:0:0.1"
                                             ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                             ItemTemplate="{StaticResource AvatarGridViewTemplate}"
@@ -578,7 +578,7 @@
                                     PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
                                     <SplitView.Pane>
                                         <ListView
-                                            Padding="0,2,0,1"
+                                            Padding="{ThemeResource ListViewInSplitPanePadding}"
                                             ItemTemplate="{StaticResource AvatarListViewTemplate}"
                                             ItemsSource="{Binding Summary.Avatars}"
                                             SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}"/>

@@ -316,7 +316,7 @@
                                 PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
                                 <SplitView.Pane>
                                     <ListView
-                                        Padding="0,1"
+                                        Padding="{ThemeResource ListViewInSplitPanePadding}"
                                         ItemTemplate="{StaticResource HistoryWishListTemplate}"
                                         ItemsSource="{Binding Statistics.HistoryWishes}"
                                         SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}"/>

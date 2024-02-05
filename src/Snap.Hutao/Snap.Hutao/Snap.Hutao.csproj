@@ -103,6 +103,7 @@
     <None Remove="Control\Theme\PivotOverride.xaml" />
     <None Remove="Control\Theme\ScrollViewer.xaml" />
     <None Remove="Control\Theme\SettingsStyle.xaml" />
+    <None Remove="Control\Theme\Thickness.xaml" />
     <None Remove="Control\Theme\TransitionCollection.xaml" />
     <None Remove="Control\Theme\Uri.xaml" />
     <None Remove="Control\Theme\WindowOverride.xaml" />
@@ -347,6 +348,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Control\Theme\Thickness.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\FeedbackPage.xaml">
