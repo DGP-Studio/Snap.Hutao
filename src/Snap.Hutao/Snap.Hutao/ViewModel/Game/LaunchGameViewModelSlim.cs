@@ -27,13 +27,13 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private readonly IGameServiceFacade gameService;
     private readonly ITaskContext taskContext;
 
-    private AdvancedCollectionView? gameAccountsView;
+    private AdvancedCollectionView<GameAccount>? gameAccountsView;
     private GameAccount? selectedGameAccount;
     private GameAccountFilter? gameAccountFilter;
 
     public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
 
-    public AdvancedCollectionView? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
+    public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
     /// <summary>
     /// 选中的账号

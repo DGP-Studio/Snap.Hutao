@@ -17,9 +17,9 @@ internal static class WeaponFilter
     /// </summary>
     /// <param name="input">输入</param>
     /// <returns>筛选操作</returns>
-    public static Predicate<object> Compile(string input)
+    public static Predicate<Weapon> Compile(string input)
     {
-        return (object o) => o is Weapon weapon && DoFilter(input, weapon);
+        return (Weapon weapon) => DoFilter(input, weapon);
     }
 
     private static bool DoFilter(string input, Weapon weapon)

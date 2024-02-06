@@ -43,7 +43,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     private readonly JsonSerializerOptions options;
     private readonly ITaskContext taskContext;
 
-    private AdvancedCollectionView? achievements;
+    private AdvancedCollectionView<AchievementView>? achievements;
     private List<AchievementGoalView>? achievementGoals;
     private AchievementGoalView? selectedAchievementGoal;
     private ObservableCollection<EntityAchievementArchive>? archives;
@@ -85,7 +85,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     /// <summary>
     /// 成就视图
     /// </summary>
-    public AdvancedCollectionView? Achievements
+    public AdvancedCollectionView<AchievementView>? Achievements
     {
         get => achievements;
         set => SetProperty(ref achievements, value);
@@ -342,17 +342,19 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("SortUncompletedSwitchCommand")]
     private void UpdateAchievementsSort()
     {
-        if (Achievements is not null)
+        if (Achievements is null)
         {
-            if (IsUncompletedItemsFirst)
-            {
-                Achievements.SortDescriptions.Add(uncompletedItemsFirstSortDescription);
-                Achievements.SortDescriptions.Add(completionTimeSortDescription);
-            }
-            else
-            {
-                Achievements.SortDescriptions.Clear();
-            }
+            return;
+        }
+
+        if (IsUncompletedItemsFirst)
+        {
+            Achievements.SortDescriptions.Add(uncompletedItemsFirstSortDescription);
+            Achievements.SortDescriptions.Add(completionTimeSortDescription);
+        }
+        else
+        {
+            Achievements.SortDescriptions.Clear();
         }
     }
 
@@ -367,7 +369,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             else
             {
                 Model.Primitive.AchievementGoalId goalId = goal.Id;
-                Achievements.Filter = (object o) => o is AchievementView view && view.Inner.Goal == goalId;
+                Achievements.Filter = (AchievementView view) => view.Inner.Goal == goalId;
             }
         }
     }
@@ -383,19 +385,18 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             {
                 if (uint.TryParse(search, out uint achievementId))
                 {
-                    Achievements.Filter = obj => ((AchievementView)obj).Inner.Id == achievementId;
+                    Achievements.Filter = view => view.Inner.Id == achievementId;
                     return;
                 }
 
                 if (VersionRegex().IsMatch(search))
                 {
-                    Achievements.Filter = obj => ((AchievementView)obj).Inner.Version == search;
+                    Achievements.Filter = view => view.Inner.Version == search;
                     return;
                 }
 
-                Achievements.Filter = obj =>
+                Achievements.Filter = view =>
                 {
-                    AchievementView view = (AchievementView)obj;
                     return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
                         || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
                 };

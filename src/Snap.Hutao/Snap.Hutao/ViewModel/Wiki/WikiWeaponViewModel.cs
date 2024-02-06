@@ -40,7 +40,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
-    private AdvancedCollectionView? weapons;
+    private AdvancedCollectionView<Weapon>? weapons;
     private Weapon? selected;
     private string? filterText;
     private BaseValueInfo? baseValueInfo;
@@ -50,7 +50,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     /// <summary>
     /// 角色列表
     /// </summary>
-    public AdvancedCollectionView? Weapons { get => weapons; set => SetProperty(ref weapons, value); }
+    public AdvancedCollectionView<Weapon>? Weapons { get => weapons; set => SetProperty(ref weapons, value); }
 
     /// <summary>
     /// 选中的角色
@@ -96,8 +96,8 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
             await taskContext.SwitchToMainThreadAsync();
 
-            Weapons = new AdvancedCollectionView(list, true);
-            Selected = Weapons.Cast<Weapon>().FirstOrDefault();
+            Weapons = new(list, true);
+            Selected = Weapons.View.ElementAtOrDefault(0);
         }
     }
 

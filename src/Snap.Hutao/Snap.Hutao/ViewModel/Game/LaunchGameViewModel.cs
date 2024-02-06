@@ -50,7 +50,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly AppOptions appOptions;
 
     private LaunchScheme? selectedScheme;
-    private AdvancedCollectionView? gameAccountsView;
+    private AdvancedCollectionView<GameAccount>? gameAccountsView;
     private GameAccount? selectedGameAccount;
     private GameResource? gameResource;
     private bool gamePathSelectedAndValid;
@@ -75,7 +75,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         set => SetSelectedSchemeAsync(value).SafeForget();
     }
 
-    public AdvancedCollectionView? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
+    public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
 
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
@@ -130,9 +130,9 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                     ArgumentNullException.ThrowIfNull(GameAccountsView);
 
                     // Exists in the source collection
-                    if (GameAccountsView.SourceCollection.Cast<GameAccount>().FirstOrDefault(g => g.AttachUid == uid) is { } sourceAccount)
+                    if (GameAccountsView.SourceCollection.FirstOrDefault(g => g.AttachUid == uid) is { } sourceAccount)
                     {
-                        SelectedGameAccount = GameAccountsView.Cast<GameAccount>().FirstOrDefault(g => g.AttachUid == uid);
+                        SelectedGameAccount = GameAccountsView.View.FirstOrDefault(g => g.AttachUid == uid);
 
                         // But not exists in the view for current scheme
                         if (SelectedGameAccount is null)
