@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Animations;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
+using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Page;
@@ -17,6 +20,8 @@ internal sealed partial class MainView : UserControl
 {
     private readonly INavigationService navigationService;
     private readonly IBackgroundImageService backgroundImageService;
+    private TaskCompletionSource acutalThemeChangedTaskCompletionSource = new();
+    private CancellationTokenSource periodicTimerCancellationTokenSource = new();
 
     /// <summary>
     /// 构造一个新的主视图
@@ -24,6 +29,8 @@ internal sealed partial class MainView : UserControl
     public MainView()
     {
         InitializeComponent();
+
+        ActualThemeChanged += OnActualThemeChanged;
 
         IServiceProvider serviceProvider = Ioc.Default;
 
@@ -52,20 +59,38 @@ internal sealed partial class MainView : UserControl
 
                     await AnimationBuilder
                         .Create()
-                        .Opacity(to: 0D, duration: TimeSpan.FromMilliseconds(300), easingType: EasingType.Sine)
+                        .Opacity(to: 0D, duration: TimeSpan.FromMilliseconds(1000), easingType: EasingType.Sine, easingMode: EasingMode.EaseIn)
                         .StartAsync(BackdroundImagePresenter)
                         .ConfigureAwait(true);
 
                     BackdroundImagePresenter.Source = backgroundImage.ImageSource;
-                    double targetOpacity = (1 - backgroundImage.Luminance) * 0.8;
+                    double targetOpacity = ThemeHelper.IsDarkMode(ActualTheme) ? 1 - backgroundImage.Luminance : backgroundImage.Luminance;
 
                     await AnimationBuilder
                         .Create()
-                        .Opacity(to: targetOpacity, duration: TimeSpan.FromMilliseconds(300), easingType: EasingType.Sine)
+                        .Opacity(to: targetOpacity, duration: TimeSpan.FromMilliseconds(1000), easingType: EasingType.Sine, easingMode: EasingMode.EaseOut)
                         .StartAsync(BackdroundImagePresenter)
                         .ConfigureAwait(true);
                 }
-            } while (await timer.WaitForNextTickAsync().ConfigureAwait(false));
+
+                try
+                {
+                    await Task.WhenAny(timer.WaitForNextTickAsync(periodicTimerCancellationTokenSource.Token).AsTask(), acutalThemeChangedTaskCompletionSource.Task).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                }
+
+                acutalThemeChangedTaskCompletionSource = new();
+                periodicTimerCancellationTokenSource = new();
+            }
+            while (true);
         }
+    }
+
+    private void OnActualThemeChanged(FrameworkElement frameworkElement, object args)
+    {
+        acutalThemeChangedTaskCompletionSource.TrySetResult();
+        periodicTimerCancellationTokenSource.Cancel();
     }
 }

@@ -9,10 +9,12 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
+    MinHeight="180"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
+    VerticalContentAlignment="Stretch"
     d:DataContext="{d:DesignInstance shvg:LaunchGameViewModelSlim}"
     Background="Transparent"
     Command="{Binding LaunchCommand}"
@@ -22,12 +24,6 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Grid CornerRadius="{ThemeResource ControlCornerRadius}">
-        <Image
-            Margin="0,40,0,0"
-            HorizontalAlignment="Right"
-            Opacity="0.4"
-            Source="ms-appx:///Resource/HutaoIconSourceTransparentBackgroundGradient1.png"
-            Stretch="Uniform"/>
         <Grid Margin="12" ColumnSpacing="16">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>

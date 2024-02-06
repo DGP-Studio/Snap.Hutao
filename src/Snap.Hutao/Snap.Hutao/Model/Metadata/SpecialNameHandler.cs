@@ -12,6 +12,11 @@ internal static partial class SpecialNameHandler
     // "#(?!.*(?:F#|M#|NON_BREAK_SPACE|REALNAME\[ID\(1\)(\|HOSTONLY\(true\)|)\]|\{LAYOUT_MOBILE#.+?\}\{LAYOUT_PC#.+?\}\{LAYOUT_PS#.+?\})).*
     public static string Handle(string input)
     {
+        if (string.IsNullOrEmpty(input))
+        {
+            return input;
+        }
+
         if (input.AsSpan()[0] is not '#')
         {
             return input;

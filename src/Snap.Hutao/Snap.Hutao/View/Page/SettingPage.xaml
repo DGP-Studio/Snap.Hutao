@@ -119,10 +119,7 @@
                         cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="Visible">
-                                <Grid
-                                    MaxHeight="176"
-                                    BorderThickness="0"
-                                    Style="{ThemeResource GridCardStyle}">
+                                <Grid MaxHeight="176" Style="{ThemeResource GridCardStyle}">
                                     <Grid Padding="48,28,48,28" ColumnSpacing="48">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="auto"/>
@@ -476,7 +473,8 @@
                                 <cwc:SettingsExpander
                                     Description="{Binding DataFolderView.Size}"
                                     Header="{shcm:ResourceString Name=ViewPageSettingDataFolderHeader}"
-                                    HeaderIcon="{shcm:FontIcon Glyph=&#xEC25;}">
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xEC25;}"
+                                    IsExpanded="True">
                                     <cwc:SettingsExpander.Content>
                                         <Button
                                             Command="{Binding DataFolderView.OpenFolderCommand}"
@@ -484,6 +482,11 @@
                                             Style="{ThemeResource SettingButtonStyle}"/>
                                     </cwc:SettingsExpander.Content>
                                     <cwc:SettingsExpander.Items>
+                                        <cwc:SettingsCard
+                                            Command="{Binding OpenBackgroundImageFolderCommand}"
+                                            Description="{shcm:ResourceString Name=ViewPageSettingOpenBackgroundImageFolderDescription}"
+                                            Header="{shcm:ResourceString Name=ViewPageSettingOpenBackgroundImageFolderHeader}"
+                                            IsClickEnabled="True"/>
                                         <cwc:SettingsCard
                                             ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                                             ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingStorageSetAction}"
@@ -502,7 +505,8 @@
                                 <cwc:SettingsExpander
                                     Description="{Binding CacheFolderView.Size}"
                                     Header="{shcm:ResourceString Name=ViewPageSettingCacheFolderHeader}"
-                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE8B7;}">
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE8B7;}"
+                                    IsExpanded="True">
                                     <cwc:SettingsExpander.Content>
                                         <Button
                                             Command="{Binding CacheFolderView.OpenFolderCommand}"
@@ -510,11 +514,6 @@
                                             Style="{ThemeResource SettingButtonStyle}"/>
                                     </cwc:SettingsExpander.Content>
                                     <cwc:SettingsExpander.Items>
-                                        <cwc:SettingsCard
-                                            Command="{Binding OpenBackgroundImageFolderCommand}"
-                                            Description="{shcm:ResourceString Name=ViewPageSettingOpenBackgroundImageFolderDescription}"
-                                            Header="{shcm:ResourceString Name=ViewPageSettingOpenBackgroundImageFolderHeader}"
-                                            IsClickEnabled="True"/>
                                         <cwc:SettingsCard
                                             ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                                             ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingResetAction}"
@@ -541,11 +540,13 @@
                                     HeaderIcon="{cw:FontIcon Glyph=&#xE756;}">
                                     <ToggleSwitch Width="120" IsOn="{Binding IsAllocConsoleDebugModeEnabled, Mode=TwoWay}"/>
                                 </cwc:SettingsCard>
-                                <cwc:SettingsCard
+                                <cwc:SettingsExpander
+                                    shch:SettingsExpanderHelper.IsItemsEnabled="{Binding RuntimeOptions.IsElevated}"
                                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}"
-                                    IsEnabled="{Binding RuntimeOptions.IsElevated}">
-                                    <cwc:SettingsCard.Description>
+                                    IsEnabled="{Binding RuntimeOptions.IsElevated}"
+                                    IsExpanded="True">
+                                    <cwc:SettingsExpander.Description>
                                         <StackPanel>
                                             <TextBlock
                                                 Foreground="{ThemeResource SystemFillColorCriticalBrush}"
@@ -553,12 +554,15 @@
                                                 Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                             <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}" Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                         </StackPanel>
-                                    </cwc:SettingsCard.Description>
+                                    </cwc:SettingsExpander.Description>
                                     <StackPanel Orientation="Horizontal">
                                         <shvc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                         <ToggleSwitch Width="120" IsOn="{Binding IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                                     </StackPanel>
-                                </cwc:SettingsCard>
+                                    <cwc:SettingsExpander.Items>
+                                        <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription}" Header="{shcm:ResourceString Name=ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader}"/>
+                                    </cwc:SettingsExpander.Items>
+                                </cwc:SettingsExpander>
                                 <cwc:SettingsCard
                                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingDangerousAction}"
                                     Command="{Binding DeleteUsersCommand}"
