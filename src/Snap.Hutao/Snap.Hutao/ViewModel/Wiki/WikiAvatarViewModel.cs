@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Collections;
+using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -43,7 +43,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private readonly CalculateClient calculateClient;
     private readonly IUserService userService;
 
-    private AdvancedCollectionView? avatars;
+    private AdvancedCollectionView<Avatar>? avatars;
     private Avatar? selected;
     private string? filterText;
     private BaseValueInfo? baseValueInfo;
@@ -53,7 +53,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     /// <summary>
     /// 角色列表
     /// </summary>
-    public AdvancedCollectionView? Avatars { get => avatars; set => SetProperty(ref avatars, value); }
+    public AdvancedCollectionView<Avatar>? Avatars { get => avatars; set => SetProperty(ref avatars, value); }
 
     /// <summary>
     /// 选中的角色
@@ -99,8 +99,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
         await taskContext.SwitchToMainThreadAsync();
-        Avatars = new AdvancedCollectionView(list, true);
-        Selected = Avatars.Cast<Avatar>().FirstOrDefault();
+        Avatars = new(list, true);
+        Selected = Avatars.View.ElementAtOrDefault(0);
         return true;
     }
 

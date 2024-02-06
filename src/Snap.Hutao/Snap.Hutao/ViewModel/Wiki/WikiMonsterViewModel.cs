@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Collections;
+using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
@@ -20,7 +20,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
-    private AdvancedCollectionView? monsters;
+    private AdvancedCollectionView<Monster>? monsters;
     private Monster? selected;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelMonsterCurveMap;
@@ -28,7 +28,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     /// <summary>
     /// 角色列表
     /// </summary>
-    public AdvancedCollectionView? Monsters { get => monsters; set => SetProperty(ref monsters, value); }
+    public AdvancedCollectionView<Monster>? Monsters { get => monsters; set => SetProperty(ref monsters, value); }
 
     /// <summary>
     /// 选中的角色
@@ -65,8 +65,8 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
             List<Monster> ordered = monsters.SortBy(m => m.RelationshipId.Value);
             await taskContext.SwitchToMainThreadAsync();
 
-            Monsters = new AdvancedCollectionView(ordered, true);
-            Selected = Monsters.Cast<Monster>().FirstOrDefault();
+            Monsters = new(ordered, true);
+            Selected = Monsters.View.ElementAtOrDefault(0);
             return true;
         }
 

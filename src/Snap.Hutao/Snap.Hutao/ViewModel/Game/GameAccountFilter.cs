@@ -15,13 +15,13 @@ internal sealed class GameAccountFilter
         this.type = type;
     }
 
-    public bool Filter(object? item)
+    public bool Filter(GameAccount? item)
     {
         if (type is null)
         {
             return true;
         }
 
-        return item is GameAccount account && account.Type == type;
+        return item is not null && item.Type == type;
     }
 }
