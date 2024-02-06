@@ -455,7 +455,7 @@
                     <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
-                                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGachaLogHeader}"/>
+                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGachaLogHeader}"/>
                                 <cwc:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleHeader}"
@@ -472,7 +472,7 @@
                     <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                         <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                             <StackPanel Spacing="{ThemeResource SettingsCardSpacing}">
-                                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingStorageHeader}"/>
+                                <TextBlock Style="{StaticResource SettingsCardHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingStorageHeader}"/>
                                 <cwc:SettingsExpander
                                     Description="{Binding DataFolderView.Size}"
                                     Header="{shcm:ResourceString Name=ViewPageSettingDataFolderHeader}"
@@ -510,6 +510,11 @@
                                             Style="{ThemeResource SettingButtonStyle}"/>
                                     </cwc:SettingsExpander.Content>
                                     <cwc:SettingsExpander.Items>
+                                        <cwc:SettingsCard
+                                            Command="{Binding OpenBackgroundImageFolderCommand}"
+                                            Description="{shcm:ResourceString Name=ViewPageSettingOpenBackgroundImageFolderDescription}"
+                                            Header="{shcm:ResourceString Name=ViewPageSettingOpenBackgroundImageFolderHeader}"
+                                            IsClickEnabled="True"/>
                                         <cwc:SettingsCard
                                             ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                                             ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingResetAction}"

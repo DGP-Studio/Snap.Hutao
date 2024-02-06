@@ -12,14 +12,15 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>
+        <Thickness x:Key="NavigationViewContentGridBorderThickness">0,1,0,0</Thickness>
         <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">24</x:Double>
         <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
-        <Thickness x:Key="NavigationViewContentGridBorderThickness">0,1,0,0</Thickness>
     </UserControl.Resources>
-    <Grid Transitions="{ThemeResource EntranceThemeTransitions}">
+    <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Transitions="{ThemeResource EntranceThemeTransitions}">
         <Image
-            Opacity="0.65"
-            Source="ms-appx:///Resource/TestBackground.jpg"
+            x:Name="BackdroundImagePresenter"
+            VerticalAlignment="Center"
+            Opacity="0"
             Stretch="UniformToFill"/>
 
         <NavigationView

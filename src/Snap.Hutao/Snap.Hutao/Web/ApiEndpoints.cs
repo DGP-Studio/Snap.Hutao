@@ -385,8 +385,12 @@ internal static class ApiEndpoints
         return $"{SdkStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel:D}&sub_channel_id={scheme.SubChannel:D}";
     }
 
-    // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?filter_adv=true&key=eYd89JmJ&language=zh-cn&launcher_id=18
-    // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?key=eYd89JmJ&language=zh-cn&launcher_id=18
+    public static string SdkStaticLauncherContent(LaunchScheme scheme, string languageCode, bool advOnly = true)
+    {
+        return advOnly
+            ? $"{SdkStaticLauncherApi}/content?filter_adv=true&key={scheme.Key}&launcher_id={scheme.LauncherId}&launguage={languageCode}"
+            : $"{SdkStaticLauncherApi}/content?key={scheme.Key}&launcher_id={scheme.LauncherId}&launguage={languageCode}";
+    }
     #endregion
 
     #region Hosts | Queries
