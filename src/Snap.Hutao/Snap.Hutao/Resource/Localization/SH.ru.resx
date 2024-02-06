@@ -202,16 +202,16 @@
     <value>&lt;color=#1E90FF&gt;Принц&lt;/color&gt;/&lt;color=#FFB6C1&gt;Принцесса&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;I&lt;/color&gt;/&lt;color=#FFB6C1&gt;I&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameNickname" xml:space="preserve">
     <value>Путешественник</value>
   </data>
   <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;He&lt;/color&gt;/&lt;color=#FFB6C1&gt;She&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
-    <value>流浪者</value>
+    <value>Путник</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Уточнить {0}</value>
@@ -513,7 +513,7 @@
     <value>Четвертая волна: Победите всех монстров, прежде чем появится следующая волна</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
-    <value>维持场上 4 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+    <value>Remain 4 Treasure Hoarders on the field, instantly respawn on death. 12 in total.</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>Обновите данные витрины персонажей</value>
@@ -813,28 +813,28 @@
     <value>Текущая оригинальная смола：{0}</value>
   </data>
   <data name="ServiceDailyNoteNotifierTitle" xml:space="preserve">
-    <value>实时便笺提醒</value>
+    <value>Уведомление в реальном времени</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformer" xml:space="preserve">
-    <value>参量质变仪</value>
+    <value>Преобразователь</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformerAdaptiveHint" xml:space="preserve">
     <value>Готово</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
-    <value>参量质变仪已准备完成</value>
+    <value>Преобразователь готов</value>
   </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
-    <value>正在提瓦特大陆中探索</value>
+    <value>Исследование Тейвата</value>
   </data>
   <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
     <value>Started by {0}</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
-    <value>无法获取祈愿记录：{0}</value>
+    <value>Не удалось получить историю: {0}</value>
   </data>
   <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
-    <value>无法获取祈愿记录 End Id</value>
+    <value>Unable to resolve wish history End Id</value>
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
     <value>角色活动</value>
@@ -855,19 +855,19 @@
     <value>数据包含异常物品, Id：{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
-    <value>请求验证密钥失败</value>
+    <value>Не удалось получить ключ авторизации</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
-    <value>未正确提供原神路径，或当前设置的路径不正确</value>
+    <value>Путь к Genshin Impact не установлен или содержит ошибки</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
     <value>找不到原神内置浏览器缓存路径：\n{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>未找到可用的 Url</value>
+    <value>Can't find available URL</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>提供的 Url 无效</value>
+    <value>Указан неверный Url-адрес</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>SToken refresh не поддерживает учетную запись HoYoLab</value>
@@ -882,43 +882,43 @@
     <value>Язык файла UIGF: {0} не соответствует языку Snap Hutao: {1}, пожалуйста, повторите попытку после переключения языка клиента на целевой язык файла UIGF</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
-    <value>存在多个匹配账号，请删除重复的账号</value>
+    <value>Обнаружено несколько совпадающих учетных записей. Удалите повторяющиеся учетные записи</value>
   </data>
   <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
-    <value>文件系统权限不足，无法转换服务器</value>
+    <value>Недостаточно разрешений файловой системы для запуска сервера</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
-    <value>下载游戏资源索引</value>
+    <value>Скачать игровые ресурсы</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
-    <value>游戏文件操作失败：{0}</value>
+    <value>Не удалось выполнить операцию с файлом: {0}</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
-    <value>解锁帧率上限失败</value>
+    <value>Не удалось разблокировать ограничение FPS</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
-    <value>游戏进程运行中</value>
+    <value>Процесс игры запущен</value>
   </data>
   <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
-    <value>请选择游戏路径</value>
+    <value>Выберите игровой путь</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
-    <value>下载游戏资源索引失败: {0}</value>
+    <value>Не удалось загрузить игровые ресурсы: {0}</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
-    <value>游戏进程已退出</value>
+    <value>Процесс игры закрыт</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessInitializing" xml:space="preserve">
-    <value>正在初始化游戏进程</value>
+    <value>Инициализация игрового процесса</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessStarted" xml:space="preserve">
     <value>Игра запускается...</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsFailed" xml:space="preserve">
-    <value>解锁帧率上限失败，正在结束游戏进程</value>
+    <value>Не удалось разблокировать ограничение FPS, закрытие игрового процесса…</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsSucceed" xml:space="preserve">
-    <value>解锁帧率上限成功</value>
+    <value>Ограничение FPS успешно разблокировано.</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
     <value>正在尝试解锁帧率上限</value>
@@ -1524,7 +1524,7 @@
     <value>导入数据中包含了不支持的物品</value>
   </data>
   <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
-    <value>导入失败</value>
+    <value>Ошибка загрузки</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
     <value>{1:P3} 概率 {0} 抽后获得五星物品</value>
@@ -1542,7 +1542,7 @@
     <value>该操作是不可逆的，该存档和其内的所有祈愿数据会丢失</value>
   </data>
   <data name="ViewModelGachaLogRemoveArchiveTitle" xml:space="preserve">
-    <value>确定要删除存档 {0} 吗？</value>
+    <value>Вы уверены, что хотите удалить архив {0}?</value>
   </data>
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
     <value>从胡桃云服务同步祈愿记录</value>
@@ -2528,6 +2528,12 @@
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>前往官网</value>
   </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
+    <value>自定义背景图片，支持 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
+  </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
+    <value>打开背景图片文件夹</value>
+  </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>重置</value>
   </data>
@@ -2536,6 +2542,12 @@
   </data>
   <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
     <value>重置图片资源</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
+    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
+    <value>启动游戏-解锁帧率限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>更改目录后需要手动移动目录内的数据，否则会重新创建用户数据</value>
