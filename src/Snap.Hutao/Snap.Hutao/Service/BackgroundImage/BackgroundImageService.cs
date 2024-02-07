@@ -26,7 +26,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
     private HashSet<string> backgroundPathSet;
 
-    public async ValueTask<ValueResult<bool, BackgroundImage>> GetNextBackgroundImageAsync()
+    public async ValueTask<ValueResult<bool, BackgroundImage>> GetNextBackgroundImageAsync(BackgroundImage? previous)
     {
         HashSet<string> backgroundSet = await SkipOrInitBackgroundAsync().ConfigureAwait(false);
 
@@ -37,6 +37,12 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
         string path = System.Random.Shared.GetItems(backgroundSet.ToArray(), 1)[0];
         backgroundSet.Remove(path);
+
+        if (string.Equals(path, previous?.ImageSource.UriSource.ToString(), StringComparison.OrdinalIgnoreCase))
+        {
+            return new(false, default!);
+        }
+
         using (FileStream fileStream = File.OpenRead(path))
         {
             BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream.AsRandomAccessStream());

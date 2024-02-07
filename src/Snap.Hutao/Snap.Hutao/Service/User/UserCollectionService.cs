@@ -41,12 +41,12 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
     public async ValueTask<ObservableReorderableDbCollection<BindingUser, EntityUser>> GetUserCollectionAsync()
     {
         // Force run in background thread, otherwise will cause reentrance
-        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        await taskContext.SwitchToBackgroundAsync();
         using (await throttler.EnterAsync().ConfigureAwait(false))
         {
             if (userCollection is null)
             {
-                List<Model.Entity.User> entities = await userDbService.GetUserListAsync().ConfigureAwait(false);
+                List<EntityUser> entities = await userDbService.GetUserListAsync().ConfigureAwait(false);
                 List<BindingUser> users = await entities.SelectListAsync(userInitializationService.ResumeUserAsync).ConfigureAwait(false);
 
                 midUserMap = [];
@@ -70,9 +70,14 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
                 {
                     CurrentUser = users.SelectedOrDefault();
                 }
-                catch (InvalidOperationException ex)
+                catch (InvalidOperationException)
                 {
-                    ThrowHelper.UserdataCorrupted(SH.ServiceUserCurrentMultiMatched, ex);
+                    foreach (BindingUser user in users)
+                    {
+                        user.IsSelected = false;
+                    }
+
+                    await userDbService.ClearUserSelectionAsync().ConfigureAwait(false);
                 }
             }
         }

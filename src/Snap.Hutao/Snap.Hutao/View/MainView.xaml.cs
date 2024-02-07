@@ -22,6 +22,7 @@ internal sealed partial class MainView : UserControl
     private readonly IBackgroundImageService backgroundImageService;
     private TaskCompletionSource acutalThemeChangedTaskCompletionSource = new();
     private CancellationTokenSource periodicTimerCancellationTokenSource = new();
+    private BackgroundImage? previousBackgroundImage;
 
     /// <summary>
     /// 构造一个新的主视图
@@ -51,10 +52,11 @@ internal sealed partial class MainView : UserControl
         {
             do
             {
-                (bool isOk, BackgroundImage backgroundImage) = await backgroundImageService.GetNextBackgroundImageAsync().ConfigureAwait(false);
+                (bool isOk, BackgroundImage backgroundImage) = await backgroundImageService.GetNextBackgroundImageAsync(previousBackgroundImage).ConfigureAwait(false);
 
                 if (isOk)
                 {
+                    previousBackgroundImage = backgroundImage;
                     await taskContext.SwitchToMainThreadAsync();
 
                     await AnimationBuilder
