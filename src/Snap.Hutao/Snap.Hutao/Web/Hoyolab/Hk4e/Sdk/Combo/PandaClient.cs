@@ -19,10 +19,12 @@ internal sealed partial class PandaClient
 
     public async ValueTask<Response<UrlWrapper>> QRCodeFetchAsync(CancellationToken token = default)
     {
-        GameLoginRequest options = GameLoginRequest.Create(4, HoyolabOptions.DeviceId40);
+        // Use 12 (zzz) instead of 4 (gi) temporarily to get legacy game token
+        GameLoginRequest options = GameLoginRequest.Create(12, HoyolabOptions.DeviceId40);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.QrCodeFetch)
+            .SetHeader("x-rpc-device_id", HoyolabOptions.DeviceId40)
             .PostJson(options);
 
         Response<UrlWrapper>? resp = await builder
@@ -34,10 +36,11 @@ internal sealed partial class PandaClient
 
     public async ValueTask<Response<GameLoginResult>> QRCodeQueryAsync(string ticket, CancellationToken token = default)
     {
-        GameLoginRequest options = GameLoginRequest.Create(4, HoyolabOptions.DeviceId40, ticket);
+        GameLoginRequest options = GameLoginRequest.Create(12, HoyolabOptions.DeviceId40, ticket);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.QrCodeQuery)
+            .SetHeader("x-rpc-device_id", HoyolabOptions.DeviceId40)
             .PostJson(options);
 
         Response<GameLoginResult>? resp = await builder

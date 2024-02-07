@@ -25,7 +25,7 @@
         </Grid.ColumnDefinitions>
         <TextBlock
             Grid.Column="0"
-            Margin="4,0,0,0"
+            Margin="20,0,0,0"
             VerticalAlignment="Center"
             Style="{StaticResource CaptionTextBlockStyle}"
             Text="{Binding Title}"

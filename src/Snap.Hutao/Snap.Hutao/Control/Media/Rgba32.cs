@@ -46,13 +46,14 @@ internal struct Rgba32
     /// <summary>
     /// 使用 RGBA 代码初始化新的结构
     /// </summary>
-    /// <param name="code">RGBA 代码</param>
-    public unsafe Rgba32(uint code)
+    /// <param name="xrgbaCode">RGBA 代码</param>
+    public unsafe Rgba32(uint xrgbaCode)
     {
-        // RRGGBBAA -> AABBGGRR
+        // uint layout: 0xRRGGBBAA is AABBGGRR
+        // AABBGGRR -> RRGGBBAA
         fixed (Rgba32* pSelf = &this)
         {
-            *(uint*)pSelf = BinaryPrimitives.ReverseEndianness(code);
+            *(uint*)pSelf = BinaryPrimitives.ReverseEndianness(xrgbaCode);
         }
     }
 
@@ -66,14 +67,14 @@ internal struct Rgba32
 
     public static unsafe implicit operator Color(Rgba32 hexColor)
     {
-        // AABBGGRR -> BBGGRRAA
-        // AABBGGRR -> 000000AA
-        uint a = (*(uint*)&hexColor) >> 24;
+        // Goal : Rgba32:RRGGBBAA(0xAABBGGRR) -> Color: AARRGGBB(0xBBGGRRAA)
+        // Step1: Rgba32:RRGGBBAA(0xAABBGGRR) -> UInt32:AA000000(0x000000AA)
+        uint a = ((*(uint*)&hexColor) >> 24) & 0x000000FF;
 
-        // AABBGGRR -> BBGGRR00
-        uint rgb = (*(uint*)&hexColor) << 8;
+        // Step2: Rgba32:RRGGBBAA(0xAABBGGRR) -> UInt32:00RRGGBB(0xRRGGBB00)
+        uint rgb = ((*(uint*)&hexColor) << 8) & 0xFFFFFF00;
 
-        // BBGGRR00 + 000000AA
+        // Step2: UInt32:00RRGGBB(0xRRGGBB00) + UInt32:AA000000(0x000000AA) -> UInt32:AARRGGBB(0xRRGGBBAA)
         uint rgba = rgb + a;
 
         return *(Color*)&rgba;
@@ -84,7 +85,7 @@ internal struct Rgba32
     /// </summary>
     /// <param name="hsl">HSL 颜色</param>
     /// <returns>RGBA8颜色</returns>
-    public static Rgba32 FromHsl(Hsl32 hsl)
+    public static Rgba32 FromHsl(Hsla32 hsl)
     {
         double chroma = (1 - Math.Abs((2 * hsl.L) - 1)) * hsl.S;
         double h1 = hsl.H / 60;
@@ -141,7 +142,7 @@ internal struct Rgba32
     /// 转换到 HSL 颜色
     /// </summary>
     /// <returns>HSL 颜色</returns>
-    public readonly Hsl32 ToHsl()
+    public readonly Hsla32 ToHsl()
     {
         const double toDouble = 1.0 / 255;
         double r = toDouble * R;
@@ -174,7 +175,7 @@ internal struct Rgba32
         double lightness = 0.5 * (max + min);
         double saturation = chroma == 0 ? 0 : chroma / (1 - Math.Abs((2 * lightness) - 1));
 
-        Hsl32 ret;
+        Hsla32 ret;
         ret.H = 60 * h1;
         ret.S = saturation;
         ret.L = lightness;

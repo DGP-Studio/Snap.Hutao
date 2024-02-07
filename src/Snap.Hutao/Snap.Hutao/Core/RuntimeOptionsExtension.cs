@@ -18,4 +18,9 @@ internal static class RuntimeOptionsExtension
     {
         return Path.Combine(options.DataFolder, "ServerCache");
     }
+
+    public static string GetDataFolderBackgroundFolder(this RuntimeOptions options)
+    {
+        return Path.Combine(options.DataFolder, "Background");
+    }
 }

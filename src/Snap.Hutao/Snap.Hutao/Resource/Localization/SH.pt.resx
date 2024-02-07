@@ -1,0 +1,3062 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDevNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao Dev {0}</value>
+  </data>
+  <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao Dev {0} [Administrador]</value>
+  </data>
+  <data name="AppElevatedNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao {0} [Administrador]</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Snap Hutao</value>
+  </data>
+  <data name="AppNameAndVersion" xml:space="preserve">
+    <value>Snap Hutao {0}</value>
+  </data>
+  <data name="ContentDialogCancelCloseButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ContentDialogCompletePrimaryButtonText" xml:space="preserve">
+    <value>Completo</value>
+  </data>
+  <data name="ContentDialogConfirmPrimaryButtonText" xml:space="preserve">
+    <value>Confirmar</value>
+  </data>
+  <data name="ContentDialogSavePrimaryButtonText" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
+    <value>Uri inválido</value>
+  </data>
+  <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
+    <value>HTTP GET {0}</value>
+  </data>
+  <data name="ControlImageCompositionImageSystemException" xml:space="preserve">
+    <value>Erro ao aplicar a fonte da CompositionImage</value>
+  </data>
+  <data name="ControlPanelPanelSelectorDropdownGridName" xml:space="preserve">
+    <value>Grade</value>
+  </data>
+  <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
+    <value>Lista</value>
+  </data>
+  <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
+    <value>O banco de dados está corrompido: {0}</value>
+  </data>
+  <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
+    <value>O arquivo de dados do usuário está corrompido: {0}</value>
+  </data>
+  <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
+    <value>Não use este recurso no modo de administrador: {0}</value>
+  </data>
+  <data name="CoreIOPickerExtensionPickerExceptionInfoBarTitle" xml:space="preserve">
+    <value>Falha ao abrir o seletor de arquivos</value>
+  </data>
+  <data name="CoreIOTempFileCreateFail" xml:space="preserve">
+    <value>Permissão insuficiente, falha ao criar arquivo temporário</value>
+  </data>
+  <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
+    <value>Inicializador</value>
+  </data>
+  <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
+    <value>Tarefa de atualização de lembrete em tempo real Snap Hutao. NÃO edite ou exclua.</value>
+  </data>
+  <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
+    <value>Semáforo descartado, operação cancelada</value>
+  </data>
+  <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
+    <value>O WebView2 Runtime não foi detectado</value>
+  </data>
+  <data name="FilePickerExportCommit" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="FilePickerImportCommit" xml:space="preserve">
+    <value>Importar</value>
+  </data>
+  <data name="GuideWindowTitle" xml:space="preserve">
+    <value>Boas-vindas ao Snap Hutao, Viajante ~</value>
+  </data>
+  <data name="LaunchGameTitle" xml:space="preserve">
+    <value>Selecionar conta para iniciar</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameNickname" xml:space="preserve">
+    <value>Viajante</value>
+  </data>
+  <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>流浪者</value>
+  </data>
+  <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
+    <value>Refinar {0}</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
+    <value>Segunda-feira/Quinta-feira/Domingo</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek25" xml:space="preserve">
+    <value>Terça-feira/Sexta-feira/Domingo</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
+    <value>Quarta-feira/Sábado/Domingo</value>
+  </data>
+  <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+    <value>{0:f2} orações</value>
+  </data>
+  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+    <value>As {0} orações mais azaradas</value>
+  </data>
+  <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+    <value>As {0} orações mais sortudas</value>
+  </data>
+  <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
+    <value>{0} orações</value>
+  </data>
+  <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
+    <value>Piso {0}</value>
+  </data>
+  <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
+    <value>Nível {0}</value>
+  </data>
+  <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
+    <value>Aparece {0} vezes</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
+    <value>BiliBili</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
+    <value>China</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
+    <value>Erro de rede</value>
+  </data>
+  <data name="ModelEntityDailyNoteNotRefreshed" xml:space="preserve">
+    <value>Não atualizado</value>
+  </data>
+  <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
+    <value>Atualizado em {0:MM.dd HH:mm:ss}</value>
+  </data>
+  <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
+    <value>Cronograma {0}</value>
+  </data>
+  <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
+    <value>Personagem</value>
+  </data>
+  <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
+    <value>Desconhecido</value>
+  </data>
+  <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
+    <value>Arma</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
+    <value>Fatui</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeFontaine" xml:space="preserve">
+    <value>Fontaine</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeInazuma" xml:space="preserve">
+    <value>Inadzuma</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeLiyue" xml:space="preserve">
+    <value>Liyue</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeMondstadt" xml:space="preserve">
+    <value>Mondstadt</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeNatlan" xml:space="preserve">
+    <value>Natlan</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
+    <value>Ranger</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
+    <value>Snezhnaya</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeSumeru" xml:space="preserve">
+    <value>Sumeru</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
+    <value>Garoto</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeGirl" xml:space="preserve">
+    <value>Garota</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeLady" xml:space="preserve">
+    <value>Mulher</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeLoli" xml:space="preserve">
+    <value>Loli</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeMale" xml:space="preserve">
+    <value>Homem</value>
+  </data>
+  <data name="ModelIntrinsicElementNameElec" xml:space="preserve">
+    <value>Electro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameFire" xml:space="preserve">
+    <value>Pyro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameGrass" xml:space="preserve">
+    <value>Dendro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameIce" xml:space="preserve">
+    <value>Cryo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameRock" xml:space="preserve">
+    <value>Geo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameWater" xml:space="preserve">
+    <value>Hydro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicElementNameWind" xml:space="preserve">
+    <value>Anemo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
+    <value>3 estrelas</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityGreen" xml:space="preserve">
+    <value>2 estrelas</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityOrange" xml:space="preserve">
+    <value>5 estrelas</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityPurple" xml:space="preserve">
+    <value>4 estrelas</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityRed" xml:space="preserve">
+    <value>Exclusivo de evento</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
+    <value>1 estrela</value>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
+    <value>Arco</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeCatalyst" xml:space="preserve">
+    <value>Catalisador</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeClaymore" xml:space="preserve">
+    <value>Espadão</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicWeaponTypePole" xml:space="preserve">
+    <value>Lança</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeSwordOneHand" xml:space="preserve">
+    <value>Espada</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
+    <value>Viajante</value>
+  </data>
+  <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
+    <value>{0}/{1}</value>
+  </data>
+  <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
+    <value>Material de Fortalecimento de Arma e Personagem</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterAscensionMaterial" xml:space="preserve">
+    <value>Material de Ascensão de Personagem</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterEXPMaterial" xml:space="preserve">
+    <value>Material de EXP de Personagem</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterLevelUpMaterial" xml:space="preserve">
+    <value>Material de Elevação de Personagem</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterTalentMaterial" xml:space="preserve">
+    <value>Material de Talento do Personagem</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
+    <value>^Especialidade de {2}$</value>
+    <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
+  </data>
+  <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
+    <value>Material de Ascensão de Armas</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
+    <value>Material de Fortalecimento de Arma</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataTowerGoalTypeDefeatMonsters" xml:space="preserve">
+    <value>Elimine os monstros</value>
+  </data>
+  <data name="ModelMetadataTowerGoalTypeDefendTarget" xml:space="preserve">
+    <value>Proteja o Monolith de Linha Ley</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
+    <value>Adição: Reforços de monstos</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeDefault" xml:space="preserve">
+    <value>Monstros nesta câmara</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
+    <value>Grupo A: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave1" xml:space="preserve">
+    <value>Grupo A Onda 1: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave2" xml:space="preserve">
+    <value>Grupo A Onda 2: Grupos diferentes coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave3" xml:space="preserve">
+    <value>Grupo A Onda 3: Grupos diferentes coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupB" xml:space="preserve">
+    <value>Grupo B: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave1" xml:space="preserve">
+    <value>Grupo B Onda 1: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave2" xml:space="preserve">
+    <value>Grupo B Onda 2: Grupos diferentes coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave3" xml:space="preserve">
+    <value>Grupo B Onda 3: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupC" xml:space="preserve">
+    <value>Grupo C: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave1" xml:space="preserve">
+    <value>Grupo C Onda 1: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave2" xml:space="preserve">
+    <value>Grupo C Onda 2: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave3" xml:space="preserve">
+    <value>Grupo C Onda 3: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupD" xml:space="preserve">
+    <value>Grupo D: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave1" xml:space="preserve">
+    <value>Grupo D Onda 1: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave2" xml:space="preserve">
+    <value>Grupo D Onda 2: Grupos diferentes coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave3" xml:space="preserve">
+    <value>Grupo D Onda 3: Diferentes grupos coexistem e têm ondas independentes</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeIndependent" xml:space="preserve">
+    <value>Independente de outros monstros</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeSuppressed" xml:space="preserve">
+    <value>Sem dados de onda</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave1" xml:space="preserve">
+    <value>Onda 1: Uma onda surgirá somente depois de matar todos os inimigos da onda anterior</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave1Additional" xml:space="preserve">
+    <value>Adição da onda 1: Primeira onda de reforço de monstros</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave2" xml:space="preserve">
+    <value>Onda 2: Uma onda surgirá somente depois de matar todos os inimigos da onda anterior</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave3" xml:space="preserve">
+    <value>Onda 3: Uma onda surgirá somente depois de matar todos os inimigos da onda anterior</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
+    <value>Onda 4: Uma onda surgirá somente depois de matar todos os inimigos da onda anterior</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
+    <value>维持场上 4 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+  </data>
+  <data name="ModelNameValueDefaultDescription" xml:space="preserve">
+    <value>Atualize os dados de exibição</value>
+  </data>
+  <data name="ModelNameValueDefaultName" xml:space="preserve">
+    <value>Sem dados</value>
+  </data>
+  <data name="ModelWeaponAffixFormat" xml:space="preserve">
+    <value>Refinamento {0}</value>
+  </data>
+  <data name="MustSelectUserAndUid" xml:space="preserve">
+    <value>É necessário entrar na sua conta do MiHoYo BBS e selecionar um usuário</value>
+  </data>
+  <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
+    <value>Excluiu {1} registro de oração da Uid: {0}</value>
+  </data>
+  <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
+    <value>Atingiu o número máximo permitido de arquivos de histórico de oração no Snap Hutao Cloud</value>
+  </data>
+  <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
+    <value>Nenhum privilégio de serviço de backup de histórico de oração válido</value>
+  </data>
+  <data name="ServerGachaLogServiceInvalidGachaLogData" xml:space="preserve">
+    <value>Os dados do histórico de orações contêm um item inválido, não é possível enviar para o Snap Hutao Cloud</value>
+  </data>
+  <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
+    <value>Foram encontrados dados anormais, não foi possível fazer o envio para o Snap Hutao Cloud. Não faça envio entre contas ou você pode tentar excluir os dados da nuvem e tentar novamente.</value>
+  </data>
+  <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
+    <value>Enviado(s) {1} registro(s) de oração do Uid: {0}, armazenou {2}</value>
+  </data>
+  <data name="ServerPassportLoginRequired" xml:space="preserve">
+    <value>Faça login ou cadastre sua conta Hutao primeiro</value>
+  </data>
+  <data name="ServerPassportLoginSucceed" xml:space="preserve">
+    <value>Login bem-sucedido</value>
+  </data>
+  <data name="ServerPassportRegisterSucceed" xml:space="preserve">
+    <value>Cadastro bem-sucedido</value>
+  </data>
+  <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
+    <value>A senha foi definida com sucesso</value>
+  </data>
+  <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
+    <value>O endereço de e-mail atual não está cadastrado</value>
+  </data>
+  <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
+    <value>O endereço de e-mail atual está cadastrado</value>
+  </data>
+  <data name="ServerPassportServiceInternalException" xml:space="preserve">
+    <value>O cadastro falhou, erro do servidor, entre em contato com um desenvolvedor para corrigi-lo</value>
+  </data>
+  <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
+    <value>O usuário não existe, falha ao excluir a conta</value>
+  </data>
+  <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
+    <value>O cadastro foi cancelado com sucesso</value>
+  </data>
+  <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
+    <value>O usuário não existe, falha ao buscar os dados do usuário</value>
+  </data>
+  <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
+    <value>Nome de usuário ou senha incorretos</value>
+  </data>
+  <data name="ServerPassportVerifyFailed" xml:space="preserve">
+    <value>Falha na verificação</value>
+  </data>
+  <data name="ServerPassportVerifyRequestNotCurrentUser" xml:space="preserve">
+    <value>A solicitação de verificação falhou, pois não é a conta conectada no momento</value>
+  </data>
+  <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
+    <value>O código de verificação foi enviado para seu e-mail.</value>
+  </data>
+  <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
+    <value>A solicitação de verificação falhou, o endereço de e-mail atual foi cadastrado</value>
+  </data>
+  <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
+    <value>Muitas tentativas de solicitação de validação. Por favor, tente novamente em 1 minuto.</value>
+  </data>
+  <data name="ServerRecordBannedUid" xml:space="preserve">
+    <value>Falha ao carregar o registro da Ordem do Abismo, o UID atual foi banido pelo banco de dados Hutao</value>
+  </data>
+  <data name="ServerRecordComputingStatistics" xml:space="preserve">
+    <value>Falha ao carregar o registro da Ordem do Abismo, o servidor está calculando dados estatísticos</value>
+  </data>
+  <data name="ServerRecordComputingStatistics2" xml:space="preserve">
+    <value>Falha ao buscar dados, o servidor está calculando dados estatísticos</value>
+  </data>
+  <data name="ServerRecordInternalException" xml:space="preserve">
+    <value>Falha ao carregar o registro da Ordem do Abismo, erro do servidor, entre em contato com o desenvolvedor para corrigi-lo</value>
+  </data>
+  <data name="ServerRecordInvalidData" xml:space="preserve">
+    <value>Falha ao carregar o registro da Ordem do Abismo, dados inválidos detectados</value>
+  </data>
+  <data name="ServerRecordInvalidUid" xml:space="preserve">
+    <value>UID inválido</value>
+  </data>
+  <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
+    <value>Falha ao carregar o registro da Ordem do Abismo. Não há dados para o cronograma atual.</value>
+  </data>
+  <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
+    <value>Falha ao carregar o registro da Ordem do Abismo. O registro do Uid atual ainda está sendo processado. Não repita a operação.</value>
+  </data>
+  <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
+    <value>Carregamento bem-sucedido do registro da Ordem do Abismo. Recebeu uma extensão de privilégio para o serviço Snap Hutao Cloud.</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
+    <value>Registro de abismo carregado com sucesso. Nenhum privilégio do Snap Hutao Cloud foi recebido, pois nenhuma conta do Snap Hutao está conectada.</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
+    <value>Registro de abismo carregado com sucesso. Nenhum privilégio do Snap Hutao Cloud foi recebido porque nenhuma conta do Snap Hutao foi encontrada.</value>
+  </data>
+  <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
+    <value>Registro de abismo carregado com sucesso. Nenhum privilégio do Snap Hutao Cloud foi recebido, pois não há o primeiro envio do cronograma atual.</value>
+  </data>
+  <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
+    <value>Novo: {0} Conquistas | Atualizado: {1} conquistas | Excluir: {2} conquistas</value>
+  </data>
+  <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
+    <value>Arquivo Json UIAF</value>
+  </data>
+  <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
+    <value>Abrir arquivo Json UIAF</value>
+  </data>
+  <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
+    <value>Várias IDs de conquistas idênticas encontradas em um único arquivo de conquistas</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
+    <value>ATQ</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyBaseAtk" xml:space="preserve">
+    <value>ATQ Básico</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyBaseDef" xml:space="preserve">
+    <value>DEF Básica</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyBaseHp" xml:space="preserve">
+    <value>Vida Básica</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyCDmg" xml:space="preserve">
+    <value>Dano Crítico</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyCE" xml:space="preserve">
+    <value>Recarga de Energia</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyCR" xml:space="preserve">
+    <value>Taxa Crítica</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBElec" xml:space="preserve">
+    <value>Bônus de Dano Electro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBFire" xml:space="preserve">
+    <value>Bônus de Dano Pyro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBGrass" xml:space="preserve">
+    <value>Bônus de Dano Dendro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBIce" xml:space="preserve">
+    <value>Bônus de Dano Cryo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBPhyiscal" xml:space="preserve">
+    <value>Bônus de Dano Físico</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBRock" xml:space="preserve">
+    <value>Bônus de Dano Geo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBWater" xml:space="preserve">
+    <value>Bônus de Dano Hydro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBWind" xml:space="preserve">
+    <value>Bônus de Dano Anemo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDef" xml:space="preserve">
+    <value>DEF</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyEM" xml:space="preserve">
+    <value>Proficiência Elemental</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyHB" xml:space="preserve">
+    <value>Bônus de Cura</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
+    <value>Vida</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESElec" xml:space="preserve">
+    <value>RES Electro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESFire" xml:space="preserve">
+    <value>RES Pyro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESGrass" xml:space="preserve">
+    <value>RES Dendro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESIce" xml:space="preserve">
+    <value>RES Cryo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESPhysical" xml:space="preserve">
+    <value>RES Física</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESRock" xml:space="preserve">
+    <value>RES Geo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESWater" xml:space="preserve">
+    <value>RES Hydro</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESWind" xml:space="preserve">
+    <value>RES Anemo</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
+    <value>Planejamento: N/A</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat" xml:space="preserve">
+    <value>Calculadora de personagem: {0:dd-MM HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
+    <value>Sucesso de Batalha: N/A</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
+    <value>Sucesso de Batalha: {0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
+    <value>Enka: N/A</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
+    <value>Exibição de personagens: {0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
+    <value>Falha ao salvar o status do planejamento</value>
+  </data>
+  <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
+    <value>Vários planos de equipe estão selecionados</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
+    <value>Iniciar jogo</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierActionLaunchGameDismiss" xml:space="preserve">
+    <value>Dispensar</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierAttribution" xml:space="preserve">
+    <value>Erro ao solicitar dados</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierDailyTask" xml:space="preserve">
+    <value>Missão diária</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierDailyTaskHint" xml:space="preserve">
+    <value>Recompensa não resgatada</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierExpedition" xml:space="preserve">
+    <value>Expedições</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierExpeditionAdaptiveHint" xml:space="preserve">
+    <value>Concluído</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierExpeditionHint" xml:space="preserve">
+    <value>Expedições concluídas</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierHomeCoin" xml:space="preserve">
+    <value>Moeda do Paraíso</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierHomeCoinCurrent" xml:space="preserve">
+    <value>Moeda do Paraíso atual: {0}</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierMultiValueReached" xml:space="preserve">
+    <value>Vários alarmes atingiram o valor definido</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierResin" xml:space="preserve">
+    <value>Resina original</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierResinCurrent" xml:space="preserve">
+    <value>Resina original atual: {0}</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierTitle" xml:space="preserve">
+    <value>Notificação de lembrete em tempo real</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierTransformer" xml:space="preserve">
+    <value>Transformador Paramétrico</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierTransformerAdaptiveHint" xml:space="preserve">
+    <value>Pronto</value>
+  </data>
+  <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
+    <value>O Transformador Paramétrico está pronto</value>
+  </data>
+  <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
+    <value>Explorando em Teyvat</value>
+  </data>
+  <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
+    <value>Iniciado por {0}</value>
+  </data>
+  <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
+    <value>Não é possível obter o histórico de orações: {0}</value>
+  </data>
+  <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
+    <value>Não foi possível resolver o histórico de orações End Id</value>
+  </data>
+  <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
+    <value>Evento de oração de personagem</value>
+  </data>
+  <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
+    <value>Invocação do Mochileiro</value>
+  </data>
+  <data name="ServiceGachaLogFactoryWeaponWishName" xml:space="preserve">
+    <value>Encarnação Divina</value>
+  </data>
+  <data name="ServiceGachaLogHutaoCloudEndIdFetchFailed" xml:space="preserve">
+    <value>Falha ao buscar o histórico de orações da nuvem</value>
+  </data>
+  <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
+    <value>O serviço de envio de histórico de orações não está disponível</value>
+  </data>
+  <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
+    <value>Os dados contêm um item inesperado, Id: {0}</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
+    <value>Falha ao solicitar a chave de autenticação</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
+    <value>O caminho do jogo Genshin Impact não está definido ou está definido incorretamente</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
+    <value>Não é possível localizar o caminho do cache do navegador incorporado do Genshin Impact: \n{0}</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
+    <value>Não é possível encontrar o URL disponível</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
+    <value>URL inválido fornecido</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
+    <value>A atualização do SToken não é compatível com a conta do HoYoLab</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
+    <value>Idioma do arquivo UIGF: {0} não corresponde ao idioma do Snap Hutao: {1}, tente novamente após alternar o idioma do cliente para o idioma do arquivo UIGF de destino</value>
+  </data>
+  <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
+    <value>ID de item não suportado: {0}</value>
+  </data>
+  <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
+    <value>Idioma do arquivo UIGF: {0} não corresponde ao idioma do Snap Hutao: {1}, tente novamente depois de mudar o idioma do cliente para o idioma do arquivo UIGF de destino</value>
+  </data>
+  <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
+    <value>Várias contas correspondentes detectadas, exclua as contas duplicadas</value>
+  </data>
+  <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
+    <value>Sem permissão de gravação no sistema de arquivos, não é possível iniciar a conversão do servidor.</value>
+  </data>
+  <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
+    <value>Consultando informações de recursos do jogo</value>
+  </data>
+  <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
+    <value>Falha ao operar no arquivo do jogo: {0}</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
+    <value>Falha ao desbloquear o limite da taxa de quadros</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
+    <value>Jogo em andamento</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
+    <value>Selecione o caminho do jogo</value>
+  </data>
+  <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
+    <value>Falha ao fazer o download do índice de recursos do jogo: {0}</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseProcessExited" xml:space="preserve">
+    <value>Processo de jogo encerrado</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseProcessInitializing" xml:space="preserve">
+    <value>Iniciando o processo do jogo</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseProcessStarted" xml:space="preserve">
+    <value>Processo de jogo iniciado</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseUnlockFpsFailed" xml:space="preserve">
+    <value>Falha ao desbloquear o limite da taxa de quadros, fechando o processo do jogo…</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseUnlockFpsSucceed" xml:space="preserve">
+    <value>Limite de taxa de quadros desbloqueado com sucesso</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
+    <value>Tentando desbloquear o limite da taxa de quadros…</value>
+  </data>
+  <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
+    <value>Aguardando o encerramento do processo do jogo…</value>
+  </data>
+  <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
+    <value>Selecione o executável do jogo</value>
+  </data>
+  <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
+    <value>Cliente do jogo</value>
+  </data>
+  <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
+    <value>Arquivo de log do Unity não encontrado</value>
+  </data>
+  <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
+    <value>Caminho do jogo não encontrado no arquivo de log do Unity</value>
+  </data>
+  <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
+    <value>Backup：{0}</value>
+  </data>
+  <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
+    <value>Renomear：{0} para：{1}</value>
+  </data>
+  <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
+    <value>Substituir: {0}</value>
+  </data>
+  <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
+    <value>Falha ao alterar o nome da pasta de dados</value>
+  </data>
+  <data name="ServiceGamePackageRequestPackageVerion" xml:space="preserve">
+    <value>Solicitando versão do pacote</value>
+  </data>
+  <data name="ServiceGamePackageRequestPackageVerionFailed" xml:space="preserve">
+    <value>Falha na solicitação da versão do pacote</value>
+  </data>
+  <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
+    <value>Falha no download do arquivo do cliente: {0}</value>
+  </data>
+  <data name="ServiceGamePathLocateFailed" xml:space="preserve">
+    <value>Não é possível encontrar o caminho do jogo. Edite na página de configurações.</value>
+  </data>
+  <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
+    <value>Não é possível definir a chave do registro sem ativar o caminho longo</value>
+  </data>
+  <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
+    <value>Não foi possível ler o arquivo de configuração do jogo {0}, o arquivo pode não existir</value>
+  </data>
+  <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
+    <value>Não foi possível ler ou salvar o perfil, tente novamente no modo de administrador</value>
+  </data>
+  <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
+    <value>Erro ao encontrar os módulos necessários: não foi possível ler nenhum módulo, o driver de proteção pode ter sido carregado; tente novamente</value>
+  </data>
+  <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
+    <value>Erro ao encontrar os módulos necessários: tempo limite; tente novamente</value>
+  </data>
+  <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
+    <value>Erro ao corresponder ao padrão de memória: nenhum conteúdo esperado</value>
+  </data>
+  <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
+    <value>Erro ao ler a memória dos módulos necessários: não foi possível copiar a memória do módulo para o destino</value>
+  </data>
+  <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
+    <value>Erro ao ler a memória dos módulos de processo: não foi possível ler um valor válido no endereço fornecido</value>
+  </data>
+  <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
+    <value>O serviço de backup de dados do histórico de orações expirará em \n{0:dd.MM.yyyy HH:mm:ss}</value>
+  </data>
+  <data name="ServiceMetadataFileNotFound" xml:space="preserve">
+    <value>Não foi possível localizar o arquivo de metadados em cache</value>
+  </data>
+  <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
+    <value>HTTP {0} | Erro {1}: Falha ao fazer o download do arquivo de verificação de metadados</value>
+  </data>
+  <data name="ServiceMetadataNotInitialized" xml:space="preserve">
+    <value>O serviço de metadados não foi inicializado ou falhou na inicialização</value>
+  </data>
+  <data name="ServiceMetadataParseFailed" xml:space="preserve">
+    <value>Falha ao analisar o arquivo de validação de metadados</value>
+  </data>
+  <data name="ServiceMetadataRequestFailed" xml:space="preserve">
+    <value>Falha ao fazer o download do arquivo de validação de metadados</value>
+  </data>
+  <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
+    <value>Sua versão do Snap Hutao é muito desatualizada. Por favor, atualize o mais rápido possível.</value>
+  </data>
+  <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
+    <value>Falha no check-in, {0}</value>
+  </data>
+  <data name="ServiceSignInInfoRequestFailed" xml:space="preserve">
+    <value>Falha ao obter a contagem de dias de login</value>
+  </data>
+  <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
+    <value>Falha ao buscar a lista de prêmios de login</value>
+  </data>
+  <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
+    <value>A verificação falhou, visite a página de check-in do MiYouShe para resgatar manualmente a recompensa</value>
+  </data>
+  <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
+    <value>Check-in bem-sucedido, {0} x {1}</value>
+  </data>
+  <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
+    <value>Versão de UIGF não suportada</value>
+  </data>
+  <data name="ServiceUpdateStatusVersionDescription" xml:space="preserve">
+    <value>Uma nova versão {0} está disponível.</value>
+  </data>
+  <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
+    <value>Vários usuários registrados como selecionados</value>
+  </data>
+  <data name="ServiceUserCurrentUpdateAndSaveFailed" xml:space="preserve">
+    <value>Falha ao salvar o status do usuário {0}</value>
+  </data>
+  <data name="ServiceUserProcessCookieNoMid" xml:space="preserve">
+    <value>O Mid deve estar incluso no cookie inserido</value>
+  </data>
+  <data name="ServiceUserProcessCookieNoSToken" xml:space="preserve">
+    <value>O cookie inserido deve conter o SToken</value>
+  </data>
+  <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
+    <value>Não é possível obter informações do usuário com o cookie inserido</value>
+  </data>
+  <data name="ViewAchievementHeader" xml:space="preserve">
+    <value>Conquistas</value>
+  </data>
+  <data name="ViewAnnouncementHeader" xml:space="preserve">
+    <value>Início</value>
+  </data>
+  <data name="ViewAvatarPropertyHeader" xml:space="preserve">
+    <value>Meus personagens</value>
+  </data>
+  <data name="ViewAvatarPropertySyncDataButtonLabel" xml:space="preserve">
+    <value>Sincronizar dados de personagem</value>
+  </data>
+  <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
+    <value>Estatísticas de conquistas</value>
+  </data>
+  <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
+    <value>Contagem de Pity</value>
+  </data>
+  <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
+    <value>Selecione a conta ou comece agora</value>
+  </data>
+  <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
+    <value>Nível</value>
+  </data>
+  <data name="ViewControlBaseValueSliderPromoted" xml:space="preserve">
+    <value>Após a ascensão</value>
+  </data>
+  <data name="ViewControlElevationText" xml:space="preserve">
+    <value>Privilégios de administrador necessários</value>
+  </data>
+  <data name="ViewControlLoadingText" xml:space="preserve">
+    <value>Carregando, aguarde</value>
+  </data>
+  <data name="ViewControlStatisticsCardBlueText" xml:space="preserve">
+    <value>3 estrelas</value>
+  </data>
+  <data name="ViewControlStatisticsCardGuaranteeText" xml:space="preserve">
+    <value>Pity</value>
+  </data>
+  <data name="ViewControlStatisticsCardOrangeAveragePullText" xml:space="preserve">
+    <value>Oração média de 5 estrelas nº</value>
+  </data>
+  <data name="ViewControlStatisticsCardOrangeText" xml:space="preserve">
+    <value>5 estrelas</value>
+  </data>
+  <data name="ViewControlStatisticsCardPullText" xml:space="preserve">
+    <value>Orações</value>
+  </data>
+  <data name="ViewControlStatisticsCardPurpleText" xml:space="preserve">
+    <value>4 estrelas</value>
+  </data>
+  <data name="ViewControlStatisticsCardToLastOrangeText" xml:space="preserve">
+    <value>Últimos 5 estrelas</value>
+  </data>
+  <data name="ViewControlStatisticsCardToLastPurpleText" xml:space="preserve">
+    <value>Últimos 4 estrelas</value>
+  </data>
+  <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
+    <value>Sorte média</value>
+  </data>
+  <data name="ViewControlStatisticsCardUpText" xml:space="preserve">
+    <value>Acima</value>
+  </data>
+  <data name="ViewControlStatisticsSegmentedItemContentPrediction" xml:space="preserve">
+    <value>Previsão</value>
+  </data>
+  <data name="ViewControlStatisticsSegmentedItemContentProportion" xml:space="preserve">
+    <value>Proporção</value>
+  </data>
+  <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
+    <value>Estatísticas</value>
+  </data>
+  <data name="ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed" xml:space="preserve">
+    <value>A versão atual do WebView2 não é compatível com a configuração de gerenciamento; continuar a usá-la pode causar anormalidades; faça a atualização assim que possível.</value>
+  </data>
+  <data name="ViewCultivationHeader" xml:space="preserve">
+    <value>Planejamento</value>
+  </data>
+  <data name="ViewDailyNoteHeader" xml:space="preserve">
+    <value>Lembrete em tempo real</value>
+  </data>
+  <data name="ViewDataHeader" xml:space="preserve">
+    <value>Dados</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveCreateInputPlaceholder" xml:space="preserve">
+    <value>Digite aqui</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveCreateTitle" xml:space="preserve">
+    <value>Defina o nome do arquivo de conquistas</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategy" xml:space="preserve">
+    <value>Modo de importação</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
+    <value>Guloso (adicionar novos dados, atualizar registros completos)</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategyLazy" xml:space="preserve">
+    <value>Preguiçoso (adicionar novos dados, pular registros completos)</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategyOverwrite" xml:space="preserve">
+    <value>Substituir (excluir dados antigos, adicionar novos dados)</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
+    <value>Importar dados de conquistas para o arquivo atual</value>
+  </data>
+  <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
+    <value>Nível alvo do personagem</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillATarget" xml:space="preserve">
+    <value>Nível alvo de ataque</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillETarget" xml:space="preserve">
+    <value>Nível alvo de habilidade elemental</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillQTarget" xml:space="preserve">
+    <value>Nível alvo de supremo</value>
+  </data>
+  <data name="ViewDialogCultivateBatchWeaponLevelTarget" xml:space="preserve">
+    <value>Nível alvo de arma</value>
+  </data>
+  <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
+    <value>Vincular usuário e personagem atuais</value>
+  </data>
+  <data name="ViewDialogCultivateProjectInputPlaceholder" xml:space="preserve">
+    <value>Digite o nome do plano aqui</value>
+  </data>
+  <data name="ViewDialogCultivateProjectTitle" xml:space="preserve">
+    <value>Criar novo plano</value>
+  </data>
+  <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
+    <value>Adicionar ou atualizar em lote para o planejamento atual</value>
+  </data>
+  <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
+    <value>Adicionar ou atualizar ao planejamento atual</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
+    <value>Notificação diária de disponibilidade de missão</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationExpeditionNotify" xml:space="preserve">
+    <value>Notificação de recompensa de expedição</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
+    <value>Limite de alarme de moeda do paraíso</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
+    <value>Limite de alarme de resina original</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
+    <value>Mostrar widget na página inicial</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
+    <value>Configurações de notificação de lembrete em tempo real</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
+    <value>Notificação de Transformador Paramétrico</value>
+  </data>
+  <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
+    <value>URL de entrada</value>
+  </data>
+  <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
+    <value>URL do webhook do lembrete de tempo real</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
+    <value>解除限制后需要使用其他工具恢复限制</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
+    <value>是否解除 Loopback 限制</value>
+  </data>
+  <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
+    <value>Importar histórico de orações</value>
+  </data>
+  <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
+    <value>O URL do histórico de orações expirou. Por favor, obtenha-o novamente.</value>
+  </data>
+  <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
+    <value>Buscando {0}</value>
+  </data>
+  <data name="ViewDialogGachaLogRefreshProgressTitle" xml:space="preserve">
+    <value>Obtendo itens de oração</value>
+  </data>
+  <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
+    <value>Insira o URL</value>
+  </data>
+  <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
+    <value>Insira manualmente o URL do histórico de orações</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
+    <value>Url da solicitação de entrada com modelo composto</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
+    <value>A interface requer um retorno de dados Json, conforme mostrado acima. Dados extras serão ignorados</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
+    <value>Se "code" for 0, a autenticação foi bem-sucedida; caso contrário, a autenticação falhou</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlReturnDataHeader" xml:space="preserve">
+    <value>Dados retornados</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
+    <value>{0} será substituído por gt durante uma solicitação</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
+    <value>{1} será substituído por challenge durante uma solicitação</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
+    <value>As solicitações serão enviadas às interfaces via GET</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleHeader" xml:space="preserve">
+    <value>Exemplo</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
+    <value>Configurar a API de verificação de CAPTCHA do Geetest</value>
+  </data>
+  <data name="ViewDialogHutaoPassportLoginTitle" xml:space="preserve">
+    <value>Faça login no passaporte do Snap Hutao</value>
+  </data>
+  <data name="ViewDialogHutaoPassportRegisterTitle" xml:space="preserve">
+    <value>Cadastrar no passaporte do Snap Hutao</value>
+  </data>
+  <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
+    <value>Redefinir a senha do passaporte do Snap Hutao</value>
+  </data>
+  <data name="ViewDialogHutaoPassportUnregisterTitle" xml:space="preserve">
+    <value>Excluir o passaporte do Snap Hutao</value>
+  </data>
+  <data name="ViewDialogImportExportApp" xml:space="preserve">
+    <value>Aplicativo da exportação</value>
+  </data>
+  <data name="ViewDialogImportExportAppVersion" xml:space="preserve">
+    <value>Versão do aplicativo</value>
+  </data>
+  <data name="ViewDialogImportExportTime" xml:space="preserve">
+    <value>Hora da exportação</value>
+  </data>
+  <data name="ViewDialogImportUIAFExportListCount" xml:space="preserve">
+    <value>Número de conquistas</value>
+  </data>
+  <data name="ViewDialogImportUIAFExportUIAFVersion" xml:space="preserve">
+    <value>Versão do UIAF</value>
+  </data>
+  <data name="ViewDialogImportUIGFExportListCount" xml:space="preserve">
+    <value>Registros totais</value>
+  </data>
+  <data name="ViewDialogImportUIGFExportUid" xml:space="preserve">
+    <value>UID</value>
+  </data>
+  <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
+    <value>Versão do UIGF</value>
+  </data>
+  <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
+    <value>Insira o nome aqui</value>
+  </data>
+  <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
+    <value>Nomeie a conta</value>
+  </data>
+  <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
+    <value>A conversão pode levar algum tempo. Não feche o software.</value>
+  </data>
+  <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
+    <value>Convertendo o client do jogo</value>
+  </data>
+  <data name="ViewDialogQRCodeTitle" xml:space="preserve">
+    <value>Escaneie o código QR com o aplicativo MiHoYo BBS</value>
+  </data>
+  <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
+    <value>Para evitar erros na ativação, insira o &lt;b&gt;nome do título&lt;/b&gt; do recurso que está ativando</value>
+  </data>
+  <data name="ViewDialogReconfirmTitle" xml:space="preserve">
+    <value>Você está habilitando um recurso perigoso</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
+    <value>Essa ação é irreversível, e todos os status de login do usuário serão perdidos</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
+    <value>Excluir permanentemente os dados do usuário?</value>
+  </data>
+  <data name="ViewDialogUserDocumentAction" xml:space="preserve">
+    <value>Leve-me até lá</value>
+  </data>
+  <data name="ViewDialogUserDocumentDescription" xml:space="preserve">
+    <value>Siga as instruções do documento</value>
+  </data>
+  <data name="ViewDialogUserDocumentHeader" xml:space="preserve">
+    <value>Documento</value>
+  </data>
+  <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
+    <value>Os cookies inseridos contêm SToken</value>
+  </data>
+  <data name="ViewDialogUserTitle" xml:space="preserve">
+    <value>Definir cookie</value>
+  </data>
+  <data name="ViewFeedbackHeader" xml:space="preserve">
+    <value>Centro de feedback</value>
+  </data>
+  <data name="ViewGachaLogHeader" xml:space="preserve">
+    <value>Histórico de orações</value>
+  </data>
+  <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
+    <value>Eu li e concordei com</value>
+  </data>
+  <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
+    <value>Abordagem e processo de relatório de problemas</value>
+  </data>
+  <data name="ViewGuideStepAgreementOpenSourceLicense" xml:space="preserve">
+    <value>Licença de código aberto do Snap Hutao</value>
+  </data>
+  <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
+    <value>Dados do usuário e aviso de privacidade</value>
+  </data>
+  <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
+    <value>Contrato do usuário e avisos legais</value>
+  </data>
+  <data name="ViewGuideStepDocument" xml:space="preserve">
+    <value>Documentação</value>
+  </data>
+  <data name="ViewGuideStepEnvironment" xml:space="preserve">
+    <value>Ambientes</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
+    <value>Reinicie o Snap Hutao após a instalação para verificar se ela foi efetivada</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
+    <value>Se os ícones acima estiverem com mojibake ou não puderem ser carregados, visite</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
+    <value>para baixar e instalar a fonte</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
+    <value>Se nenhuma informação do sistema de tempo de execução do Webview2 for detectada, visite</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
+    <value>para baixar e instalar o sistema de tempo de execução</value>
+  </data>
+  <data name="ViewGuideStepLanguage" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="ViewGuideStepStaticResource" xml:space="preserve">
+    <value>Recursos</value>
+  </data>
+  <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
+    <value>Status do abismo</value>
+  </data>
+  <data name="ViewInfoBarToggleTitle" xml:space="preserve">
+    <value>Nova notificação</value>
+  </data>
+  <data name="ViewLaunchGameHeader" xml:space="preserve">
+    <value>Inicializador</value>
+  </data>
+  <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
+    <value>Arquivo [{0}] adicionado com sucesso</value>
+  </data>
+  <data name="ViewModelAchievementArchiveAlreadyExists" xml:space="preserve">
+    <value>Não é possível adicionar um arquivo com nome duplicado [{0}]</value>
+  </data>
+  <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
+    <value>Não é possível adicionar um arquivo com nome inválido</value>
+  </data>
+  <data name="ViewModelAchievementExportFileType" xml:space="preserve">
+    <value>Arquivo UIAF</value>
+  </data>
+  <data name="ViewModelAchievementImportProgress" xml:space="preserve">
+    <value>Importando conquistas</value>
+  </data>
+  <data name="ViewModelAchievementImportWarningMessage" xml:space="preserve">
+    <value>A versão do UIAF é muito baixa para ser importada</value>
+  </data>
+  <data name="ViewModelAchievementRemoveArchiveContent" xml:space="preserve">
+    <value>Essa operação é irreversível. O arquivo de conquistas será perdido.</value>
+  </data>
+  <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
+    <value>Tem certeza de que deseja excluir o arquivo {0}?</value>
+  </data>
+  <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
+    <value>Exportar o arquivo Json UIAF para o caminho selecionado</value>
+  </data>
+  <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
+    <value>Obtendo materiais de ascensão...</value>
+  </data>
+  <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
+    <value>Não é possível calcular o personagem atual. Tente novamente após a sincronização dos dados.</value>
+  </data>
+  <data name="ViewModelAvatarPropertyEnkaApiUnavailable" xml:space="preserve">
+    <value>O serviço de dados de personagem [Enka API] não está disponível</value>
+  </data>
+  <data name="ViewModelAvatarPropertyExportImageSuccess" xml:space="preserve">
+    <value>Exportado para a área de transferência</value>
+  </data>
+  <data name="ViewModelAvatarPropertyFetch" xml:space="preserve">
+    <value>Obtendo dados</value>
+  </data>
+  <data name="ViewModelAvatarPropertyOpenClipboardFail" xml:space="preserve">
+    <value>Falha ao abrir a área de transferência</value>
+  </data>
+  <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
+    <value>A exibição de personagens está desativada. Por favor, ative-a no jogo.</value>
+  </data>
+  <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
+    <value>Nenhum artefato definido</value>
+  </data>
+  <data name="ViewModelCultivationAddWarning" xml:space="preserve">
+    <value>Falha ao adicionar planejamento</value>
+  </data>
+  <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
+    <value>Operação concluída: adicionado/atualizado {0}, pulado {1}</value>
+  </data>
+  <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
+    <value>Operação não totalmente concluída, adicionado/atualizado {0}, pulado {1}</value>
+  </data>
+  <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
+    <value>Adicionado com sucesso ao planejamento</value>
+  </data>
+  <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
+    <value>Crie um plano e selecione-o na função de planejamento</value>
+  </data>
+  <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
+    <value>Adicione o item novamente para ver a descrição do planejamento</value>
+  </data>
+  <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
+    <value>Adicionado com sucesso</value>
+  </data>
+  <data name="ViewModelCultivationProjectAlreadyExists" xml:space="preserve">
+    <value>Não é possível adicionar um plano com nome duplicado</value>
+  </data>
+  <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
+    <value>Não é possível adicionar um plano com nome inválido</value>
+  </data>
+  <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
+    <value>URL do webhook de lembrete de tempo real configurado com sucesso</value>
+  </data>
+  <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
+    <value>A conta do HoYoLab não é compatível com a verificação de lembrete de tempo real</value>
+  </data>
+  <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
+    <value>Falha ao modificar a tarefa agendada</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
+    <value>30 min | 3.75 Resinas</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime4" xml:space="preserve">
+    <value>4 min | 0.5 Resina</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime40" xml:space="preserve">
+    <value>40 min | 5 Resinas</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime60" xml:space="preserve">
+    <value>60 min | 7.5 Resinas</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
+    <value>8 min | 1 Resina</value>
+  </data>
+  <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
+    <value>Obtendo dados de lembrete em tempo real, aguarde</value>
+  </data>
+  <data name="ViewModelExportSuccessMessage" xml:space="preserve">
+    <value>Salvo com êxito no caminho selecionado</value>
+  </data>
+  <data name="ViewModelExportSuccessTitle" xml:space="preserve">
+    <value>Exportado com sucesso</value>
+  </data>
+  <data name="ViewModelExportWarningMessage" xml:space="preserve">
+    <value>Falha ao gravar o arquivo</value>
+  </data>
+  <data name="ViewModelExportWarningTitle" xml:space="preserve">
+    <value>Falha na exportação</value>
+  </data>
+  <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
+    <value>Arquivo UIGF Json</value>
+  </data>
+  <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
+    <value>Importação concluída</value>
+  </data>
+  <data name="ViewModelGachaLogImportProgress" xml:space="preserve">
+    <value>Importação do histórico de orações</value>
+  </data>
+  <data name="ViewModelGachaLogImportWarningMessage" xml:space="preserve">
+    <value>A versão do UIGF está desatualizada para importação</value>
+  </data>
+  <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
+    <value>A importação de dados contém itens não suportados</value>
+  </data>
+  <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
+    <value>Falha na importação</value>
+  </data>
+  <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
+    <value>{1:P3} chance de obter um item 5 estrelas após {0} orações</value>
+  </data>
+  <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
+    <value>{0:P3} chance de obter um item 5 estrelas na próxima oração</value>
+  </data>
+  <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
+    <value>Falha ao buscar o histórico de orações</value>
+  </data>
+  <data name="ViewModelGachaLogRefreshOperationCancel" xml:space="preserve">
+    <value>A atualização do histórico de orações foi cancelada inesperadamente</value>
+  </data>
+  <data name="ViewModelGachaLogRemoveArchiveDescription" xml:space="preserve">
+    <value>Essa operação é irreversível. O arquivo do histórico de desejos será perdido.</value>
+  </data>
+  <data name="ViewModelGachaLogRemoveArchiveTitle" xml:space="preserve">
+    <value>Tem certeza de que deseja excluir o arquivo {0}?</value>
+  </data>
+  <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
+    <value>Sincronizar histórico de orações do serviço Cloud Snap Hutao</value>
+  </data>
+  <data name="ViewModelGachaLogUIGFExportPickerTitle" xml:space="preserve">
+    <value>Exportar o arquivo Json UIGF para o caminho selecionado</value>
+  </data>
+  <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
+    <value>Enviando para o serviço Cloud Snap Hutao</value>
+  </data>
+  <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
+    <value>Importar arquivo UIGF Json</value>
+  </data>
+  <data name="ViewModelGuideActionAgreement" xml:space="preserve">
+    <value>Eu li e concordo com as condições acima</value>
+  </data>
+  <data name="ViewModelGuideActionComplete" xml:space="preserve">
+    <value>Completo</value>
+  </data>
+  <data name="ViewModelGuideActionNext" xml:space="preserve">
+    <value>Próximo</value>
+  </data>
+  <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
+    <value>Baixando recursos</value>
+  </data>
+  <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
+    <value>Digite o endereço de e-mail correto</value>
+  </data>
+  <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
+    <value>O formato do texto na área de transferência está incorreto</value>
+  </data>
+  <data name="ViewModelImportWarningMessage" xml:space="preserve">
+    <value>Estrutura de dados incorreta</value>
+  </data>
+  <data name="ViewModelImportWarningMessage2" xml:space="preserve">
+    <value>Primeiro, crie um arquivo de conquistas</value>
+  </data>
+  <data name="ViewModelImportWarningTitle" xml:space="preserve">
+    <value>Falha na importação</value>
+  </data>
+  <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
+    <value>Falha ao converter o servidor</value>
+  </data>
+  <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
+    <value>Identificar monitores</value>
+  </data>
+  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
+    <value>Não foi possível ler o arquivo de configuração do jogo: {0}, o arquivo pode não existir por falta de permissão do usuário</value>
+  </data>
+  <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
+    <value>O caminho do programa do jogo está incorreto. Altere-o na página de configurações.</value>
+  </data>
+  <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
+    <value>Nenhum servidor selecionado</value>
+  </data>
+  <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
+    <value>Falha ao trocar a conta do jogo</value>
+  </data>
+  <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
+    <value>Não é possível selecionar a conta [{1}] para o Uid [{0}], a conta não pertence ao servidor atual</value>
+  </data>
+  <data name="ViewModelSettingActionComplete" xml:space="preserve">
+    <value>Operação completa</value>
+  </data>
+  <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
+    <value>Falha na limpeza. Não há permissão no diretório do arquivo. Tente novamente no modo de administrador.</value>
+  </data>
+  <data name="ViewModelSettingClearWebCachePathInvalid" xml:space="preserve">
+    <value>Falha na limpeza. Não é possível encontrar o diretório: {0}</value>
+  </data>
+  <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
+    <value>Limpeza completa</value>
+  </data>
+  <data name="ViewModelSettingCopyDeviceIdSuccess" xml:space="preserve">
+    <value>Copiado</value>
+  </data>
+  <data name="ViewModelSettingCreateDesktopShortcutFailed" xml:space="preserve">
+    <value>Falha ao criar um atalho para a área de trabalho</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderContent" xml:space="preserve">
+    <value>Você precisará fazer o download novamente dos arquivos necessários. Tem certeza de que quer excluir?</value>
+  </data>
+  <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
+    <value>Excluir o cache do cliente de conversão de servidor</value>
+  </data>
+  <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
+    <value>Espaço em disco utilizado: {0}</value>
+  </data>
+  <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
+    <value>URL composto de verificação de CAPTCHA configurado com sucesso</value>
+  </data>
+  <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
+    <value>Definir o diretório de dados com êxito. Reinicie para aplicar as alterações.</value>
+  </data>
+  <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
+    <value>Falha ao salvar o caminho do jogo</value>
+  </data>
+  <data name="ViewModelUserAdded" xml:space="preserve">
+    <value>Usuário [{0}] adicionado com sucesso</value>
+  </data>
+  <data name="ViewModelUserCookieCopied" xml:space="preserve">
+    <value>Copiou com êxito o cookie do usuário [{0}]</value>
+  </data>
+  <data name="ViewModelUserIncomplete" xml:space="preserve">
+    <value>Este cookie está incompleto, a operação falhou</value>
+  </data>
+  <data name="ViewModelUserInvalid" xml:space="preserve">
+    <value>Este cookie é inválido, a operação falhou</value>
+  </data>
+  <data name="ViewModelUserRemoved" xml:space="preserve">
+    <value>Usuário [{0}] removido com sucesso</value>
+  </data>
+  <data name="ViewModelUserUpdated" xml:space="preserve">
+    <value>Atualização bem-sucedida do cookie do usuário [{0}]</value>
+  </data>
+  <data name="ViewModelViewDisposedOperationCancel" xml:space="preserve">
+    <value>O recurso de visualização foi descartado, a operação foi cancelada.</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadCompleteMessage" xml:space="preserve">
+    <value>Snap Hutao está pronto para uso</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadCompleteTitle" xml:space="preserve">
+    <value>Download concluído</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
+    <value>Concluído</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
+    <value>Em fila</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
+    <value>Erro no download de arquivos</value>
+  </data>
+  <data name="ViewPageAchievementAddArchive" xml:space="preserve">
+    <value>Criar novo arquivo</value>
+  </data>
+  <data name="ViewPageAchievementAddArchiveHint" xml:space="preserve">
+    <value>Crie um novo arquivo para continuar</value>
+  </data>
+  <data name="ViewPageAchievementExportLabel" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
+    <value>Importar da área de transferência</value>
+  </data>
+  <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
+    <value>Importar de arquivo UIAF</value>
+  </data>
+  <data name="ViewPageAchievementImportLabel" xml:space="preserve">
+    <value>Importar</value>
+  </data>
+  <data name="ViewPageAchievementRemoveArchive" xml:space="preserve">
+    <value>Excluir arquivo atual</value>
+  </data>
+  <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
+    <value>Nome, descrição, versão ou ID</value>
+  </data>
+  <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
+    <value>Classificar por incompleto</value>
+  </data>
+  <data name="ViewPageAnnouncementActivity" xml:space="preserve">
+    <value>Anúncios de evento</value>
+  </data>
+  <data name="ViewPageAnnouncementGame" xml:space="preserve">
+    <value>Anúncios de jogo</value>
+  </data>
+  <data name="ViewPageAnnouncementViewDetails" xml:space="preserve">
+    <value>Ver detalhes</value>
+  </data>
+  <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
+    <value>Classificação dos artefatos</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculateAll" xml:space="preserve">
+    <value>Todos os personagens e armas</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
+    <value>Personagem e arma atuais</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCritScore" xml:space="preserve">
+    <value>Classificação de crítico</value>
+  </data>
+  <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
+    <value>Nenhum dado de personagem foi obtido</value>
+  </data>
+  <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
+    <value>Exportar como imagem</value>
+  </data>
+  <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
+    <value>Atributos do personagem</value>
+  </data>
+  <data name="ViewPageAvatarPropertyPrimaryProperties" xml:space="preserve">
+    <value>Atributo secundário</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshAction" xml:space="preserve">
+    <value>Sincronizar</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromEnkaApi" xml:space="preserve">
+    <value>Sincronização a partir da API Enka</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
+    <value>Sincronizar dados da exibição de personagem no jogo</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
+    <value>Sincronizar do planejamento de equipe do MiHoYo BBS</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription" xml:space="preserve">
+    <value>Sincronizar dados de talentos de personagem</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
+    <value>Sincronizar dos meus personagens da MiHoYo BBS</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
+    <value>Sincronizar a maioria dos dados, exceto o talento do personagem</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshTimeToggle" xml:space="preserve">
+    <value>Hora da atualização</value>
+  </data>
+  <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
+    <value>Classificação</value>
+  </data>
+  <data name="ViewPageAvatarPropertySecondaryProperties" xml:space="preserve">
+    <value>Atributo secundário aprimorado</value>
+  </data>
+  <data name="ViewPageCultivateCalculate" xml:space="preserve">
+    <value>Planejamento</value>
+  </data>
+  <data name="ViewPageCultivationAddProject" xml:space="preserve">
+    <value>Criar plano</value>
+  </data>
+  <data name="ViewPageCultivationAddProjectAction" xml:space="preserve">
+    <value>Criar</value>
+  </data>
+  <data name="ViewPageCultivationAddProjectContinue" xml:space="preserve">
+    <value>Crie um plano para continuar</value>
+  </data>
+  <data name="ViewPageCultivationAddProjectDescription" xml:space="preserve">
+    <value>Você pode adicionar itens do plano depois a partir de outras páginas</value>
+  </data>
+  <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
+    <value>Adicionar meus personagens e armas ao plano de desenvolvimento</value>
+  </data>
+  <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
+    <value>Itens do plano</value>
+  </data>
+  <data name="ViewPageCultivationInventoryItem" xml:space="preserve">
+    <value>Itens de inventário</value>
+  </data>
+  <data name="ViewPageCultivationMaterialList" xml:space="preserve">
+    <value>Lista de verificação de materiais</value>
+  </data>
+  <data name="ViewPageCultivationMaterialStatistics" xml:space="preserve">
+    <value>Estatísticas de materiais</value>
+  </data>
+  <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
+    <value>Ir</value>
+  </data>
+  <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
+    <value>Excluir lista</value>
+  </data>
+  <data name="ViewPageCultivationRemoveProject" xml:space="preserve">
+    <value>Excluir plano atual</value>
+  </data>
+  <data name="ViewPageCultivationWikiAvatarDescription" xml:space="preserve">
+    <value>Adicionar qualquer personagem ao planejamento</value>
+  </data>
+  <data name="ViewPageCultivationWikiWeaponDescription" xml:space="preserve">
+    <value>Adicionar qualquer arma ao planejamento</value>
+  </data>
+  <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
+    <value>Adicionar personagem</value>
+  </data>
+  <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
+    <value>Adc. personagem para to DailyNote</value>
+  </data>
+  <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
+    <value>Adicionar</value>
+  </data>
+  <data name="ViewPageDailyNoteAttendanceStatusInfo" xml:space="preserve">
+    <value>Status do encontro de aventura</value>
+  </data>
+  <data name="ViewPageDailyNoteConfigWebhookDescription" xml:space="preserve">
+    <value>Enviar dados para um webhook específico após atualizar o lembrete em tempo real</value>
+  </data>
+  <data name="ViewPageDailyNoteConfigWebhookHeader" xml:space="preserve">
+    <value>Configurar webhook</value>
+  </data>
+  <data name="ViewPageDailyNoteDataInteropHeader" xml:space="preserve">
+    <value>Interoperabilidade de dados</value>
+  </data>
+  <data name="ViewPageDailyNoteNotificationHeader" xml:space="preserve">
+    <value>Notificação</value>
+  </data>
+  <data name="ViewPageDailyNoteNotificationSetting" xml:space="preserve">
+    <value>Configurações de notificação</value>
+  </data>
+  <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="ViewPageDailyNoteRefreshTime" xml:space="preserve">
+    <value>Duração da atualização</value>
+  </data>
+  <data name="ViewPageDailyNoteReminderDescription" xml:space="preserve">
+    <value>Faz com que a notificação permaneça na tela e expandida até que o usuário tome uma ação</value>
+  </data>
+  <data name="ViewPageDailyNoteReminderHeader" xml:space="preserve">
+    <value>Notificações de lembrete</value>
+  </data>
+  <data name="ViewPageDailyNoteRemoveToolTip" xml:space="preserve">
+    <value>Remover personagem</value>
+  </data>
+  <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
+    <value>Redução de custos usada</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
+    <value>Atualização automática</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
+    <value>Atualizar os lembretes em tempo real adicionados após o horário selecionado</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
+    <value>Essas opções só podem ser modificadas fora do modo de administrador</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
+    <value>Não incomodar durante o Genshin</value>
+  </data>
+  <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
+    <value>Não perturbe</value>
+  </data>
+  <data name="ViewPageDailyNoteVerify" xml:space="preserve">
+    <value>Verificar o usuário e o personagem atuais</value>
+  </data>
+  <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
+    <value>Buscar perguntas e sugestões</value>
+  </data>
+  <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
+    <value>Informações básicas</value>
+  </data>
+  <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
+    <value>Links úteis</value>
+  </data>
+  <data name="ViewPageFeedbackCurrentProxyHeader" xml:space="preserve">
+    <value>当前代理</value>
+  </data>
+  <data name="ViewPageFeedbackCurrentProxyNoProxyDescription" xml:space="preserve">
+    <value>无代理</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
+    <value>已解除</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
+    <value>解除 Loopback 限制</value>
+  </data>
+  <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
+    <value>Mantenha contato com a gente</value>
+  </data>
+  <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
+    <value>Documentos de recursos</value>
+  </data>
+  <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
+    <value>Sempre priorizamos os problemas relatados no GitHub</value>
+  </data>
+  <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
+    <value>Roteiro de desenvolvimento</value>
+  </data>
+  <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
+    <value>Sem resultado</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
+    <value>Monitor de disponibilidade de serviços do Snap Hutao</value>
+  </data>
+  <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
+    <value>Serviços do Snap Hutao</value>
+  </data>
+  <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
+    <value>Atualização completa</value>
+  </data>
+  <data name="ViewPageGachaLogExportAction" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="ViewPageGachaLogHint" xml:space="preserve">
+    <value>Nenhum dado de histórico de orações</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloud" xml:space="preserve">
+    <value>Snap Hutao Cloud</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseDescription" xml:space="preserve">
+    <value>Acesse a Afdian para comprar serviços relacionados</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
+    <value>Comprar ou renovar o serviço de nuvem</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
+    <value>Excluir o Cloud Archive deste Uid</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
+    <value>Licença vitalícia de desenvolvedore</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
+    <value>Serviço do Snap Hutao Cloud expirado</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
+    <value>Faça o download do arquivo em nuvem deste Uid</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
+    <value>Licença gratuita de 3 dias após enviar o registro atual do cronograma do abismo</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
+    <value>Carregar registros do Abismo</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudUpload" xml:space="preserve">
+    <value>Carregar arquivo de oração atual</value>
+  </data>
+  <data name="ViewPageGachaLogImportAction" xml:space="preserve">
+    <value>Importar</value>
+  </data>
+  <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
+    <value>Importar dados de outros aplicativos</value>
+  </data>
+  <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
+    <value>Importar UIGF Json</value>
+  </data>
+  <data name="ViewPageGachaLogInputAction" xml:space="preserve">
+    <value>Inserir</value>
+  </data>
+  <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
+    <value>Recuperar o registro de orações do Snap Hutao Cloud</value>
+  </data>
+  <data name="ViewPageGachaLogRefresh" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshAction" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
+    <value>Inserir URL manualmente</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
+    <value>Usamos o URL fornecido para atualizar seu histórico de orações</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
+    <value>Atualizar SToken</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshBySTokenDescription" xml:space="preserve">
+    <value>Usar o cookie do usuário atual para buscar o histórico de orações</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
+    <value>Atualizar com o cache da web</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshByWebCacheDescription" xml:space="preserve">
+    <value>Use o cache do navegador incorporado para atualizar o histórico de orações</value>
+  </data>
+  <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
+    <value>Excluir arquivo atual</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotAvatar" xml:space="preserve">
+    <value>Personagem</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotHistory" xml:space="preserve">
+    <value>Histórico</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotOverview" xml:space="preserve">
+    <value>Visão geral</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
+    <value>全球祈愿统计</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
+    <value>Arma</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
+    <value>O Snap Hutao iniciou o jogo para você {0} vezes</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextCommon2" xml:space="preserve">
+    <value>Você iniciou o Snap Hutao {0} vezes</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
+    <value>Boas-vindas a Teyvat, Viajante!</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
+    <value>Você tem razão, mas o Snap Hutao foi desenvolvido pelo DGP Studio...</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
+    <value>Bem, Viajante, este é o seu {0}º dia em Teyvat.</value>
+  </data>
+  <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverview" xml:space="preserve">
+    <value>Detalhes</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewAvatarAppearanceRank" xml:space="preserve">
+    <value>Aparição de persongem</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewAvatarConstellation" xml:space="preserve">
+    <value>Constelação de personagem</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewAvatarUsageRank" xml:space="preserve">
+    <value>Uso de personagem</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation0" xml:space="preserve">
+    <value>C 0</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation1" xml:space="preserve">
+    <value>C 1</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation2" xml:space="preserve">
+    <value>C 2</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation3" xml:space="preserve">
+    <value>C 3</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation4" xml:space="preserve">
+    <value>C 4</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation5" xml:space="preserve">
+    <value>C 5</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation6" xml:space="preserve">
+    <value>C 6</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellationAvatar" xml:space="preserve">
+    <value>Personagem</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellationHolding" xml:space="preserve">
+    <value>Possuído</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewDataCollect" xml:space="preserve">
+    <value>Estatísticas de dados coletados</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewRecordTotal" xml:space="preserve">
+    <value>Total de registros de dados</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewRefreshTime" xml:space="preserve">
+    <value>Tempo de atualização de dados</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyss" xml:space="preserve">
+    <value>Estatísticas da Ordem do Abismo</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssBattleAverage" xml:space="preserve">
+    <value>Média de batalhas</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssFullStar" xml:space="preserve">
+    <value>Registros de três estrelas</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssPassed" xml:space="preserve">
+    <value>Registros completos</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssStarAverage" xml:space="preserve">
+    <value>Média de estrelas</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssTotal" xml:space="preserve">
+    <value>Registros totais</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
+    <value>Times</value>
+  </data>
+  <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
+    <value>Digite sua senha</value>
+  </data>
+  <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
+    <value>São necessários pelo menos 8 caracteres</value>
+  </data>
+  <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
+    <value>Cadastrar</value>
+  </data>
+  <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
+    <value>Redefinir senha</value>
+  </data>
+  <data name="ViewPageHutaoPassportResetPasswordHint" xml:space="preserve">
+    <value>Excluir o passaporte do Snap Hutao fará com que seus dados sejam perdidos sem nenhuma opção de recuperação</value>
+  </data>
+  <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
+    <value>Digite seu e-mail</value>
+  </data>
+  <data name="ViewPageHutaoPassportVerifyCodeAction" xml:space="preserve">
+    <value>Obter código de verificação</value>
+  </data>
+  <data name="ViewPageHutaoPassportVerifyCodeHint" xml:space="preserve">
+    <value>Insira o código</value>
+  </data>
+  <data name="ViewPageLaunchGameAction" xml:space="preserve">
+    <value>Iniciar</value>
+  </data>
+  <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
+    <value>Recursos avançados</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioDescription" xml:space="preserve">
+    <value>Atalho para a taxa de resolução</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioHeader" xml:space="preserve">
+    <value>Resolução da tela</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceAspectRatioPlaceHolder" xml:space="preserve">
+    <value>Definição rápida de resolução</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
+    <value>Criar janela como pop-up, sem bordas</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
+    <value>Sem bordas</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceCloudThirdPartyMobileDescription" xml:space="preserve">
+    <value>Habilite o layout da tela sensível ao toque, mas o teclado e o mouse não podem mais ser usados.</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
+    <value>Incompatível com navegadores incorporados; operações como alternar entre janelas podem causar o travamento do jogo.</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
+    <value>Tela cheia exclusiva</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
+    <value>Substituir o status padrão de tela cheia</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceFullscreenHeader" xml:space="preserve">
+    <value>Tela cheia</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceHeader" xml:space="preserve">
+    <value>Aparência</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
+    <value>Substitui a configuração de altura da janela do jogo</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenHeightHeader" xml:space="preserve">
+    <value>Altura</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenWidthDescription" xml:space="preserve">
+    <value>Substitui a configuração de largura da janela do jogo</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenWidthHeader" xml:space="preserve">
+    <value>Largura</value>
+  </data>
+  <data name="ViewPageLaunchGameArgumentsDescription" xml:space="preserve">
+    <value>Modifica seu comportamento padrão na inicialização do jogo</value>
+  </data>
+  <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
+    <value>Argumentos de inicialização</value>
+  </data>
+  <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
+    <value>Geral</value>
+  </data>
+  <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
+    <value>Todas as opções serão salvas somente depois que o jogo for iniciado com êxito.</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
+    <value>Definir meu status de atividade no Discord quando estou no jogo</value>
+  </data>
+  <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
+    <value>Atividade no Discord</value>
+  </data>
+  <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
+    <value>Comunicações entre processos</value>
+  </data>
+  <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
+    <value>Executar o software na tela selecionada</value>
+  </data>
+  <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
+    <value>Tela</value>
+  </data>
+  <data name="ViewPageLaunchGameMultipleInstancesDescription" xml:space="preserve">
+    <value>Executa vários processos do jogo simultaneamente</value>
+  </data>
+  <data name="ViewPageLaunchGameMultipleInstancesHeader" xml:space="preserve">
+    <value>Multi-cliente</value>
+  </data>
+  <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
+    <value>Opções do jogo</value>
+  </data>
+  <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
+    <value>Tente iniciar o jogo depois que ele for iniciado e use o Starward para estatísticas de duração do jogo</value>
+  </data>
+  <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
+    <value>Horas jogadas</value>
+  </data>
+  <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
+    <value>Progresso</value>
+  </data>
+  <data name="ViewPageLaunchGameRegistryHeader" xml:space="preserve">
+    <value>Registro</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
+    <value>Pacote OTA</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceHeader" xml:space="preserve">
+    <value>Download de recurso</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
+    <value>Pré-download</value>
+  </data>
+  <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
+    <value>Selecione o caminho do jogo</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
+    <value>Esta conta não foi vinculada ao UID de notificação de lembrete em tempo real.</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
+    <value>Vincular usuário e personagem atuais</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
+    <value>Você precisará fazer uma nova detecção após trocar manualmente a conta do jogo ou mudar o ambiente da internet</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
+    <value>Detectar</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
+    <value>Detectar conta</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountRemoveToolTip" xml:space="preserve">
+    <value>Excluir</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountRenameToolTip" xml:space="preserve">
+    <value>Renomear</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
+    <value>Trocar o servidor do jogo (CN/BiliBili/Global)</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
+    <value>Servidor</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
+    <value>Você precisa converter para um servidor que corresponda ao inicializador antes de atualizar a versão</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
+    <value>Desative o V-Sync nas configurações do jogo. Talvez você precise de uma placa gráfica de alto desempenho para suportar um limite alto de taxa de quadros.</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
+    <value>Desbloquear limite de taxa de quadros</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
+    <value>Desativado</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
+    <value>Ativado</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
+    <value>Aproveite as vantagens das telas que suportam HDR para obter imagens mais brilhantes, mais vívidas e mais detalhadas</value>
+  </data>
+  <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
+    <value>Windows HDR</value>
+  </data>
+  <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
+    <value>Digite seu UID do HoYoLab</value>
+  </data>
+  <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
+    <value>Estou conectado</value>
+  </data>
+  <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
+    <value>Faça login com sua conta do MiHoYo BBS na janela abaixo</value>
+  </data>
+  <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
+    <value>Abrir a pasta de capturas de tela</value>
+  </data>
+  <data name="ViewPageResetGamePathAction" xml:space="preserve">
+    <value>Selecione o caminho do jogo</value>
+  </data>
+  <data name="ViewPageSettingAboutHeader" xml:space="preserve">
+    <value>Sobre o Snap Hutao</value>
+  </data>
+  <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
+    <value>Aparência</value>
+  </data>
+  <data name="ViewPageSettingApperanceLanguageDescription" xml:space="preserve">
+    <value>Definir idioma</value>
+  </data>
+  <data name="ViewPageSettingApperanceLanguageHeader" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="ViewPageSettingBackdropMaterialDescription" xml:space="preserve">
+    <value>Alterar o material de pano de fundo da janela</value>
+  </data>
+  <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
+    <value>Material de pano de fundo</value>
+  </data>
+  <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
+    <value>O cache de imagens é salvo aqui</value>
+  </data>
+  <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
+    <value>Pasta de cache</value>
+  </data>
+  <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行证</value>
+  </data>
+  <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutAction" xml:space="preserve">
+    <value>Criar</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
+    <value>Criar atalho para a área de trabalho com privilégio de administrador</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
+    <value>Criar atalho para a área de trabalho</value>
+  </data>
+  <data name="ViewPageSettingDangerousAction" xml:space="preserve">
+    <value>Executar</value>
+  </data>
+  <data name="ViewPageSettingDangerousHeader" xml:space="preserve">
+    <value>Funcionalidades perigosas</value>
+  </data>
+  <data name="ViewPageSettingDangerousHint" xml:space="preserve">
+    <value>A menos que o desenvolvedor lhe peça explicitamente para fazer isso, você não deve executar as operações abaixo!</value>
+  </data>
+  <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
+    <value>Os dados e metadados do usuário são salvos aqui</value>
+  </data>
+  <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
+    <value>Pasta de dados</value>
+  </data>
+  <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
+    <value>Excluir</value>
+  </data>
+  <data name="ViewPageSettingDeleteCacheDescription" xml:space="preserve">
+    <value>Você pode tentar isso se o erro de expiração da chave de autenticação ocorrer com frequência durante a atualização do histórico de orações</value>
+  </data>
+  <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
+    <value>Excluir o cache da web do navegador incorporado do jogo</value>
+  </data>
+  <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
+    <value>Excluir todos os registros da tabela de usuários para corrigir conflitos específicos de contas</value>
+  </data>
+  <data name="ViewPageSettingDeleteUserHeader" xml:space="preserve">
+    <value>Excluir todos os usuários</value>
+  </data>
+  <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
+    <value>ID do dispositivo</value>
+  </data>
+  <data name="ViewPageSettingDeviceIpDescription" xml:space="preserve">
+    <value>IP: {0} Servidor: {1}</value>
+  </data>
+  <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
+    <value>IP do dispositivo</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
+    <value>O modo administrador alterará a disponibilidade e o comportamento de alguns recursos</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeHeader" xml:space="preserve">
+    <value>Modo de administrador</value>
+  </data>
+  <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
+    <value>Reiniciar com o modo de administrador</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
+    <value>Mostrar ou ocultar eventos de oração sem o histórico de orações</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleHeader" xml:space="preserve">
+    <value>Mostrar evento de oração sem o histórico de orações</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleOff" xml:space="preserve">
+    <value>Esconder</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleOn" xml:space="preserve">
+    <value>Mostrar</value>
+  </data>
+  <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
+    <value>Você desbloqueou os recursos avançados do inicializador, que pode violar os Termos de Serviço do Genshin Impact, e você assumirá a responsabilidade por quaisquer consequências adversas.</value>
+  </data>
+  <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="ViewPageSettingGachaLogHeader" xml:space="preserve">
+    <value>Histórico de orações</value>
+  </data>
+  <data name="ViewPageSettingGameHeader" xml:space="preserve">
+    <value>Jogo</value>
+  </data>
+  <data name="ViewPageSettingGeetestCustomUrlAction" xml:space="preserve">
+    <value>Configuração</value>
+  </data>
+  <data name="ViewPageSettingGeetestCustomUrlDescription" xml:space="preserve">
+    <value>Configurar o ponto de extremidade da API de verificação usado para verificação anti-bot</value>
+  </data>
+  <data name="ViewPageSettingGeetestCustomUrlHeader" xml:space="preserve">
+    <value>Configurar o ponto de extremidade de verificação do Geetest</value>
+  </data>
+  <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
+    <value>CAPTCHA</value>
+  </data>
+  <data name="ViewPageSettingHomeAnnouncementRegionDescription" xml:space="preserve">
+    <value>Selecione o servidor de jogo para o qual você deseja obter anúncios</value>
+  </data>
+  <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
+    <value>Servidor de anúncios</value>
+  </data>
+  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
+    <value>Gerenciar cartões no painel inicial</value>
+  </data>
+  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
+    <value>Cartão do painel</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+    <value>Conquistas</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+    <value>Lembrete em tempo real</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+    <value>Histórico de orações</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+    <value>Inicializador</value>
+  </data>
+  <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
+    <value>Esconder</value>
+  </data>
+  <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
+    <value>Mostrar</value>
+  </data>
+  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+    <value>Início</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
+    <value>Proceder com cautela</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportDangerZoneHeader" xml:space="preserve">
+    <value>Zona de perigo</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportGachaLogExpiredAtHeader" xml:space="preserve">
+    <value>Snap Hutao Cloud Expirando em</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
+    <value>Passaporte do Snap Hutao</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLicensedDeveloperDescription" xml:space="preserve">
+    <value>Você tem acesso ilimitado a todos os recursos do Snap Hutao Cloud</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLicensedDeveloperHeader" xml:space="preserve">
+    <value>Desenvolvedor certificado</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLoginAction" xml:space="preserve">
+    <value>Fazer login</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportLogoutAction" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportMaintainerDescription" xml:space="preserve">
+    <value>Você tem acesso ilimitado em qualquer recurso de teste</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
+    <value>Desenvolvedor e mantenedor do Snap Hutao</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
+    <value>Às vezes, fornecemos códigos de resgate do Snap Hutao Cloud a alguns usuários</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRedeemCodeHeader" xml:space="preserve">
+    <value>Usar código de resgate</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
+    <value>Cadastrar</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
+    <value>Alterar senha</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportUnregisterAction" xml:space="preserve">
+    <value>Excluir conta</value>
+  </data>
+  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
+    <value>Após a leitura completa dos contratos de usuário do Genshin Impact e do Snap Hutao, optei por ativar o 「Inicializador - Recursos avançados」.</value>
+  </data>
+  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
+    <value>Ativar recursos avançados</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
+    <value>Alterar o atalho de clique automático</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
+    <value>Clique automático</value>
+  </data>
+  <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
+    <value>Teclas de atalho</value>
+  </data>
+  <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
+    <value>Site oficial</value>
+  </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
+    <value>自定义背景图片，支持 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
+  </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
+    <value>打开背景图片文件夹</value>
+  </data>
+  <data name="ViewPageSettingResetAction" xml:space="preserve">
+    <value>Resetar</value>
+  </data>
+  <data name="ViewPageSettingResetStaticResourceDescription" xml:space="preserve">
+    <value>Todos os recursos de imagem serão baixados novamente na próxima inicialização</value>
+  </data>
+  <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
+    <value>Redefinir recurso de imagem</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
+    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
+    <value>启动游戏-解锁帧率限制</value>
+  </data>
+  <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
+    <value>É necessário mover os dados no diretório manualmente, caso contrário, serão criados novos dados de usuário.</value>
+  </data>
+  <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
+    <value>Alterar diretório de dados</value>
+  </data>
+  <data name="ViewPageSettingSetGamePathAction" xml:space="preserve">
+    <value>Definir caminho</value>
+  </data>
+  <data name="ViewPageSettingSetGamePathHeader" xml:space="preserve">
+    <value>Caminho do jogo</value>
+  </data>
+  <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
+    <value>Ao definir o caminho do jogo, selecione o programa do jogo (Yuanshen.exe ou GenshinImpact.exe) em vez do iniciador do jogo (launcher.exe)</value>
+  </data>
+  <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
+    <value>Experiência Shell</value>
+  </data>
+  <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
+    <value>Apoiar o Snap Hutao</value>
+  </data>
+  <data name="ViewPageSettingStorageHeader" xml:space="preserve">
+    <value>Armazenamento</value>
+  </data>
+  <data name="ViewPageSettingStorageOpenAction" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="ViewPageSettingStorageSetAction" xml:space="preserve">
+    <value>Definir</value>
+  </data>
+  <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
+    <value>Avalie o Snap Hutao</value>
+  </data>
+  <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
+    <value>Contribuir com traduções</value>
+  </data>
+  <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
+    <value>Página da loja</value>
+  </data>
+  <data name="ViewPageSettingWebview2Header" xml:space="preserve">
+    <value>Webview2 Runtime</value>
+  </data>
+  <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
+    <value>Combinação de conjuntos de artefatos</value>
+  </data>
+  <data name="ViewPageWiKiAvatarAscensionMaterialsHeader" xml:space="preserve">
+    <value>Materiais de ascensão</value>
+  </data>
+  <data name="ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>Buscar personagem</value>
+  </data>
+  <data name="ViewPageWiKiAvatarChineseCVNameTitle" xml:space="preserve">
+    <value>DUB chinês</value>
+  </data>
+  <data name="ViewPageWiKiAvatarConstellationNameTitle" xml:space="preserve">
+    <value>Constelação</value>
+  </data>
+  <data name="ViewPageWiKiAvatarCostumeHeader" xml:space="preserve">
+    <value>Traje</value>
+  </data>
+  <data name="ViewPageWiKiAvatarDateofBirthTitle" xml:space="preserve">
+    <value>Aniversário</value>
+  </data>
+  <data name="ViewPageWiKiAvatarEnglishCVNameTitle" xml:space="preserve">
+    <value>DUB inglês</value>
+  </data>
+  <data name="ViewPageWiKiAvatarFoodHeader" xml:space="preserve">
+    <value>Comida</value>
+  </data>
+  <data name="ViewPageWiKiAvatarJapaneseCVNameTitle" xml:space="preserve">
+    <value>DUB japonês</value>
+  </data>
+  <data name="ViewPageWiKiAvatarKoreanCVNameTitle" xml:space="preserve">
+    <value>DUB coreano</value>
+  </data>
+  <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
+    <value>Outro</value>
+  </data>
+  <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
+    <value>Ocupação</value>
+  </data>
+  <data name="ViewPageWiKiAvatarOriginalFoodTitle" xml:space="preserve">
+    <value>Alimento</value>
+  </data>
+  <data name="ViewPageWiKiAvatarQuotesHeader" xml:space="preserve">
+    <value>Frases</value>
+  </data>
+  <data name="ViewPageWiKiAvatarSpecialFoodTitle" xml:space="preserve">
+    <value>Alimento especial</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
+    <value>Histórias</value>
+  </data>
+  <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
+    <value>Talento</value>
+  </data>
+  <data name="ViewPageWiKiAvatarTeamCombinationHeader" xml:space="preserve">
+    <value>Combinação de equipe</value>
+  </data>
+  <data name="ViewPageWiKiAvatarWeaponCombinationHeader" xml:space="preserve">
+    <value>Combinação de arma</value>
+  </data>
+  <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
+    <value>Adicionar ao planejamento</value>
+  </data>
+  <data name="ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>Filtrar monstros</value>
+  </data>
+  <data name="ViewPageWikiMonsterDropItems" xml:space="preserve">
+    <value>Itens derrubados</value>
+  </data>
+  <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
+    <value>Após a ascensão</value>
+  </data>
+  <data name="ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>Filtrar armas</value>
+  </data>
+  <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
+    <value>Antes da ascensão</value>
+  </data>
+  <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
+    <value>Falha no login, faça o login novamente.</value>
+  </data>
+  <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
+    <value>Faça login ou cadastre-se agora</value>
+  </data>
+  <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
+    <value>Abre o console quando o Snap Hutao for iniciado. Entrará em ação após reiniciar o aplicativo.</value>
+  </data>
+  <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
+    <value>Console de depuração</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
+    <value>O arquivo de cache é baixado para conversão do servidor no inicializador</value>
+  </data>
+  <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
+    <value>Excluir o cache de conversão do servidor</value>
+  </data>
+  <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
+    <value>Abrir pasta</value>
+  </data>
+  <data name="ViewSettingHeader" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="ViewSpiralAbyssAvatarAppearanceRankDescription" xml:space="preserve">
+    <value>Taxa de aparição de personagem = Aparição do personagem neste andar (só conta para 1 se for repetido) / Número total de registros de abismo deste andar</value>
+  </data>
+  <data name="ViewSpiralAbyssAvatarUsageRankDescription" xml:space="preserve">
+    <value>Taxa de uso de personagem = Aparição do personagem neste andar (apenas a contagem para 1 é repetida) / Número de jogadores que possuem esse personagem</value>
+  </data>
+  <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
+    <value>Estatísticas de batalha</value>
+  </data>
+  <data name="ViewSpiralAbyssBattleTimes" xml:space="preserve">
+    <value>Lutas</value>
+  </data>
+  <data name="ViewSpiralAbyssDamage" xml:space="preserve">
+    <value>Maior dano sofrido</value>
+  </data>
+  <data name="ViewSpiralAbyssDefaultDescription" xml:space="preserve">
+    <value>Nenhum registro da Ordem do Abismo</value>
+  </data>
+  <data name="ViewSpiralAbyssDefeat" xml:space="preserve">
+    <value>Maior número de derrotas</value>
+  </data>
+  <data name="ViewSpiralAbyssDetail" xml:space="preserve">
+    <value>Detalhe dos cronogramas</value>
+  </data>
+  <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
+    <value>Supremos liberados</value>
+  </data>
+  <data name="ViewSpiralAbyssHeader" xml:space="preserve">
+    <value>Ordem do Abismo</value>
+  </data>
+  <data name="ViewSpiralAbyssHutaoStatistics" xml:space="preserve">
+    <value>Estatísticas</value>
+  </data>
+  <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
+    <value>Descida mais profunda</value>
+  </data>
+  <data name="ViewSpiralAbyssNormalSkill" xml:space="preserve">
+    <value>Habilidades elementais lançadas</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordBattleAvatars" xml:space="preserve">
+    <value>Formação</value>
+  </data>
+  <data name="ViewSpiralAbyssRecordMonsterAttacksMonolith" xml:space="preserve">
+    <value>Atacar monolith</value>
+  </data>
+  <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
+    <value>Atualizar dados</value>
+  </data>
+  <data name="ViewSpiralAbyssRefreshDescription" xml:space="preserve">
+    <value>Sincronizar dados da Ordem do Abismo do Hoyolab</value>
+  </data>
+  <data name="ViewSpiralAbyssReveal" xml:space="preserve">
+    <value>Hora escolhida</value>
+  </data>
+  <data name="ViewSpiralAbyssStatistics" xml:space="preserve">
+    <value>Estatísticas</value>
+  </data>
+  <data name="ViewSpiralAbyssTakeDamage" xml:space="preserve">
+    <value>Maior dano sofrido</value>
+  </data>
+  <data name="ViewSpiralAbyssTotalStar" xml:space="preserve">
+    <value>Estrelas obtidas</value>
+  </data>
+  <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
+    <value>Carregar dados</value>
+  </data>
+  <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
+    <value>Instalar agora?</value>
+  </data>
+  <data name="ViewTitileUpdatePackageReadyTitle" xml:space="preserve">
+    <value>A versão {0} do Snap Hutao está pronta</value>
+  </data>
+  <data name="ViewTitleAutoClicking" xml:space="preserve">
+    <value>Clique automático</value>
+  </data>
+  <data name="ViewToolHeader" xml:space="preserve">
+    <value>Ferramentas</value>
+  </data>
+  <data name="ViewUserCookieOperation" xml:space="preserve">
+    <value>MiYouShe</value>
+  </data>
+  <data name="ViewUserCookieOperation2" xml:space="preserve">
+    <value>HoYoLAB</value>
+  </data>
+  <data name="ViewUserCookieOperation3" xml:space="preserve">
+    <value>Usuário atual</value>
+  </data>
+  <data name="ViewUserCookieOperationGameRecordIndexAction" xml:space="preserve">
+    <value>Ferramentas oficiais</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
+    <value>Login na web</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
+    <value>Login por leitura de código QR</value>
+  </data>
+  <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
+    <value>Entrada manual</value>
+  </data>
+  <data name="ViewUserCookieOperationRefreshCookieAction" xml:space="preserve">
+    <value>Atualizar cookie</value>
+  </data>
+  <data name="ViewUserCookieOperationSignInRewardAction" xml:space="preserve">
+    <value>Resgatar prêmio de check-in</value>
+  </data>
+  <data name="ViewUserCopyCookieAction" xml:space="preserve">
+    <value>Copiar cookie</value>
+  </data>
+  <data name="ViewUserDefaultDescription" xml:space="preserve">
+    <value>Faça login primeiro</value>
+  </data>
+  <data name="ViewUserDocumentationHeader" xml:space="preserve">
+    <value>Documentação</value>
+  </data>
+  <data name="ViewUserNoUserHint" xml:space="preserve">
+    <value>Sem login</value>
+  </data>
+  <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
+    <value>Atualizou o token do cookie com sucesso</value>
+  </data>
+  <data name="ViewUserRefreshCookieTokenWarning" xml:space="preserve">
+    <value>Falha ao atualizar o token do cookie</value>
+  </data>
+  <data name="ViewUserRemoveAction" xml:space="preserve">
+    <value>Remover usuário</value>
+  </data>
+  <data name="ViewUserRole" xml:space="preserve">
+    <value>Personagem</value>
+  </data>
+  <data name="ViewUserUser" xml:space="preserve">
+    <value>Usuário</value>
+  </data>
+  <data name="ViewWelcomeBase" xml:space="preserve">
+    <value>Estamos baixando os recursos de imagem necessários</value>
+  </data>
+  <data name="ViewWelcomeBody" xml:space="preserve">
+    <value>Você pode continuar a usar seu computador sem nenhum impacto</value>
+  </data>
+  <data name="ViewWelcomeSubtitle" xml:space="preserve">
+    <value>Não feche o software</value>
+  </data>
+  <data name="ViewWelcomeTitle" xml:space="preserve">
+    <value>Bem-vindo ao Snap Hutao</value>
+  </data>
+  <data name="ViewWikiAvatarHeader" xml:space="preserve">
+    <value>Wiki de personagens</value>
+  </data>
+  <data name="ViewWikiMonsterHeader" xml:space="preserve">
+    <value>Wiki de monstros</value>
+  </data>
+  <data name="ViewWikiWeaponHeader" xml:space="preserve">
+    <value>Wiki de armas</value>
+  </data>
+  <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
+    <value>(?:〓Duração do evento〓|〓Hora de início da missão〓).*?\d\.\da atualização da versão(?:after|)Disponível permanentemente</value>
+  </data>
+  <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
+    <value>〓Duração do evento〓.*?\d\.\d Disponível em toda as versões</value>
+  </data>
+  <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
+    <value>(?:〓Duração do evento〓|Duração da oração do evento|【Duração da disponibilidade】).*?(\d\.\dApós a atualização da versão).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
+    <value>〓Duração da manutenção da atualização.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
+    <value>Versão \d\.\d Detalhes da atualização</value>
+  </data>
+  <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
+    <value>Começa em {0} dias</value>
+  </data>
+  <data name="WebAnnouncementTimeDaysEndFormat" xml:space="preserve">
+    <value>Acaba em {0} dias</value>
+  </data>
+  <data name="WebAnnouncementTimeHoursBeginFormat" xml:space="preserve">
+    <value>Começa em {0} horas</value>
+  </data>
+  <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
+    <value>Acaba em {0} horas</value>
+  </data>
+  <data name="WebBridgeShareCopyToClipboardFailed" xml:space="preserve">
+    <value>Falha ao abrir a área de transferência</value>
+  </data>
+  <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
+    <value>Copiado para a área de transferência</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
+    <value>Concluído</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusNotOpen" xml:space="preserve">
+    <value>Bloqueado</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestStatusOngoing" xml:space="preserve">
+    <value>Em progresso</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusFinishedNonReward" xml:space="preserve">
+    <value>Finalizado</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusForbid" xml:space="preserve">
+    <value>Proibição de resgatar</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusInvalid" xml:space="preserve">
+    <value>Inválido</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusTakenAward" xml:space="preserve">
+    <value>Resgatado</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusUnfinished" xml:space="preserve">
+    <value>Inacabado</value>
+  </data>
+  <data name="WebDailyNoteAttendanceRewardStatusWaitTaken" xml:space="preserve">
+    <value>Pronto para resgatar</value>
+  </data>
+  <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
+    <value>{0} hrs</value>
+  </data>
+  <data name="WebDailyNoteExpeditionRemainMinutesFormat" xml:space="preserve">
+    <value>{0} mins</value>
+  </data>
+  <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
+    <value>Missões diárias incompletas</value>
+  </data>
+  <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
+    <value>Recompensa de missão diária não resgatada</value>
+  </data>
+  <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
+    <value>Recompensa de comissão diária resgatada</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
+    <value>Estará cheio em {0} {1:HH:mm}</value>
+  </data>
+  <data name="WebDailyNoteHomeLocked" xml:space="preserve">
+    <value>Bule de Relachá não desbloqueado</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
+    <value>Hoje</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDay1" xml:space="preserve">
+    <value>Amanhã</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
+    <value>2 dias depois</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDayFormat" xml:space="preserve">
+    <value>{0} dia</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
+    <value>A resina original está cheia</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
+    <value>Será reabastecido em {0} {1:HH:mm}</value>
+  </data>
+  <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
+    <value>Pronto para ser usado novamente após</value>
+  </data>
+  <data name="WebDailyNoteTransformerDaysFormat" xml:space="preserve">
+    <value>{0} dias</value>
+  </data>
+  <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
+    <value>{0} hrs</value>
+  </data>
+  <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
+    <value>{0} mins</value>
+  </data>
+  <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
+    <value>Não obtido</value>
+  </data>
+  <data name="WebDailyNoteTransformerNotObtainedDetail" xml:space="preserve">
+    <value>Transformador não obtido</value>
+  </data>
+  <data name="WebDailyNoteTransformerNotReached" xml:space="preserve">
+    <value>Recarregando</value>
+  </data>
+  <data name="WebDailyNoteTransformerReached" xml:space="preserve">
+    <value>Disponível</value>
+  </data>
+  <data name="WebDailyNoteTransformerReady" xml:space="preserve">
+    <value>Pronto</value>
+  </data>
+  <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
+    <value>{0} segundos</value>
+  </data>
+  <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
+    <value>A verificação falhou. Por favor, verifique manualmente em MiHoYo BBS - Todas as ferramentas - Conquistas</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
+    <value>Formato de UID inválido</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
+    <value>O UID da personagem não existe, tente novamente mais tarde</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
+    <value>Jogo em manutenção</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode429" xml:space="preserve">
+    <value>Solicitação muito rápida, tente novamente mais tarde</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
+    <value>Erros ocasionais do servidor</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode503" xml:space="preserve">
+    <value>Erro crítico do servidor</value>
+  </data>
+  <data name="WebEnkaResponseStatusCodeUnknown" xml:space="preserve">
+    <value>Erro de servidor desconhecido</value>
+  </data>
+  <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
+    <value>Evento de oração de personagem</value>
+  </data>
+  <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
+    <value>Evento de oração de personagem-2</value>
+  </data>
+  <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
+    <value>Oração de Novatos</value>
+  </data>
+  <data name="WebGachaConfigTypePermanentWish" xml:space="preserve">
+    <value>Oração padrão</value>
+  </data>
+  <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
+    <value>Evento de oração de arma</value>
+  </data>
+  <data name="WebGameResourcePathCopySucceed" xml:space="preserve">
+    <value>Link de download copiado com sucesso</value>
+  </data>
+  <data name="WebHoyolabInvalidRegion" xml:space="preserve">
+    <value>Servidor inválido</value>
+  </data>
+  <data name="WebHoyolabInvalidUid" xml:space="preserve">
+    <value>UID inválido</value>
+  </data>
+  <data name="WebHoyolabRegionCNGF01" xml:space="preserve">
+    <value>Servidor China: Oficial</value>
+  </data>
+  <data name="WebHoyolabRegionCNQD01" xml:space="preserve">
+    <value>Servidor China: bilibili</value>
+  </data>
+  <data name="WebHoyolabRegionOSASIA" xml:space="preserve">
+    <value>Servidor exterior: Asiático</value>
+  </data>
+  <data name="WebHoyolabRegionOSCHT" xml:space="preserve">
+    <value>Servidor exterior: servidor de TW/HK/MU</value>
+  </data>
+  <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
+    <value>Servidor exterior: EU</value>
+  </data>
+  <data name="WebHoyolabRegionOSUSA" xml:space="preserve">
+    <value>Servidor exterior: AN</value>
+  </data>
+  <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
+    <value>O servidor do Snap Hutao está em manutenção</value>
+  </data>
+  <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
+    <value>A verificação falhou. Verifique manualmente ou consulte a página MiHoYo BBS - Meus personagens</value>
+  </data>
+  <data name="WebResponseFormat" xml:space="preserve">
+    <value>Código de retorno: {0} | Mensagem: {1}</value>
+  </data>
+  <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
+    <value>Atualize o cookie, mensagem bruta: {0}</value>
+  </data>
+  <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
+    <value>[{1}] erro de solicitação de rede em [{0}], tente novamente mais tarde</value>
+  </data>
+  <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
+    <value>ID do monitor</value>
+  </data>
+</root>

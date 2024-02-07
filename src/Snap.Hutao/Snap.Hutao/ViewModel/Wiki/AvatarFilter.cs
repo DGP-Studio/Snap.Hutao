@@ -17,9 +17,9 @@ internal static class AvatarFilter
     /// </summary>
     /// <param name="input">输入</param>
     /// <returns>筛选操作</returns>
-    public static Predicate<object> Compile(string input)
+    public static Predicate<Avatar> Compile(string input)
     {
-        return (object o) => o is Avatar avatar && DoFilter(input, avatar);
+        return (Avatar avatar) => DoFilter(input, avatar);
     }
 
     private static bool DoFilter(string input, Avatar avatar)

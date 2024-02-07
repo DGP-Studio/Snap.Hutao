@@ -1,0 +1,23 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
+
+[Flags]
+internal enum MOUSE_EVENT_FLAGS : uint
+{
+    MOUSEEVENTF_ABSOLUTE = 0x8000u,
+    MOUSEEVENTF_LEFTDOWN = 2u,
+    MOUSEEVENTF_LEFTUP = 4u,
+    MOUSEEVENTF_MIDDLEDOWN = 0x20u,
+    MOUSEEVENTF_MIDDLEUP = 0x40u,
+    MOUSEEVENTF_MOVE = 1u,
+    MOUSEEVENTF_RIGHTDOWN = 8u,
+    MOUSEEVENTF_RIGHTUP = 0x10u,
+    MOUSEEVENTF_WHEEL = 0x800u,
+    MOUSEEVENTF_XDOWN = 0x80u,
+    MOUSEEVENTF_XUP = 0x100u,
+    MOUSEEVENTF_HWHEEL = 0x1000u,
+    MOUSEEVENTF_MOVE_NOCOALESCE = 0x2000u,
+    MOUSEEVENTF_VIRTUALDESK = 0x4000u,
+}

@@ -1,10 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32.System.WinRT;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
-using Windows.Win32;
-using Windows.Win32.System.WinRT;
 using WinRT;
 
 namespace Snap.Hutao.Control.Media;
@@ -26,8 +25,7 @@ internal static class SoftwareBitmapExtension
         {
             using (IMemoryBufferReference reference = buffer.CreateReference())
             {
-                reference.As<IMemoryBufferByteAccess>().GetBuffer(out byte* data, out uint length);
-                Span<Bgra32> bytes = new(data, unchecked((int)length / sizeof(Bgra32)));
+                reference.As<IMemoryBufferByteAccess>().GetBuffer(out Span<Bgra32> bytes);
                 foreach (ref Bgra32 pixel in bytes)
                 {
                     byte baseAlpha = pixel.A;
@@ -37,6 +35,45 @@ internal static class SoftwareBitmapExtension
                     pixel.R = (byte)(((pixel.R * baseAlpha) + (tint.R * opposite)) / 0xFF);
                     pixel.A = 0xFF;
                 }
+            }
+        }
+    }
+
+    public static unsafe double Luminance(this SoftwareBitmap softwareBitmap)
+    {
+        using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.Read))
+        {
+            using (IMemoryBufferReference reference = buffer.CreateReference())
+            {
+                reference.As<IMemoryBufferByteAccess>().GetBuffer(out Span<Bgra32> bytes);
+                double sum = 0;
+                foreach (ref readonly Bgra32 pixel in bytes)
+                {
+                    sum += pixel.Luminance;
+                }
+
+                return sum / bytes.Length;
+            }
+        }
+    }
+
+    public static unsafe Bgra32 GetAccentColor(this SoftwareBitmap softwareBitmap)
+    {
+        using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.Read))
+        {
+            using (IMemoryBufferReference reference = buffer.CreateReference())
+            {
+                reference.As<IMemoryBufferByteAccess>().GetBuffer(out Span<Bgra32> bytes);
+                double b = 0, g = 0, r = 0, a = 0;
+                foreach (ref readonly Bgra32 pixel in bytes)
+                {
+                    b += pixel.B;
+                    g += pixel.G;
+                    r += pixel.R;
+                    a += pixel.A;
+                }
+
+                return new((byte)(b / bytes.Length), (byte)(g / bytes.Length), (byte)(r / bytes.Length), (byte)(a / bytes.Length));
             }
         }
     }

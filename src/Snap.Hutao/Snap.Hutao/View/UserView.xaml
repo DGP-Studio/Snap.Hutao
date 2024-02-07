@@ -261,6 +261,8 @@
                                 <ListView
                                     Grid.Row="1"
                                     Margin="4"
+                                    AllowDrop="True"
+                                    CanReorderItems="True"
                                     ItemsSource="{Binding Users}"
                                     SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                                     SelectionMode="Single">

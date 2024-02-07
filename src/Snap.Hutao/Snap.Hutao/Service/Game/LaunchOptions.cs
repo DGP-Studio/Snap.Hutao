@@ -7,12 +7,12 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game.PathAbstraction;
+using Snap.Hutao.Win32.Graphics.Gdi;
 using System.Collections.Immutable;
 using System.Globalization;
 using Windows.Graphics;
-using Windows.Win32.Foundation;
-using Windows.Win32.Graphics.Gdi;
-using static Windows.Win32.PInvoke;
+using static Snap.Hutao.Win32.Gdi32;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -82,12 +82,12 @@ internal sealed class LaunchOptions : DbStoreOptions
             HDC hDC = default;
             try
             {
-                hDC = GetDC(HWND.Null);
+                hDC = GetDC(default);
                 fps = GetDeviceCaps(hDC, GET_DEVICE_CAPS_INDEX.VREFRESH);
             }
             finally
             {
-                _ = ReleaseDC(HWND.Null, hDC);
+                _ = ReleaseDC(default, hDC);
             }
         }
     }
@@ -207,7 +207,9 @@ internal sealed class LaunchOptions : DbStoreOptions
 
     public List<AspectRatio> AspectRatios { get; } =
     [
+        new(2560, 1600),
         new(2560, 1440),
+        new(2410, 1080),
         new(1920, 1080),
     ];
 

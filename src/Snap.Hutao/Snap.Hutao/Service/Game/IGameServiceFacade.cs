@@ -1,10 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game.Configuration;
-using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -17,7 +17,7 @@ internal interface IGameServiceFacade
     /// <summary>
     /// 游戏内账号集合
     /// </summary>
-    ObservableCollection<GameAccount> GameAccountCollection { get; }
+    ObservableReorderableDbCollection<GameAccount> GameAccountCollection { get; }
 
     /// <summary>
     /// 将账号绑定到对应的Uid

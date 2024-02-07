@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using Microsoft.Windows.AppLifecycle;
-using Windows.Win32.Foundation;
-using Windows.Win32.Security;
-using Windows.Win32.System.Com;
-using static Windows.Win32.PInvoke;
+using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.System.Com;
+using static Snap.Hutao.Win32.ConstValues;
+using static Snap.Hutao.Win32.Kernel32;
+using static Snap.Hutao.Win32.Ole32;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
@@ -18,7 +19,7 @@ internal static class AppInstanceExtension
     private static readonly WaitCallback RunActionWaitCallback = RunAction;
 
     // Hold the reference here to prevent memory corruption.
-    private static HANDLE redirectEventHandle = HANDLE.Null;
+    private static HANDLE redirectEventHandle;
 
     /// <summary>
     /// 同步非阻塞重定向
@@ -27,19 +28,24 @@ internal static class AppInstanceExtension
     /// <param name="args">参数</param>
     public static unsafe void RedirectActivationTo(this AppInstance appInstance, AppActivationArguments args)
     {
-        redirectEventHandle = CreateEvent(default(SECURITY_ATTRIBUTES*), true, false, null);
-
-        // use ThreadPool.UnsafeQueueUserWorkItem to cancel stacktrace
-        // like ExecutionContext.SuppressFlow
-        ThreadPool.UnsafeQueueUserWorkItem(RunActionWaitCallback, () =>
+        try
         {
-            appInstance.RedirectActivationToAsync(args).AsTask().Wait();
-            SetEvent(redirectEventHandle);
-        });
+            redirectEventHandle = CreateEventW(default, true, false, default);
 
-        ReadOnlySpan<HANDLE> handles = new(ref redirectEventHandle);
-        CoWaitForMultipleObjects((uint)CWMO_FLAGS.CWMO_DEFAULT, INFINITE, handles, out uint _);
-        CloseHandle(redirectEventHandle);
+            // use ThreadPool.UnsafeQueueUserWorkItem to cancel stacktrace
+            // like ExecutionContext.SuppressFlow
+            ThreadPool.UnsafeQueueUserWorkItem(RunActionWaitCallback, () =>
+            {
+                appInstance.RedirectActivationToAsync(args).AsTask().Wait();
+                SetEvent(redirectEventHandle);
+            });
+
+            CoWaitForMultipleObjects(CWMO_FLAGS.CWMO_DEFAULT, INFINITE, [redirectEventHandle], out uint _);
+        }
+        finally
+        {
+            CloseHandle(redirectEventHandle);
+        }
     }
 
     [SuppressMessage("", "SH007")]

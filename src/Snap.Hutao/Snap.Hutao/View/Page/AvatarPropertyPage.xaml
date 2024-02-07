@@ -506,327 +506,340 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <CommandBar
-                    Grid.Row="0"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    DefaultLabelPosition="Right">
-                    <CommandBar.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <shcp:PanelSelector
-                                x:Name="ItemsPanelSelector"
-                                Margin="6,8,0,0"
-                                LocalSettingKeySuffixForCurrent="AvatarPropertyPage.Summary.Avatars"/>
-                            <ToggleButton
-                                x:Name="RefreshTimeToggle"
-                                Margin="8,8,0,0"
-                                Content="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"/>
-                        </StackPanel>
-                    </CommandBar.Content>
-                    <AppBarButton
-                        Command="{Binding ExportAsImageCommand}"
-                        CommandParameter="{Binding ElementName=ItemsPanelSelector, Path=Current, Converter={StaticResource PanelSelectorModeConverter}}"
-                        Icon="{shcm:FontIcon Glyph=&#xE91B;}"
-                        Label="{shcm:ResourceString Name=ViewPageAvatarPropertyExportAsImage}"/>
-                    <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8EF;}" Label="{shcm:ResourceString Name=ViewPageCultivateCalculate}">
-                        <AppBarButton.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem
-                                    Command="{Binding CultivateCommand}"
-                                    CommandParameter="{Binding SelectedAvatar}"
-                                    Text="{shcm:ResourceString Name=ViewPageAvatarPropertyCalculateCurrent}"/>
-                                <MenuFlyoutItem Command="{Binding BatchCultivateCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyCalculateAll}"/>
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <AppBarSeparator/>
-                    <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="{shcm:ResourceString Name=ViewAvatarPropertySyncDataButtonLabel}">
-                        <AppBarButton.Flyout>
-                            <MenuFlyout Placement="TopEdgeAlignedRight">
-                                <MenuFlyoutItem Command="{Binding RefreshFromEnkaApiCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"/>
-                                <MenuFlyoutItem Command="{Binding RefreshFromHoyolabGameRecordCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"/>
-                                <MenuFlyoutItem Command="{Binding RefreshFromHoyolabCalculateCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"/>
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                </CommandBar>
-
-                <cwcont:SwitchPresenter
+                <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                    <Border Style="{ThemeResource AcrylicSecondaryBorderCardStyle}">
+                        <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
+                            <CommandBar.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <shcp:PanelSelector
+                                        x:Name="ItemsPanelSelector"
+                                        Margin="4,8,0,0"
+                                        LocalSettingKeySuffixForCurrent="AvatarPropertyPage.Summary.Avatars"/>
+                                    <ToggleButton
+                                        x:Name="RefreshTimeToggle"
+                                        Margin="8,8,0,0"
+                                        Content="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"/>
+                                </StackPanel>
+                            </CommandBar.Content>
+                            <AppBarButton
+                                Command="{Binding ExportAsImageCommand}"
+                                CommandParameter="{Binding ElementName=ItemsPanelSelector, Path=Current, Converter={StaticResource PanelSelectorModeConverter}}"
+                                Icon="{shcm:FontIcon Glyph=&#xE91B;}"
+                                Label="{shcm:ResourceString Name=ViewPageAvatarPropertyExportAsImage}"/>
+                            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8EF;}" Label="{shcm:ResourceString Name=ViewPageCultivateCalculate}">
+                                <AppBarButton.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            Command="{Binding CultivateCommand}"
+                                            CommandParameter="{Binding SelectedAvatar}"
+                                            Text="{shcm:ResourceString Name=ViewPageAvatarPropertyCalculateCurrent}"/>
+                                        <MenuFlyoutItem Command="{Binding BatchCultivateCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyCalculateAll}"/>
+                                    </MenuFlyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+                            <AppBarSeparator/>
+                            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="{shcm:ResourceString Name=ViewAvatarPropertySyncDataButtonLabel}">
+                                <AppBarButton.Flyout>
+                                    <MenuFlyout Placement="TopEdgeAlignedRight">
+                                        <MenuFlyoutItem Command="{Binding RefreshFromEnkaApiCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"/>
+                                        <MenuFlyoutItem Command="{Binding RefreshFromHoyolabGameRecordCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"/>
+                                        <MenuFlyoutItem Command="{Binding RefreshFromHoyolabCalculateCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"/>
+                                    </MenuFlyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+                        </CommandBar>
+                    </Border>
+                </Border>
+                <Border
                     Grid.Row="1"
-                    ContentTransitions="{ThemeResource EntranceThemeTransitions}"
-                    Value="{Binding ElementName=ItemsPanelSelector, Path=Current, Mode=OneWay}">
-                    <cwcont:Case Value="Grid">
-                        <ScrollViewer>
-                            <StackPanel x:Name="GridImageExportPanel" Background="Transparent">
-                                <GridView
-                                    Margin="16,16,4,-8"
-                                    cwa:ItemsReorderAnimation.Duration="0:0:0.1"
-                                    ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
-                                    ItemTemplate="{StaticResource AvatarGridViewTemplate}"
-                                    ItemsSource="{Binding Summary.Avatars}"
-                                    SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}"/>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </cwcont:Case>
-                    <cwcont:Case Value="List">
-                        <SplitView
-                            Grid.Row="1"
-                            DisplayMode="Inline"
-                            IsPaneOpen="True"
-                            OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
-                            PaneBackground="Transparent">
-                            <SplitView.Pane>
-                                <ListView
-                                    ItemTemplate="{StaticResource AvatarListViewTemplate}"
-                                    ItemsSource="{Binding Summary.Avatars}"
-                                    SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}"/>
-                            </SplitView.Pane>
-                            <SplitView.Content>
+                    Margin="16,16,16,16"
+                    cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                        <cwcont:SwitchPresenter ContentTransitions="{ThemeResource EntranceThemeTransitions}" Value="{Binding ElementName=ItemsPanelSelector, Path=Current, Mode=OneWay}">
+                            <cwcont:Case Value="Grid">
                                 <ScrollViewer>
-                                    <StackPanel
-                                        Name="ListImageExportPanel"
-                                        MaxWidth="800"
-                                        HorizontalAlignment="Left">
-                                        <!--  卡片面板  -->
-                                        <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Grid cw:UIElementExtensions.ClipToBounds="True" Style="{ThemeResource GridCardStyle}">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition/>
-                                                    <RowDefinition Height="auto"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition Width="auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <cwcont:ConstrainedBox
-                                                    Grid.RowSpan="2"
-                                                    Grid.ColumnSpan="2"
-                                                    AspectRatio="840:400"
-                                                    CornerRadius="{ThemeResource ControlCornerRadius}">
-                                                    <shci:CachedImage
-                                                        Grid.RowSpan="2"
-                                                        Grid.ColumnSpan="2"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Source="{Binding SelectedAvatar.NameCard}"
-                                                        Stretch="UniformToFill"/>
-                                                </cwcont:ConstrainedBox>
-                                                <Rectangle
-                                                    Grid.RowSpan="2"
-                                                    Grid.ColumnSpan="2"
-                                                    Fill="#33000000"/>
-                                                <StackPanel
-                                                    Margin="16"
-                                                    HorizontalAlignment="Left"
-                                                    VerticalAlignment="Top">
-                                                    <Grid HorizontalAlignment="Left">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition/>
-                                                            <ColumnDefinition Width="auto"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <shvcont:ItemIcon
-                                                            cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                                            Icon="{Binding SelectedAvatar.Icon}"
-                                                            Quality="{Binding SelectedAvatar.Quality}"/>
-                                                        <StackPanel Grid.Column="1" Margin="16,0,0,0">
-                                                            <TextBlock
-                                                                Foreground="#FFFFFFFF"
-                                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                Text="{Binding SelectedAvatar.Name}"/>
-                                                            <TextBlock
-                                                                Margin="0,4,0,0"
-                                                                Foreground="#FFFFFFFF"
-                                                                Style="{StaticResource BaseTextBlockStyle}"
-                                                                Text="{Binding SelectedAvatar.Level}"/>
-                                                            <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
-                                                                <Image
-                                                                    Width="16"
-                                                                    Height="16"
-                                                                    Source="ms-appx:///Resource/Icon/UI_Icon_Fetter.png"/>
-                                                                <TextBlock
-                                                                    Margin="4,0,0,2"
-                                                                    VerticalAlignment="Center"
-                                                                    Foreground="#FFFFFFFF"
-                                                                    HorizontalTextAlignment="Center"
-                                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding SelectedAvatar.FetterLevel}"
-                                                                    TextAlignment="Center"
-                                                                    TextTrimming="None"
-                                                                    TextWrapping="NoWrap"/>
-                                                            </StackPanel>
-                                                        </StackPanel>
-                                                    </Grid>
-                                                    <Grid
-                                                        Margin="0,16,0,0"
-                                                        HorizontalAlignment="Left"
-                                                        DataContext="{Binding SelectedAvatar.Weapon}">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition/>
-                                                            <ColumnDefinition Width="auto"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Button
-                                                            Padding="0"
-                                                            cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                                            BorderBrush="{x:Null}"
-                                                            BorderThickness="0">
-                                                            <Button.Content>
-                                                                <shvcont:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
-                                                            </Button.Content>
-                                                            <Button.Flyout>
-                                                                <Flyout Placement="BottomEdgeAlignedLeft">
-                                                                    <StackPanel>
-                                                                        <StackPanel.Resources>
-                                                                            <x:Double x:Key="SettingsCardSpacing">3</x:Double>
-                                                                            <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
-                                                                            <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
-                                                                            <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
-                                                                        </StackPanel.Resources>
-                                                                        <cwcont:SettingsCard
-                                                                            Margin="0,2,0,0"
-                                                                            Padding="12"
-                                                                            Header="{Binding MainProperty.Name}">
-                                                                            <TextBlock Text="{Binding MainProperty.Value}"/>
-                                                                        </cwcont:SettingsCard>
-                                                                        <cwcont:SettingsCard
-                                                                            Margin="0,2,0,0"
-                                                                            Padding="12"
-                                                                            Header="{Binding SubProperty.Name}">
-                                                                            <TextBlock Text="{Binding SubProperty.Description}"/>
-                                                                        </cwcont:SettingsCard>
-                                                                        <shct:DescriptionTextBlock
-                                                                            MaxWidth="320"
-                                                                            Margin="0,12,0,0"
-                                                                            Description="{Binding AffixDescription}"/>
-                                                                    </StackPanel>
-                                                                </Flyout>
-                                                            </Button.Flyout>
-                                                        </Button>
-                                                        <StackPanel Grid.Column="1" Margin="16,0,0,0">
-                                                            <TextBlock
-                                                                Foreground="#FFFFFFFF"
-                                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                Text="{Binding Name}"/>
-                                                            <TextBlock
-                                                                Margin="0,4,0,0"
-                                                                Foreground="#FFFFFFFF"
-                                                                Style="{StaticResource BaseTextBlockStyle}"
-                                                                Text="{Binding Level}"/>
-                                                            <TextBlock
-                                                                Margin="0,2,0,0"
-                                                                Foreground="#FFFFFFFF"
-                                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                                Text="{Binding AffixLevel}"/>
-                                                        </StackPanel>
-                                                    </Grid>
-                                                </StackPanel>
-
-                                                <ItemsControl
-                                                    Grid.Row="1"
-                                                    Grid.Column="0"
-                                                    Margin="16"
-                                                    ItemTemplate="{StaticResource AvatarConstellationTemplate}"
-                                                    ItemsPanel="{StaticResource HorizontalStackPanelSpacing0Template}"
-                                                    ItemsSource="{Binding SelectedAvatar.Constellations}"/>
-
-                                                <StackPanel Grid.Column="1" Margin="16">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Right"
-                                                        Foreground="#FFFFFFFF"
-                                                        Style="{StaticResource TitleTextBlockStyle}"
-                                                        Text="{Binding SelectedAvatar.Score}"/>
-                                                    <TextBlock
-                                                        HorizontalAlignment="Right"
-                                                        Foreground="#FFFFFFFF"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{shcm:ResourceString Name=ViewPageAvatarPropertyArtifactScore}"/>
-
-                                                    <TextBlock
-                                                        Margin="0,8,0,0"
-                                                        HorizontalAlignment="Right"
-                                                        Foreground="#FFFFFFFF"
-                                                        Style="{StaticResource TitleTextBlockStyle}"
-                                                        Text="{Binding SelectedAvatar.CritScore}"/>
-                                                    <TextBlock
-                                                        HorizontalAlignment="Right"
-                                                        Foreground="#FFFFFFFF"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{shcm:ResourceString Name=ViewPageAvatarPropertyCritScore}"/>
-                                                </StackPanel>
-
-                                                <ItemsControl
-                                                    Grid.Row="0"
-                                                    Grid.RowSpan="2"
-                                                    Grid.Column="1"
-                                                    Margin="16"
-                                                    VerticalAlignment="Bottom"
-                                                    ItemTemplate="{StaticResource AvatarSkillTemplate}"
-                                                    ItemsSource="{Binding SelectedAvatar.Skills}"/>
-                                            </Grid>
-                                        </Border>
-
-                                        <!--  角色属性  -->
-                                        <Expander
-                                            Margin="16,0,16,0"
-                                            Padding="0"
-                                            HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Stretch"
-                                            Background="{x:Null}"
-                                            Header="{shcm:ResourceString Name=ViewPageAvatarPropertyHeader}">
-                                            <Border Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" CornerRadius="{ThemeResource ControlCornerRadiusBottom}">
-                                                <shcca:AlternatingItemsControl
-                                                    Margin="0,0,0,-2"
-                                                    ItemAlternateBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
-                                                    ItemTemplate="{StaticResource AvatarPropertyTemplate}"
-                                                    ItemsSource="{Binding SelectedAvatar.Properties}"/>
-                                            </Border>
-                                        </Expander>
-                                        <!--  圣遗物  -->
-                                        <ItemsControl
-                                            Margin="16,16,16,0"
-                                            ItemTemplate="{StaticResource AvatarReliquaryTemplate}"
-                                            ItemsSource="{Binding SelectedAvatar.Reliquaries}"/>
+                                    <StackPanel x:Name="GridImageExportPanel" Background="Transparent">
+                                        <GridView
+                                            Margin="16,16,4,-4"
+                                            cwa:ItemsReorderAnimation.Duration="0:0:0.1"
+                                            ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                                            ItemTemplate="{StaticResource AvatarGridViewTemplate}"
+                                            ItemsSource="{Binding Summary.Avatars}"
+                                            SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}"/>
                                     </StackPanel>
                                 </ScrollViewer>
-                            </SplitView.Content>
-                        </SplitView>
-                    </cwcont:Case>
-                </cwcont:SwitchPresenter>
+                            </cwcont:Case>
+                            <cwcont:Case Value="List">
+                                <SplitView
+                                    Grid.Row="1"
+                                    DisplayMode="Inline"
+                                    IsPaneOpen="True"
+                                    OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
+                                    PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
+                                    <SplitView.Pane>
+                                        <ListView
+                                            Padding="{ThemeResource ListViewInSplitPanePadding}"
+                                            ItemTemplate="{StaticResource AvatarListViewTemplate}"
+                                            ItemsSource="{Binding Summary.Avatars}"
+                                            SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}"/>
+                                    </SplitView.Pane>
+                                    <SplitView.Content>
+                                        <ScrollViewer>
+                                            <StackPanel
+                                                Name="ListImageExportPanel"
+                                                MaxWidth="800"
+                                                HorizontalAlignment="Left">
+                                                <!--  卡片面板  -->
+                                                <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                                    <Grid cw:UIElementExtensions.ClipToBounds="True" Style="{ThemeResource GridCardStyle}">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <cwcont:ConstrainedBox
+                                                            Grid.RowSpan="2"
+                                                            Grid.ColumnSpan="2"
+                                                            AspectRatio="840:400"
+                                                            CornerRadius="{ThemeResource ControlCornerRadius}">
+                                                            <shci:CachedImage
+                                                                Grid.RowSpan="2"
+                                                                Grid.ColumnSpan="2"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Source="{Binding SelectedAvatar.NameCard}"
+                                                                Stretch="UniformToFill"/>
+                                                        </cwcont:ConstrainedBox>
+                                                        <Rectangle
+                                                            Grid.RowSpan="2"
+                                                            Grid.ColumnSpan="2"
+                                                            Fill="#33000000"/>
+                                                        <StackPanel
+                                                            Margin="16"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Top">
+                                                            <Grid HorizontalAlignment="Left">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <shvcont:ItemIcon
+                                                                    cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
+                                                                    Icon="{Binding SelectedAvatar.Icon}"
+                                                                    Quality="{Binding SelectedAvatar.Quality}"/>
+                                                                <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                                                                    <TextBlock
+                                                                        Foreground="#FFFFFFFF"
+                                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                                        Text="{Binding SelectedAvatar.Name}"/>
+                                                                    <TextBlock
+                                                                        Margin="0,4,0,0"
+                                                                        Foreground="#FFFFFFFF"
+                                                                        Style="{StaticResource BaseTextBlockStyle}"
+                                                                        Text="{Binding SelectedAvatar.Level}"/>
+                                                                    <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                                                        <Image
+                                                                            Width="16"
+                                                                            Height="16"
+                                                                            Source="ms-appx:///Resource/Icon/UI_Icon_Fetter.png"/>
+                                                                        <TextBlock
+                                                                            Margin="4,0,0,2"
+                                                                            VerticalAlignment="Center"
+                                                                            Foreground="#FFFFFFFF"
+                                                                            HorizontalTextAlignment="Center"
+                                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                                            Text="{Binding SelectedAvatar.FetterLevel}"
+                                                                            TextAlignment="Center"
+                                                                            TextTrimming="None"
+                                                                            TextWrapping="NoWrap"/>
+                                                                    </StackPanel>
+                                                                </StackPanel>
+                                                            </Grid>
+                                                            <Grid
+                                                                Margin="0,16,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                DataContext="{Binding SelectedAvatar.Weapon}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Button
+                                                                    Padding="0"
+                                                                    cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
+                                                                    BorderBrush="{x:Null}"
+                                                                    BorderThickness="0">
+                                                                    <Button.Content>
+                                                                        <shvcont:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
+                                                                    </Button.Content>
+                                                                    <Button.Flyout>
+                                                                        <Flyout Placement="BottomEdgeAlignedLeft">
+                                                                            <StackPanel>
+                                                                                <StackPanel.Resources>
+                                                                                    <x:Double x:Key="SettingsCardSpacing">3</x:Double>
+                                                                                    <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                                                                    <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                                                                    <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                                                                </StackPanel.Resources>
+                                                                                <cwcont:SettingsCard
+                                                                                    Margin="0,2,0,0"
+                                                                                    Padding="12"
+                                                                                    Header="{Binding MainProperty.Name}">
+                                                                                    <TextBlock Text="{Binding MainProperty.Value}"/>
+                                                                                </cwcont:SettingsCard>
+                                                                                <cwcont:SettingsCard
+                                                                                    Margin="0,2,0,0"
+                                                                                    Padding="12"
+                                                                                    Header="{Binding SubProperty.Name}">
+                                                                                    <TextBlock Text="{Binding SubProperty.Description}"/>
+                                                                                </cwcont:SettingsCard>
+                                                                                <shct:DescriptionTextBlock
+                                                                                    MaxWidth="320"
+                                                                                    Margin="0,12,0,0"
+                                                                                    Description="{Binding AffixDescription}"/>
+                                                                            </StackPanel>
+                                                                        </Flyout>
+                                                                    </Button.Flyout>
+                                                                </Button>
+                                                                <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                                                                    <TextBlock
+                                                                        Foreground="#FFFFFFFF"
+                                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                                        Text="{Binding Name}"/>
+                                                                    <TextBlock
+                                                                        Margin="0,4,0,0"
+                                                                        Foreground="#FFFFFFFF"
+                                                                        Style="{StaticResource BaseTextBlockStyle}"
+                                                                        Text="{Binding Level}"/>
+                                                                    <TextBlock
+                                                                        Margin="0,2,0,0"
+                                                                        Foreground="#FFFFFFFF"
+                                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                                        Text="{Binding AffixLevel}"/>
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </StackPanel>
+
+                                                        <ItemsControl
+                                                            Grid.Row="1"
+                                                            Grid.Column="0"
+                                                            Margin="16"
+                                                            ItemTemplate="{StaticResource AvatarConstellationTemplate}"
+                                                            ItemsPanel="{StaticResource HorizontalStackPanelSpacing0Template}"
+                                                            ItemsSource="{Binding SelectedAvatar.Constellations}"/>
+
+                                                        <StackPanel Grid.Column="1" Margin="16">
+                                                            <TextBlock
+                                                                HorizontalAlignment="Right"
+                                                                Foreground="#FFFFFFFF"
+                                                                Style="{StaticResource TitleTextBlockStyle}"
+                                                                Text="{Binding SelectedAvatar.Score}"/>
+                                                            <TextBlock
+                                                                HorizontalAlignment="Right"
+                                                                Foreground="#FFFFFFFF"
+                                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                                Text="{shcm:ResourceString Name=ViewPageAvatarPropertyArtifactScore}"/>
+
+                                                            <TextBlock
+                                                                Margin="0,8,0,0"
+                                                                HorizontalAlignment="Right"
+                                                                Foreground="#FFFFFFFF"
+                                                                Style="{StaticResource TitleTextBlockStyle}"
+                                                                Text="{Binding SelectedAvatar.CritScore}"/>
+                                                            <TextBlock
+                                                                HorizontalAlignment="Right"
+                                                                Foreground="#FFFFFFFF"
+                                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                                Text="{shcm:ResourceString Name=ViewPageAvatarPropertyCritScore}"/>
+                                                        </StackPanel>
+
+                                                        <ItemsControl
+                                                            Grid.Row="0"
+                                                            Grid.RowSpan="2"
+                                                            Grid.Column="1"
+                                                            Margin="16"
+                                                            VerticalAlignment="Bottom"
+                                                            ItemTemplate="{StaticResource AvatarSkillTemplate}"
+                                                            ItemsSource="{Binding SelectedAvatar.Skills}"/>
+                                                    </Grid>
+                                                </Border>
+
+                                                <!--  角色属性  -->
+                                                <Expander
+                                                    Margin="16,0,16,0"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    Background="{x:Null}"
+                                                    Header="{shcm:ResourceString Name=ViewPageAvatarPropertyHeader}">
+                                                    <Border Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" CornerRadius="{ThemeResource ControlCornerRadiusBottom}">
+                                                        <shcca:AlternatingItemsControl
+                                                            Margin="0,0,0,-2"
+                                                            ItemAlternateBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                                                            ItemTemplate="{StaticResource AvatarPropertyTemplate}"
+                                                            ItemsSource="{Binding SelectedAvatar.Properties}"/>
+                                                    </Border>
+                                                </Expander>
+                                                <!--  圣遗物  -->
+                                                <ItemsControl
+                                                    Margin="16,16,16,0"
+                                                    ItemTemplate="{StaticResource AvatarReliquaryTemplate}"
+                                                    ItemsSource="{Binding SelectedAvatar.Reliquaries}"/>
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </SplitView.Content>
+                                </SplitView>
+                            </cwcont:Case>
+                        </cwcont:SwitchPresenter>
+                    </Border>
+                </Border>
             </Grid>
         </Grid>
         <Grid Visibility="{Binding Summary, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <shci:CachedImage
-                    Width="120"
-                    Height="120"
-                    Source="{StaticResource UI_EmotionIcon250}"/>
-                <TextBlock
-                    Margin="0,16,0,0"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewPageAvatarPropertyDefaultDescription}"/>
-                <StackPanel
-                    Margin="0,24,0,0"
-                    HorizontalAlignment="Center"
-                    Spacing="{StaticResource SettingsCardSpacing}">
-                    <cwcont:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
-                        Command="{Binding RefreshFromEnkaApiCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApiDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"
-                        IsClickEnabled="True"/>
-                    <cwcont:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
-                        Command="{Binding RefreshFromHoyolabGameRecordCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"
-                        IsClickEnabled="True"/>
-                    <cwcont:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
-                        Command="{Binding RefreshFromHoyolabCalculateCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"
-                        IsClickEnabled="True"/>
-                </StackPanel>
-            </StackPanel>
+            <Border
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border
+                    MinWidth="480"
+                    Padding="16"
+                    Style="{ThemeResource AcrylicBorderCardStyle}">
+                    <StackPanel>
+                        <shci:CachedImage
+                            Width="120"
+                            Height="120"
+                            Source="{StaticResource UI_EmotionIcon250}"/>
+                        <TextBlock
+                            Margin="0,16,0,0"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource SubtitleTextBlockStyle}"
+                            Text="{shcm:ResourceString Name=ViewPageAvatarPropertyDefaultDescription}"/>
+                        <StackPanel Margin="0,24,0,0" Spacing="{StaticResource SettingsCardSpacing}">
+                            <cwcont:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
+                                Command="{Binding RefreshFromEnkaApiCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApiDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"
+                                IsClickEnabled="True"/>
+                            <cwcont:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
+                                Command="{Binding RefreshFromHoyolabGameRecordCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"
+                                IsClickEnabled="True"/>
+                            <cwcont:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
+                                Command="{Binding RefreshFromHoyolabCalculateCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"
+                                IsClickEnabled="True"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Border>
+
         </Grid>
     </Grid>
 </shc:ScopedPage>

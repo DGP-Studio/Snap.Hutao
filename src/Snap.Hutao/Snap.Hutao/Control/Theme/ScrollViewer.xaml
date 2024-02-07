@@ -42,7 +42,7 @@
                                 Grid.ColumnSpan="2"
                                 Margin="{TemplateBinding Padding}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" MaxWidth="{Binding Path=(shch:ScrollViewerHelper.LeftPanelMaxWidth), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                    <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <ScrollContentPresenter x:Name="ScrollContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}"/>

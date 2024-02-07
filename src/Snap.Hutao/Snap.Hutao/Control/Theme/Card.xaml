@@ -18,16 +18,50 @@
                 Offset="0,4,0"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+
     <Style x:Key="BorderCardStyle" TargetType="Border">
         <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
     </Style>
+
+    <Style
+        x:Key="AcrylicBorderCardStyle"
+        BasedOn="{StaticResource BorderCardStyle}"
+        TargetType="Border">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{ThemeResource SystemControlAcrylicElementBrush}"/>
+    </Style>
+
+    <Style
+        x:Key="AcrylicSecondaryBorderCardStyle"
+        BasedOn="{StaticResource BorderCardStyle}"
+        TargetType="Border">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"/>
+    </Style>
+
     <Style x:Key="GridCardStyle" TargetType="Grid">
         <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+    </Style>
+
+    <Style
+        x:Key="AcrylicGridCardStyle"
+        BasedOn="{StaticResource GridCardStyle}"
+        TargetType="Grid">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{ThemeResource SystemControlAcrylicElementBrush}"/>
+    </Style>
+
+    <Style
+        x:Key="AcrylicSecondaryGridCardStyle"
+        BasedOn="{StaticResource GridCardStyle}"
+        TargetType="Grid">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"/>
     </Style>
 </ResourceDictionary>

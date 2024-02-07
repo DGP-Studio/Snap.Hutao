@@ -22,6 +22,14 @@
         </Style.Setters>
     </Style>
     <Style
+        x:Key="SettingsCardHeaderTextBlockStyle"
+        BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+        TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="Margin" Value="1,0,0,5"/>
+        </Style.Setters>
+    </Style>
+    <Style
         x:Key="SettingsContentComboBoxStyle"
         BasedOn="{StaticResource DefaultComboBoxStyle}"
         TargetType="ComboBox">

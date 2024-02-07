@@ -272,6 +272,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("OpenBackgroundImageFolderCommand")]
+    private async Task OpenBackgroundImageFolderAsync()
+    {
+        await Launcher.LaunchFolderPathAsync(runtimeOptions.GetDataFolderBackgroundFolder());
+    }
+
     [Command("DeleteUsersCommand")]
     private async Task DangerousDeleteUsersAsync()
     {

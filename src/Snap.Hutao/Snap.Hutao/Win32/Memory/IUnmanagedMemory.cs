@@ -9,12 +9,12 @@ namespace Snap.Hutao.Win32.Memory;
 internal unsafe interface IUnmanagedMemory : IDisposable
 {
     /// <summary>
-    /// Gets a pointer to the allocated unmanaged memory.
-    /// </summary>
-    void* Pointer { get; }
-
-    /// <summary>
     /// Gets size of referenced unmanaged memory, in bytes.
     /// </summary>
     uint Size { get; }
+
+    /// <summary>
+    /// Gets a pointer to the allocated unmanaged memory.
+    /// </summary>
+    void* Pointer { get; }
 }

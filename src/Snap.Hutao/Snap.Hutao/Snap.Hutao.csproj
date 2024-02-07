@@ -42,6 +42,8 @@
       is disclosed within the first two lines of the description in the Store. 
     -->
     <SelfContained>true</SelfContained>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <WindowsAppSdkUndockedRegFreeWinRTInitialize>false</WindowsAppSdkUndockedRegFreeWinRTInitialize>
   </PropertyGroup>
 
   <ItemGroup>
@@ -101,6 +103,7 @@
     <None Remove="Control\Theme\PivotOverride.xaml" />
     <None Remove="Control\Theme\ScrollViewer.xaml" />
     <None Remove="Control\Theme\SettingsStyle.xaml" />
+    <None Remove="Control\Theme\Thickness.xaml" />
     <None Remove="Control\Theme\TransitionCollection.xaml" />
     <None Remove="Control\Theme\Uri.xaml" />
     <None Remove="Control\Theme\WindowOverride.xaml" />
@@ -209,6 +212,7 @@
     <AdditionalFiles Include="Resource\Localization\SH.id.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.ja.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.ko.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.pt.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.ru.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
   </ItemGroup>
@@ -315,11 +319,11 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
-    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.9.0">
+    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.15.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.0.3">
+    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -333,9 +337,6 @@
   </ItemGroup>
 
   <!-- Projects -->
-  <ItemGroup>
-    <ProjectReference Include="..\Snap.Hutao.Win32\Snap.Hutao.Win32.csproj" />
-  </ItemGroup>
 
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
        Tools extension to be activated for this project even if the Windows App SDK Nuget
@@ -345,6 +346,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Control\Theme\Thickness.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\FeedbackPage.xaml">

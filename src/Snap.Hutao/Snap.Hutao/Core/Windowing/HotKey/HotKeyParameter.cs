@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using Windows.System;
-using Windows.Win32.UI.Input.KeyboardAndMouse;
 
 namespace Snap.Hutao.Core.Windowing.HotKey;
 

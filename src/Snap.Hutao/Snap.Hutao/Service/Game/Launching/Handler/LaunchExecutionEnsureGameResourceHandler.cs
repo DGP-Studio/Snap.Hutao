@@ -3,12 +3,14 @@
 
 using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
+using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource;
 using Snap.Hutao.Web.Response;
 using System.IO;
 
@@ -124,11 +126,9 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
     private static bool CheckDirectoryPermissions(string folder)
     {
-        // Program Files has special permissions limitation.
-        string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-        if (folder.StartsWith(programFiles, StringComparison.OrdinalIgnoreCase))
+        if (LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false))
         {
-            return false;
+            return true;
         }
 
         try

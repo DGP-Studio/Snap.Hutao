@@ -1,15 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.System.Com;
+using Snap.Hutao.Win32.UI.Shell;
+using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.IO;
-using System.Runtime.InteropServices;
 using Windows.Storage;
-using Windows.Win32;
-using Windows.Win32.Foundation;
-using Windows.Win32.System.Com;
-using Windows.Win32.UI.Shell;
-using Windows.Win32.UI.WindowsAndMessaging;
-using static Windows.Win32.PInvoke;
+using static Snap.Hutao.Win32.Macros;
+using static Snap.Hutao.Win32.Ole32;
 
 namespace Snap.Hutao.Core.Shell;
 
@@ -34,31 +33,44 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
             return false;
         }
 
-        HRESULT result = CoCreateInstance<ShellLink, IShellLinkW>(null, CLSCTX.CLSCTX_INPROC_SERVER, out IShellLinkW shellLink);
-        Marshal.ThrowExceptionForHR(result);
+        return UnsafeTryCreateDesktopShoutcutForElevatedLaunch(targetLogoPath);
+    }
 
-        shellLink.SetPath($"shell:AppsFolder\\{runtimeOptions.FamilyName}!App");
-        shellLink.SetShowCmd(SHOW_WINDOW_CMD.SW_NORMAL);
-        shellLink.SetIconLocation(targetLogoPath, 0);
+    private unsafe bool UnsafeTryCreateDesktopShoutcutForElevatedLaunch(string targetLogoPath)
+    {
+        bool result = false;
 
-        IShellLinkDataList shellLinkDataList = (IShellLinkDataList)shellLink;
-        shellLinkDataList.GetFlags(out uint flags);
-        flags |= (uint)SHELL_LINK_DATA_FLAGS.SLDF_RUNAS_USER;
-        shellLinkDataList.SetFlags(flags);
-
-        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        string target = Path.Combine(desktop, $"{SH.FormatAppNameAndVersion(runtimeOptions.Version)}.lnk");
-
-        IPersistFile persistFile = (IPersistFile)shellLink;
-        try
+        // DO NOT revert if condition, COM interfaces need to be released properly
+        HRESULT hr = CoCreateInstance(in ShellLink.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IShellLinkW.IID, out IShellLinkW* pShellLink);
+        if (SUCCEEDED(hr))
         {
-            persistFile.Save(target, false);
-        }
-        catch (UnauthorizedAccessException)
-        {
-            return false;
+            pShellLink->SetPath($"shell:AppsFolder\\{runtimeOptions.FamilyName}!App");
+            pShellLink->SetShowCmd(SHOW_WINDOW_CMD.SW_NORMAL);
+            pShellLink->SetIconLocation(targetLogoPath, 0);
+
+            if (SUCCEEDED(pShellLink->QueryInterface(in IShellLinkDataList.IID, out IShellLinkDataList* pShellLinkDataList)))
+            {
+                pShellLinkDataList->GetFlags(out uint flags);
+                pShellLinkDataList->SetFlags(flags | (uint)SHELL_LINK_DATA_FLAGS.SLDF_RUNAS_USER);
+                pShellLinkDataList->Release();
+            }
+
+            if (SUCCEEDED(pShellLink->QueryInterface(in IPersistFile.IID, out IPersistFile* pPersistFile)))
+            {
+                string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string target = Path.Combine(desktop, $"{SH.FormatAppNameAndVersion(runtimeOptions.Version)}.lnk");
+
+                if (SUCCEEDED(pPersistFile->Save(target, false)))
+                {
+                    result = true;
+                }
+
+                pPersistFile->Release();
+            }
+
+            pShellLink->Release();
         }
 
-        return true;
+        return result;
     }
 }

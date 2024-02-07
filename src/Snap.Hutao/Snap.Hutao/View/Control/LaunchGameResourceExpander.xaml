@@ -1,24 +1,78 @@
-<Expander
+<cwc:SettingsExpander
     x:Class="Snap.Hutao.View.Control.LaunchGameResourceExpander"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shwhshl="using:Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shwhshlr="using:Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource"
     HorizontalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
-    d:DataContext="{d:DesignInstance shwhshl:Package}"
+    d:DataContext="{d:DesignInstance shwhshlr:Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource.Package}"
     IsExpanded="True"
+    ItemsSource="{Binding VoicePacks}"
     mc:Ignorable="d">
 
-    <Expander.Resources>
-        <DataTemplate x:Key="VoicePackageTemplate" x:DataType="shwhshl:VoicePackage">
-            <Grid Margin="0,16,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="{Binding DisplayName}"/>
+    <cwc:SettingsExpander.Resources>
+        <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+    </cwc:SettingsExpander.Resources>
+
+    <cwc:SettingsExpander.ItemTemplate>
+        <DataTemplate x:DataType="shwhshlr:VoicePackage">
+            <cwc:SettingsCard
+                Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                ActionIcon="{shcm:FontIcon Glyph={StaticResource FontIconContentCopy}}"
+                Command="{Binding CopyPathCommand}"
+                Header="{Binding DisplayName}"
+                IsClickEnabled="True">
+                <cwc:SettingsCard.Description>
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="0,4,0,0"
+                        Orientation="Horizontal">
+                        <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentZipFolder}"/>
+                        <TextBlock
+                            Width="80"
+                            Margin="8,0,0,0"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding PackageSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+                        <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentFolder}"/>
+                        <TextBlock
+                            Width="80"
+                            Margin="8,0,0,0"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+                        <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentAsteriskBadge12}"/>
+                        <TextBlock
+                            Margin="8,0,0,0"
+                            IsTextSelectionEnabled="True"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding Md5}"/>
+                    </StackPanel>
+                </cwc:SettingsCard.Description>
+            </cwc:SettingsCard>
+        </DataTemplate>
+    </cwc:SettingsExpander.ItemTemplate>
+
+    <cwc:SettingsExpander.ItemsHeader>
+        <cwc:SettingsCard
+            MinHeight="52"
+            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+            ActionIcon="{shcm:FontIcon Glyph={StaticResource FontIconContentCopy}}"
+            Background="{ThemeResource InfoBarInformationalSeverityBackgroundBrush}"
+            BorderThickness="0"
+            Command="{Binding CopyPathCommand}"
+            CornerRadius="0"
+            Header="{Binding DisplayName}"
+            IsClickEnabled="True">
+            <cwc:SettingsCard.Description>
                 <StackPanel
                     Grid.Row="1"
                     Margin="0,4,0,0"
@@ -43,62 +97,8 @@
                         Style="{StaticResource CaptionTextBlockStyle}"
                         Text="{Binding Md5}"/>
                 </StackPanel>
-                <HyperlinkButton
-                    Grid.RowSpan="2"
-                    Height="38.4"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Command="{Binding CopyPathCommand}"
-                    Content="{StaticResource FontIconContentCopy}"
-                    FontFamily="{StaticResource SymbolThemeFontFamily}"/>
-            </Grid>
-        </DataTemplate>
-    </Expander.Resources>
+            </cwc:SettingsCard.Description>
+        </cwc:SettingsCard>
+    </cwc:SettingsExpander.ItemsHeader>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock Text="{Binding DisplayName}"/>
-        <StackPanel
-            Grid.Row="1"
-            Margin="0,4,0,0"
-            Orientation="Horizontal">
-            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentZipFolder}"/>
-            <TextBlock
-                Width="80"
-                Margin="8,0,0,0"
-                HorizontalAlignment="Left"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{Binding PackageSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
-            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentFolder}"/>
-            <TextBlock
-                Width="80"
-                Margin="8,0,0,0"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
-            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentAsteriskBadge12}"/>
-            <TextBlock
-                Margin="8,0,0,0"
-                IsTextSelectionEnabled="True"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{Binding Md5}"/>
-        </StackPanel>
-        <HyperlinkButton
-            Grid.RowSpan="2"
-            Height="38.4"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Command="{Binding CopyPathCommand}"
-            Content="{StaticResource FontIconContentCopy}"
-            FontFamily="{StaticResource SymbolThemeFontFamily}"/>
-        <MenuFlyoutSeparator Grid.Row="2" Margin="4,16,4,0"/>
-        <ItemsControl
-            Grid.Row="3"
-            ItemTemplate="{StaticResource VoicePackageTemplate}"
-            ItemsSource="{Binding VoicePacks}"/>
-    </Grid>
-</Expander>
+</cwc:SettingsExpander>

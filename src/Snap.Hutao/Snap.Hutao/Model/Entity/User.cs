@@ -14,7 +14,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("users")]
-internal sealed class User : ISelectable, IMappingFrom<User, Cookie, bool>
+internal sealed class User : ISelectable, IReorderable, IMappingFrom<User, Cookie, bool>
 {
     /// <summary>
     /// 内部Id
@@ -68,6 +68,8 @@ internal sealed class User : ISelectable, IMappingFrom<User, Cookie, bool>
     public DateTimeOffset FingerprintLastUpdateTime { get; set; }
 
     public DateTimeOffset CookieTokenLastUpdateTime { get; set; }
+
+    public int Index { get; set; }
 
     /// <summary>
     /// 创建一个新的用户

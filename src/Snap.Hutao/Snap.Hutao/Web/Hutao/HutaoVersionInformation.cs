@@ -13,4 +13,10 @@ internal sealed class HutaoVersionInformation
 
     [JsonPropertyName("sha256")]
     public string? Sha256 { get; set; } = default!;
+
+    [JsonPropertyName("archive_urls")]
+    public List<string> ArchiveUrls { get; set; } = default!;
+
+    [JsonPropertyName("release_description")]
+    public HutaoReleaseDescription ReleaseDescription { get; set; } = default!;
 }

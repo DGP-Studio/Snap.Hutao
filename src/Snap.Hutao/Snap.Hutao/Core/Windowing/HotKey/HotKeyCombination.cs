@@ -5,11 +5,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
+using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Text;
 using Windows.System;
-using Windows.Win32.Foundation;
-using Windows.Win32.UI.Input.KeyboardAndMouse;
-using static Windows.Win32.PInvoke;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Core.Windowing.HotKey;
 

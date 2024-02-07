@@ -198,6 +198,21 @@
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>Pilih akun untuk memulai</value>
   </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameNickname" xml:space="preserve">
+    <value>Pengembara</value>
+  </data>
+  <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>流浪者</value>
+  </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Perbaiki {0}</value>
   </data>
@@ -497,6 +512,9 @@
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
     <value>Gelombang 4: Gelombang akan muncul hanya setelah membunuh semua musuh di gelombang sebelumnya</value>
   </data>
+  <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
+    <value>维持场上 4 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+  </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>Silakan perbarui data tampilan.</value>
   </data>
@@ -738,10 +756,10 @@
     <value>Kalkulator Avatar: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>原神战绩：尚未刷新</value>
+    <value>Battle Chronicle: Belum Disegarkan</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
-    <value>原神战绩：{0:MM-dd HH:mm}</value>
+    <value>Battle Chronicle: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
     <value>Enka: N/A</value>
@@ -1187,6 +1205,12 @@
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>Catatan Realtime Webhook URL</value>
   </data>
+  <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
+    <value>解除限制后需要使用其他工具恢复限制</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
+    <value>是否解除 Loopback 限制</value>
+  </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>Mengimpor riwayat wish</value>
   </data>
@@ -1284,7 +1308,7 @@
     <value>Pindai kode QR dengan Aplikasi MiHoYo BBS</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>为防止你在无意间启用，请输入正在启用的功能开关的&lt;b&gt;标题名称&lt;/b&gt;</value>
+    <value>Untuk menghindari mengaktifkan secara keliru, harap masukkan &lt;b&gt;nama judul&lt;/b&gt; dari fitur yang Anda aktifkan</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>Anda Mengaktifkan Fitur Berbahaya</value>
@@ -1451,6 +1475,9 @@
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>Akun HoYoLab tidak mendukung verifikasi Catatan Realtime.</value>
   </data>
+  <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
+    <value>Gagal mengubah tugas terjadwal</value>
+  </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 min | 3.75 Resin</value>
   </data>
@@ -1465,9 +1492,6 @@
   </data>
   <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
     <value>8 min | 1 Resin</value>
-  </data>
-  <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
-    <value>Gagal menambahkan Tugas Terjadwal, silakan coba lagi dalam mode administrator.</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
     <value>Mengambil data Catatan Realtime, mohon tunggu.</value>
@@ -1728,7 +1752,7 @@
     <value>Sinkronisasi Data Talenta Karakter</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>从米游社原神战绩同步</value>
+    <value>Sinkronisasi dari MiHoYo BBS Battle Chronicle</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>Sinkronkan sebagian besar data kecuali talent karakter.</value>
@@ -1862,6 +1886,18 @@
   <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
     <value>Tautan Berguna</value>
   </data>
+  <data name="ViewPageFeedbackCurrentProxyHeader" xml:space="preserve">
+    <value>当前代理</value>
+  </data>
+  <data name="ViewPageFeedbackCurrentProxyNoProxyDescription" xml:space="preserve">
+    <value>无代理</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
+    <value>已解除</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
+    <value>解除 Loopback 限制</value>
+  </data>
   <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
     <value>Tetap berhubungan dengan kami</value>
   </data>
@@ -1869,13 +1905,13 @@
     <value>Dokumen Fitur</value>
   </data>
   <data name="ViewPageFeedbackGithubIssuesDescription" xml:space="preserve">
-    <value>我们总是优先处理 GitHub 上的问题</value>
+    <value>Kami selalu memberikan prioritas pada masalah yang dilaporkan di GitHub.</value>
   </data>
   <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
     <value>Roadmap Pengembangan</value>
   </data>
   <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
-    <value>暂无搜索结果</value>
+    <value>Tidak ada hasil</value>
   </data>
   <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
     <value>Pemantau Ketersediaan Layanan Snap Hutao</value>
@@ -1974,7 +2010,7 @@
     <value>Pratinjau</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
-    <value>Statistik</value>
+    <value>全球祈愿统计</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>Senjata</value>
@@ -2297,6 +2333,9 @@
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>Berkas Cache</value>
   </data>
+  <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行证</value>
+  </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Salin</value>
   </data>
@@ -2489,6 +2528,12 @@
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>Website Resmi</value>
   </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
+    <value>自定义背景图片，支持 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
+  </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
+    <value>打开背景图片文件夹</value>
+  </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>Reset</value>
   </data>
@@ -2497,6 +2542,12 @@
   </data>
   <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
     <value>Setel ulang Sumber Daya Gambar</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
+    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
+    <value>启动游戏-解锁帧率限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>Anda perlu memindahkan data di direktori secara manual, jika tidak, data pengguna baru akan dibuat.</value>
@@ -2925,7 +2976,7 @@
     <value>{0} detik</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩-实时便笺」页面查看</value>
+    <value>Verifikasi gagal. Harap periksa MiHoYo BBS - Toolbox - Catatan Real-time secara manual.</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>Format UID Salah</value>
@@ -2994,7 +3045,7 @@
     <value>Server Snap Hutao sedang dalam perbaikan</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩」页面查看</value>
+    <value>Verifikasi gagal. Harap verifikasi secara manual atau periksa halaman MiHoYo BBS - Battle Chronicle.</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Kode Kembali: {0} | Pesan: {1}</value>

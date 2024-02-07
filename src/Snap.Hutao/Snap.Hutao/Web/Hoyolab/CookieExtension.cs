@@ -49,7 +49,7 @@ internal static class CookieExtension
         Must.Range(keys.Length > 0, "Empty keys is not supported");
         SortedDictionary<string, string> cookieMap = [];
 
-        foreach (string key in keys)
+        foreach (ref readonly string key in keys)
         {
             if (source.TryGetValue(key, out string? value))
             {

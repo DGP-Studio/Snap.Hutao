@@ -4,10 +4,10 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Win32.Foundation;
 using Windows.Graphics;
-using Windows.Win32.Foundation;
 using WinRT.Interop;
-using static Windows.Win32.PInvoke;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Core.Windowing;
 
@@ -41,25 +41,21 @@ internal readonly struct WindowOptions
     /// </summary>
     public readonly bool PersistSize;
 
+    public readonly bool UseSystemBackdrop;
+
     /// <summary>
     /// 是否使用 Win UI 3 自带的拓展标题栏实现
     /// </summary>
     public readonly bool UseLegacyDragBarImplementation = !AppWindowTitleBar.IsCustomizationSupported();
 
-    /// <summary>
-    /// 构造一个新的窗体选项
-    /// </summary>
-    /// <param name="window">窗体</param>
-    /// <param name="titleBar">标题栏</param>
-    /// <param name="initSize">初始尺寸</param>
-    /// <param name="persistSize">持久化尺寸</param>
-    public WindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, bool persistSize = false)
+    public WindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, bool persistSize = false, bool useSystemBackdrop = true)
     {
-        Hwnd = (HWND)WindowNative.GetWindowHandle(window);
+        Hwnd = WindowNative.GetWindowHandle(window);
         InputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
         TitleBar = titleBar;
         InitSize = initSize;
         PersistSize = persistSize;
+        UseSystemBackdrop = useSystemBackdrop;
     }
 
     /// <summary>
@@ -80,8 +76,8 @@ internal readonly struct WindowOptions
     {
         HWND fgHwnd = GetForegroundWindow();
 
-        uint threadIdHwnd = GetWindowThreadProcessId(Hwnd);
-        uint threadIdFgHwnd = GetWindowThreadProcessId(fgHwnd);
+        uint threadIdHwnd = GetWindowThreadProcessId(Hwnd, default);
+        uint threadIdFgHwnd = GetWindowThreadProcessId(fgHwnd, default);
 
         if (threadIdHwnd != threadIdFgHwnd)
         {

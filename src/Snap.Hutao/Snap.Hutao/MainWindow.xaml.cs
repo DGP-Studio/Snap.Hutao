@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing;
-using Windows.Win32.UI.WindowsAndMessaging;
+using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
 namespace Snap.Hutao;
 
@@ -27,7 +27,7 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     public MainWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true);
+        windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true, false);
         this.InitializeController(serviceProvider);
     }
 
@@ -37,7 +37,7 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     /// <inheritdoc/>
     public unsafe void HandleMinMaxInfo(ref MINMAXINFO pInfo, double scalingFactor)
     {
-        pInfo.ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, pInfo.ptMinTrackSize.X);
-        pInfo.ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, pInfo.ptMinTrackSize.Y);
+        pInfo.ptMinTrackSize.x = (int)Math.Max(MinWidth * scalingFactor, pInfo.ptMinTrackSize.x);
+        pInfo.ptMinTrackSize.y = (int)Math.Max(MinHeight * scalingFactor, pInfo.ptMinTrackSize.y);
     }
 }

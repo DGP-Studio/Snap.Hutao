@@ -1,0 +1,48 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Snap.Hutao.Win32.Graphics.Gdi;
+
+internal enum GET_DEVICE_CAPS_INDEX : uint
+{
+    DRIVERVERSION = 0u,
+    TECHNOLOGY = 2u,
+    HORZSIZE = 4u,
+    VERTSIZE = 6u,
+    HORZRES = 8u,
+    VERTRES = 10u,
+    BITSPIXEL = 12u,
+    PLANES = 14u,
+    NUMBRUSHES = 16u,
+    NUMPENS = 18u,
+    NUMMARKERS = 20u,
+    NUMFONTS = 22u,
+    NUMCOLORS = 24u,
+    PDEVICESIZE = 26u,
+    CURVECAPS = 28u,
+    LINECAPS = 30u,
+    POLYGONALCAPS = 32u,
+    TEXTCAPS = 34u,
+    CLIPCAPS = 36u,
+    RASTERCAPS = 38u,
+    ASPECTX = 40u,
+    ASPECTY = 42u,
+    ASPECTXY = 44u,
+    LOGPIXELSX = 88u,
+    LOGPIXELSY = 90u,
+    SIZEPALETTE = 104u,
+    NUMRESERVED = 106u,
+    COLORRES = 108u,
+    PHYSICALWIDTH = 110u,
+    PHYSICALHEIGHT = 111u,
+    PHYSICALOFFSETX = 112u,
+    PHYSICALOFFSETY = 113u,
+    SCALINGFACTORX = 114u,
+    SCALINGFACTORY = 115u,
+    VREFRESH = 116u,
+    DESKTOPVERTRES = 117u,
+    DESKTOPHORZRES = 118u,
+    BLTALIGNMENT = 119u,
+    SHADEBLENDCAPS = 120u,
+    COLORMGMTCAPS = 121u,
+}

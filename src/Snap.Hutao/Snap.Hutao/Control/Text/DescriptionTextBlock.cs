@@ -7,7 +7,9 @@ using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Media;
+using Snap.Hutao.Control.Text.Syntax.MiHoYo;
 using Snap.Hutao.Control.Theme;
+using Snap.Hutao.Metadata;
 using Windows.Foundation;
 using Windows.UI;
 
@@ -15,20 +17,12 @@ namespace Snap.Hutao.Control.Text;
 
 /// <summary>
 /// 专用于呈现描述文本的文本块
-/// Some part of this file came from:
-/// https://github.com/xunkong/desktop/tree/main/src/Desktop/Desktop/Pages/CharacterInfoPage.xaml.cs
 /// </summary>
 [HighQuality]
 [DependencyProperty("Description", typeof(string), "", nameof(OnDescriptionChanged))]
 [DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
 internal sealed partial class DescriptionTextBlock : ContentControl
 {
-    private static readonly int ColorTagFullLength = "<color=#FFFFFFFF></color>".Length;
-    private static readonly int ColorTagLeftLength = "<color=#FFFFFFFF>".Length;
-
-    private static readonly int ItalicTagFullLength = "<i></i>".Length;
-    private static readonly int ItalicTagLeftLength = "<i>".Length;
-
     private readonly TypedEventHandler<FrameworkElement, object> actualThemeChangedEventHandler;
 
     /// <summary>
@@ -51,9 +45,15 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         TextBlock textBlock = (TextBlock)((DescriptionTextBlock)d).Content;
-        ReadOnlySpan<char> description = (string)e.NewValue;
 
-        UpdateDescription(textBlock, description);
+        try
+        {
+            UpdateDescription(textBlock, MiHoYoSyntaxTree.Parse(SpecialNameHandler.Handle((string)e.NewValue)));
+        }
+        catch (Exception ex)
+        {
+            _ = ex;
+        }
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -62,101 +62,106 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         textBlock.Style = (Style)e.NewValue;
     }
 
-    private static void UpdateDescription(TextBlock textBlock, in ReadOnlySpan<char> description)
+    private static void UpdateDescription(TextBlock textBlock, MiHoYoSyntaxTree syntaxTree)
     {
         textBlock.Inlines.Clear();
+        AppendNode(textBlock, textBlock.Inlines, syntaxTree.Root);
+    }
 
-        int last = 0;
-        for (int i = 0; i < description.Length;)
+    private static void AppendNode(TextBlock textBlock, InlineCollection inlines, MiHoYoSyntaxNode node)
+    {
+        switch (node.Kind)
         {
-            // newline
-            if (description[i..].StartsWith(@"\n"))
-            {
-                AppendText(textBlock, description[last..i]);
-                AppendLineBreak(textBlock);
-                i += 2;
-                last = i;
-            }
+            case MiHoYoSyntaxKind.Root:
+                foreach (MiHoYoSyntaxNode child in ((MiHoYoRootSyntax)node).Children)
+                {
+                    AppendNode(textBlock, inlines, child);
+                }
 
-            // color tag
-            else if (description[i..].StartsWith("<c"))
-            {
-                AppendText(textBlock, description[last..i]);
-                Rgba32 color = new(description.Slice(i + 8, 8).ToString());
-                int length = description[(i + ColorTagLeftLength)..].IndexOf('<');
-                AppendColorText(textBlock, description.Slice(i + ColorTagLeftLength, length), color);
-
-                i += length + ColorTagFullLength;
-                last = i;
-            }
-
-            // italic
-            else if (description[i..].StartsWith("<i"))
-            {
-                AppendText(textBlock, description[last..i]);
-
-                int length = description[(i + ItalicTagLeftLength)..].IndexOf('<');
-                AppendItalicText(textBlock, description.Slice(i + ItalicTagLeftLength, length));
-
-                i += length + ItalicTagFullLength;
-                last = i;
-            }
-            else
-            {
-                i += 1;
-            }
-
-            if (i == description.Length - 1)
-            {
-                AppendText(textBlock, description[last..(i + 1)]);
-            }
+                break;
+            case MiHoYoSyntaxKind.PlainText:
+                AppendPlainText(textBlock, inlines, (MiHoYoPlainTextSyntax)node);
+                break;
+            case MiHoYoSyntaxKind.ColorText:
+                AppendColorText(textBlock, inlines, (MiHoYoColorTextSyntax)node);
+                break;
+            case MiHoYoSyntaxKind.ItalicText:
+                AppendItalicText(textBlock, inlines, (MiHoYoItalicTextSyntax)node);
+                break;
         }
     }
 
-    private static void AppendText(TextBlock text, in ReadOnlySpan<char> slice)
+    private static void AppendPlainText(TextBlock textBlock, InlineCollection inlines, MiHoYoPlainTextSyntax plainText)
     {
-        text.Inlines.Add(new Run { Text = slice.ToString() });
+        // PlainText doesn't have children
+        inlines.Add(new Run { Text = plainText.Span.ToString() });
     }
 
-    private static void AppendColorText(TextBlock text, in ReadOnlySpan<char> slice, Rgba32 color)
+    private static void AppendColorText(TextBlock textBlock, InlineCollection inlines, MiHoYoColorTextSyntax colorText)
     {
+        Rgba32 color = new(colorText.ColorSpan.ToString());
         Color targetColor;
-        if (ThemeHelper.IsDarkMode(text.ActualTheme))
+        if (ThemeHelper.IsDarkMode(textBlock.ActualTheme))
         {
             targetColor = color;
         }
         else
         {
             // Make lighter in light mode
-            Hsl32 hsl = color.ToHsl();
+            Hsla32 hsl = color.ToHsl();
             hsl.L *= 0.3;
             targetColor = Rgba32.FromHsl(hsl);
         }
 
-        text.Inlines.Add(new Run
+        if (colorText.Children.Count > 1)
         {
-            Text = slice.ToString(),
-            Foreground = new SolidColorBrush(targetColor),
-        });
+            Span span = new()
+            {
+                Foreground = new SolidColorBrush(targetColor),
+            };
+
+            foreach (MiHoYoSyntaxNode child in colorText.Children)
+            {
+                AppendNode(textBlock, span.Inlines, child);
+            }
+        }
+        else
+        {
+            inlines.Add(new Run
+            {
+                Text = colorText.ContentSpan.ToString(),
+                Foreground = new SolidColorBrush(targetColor),
+            });
+        }
     }
 
-    private static void AppendItalicText(TextBlock text, in ReadOnlySpan<char> slice)
+    private static void AppendItalicText(TextBlock textBlock, InlineCollection inlines, MiHoYoItalicTextSyntax italicText)
     {
-        text.Inlines.Add(new Run
+        if (italicText.Children.Count > 1)
         {
-            Text = slice.ToString(),
-            FontStyle = Windows.UI.Text.FontStyle.Italic,
-        });
-    }
+            Span span = new()
+            {
+                FontStyle = Windows.UI.Text.FontStyle.Italic,
+            };
 
-    private static void AppendLineBreak(TextBlock text)
-    {
-        text.Inlines.Add(new LineBreak());
+            foreach (MiHoYoSyntaxNode child in italicText.Children)
+            {
+                AppendNode(textBlock, span.Inlines, child);
+            }
+        }
+        else
+        {
+            inlines.Add(new Run
+            {
+                Text = italicText.ContentSpan.ToString(),
+                FontStyle = Windows.UI.Text.FontStyle.Italic,
+            });
+        }
     }
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
         // Simply re-apply texts
-        UpdateDescription((TextBlock)Content, Description);
+        UpdateDescription((TextBlock)Content, MiHoYoSyntaxTree.Parse(SpecialNameHandler.Handle(Description)));
     }
 }

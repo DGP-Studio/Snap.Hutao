@@ -7,8 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
@@ -51,7 +49,7 @@
                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                     <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
                 </ItemContainer.Resources>
-                <Grid Padding="8" Style="{ThemeResource GridCardStyle}">
+                <Grid Padding="8" Style="{ThemeResource AcrylicGridCardStyle}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -390,48 +388,52 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <CommandBar Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" DefaultLabelPosition="Right">
-            <AppBarButton
-                Command="{Binding RefreshCommand}"
-                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentRefresh}}"
-                Label="{shcm:ResourceString Name=ViewPageDailyNoteRefresh}"/>
-            <AppBarButton
-                AllowFocusOnInteraction="True"
-                Icon="{shcm:FontIcon Glyph=&#xE9D5;}"
-                Label="{shcm:ResourceString Name=ViewPageDailyNoteVerify}">
-                <AppBarButton.Flyout>
-                    <Flyout
-                        FlyoutPresenterStyle="{ThemeResource WebViewerFlyoutPresenterStyle}"
-                        LightDismissOverlayMode="On"
-                        Placement="Full"
-                        ShowMode="Standard">
-                        <shvc:WebViewer SourceProvider="{Binding VerifyUrlSource, Mode=OneWay}"/>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentAdd}}" Label="{shcm:ResourceString Name=ViewPageDailyNoteAddEntry}">
-                <AppBarButton.Flyout>
-                    <Flyout
-                        FlyoutPresenterStyle="{StaticResource FlyoutPresenterPadding0And2Style}"
-                        LightDismissOverlayMode="On"
-                        Placement="Bottom">
-                        <StackPanel>
-                            <TextBlock
-                                Margin="16,12,16,16"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewPageDailyNoteAddEntryHint}"/>
-                            <ScrollViewer MaxHeight="320" Padding="16,0">
-                                <ItemsControl ItemTemplate="{StaticResource UserAndUidTemplate}" ItemsSource="{Binding UserAndUids}"/>
-                            </ScrollViewer>
-                        </StackPanel>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarToggleButton
-                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentSetting}}"
-                IsChecked="{x:Bind SettingPaneSplitView.IsPaneOpen, Mode=TwoWay}"
-                Label="{shcm:ResourceString Name=ViewPageDailyNoteNotificationSetting}"/>
-        </CommandBar>
+        <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+            <Border Style="{ThemeResource AcrylicSecondaryBorderCardStyle}">
+                <CommandBar DefaultLabelPosition="Right">
+                    <AppBarButton
+                        Command="{Binding RefreshCommand}"
+                        Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentRefresh}}"
+                        Label="{shcm:ResourceString Name=ViewPageDailyNoteRefresh}"/>
+                    <AppBarButton
+                        AllowFocusOnInteraction="True"
+                        Icon="{shcm:FontIcon Glyph=&#xE9D5;}"
+                        Label="{shcm:ResourceString Name=ViewPageDailyNoteVerify}">
+                        <AppBarButton.Flyout>
+                            <Flyout
+                                FlyoutPresenterStyle="{ThemeResource WebViewerFlyoutPresenterStyle}"
+                                LightDismissOverlayMode="On"
+                                Placement="Full"
+                                ShowMode="Standard">
+                                <shvc:WebViewer SourceProvider="{Binding VerifyUrlSource, Mode=OneWay}"/>
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarButton Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentAdd}}" Label="{shcm:ResourceString Name=ViewPageDailyNoteAddEntry}">
+                        <AppBarButton.Flyout>
+                            <Flyout
+                                FlyoutPresenterStyle="{StaticResource FlyoutPresenterPadding0And2Style}"
+                                LightDismissOverlayMode="On"
+                                Placement="Bottom">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="16,12,16,16"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="{shcm:ResourceString Name=ViewPageDailyNoteAddEntryHint}"/>
+                                    <ScrollViewer MaxHeight="320" Padding="16,0">
+                                        <ItemsControl ItemTemplate="{StaticResource UserAndUidTemplate}" ItemsSource="{Binding UserAndUids}"/>
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarToggleButton
+                        Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentSetting}}"
+                        IsChecked="{x:Bind SettingPaneSplitView.IsPaneOpen, Mode=TwoWay}"
+                        Label="{shcm:ResourceString Name=ViewPageDailyNoteNotificationSetting}"/>
+                </CommandBar>
+            </Border>
+        </Border>
 
         <SplitView
             x:Name="SettingPaneSplitView"
@@ -488,19 +490,34 @@
                             </StackPanel>
                         </cwc:HeaderedContentControl>
 
-                        <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteNotificationHeader}"/>
-                        <cwc:SettingsCard
-                            Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
-                            HeaderIcon="{shcm:FontIcon Glyph=&#xE7ED;}">
-                            <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
-                        </cwc:SettingsCard>
-                        <cwc:SettingsCard
-                            Description="{shcm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
-                            HeaderIcon="{shcm:FontIcon Glyph=&#xEA8F;}">
-                            <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsReminderNotification, Mode=TwoWay}"/>
-                        </cwc:SettingsCard>
+                        <cwc:HeaderedContentControl
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            IsEnabled="{Binding RuntimeOptions.IsToastAvailable}">
+                            <cwc:HeaderedContentControl.Header>
+                                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteNotificationHeader}"/>
+                            </cwc:HeaderedContentControl.Header>
+                            <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                                <InfoBar
+                                    Title="胡桃的通知权限已被关闭"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Warning"
+                                    Visibility="{Binding RuntimeOptions.IsToastAvailable, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                <cwc:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7ED;}">
+                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xEA8F;}">
+                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsReminderNotification, Mode=TwoWay}"/>
+                                </cwc:SettingsCard>
+                            </StackPanel>
+                        </cwc:HeaderedContentControl>
 
                         <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteDataInteropHeader}"/>
                         <cwc:SettingsCard

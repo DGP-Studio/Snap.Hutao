@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Windows.Win32.UI.WindowsAndMessaging;
+using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
 namespace Snap.Hutao.Core.Windowing;
 

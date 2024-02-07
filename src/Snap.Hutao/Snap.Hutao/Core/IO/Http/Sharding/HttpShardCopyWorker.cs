@@ -18,6 +18,7 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
     private readonly long contentLength;
     private readonly int bufferSize;
     private readonly SafeFileHandle destFileHandle;
+    private readonly int maxDegreeOfParallelism;
     private readonly List<Shard> shards;
 
     private HttpShardCopyWorker(HttpShardCopyWorkerOptions<TStatus> options)
@@ -28,6 +29,7 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
         contentLength = options.ContentLength;
         bufferSize = options.BufferSize;
         destFileHandle = options.GetFileHandle();
+        maxDegreeOfParallelism = options.MaxDegreeOfParallelism;
         shards = CalculateShards(contentLength);
 
         static List<Shard> CalculateShards(long contentLength)
@@ -56,7 +58,11 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
     public Task CopyAsync(IProgress<TStatus> progress, CancellationToken token = default)
     {
         ShardProgress shardProgress = new(progress, statusFactory, contentLength);
-        return Parallel.ForEachAsync(shards, token, (shard, token) => CopyShardAsync(shard, shardProgress, token));
+        ParallelOptions parallelOptions = new()
+        {
+            MaxDegreeOfParallelism = maxDegreeOfParallelism,
+        };
+        return Parallel.ForEachAsync(shards, parallelOptions, (shard, token) => CopyShardAsync(shard, shardProgress, token));
 
         async ValueTask CopyShardAsync(Shard shard, IProgress<ShardStatus> progress, CancellationToken token)
         {

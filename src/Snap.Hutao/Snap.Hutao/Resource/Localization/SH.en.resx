@@ -145,7 +145,7 @@
     <value>Save</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>Invalid Uri</value>
+    <value>Invalid URL</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -197,6 +197,21 @@
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>Select Account to Launch</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;Prince&lt;/color&gt;/&lt;color=#FFB6C1&gt;Princess&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;I&lt;/color&gt;/&lt;color=#FFB6C1&gt;I&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameNickname" xml:space="preserve">
+    <value>Traveler</value>
+  </data>
+  <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;He&lt;/color&gt;/&lt;color=#FFB6C1&gt;She&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>Wanderer</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Refine {0}</value>
@@ -497,6 +512,9 @@
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
     <value>Wave 4: A wave will spawn only after killing all enemies in the previous wave</value>
   </data>
+  <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
+    <value>Remain 4 Treasure Hoarders on the field, instantly respawn on death. 12 in total.</value>
+  </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>Please update showcase data</value>
   </data>
@@ -510,7 +528,7 @@
     <value>Must sign in to your MiHoYo BBS account and select a user</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>Deleted {1} wish record from Uid: {0}</value>
+    <value>Deleted {1} wish records from UID: {0}</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>Reached max allowed number of wish history archives on Snap Hutao Cloud</value>
@@ -525,7 +543,7 @@
     <value>Found abnormal data, unable to upload to Snap Hutao Cloud. Please do not upload across accounts or you can attempt to delete cloud data and try again.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>Uploaded {1} wish records of Uid: {0}, stored {2}</value>
+    <value>Uploaded {1} wish records of UID: {0}, stored {2}</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Please login or register Hutao account first</value>
@@ -573,7 +591,7 @@
     <value>The verification request failed, the current email address has been registered</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
-    <value>Validation request is too frequent. Please try again in 1 minute.</value>
+    <value>Verification request is too frequent. Please try again in 1 minute.</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
     <value>Failed to upload Sprial Abyss record, current UID is banned by Hutao Database</value>
@@ -597,7 +615,7 @@
     <value>Failed to upload Spiral Abyss record. It is not data for the current schedule.</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>Failed to upload Sprial Abyss record. The record for the current Uid is still being processed. Please do not repeat the operation.</value>
+    <value>Failed to upload Sprial Abyss record. The record for the current UID is still being processed. Please do not repeat the operation.</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>Uploaded Spiral Abyss record successfully. Received a privilege extension for Snap Hutao Cloud service.</value>
@@ -609,7 +627,7 @@
     <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as no Snap Hutao account found.</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
-    <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as there is not first upload of current schedule.</value>
+    <value>Uploaded abyss record successfully. No Snap Hutao Cloud privilege received as this is not the first upload of current schedule.</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>New: {0} Achievements | Updated: {1} Achievements | Delete: {2} Achievements</value>
@@ -732,10 +750,10 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
-    <value>Dev Plan: N/A</value>
+    <value>Enhancement Progression Calculator: N/A</value>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat" xml:space="preserve">
-    <value>Avatar Calculator: {0:MM-dd HH:mm}</value>
+    <value>Enhancement Progression Calculator: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
     <value>Battle Chronicle: Not Refreshed</value>
@@ -855,7 +873,7 @@
     <value>SToken refresh does not support HoYoLab account</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>UIGF file language: {0} does not match Snap Hutao language: {1}, please retry after switching client language to target UIGF file language</value>
+    <value>URL language: {0} does not match Snap Hutao language: {1}, please retry after switching client language to target URL language</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>Unsupported Item ID: {0}</value>
@@ -987,7 +1005,7 @@
     <value>Failed to download Metadata validation file</value>
   </data>
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
-    <value>Your Snap Hutao version is too low. Please update as soon as possible.</value>
+    <value>Your Snap Hutao is outdated. Please update as soon as possible.</value>
   </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
     <value>Check-in failed, {0}</value>
@@ -999,7 +1017,7 @@
     <value>Fetch Signin reward list failed</value>
   </data>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
-    <value>Verification failed, please visit MiYouShe checkin page to manually claim reward</value>
+    <value>Verification failed, please visit miHoYo BBS checkin page to manually claim reward</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>Check-in successfully, {0} x {1}</value>
@@ -1077,10 +1095,10 @@
     <value>4 Stars</value>
   </data>
   <data name="ViewControlStatisticsCardToLastOrangeText" xml:space="preserve">
-    <value>Last 5 Stars</value>
+    <value>Last 5 Star</value>
   </data>
   <data name="ViewControlStatisticsCardToLastPurpleText" xml:space="preserve">
-    <value>Last 4 Stars</value>
+    <value>Last 4 Star</value>
   </data>
   <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
     <value>Luckiness Avg</value>
@@ -1158,19 +1176,19 @@
     <value>Batch add or update to current Dev Plan</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
-    <value>Add or update to current Dev Plan</value>
+    <value>Add or update to current Enhancement Progression Plan</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>Daily Commission Availability Notification</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationExpeditionNotify" xml:space="preserve">
-    <value>Expedition Reward Notification</value>
+    <value>Expedition Completion Notification</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
-    <value>Realm Currency Alarm Threshold</value>
+    <value>Realm Currency Notification Threshold</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
-    <value>Realm Currency Alarm Threshold</value>
+    <value>Original Resin Notification Threshold</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
     <value>Show widget on Home page</value>
@@ -1186,6 +1204,12 @@
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>Realtime Note Webhook URL</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
+    <value>You need other tools to restore the loopback after it is exempted</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
+    <value>Confirm to Config Loopback Exemption</value>
   </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>Import wish history</value>
@@ -1218,10 +1242,10 @@
     <value>Returned data</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
-    <value>{0} will be replaced with gt during a request</value>
+    <value>{0} will be replaced with "gt" during a request</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
-    <value>{1} will be replaced with challenge during a request</value>
+    <value>{1} will be replaced with "challenge" during a request</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
     <value>Requests will be sent to interfaces via GET</value>
@@ -1275,7 +1299,7 @@
     <value>Name the account</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
-    <value>Conversion may take some time. Do not turn off the software.</value>
+    <value>Conversion may take some time. Please don't close HuTao.</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
     <value>Converting Game Client</value>
@@ -1284,7 +1308,7 @@
     <value>Scan the QR code with MiHoYo BBS App</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
-    <value>To avoid enable in a mistake, please input &lt;b&gt;title name&lt;/b&gt; of feature you are enabling</value>
+    <value>To avoid enabling unintentionally, please input the &lt;b&gt;title name&lt;/b&gt; of feature you are enabling</value>
   </data>
   <data name="ViewDialogReconfirmTitle" xml:space="preserve">
     <value>You are Enabling a Dangerous Feature</value>
@@ -1326,13 +1350,13 @@
     <value>Snap Hutao Open Source License</value>
   </data>
   <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
-    <value>User Data and Privacy Notice</value>
+    <value>User Data and Privacy Policy</value>
   </data>
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
     <value>User Agreement and Legal Notices</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Document</value>
   </data>
   <data name="ViewGuideStepEnvironment" xml:space="preserve">
     <value>Environments</value>
@@ -1419,7 +1443,7 @@
     <value>No Artifact Set</value>
   </data>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
-    <value>Failed to add development plan</value>
+    <value>Failed to add Enhancement Progression plan</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
     <value>Operation completed: added/updated {0}, skipped {1}</value>
@@ -1431,7 +1455,7 @@
     <value>Successfully added to current plan</value>
   </data>
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
-    <value>Please create a plan and select it in the Development Plan feature</value>
+    <value>Please create a plan and select it in the Enhancement Progression Plan feature</value>
   </data>
   <data name="ViewModelCultivationEntryViewDescriptionDefault" xml:space="preserve">
     <value>Add item again to view cultivation description</value>
@@ -1451,6 +1475,9 @@
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLab account does not support Realtime Notes verification</value>
   </data>
+  <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
+    <value>Failed to modify Scheduled Task</value>
+  </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 min | 3.75 Resin</value>
   </data>
@@ -1466,14 +1493,11 @@
   <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
     <value>8 min | 1 Resin</value>
   </data>
-  <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
-    <value>Failed to add Scheduled Task, please try again in administrator mode</value>
-  </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
     <value>Fetching Realtime Notes data, please wait</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
-    <value>Successfully saved to selected patch</value>
+    <value>Successfully saved to selected path</value>
   </data>
   <data name="ViewModelExportSuccessTitle" xml:space="preserve">
     <value>Export successfully</value>
@@ -1512,7 +1536,7 @@
     <value>Failed to fetch wish history</value>
   </data>
   <data name="ViewModelGachaLogRefreshOperationCancel" xml:space="preserve">
-    <value>Wish history refresh is canceled unexpectedly</value>
+    <value>Wish history refresh was canceled unexpectedly</value>
   </data>
   <data name="ViewModelGachaLogRemoveArchiveDescription" xml:space="preserve">
     <value>This operation is irreversible. The wish history archive will be lost.</value>
@@ -1566,7 +1590,7 @@
     <value>Identify Monitors</value>
   </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>Unable to read game config file: {0}, file may be not exist not lack of user permission</value>
+    <value>Unable to read game config file: {0}, file may be not exist or insufficient permission</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>Game program path is incorrect. Change it in the Settings Page.</value>
@@ -1578,7 +1602,7 @@
     <value>Switch game account failed</value>
   </data>
   <data name="ViewModelLaunchGameUnableToSwitchUidAttachedGameAccount" xml:space="preserve">
-    <value>Cannot select account [{1}] for Uid [{0}], the account does not belong to current server</value>
+    <value>Cannot select account [{1}] for UID [{0}], the account does not belong to current server</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
     <value>Operation completed</value>
@@ -1632,7 +1656,7 @@
     <value>User [{0}] removed successfully</value>
   </data>
   <data name="ViewModelUserUpdated" xml:space="preserve">
-    <value>Successfully update Cookie for user [{0}]</value>
+    <value>Successfully updated Cookie for user [{0}]</value>
   </data>
   <data name="ViewModelViewDisposedOperationCancel" xml:space="preserve">
     <value>View Resource has been disposed, operation cancelled.</value>
@@ -1818,7 +1842,7 @@
     <value>Refresh</value>
   </data>
   <data name="ViewPageDailyNoteRefreshTime" xml:space="preserve">
-    <value>Refresh Duration</value>
+    <value>Refresh Interval</value>
   </data>
   <data name="ViewPageDailyNoteReminderDescription" xml:space="preserve">
     <value>Causes the notification to stay on-screen and expanded until the user takes action</value>
@@ -1862,6 +1886,18 @@
   <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
     <value>Useful Links</value>
   </data>
+  <data name="ViewPageFeedbackCurrentProxyHeader" xml:space="preserve">
+    <value>Current Proxy</value>
+  </data>
+  <data name="ViewPageFeedbackCurrentProxyNoProxyDescription" xml:space="preserve">
+    <value>No Proxy</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
+    <value>Exempted</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
+    <value>Config Loopback Exemption</value>
+  </data>
   <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
     <value>Keep in touch with us</value>
   </data>
@@ -1902,7 +1938,7 @@
     <value>Buy or Renew Cloud Service</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>Delete the Cloud Archive of This Uid</value>
+    <value>Delete the Cloud Archive of This UID</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Lifetime developer license</value>
@@ -1911,7 +1947,7 @@
     <value>Snap Hutao Cloud Service Expired</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>Download the Cloud Archive of This Uid</value>
+    <value>Download the Cloud Archive of this UID</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>Free 3-day license after uploading current schedule Abyss record</value>
@@ -1974,7 +2010,7 @@
     <value>Overview</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
-    <value>Statistics</value>
+    <value>Global Wish Stats</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>Weapon</value>
@@ -2169,10 +2205,10 @@
     <value>InterProcess</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
-    <value>Run the software on the selected display</value>
+    <value>Run the software on the selected monitor</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
-    <value>Display</value>
+    <value>Monitor</value>
   </data>
   <data name="ViewPageLaunchGameMultipleInstancesDescription" xml:space="preserve">
     <value>Run multiple game processes simultaneously</value>
@@ -2184,7 +2220,7 @@
     <value>Game Options</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
-    <value>Try to start the game after the game is started and use Starward for game duration statistics</value>
+    <value>Try to start Starward after the game is started for game duration statistics</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
     <value>Hours Played</value>
@@ -2253,7 +2289,7 @@
     <value>Enabled</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
-    <value>Take advantage of displays that support HDR for brighter, more vivid, and more detailed pictures</value>
+    <value>Take advantage of monitors that support HDR for brighter, more vivid, and more detailed pictures</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
     <value>Windows HDR</value>
@@ -2296,6 +2332,9 @@
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>Cache Folder</value>
+  </data>
+  <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
+    <value>Hutao Passport</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Copy</value>
@@ -2489,6 +2528,12 @@
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>Official Website</value>
   </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
+    <value>Customized background image, support bmp/gif/ico/jpg/jpeg/png/tiff/webp format</value>
+  </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
+    <value>Open Background Folder</value>
+  </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>Reset</value>
   </data>
@@ -2497,6 +2542,12 @@
   </data>
   <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
     <value>Reset Image Resource</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
+    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
+    <value>启动游戏-解锁帧率限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>You need to move data in the directory manually, otherwise new user data will be created.</value>
@@ -2586,7 +2637,7 @@
     <value>Quotes</value>
   </data>
   <data name="ViewPageWiKiAvatarSpecialFoodTitle" xml:space="preserve">
-    <value>Special Food</value>
+    <value>Special Dish</value>
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>Stories</value>
@@ -2655,7 +2706,7 @@
     <value>Battles Fought</value>
   </data>
   <data name="ViewSpiralAbyssDamage" xml:space="preserve">
-    <value>Most Damage Taken</value>
+    <value>Most Damage Dealt</value>
   </data>
   <data name="ViewSpiralAbyssDefaultDescription" xml:space="preserve">
     <value>No Spiral Abyss record</value>
@@ -2757,7 +2808,7 @@
     <value>Document</value>
   </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
-    <value>No Login</value>
+    <value>Haven't logged in</value>
   </data>
   <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
     <value>Refresh CookieToken successfully</value>
@@ -2781,7 +2832,7 @@
     <value>You can continue to use your computer without any impact</value>
   </data>
   <data name="ViewWelcomeSubtitle" xml:space="preserve">
-    <value>Please do not turn off the software</value>
+    <value>Please do not close the software</value>
   </data>
   <data name="ViewWelcomeTitle" xml:space="preserve">
     <value>Welcome to use Snap Hutao</value>
@@ -2805,7 +2856,7 @@
     <value>(?:〓Event Duration〓|Event Wish Duration|【Availability Duration】).*?(\d\.\dAfter the Version update).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
-    <value>〓Update Maintenance Duration.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>〓Update Maintenance Duration〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
     <value>Version \d\.\d Update Details</value>
@@ -2871,7 +2922,7 @@
     <value>Daily Commission Reward claimed</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
-    <value>Will be full in {0} {1:HH:mm}</value>
+    <value>Full in {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Serenitea Pot not Unlocked</value>
@@ -2931,7 +2982,7 @@
     <value>Wrong UID format</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>Role UID does not exist, please try again later</value>
+    <value>Character UID does not exist, please try again later</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>Game in maintenance</value>

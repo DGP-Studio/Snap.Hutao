@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Control;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
 using System.Globalization;
@@ -50,8 +51,20 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
         {
             if (desc.AsSpan().TrySplitIntoTwo('|', out ReadOnlySpan<char> description, out ReadOnlySpan<char> format))
             {
-                string resultFormatted = ParamRegex().Replace(format.ToString(), match => ReplaceParamInMatch(match, paramList));
-                results.Add(new ParameterDescription { Description = description.ToString(), Parameter = resultFormatted });
+                if (description[0] is not '#')
+                {
+                    // Fast path
+                    string resultFormatted = ParamRegex().Replace(format.ToString(), match => ReplaceParamInMatch(match, paramList));
+                    results.Add(new ParameterDescription { Description = description.ToString(), Parameter = resultFormatted });
+                }
+                else
+                {
+                    string descriptionString = SpecialNameHandler.Handle(description.ToString());
+                    string formatString = SpecialNameHandler.Handle(format.ToString());
+
+                    string resultFormatted = ParamRegex().Replace(formatString, match => ReplaceParamInMatch(match, paramList));
+                    results.Add(new ParameterDescription { Description = descriptionString, Parameter = resultFormatted });
+                }
             }
             else
             {

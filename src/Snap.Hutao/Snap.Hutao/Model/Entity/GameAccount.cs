@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Primitive;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +15,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("game_accounts")]
-internal sealed class GameAccount : ObservableObject, IMappingFrom<GameAccount, string, string, SchemeType>
+internal sealed class GameAccount : ObservableObject, IReorderable, IMappingFrom<GameAccount, string, string, SchemeType>
 {
     /// <summary>
     /// 内部Id
@@ -43,6 +44,8 @@ internal sealed class GameAccount : ObservableObject, IMappingFrom<GameAccount, 
     /// [MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810]
     /// </summary>
     public string MihoyoSDK { get; set; } = default!;
+
+    public int Index { get; set; }
 
     public static GameAccount From(string name, string sdk, SchemeType type)
     {

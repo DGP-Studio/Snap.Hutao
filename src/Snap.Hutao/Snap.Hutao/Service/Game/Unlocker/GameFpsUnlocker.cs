@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Memory;
+using Snap.Hutao.Win32.System.ProcessStatus;
 using System.Runtime.InteropServices;
-using Windows.Win32.Foundation;
-using Windows.Win32.System.ProcessStatus;
-using static Windows.Win32.PInvoke;
+using static Snap.Hutao.Win32.Kernel32;
 
 namespace Snap.Hutao.Service.Game.Unlocker;
 
@@ -61,36 +61,29 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         ref readonly Module userAssembly = ref moduleEntryInfo.UserAssembly;
 
         memory = new VirtualMemory(unityPlayer.Size + userAssembly.Size);
-        byte* lpBuffer = (byte*)memory.Pointer;
-        return ReadProcessMemory((HANDLE)process.Handle, (void*)unityPlayer.Address, lpBuffer, unityPlayer.Size)
-            && ReadProcessMemory((HANDLE)process.Handle, (void*)userAssembly.Address, lpBuffer + unityPlayer.Size, userAssembly.Size);
+        return ReadProcessMemory(process.Handle, (void*)unityPlayer.Address, memory.AsSpan()[..(int)unityPlayer.Size], out _)
+            && ReadProcessMemory(process.Handle, (void*)userAssembly.Address, memory.AsSpan()[(int)unityPlayer.Size..], out _);
     }
 
     private static unsafe bool UnsafeReadProcessMemory(System.Diagnostics.Process process, nuint baseAddress, out nuint value)
     {
-        ulong temp = 0;
-        bool result = ReadProcessMemory((HANDLE)process.Handle, (void*)baseAddress, (byte*)&temp, 8);
+        value = 0;
+        bool result = ReadProcessMemory((HANDLE)process.Handle, (void*)baseAddress, ref value, out _);
         Verify.Operation(result, SH.ServiceGameUnlockerReadProcessMemoryPointerAddressFailed);
-
-        value = (nuint)temp;
         return result;
     }
 
     private static unsafe bool UnsafeWriteProcessMemory(System.Diagnostics.Process process, nuint baseAddress, int value)
     {
-        return WriteProcessMemory((HANDLE)process.Handle, (void*)baseAddress, &value, sizeof(int));
+        return WriteProcessMemory((HANDLE)process.Handle, (void*)baseAddress, ref value, out _);
     }
 
     private static unsafe FindModuleResult UnsafeTryFindModule(in HANDLE hProcess, in ReadOnlySpan<char> moduleName, out Module module)
     {
         HMODULE[] buffer = new HMODULE[128];
-        uint actualSize;
-        fixed (HMODULE* pBuffer = buffer)
+        if (!K32EnumProcessModules(hProcess, buffer, out uint actualSize))
         {
-            if (!K32EnumProcessModules(hProcess, pBuffer, unchecked((uint)(buffer.Length * sizeof(HMODULE))), out actualSize))
-            {
-                Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
-            }
+            Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
         }
 
         if (actualSize == 0)
@@ -99,18 +92,17 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             return FindModuleResult.NoModuleFound;
         }
 
-        Span<HMODULE> modules = new(buffer, 0, unchecked((int)(actualSize / sizeof(HMODULE))));
-
-        foreach (ref readonly HMODULE hModule in modules)
+        foreach (ref readonly HMODULE hModule in buffer.AsSpan()[..(int)(actualSize / sizeof(HMODULE))])
         {
             char[] baseName = new char[256];
+
+            if (K32GetModuleBaseNameW(hProcess, hModule, baseName) == 0)
+            {
+                continue;
+            }
+
             fixed (char* lpBaseName = baseName)
             {
-                if (K32GetModuleBaseName(hProcess, hModule, lpBaseName, 256) == 0)
-                {
-                    continue;
-                }
-
                 ReadOnlySpan<char> szModuleName = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(lpBaseName);
                 if (!szModuleName.SequenceEqual(moduleName))
                 {
@@ -118,7 +110,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                 }
             }
 
-            if (!K32GetModuleInformation(hProcess, hModule, out MODULEINFO moduleInfo, unchecked((uint)sizeof(MODULEINFO))))
+            if (!K32GetModuleInformation(hProcess, hModule, out MODULEINFO moduleInfo))
             {
                 continue;
             }

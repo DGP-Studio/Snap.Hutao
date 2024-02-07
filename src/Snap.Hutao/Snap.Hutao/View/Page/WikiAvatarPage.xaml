@@ -247,82 +247,80 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <CommandBar
-                Grid.Row="0"
-                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{x:Null}"
-                BorderThickness="0"
-                DefaultLabelPosition="Right">
-                <CommandBar.Content>
-                    <shcp:PanelSelector
-                        x:Name="ItemsPanelSelector"
-                        Margin="8,8,0,0"
-                        LocalSettingKeySuffixForCurrent="WikiAvatarPage.Avatars"/>
-                </CommandBar.Content>
-                <!--<AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="搜索提示"/>-->
-                <AppBarElementContainer>
-                    <AutoSuggestBox
-                        Width="240"
-                        Height="36"
-                        Margin="6,6,6,0"
-                        HorizontalAlignment="Stretch"
-                        VerticalContentAlignment="Center"
-                        PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
-                        QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
-                        Style="{StaticResource DefaultAutoSuggestBoxStyle}"
-                        Text="{Binding FilterText, Mode=TwoWay}">
-                        <mxi:Interaction.Behaviors>
-                            <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                                <mxic:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding FilterText}"/>
-                            </mxic:EventTriggerBehavior>
-                        </mxi:Interaction.Behaviors>
-                    </AutoSuggestBox>
-                </AppBarElementContainer>
-                <AppBarButton
-                    Command="{Binding CultivateCommand}"
-                    CommandParameter="{Binding Selected}"
-                    Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
-                    Label="{shcm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
-            </CommandBar>
+            <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                    <CommandBar
+                        Grid.Row="0"
+                        BorderBrush="{x:Null}"
+                        BorderThickness="0"
+                        DefaultLabelPosition="Right">
+                        <CommandBar.Content>
+                            <shcp:PanelSelector
+                                x:Name="ItemsPanelSelector"
+                                Margin="8,8,0,0"
+                                LocalSettingKeySuffixForCurrent="WikiAvatarPage.Avatars"/>
+                        </CommandBar.Content>
+                        <!--<AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="搜索提示"/>-->
+                        <AppBarElementContainer>
+                            <AutoSuggestBox
+                                Width="240"
+                                Height="36"
+                                Margin="6,6,6,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
+                                QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
+                                Style="{StaticResource DefaultAutoSuggestBoxStyle}"
+                                Text="{Binding FilterText, Mode=TwoWay}">
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="QuerySubmitted">
+                                        <mxic:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding FilterText}"/>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </AutoSuggestBox>
+                        </AppBarElementContainer>
+                        <AppBarButton
+                            Command="{Binding CultivateCommand}"
+                            CommandParameter="{Binding Selected}"
+                            Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
+                            Label="{shcm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
+                    </CommandBar>
+                </Border>
+            </Border>
+
             <cwc:SwitchPresenter
                 Grid.Row="1"
                 ContentTransitions="{ThemeResource EntranceThemeTransitions}"
                 Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
                 <cwc:Case Value="List">
-                    <SplitView
-                        DisplayMode="Inline"
-                        IsPaneOpen="True"
-                        OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
-                        PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
-                        <SplitView.Pane>
-                            <ListView
-                                ItemTemplate="{StaticResource AvatarListTemplate}"
-                                ItemsSource="{Binding Avatars}"
-                                SelectedItem="{Binding Selected, Mode=TwoWay}"
-                                SelectionMode="Single">
-                                <mxi:Interaction.Behaviors>
-                                    <shcb:SelectedItemInViewBehavior/>
-                                </mxi:Interaction.Behaviors>
-                            </ListView>
-                        </SplitView.Pane>
-                        <SplitView.Content>
-                            <Grid>
-                                <!--  渐变背景  -->
-                                <shci:Gradient
-                                    VerticalAlignment="Top"
-                                    BackgroundDirection="RightTopToLeftBottom"
-                                    ForegroundDirection="TopToBottom"
-                                    Source="{Binding Selected, Converter={StaticResource AvatarNameCardPicConverter}}"/>
+                    <Border Margin="16,0,16,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <SplitView
+                                DisplayMode="Inline"
+                                IsPaneOpen="True"
+                                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
+                                PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
+                                <SplitView.Pane>
+                                    <ListView
+                                        Padding="{ThemeResource ListViewInSplitPanePadding}"
+                                        ItemTemplate="{StaticResource AvatarListTemplate}"
+                                        ItemsSource="{Binding Avatars}"
+                                        SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                        SelectionMode="Single">
+                                        <mxi:Interaction.Behaviors>
+                                            <shcb:SelectedItemInViewBehavior/>
+                                        </mxi:Interaction.Behaviors>
+                                    </ListView>
 
-                                <ScrollViewer>
-                                    <StackPanel
-                                        MaxWidth="800"
-                                        Padding="32"
-                                        HorizontalAlignment="Left"
-                                        Spacing="16">
-                                        <!--  简介  -->
-                                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Grid Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" Style="{ThemeResource GridCardStyle}">
+                                </SplitView.Pane>
+                                <SplitView.Content>
+                                    <ScrollViewer>
+                                        <StackPanel
+                                            Padding="16,16,16,16"
+                                            HorizontalAlignment="Left"
+                                            Spacing="16">
+                                            <!--  简介  -->
+                                            <Grid Style="{ThemeResource GridCardStyle}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition/>
                                                     <RowDefinition/>
@@ -460,11 +458,9 @@
                                                     </ItemsControl>
                                                 </StackPanel>
                                             </Grid>
-                                        </Border>
 
-                                        <!--  属性  -->
-                                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                            <!--  属性  -->
+                                            <Border Style="{ThemeResource BorderCardStyle}">
                                                 <Border.Resources>
                                                     <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
                                                     <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
@@ -478,34 +474,19 @@
                                                     HorizontalContentAlignment="Stretch"
                                                     BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
                                             </Border>
-                                        </Border>
 
-                                        <!--  天赋  -->
-                                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Border
-                                                Padding="16"
-                                                Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
-                                                CornerRadius="{ThemeResource ControlCornerRadius}">
+                                            <!--  天赋  -->
+                                            <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
                                                 <shvcont:SkillPivot ItemTemplate="{StaticResource SkillDataTemplate}" Skills="{Binding Selected.SkillDepot.CompositeSkills}"/>
                                             </Border>
-                                        </Border>
 
-                                        <!--  命座  -->
-                                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Border
-                                                Padding="16"
-                                                Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
-                                                CornerRadius="{ThemeResource ControlCornerRadius}">
+                                            <!--  命座  -->
+                                            <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
                                                 <shvcont:SkillPivot ItemTemplate="{StaticResource TalentDataTemplate}" Skills="{Binding Selected.SkillDepot.Talents}"/>
                                             </Border>
-                                        </Border>
 
-                                        <!--  搭配  -->
-                                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Border
-                                                Padding="16"
-                                                Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
-                                                CornerRadius="{ThemeResource ControlCornerRadius}">
+                                            <!--  搭配  -->
+                                            <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
                                                 <Grid ColumnSpacing="8" RowSpacing="8">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition/>
@@ -551,12 +532,10 @@
                                                         ItemsSource="{Binding Selected.Collocation.ReliquarySets}"/>
                                                 </Grid>
                                             </Border>
-                                        </Border>
 
-                                        <!--  立绘  -->
-                                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                            <!--  立绘  -->
                                             <cwc:ConstrainedBox AspectRatio="2048:1024">
-                                                <Grid Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" Style="{ThemeResource GridCardStyle}">
+                                                <Grid Style="{ThemeResource GridCardStyle}">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="auto"/>
                                                         <ColumnDefinition/>
@@ -574,11 +553,9 @@
                                                     </Border>
                                                 </Grid>
                                             </cwc:ConstrainedBox>
-                                        </Border>
 
-                                        <!--  料理  -->
-                                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                            <!--  料理  -->
+                                            <Border Style="{ThemeResource BorderCardStyle}">
                                                 <Border.Resources>
                                                     <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
                                                     <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
@@ -642,11 +619,9 @@
                                                     </Grid>
                                                 </Expander>
                                             </Border>
-                                        </Border>
 
-                                        <!--  衣装  -->
-                                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                            <!--  衣装  -->
+                                            <Border Style="{ThemeResource BorderCardStyle}">
                                                 <Border.Resources>
                                                     <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
                                                     <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent"/>
@@ -662,11 +637,9 @@
                                                         ItemsSource="{Binding Selected.Costumes}"/>
                                                 </Expander>
                                             </Border>
-                                        </Border>
 
-                                        <!--  资料  -->
-                                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                            <!--  资料  -->
+                                            <Border Style="{ThemeResource BorderCardStyle}">
                                                 <Border.Resources>
                                                     <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
                                                     <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
@@ -682,11 +655,9 @@
                                                         ItemsSource="{Binding Selected.FetterInfo.Fetters}"/>
                                                 </ScrollViewer>
                                             </Border>
-                                        </Border>
 
-                                        <!--  故事  -->
-                                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                            <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                            <!--  故事  -->
+                                            <Border Style="{ThemeResource BorderCardStyle}">
                                                 <Border.Resources>
                                                     <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
                                                     <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
@@ -702,27 +673,31 @@
                                                         ItemsSource="{Binding Selected.FetterInfo.FetterStories}"/>
                                                 </ScrollViewer>
                                             </Border>
-                                        </Border>
-                                    </StackPanel>
-                                </ScrollViewer>
-                            </Grid>
-                        </SplitView.Content>
-                    </SplitView>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </SplitView.Content>
+                            </SplitView>
+                        </Border>
+                    </Border>
                 </cwc:Case>
                 <cwc:Case Value="Grid">
-                    <GridView
-                        Padding="12,12,2,0"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
-                        ItemTemplate="{StaticResource AvatarGridTemplate}"
-                        ItemsSource="{Binding Avatars}"
-                        SelectedItem="{Binding Selected, Mode=TwoWay}"
-                        SelectionMode="Single">
-                        <mxi:Interaction.Behaviors>
-                            <shcb:SelectedItemInViewBehavior/>
-                        </mxi:Interaction.Behaviors>
-                    </GridView>
+                    <Border Margin="16,0,16,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <GridView
+                                Padding="16,16,4,4"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
+                                ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                                ItemTemplate="{StaticResource AvatarGridTemplate}"
+                                ItemsSource="{Binding Avatars}"
+                                SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                SelectionMode="Single">
+                                <mxi:Interaction.Behaviors>
+                                    <shcb:SelectedItemInViewBehavior/>
+                                </mxi:Interaction.Behaviors>
+                            </GridView>
+                        </Border>
+                    </Border>
                 </cwc:Case>
             </cwc:SwitchPresenter>
         </Grid>

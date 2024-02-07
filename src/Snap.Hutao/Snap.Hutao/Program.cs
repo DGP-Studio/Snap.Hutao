@@ -19,6 +19,22 @@ public static partial class Program
 {
     private static readonly ApplicationInitializationCallback AppInitializationCallback = InitializeApp;
 
+    [ModuleInitializer]
+    internal static void InitializeModule()
+    {
+        // Set base directory env var for PublishSingleFile support (referenced by SxS redirection)
+        Environment.SetEnvironmentVariable("MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY", AppContext.BaseDirectory);
+
+        // No error handling needed as the target function does nothing (just {return S_OK}).
+        // It's the act of calling the function causing the DllImport to load the DLL that
+        // matters. This provides the moral equivalent of a native DLL's Import Address
+        // Table (IAT) have an entry that's resolved when this module is loaded.
+        _ = WindowsAppRuntimeEnsureIsLoaded();
+    }
+
+    [LibraryImport("Microsoft.WindowsAppRuntime.dll", EntryPoint = "WindowsAppRuntime_EnsureIsLoaded")]
+    private static partial int WindowsAppRuntimeEnsureIsLoaded();
+
     [LibraryImport("Microsoft.ui.xaml.dll")]
     private static partial void XamlCheckProcessRequirements();
 

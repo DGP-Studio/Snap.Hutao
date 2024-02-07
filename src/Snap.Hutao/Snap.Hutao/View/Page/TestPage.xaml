@@ -103,6 +103,10 @@
                 <ToggleSwitch IsOn="{Binding OverrideUpdateVersionComparison, Mode=TwoWay}"/>
             </cwc:SettingsCard>
 
+            <cwc:SettingsCard Header="Override Package Convert Directory Permission Requirement">
+                <ToggleSwitch IsOn="{Binding OverridePackageConvertDirectoryPermissionsRequirement, Mode=TwoWay}"/>
+            </cwc:SettingsCard>
+
             <cwc:SettingsCard
                 Command="{Binding CompensationGachaLogServiceTimeCommand}"
                 Header="Compensation GachaLog Service Time For 15 Days"

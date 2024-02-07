@@ -1,8 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Windows.Win32.System.Memory;
-using static Windows.Win32.PInvoke;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.Memory;
 
@@ -12,14 +11,14 @@ namespace Snap.Hutao.Win32.Memory;
 internal readonly unsafe struct VirtualMemory : IUnmanagedMemory
 {
     /// <summary>
-    /// 缓冲区地址
-    /// </summary>
-    private readonly void* pointer;
-
-    /// <summary>
     /// 长度
     /// </summary>
     private readonly uint size;
+
+    /// <summary>
+    /// 缓冲区地址
+    /// </summary>
+    private readonly void* pointer;
 
     /// <summary>
     /// 构造一个新的本地内存
@@ -28,19 +27,18 @@ internal readonly unsafe struct VirtualMemory : IUnmanagedMemory
     public unsafe VirtualMemory(uint dwSize)
     {
         size = dwSize;
-        VIRTUAL_ALLOCATION_TYPE commitAndReserve = VIRTUAL_ALLOCATION_TYPE.MEM_COMMIT | VIRTUAL_ALLOCATION_TYPE.MEM_RESERVE;
-        pointer = VirtualAlloc(default, dwSize, commitAndReserve, PAGE_PROTECTION_FLAGS.PAGE_READWRITE);
+        pointer = NativeMemory.Alloc(dwSize);
     }
-
-    /// <inheritdoc/>
-    public void* Pointer { get => pointer; }
 
     /// <inheritdoc/>
     public uint Size { get => size; }
 
     /// <inheritdoc/>
+    public void* Pointer { get => pointer; }
+
+    /// <inheritdoc/>
     public void Dispose()
     {
-        VirtualFree(pointer, 0, VIRTUAL_FREE_TYPE.MEM_RELEASE);
+        NativeMemory.Free(pointer);
     }
 }

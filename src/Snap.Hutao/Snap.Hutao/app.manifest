@@ -2,9 +2,10 @@
 <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
   <assemblyIdentity version="1.0.0.0" name="Snap.Hutao.app"/>
 
-  <application xmlns="urn:schemas-microsoft-com:asm.v3">
-    <windowsSettings>
-      <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2</dpiAwareness>
-    </windowsSettings>
+  <application xmlns="urn:schemas-microsoft-com:asm.v3" xmlns:ws2="http://schemas.microsoft.com/SMI/2016/WindowsSettings">
+    <windowsSettings xmlns:ws2="http://schemas.microsoft.com/SMI/2016/WindowsSettings">
+      <ws2:dpiAwareness>PerMonitorV2</ws2:dpiAwareness>
+      <ws2:longPathAware>true</ws2:longPathAware>
+  </windowsSettings>
   </application>
 </assembly>

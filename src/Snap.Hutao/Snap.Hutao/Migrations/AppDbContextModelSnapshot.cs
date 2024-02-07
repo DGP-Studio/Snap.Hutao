@@ -15,7 +15,7 @@ namespace Snap.Hutao.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
                 {
@@ -42,7 +42,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasIndex("ArchiveId");
 
-                    b.ToTable("achievements", (string)null);
+                    b.ToTable("achievements");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.AchievementArchive", b =>
@@ -60,7 +60,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("InnerId");
 
-                    b.ToTable("achievement_archives", (string)null);
+                    b.ToTable("achievement_archives");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.AvatarInfo", b =>
@@ -88,7 +88,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("InnerId");
 
-                    b.ToTable("avatar_infos", (string)null);
+                    b.ToTable("avatar_infos");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateEntry", b =>
@@ -110,7 +110,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("cultivate_entries", (string)null);
+                    b.ToTable("cultivate_entries");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateEntryLevelInformation", b =>
@@ -154,9 +154,10 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("InnerId");
 
-                    b.HasIndex("EntryId");
+                    b.HasIndex("EntryId")
+                        .IsUnique();
 
-                    b.ToTable("cultivate_entry_level_informations", (string)null);
+                    b.ToTable("cultivate_entry_level_informations");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateItem", b =>
@@ -181,7 +182,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasIndex("EntryId");
 
-                    b.ToTable("cultivate_items", (string)null);
+                    b.ToTable("cultivate_items");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateProject", b =>
@@ -202,7 +203,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("InnerId");
 
-                    b.ToTable("cultivate_projects", (string)null);
+                    b.ToTable("cultivate_projects");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.DailyNoteEntry", b =>
@@ -258,7 +259,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("daily_notes", (string)null);
+                    b.ToTable("daily_notes");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.GachaArchive", b =>
@@ -276,7 +277,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("InnerId");
 
-                    b.ToTable("gacha_archives", (string)null);
+                    b.ToTable("gacha_archives");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.GachaItem", b =>
@@ -307,7 +308,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasIndex("ArchiveId");
 
-                    b.ToTable("gacha_items", (string)null);
+                    b.ToTable("gacha_items");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.GameAccount", b =>
@@ -318,6 +319,9 @@ namespace Snap.Hutao.Migrations
 
                     b.Property<string>("AttachUid")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MihoyoSDK")
                         .IsRequired()
@@ -332,7 +336,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("InnerId");
 
-                    b.ToTable("game_accounts", (string)null);
+                    b.ToTable("game_accounts");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.InventoryItem", b =>
@@ -354,7 +358,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("inventory_items", (string)null);
+                    b.ToTable("inventory_items");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.InventoryReliquary", b =>
@@ -383,7 +387,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("inventory_reliquaries", (string)null);
+                    b.ToTable("inventory_reliquaries");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.InventoryWeapon", b =>
@@ -408,7 +412,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("inventory_weapons", (string)null);
+                    b.ToTable("inventory_weapons");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.ObjectCacheEntry", b =>
@@ -424,7 +428,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("Key");
 
-                    b.ToTable("object_cache", (string)null);
+                    b.ToTable("object_cache");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.SettingEntry", b =>
@@ -437,7 +441,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("Key");
 
-                    b.ToTable("settings", (string)null);
+                    b.ToTable("settings");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.SpiralAbyssEntry", b =>
@@ -459,7 +463,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("InnerId");
 
-                    b.ToTable("spiral_abysses", (string)null);
+                    b.ToTable("spiral_abysses");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.User", b =>
@@ -483,6 +487,9 @@ namespace Snap.Hutao.Migrations
                     b.Property<DateTimeOffset>("FingerprintLastUpdateTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Index")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("IsOversea")
                         .HasColumnType("INTEGER");
 
@@ -502,7 +509,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("InnerId");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
@@ -530,8 +537,8 @@ namespace Snap.Hutao.Migrations
             modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateEntryLevelInformation", b =>
                 {
                     b.HasOne("Snap.Hutao.Model.Entity.CultivateEntry", "Entry")
-                        .WithMany()
-                        .HasForeignKey("EntryId")
+                        .WithOne("LevelInformation")
+                        .HasForeignKey("Snap.Hutao.Model.Entity.CultivateEntryLevelInformation", "EntryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -602,6 +609,11 @@ namespace Snap.Hutao.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateEntry", b =>
+                {
+                    b.Navigation("LevelInformation");
                 });
 #pragma warning restore 612, 618
         }

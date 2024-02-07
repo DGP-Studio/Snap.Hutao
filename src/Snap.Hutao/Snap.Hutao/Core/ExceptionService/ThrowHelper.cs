@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package;
+using System.IO;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.ExceptionService;
@@ -37,6 +38,22 @@ internal static class ThrowHelper
 
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
+    public static InvalidDataException InvalidData(string message, Exception? inner = default)
+    {
+        throw new InvalidDataException(message, inner);
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void InvalidDataIf([DoesNotReturnIf(true)] bool condition, string message, Exception? inner = default)
+    {
+        if (condition)
+        {
+            throw new InvalidDataException(message, inner);
+        }
+    }
+
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static InvalidOperationException InvalidOperation(string message, Exception? inner = default)
     {
         throw new InvalidOperationException(message, inner);
@@ -54,6 +71,15 @@ internal static class ThrowHelper
     public static NotSupportedException NotSupported(string message)
     {
         throw new NotSupportedException(message);
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void NotSupportedIf(bool condition, string message)
+    {
+        if (condition)
+        {
+            throw new NotSupportedException(message);
+        }
     }
 
     [DoesNotReturn]

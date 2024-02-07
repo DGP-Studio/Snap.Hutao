@@ -56,6 +56,7 @@ internal static class SettingKeys
     public const string SuppressMetadataInitialization = "SuppressMetadataInitialization";
     public const string OverrideElevationRequirement = "OverrideElevationRequirement";
     public const string OverrideUpdateVersionComparison = "OverrideUpdateVersionComparison";
+    public const string OverridePackageConvertDirectoryPermissionsRequirement = "OverridePackageConvertDirectoryPermissionsRequirement";
     #endregion
 
     #region Obsolete

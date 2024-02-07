@@ -224,14 +224,9 @@
 
     <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
         <Grid Visibility="{Binding Statistics, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-            <Rectangle
-                Height="{StaticResource AppBarThemeCompactHeight}"
-                VerticalAlignment="Top"
-                Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                IsHitTestVisible="False"/>
-            <Pivot>
+            <Pivot Style="{ThemeResource CardPivotStyle}">
                 <Pivot.LeftHeader>
-                    <shc:SizeRestrictedContentControl Margin="16,6,0,6">
+                    <shc:SizeRestrictedContentControl Margin="6,6,0,6">
                         <ComboBox
                             DisplayMemberPath="Uid"
                             ItemsSource="{Binding Archives}"
@@ -241,6 +236,10 @@
                 </Pivot.LeftHeader>
                 <Pivot.RightHeader>
                     <CommandBar DefaultLabelPosition="Right">
+                        <CommandBar.Resources>
+                            <StaticResource x:Key="CommandBarBackgroundOpen" ResourceKey="ControlFillColorTransparentBrush"/>
+                            <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                        </CommandBar.Resources>
                         <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="{shcm:ResourceString Name=ViewPageGachaLogRefresh}">
                             <AppBarButton.Flyout>
                                 <MenuFlyout Placement="Bottom">
@@ -286,12 +285,11 @@
                     </CommandBar>
                 </Pivot.RightHeader>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotOverview}">
-                    <Grid>
+                    <Grid Margin="0,0,16,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition MaxWidth="390"/>
-                            <ColumnDefinition MaxWidth="390"/>
-                            <ColumnDefinition MaxWidth="390"/>
-                            <ColumnDefinition Width="auto" MinWidth="16"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <shvc:StatisticsCard
                             Grid.Column="0"
@@ -309,129 +307,169 @@
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotHistory}">
-                    <SplitView
-                        DisplayMode="Inline"
-                        IsPaneOpen="True"
-                        OpenPaneLength="323"
-                        PaneBackground="Transparent">
-                        <SplitView.Pane>
-                            <ListView
-                                ItemTemplate="{StaticResource HistoryWishListTemplate}"
-                                ItemsSource="{Binding Statistics.HistoryWishes}"
-                                SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}"/>
-                        </SplitView.Pane>
-                        <SplitView.Content>
-                            <ScrollViewer>
-                                <StackPanel Margin="16,0,16,0">
+                    <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <SplitView
+                                DisplayMode="Inline"
+                                IsPaneOpen="True"
+                                OpenPaneLength="323"
+                                PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
+                                <SplitView.Pane>
+                                    <ListView
+                                        Padding="{ThemeResource ListViewInSplitPanePadding}"
+                                        ItemTemplate="{StaticResource HistoryWishListTemplate}"
+                                        ItemsSource="{Binding Statistics.HistoryWishes}"
+                                        SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}"/>
+                                </SplitView.Pane>
+                                <SplitView.Content>
+                                    <ScrollViewer>
+                                        <StackPanel>
+                                            <Border
+                                                Margin="16"
+                                                HorizontalAlignment="Left"
+                                                cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                                <Grid HorizontalAlignment="Center" Style="{StaticResource GridCardStyle}">
+                                                    <cwc:ConstrainedBox AspectRatio="1080:533">
+                                                        <shci:CachedImage
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            CornerRadius="{ThemeResource ControlCornerRadius}"
+                                                            Source="{Binding SelectedHistoryWish.BannerImage}"
+                                                            Stretch="UniformToFill"/>
+                                                    </cwc:ConstrainedBox>
+                                                    <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
+                                                </Grid>
+                                            </Border>
 
-                                    <Border
-                                        Margin="0,16,0,0"
-                                        HorizontalAlignment="Left"
-                                        cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                        <Border HorizontalAlignment="Center" Style="{StaticResource BorderCardStyle}">
-                                            <cwc:ConstrainedBox MaxWidth="720" AspectRatio="1080:533">
-                                                <shci:CachedImage
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    CornerRadius="{ThemeResource ControlCornerRadius}"
-                                                    Source="{Binding SelectedHistoryWish.BannerImage}"
-                                                    Stretch="UniformToFill"/>
-                                            </cwc:ConstrainedBox>
-                                        </Border>
-                                    </Border>
+                                            <StackPanel Margin="16,0,0,0" Spacing="8">
+                                                <TextBlock
+                                                    Margin="0,8,0,0"
+                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                                                    Visibility="{Binding SelectedHistoryWish.OrangeList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                <GridView
+                                                    ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                                    ItemsSource="{Binding SelectedHistoryWish.OrangeList}"
+                                                    SelectionMode="None"/>
 
-                                    <TextBlock
-                                        Margin="0,16,0,8"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
-                                        Visibility="{Binding SelectedHistoryWish.OrangeList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                    <GridView
-                                        ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                        ItemsSource="{Binding SelectedHistoryWish.OrangeList}"
-                                        SelectionMode="None"/>
+                                                <TextBlock
+                                                    Margin="0,8,0,0"
+                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                                                    Visibility="{Binding SelectedHistoryWish.PurpleList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                <GridView
+                                                    ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                                    ItemsSource="{Binding SelectedHistoryWish.PurpleList}"
+                                                    SelectionMode="None"/>
 
-                                    <TextBlock
-                                        Margin="0,0,0,8"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
-                                        Visibility="{Binding SelectedHistoryWish.PurpleList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                    <GridView
-                                        ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                        ItemsSource="{Binding SelectedHistoryWish.PurpleList}"
-                                        SelectionMode="None"/>
+                                                <TextBlock
+                                                    Margin="0,8,0,0"
+                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"
+                                                    Visibility="{Binding SelectedHistoryWish.BlueList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                <GridView
+                                                    ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                                    ItemsSource="{Binding SelectedHistoryWish.BlueList}"
+                                                    SelectionMode="None"/>
+                                            </StackPanel>
 
-                                    <TextBlock
-                                        Margin="0,0,0,8"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"
-                                        Visibility="{Binding SelectedHistoryWish.BlueList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
-                                    <GridView
-                                        ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                        ItemsSource="{Binding SelectedHistoryWish.BlueList}"
-                                        SelectionMode="None"/>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </SplitView.Content>
-                    </SplitView>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </SplitView.Content>
+                            </SplitView>
+                        </Border>
+                    </Border>
+
                 </PivotItem>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotAvatar}">
                     <ScrollViewer>
-                        <StackPanel Margin="16,0,16,0">
-                            <TextBlock
-                                Margin="0,16,0,8"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                            <GridView
-                                ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                ItemsSource="{Binding Statistics.OrangeAvatars}"
-                                SelectionMode="None"/>
+                        <StackPanel Margin="16,0,16,16">
+                            <Border Margin="0,16,0,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                <Border Padding="16,16,12,4" Style="{ThemeResource AcrylicBorderCardStyle}">
+                                    <StackPanel Spacing="8">
+                                        <TextBlock
+                                            Foreground="{ThemeResource OrangeColorBrush}"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
+                                        <GridView
+                                            ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                            ItemsSource="{Binding Statistics.OrangeAvatars}"
+                                            SelectionMode="None"/>
+                                    </StackPanel>
+                                </Border>
+                            </Border>
 
-                            <TextBlock
-                                Margin="0,0,0,8"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                            <GridView
-                                ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                ItemsSource="{Binding Statistics.PurpleAvatars}"
-                                SelectionMode="None"/>
+                            <Border Margin="0,16,0,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                <Border Padding="16,16,12,4" Style="{ThemeResource AcrylicBorderCardStyle}">
+                                    <StackPanel Spacing="8">
+                                        <TextBlock
+                                            Foreground="{ThemeResource PurpleColorBrush}"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
+                                        <GridView
+                                            ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                            ItemsSource="{Binding Statistics.PurpleAvatars}"
+                                            SelectionMode="None"/>
+                                    </StackPanel>
+                                </Border>
+                            </Border>
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotWeapon}">
                     <ScrollViewer>
-                        <StackPanel Margin="16,0,16,0">
-                            <TextBlock
-                                Margin="0,16,0,8"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                            <GridView
-                                ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                ItemsSource="{Binding Statistics.OrangeWeapons}"
-                                SelectionMode="None"/>
-
-                            <TextBlock
-                                Margin="0,0,0,8"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                            <GridView
-                                ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                ItemsSource="{Binding Statistics.PurpleWeapons}"
-                                SelectionMode="None"/>
-
-                            <TextBlock
-                                Margin="0,0,0,8"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
-                            <GridView
-                                ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                ItemsSource="{Binding Statistics.BlueWeapons}"
-                                SelectionMode="None"/>
+                        <StackPanel Margin="16,0,16,16">
+                            <Border Margin="0,16,0,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                <Border Padding="16,16,12,4" Style="{ThemeResource AcrylicBorderCardStyle}">
+                                    <StackPanel Spacing="8">
+                                        <TextBlock
+                                            Foreground="{ThemeResource OrangeColorBrush}"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
+                                        <GridView
+                                            ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                            ItemsSource="{Binding Statistics.OrangeWeapons}"
+                                            SelectionMode="None"/>
+                                    </StackPanel>
+                                </Border>
+                            </Border>
+                            <Border Margin="0,16,0,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                <Border Padding="16,16,12,4" Style="{ThemeResource AcrylicBorderCardStyle}">
+                                    <StackPanel Spacing="8">
+                                        <TextBlock
+                                            Foreground="{ThemeResource PurpleColorBrush}"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
+                                        <GridView
+                                            ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                            ItemsSource="{Binding Statistics.PurpleWeapons}"
+                                            SelectionMode="None"/>
+                                    </StackPanel>
+                                </Border>
+                            </Border>
+                            <Border Margin="0,16,0,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                <Border Padding="16,16,12,4" Style="{ThemeResource AcrylicBorderCardStyle}">
+                                    <StackPanel Spacing="8">
+                                        <TextBlock
+                                            Foreground="{ThemeResource BlueColorBrush}"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
+                                        <GridView
+                                            ItemTemplate="{StaticResource HistoryWishGridTemplate}"
+                                            ItemsSource="{Binding Statistics.BlueWeapons}"
+                                            SelectionMode="None"/>
+                                    </StackPanel>
+                                </Border>
+                            </Border>
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotStatistics}">
                     <Grid>
-                        <shvc:LoadingView IsLoading="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
+                        <shvc:LoadingView
+                            Margin="16"
+                            CornerRadius="{ThemeResource ControlCornerRadius}"
+                            IsLoading="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
                         <Grid
                             Margin="16"
                             ColumnSpacing="16"
@@ -454,62 +492,66 @@
             </Pivot>
         </Grid>
         <Grid Visibility="{Binding Statistics, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <shci:CachedImage
-                    Width="120"
-                    Height="120"
-                    Source="{StaticResource UI_EmotionIcon71}"/>
-                <TextBlock
-                    Margin="0,16,0,0"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewPageGachaLogHint}"/>
-                <StackPanel
-                    Margin="0,24,0,0"
-                    HorizontalAlignment="Center"
-                    Spacing="{StaticResource SettingsCardSpacing}">
-                    <cwc:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
-                        Command="{Binding RefreshBySTokenCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySTokenDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySToken}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE192;}"
-                        IsClickEnabled="True"/>
-                    <cwc:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
-                        Command="{Binding RefreshByWebCacheCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCacheDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCache}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE81E;}"
-                        IsClickEnabled="True"/>
-                    <cwc:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogInputAction}"
-                        Command="{Binding RefreshByManualInputCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInputDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInput}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE765;}"
-                        IsClickEnabled="True"/>
-                    <cwc:SettingsCard
-                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogImportAction}"
-                        Command="{Binding ImportFromUIGFJsonCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogImportDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogImportHeader}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE8B5;}"
-                        IsClickEnabled="True"/>
-                    <cwc:SettingsCard
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogRecoverFromHutaoCloudDescription}"
-                        FlyoutBase.AttachedFlyout="{StaticResource HutaoCloudFlyout}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloud}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE8B5;}"
-                        IsClickEnabled="True">
-                        <mxi:Interaction.Behaviors>
-                            <mxic:EventTriggerBehavior EventName="Click">
-                                <shcb:ShowAttachedFlyoutAction/>
-                            </mxic:EventTriggerBehavior>
-                        </mxi:Interaction.Behaviors>
-                    </cwc:SettingsCard>
-                </StackPanel>
-            </StackPanel>
+            <Border
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border
+                    MinWidth="480"
+                    Padding="16"
+                    Style="{ThemeResource AcrylicBorderCardStyle}">
+                    <StackPanel>
+                        <shci:CachedImage Height="120" Source="{StaticResource UI_EmotionIcon71}"/>
+                        <TextBlock
+                            Margin="0,16,0,0"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource SubtitleTextBlockStyle}"
+                            Text="{shcm:ResourceString Name=ViewPageGachaLogHint}"/>
+                        <StackPanel Margin="0,24,0,0" Spacing="{StaticResource SettingsCardSpacing}">
+                            <cwc:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
+                                Command="{Binding RefreshBySTokenCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySTokenDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySToken}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE192;}"
+                                IsClickEnabled="True"/>
+                            <cwc:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
+                                Command="{Binding RefreshByWebCacheCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCacheDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCache}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE81E;}"
+                                IsClickEnabled="True"/>
+                            <cwc:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogInputAction}"
+                                Command="{Binding RefreshByManualInputCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInputDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInput}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE765;}"
+                                IsClickEnabled="True"/>
+                            <cwc:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogImportAction}"
+                                Command="{Binding ImportFromUIGFJsonCommand}"
+                                Description="{shcm:ResourceString Name=ViewPageGachaLogImportDescription}"
+                                Header="{shcm:ResourceString Name=ViewPageGachaLogImportHeader}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE8B5;}"
+                                IsClickEnabled="True"/>
+                            <cwc:SettingsCard
+                                Description="{shcm:ResourceString Name=ViewPageGachaLogRecoverFromHutaoCloudDescription}"
+                                FlyoutBase.AttachedFlyout="{StaticResource HutaoCloudFlyout}"
+                                Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloud}"
+                                HeaderIcon="{shcm:FontIcon Glyph=&#xE753;}"
+                                IsClickEnabled="True">
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="Click">
+                                        <shcb:ShowAttachedFlyoutAction/>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </cwc:SettingsCard>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Border>
         </Grid>
     </Grid>
 </shc:ScopedPage>

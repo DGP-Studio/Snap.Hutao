@@ -103,7 +103,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Style="{ThemeResource GridCardStyle}">
+    <Grid Style="{ThemeResource AcrylicGridCardStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>

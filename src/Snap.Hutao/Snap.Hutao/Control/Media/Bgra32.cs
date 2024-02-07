@@ -33,6 +33,16 @@ internal struct Bgra32
     /// </summary>
     public byte A;
 
+    public Bgra32(byte b, byte g, byte r, byte a)
+    {
+        B = b;
+        G = g;
+        R = r;
+        A = a;
+    }
+
+    public readonly double Luminance { get => ((0.299 * R) + (0.587 * G) + (0.114 * B)) / 255; }
+
     /// <summary>
     /// 从 Color 转换
     /// </summary>
@@ -43,5 +53,12 @@ internal struct Bgra32
         Unsafe.SkipInit(out Bgra32 bgra8);
         *(uint*)&bgra8 = BinaryPrimitives.ReverseEndianness(*(uint*)&color);
         return bgra8;
+    }
+
+    public static unsafe implicit operator Color(Bgra32 bgra8)
+    {
+        Unsafe.SkipInit(out Color color);
+        *(uint*)&color = BinaryPrimitives.ReverseEndianness(*(uint*)&bgra8);
+        return color;
     }
 }

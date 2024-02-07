@@ -121,7 +121,7 @@
     <value>胡桃 Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>胡桃Dev {0} [管理者]</value>
+    <value>胡桃 Dev {0} [管理者]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
     <value>胡桃 {0} [管理者]</value>
@@ -197,6 +197,21 @@
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>アカウントを選択して開始します</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameNickname" xml:space="preserve">
+    <value>旅人</value>
+  </data>
+  <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>放浪者</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>精錬ランク {0}</value>
@@ -496,6 +511,9 @@
   </data>
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
     <value>ウェーブ 4: すべての敵を倒すと、次のウェーブの敵が出現する。</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
+    <value>维持场上 4 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>キャラクターラインナップを更新する</value>
@@ -1187,6 +1205,12 @@
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>リアルタイムノートのWebhook URL</value>
   </data>
+  <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
+    <value>解除限制后需要使用其他工具恢复限制</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
+    <value>是否解除 Loopback 限制</value>
+  </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>祈願記録をインポート</value>
   </data>
@@ -1451,6 +1475,9 @@
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLabユーザーのリアルタイムノートはサポートしていません。</value>
   </data>
+  <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
+    <value>スケジュールされたタスクの変更に失敗しました</value>
+  </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 分 | 3.75樹脂</value>
   </data>
@@ -1465,9 +1492,6 @@
   </data>
   <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
     <value>8 分 | 1樹脂</value>
-  </data>
-  <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
-    <value>タスク スケジューラーへの追加に失敗しました。管理者モードで再度お試しください。</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
     <value>リアルタイムノートの情報を取得中、しばらくお待ちください</value>
@@ -1862,6 +1886,18 @@
   <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
     <value>よく使われるリンク</value>
   </data>
+  <data name="ViewPageFeedbackCurrentProxyHeader" xml:space="preserve">
+    <value>当前代理</value>
+  </data>
+  <data name="ViewPageFeedbackCurrentProxyNoProxyDescription" xml:space="preserve">
+    <value>无代理</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
+    <value>已解除</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
+    <value>解除 Loopback 限制</value>
+  </data>
   <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
     <value>引き続き連絡をしてください</value>
   </data>
@@ -1974,7 +2010,7 @@
     <value>一覧</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
-    <value>統計</value>
+    <value>全球祈愿统计</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>武器</value>
@@ -2271,7 +2307,7 @@
     <value>スクリーンショットフォルダを開く</value>
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
-    <value>ゲームのフォルダを選択してください。</value>
+    <value>ゲームフォルダを選択</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>胡桃について</value>
@@ -2296,6 +2332,9 @@
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>キャッシュフォルダ</value>
+  </data>
+  <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行证</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>コピー</value>
@@ -2489,6 +2528,12 @@
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>公式サイト</value>
   </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
+    <value>自定义背景图片，支持 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
+  </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
+    <value>打开背景图片文件夹</value>
+  </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>リセット</value>
   </data>
@@ -2497,6 +2542,12 @@
   </data>
   <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
     <value>画像リソースをリセット</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
+    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
+    <value>启动游戏-解锁帧率限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>ディレクトリを変更した場合、フォルダ内のデータを手動で移動する必要があります。移動しない場合はユーザーデータが新規作成されます。</value>

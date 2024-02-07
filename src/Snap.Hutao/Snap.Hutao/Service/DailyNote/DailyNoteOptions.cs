@@ -60,14 +60,16 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
                 {
                     if (!scheduleTaskInterop.RegisterForDailyNoteRefresh(SelectedRefreshTime.Value))
                     {
-                        serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteRegisterTaskFail);
-                        return;
+                        serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteModifyTaskFail);
                     }
                 }
             }
             else
             {
-                scheduleTaskInterop.UnregisterForDailyNoteRefresh();
+                if (!scheduleTaskInterop.UnregisterForDailyNoteRefresh())
+                {
+                    serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteModifyTaskFail);
+                }
             }
 
             OnPropertyChanged();
@@ -106,7 +108,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
                 }
                 else
                 {
-                    serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteRegisterTaskFail);
+                    serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteModifyTaskFail);
                 }
             }
         }

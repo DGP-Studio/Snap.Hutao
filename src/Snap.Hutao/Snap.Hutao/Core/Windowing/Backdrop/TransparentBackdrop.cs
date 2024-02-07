@@ -63,5 +63,3 @@ internal sealed class TransparentBackdrop : SystemBackdrop, IDisposable, IBackdr
         disconnectedTarget.SystemBackdrop = null;
     }
 }
-
-internal interface IBackdropNeedEraseBackground;

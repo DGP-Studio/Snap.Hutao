@@ -198,6 +198,21 @@
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>選擇帳號並啟動</value>
   </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameNickname" xml:space="preserve">
+    <value>旅人</value>
+  </data>
+  <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
+    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
+  </data>
+  <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
+    <value>流浪者</value>
+  </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>精煉 {0}</value>
   </data>
@@ -496,6 +511,9 @@
   </data>
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
     <value>第四波：擊敗所有怪物，下一波才會出現</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
+    <value>维持场上 4 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>請更新角色櫥窗數據</value>
@@ -1187,6 +1205,12 @@
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>即時便箋 Webhook Url</value>
   </data>
+  <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
+    <value>解除限制后需要使用其他工具恢复限制</value>
+  </data>
+  <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
+    <value>是否解除 Loopback 限制</value>
+  </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>匯入祈願記錄</value>
   </data>
@@ -1451,6 +1475,9 @@
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLAB 賬號不支持驗證實时便箋</value>
   </data>
+  <data name="ViewModelDailyNoteModifyTaskFail" xml:space="preserve">
+    <value>修改計劃任務失敗</value>
+  </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 分鐘 | 3.75 樹脂</value>
   </data>
@@ -1465,9 +1492,6 @@
   </data>
   <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
     <value>8 分鐘 | 1 樹脂</value>
-  </data>
-  <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
-    <value>注冊計劃任務失敗，請以管理員模式重試</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
     <value>正在獲取實時便箋信息，請稍候</value>
@@ -1728,7 +1752,7 @@
     <value>同步角色天賦信息</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>从米游社原神战绩同步</value>
+    <value>從米遊社原神戰績同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>同步角色天賦外的大部分信息</value>
@@ -1862,6 +1886,18 @@
   <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
     <value>常用連結</value>
   </data>
+  <data name="ViewPageFeedbackCurrentProxyHeader" xml:space="preserve">
+    <value>当前代理</value>
+  </data>
+  <data name="ViewPageFeedbackCurrentProxyNoProxyDescription" xml:space="preserve">
+    <value>无代理</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
+    <value>已解除</value>
+  </data>
+  <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
+    <value>解除 Loopback 限制</value>
+  </data>
   <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
     <value>與我們密切聯繫</value>
   </data>
@@ -1878,10 +1914,10 @@
     <value>暫無搜尋結果</value>
   </data>
   <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
-    <value>胡桃服务可用性监控</value>
+    <value>胡桃服務可用性監控</value>
   </data>
   <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
-    <value>胡桃服务</value>
+    <value>胡桃服務</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>全量式重整</value>
@@ -1974,7 +2010,7 @@
     <value>總覽</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
-    <value>統計</value>
+    <value>全球祈愿统计</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>武器</value>
@@ -2297,6 +2333,9 @@
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>暫存檔案夾</value>
   </data>
+  <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃通行证</value>
+  </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>複製</value>
   </data>
@@ -2489,6 +2528,12 @@
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>前往官網</value>
   </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
+    <value>自定义背景图片，支持 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
+  </data>
+  <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
+    <value>打开背景图片文件夹</value>
+  </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>重設</value>
   </data>
@@ -2497,6 +2542,12 @@
   </data>
   <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
     <value>重設圖片資源</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
+    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+  </data>
+  <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
+    <value>启动游戏-解锁帧率限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>更改目錄后需要手動移動目錄内的數據，否則會重新創建用戶數據</value>
@@ -2925,7 +2976,7 @@
     <value>{0} 秒</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩-实时便笺」页面查看</value>
+    <value>驗證失敗，請手動進行驗證或前往「米遊社-旅行工具-原神戰績-實時便箋」頁面查看。</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>錯誤的 UID 格式</value>
@@ -2994,7 +3045,7 @@
     <value>胡桃服務維護中</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-旅行工具-原神战绩」页面查看</value>
+    <value>驗證失敗，請手動進行驗證或前往「米遊社-旅行工具-原神戰績」頁面查看。</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>狀態：{0} | 信息：{1}</value>

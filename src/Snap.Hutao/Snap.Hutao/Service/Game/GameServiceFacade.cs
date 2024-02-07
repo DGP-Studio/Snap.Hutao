@@ -1,13 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Game.Account;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Launching.Handler;
 using Snap.Hutao.Service.Game.PathAbstraction;
-using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -24,7 +24,7 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
     private readonly IGamePathService gamePathService;
 
     /// <inheritdoc/>
-    public ObservableCollection<GameAccount> GameAccountCollection
+    public ObservableReorderableDbCollection<GameAccount> GameAccountCollection
     {
         get => gameAccountService.GameAccountCollection;
     }

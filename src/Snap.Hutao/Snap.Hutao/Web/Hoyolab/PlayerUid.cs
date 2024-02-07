@@ -28,7 +28,7 @@ internal readonly partial struct PlayerUid
     {
         Must.Argument(HoyolabRegex.UidRegex().IsMatch(value), SH.WebHoyolabInvalidUid);
         Value = value;
-        Region = region ?? Region.FromUidString(value);
+        Region = region ?? Region.UnsafeFromUidString(value);
     }
 
     public static implicit operator PlayerUid(string source)
@@ -45,7 +45,9 @@ internal readonly partial struct PlayerUid
     {
         Must.Argument(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
 
-        return uid.AsSpan()[0] switch
+        ReadOnlySpan<char> uidSpan = uid.AsSpan();
+
+        return uid.AsSpan()[^9] switch
         {
             >= '1' and <= '5' => false,
             _ => true,
@@ -59,7 +61,7 @@ internal readonly partial struct PlayerUid
         // 美服 UTC-05
         // 欧服 UTC+01
         // 其他 UTC+08
-        return uid.AsSpan()[0] switch
+        return uid.AsSpan()[^9] switch
         {
             '6' => ServerRegionTimeZone.AmericaServerOffset,
             '7' => ServerRegionTimeZone.EuropeServerOffset,

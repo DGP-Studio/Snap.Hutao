@@ -298,16 +298,18 @@ internal static class ApiOsEndpoints
     }
     #endregion
 
-    #region SdkStaticLauncherApi
+    #region SdkOsStaticLauncherApi
 
-    /// <summary>
-    /// 启动器资源
-    /// </summary>
-    /// <param name="scheme">启动方案</param>
-    /// <returns>启动器资源字符串</returns>
     public static string SdkOsStaticLauncherResource(LaunchScheme scheme)
     {
         return $"{SdkOsStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel:D}&sub_channel_id={scheme.SubChannel:D}";
+    }
+
+    public static string SdkOsStaticLauncherContent(LaunchScheme scheme, string languageCode, bool advOnly = true)
+    {
+        return advOnly
+            ? $"{SdkOsStaticLauncherApi}/content?filter_adv=true&key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}"
+            : $"{SdkOsStaticLauncherApi}/content?key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}";
     }
     #endregion
 

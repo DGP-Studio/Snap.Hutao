@@ -22,6 +22,8 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
 
     public int BufferSize { get; set; } = 80 * 1024;
 
+    public int MaxDegreeOfParallelism { get; set; } = Environment.ProcessorCount;
+
     public SafeFileHandle GetFileHandle()
     {
         return File.OpenHandle(DestinationFilePath, FileMode.Create, FileAccess.Write, FileShare.None, FileOptions.RandomAccess | FileOptions.Asynchronous, ContentLength);
