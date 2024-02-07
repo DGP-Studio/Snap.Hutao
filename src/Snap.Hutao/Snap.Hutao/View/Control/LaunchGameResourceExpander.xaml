@@ -6,10 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shwhshl="using:Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher"
+    xmlns:shwhshlr="using:Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource"
     HorizontalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
-    d:DataContext="{d:DesignInstance shwhshl:Package}"
+    d:DataContext="{d:DesignInstance shwhshlr:Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource.Package}"
     IsExpanded="True"
     ItemsSource="{Binding VoicePacks}"
     mc:Ignorable="d">
@@ -24,7 +24,7 @@
     </cwc:SettingsExpander.Resources>
 
     <cwc:SettingsExpander.ItemTemplate>
-        <DataTemplate x:DataType="shwhshl:VoicePackage">
+        <DataTemplate x:DataType="shwhshlr:VoicePackage">
             <cwc:SettingsCard
                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                 ActionIcon="{shcm:FontIcon Glyph={StaticResource FontIconContentCopy}}"

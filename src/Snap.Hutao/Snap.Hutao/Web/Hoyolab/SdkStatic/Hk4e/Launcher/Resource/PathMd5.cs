@@ -4,7 +4,7 @@
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Service.Notification;
 
-namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
+namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource;
 
 /// <summary>
 /// 下载的文件

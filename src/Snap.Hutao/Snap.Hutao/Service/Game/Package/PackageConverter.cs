@@ -8,7 +8,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Service.Game.Scheme;
-using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
+using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;

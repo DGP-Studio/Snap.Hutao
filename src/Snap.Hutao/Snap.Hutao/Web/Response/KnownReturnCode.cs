@@ -81,6 +81,11 @@ internal enum KnownReturnCode
     InvalidKey = -205,
 
     /// <summary>
+    /// 无效的参数
+    /// </summary>
+    ParameterError = -201,
+
+    /// <summary>
     /// 访问过于频繁
     /// </summary>
     VisitTooFrequently = -110,

@@ -18,6 +18,7 @@ using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
+using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource;
 using System.Collections.Immutable;
 using System.IO;
 

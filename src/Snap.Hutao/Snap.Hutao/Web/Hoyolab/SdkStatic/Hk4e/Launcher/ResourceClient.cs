@@ -3,6 +3,8 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Content;
+using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -57,6 +59,23 @@ internal sealed partial class ResourceClient
             string path = latest.Segments[0].Path[..^4]; // .00X
             latest.Name = Path.GetFileName(path);
         }
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<GameContent>> GetContentAsync(LaunchScheme scheme, string languageCode, bool advOnly = true, CancellationToken token = default)
+    {
+        string url = scheme.IsOversea
+            ? ApiOsEndpoints.SdkOsStaticLauncherContent(scheme, languageCode, advOnly)
+            : ApiEndpoints.SdkStaticLauncherContent(scheme, languageCode, advOnly);
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(url)
+            .Get();
+
+        Response<GameContent>? resp = await builder
+            .TryCatchSendAsync<Response<GameContent>>(httpClient, logger, token)
+            .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
     }

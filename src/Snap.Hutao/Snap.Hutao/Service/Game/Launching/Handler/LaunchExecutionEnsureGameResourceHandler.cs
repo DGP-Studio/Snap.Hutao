@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
+using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource;
 using Snap.Hutao.Web.Response;
 using System.IO;
 

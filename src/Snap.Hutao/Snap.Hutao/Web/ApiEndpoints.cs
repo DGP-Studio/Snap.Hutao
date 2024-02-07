@@ -388,8 +388,8 @@ internal static class ApiEndpoints
     public static string SdkStaticLauncherContent(LaunchScheme scheme, string languageCode, bool advOnly = true)
     {
         return advOnly
-            ? $"{SdkStaticLauncherApi}/content?filter_adv=true&key={scheme.Key}&launcher_id={scheme.LauncherId}&launguage={languageCode}"
-            : $"{SdkStaticLauncherApi}/content?key={scheme.Key}&launcher_id={scheme.LauncherId}&launguage={languageCode}";
+            ? $"{SdkStaticLauncherApi}/content?filter_adv=true&key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}"
+            : $"{SdkStaticLauncherApi}/content?key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}";
     }
     #endregion
 
