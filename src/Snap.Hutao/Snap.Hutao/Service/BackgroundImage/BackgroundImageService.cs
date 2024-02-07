@@ -38,6 +38,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         string path = System.Random.Shared.GetItems(backgroundSet.ToArray(), 1)[0];
         backgroundSet.Remove(path);
 
+        await taskContext.SwitchToMainThreadAsync();
         if (string.Equals(path, previous?.ImageSource.UriSource.ToString(), StringComparison.OrdinalIgnoreCase))
         {
             return new(false, default!);
