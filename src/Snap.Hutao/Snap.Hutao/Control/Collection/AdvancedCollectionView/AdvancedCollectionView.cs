@@ -16,7 +16,7 @@ using NotifyCollectionChangedAction = System.Collections.Specialized.NotifyColle
 
 namespace Snap.Hutao.Control.Collection.AdvancedCollectionView;
 
-internal sealed class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<T>
+internal sealed class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<object>
     where T : class
 {
     private readonly List<T> view;
@@ -302,7 +302,7 @@ internal sealed class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, IN
         return new NotificationDeferrer(this);
     }
 
-    int IComparer<T>.Compare(T? x, T? y)
+    int IComparer<object>.Compare(object? x, object? y)
     {
         if (sortProperties.Count <= 0)
         {
@@ -329,7 +329,7 @@ internal sealed class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, IN
 
         foreach (SortDescription sd in sortDescriptions)
         {
-            T? cx, cy;
+            object? cx, cy;
 
             if (string.IsNullOrEmpty(sd.PropertyName))
             {
@@ -340,8 +340,8 @@ internal sealed class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, IN
             {
                 PropertyInfo? pi = sortProperties[sd.PropertyName];
 
-                cx = (T?)pi?.GetValue(x);
-                cy = (T?)pi?.GetValue(y);
+                cx = pi?.GetValue(x);
+                cy = pi?.GetValue(y);
             }
 
             int cmp = sd.Comparer.Compare(cx, cy);
