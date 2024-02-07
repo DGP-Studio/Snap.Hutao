@@ -39,7 +39,7 @@ body:
     id: shver
     attributes:
       label: Snap Hutao 版本
-      description: 在应用标题，应用程序的设置界面中靠下的位置可以找到
+      description: 在应用标题，应用程序的反馈中心界面中可以找到
       placeholder: 例：1.4.15.0
     validations:
       required: true
@@ -49,7 +49,7 @@ body:
     attributes:
       label: 设备 ID
       description: | 
-        在胡桃工具箱的设置界面，你可以找到并复制你的设备 ID
+        在胡桃工具箱的反馈中心界面，你可以找到并复制你的设备 ID
         如果你的问题涉及程序崩溃，请填写该项，这将有助于我们定位问题
         如果你的程序已经无法启动，请下载并运行[诊断工具](https://github.com/DGP-Automation/ISSUE_TEMPLATES/releases/download/diagnosis_tools/Snap.Hutao.DiagTools.exe)，它将显示你的设备 ID
     validations:

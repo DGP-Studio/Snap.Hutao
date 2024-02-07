@@ -28,27 +28,7 @@ string manifest
     get => System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao", "Package.appxmanifest");
 }
 
-if (AzurePipelines.IsRunningOnAzurePipelines)
-{
-    repoDir = AzurePipelines.Environment.Build.SourcesDirectory.FullPath;
-    outputPath = AzurePipelines.Environment.Build.ArtifactStagingDirectory.FullPath;
-
-    var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
-    version = HttpGet(
-        "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
-        new HttpSettings
-        {
-            Headers = new Dictionary<string, string>
-                {
-                    { "Authorization", versionAuth }
-                }
-        }
-    );
-    Information($"Version: {version}");
-
-    AzurePipelines.Commands.SetVariable("version", version);
-}
-else if (GitHubActions.IsRunningOnGitHubActions)
+if (GitHubActions.IsRunningOnGitHubActions)
 {
     repoDir = GitHubActions.Environment.Workflow.Workspace.FullPath;
     outputPath = System.IO.Path.Combine(repoDir, "src", "output");
@@ -106,7 +86,7 @@ Task("Generate AppxManifest")
 
     var content = System.IO.File.ReadAllText(manifest);
 
-    if (AzurePipelines.IsRunningOnAzurePipelines || GitHubActions.IsRunningOnGitHubActions)
+    if (GitHubActions.IsRunningOnGitHubActions)
     {
         Information("Using CI configuraion");
         content = content
@@ -175,7 +155,7 @@ Task("Build MSIX")
     .Does(() =>
 {
     var arguments = "arguments";
-    if (AzurePipelines.IsRunningOnAzurePipelines || GitHubActions.IsRunningOnGitHubActions)
+    if (GitHubActions.IsRunningOnGitHubActions)
     {
         arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix");
     }

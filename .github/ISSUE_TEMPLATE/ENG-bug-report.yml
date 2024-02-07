@@ -49,7 +49,7 @@ body:
     attributes:
       label: Device ID
       description: | 
-        In Snap Hutao's settings page, you can find and copy your device ID
+        In Snap Hutao's Feedback Center, you can find and copy your device ID
         If your issue is about program crash, please fill this so we can dump the log and locate the source easier
         If your program cannot startup, please download and run [Diagnosis Tool](https://github.com/DGP-Automation/ISSUE_TEMPLATES/releases/download/diagnosis_tools/Snap.Hutao.DiagTools.exe), it will shows your device ID.
     validations:
