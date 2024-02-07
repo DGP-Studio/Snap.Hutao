@@ -227,7 +227,10 @@
         </DataTemplate>
 
         <DataTemplate x:Key="FetterStoryTemplate">
-            <cwc:SettingsCard Padding="16,8,8,8" Header="{Binding Title}">
+            <cwc:SettingsCard Padding="16,8,8,8">
+                <cwc:SettingsCard.Header>
+                    <shct:DescriptionTextBlock Description="{Binding Title}" TextStyle="{StaticResource BaseTextBlockStyle}"/>
+                </cwc:SettingsCard.Header>
                 <cwc:SettingsCard.Description>
                     <shct:DescriptionTextBlock Description="{Binding Context}" TextStyle="{StaticResource CaptionTextBlockStyle}"/>
                 </cwc:SettingsCard.Description>
