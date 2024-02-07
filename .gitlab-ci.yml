@@ -74,3 +74,4 @@ Refresh:
   script:
     - apt-get install -y curl
     - curl -X PATCH "$PURGE_URL"
+    - curl -X POST -o /dev/null "$UPLOAD_OSS_URL"
