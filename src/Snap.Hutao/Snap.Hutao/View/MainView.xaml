@@ -19,8 +19,8 @@
     <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Transitions="{ThemeResource EntranceThemeTransitions}">
         <Image
             x:Name="BackdroundImagePresenter"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
             Opacity="0"
             Stretch="UniformToFill"/>
 
