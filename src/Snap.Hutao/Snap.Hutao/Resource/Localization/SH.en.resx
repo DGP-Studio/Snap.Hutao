@@ -145,7 +145,7 @@
     <value>Save</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>Invalid URL</value>
+    <value>Invalid Uri</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -285,7 +285,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeInazuma" xml:space="preserve">
-    <value>Inadzuma</value>
+    <value>Inazuma</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeLiyue" xml:space="preserve">
@@ -546,7 +546,7 @@
     <value>Uploaded {1} wish records of UID: {0}, stored {2}</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
-    <value>Please login or register Hutao account first</value>
+    <value>Please login or register Snap Hutao account first</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>Login successfully</value>
@@ -558,7 +558,7 @@
     <value>Password has been set successfully</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
-    <value>Current email adress is not registered</value>
+    <value>Current email address is not registered</value>
   </data>
   <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
     <value>Current emaill address is registered</value>
@@ -2010,7 +2010,7 @@
     <value>Overview</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
-    <value>Global Wish Stats</value>
+    <value>Statistics</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>Weapon</value>
@@ -2544,10 +2544,10 @@
     <value>Reset Image Resource</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+    <value>Add Unlock Frame Rate Limit Option in Game Launcher Process Section</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
-    <value>启动游戏-解锁帧率限制</value>
+    <value>Game Launcher - Unlock Frame Rate Limit</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>You need to move data in the directory manually, otherwise new user data will be created.</value>
