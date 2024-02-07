@@ -130,13 +130,6 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             return true;
         }
 
-        // Program Files has special permissions limitation.
-        string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-        if (folder.StartsWith(programFiles, StringComparison.OrdinalIgnoreCase))
-        {
-            return false;
-        }
-
         try
         {
             string tempFilePath = Path.Combine(folder, $"{Guid.NewGuid():N}.tmp");

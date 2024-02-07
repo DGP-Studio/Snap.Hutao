@@ -137,7 +137,6 @@
     <None Remove="Resource\Navigation\WikiMonster.png" />
     <None Remove="Resource\Navigation\WikiWeapon.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
-    <None Remove="Resource\TestBackground.jpg" />
     <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="stylecop.json" />
     <None Remove="View\Card\AchievementCard.xaml" />
@@ -281,7 +280,6 @@
     <Content Include="Resource\Navigation\WikiAvatar.png" />
     <Content Include="Resource\Navigation\WikiMonster.png" />
     <Content Include="Resource\Navigation\WikiWeapon.png" />
-    <Content Include="Resource\TestBackground.jpg" />
     <Content Include="Resource\WelcomeView_Background.png" />
   </ItemGroup>
 

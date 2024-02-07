@@ -27,7 +27,7 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     public MainWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true);
+        windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true, false);
         this.InitializeController(serviceProvider);
     }
 
