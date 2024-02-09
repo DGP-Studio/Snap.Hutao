@@ -291,7 +291,7 @@
                                                     ProfilePicture="{Binding UserInfo.AvatarUrl, Mode=OneWay}"/>
                                                 <TextBlock
                                                     Grid.Column="1"
-                                                    Margin="10,0,0,0"
+                                                    Margin="12,0,0,0"
                                                     VerticalAlignment="Center"
                                                     Text="{Binding UserInfo.Nickname}"/>
                                                 <TextBlock

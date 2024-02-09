@@ -221,7 +221,7 @@
                     <shct:DescriptionTextBlock
                         Margin="0,8,0,16"
                         Description="{Binding Description}"
-                        Style="{StaticResource CaptionTextBlockStyle}"/>
+                        TextStyle="{StaticResource CaptionTextBlockStyle}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
