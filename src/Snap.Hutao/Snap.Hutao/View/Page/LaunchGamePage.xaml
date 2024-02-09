@@ -200,13 +200,24 @@
                                             Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountHeader}"
                                             HeaderIcon="{shcm:FontIcon Glyph=&#xE748;}"
                                             IsClickEnabled="True"/>
-                                        <Border Padding="0,1" Style="{StaticResource BorderCardStyle}">
+                                        <Border Style="{StaticResource BorderCardStyle}">
                                             <ListView
-                                                AllowDrop="True"
-                                                CanReorderItems="True"
+                                                Padding="{StaticResource ListViewInSplitPanePadding}"
+                                                AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                                CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
                                                 ItemTemplate="{StaticResource GameAccountListTemplate}"
                                                 ItemsSource="{Binding GameAccountsView}"
-                                                SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
+                                                SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}">
+                                                <ListView.Header>
+                                                    <InfoBar
+                                                        Title="{shcm:ResourceString Name=ViewListViewDragElevatedHint}"
+                                                        Margin="4,2,4,2"
+                                                        IsClosable="True"
+                                                        IsOpen="True"
+                                                        Severity="Warning"
+                                                        Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                </ListView.Header>
+                                            </ListView>
                                         </Border>
                                         <cwc:SettingsCard
                                             Description="{shcm:ResourceString Name=ViewPageLaunchGameWindowsHDRDescription}"
