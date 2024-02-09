@@ -25,32 +25,60 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
     public UploadAnnouncement Announcement { get => announcement; set => SetProperty(ref announcement, value); }
 
-    [SuppressMessage("", "CA1822")]
     public bool SuppressMetadataInitialization
     {
         get => LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false);
-        set => LocalSetting.Set(SettingKeys.SuppressMetadataInitialization, value);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.SuppressMetadataInitialization, value);
+        }
     }
 
-    [SuppressMessage("", "CA1822")]
     public bool OverrideElevationRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false);
-        set => LocalSetting.Set(SettingKeys.OverrideElevationRequirement, value);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.OverrideElevationRequirement, value);
+        }
     }
 
-    [SuppressMessage("", "CA1822")]
     public bool OverrideUpdateVersionComparison
     {
         get => LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false);
-        set => LocalSetting.Set(SettingKeys.OverrideUpdateVersionComparison, value);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.OverrideUpdateVersionComparison, value);
+        }
     }
 
-    [SuppressMessage("", "CA1822")]
     public bool OverridePackageConvertDirectoryPermissionsRequirement
     {
         get => LocalSetting.Get(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, false);
-        set => LocalSetting.Set(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.OverridePackageConvertDirectoryPermissionsRequirement, value);
+        }
     }
 
     [Command("ResetGuideStateCommand")]

@@ -121,6 +121,11 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
         set
         {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
             ConfirmSetIsAllocConsoleDebugModeEnabledAsync(value).SafeForget();
 
             async ValueTask ConfirmSetIsAllocConsoleDebugModeEnabledAsync(bool value)
@@ -147,6 +152,11 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         get => launchOptions.IsAdvancedLaunchOptionsEnabled;
         set
         {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
             ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(value).SafeForget();
 
             async ValueTask ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(bool value)
