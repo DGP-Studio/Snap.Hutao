@@ -43,6 +43,8 @@ internal sealed partial class UserViewModel : ObservableObject
     private User? selectedUser;
     private ObservableReorderableDbCollection<User, EntityUser>? users;
 
+    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+
     /// <summary>
     /// 当前选择的用户信息
     /// </summary>
