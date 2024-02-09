@@ -218,10 +218,10 @@
                     Source="{Binding FrontIcon, Converter={StaticResource AvatarCardConverter}}"/>
                 <StackPanel Grid.Column="1" Margin="0,0,16,-4">
                     <TextBlock Text="{Binding Name}"/>
-                    <TextBlock
+                    <shct:DescriptionTextBlock
                         Margin="0,8,0,16"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{Binding Description}"/>
+                        Description="{Binding Description}"
+                        Style="{StaticResource CaptionTextBlockStyle}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
