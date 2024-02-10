@@ -1391,6 +1391,9 @@
   <data name="ViewLaunchGameHeader" xml:space="preserve">
     <value>Game Launcher</value>
   </data>
+  <data name="ViewListViewDragElevatedHint" xml:space="preserve">
+    <value>管理员模式下无法拖动排序</value>
+  </data>
   <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
     <value>Arsip [{0}] berhasil ditambahkan</value>
   </data>
