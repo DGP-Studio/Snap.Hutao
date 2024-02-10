@@ -1391,6 +1391,9 @@
   <data name="ViewLaunchGameHeader" xml:space="preserve">
     <value>Game Launcher</value>
   </data>
+  <data name="ViewListViewDragElevatedHint" xml:space="preserve">
+    <value>Cannot reorder in Admin Mode</value>
+  </data>
   <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
     <value>Archive [{0}] added successfully</value>
   </data>
