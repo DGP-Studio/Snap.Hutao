@@ -167,13 +167,13 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
                     if (await dialog.ConfirmAsync(SH.ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader).ConfigureAwait(true))
                     {
                         launchOptions.IsAdvancedLaunchOptionsEnabled = true;
-                        OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                        OnPropertyChanged(nameof(IsAdvancedLaunchOptionsEnabled));
                         return;
                     }
                 }
 
                 launchOptions.IsAdvancedLaunchOptionsEnabled = false;
-                OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                OnPropertyChanged(nameof(IsAdvancedLaunchOptionsEnabled));
             }
         }
     }
