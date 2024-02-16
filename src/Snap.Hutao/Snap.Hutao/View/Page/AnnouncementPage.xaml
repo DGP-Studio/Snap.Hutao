@@ -149,20 +149,22 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AnnouncementPivotItemContentTemplate">
-            <ItemsRepeater
-                Margin="16,16,16,16"
-                HorizontalAlignment="Stretch"
-                ItemTemplate="{StaticResource AnnouncementTemplate}"
-                ItemsSource="{Binding List}">
-                <ItemsRepeater.Layout>
-                    <UniformGridLayout
-                        ItemsJustification="Start"
-                        ItemsStretch="Fill"
-                        MinColumnSpacing="12"
-                        MinItemWidth="300"
-                        MinRowSpacing="12"/>
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
+            <ScrollViewer>
+                <ItemsRepeater
+                    Margin="16,16,16,16"
+                    HorizontalAlignment="Stretch"
+                    ItemTemplate="{StaticResource AnnouncementTemplate}"
+                    ItemsSource="{Binding List}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout
+                            ItemsJustification="Start"
+                            ItemsStretch="Fill"
+                            MinColumnSpacing="12"
+                            MinItemWidth="300"
+                            MinRowSpacing="12"/>
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </ScrollViewer>
         </DataTemplate>
 
         <DataTemplate x:Key="HutaoAnnouncementTemplate">
