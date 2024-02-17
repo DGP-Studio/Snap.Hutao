@@ -134,9 +134,23 @@ internal static class DiscordController
 
         // Actually requires a discord client to be running on Windows platform.
         // If not, the following creation code will throw.
-        if (System.Diagnostics.Process.GetProcessesByName("Discord").Length <= 0)
+        System.Diagnostics.Process[] discordProcesses = System.Diagnostics.Process.GetProcessesByName("Discord");
+
+        if (discordProcesses.Length <= 0)
         {
             return;
+        }
+
+        foreach (System.Diagnostics.Process process in discordProcesses)
+        {
+            try
+            {
+                _ = process.Handle;
+            }
+            catch (Win32Exception)
+            {
+                return;
+            }
         }
 
         lock (SyncRoot)
