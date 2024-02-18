@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Web;
+
 namespace Snap.Hutao.Web.Hutao.Algolia;
 
 internal sealed class AlgoliaHierarchy
@@ -35,42 +37,42 @@ internal sealed class AlgoliaHierarchy
                     yield break;
                 }
 
-                yield return Lvl1;
+                yield return HttpUtility.HtmlDecode(Lvl1);
 
                 if (string.IsNullOrEmpty(Lvl2))
                 {
                     yield break;
                 }
 
-                yield return Lvl2;
+                yield return HttpUtility.HtmlDecode(Lvl2);
 
                 if (string.IsNullOrEmpty(Lvl3))
                 {
                     yield break;
                 }
 
-                yield return Lvl3;
+                yield return HttpUtility.HtmlDecode(Lvl3);
 
                 if (string.IsNullOrEmpty(Lvl4))
                 {
                     yield break;
                 }
 
-                yield return Lvl4;
+                yield return HttpUtility.HtmlDecode(Lvl4);
 
                 if (string.IsNullOrEmpty(Lvl5))
                 {
                     yield break;
                 }
 
-                yield return Lvl5;
+                yield return HttpUtility.HtmlDecode(Lvl5);
 
                 if (string.IsNullOrEmpty(Lvl6))
                 {
                     yield break;
                 }
 
-                yield return Lvl6;
+                yield return HttpUtility.HtmlDecode(Lvl6);
             }
         }
     }
