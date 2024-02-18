@@ -47,17 +47,13 @@ internal static class IocConfiguration
         {
             if (context.Database.GetPendingMigrations().Any())
             {
-#if DEBUG
                 System.Diagnostics.Debug.WriteLine("[Database] Performing AppDbContext Migrations");
-#endif
                 context.Database.Migrate();
             }
         }
 
         builder
-#if DEBUG
             .EnableSensitiveDataLogging()
-#endif
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             .UseSqlite(sqlConnectionString);
     }

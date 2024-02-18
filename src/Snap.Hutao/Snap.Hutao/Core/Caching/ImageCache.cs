@@ -42,10 +42,20 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     private string? baseFolder;
     private string? cacheFolder;
 
+    private string CacheFolder
+    {
+        get => LazyInitializer.EnsureInitialized(ref cacheFolder, () =>
+        {
+            baseFolder ??= serviceProvider.GetRequiredService<RuntimeOptions>().LocalCache;
+            DirectoryInfo info = Directory.CreateDirectory(Path.Combine(baseFolder, CacheFolderName));
+            return info.FullName;
+        });
+    }
+
     /// <inheritdoc/>
     public void RemoveInvalid()
     {
-        RemoveInternal(Directory.GetFiles(GetCacheFolder()).Where(file => IsFileInvalid(file, false)));
+        RemoveCore(Directory.GetFiles(CacheFolder).Where(file => IsFileInvalid(file, false)));
     }
 
     /// <inheritdoc/>
@@ -62,7 +72,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             return;
         }
 
-        string folder = GetCacheFolder();
+        string folder = CacheFolder;
         string[] files = Directory.GetFiles(folder);
 
         List<string> filesToDelete = [];
@@ -75,16 +85,16 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             }
         }
 
-        RemoveInternal(filesToDelete);
+        RemoveCore(filesToDelete);
     }
 
     /// <inheritdoc/>
     public async ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri)
     {
         string fileName = GetCacheFileName(uri);
-        string filePath = Path.Combine(GetCacheFolder(), fileName);
+        string filePath = Path.Combine(CacheFolder, fileName);
 
-        if (File.Exists(filePath) && new FileInfo(filePath).Length != 0)
+        if (!IsFileInvalid(filePath))
         {
             return filePath;
         }
@@ -94,10 +104,12 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         {
             if (concurrentTasks.TryAdd(fileName, taskCompletionSource.Task))
             {
+                logger.LogDebug("Begin downloading image file from '{Uri}' to '{File}'", uri, filePath);
                 await DownloadFileAsync(uri, filePath).ConfigureAwait(false);
             }
             else if (concurrentTasks.TryGetValue(fileName, out Task? task))
             {
+                logger.LogDebug("Waiting for a queued image download task to complete for '{Uri}'", uri);
                 await task.ConfigureAwait(false);
             }
 
@@ -115,7 +127,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
         Uri dummyUri = Web.HutaoEndpoints.StaticRaw(category, fileName).ToUri();
-        return Path.Combine(GetCacheFolder(), GetCacheFileName(dummyUri));
+        return Path.Combine(CacheFolder, GetCacheFileName(dummyUri));
     }
 
     private static string GetCacheFileName(Uri uri)
@@ -137,17 +149,18 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         return fileInfo.Length == 0;
     }
 
-    private void RemoveInternal(IEnumerable<string> filePaths)
+    private void RemoveCore(IEnumerable<string> filePaths)
     {
         foreach (string filePath in filePaths)
         {
             try
             {
                 File.Delete(filePath);
+                logger.LogInformation("Remove cached image succeed:{File}", filePath);
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex, "Remove Cache Image Failed:{File}", filePath);
+                logger.LogWarning(ex, "Remove cached image failed:{File}", filePath);
             }
         }
     }
@@ -155,14 +168,17 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     [SuppressMessage("", "SH003")]
     private async Task DownloadFileAsync(Uri uri, string baseFile)
     {
-        logger.LogInformation("Begin downloading for {Uri}", uri);
-
         int retryCount = 0;
         HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCache));
         while (retryCount < 3)
         {
             using (HttpResponseMessage message = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
             {
+                if (message.RequestMessage is { RequestUri: { } target } && target != uri)
+                {
+                    logger.LogDebug("The Request '{Source}' has been redirected to '{Target}'", uri, target);
+                }
+
                 if (message.IsSuccessStatusCode)
                 {
                     using (Stream httpStream = await message.Content.ReadAsStreamAsync().ConfigureAwait(false))
@@ -181,7 +197,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                         {
                             retryCount++;
                             TimeSpan delay = message.Headers.RetryAfter?.Delta ?? retryCountToDelay[retryCount];
-                            logger.LogInformation("Retry {Uri} after {Delay}.", uri, delay);
+                            logger.LogInformation("Retry download '{Uri}' after {Delay}.", uri, delay);
                             await Task.Delay(delay).ConfigureAwait(false);
                             break;
                         }
@@ -191,19 +207,5 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                 }
             }
         }
-    }
-
-    private string GetCacheFolder()
-    {
-        if (cacheFolder is not null)
-        {
-            return cacheFolder;
-        }
-
-        baseFolder ??= serviceProvider.GetRequiredService<RuntimeOptions>().LocalCache;
-        DirectoryInfo info = Directory.CreateDirectory(Path.Combine(baseFolder, CacheFolderName));
-        cacheFolder = info.FullName;
-
-        return cacheFolder;
     }
 }

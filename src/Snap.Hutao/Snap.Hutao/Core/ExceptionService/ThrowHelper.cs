@@ -13,6 +13,7 @@ namespace Snap.Hutao.Core.ExceptionService;
 /// </summary>
 [HighQuality]
 [System.Diagnostics.StackTraceHidden]
+[Obsolete("Use HutaoException instead")]
 internal static class ThrowHelper
 {
     [DoesNotReturn]

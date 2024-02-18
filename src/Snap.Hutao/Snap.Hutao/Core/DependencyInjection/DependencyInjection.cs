@@ -51,7 +51,12 @@ internal static class DependencyInjection
         CultureOptions cultureOptions = serviceProvider.GetRequiredService<CultureOptions>();
         cultureOptions.SystemCulture = CultureInfo.CurrentCulture;
 
+        ILogger<CultureOptions> logger = serviceProvider.GetRequiredService<ILogger<CultureOptions>>();
+        logger.LogDebug("System Culture: {System}", cultureOptions.SystemCulture);
+
         CultureInfo cultureInfo = cultureOptions.CurrentCulture;
+
+        logger.LogDebug("Current Culture: {Current}", cultureInfo);
 
         CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
@@ -63,6 +68,7 @@ internal static class DependencyInjection
         SH.Culture = cultureInfo;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void InitializeConsoleWindow(this IServiceProvider serviceProvider)
     {
         _ = serviceProvider.GetRequiredService<ConsoleWindowLifeTime>();
