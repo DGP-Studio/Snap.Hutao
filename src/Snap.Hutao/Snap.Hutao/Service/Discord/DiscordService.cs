@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Notification;
+using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Discord;
 
@@ -17,7 +18,7 @@ internal sealed partial class DiscordService : IDiscordService, IDisposable
 
     public async ValueTask SetPlayingActivityAsync(bool isOversea)
     {
-        if (CheckDiscordStatus())
+        if (IsSupported())
         {
             _ = isOversea
                 ? await DiscordController.SetPlayingGenshinImpactAsync().ConfigureAwait(false)
@@ -27,7 +28,7 @@ internal sealed partial class DiscordService : IDiscordService, IDisposable
 
     public async ValueTask SetNormalActivityAsync()
     {
-        if (CheckDiscordStatus())
+        if (IsSupported())
         {
             _ = await DiscordController.SetDefaultActivityAsync(runtimeOptions.AppLaunchTime).ConfigureAwait(false);
         }
@@ -38,35 +39,30 @@ internal sealed partial class DiscordService : IDiscordService, IDisposable
         DiscordController.Stop();
     }
 
-    private bool CheckDiscordStatus()
+    private bool IsSupported()
     {
         try
         {
             // Actually requires a discord client to be running on Windows platform.
             // If not, discord core creation code will throw.
-            System.Diagnostics.Process[] discordProcesses = System.Diagnostics.Process.GetProcessesByName("Discord");
+            Process[] discordProcesses = Process.GetProcessesByName("Discord");
 
             if (discordProcesses.Length <= 0)
             {
-                if (!isInitialized)
-                {
-                    infoBarService.Warning("Discord 未运行，将无法设置 Discord Activity 状态。");
-                }
-
                 return false;
             }
 
-            foreach (System.Diagnostics.Process process in discordProcesses)
+            foreach (Process process in discordProcesses)
             {
                 try
                 {
                     _ = process.Handle;
                 }
-                catch (Win32Exception)
+                catch (Exception)
                 {
                     if (!isInitialized)
                     {
-                        infoBarService.Warning("权限不足，将无法设置 Discord Activity 状态。");
+                        infoBarService.Warning(SH.ServiceDiscordActivityElevationRequiredHint);
                     }
 
                     return false;
@@ -77,10 +73,7 @@ internal sealed partial class DiscordService : IDiscordService, IDisposable
         }
         finally
         {
-            if (!isInitialized)
-            {
-                isInitialized = true;
-            }
+            isInitialized = true;
         }
     }
 }
