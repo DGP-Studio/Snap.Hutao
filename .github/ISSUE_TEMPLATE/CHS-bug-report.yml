@@ -18,7 +18,7 @@ body:
       options:
         - label: 我已阅读 Snap Hutao 文档中的[常见问题](https://hut.ao/advanced/FAQ.html)和[常见程序异常](https://hut.ao/advanced/exceptions.html)，我的问题没有在文档中得到解答
           required: true
-          
+
         - label: 我知道文档站的导航栏中有**搜索功能**，且已经搜索过相关关键词
           required: true
 
@@ -29,12 +29,12 @@ body:
     id: winver
     attributes:
       label: Windows 版本
-      description: | 
+      description: |
         `Win+R` 输入 `winver` 回车后在打开的窗口第二行可以找到
       placeholder: 例：22000.556
     validations:
       required: true
-   
+
   - type: input
     id: shver
     attributes:
@@ -48,10 +48,10 @@ body:
     id: deviceid
     attributes:
       label: 设备 ID
-      description: | 
+      description: |
         在胡桃工具箱的反馈中心界面，你可以找到并复制你的设备 ID
         如果你的问题涉及程序崩溃，请填写该项，这将有助于我们定位问题
-        如果你的程序已经无法启动，请下载并运行[诊断工具](https://github.com/DGP-Automation/ISSUE_TEMPLATES/releases/download/diagnosis_tools/Snap.Hutao.DiagTools.exe)，它将显示你的设备 ID
+        如果你的程序已经无法启动，请下载并运行[诊断工具](https://github.com/DGP-Automation/ISSUE_TEMPLATES/releases/download/diagnosis_tools/Snap.Hutao.Diagnostic.Tooling.exe)，它将显示你的设备 ID
     validations:
       required: false
 
@@ -79,7 +79,7 @@ body:
         - 公告
         - 其它
     validations:
-      required: true   
+      required: true
 
   - type: textarea
     id: what-happened
@@ -107,4 +107,3 @@ body:
       options:
         - label: 我认为上述的描述已经足以详细，以允许开发人员能复现该问题
           required: true
-      

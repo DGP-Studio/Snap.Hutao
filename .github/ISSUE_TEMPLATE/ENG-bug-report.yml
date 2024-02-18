@@ -18,7 +18,7 @@ body:
       options:
         - label: I have read [FAQ page](https://hut.ao/advanced/FAQ.html) and [Exception page](https://hut.ao/advanced/exceptions.html) in Snap Hutao document, and my issue is not answered
           required: true
-          
+
         - label: I and tried **search feature** in Snap Hutao document site, and no associated article
           required: true
 
@@ -29,12 +29,12 @@ body:
     id: winver
     attributes:
       label: Windows Version
-      description: | 
+      description: |
         Use `Win+R` and input `winver`, Windows build version is usually at the second line
       placeholder: e.g. 22000.556
     validations:
       required: true
-   
+
   - type: input
     id: shver
     attributes:
@@ -48,10 +48,10 @@ body:
     id: deviceid
     attributes:
       label: Device ID
-      description: | 
+      description: |
         In Snap Hutao's Feedback Center, you can find and copy your device ID
         If your issue is about program crash, please fill this so we can dump the log and locate the source easier
-        If your program cannot startup, please download and run [Diagnosis Tool](https://github.com/DGP-Automation/ISSUE_TEMPLATES/releases/download/diagnosis_tools/Snap.Hutao.DiagTools.exe), it will shows your device ID.
+        If your program cannot startup, please download and run [Diagnostic Tooling](https://github.com/DGP-Automation/ISSUE_TEMPLATES/releases/download/diagnosis_tools/Snap.Hutao.Diagnostic.Tooling.exe), it will shows your device ID.
     validations:
       required: false
 
@@ -74,12 +74,12 @@ body:
         - User Interface
         - Snap Hutao Cloud
         - Snap Hutao Account
-        - Checkin        
+        - Checkin
         - Wiki
         - Announcement
         - Other
     validations:
-      required: true   
+      required: true
 
   - type: textarea
     id: what-happened
@@ -107,4 +107,3 @@ body:
       options:
         - label: I believe the description above is detail enough to allow developers to reproduce the issue
           required: true
-      
