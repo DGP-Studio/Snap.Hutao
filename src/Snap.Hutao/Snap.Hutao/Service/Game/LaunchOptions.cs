@@ -45,6 +45,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private bool? isWindowsHDREnabled;
     private AspectRatio? selectedAspectRatio;
     private bool? useStarwardPlayTimeStatistics;
+    private bool? useBetterGenshinImpactAutomation;
     private bool? setDiscordActivityWhenPlaying;
 
     public LaunchOptions(IServiceProvider serviceProvider)
@@ -230,6 +231,12 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, false);
         set => SetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, value);
+    }
+
+    public bool UseBetterGenshinImpactAutomation
+    {
+        get => GetOption(ref useBetterGenshinImpactAutomation, SettingEntry.LaunchUseBetterGenshinImpactAutomation, false);
+        set => SetOption(ref useBetterGenshinImpactAutomation, SettingEntry.LaunchUseBetterGenshinImpactAutomation, value);
     }
 
     public bool SetDiscordActivityWhenPlaying

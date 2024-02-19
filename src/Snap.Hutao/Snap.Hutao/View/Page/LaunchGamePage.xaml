@@ -347,6 +347,12 @@
                                             <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UseStarwardPlayTimeStatistics, Mode=TwoWay}"/>
                                         </cwc:SettingsCard>
                                         <cwc:SettingsCard
+                                            Description="{shcm:ResourceString Name=ViewPageLaunchGameBetterGIDescription}"
+                                            Header="{shcm:ResourceString Name=ViewPageLaunchGameBetterGIHeader}"
+                                            HeaderIcon="{shcm:FontIcon Glyph=&#xE961;}">
+                                            <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.UseBetterGenshinImpactAutomation, Mode=TwoWay}"/>
+                                        </cwc:SettingsCard>
+                                        <cwc:SettingsCard
                                             Description="{shcm:ResourceString Name=ViewPageLaunchGameDiscordActivityDescription}"
                                             Header="{shcm:ResourceString Name=ViewPageLaunchGameDiscordActivityHeader}"
                                             HeaderIcon="{shcm:FontIcon Glyph=&#xE8CF;}">

@@ -34,6 +34,7 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
 
                 // The Unlocker can't unlock the process
                 context.Process.Kill();
+                return;
             }
         }
 

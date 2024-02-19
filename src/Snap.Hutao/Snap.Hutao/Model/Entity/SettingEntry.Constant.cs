@@ -42,6 +42,7 @@ internal sealed partial class SettingEntry
     public const string LaunchIsUseCloudThirdPartyMobile = "Launch.IsUseCloudThirdPartyMobile";
     public const string LaunchIsWindowsHDREnabled = "Launch.IsWindowsHDREnabled";
     public const string LaunchUseStarwardPlayTimeStatistics = "Launch.UseStarwardPlayTimeStatistics";
+    public const string LaunchUseBetterGenshinImpactAutomation = "Launch.UseBetterGenshinImpactAutomation";
     public const string LaunchSetDiscordActivityWhenPlaying = "Launch.SetDiscordActivityWhenPlaying";
 
     [Obsolete("不再支持多开")]
