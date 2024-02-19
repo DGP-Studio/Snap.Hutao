@@ -21,10 +21,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4.0.0
-        with:
-          dotnet-version: 8.0
+      # - name: Setup .NET
+      #   uses: actions/setup-dotnet@v4.0.0
+      #   with:
+      #     dotnet-version: 8.0
 
       - name: Cake
         id: cake
