@@ -824,6 +824,9 @@
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>Parametric Transformer is ready</value>
   </data>
+  <data name="ServiceDiscordActivityElevationRequiredHint" xml:space="preserve">
+    <value>Missing permission, unable to set your Discord Activity.</value>
+  </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
     <value>Exploring in Teyvat</value>
   </data>
