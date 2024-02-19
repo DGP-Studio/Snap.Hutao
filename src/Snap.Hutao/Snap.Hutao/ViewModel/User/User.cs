@@ -96,7 +96,7 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMapping
 
     public bool NeedDbUpdateAfterResume { get; set; }
 
-    public string? PerferredUid { get => inner.PreferredUid; }
+    public string? PreferredUid { get => inner.PreferredUid; }
 
     public static User From(EntityUser user, IServiceProvider provider)
     {
@@ -107,9 +107,9 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMapping
     {
         if (SetProperty(ref selectedUserGameRole, value, nameof(SelectedUserGameRole)))
         {
-            if (inner.PreferredUid != value?.GameUid)
+            if (value is not null && inner.PreferredUid != value.GameUid)
             {
-                inner.PreferredUid = value?.GameUid;
+                inner.PreferredUid = value.GameUid;
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {
                     scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(inner);
