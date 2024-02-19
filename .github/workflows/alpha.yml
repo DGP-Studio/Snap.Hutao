@@ -19,10 +19,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4.0.0
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0
 
@@ -41,7 +41,7 @@ jobs:
 
       - name: Upload signed msix
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Snap.Hutao.Alpha-${{ steps.cake.outputs.version }}
           path: ${{ github.workspace }}/src/output/Snap.Hutao.Alpha-${{ steps.cake.outputs.version }}.msix
