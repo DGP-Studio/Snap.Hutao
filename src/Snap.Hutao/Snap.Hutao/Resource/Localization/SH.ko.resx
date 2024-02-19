@@ -824,6 +824,9 @@
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>매개 변수 변환기가 준비되었습니다</value>
   </data>
+  <data name="ServiceDiscordActivityElevationRequiredHint" xml:space="preserve">
+    <value>权限不足，将无法为您设置 Discord Activity 状态</value>
+  </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
     <value>正在提瓦特大陆中探索</value>
   </data>
