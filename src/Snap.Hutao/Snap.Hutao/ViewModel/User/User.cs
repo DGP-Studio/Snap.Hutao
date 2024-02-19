@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
@@ -20,18 +21,14 @@ namespace Snap.Hutao.ViewModel.User;
 internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMappingFrom<User, EntityUser, IServiceProvider>, ISelectable
 {
     private readonly EntityUser inner;
-    private readonly IMessenger messenger;
+    private readonly IServiceProvider serviceProvider;
 
     private UserGameRole? selectedUserGameRole;
 
-    /// <summary>
-    /// 构造一个新的绑定视图用户
-    /// </summary>
-    /// <param name="user">用户实体</param>
     private User(EntityUser user, IServiceProvider serviceProvider)
     {
         inner = user;
-        messenger = serviceProvider.GetRequiredService<IMessenger>();
+        this.serviceProvider = serviceProvider;
     }
 
     public bool IsInitialized { get; set; }
@@ -99,6 +96,8 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMapping
 
     public bool NeedDbUpdateAfterResume { get; set; }
 
+    public string? PerferredUid { get => inner.PreferredUid; }
+
     public static User From(EntityUser user, IServiceProvider provider)
     {
         return new(user, provider);
@@ -106,9 +105,21 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMapping
 
     public void SetSelectedUserGameRole(UserGameRole? value, bool raiseMessage = true)
     {
-        if (SetProperty(ref selectedUserGameRole, value, nameof(SelectedUserGameRole)) && raiseMessage)
+        if (SetProperty(ref selectedUserGameRole, value, nameof(SelectedUserGameRole)))
         {
-            messenger.Send(Message.UserChangedMessage.CreateOnlyRoleChanged(this));
+            if (inner.PreferredUid != value?.GameUid)
+            {
+                inner.PreferredUid = value?.GameUid;
+                using (IServiceScope scope = serviceProvider.CreateScope())
+                {
+                    scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(inner);
+                }
+            }
+
+            if (raiseMessage)
+            {
+                serviceProvider.GetRequiredService<IMessenger>().Send(Message.UserChangedMessage.CreateOnlyRoleChanged(this));
+            }
         }
     }
 }
