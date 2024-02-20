@@ -2192,6 +2192,12 @@
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
     <value>Argumen Awalan</value>
   </data>
+  <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
+    <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
+  </data>
+  <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
+    <value>Better GI</value>
+  </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>Umum</value>
   </data>
