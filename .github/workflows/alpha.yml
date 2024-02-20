@@ -14,8 +14,6 @@ on:
       - 'LICENSE'
       - '**.yml'
   pull_request:
-    branches:
-      - develop
     paths-ignore:
       - '.gitattributes'
       - '.github/**'
