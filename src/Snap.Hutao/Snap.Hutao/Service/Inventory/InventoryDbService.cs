@@ -6,7 +6,7 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 
-namespace Snap.Hutao.Service.Inventroy;
+namespace Snap.Hutao.Service.Inventory;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IInventoryDbService))]

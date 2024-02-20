@@ -38,8 +38,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         string path = System.Random.Shared.GetItems(backgroundSet.ToArray(), 1)[0];
         backgroundSet.Remove(path);
 
-        await taskContext.SwitchToMainThreadAsync();
-        if (string.Equals(path, previous?.ImageSource.UriSource.ToString(), StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(path, previous?.Path, StringComparison.OrdinalIgnoreCase))
         {
             return new(false, default!);
         }
@@ -54,6 +53,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
             BackgroundImage background = new()
             {
+                Path = path,
                 ImageSource = new(path.ToUri()),
                 AccentColor = accentColor,
                 Luminance = accentColor.Luminance,
@@ -65,7 +65,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
     private async ValueTask<HashSet<string>> SkipOrInitBackgroundAsync()
     {
-        if (backgroundPathSet is null || backgroundPathSet.Count <= 0)
+        if (backgroundPathSet is not { Count: > 0 })
         {
             string backgroundFolder = runtimeOptions.GetDataFolderBackgroundFolder();
             Directory.CreateDirectory(backgroundFolder);

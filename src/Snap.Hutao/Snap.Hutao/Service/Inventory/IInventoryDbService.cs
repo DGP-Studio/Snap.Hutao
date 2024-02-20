@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 
-namespace Snap.Hutao.Service.Inventroy;
+namespace Snap.Hutao.Service.Inventory;
 
 internal interface IInventoryDbService
 {

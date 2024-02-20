@@ -13,6 +13,8 @@ namespace Snap.Hutao.Service.BackgroundImage;
 
 internal sealed class BackgroundImage
 {
+    public string Path { get; set; } = default!;
+
     public BitmapImage ImageSource { get; set; } = default!;
 
     public Color AccentColor { get; set; }

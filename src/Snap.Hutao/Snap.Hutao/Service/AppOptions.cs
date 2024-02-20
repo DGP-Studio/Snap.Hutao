@@ -5,6 +5,7 @@ using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Service;
@@ -15,6 +16,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 {
     private bool? isEmptyHistoryWishVisible;
     private BackdropType? backdropType;
+    private BackgroundImageType? backgroundImageType;
     private Region? region;
     private string? geetestCustomCompositeUrl;
 
@@ -28,8 +30,14 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public BackdropType BackdropType
     {
-        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, v => Enum.Parse<BackdropType>(v), BackdropType.Mica).Value;
-        set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, value => value.ToStringOrEmpty());
+        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, EnumParse<BackdropType>, BackdropType.Mica).Value;
+        set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, EnumToStringOrEmpty);
+    }
+
+    public BackgroundImageType BackgroundImageType
+    {
+        get => GetOption(ref backgroundImageType, SettingEntry.BackgroundImageType, EnumParse<BackgroundImageType>, BackgroundImageType.HutaoOfficialLauncher).Value;
+        set => SetOption(ref backgroundImageType, SettingEntry.BackgroundImageType, value, EnumToStringOrEmpty);
     }
 
     public Lazy<List<NameValue<Region>>> LazyRegions { get; } = new(KnownRegions.Get);
@@ -44,5 +52,17 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl);
         set => SetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, value);
+    }
+
+    private static T? EnumParse<T>(string input)
+        where T : struct, Enum
+    {
+        return Enum.Parse<T>(input);
+    }
+
+    private static string EnumToStringOrEmpty<T>(T? input)
+        where T : struct, Enum
+    {
+        return input.ToStringOrEmpty();
     }
 }

@@ -10,8 +10,9 @@ namespace Snap.Hutao.Web;
 /// 胡桃 API 端点
 /// </summary>
 [HighQuality]
-[SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1124")]
+[SuppressMessage("", "SA1201")]
+[SuppressMessage("", "SA1203")]
 internal static class HutaoEndpoints
 {
     #region HomaAPI
@@ -269,6 +270,15 @@ internal static class HutaoEndpoints
     {
         return $"{ApiSnapGenshinStaticZip}/{fileName}.zip";
     }
+    #endregion
+
+    #region Wallpaper
+
+    public const string WallpaperBing = $"{ApiSnapGenshin}/wallpaper/bing";
+
+    public const string WallpaperGenshinLauncher = $"{ApiSnapGenshin}/wallpaper/genshin-launcher";
+
+    public const string WallpaperToday = $"{ApiSnapGenshin}/wallpaper/today";
     #endregion
 
     #endregion
