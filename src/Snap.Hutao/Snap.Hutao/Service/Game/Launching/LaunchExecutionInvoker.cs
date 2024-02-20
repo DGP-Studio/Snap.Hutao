@@ -24,9 +24,9 @@ internal sealed class LaunchExecutionInvoker
         handlers.Enqueue(new LaunchExecutionGameProcessInitializationHandler());
         handlers.Enqueue(new LaunchExecutionSetDiscordActivityHandler());
         handlers.Enqueue(new LaunchExecutionGameProcessStartHandler());
-        handlers.Enqueue(new LaunchExecutionUnlockFpsHandler());
         handlers.Enqueue(new LaunchExecutionStarwardPlayTimeStatisticsHandler());
         handlers.Enqueue(new LaunchExecutionBetterGenshinImpactAutomationHandlder());
+        handlers.Enqueue(new LaunchExecutionUnlockFpsHandler());
         handlers.Enqueue(new LaunchExecutionGameProcessExitHandler());
     }
 
