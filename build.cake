@@ -35,7 +35,7 @@ if (GitHubActions.IsRunningOnGitHubActions)
 
     if (GitHubActions.Environment.PullRequest.IsPullRequest)
     {
-        version = System.DateTime.Now.ToString("yyyy.M.d.0", new System.Globalization.CultureInfo("zh-Hans"));
+        version = System.DateTime.Now.ToString("yyyy.M.d.0", System.Globalization.CultureInfo.GetCultureInfo("zh-Hans"));
     }
     else
     {
