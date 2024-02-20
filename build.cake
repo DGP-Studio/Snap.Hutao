@@ -35,7 +35,9 @@ if (GitHubActions.IsRunningOnGitHubActions)
 
     if (GitHubActions.Environment.PullRequest.IsPullRequest)
     {
-        version = System.DateTime.Now.ToString("yyyy.M.d.0", System.Globalization.CultureInfo.GetCultureInfo("zh-Hans"));
+        version = System.DateTime.Now.ToString("yyyy.M.d.0");
+
+        Information("Is Pull Request. Skip version.")
     }
     else
     {
@@ -50,9 +52,9 @@ if (GitHubActions.IsRunningOnGitHubActions)
                     }
             }
         );
-    }
 
-    Information($"Version: {version}");
+        Information($"Version: {version}");
+    }
 
     GitHubActions.Commands.SetOutputParameter("version", version);
 }
