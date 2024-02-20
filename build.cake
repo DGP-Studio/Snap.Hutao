@@ -37,7 +37,7 @@ if (GitHubActions.IsRunningOnGitHubActions)
     {
         version = System.DateTime.Now.ToString("yyyy.M.d.0");
 
-        Information("Is Pull Request. Skip version.")
+        Information("Is Pull Request. Skip version.");
     }
     else
     {
