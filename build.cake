@@ -33,17 +33,25 @@ if (GitHubActions.IsRunningOnGitHubActions)
     repoDir = GitHubActions.Environment.Workflow.Workspace.FullPath;
     outputPath = System.IO.Path.Combine(repoDir, "src", "output");
 
-    var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
-    version = HttpGet(
-        "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
-        new HttpSettings
-        {
-            Headers = new Dictionary<string, string>
-                {
+    if (GitHubActions.Environment.PullRequest.IsPullRequest)
+    {
+        version = System.DateTime.Now.ToString("yyyy.M.d.0", new System.Globalization.CultureInfo("zh-Hans"));
+    }
+    else
+    {
+        var versionAuth = HasEnvironmentVariable("VERSION_API_TOKEN") ? EnvironmentVariable("VERSION_API_TOKEN") : throw new Exception("Cannot find VERSION_API_TOKEN");
+        version = HttpGet(
+            "https://internal.snapgenshin.cn/BuildIntergration/RequestNewVersion",
+            new HttpSettings
+            {
+                Headers = new Dictionary<string, string>
+                    {
                     { "Authorization", versionAuth }
-                }
-        }
-    );
+                    }
+            }
+        );
+    }
+
     Information($"Version: {version}");
 
     GitHubActions.Commands.SetOutputParameter("version", version);
