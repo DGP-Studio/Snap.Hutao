@@ -2192,6 +2192,12 @@
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
     <value>Launch Parameters</value>
   </data>
+  <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
+    <value>Auto start Better GUI for automation tasks after game launched</value>
+  </data>
+  <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
+    <value>Better GI</value>
+  </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>General</value>
   </data>
