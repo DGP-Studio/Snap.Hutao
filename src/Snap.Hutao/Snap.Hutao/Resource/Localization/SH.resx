@@ -1691,6 +1691,9 @@
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
     <value>完成</value>
   </data>
+  <data name="ViewModelWelcomeDownloadSummaryContentTypeNotMatch" xml:space="preserve">
+    <value>响应内容不是有效的文件字节流</value>
+  </data>
   <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
     <value>等待中</value>
   </data>
