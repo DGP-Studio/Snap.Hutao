@@ -767,6 +767,21 @@
   <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
     <value>Exibição de personagens: {0:MM-dd HH:mm}</value>
   </data>
+  <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
+    <value>必应每日一图</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
+    <value>胡桃每日一图</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
+    <value>官方启动器壁纸</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
+    <value>本地随机图片</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
+    <value>无背景图片</value>
+  </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>Falha ao salvar o status do planejamento</value>
   </data>
@@ -2338,6 +2353,12 @@
   </data>
   <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
     <value>Material de pano de fundo</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
+    <value>更改窗体的背景图片来源，重启胡桃以尽快生效</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
+    <value>背景图片</value>
   </data>
   <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
     <value>O cache de imagens é salvo aqui</value>
