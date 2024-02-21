@@ -25,6 +25,7 @@ internal sealed class LaunchExecutionInvoker
         handlers.Enqueue(new LaunchExecutionSetDiscordActivityHandler());
         handlers.Enqueue(new LaunchExecutionGameProcessStartHandler());
         handlers.Enqueue(new LaunchExecutionStarwardPlayTimeStatisticsHandler());
+        handlers.Enqueue(new LaunchExecutionBetterGenshinImpactAutomationHandlder());
         handlers.Enqueue(new LaunchExecutionUnlockFpsHandler());
         handlers.Enqueue(new LaunchExecutionGameProcessExitHandler());
     }
@@ -40,9 +41,9 @@ internal sealed class LaunchExecutionInvoker
         if (handlers.TryDequeue(out ILaunchExecutionDelegateHandler? handler))
         {
             string typeName = TypeNameHelper.GetTypeDisplayName(handler, false);
-            context.Logger.LogInformation("Handler[{Handler}] begin execution", typeName);
+            context.Logger.LogInformation("Handler [{Handler}] begin execution", typeName);
             await handler.OnExecutionAsync(context, () => InvokeHandlerAsync(context)).ConfigureAwait(false);
-            context.Logger.LogInformation("Handler[{Handler}] end execution", typeName);
+            context.Logger.LogInformation("Handler [{Handler}] end execution", typeName);
         }
 
         return context;

@@ -11,7 +11,7 @@ internal sealed class LaunchExecutionStarwardPlayTimeStatisticsHandler : ILaunch
     {
         if (context.Options.UseStarwardPlayTimeStatistics)
         {
-            context.Logger.LogInformation("Using starward to count game time");
+            context.Logger.LogInformation("Using Starward to count game time");
             await LaunchStarwardForPlayTimeStatisticsAsync(context).ConfigureAwait(false);
         }
 
@@ -24,7 +24,7 @@ internal sealed class LaunchExecutionStarwardPlayTimeStatisticsHandler : ILaunch
         Uri starwardPlayTimeUri = $"starward://playtime/{gameBiz}".ToUri();
         if (await Launcher.QueryUriSupportAsync(starwardPlayTimeUri, LaunchQuerySupportType.Uri) is LaunchQuerySupportStatus.Available)
         {
-            context.Logger.LogInformation("Launching starward");
+            context.Logger.LogInformation("Launching Starward");
             await Launcher.LaunchUriAsync(starwardPlayTimeUri);
         }
     }

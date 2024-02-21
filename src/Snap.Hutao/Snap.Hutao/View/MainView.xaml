@@ -4,12 +4,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.View"
     xmlns:shvh="using:Snap.Hutao.View.Helper"
+    xmlns:shvm="using:Snap.Hutao.ViewModel"
     xmlns:shvp="using:Snap.Hutao.View.Page"
+    d:DataContext="{d:DesignInstance Type=shvm:MainViewModel}"
     mc:Ignorable="d">
+
+    <mxi:Interaction.Behaviors>
+        <shcb:PeriodicInvokeCommandOrOnActualThemeChangedBehavior
+            Command="{Binding UpdateBackgroundCommand}"
+            CommandParameter="{x:Bind BackdroundImagePresenter}"
+            Period="0:5:0"/>
+    </mxi:Interaction.Behaviors>
+
     <UserControl.Resources>
         <Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>
         <Thickness x:Key="NavigationViewContentGridBorderThickness">0,1,0,0</Thickness>
@@ -19,6 +31,7 @@
     <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Transitions="{ThemeResource EntranceThemeTransitions}">
         <Image
             x:Name="BackdroundImagePresenter"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Opacity="0"
             Stretch="UniformToFill"/>

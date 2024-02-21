@@ -7,7 +7,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Metadata.Item;
-using Snap.Hutao.Service.Inventroy;
+using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.ObjectModel;

@@ -90,8 +90,6 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
         await userFingerprintService.TryInitializeAsync(user, token).ConfigureAwait(false);
 
-        // Should not raise propery changed event here
-        user.SetSelectedUserGameRole(user.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen), false);
         return user.IsInitialized = true;
     }
 

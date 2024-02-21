@@ -18,11 +18,23 @@ internal sealed class HutaoException : Exception
 
     public HutaoExceptionKind Kind { get; private set; }
 
+    [DoesNotReturn]
+    public static HutaoException Throw(HutaoExceptionKind kind, string message, Exception? innerException = default)
+    {
+        throw new HutaoException(kind, message, innerException);
+    }
+
     public static void ThrowIf(bool condition, HutaoExceptionKind kind, string message, Exception? innerException = default)
     {
         if (condition)
         {
             throw new HutaoException(kind, message, innerException);
         }
+    }
+
+    public static HutaoException ServiceTypeCastFailed<TFrom, TTo>(string name, Exception? innerException = default)
+    {
+        string message = $"This instance of '{typeof(TFrom).FullName}' '{name}' doesn't implement '{typeof(TTo).FullName}'";
+        throw new HutaoException(HutaoExceptionKind.ServiceTypeCastFailed, message, innerException);
     }
 }

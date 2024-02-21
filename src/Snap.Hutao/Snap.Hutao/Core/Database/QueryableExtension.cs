@@ -14,7 +14,7 @@ namespace Snap.Hutao.Core.Database;
 internal static class QueryableExtension
 {
     /// <summary>
-    /// source.Where(predicate).ExecuteDelete()
+    /// <code>source.Where(predicate).ExecuteDelete()</code>
     /// </summary>
     /// <typeparam name="TSource">源类型</typeparam>
     /// <param name="source">源</param>
@@ -27,7 +27,7 @@ internal static class QueryableExtension
     }
 
     /// <summary>
-    /// source.Where(predicate).ExecuteDeleteAsync(token)
+    /// <code>source.Where(predicate).ExecuteDeleteAsync(token)</code>
     /// </summary>
     /// <typeparam name="TSource">源类型</typeparam>
     /// <param name="source">源</param>

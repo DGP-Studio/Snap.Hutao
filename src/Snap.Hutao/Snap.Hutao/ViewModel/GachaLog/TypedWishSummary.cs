@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Control.Brush;
+using Snap.Hutao.Control.Theme;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
@@ -81,6 +83,16 @@ internal sealed partial class TypedWishSummary : Wish
     public string TotalBlueFormatted
     {
         get => $"{TotalBluePull} [{TotalBluePercent,6:p2}]";
+    }
+
+    public ColorSegmentCollection PullPercentSegmentSource
+    {
+        get =>
+        [
+            new ColorSegment(KnownColors.Orange, TotalOrangePull),
+            new ColorSegment(KnownColors.Purple, TotalPurplePull),
+            new ColorSegment(KnownColors.Blue, TotalBluePull),
+        ];
     }
 
     /// <summary>

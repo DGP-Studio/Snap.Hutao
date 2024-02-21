@@ -8,6 +8,7 @@ namespace Snap.Hutao.Core.ExceptionService;
 /// 用户的计算机中的某些设置不符合要求
 /// </summary>
 [HighQuality]
+[Obsolete("Use HutaoException instead")]
 internal sealed class RuntimeEnvironmentException : Exception
 {
     /// <summary>

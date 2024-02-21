@@ -5,6 +5,7 @@ using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using System.IO;
 using System.IO.Compression;
@@ -74,6 +75,14 @@ internal sealed class DownloadSummary : ObservableObject
         try
         {
             HttpResponseMessage response = await httpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+
+            if (response.Content.Headers.ContentType?.MediaType is not "application/octet-stream")
+            {
+                logger.LogWarning("Download Static Zip failed, Content-Type is {Type}", response.Content.Headers.ContentType);
+                Description = SH.ViewModelWelcomeDownloadSummaryContentTypeNotMatch;
+                return false;
+            }
+
             long contentLength = response.Content.Headers.ContentLength ?? 0;
             logger.LogInformation("Begin download, length: {length}", contentLength);
             using (Stream content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
@@ -95,7 +104,7 @@ internal sealed class DownloadSummary : ObservableObject
             logger.LogError(ex, "Download Static Zip failed");
             await taskContext.SwitchToMainThreadAsync();
             Description = ex is HttpRequestException httpRequestException
-                ? $"{SH.ViewModelWelcomeDownloadSummaryException} - HTTP {httpRequestException.HttpRequestError} {httpRequestException.StatusCode:D}"
+                ? $"{SH.ViewModelWelcomeDownloadSummaryException} - [HTTP '{httpRequestException.StatusCode:D}'] [Error '{httpRequestException.HttpRequestError}']"
                 : ex.Message;
             return false;
         }
@@ -109,8 +118,10 @@ internal sealed class DownloadSummary : ObservableObject
 
     private void ExtractFiles(Stream stream)
     {
-        IImageCacheFilePathOperation? imageCacheFilePathOperation = imageCache.As<IImageCacheFilePathOperation>();
-        ArgumentNullException.ThrowIfNull(imageCacheFilePathOperation);
+        if (imageCache is not IImageCacheFilePathOperation imageCacheFilePathOperation)
+        {
+            throw HutaoException.ServiceTypeCastFailed<IImageCache, IImageCacheFilePathOperation>(nameof(imageCache));
+        }
 
         using (ZipArchive archive = new(stream))
         {

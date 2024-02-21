@@ -43,6 +43,8 @@ internal sealed partial class UserViewModel : ObservableObject
     private User? selectedUser;
     private ObservableReorderableDbCollection<User, EntityUser>? users;
 
+    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+
     /// <summary>
     /// 当前选择的用户信息
     /// </summary>
@@ -51,10 +53,18 @@ internal sealed partial class UserViewModel : ObservableObject
         get => selectedUser ??= userService.Current;
         set
         {
-            if (value is { SelectedUserGameRole: null })
+            if (value is not null)
             {
-                // Pre select the chosen role to avoid multiple UserChangedMessage
-                value.SetSelectedUserGameRole(value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen), false);
+                // Should not raise propery changed event below
+                if (value.PreferredUid is not null)
+                {
+                    value.SetSelectedUserGameRole(value.UserGameRoles.FirstOrDefault(role => role.GameUid == value.PreferredUid), false);
+                }
+
+                if (value.SelectedUserGameRole is null)
+                {
+                    value.SetSelectedUserGameRole(value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen), false);
+                }
             }
 
             if (SetProperty(ref selectedUser, value))

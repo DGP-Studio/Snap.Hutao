@@ -6,4 +6,5 @@ namespace Snap.Hutao.Core.ExceptionService;
 internal enum HutaoExceptionKind
 {
     None,
+    ServiceTypeCastFailed,
 }

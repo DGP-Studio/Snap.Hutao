@@ -17,6 +17,7 @@ internal static class CastServiceExtension
     /// <typeparam name="T">目标转换类型</typeparam>
     /// <param name="service">对象</param>
     /// <returns>转换类型后的对象</returns>
+    [Obsolete("Not useful anymore")]
     public static T? As<T>(this ICastService service)
         where T : class
     {

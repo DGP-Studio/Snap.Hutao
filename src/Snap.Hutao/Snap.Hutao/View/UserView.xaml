@@ -261,11 +261,20 @@
                                 <ListView
                                     Grid.Row="1"
                                     Margin="4"
-                                    AllowDrop="True"
-                                    CanReorderItems="True"
+                                    AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                    CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
                                     ItemsSource="{Binding Users}"
                                     SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                                     SelectionMode="Single">
+                                    <ListView.Header>
+                                        <InfoBar
+                                            Title="{shcm:ResourceString Name=ViewListViewDragElevatedHint}"
+                                            Margin="4,0,4,2"
+                                            IsClosable="True"
+                                            IsOpen="True"
+                                            Severity="Warning"
+                                            Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    </ListView.Header>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Padding="0,12" Background="Transparent">
@@ -277,7 +286,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <PersonPicture
                                                     Height="32"
-                                                    Margin="0,0"
+                                                    Margin="2,0"
                                                     HorizontalAlignment="Left"
                                                     ProfilePicture="{Binding UserInfo.AvatarUrl, Mode=OneWay}"/>
                                                 <TextBlock

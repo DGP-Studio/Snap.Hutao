@@ -218,16 +218,19 @@
                     Source="{Binding FrontIcon, Converter={StaticResource AvatarCardConverter}}"/>
                 <StackPanel Grid.Column="1" Margin="0,0,16,-4">
                     <TextBlock Text="{Binding Name}"/>
-                    <TextBlock
+                    <shct:DescriptionTextBlock
                         Margin="0,8,0,16"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{Binding Description}"/>
+                        Description="{Binding Description}"
+                        TextStyle="{StaticResource CaptionTextBlockStyle}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="FetterStoryTemplate">
-            <cwc:SettingsCard Padding="16,8,8,8" Header="{Binding Title}">
+            <cwc:SettingsCard Padding="16,8,8,8">
+                <cwc:SettingsCard.Header>
+                    <shct:DescriptionTextBlock Description="{Binding Title}" TextStyle="{StaticResource BaseTextBlockStyle}"/>
+                </cwc:SettingsCard.Header>
                 <cwc:SettingsCard.Description>
                     <shct:DescriptionTextBlock Description="{Binding Context}" TextStyle="{StaticResource CaptionTextBlockStyle}"/>
                 </cwc:SettingsCard.Description>

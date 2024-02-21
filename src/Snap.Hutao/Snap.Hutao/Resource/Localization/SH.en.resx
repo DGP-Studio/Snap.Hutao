@@ -145,7 +145,7 @@
     <value>Save</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>Invalid URL</value>
+    <value>Invalid Uri</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -285,7 +285,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeInazuma" xml:space="preserve">
-    <value>Inadzuma</value>
+    <value>Inazuma</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeLiyue" xml:space="preserve">
@@ -546,7 +546,7 @@
     <value>Uploaded {1} wish records of UID: {0}, stored {2}</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
-    <value>Please login or register Hutao account first</value>
+    <value>Please login or register Snap Hutao account first</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>Login successfully</value>
@@ -558,7 +558,7 @@
     <value>Password has been set successfully</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
-    <value>Current email adress is not registered</value>
+    <value>Current email address is not registered</value>
   </data>
   <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
     <value>Current emaill address is registered</value>
@@ -767,6 +767,21 @@
   <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
     <value>Character Showcase: {0:MM-dd HH:mm}</value>
   </data>
+  <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
+    <value>Bing Daily Wallpaper</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
+    <value>Hutao Daily Wallpaper</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
+    <value>Genshin Official Launcher Wallpaper</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
+    <value>Local Random Image</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
+    <value>No Wallpaper</value>
+  </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>Failed to save development plan status</value>
   </data>
@@ -823,6 +838,9 @@
   </data>
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>Parametric Transformer is ready</value>
+  </data>
+  <data name="ServiceDiscordActivityElevationRequiredHint" xml:space="preserve">
+    <value>Missing permission, unable to set your Discord Activity.</value>
   </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
     <value>Exploring in Teyvat</value>
@@ -1391,6 +1409,9 @@
   <data name="ViewLaunchGameHeader" xml:space="preserve">
     <value>Game Launcher</value>
   </data>
+  <data name="ViewListViewDragElevatedHint" xml:space="preserve">
+    <value>Cannot reorder in Admin Mode</value>
+  </data>
   <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
     <value>Archive [{0}] added successfully</value>
   </data>
@@ -1669,6 +1690,9 @@
   </data>
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
     <value>Completed</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryContentTypeNotMatch" xml:space="preserve">
+    <value>Response stream does not contain valid content type</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
     <value>Queued</value>
@@ -2186,6 +2210,12 @@
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
     <value>Launch Parameters</value>
   </data>
+  <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
+    <value>Auto start Better GUI for automation tasks after game launched</value>
+  </data>
+  <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
+    <value>Better GI</value>
+  </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>General</value>
   </data>
@@ -2326,6 +2356,15 @@
   </data>
   <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
     <value>Backdrop Material</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageCopyrightHeader" xml:space="preserve">
+    <value>Image Copyright Information</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
+    <value>Change the source of wallpaper, restart Snap Hutao to apply the change</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
+    <value>Wallpaper Image</value>
   </data>
   <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
     <value>Images cache are saved here</value>
@@ -2544,10 +2583,10 @@
     <value>Reset Image Resource</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+    <value>Add Unlock Frame Rate Limit Option in Game Launcher Process Section</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
-    <value>启动游戏-解锁帧率限制</value>
+    <value>Game Launcher - Unlock Frame Rate Limit</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>You need to move data in the directory manually, otherwise new user data will be created.</value>

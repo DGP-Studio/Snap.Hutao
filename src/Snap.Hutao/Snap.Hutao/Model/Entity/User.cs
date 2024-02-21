@@ -71,6 +71,8 @@ internal sealed class User : ISelectable, IReorderable, IMappingFrom<User, Cooki
 
     public int Index { get; set; }
 
+    public string? PreferredUid { get; set; }
+
     /// <summary>
     /// 创建一个新的用户
     /// </summary>

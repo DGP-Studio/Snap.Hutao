@@ -7,6 +7,7 @@ namespace Snap.Hutao.Core.ExceptionService;
 /// 数据库损坏异常
 /// </summary>
 [HighQuality]
+[Obsolete("Use HutaoException instead")]
 internal sealed class DatabaseCorruptedException : Exception
 {
     /// <summary>

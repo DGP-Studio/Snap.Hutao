@@ -767,6 +767,21 @@
   <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
     <value>角色橱窗：{0:MM-dd HH:mm}</value>
   </data>
+  <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
+    <value>必应每日一图</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
+    <value>胡桃每日一图</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
+    <value>官方启动器壁纸</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
+    <value>本地随机图片</value>
+  </data>
+  <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
+    <value>无背景图片</value>
+  </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>保存养成计划状态失败</value>
   </data>
@@ -823,6 +838,9 @@
   </data>
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>参量质变仪已准备完成</value>
+  </data>
+  <data name="ServiceDiscordActivityElevationRequiredHint" xml:space="preserve">
+    <value>权限不足，将无法为您设置 Discord Activity 状态</value>
   </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
     <value>正在提瓦特大陆中探索</value>
@@ -1391,6 +1409,9 @@
   <data name="ViewLaunchGameHeader" xml:space="preserve">
     <value>启动游戏</value>
   </data>
+  <data name="ViewListViewDragElevatedHint" xml:space="preserve">
+    <value>管理员模式下无法拖动排序</value>
+  </data>
   <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
     <value>存档 [{0}] 添加成功</value>
   </data>
@@ -1669,6 +1690,9 @@
   </data>
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
     <value>完成</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryContentTypeNotMatch" xml:space="preserve">
+    <value>响应内容不是有效的文件字节流</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
     <value>等待中</value>
@@ -2186,6 +2210,12 @@
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
     <value>启动参数</value>
   </data>
+  <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
+    <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
+  </data>
+  <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
+    <value>Better GI</value>
+  </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>常规</value>
   </data>
@@ -2326,6 +2356,15 @@
   </data>
   <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
     <value>背景材质</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageCopyrightHeader" xml:space="preserve">
+    <value>图片版权信息</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
+    <value>更改窗体的背景图片来源，重启胡桃以尽快生效</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
+    <value>背景图片</value>
   </data>
   <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
     <value>图片缓存 在此处存放</value>

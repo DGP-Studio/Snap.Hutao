@@ -12,6 +12,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
+using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Hutao;
@@ -40,6 +41,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
+    private readonly BackgroundImageOptions backgroundImageOptions;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IShellLinkInterop shellLinkInterop;
@@ -54,6 +56,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly AppOptions appOptions;
 
     private NameValue<BackdropType>? selectedBackdropType;
+    private NameValue<BackgroundImageType>? selectedBackgroundImageType;
     private NameValue<CultureInfo>? selectedCulture;
     private NameValue<Region>? selectedRegion;
     private FolderViewModel? cacheFolderView;
@@ -73,6 +76,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public LaunchOptions LaunchOptions { get => launchOptions; }
 
+    public BackgroundImageOptions BackgroundImageOptions { get => backgroundImageOptions; }
+
     public HutaoPassportViewModel Passport { get => hutaoPassportViewModel; }
 
     public NameValue<BackdropType>? SelectedBackdropType
@@ -83,6 +88,18 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             if (SetProperty(ref selectedBackdropType, value) && value is not null)
             {
                 AppOptions.BackdropType = value.Value;
+            }
+        }
+    }
+
+    public NameValue<BackgroundImageType>? SelectedBackgroundImageType
+    {
+        get => selectedBackgroundImageType ??= AppOptions.BackgroundImageTypes.Single(t => t.Value == AppOptions.BackgroundImageType);
+        set
+        {
+            if (SetProperty(ref selectedBackgroundImageType, value) && value is not null)
+            {
+                AppOptions.BackgroundImageType = value.Value;
             }
         }
     }
@@ -121,6 +138,11 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
         set
         {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
             ConfirmSetIsAllocConsoleDebugModeEnabledAsync(value).SafeForget();
 
             async ValueTask ConfirmSetIsAllocConsoleDebugModeEnabledAsync(bool value)
@@ -147,6 +169,11 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         get => launchOptions.IsAdvancedLaunchOptionsEnabled;
         set
         {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
             ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(value).SafeForget();
 
             async ValueTask ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(bool value)
@@ -157,13 +184,13 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
                     if (await dialog.ConfirmAsync(SH.ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader).ConfigureAwait(true))
                     {
                         launchOptions.IsAdvancedLaunchOptionsEnabled = true;
-                        OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                        OnPropertyChanged(nameof(IsAdvancedLaunchOptionsEnabled));
                         return;
                     }
                 }
 
                 launchOptions.IsAdvancedLaunchOptionsEnabled = false;
-                OnPropertyChanged(nameof(IsAllocConsoleDebugModeEnabled));
+                OnPropertyChanged(nameof(IsAdvancedLaunchOptionsEnabled));
             }
         }
     }

@@ -45,6 +45,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private bool? isWindowsHDREnabled;
     private AspectRatio? selectedAspectRatio;
     private bool? useStarwardPlayTimeStatistics;
+    private bool? useBetterGenshinImpactAutomation;
     private bool? setDiscordActivityWhenPlaying;
 
     public LaunchOptions(IServiceProvider serviceProvider)
@@ -207,6 +208,7 @@ internal sealed class LaunchOptions : DbStoreOptions
 
     public List<AspectRatio> AspectRatios { get; } =
     [
+        new(3840, 2160),
         new(2560, 1600),
         new(2560, 1440),
         new(2410, 1080),
@@ -218,7 +220,7 @@ internal sealed class LaunchOptions : DbStoreOptions
         get => selectedAspectRatio;
         set
         {
-            if (SetProperty(ref selectedAspectRatio, value) && value is AspectRatio aspectRatio)
+            if (SetProperty(ref selectedAspectRatio, value) && value is { } aspectRatio)
             {
                 (ScreenWidth, ScreenHeight) = ((int)aspectRatio.Width, (int)aspectRatio.Height);
             }
@@ -229,6 +231,12 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, false);
         set => SetOption(ref useStarwardPlayTimeStatistics, SettingEntry.LaunchUseStarwardPlayTimeStatistics, value);
+    }
+
+    public bool UseBetterGenshinImpactAutomation
+    {
+        get => GetOption(ref useBetterGenshinImpactAutomation, SettingEntry.LaunchUseBetterGenshinImpactAutomation, false);
+        set => SetOption(ref useBetterGenshinImpactAutomation, SettingEntry.LaunchUseBetterGenshinImpactAutomation, value);
     }
 
     public bool SetDiscordActivityWhenPlaying

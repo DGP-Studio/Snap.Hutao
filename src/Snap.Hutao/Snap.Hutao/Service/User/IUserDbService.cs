@@ -14,5 +14,6 @@ internal interface IUserDbService
     ValueTask<List<Model.Entity.User>> GetUserListAsync();
 
     ValueTask UpdateUserAsync(Model.Entity.User user);
+
     ValueTask ClearUserSelectionAsync();
 }

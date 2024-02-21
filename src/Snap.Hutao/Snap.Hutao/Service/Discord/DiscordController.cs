@@ -132,13 +132,6 @@ internal static class DiscordController
             return;
         }
 
-        // Actually requires a discord client to be running on Windows platform.
-        // If not, the following creation code will throw.
-        if (System.Diagnostics.Process.GetProcessesByName("Discord").Length <= 0)
-        {
-            return;
-        }
-
         lock (SyncRoot)
         {
             DiscordCreateParams @params = default;

@@ -5,11 +5,11 @@ using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Service.Game.Scheme;
-using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
-using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Content;
+using Snap.Hutao.Web.Hutao.Wallpaper;
 using Snap.Hutao.Web.Response;
+using Snap.Hutao.Win32.Foundation;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.Graphics.Imaging;
 
 namespace Snap.Hutao.Service.BackgroundImage;
@@ -20,11 +20,13 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 {
     private static readonly HashSet<string> AllowedFormats = [".bmp", ".gif", ".ico", ".jpg", ".jpeg", ".png", ".tiff", ".webp"];
 
+    private readonly BackgroundImageOptions backgroundImageOptions;
     private readonly IServiceProvider serviceProvider;
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
+    private readonly AppOptions appOptions;
 
-    private HashSet<string> backgroundPathSet;
+    private HashSet<string> currentBackgroundPathSet;
 
     public async ValueTask<ValueResult<bool, BackgroundImage>> GetNextBackgroundImageAsync(BackgroundImage? previous)
     {
@@ -35,17 +37,31 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
             return new(false, default!);
         }
 
-        string path = System.Random.Shared.GetItems(backgroundSet.ToArray(), 1)[0];
+        string path = System.Random.Shared.GetItems([..backgroundSet], 1)[0];
         backgroundSet.Remove(path);
 
-        if (string.Equals(path, previous?.ImageSource.UriSource.ToString(), StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(path, previous?.Path, StringComparison.OrdinalIgnoreCase))
         {
             return new(false, default!);
         }
 
         using (FileStream fileStream = File.OpenRead(path))
         {
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream.AsRandomAccessStream());
+            BitmapDecoder decoder;
+            try
+            {
+                decoder = await BitmapDecoder.CreateAsync(fileStream.AsRandomAccessStream());
+            }
+            catch (COMException comException)
+            {
+                if (comException.HResult != HRESULT.E_FAIL)
+                {
+                    throw;
+                }
+
+                return new(false, default!);
+            }
+
             SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight);
             Bgra32 accentColor = softwareBitmap.GetAccentColor();
 
@@ -53,6 +69,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
             BackgroundImage background = new()
             {
+                Path = path,
                 ImageSource = new(path.ToUri()),
                 AccentColor = accentColor,
                 Luminance = accentColor.Luminance,
@@ -64,32 +81,55 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
     private async ValueTask<HashSet<string>> SkipOrInitBackgroundAsync()
     {
-        if (backgroundPathSet is null || backgroundPathSet.Count <= 0)
+        switch (appOptions.BackgroundImageType)
         {
-            string backgroundFolder = runtimeOptions.GetDataFolderBackgroundFolder();
-            Directory.CreateDirectory(backgroundFolder);
-            backgroundPathSet = Directory
-                .GetFiles(backgroundFolder, "*.*", SearchOption.AllDirectories)
-                .Where(path => AllowedFormats.Contains(Path.GetExtension(path)))
-                .ToHashSet();
-
-            // No image found
-            if (backgroundPathSet.Count <= 0)
-            {
-                ResourceClient resourceClient = serviceProvider.GetRequiredService<ResourceClient>();
-                string launguageCode = serviceProvider.GetRequiredService<CultureOptions>().LanguageCode;
-                LaunchScheme scheme = launguageCode is "zh-cn"
-                    ? KnownLaunchSchemes.Get().First(scheme => !scheme.IsOversea && scheme.IsNotCompatOnly)
-                    : KnownLaunchSchemes.Get().First(scheme => scheme.IsOversea && scheme.IsNotCompatOnly);
-                Response<GameContent> response = await resourceClient.GetContentAsync(scheme, launguageCode).ConfigureAwait(false);
-                if (response is { Data.Advertisement.Background: string url })
+            case BackgroundImageType.LocalFolder:
                 {
-                    ValueFile file = await serviceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url.ToUri()).ConfigureAwait(false);
-                    backgroundPathSet = [file];
+                    if (currentBackgroundPathSet is not { Count: > 0 })
+                    {
+                        string backgroundFolder = runtimeOptions.GetDataFolderBackgroundFolder();
+                        Directory.CreateDirectory(backgroundFolder);
+
+                        currentBackgroundPathSet = Directory
+                            .GetFiles(backgroundFolder, "*.*", SearchOption.AllDirectories)
+                            .Where(path => AllowedFormats.Contains(Path.GetExtension(path)))
+                            .ToHashSet();
+                    }
+
+                    backgroundImageOptions.Wallpaper = default;
+                    break;
+                }
+
+            case BackgroundImageType.HutaoBing:
+                await SetCurrentBackgroundPathSetAsync(client => client.GetBingWallpaperAsync()).ConfigureAwait(false);
+                break;
+            case BackgroundImageType.HutaoDaily:
+                await SetCurrentBackgroundPathSetAsync(client => client.GetTodayWallpaperAsync()).ConfigureAwait(false);
+                break;
+            case BackgroundImageType.HutaoOfficialLauncher:
+                await SetCurrentBackgroundPathSetAsync(client => client.GetLauncherWallpaperAsync()).ConfigureAwait(false);
+                break;
+        }
+
+        currentBackgroundPathSet ??= [];
+        return currentBackgroundPathSet;
+
+        async Task SetCurrentBackgroundPathSetAsync(Func<HutaoWallpaperClient, ValueTask<Response<Wallpaper>>> responseFactory)
+        {
+            HutaoWallpaperClient wallpaperClient = serviceProvider.GetRequiredService<HutaoWallpaperClient>();
+            Response<Wallpaper> response = await responseFactory(wallpaperClient).ConfigureAwait(false);
+            if (response is { Data: Wallpaper wallpaper })
+            {
+                await taskContext.SwitchToMainThreadAsync();
+                backgroundImageOptions.Wallpaper = wallpaper;
+
+                await taskContext.SwitchToBackgroundAsync();
+                if (wallpaper.Url is { } url)
+                {
+                    ValueFile file = await serviceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
+                    currentBackgroundPathSet = [file];
                 }
             }
         }
-
-        return backgroundPathSet;
     }
 }

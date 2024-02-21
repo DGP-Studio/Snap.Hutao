@@ -29,17 +29,19 @@ internal sealed unsafe class LoopbackManager : ObservableObject
         INET_FIREWALL_APP_CONTAINER* pContainers = default;
         try
         {
-            WIN32_ERROR error = NetworkIsolationEnumAppContainers(NETISO_FLAG.NETISO_FLAG_MAX, out uint acCount, out pContainers);
-            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error));
-            for (uint i = 0; i < acCount; i++)
             {
-                INET_FIREWALL_APP_CONTAINER* pContainer = pContainers + i;
-                ReadOnlySpan<char> appContainerName = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pContainer->appContainerName);
-                if (appContainerName.Equals(runtimeOptions.FamilyName, StringComparison.Ordinal))
+                WIN32_ERROR error = NetworkIsolationEnumAppContainers(NETISO_FLAG.NETISO_FLAG_MAX, out uint acCount, out pContainers);
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error));
+                for (uint i = 0; i < acCount; i++)
                 {
-                    ConvertSidToStringSidW(pContainer->appContainerSid, out PWSTR stringSid);
-                    hutaoContainerStringSID = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid).ToString();
-                    break;
+                    INET_FIREWALL_APP_CONTAINER* pContainer = pContainers + i;
+                    ReadOnlySpan<char> appContainerName = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(pContainer->appContainerName);
+                    if (appContainerName.Equals(runtimeOptions.FamilyName, StringComparison.Ordinal))
+                    {
+                        ConvertSidToStringSidW(pContainer->appContainerSid, out PWSTR stringSid);
+                        hutaoContainerStringSID = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid).ToString();
+                        break;
+                    }
                 }
             }
         }
@@ -49,16 +51,18 @@ internal sealed unsafe class LoopbackManager : ObservableObject
             _ = NetworkIsolationFreeAppContainers(pContainers);
         }
 
-        WIN32_ERROR error2 = NetworkIsolationGetAppContainerConfig(out uint accCount, out SID_AND_ATTRIBUTES* pSids);
-        Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error2));
-        for (uint i = 0; i < accCount; i++)
         {
-            ConvertSidToStringSidW((pSids + i)->Sid, out PWSTR stringSid);
-            ReadOnlySpan<char> stringSidSpan = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid);
-            if (stringSidSpan.Equals(hutaoContainerStringSID, StringComparison.Ordinal))
+            WIN32_ERROR error = NetworkIsolationGetAppContainerConfig(out uint accCount, out SID_AND_ATTRIBUTES* pSids);
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(error));
+            for (uint i = 0; i < accCount; i++)
             {
-                IsLoopbackEnabled = true;
-                break;
+                ConvertSidToStringSidW((pSids + i)->Sid, out PWSTR stringSid);
+                ReadOnlySpan<char> stringSidSpan = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(stringSid);
+                if (stringSidSpan.Equals(hutaoContainerStringSID, StringComparison.Ordinal))
+                {
+                    IsLoopbackEnabled = true;
+                    break;
+                }
             }
         }
     }
