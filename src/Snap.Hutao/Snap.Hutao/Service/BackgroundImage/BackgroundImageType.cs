@@ -3,11 +3,21 @@
 
 namespace Snap.Hutao.Service.BackgroundImage;
 
+[Localization]
 internal enum BackgroundImageType
 {
+    [LocalizationKey(nameof(SH.ServiceBackgroundImageTypeNone))]
     None,
+
+    [LocalizationKey(nameof(SH.ServiceBackgroundImageTypeLocalFolder))]
     LocalFolder,
+
+    [LocalizationKey(nameof(SH.ServiceBackgroundImageTypeBing))]
     HutaoBing,
+
+    [LocalizationKey(nameof(SH.ServiceBackgroundImageTypeDaily))]
     HutaoDaily,
+
+    [LocalizationKey(nameof(SH.ServiceBackgroundImageTypeLauncher))]
     HutaoOfficialLauncher,
 }

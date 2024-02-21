@@ -23,10 +23,12 @@ internal static class ControlAnimationConstants
     /// <summary>
     /// 图像淡入
     /// </summary>
-    public static readonly TimeSpan ImageFadeIn = TimeSpan.FromSeconds(0.3);
+    public static readonly TimeSpan ImageScaleFadeIn = TimeSpan.FromSeconds(0.3);
 
     /// <summary>
     /// 图像淡出
     /// </summary>
-    public static readonly TimeSpan ImageFadeOut = TimeSpan.FromSeconds(0.2);
+    public static readonly TimeSpan ImageScaleFadeOut = TimeSpan.FromSeconds(0.2);
+
+    public static readonly TimeSpan ImageOpacityFadeInOut = TimeSpan.FromSeconds(1);
 }

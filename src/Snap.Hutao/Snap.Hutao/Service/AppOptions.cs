@@ -34,6 +34,8 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, EnumToStringOrEmpty);
     }
 
+    public List<NameValue<BackgroundImageType>> BackgroundImageTypes { get; } = CollectionsNameValue.FromEnum<BackgroundImageType>(type => type.GetLocalizedDescription());
+
     public BackgroundImageType BackgroundImageType
     {
         get => GetOption(ref backgroundImageType, SettingEntry.BackgroundImageType, EnumParse<BackgroundImageType>, BackgroundImageType.HutaoOfficialLauncher).Value;

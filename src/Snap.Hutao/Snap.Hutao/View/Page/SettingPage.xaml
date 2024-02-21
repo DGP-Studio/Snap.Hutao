@@ -312,6 +312,17 @@
                                             SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
                                     </shc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageSettingBackgroundImageDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageSettingBackgroundImageHeader}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE8B9;}">
+                                    <shc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding AppOptions.BackgroundImageTypes}"
+                                            SelectedItem="{Binding SelectedBackgroundImageType, Mode=TwoWay}"/>
+                                    </shc:SizeRestrictedContentControl>
+                                </cwc:SettingsCard>
                             </StackPanel>
                         </Border>
                     </Border>

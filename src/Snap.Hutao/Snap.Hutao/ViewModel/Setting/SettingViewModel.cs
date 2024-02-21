@@ -12,6 +12,7 @@ using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
+using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Hutao;
@@ -54,6 +55,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly AppOptions appOptions;
 
     private NameValue<BackdropType>? selectedBackdropType;
+    private NameValue<BackgroundImageType>? selectedBackgroundImageType;
     private NameValue<CultureInfo>? selectedCulture;
     private NameValue<Region>? selectedRegion;
     private FolderViewModel? cacheFolderView;
@@ -83,6 +85,18 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             if (SetProperty(ref selectedBackdropType, value) && value is not null)
             {
                 AppOptions.BackdropType = value.Value;
+            }
+        }
+    }
+
+    public NameValue<BackgroundImageType>? SelectedBackgroundImageType
+    {
+        get => selectedBackgroundImageType ??= AppOptions.BackgroundImageTypes.Single(t => t.Value == AppOptions.BackgroundImageType);
+        set
+        {
+            if (SetProperty(ref selectedBackgroundImageType, value) && value is not null)
+            {
+                AppOptions.BackgroundImageType = value.Value;
             }
         }
     }
