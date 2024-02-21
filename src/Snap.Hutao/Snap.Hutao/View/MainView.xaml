@@ -31,8 +31,8 @@
     <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Transitions="{ThemeResource EntranceThemeTransitions}">
         <Image
             x:Name="BackdroundImagePresenter"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
             Opacity="0"
             Stretch="UniformToFill"/>
 

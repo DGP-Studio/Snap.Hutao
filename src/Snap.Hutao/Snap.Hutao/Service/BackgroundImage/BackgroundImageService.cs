@@ -7,7 +7,9 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Web.Hutao.Wallpaper;
 using Snap.Hutao.Web.Response;
+using Snap.Hutao.Win32.Foundation;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.Graphics.Imaging;
 
 namespace Snap.Hutao.Service.BackgroundImage;
@@ -44,7 +46,21 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
         using (FileStream fileStream = File.OpenRead(path))
         {
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream.AsRandomAccessStream());
+            BitmapDecoder decoder;
+            try
+            {
+                decoder = await BitmapDecoder.CreateAsync(fileStream.AsRandomAccessStream());
+            }
+            catch (COMException comException)
+            {
+                if (comException.HResult != HRESULT.E_FAIL)
+                {
+                    throw;
+                }
+
+                return new(false, default!);
+            }
+
             SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight);
             Bgra32 accentColor = softwareBitmap.GetAccentColor();
 
