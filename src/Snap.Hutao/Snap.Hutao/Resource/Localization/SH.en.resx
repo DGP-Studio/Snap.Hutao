@@ -768,19 +768,19 @@
     <value>Character Showcase: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
-    <value>必应每日一图</value>
+    <value>Bing Daily Wallpaper</value>
   </data>
   <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
-    <value>胡桃每日一图</value>
+    <value>Hutao Daily Wallpaper</value>
   </data>
   <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
-    <value>官方启动器壁纸</value>
+    <value>Genshin Official Launcher Wallpaper</value>
   </data>
   <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
-    <value>本地随机图片</value>
+    <value>Local Random Image</value>
   </data>
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
-    <value>无背景图片</value>
+    <value>No Wallpaper</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>Failed to save development plan status</value>
@@ -1691,6 +1691,9 @@
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
     <value>Completed</value>
   </data>
+  <data name="ViewModelWelcomeDownloadSummaryContentTypeNotMatch" xml:space="preserve">
+    <value>Response stream does not contain valid content type</value>
+  </data>
   <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
     <value>Queued</value>
   </data>
@@ -2354,11 +2357,14 @@
   <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
     <value>Backdrop Material</value>
   </data>
+  <data name="ViewPageSettingBackgroundImageCopyrightHeader" xml:space="preserve">
+    <value>Image Copyright Information</value>
+  </data>
   <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
-    <value>更改窗体的背景图片来源，重启胡桃以尽快生效</value>
+    <value>Change the source of wallpaper, restart Snap Hutao to apply the change</value>
   </data>
   <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
-    <value>背景图片</value>
+    <value>Wallpaper Image</value>
   </data>
   <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
     <value>Images cache are saved here</value>
