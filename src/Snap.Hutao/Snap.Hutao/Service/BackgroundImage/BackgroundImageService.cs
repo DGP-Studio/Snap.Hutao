@@ -20,6 +20,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 {
     private static readonly HashSet<string> AllowedFormats = [".bmp", ".gif", ".ico", ".jpg", ".jpeg", ".png", ".tiff", ".webp"];
 
+    private readonly BackgroundImageOptions backgroundImageOptions;
     private readonly IServiceProvider serviceProvider;
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
@@ -95,6 +96,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                             .ToHashSet();
                     }
 
+                    backgroundImageOptions.Wallpaper = default;
                     break;
                 }
 
@@ -116,10 +118,17 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         {
             HutaoWallpaperClient wallpaperClient = serviceProvider.GetRequiredService<HutaoWallpaperClient>();
             Response<Wallpaper> response = await responseFactory(wallpaperClient).ConfigureAwait(false);
-            if (response is { Data.Url: Uri url })
+            if (response is { Data: Wallpaper wallpaper })
             {
-                ValueFile file = await serviceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
-                currentBackgroundPathSet = [file];
+                await taskContext.SwitchToMainThreadAsync();
+                backgroundImageOptions.Wallpaper = wallpaper;
+
+                await taskContext.SwitchToBackgroundAsync();
+                if (wallpaper.Url is { } url)
+                {
+                    ValueFile file = await serviceProvider.GetRequiredService<IImageCache>().GetFileFromCacheAsync(url).ConfigureAwait(false);
+                    currentBackgroundPathSet = [file];
+                }
             }
         }
     }

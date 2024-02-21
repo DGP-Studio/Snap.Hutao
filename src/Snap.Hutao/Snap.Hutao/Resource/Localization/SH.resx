@@ -2357,6 +2357,9 @@
   <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
     <value>背景材质</value>
   </data>
+  <data name="ViewPageSettingBackgroundImageCopyrightHeader" xml:space="preserve">
+    <value>图片版权信息</value>
+  </data>
   <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
     <value>更改窗体的背景图片来源，重启胡桃以尽快生效</value>
   </data>

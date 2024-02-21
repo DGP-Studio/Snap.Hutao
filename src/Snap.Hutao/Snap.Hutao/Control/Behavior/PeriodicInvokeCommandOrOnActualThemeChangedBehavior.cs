@@ -66,8 +66,11 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                     break;
                 }
 
+                ITaskContext taskContext = Ioc.Default.GetRequiredService<ITaskContext>();
+                await taskContext.SwitchToMainThreadAsync();
                 TryExecuteCommand();
 
+                await taskContext.SwitchToBackgroundAsync();
                 try
                 {
                     Task nextTickTask = timer.WaitForNextTickAsync(periodicTimerCancellationTokenSource.Token).AsTask();

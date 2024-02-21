@@ -3,10 +3,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:cwb="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
@@ -312,17 +314,31 @@
                                             SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
                                     </shc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
-                                <cwc:SettingsCard
+                                <cwc:SettingsExpander
                                     Description="{shcm:ResourceString Name=ViewPageSettingBackgroundImageDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageSettingBackgroundImageHeader}"
-                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE8B9;}">
-                                    <shc:SizeRestrictedContentControl>
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE8B9;}"
+                                    IsExpanded="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToBoolConverter}}">
+                                    <shc:SizeRestrictedContentControl VerticalAlignment="Center">
                                         <ComboBox
                                             DisplayMemberPath="Name"
                                             ItemsSource="{Binding AppOptions.BackgroundImageTypes}"
                                             SelectedItem="{Binding SelectedBackgroundImageType, Mode=TwoWay}"/>
                                     </shc:SizeRestrictedContentControl>
-                                </cwc:SettingsCard>
+                                    <cwc:SettingsExpander.Items>
+                                        <cwc:SettingsCard
+                                            Description="{Binding BackgroundImageOptions.Wallpaper.Author}"
+                                            Header="{shcm:ResourceString Name=ViewPageSettingBackgroundImageCopyrightHeader}"
+                                            IsClickEnabled="True"
+                                            Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                            <mxi:Interaction.Behaviors>
+                                                <mxic:EventTriggerBehavior EventName="Click">
+                                                    <cwb:NavigateToUriAction NavigateUri="{Binding BackgroundImageOptions.Wallpaper.SourceUrl}"/>
+                                                </mxic:EventTriggerBehavior>
+                                            </mxi:Interaction.Behaviors>
+                                        </cwc:SettingsCard>
+                                    </cwc:SettingsExpander.Items>
+                                </cwc:SettingsExpander>
                             </StackPanel>
                         </Border>
                     </Border>

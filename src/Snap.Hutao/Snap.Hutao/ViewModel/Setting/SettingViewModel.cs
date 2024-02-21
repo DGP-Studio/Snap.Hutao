@@ -41,6 +41,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly HutaoPassportViewModel hutaoPassportViewModel;
+    private readonly BackgroundImageOptions backgroundImageOptions;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly INavigationService navigationService;
     private readonly IShellLinkInterop shellLinkInterop;
@@ -74,6 +75,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     public HotKeyOptions HotKeyOptions { get => hotKeyOptions; }
 
     public LaunchOptions LaunchOptions { get => launchOptions; }
+
+    public BackgroundImageOptions BackgroundImageOptions { get => backgroundImageOptions; }
 
     public HutaoPassportViewModel Passport { get => hutaoPassportViewModel; }
 

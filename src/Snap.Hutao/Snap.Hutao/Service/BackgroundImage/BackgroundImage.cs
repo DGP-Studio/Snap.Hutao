@@ -2,11 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Media.Imaging;
-using Snap.Hutao.Control.Media;
-using Snap.Hutao.Core;
-using System.IO;
-using System.Runtime.InteropServices;
-using Windows.Graphics.Imaging;
 using Windows.UI;
 
 namespace Snap.Hutao.Service.BackgroundImage;
