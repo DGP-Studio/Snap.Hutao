@@ -1691,6 +1691,9 @@
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
     <value>Завершено</value>
   </data>
+  <data name="ViewModelWelcomeDownloadSummaryContentTypeNotMatch" xml:space="preserve">
+    <value>响应内容不是有效的文件字节流</value>
+  </data>
   <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
     <value>В процессе</value>
   </data>
@@ -2353,6 +2356,9 @@
   </data>
   <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
     <value>背景材质</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageCopyrightHeader" xml:space="preserve">
+    <value>图片版权信息</value>
   </data>
   <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
     <value>更改窗体的背景图片来源，重启胡桃以尽快生效</value>
