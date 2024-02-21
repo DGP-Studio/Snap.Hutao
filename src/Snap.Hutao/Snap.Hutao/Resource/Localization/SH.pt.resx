@@ -824,6 +824,9 @@
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>O Transformador Paramétrico está pronto</value>
   </data>
+  <data name="ServiceDiscordActivityElevationRequiredHint" xml:space="preserve">
+    <value>权限不足，将无法为您设置 Discord Activity 状态</value>
+  </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
     <value>Explorando em Teyvat</value>
   </data>
@@ -1390,6 +1393,9 @@
   </data>
   <data name="ViewLaunchGameHeader" xml:space="preserve">
     <value>Inicializador</value>
+  </data>
+  <data name="ViewListViewDragElevatedHint" xml:space="preserve">
+    <value>管理员模式下无法拖动排序</value>
   </data>
   <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
     <value>Arquivo [{0}] adicionado com sucesso</value>
@@ -2186,6 +2192,12 @@
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
     <value>Argumentos de inicialização</value>
   </data>
+  <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
+    <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
+  </data>
+  <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
+    <value>Better GI</value>
+  </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>Geral</value>
   </data>
@@ -2532,7 +2544,7 @@
     <value>自定义背景图片，支持 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
-    <value>打开背景图片文件夹</value>
+    <value>Abrir pasta do fundo</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>Resetar</value>
