@@ -12,12 +12,19 @@ internal static class SupportedCultures
     [
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
+        /*ToNameValue(CultureInfo.GetCultureInfo("de")),*/
         ToNameValue(CultureInfo.GetCultureInfo("en")),
+        /*ToNameValue(CultureInfo.GetCultureInfo("es")),*/
+        /*ToNameValue(CultureInfo.GetCultureInfo("fr")),*/
         ToNameValue(CultureInfo.GetCultureInfo("id")),
+        /*ToNameValue(CultureInfo.GetCultureInfo("it")),*/
         ToNameValue(CultureInfo.GetCultureInfo("ja")),
-        ToNameValue(CultureInfo.GetCultureInfo("pt")),
         ToNameValue(CultureInfo.GetCultureInfo("ko")),
+        ToNameValue(CultureInfo.GetCultureInfo("pt")),
         ToNameValue(CultureInfo.GetCultureInfo("ru")),
+        /*ToNameValue(CultureInfo.GetCultureInfo("th")),*/
+        /*ToNameValue(CultureInfo.GetCultureInfo("tr")),*/
+        /*ToNameValue(CultureInfo.GetCultureInfo("vi")),*/
     ];
 
     public static List<NameValue<CultureInfo>> Get()
