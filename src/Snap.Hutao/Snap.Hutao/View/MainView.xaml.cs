@@ -27,10 +27,14 @@ internal sealed partial class MainView : UserControl
     /// </summary>
     public MainView()
     {
-        DataContext = Ioc.Default.GetRequiredService<MainViewModel>();
+        IServiceProvider serviceProvider = Ioc.Default;
+
+        MainViewModel mainViewModel = serviceProvider.GetRequiredService<MainViewModel>();
+
+        DataContext = mainViewModel;
         InitializeComponent();
 
-        IServiceProvider serviceProvider = Ioc.Default;
+        mainViewModel.Initialize(BackgroundImagePresenter);
 
         navigationService = serviceProvider.GetRequiredService<INavigationService>();
         if (navigationService is INavigationInitialization navigationInitialization)
