@@ -148,17 +148,15 @@ internal sealed partial class Activation : IActivation
 
         await taskContext.SwitchToBackgroundAsync();
 
-        serviceProvider
-            .GetRequiredService<IMetadataService>()
-            .As<IMetadataServiceInitialization>()?
-            .InitializeInternalAsync()
-            .SafeForget();
+        if (serviceProvider.GetRequiredService<IMetadataService>() is IMetadataServiceInitialization metadataServiceInitialization)
+        {
+            metadataServiceInitialization.InitializeInternalAsync().SafeForget();
+        }
 
-        serviceProvider
-            .GetRequiredService<IHutaoUserService>()
-            .As<IHutaoUserServiceInitialization>()?
-            .InitializeInternalAsync()
-            .SafeForget();
+        if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
+        {
+            hutaoUserServiceInitialization.InitializeInternalAsync().SafeForget();
+        }
 
         serviceProvider
             .GetRequiredService<IDiscordService>()

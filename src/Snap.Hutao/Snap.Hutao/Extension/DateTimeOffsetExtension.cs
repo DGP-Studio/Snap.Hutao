@@ -18,20 +18,11 @@ internal static class DateTimeOffsetExtension
             return defaultValue;
         }
 
-        try
+        return value switch
         {
-            return DateTimeOffset.FromUnixTimeSeconds(value);
-        }
-        catch (ArgumentOutOfRangeException)
-        {
-            try
-            {
-                return DateTimeOffset.FromUnixTimeMilliseconds(value);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return defaultValue;
-            }
-        }
+            >= -62135596800 and <= 253402300799 => DateTimeOffset.FromUnixTimeSeconds(value),
+            >= -62135596800000 and <= 253402300799999 => DateTimeOffset.FromUnixTimeMilliseconds(value),
+            _ => defaultValue,
+        };
     }
 }

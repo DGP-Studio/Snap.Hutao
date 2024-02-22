@@ -7,4 +7,6 @@ internal enum HutaoExceptionKind
 {
     None,
     ServiceTypeCastFailed,
+    FileSystemCreateFileInsufficientPermissions,
+    PrivateNamedPipeContentHashIncorrect,
 }

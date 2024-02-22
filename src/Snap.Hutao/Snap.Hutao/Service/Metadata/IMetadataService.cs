@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// 元数据服务
 /// </summary>
 [HighQuality]
-internal interface IMetadataService : ICastService
+internal interface IMetadataService
 {
     IMemoryCache MemoryCache { get; }
 

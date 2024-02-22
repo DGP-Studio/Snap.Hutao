@@ -46,34 +46,6 @@ internal static partial class EnumerableExtension
         return first;
     }
 
-    public static string JoinToString<T>(this IEnumerable<T> source, char separator, Action<StringBuilder, T> selector)
-    {
-        StringBuilder resultBuilder = new();
-
-        IEnumerator<T> enumerator = source.GetEnumerator();
-        if (!enumerator.MoveNext())
-        {
-            return string.Empty;
-        }
-
-        T first = enumerator.Current;
-        selector(resultBuilder, first);
-
-        if (!enumerator.MoveNext())
-        {
-            return resultBuilder.ToString();
-        }
-
-        do
-        {
-            resultBuilder.Append(separator);
-            selector(resultBuilder, enumerator.Current);
-        }
-        while (enumerator.MoveNext());
-
-        return resultBuilder.ToString();
-    }
-
     public static string JoinToString<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source, char separator, Action<StringBuilder, TKey, TValue> selector)
     {
         StringBuilder resultBuilder = new();
