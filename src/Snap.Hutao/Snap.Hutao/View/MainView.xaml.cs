@@ -27,17 +27,44 @@ internal sealed partial class MainView : UserControl
     /// </summary>
     public MainView()
     {
-        DataContext = Ioc.Default.GetRequiredService<MainViewModel>();
+        IServiceProvider serviceProvider = Ioc.Default;
+
+        MainViewModel mainViewModel = serviceProvider.GetRequiredService<MainViewModel>();
+
+        DataContext = mainViewModel;
         InitializeComponent();
 
-        IServiceProvider serviceProvider = Ioc.Default;
+        mainViewModel.Initialize(new BackgroundImagePresenterAccessor(BackgroundImagePresenter));
 
         navigationService = serviceProvider.GetRequiredService<INavigationService>();
         if (navigationService is INavigationInitialization navigationInitialization)
         {
-            navigationInitialization.Initialize(NavView, ContentFrame);
+            navigationInitialization.Initialize(new NavigationViewAccessor(NavView, ContentFrame));
         }
 
         navigationService.Navigate<AnnouncementPage>(INavigationAwaiter.Default, true);
+    }
+
+    private class NavigationViewAccessor : INavigationViewAccessor
+    {
+        public NavigationViewAccessor(NavigationView navigationView, Frame frame)
+        {
+            NavigationView = navigationView;
+            Frame = frame;
+        }
+
+        public NavigationView NavigationView { get; private set; }
+
+        public Frame Frame { get; private set; }
+    }
+
+    private class BackgroundImagePresenterAccessor : IBackgroundImagePresenterAccessor
+    {
+        public BackgroundImagePresenterAccessor(Image backgroundImagePresenter)
+        {
+            BackgroundImagePresenter = backgroundImagePresenter;
+        }
+
+        public Image BackgroundImagePresenter { get; private set; }
     }
 }

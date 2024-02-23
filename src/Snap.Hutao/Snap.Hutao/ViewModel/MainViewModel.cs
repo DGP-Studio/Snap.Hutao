@@ -1,27 +1,45 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Animations;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Snap.Hutao.Control.Animation;
 using Snap.Hutao.Control.Theme;
+using Snap.Hutao.Message;
 using Snap.Hutao.Service.BackgroundImage;
 
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class MainViewModel : Abstraction.ViewModel
+internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewModelInitialization, IRecipient<BackgroundImageTypeChangedMessage>
 {
     private readonly IBackgroundImageService backgroundImageService;
     private readonly ITaskContext taskContext;
 
     private BackgroundImage? previousBackgroundImage;
+    private Image? backgroundImagePresenter;
+
+    public void Initialize(IBackgroundImagePresenterAccessor accessor)
+    {
+        backgroundImagePresenter = accessor.BackgroundImagePresenter;
+    }
+
+    public void Receive(BackgroundImageTypeChangedMessage message)
+    {
+        UpdateBackgroundAsync().SafeForget();
+    }
 
     [Command("UpdateBackgroundCommand")]
-    private async Task UpdateBackgroundAsync(Image presenter)
+    private async Task UpdateBackgroundAsync()
     {
+        if (backgroundImagePresenter is null)
+        {
+            return;
+        }
+
         (bool isOk, BackgroundImage backgroundImage) = await backgroundImageService.GetNextBackgroundImageAsync(previousBackgroundImage).ConfigureAwait(false);
 
         if (isOk)
@@ -36,11 +54,11 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
                     duration: ControlAnimationConstants.ImageOpacityFadeInOut,
                     easingType: EasingType.Quartic,
                     easingMode: EasingMode.EaseInOut)
-                .StartAsync(presenter)
+                .StartAsync(backgroundImagePresenter)
                 .ConfigureAwait(true);
 
-            presenter.Source = backgroundImage.ImageSource;
-            double targetOpacity = ThemeHelper.IsDarkMode(presenter.ActualTheme) ? 1 - backgroundImage.Luminance : backgroundImage.Luminance;
+            backgroundImagePresenter.Source = backgroundImage.ImageSource;
+            double targetOpacity = ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme) ? 1 - backgroundImage.Luminance : backgroundImage.Luminance;
 
             await AnimationBuilder
                 .Create()
@@ -49,7 +67,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel
                     duration: ControlAnimationConstants.ImageOpacityFadeInOut,
                     easingType: EasingType.Quartic,
                     easingMode: EasingMode.EaseInOut)
-                .StartAsync(presenter)
+                .StartAsync(backgroundImagePresenter)
                 .ConfigureAwait(true);
         }
     }

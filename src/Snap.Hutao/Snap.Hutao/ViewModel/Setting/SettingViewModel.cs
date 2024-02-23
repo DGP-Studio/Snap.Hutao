@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
@@ -54,6 +55,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
+    private readonly IMessenger messenger;
 
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<BackgroundImageType>? selectedBackgroundImageType;
@@ -100,6 +102,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             if (SetProperty(ref selectedBackgroundImageType, value) && value is not null)
             {
                 AppOptions.BackgroundImageType = value.Value;
+                messenger.Send(new Message.BackgroundImageTypeChangedMessage());
             }
         }
     }
