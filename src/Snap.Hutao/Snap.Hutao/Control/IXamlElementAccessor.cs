@@ -1,6 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Message;
+namespace Snap.Hutao.Control;
 
-internal sealed class BackgroundImageTypeChangedMessage;
+internal interface IXamlElementAccessor;

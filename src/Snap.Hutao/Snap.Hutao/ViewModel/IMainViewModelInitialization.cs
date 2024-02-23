@@ -1,11 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Controls;
-
-namespace Snap.Hutao.ViewModel.Main;
+namespace Snap.Hutao.ViewModel;
 
 internal interface IMainViewModelInitialization
 {
-    void Initialize(Image backgroundImagePresenter);
+    void Initialize(IBackgroundImagePresenterAccessor accessor);
 }
