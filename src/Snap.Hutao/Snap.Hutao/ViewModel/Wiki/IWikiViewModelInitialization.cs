@@ -5,5 +5,5 @@ namespace Snap.Hutao.ViewModel.Wiki;
 
 internal interface IWikiViewModelInitialization
 {
-    void Initialize(IAutoSuggestBoxAccessor accessor);
+    void Initialize(ITokenizingTextBoxAccessor accessor);
 }

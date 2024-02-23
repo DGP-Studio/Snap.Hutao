@@ -1,12 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Controls;
+using CommunityToolkit.WinUI.Controls;
 using Snap.Hutao.Control;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-internal interface IAutoSuggestBoxAccessor : IXamlElementAccessor
+internal interface ITokenizingTextBoxAccessor : IXamlElementAccessor
 {
-    AutoSuggestBox AutoSuggestBox { get; }
+    TokenizingTextBox TokenizingTextBox { get; }
 }

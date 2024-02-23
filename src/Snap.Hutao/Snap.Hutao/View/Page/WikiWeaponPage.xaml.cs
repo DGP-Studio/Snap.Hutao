@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Controls;
+using CommunityToolkit.WinUI.Controls;
 using Snap.Hutao.Control;
 using Snap.Hutao.ViewModel.Wiki;
 
@@ -21,16 +21,16 @@ internal sealed partial class WikiWeaponPage : ScopedPage
         WikiWeaponViewModel viewModel = InitializeWith<WikiWeaponViewModel>();
         InitializeComponent();
 
-        viewModel.Initialize(new AutoSuggestBoxAccessor(WeaponSuggestBox));
+        viewModel.Initialize(new TokenizingTextBoxAccessor(WeaponSuggestBox));
     }
 
-    private class AutoSuggestBoxAccessor : IAutoSuggestBoxAccessor
+    private class TokenizingTextBoxAccessor : ITokenizingTextBoxAccessor
     {
-        public AutoSuggestBoxAccessor(AutoSuggestBox autoSuggestBox)
+        public TokenizingTextBoxAccessor(TokenizingTextBox tokenizingTextBox)
         {
-            AutoSuggestBox = autoSuggestBox;
+            TokenizingTextBox = tokenizingTextBox;
         }
 
-        public AutoSuggestBox AutoSuggestBox { get; private set; }
+        public TokenizingTextBox TokenizingTextBox { get; private set; }
     }
 }

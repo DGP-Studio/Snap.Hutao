@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Factory.ContentDialog;
@@ -45,7 +46,8 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
 
     private AdvancedCollectionView<Weapon>? weapons;
     private Weapon? selected;
-    private string? filterText;
+    private List<string>? filterTokens;
+    private string? filterToken;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelWeaponCurveMap;
     private List<Promote>? promotes;
@@ -76,15 +78,20 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
     /// <summary>
-    /// 筛选文本
+    /// 保存的筛选标志
     /// </summary>
-    public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
+    public List<string>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
 
-    public void Initialize(IAutoSuggestBoxAccessor accessor)
+    public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
+
+    public FrozenSet<string> AvailableQueries { get => availableQueries; }
+
+    public void Initialize(ITokenizingTextBoxAccessor accessor)
     {
-        accessor.AutoSuggestBox.TextChanged += OnFilterSuggestionRequested;
-        accessor.AutoSuggestBox.SuggestionChosen += OnFilterSuggestionChosen;
-        accessor.AutoSuggestBox.QuerySubmitted += ApplyFilter;
+        accessor.TokenizingTextBox.TextChanged += OnFilterSuggestionRequested;
+        accessor.TokenizingTextBox.QuerySubmitted += OnQuerySubmitted;
+        accessor.TokenizingTextBox.TokenItemAdded += OnTokenItemModified;
+        accessor.TokenizingTextBox.TokenItemRemoved += OnTokenItemModified;
     }
 
     /// <inheritdoc/>
@@ -109,6 +116,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
 
             Weapons = new(list, true);
             Selected = Weapons.View.ElementAtOrDefault(0);
+            FilterTokens = [];
 
             availableQueries = FrozenSet.ToFrozenSet(
                 [
@@ -213,36 +221,46 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(FilterText))
+        if (string.IsNullOrWhiteSpace(FilterToken))
         {
             return;
         }
 
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
-            sender.ItemsSource = availableQueries.Where(q => q.Contains(FilterText, StringComparison.OrdinalIgnoreCase));
+            sender.ItemsSource = availableQueries.Where(q => q.Contains(FilterToken, StringComparison.OrdinalIgnoreCase));
         }
     }
 
-    private void OnFilterSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        sender.Text = args.SelectedItem.ToString();
+        if (args.ChosenSuggestion is not null)
+        {
+            return;
+        }
+
+        ApplyFilter();
     }
 
-    private void ApplyFilter(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    private void OnTokenItemModified(TokenizingTextBox sender, object args)
+    {
+        ApplyFilter();
+    }
+
+    private void ApplyFilter()
     {
         if (Weapons is null)
         {
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(FilterText))
+        if (FilterTokens.IsNullOrEmpty())
         {
             Weapons.Filter = default!;
             return;
         }
 
-        Weapons.Filter = WeaponFilter.Compile(FilterText);
+        Weapons.Filter = WeaponFilter.Compile(string.Join(' ', FilterTokens));
 
         if (Selected is not null && Weapons.Contains(Selected))
         {

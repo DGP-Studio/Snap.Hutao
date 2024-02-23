@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
@@ -74,10 +73,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="SuggestionTemplate">
-            <TextBlock
-                Margin="12,0,0,0"
-                VerticalAlignment="Center"
-                Text="{Binding}"/>
+            <TextBlock VerticalAlignment="Center" Text="{Binding}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="AvatarListTemplate">
@@ -272,18 +268,20 @@
                         </CommandBar.Content>
                         <!--<AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="搜索提示"/>-->
                         <AppBarElementContainer>
-                            <AutoSuggestBox
+                            <cwc:TokenizingTextBox
                                 x:Name="AvatarSuggestBox"
-                                Width="240"
-                                Height="36"
-                                Margin="6,6,6,0"
+                                Width="520"
+                                Margin="6,0,6,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
-                                ItemTemplate="{StaticResource SuggestionTemplate}"
+                                ItemsSource="{Binding FilterTokens, Mode=TwoWay}"
+                                MaximumTokens="5"
                                 PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
-                                QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
-                                Style="{StaticResource DefaultAutoSuggestBoxStyle}"
-                                Text="{Binding FilterText, Mode=TwoWay}"/>
+                                QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
+                                SuggestedItemTemplate="{StaticResource SuggestionTemplate}"
+                                SuggestedItemsSource="{Binding AvailableQueries}"
+                                Text="{Binding FilterToken, Mode=TwoWay}"
+                                TokenItemTemplate="{StaticResource SuggestionTemplate}"/>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"

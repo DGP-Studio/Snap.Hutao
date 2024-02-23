@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Factory.ContentDialog;
@@ -20,6 +21,7 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -48,7 +50,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel, IWiki
 
     private AdvancedCollectionView<Avatar>? avatars;
     private Avatar? selected;
-    private string? filterText;
+    private ObservableCollection<string>? filterTokens;
+    private string? filterToken;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelAvatarCurveMap;
     private List<Promote>? promotes;
@@ -79,15 +82,20 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel, IWiki
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
     /// <summary>
-    /// 筛选文本
+    /// 保存的筛选标志
     /// </summary>
-    public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
+    public ObservableCollection<string>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
 
-    public void Initialize(IAutoSuggestBoxAccessor accessor)
+    public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
+
+    public FrozenSet<string>? AvailableQueries { get => availableQueries; }
+
+    public void Initialize(ITokenizingTextBoxAccessor accessor)
     {
-        accessor.AutoSuggestBox.TextChanged += OnFilterSuggestionRequested;
-        accessor.AutoSuggestBox.SuggestionChosen += OnFilterSuggestionChosen;
-        accessor.AutoSuggestBox.QuerySubmitted += ApplyFilter;
+        accessor.TokenizingTextBox.TextChanged += OnFilterSuggestionRequested;
+        accessor.TokenizingTextBox.QuerySubmitted += OnQuerySubmitted;
+        accessor.TokenizingTextBox.TokenItemAdded += OnTokenItemModified;
+        accessor.TokenizingTextBox.TokenItemRemoved += OnTokenItemModified;
     }
 
     protected override async ValueTask<bool> InitializeUIAsync()
@@ -112,6 +120,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel, IWiki
         await taskContext.SwitchToMainThreadAsync();
         Avatars = new(list, true);
         Selected = Avatars.View.ElementAtOrDefault(0);
+        FilterTokens = [];
 
         availableQueries = FrozenSet.ToFrozenSet<string>(
             [
@@ -231,36 +240,46 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel, IWiki
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(FilterText))
+        if (string.IsNullOrWhiteSpace(FilterToken))
         {
             return;
         }
 
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
-            sender.ItemsSource = availableQueries.Where(q => q.Contains(FilterText, StringComparison.OrdinalIgnoreCase));
+            sender.ItemsSource = availableQueries.Where(q => q.Contains(FilterToken, StringComparison.OrdinalIgnoreCase));
         }
     }
 
-    private void OnFilterSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        sender.Text = args.SelectedItem.ToString();
+        if (args.ChosenSuggestion is not null)
+        {
+            return;
+        }
+
+        ApplyFilter();
     }
 
-    private void ApplyFilter(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    private void OnTokenItemModified(TokenizingTextBox sender, object args)
+    {
+        ApplyFilter();
+    }
+
+    private void ApplyFilter()
     {
         if (Avatars is null)
         {
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(FilterText))
+        if (FilterTokens.IsNullOrEmpty())
         {
             Avatars.Filter = default!;
             return;
         }
 
-        Avatars.Filter = AvatarFilter.Compile(FilterText);
+        Avatars.Filter = AvatarFilter.Compile(string.Join(' ', FilterTokens));
 
         if (Selected is not null && Avatars.Contains(Selected))
         {
