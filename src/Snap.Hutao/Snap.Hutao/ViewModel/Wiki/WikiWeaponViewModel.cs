@@ -1,11 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -17,6 +19,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Response;
+using System.Collections.Frozen;
 using System.Runtime.InteropServices;
 using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -29,7 +32,7 @@ namespace Snap.Hutao.ViewModel.Wiki;
 /// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
+internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWikiViewModelInitialization
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly CalculateClient calculateClient;
@@ -46,6 +49,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelWeaponCurveMap;
     private List<Promote>? promotes;
+    private FrozenSet<string> availableQueries;
 
     /// <summary>
     /// 角色列表
@@ -76,6 +80,13 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     /// </summary>
     public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
 
+    public void Initialize(IAutoSuggestBoxAccessor accessor)
+    {
+        accessor.AutoSuggestBox.TextChanged += OnFilterSuggestionRequested;
+        accessor.AutoSuggestBox.SuggestionChosen += OnFilterSuggestionChosen;
+        accessor.AutoSuggestBox.QuerySubmitted += ApplyFilter;
+    }
+
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
@@ -98,6 +109,14 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
             Weapons = new(list, true);
             Selected = Weapons.View.ElementAtOrDefault(0);
+
+            availableQueries = FrozenSet.ToFrozenSet(
+                [
+                    .. weapons.Select(w => w.Name),
+                    .. IntrinsicFrozen.ItemQualities,
+                    .. IntrinsicFrozen.FightProperties,
+                    .. IntrinsicFrozen.WeaponTypes,
+                ]);
         }
     }
 
@@ -187,21 +206,43 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         BaseValueInfo = new(weapon.MaxLevel, propertyCurveValues, levelWeaponCurveMap, weaponPromoteMap);
     }
 
-    [Command("FilterCommand")]
-    private void ApplyFilter(string? input)
+    private void OnFilterSuggestionRequested(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
         if (Weapons is null)
         {
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(input))
+        if (string.IsNullOrWhiteSpace(FilterText))
+        {
+            return;
+        }
+
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            sender.ItemsSource = availableQueries.Where(q => q.Contains(FilterText, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+
+    private void OnFilterSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    {
+        sender.Text = args.SelectedItem.ToString();
+    }
+
+    private void ApplyFilter(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        if (Weapons is null)
+        {
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(FilterText))
         {
             Weapons.Filter = default!;
             return;
         }
 
-        Weapons.Filter = WeaponFilter.Compile(input);
+        Weapons.Filter = WeaponFilter.Compile(FilterText);
 
         if (Selected is not null && Weapons.Contains(Selected))
         {

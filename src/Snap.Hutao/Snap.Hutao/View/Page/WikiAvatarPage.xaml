@@ -73,6 +73,13 @@
             </shct:DescriptionTextBlock>
         </DataTemplate>
 
+        <DataTemplate x:Key="SuggestionTemplate">
+            <TextBlock
+                Margin="12,0,0,0"
+                VerticalAlignment="Center"
+                Text="{Binding}"/>
+        </DataTemplate>
+
         <DataTemplate x:Key="AvatarListTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -266,21 +273,17 @@
                         <!--<AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="搜索提示"/>-->
                         <AppBarElementContainer>
                             <AutoSuggestBox
+                                x:Name="AvatarSuggestBox"
                                 Width="240"
                                 Height="36"
                                 Margin="6,6,6,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
+                                ItemTemplate="{StaticResource SuggestionTemplate}"
                                 PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
                                 QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
                                 Style="{StaticResource DefaultAutoSuggestBoxStyle}"
-                                Text="{Binding FilterText, Mode=TwoWay}">
-                                <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                                        <mxic:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding FilterText}"/>
-                                    </mxic:EventTriggerBehavior>
-                                </mxi:Interaction.Behaviors>
-                            </AutoSuggestBox>
+                                Text="{Binding FilterText, Mode=TwoWay}"/>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"

@@ -32,6 +32,13 @@
                 Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
         </DataTemplate>
 
+        <DataTemplate x:Key="SuggestionTemplate">
+            <TextBlock
+                Margin="12,0,0,0"
+                VerticalAlignment="Center"
+                Text="{Binding}"/>
+        </DataTemplate>
+
         <DataTemplate x:Key="WeaponListTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -132,20 +139,16 @@
                         </CommandBar.Content>
                         <AppBarElementContainer>
                             <AutoSuggestBox
+                                x:Name="WeaponSuggestBox"
                                 Width="240"
                                 Height="36"
                                 Margin="16,6,6,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
+                                ItemTemplate="{StaticResource SuggestionTemplate}"
                                 PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder}"
                                 QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
-                                Text="{Binding FilterText, Mode=TwoWay}">
-                                <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                                        <mxic:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding FilterText}"/>
-                                    </mxic:EventTriggerBehavior>
-                                </mxi:Interaction.Behaviors>
-                            </AutoSuggestBox>
+                                Text="{Binding FilterText, Mode=TwoWay}"/>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"

@@ -1,11 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
@@ -17,6 +19,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Response;
+using System.Collections.Frozen;
 using System.Runtime.InteropServices;
 using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -32,7 +35,7 @@ namespace Snap.Hutao.ViewModel.Wiki;
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
+internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel, IWikiViewModelInitialization
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly ICultivationService cultivationService;
@@ -49,6 +52,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelAvatarCurveMap;
     private List<Promote>? promotes;
+    private FrozenSet<string> availableQueries;
 
     /// <summary>
     /// 角色列表
@@ -79,6 +83,13 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     /// </summary>
     public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
 
+    public void Initialize(IAutoSuggestBoxAccessor accessor)
+    {
+        accessor.AutoSuggestBox.TextChanged += OnFilterSuggestionRequested;
+        accessor.AutoSuggestBox.SuggestionChosen += OnFilterSuggestionChosen;
+        accessor.AutoSuggestBox.QuerySubmitted += ApplyFilter;
+    }
+
     protected override async ValueTask<bool> InitializeUIAsync()
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))
@@ -101,6 +112,17 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         await taskContext.SwitchToMainThreadAsync();
         Avatars = new(list, true);
         Selected = Avatars.View.ElementAtOrDefault(0);
+
+        availableQueries = FrozenSet.ToFrozenSet<string>(
+            [
+                .. avatars.Select(a => a.Name),
+                .. IntrinsicFrozen.AssociationTypes,
+                .. IntrinsicFrozen.BodyTypes,
+                .. IntrinsicFrozen.ElementNames,
+                .. IntrinsicFrozen.ItemQualities,
+                .. IntrinsicFrozen.WeaponTypes,
+            ]);
+
         return true;
     }
 
@@ -202,21 +224,43 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         BaseValueInfo = new(avatar.MaxLevel, propertyCurveValues, levelAvatarCurveMap, avatarPromoteMap);
     }
 
-    [Command("FilterCommand")]
-    private void ApplyFilter(string? input)
+    private void OnFilterSuggestionRequested(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
         if (Avatars is null)
         {
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(input))
+        if (string.IsNullOrWhiteSpace(FilterText))
+        {
+            return;
+        }
+
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            sender.ItemsSource = availableQueries.Where(q => q.Contains(FilterText, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+
+    private void OnFilterSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    {
+        sender.Text = args.SelectedItem.ToString();
+    }
+
+    private void ApplyFilter(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        if (Avatars is null)
+        {
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(FilterText))
         {
             Avatars.Filter = default!;
             return;
         }
 
-        Avatars.Filter = AvatarFilter.Compile(input);
+        Avatars.Filter = AvatarFilter.Compile(FilterText);
 
         if (Selected is not null && Avatars.Contains(Selected))
         {
