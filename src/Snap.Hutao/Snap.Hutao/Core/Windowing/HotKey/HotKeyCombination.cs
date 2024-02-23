@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Snap.Hutao.Core.Windowing.HotKey;
 internal sealed class HotKeyCombination : ObservableObject
 {
     private readonly ICurrentWindowReference currentWindowReference;
+    private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
 
     private readonly string settingKey;
@@ -37,6 +39,7 @@ internal sealed class HotKeyCombination : ObservableObject
     public HotKeyCombination(IServiceProvider serviceProvider, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VirtualKey defaultKey)
     {
         currentWindowReference = serviceProvider.GetRequiredService<ICurrentWindowReference>();
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         this.settingKey = settingKey;
@@ -186,6 +189,12 @@ internal sealed class HotKeyCombination : ObservableObject
         HWND hwnd = currentWindowReference.GetWindowHandle();
         BOOL result = RegisterHotKey(hwnd, hotKeyId, Modifiers, (uint)Key);
         registered = result;
+
+        if (!result)
+        {
+            infoBarService.Warning(SH.FormatCoreWindowHotkeyCombinationRegisterFailed(SH.ViewPageSettingKeyShortcutAutoClickingHeader, DisplayName));
+        }
+
         return result;
     }
 

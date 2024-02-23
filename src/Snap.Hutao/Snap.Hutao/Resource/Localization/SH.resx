@@ -186,6 +186,9 @@
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>未检测到 WebView2 运行时</value>
   </data>
+  <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
+    <value>[{0}] 热键 [{1}] 注册失败</value>
+  </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>导出</value>
   </data>
