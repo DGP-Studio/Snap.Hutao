@@ -8,7 +8,9 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Snap.Hutao.Control.Animation;
 using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Message;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
+using System.Globalization;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -17,10 +19,14 @@ namespace Snap.Hutao.ViewModel;
 internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewModelInitialization, IRecipient<BackgroundImageTypeChangedMessage>
 {
     private readonly IBackgroundImageService backgroundImageService;
+    private readonly ILogger<MainViewModel> logger;
     private readonly ITaskContext taskContext;
+    private readonly AppOptions appOptions;
 
     private BackgroundImage? previousBackgroundImage;
     private Image? backgroundImagePresenter;
+
+    public AppOptions AppOptions { get => appOptions; }
 
     public void Initialize(IBackgroundImagePresenterAccessor accessor)
     {
@@ -40,9 +46,9 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
             return;
         }
 
-        (bool isOk, BackgroundImage backgroundImage) = await backgroundImageService.GetNextBackgroundImageAsync(previousBackgroundImage).ConfigureAwait(false);
+        (bool shouldRefresh, BackgroundImage? backgroundImage) = await backgroundImageService.GetNextBackgroundImageAsync(previousBackgroundImage).ConfigureAwait(false);
 
-        if (isOk)
+        if (shouldRefresh)
         {
             previousBackgroundImage = backgroundImage;
             await taskContext.SwitchToMainThreadAsync();
@@ -57,8 +63,18 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
                 .StartAsync(backgroundImagePresenter)
                 .ConfigureAwait(true);
 
-            backgroundImagePresenter.Source = backgroundImage.ImageSource;
-            double targetOpacity = ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme) ? 1 - backgroundImage.Luminance : backgroundImage.Luminance;
+            backgroundImagePresenter.Source = backgroundImage?.ImageSource;
+            double targetOpacity = backgroundImage is not null
+                ? ThemeHelper.IsDarkMode(backgroundImagePresenter.ActualTheme)
+                    ? 1 - backgroundImage.Luminance
+                    : backgroundImage.Luminance
+                : 0;
+
+            logger.LogInformation(
+                "Background image: [Accent color: {AccentColor}] [Luminance: {Luminance}] [Opacity: {TargetOpacity}]",
+                backgroundImage?.AccentColor.ToString(CultureInfo.CurrentCulture),
+                backgroundImage?.Luminance,
+                targetOpacity);
 
             await AnimationBuilder
                 .Create()

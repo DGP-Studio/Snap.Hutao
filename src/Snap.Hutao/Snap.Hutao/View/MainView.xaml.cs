@@ -1,13 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Animations;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
-using Snap.Hutao.Control.Animation;
-using Snap.Hutao.Control.Theme;
-using Snap.Hutao.Service.BackgroundImage;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Page;
 using Snap.Hutao.ViewModel;

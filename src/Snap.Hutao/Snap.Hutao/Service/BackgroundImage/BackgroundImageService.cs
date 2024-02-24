@@ -28,13 +28,13 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
 
     private HashSet<string> currentBackgroundPathSet;
 
-    public async ValueTask<ValueResult<bool, BackgroundImage>> GetNextBackgroundImageAsync(BackgroundImage? previous)
+    public async ValueTask<ValueResult<bool, BackgroundImage?>> GetNextBackgroundImageAsync(BackgroundImage? previous)
     {
         HashSet<string> backgroundSet = await SkipOrInitBackgroundAsync().ConfigureAwait(false);
 
         if (backgroundSet.Count <= 0)
         {
-            return new(false, default!);
+            return new(true, default!);
         }
 
         string path = System.Random.Shared.GetItems([..backgroundSet], 1)[0];
@@ -108,6 +108,9 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 break;
             case BackgroundImageType.HutaoOfficialLauncher:
                 await SetCurrentBackgroundPathSetAsync(client => client.GetLauncherWallpaperAsync()).ConfigureAwait(false);
+                break;
+            default:
+                currentBackgroundPathSet = [];
                 break;
         }
 

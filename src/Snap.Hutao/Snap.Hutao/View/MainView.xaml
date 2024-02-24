@@ -9,6 +9,7 @@
     xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.View"
+    xmlns:shvcs="using:Snap.Hutao.View.Converter.Specialized"
     xmlns:shvh="using:Snap.Hutao.View.Helper"
     xmlns:shvm="using:Snap.Hutao.ViewModel"
     xmlns:shvp="using:Snap.Hutao.View.Page"
@@ -27,9 +28,16 @@
         <Thickness x:Key="NavigationViewContentGridBorderThickness">0,1,0,0</Thickness>
         <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">24</x:Double>
         <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
+        <shvcs:BackdropTypeToOpacityConverter x:Key="BackdropTypeToOpacityConverter"/>
     </UserControl.Resources>
-    <!--  Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"  -->
+
     <Grid Transitions="{ThemeResource EntranceThemeTransitions}">
+        <Border Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Opacity="{Binding AppOptions.BackdropType, Converter={StaticResource BackdropTypeToOpacityConverter}, Mode=OneWay}">
+            <Border.OpacityTransition>
+                <ScalarTransition Duration="0:0:1"/>
+            </Border.OpacityTransition>
+        </Border>
+
         <Image
             x:Name="BackgroundImagePresenter"
             HorizontalAlignment="Center"
