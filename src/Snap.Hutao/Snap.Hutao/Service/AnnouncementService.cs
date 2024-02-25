@@ -85,8 +85,13 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         {
             foreach (ref readonly Announcement item in CollectionsMarshal.AsSpan(listWrapper.List))
             {
-                item.Subtitle = new StringBuilder(item.Subtitle).Replace("\r<br>", string.Empty).ToString();
-                item.Content = AnnouncementRegex.XmlTimeTagRegex().Replace(item.Content, x => x.Groups[1].Value);
+                item.Subtitle = new StringBuilder(item.Subtitle)
+                    .Replace("\r<br>", string.Empty)
+                    .Replace("<br />", string.Empty)
+                    .ToString();
+                item.Content = AnnouncementRegex
+                    .XmlTimeTagRegex()
+                    .Replace(item.Content, x => x.Groups[1].Value);
             }
         }
     }
