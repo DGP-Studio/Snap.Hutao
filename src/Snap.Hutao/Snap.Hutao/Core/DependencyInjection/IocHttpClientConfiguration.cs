@@ -25,6 +25,7 @@ internal static partial class IocHttpClientConfiguration
                     .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
                     {
                         HttpClientHandler clientHandler = (HttpClientHandler)handler;
+                        clientHandler.AllowAutoRedirect = true;
                         clientHandler.UseProxy = true;
                         clientHandler.Proxy = provider.GetRequiredService<DynamicHttpProxy>();
                     });

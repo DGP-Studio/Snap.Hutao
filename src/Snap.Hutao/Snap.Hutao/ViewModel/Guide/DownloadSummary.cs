@@ -76,9 +76,10 @@ internal sealed class DownloadSummary : ObservableObject
         {
             HttpResponseMessage response = await httpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
-            if (response.Content.Headers.ContentType?.MediaType is not "application/octet-stream")
+            if (response.Content.Headers.ContentType?.MediaType is not ("application/octet-stream" or "application/zip"))
             {
                 logger.LogWarning("Download Static Zip failed, Content-Type is {Type}", response.Content.Headers.ContentType);
+                await taskContext.SwitchToMainThreadAsync();
                 Description = SH.ViewModelWelcomeDownloadSummaryContentTypeNotMatch;
                 return false;
             }
