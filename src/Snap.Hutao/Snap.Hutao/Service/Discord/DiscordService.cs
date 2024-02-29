@@ -41,39 +41,33 @@ internal sealed partial class DiscordService : IDiscordService, IDisposable
 
     private bool IsSupported()
     {
-        try
-        {
-            // Actually requires a discord client to be running on Windows platform.
-            // If not, discord core creation code will throw.
-            Process[] discordProcesses = Process.GetProcessesByName("Discord");
+        // Actually requires a discord client to be running on Windows platform.
+        // If not, discord core creation code will throw.
+        Process[] discordProcesses = Process.GetProcessesByName("Discord");
 
-            if (discordProcesses.Length <= 0)
+        if (discordProcesses.Length <= 0)
+        {
+            return false;
+        }
+
+        foreach (Process process in discordProcesses)
+        {
+            try
             {
+                _ = process.Handle;
+            }
+            catch (Exception)
+            {
+                if (!isInitialized)
+                {
+                    isInitialized = true;
+                    infoBarService.Warning(SH.ServiceDiscordActivityElevationRequiredHint);
+                }
+
                 return false;
             }
-
-            foreach (Process process in discordProcesses)
-            {
-                try
-                {
-                    _ = process.Handle;
-                }
-                catch (Exception)
-                {
-                    if (!isInitialized)
-                    {
-                        infoBarService.Warning(SH.ServiceDiscordActivityElevationRequiredHint);
-                    }
-
-                    return false;
-                }
-            }
-
-            return true;
         }
-        finally
-        {
-            isInitialized = true;
-        }
+
+        return true;
     }
 }
