@@ -23,8 +23,16 @@ internal sealed partial class ExceptionRecorder
     public void Record(Application app)
     {
         app.UnhandledException += OnAppUnhandledException;
+        app.DebugSettings.FailFastOnErrors = false;
+
+        app.DebugSettings.IsBindingTracingEnabled = true;
         app.DebugSettings.BindingFailed += OnXamlBindingFailed;
+
+        app.DebugSettings.IsXamlResourceReferenceTracingEnabled = true;
         app.DebugSettings.XamlResourceReferenceFailed += OnXamlResourceReferenceFailed;
+
+        app.DebugSettings.LayoutCycleTracingLevel = LayoutCycleTracingLevel.High;
+        app.DebugSettings.LayoutCycleDebugBreakLevel = LayoutCycleDebugBreakLevel.High;
     }
 
     [SuppressMessage("", "CA2012")]
