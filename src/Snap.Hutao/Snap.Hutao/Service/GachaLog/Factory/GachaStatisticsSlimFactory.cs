@@ -62,21 +62,28 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
         int weaponPurpleTracker = 0;
         TypedWishSummarySlim weaponWish = new(SH.ServiceGachaLogFactoryWeaponWishName, 80, 10);
 
+        int chronicledOrangeTracker = 0;
+        int chronicledPurpleTracker = 0;
+        TypedWishSummarySlim chronicledWish = new(SH.ServiceGachaLogFactoryChronicledWishName, 90, 10);
+
         // O(n) operation
         foreach (ref readonly GachaItem item in CollectionsMarshal.AsSpan(items))
         {
             INameQuality nameQuality = context.GetNameQualityByItemId(item.ItemId);
             switch (item.QueryType)
             {
-                case GachaConfigType.StandardWish:
+                case GachaType.Standard:
                     Track(nameQuality, ref standardOrangeTracker, ref standardPurpleTracker);
                     break;
-                case GachaConfigType.AvatarEventWish:
-                case GachaConfigType.AvatarEventWish2:
+                case GachaType.ActivityAvatar:
+                case GachaType.SpecialActivityAvatar:
                     Track(nameQuality, ref avatarOrangeTracker, ref avatarPurpleTracker);
                     break;
-                case GachaConfigType.WeaponEventWish:
+                case GachaType.ActivityWeapon:
                     Track(nameQuality, ref weaponOrangeTracker, ref weaponPurpleTracker);
+                    break;
+                case GachaType.ActivityCity:
+                    Track(nameQuality, ref chronicledOrangeTracker, ref chronicledPurpleTracker);
                     break;
                 default:
                     break;
@@ -85,10 +92,15 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
 
         standardWish.LastOrangePull = standardOrangeTracker;
         standardWish.LastPurplePull = standardPurpleTracker;
+
         avatarWish.LastOrangePull = avatarOrangeTracker;
         avatarWish.LastPurplePull = avatarPurpleTracker;
+
         weaponWish.LastOrangePull = weaponOrangeTracker;
         weaponWish.LastPurplePull = weaponPurpleTracker;
+
+        chronicledWish.LastOrangePull = chronicledOrangeTracker;
+        chronicledWish.LastPurplePull = chronicledPurpleTracker;
 
         return new()
         {

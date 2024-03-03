@@ -18,18 +18,20 @@ internal sealed class HutaoStatisticsFactory
     private readonly GachaEvent avatarEvent;
     private readonly GachaEvent avatarEvent2;
     private readonly GachaEvent weaponEvent;
+    private readonly GachaEvent chronicledEvent;
 
     public HutaoStatisticsFactory(in HutaoStatisticsFactoryMetadataContext context)
     {
         this.context = context;
 
-        // TODO: when in new verion
+        // when in new verion
         // due to lack of newer metadata
         // this can crash
         DateTimeOffset now = DateTimeOffset.UtcNow;
-        avatarEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish);
-        avatarEvent2 = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish2);
-        weaponEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.WeaponEventWish);
+        avatarEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.ActivityAvatar);
+        avatarEvent2 = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.SpecialActivityAvatar);
+        weaponEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.ActivityWeapon);
+        chronicledEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.ActivityCity);
     }
 
     public HutaoStatistics Create(GachaEventStatistics raw)
@@ -38,7 +40,8 @@ internal sealed class HutaoStatisticsFactory
         {
             AvatarEvent = CreateWishSummary(avatarEvent, raw.AvatarEvent),
             AvatarEvent2 = CreateWishSummary(avatarEvent2, raw.AvatarEvent2),
-            WeaponWish = CreateWishSummary(weaponEvent, raw.WeaponEvent),
+            WeaponEvent = CreateWishSummary(weaponEvent, raw.WeaponEvent),
+            ChronicledWish = CreateWishSummary(chronicledEvent, raw.Chronicled),
         };
     }
 
@@ -55,7 +58,7 @@ internal sealed class HutaoStatisticsFactory
             {
                 8U => context.IdAvatarMap[item.Item],
                 5U => context.IdWeaponMap[item.Item],
-                _ => throw ThrowHelper.UserdataCorrupted(SH.FormatServiceGachaStatisticsFactoryItemIdInvalid(item.Item), default!),
+                _ => throw HutaoException.GachaStatisticsInvalidItemId(item.Item),
             };
             StatisticsItem statisticsItem = source.ToStatisticsItem(unchecked((int)item.Count));
 

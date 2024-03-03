@@ -22,4 +22,9 @@ internal sealed class GachaEventStatistics
     /// 武器活动
     /// </summary>
     public List<ItemCount> WeaponEvent { get; set; } = default!;
+
+    /// <summary>
+    /// 集录祈愿
+    /// </summary>
+    public List<ItemCount> Chronicled { get; set; } = default!;
 }

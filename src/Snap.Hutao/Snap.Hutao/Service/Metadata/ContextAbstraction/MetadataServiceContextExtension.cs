@@ -21,6 +21,11 @@ internal static class MetadataServiceContextExtension
             {
                 listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
             }
+
+            if (context is IMetadataListGachaEventSource listGachaEventSource)
+            {
+                listGachaEventSource.GachaEvents = await metadataService.GetGachaEventListAsync(token).ConfigureAwait(false);
+            }
         }
 
         // Dictionary

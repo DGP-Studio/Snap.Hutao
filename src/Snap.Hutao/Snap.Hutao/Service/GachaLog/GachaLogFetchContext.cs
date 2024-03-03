@@ -46,7 +46,7 @@ internal struct GachaLogFetchContext
     /// <summary>
     /// 当前类型
     /// </summary>
-    public GachaConfigType CurrentType;
+    public GachaType CurrentType;
 
     private readonly GachaLogServiceMetadataContext serviceContext;
     private readonly IGachaLogDbService gachaLogDbService;
@@ -66,7 +66,7 @@ internal struct GachaLogFetchContext
     /// </summary>
     /// <param name="configType">卡池类型</param>
     /// <param name="query">查询</param>
-    public void ResetForProcessingType(GachaConfigType configType, in GachaLogQuery query)
+    public void ResetForProcessingType(GachaType configType, in GachaLogQuery query)
     {
         DbEndId = null;
         CurrentType = configType;

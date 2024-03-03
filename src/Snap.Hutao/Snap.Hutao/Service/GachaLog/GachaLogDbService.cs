@@ -73,7 +73,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
     }
 
-    public async ValueTask<long> GetNewestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaConfigType queryType, CancellationToken token)
+    public async ValueTask<long> GetNewestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaType queryType, CancellationToken token)
     {
         GachaItem? item = null;
 
@@ -103,7 +103,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         return item?.Id ?? 0L;
     }
 
-    public long GetNewestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaConfigType queryType)
+    public long GetNewestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaType queryType)
     {
         GachaItem? item = null;
 
@@ -132,7 +132,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         return item?.Id ?? 0L;
     }
 
-    public async ValueTask<long> GetNewestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaConfigType queryType)
+    public async ValueTask<long> GetNewestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaType queryType)
     {
         GachaItem? item = null;
 
@@ -205,7 +205,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         return item?.Id ?? long.MaxValue;
     }
 
-    public long GetOldestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaConfigType queryType)
+    public long GetOldestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaType queryType)
     {
         GachaItem? item = null;
 
@@ -226,7 +226,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         return item?.Id ?? long.MaxValue;
     }
 
-    public async ValueTask<long> GetOldestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaConfigType queryType, CancellationToken token)
+    public async ValueTask<long> GetOldestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaType queryType, CancellationToken token)
     {
         GachaItem? item = null;
 
@@ -266,7 +266,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
     }
 
-    public List<Web.Hutao.GachaLog.GachaItem> GetHutaoGachaItemList(Guid archiveId, GachaConfigType queryType, long endId)
+    public List<Web.Hutao.GachaLog.GachaItem> GetHutaoGachaItemList(Guid archiveId, GachaType queryType, long endId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -291,7 +291,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
     }
 
-    public async ValueTask<List<Web.Hutao.GachaLog.GachaItem>> GetHutaoGachaItemListAsync(Guid archiveId, GachaConfigType queryType, long endId)
+    public async ValueTask<List<Web.Hutao.GachaLog.GachaItem>> GetHutaoGachaItemListAsync(Guid archiveId, GachaType queryType, long endId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -368,7 +368,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
     }
 
-    public void RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(Guid archiveId, GachaConfigType queryType, long endId)
+    public void RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(Guid archiveId, GachaType queryType, long endId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -381,7 +381,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
     }
 
-    public async ValueTask RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndIdAsync(Guid archiveId, GachaConfigType queryType, long endId)
+    public async ValueTask RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndIdAsync(Guid archiveId, GachaType queryType, long endId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

@@ -21,7 +21,7 @@ internal readonly struct GachaItemSaveContext
     /// </summary>
     public readonly bool IsLazy;
 
-    public readonly GachaConfigType QueryType;
+    public readonly GachaType QueryType;
 
     /// <summary>
     /// 结尾 Id
@@ -33,7 +33,7 @@ internal readonly struct GachaItemSaveContext
     /// </summary>
     public readonly IGachaLogDbService GachaLogDbService;
 
-    public GachaItemSaveContext(List<GachaItem> itemsToAdd, bool isLazy, GachaConfigType queryType, long endId, IGachaLogDbService gachaLogDbService)
+    public GachaItemSaveContext(List<GachaItem> itemsToAdd, bool isLazy, GachaType queryType, long endId, IGachaLogDbService gachaLogDbService)
     {
         ItemsToAdd = itemsToAdd;
         IsLazy = isLazy;

@@ -9,4 +9,5 @@ internal enum HutaoExceptionKind
     ServiceTypeCastFailed,
     FileSystemCreateFileInsufficientPermissions,
     PrivateNamedPipeContentHashIncorrect,
+    GachaStatisticsInvalidItemId,
 }

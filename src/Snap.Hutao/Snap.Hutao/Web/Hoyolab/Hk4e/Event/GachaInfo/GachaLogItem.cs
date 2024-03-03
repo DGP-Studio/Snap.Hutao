@@ -23,7 +23,7 @@ internal class GachaLogItem
     /// </summary>
     [JsonPropertyName("gacha_type")]
     [JsonEnum(JsonSerializeType.NumberString)]
-    public GachaConfigType GachaType { get; set; } = default!;
+    public GachaType GachaType { get; set; } = default!;
 
     /// <summary>
     /// 总为 <see cref="string.Empty"/>
