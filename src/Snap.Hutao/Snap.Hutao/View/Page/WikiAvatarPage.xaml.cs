@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Controls;
-using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
 using Snap.Hutao.ViewModel.Wiki;
 
@@ -19,19 +17,7 @@ internal sealed partial class WikiAvatarPage : ScopedPage
     /// </summary>
     public WikiAvatarPage()
     {
-        WikiAvatarViewModel viewModel = InitializeWith<WikiAvatarViewModel>();
+        InitializeWith<WikiAvatarViewModel>();
         InitializeComponent();
-
-        viewModel.Initialize(new TokenizingTextBoxAccessor(AvatarSuggestBox));
-    }
-
-    private class TokenizingTextBoxAccessor : ITokenizingTextBoxAccessor
-    {
-        public TokenizingTextBoxAccessor(TokenizingTextBox tokenizingTextBox)
-        {
-            TokenizingTextBox = tokenizingTextBox;
-        }
-
-        public TokenizingTextBox TokenizingTextBox { get; private set; }
     }
 }

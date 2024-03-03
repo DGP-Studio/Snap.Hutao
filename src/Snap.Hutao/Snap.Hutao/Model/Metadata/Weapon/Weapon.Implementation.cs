@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Control.SuggestBox;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
@@ -14,7 +15,7 @@ namespace Snap.Hutao.Model.Metadata.Weapon;
 /// <summary>
 /// 武器的接口实现
 /// </summary>
-internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource, IItemSource, INameQuality, ICalculableSource<ICalculableWeapon>
+internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource, IItemSource, INameQuality, ICalculableSource<ICalculableWeapon>, ITokenizable
 {
     /// <summary>
     /// [非元数据] 搭配数据
@@ -103,5 +104,10 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
             LastPull = lastPull,
             IsUp = isUp,
         };
+    }
+
+    public ISearchToken Tokenize()
+    {
+        return new SearchToken(Name, EquipIconConverter.IconNameToUri(Icon));
     }
 }

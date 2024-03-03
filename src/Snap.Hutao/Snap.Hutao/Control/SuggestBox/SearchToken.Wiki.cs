@@ -2,37 +2,22 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic.Frozen;
-using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
-using Snap.Hutao.Model.Metadata.Weapon;
 using Windows.UI;
 
-namespace Snap.Hutao.ViewModel.Wiki;
+namespace Snap.Hutao.Control.SuggestBox;
 
-internal class SearchToken
+internal partial class SearchToken
 {
     private SearchTokenKind kind;
     private bool isKindInitialized;
     private object isKindInitializedLock = new();
 
-    public SearchToken(string value)
+    public SearchToken(string value, Uri? sideIconUri)
+        : this(value)
     {
-        Value = value;
+        SideIconUri = sideIconUri;
     }
-
-    public SearchToken(Avatar avatar)
-    {
-        Value = avatar.Name;
-        SideIconUri = AvatarSideIconConverter.IconNameToUri(avatar.SideIcon);
-    }
-
-    public SearchToken(Weapon weapon)
-    {
-        Value = weapon.Name;
-        SideIconUri = EquipIconConverter.IconNameToUri(weapon.Icon);
-    }
-
-    public string Value { get; }
 
     public Uri? SideIconUri { get; }
 
@@ -98,21 +83,4 @@ internal class SearchToken
             }
         }
     }
-
-    public override string ToString()
-    {
-        return Value;
-    }
-}
-
-[SuppressMessage("", "SA1201")]
-internal enum SearchTokenKind
-{
-    AssociationTypes,
-    BodyTypes,
-    ElementNames,
-    FightProperties,
-    ItemQualities,
-    Other, // Include avatar and weapon
-    WeaponTypes,
 }

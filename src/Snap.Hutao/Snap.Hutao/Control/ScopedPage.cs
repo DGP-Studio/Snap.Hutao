@@ -41,14 +41,12 @@ internal class ScopedPage : Page
     /// 应当在 InitializeComponent() 前调用
     /// </summary>
     /// <typeparam name="TViewModel">视图模型类型</typeparam>
-    protected TViewModel InitializeWith<TViewModel>()
+    protected void InitializeWith<TViewModel>()
         where TViewModel : class, IViewModel
     {
         IViewModel viewModel = currentScope.ServiceProvider.GetRequiredService<TViewModel>();
         viewModel.CancellationToken = viewCancellationTokenSource.Token;
         DataContext = viewModel;
-
-        return (TViewModel)viewModel;
     }
 
     /// <inheritdoc/>

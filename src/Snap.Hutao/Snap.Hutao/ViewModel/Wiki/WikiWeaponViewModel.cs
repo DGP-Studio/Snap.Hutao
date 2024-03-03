@@ -1,9 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Controls;
-using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
+using Snap.Hutao.Control.SuggestBox;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -34,7 +33,7 @@ namespace Snap.Hutao.ViewModel.Wiki;
 /// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWikiViewModelInitialization
+internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly CalculateClient calculateClient;
@@ -86,15 +85,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
     public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
 
     public FrozenSet<string> AvailableQueries { get => availableQueries; }
-
-    public void Initialize(ITokenizingTextBoxAccessor accessor)
-    {
-        accessor.TokenizingTextBox.TextChanged += OnFilterSuggestionRequested;
-        accessor.TokenizingTextBox.QuerySubmitted += OnQuerySubmitted;
-        accessor.TokenizingTextBox.TokenItemAdding += OnTokenItemAdding;
-        accessor.TokenizingTextBox.TokenItemAdded += OnTokenItemModified;
-        accessor.TokenizingTextBox.TokenItemRemoved += OnTokenItemModified;
-    }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
@@ -216,60 +206,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
         BaseValueInfo = new(weapon.MaxLevel, propertyCurveValues, levelWeaponCurveMap, weaponPromoteMap);
     }
 
-    private void OnFilterSuggestionRequested(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-    {
-        if (Weapons is null)
-        {
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(FilterToken))
-        {
-            return;
-        }
-
-        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-        {
-            sender.ItemsSource = availableQueries.Where(q => q.Contains(FilterToken, StringComparison.OrdinalIgnoreCase));
-        }
-    }
-
-    private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-    {
-        if (args.ChosenSuggestion is not null)
-        {
-            return;
-        }
-
-        ApplyFilter();
-    }
-
-    private void OnTokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
-    {
-        if (string.IsNullOrWhiteSpace(args.TokenText))
-        {
-            return;
-        }
-
-        if (Weapons is null)
-        {
-            return;
-        }
-
-        if (Weapons.SourceCollection.SingleOrDefault(w => w.Name == args.TokenText) is { } weapon)
-        {
-            args.Item = new SearchToken(weapon);
-            return;
-        }
-
-        args.Item = new SearchToken(args.TokenText);
-    }
-
-    private void OnTokenItemModified(TokenizingTextBox sender, object args)
-    {
-        ApplyFilter();
-    }
-
+    [Command("FilterCommand")]
     private void ApplyFilter()
     {
         if (Weapons is null)
