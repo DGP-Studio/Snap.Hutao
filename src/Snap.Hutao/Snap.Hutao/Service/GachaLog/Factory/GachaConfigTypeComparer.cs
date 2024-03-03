@@ -10,16 +10,17 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 /// <summary>
 /// 祈愿配置类型比较器
 /// </summary>
-internal sealed class GachaConfigTypeComparer : IComparer<GachaConfigType>
+internal sealed class GachaConfigTypeComparer : IComparer<GachaType>
 {
     private static readonly Lazy<GachaConfigTypeComparer> LazyShared = new(() => new());
-    private static readonly FrozenDictionary<GachaConfigType, int> OrderMap = new Dictionary<GachaConfigType, int>()
+    private static readonly FrozenDictionary<GachaType, int> OrderMap = new Dictionary<GachaType, int>()
     {
-        [GachaConfigType.AvatarEventWish] = 0,
-        [GachaConfigType.AvatarEventWish2] = 1,
-        [GachaConfigType.WeaponEventWish] = 2,
-        [GachaConfigType.StandardWish] = 3,
-        [GachaConfigType.NoviceWish] = 4,
+        [GachaType.ActivityAvatar] = 0,
+        [GachaType.SpecialActivityAvatar] = 1,
+        [GachaType.ActivityWeapon] = 2,
+        [GachaType.ActivityCity] = 3,
+        [GachaType.Standard] = 4,
+        [GachaType.NewBie] = 5,
     }.ToFrozenDictionary();
 
     /// <summary>
@@ -28,13 +29,13 @@ internal sealed class GachaConfigTypeComparer : IComparer<GachaConfigType>
     public static GachaConfigTypeComparer Shared { get => LazyShared.Value; }
 
     /// <inheritdoc/>
-    public int Compare(GachaConfigType x, GachaConfigType y)
+    public int Compare(GachaType x, GachaType y)
     {
         return OrderOf(x) - OrderOf(y);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static int OrderOf(GachaConfigType type)
+    private static int OrderOf(GachaType type)
     {
         return OrderMap.GetValueOrDefault(type, 0);
     }

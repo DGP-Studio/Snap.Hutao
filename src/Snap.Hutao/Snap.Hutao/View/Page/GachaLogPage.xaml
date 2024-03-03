@@ -484,7 +484,7 @@
                             </Grid.ColumnDefinitions>
                             <shvc:HutaoStatisticsCard Grid.Column="0" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent}"/>
                             <shvc:HutaoStatisticsCard Grid.Column="1" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent2}"/>
-                            <shvc:HutaoStatisticsCard Grid.Column="2" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.WeaponWish}"/>
+                            <shvc:HutaoStatisticsCard Grid.Column="2" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.WeaponEvent}"/>
                         </Grid>
                     </Grid>
 

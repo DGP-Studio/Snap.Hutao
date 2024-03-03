@@ -15,7 +15,7 @@ internal sealed class GachaLogFetchStatus
     /// 构造一个新的祈愿记录获取状态
     /// </summary>
     /// <param name="configType">卡池类型</param>
-    public GachaLogFetchStatus(GachaConfigType configType)
+    public GachaLogFetchStatus(GachaType configType)
     {
         ConfigType = configType;
     }
@@ -28,7 +28,7 @@ internal sealed class GachaLogFetchStatus
     /// <summary>
     /// 卡池类型
     /// </summary>
-    public GachaConfigType ConfigType { get; set; }
+    public GachaType ConfigType { get; set; }
 
     /// <summary>
     /// 当前获取的物品

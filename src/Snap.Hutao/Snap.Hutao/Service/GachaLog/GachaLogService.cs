@@ -182,7 +182,7 @@ internal sealed partial class GachaLogService : IGachaLogService
         ArgumentNullException.ThrowIfNull(ArchiveCollection);
         GachaLogFetchContext fetchContext = new(gachaLogDbService, taskContext, context, isLazy);
 
-        foreach (GachaConfigType configType in GachaLog.QueryTypes)
+        foreach (GachaType configType in GachaLog.QueryTypes)
         {
             fetchContext.ResetForProcessingType(configType, query);
 

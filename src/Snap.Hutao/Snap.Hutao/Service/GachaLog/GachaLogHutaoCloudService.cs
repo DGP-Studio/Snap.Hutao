@@ -8,6 +8,7 @@ using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao.GachaLog;
@@ -40,7 +41,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         if (await GetEndIdsFromCloudAsync(uid, token).ConfigureAwait(false) is { } endIds)
         {
             List<Web.Hutao.GachaLog.GachaItem> items = [];
-            foreach ((GachaConfigType type, long endId) in endIds)
+            foreach ((GachaType type, long endId) in endIds)
             {
                 List<Web.Hutao.GachaLog.GachaItem> part = await gachaLogDbService
                     .GetHutaoGachaItemListAsync(gachaArchive.InnerId, type, endId)
@@ -94,10 +95,9 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         {
             if (await metadataService.InitializeAsync().ConfigureAwait(false))
             {
-                Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
-                Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
-                List<GachaEvent> gachaEvents = await metadataService.GetGachaEventListAsync(token).ConfigureAwait(false);
-                HutaoStatisticsFactoryMetadataContext context = new(idAvatarMap, idWeaponMap, gachaEvents);
+                HutaoStatisticsFactoryMetadataContext context = await metadataService
+                    .GetContextAsync<HutaoStatisticsFactoryMetadataContext>(token)
+                    .ConfigureAwait(false);
 
                 GachaEventStatistics raw = response.Data;
                 try
@@ -126,7 +126,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     private async ValueTask<EndIds> CreateEndIdsAsync(GachaArchive? archive, CancellationToken token)
     {
         EndIds endIds = new();
-        foreach (GachaConfigType type in GachaLog.QueryTypes)
+        foreach (GachaType type in GachaLog.QueryTypes)
         {
             if (archive is not null)
             {

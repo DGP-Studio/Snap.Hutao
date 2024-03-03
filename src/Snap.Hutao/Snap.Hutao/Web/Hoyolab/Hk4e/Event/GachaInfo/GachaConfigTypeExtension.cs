@@ -10,11 +10,11 @@ internal static class GachaConfigTypeExtension
     /// </summary>
     /// <param name="configType">配置类型</param>
     /// <returns>祈愿查询类型</returns>
-    public static GachaConfigType ToQueryType(this GachaConfigType configType)
+    public static GachaType ToQueryType(this GachaType configType)
     {
         return configType switch
         {
-            GachaConfigType.AvatarEventWish2 => GachaConfigType.AvatarEventWish,
+            GachaType.SpecialActivityAvatar => GachaType.ActivityAvatar,
             _ => configType,
         };
     }

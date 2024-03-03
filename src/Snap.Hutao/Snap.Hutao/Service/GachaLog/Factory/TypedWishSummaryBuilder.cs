@@ -18,17 +18,17 @@ internal sealed class TypedWishSummaryBuilder
     /// <summary>
     /// 常驻祈愿
     /// </summary>
-    public static readonly Func<GachaConfigType, bool> IsStandardWish = type => type is GachaConfigType.StandardWish;
+    public static readonly Func<GachaType, bool> IsStandardWish = type => type is GachaType.Standard;
 
     /// <summary>
     /// 角色活动
     /// </summary>
-    public static readonly Func<GachaConfigType, bool> IsAvatarEventWish = type => type is GachaConfigType.AvatarEventWish or GachaConfigType.AvatarEventWish2;
+    public static readonly Func<GachaType, bool> IsAvatarEventWish = type => type is GachaType.ActivityAvatar or GachaType.SpecialActivityAvatar;
 
     /// <summary>
     /// 武器活动
     /// </summary>
-    public static readonly Func<GachaConfigType, bool> IsWeaponEventWish = type => type is GachaConfigType.WeaponEventWish;
+    public static readonly Func<GachaType, bool> IsWeaponEventWish = type => type is GachaType.ActivityWeapon;
 
     private readonly TypedWishSummaryBuilderContext context;
 

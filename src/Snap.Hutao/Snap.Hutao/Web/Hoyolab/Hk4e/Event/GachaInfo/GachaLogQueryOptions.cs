@@ -31,7 +31,7 @@ internal struct GachaLogQueryOptions
     /// </summary>
     public long EndId;
 
-    public GachaConfigType Type;
+    public GachaType Type;
 
     /// <summary>
     /// Keys required:
@@ -53,7 +53,7 @@ internal struct GachaLogQueryOptions
     /// <param name="query">原始查询字符串</param>
     /// <param name="queryType">祈愿类型</param>
     /// <param name="endId">终止Id</param>
-    public GachaLogQueryOptions(in GachaLogQuery query, GachaConfigType queryType)
+    public GachaLogQueryOptions(in GachaLogQuery query, GachaType queryType)
     {
         IsOversea = query.IsOversea;
 
