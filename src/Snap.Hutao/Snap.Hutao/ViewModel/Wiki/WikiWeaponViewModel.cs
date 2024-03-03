@@ -21,6 +21,7 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -46,7 +47,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
 
     private AdvancedCollectionView<Weapon>? weapons;
     private Weapon? selected;
-    private List<string>? filterTokens;
+    private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelWeaponCurveMap;
@@ -80,7 +81,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
     /// <summary>
     /// 保存的筛选标志
     /// </summary>
-    public List<string>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
+    public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
 
     public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
 
@@ -90,6 +91,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
     {
         accessor.TokenizingTextBox.TextChanged += OnFilterSuggestionRequested;
         accessor.TokenizingTextBox.QuerySubmitted += OnQuerySubmitted;
+        accessor.TokenizingTextBox.TokenItemAdding += OnTokenItemAdding;
         accessor.TokenizingTextBox.TokenItemAdded += OnTokenItemModified;
         accessor.TokenizingTextBox.TokenItemRemoved += OnTokenItemModified;
     }
@@ -242,6 +244,27 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
         ApplyFilter();
     }
 
+    private void OnTokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
+    {
+        if (string.IsNullOrWhiteSpace(args.TokenText))
+        {
+            return;
+        }
+
+        if (Weapons is null)
+        {
+            return;
+        }
+
+        if (Weapons.SourceCollection.SingleOrDefault(w => w.Name == args.TokenText) is { } weapon)
+        {
+            args.Item = new SearchToken(weapon);
+            return;
+        }
+
+        args.Item = new SearchToken(args.TokenText);
+    }
+
     private void OnTokenItemModified(TokenizingTextBox sender, object args)
     {
         ApplyFilter();
@@ -260,7 +283,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel, IWiki
             return;
         }
 
-        Weapons.Filter = WeaponFilter.Compile(string.Join(' ', FilterTokens));
+        Weapons.Filter = WeaponFilter.Compile(FilterTokens);
 
         if (Selected is not null && Weapons.Contains(Selected))
         {

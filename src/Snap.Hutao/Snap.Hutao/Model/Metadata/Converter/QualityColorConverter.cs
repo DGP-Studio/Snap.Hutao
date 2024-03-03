@@ -15,10 +15,24 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 [HighQuality]
 internal sealed class QualityColorConverter : ValueConverter<QualityType, Color>
 {
-    /// <inheritdoc/>
-    public override Color Convert(QualityType from)
+    private static readonly Dictionary<string, QualityType> LocalizedNameToQualityType = new()
     {
-        return from switch
+        [SH.ModelIntrinsicItemQualityWhite] = QualityType.QUALITY_WHITE,
+        [SH.ModelIntrinsicItemQualityGreen] = QualityType.QUALITY_GREEN,
+        [SH.ModelIntrinsicItemQualityBlue] = QualityType.QUALITY_BLUE,
+        [SH.ModelIntrinsicItemQualityPurple] = QualityType.QUALITY_PURPLE,
+        [SH.ModelIntrinsicItemQualityOrange] = QualityType.QUALITY_ORANGE,
+        [SH.ModelIntrinsicItemQualityRed] = QualityType.QUALITY_ORANGE_SP,
+    };
+
+    public static Color QualityNameToColor(string qualityName)
+    {
+        return QualityToColor(LocalizedNameToQualityType.GetValueOrDefault(qualityName));
+    }
+
+    public static Color QualityToColor(QualityType quality)
+    {
+        return quality switch
         {
             QualityType.QUALITY_WHITE => StructMarshal.Color(0xFF72778B),
             QualityType.QUALITY_GREEN => StructMarshal.Color(0xFF2A8F72),
@@ -27,5 +41,11 @@ internal sealed class QualityColorConverter : ValueConverter<QualityType, Color>
             QualityType.QUALITY_ORANGE or QualityType.QUALITY_ORANGE_SP => StructMarshal.Color(0xFFBC6932),
             _ => Colors.Transparent,
         };
+    }
+
+    /// <inheritdoc/>
+    public override Color Convert(QualityType from)
+    {
+        return QualityToColor(from);
     }
 }

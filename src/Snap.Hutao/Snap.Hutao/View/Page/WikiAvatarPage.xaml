@@ -72,8 +72,45 @@
             </shct:DescriptionTextBlock>
         </DataTemplate>
 
-        <DataTemplate x:Key="SuggestionTemplate">
-            <TextBlock VerticalAlignment="Center" Text="{Binding}"/>
+        <DataTemplate x:Key="TokenTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Rectangle
+                    Grid.Column="0"
+                    Width="4"
+                    Height="22"
+                    Margin="0,0,8,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    RadiusX="2"
+                    RadiusY="2"
+                    Visibility="{Binding Quality, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{Binding Quality}"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <shci:MonoChrome
+                    Grid.Column="0"
+                    Width="22"
+                    Height="22"
+                    Margin="0,0,4,0"
+                    Source="{Binding IconUri, Mode=OneWay}"
+                    Visibility="{Binding IconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                <shci:CachedImage
+                    Grid.Column="0"
+                    Width="22"
+                    Height="22"
+                    Margin="0,0,4,0"
+                    Source="{Binding SideIconUri, Mode=OneWay}"
+                    Visibility="{Binding SideIconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                <TextBlock
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="{Binding Value}"/>
+            </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="AvatarListTemplate">
@@ -270,18 +307,18 @@
                         <AppBarElementContainer>
                             <cwc:TokenizingTextBox
                                 x:Name="AvatarSuggestBox"
-                                Width="520"
-                                Margin="6,0,6,0"
+                                Width="600"
+                                Height="44"
+                                Margin="6,-2,6,6"
                                 HorizontalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
                                 ItemsSource="{Binding FilterTokens, Mode=TwoWay}"
                                 MaximumTokens="5"
                                 PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
                                 QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
-                                SuggestedItemTemplate="{StaticResource SuggestionTemplate}"
                                 SuggestedItemsSource="{Binding AvailableQueries}"
                                 Text="{Binding FilterToken, Mode=TwoWay}"
-                                TokenItemTemplate="{StaticResource SuggestionTemplate}"/>
+                                TokenItemTemplate="{StaticResource TokenTemplate}"/>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"

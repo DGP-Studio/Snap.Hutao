@@ -12,6 +12,20 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 [HighQuality]
 internal sealed class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
 {
+    private static readonly Dictionary<string, WeaponType> LocalizedNameToWeaponType = new()
+    {
+        [SH.ModelIntrinsicWeaponTypeSwordOneHand] = WeaponType.WEAPON_SWORD_ONE_HAND,
+        [SH.ModelIntrinsicWeaponTypeBow] = WeaponType.WEAPON_BOW,
+        [SH.ModelIntrinsicWeaponTypePole] = WeaponType.WEAPON_POLE,
+        [SH.ModelIntrinsicWeaponTypeClaymore] = WeaponType.WEAPON_CLAYMORE,
+        [SH.ModelIntrinsicWeaponTypeCatalyst] = WeaponType.WEAPON_CATALYST,
+    };
+
+    public static Uri WeaponTypeNameToIconUri(string weaponTypeName)
+    {
+        return WeaponTypeToIconUri(LocalizedNameToWeaponType.GetValueOrDefault(weaponTypeName));
+    }
+
     /// <summary>
     /// 将武器类型转换为图标链接
     /// </summary>

@@ -50,7 +50,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel, IWiki
 
     private AdvancedCollectionView<Avatar>? avatars;
     private Avatar? selected;
-    private ObservableCollection<string>? filterTokens;
+    private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelAvatarCurveMap;
@@ -84,7 +84,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel, IWiki
     /// <summary>
     /// 保存的筛选标志
     /// </summary>
-    public ObservableCollection<string>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
+    public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
 
     public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
 
@@ -94,6 +94,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel, IWiki
     {
         accessor.TokenizingTextBox.TextChanged += OnFilterSuggestionRequested;
         accessor.TokenizingTextBox.QuerySubmitted += OnQuerySubmitted;
+        accessor.TokenizingTextBox.TokenItemAdding += OnTokenItemAdding;
         accessor.TokenizingTextBox.TokenItemAdded += OnTokenItemModified;
         accessor.TokenizingTextBox.TokenItemRemoved += OnTokenItemModified;
     }
@@ -261,6 +262,27 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel, IWiki
         ApplyFilter();
     }
 
+    private void OnTokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
+    {
+        if (string.IsNullOrWhiteSpace(args.TokenText))
+        {
+            return;
+        }
+
+        if (Avatars is null)
+        {
+            return;
+        }
+
+        if (Avatars.SourceCollection.SingleOrDefault(a => a.Name == args.TokenText) is { } avatar)
+        {
+            args.Item = new SearchToken(avatar);
+            return;
+        }
+
+        args.Item = new SearchToken(args.TokenText);
+    }
+
     private void OnTokenItemModified(TokenizingTextBox sender, object args)
     {
         ApplyFilter();
@@ -279,7 +301,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel, IWiki
             return;
         }
 
-        Avatars.Filter = AvatarFilter.Compile(string.Join(' ', FilterTokens));
+        Avatars.Filter = AvatarFilter.Compile(FilterTokens);
 
         if (Selected is not null && Avatars.Contains(Selected))
         {

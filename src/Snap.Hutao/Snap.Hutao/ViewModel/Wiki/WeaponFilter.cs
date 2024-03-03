@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Weapon;
+using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -17,41 +17,43 @@ internal static class WeaponFilter
     /// </summary>
     /// <param name="input">输入</param>
     /// <returns>筛选操作</returns>
-    public static Predicate<Weapon> Compile(string input)
+    public static Predicate<Weapon> Compile(ObservableCollection<SearchToken> input)
     {
         return (Weapon weapon) => DoFilter(input, weapon);
     }
 
-    private static bool DoFilter(string input, Weapon weapon)
+    private static bool DoFilter(ObservableCollection<SearchToken> input, Weapon weapon)
     {
         List<bool> matches = [];
 
-        foreach (StringSegment segment in new StringTokenizer(input, [' ']))
+        foreach (IGrouping<SearchTokenKind, string> tokens in input.GroupBy(token => token.Kind, token => token.Value))
         {
-            string value = segment.ToString();
-
-            if (weapon.Name == value)
+            switch (tokens.Key)
             {
-                matches.Add(true);
-                continue;
-            }
+                case SearchTokenKind.WeaponTypes:
+                    if (IntrinsicFrozen.WeaponTypes.Overlaps(tokens))
+                    {
+                        matches.Add(tokens.Contains(weapon.WeaponType.GetLocalizedDescriptionOrDefault()));
+                    }
 
-            if (IntrinsicFrozen.WeaponTypes.Contains(value))
-            {
-                matches.Add(weapon.WeaponType.GetLocalizedDescriptionOrDefault() == value);
-                continue;
-            }
+                    break;
+                case SearchTokenKind.ItemQualities:
+                    if (IntrinsicFrozen.ItemQualities.Overlaps(tokens))
+                    {
+                        matches.Add(tokens.Contains(weapon.Quality.GetLocalizedDescriptionOrDefault()));
+                    }
 
-            if (IntrinsicFrozen.ItemQualities.Contains(value))
-            {
-                matches.Add(weapon.Quality.GetLocalizedDescriptionOrDefault() == value);
-                continue;
-            }
+                    break;
+                case SearchTokenKind.FightProperties:
+                    if (IntrinsicFrozen.FightProperties.Overlaps(tokens))
+                    {
+                        matches.Add(tokens.Contains(weapon.GrowCurves.ElementAtOrDefault(1)?.Type.GetLocalizedDescriptionOrDefault()));
+                    }
 
-            if (IntrinsicFrozen.FightProperties.Contains(value))
-            {
-                matches.Add(weapon.GrowCurves.ElementAtOrDefault(1)?.Type.GetLocalizedDescriptionOrDefault() == value);
-                continue;
+                    break;
+                case SearchTokenKind.Other:
+                    matches.Add(tokens.Contains(weapon.Name));
+                    break;
             }
         }
 
