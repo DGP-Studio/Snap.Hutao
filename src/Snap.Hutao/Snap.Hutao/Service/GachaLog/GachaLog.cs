@@ -20,5 +20,6 @@ internal static class GachaLog
         GachaType.Standard,
         GachaType.ActivityAvatar,
         GachaType.ActivityWeapon,
+        GachaType.ActivityCity,
     ]);
 }

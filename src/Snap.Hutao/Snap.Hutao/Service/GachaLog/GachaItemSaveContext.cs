@@ -44,15 +44,17 @@ internal readonly struct GachaItemSaveContext
 
     public void SaveItems(GachaArchive archive)
     {
-        if (ItemsToAdd.Count > 0)
+        if (ItemsToAdd.Count <= 0)
         {
-            // 全量刷新
-            if (!IsLazy)
-            {
-                GachaLogDbService.RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(archive.InnerId, QueryType, EndId);
-            }
-
-            GachaLogDbService.AddGachaItemRange(ItemsToAdd);
+            return;
         }
+
+        // 全量刷新
+        if (!IsLazy)
+        {
+            GachaLogDbService.RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(archive.InnerId, QueryType, EndId);
+        }
+
+        GachaLogDbService.AddGachaItemRange(ItemsToAdd);
     }
 }
