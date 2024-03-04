@@ -5,6 +5,7 @@ using Microsoft.UI;
 using Snap.Hutao.Control;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Win32;
+using System.Collections.Frozen;
 using Windows.UI;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
@@ -15,15 +16,15 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 [HighQuality]
 internal sealed class QualityColorConverter : ValueConverter<QualityType, Color>
 {
-    private static readonly Dictionary<string, QualityType> LocalizedNameToQualityType = new()
-    {
-        [SH.ModelIntrinsicItemQualityWhite] = QualityType.QUALITY_WHITE,
-        [SH.ModelIntrinsicItemQualityGreen] = QualityType.QUALITY_GREEN,
-        [SH.ModelIntrinsicItemQualityBlue] = QualityType.QUALITY_BLUE,
-        [SH.ModelIntrinsicItemQualityPurple] = QualityType.QUALITY_PURPLE,
-        [SH.ModelIntrinsicItemQualityOrange] = QualityType.QUALITY_ORANGE,
-        [SH.ModelIntrinsicItemQualityRed] = QualityType.QUALITY_ORANGE_SP,
-    };
+    private static readonly FrozenDictionary<string, QualityType> LocalizedNameToQualityType = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(SH.ModelIntrinsicItemQualityWhite, QualityType.QUALITY_WHITE),
+        KeyValuePair.Create(SH.ModelIntrinsicItemQualityGreen, QualityType.QUALITY_GREEN),
+        KeyValuePair.Create(SH.ModelIntrinsicItemQualityBlue, QualityType.QUALITY_BLUE),
+        KeyValuePair.Create(SH.ModelIntrinsicItemQualityPurple, QualityType.QUALITY_PURPLE),
+        KeyValuePair.Create(SH.ModelIntrinsicItemQualityOrange, QualityType.QUALITY_ORANGE),
+        KeyValuePair.Create(SH.ModelIntrinsicItemQualityRed, QualityType.QUALITY_ORANGE_SP),
+    ]);
 
     public static Color QualityNameToColor(string qualityName)
     {

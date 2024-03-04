@@ -1,6 +1,7 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Collections.Frozen;
 using System.Text;
 
 namespace Snap.Hutao.Core;
@@ -14,25 +15,25 @@ internal static class TypeNameHelper
 {
     private const char DefaultNestedTypeDelimiter = '+';
 
-    private static readonly Dictionary<Type, string> BuiltInTypeNames = new()
-    {
-        { typeof(void), "void" },
-        { typeof(bool), "bool" },
-        { typeof(byte), "byte" },
-        { typeof(char), "char" },
-        { typeof(decimal), "decimal" },
-        { typeof(double), "double" },
-        { typeof(float), "float" },
-        { typeof(int), "int" },
-        { typeof(long), "long" },
-        { typeof(object), "object" },
-        { typeof(sbyte), "sbyte" },
-        { typeof(short), "short" },
-        { typeof(string), "string" },
-        { typeof(uint), "uint" },
-        { typeof(ulong), "ulong" },
-        { typeof(ushort), "ushort" },
-    };
+    private static readonly FrozenDictionary<Type, string> BuiltInTypeNames = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(typeof(void), "void"),
+        KeyValuePair.Create(typeof(bool), "bool"),
+        KeyValuePair.Create(typeof(byte), "byte"),
+        KeyValuePair.Create(typeof(char), "char"),
+        KeyValuePair.Create(typeof(decimal), "decimal"),
+        KeyValuePair.Create(typeof(double), "double"),
+        KeyValuePair.Create(typeof(float), "float"),
+        KeyValuePair.Create(typeof(int), "int"),
+        KeyValuePair.Create(typeof(long), "long"),
+        KeyValuePair.Create(typeof(object), "object"),
+        KeyValuePair.Create(typeof(sbyte), "sbyte"),
+        KeyValuePair.Create(typeof(short), "short"),
+        KeyValuePair.Create(typeof(string), "string"),
+        KeyValuePair.Create(typeof(uint), "uint"),
+        KeyValuePair.Create(typeof(ulong), "ulong"),
+        KeyValuePair.Create(typeof(ushort), "ushort"),
+    ]);
 
     /// <summary>
     /// 获取对象类型的显示名称

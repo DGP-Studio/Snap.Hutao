@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Control;
 using Snap.Hutao.Model.Intrinsic;
+using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
@@ -12,27 +13,27 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 [HighQuality]
 internal sealed class ElementNameIconConverter : ValueConverter<string, Uri>
 {
-    private static readonly Dictionary<string, string> LocalizedNameToElementIconName = new()
-    {
-        [SH.ModelIntrinsicElementNameElec] = "Electric",
-        [SH.ModelIntrinsicElementNameFire] = "Fire",
-        [SH.ModelIntrinsicElementNameGrass] = "Grass",
-        [SH.ModelIntrinsicElementNameIce] = "Ice",
-        [SH.ModelIntrinsicElementNameRock] = "Rock",
-        [SH.ModelIntrinsicElementNameWater] = "Water",
-        [SH.ModelIntrinsicElementNameWind] = "Wind",
-    };
+    private static readonly FrozenDictionary<string, string> LocalizedNameToElementIconName = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameElec, "Electric"),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameFire, "Fire"),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameGrass, "Grass"),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameIce, "Ice"),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameRock, "Rock"),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameWater, "Water"),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameWind, "Wind"),
+    ]);
 
-    private static readonly Dictionary<string, ElementType> LocalizedNameToElementType = new()
-    {
-        [SH.ModelIntrinsicElementNameElec] = ElementType.Electric,
-        [SH.ModelIntrinsicElementNameFire] = ElementType.Fire,
-        [SH.ModelIntrinsicElementNameGrass] = ElementType.Grass,
-        [SH.ModelIntrinsicElementNameIce] = ElementType.Ice,
-        [SH.ModelIntrinsicElementNameRock] = ElementType.Rock,
-        [SH.ModelIntrinsicElementNameWater] = ElementType.Water,
-        [SH.ModelIntrinsicElementNameWind] = ElementType.Wind,
-    };
+    private static readonly FrozenDictionary<string, ElementType> LocalizedNameToElementType = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameElec, ElementType.Electric),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameFire, ElementType.Fire),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameGrass, ElementType.Grass),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameIce, ElementType.Ice),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameRock, ElementType.Rock),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameWater, ElementType.Water),
+        KeyValuePair.Create(SH.ModelIntrinsicElementNameWind, ElementType.Wind),
+    ]);
 
     /// <summary>
     /// 将中文元素名称转换为图标链接
