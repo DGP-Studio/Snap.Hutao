@@ -186,9 +186,6 @@
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>O WebView2 Runtime não foi detectado</value>
   </data>
-  <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
-    <value>[{0}] 热键 [{1}] 注册失败</value>
-  </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>Exportar</value>
   </data>
@@ -2895,7 +2892,7 @@
     <value>〓Duração do evento〓.*?\d\.\d Disponível em toda as versões</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓Duração do evento〓|Duração da oração do evento|【Duração da disponibilidade】).*?(\d\.\dApós a atualização da versão).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓Duração da manutenção da atualização.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
