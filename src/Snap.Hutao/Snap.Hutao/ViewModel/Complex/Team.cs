@@ -29,6 +29,8 @@ internal sealed class Team : List<AvatarView>
             Add(new(idAvatarMap[id]));
         }
 
+        AddRange(new AvatarView[4 - Count]);
+
         Rate = SH.FormatModelBindingHutaoTeamUpCountFormat(team.Rate);
     }
 
