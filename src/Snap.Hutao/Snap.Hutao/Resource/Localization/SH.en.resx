@@ -145,7 +145,7 @@
     <value>Save</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>Invalid URL</value>
+    <value>Invalid Uri</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -185,9 +185,6 @@
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>No WebView2 Runtime detected</value>
-  </data>
-  <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
-    <value>[{0}] 热键 [{1}] 注册失败</value>
   </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>Export</value>
@@ -786,10 +783,10 @@
     <value>No Wallpaper</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
-    <value>Failed to save Enhancement Progression Plan status</value>
+    <value>Failed to save development plan status</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
-    <value>Multiple Enhancement Progression Plan are selected</value>
+    <value>Multiple development plan are selected</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>Launch Game</value>
@@ -1140,7 +1137,7 @@
     <value>The current version of WebView2 does not support management configuration, continue to use may cause abnormalities, please upgrade as soon as possible</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
-    <value>Enhancement Progression Plan</value>
+    <value>Dev Plan</value>
   </data>
   <data name="ViewDailyNoteHeader" xml:space="preserve">
     <value>Realtime Notes</value>
@@ -1194,7 +1191,7 @@
     <value>Create new plan</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
-    <value>Batch add or update to current Enhancement Progression Plan</value>
+    <value>Batch add or update to current Dev Plan</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>Add or update to current Enhancement Progression Plan</value>
@@ -2256,7 +2253,7 @@
     <value>Try to start Starward after the game is started for game duration statistics</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
-    <value>Hours Played</value>
+    <value>Game Hours Record</value>
   </data>
   <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
     <value>Progress</value>
@@ -2739,7 +2736,7 @@
     <value>Character Appearance Rate = Character Appearance in this Floor (only count for 1 if repeated) / Total Number of Abyss Record of this Floor</value>
   </data>
   <data name="ViewSpiralAbyssAvatarUsageRankDescription" xml:space="preserve">
-    <value>Character Usage Rate = Character Appearance in this Floor (only count for 1 is repeated) / Number of Player who Own this Character</value>
+    <value>Character Usage Rate = Character Appearance in this Floor (only count for 1 if repeated) / Number of Player who Own this Character</value>
   </data>
   <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
     <value>Battle Statistics</value>
@@ -2895,7 +2892,7 @@
     <value>〓Event Duration〓.*?\d\.\d Available throughout the entirety of Version</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓Event Duration〓|Event Wish Duration|【Availability Duration】).*?(\d\.\dAfter the Version update).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓Update Maintenance Duration〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
