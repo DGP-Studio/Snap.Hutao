@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shca="using:Snap.Hutao.Control.AutoSuggestBox"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
@@ -303,14 +304,12 @@
                                 Margin="8,8,0,0"
                                 LocalSettingKeySuffixForCurrent="WikiAvatarPage.Avatars"/>
                         </CommandBar.Content>
-                        <!--<AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="搜索提示"/>-->
                         <AppBarElementContainer>
-                            <shvcont:AutoSuggestTokenBox
-                                x:Name="AvatarSuggestBox"
+                            <shca:AutoSuggestTokenBox
                                 Width="600"
                                 Height="44"
                                 Margin="6,-2,6,6"
-                                HorizontalAlignment="Stretch"
+                                HorizontalAlignment="Right"
                                 VerticalContentAlignment="Center"
                                 AvailableTokens="{Binding AvailableTokens}"
                                 FilterCommand="{Binding FilterCommand}"
@@ -318,10 +317,20 @@
                                 MaximumTokens="5"
                                 PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
                                 QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
+                                Style="{StaticResource DefaultTokenizingTextBoxStyle}"
                                 SuggestedItemTemplate="{StaticResource TokenTemplate}"
                                 SuggestedItemsSource="{Binding AvailableTokens.Values}"
                                 Text="{Binding FilterToken, Mode=TwoWay}"
-                                TokenItemTemplate="{StaticResource TokenTemplate}"/>
+                                TokenItemTemplate="{StaticResource TokenTemplate}">
+                                <shca:AutoSuggestTokenBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <cwc:WrapPanel
+                                            cw:FrameworkElementExtensions.AncestorType="shca:AutoSuggestTokenBox"
+                                            HorizontalSpacing="2"
+                                            StretchChild="Last"/>
+                                    </ItemsPanelTemplate>
+                                </shca:AutoSuggestTokenBox.ItemsPanel>
+                            </shca:AutoSuggestTokenBox>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"

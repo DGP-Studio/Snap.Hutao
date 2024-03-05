@@ -3,11 +3,11 @@
 
 using Windows.UI;
 
-namespace Snap.Hutao.Control.SuggestBox;
+namespace Snap.Hutao.Control.AutoSuggestBox;
 
 internal sealed class SearchToken
 {
-    public SearchToken(string value, SearchTokenKind kind, Uri? iconUri = null, Uri? sideIconUri = null, Color? quality = null)
+    public SearchToken(SearchTokenKind kind, string value, Uri? iconUri = null, Uri? sideIconUri = null, Color? quality = null)
     {
         Value = value;
         Kind = kind;

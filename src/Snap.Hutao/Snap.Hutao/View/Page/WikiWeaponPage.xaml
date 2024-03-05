@@ -9,6 +9,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shca="using:Snap.Hutao.Control.AutoSuggestBox"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
@@ -172,7 +173,7 @@
                                 LocalSettingKeySuffixForCurrent="WikiWeaponPage.Weapons"/>
                         </CommandBar.Content>
                         <AppBarElementContainer>
-                            <shvc:AutoSuggestTokenBox
+                            <shca:AutoSuggestTokenBox
                                 x:Name="WeaponSuggestBox"
                                 Width="600"
                                 Height="44"
@@ -188,7 +189,16 @@
                                 SuggestedItemTemplate="{StaticResource TokenTemplate}"
                                 SuggestedItemsSource="{Binding AvailableTokens.Values}"
                                 Text="{Binding FilterToken, Mode=TwoWay}"
-                                TokenItemTemplate="{StaticResource TokenTemplate}"/>
+                                TokenItemTemplate="{StaticResource TokenTemplate}">
+                                <shca:AutoSuggestTokenBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <cwc:WrapPanel
+                                            cw:FrameworkElementExtensions.AncestorType="shca:AutoSuggestTokenBox"
+                                            HorizontalSpacing="2"
+                                            StretchChild="Last"/>
+                                    </ItemsPanelTemplate>
+                                </shca:AutoSuggestTokenBox.ItemsPanel>
+                            </shca:AutoSuggestTokenBox>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"

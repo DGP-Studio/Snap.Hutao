@@ -26,6 +26,16 @@ internal sealed class QualityColorConverter : ValueConverter<QualityType, Color>
         KeyValuePair.Create(SH.ModelIntrinsicItemQualityRed, QualityType.QUALITY_ORANGE_SP),
     ]);
 
+    private static readonly FrozenDictionary<QualityType, Color> QualityTypeToColor = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(QualityType.QUALITY_WHITE, KnownColors.White),
+        KeyValuePair.Create(QualityType.QUALITY_GREEN, KnownColors.Green),
+        KeyValuePair.Create(QualityType.QUALITY_BLUE, KnownColors.Blue),
+        KeyValuePair.Create(QualityType.QUALITY_PURPLE, KnownColors.Purple),
+        KeyValuePair.Create(QualityType.QUALITY_ORANGE, KnownColors.Orange),
+        KeyValuePair.Create(QualityType.QUALITY_ORANGE_SP, KnownColors.Orange),
+    ]);
+
     public static Color QualityNameToColor(string qualityName)
     {
         return QualityToColor(LocalizedNameToQualityType.GetValueOrDefault(qualityName));
@@ -33,15 +43,7 @@ internal sealed class QualityColorConverter : ValueConverter<QualityType, Color>
 
     public static Color QualityToColor(QualityType quality)
     {
-        return quality switch
-        {
-            QualityType.QUALITY_WHITE => KnownColors.White,
-            QualityType.QUALITY_GREEN => KnownColors.Green,
-            QualityType.QUALITY_BLUE => KnownColors.Blue,
-            QualityType.QUALITY_PURPLE => KnownColors.Purple,
-            QualityType.QUALITY_ORANGE or QualityType.QUALITY_ORANGE_SP => KnownColors.Orange,
-            _ => Colors.Transparent,
-        };
+        return QualityTypeToColor.GetValueOrDefault(quality, Colors.Transparent);
     }
 
     /// <inheritdoc/>

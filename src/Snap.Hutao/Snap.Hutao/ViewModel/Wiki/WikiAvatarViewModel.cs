@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Control.AutoSuggestBox;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
-using Snap.Hutao.Control.SuggestBox;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -116,12 +116,12 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         availableTokens = FrozenDictionary.ToFrozenDictionary(
         [
-            .. avatars.Select(avatar => KeyValuePair.Create(avatar.Name, new SearchToken(avatar.Name, SearchTokenKind.Avatars, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
-            .. IntrinsicFrozen.AssociationTypes.Select(assoc => KeyValuePair.Create(assoc, new SearchToken(assoc, SearchTokenKind.AssociationTypes, iconUri: AssociationTypeIconConverter.AssociationTypeNameToIconUri(assoc)))),
-            .. IntrinsicFrozen.BodyTypes.Select(b => KeyValuePair.Create(b, new SearchToken(b, SearchTokenKind.BodyTypes))),
-            .. IntrinsicFrozen.ElementNames.Select(e => KeyValuePair.Create(e, new SearchToken(e, SearchTokenKind.ElementNames, iconUri: ElementNameIconConverter.ElementNameToIconUri(e)))),
-            .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(i, SearchTokenKind.ItemQualities, quality: QualityColorConverter.QualityNameToColor(i)))),
-            .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(w, SearchTokenKind.WeaponTypes, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
+            .. avatars.Select(avatar => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
+            .. IntrinsicFrozen.AssociationTypes.Select(assoc => KeyValuePair.Create(assoc, new SearchToken(SearchTokenKind.AssociationType, assoc, iconUri: AssociationTypeIconConverter.AssociationTypeNameToIconUri(assoc)))),
+            .. IntrinsicFrozen.BodyTypes.Select(b => KeyValuePair.Create(b, new SearchToken(SearchTokenKind.BodyType, b))),
+            .. IntrinsicFrozen.ElementNames.Select(e => KeyValuePair.Create(e, new SearchToken(SearchTokenKind.ElementName, e, iconUri: ElementNameIconConverter.ElementNameToIconUri(e)))),
+            .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(SearchTokenKind.ItemQuality, i, quality: QualityColorConverter.QualityNameToColor(i)))),
+            .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(SearchTokenKind.WeaponType, w, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
         ]);
 
         return true;

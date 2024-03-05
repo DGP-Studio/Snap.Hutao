@@ -1,18 +1,22 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.SuggestBox;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Snap.Hutao.Control.Extension;
 
-namespace Snap.Hutao.View.Control;
+namespace Snap.Hutao.Control.AutoSuggestBox;
 
 [DependencyProperty("FilterCommand", typeof(ICommand))]
+[DependencyProperty("FilterCommandParameter", typeof(object))]
 [DependencyProperty("AvailableTokens", typeof(IReadOnlyDictionary<string, SearchToken>))]
 internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
 {
     public AutoSuggestTokenBox()
     {
+        DefaultStyleKey = typeof(TokenizingTextBox);
         TextChanged += OnFilterSuggestionRequested;
         QuerySubmitted += OnQuerySubmitted;
         TokenItemAdding += OnTokenItemAdding;
@@ -20,7 +24,7 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
         TokenItemRemoved += OnTokenItemModified;
     }
 
-    private void OnFilterSuggestionRequested(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    private void OnFilterSuggestionRequested(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
         if (string.IsNullOrWhiteSpace(Text))
         {
@@ -30,20 +34,20 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
             sender.ItemsSource = AvailableTokens.Values.Where(q => q.Value.Contains(Text, StringComparison.OrdinalIgnoreCase));
+
+            // TODO: CornerRadius
+            // Popup? popup = this.FindDescendant("SuggestionsPopup") as Popup;
         }
     }
 
-    private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    private void OnQuerySubmitted(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
         if (args.ChosenSuggestion is not null)
         {
             return;
         }
 
-        if (FilterCommand.CanExecute(null))
-        {
-            FilterCommand.Execute(null);
-        }
+        CommandExtension.TryExecute(FilterCommand, FilterCommandParameter);
     }
 
     private void OnTokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
@@ -53,14 +57,11 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
             return;
         }
 
-        args.Item = AvailableTokens.GetValueOrDefault(args.TokenText) ?? new SearchToken(args.TokenText, SearchTokenKind.Others);
+        args.Item = AvailableTokens.GetValueOrDefault(args.TokenText) ?? new SearchToken(SearchTokenKind.None, args.TokenText);
     }
 
     private void OnTokenItemModified(TokenizingTextBox sender, object args)
     {
-        if (FilterCommand.CanExecute(null))
-        {
-            FilterCommand.Execute(null);
-        }
+        CommandExtension.TryExecute(FilterCommand, FilterCommandParameter);
     }
 }

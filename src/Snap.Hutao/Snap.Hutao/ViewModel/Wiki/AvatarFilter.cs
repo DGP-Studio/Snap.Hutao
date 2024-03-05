@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.SuggestBox;
+using Snap.Hutao.Control.AutoSuggestBox;
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Avatar;
 using System.Collections.ObjectModel;
@@ -27,46 +27,46 @@ internal static class AvatarFilter
     {
         List<bool> matches = [];
 
-        foreach (IGrouping<SearchTokenKind, string> tokens in input.GroupBy(token => token.Kind, token => token.Value))
+        foreach ((SearchTokenKind kind, IEnumerable<string> tokens) in input.GroupBy(token => token.Kind, token => token.Value))
         {
-            switch (tokens.Key)
+            switch (kind)
             {
-                case SearchTokenKind.ElementNames:
+                case SearchTokenKind.ElementName:
                     if (IntrinsicFrozen.ElementNames.Overlaps(tokens))
                     {
                         matches.Add(tokens.Contains(avatar.FetterInfo.VisionBefore));
                     }
 
                     break;
-                case SearchTokenKind.AssociationTypes:
+                case SearchTokenKind.AssociationType:
                     if (IntrinsicFrozen.AssociationTypes.Overlaps(tokens))
                     {
                         matches.Add(tokens.Contains(avatar.FetterInfo.Association.GetLocalizedDescriptionOrDefault()));
                     }
 
                     break;
-                case SearchTokenKind.WeaponTypes:
+                case SearchTokenKind.WeaponType:
                     if (IntrinsicFrozen.WeaponTypes.Overlaps(tokens))
                     {
                         matches.Add(tokens.Contains(avatar.Weapon.GetLocalizedDescriptionOrDefault()));
                     }
 
                     break;
-                case SearchTokenKind.ItemQualities:
+                case SearchTokenKind.ItemQuality:
                     if (IntrinsicFrozen.ItemQualities.Overlaps(tokens))
                     {
                         matches.Add(tokens.Contains(avatar.Quality.GetLocalizedDescriptionOrDefault()));
                     }
 
                     break;
-                case SearchTokenKind.BodyTypes:
+                case SearchTokenKind.BodyType:
                     if (IntrinsicFrozen.BodyTypes.Overlaps(tokens))
                     {
                         matches.Add(tokens.Contains(avatar.Body.GetLocalizedDescriptionOrDefault()));
                     }
 
                     break;
-                case SearchTokenKind.Avatars:
+                case SearchTokenKind.Avatar:
                     matches.Add(tokens.Contains(avatar.Name));
                     break;
                 default:

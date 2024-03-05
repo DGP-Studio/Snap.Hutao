@@ -33,18 +33,18 @@ internal sealed class AssociationTypeIconConverter : ValueConverter<AssociationT
         {
             AssociationType.ASSOC_TYPE_MONDSTADT => "Mengde",
             AssociationType.ASSOC_TYPE_LIYUE => "Liyue",
-            AssociationType.ASSOC_TYPE_FATUI => null,
+            AssociationType.ASSOC_TYPE_FATUI => default,
             AssociationType.ASSOC_TYPE_INAZUMA => "Inazuma",
-            AssociationType.ASSOC_TYPE_RANGER => null,
+            AssociationType.ASSOC_TYPE_RANGER => default,
             AssociationType.ASSOC_TYPE_SUMERU => "Sumeru",
             AssociationType.ASSOC_TYPE_FONTAINE => "Fontaine",
-            AssociationType.ASSOC_TYPE_NATLAN => null,
-            AssociationType.ASSOC_TYPE_SNEZHNAYA => null,
+            AssociationType.ASSOC_TYPE_NATLAN => default,
+            AssociationType.ASSOC_TYPE_SNEZHNAYA => default,
             _ => throw Must.NeverHappen(),
         };
 
         return association is null
-            ? null
+            ? default
             : Web.HutaoEndpoints.StaticRaw("ChapterIcon", $"UI_ChapterIcon_{association}.png").ToUri();
     }
 

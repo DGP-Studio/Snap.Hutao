@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Control.AutoSuggestBox;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
-using Snap.Hutao.Control.SuggestBox;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -113,10 +113,10 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
             availableTokens = FrozenDictionary.ToFrozenDictionary(
             [
-                .. weapons.Select(w => KeyValuePair.Create(w.Name, new SearchToken(w.Name, SearchTokenKind.Weapons, sideIconUri: EquipIconConverter.IconNameToUri(w.Icon)))),
-                .. IntrinsicFrozen.FightProperties.Select(f => KeyValuePair.Create(f, new SearchToken(f, SearchTokenKind.FightProperties))),
-                .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(i, SearchTokenKind.ItemQualities, quality: QualityColorConverter.QualityNameToColor(i)))),
-                .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(w, SearchTokenKind.WeaponTypes, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
+                .. weapons.Select(w => KeyValuePair.Create(w.Name, new SearchToken(SearchTokenKind.Weapon, w.Name, sideIconUri: EquipIconConverter.IconNameToUri(w.Icon)))),
+                .. IntrinsicFrozen.FightProperties.Select(f => KeyValuePair.Create(f, new SearchToken(SearchTokenKind.FightProperty, f))),
+                .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(SearchTokenKind.ItemQuality, i, quality: QualityColorConverter.QualityNameToColor(i)))),
+                .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(SearchTokenKind.WeaponType, w, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
             ]);
         }
     }
