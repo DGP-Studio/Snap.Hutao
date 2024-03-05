@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.SuggestBox;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -15,7 +14,7 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 角色的接口实现部分
 /// </summary>
-internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IItemSource, INameQuality, ICalculableSource<ICalculableAvatar>, ITokenizable
+internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IItemSource, INameQuality, ICalculableSource<ICalculableAvatar>
 {
     /// <summary>
     /// [非元数据] 搭配数据
@@ -96,10 +95,5 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IItem
             LastPull = lastPull,
             IsUp = isUp,
         };
-    }
-
-    public ISearchToken Tokenize()
-    {
-        return new SearchToken(Name, AvatarSideIconConverter.IconNameToUri(SideIcon));
     }
 }

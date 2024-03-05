@@ -4,11 +4,13 @@
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.SuggestBox;
+using Snap.Hutao.Model.Intrinsic.Frozen;
+using System.Collections.Frozen;
 
 namespace Snap.Hutao.View.Control;
 
 [DependencyProperty("FilterCommand", typeof(ICommand))]
-[DependencyProperty("ITokenizableItemsSource", typeof(IEnumerable<ITokenizable>))]
+[DependencyProperty("AvailableTokens", typeof(FrozenDictionary<string, SearchToken>))]
 internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
 {
     public AutoSuggestTokenBox()
@@ -22,11 +24,6 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
 
     private void OnFilterSuggestionRequested(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
-        if (SuggestedItemsSource is not IEnumerable<string> availableQueries)
-        {
-            return;
-        }
-
         if (string.IsNullOrWhiteSpace(Text))
         {
             return;
@@ -34,7 +31,7 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
 
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
-            sender.ItemsSource = availableQueries.Where(q => q.Contains(Text, StringComparison.OrdinalIgnoreCase));
+            sender.ItemsSource = AvailableTokens.Values.Where(q => q.Value.Contains(Text, StringComparison.OrdinalIgnoreCase));
         }
     }
 
@@ -58,18 +55,7 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
             return;
         }
 
-        if (ITokenizableItemsSource is null)
-        {
-            return;
-        }
-
-        if (ITokenizableItemsSource.SingleOrDefault(i => i.Name == args.TokenText) is { } item)
-        {
-            args.Item = item.Tokenize();
-            return;
-        }
-
-        args.Item = new SearchToken(args.TokenText);
+        args.Item = AvailableTokens[args.TokenText];
     }
 
     private void OnTokenItemModified(TokenizingTextBox sender, object args)

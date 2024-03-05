@@ -52,9 +52,11 @@ internal static class WeaponFilter
                     }
 
                     break;
-                case SearchTokenKind.Other:
+                case SearchTokenKind.Weapons:
                     matches.Add(tokens.Contains(weapon.Name));
                     break;
+                default:
+                    throw Must.NeverHappen();
             }
         }
 

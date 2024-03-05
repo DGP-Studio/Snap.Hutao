@@ -66,9 +66,11 @@ internal static class AvatarFilter
                     }
 
                     break;
-                case SearchTokenKind.Other:
+                case SearchTokenKind.Avatars:
                     matches.Add(tokens.Contains(avatar.Name));
                     break;
+                default:
+                    throw Must.NeverHappen();
             }
         }
 

@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Cultivation;
@@ -54,7 +55,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelAvatarCurveMap;
     private List<Promote>? promotes;
-    private FrozenSet<string> availableQueries;
+    private FrozenDictionary<string, SearchToken> availableTokens;
 
     /// <summary>
     /// 角色列表
@@ -87,7 +88,9 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
 
-    public FrozenSet<string>? AvailableQueries { get => availableQueries; }
+    public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
+
+    public IEnumerable<SearchToken>? AvailableQueries { get => availableTokens.Values; }
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
@@ -113,15 +116,15 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         Selected = Avatars.View.ElementAtOrDefault(0);
         FilterTokens = [];
 
-        availableQueries = FrozenSet.ToFrozenSet<string>(
-            [
-                .. avatars.Select(a => a.Name),
-                .. IntrinsicFrozen.AssociationTypes,
-                .. IntrinsicFrozen.BodyTypes,
-                .. IntrinsicFrozen.ElementNames,
-                .. IntrinsicFrozen.ItemQualities,
-                .. IntrinsicFrozen.WeaponTypes,
-            ]);
+        availableTokens = FrozenDictionary.ToFrozenDictionary(
+        [
+            .. avatars.Select(avatar => KeyValuePair.Create(avatar.Name, new SearchToken(avatar.Name, SearchTokenKind.Avatars, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
+            .. IntrinsicFrozen.AssociationTypes.Select(assoc => KeyValuePair.Create(assoc, new SearchToken(assoc, SearchTokenKind.AssociationTypes, iconUri: AssociationTypeIconConverter.AssociationTypeNameToIconUri(assoc)))),
+            .. IntrinsicFrozen.BodyTypes.Select(b => KeyValuePair.Create(b, new SearchToken(b, SearchTokenKind.BodyTypes))),
+            .. IntrinsicFrozen.ElementNames.Select(e => KeyValuePair.Create(e, new SearchToken(e, SearchTokenKind.ElementNames, iconUri: ElementNameIconConverter.ElementNameToIconUri(e)))),
+            .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(i, SearchTokenKind.ItemQualities, quality: QualityColorConverter.QualityNameToColor(i)))),
+            .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(w, SearchTokenKind.WeaponTypes, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
+        ]);
 
         return true;
     }

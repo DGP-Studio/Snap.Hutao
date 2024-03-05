@@ -9,6 +9,7 @@ using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
@@ -51,7 +52,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelWeaponCurveMap;
     private List<Promote>? promotes;
-    private FrozenSet<string> availableQueries;
+    private FrozenDictionary<string, SearchToken> availableTokens;
 
     /// <summary>
     /// 角色列表
@@ -84,7 +85,9 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
     public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
 
-    public FrozenSet<string> AvailableQueries { get => availableQueries; }
+    public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
+
+    public IEnumerable<SearchToken>? AvailableQueries { get => availableTokens.Values; }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
@@ -110,13 +113,13 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             Selected = Weapons.View.ElementAtOrDefault(0);
             FilterTokens = [];
 
-            availableQueries = FrozenSet.ToFrozenSet(
-                [
-                    .. weapons.Select(w => w.Name),
-                    .. IntrinsicFrozen.ItemQualities,
-                    .. IntrinsicFrozen.FightProperties,
-                    .. IntrinsicFrozen.WeaponTypes,
-                ]);
+            availableTokens = FrozenDictionary.ToFrozenDictionary(
+            [
+                .. weapons.Select(w => KeyValuePair.Create(w.Name, new SearchToken(w.Name, SearchTokenKind.Weapons, sideIconUri: EquipIconConverter.IconNameToUri(w.Icon)))),
+                .. IntrinsicFrozen.FightProperties.Select(f => KeyValuePair.Create(f, new SearchToken(f, SearchTokenKind.FightProperties))),
+                .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(i, SearchTokenKind.ItemQualities, quality: QualityColorConverter.QualityNameToColor(i)))),
+                .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(w, SearchTokenKind.WeaponTypes, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
+            ]);
         }
     }
 
