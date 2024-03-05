@@ -16,6 +16,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 {
     private bool? isEmptyHistoryWishVisible;
     private BackdropType? backdropType;
+    private Theme? theme;
     private BackgroundImageType? backgroundImageType;
     private Region? region;
     private string? geetestCustomCompositeUrl;
@@ -32,6 +33,14 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, EnumParse<BackdropType>, BackdropType.Mica).Value;
         set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, EnumToStringOrEmpty);
+    }
+
+    public List<NameValue<Theme>> Themes { get; } = CollectionsNameValue.FromEnum<Theme>(theme => theme.GetLocalizedDescription());
+
+    public Theme Theme
+    {
+        get => GetOption(ref theme, SettingEntry.Theme, EnumParse<Theme>, Theme.System).Value;
+        set => SetOption(ref theme, SettingEntry.Theme, value, EnumToStringOrEmpty);
     }
 
     public List<NameValue<BackgroundImageType>> BackgroundImageTypes { get; } = CollectionsNameValue.FromEnum<BackgroundImageType>(type => type.GetLocalizedDescription());

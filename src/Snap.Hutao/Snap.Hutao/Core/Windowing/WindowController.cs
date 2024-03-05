@@ -129,6 +129,13 @@ internal sealed class WindowController
                 UpdateSystemBackdrop(options.BackdropType);
             }
         }
+        else if (e.PropertyName is nameof(AppOptions.Theme))
+        {
+            if (sender is AppOptions options)
+            {
+                UpdateTheme(options.Theme);
+            }
+        }
     }
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
@@ -167,6 +174,16 @@ internal sealed class WindowController
             BackdropType.Mica => new MicaBackdrop() { Kind = MicaKind.Base },
             BackdropType.Acrylic => new DesktopAcrylicBackdrop(),
             _ => null,
+        };
+    }
+
+    private void UpdateTheme(Theme theme)
+    {
+        ((FrameworkElement)window.Content).RequestedTheme = theme switch
+        {
+            Theme.Light => ElementTheme.Light,
+            Theme.Dark => ElementTheme.Dark,
+            _ => ElementTheme.Default,
         };
     }
 

@@ -58,6 +58,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly IMessenger messenger;
 
     private NameValue<BackdropType>? selectedBackdropType;
+    private NameValue<Theme>? selectedTheme;
     private NameValue<BackgroundImageType>? selectedBackgroundImageType;
     private NameValue<CultureInfo>? selectedCulture;
     private NameValue<Region>? selectedRegion;
@@ -90,6 +91,18 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             if (SetProperty(ref selectedBackdropType, value) && value is not null)
             {
                 AppOptions.BackdropType = value.Value;
+            }
+        }
+    }
+
+    public NameValue<Theme>? SelectedTheme
+    {
+        get => selectedTheme ??= AppOptions.Themes.Single(t => t.Value == AppOptions.Theme);
+        set
+        {
+            if (SetProperty(ref selectedTheme, value) && value is not null)
+            {
+                AppOptions.Theme = value.Value;
             }
         }
     }
