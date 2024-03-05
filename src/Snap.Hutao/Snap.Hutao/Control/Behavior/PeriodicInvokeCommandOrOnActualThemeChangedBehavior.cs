@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Control.Extension;
 
 namespace Snap.Hutao.Control.Behavior;
 
@@ -49,10 +50,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
             return;
         }
 
-        if (Command is not null && Command.CanExecute(CommandParameter))
-        {
-            Command.Execute(CommandParameter);
-        }
+        Command.TryExecute(CommandParameter);
     }
 
     private async ValueTask RunCoreAsync()

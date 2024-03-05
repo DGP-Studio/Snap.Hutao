@@ -1,13 +1,16 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Control.AutoSuggestBox;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Cultivation;
@@ -17,6 +20,8 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Response;
+using System.Collections.Frozen;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -45,10 +50,12 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     private AdvancedCollectionView<Avatar>? avatars;
     private Avatar? selected;
-    private string? filterText;
+    private ObservableCollection<SearchToken>? filterTokens;
+    private string? filterToken;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelAvatarCurveMap;
     private List<Promote>? promotes;
+    private FrozenDictionary<string, SearchToken> availableTokens;
 
     /// <summary>
     /// 角色列表
@@ -75,9 +82,13 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
     /// <summary>
-    /// 筛选文本
+    /// 保存的筛选标志
     /// </summary>
-    public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
+    public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
+
+    public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
+
+    public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
@@ -101,6 +112,18 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         await taskContext.SwitchToMainThreadAsync();
         Avatars = new(list, true);
         Selected = Avatars.View.ElementAtOrDefault(0);
+        FilterTokens = [];
+
+        availableTokens = FrozenDictionary.ToFrozenDictionary(
+        [
+            .. avatars.Select(avatar => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
+            .. IntrinsicFrozen.AssociationTypes.Select(assoc => KeyValuePair.Create(assoc, new SearchToken(SearchTokenKind.AssociationType, assoc, iconUri: AssociationTypeIconConverter.AssociationTypeNameToIconUri(assoc)))),
+            .. IntrinsicFrozen.BodyTypes.Select(b => KeyValuePair.Create(b, new SearchToken(SearchTokenKind.BodyType, b))),
+            .. IntrinsicFrozen.ElementNames.Select(e => KeyValuePair.Create(e, new SearchToken(SearchTokenKind.ElementName, e, iconUri: ElementNameIconConverter.ElementNameToIconUri(e)))),
+            .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(SearchTokenKind.ItemQuality, i, quality: QualityColorConverter.QualityNameToColor(i)))),
+            .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(SearchTokenKind.WeaponType, w, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
+        ]);
+
         return true;
     }
 
@@ -203,20 +226,20 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     }
 
     [Command("FilterCommand")]
-    private void ApplyFilter(string? input)
+    private void ApplyFilter()
     {
         if (Avatars is null)
         {
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(input))
+        if (FilterTokens.IsNullOrEmpty())
         {
             Avatars.Filter = default!;
             return;
         }
 
-        Avatars.Filter = AvatarFilter.Compile(input);
+        Avatars.Filter = AvatarFilter.Compile(FilterTokens);
 
         if (Selected is not null && Avatars.Contains(Selected))
         {

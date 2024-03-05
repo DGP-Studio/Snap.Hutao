@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Setting;
+using System.Collections.Frozen;
 
 namespace Snap.Hutao.Control.Panel;
 
@@ -19,11 +20,11 @@ internal sealed partial class PanelSelector : Segmented
     public const string List = nameof(List);
     public const string Grid = nameof(Grid);
 
-    private static readonly Dictionary<int, string> IndexTypeMap = new()
-    {
-        [0] = List,
-        [1] = Grid,
-    };
+    private static readonly FrozenDictionary<int, string> IndexTypeMap = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(0, List),
+        KeyValuePair.Create(1, Grid),
+    ]);
 
     private readonly RoutedEventHandler loadedEventHandler;
     private readonly RoutedEventHandler unloadedEventHandler;

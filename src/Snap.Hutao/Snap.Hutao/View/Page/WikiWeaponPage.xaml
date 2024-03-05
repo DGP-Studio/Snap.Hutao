@@ -9,6 +9,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shca="using:Snap.Hutao.Control.AutoSuggestBox"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
@@ -30,6 +31,47 @@
                 HorizontalAlignment="Stretch"
                 PreferredSelectedIndex="13"
                 Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TokenTemplate">
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Rectangle
+                    Grid.Column="0"
+                    Width="4"
+                    Height="22"
+                    Margin="0,0,8,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    RadiusX="2"
+                    RadiusY="2"
+                    Visibility="{Binding Quality, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{Binding Quality}"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <shci:MonoChrome
+                    Grid.Column="0"
+                    Width="22"
+                    Height="22"
+                    Margin="0,0,4,0"
+                    Source="{Binding IconUri, Mode=OneWay}"
+                    Visibility="{Binding IconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                <shci:CachedImage
+                    Grid.Column="0"
+                    Width="22"
+                    Height="22"
+                    Margin="0,0,4,0"
+                    Source="{Binding SideIconUri, Mode=OneWay}"
+                    Visibility="{Binding SideIconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                <TextBlock
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="{Binding Value}"/>
+            </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="WeaponListTemplate">
@@ -131,21 +173,32 @@
                                 LocalSettingKeySuffixForCurrent="WikiWeaponPage.Weapons"/>
                         </CommandBar.Content>
                         <AppBarElementContainer>
-                            <AutoSuggestBox
-                                Width="240"
-                                Height="36"
-                                Margin="16,6,6,0"
+                            <shca:AutoSuggestTokenBox
+                                x:Name="WeaponSuggestBox"
+                                Width="600"
+                                Height="44"
+                                Margin="6,-2,6,6"
                                 HorizontalAlignment="Stretch"
                                 VerticalContentAlignment="Center"
+                                AvailableTokens="{Binding AvailableTokens}"
+                                FilterCommand="{Binding FilterCommand}"
+                                ItemsSource="{Binding FilterTokens, Mode=TwoWay}"
+                                MaximumTokens="5"
                                 PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder}"
-                                QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
-                                Text="{Binding FilterText, Mode=TwoWay}">
-                                <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                                        <mxic:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding FilterText}"/>
-                                    </mxic:EventTriggerBehavior>
-                                </mxi:Interaction.Behaviors>
-                            </AutoSuggestBox>
+                                QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
+                                SuggestedItemTemplate="{StaticResource TokenTemplate}"
+                                SuggestedItemsSource="{Binding AvailableTokens.Values}"
+                                Text="{Binding FilterToken, Mode=TwoWay}"
+                                TokenItemTemplate="{StaticResource TokenTemplate}">
+                                <shca:AutoSuggestTokenBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <cwc:WrapPanel
+                                            cw:FrameworkElementExtensions.AncestorType="shca:AutoSuggestTokenBox"
+                                            HorizontalSpacing="2"
+                                            StretchChild="Last"/>
+                                    </ItemsPanelTemplate>
+                                </shca:AutoSuggestTokenBox.ItemsPanel>
+                            </shca:AutoSuggestTokenBox>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"

@@ -15,6 +15,12 @@ namespace Snap.Hutao.Extension;
 [HighQuality]
 internal static partial class EnumerableExtension
 {
+    public static void Deconstruct<TKey, TElement>(this IGrouping<TKey, TElement> grouping, out TKey key, out IEnumerable<TElement> elements)
+    {
+        key = grouping.Key;
+        elements = grouping;
+    }
+
     public static TElement? ElementAtOrLastOrDefault<TElement>(this IEnumerable<TElement> source, int index)
     {
         return source.ElementAtOrDefault(index) ?? source.LastOrDefault();

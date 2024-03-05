@@ -1,9 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Primitives;
+using Snap.Hutao.Control.AutoSuggestBox;
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Avatar;
+using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -17,55 +18,61 @@ internal static class AvatarFilter
     /// </summary>
     /// <param name="input">输入</param>
     /// <returns>筛选操作</returns>
-    public static Predicate<Avatar> Compile(string input)
+    public static Predicate<Avatar> Compile(ObservableCollection<SearchToken> input)
     {
         return (Avatar avatar) => DoFilter(input, avatar);
     }
 
-    private static bool DoFilter(string input, Avatar avatar)
+    private static bool DoFilter(ObservableCollection<SearchToken> input, Avatar avatar)
     {
         List<bool> matches = [];
-        foreach (StringSegment segment in new StringTokenizer(input, [' ']))
+
+        foreach ((SearchTokenKind kind, IEnumerable<string> tokens) in input.GroupBy(token => token.Kind, token => token.Value))
         {
-            string value = segment.ToString();
-
-            if (avatar.Name == value)
+            switch (kind)
             {
-                matches.Add(true);
-                continue;
-            }
+                case SearchTokenKind.ElementName:
+                    if (IntrinsicFrozen.ElementNames.Overlaps(tokens))
+                    {
+                        matches.Add(tokens.Contains(avatar.FetterInfo.VisionBefore));
+                    }
 
-            if (IntrinsicFrozen.ElementNames.Contains(value))
-            {
-                matches.Add(avatar.FetterInfo.VisionBefore == value);
-                continue;
-            }
+                    break;
+                case SearchTokenKind.AssociationType:
+                    if (IntrinsicFrozen.AssociationTypes.Overlaps(tokens))
+                    {
+                        matches.Add(tokens.Contains(avatar.FetterInfo.Association.GetLocalizedDescriptionOrDefault()));
+                    }
 
-            if (IntrinsicFrozen.AssociationTypes.Contains(value))
-            {
-                matches.Add(avatar.FetterInfo.Association.GetLocalizedDescriptionOrDefault() == value);
-                continue;
-            }
+                    break;
+                case SearchTokenKind.WeaponType:
+                    if (IntrinsicFrozen.WeaponTypes.Overlaps(tokens))
+                    {
+                        matches.Add(tokens.Contains(avatar.Weapon.GetLocalizedDescriptionOrDefault()));
+                    }
 
-            if (IntrinsicFrozen.WeaponTypes.Contains(value))
-            {
-                matches.Add(avatar.Weapon.GetLocalizedDescriptionOrDefault() == value);
-                continue;
-            }
+                    break;
+                case SearchTokenKind.ItemQuality:
+                    if (IntrinsicFrozen.ItemQualities.Overlaps(tokens))
+                    {
+                        matches.Add(tokens.Contains(avatar.Quality.GetLocalizedDescriptionOrDefault()));
+                    }
 
-            if (IntrinsicFrozen.ItemQualities.Contains(value))
-            {
-                matches.Add(avatar.Quality.GetLocalizedDescriptionOrDefault() == value);
-                continue;
-            }
+                    break;
+                case SearchTokenKind.BodyType:
+                    if (IntrinsicFrozen.BodyTypes.Overlaps(tokens))
+                    {
+                        matches.Add(tokens.Contains(avatar.Body.GetLocalizedDescriptionOrDefault()));
+                    }
 
-            if (IntrinsicFrozen.BodyTypes.Contains(value))
-            {
-                matches.Add(avatar.Body.GetLocalizedDescriptionOrDefault() == value);
-                continue;
+                    break;
+                case SearchTokenKind.Avatar:
+                    matches.Add(tokens.Contains(avatar.Name));
+                    break;
+                default:
+                    matches.Add(false);
+                    break;
             }
-
-            matches.Add(false);
         }
 
         return matches.Count > 0 && matches.Aggregate((a, b) => a && b);

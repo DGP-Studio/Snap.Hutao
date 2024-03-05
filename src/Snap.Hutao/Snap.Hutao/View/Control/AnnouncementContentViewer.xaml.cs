@@ -7,6 +7,7 @@ using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
+using System.Collections.Frozen;
 using System.Text;
 using System.Text.RegularExpressions;
 using Windows.Foundation;
@@ -29,17 +30,17 @@ internal sealed partial class AnnouncementContentViewer : UserControl
         }
         """;
 
-    private static readonly Dictionary<string, string> DarkLightReverts = new()
-    {
-        { "color:rgba(0,0,0,1)", "color:rgba(255,255,255,1)" },
-        { "color:rgba(17,17,17,1)", "color:rgba(238,238,238,1)" },
-        { "color:rgba(51,51,51,1)", "color:rgba(204,204,204,1)" },
-        { "color:rgba(57,59,64,1)", "color:rgba(198,196,191,1)" },
-        { "color:rgba(85,85,85,1)", "color:rgba(170,170,170,1)" },
-        { "background-color: rgb(255, 215, 185)", "background-color: rgb(0,40,70)" },
-        { "background-color: rgb(254, 245, 231)", "background-color: rgb(1,40,70)" },
-        { "background-color:rgb(244, 244, 245)", "background-color:rgba(11, 11, 10)" },
-    };
+    private static readonly FrozenDictionary<string, string> DarkLightReverts = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create("color:rgba(0,0,0,1)", "color:rgba(255,255,255,1)"),
+        KeyValuePair.Create("color:rgba(17,17,17,1)", "color:rgba(238,238,238,1)"),
+        KeyValuePair.Create("color:rgba(51,51,51,1)", "color:rgba(204,204,204,1)"),
+        KeyValuePair.Create("color:rgba(57,59,64,1)", "color:rgba(198,196,191,1)"),
+        KeyValuePair.Create("color:rgba(85,85,85,1)", "color:rgba(170,170,170,1)"),
+        KeyValuePair.Create("background-color: rgb(255, 215, 185)", "background-color: rgb(0,40,70)"),
+        KeyValuePair.Create("background-color: rgb(254, 245, 231)", "background-color: rgb(1,40,70)"),
+        KeyValuePair.Create("background-color:rgb(244, 244, 245)", "background-color:rgba(11, 11, 10)"),
+    ]);
 
     private readonly RoutedEventHandler loadEventHandler;
     private readonly RoutedEventHandler unloadEventHandler;

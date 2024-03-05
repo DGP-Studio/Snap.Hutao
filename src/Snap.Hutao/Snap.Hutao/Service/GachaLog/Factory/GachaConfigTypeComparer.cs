@@ -13,14 +13,14 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 internal sealed class GachaConfigTypeComparer : IComparer<GachaConfigType>
 {
     private static readonly Lazy<GachaConfigTypeComparer> LazyShared = new(() => new());
-    private static readonly FrozenDictionary<GachaConfigType, int> OrderMap = new Dictionary<GachaConfigType, int>()
-    {
-        [GachaConfigType.AvatarEventWish] = 0,
-        [GachaConfigType.AvatarEventWish2] = 1,
-        [GachaConfigType.WeaponEventWish] = 2,
-        [GachaConfigType.StandardWish] = 3,
-        [GachaConfigType.NoviceWish] = 4,
-    }.ToFrozenDictionary();
+    private static readonly FrozenDictionary<GachaConfigType, int> OrderMap = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(GachaConfigType.AvatarEventWish, 0),
+        KeyValuePair.Create(GachaConfigType.AvatarEventWish2, 1),
+        KeyValuePair.Create(GachaConfigType.WeaponEventWish, 2),
+        KeyValuePair.Create(GachaConfigType.StandardWish, 3),
+        KeyValuePair.Create(GachaConfigType.NoviceWish, 4),
+    ]);
 
     /// <summary>
     /// 共享的比较器
