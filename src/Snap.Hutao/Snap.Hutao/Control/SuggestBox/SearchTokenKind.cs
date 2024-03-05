@@ -11,6 +11,7 @@ internal enum SearchTokenKind
     ElementNames,
     FightProperties,
     ItemQualities,
+    Others,
     Weapons,
     WeaponTypes,
 }

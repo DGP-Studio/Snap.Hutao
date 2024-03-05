@@ -56,7 +56,8 @@ internal static class WeaponFilter
                     matches.Add(tokens.Contains(weapon.Name));
                     break;
                 default:
-                    throw Must.NeverHappen();
+                    matches.Add(false);
+                    break;
             }
         }
 

@@ -3,8 +3,8 @@
 
 using Microsoft.UI;
 using Snap.Hutao.Control;
+using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Win32;
 using System.Collections.Frozen;
 using Windows.UI;
 
@@ -35,11 +35,11 @@ internal sealed class QualityColorConverter : ValueConverter<QualityType, Color>
     {
         return quality switch
         {
-            QualityType.QUALITY_WHITE => StructMarshal.Color(0xFF72778B),
-            QualityType.QUALITY_GREEN => StructMarshal.Color(0xFF2A8F72),
-            QualityType.QUALITY_BLUE => StructMarshal.Color(0xFF5180CB),
-            QualityType.QUALITY_PURPLE => StructMarshal.Color(0xFFA156E0),
-            QualityType.QUALITY_ORANGE or QualityType.QUALITY_ORANGE_SP => StructMarshal.Color(0xFFBC6932),
+            QualityType.QUALITY_WHITE => KnownColors.White,
+            QualityType.QUALITY_GREEN => KnownColors.Green,
+            QualityType.QUALITY_BLUE => KnownColors.Blue,
+            QualityType.QUALITY_PURPLE => KnownColors.Purple,
+            QualityType.QUALITY_ORANGE or QualityType.QUALITY_ORANGE_SP => KnownColors.Orange,
             _ => Colors.Transparent,
         };
     }

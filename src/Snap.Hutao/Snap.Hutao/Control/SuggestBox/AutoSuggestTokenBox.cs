@@ -4,12 +4,11 @@
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.SuggestBox;
-using System.Collections.Frozen;
 
 namespace Snap.Hutao.View.Control;
 
 [DependencyProperty("FilterCommand", typeof(ICommand))]
-[DependencyProperty("AvailableTokens", typeof(FrozenDictionary<string, SearchToken>))]
+[DependencyProperty("AvailableTokens", typeof(IReadOnlyDictionary<string, SearchToken>))]
 internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
 {
     public AutoSuggestTokenBox()
@@ -54,7 +53,7 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
             return;
         }
 
-        args.Item = AvailableTokens[args.TokenText];
+        args.Item = AvailableTokens.GetValueOrDefault(args.TokenText) ?? new SearchToken(args.TokenText, SearchTokenKind.Others);
     }
 
     private void OnTokenItemModified(TokenizingTextBox sender, object args)

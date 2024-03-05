@@ -70,7 +70,8 @@ internal static class AvatarFilter
                     matches.Add(tokens.Contains(avatar.Name));
                     break;
                 default:
-                    throw Must.NeverHappen();
+                    matches.Add(false);
+                    break;
             }
         }
 
