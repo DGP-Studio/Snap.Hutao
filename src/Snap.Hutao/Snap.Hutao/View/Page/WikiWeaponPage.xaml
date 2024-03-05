@@ -186,7 +186,7 @@
                                 PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder}"
                                 QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
                                 SuggestedItemTemplate="{StaticResource TokenTemplate}"
-                                SuggestedItemsSource="{Binding AvailableQueries}"
+                                SuggestedItemsSource="{Binding AvailableTokens.Values}"
                                 Text="{Binding FilterToken, Mode=TwoWay}"
                                 TokenItemTemplate="{StaticResource TokenTemplate}"/>
                         </AppBarElementContainer>

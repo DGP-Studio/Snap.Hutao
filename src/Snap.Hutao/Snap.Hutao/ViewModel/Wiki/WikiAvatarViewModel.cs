@@ -90,8 +90,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
-    public IEnumerable<SearchToken>? AvailableQueries { get => availableTokens.Values; }
-
     protected override async ValueTask<bool> InitializeUIAsync()
     {
         if (!await metadataService.InitializeAsync().ConfigureAwait(false))

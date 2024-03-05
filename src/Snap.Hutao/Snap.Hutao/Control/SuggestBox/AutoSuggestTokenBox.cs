@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.SuggestBox;
-using Snap.Hutao.Model.Intrinsic.Frozen;
 using System.Collections.Frozen;
 
 namespace Snap.Hutao.View.Control;

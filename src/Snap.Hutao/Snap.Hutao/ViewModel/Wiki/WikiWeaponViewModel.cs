@@ -87,8 +87,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
-    public IEnumerable<SearchToken>? AvailableQueries { get => availableTokens.Values; }
-
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
