@@ -186,9 +186,6 @@
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>WebView2 Runtime tidak terdeteksi.</value>
   </data>
-  <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
-    <value>[{0}] Hotkey [{1}] gagal terdaftar</value>
-  </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>Ekspor</value>
   </data>
@@ -2895,7 +2892,7 @@
     <value>〓Durasi Event〓.*?\d\.\d Tersedia selama versi ini</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓Waktu Acara〓|Waktu Menginginkan|【Waktu Peluncuran】|〓Waktu Diskon〓).*?(\d\.\d Setelah Pembaruan Versi).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓Durasi Event〓|Durasi Event Wish|【Ketersediaan DUrasi】).*?(\d\.\dSetelah pembaruan versi).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓Durasi Pemeliharaan Pembaruan.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
