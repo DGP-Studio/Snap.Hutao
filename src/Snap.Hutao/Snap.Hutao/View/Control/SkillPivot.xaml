@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shcs="using:Snap.Hutao.Control.Segmented"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
     mc:Ignorable="d">
 
@@ -25,11 +26,11 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <cwc:Segmented
+        <shcs:Segmented
             x:Name="SkillSelectorSegmented"
             HorizontalAlignment="Stretch"
-            SelectionChanged="OnSkillSelectorSegmentedSelectionChanged"
-            ItemTemplate="{StaticResource SkillHeaderTemplate}"/>
+            ItemTemplate="{StaticResource SkillHeaderTemplate}"
+            SelectionChanged="OnSkillSelectorSegmentedSelectionChanged"/>
         <ContentPresenter Content="{x:Bind Selected, Mode=OneWay}" ContentTemplate="{x:Bind ItemTemplate}"/>
     </StackPanel>
 </UserControl>

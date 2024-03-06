@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Control.Segmented;
 using Snap.Hutao.Core.Setting;
 using System.Collections.Frozen;
 
@@ -15,7 +15,7 @@ namespace Snap.Hutao.Control.Panel;
 [DependencyProperty("Current", typeof(string), List)]
 [DependencyProperty("LocalSettingKeySuffixForCurrent", typeof(string))]
 [DependencyProperty("LocalSettingKeyExtraForCurrent", typeof(string), "")]
-internal sealed partial class PanelSelector : Segmented
+internal sealed partial class PanelSelector : Segmented.Segmented
 {
     public const string List = nameof(List);
     public const string Grid = nameof(Grid);

@@ -9,6 +9,8 @@
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.TokenizingTextBox/TokenizingTextBox.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Loading.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Image/CachedImage.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Control/Segmented/Segmented.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Control/Segmented/SegmentedItem.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Card.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Color.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/ComboBox.xaml"/>

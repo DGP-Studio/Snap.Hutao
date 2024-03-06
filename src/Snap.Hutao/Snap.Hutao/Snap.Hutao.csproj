@@ -296,7 +296,6 @@
     <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
