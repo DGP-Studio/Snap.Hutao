@@ -4,44 +4,45 @@
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 /// <summary>
-/// 祈愿配置类型
+/// 祈愿类型
 /// </summary>
 [HighQuality]
 [Localization]
-internal enum GachaConfigType
+internal enum GachaType
 {
     /// <summary>
     /// 新手池
     /// </summary>
-    [Description("新手祈愿")]
     [LocalizationKey(nameof(SH.WebGachaConfigTypeNoviceWish))]
-    NoviceWish = 100,
+    NewBie = 100,
 
     /// <summary>
     /// 常驻池
     /// </summary>
-    [Description("常驻祈愿")]
     [LocalizationKey(nameof(SH.WebGachaConfigTypePermanentWish))]
-    StandardWish = 200,
+    Standard = 200,
 
     /// <summary>
     /// 角色1池
     /// </summary>
-    [Description("角色活动祈愿")]
     [LocalizationKey(nameof(SH.WebGachaConfigTypeAvatarEventWish))]
-    AvatarEventWish = 301,
+    ActivityAvatar = 301,
 
     /// <summary>
     /// 武器池
     /// </summary>
-    [Description("武器活动祈愿")]
     [LocalizationKey(nameof(SH.WebGachaConfigTypeWeaponEventWish))]
-    WeaponEventWish = 302,
+    ActivityWeapon = 302,
 
     /// <summary>
     /// 角色2池
     /// </summary>
-    [Description("角色活动祈愿-2")]
     [LocalizationKey(nameof(SH.WebGachaConfigTypeAvatarEventWish2))]
-    AvatarEventWish2 = 400,
+    SpecialActivityAvatar = 400,
+
+    /// <summary>
+    /// 集录池
+    /// </summary>
+    [LocalizationKey(nameof(SH.WebGachaConfigTypeChronicledWish))]
+    ActivityCity = 500,
 }

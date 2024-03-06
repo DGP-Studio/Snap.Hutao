@@ -15,21 +15,6 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 [HighQuality]
 internal sealed class TypedWishSummaryBuilder
 {
-    /// <summary>
-    /// 常驻祈愿
-    /// </summary>
-    public static readonly Func<GachaConfigType, bool> IsStandardWish = type => type is GachaConfigType.StandardWish;
-
-    /// <summary>
-    /// 角色活动
-    /// </summary>
-    public static readonly Func<GachaConfigType, bool> IsAvatarEventWish = type => type is GachaConfigType.AvatarEventWish or GachaConfigType.AvatarEventWish2;
-
-    /// <summary>
-    /// 武器活动
-    /// </summary>
-    public static readonly Func<GachaConfigType, bool> IsWeaponEventWish = type => type is GachaConfigType.WeaponEventWish;
-
     private readonly TypedWishSummaryBuilderContext context;
 
     private readonly List<int> averageOrangePullTracker = [];
@@ -62,52 +47,54 @@ internal sealed class TypedWishSummaryBuilder
     /// <param name="isUp">是否为Up物品</param>
     public void Track(GachaItem item, ISummaryItemSource source, bool isUp)
     {
-        if (context.TypeEvaluator(item.GachaType))
+        if (!context.TypeEvaluator(item.GachaType))
         {
-            ++lastOrangePullTracker;
-            ++lastPurplePullTracker;
-            ++lastUpOrangePullTracker;
+            return;
+        }
 
-            // track total pulls
-            ++totalCountTracker;
-            TrackFromToTime(item.Time);
+        ++lastOrangePullTracker;
+        ++lastPurplePullTracker;
+        ++lastUpOrangePullTracker;
 
-            switch (source.Quality)
-            {
-                case QualityType.QUALITY_ORANGE:
+        // track total pulls
+        ++totalCountTracker;
+        TrackFromToTime(item.Time);
+
+        switch (source.Quality)
+        {
+            case QualityType.QUALITY_ORANGE:
+                {
+                    TrackMinMaxOrangePull(lastOrangePullTracker);
+                    averageOrangePullTracker.Add(lastOrangePullTracker);
+
+                    if (isUp)
                     {
-                        TrackMinMaxOrangePull(lastOrangePullTracker);
-                        averageOrangePullTracker.Add(lastOrangePullTracker);
-
-                        if (isUp)
-                        {
-                            averageUpOrangePullTracker.Add(lastUpOrangePullTracker);
-                            lastUpOrangePullTracker = 0;
-                        }
-
-                        summaryItems.Add(source.ToSummaryItem(lastOrangePullTracker, item.Time, isUp));
-
-                        lastOrangePullTracker = 0;
-                        ++totalOrangePullTracker;
-                        break;
+                        averageUpOrangePullTracker.Add(lastUpOrangePullTracker);
+                        lastUpOrangePullTracker = 0;
                     }
 
-                case QualityType.QUALITY_PURPLE:
-                    {
-                        lastPurplePullTracker = 0;
-                        ++totalPurplePullTracker;
-                        break;
-                    }
+                    summaryItems.Add(source.ToSummaryItem(lastOrangePullTracker, item.Time, isUp));
 
-                case QualityType.QUALITY_BLUE:
-                    {
-                        ++totalBluePullTracker;
-                        break;
-                    }
-
-                default:
+                    lastOrangePullTracker = 0;
+                    ++totalOrangePullTracker;
                     break;
-            }
+                }
+
+            case QualityType.QUALITY_PURPLE:
+                {
+                    lastPurplePullTracker = 0;
+                    ++totalPurplePullTracker;
+                    break;
+                }
+
+            case QualityType.QUALITY_BLUE:
+                {
+                    ++totalBluePullTracker;
+                    break;
+                }
+
+            default:
+                break;
         }
     }
 

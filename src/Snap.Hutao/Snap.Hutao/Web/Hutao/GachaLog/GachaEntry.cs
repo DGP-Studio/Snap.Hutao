@@ -11,6 +11,11 @@ internal sealed class GachaEntry
     public string Uid { get; set; } = default!;
 
     /// <summary>
+    /// 是否被排除出了全球统计
+    /// </summary>
+    public bool Excluded { get; set; }
+
+    /// <summary>
     /// 物品个数
     /// </summary>
     public int ItemCount { get; set; }

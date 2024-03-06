@@ -62,7 +62,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         Guid archiveId = archive.InnerId;
 
         List<GachaItem> fullItems = [];
-        foreach (GachaConfigType queryType in GachaLog.QueryTypes)
+        foreach (GachaType queryType in GachaLog.QueryTypes)
         {
             long trimId = gachaLogDbService.GetOldestGachaItemIdByArchiveIdAndQueryType(archiveId, queryType);
             logger.LogInformation("Last Id to trim with: [{Id}]", trimId);

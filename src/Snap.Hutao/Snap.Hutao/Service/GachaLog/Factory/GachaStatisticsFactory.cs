@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao.GachaLog;
@@ -31,9 +32,8 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
     public async ValueTask<GachaStatistics> CreateAsync(List<Model.Entity.GachaItem> items, GachaLogServiceMetadataContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<GachaEvent> gachaEvents = await metadataService.GetGachaEventListAsync().ConfigureAwait(false);
-        List<HistoryWishBuilder> historyWishBuilders = gachaEvents.SelectList(gachaEvent => new HistoryWishBuilder(gachaEvent, context));
 
+        List<HistoryWishBuilder> historyWishBuilders = context.GachaEvents.SelectList(gachaEvent => new HistoryWishBuilder(gachaEvent, context));
         return CreateCore(taskContext, homaGachaLogClient, items, historyWishBuilders, context, options.IsEmptyHistoryWishVisible);
     }
 
@@ -54,6 +54,9 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         TypedWishSummaryBuilderContext weaponContext = TypedWishSummaryBuilderContext.WeaponEventWish(taskContext, gachaLogClient);
         TypedWishSummaryBuilder weaponWishBuilder = new(weaponContext);
 
+        TypedWishSummaryBuilderContext chronicledContext = TypedWishSummaryBuilderContext.ChronicledWish(taskContext, gachaLogClient);
+        TypedWishSummaryBuilder chronicledWishBuilder = new(chronicledContext);
+
         Dictionary<Avatar, int> orangeAvatarCounter = [];
         Dictionary<Avatar, int> purpleAvatarCounter = [];
         Dictionary<Weapon, int> orangeWeaponCounter = [];
@@ -61,24 +64,25 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         Dictionary<Weapon, int> blueWeaponCounter = [];
 
         // Pre group builders
-        Dictionary<GachaConfigType, List<HistoryWishBuilder>> historyWishBuilderMap = historyWishBuilders
+        Dictionary<GachaType, List<HistoryWishBuilder>> historyWishBuilderMap = historyWishBuilders
             .GroupBy(b => b.ConfigType)
             .ToDictionary(g => g.Key, g => g.ToList().SortBy(b => b.From));
 
         // Items are ordered by precise time, first is oldest
         // 'ref' is not allowed here because we have lambda below
-        foreach (Model.Entity.GachaItem item in CollectionsMarshal.AsSpan(items))
+        foreach (ref readonly Model.Entity.GachaItem item in CollectionsMarshal.AsSpan(items))
         {
-            // Find target history wish to operate. // w.From <= item.Time <= w.To
-            HistoryWishBuilder? targetHistoryWishBuilder = item.GachaType is not (GachaConfigType.StandardWish or GachaConfigType.NoviceWish)
-                ? historyWishBuilderMap[item.GachaType].BinarySearch(w => item.Time < w.From ? -1 : item.Time > w.To ? 1 : 0)
+            // Find target history wish to operate. // banner.From <= item.Time <= banner.To
+            Model.Entity.GachaItem pinned = item;
+            HistoryWishBuilder? targetHistoryWishBuilder = item.GachaType is not (GachaType.Standard or GachaType.NewBie)
+                ? historyWishBuilderMap[item.GachaType].BinarySearch(banner => pinned.Time < banner.From ? -1 : pinned.Time > banner.To ? 1 : 0)
                 : default;
 
             switch (item.ItemId.StringLength())
             {
                 case 8U:
                     {
-                        Avatar avatar = context.IdAvatarMap[item.ItemId];
+                        Avatar avatar = context.GetAvatar(item.ItemId);
 
                         bool isUp = false;
                         switch (avatar.Quality)
@@ -98,6 +102,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
                         standardWishBuilder.Track(item, avatar, isUp);
                         avatarWishBuilder.Track(item, avatar, isUp);
                         weaponWishBuilder.Track(item, avatar, isUp);
+                        chronicledWishBuilder.Track(item, avatar, isUp);
                         break;
                     }
 
@@ -127,17 +132,18 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
                         standardWishBuilder.Track(item, weapon, isUp);
                         avatarWishBuilder.Track(item, weapon, isUp);
                         weaponWishBuilder.Track(item, weapon, isUp);
+                        chronicledWishBuilder.Track(item, weapon, isUp);
                         break;
                     }
 
                 default:
                     // ItemId string length not correct.
-                    ThrowHelper.UserdataCorrupted(SH.FormatServiceGachaStatisticsFactoryItemIdInvalid(item.ItemId), default!);
+                    HutaoException.GachaStatisticsInvalidItemId(item.ItemId);
                     break;
             }
         }
 
-        AsyncBarrier barrier = new(3);
+        AsyncBarrier barrier = new(4);
 
         return new()
         {
@@ -145,7 +151,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             HistoryWishes = historyWishBuilders
                 .Where(b => isEmptyHistoryWishVisible || (!b.IsEmpty))
                 .OrderByDescending(builder => builder.From)
-                .ThenBy(builder => builder.ConfigType, GachaConfigTypeComparer.Shared)
+                .ThenBy(builder => builder.ConfigType, GachaTypeComparer.Shared)
                 .Select(builder => builder.ToHistoryWish())
                 .ToList(),
 
@@ -162,6 +168,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             StandardWish = standardWishBuilder.ToTypedWishSummary(barrier),
             AvatarWish = avatarWishBuilder.ToTypedWishSummary(barrier),
             WeaponWish = weaponWishBuilder.ToTypedWishSummary(barrier),
+            ChronicledWish = chronicledWishBuilder.ToTypedWishSummary(barrier),
         };
     }
 }

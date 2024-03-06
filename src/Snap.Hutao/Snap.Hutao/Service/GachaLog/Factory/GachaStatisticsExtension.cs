@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.ViewModel.GachaLog;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.UI;
@@ -25,7 +26,7 @@ internal static class GachaStatisticsExtension
         bool isPreviousUp = true;
 
         // mark the IsGuarantee
-        foreach (SummaryItem item in summaryItems)
+        foreach (ref readonly SummaryItem item in CollectionsMarshal.AsSpan(summaryItems))
         {
             if (item.IsUp && (!isPreviousUp))
             {

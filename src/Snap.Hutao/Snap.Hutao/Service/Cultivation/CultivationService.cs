@@ -39,7 +39,7 @@ internal sealed partial class CultivationService : ICultivationService
             List<InventoryItem> entities = cultivationDbService.GetInventoryItemListByProjectId(projectId);
 
             List<InventoryItemView> results = [];
-            foreach (Material meta in context.EnumerateInventroyMaterial())
+            foreach (Material meta in context.EnumerateInventoryMaterial())
             {
                 InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.From(projectId, meta.Id);
                 results.Add(new(entity, meta, saveCommand));

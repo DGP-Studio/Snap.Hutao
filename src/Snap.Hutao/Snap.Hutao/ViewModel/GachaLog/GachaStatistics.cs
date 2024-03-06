@@ -20,6 +20,11 @@ internal sealed class GachaStatistics
     public TypedWishSummary WeaponWish { get; set; } = default!;
 
     /// <summary>
+    /// 集录祈愿
+    /// </summary>
+    public TypedWishSummary ChronicledWish { get; set; } = default!;
+
+    /// <summary>
     /// 奔行世间
     /// </summary>
     public TypedWishSummary StandardWish { get; set; } = default!;

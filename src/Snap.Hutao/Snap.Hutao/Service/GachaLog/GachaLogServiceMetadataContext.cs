@@ -2,10 +2,12 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -13,65 +15,28 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 祈愿记录服务上下文
 /// </summary>
-internal readonly struct GachaLogServiceMetadataContext
+internal sealed class GachaLogServiceMetadataContext : IMetadataContext,
+    IMetadataSupportInitialization,
+    IMetadataListGachaEventSource,
+    IMetadataDictionaryIdAvatarSource,
+    IMetadataDictionaryIdWeaponSource,
+    IMetadataDictionaryNameAvatarSource,
+    IMetadataDictionaryNameWeaponSource
 {
-    /// <summary>
-    /// 物品缓存
-    /// </summary>
-    public readonly Dictionary<string, Item> ItemCache = [];
+    public Dictionary<string, Item> ItemCache { get; set; } = [];
 
-    /// <summary>
-    /// Id 角色 映射
-    /// </summary>
-    public readonly Dictionary<AvatarId, Avatar> IdAvatarMap;
+    public List<GachaEvent> GachaEvents { get; set; } = default!;
 
-    /// <summary>
-    /// Id 武器 映射
-    /// </summary>
-    public readonly Dictionary<WeaponId, Weapon> IdWeaponMap;
+    public Dictionary<AvatarId, Avatar> IdAvatarMap { get; set; } = default!;
 
-    /// <summary>
-    /// 名称 角色 映射
-    /// </summary>
-    public readonly Dictionary<string, Avatar> NameAvatarMap;
+    public Dictionary<WeaponId, Weapon> IdWeaponMap { get; set; } = default!;
 
-    /// <summary>
-    /// 名称 武器 映射
-    /// </summary>
-    public readonly Dictionary<string, Weapon> NameWeaponMap;
+    public Dictionary<string, Avatar> NameAvatarMap { get; set; } = default!;
 
-    /// <summary>
-    /// 是否初始化完成
-    /// </summary>
-    public readonly bool IsInitialized;
+    public Dictionary<string, Weapon> NameWeaponMap { get; set; } = default!;
 
-    /// <summary>
-    /// 构造一个新的祈愿记录服务上下文
-    /// </summary>
-    /// <param name="idAvatarMap">Id 角色 映射</param>
-    /// <param name="idWeaponMap">Id 武器 映射</param>
-    /// <param name="nameAvatarMap">名称 角色 映射</param>
-    /// <param name="nameWeaponMap">名称 武器 映射</param>
-    public GachaLogServiceMetadataContext(
-        Dictionary<AvatarId, Avatar> idAvatarMap,
-        Dictionary<WeaponId, Weapon> idWeaponMap,
-        Dictionary<string, Avatar> nameAvatarMap,
-        Dictionary<string, Weapon> nameWeaponMap)
-    {
-        IdAvatarMap = idAvatarMap;
-        IdWeaponMap = idWeaponMap;
-        NameAvatarMap = nameAvatarMap;
-        NameWeaponMap = nameWeaponMap;
+    public bool IsInitialized { get; set; }
 
-        IsInitialized = true;
-    }
-
-    /// <summary>
-    /// 按名称获取物品
-    /// </summary>
-    /// <param name="name">名称</param>
-    /// <param name="type">类型</param>
-    /// <returns>物品</returns>
     public Item GetItemByNameAndType(string name, string type)
     {
         if (!ItemCache.TryGetValue(name, out Item? result))
@@ -93,11 +58,6 @@ internal readonly struct GachaLogServiceMetadataContext
         return result;
     }
 
-    /// <summary>
-    /// 按物品 Id 获取名称星级
-    /// </summary>
-    /// <param name="id">Id</param>
-    /// <returns>名称星级</returns>
     public INameQuality GetNameQualityByItemId(uint id)
     {
         uint place = id.StringLength();
@@ -109,12 +69,6 @@ internal readonly struct GachaLogServiceMetadataContext
         };
     }
 
-    /// <summary>
-    /// 获取物品 Id
-    /// O(1)
-    /// </summary>
-    /// <param name="item">祈愿物品</param>
-    /// <returns>物品 Id</returns>
     public uint GetItemId(GachaLogItem item)
     {
         if (item.ItemType == SH.ModelInterchangeUIGFItemTypeAvatar)
