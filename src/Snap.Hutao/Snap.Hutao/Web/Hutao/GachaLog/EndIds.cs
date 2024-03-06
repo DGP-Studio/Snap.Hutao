@@ -55,6 +55,7 @@ internal sealed class EndIds
                 GachaType.Standard => StandardWish,
                 GachaType.ActivityAvatar => AvatarEventWish,
                 GachaType.ActivityWeapon => WeaponEventWish,
+                GachaType.ActivityCity => ChronicledWish,
                 _ => 0,
             };
         }
