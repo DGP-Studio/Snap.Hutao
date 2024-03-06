@@ -10,6 +10,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
@@ -503,42 +504,42 @@
                     </mxi:Interaction.Behaviors>
 
                     <Grid.Resources>
+                        <DataTemplate x:Key="AvatarViewTemplate" d:DataType="shvcom:AvatarView">
+                            <shvcon:ItemIcon
+                                Width="40"
+                                Height="40"
+                                shch:UIElementHelper.OpacityObject="{Binding Icon}"
+                                Icon="{Binding Icon}"
+                                Opacity="0"
+                                Quality="{Binding Quality}"/>
+                        </DataTemplate>
+
                         <DataTemplate x:Key="TeamItemTemplate" d:DataType="shvcom:Team">
-                            <Border Margin="0,0,16,8" Style="{StaticResource BorderCardStyle}">
-                                <Grid Margin="6">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="184"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <ItemsControl
-                                        MinWidth="210"
-                                        HorizontalAlignment="Left"
-                                        ItemsSource="{Binding}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal" Spacing="6"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <shvcon:ItemIcon
-                                                    Width="40"
-                                                    Height="40"
-                                                    Icon="{Binding Icon}"
-                                                    Quality="{Binding Quality}"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                    <Viewbox
-                                        Grid.Column="1"
-                                        Height="40"
-                                        Stretch="Uniform">
-                                        <TextBlock
-                                            Margin="4,8"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Rate}"/>
+                            <Border Style="{StaticResource BorderCardStyle}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Viewbox Stretch="Uniform">
+                                        <ItemsControl
+                                            Margin="4"
+                                            HorizontalAlignment="Left"
+                                            ItemTemplate="{StaticResource AvatarViewTemplate}"
+                                            ItemsPanel="{ThemeResource HorizontalStackPanelSpacing4Template}"
+                                            ItemsSource="{Binding}"/>
                                     </Viewbox>
+                                    <Border
+                                        Grid.Row="1"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                        CornerRadius="{ThemeResource ControlCornerRadiusBottom}"
+                                        Opacity="0.7"/>
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Margin="4"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Rate}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -692,27 +693,35 @@
                                         </Grid.ColumnDefinitions>
                                         <ListView
                                             Grid.Column="0"
-                                            Padding="0,0,0,0"
+                                            Padding="0"
                                             ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
                                             ItemTemplate="{StaticResource TeamItemTemplate}"
                                             ItemsSource="{Binding Up}"
                                             SelectionMode="None">
                                             <ListView.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <shcp:UniformPanel MinItemWidth="240"/>
+                                                    <shcp:UniformPanel
+                                                        Padding="0,0,16,0"
+                                                        ColumnSpacing="6"
+                                                        MinItemWidth="240"
+                                                        RowSpacing="2"/>
                                                 </ItemsPanelTemplate>
                                             </ListView.ItemsPanel>
                                         </ListView>
                                         <ListView
                                             Grid.Column="1"
-                                            Padding="0,0,0,0"
+                                            Padding="0"
                                             ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
                                             ItemTemplate="{StaticResource TeamItemTemplate}"
                                             ItemsSource="{Binding Down}"
                                             SelectionMode="None">
                                             <ListView.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <shcp:UniformPanel MinItemWidth="240"/>
+                                                    <shcp:UniformPanel
+                                                        Padding="0,0,16,0"
+                                                        ColumnSpacing="6"
+                                                        MinItemWidth="240"
+                                                        RowSpacing="2"/>
                                                 </ItemsPanelTemplate>
                                             </ListView.ItemsPanel>
                                         </ListView>

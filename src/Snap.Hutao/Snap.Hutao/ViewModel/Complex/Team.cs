@@ -5,6 +5,7 @@ using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Complex;
@@ -28,6 +29,8 @@ internal sealed class Team : List<AvatarView>
             uint id = uint.Parse(item.AsSpan(), CultureInfo.InvariantCulture);
             Add(new(idAvatarMap[id]));
         }
+
+        AddRange(new AvatarView[4 - Count]);
 
         Rate = SH.FormatModelBindingHutaoTeamUpCountFormat(team.Rate);
     }
