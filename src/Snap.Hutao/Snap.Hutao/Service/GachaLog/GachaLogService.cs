@@ -56,7 +56,7 @@ internal sealed partial class GachaLogService : IGachaLogService
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeAsync(CancellationToken token = default)
     {
-        if (context.IsInitialized)
+        if (context is { IsInitialized: true })
         {
             return true;
         }
