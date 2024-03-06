@@ -2636,6 +2636,12 @@
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>Webview2 Runtime</value>
   </data>
+  <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
+    <value>下半</value>
+  </data>
+  <data name="ViewPageSpiralAbyssTeamAppearanceUpHeader" xml:space="preserve">
+    <value>上半</value>
+  </data>
   <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
     <value>搭配圣遗物</value>
   </data>
