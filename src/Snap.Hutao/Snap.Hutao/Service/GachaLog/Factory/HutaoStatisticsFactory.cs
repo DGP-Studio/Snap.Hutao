@@ -5,6 +5,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Abstraction;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao.GachaLog;
@@ -56,12 +57,13 @@ internal sealed class HutaoStatisticsFactory
         {
             IStatisticsItemSource source = item.Item.StringLength() switch
             {
-                8U => context.IdAvatarMap[item.Item],
-                5U => context.IdWeaponMap[item.Item],
+                8U => context.GetAvatar(item.Item),
+                5U => context.GetWeapon(item.Item),
                 _ => throw HutaoException.GachaStatisticsInvalidItemId(item.Item),
             };
             StatisticsItem statisticsItem = source.ToStatisticsItem(unchecked((int)item.Count));
 
+            // Put UP items to a separate list
             if (gachaEvent.UpOrangeList.Contains(item.Item) || gachaEvent.UpPurpleList.Contains(item.Item))
             {
                 upItems.Add(statisticsItem);

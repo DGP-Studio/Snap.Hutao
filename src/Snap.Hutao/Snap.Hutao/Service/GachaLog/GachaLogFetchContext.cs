@@ -53,7 +53,7 @@ internal struct GachaLogFetchContext
     private readonly ITaskContext taskContext;
     private readonly bool isLazy;
 
-    public GachaLogFetchContext(IGachaLogDbService gachaLogDbService, ITaskContext taskContext, in GachaLogServiceMetadataContext serviceContext, bool isLazy)
+    public GachaLogFetchContext(IGachaLogDbService gachaLogDbService, ITaskContext taskContext, GachaLogServiceMetadataContext serviceContext, bool isLazy)
     {
         this.gachaLogDbService = gachaLogDbService;
         this.taskContext = taskContext;
@@ -140,8 +140,18 @@ internal struct GachaLogFetchContext
         // While no item is fetched, archive can be null.
         if (TargetArchive is not null)
         {
-            GachaItemSaveContext saveContext = new(ItemsToAdd, isLazy, QueryOptions.Type, QueryOptions.EndId, gachaLogDbService);
-            saveContext.SaveItems(TargetArchive);
+            if (ItemsToAdd.Count <= 0)
+            {
+                return;
+            }
+
+            // 全量刷新
+            if (!isLazy)
+            {
+                gachaLogDbService.RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(TargetArchive.InnerId, QueryOptions.Type, QueryOptions.EndId);
+            }
+
+            gachaLogDbService.AddGachaItemRange(ItemsToAdd);
         }
     }
 

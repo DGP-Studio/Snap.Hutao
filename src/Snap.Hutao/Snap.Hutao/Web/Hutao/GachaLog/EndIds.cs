@@ -35,6 +35,12 @@ internal sealed class EndIds
     public long WeaponEventWish { get; set; }
 
     /// <summary>
+    /// 集录祈愿
+    /// </summary>
+    [JsonPropertyName("500")]
+    public long ChronicledWish { get; set; }
+
+    /// <summary>
     /// 获取 Last Id
     /// </summary>
     /// <param name="type">类型</param>
@@ -83,5 +89,6 @@ internal sealed class EndIds
         yield return new(GachaType.Standard, StandardWish);
         yield return new(GachaType.ActivityAvatar, AvatarEventWish);
         yield return new(GachaType.ActivityWeapon, WeaponEventWish);
+        yield return new(GachaType.ActivityCity, ChronicledWish);
     }
 }

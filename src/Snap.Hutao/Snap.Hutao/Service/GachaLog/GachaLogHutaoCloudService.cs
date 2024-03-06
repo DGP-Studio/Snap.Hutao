@@ -56,14 +56,16 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     }
 
     /// <inheritdoc/>
-    public async ValueTask<ValueResult<bool, Guid>> RetrieveGachaItemsAsync(string uid, CancellationToken token = default)
+    public async ValueTask<ValueResult<bool, Guid>> RetrieveGachaArchiveIdAsync(string uid, CancellationToken token = default)
     {
         GachaArchive? archive = await gachaLogDbService
                 .GetGachaArchiveByUidAsync(uid, token)
                 .ConfigureAwait(false);
 
         EndIds endIds = await CreateEndIdsAsync(archive, token).ConfigureAwait(false);
-        Response<List<Web.Hutao.GachaLog.GachaItem>> resp = await homaGachaLogClient.RetrieveGachaItemsAsync(uid, endIds, token).ConfigureAwait(false);
+        Response<List<Web.Hutao.GachaLog.GachaItem>> resp = await homaGachaLogClient
+            .RetrieveGachaItemsAsync(uid, endIds, token)
+            .ConfigureAwait(false);
 
         if (!resp.IsOk())
         {
@@ -76,7 +78,8 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
             await gachaLogDbService.AddGachaArchiveAsync(archive).ConfigureAwait(false);
         }
 
-        List<Model.Entity.GachaItem> gachaItems = resp.Data.SelectList(i => Model.Entity.GachaItem.From(archive.InnerId, i));
+        Guid archiveId = archive.InnerId;
+        List<Model.Entity.GachaItem> gachaItems = resp.Data.SelectList(i => Model.Entity.GachaItem.From(archiveId, i));
         await gachaLogDbService.AddGachaItemsAsync(gachaItems).ConfigureAwait(false);
         return new(true, archive.InnerId);
     }

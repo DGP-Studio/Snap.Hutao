@@ -29,7 +29,6 @@ internal sealed class HistoryWishBuilder
     /// </summary>
     /// <param name="gachaEvent">卡池配置</param>
     /// <param name="context">祈愿记录上下文</param>
-    [SuppressMessage("", "SH002")]
     public HistoryWishBuilder(GachaEvent gachaEvent, GachaLogServiceMetadataContext context)
     {
         this.gachaEvent = gachaEvent;
@@ -112,13 +111,13 @@ internal sealed class HistoryWishBuilder
     {
         HistoryWish historyWish = new()
         {
-            // base
+            // Base
             Name = gachaEvent.Name,
             From = gachaEvent.From,
             To = gachaEvent.To,
             TotalCount = totalCountTracker,
 
-            // fill
+            // Fill
             Version = gachaEvent.Version,
             BannerImage = gachaEvent.Banner,
             OrangeUpList = orangeUpCounter.ToStatisticsList(),
