@@ -186,6 +186,9 @@
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>WebView2 ランタイムが検出されませんでした</value>
   </data>
+  <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
+    <value>[{0}] 热键 [{1}] 注册失败</value>
+  </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>エクスポート</value>
   </data>
@@ -856,6 +859,9 @@
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
     <value>イベント祈願・キャラクター</value>
+  </data>
+  <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
+    <value>集录祈愿</value>
   </data>
   <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
     <value>奔走世間</value>
@@ -2892,13 +2898,13 @@
     <value>〓イベント期間〓.*?\d\.\d当バージョン期間オープン</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓イベント期間〓|祈願期間|【開始日時】).*?(\d\.\dバージョンアップ完了後).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
-    <value>〓更新日時〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>〓メンテナンス時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>Ver.\d\.\d 更新内容</value>
+    <value>Ver.\d\.\d.+正式リリース</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>{0} 日後に開始</value>
@@ -3043,6 +3049,9 @@
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
     <value>イベント祈願・キャラクター2</value>
+  </data>
+  <data name="WebGachaConfigTypeChronicledWish" xml:space="preserve">
+    <value>集录祈愿</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
     <value>初心者祈願</value>
