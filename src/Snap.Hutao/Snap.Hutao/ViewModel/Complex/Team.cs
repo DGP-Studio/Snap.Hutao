@@ -21,7 +21,7 @@ internal sealed class Team : List<AvatarView>
     /// </summary>
     /// <param name="team">队伍</param>
     /// <param name="idAvatarMap">映射</param>
-    public Team(ItemRate<string, int> team, Dictionary<AvatarId, Avatar> idAvatarMap)
+    public Team(ItemRate<string, int> team, Dictionary<AvatarId, Avatar> idAvatarMap, int rank)
         : base(4)
     {
         foreach (StringSegment item in new StringTokenizer(team.Item, [',']))
@@ -33,10 +33,13 @@ internal sealed class Team : List<AvatarView>
         AddRange(new AvatarView[4 - Count]);
 
         Rate = SH.FormatModelBindingHutaoTeamUpCountFormat(team.Rate);
+        Rank = rank;
     }
 
     /// <summary>
     /// 上场次数
     /// </summary>
     public string Rate { get; }
+
+    public int Rank { get; set; }
 }

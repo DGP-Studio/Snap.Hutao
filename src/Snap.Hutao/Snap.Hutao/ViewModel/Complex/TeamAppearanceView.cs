@@ -21,8 +21,8 @@ internal sealed class TeamAppearanceView
     public TeamAppearanceView(TeamAppearance teamRank, Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         Floor = SH.FormatModelBindingHutaoComplexRankFloor(teamRank.Floor);
-        Up = teamRank.Up.SelectList(teamRate => new Team(teamRate, idAvatarMap));
-        Down = teamRank.Down.SelectList(teamRate => new Team(teamRate, idAvatarMap));
+        Up = teamRank.Up.SelectList((teamRate, index) => new Team(teamRate, idAvatarMap, index + 1));
+        Down = teamRank.Down.SelectList((teamRate, index) => new Team(teamRate, idAvatarMap, index + 1));
     }
 
     /// <summary>
