@@ -243,6 +243,11 @@
                                 PlaceholderText="{shcm:ResourceString Name=ViewPageAchievementSearchPlaceholder}"
                                 QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
                                 Text="{Binding SearchText, Mode=TwoWay}">
+                                <AutoSuggestBox.TextBoxStyle>
+                                    <Style BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}" TargetType="TextBox">
+                                        <Setter Property="IsSpellCheckEnabled" Value="False"/>
+                                    </Style>
+                                </AutoSuggestBox.TextBoxStyle>
                                 <mxi:Interaction.Behaviors>
                                     <mxic:EventTriggerBehavior EventName="QuerySubmitted">
                                         <mxic:InvokeCommandAction Command="{Binding SearchAchievementCommand}" CommandParameter="{Binding SearchText}"/>
