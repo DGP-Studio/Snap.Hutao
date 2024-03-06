@@ -186,6 +186,9 @@
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>WebView2 런타임이 감지되지 않음</value>
   </data>
+  <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
+    <value>[{0}] 热键 [{1}] 注册失败</value>
+  </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>내보내기</value>
   </data>
@@ -856,6 +859,9 @@
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
     <value>캐릭터 이벤트</value>
+  </data>
+  <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
+    <value>集录祈愿</value>
   </data>
   <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
     <value>세상 여행</value>
@@ -2892,7 +2898,7 @@
     <value>〓活动时间〓.*?\d\.\d版本期间持续开放</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
@@ -3043,6 +3049,9 @@
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
     <value>캐릭터 이벤트 기원-2</value>
+  </data>
+  <data name="WebGachaConfigTypeChronicledWish" xml:space="preserve">
+    <value>集录祈愿</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
     <value>초심자 기원</value>
