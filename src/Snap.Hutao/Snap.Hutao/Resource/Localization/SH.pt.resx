@@ -186,6 +186,9 @@
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>O WebView2 Runtime não foi detectado</value>
   </data>
+  <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
+    <value>[{0}] 热键 [{1}] 注册失败</value>
+  </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>Exportar</value>
   </data>
@@ -857,6 +860,9 @@
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
     <value>Evento de oração de personagem</value>
   </data>
+  <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
+    <value>集录祈愿</value>
+  </data>
   <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
     <value>Invocação do Mochileiro</value>
   </data>
@@ -1122,7 +1128,7 @@
     <value>Sorte média</value>
   </data>
   <data name="ViewControlStatisticsCardUpText" xml:space="preserve">
-    <value>Acima</value>
+    <value>Em destaque</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentPrediction" xml:space="preserve">
     <value>Previsão</value>
@@ -1140,7 +1146,7 @@
     <value>Planejamento</value>
   </data>
   <data name="ViewDailyNoteHeader" xml:space="preserve">
-    <value>Lembrete em tempo real</value>
+    <value>Lembretes</value>
   </data>
   <data name="ViewDataHeader" xml:space="preserve">
     <value>Dados</value>
@@ -2034,7 +2040,7 @@
     <value>Visão geral</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
-    <value>全球祈愿统计</value>
+    <value>Estatísticas globais</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>Arma</value>
@@ -2892,7 +2898,7 @@
     <value>〓Duração do evento〓.*?\d\.\d Disponível em toda as versões</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓Duração do evento〓|Duração da oração do evento|【Duração da disponibilidade】).*?(\d\.\dApós a atualização da versão).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓Duração da manutenção da atualização.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
@@ -2961,7 +2967,7 @@
     <value>Recompensa de comissão diária resgatada</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
-    <value>Estará cheio em {0} {1:HH:mm}</value>
+    <value>Estará cheio {0} às {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
     <value>Bule de Relachá não desbloqueado</value>
@@ -3043,6 +3049,9 @@
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
     <value>Evento de oração de personagem-2</value>
+  </data>
+  <data name="WebGachaConfigTypeChronicledWish" xml:space="preserve">
+    <value>集录祈愿</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
     <value>Oração de Novatos</value>
