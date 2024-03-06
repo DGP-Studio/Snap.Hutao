@@ -49,7 +49,7 @@ internal sealed class GachaEvent
     /// <summary>
     /// 卡池类型
     /// </summary>
-    public GachaConfigType Type { get; set; }
+    public GachaType Type { get; set; }
 
     /// <summary>
     /// 五星列表

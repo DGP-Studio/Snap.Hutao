@@ -19,6 +19,11 @@ internal enum GachaDistributionType
     WeaponEvent,
 
     /// <summary>
+    /// 集录
+    /// </summary>
+    Chronicled,
+
+    /// <summary>
     /// 常驻
     /// </summary>
     Standard,

@@ -35,20 +35,27 @@ internal sealed class EndIds
     public long WeaponEventWish { get; set; }
 
     /// <summary>
+    /// 集录祈愿
+    /// </summary>
+    [JsonPropertyName("500")]
+    public long ChronicledWish { get; set; }
+
+    /// <summary>
     /// 获取 Last Id
     /// </summary>
     /// <param name="type">类型</param>
     /// <returns>Last Id</returns>
-    public long this[GachaConfigType type]
+    public long this[GachaType type]
     {
         get
         {
             return type switch
             {
-                GachaConfigType.NoviceWish => NoviceWish,
-                GachaConfigType.StandardWish => StandardWish,
-                GachaConfigType.AvatarEventWish => AvatarEventWish,
-                GachaConfigType.WeaponEventWish => WeaponEventWish,
+                GachaType.NewBie => NoviceWish,
+                GachaType.Standard => StandardWish,
+                GachaType.ActivityAvatar => AvatarEventWish,
+                GachaType.ActivityWeapon => WeaponEventWish,
+                GachaType.ActivityCity => ChronicledWish,
                 _ => 0,
             };
         }
@@ -57,17 +64,20 @@ internal sealed class EndIds
         {
             switch (type)
             {
-                case GachaConfigType.NoviceWish:
+                case GachaType.NewBie:
                     NoviceWish = value;
                     break;
-                case GachaConfigType.StandardWish:
+                case GachaType.Standard:
                     StandardWish = value;
                     break;
-                case GachaConfigType.AvatarEventWish:
+                case GachaType.ActivityAvatar:
                     AvatarEventWish = value;
                     break;
-                case GachaConfigType.WeaponEventWish:
+                case GachaType.ActivityWeapon:
                     WeaponEventWish = value;
+                    break;
+                case GachaType.ActivityCity:
+                    ChronicledWish = value;
                     break;
             }
         }
@@ -77,11 +87,12 @@ internal sealed class EndIds
     /// 获取枚举器
     /// </summary>
     /// <returns>枚举器</returns>
-    public IEnumerator<KeyValuePair<GachaConfigType, long>> GetEnumerator()
+    public IEnumerator<KeyValuePair<GachaType, long>> GetEnumerator()
     {
-        yield return new(GachaConfigType.NoviceWish, NoviceWish);
-        yield return new(GachaConfigType.StandardWish, StandardWish);
-        yield return new(GachaConfigType.AvatarEventWish, AvatarEventWish);
-        yield return new(GachaConfigType.WeaponEventWish, WeaponEventWish);
+        yield return new(GachaType.NewBie, NoviceWish);
+        yield return new(GachaType.Standard, StandardWish);
+        yield return new(GachaType.ActivityAvatar, AvatarEventWish);
+        yield return new(GachaType.ActivityWeapon, WeaponEventWish);
+        yield return new(GachaType.ActivityCity, ChronicledWish);
     }
 }

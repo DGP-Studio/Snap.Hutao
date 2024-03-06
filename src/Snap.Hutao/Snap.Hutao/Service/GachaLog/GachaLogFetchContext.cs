@@ -46,14 +46,14 @@ internal struct GachaLogFetchContext
     /// <summary>
     /// 当前类型
     /// </summary>
-    public GachaConfigType CurrentType;
+    public GachaType CurrentType;
 
     private readonly GachaLogServiceMetadataContext serviceContext;
     private readonly IGachaLogDbService gachaLogDbService;
     private readonly ITaskContext taskContext;
     private readonly bool isLazy;
 
-    public GachaLogFetchContext(IGachaLogDbService gachaLogDbService, ITaskContext taskContext, in GachaLogServiceMetadataContext serviceContext, bool isLazy)
+    public GachaLogFetchContext(IGachaLogDbService gachaLogDbService, ITaskContext taskContext, GachaLogServiceMetadataContext serviceContext, bool isLazy)
     {
         this.gachaLogDbService = gachaLogDbService;
         this.taskContext = taskContext;
@@ -66,7 +66,7 @@ internal struct GachaLogFetchContext
     /// </summary>
     /// <param name="configType">卡池类型</param>
     /// <param name="query">查询</param>
-    public void ResetForProcessingType(GachaConfigType configType, in GachaLogQuery query)
+    public void ResetForProcessingType(GachaType configType, in GachaLogQuery query)
     {
         DbEndId = null;
         CurrentType = configType;
@@ -140,8 +140,18 @@ internal struct GachaLogFetchContext
         // While no item is fetched, archive can be null.
         if (TargetArchive is not null)
         {
-            GachaItemSaveContext saveContext = new(ItemsToAdd, isLazy, QueryOptions.Type, QueryOptions.EndId, gachaLogDbService);
-            saveContext.SaveItems(TargetArchive);
+            if (ItemsToAdd.Count <= 0)
+            {
+                return;
+            }
+
+            // 全量刷新
+            if (!isLazy)
+            {
+                gachaLogDbService.RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(TargetArchive.InnerId, QueryOptions.Type, QueryOptions.EndId);
+            }
+
+            gachaLogDbService.AddGachaItemRange(ItemsToAdd);
         }
     }
 

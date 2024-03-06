@@ -14,12 +14,13 @@ internal readonly struct TypedWishSummaryBuilderContext
     public readonly string Name;
     public readonly int GuaranteeOrangeThreshold;
     public readonly int GuaranteePurpleThreshold;
-    public readonly Func<GachaConfigType, bool> TypeEvaluator;
+    public readonly Func<GachaType, bool> TypeEvaluator;
     public readonly GachaDistributionType DistributionType;
 
-    private static readonly Func<GachaConfigType, bool> IsStandardWish = type => type is GachaConfigType.StandardWish;
-    private static readonly Func<GachaConfigType, bool> IsAvatarEventWish = type => type is GachaConfigType.AvatarEventWish or GachaConfigType.AvatarEventWish2;
-    private static readonly Func<GachaConfigType, bool> IsWeaponEventWish = type => type is GachaConfigType.WeaponEventWish;
+    private static readonly Func<GachaType, bool> IsStandardWish = type => type is GachaType.Standard;
+    private static readonly Func<GachaType, bool> IsAvatarEventWish = type => type is GachaType.ActivityAvatar or GachaType.SpecialActivityAvatar;
+    private static readonly Func<GachaType, bool> IsWeaponEventWish = type => type is GachaType.ActivityWeapon;
+    private static readonly Func<GachaType, bool> IsChronicledWish = type => type is GachaType.ActivityCity;
 
     public TypedWishSummaryBuilderContext(
         ITaskContext taskContext,
@@ -27,7 +28,7 @@ internal readonly struct TypedWishSummaryBuilderContext
         string name,
         int guaranteeOrangeThreshold,
         int guaranteePurpleThreshold,
-        Func<GachaConfigType, bool> typeEvaluator,
+        Func<GachaType, bool> typeEvaluator,
         GachaDistributionType distributionType)
     {
         TaskContext = taskContext;
@@ -52,6 +53,11 @@ internal readonly struct TypedWishSummaryBuilderContext
     public static TypedWishSummaryBuilderContext WeaponEventWish(ITaskContext taskContext, HomaGachaLogClient gachaLogClient)
     {
         return new(taskContext, gachaLogClient, SH.ServiceGachaLogFactoryWeaponWishName, 80, 10, IsWeaponEventWish, GachaDistributionType.WeaponEvent);
+    }
+
+    public static TypedWishSummaryBuilderContext ChronicledWish(ITaskContext taskContext, HomaGachaLogClient gachaLogClient)
+    {
+        return new(taskContext, gachaLogClient, SH.ServiceGachaLogFactoryChronicledWishName, 90, 10, IsChronicledWish, GachaDistributionType.Chronicled);
     }
 
     public ValueTask<HutaoResponse<GachaDistribution>> GetGachaDistributionAsync()

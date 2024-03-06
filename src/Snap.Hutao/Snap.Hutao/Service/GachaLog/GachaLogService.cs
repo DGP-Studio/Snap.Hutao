@@ -9,6 +9,7 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Response;
@@ -62,13 +63,7 @@ internal sealed partial class GachaLogService : IGachaLogService
 
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
-            Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
-
-            Dictionary<string, Model.Metadata.Avatar.Avatar> nameAvatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
-            Dictionary<string, Model.Metadata.Weapon.Weapon> nameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
-            context = new(idAvatarMap, idWeaponMap, nameAvatarMap, nameWeaponMap);
-
+            context = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>(token).ConfigureAwait(false);
             ArchiveCollection = gachaLogDbService.GetGachaArchiveCollection();
             return true;
         }
@@ -182,7 +177,7 @@ internal sealed partial class GachaLogService : IGachaLogService
         ArgumentNullException.ThrowIfNull(ArchiveCollection);
         GachaLogFetchContext fetchContext = new(gachaLogDbService, taskContext, context, isLazy);
 
-        foreach (GachaConfigType configType in GachaLog.QueryTypes)
+        foreach (GachaType configType in GachaLog.QueryTypes)
         {
             fetchContext.ResetForProcessingType(configType, query);
 

@@ -13,14 +13,14 @@ internal sealed class GachaItem
     /// <summary>
     /// 祈愿记录分类
     /// </summary>
-    public GachaConfigType GachaType { get; set; }
+    public GachaType GachaType { get; set; }
 
     /// <summary>
     /// 祈愿记录查询分类
     /// 合并保底的卡池使用此属性
     /// 仅4种（不含400）
     /// </summary>
-    public GachaConfigType QueryType { get; set; }
+    public GachaType QueryType { get; set; }
 
     /// <summary>
     /// 物品Id

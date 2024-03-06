@@ -20,7 +20,7 @@ internal sealed class UIGFItem : GachaLogItem, IMappingFrom<UIGFItem, GachaItem,
     /// </summary>
     [JsonPropertyName("uigf_gacha_type")]
     [JsonEnum(JsonSerializeType.NumberString)]
-    public GachaConfigType UIGFGachaType { get; set; } = default!;
+    public GachaType UIGFGachaType { get; set; } = default!;
 
     public static UIGFItem From(GachaItem item, INameQuality nameQuality)
     {
