@@ -76,6 +76,9 @@ internal sealed class EndIds
                 case GachaType.ActivityWeapon:
                     WeaponEventWish = value;
                     break;
+                case GachaType.ActivityCity:
+                    ChronicledWish = value;
+                    break;
             }
         }
     }
