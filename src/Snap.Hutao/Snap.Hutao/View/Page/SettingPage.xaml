@@ -321,8 +321,8 @@
                                     <shc:SizeRestrictedContentControl>
                                         <ComboBox
                                             DisplayMemberPath="Name"
-                                            ItemsSource="{Binding AppOptions.Themes}"
-                                            SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"/>
+                                            ItemsSource="{Binding AppOptions.LazyElementThemes.Value}"
+                                            SelectedItem="{Binding SelectedElementTheme, Mode=TwoWay}"/>
                                     </shc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsExpander

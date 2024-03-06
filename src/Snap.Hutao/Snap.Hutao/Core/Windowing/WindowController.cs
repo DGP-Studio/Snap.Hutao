@@ -129,11 +129,11 @@ internal sealed class WindowController
                 UpdateSystemBackdrop(options.BackdropType);
             }
         }
-        else if (e.PropertyName is nameof(AppOptions.Theme))
+        else if (e.PropertyName is nameof(AppOptions.ElementTheme))
         {
             if (sender is AppOptions options)
             {
-                UpdateTheme(options.Theme);
+                UpdateElementTheme(options.ElementTheme);
             }
         }
     }
@@ -177,14 +177,9 @@ internal sealed class WindowController
         };
     }
 
-    private void UpdateTheme(Theme theme)
+    private void UpdateElementTheme(ElementTheme theme)
     {
-        ((FrameworkElement)window.Content).RequestedTheme = theme switch
-        {
-            Theme.Light => ElementTheme.Light,
-            Theme.Dark => ElementTheme.Dark,
-            _ => ElementTheme.Default,
-        };
+        ((FrameworkElement)window.Content).RequestedTheme = theme;
     }
 
     private void UpdateTitleButtonColor()

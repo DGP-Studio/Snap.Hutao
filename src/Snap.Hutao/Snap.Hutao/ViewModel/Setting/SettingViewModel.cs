@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
@@ -58,7 +59,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly IMessenger messenger;
 
     private NameValue<BackdropType>? selectedBackdropType;
-    private NameValue<Theme>? selectedTheme;
+    private NameValue<ElementTheme>? selectedElementTheme;
     private NameValue<BackgroundImageType>? selectedBackgroundImageType;
     private NameValue<CultureInfo>? selectedCulture;
     private NameValue<Region>? selectedRegion;
@@ -95,14 +96,14 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
-    public NameValue<Theme>? SelectedTheme
+    public NameValue<ElementTheme>? SelectedElementTheme
     {
-        get => selectedTheme ??= AppOptions.Themes.Single(t => t.Value == AppOptions.Theme);
+        get => selectedElementTheme ??= AppOptions.LazyElementThemes.Value.Single(t => t.Value == AppOptions.ElementTheme);
         set
         {
-            if (SetProperty(ref selectedTheme, value) && value is not null)
+            if (SetProperty(ref selectedElementTheme, value) && value is not null)
             {
-                AppOptions.Theme = value.Value;
+                AppOptions.ElementTheme = value.Value;
             }
         }
     }
