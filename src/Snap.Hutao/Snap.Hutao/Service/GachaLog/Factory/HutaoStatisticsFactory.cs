@@ -42,7 +42,7 @@ internal sealed class HutaoStatisticsFactory
             AvatarEvent = CreateWishSummary(avatarEvent, raw.AvatarEvent),
             AvatarEvent2 = CreateWishSummary(avatarEvent2, raw.AvatarEvent2),
             WeaponEvent = CreateWishSummary(weaponEvent, raw.WeaponEvent),
-            ChronicledWish = CreateWishSummary(chronicledEvent, raw.Chronicled),
+            Chronicled = CreateWishSummary(chronicledEvent, raw.Chronicled),
         };
     }
 
