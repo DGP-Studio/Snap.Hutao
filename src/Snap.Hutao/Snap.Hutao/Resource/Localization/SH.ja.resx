@@ -189,6 +189,15 @@
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 热键 [{1}] 注册失败</value>
   </data>
+  <data name="CoreWindowThemeDark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="CoreWindowThemeLight" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="CoreWindowThemeSystem" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>エクスポート</value>
   </data>
@@ -2220,7 +2229,7 @@
     <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>Better GI</value>
+    <value>自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>一般</value>
@@ -2238,7 +2247,7 @@
     <value>ファイル</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
-    <value>インタープロセス</value>
+    <value>进程联动</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>指定したディスプレイで実行</value>
@@ -2626,6 +2635,12 @@
   </data>
   <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
     <value>レビューや感想</value>
+  </data>
+  <data name="ViewPageSettingThemeDescription" xml:space="preserve">
+    <value>更改窗体的颜色主题</value>
+  </data>
+  <data name="ViewPageSettingThemeHeader" xml:space="preserve">
+    <value>颜色主题</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>和訳を提供</value>
