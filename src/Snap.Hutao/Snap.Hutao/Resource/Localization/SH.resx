@@ -189,6 +189,15 @@
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 热键 [{1}] 注册失败</value>
   </data>
+  <data name="CoreWindowThemeDark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="CoreWindowThemeLight" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="CoreWindowThemeSystem" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>导出</value>
   </data>
@@ -2626,6 +2635,12 @@
   </data>
   <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
     <value>评价软件</value>
+  </data>
+  <data name="ViewPageSettingThemeDescription" xml:space="preserve">
+    <value>更改窗体的颜色主题</value>
+  </data>
+  <data name="ViewPageSettingThemeHeader" xml:space="preserve">
+    <value>颜色主题</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>贡献翻译</value>

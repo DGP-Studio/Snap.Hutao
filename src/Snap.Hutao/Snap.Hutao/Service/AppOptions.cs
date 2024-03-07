@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
@@ -16,6 +17,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 {
     private bool? isEmptyHistoryWishVisible;
     private BackdropType? backdropType;
+    private ElementTheme? elementTheme;
     private BackgroundImageType? backgroundImageType;
     private Region? region;
     private string? geetestCustomCompositeUrl;
@@ -32,6 +34,19 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, EnumParse<BackdropType>, BackdropType.Mica).Value;
         set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, EnumToStringOrEmpty);
+    }
+
+    public Lazy<List<NameValue<ElementTheme>>> LazyElementThemes { get; } = new(() =>
+    [
+        new(SH.CoreWindowThemeLight, ElementTheme.Light),
+        new(SH.CoreWindowThemeDark, ElementTheme.Dark),
+        new(SH.CoreWindowThemeSystem, ElementTheme.Default),
+    ]);
+
+    public ElementTheme ElementTheme
+    {
+        get => GetOption(ref elementTheme, SettingEntry.ElementTheme, EnumParse<ElementTheme>, ElementTheme.Default).Value;
+        set => SetOption(ref elementTheme, SettingEntry.ElementTheme, value, EnumToStringOrEmpty);
     }
 
     public List<NameValue<BackgroundImageType>> BackgroundImageTypes { get; } = CollectionsNameValue.FromEnum<BackgroundImageType>(type => type.GetLocalizedDescription());
