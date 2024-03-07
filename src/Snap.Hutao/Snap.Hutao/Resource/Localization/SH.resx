@@ -2229,7 +2229,7 @@
     <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>Better GI</value>
+    <value>自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>常规</value>
@@ -2247,7 +2247,7 @@
     <value>文件</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
-    <value>进程间</value>
+    <value>进程联动</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>在指定的显示器上运行</value>
