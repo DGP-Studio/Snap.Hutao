@@ -51,11 +51,12 @@
                     Grid.Row="0"
                     HorizontalAlignment="Right"
                     Text="{Binding DisplayName}"/>
-                <TextBlock
-                    Grid.Row="1"
-                    Margin="0,4,0,0"
-                    Style="{StaticResource TitleTextBlockStyle}"
-                    Text="{Binding FinishDescription}"/>
+                <Viewbox Grid.Row="1" StretchDirection="DownOnly">
+                    <TextBlock
+                        Margin="0,4,0,0"
+                        Style="{StaticResource TitleTextBlockStyle}"
+                        Text="{Binding FinishDescription}"/>
+                </Viewbox>
                 <ItemsControl
                     Grid.Row="2"
                     ItemTemplate="{StaticResource AchievementTempate}"
