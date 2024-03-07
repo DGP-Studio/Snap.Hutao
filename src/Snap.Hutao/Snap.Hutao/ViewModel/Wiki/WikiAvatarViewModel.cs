@@ -92,7 +92,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
-        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
+        if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             try
             {
