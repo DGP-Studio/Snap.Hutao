@@ -168,9 +168,14 @@ internal sealed partial class PackageConverter
     {
         try
         {
-            using (Stream remoteSteam = await httpClient.GetStreamAsync(pkgVersionUrl).ConfigureAwait(false))
+            // Server might close the connection shortly,
+            // we have to cache the content immediately.
+            using (HttpResponseMessage responseMessage = await httpClient.GetAsync(pkgVersionUrl, HttpCompletionOption.ResponseContentRead).ConfigureAwait(false))
             {
-                return await GetVersionItemsAsync(remoteSteam).ConfigureAwait(false);
+                using (Stream remoteSteam = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                {
+                    return await GetVersionItemsAsync(remoteSteam).ConfigureAwait(false);
+                }
             }
         }
         catch (IOException ex)
