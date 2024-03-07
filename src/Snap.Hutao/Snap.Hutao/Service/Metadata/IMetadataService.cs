@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 namespace Snap.Hutao.Service.Metadata;
 

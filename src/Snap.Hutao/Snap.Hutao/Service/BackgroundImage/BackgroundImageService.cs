@@ -37,7 +37,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
             return new(true, default!);
         }
 
-        string path = System.Random.Shared.GetItems([..backgroundSet], 1)[0];
+        string path = System.Random.Shared.GetItems([.. backgroundSet], 1)[0];
         backgroundSet.Remove(path);
 
         if (string.Equals(path, previous?.Path, StringComparison.OrdinalIgnoreCase))

@@ -2,10 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Model.Metadata.Weapon;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
