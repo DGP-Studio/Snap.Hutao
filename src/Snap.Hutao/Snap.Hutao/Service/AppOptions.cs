@@ -36,7 +36,12 @@ internal sealed partial class AppOptions : DbStoreOptions
         set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, EnumToStringOrEmpty);
     }
 
-    public Lazy<List<NameValue<ElementTheme>>> LazyElementThemes { get; } = new(KnownElementThemes.Get);
+    public Lazy<List<NameValue<ElementTheme>>> LazyElementThemes { get; } = new(() =>
+    [
+        new(SH.CoreWindowThemeLight, ElementTheme.Light),
+        new(SH.CoreWindowThemeDark, ElementTheme.Dark),
+        new(SH.CoreWindowThemeSystem, ElementTheme.Default),
+    ]);
 
     public ElementTheme ElementTheme
     {
