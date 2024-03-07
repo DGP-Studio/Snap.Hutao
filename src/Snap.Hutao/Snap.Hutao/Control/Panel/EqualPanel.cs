@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using System.Data;
+using System.Runtime.InteropServices;
 using Windows.Foundation;
 
 namespace Snap.Hutao.Control.Panel;
@@ -24,10 +25,10 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
         maxItemWidth = 0;
         maxItemHeight = 0;
 
-        IEnumerable<UIElement> elements = Children.Where(static e => e.Visibility == Visibility.Visible);
-        visibleItemsCount = elements.Count();
+        List<UIElement> elements = [.. Children.Where(element => element.Visibility == Visibility.Visible)];
+        visibleItemsCount = elements.Count;
 
-        foreach (UIElement child in elements)
+        foreach (ref readonly UIElement child in CollectionsMarshal.AsSpan(elements))
         {
             child.Measure(availableSize);
             maxItemWidth = Math.Max(maxItemWidth, child.DesiredSize.Width);
@@ -38,7 +39,7 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
         {
             // Return equal widths based on the widest item
             // In very specific edge cases the AvailableWidth might be infinite resulting in a crash.
-            if (HorizontalAlignment != HorizontalAlignment.Stretch || double.IsInfinity(availableSize.Width))
+            if (HorizontalAlignment is not HorizontalAlignment.Stretch || double.IsInfinity(availableSize.Width))
             {
                 return new Size((maxItemWidth * visibleItemsCount) + (Spacing * (visibleItemsCount - 1)), maxItemHeight);
             }
@@ -78,8 +79,7 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
 
     private static void OnSpacingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        EqualPanel panel = (EqualPanel)d;
-        panel.InvalidateMeasure();
+        (d as EqualPanel)?.InvalidateMeasure();
     }
 
     private void OnHorizontalAlignmentChanged(DependencyObject sender, DependencyProperty dp)
