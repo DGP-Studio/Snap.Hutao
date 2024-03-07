@@ -53,21 +53,31 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            levelMonsterCurveMap = await metadataService.GetLevelToMonsterCurveMapAsync().ConfigureAwait(false);
-
-            List<Monster> monsters = await metadataService.GetMonsterListAsync().ConfigureAwait(false);
-            Dictionary<MaterialId, DisplayItem> idDisplayMap = await metadataService.GetIdToDisplayItemAndMaterialMapAsync().ConfigureAwait(false);
-            foreach (Monster monster in monsters)
+            try
             {
-                monster.DropsView ??= monster.Drops?.SelectList(i => idDisplayMap.GetValueOrDefault(i, Material.Default));
+                levelMonsterCurveMap = await metadataService.GetLevelToMonsterCurveMapAsync().ConfigureAwait(false);
+
+                List<Monster> monsters = await metadataService.GetMonsterListAsync().ConfigureAwait(false);
+                Dictionary<MaterialId, DisplayItem> idDisplayMap = await metadataService.GetIdToDisplayItemAndMaterialMapAsync().ConfigureAwait(false);
+                foreach (Monster monster in monsters)
+                {
+                    monster.DropsView ??= monster.Drops?.SelectList(i => idDisplayMap.GetValueOrDefault(i, Material.Default));
+                }
+
+                List<Monster> ordered = monsters.SortBy(m => m.RelationshipId.Value);
+
+                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                {
+                    await taskContext.SwitchToMainThreadAsync();
+                    Monsters = new(ordered, true);
+                    Selected = Monsters.View.ElementAtOrDefault(0);
+                }
+
+                return true;
             }
-
-            List<Monster> ordered = monsters.SortBy(m => m.RelationshipId.Value);
-            await taskContext.SwitchToMainThreadAsync();
-
-            Monsters = new(ordered, true);
-            Selected = Monsters.View.ElementAtOrDefault(0);
-            return true;
+            catch (OperationCanceledException)
+            {
+            }
         }
 
         return false;
