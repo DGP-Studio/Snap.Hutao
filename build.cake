@@ -74,7 +74,7 @@ else // Local
     repoDir = System.Environment.CurrentDirectory;
     outputPath = System.IO.Path.Combine(repoDir, "src", "output");
 
-    version = System.DateTime.Now.ToString("yyyy.M.d.Hmmss");
+    version = System.DateTime.Now.ToString("yyyy.M.d.") + ((int)((System.DateTime.Now - System.DateTime.Today).TotalSeconds / 86400 * 65535)).ToString();
 
     Information($"Version: {version}");
 }
