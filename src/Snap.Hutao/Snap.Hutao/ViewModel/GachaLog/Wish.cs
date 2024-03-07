@@ -21,7 +21,15 @@ internal abstract class Wish
 
     public string TimeSpanFormatted
     {
-        get => $"{From:yyyy.MM.dd} - {To:yyyy.MM.dd}";
+        get
+        {
+            if (From == DateTimeOffset.MaxValue && To == DateTimeOffset.MinValue)
+            {
+                return string.Empty;
+            }
+
+            return $"{From:yyyy.MM.dd} - {To:yyyy.MM.dd}";
+        }
     }
 
     /// <summary>
