@@ -156,6 +156,7 @@
     <None Remove="View\Control\LoadingView.xaml" />
     <None Remove="View\Control\LoadingViewSlim.xaml" />
     <None Remove="View\Control\SkillPivot.xaml" />
+    <None Remove="View\Control\SegmentedOverride.xaml" />
     <None Remove="View\Control\StatisticsCard.xaml" />
     <None Remove="View\Control\StatisticsSegmented.xaml" />
     <None Remove="View\Control\WebViewer.xaml" />
@@ -347,6 +348,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Control\Theme\SegmentedOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Control\Theme\Thickness.xaml">
