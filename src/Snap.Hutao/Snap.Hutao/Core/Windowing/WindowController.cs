@@ -122,20 +122,17 @@ internal sealed class WindowController
 
     private void OnOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName is nameof(AppOptions.BackdropType))
+        if (sender is not AppOptions options)
         {
-            if (sender is AppOptions options)
-            {
-                UpdateSystemBackdrop(options.BackdropType);
-            }
+            return;
         }
-        else if (e.PropertyName is nameof(AppOptions.ElementTheme))
+
+        _ = e.PropertyName switch
         {
-            if (sender is AppOptions options)
-            {
-                UpdateElementTheme(options.ElementTheme);
-            }
-        }
+            nameof(AppOptions.BackdropType) => UpdateSystemBackdrop(options.BackdropType),
+            nameof(AppOptions.ElementTheme) => UpdateElementTheme(options.ElementTheme),
+            _ => false,
+        };
     }
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
@@ -165,7 +162,7 @@ internal sealed class WindowController
         }
     }
 
-    private void UpdateSystemBackdrop(BackdropType backdropType)
+    private bool UpdateSystemBackdrop(BackdropType backdropType)
     {
         window.SystemBackdrop = backdropType switch
         {
@@ -175,11 +172,15 @@ internal sealed class WindowController
             BackdropType.Acrylic => new DesktopAcrylicBackdrop(),
             _ => null,
         };
+
+        return true;
     }
 
-    private void UpdateElementTheme(ElementTheme theme)
+    private bool UpdateElementTheme(ElementTheme theme)
     {
         ((FrameworkElement)window.Content).RequestedTheme = theme;
+
+        return true;
     }
 
     private void UpdateTitleButtonColor()
