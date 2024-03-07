@@ -35,7 +35,8 @@ Install with Snap Hutao MSIX package, can be installed with Windows built-in App
 
 * [向我们提交 PR / Make Pull Requests](https://github.com/DGP-Studio/Snap.Hutao/pulls)
 * [在 Crowdin 上进行本地化 / Translate Project on Crowdin](https://translate.hut.ao/)
-* [为我们更新文档 / Enhance our Document ](https://github.com/DGP-Studio/Snap.Hutao.Docs)
+* [为我们更新文档 / Enhance our Document](https://github.com/DGP-Studio/Snap.Hutao.Docs)
+* [帮助我们测试程序 / Test Binary Package](https://hut.ao/development/contribute.html#%E6%B5%8B%E8%AF%95%E6%89%93%E5%8C%85%E7%A8%8B%E5%BA%8F)
 
 ## 特别感谢 / Special Thanks
 
