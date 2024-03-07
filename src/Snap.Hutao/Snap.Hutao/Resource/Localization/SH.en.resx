@@ -189,6 +189,15 @@
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>Register [{0}] hotkey [{1}] failed</value>
   </data>
+  <data name="CoreWindowThemeDark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="CoreWindowThemeLight" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="CoreWindowThemeSystem" xml:space="preserve">
+    <value>System</value>
+  </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>Export</value>
   </data>
@@ -2627,6 +2636,12 @@
   <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
     <value>Rate Snap Hutao</value>
   </data>
+  <data name="ViewPageSettingThemeDescription" xml:space="preserve">
+    <value>更改窗体的颜色主题</value>
+  </data>
+  <data name="ViewPageSettingThemeHeader" xml:space="preserve">
+    <value>颜色主题</value>
+  </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>Contribute Translations</value>
   </data>
@@ -2904,7 +2919,7 @@
     <value>〓Event Duration〓.*?\d\.\d Available throughout the entirety of Version</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓Event Duration〓|Event Wish Duration|【Availability Duration】|〓Discount Period〓).*?(\d\.\dAfter the Version update).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓Event Duration〓|Event Wish Duration|【Availability Duration】).*?(\d\.\dAfter the Version update).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓Update Maintenance Duration〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
