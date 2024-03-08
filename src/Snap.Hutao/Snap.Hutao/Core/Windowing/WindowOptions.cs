@@ -41,21 +41,18 @@ internal readonly struct WindowOptions
     /// </summary>
     public readonly bool PersistSize;
 
-    public readonly bool UseSystemBackdrop;
-
     /// <summary>
     /// 是否使用 Win UI 3 自带的拓展标题栏实现
     /// </summary>
     public readonly bool UseLegacyDragBarImplementation = !AppWindowTitleBar.IsCustomizationSupported();
 
-    public WindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, bool persistSize = false, bool useSystemBackdrop = true)
+    public WindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, bool persistSize = false)
     {
         Hwnd = WindowNative.GetWindowHandle(window);
         InputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
         TitleBar = titleBar;
         InitSize = initSize;
         PersistSize = persistSize;
-        UseSystemBackdrop = useSystemBackdrop;
     }
 
     /// <summary>

@@ -162,11 +162,6 @@ internal sealed class WindowController
 
     private bool UpdateSystemBackdrop(BackdropType backdropType)
     {
-        if (!options.UseSystemBackdrop)
-        {
-            return false;
-        }
-
         window.SystemBackdrop = backdropType switch
         {
             BackdropType.Transparent => new Backdrop.TransparentBackdrop(),
