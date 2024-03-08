@@ -2229,7 +2229,7 @@
     <value>Auto start Better GUI for automation tasks after game launched</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>Better GI</value>
+    <value>Automated Tasks</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>General</value>
@@ -2247,7 +2247,7 @@
     <value>File</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
-    <value>InterProcess</value>
+    <value>Process Linkage</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Run the software on the selected monitor</value>
@@ -2637,10 +2637,10 @@
     <value>Rate Snap Hutao</value>
   </data>
   <data name="ViewPageSettingThemeDescription" xml:space="preserve">
-    <value>更改窗体的颜色主题</value>
+    <value>Change window theme</value>
   </data>
   <data name="ViewPageSettingThemeHeader" xml:space="preserve">
-    <value>颜色主题</value>
+    <value>Theme</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>Contribute Translations</value>
@@ -2652,10 +2652,10 @@
     <value>Webview2 Runtime</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
-    <value>下半</value>
+    <value>Second Half</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceUpHeader" xml:space="preserve">
-    <value>上半</value>
+    <value>First Half</value>
   </data>
   <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
     <value>Artifact Set Combination</value>
