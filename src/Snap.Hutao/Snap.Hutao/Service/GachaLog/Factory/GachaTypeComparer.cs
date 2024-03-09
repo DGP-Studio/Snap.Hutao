@@ -18,9 +18,9 @@ internal sealed class GachaTypeComparer : IComparer<GachaType>
         KeyValuePair.Create(GachaType.ActivityAvatar, 0),
         KeyValuePair.Create(GachaType.SpecialActivityAvatar, 1),
         KeyValuePair.Create(GachaType.ActivityWeapon, 2),
-        KeyValuePair.Create(GachaType.Standard, 3),
-        KeyValuePair.Create(GachaType.NewBie, 4),
-        KeyValuePair.Create(GachaType.ActivityCity, 5),
+        KeyValuePair.Create(GachaType.ActivityCity, 3),
+        KeyValuePair.Create(GachaType.Standard, 4),
+        KeyValuePair.Create(GachaType.NewBie, 5),
     ]);
 
     /// <summary>
