@@ -92,39 +92,49 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
-        if (!await metadataService.InitializeAsync().ConfigureAwait(false))
+        if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            return false;
+            try
+            {
+                levelAvatarCurveMap = await metadataService.GetLevelToAvatarCurveMapAsync().ConfigureAwait(false);
+                promotes = await metadataService.GetAvatarPromoteListAsync().ConfigureAwait(false);
+
+                Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
+                List<Avatar> avatars = await metadataService.GetAvatarListAsync().ConfigureAwait(false);
+                IOrderedEnumerable<Avatar> sorted = avatars
+                    .OrderByDescending(avatar => avatar.BeginTime)
+                    .ThenByDescending(avatar => avatar.Sort);
+                List<Avatar> list = [.. sorted];
+
+                await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
+
+                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                {
+                    await taskContext.SwitchToMainThreadAsync();
+                    Avatars = new(list, true);
+                    Selected = Avatars.View.ElementAtOrDefault(0);
+                }
+
+                FilterTokens = [];
+
+                availableTokens = FrozenDictionary.ToFrozenDictionary(
+                [
+                    .. avatars.Select(avatar => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
+                    .. IntrinsicFrozen.AssociationTypes.Select(assoc => KeyValuePair.Create(assoc, new SearchToken(SearchTokenKind.AssociationType, assoc, iconUri: AssociationTypeIconConverter.AssociationTypeNameToIconUri(assoc)))),
+                    .. IntrinsicFrozen.BodyTypes.Select(b => KeyValuePair.Create(b, new SearchToken(SearchTokenKind.BodyType, b))),
+                    .. IntrinsicFrozen.ElementNames.Select(e => KeyValuePair.Create(e, new SearchToken(SearchTokenKind.ElementName, e, iconUri: ElementNameIconConverter.ElementNameToIconUri(e)))),
+                    .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(SearchTokenKind.ItemQuality, i, quality: QualityColorConverter.QualityNameToColor(i)))),
+                    .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(SearchTokenKind.WeaponType, w, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
+                ]);
+
+                return true;
+            }
+            catch (OperationCanceledException)
+            {
+            }
         }
 
-        levelAvatarCurveMap = await metadataService.GetLevelToAvatarCurveMapAsync().ConfigureAwait(false);
-        promotes = await metadataService.GetAvatarPromoteListAsync().ConfigureAwait(false);
-
-        Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
-        List<Avatar> avatars = await metadataService.GetAvatarListAsync().ConfigureAwait(false);
-        IOrderedEnumerable<Avatar> sorted = avatars
-            .OrderByDescending(avatar => avatar.BeginTime)
-            .ThenByDescending(avatar => avatar.Sort);
-        List<Avatar> list = [.. sorted];
-
-        await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
-
-        await taskContext.SwitchToMainThreadAsync();
-        Avatars = new(list, true);
-        Selected = Avatars.View.ElementAtOrDefault(0);
-        FilterTokens = [];
-
-        availableTokens = FrozenDictionary.ToFrozenDictionary(
-        [
-            .. avatars.Select(avatar => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
-            .. IntrinsicFrozen.AssociationTypes.Select(assoc => KeyValuePair.Create(assoc, new SearchToken(SearchTokenKind.AssociationType, assoc, iconUri: AssociationTypeIconConverter.AssociationTypeNameToIconUri(assoc)))),
-            .. IntrinsicFrozen.BodyTypes.Select(b => KeyValuePair.Create(b, new SearchToken(SearchTokenKind.BodyType, b))),
-            .. IntrinsicFrozen.ElementNames.Select(e => KeyValuePair.Create(e, new SearchToken(SearchTokenKind.ElementName, e, iconUri: ElementNameIconConverter.ElementNameToIconUri(e)))),
-            .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(SearchTokenKind.ItemQuality, i, quality: QualityColorConverter.QualityNameToColor(i)))),
-            .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(SearchTokenKind.WeaponType, w, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
-        ]);
-
-        return true;
+        return false;
     }
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, Dictionary<MaterialId, Material> idMaterialMap)

@@ -92,32 +92,42 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            levelWeaponCurveMap = await metadataService.GetLevelToWeaponCurveMapAsync().ConfigureAwait(false);
-            promotes = await metadataService.GetWeaponPromoteListAsync().ConfigureAwait(false);
-            Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
+            try
+            {
+                levelWeaponCurveMap = await metadataService.GetLevelToWeaponCurveMapAsync().ConfigureAwait(false);
+                promotes = await metadataService.GetWeaponPromoteListAsync().ConfigureAwait(false);
+                Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
 
-            List<Weapon> weapons = await metadataService.GetWeaponListAsync().ConfigureAwait(false);
-            IEnumerable<Weapon> sorted = weapons
-                .OrderByDescending(weapon => weapon.RankLevel)
-                .ThenBy(weapon => weapon.WeaponType)
-                .ThenByDescending(weapon => weapon.Id.Value);
-            List<Weapon> list = [.. sorted];
+                List<Weapon> weapons = await metadataService.GetWeaponListAsync().ConfigureAwait(false);
+                IEnumerable<Weapon> sorted = weapons
+                    .OrderByDescending(weapon => weapon.RankLevel)
+                    .ThenBy(weapon => weapon.WeaponType)
+                    .ThenByDescending(weapon => weapon.Id.Value);
+                List<Weapon> list = [.. sorted];
 
-            await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
+                await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
-            await taskContext.SwitchToMainThreadAsync();
+                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                {
+                    await taskContext.SwitchToMainThreadAsync();
 
-            Weapons = new(list, true);
-            Selected = Weapons.View.ElementAtOrDefault(0);
-            FilterTokens = [];
+                    Weapons = new(list, true);
+                    Selected = Weapons.View.ElementAtOrDefault(0);
+                }
 
-            availableTokens = FrozenDictionary.ToFrozenDictionary(
-            [
-                .. weapons.Select(w => KeyValuePair.Create(w.Name, new SearchToken(SearchTokenKind.Weapon, w.Name, sideIconUri: EquipIconConverter.IconNameToUri(w.Icon)))),
-                .. IntrinsicFrozen.FightProperties.Select(f => KeyValuePair.Create(f, new SearchToken(SearchTokenKind.FightProperty, f))),
-                .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(SearchTokenKind.ItemQuality, i, quality: QualityColorConverter.QualityNameToColor(i)))),
-                .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(SearchTokenKind.WeaponType, w, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
-            ]);
+                FilterTokens = [];
+
+                availableTokens = FrozenDictionary.ToFrozenDictionary(
+                [
+                    .. weapons.Select(w => KeyValuePair.Create(w.Name, new SearchToken(SearchTokenKind.Weapon, w.Name, sideIconUri: EquipIconConverter.IconNameToUri(w.Icon)))),
+                    .. IntrinsicFrozen.FightProperties.Select(f => KeyValuePair.Create(f, new SearchToken(SearchTokenKind.FightProperty, f))),
+                    .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(SearchTokenKind.ItemQuality, i, quality: QualityColorConverter.QualityNameToColor(i)))),
+                    .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(SearchTokenKind.WeaponType, w, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
+                ]);
+            }
+            catch (OperationCanceledException)
+            {
+            }
         }
     }
 

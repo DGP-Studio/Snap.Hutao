@@ -104,10 +104,14 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 ArgumentNullException.ThrowIfNull(gachaLogService.ArchiveCollection);
                 ObservableCollection<GachaArchive> archives = gachaLogService.ArchiveCollection;
 
-                await taskContext.SwitchToMainThreadAsync();
-                Archives = archives;
-                HutaoCloudViewModel.RetrieveCommand = RetrieveFromCloudCommand;
-                await SetSelectedArchiveAndUpdateStatisticsAsync(Archives.SelectedOrDefault(), true).ConfigureAwait(false);
+                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                {
+                    await taskContext.SwitchToMainThreadAsync();
+                    Archives = archives;
+                    HutaoCloudViewModel.RetrieveCommand = RetrieveFromCloudCommand;
+                    await SetSelectedArchiveAndUpdateStatisticsAsync(Archives.SelectedOrDefault(), true).ConfigureAwait(false);
+                }
+
                 return true;
             }
         }
