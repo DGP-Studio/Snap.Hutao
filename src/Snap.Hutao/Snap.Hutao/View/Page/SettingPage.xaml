@@ -348,6 +348,7 @@
                                                 </mxic:EventTriggerBehavior>
                                             </mxi:Interaction.Behaviors>
                                         </cwc:SettingsCard>
+                                        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewPageSettingBackgroundImageLocalFolderCopyrightHeader}" Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
                             </StackPanel>

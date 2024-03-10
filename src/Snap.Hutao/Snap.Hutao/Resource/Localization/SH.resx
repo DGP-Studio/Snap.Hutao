@@ -2381,6 +2381,9 @@
   <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
     <value>背景图片</value>
   </data>
+  <data name="ViewPageSettingBackgroundImageLocalFolderCopyrightHeader" xml:space="preserve">
+    <value>当前背景为本地图片，如遇版权问题由用户个人负责</value>
+  </data>
   <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
     <value>图片缓存 在此处存放</value>
   </data>

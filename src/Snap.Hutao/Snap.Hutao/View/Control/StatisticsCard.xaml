@@ -21,6 +21,12 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
+        <shvconv:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter"/>
+        <shvconv:BoolToGridLengthConverter
+            x:Key="BoolToGridLengthSpacingConverter"
+            FalseValue="0"
+            TrueValue="4"/>
+
         <shvconv:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
 
         <DataTemplate x:Key="OrangeListTemplate" d:DataType="shvg:SummaryItem">
@@ -226,10 +232,12 @@
                     Padding="0,12"
                     Value="{x:Bind StatisticsSegmented.SelectedIndex, Mode=OneWay}">
                     <cwcont:Case Value="{shcm:Int32 Value=0}">
-                        <Grid ColumnSpacing="2">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="{x:Bind ShowUpPull, Converter={StaticResource BoolToGridLengthSpacingConverter}}"/>
+                                <ColumnDefinition Width="{x:Bind ShowUpPull, Converter={StaticResource BoolToGridLengthConverter}}"/>
+                                <ColumnDefinition Width="4"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column="0" Style="{ThemeResource BorderCardStyle}">
@@ -243,7 +251,7 @@
                                     </StackPanel>
                                 </Viewbox>
                             </Border>
-                            <Border Grid.Column="1" Style="{ThemeResource BorderCardStyle}">
+                            <Border Grid.Column="2" Style="{ThemeResource BorderCardStyle}">
                                 <Viewbox Margin="8,0" StretchDirection="DownOnly">
                                     <Grid>
                                         <StackPanel
@@ -266,7 +274,7 @@
                                 </Viewbox>
                             </Border>
 
-                            <Grid Grid.Column="2" RowSpacing="2">
+                            <Grid Grid.Column="4" RowSpacing="2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>

@@ -15,6 +15,7 @@
     HorizontalContentAlignment="Stretch"
     d:DataContext="{d:DesignInstance shva:AchievementViewModelSlim}"
     Background="Transparent"
+    BorderBrush="{x:Null}"
     Command="{Binding NavigateCommand}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">
