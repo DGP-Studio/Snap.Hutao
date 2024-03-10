@@ -287,21 +287,18 @@
                 </Pivot.RightHeader>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotOverview}">
                     <ScrollViewer
-                        Margin="0,0,16,0"
+                        Margin="16,0"
                         HorizontalScrollBarVisibility="Auto"
                         HorizontalScrollMode="Enabled"
                         VerticalScrollMode="Disabled">
-                        <shcp:HorizontalEqualPanel MinItemWidth="320">
-                            <shvc:StatisticsCard Margin="16,16,0,16" DataContext="{Binding Statistics.AvatarWish}"/>
-                            <shvc:StatisticsCard Margin="16,16,0,16" DataContext="{Binding Statistics.WeaponWish}"/>
-                            <shvc:StatisticsCard
-                                Margin="16,16,0,16"
-                                DataContext="{Binding Statistics.StandardWish}"
-                                ShowUpPull="False"/>
-                            <shvc:StatisticsCard
-                                Margin="16,16,0,16"
-                                DataContext="{Binding Statistics.ChronicledWish}"
-                                ShowUpPull="False"/>
+                        <shcp:HorizontalEqualPanel
+                            Margin="0,16"
+                            MinItemWidth="302"
+                            Spacing="16">
+                            <shvc:StatisticsCard DataContext="{Binding Statistics.AvatarWish}"/>
+                            <shvc:StatisticsCard DataContext="{Binding Statistics.WeaponWish}"/>
+                            <shvc:StatisticsCard DataContext="{Binding Statistics.StandardWish}" ShowUpPull="False"/>
+                            <shvc:StatisticsCard DataContext="{Binding Statistics.ChronicledWish}" ShowUpPull="False"/>
                         </shcp:HorizontalEqualPanel>
                         <!--<Grid>
                             <Grid.ColumnDefinitions>

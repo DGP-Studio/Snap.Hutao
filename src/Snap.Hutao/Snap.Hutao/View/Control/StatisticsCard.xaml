@@ -274,7 +274,7 @@
                                 </Viewbox>
                             </Border>
 
-                            <Grid Grid.Column="4" RowSpacing="2">
+                            <Grid Grid.Column="4" RowSpacing="4">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
@@ -306,7 +306,7 @@
                                 <RowDefinition/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <Grid ColumnSpacing="2">
+                            <Grid ColumnSpacing="4">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
@@ -368,7 +368,7 @@
 
                     </cwcont:Case>
                     <cwcont:Case Value="{shcm:Int32 Value=2}">
-                        <Grid RowSpacing="2">
+                        <Grid RowSpacing="4">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>

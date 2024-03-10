@@ -21,13 +21,10 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
         foreach (UIElement child in Children)
         {
             // ScrollViewer will always return an Infinity Size, we should use ActualWidth for this situation.
-            double availableWidth = double.IsInfinity(availableSize.Width)
-                ? ActualWidth
-                : availableSize.Width;
-
+            double availableWidth = double.IsInfinity(availableSize.Width) ? ActualWidth : availableSize.Width;
             double childAvailableWidth = (availableWidth + Spacing) / Children.Count;
             double childMaxAvailableWidth = Math.Max(MinItemWidth, childAvailableWidth);
-            child.Measure(new(childMaxAvailableWidth, availableSize.Height));
+            child.Measure(new(childMaxAvailableWidth - Spacing, ActualHeight));
         }
 
         return base.MeasureOverride(availableSize);
@@ -36,26 +33,14 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
     protected override Size ArrangeOverride(Size finalSize)
     {
         int itemCount = Children.Count;
-
-        // 计算总间距
-        double totalSpacing = Spacing * (itemCount - 1);
-
-        // 添加间距后的总宽度
-        double totalWidthWithSpacing = finalSize.Width - totalSpacing;
-
-        // 计算每个子元素可用的宽度（考虑间距）
-        double availableWidthPerItem = (totalWidthWithSpacing - totalSpacing) / itemCount;
-
-        // 实际子元素宽度为最小宽度和可用宽度的较大值
+        double availableWidthPerItem = (finalSize.Width - (Spacing * (itemCount - 1))) / itemCount;
         double actualItemWidth = Math.Max(MinItemWidth, availableWidthPerItem);
 
-        double x = 0;
-
-        // 设置子元素的位置和大小
+        double offset = 0;
         foreach (UIElement child in Children)
         {
-            child.Arrange(new Rect(x, 0, actualItemWidth, finalSize.Height));
-            x += actualItemWidth + Spacing;
+            child.Arrange(new Rect(offset, 0, actualItemWidth, finalSize.Height));
+            offset += actualItemWidth + Spacing;
         }
 
         return finalSize;
