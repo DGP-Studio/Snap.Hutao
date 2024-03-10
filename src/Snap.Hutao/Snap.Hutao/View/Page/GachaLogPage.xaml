@@ -291,22 +291,14 @@
                         HorizontalScrollBarVisibility="Auto"
                         HorizontalScrollMode="Enabled"
                         VerticalScrollMode="Disabled">
-                        <shcp:HorizontalEqualPanel MinItemWidth="300">
+                        <shcp:HorizontalEqualPanel MinItemWidth="320">
+                            <shvc:StatisticsCard Margin="16,16,0,16" DataContext="{Binding Statistics.AvatarWish}"/>
+                            <shvc:StatisticsCard Margin="16,16,0,16" DataContext="{Binding Statistics.WeaponWish}"/>
                             <shvc:StatisticsCard
-                                Grid.Column="0"
-                                Margin="16,16,0,16"
-                                DataContext="{Binding Statistics.AvatarWish}"/>
-                            <shvc:StatisticsCard
-                                Grid.Column="1"
-                                Margin="16,16,0,16"
-                                DataContext="{Binding Statistics.WeaponWish}"/>
-                            <shvc:StatisticsCard
-                                Grid.Column="2"
                                 Margin="16,16,0,16"
                                 DataContext="{Binding Statistics.StandardWish}"
                                 ShowUpPull="False"/>
                             <shvc:StatisticsCard
-                                Grid.Column="3"
                                 Margin="16,16,0,16"
                                 DataContext="{Binding Statistics.ChronicledWish}"
                                 ShowUpPull="False"/>
