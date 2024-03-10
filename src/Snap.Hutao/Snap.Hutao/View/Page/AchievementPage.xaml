@@ -212,7 +212,7 @@
                             LocalSettingKeySuffixForCurrent="AchievementPage.AchievementGoals"/>
                         <Viewbox
                             Height="32"
-                            MaxWidth="192"
+                            MaxWidth="190"
                             Margin="8,0,0,0"
                             HorizontalAlignment="Left"
                             Stretch="Uniform"
