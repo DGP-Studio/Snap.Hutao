@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using System.Data;
-using System.Runtime.InteropServices;
 using Windows.Foundation;
 
 namespace Snap.Hutao.Control.Panel;
@@ -12,13 +10,24 @@ namespace Snap.Hutao.Control.Panel;
 [DependencyProperty("Spacing", typeof(double))]
 internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
 {
+    public HorizontalEqualPanel()
+    {
+        Loaded += OnLoaded;
+        SizeChanged += OnSizeChanged;
+    }
+
     protected override Size MeasureOverride(Size availableSize)
     {
         foreach (UIElement child in Children)
         {
-            double childAvailableWidth = (availableSize.Width + Spacing) / Children.Count;
-            double childMinAvailableWidth = Math.Min(MinItemWidth, childAvailableWidth);
-            child.Measure(new(childMinAvailableWidth, availableSize.Height));
+            // ScrollViewer will always return an Infinity Size, we should use ActualWidth for this situation.
+            double availableWidth = double.IsInfinity(availableSize.Width)
+                ? ActualWidth
+                : availableSize.Width;
+
+            double childAvailableWidth = (availableWidth + Spacing) / Children.Count;
+            double childMaxAvailableWidth = Math.Max(MinItemWidth, childAvailableWidth);
+            child.Measure(new(childMaxAvailableWidth, availableSize.Height));
         }
 
         return base.MeasureOverride(availableSize);
@@ -47,10 +56,18 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
         {
             child.Arrange(new Rect(x, 0, actualItemWidth, finalSize.Height));
             x += actualItemWidth + Spacing;
-
-            //child.Measure(new Size(actualItemWidth, finalSize.Height));
         }
 
         return finalSize;
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        MinWidth = (MinItemWidth * Children.Count) + (Spacing * (Children.Count - 1));
+    }
+
+    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        InvalidateMeasure();
     }
 }
