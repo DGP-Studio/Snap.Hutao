@@ -69,12 +69,10 @@ internal sealed class WindowController
         window.Activate();
         options.BringToForeground();
 
-        if (options.UseSystemBackdrop)
-        {
-            AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
-            UpdateSystemBackdrop(appOptions.BackdropType);
-            appOptions.PropertyChanged += OnOptionsPropertyChanged;
-        }
+        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
+        UpdateElementTheme(appOptions.ElementTheme);
+        UpdateSystemBackdrop(appOptions.BackdropType);
+        appOptions.PropertyChanged += OnOptionsPropertyChanged;
 
         subclass.Initialize();
 
