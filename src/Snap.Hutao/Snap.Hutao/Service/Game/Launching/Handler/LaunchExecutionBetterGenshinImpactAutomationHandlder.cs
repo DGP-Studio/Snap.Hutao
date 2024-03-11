@@ -23,6 +23,17 @@ internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandlder : ILa
         Uri betterGenshinImpactUri = "bettergi://start".ToUri();
         if (await Launcher.QueryUriSupportAsync(betterGenshinImpactUri, LaunchQuerySupportType.Uri) is LaunchQuerySupportStatus.Available)
         {
+            try
+            {
+                context.Logger.LogInformation("Waiting game window to be ready");
+                context.Process.WaitForInputIdle();
+            }
+            catch (InvalidOperationException)
+            {
+                context.Logger.LogInformation("Failed to wait Input idle waiting");
+                return;
+            }
+
             context.Logger.LogInformation("Launching BetterGI");
             await Launcher.LaunchUriAsync(betterGenshinImpactUri);
         }
