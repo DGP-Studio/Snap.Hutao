@@ -6,8 +6,15 @@ namespace Snap.Hutao.Core.ExceptionService;
 internal enum HutaoExceptionKind
 {
     None,
+
+    // Foundation
     ServiceTypeCastFailed,
+
+    // IO
     FileSystemCreateFileInsufficientPermissions,
     PrivateNamedPipeContentHashIncorrect,
+
+    // Service
     GachaStatisticsInvalidItemId,
+    GameFpsUnlockingFailed,
 }
