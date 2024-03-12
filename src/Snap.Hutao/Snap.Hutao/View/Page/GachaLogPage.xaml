@@ -143,8 +143,8 @@
             <Border Width="40" Style="{StaticResource BorderCardStyle}">
                 <StackPanel>
                     <shvc:ItemIcon
-                        Width="40"
-                        Height="40"
+                        Width="38"
+                        Height="38"
                         Icon="{Binding Icon}"
                         Quality="{Binding Quality}"/>
                     <TextBlock
@@ -183,17 +183,19 @@
                     Text="{Binding TotalCountFormatted}"/>
                 <ItemsControl
                     Grid.Row="1"
+                    MaxWidth="124"
                     Margin="0,6,0,0"
                     HorizontalAlignment="Left"
                     ItemTemplate="{StaticResource HistoryWishItemTemplate}"
-                    ItemsPanel="{StaticResource HorizontalStackPanelSpacing2Template}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing2Template}"
                     ItemsSource="{Binding OrangeUpList}"/>
                 <ItemsControl
                     Grid.Row="1"
+                    MaxWidth="252"
                     Margin="0,6,0,0"
                     HorizontalAlignment="Right"
                     ItemTemplate="{StaticResource HistoryWishItemTemplate}"
-                    ItemsPanel="{StaticResource HorizontalStackPanelSpacing2Template}"
+                    ItemsPanel="{StaticResource WrapPanelSpacing2Template}"
                     ItemsSource="{Binding PurpleUpList}"/>
                 <TextBlock
                     Grid.Row="2"
@@ -300,17 +302,7 @@
                             <shvc:StatisticsCard DataContext="{Binding Statistics.StandardWish}" ShowUpPull="False"/>
                             <shvc:StatisticsCard DataContext="{Binding Statistics.ChronicledWish}" ShowUpPull="False"/>
                         </shcp:HorizontalEqualPanel>
-                        <!--<Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" MinWidth="240"/>
-                                <ColumnDefinition Width="*" MinWidth="240"/>
-                                <ColumnDefinition Width="*" MinWidth="240"/>
-                                <ColumnDefinition Width="*" MinWidth="240"/>
-                            </Grid.ColumnDefinitions>
-
-                        </Grid>-->
                     </ScrollViewer>
-
                 </PivotItem>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotHistory}">
                     <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
@@ -318,7 +310,7 @@
                             <SplitView
                                 DisplayMode="Inline"
                                 IsPaneOpen="True"
-                                OpenPaneLength="323"
+                                OpenPaneLength="408"
                                 PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
                                 <SplitView.Pane>
                                     <ListView
