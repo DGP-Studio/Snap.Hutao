@@ -13,6 +13,7 @@ using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Dwm;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Collections.Frozen;
 using System.IO;
 using Windows.Graphics;
 using Windows.UI;
@@ -56,21 +57,20 @@ internal sealed class WindowController
     private void InitializeCore()
     {
         RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
 
         window.AppWindow.Title = SH.FormatAppNameAndVersion(runtimeOptions.Version);
         window.AppWindow.SetIcon(Path.Combine(runtimeOptions.InstalledLocation, "Assets/Logo.ico"));
         ExtendsContentIntoTitleBar();
 
         RecoverOrInitWindowSize();
+        UpdateElementTheme(appOptions.ElementTheme);
         UpdateImmersiveDarkMode(options.TitleBar, default!);
 
         // appWindow.Show(true);
         // appWindow.Show can't bring window to top.
         window.Activate();
         options.BringToForeground();
-
-        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
-        UpdateElementTheme(appOptions.ElementTheme);
         UpdateSystemBackdrop(appOptions.BackdropType);
         appOptions.PropertyChanged += OnOptionsPropertyChanged;
 
@@ -188,12 +188,12 @@ internal sealed class WindowController
         appTitleBar.ButtonBackgroundColor = Colors.Transparent;
         appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-        IAppResourceProvider resourceProvider = serviceProvider.GetRequiredService<IAppResourceProvider>();
+        bool isDarkMode = Control.Theme.ThemeHelper.IsDarkMode(options.TitleBar.ActualTheme);
 
-        Color systemBaseLowColor = resourceProvider.GetResource<Color>("SystemBaseLowColor");
+        Color systemBaseLowColor = Control.Theme.SystemColors.BaseLowColor(isDarkMode);
         appTitleBar.ButtonHoverBackgroundColor = systemBaseLowColor;
 
-        Color systemBaseMediumLowColor = resourceProvider.GetResource<Color>("SystemBaseMediumLowColor");
+        Color systemBaseMediumLowColor = Control.Theme.SystemColors.BaseMediumLowColor(isDarkMode);
         appTitleBar.ButtonPressedBackgroundColor = systemBaseMediumLowColor;
 
         // The Foreground doesn't accept Alpha channel. So we translate it to gray.
@@ -201,7 +201,7 @@ internal sealed class WindowController
         byte result = (byte)((systemBaseMediumLowColor.A / 255.0) * light);
         appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, result, result, result);
 
-        Color systemBaseHighColor = resourceProvider.GetResource<Color>("SystemBaseHighColor");
+        Color systemBaseHighColor = Control.Theme.SystemColors.BaseHighColor(isDarkMode);
         appTitleBar.ButtonForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonHoverForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;
