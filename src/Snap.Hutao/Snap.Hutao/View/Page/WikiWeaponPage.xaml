@@ -36,14 +36,14 @@
         <DataTemplate x:Key="TokenTemplate">
             <Grid VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="22"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Rectangle
                     Grid.Column="0"
                     Width="4"
                     Height="22"
-                    Margin="0,0,8,0"
+                    Margin="4,2,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
                     RadiusX="2"
@@ -57,14 +57,14 @@
                     Grid.Column="0"
                     Width="22"
                     Height="22"
-                    Margin="0,0,4,0"
+                    Margin="-5,2,9,0"
                     Source="{Binding IconUri, Mode=OneWay}"
                     Visibility="{Binding IconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
                 <shci:CachedImage
                     Grid.Column="0"
                     Width="22"
                     Height="22"
-                    Margin="0,0,4,0"
+                    Margin="-4,0,8,0"
                     Source="{Binding SideIconUri, Mode=OneWay}"
                     Visibility="{Binding SideIconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
                 <TextBlock
