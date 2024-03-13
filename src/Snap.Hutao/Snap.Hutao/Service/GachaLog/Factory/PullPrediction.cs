@@ -38,6 +38,10 @@ internal sealed class PullPrediction
             typedWishSummary.PredictedPullLeftToOrange = result.PredictedPullLeftToOrange;
             typedWishSummary.IsPredictPullAvailable = true;
         }
+        else
+        {
+            await barrier.SignalAndWaitAsync().ConfigureAwait(false);
+        }
     }
 
     private static PredictResult PredictCore(List<PullCount> distribution, TypedWishSummary typedWishSummary)

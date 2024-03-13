@@ -36,7 +36,7 @@ internal interface IGachaLogHutaoCloudService
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>是否获取成功</returns>
-    ValueTask<ValueResult<bool, Guid>> RetrieveGachaItemsAsync(string uid, CancellationToken token = default);
+    ValueTask<ValueResult<bool, Guid>> RetrieveGachaArchiveIdAsync(string uid, CancellationToken token = default);
 
     /// <summary>
     /// 异步上传祈愿记录

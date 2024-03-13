@@ -6,6 +6,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources/>
+                <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.TokenizingTextBox/TokenizingTextBox.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Loading.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Image/CachedImage.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Card.xaml"/>
@@ -22,6 +23,7 @@
                 <ResourceDictionary Source="ms-appx:///Control/Theme/PageOverride.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/PivotOverride.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/ScrollViewer.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Control/Theme/SegmentedOverride.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/SettingsStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Thickness.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/TransitionCollection.xaml"/>

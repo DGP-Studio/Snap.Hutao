@@ -42,6 +42,30 @@
     "EqualityOperators": true
   },
   {
+    "Name": "FurnitureId",
+    "Documentation": "家具 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "FurnitureMakeId",
+    "Documentation": "家具配方 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "FurnitureSuiteId",
+    "Documentation": "家具套装 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "FurnitureTypeId",
+    "Documentation": "家具分类 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
     "Name": "Level",
     "Documentation": "等级 1 - 90",
     "Equatable": true,

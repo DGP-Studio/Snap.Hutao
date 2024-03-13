@@ -60,7 +60,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 
         using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
         {
-            return await hutaoCloudService.RetrieveGachaItemsAsync(uid).ConfigureAwait(false);
+            return await hutaoCloudService.RetrieveGachaArchiveIdAsync(uid).ConfigureAwait(false);
         }
     }
 

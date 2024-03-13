@@ -26,17 +26,19 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <cwc:SettingsExpander
-        Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}"
-        IsExpanded="True"
-        ItemTemplate="{StaticResource ParameterDescriptionTemplate}"
-        ItemsSource="{x:Bind SelectedItem.Parameters, Mode=OneWay}">
-        <shc:SizeRestrictedContentControl Margin="0,-8">
-            <ComboBox
-                x:Name="LevelSelectorComboBox"
-                DisplayMemberPath="Level"
-                SelectionChanged="OnLevelSelectorComboBoxSelectionChanged"
-                Style="{StaticResource SettingsContentComboBoxStyle}"/>
-        </shc:SizeRestrictedContentControl>
-    </cwc:SettingsExpander>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+        <cwc:SettingsExpander
+            Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}"
+            IsExpanded="True"
+            ItemTemplate="{StaticResource ParameterDescriptionTemplate}"
+            ItemsSource="{x:Bind SelectedItem.Parameters, Mode=OneWay}">
+            <shc:SizeRestrictedContentControl Margin="0,-8">
+                <ComboBox
+                    x:Name="LevelSelectorComboBox"
+                    DisplayMemberPath="Level"
+                    SelectionChanged="OnLevelSelectorComboBoxSelectionChanged"
+                    Style="{StaticResource SettingsContentComboBoxStyle}"/>
+            </shc:SizeRestrictedContentControl>
+        </cwc:SettingsExpander>
+    </ScrollViewer>
 </UserControl>

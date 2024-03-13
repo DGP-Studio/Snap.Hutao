@@ -29,7 +29,6 @@ internal sealed class HistoryWishBuilder
     /// </summary>
     /// <param name="gachaEvent">卡池配置</param>
     /// <param name="context">祈愿记录上下文</param>
-    [SuppressMessage("", "SH002")]
     public HistoryWishBuilder(GachaEvent gachaEvent, GachaLogServiceMetadataContext context)
     {
         this.gachaEvent = gachaEvent;
@@ -37,13 +36,19 @@ internal sealed class HistoryWishBuilder
 
         switch (ConfigType)
         {
-            case GachaConfigType.AvatarEventWish or GachaConfigType.AvatarEventWish2:
+            case GachaType.ActivityAvatar or GachaType.SpecialActivityAvatar:
                 orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
                 purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
                 break;
-            case GachaConfigType.WeaponEventWish:
+            case GachaType.ActivityWeapon:
                 orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
                 purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
+                break;
+            case GachaType.ActivityCity:
+
+                // Avatars are less than weapons, so we try to get the value from avatar map first
+                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => (IStatisticsItemSource?)context.IdAvatarMap.GetValueOrDefault(id) ?? context.IdWeaponMap[id]).ToDictionary(c => c, c => 0);
+                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => (IStatisticsItemSource?)context.IdAvatarMap.GetValueOrDefault(id) ?? context.IdWeaponMap[id]).ToDictionary(c => c, c => 0);
                 break;
         }
     }
@@ -51,7 +56,7 @@ internal sealed class HistoryWishBuilder
     /// <summary>
     /// 祈愿配置类型
     /// </summary>
-    public GachaConfigType ConfigType { get; }
+    public GachaType ConfigType { get; }
 
     /// <inheritdoc cref="GachaEvent.From"/>
     public DateTimeOffset From { get => gachaEvent.From; }
@@ -106,13 +111,13 @@ internal sealed class HistoryWishBuilder
     {
         HistoryWish historyWish = new()
         {
-            // base
+            // Base
             Name = gachaEvent.Name,
             From = gachaEvent.From,
             To = gachaEvent.To,
             TotalCount = totalCountTracker,
 
-            // fill
+            // Fill
             Version = gachaEvent.Version,
             BannerImage = gachaEvent.Banner,
             OrangeUpList = orangeUpCounter.ToStatisticsList(),

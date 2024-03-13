@@ -46,18 +46,16 @@ internal sealed partial class ResourceClient
             .TryCatchSendAsync<Response<GameResource>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
-        // 补全缺失的信息
+        // 最新版完整包
         if (resp is { Data.Game.Latest: LatestPackage latest })
         {
-            StringBuilder pathBuilder = new();
-            foreach (PackageSegment segment in latest.Segments)
-            {
-                pathBuilder.AppendLine(segment.Path);
-            }
+            latest.Patch();
+        }
 
-            latest.Path = pathBuilder.ToStringTrimEndReturn();
-            string path = latest.Segments[0].Path[..^4]; // .00X
-            latest.Name = Path.GetFileName(path);
+        // 预下载完整包
+        if (resp is { Data.PreDownloadGame.Latest: LatestPackage preDownloadLatest })
+        {
+            preDownloadLatest.Patch();
         }
 
         return Response.Response.DefaultIfNull(resp);

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Control;
 using Snap.Hutao.Model.Intrinsic;
+using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
@@ -12,6 +13,20 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 [HighQuality]
 internal sealed class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
 {
+    private static readonly FrozenDictionary<string, WeaponType> LocalizedNameToWeaponType = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(SH.ModelIntrinsicWeaponTypeSwordOneHand, WeaponType.WEAPON_SWORD_ONE_HAND),
+        KeyValuePair.Create(SH.ModelIntrinsicWeaponTypeBow, WeaponType.WEAPON_BOW),
+        KeyValuePair.Create(SH.ModelIntrinsicWeaponTypePole, WeaponType.WEAPON_POLE),
+        KeyValuePair.Create(SH.ModelIntrinsicWeaponTypeClaymore, WeaponType.WEAPON_CLAYMORE),
+        KeyValuePair.Create(SH.ModelIntrinsicWeaponTypeCatalyst, WeaponType.WEAPON_CATALYST),
+    ]);
+
+    public static Uri WeaponTypeNameToIconUri(string weaponTypeName)
+    {
+        return WeaponTypeToIconUri(LocalizedNameToWeaponType.GetValueOrDefault(weaponTypeName));
+    }
+
     /// <summary>
     /// 将武器类型转换为图标链接
     /// </summary>

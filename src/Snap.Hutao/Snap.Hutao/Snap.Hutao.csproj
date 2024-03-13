@@ -156,6 +156,7 @@
     <None Remove="View\Control\LoadingView.xaml" />
     <None Remove="View\Control\LoadingViewSlim.xaml" />
     <None Remove="View\Control\SkillPivot.xaml" />
+    <None Remove="View\Control\SegmentedOverride.xaml" />
     <None Remove="View\Control\StatisticsCard.xaml" />
     <None Remove="View\Control\StatisticsSegmented.xaml" />
     <None Remove="View\Control\WebViewer.xaml" />
@@ -298,6 +299,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
@@ -315,8 +317,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
     <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.15.3">
@@ -346,6 +348,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Control\Theme\SegmentedOverride.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Control\Theme\Thickness.xaml">

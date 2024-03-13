@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.IO;
 
 namespace Snap.Hutao.Core.Caching;
@@ -10,7 +9,7 @@ namespace Snap.Hutao.Core.Caching;
 /// 为图像缓存提供抽象
 /// </summary>
 [HighQuality]
-internal interface IImageCache : ICastService
+internal interface IImageCache
 {
     /// <summary>
     /// Gets the file path containing cached item for given Uri

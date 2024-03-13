@@ -9,6 +9,7 @@ namespace Snap.Hutao.Core.Validation;
 /// 封装验证方法,简化微软验证
 /// </summary>
 [HighQuality]
+[Obsolete("Use HutaoException instead")]
 internal static class Must
 {
     /// <summary>

@@ -69,6 +69,15 @@ else if (AppVeyor.IsRunningOnAppVeyor)
     })[..^2];
     Information($"Version: {version}");
 }
+else // Local
+{
+    repoDir = System.Environment.CurrentDirectory;
+    outputPath = System.IO.Path.Combine(repoDir, "src", "output");
+
+    version = System.DateTime.Now.ToString("yyyy.M.d.") + ((int)((System.DateTime.Now - System.DateTime.Today).TotalSeconds / 86400 * 65535)).ToString();
+
+    Information($"Version: {version}");
+}
 
 Task("Build")
     .IsDependentOn("Build binary package")
@@ -111,6 +120,17 @@ Task("Generate AppxManifest")
     {
         Information("Using Release configuration");
         content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"CN=SignPath Foundation, O=SignPath Foundation, L=Lewes, S=Delaware, C=US\"");
+    }
+    else
+    {
+        Information("Using Local configuration.");
+        content = content
+            .Replace("Snap Hutao", "Snap Hutao Local")
+            .Replace("胡桃", "胡桃 Local")
+            .Replace("DGP Studio", "DGP Studio CI");
+        content = System.Text.RegularExpressions.Regex.Replace(content, "  Name=\"([^\"]*)\"", "  Name=\"E8B6E2B3-D2A0-4435-A81D-2A16AAF405C7\"");
+        content = System.Text.RegularExpressions.Regex.Replace(content, "  Publisher=\"([^\"]*)\"", "  Publisher=\"E=admin@dgp-studio.cn, CN=DGP Studio CI, OU=CI, O=DGP-Studio, L=San Jose, S=CA, C=US\"");
+        content = System.Text.RegularExpressions.Regex.Replace(content, "  Version=\"([0-9\\.]+)\"", $"  Version=\"{version}\"");
     }
 
     System.IO.File.WriteAllText(manifest, content);
@@ -172,6 +192,10 @@ Task("Build MSIX")
     else if (AppVeyor.IsRunningOnAppVeyor)
     {
         arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao-{version}.msix");
+    }
+    else
+    {
+        arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Local-{version}.msix");
     }
     var p = StartProcess(
         "makeappx.exe",

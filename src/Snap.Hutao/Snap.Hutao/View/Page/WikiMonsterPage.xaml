@@ -203,19 +203,23 @@
                     </Border>
                 </cwc:Case>
                 <cwc:Case Value="Grid">
-                    <GridView
-                        Padding="16,16,4,4"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
-                        ItemTemplate="{StaticResource MonsterGridTemplate}"
-                        ItemsSource="{Binding Monsters}"
-                        SelectedItem="{Binding Selected, Mode=TwoWay}"
-                        SelectionMode="Single">
-                        <mxi:Interaction.Behaviors>
-                            <shcb:SelectedItemInViewBehavior/>
-                        </mxi:Interaction.Behaviors>
-                    </GridView>
+                    <Border Margin="16,0,16,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <GridView
+                                Padding="16,16,4,4"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
+                                ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                                ItemTemplate="{StaticResource MonsterGridTemplate}"
+                                ItemsSource="{Binding Monsters}"
+                                SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                SelectionMode="Single">
+                                <mxi:Interaction.Behaviors>
+                                    <shcb:SelectedItemInViewBehavior/>
+                                </mxi:Interaction.Behaviors>
+                            </GridView>
+                        </Border>
+                    </Border>
                 </cwc:Case>
             </cwc:SwitchPresenter>
         </Grid>

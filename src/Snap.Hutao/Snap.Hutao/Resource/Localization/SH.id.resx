@@ -186,6 +186,18 @@
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>WebView2 Runtime tidak terdeteksi.</value>
   </data>
+  <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
+    <value>[{0}] Hotkey [{1}] gagal terdaftar</value>
+  </data>
+  <data name="CoreWindowThemeDark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="CoreWindowThemeLight" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="CoreWindowThemeSystem" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>Ekspor</value>
   </data>
@@ -199,19 +211,19 @@
     <value>Pilih akun untuk memulai</value>
   </data>
   <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;Prince&lt;/color&gt;/&lt;color=#FFB6C1&gt;Princess&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;I&lt;/color&gt;/&lt;color=#FFB6C1&gt;I&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameNickname" xml:space="preserve">
     <value>Pengembara</value>
   </data>
   <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;He&lt;/color&gt;/&lt;color=#FFB6C1&gt;She&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
-    <value>流浪者</value>
+    <value>Pengembara</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Perbaiki {0}</value>
@@ -513,7 +525,7 @@
     <value>Gelombang 4: Gelombang akan muncul hanya setelah membunuh semua musuh di gelombang sebelumnya</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
-    <value>维持场上 4 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+    <value>Tetapkan 4 Perampok Harta Karun di lapangan, langsung muncul kembali setelah mati. Total 12.</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>Silakan perbarui data tampilan.</value>
@@ -768,19 +780,19 @@
     <value>Pameran Karakter: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
-    <value>必应每日一图</value>
+    <value>Wallpaper Harian Bing</value>
   </data>
   <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
-    <value>胡桃每日一图</value>
+    <value>Wallpaper Harian Hutao</value>
   </data>
   <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
-    <value>官方启动器壁纸</value>
+    <value>Wallpaper Resmi Peluncur Genshin</value>
   </data>
   <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
-    <value>本地随机图片</value>
+    <value>Gambar Acak Lokal</value>
   </data>
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
-    <value>无背景图片</value>
+    <value>Tanpa Gambar Latar</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>Gagal menyimpan status rencana pengembangan</value>
@@ -840,7 +852,7 @@
     <value>Parametric Transformer telah siap</value>
   </data>
   <data name="ServiceDiscordActivityElevationRequiredHint" xml:space="preserve">
-    <value>权限不足，将无法为您设置 Discord Activity 状态</value>
+    <value>Izin hilang, tidak dapat mengatur Aktivitas Discord Anda.</value>
   </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
     <value>Menjelajahi di Teyvat</value>
@@ -856,6 +868,9 @@
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
     <value>Event Wish Karakter</value>
+  </data>
+  <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
+    <value>集录祈愿</value>
   </data>
   <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
     <value>Wanderlust Invocation</value>
@@ -1224,10 +1239,10 @@
     <value>Catatan Realtime Webhook URL</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
-    <value>解除限制后需要使用其他工具恢复限制</value>
+    <value>Anda memerlukan alat lain untuk mengembalikan loopback setelah dikecualikan</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackTitle" xml:space="preserve">
-    <value>是否解除 Loopback 限制</value>
+    <value>Konfirmasi untuk Mengonfigurasi Pengecualian Loopback</value>
   </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>Mengimpor riwayat wish</value>
@@ -1410,7 +1425,7 @@
     <value>Game Launcher</value>
   </data>
   <data name="ViewListViewDragElevatedHint" xml:space="preserve">
-    <value>管理员模式下无法拖动排序</value>
+    <value>Tidak dapat mengurutkan dalam Mode Administrator</value>
   </data>
   <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
     <value>Arsip [{0}] berhasil ditambahkan</value>
@@ -1692,7 +1707,7 @@
     <value>Selesai</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryContentTypeNotMatch" xml:space="preserve">
-    <value>响应内容不是有效的文件字节流</value>
+    <value>Stream respons tidak berisi tipe konten yang valid</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
     <value>Mengantre</value>
@@ -1911,16 +1926,16 @@
     <value>Tautan Berguna</value>
   </data>
   <data name="ViewPageFeedbackCurrentProxyHeader" xml:space="preserve">
-    <value>当前代理</value>
+    <value>Proxy Saat ini</value>
   </data>
   <data name="ViewPageFeedbackCurrentProxyNoProxyDescription" xml:space="preserve">
-    <value>无代理</value>
+    <value>Tidak ada Proxy</value>
   </data>
   <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
-    <value>已解除</value>
+    <value>Dikecualikan</value>
   </data>
   <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
-    <value>解除 Loopback 限制</value>
+    <value>Konfigurasikan Pengecualian Loopback</value>
   </data>
   <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
     <value>Tetap berhubungan dengan kami</value>
@@ -2211,10 +2226,10 @@
     <value>Argumen Awalan</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
-    <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
+    <value>Mulai Otomatis Antarmuka Pengguna yang Lebih Baik untuk tugas otomatis setelah game diluncurkan</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>Better GI</value>
+    <value>自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>Umum</value>
@@ -2232,7 +2247,7 @@
     <value>Berkas</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
-    <value>InterProcess</value>
+    <value>进程联动</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Menjalankan perangkat lunak pada layar yang dipilih</value>
@@ -2358,13 +2373,16 @@
     <value>Backdrop Material</value>
   </data>
   <data name="ViewPageSettingBackgroundImageCopyrightHeader" xml:space="preserve">
-    <value>图片版权信息</value>
+    <value>Informasi Hak Cipta Gambar</value>
   </data>
   <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
-    <value>更改窗体的背景图片来源，重启胡桃以尽快生效</value>
+    <value>Ubah sumber gambar latar, restart Snap Hutao untuk menerapkan perubahan</value>
   </data>
   <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
-    <value>背景图片</value>
+    <value>Gambar Latar</value>
+  </data>
+  <data name="ViewPageSettingBackgroundImageLocalFolderCopyrightHeader" xml:space="preserve">
+    <value>当前背景为本地图片，如遇版权问题由用户个人负责</value>
   </data>
   <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
     <value>Cache gambar disimpan di sini</value>
@@ -2373,7 +2391,7 @@
     <value>Berkas Cache</value>
   </data>
   <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证</value>
+    <value>Hutao Passport</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Salin</value>
@@ -2568,10 +2586,10 @@
     <value>Website Resmi</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
-    <value>自定义背景图片，支持 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
+    <value>Latar Belakang Kustom, format didukung bmp/gif/ico/jpg/jpeg/png/tiff/webp</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
-    <value>打开背景图片文件夹</value>
+    <value>Buka Berkas Latar Belakang</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>Reset</value>
@@ -2583,10 +2601,10 @@
     <value>Setel ulang Sumber Daya Gambar</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+    <value>Tambahkan Opsi Batasan FPS di Bagian Proses Peluncur Permainan</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
-    <value>启动游戏-解锁帧率限制</value>
+    <value>Peluncur Permainan - Buka Limit FPS</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>Anda perlu memindahkan data di direktori secara manual, jika tidak, data pengguna baru akan dibuat.</value>
@@ -2621,6 +2639,12 @@
   <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
     <value>Beri Rating untuk Snap Hutao</value>
   </data>
+  <data name="ViewPageSettingThemeDescription" xml:space="preserve">
+    <value>更改窗体的颜色主题</value>
+  </data>
+  <data name="ViewPageSettingThemeHeader" xml:space="preserve">
+    <value>颜色主题</value>
+  </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>Kontribusi penerjemahan</value>
   </data>
@@ -2629,6 +2653,12 @@
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>Webview2 Runtime</value>
+  </data>
+  <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
+    <value>下半</value>
+  </data>
+  <data name="ViewPageSpiralAbyssTeamAppearanceUpHeader" xml:space="preserve">
+    <value>上半</value>
   </data>
   <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
     <value>Kombinasi Set Artefak</value>
@@ -2892,7 +2922,7 @@
     <value>〓Durasi Event〓.*?\d\.\d Tersedia selama versi ini</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓Durasi Event〓|Durasi Event Wish|【Ketersediaan DUrasi】).*?(\d\.\dSetelah pembaruan versi).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓Waktu Acara〓|Waktu Menginginkan|【Waktu Peluncuran】|〓Waktu Diskon〓).*?(\d\.\d Setelah Pembaruan Versi).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓Durasi Pemeliharaan Pembaruan.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
@@ -3043,6 +3073,9 @@
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
     <value>Event WIsh Karakter-2</value>
+  </data>
+  <data name="WebGachaConfigTypeChronicledWish" xml:space="preserve">
+    <value>集录祈愿</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
     <value>Wish Pemula</value>

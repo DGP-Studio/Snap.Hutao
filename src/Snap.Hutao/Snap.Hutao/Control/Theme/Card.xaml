@@ -4,20 +4,18 @@
     xmlns:cwm="using:CommunityToolkit.WinUI.Media">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <cwm:AttachedCardShadow
-                x:Key="CompatCardShadow"
-                BlurRadius="8"
-                Opacity="0.14"
-                Offset="0,4,0"/>
+            <x:Double x:Key="CompatShadowThemeOpacity">0.14</x:Double>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
-            <cwm:AttachedCardShadow
-                x:Key="CompatCardShadow"
-                BlurRadius="8"
-                Opacity="0.28"
-                Offset="0,4,0"/>
+            <x:Double x:Key="CompatShadowThemeOpacity">0.28</x:Double>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+
+    <cwm:AttachedCardShadow
+        x:Key="CompatCardShadow"
+        BlurRadius="8"
+        Opacity="{ThemeResource CompatShadowThemeOpacity}"
+        Offset="0,4,0"/>
 
     <Style x:Key="BorderCardStyle" TargetType="Border">
         <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>

@@ -1,12 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Control.AutoSuggestBox;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
@@ -17,6 +20,8 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Response;
+using System.Collections.Frozen;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -42,10 +47,12 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
     private AdvancedCollectionView<Weapon>? weapons;
     private Weapon? selected;
-    private string? filterText;
+    private ObservableCollection<SearchToken>? filterTokens;
+    private string? filterToken;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelWeaponCurveMap;
     private List<Promote>? promotes;
+    private FrozenDictionary<string, SearchToken> availableTokens;
 
     /// <summary>
     /// 角色列表
@@ -72,32 +79,55 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
     /// <summary>
-    /// 筛选文本
+    /// 保存的筛选标志
     /// </summary>
-    public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
+    public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
+
+    public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
+
+    public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            levelWeaponCurveMap = await metadataService.GetLevelToWeaponCurveMapAsync().ConfigureAwait(false);
-            promotes = await metadataService.GetWeaponPromoteListAsync().ConfigureAwait(false);
-            Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
+            try
+            {
+                levelWeaponCurveMap = await metadataService.GetLevelToWeaponCurveMapAsync().ConfigureAwait(false);
+                promotes = await metadataService.GetWeaponPromoteListAsync().ConfigureAwait(false);
+                Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
 
-            List<Weapon> weapons = await metadataService.GetWeaponListAsync().ConfigureAwait(false);
-            IEnumerable<Weapon> sorted = weapons
-                .OrderByDescending(weapon => weapon.RankLevel)
-                .ThenBy(weapon => weapon.WeaponType)
-                .ThenByDescending(weapon => weapon.Id.Value);
-            List<Weapon> list = [.. sorted];
+                List<Weapon> weapons = await metadataService.GetWeaponListAsync().ConfigureAwait(false);
+                IEnumerable<Weapon> sorted = weapons
+                    .OrderByDescending(weapon => weapon.RankLevel)
+                    .ThenBy(weapon => weapon.WeaponType)
+                    .ThenByDescending(weapon => weapon.Id.Value);
+                List<Weapon> list = [.. sorted];
 
-            await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
+                await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
-            await taskContext.SwitchToMainThreadAsync();
+                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                {
+                    await taskContext.SwitchToMainThreadAsync();
 
-            Weapons = new(list, true);
-            Selected = Weapons.View.ElementAtOrDefault(0);
+                    Weapons = new(list, true);
+                    Selected = Weapons.View.ElementAtOrDefault(0);
+                }
+
+                FilterTokens = [];
+
+                availableTokens = FrozenDictionary.ToFrozenDictionary(
+                [
+                    .. weapons.Select(w => KeyValuePair.Create(w.Name, new SearchToken(SearchTokenKind.Weapon, w.Name, sideIconUri: EquipIconConverter.IconNameToUri(w.Icon)))),
+                    .. IntrinsicFrozen.FightProperties.Select(f => KeyValuePair.Create(f, new SearchToken(SearchTokenKind.FightProperty, f))),
+                    .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(SearchTokenKind.ItemQuality, i, quality: QualityColorConverter.QualityNameToColor(i)))),
+                    .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(SearchTokenKind.WeaponType, w, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
+                ]);
+            }
+            catch (OperationCanceledException)
+            {
+            }
         }
     }
 
@@ -188,20 +218,20 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     }
 
     [Command("FilterCommand")]
-    private void ApplyFilter(string? input)
+    private void ApplyFilter()
     {
         if (Weapons is null)
         {
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(input))
+        if (FilterTokens.IsNullOrEmpty())
         {
             Weapons.Filter = default!;
             return;
         }
 
-        Weapons.Filter = WeaponFilter.Compile(input);
+        Weapons.Filter = WeaponFilter.Compile(FilterTokens);
 
         if (Selected is not null && Weapons.Contains(Selected))
         {

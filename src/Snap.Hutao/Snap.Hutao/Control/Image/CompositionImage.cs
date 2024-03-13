@@ -168,6 +168,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
             if (surface.DecodedPhysicalSize.Size() <= 0D)
             {
                 await Task.WhenAny(surfaceLoadTaskCompletionSource.Task, Task.Delay(5000, token)).ConfigureAwait(true);
+                await Task.Delay(50, token).ConfigureAwait(true);
             }
 
             LoadImageSurfaceCompleted(surface);

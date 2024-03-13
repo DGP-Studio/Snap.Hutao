@@ -26,12 +26,12 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 {
     private const string CacheFolderName = nameof(ImageCache);
 
-    private readonly FrozenDictionary<int, TimeSpan> retryCountToDelay = new Dictionary<int, TimeSpan>()
-    {
-        [0] = TimeSpan.FromSeconds(4),
-        [1] = TimeSpan.FromSeconds(16),
-        [2] = TimeSpan.FromSeconds(64),
-    }.ToFrozenDictionary();
+    private readonly FrozenDictionary<int, TimeSpan> retryCountToDelay = FrozenDictionary.ToFrozenDictionary(
+    [
+        KeyValuePair.Create(0, TimeSpan.FromSeconds(4)),
+        KeyValuePair.Create(1, TimeSpan.FromSeconds(16)),
+        KeyValuePair.Create(2, TimeSpan.FromSeconds(64)),
+    ]);
 
     private readonly ConcurrentDictionary<string, Task> concurrentTasks = new();
 

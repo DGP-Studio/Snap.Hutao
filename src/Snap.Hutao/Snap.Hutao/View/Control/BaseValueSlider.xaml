@@ -22,35 +22,37 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <cwc:SettingsExpander
-        Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}"
-        IsExpanded="True"
-        ItemTemplate="{StaticResource BaseValueTemplate}"
-        ItemsSource="{x:Bind BaseValueInfo.Values, Mode=OneWay}">
-        <StackPanel
-            Height="16"
-            Margin="8,0,0,0"
-            Orientation="Horizontal"
-            Spacing="16">
-            <TextBlock VerticalAlignment="Center" Text="{x:Bind BaseValueInfo.CurrentLevelFormatted, Mode=OneWay}"/>
-            <CheckBox
-                MinWidth="0"
-                Margin="0,-8,0,-8"
-                Padding="8,0,0,0"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Content="{shcm:ResourceString Name=ViewControlBaseValueSliderPromoted}"
-                IsChecked="{x:Bind BaseValueInfo.Promoted, Mode=TwoWay}"
-                Visibility="{x:Bind IsPromoteVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-            <Slider
-                MinWidth="240"
-                Margin="0,-16,0,-16"
-                VerticalAlignment="Center"
-                Maximum="{x:Bind BaseValueInfo.MaxLevel, Mode=OneWay}"
-                Minimum="1"
-                StepFrequency="1"
-                Value="{x:Bind BaseValueInfo.CurrentLevel, Mode=TwoWay}"/>
-        </StackPanel>
-    </cwc:SettingsExpander>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+        <cwc:SettingsExpander
+            Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}"
+            IsExpanded="True"
+            ItemTemplate="{StaticResource BaseValueTemplate}"
+            ItemsSource="{x:Bind BaseValueInfo.Values, Mode=OneWay}">
+            <StackPanel
+                Height="16"
+                Margin="8,0,0,0"
+                Orientation="Horizontal"
+                Spacing="16">
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind BaseValueInfo.CurrentLevelFormatted, Mode=OneWay}"/>
+                <CheckBox
+                    MinWidth="0"
+                    Margin="0,-8,0,-8"
+                    Padding="8,0,0,0"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="{shcm:ResourceString Name=ViewControlBaseValueSliderPromoted}"
+                    IsChecked="{x:Bind BaseValueInfo.Promoted, Mode=TwoWay}"
+                    Visibility="{x:Bind IsPromoteVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Slider
+                    MinWidth="240"
+                    Margin="0,-16,0,-16"
+                    VerticalAlignment="Center"
+                    Maximum="{x:Bind BaseValueInfo.MaxLevel, Mode=OneWay}"
+                    Minimum="1"
+                    StepFrequency="1"
+                    Value="{x:Bind BaseValueInfo.CurrentLevel, Mode=TwoWay}"/>
+            </StackPanel>
+        </cwc:SettingsExpander>
+    </ScrollViewer>
 
 </UserControl>

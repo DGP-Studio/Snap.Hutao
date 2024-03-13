@@ -2,12 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Model.Metadata.Weapon;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao.GachaLog;
@@ -40,7 +37,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         if (await GetEndIdsFromCloudAsync(uid, token).ConfigureAwait(false) is { } endIds)
         {
             List<Web.Hutao.GachaLog.GachaItem> items = [];
-            foreach ((GachaConfigType type, long endId) in endIds)
+            foreach ((GachaType type, long endId) in endIds)
             {
                 List<Web.Hutao.GachaLog.GachaItem> part = await gachaLogDbService
                     .GetHutaoGachaItemListAsync(gachaArchive.InnerId, type, endId)
@@ -55,14 +52,16 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     }
 
     /// <inheritdoc/>
-    public async ValueTask<ValueResult<bool, Guid>> RetrieveGachaItemsAsync(string uid, CancellationToken token = default)
+    public async ValueTask<ValueResult<bool, Guid>> RetrieveGachaArchiveIdAsync(string uid, CancellationToken token = default)
     {
         GachaArchive? archive = await gachaLogDbService
                 .GetGachaArchiveByUidAsync(uid, token)
                 .ConfigureAwait(false);
 
         EndIds endIds = await CreateEndIdsAsync(archive, token).ConfigureAwait(false);
-        Response<List<Web.Hutao.GachaLog.GachaItem>> resp = await homaGachaLogClient.RetrieveGachaItemsAsync(uid, endIds, token).ConfigureAwait(false);
+        Response<List<Web.Hutao.GachaLog.GachaItem>> resp = await homaGachaLogClient
+            .RetrieveGachaItemsAsync(uid, endIds, token)
+            .ConfigureAwait(false);
 
         if (!resp.IsOk())
         {
@@ -75,7 +74,8 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
             await gachaLogDbService.AddGachaArchiveAsync(archive).ConfigureAwait(false);
         }
 
-        List<Model.Entity.GachaItem> gachaItems = resp.Data.SelectList(i => Model.Entity.GachaItem.From(archive.InnerId, i));
+        Guid archiveId = archive.InnerId;
+        List<Model.Entity.GachaItem> gachaItems = resp.Data.SelectList(i => Model.Entity.GachaItem.From(archiveId, i));
         await gachaLogDbService.AddGachaItemsAsync(gachaItems).ConfigureAwait(false);
         return new(true, archive.InnerId);
     }
@@ -94,10 +94,9 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         {
             if (await metadataService.InitializeAsync().ConfigureAwait(false))
             {
-                Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
-                Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
-                List<GachaEvent> gachaEvents = await metadataService.GetGachaEventListAsync(token).ConfigureAwait(false);
-                HutaoStatisticsFactoryMetadataContext context = new(idAvatarMap, idWeaponMap, gachaEvents);
+                HutaoStatisticsFactoryMetadataContext context = await metadataService
+                    .GetContextAsync<HutaoStatisticsFactoryMetadataContext>(token)
+                    .ConfigureAwait(false);
 
                 GachaEventStatistics raw = response.Data;
                 try
@@ -126,7 +125,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     private async ValueTask<EndIds> CreateEndIdsAsync(GachaArchive? archive, CancellationToken token)
     {
         EndIds endIds = new();
-        foreach (GachaConfigType type in GachaLog.QueryTypes)
+        foreach (GachaType type in GachaLog.QueryTypes)
         {
             if (archive is not null)
             {

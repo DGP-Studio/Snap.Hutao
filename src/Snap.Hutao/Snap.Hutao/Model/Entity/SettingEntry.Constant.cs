@@ -13,6 +13,7 @@ internal sealed partial class SettingEntry
     public const string Culture = "Culture";
 
     public const string SystemBackdropType = "SystemBackdropType";
+    public const string ElementTheme = "ElementTheme";
     public const string BackgroundImageType = "BackgroundImageType";
 
     public const string AnnouncementRegion = "AnnouncementRegion";

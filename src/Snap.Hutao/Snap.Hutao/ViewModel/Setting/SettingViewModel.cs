@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
@@ -54,8 +56,10 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
+    private readonly IMessenger messenger;
 
     private NameValue<BackdropType>? selectedBackdropType;
+    private NameValue<ElementTheme>? selectedElementTheme;
     private NameValue<BackgroundImageType>? selectedBackgroundImageType;
     private NameValue<CultureInfo>? selectedCulture;
     private NameValue<Region>? selectedRegion;
@@ -92,6 +96,18 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    public NameValue<ElementTheme>? SelectedElementTheme
+    {
+        get => selectedElementTheme ??= AppOptions.LazyElementThemes.Value.Single(t => t.Value == AppOptions.ElementTheme);
+        set
+        {
+            if (SetProperty(ref selectedElementTheme, value) && value is not null)
+            {
+                AppOptions.ElementTheme = value.Value;
+            }
+        }
+    }
+
     public NameValue<BackgroundImageType>? SelectedBackgroundImageType
     {
         get => selectedBackgroundImageType ??= AppOptions.BackgroundImageTypes.Single(t => t.Value == AppOptions.BackgroundImageType);
@@ -100,6 +116,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             if (SetProperty(ref selectedBackgroundImageType, value) && value is not null)
             {
                 AppOptions.BackgroundImageType = value.Value;
+                messenger.Send(new Message.BackgroundImageTypeChangedMessage());
             }
         }
     }

@@ -8,6 +8,9 @@
     <ItemsPanelTemplate x:Key="WrapPanelSpacing0Template">
         <cwcont:WrapPanel/>
     </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="WrapPanelSpacing2Template">
+        <cwcont:WrapPanel HorizontalSpacing="2" VerticalSpacing="2"/>
+    </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="WrapPanelSpacing4Template">
         <cwcont:WrapPanel HorizontalSpacing="4" VerticalSpacing="4"/>
     </ItemsPanelTemplate>
@@ -16,6 +19,9 @@
     </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="HorizontalStackPanelSpacing2Template">
         <StackPanel Orientation="Horizontal" Spacing="2"/>
+    </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="HorizontalStackPanelSpacing4Template">
+        <StackPanel Orientation="Horizontal" Spacing="4"/>
     </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="StackPanelSpacing4Template">
         <StackPanel Spacing="4"/>

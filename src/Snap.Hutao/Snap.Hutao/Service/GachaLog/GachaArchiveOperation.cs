@@ -15,12 +15,14 @@ internal static class GachaArchiveOperation
     {
         archive = archives.SingleOrDefault(a => a.Uid == uid);
 
-        if (archive is null)
+        if (archive is not null)
         {
-            GachaArchive created = GachaArchive.From(uid);
-            gachaLogDbService.AddGachaArchive(created);
-            taskContext.InvokeOnMainThread(() => archives.Add(created));
-            archive = created;
+            return;
         }
+
+        GachaArchive created = GachaArchive.From(uid);
+        gachaLogDbService.AddGachaArchive(created);
+        taskContext.InvokeOnMainThread(() => archives.Add(created));
+        archive = created;
     }
 }

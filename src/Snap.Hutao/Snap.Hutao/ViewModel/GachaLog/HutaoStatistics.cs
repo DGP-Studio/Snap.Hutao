@@ -21,5 +21,10 @@ internal sealed class HutaoStatistics
     /// <summary>
     /// 神铸赋形
     /// </summary>
-    public HutaoWishSummary WeaponWish { get; set; } = default!;
+    public HutaoWishSummary WeaponEvent { get; set; } = default!;
+
+    /// <summary>
+    /// 集录祈愿
+    /// </summary>
+    public HutaoWishSummary Chronicled { get; set; } = default!;
 }

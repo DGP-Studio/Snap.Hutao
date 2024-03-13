@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 namespace Snap.Hutao.Service.Metadata;
 
@@ -10,7 +9,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// 元数据服务
 /// </summary>
 [HighQuality]
-internal interface IMetadataService : ICastService
+internal interface IMetadataService
 {
     IMemoryCache MemoryCache { get; }
 

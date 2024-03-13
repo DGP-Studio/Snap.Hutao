@@ -47,21 +47,22 @@ internal static class HoyolabOptions
     /// <summary>
     /// 盐
     /// </summary>
-    public static FrozenDictionary<SaltType, string> Salts { get; } = new Dictionary<SaltType, string>()
-    {
+    public static FrozenDictionary<SaltType, string> Salts { get; } = FrozenDictionary.ToFrozenDictionary(
+    [
+
         // Chinese
-        [SaltType.K2] = SaltConstants.CNK2,
-        [SaltType.LK2] = SaltConstants.CNLK2,
-        [SaltType.X4] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
-        [SaltType.X6] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
-        [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
+        KeyValuePair.Create(SaltType.K2, SaltConstants.CNK2),
+        KeyValuePair.Create(SaltType.LK2, SaltConstants.CNLK2),
+        KeyValuePair.Create(SaltType.X4, "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs"),
+        KeyValuePair.Create(SaltType.X6, "t0qEgfub6cvueAPgR5m9aQWWVciEer7v"),
+        KeyValuePair.Create(SaltType.PROD, "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS"),
 
         // Oversea
-        [SaltType.OSK2] = SaltConstants.OSK2,
-        [SaltType.OSLK2] = SaltConstants.OSLK2,
-        [SaltType.OSX4] = "h4c1d6ywfq5bsbnbhm1bzq7bxzzv6srt",
-        [SaltType.OSX6] = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w",
-    }.ToFrozenDictionary();
+        KeyValuePair.Create(SaltType.OSK2, SaltConstants.OSK2),
+        KeyValuePair.Create(SaltType.OSLK2, SaltConstants.OSLK2),
+        KeyValuePair.Create(SaltType.OSX4, "h4c1d6ywfq5bsbnbhm1bzq7bxzzv6srt"),
+        KeyValuePair.Create(SaltType.OSX6, "okr4obncj8bw5a65hbnn5oo6ixjc3l9w"),
+    ]);
 
     [SuppressMessage("", "CA1308")]
     private static string GenerateDeviceId40()

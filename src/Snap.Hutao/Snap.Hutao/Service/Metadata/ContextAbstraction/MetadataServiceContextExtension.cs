@@ -21,31 +21,51 @@ internal static class MetadataServiceContextExtension
             {
                 listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
             }
+
+            if (context is IMetadataListGachaEventSource listGachaEventSource)
+            {
+                listGachaEventSource.GachaEvents = await metadataService.GetGachaEventListAsync(token).ConfigureAwait(false);
+            }
         }
 
         // Dictionary
         {
-            if (context is IMetadataDictionaryIdAvatarSource dictionaryAvatarSource)
+            if (context is IMetadataDictionaryIdAvatarSource dictionaryIdAvatarSource)
             {
-                dictionaryAvatarSource.IdAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
+                dictionaryIdAvatarSource.IdAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataDictionaryIdMaterialSource dictionaryMaterialSource)
+            if (context is IMetadataDictionaryIdMaterialSource dictionaryIdMaterialSource)
             {
-                dictionaryMaterialSource.IdMaterialMap = await metadataService.GetIdToMaterialMapAsync(token).ConfigureAwait(false);
+                dictionaryIdMaterialSource.IdMaterialMap = await metadataService.GetIdToMaterialMapAsync(token).ConfigureAwait(false);
             }
 
-            if (context is IMetadataDictionaryIdWeaponSource dictionaryWeaponSource)
+            if (context is IMetadataDictionaryIdWeaponSource dictionaryIdWeaponSource)
             {
-                dictionaryWeaponSource.IdWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
+                dictionaryIdWeaponSource.IdWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
             }
+
+            if (context is IMetadataDictionaryNameAvatarSource dictionaryNameAvatarSource)
+            {
+                dictionaryNameAvatarSource.NameAvatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryNameWeaponSource dictionaryNameWeaponSource)
+            {
+                dictionaryNameWeaponSource.NameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
+            }
+        }
+
+        if (context is IMetadataSupportInitialization supportInitialization)
+        {
+            supportInitialization.IsInitialized = true;
         }
 
         return context;
     }
 
 #pragma warning disable SH002
-    public static IEnumerable<Material> EnumerateInventroyMaterial(this IMetadataListMaterialSource context)
+    public static IEnumerable<Material> EnumerateInventoryMaterial(this IMetadataListMaterialSource context)
     {
         return context.Materials.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id.Value);
     }
@@ -53,6 +73,11 @@ internal static class MetadataServiceContextExtension
     public static Avatar GetAvatar(this IMetadataDictionaryIdAvatarSource context, AvatarId id)
     {
         return context.IdAvatarMap[id];
+    }
+
+    public static Avatar GetAvatar(this IMetadataDictionaryNameAvatarSource context, string name)
+    {
+        return context.NameAvatarMap[name];
     }
 
     public static Material GetMaterial(this IMetadataDictionaryIdMaterialSource context, MaterialId id)
@@ -63,6 +88,11 @@ internal static class MetadataServiceContextExtension
     public static Weapon GetWeapon(this IMetadataDictionaryIdWeaponSource context, WeaponId id)
     {
         return context.IdWeaponMap[id];
+    }
+
+    public static Weapon GetWeapon(this IMetadataDictionaryNameWeaponSource context, string name)
+    {
+        return context.NameWeaponMap[name];
     }
 #pragma warning restore SH002
 }

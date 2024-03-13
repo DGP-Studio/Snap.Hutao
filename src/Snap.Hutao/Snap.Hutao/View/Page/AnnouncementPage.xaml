@@ -43,6 +43,7 @@
                                 cw:VisualExtensions.NormalizedCenterPoint="0.5">
                                 <cww:ConstrainedBox AspectRatio="1080:390" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
                                     <shci:CachedImage
+                                        Margin="-1"
                                         VerticalAlignment="Center"
                                         PlaceholderMargin="16"
                                         PlaceholderSource="{StaticResource UI_EmotionIcon271}"

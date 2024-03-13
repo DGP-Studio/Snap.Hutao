@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
-using System.Collections.Specialized;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Control.Brush;

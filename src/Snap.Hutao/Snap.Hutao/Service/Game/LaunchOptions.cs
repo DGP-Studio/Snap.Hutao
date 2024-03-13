@@ -109,7 +109,7 @@ internal sealed class LaunchOptions : DbStoreOptions
 
     public bool IsEnabled
     {
-        get => GetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, true);
+        get => GetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, false);
         set => SetOption(ref isEnabled, SettingEntry.LaunchIsLaunchOptionsEnabled, value);
     }
 

@@ -147,10 +147,10 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     }
 
     /// <inheritdoc/>
-    public void Initialize(NavigationView navigationView, Frame frame)
+    public void Initialize(INavigationViewAccessor accessor)
     {
-        NavigationView = navigationView;
-        this.frame = frame;
+        NavigationView = accessor.NavigationView;
+        frame = accessor.Frame;
 
         NavigationView.IsPaneOpen = LocalSetting.Get(SettingKeys.IsNavPaneOpen, true);
     }

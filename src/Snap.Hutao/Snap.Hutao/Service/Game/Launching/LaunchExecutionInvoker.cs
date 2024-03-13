@@ -24,25 +24,25 @@ internal sealed class LaunchExecutionInvoker
         handlers.Enqueue(new LaunchExecutionGameProcessInitializationHandler());
         handlers.Enqueue(new LaunchExecutionSetDiscordActivityHandler());
         handlers.Enqueue(new LaunchExecutionGameProcessStartHandler());
+        handlers.Enqueue(new LaunchExecutionUnlockFpsHandler());
         handlers.Enqueue(new LaunchExecutionStarwardPlayTimeStatisticsHandler());
         handlers.Enqueue(new LaunchExecutionBetterGenshinImpactAutomationHandlder());
-        handlers.Enqueue(new LaunchExecutionUnlockFpsHandler());
         handlers.Enqueue(new LaunchExecutionGameProcessExitHandler());
     }
 
     public async ValueTask<LaunchExecutionResult> InvokeAsync(LaunchExecutionContext context)
     {
-        await InvokeHandlerAsync(context).ConfigureAwait(false);
+        await RecursiveInvokeHandlerAsync(context).ConfigureAwait(false);
         return context.Result;
     }
 
-    private async ValueTask<LaunchExecutionContext> InvokeHandlerAsync(LaunchExecutionContext context)
+    private async ValueTask<LaunchExecutionContext> RecursiveInvokeHandlerAsync(LaunchExecutionContext context)
     {
         if (handlers.TryDequeue(out ILaunchExecutionDelegateHandler? handler))
         {
             string typeName = TypeNameHelper.GetTypeDisplayName(handler, false);
             context.Logger.LogInformation("Handler [{Handler}] begin execution", typeName);
-            await handler.OnExecutionAsync(context, () => InvokeHandlerAsync(context)).ConfigureAwait(false);
+            await handler.OnExecutionAsync(context, () => RecursiveInvokeHandlerAsync(context)).ConfigureAwait(false);
             context.Logger.LogInformation("Handler [{Handler}] end execution", typeName);
         }
 

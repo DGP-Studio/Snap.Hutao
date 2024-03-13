@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.Collections;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Data;
-using Snap.Hutao.Core.ExceptionService;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -208,13 +207,11 @@ internal sealed class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, IN
 
     public void Add(T item)
     {
-        ThrowHelper.NotSupportedIf(IsReadOnly, "Collection is read-only.");
         source.Add(item);
     }
 
     public void Clear()
     {
-        ThrowHelper.NotSupportedIf(IsReadOnly, "Collection is read-only.");
         source.Clear();
     }
 
@@ -230,7 +227,6 @@ internal sealed class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, IN
 
     public bool Remove(T item)
     {
-        ThrowHelper.NotSupportedIf(IsReadOnly, "Collection is read-only.");
         source.Remove(item);
         return true;
     }
@@ -243,7 +239,6 @@ internal sealed class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, IN
 
     public void Insert(int index, T item)
     {
-        ThrowHelper.NotSupportedIf(IsReadOnly, "Collection is read-only.");
         source.Insert(index, item);
     }
 

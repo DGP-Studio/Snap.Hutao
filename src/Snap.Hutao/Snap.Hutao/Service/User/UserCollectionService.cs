@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Message;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;

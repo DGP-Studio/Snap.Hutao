@@ -314,6 +314,17 @@
                                             SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
                                     </shc:SizeRestrictedContentControl>
                                 </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageSettingThemeDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageSettingThemeHeader}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE790;}">
+                                    <shc:SizeRestrictedContentControl>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding AppOptions.LazyElementThemes.Value}"
+                                            SelectedItem="{Binding SelectedElementTheme, Mode=TwoWay}"/>
+                                    </shc:SizeRestrictedContentControl>
+                                </cwc:SettingsCard>
                                 <cwc:SettingsExpander
                                     Description="{shcm:ResourceString Name=ViewPageSettingBackgroundImageDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageSettingBackgroundImageHeader}"
@@ -337,6 +348,7 @@
                                                 </mxic:EventTriggerBehavior>
                                             </mxi:Interaction.Behaviors>
                                         </cwc:SettingsCard>
+                                        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewPageSettingBackgroundImageLocalFolderCopyrightHeader}" Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
                             </StackPanel>
