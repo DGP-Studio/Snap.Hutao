@@ -17,7 +17,7 @@ internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
     /// <summary>
     /// 当前版本
     /// </summary>
-    public const string CurrentVersion = "v2.4";
+    public const string CurrentVersion = "v3.0";
 
     /// <summary>
     /// 信息
@@ -61,6 +61,7 @@ internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
             "v2.2" => UIGFVersion.Major2Minor2OrLower,
             "v2.3" => UIGFVersion.Major2Minor3OrHigher,
             "v2.4" => UIGFVersion.Major2Minor3OrHigher,
+            "v3.0" => UIGFVersion.Major2Minor3OrHigher,
             _ => UIGFVersion.NotSupported,
         };
 
