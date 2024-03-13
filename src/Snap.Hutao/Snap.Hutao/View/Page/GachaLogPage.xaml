@@ -290,6 +290,7 @@
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotOverview}">
                     <ScrollViewer
                         Margin="16,0"
+                        cw:ScrollViewerExtensions.HorizontalScrollBarMargin="0,0,-16,0"
                         HorizontalScrollBarVisibility="Auto"
                         HorizontalScrollMode="Enabled"
                         VerticalScrollMode="Disabled">
