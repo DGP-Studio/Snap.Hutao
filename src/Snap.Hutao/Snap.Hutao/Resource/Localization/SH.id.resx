@@ -2229,7 +2229,7 @@
     <value>Mulai Otomatis Antarmuka Pengguna yang Lebih Baik untuk tugas otomatis setelah game diluncurkan</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>Better GI</value>
+    <value>自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>Umum</value>
@@ -2922,7 +2922,7 @@
     <value>〓Durasi Event〓.*?\d\.\d Tersedia selama versi ini</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓Durasi Event〓|Durasi Event Wish|【Ketersediaan DUrasi】).*?(\d\.\dSetelah pembaruan versi).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓Waktu Acara〓|Waktu Menginginkan|【Waktu Peluncuran】|〓Waktu Diskon〓).*?(\d\.\d Setelah Pembaruan Versi).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓Durasi Pemeliharaan Pembaruan.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
