@@ -52,7 +52,8 @@
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource UpPullColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"/>
+                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"
+                    Visibility="{Binding UpItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
                     ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
