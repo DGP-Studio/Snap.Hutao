@@ -2229,7 +2229,7 @@
     <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>Better GI</value>
+    <value>自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>一般</value>
