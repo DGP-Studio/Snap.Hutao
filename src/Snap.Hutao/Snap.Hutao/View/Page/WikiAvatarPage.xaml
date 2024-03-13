@@ -79,20 +79,18 @@
                     <ColumnDefinition Width="22"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Rectangle
+                <Ellipse
                     Grid.Column="0"
-                    Width="4"
-                    Height="22"
-                    Margin="5,2,0,0"
+                    Width="12"
+                    Height="12"
+                    Margin="1,0,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
-                    RadiusX="2"
-                    RadiusY="2"
                     Visibility="{Binding Quality, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                    <Rectangle.Fill>
+                    <Ellipse.Fill>
                         <SolidColorBrush Color="{Binding Quality}"/>
-                    </Rectangle.Fill>
-                </Rectangle>
+                    </Ellipse.Fill>
+                </Ellipse>
                 <shci:MonoChrome
                     Grid.Column="0"
                     Width="22"
