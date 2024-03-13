@@ -83,7 +83,7 @@
                     Grid.Column="0"
                     Width="12"
                     Height="12"
-                    Margin="1,0,0,0"
+                    Margin="1,1,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
                     Visibility="{Binding Quality, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
