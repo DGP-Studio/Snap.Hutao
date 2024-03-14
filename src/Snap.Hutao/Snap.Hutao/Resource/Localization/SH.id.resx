@@ -2247,7 +2247,7 @@
     <value>Berkas</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
-    <value>进程联动</value>
+    <value>InterProcess</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Menjalankan perangkat lunak pada layar yang dipilih</value>
