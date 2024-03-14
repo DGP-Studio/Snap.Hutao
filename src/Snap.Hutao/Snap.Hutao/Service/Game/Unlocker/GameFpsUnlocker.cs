@@ -16,46 +16,46 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 {
     private readonly LaunchOptions launchOptions;
-    private readonly GameFpsUnlockerState state = new();
+    private readonly GameFpsUnlockerContext context = new();
 
-    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, in UnlockTimingOptions options, IProgress<GameFpsUnlockerState> progress)
+    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, in UnlockTimingOptions options, IProgress<GameFpsUnlockerContext> progress)
     {
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
 
-        state.GameProcess = gameProcess;
-        state.TimingOptions = options;
-        state.Progress = progress;
+        context.GameProcess = gameProcess;
+        context.TimingOptions = options;
+        context.Progress = progress;
     }
 
     /// <inheritdoc/>
     public async ValueTask<bool> UnlockAsync(CancellationToken token = default)
     {
-        HutaoException.ThrowIfNot(state.IsUnlockerValid, HutaoExceptionKind.GameFpsUnlockingFailed, "This Unlocker is invalid");
-        (FindModuleResult result, RequiredGameModule gameModule) = await GameProcessModule.FindModuleAsync(state).ConfigureAwait(false);
+        HutaoException.ThrowIfNot(context.IsUnlockerValid, HutaoExceptionKind.GameFpsUnlockingFailed, "This Unlocker is invalid");
+        (FindModuleResult result, RequiredGameModule gameModule) = await GameProcessModule.FindModuleAsync(context).ConfigureAwait(false);
         HutaoException.ThrowIfNot(result != FindModuleResult.TimeLimitExeeded, HutaoExceptionKind.GameFpsUnlockingFailed, SH.ServiceGameUnlockerFindModuleTimeLimitExeeded);
         HutaoException.ThrowIfNot(result != FindModuleResult.NoModuleFound, HutaoExceptionKind.GameFpsUnlockingFailed, SH.ServiceGameUnlockerFindModuleNoModuleFound);
 
-        GameFpsAddress.UnsafeFindFpsAddress(state, gameModule);
-        state.Report();
-        return state.FpsAddress != 0U;
+        GameFpsAddress.UnsafeFindFpsAddress(context, gameModule);
+        context.Report();
+        return context.FpsAddress != 0U;
     }
 
     public async ValueTask PostUnlockAsync(CancellationToken token = default)
     {
-        using (PeriodicTimer timer = new(state.TimingOptions.AdjustFpsDelay))
+        using (PeriodicTimer timer = new(context.TimingOptions.AdjustFpsDelay))
         {
             while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
             {
-                if (!state.GameProcess.HasExited && state.FpsAddress != 0U)
+                if (!context.GameProcess.HasExited && context.FpsAddress != 0U)
                 {
-                    UnsafeWriteProcessMemory(state.GameProcess, state.FpsAddress, launchOptions.TargetFps);
-                    state.Report();
+                    UnsafeWriteProcessMemory(context.GameProcess, context.FpsAddress, launchOptions.TargetFps);
+                    context.Report();
                 }
                 else
                 {
-                    state.IsUnlockerValid = false;
-                    state.FpsAddress = 0;
-                    state.Report();
+                    context.IsUnlockerValid = false;
+                    context.FpsAddress = 0;
+                    context.Report();
                     return;
                 }
             }

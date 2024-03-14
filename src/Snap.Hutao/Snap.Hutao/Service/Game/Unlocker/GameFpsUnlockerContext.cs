@@ -8,7 +8,7 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 /// <summary>
 /// 解锁状态
 /// </summary>
-internal sealed class GameFpsUnlockerState
+internal sealed class GameFpsUnlockerContext
 {
     public string Description { get; set; } = default!;
 
@@ -22,7 +22,7 @@ internal sealed class GameFpsUnlockerState
 
     public Process GameProcess { get; set; } = default!;
 
-    public IProgress<GameFpsUnlockerState> Progress { get; set; } = default!;
+    public IProgress<GameFpsUnlockerContext> Progress { get; set; } = default!;
 
     public void Report()
     {
