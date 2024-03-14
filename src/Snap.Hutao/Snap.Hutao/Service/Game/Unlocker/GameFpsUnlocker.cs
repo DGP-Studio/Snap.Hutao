@@ -28,7 +28,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     }
 
     /// <inheritdoc/>
-    public async ValueTask UnlockAsync(CancellationToken token = default)
+    public async ValueTask<bool> UnlockAsync(CancellationToken token = default)
     {
         HutaoException.ThrowIfNot(state.IsUnlockerValid, HutaoExceptionKind.GameFpsUnlockingFailed, "This Unlocker is invalid");
         (FindModuleResult result, RequiredGameModule gameModule) = await GameProcessModule.FindModuleAsync(state).ConfigureAwait(false);
@@ -37,6 +37,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
         GameFpsAddress.UnsafeFindFpsAddress(state, gameModule);
         state.Report();
+        return state.FpsAddress != 0U;
     }
 
     public async ValueTask PostUnlockAsync(CancellationToken token = default)

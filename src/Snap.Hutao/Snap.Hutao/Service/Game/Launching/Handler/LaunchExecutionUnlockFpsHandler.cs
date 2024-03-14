@@ -23,8 +23,10 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
 
             try
             {
-                await unlocker.UnlockAsync(context.CancellationToken).ConfigureAwait(false);
-                unlocker.PostUnlockAsync(context.CancellationToken).SafeForget();
+                if (await unlocker.UnlockAsync(context.CancellationToken).ConfigureAwait(false))
+                {
+                    unlocker.PostUnlockAsync(context.CancellationToken).SafeForget();
+                }
             }
             catch (InvalidOperationException ex)
             {
