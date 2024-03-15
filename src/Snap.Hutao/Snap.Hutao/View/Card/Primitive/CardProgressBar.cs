@@ -13,12 +13,9 @@ namespace Snap.Hutao.View.Card.Primitive;
 [DependencyProperty("Value", typeof(double))]
 [DependencyProperty("Header", typeof(string))]
 [DependencyProperty("Description", typeof(string))]
-internal sealed partial class CardProgressBar : Grid
+internal sealed partial class CardProgressBar : ContentControl
 {
     public CardProgressBar()
     {
-        IAppResourceProvider appResourceProvider = Ioc.Default.GetRequiredService<IAppResourceProvider>();
-        TextForeground = appResourceProvider.GetResource<Brush>("TextFillColorPrimaryBrush");
-        InitializeComponent();
     }
 }

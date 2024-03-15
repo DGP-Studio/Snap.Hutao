@@ -29,6 +29,7 @@
                 <ResourceDictionary Source="ms-appx:///Control/Theme/TransitionCollection.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/Uri.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Theme/WindowOverride.xaml"/>
+                <ResourceDictionary Source="ms-appx:///View/Card/Primitive/CardProgressBar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style

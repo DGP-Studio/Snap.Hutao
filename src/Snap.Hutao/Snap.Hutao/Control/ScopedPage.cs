@@ -72,7 +72,11 @@ internal class ScopedPage : Page
             DisposeViewModel();
         }
 
-        DataContext = null;
+        if (this.IsDisposed())
+        {
+            return;
+        }
+
         Unloaded -= unloadEventHandler;
     }
 
