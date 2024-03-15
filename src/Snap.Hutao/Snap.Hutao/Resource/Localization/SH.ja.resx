@@ -1368,7 +1368,7 @@
     <value>クッキーを設定</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
-    <value>フィードバック センター</value>
+    <value>ﾌｨｰﾄﾞﾊﾞｯｸｾﾝﾀｰ</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈願履歴</value>
@@ -2505,7 +2505,7 @@
     <value>アチーブメント</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>リアルタイムノート</value>
+    <value>ﾘｱﾙﾀｲﾑﾉｰﾄ</value>
   </data>
   <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>祈願履歴</value>
@@ -2859,7 +2859,7 @@
     <value>QRコードでログイン</value>
   </data>
   <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
-    <value>手入力</value>
+    <value>手動入力</value>
   </data>
   <data name="ViewUserCookieOperationRefreshCookieAction" xml:space="preserve">
     <value>Cookie 再取得</value>
