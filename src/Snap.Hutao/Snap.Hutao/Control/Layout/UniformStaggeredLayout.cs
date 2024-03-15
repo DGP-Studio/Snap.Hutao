@@ -81,13 +81,6 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
 
         (int numberOfColumns, double columnWidth) = GetNumberOfColumnsAndWidth(availableWidth, MinItemWidth, MinColumnSpacing);
 
-        if (columnWidth != state.ColumnWidth)
-        {
-            // Remeasure items later
-            // Rearrange items later
-            state.Clear();
-        }
-
         state.ColumnWidth = columnWidth;
 
         double totalWidth = ((state.ColumnWidth + MinColumnSpacing) * numberOfColumns) - MinColumnSpacing;
@@ -103,15 +96,11 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
 
         if (numberOfColumns != state.NumberOfColumns)
         {
-            // Remeasure items later
-            // Rearrange items later
-            state.Clear();
+            state.ClearColumns();
         }
 
         if (MinRowSpacing != state.RowSpacing)
         {
-            // Rearrange items later
-
             // If the RowSpacing changes the height of the rows will be different.
             // The columns stores the height so we'll want to clear them out to
             // get the proper height
@@ -209,7 +198,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
                 double bottom = item.Top + item.Height;
                 if (bottom < context.RealizationRect.Top)
                 {
-                    // element is above the realization bounds
+                    // Element is above the realization bounds
                     continue;
                 }
 

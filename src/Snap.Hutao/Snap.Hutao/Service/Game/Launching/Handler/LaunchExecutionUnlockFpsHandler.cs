@@ -41,9 +41,6 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
             }
         }
 
-        if (context.Result.Kind is LaunchExecutionResultKind.Ok)
-        {
-            await next().ConfigureAwait(false);
-        }
+        await next().ConfigureAwait(false);
     }
 }
