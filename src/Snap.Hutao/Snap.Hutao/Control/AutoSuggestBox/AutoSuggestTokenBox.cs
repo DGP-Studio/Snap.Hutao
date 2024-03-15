@@ -1,8 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Controls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Control.Extension;
 
 namespace Snap.Hutao.Control.AutoSuggestBox;
@@ -20,6 +23,20 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
         TokenItemAdding += OnTokenItemAdding;
         TokenItemAdded += OnTokenItemModified;
         TokenItemRemoved += OnTokenItemModified;
+        Loaded += OnLoaded;
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (this.FindDescendant("SuggestionsPopup") is Popup { Child: Border { Child: ListView listView } border })
+        {
+            IAppResourceProvider appResourceProvider = Ioc.Default.GetRequiredService<IAppResourceProvider>();
+            listView.Background = null;
+            listView.Margin = appResourceProvider.GetResource<Thickness>("AutoSuggestListPadding");
+
+            border.Background = appResourceProvider.GetResource<Microsoft.UI.Xaml.Media.Brush>("AutoSuggestBoxSuggestionsListBackground");
+            border.CornerRadius = new(0, 0, 8, 8);
+        }
     }
 
     private void OnFilterSuggestionRequested(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -32,9 +49,6 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
             sender.ItemsSource = AvailableTokens.Values.Where(q => q.Value.Contains(Text, StringComparison.OrdinalIgnoreCase));
-
-            // TODO: CornerRadius
-            // Popup? popup = this.FindDescendant("SuggestionsPopup") as Popup;
         }
     }
 
