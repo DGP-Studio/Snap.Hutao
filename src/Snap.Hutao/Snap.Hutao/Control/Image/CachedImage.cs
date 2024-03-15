@@ -3,7 +3,9 @@
 
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Core.ExceptionService;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Control.Image;
@@ -26,12 +28,11 @@ internal sealed class CachedImage : Implementation.ImageEx
     /// <inheritdoc/>
     protected override async Task<ImageSource?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
-        // We can only use Ioc to retrieve IImageCache, no IServiceProvider is available.
-        IImageCache imageCache = Ioc.Default.GetRequiredService<IImageCache>();
+        IImageCache imageCache = this.ServiceProvider().GetRequiredService<IImageCache>();
 
         try
         {
-            Verify.Operation(!string.IsNullOrEmpty(imageUri.Host), SH.ControlImageCachedImageInvalidResourceUri);
+            HutaoException.ThrowIf(string.IsNullOrEmpty(imageUri.Host), HutaoExceptionKind.ImageCacheInvalidUri, SH.ControlImageCachedImageInvalidResourceUri);
             string file = await imageCache.GetFileFromCacheAsync(imageUri).ConfigureAwait(true); // BitmapImage need to be created by main thread.
             token.ThrowIfCancellationRequested(); // check token state to determine whether the operation should be canceled.
             return new BitmapImage(file.ToUri()); // BitmapImage initialize with a uri will increase image quality and loading speed.

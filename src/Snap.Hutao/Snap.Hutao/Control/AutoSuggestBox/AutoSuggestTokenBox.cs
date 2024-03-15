@@ -59,7 +59,7 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
             return;
         }
 
-        CommandExtension.TryExecute(FilterCommand, FilterCommandParameter);
+        CommandInvocation.TryExecute(FilterCommand, FilterCommandParameter);
     }
 
     private void OnTokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
@@ -74,6 +74,6 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
 
     private void OnTokenItemModified(TokenizingTextBox sender, object args)
     {
-        CommandExtension.TryExecute(FilterCommand, FilterCommandParameter);
+        CommandInvocation.TryExecute(FilterCommand, FilterCommandParameter);
     }
 }

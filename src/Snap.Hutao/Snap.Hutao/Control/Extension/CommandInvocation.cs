@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Control.Extension;
 
-internal static class CommandExtension
+internal static class CommandInvocation
 {
     public static bool TryExecute(this ICommand? command, object? parameter = null)
     {

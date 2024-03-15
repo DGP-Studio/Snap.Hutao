@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Foundation;
 
@@ -18,14 +19,12 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
     protected override void InitializeForContextCore(VirtualizingLayoutContext context)
     {
         context.LayoutState = new UniformStaggeredLayoutState(context);
-        base.InitializeForContextCore(context);
     }
 
     /// <inheritdoc/>
     protected override void UninitializeForContextCore(VirtualizingLayoutContext context)
     {
         context.LayoutState = null;
-        base.UninitializeForContextCore(context);
     }
 
     /// <inheritdoc/>
@@ -84,14 +83,15 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
 
         if (columnWidth != state.ColumnWidth)
         {
-            // The items will need to be remeasured
+            // Remeasure items later
+            // Rearrange items later
             state.Clear();
         }
 
         state.ColumnWidth = columnWidth;
 
-        // adjust for column spacing on all columns expect the first
-        double totalWidth = state.ColumnWidth + ((numberOfColumns - 1) * (state.ColumnWidth + MinColumnSpacing));
+        double totalWidth = ((state.ColumnWidth + MinColumnSpacing) * numberOfColumns) - MinColumnSpacing;
+
         if (totalWidth > availableWidth)
         {
             numberOfColumns--;
@@ -103,12 +103,15 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
 
         if (numberOfColumns != state.NumberOfColumns)
         {
-            // The items will not need to be remeasured, but they will need to go into new columns
-            state.ClearColumns();
+            // Remeasure items later
+            // Rearrange items later
+            state.Clear();
         }
 
         if (MinRowSpacing != state.RowSpacing)
         {
+            // Rearrange items later
+
             // If the RowSpacing changes the height of the rows will be different.
             // The columns stores the height so we'll want to clear them out to
             // get the proper height
@@ -170,7 +173,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
                 item.Element.Measure(new Size(state.ColumnWidth, availableHeight));
                 if (item.Height != item.Element.DesiredSize.Height)
                 {
-                    // this item changed size; we need to recalculate layout for everything after this
+                    // this item changed size; we need to recalculate layout for everything after this item
                     state.RemoveFromIndex(i + 1);
                     item.Height = item.Element.DesiredSize.Height;
                     columnHeights[columnIndex] = item.Top + item.Height;
@@ -201,8 +204,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
         // Cycle through each column and arrange the items that are within the realization bounds
         for (int columnIndex = 0; columnIndex < state.NumberOfColumns; columnIndex++)
         {
-            UniformStaggeredColumnLayout layout = state.GetColumnLayout(columnIndex);
-            foreach (ref readonly UniformStaggeredItem item in CollectionsMarshal.AsSpan(layout))
+            foreach (ref readonly UniformStaggeredItem item in CollectionsMarshal.AsSpan(state.GetColumnLayout(columnIndex)))
             {
                 double bottom = item.Top + item.Height;
                 if (bottom < context.RealizationRect.Top)
@@ -211,6 +213,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
                     continue;
                 }
 
+                // Partial or fully in the view
                 if (item.Top <= context.RealizationRect.Bottom)
                 {
                     double itemHorizontalOffset = (state.ColumnWidth * columnIndex) + (MinColumnSpacing * columnIndex);
@@ -229,21 +232,22 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
         return finalSize;
     }
 
-    private static (int NumberOfColumns, double ColumnWidth) GetNumberOfColumnsAndWidth(double availableWidth, double minItemWidth, double minColumnSpacing)
+    private static (int NumberOfColumns, double ColumnWidth) GetNumberOfColumnsAndWidth(double availableWidth, double minItemWidth, double columnSpacing)
     {
         // test if the width can fit in 2 items
-        if ((2 * minItemWidth) + minColumnSpacing > availableWidth)
+        if ((2 * minItemWidth) + columnSpacing > availableWidth)
         {
             return (1, availableWidth);
         }
 
-        int columnCount = Math.Max(1, (int)((availableWidth + minColumnSpacing) / (minItemWidth + minColumnSpacing)));
-        double columnWidthAddSpacing = (availableWidth + minColumnSpacing) / columnCount;
-        return (columnCount, columnWidthAddSpacing - minColumnSpacing);
+        int columnCount = Math.Max(1, (int)((availableWidth + columnSpacing) / (minItemWidth + columnSpacing)));
+        double columnWidthWithSpacing = (availableWidth + columnSpacing) / columnCount;
+        return (columnCount, columnWidthWithSpacing - columnSpacing);
     }
 
     private static int GetLowestColumnIndex(in ReadOnlySpan<double> columnHeights)
     {
+        // We want to find the leftest column with the lowest height
         int columnIndex = 0;
         double height = columnHeights[0];
         for (int j = 1; j < columnHeights.Length; j++)
@@ -260,13 +264,11 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
 
     private static void OnMinItemWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        UniformStaggeredLayout panel = (UniformStaggeredLayout)d;
-        panel.InvalidateMeasure();
+        ((UniformStaggeredLayout)d).InvalidateMeasure();
     }
 
     private static void OnSpacingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        UniformStaggeredLayout panel = (UniformStaggeredLayout)d;
-        panel.InvalidateMeasure();
+        ((UniformStaggeredLayout)d).InvalidateMeasure();
     }
 }
