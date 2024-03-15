@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Service;
 
 namespace Snap.Hutao.Factory.ContentDialog;
 
@@ -15,6 +16,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     private readonly ICurrentWindowReference currentWindowReference;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+    private readonly AppOptions appOptions;
 
     /// <inheritdoc/>
     public async ValueTask<ContentDialogResult> CreateForConfirmAsync(string title, string content)
@@ -27,6 +29,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             Content = content,
             DefaultButton = ContentDialogButton.Primary,
             PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText,
+            RequestedTheme = appOptions.ElementTheme,
         };
 
         return await dialog.ShowAsync();
@@ -44,6 +47,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             DefaultButton = defaultButton,
             PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText,
             CloseButtonText = SH.ContentDialogCancelCloseButtonText,
+            RequestedTheme = appOptions.ElementTheme,
         };
 
         return await dialog.ShowAsync();
@@ -58,6 +62,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             XamlRoot = currentWindowReference.GetXamlRoot(),
             Title = title,
             Content = new ProgressBar() { IsIndeterminate = true },
+            RequestedTheme = appOptions.ElementTheme,
         };
 
         return dialog;
@@ -69,6 +74,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         await taskContext.SwitchToMainThreadAsync();
         TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
         contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
+        contentDialog.RequestedTheme = appOptions.ElementTheme;
         return contentDialog;
     }
 
@@ -77,6 +83,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     {
         TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
         contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
+        contentDialog.RequestedTheme = appOptions.ElementTheme;
         return contentDialog;
     }
 }
