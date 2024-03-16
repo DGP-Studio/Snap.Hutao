@@ -317,7 +317,6 @@
                                 QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
                                 Style="{StaticResource DefaultTokenizingTextBoxStyle}"
                                 SuggestedItemTemplate="{StaticResource TokenTemplate}"
-                                SuggestedItemsSource="{Binding AvailableTokens.Values}"
                                 Text="{Binding FilterToken, Mode=TwoWay}"
                                 TokenItemTemplate="{StaticResource TokenTemplate}">
                                 <shca:AutoSuggestTokenBox.ItemsPanel>

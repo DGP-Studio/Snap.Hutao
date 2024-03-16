@@ -37,6 +37,28 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
             border.Background = appResourceProvider.GetResource<Microsoft.UI.Xaml.Media.Brush>("AutoSuggestBoxSuggestionsListBackground");
             border.CornerRadius = new(0, 0, 8, 8);
         }
+
+        if (this.FindDescendant("PART_AutoSuggestBox") is Microsoft.UI.Xaml.Controls.AutoSuggestBox autoSuggestBox)
+        {
+            autoSuggestBox.GotFocus += OnSuggestBoxFocusGot;
+            autoSuggestBox.LosingFocus += OnSuggestBoxFocusLosing;
+        }
+    }
+
+    private void OnSuggestBoxFocusGot(object sender, RoutedEventArgs e)
+    {
+        if (sender is Microsoft.UI.Xaml.Controls.AutoSuggestBox autoSuggestBox)
+        {
+            autoSuggestBox.ItemsSource = AvailableTokens.Values;
+        }
+    }
+
+    private void OnSuggestBoxFocusLosing(object sender, RoutedEventArgs e)
+    {
+        if (sender is Microsoft.UI.Xaml.Controls.AutoSuggestBox autoSuggestBox)
+        {
+            autoSuggestBox.ItemsSource = null;
+        }
     }
 
     private void OnFilterSuggestionRequested(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
