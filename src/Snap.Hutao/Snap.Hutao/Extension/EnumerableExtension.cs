@@ -123,4 +123,9 @@ internal static partial class EnumerableExtension
     {
         return string.Join(separator, collection);
     }
+
+    public static IEnumerable<TSource> WhereOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, IEnumerable<TSource> defaultValue)
+    {
+        return source.Where(predicate).Any() ? source : defaultValue;
+    }
 }

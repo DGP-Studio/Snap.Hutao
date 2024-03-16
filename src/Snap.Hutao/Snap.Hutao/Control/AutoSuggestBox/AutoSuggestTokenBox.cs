@@ -54,7 +54,7 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
             sender.ItemsSource = AvailableTokens
-                .Where(kvp => kvp.Value.Value.Contains(Text, StringComparison.OrdinalIgnoreCase))
+                .WhereOrDefault(kvp => kvp.Value.Value.Contains(Text, StringComparison.OrdinalIgnoreCase), [SearchToken.NotFound])
                 .OrderBy(kvp => kvp.Value.Kind)
                 .Select(kvp => kvp.Value);
         }

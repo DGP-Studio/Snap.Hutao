@@ -7,6 +7,8 @@ namespace Snap.Hutao.Control.AutoSuggestBox;
 
 internal sealed class SearchToken
 {
+    public static readonly SearchToken NotFound = new(SearchTokenKind.None, SH.ControlAutoSuggestBoxNotFoundValue);
+
     public SearchToken(SearchTokenKind kind, string value, Uri? iconUri = null, Uri? sideIconUri = null, Color? quality = null)
     {
         Value = value;
