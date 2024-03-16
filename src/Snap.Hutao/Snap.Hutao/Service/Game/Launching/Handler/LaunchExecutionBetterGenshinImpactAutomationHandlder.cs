@@ -26,11 +26,12 @@ internal sealed class LaunchExecutionBetterGenshinImpactAutomationHandlder : ILa
             try
             {
                 context.Logger.LogInformation("Waiting game window to be ready");
-                context.Process.WaitForInputIdle();
+
+                SpinWait.SpinUntil(() => context.Process.MainWindowHandle != IntPtr.Zero);
             }
             catch (InvalidOperationException)
             {
-                context.Logger.LogInformation("Failed to wait Input idle waiting");
+                context.Logger.LogInformation("Failed to get game window handle");
                 return;
             }
 
