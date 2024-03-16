@@ -82,8 +82,8 @@ internal partial class EqualPanel : Microsoft.UI.Xaml.Controls.Panel
         (d as EqualPanel)?.InvalidateMeasure();
     }
 
-    private void OnHorizontalAlignmentChanged(DependencyObject sender, DependencyProperty dp)
+    private static void OnHorizontalAlignmentChanged(DependencyObject d, DependencyProperty dp)
     {
-        InvalidateMeasure();
+        (d as EqualPanel)?.InvalidateMeasure();
     }
 }

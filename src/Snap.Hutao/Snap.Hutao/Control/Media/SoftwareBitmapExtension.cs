@@ -39,24 +39,6 @@ internal static class SoftwareBitmapExtension
         }
     }
 
-    public static unsafe double Luminance(this SoftwareBitmap softwareBitmap)
-    {
-        using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.Read))
-        {
-            using (IMemoryBufferReference reference = buffer.CreateReference())
-            {
-                reference.As<IMemoryBufferByteAccess>().GetBuffer(out Span<Bgra32> bytes);
-                double sum = 0;
-                foreach (ref readonly Bgra32 pixel in bytes)
-                {
-                    sum += pixel.Luminance;
-                }
-
-                return sum / bytes.Length;
-            }
-        }
-    }
-
     public static unsafe Bgra32 GetAccentColor(this SoftwareBitmap softwareBitmap)
     {
         using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.Read))

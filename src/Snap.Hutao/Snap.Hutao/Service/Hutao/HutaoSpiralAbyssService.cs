@@ -16,7 +16,7 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Scoped, typeof(IHutaoSpiralAbyssService))]
 internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
 {
-    private readonly TimeSpan cacheExpireTime = TimeSpan.FromHours(4);
+    private readonly TimeSpan cacheExpireTime = TimeSpan.FromHours(1);
 
     private readonly IObjectCacheDbService objectCacheDbService;
     private readonly HutaoSpiralAbyssClient homaClient;
