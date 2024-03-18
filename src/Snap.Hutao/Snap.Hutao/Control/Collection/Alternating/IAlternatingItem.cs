@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Control.Collection.Alternating;
 
+[Obsolete("Use SettingsCard instead")]
 internal interface IAlternatingItem
 {
     public Microsoft.UI.Xaml.Media.Brush? Background { get; set; }

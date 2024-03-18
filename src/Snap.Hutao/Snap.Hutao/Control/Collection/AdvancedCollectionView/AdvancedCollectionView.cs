@@ -30,7 +30,7 @@ internal sealed class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, IN
     private WeakEventListener<AdvancedCollectionView<T>, object?, NotifyCollectionChangedEventArgs>? sourceWeakEventListener;
 
     public AdvancedCollectionView()
-        : this(new List<T>(0))
+        : this([])
     {
     }
 

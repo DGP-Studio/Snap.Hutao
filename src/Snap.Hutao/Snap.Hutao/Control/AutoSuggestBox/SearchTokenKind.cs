@@ -6,12 +6,12 @@ namespace Snap.Hutao.Control.AutoSuggestBox;
 internal enum SearchTokenKind
 {
     None,
-    AssociationType,
-    Avatar,
-    BodyType,
-    ElementName,
-    FightProperty,
     ItemQuality,
-    Weapon,
     WeaponType,
+    FightProperty,
+    ElementName,
+    AssociationType,
+    BodyType,
+    Avatar,
+    Weapon,
 }

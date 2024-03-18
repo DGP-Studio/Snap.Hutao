@@ -725,7 +725,7 @@
                                                 <ListView.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <shcp:UniformPanel
-                                                            Padding="0,0,16,0"
+                                                            Margin="0,0,16,0"
                                                             ColumnSpacing="6"
                                                             MinItemWidth="240"
                                                             RowSpacing="2"/>
@@ -752,7 +752,7 @@
                                                 <ListView.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <shcp:UniformPanel
-                                                            Padding="0,0,16,0"
+                                                            Margin="0,0,16,0"
                                                             ColumnSpacing="6"
                                                             MinItemWidth="240"
                                                             RowSpacing="2"/>

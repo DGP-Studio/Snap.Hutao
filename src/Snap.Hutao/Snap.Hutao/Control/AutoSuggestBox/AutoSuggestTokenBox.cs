@@ -21,8 +21,8 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
         TextChanged += OnFilterSuggestionRequested;
         QuerySubmitted += OnQuerySubmitted;
         TokenItemAdding += OnTokenItemAdding;
-        TokenItemAdded += OnTokenItemModified;
-        TokenItemRemoved += OnTokenItemModified;
+        TokenItemAdded += OnTokenItemCollectionChanged;
+        TokenItemRemoved += OnTokenItemCollectionChanged;
         Loaded += OnLoaded;
     }
 
@@ -30,12 +30,15 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
     {
         if (this.FindDescendant("SuggestionsPopup") is Popup { Child: Border { Child: ListView listView } border })
         {
-            IAppResourceProvider appResourceProvider = Ioc.Default.GetRequiredService<IAppResourceProvider>();
+            IAppResourceProvider appResourceProvider = this.ServiceProvider().GetRequiredService<IAppResourceProvider>();
+
             listView.Background = null;
             listView.Margin = appResourceProvider.GetResource<Thickness>("AutoSuggestListPadding");
 
             border.Background = appResourceProvider.GetResource<Microsoft.UI.Xaml.Media.Brush>("AutoSuggestBoxSuggestionsListBackground");
-            border.CornerRadius = new(0, 0, 8, 8);
+            CornerRadius overlayCornerRadius = appResourceProvider.GetResource<CornerRadius>("OverlayCornerRadius");
+            CornerRadiusFilterConverter cornerRadiusFilterConverter = new() { Filter = CornerRadiusFilterKind.Bottom };
+            border.CornerRadius = (CornerRadius)cornerRadiusFilterConverter.Convert(overlayCornerRadius, typeof(CornerRadius), default, default);
         }
     }
 
@@ -43,12 +46,17 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
     {
         if (string.IsNullOrWhiteSpace(Text))
         {
-            return;
+            sender.ItemsSource = AvailableTokens
+                .OrderBy(kvp => kvp.Value.Kind)
+                .Select(kvp => kvp.Value);
         }
 
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
-            sender.ItemsSource = AvailableTokens.Values.Where(q => q.Value.Contains(Text, StringComparison.OrdinalIgnoreCase));
+            sender.ItemsSource = AvailableTokens
+                .Where(kvp => kvp.Value.Value.Contains(Text, StringComparison.OrdinalIgnoreCase))
+                .OrderBy(kvp => kvp.Value.Kind)
+                .Select(kvp => kvp.Value);
         }
     }
 
@@ -72,8 +80,8 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
         args.Item = AvailableTokens.GetValueOrDefault(args.TokenText) ?? new SearchToken(SearchTokenKind.None, args.TokenText);
     }
 
-    private void OnTokenItemModified(TokenizingTextBox sender, object args)
+    private void OnTokenItemCollectionChanged(TokenizingTextBox sender, object args)
     {
-        CommandInvocation.TryExecute(FilterCommand, FilterCommandParameter);
+        FilterCommand.TryExecute(FilterCommandParameter);
     }
 }
