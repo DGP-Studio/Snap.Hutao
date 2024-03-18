@@ -21,8 +21,8 @@ namespace Snap.Hutao;
 [SuppressMessage("", "SH001")]
 public sealed partial class App : Application
 {
-    private const string ConsoleBanner = """
-        ----------------------------------------------------------------
+    private const string ConsoleBanner = $"""
+        {"\u001b[33m"}----------------------------------------------------------------
           _____                         _    _         _                
          / ____|                       | |  | |       | |               
         | (___   _ __    __ _  _ __    | |__| | _   _ | |_  __ _   ___  
@@ -34,7 +34,7 @@ public sealed partial class App : Application
                               
         Snap.Hutao is a open source software developed by DGP Studio.
         Copyright (C) 2022 - 2024 DGP Studio, All Rights Reserved.
-        ----------------------------------------------------------------
+        ----------------------------------------------------------------{"\u001b[0m"}
         """;
 
     private readonly IServiceProvider serviceProvider;
