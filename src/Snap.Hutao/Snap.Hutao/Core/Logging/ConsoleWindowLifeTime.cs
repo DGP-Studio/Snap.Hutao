@@ -22,7 +22,7 @@ internal sealed class ConsoleWindowLifeTime : IDisposable
                 HANDLE inputHandle = GetStdHandle(STD_HANDLE.STD_INPUT_HANDLE);
                 if (GetConsoleMode(inputHandle, out CONSOLE_MODE mode))
                 {
-                    mode &= ~CONSOLE_MODE.ENABLE_QUICK_EDIT_MODE;
+                    mode &= ~CONSOLE_MODE.ENABLE_VIRTUAL_TERMINAL_PROCESSING;
                     SetConsoleMode(inputHandle, mode);
                 }
 

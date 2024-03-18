@@ -21,6 +21,9 @@ internal sealed class CachedImage : Implementation.ImageEx
     /// </summary>
     public CachedImage()
     {
+        DefaultStyleKey = typeof(CachedImage);
+        DefaultStyleResourceUri = "ms-appx:///Control/Image/CachedImage.xaml".ToUri();
+
         IsCacheEnabled = true;
         EnableLazyLoading = false;
     }

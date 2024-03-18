@@ -45,15 +45,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         TextBlock textBlock = (TextBlock)((DescriptionTextBlock)d).Content;
-
-        try
-        {
-            UpdateDescription(textBlock, MiHoYoSyntaxTree.Parse(SpecialNameHandler.Handle((string)e.NewValue)));
-        }
-        catch (Exception ex)
-        {
-            _ = ex;
-        }
+        UpdateDescription(textBlock, MiHoYoSyntaxTree.Parse(SpecialNameHandler.Handle((string)e.NewValue)));
     }
 
     private static void OnTextStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

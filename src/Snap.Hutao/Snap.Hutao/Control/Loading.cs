@@ -17,7 +17,7 @@ internal class Loading : Microsoft.UI.Xaml.Controls.ContentControl
     public Loading()
     {
         DefaultStyleKey = typeof(Loading);
-        DefaultStyleResourceUri = new("ms-appx:///Control/Loading.xaml");
+        DefaultStyleResourceUri = "ms-appx:///Control/Loading.xaml".ToUri();
     }
 
     public bool IsLoading
