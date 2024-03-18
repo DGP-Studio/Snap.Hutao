@@ -228,10 +228,11 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         if (FilterTokens.IsNullOrEmpty())
         {
             Weapons.Filter = default!;
-            return;
         }
-
-        Weapons.Filter = WeaponFilter.Compile(FilterTokens);
+        else
+        {
+            Weapons.Filter = WeaponFilter.Compile(FilterTokens);
+        }
 
         if (Selected is not null && Weapons.Contains(Selected))
         {
