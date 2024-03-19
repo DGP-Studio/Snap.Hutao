@@ -104,7 +104,7 @@
                                             IsClickEnabled="True"/>
                                         <cwcont:SettingsCard
                                             Command="{Binding NavigateToUriCommand}"
-                                            CommandParameter="https://status.hut.ao"
+                                            CommandParameter="https://status.snapgenshin.cn/status"
                                             Description="{shcm:ResourceString Name=ViewPageFeedbackServerStatusDescription}"
                                             Header="{shcm:ResourceString Name=ViewPageFeedbackServerStatusHeader}"
                                             IsClickEnabled="True"/>
