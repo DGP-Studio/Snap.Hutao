@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.Entity.Configuration;
 using System.Diagnostics;
 
@@ -34,7 +35,7 @@ internal sealed class AppDbContext : DbContext
         : this(options)
     {
         this.logger = logger;
-        logger.LogInformation("{Name}[{Id}] created", nameof(AppDbContext), ContextId);
+        logger.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("created", ConsoleColor.Green));
     }
 
     public DbSet<SettingEntry> Settings { get; set; } = default!;
@@ -87,7 +88,7 @@ internal sealed class AppDbContext : DbContext
     public override void Dispose()
     {
         base.Dispose();
-        logger?.LogInformation("{Name}[{Id}] disposed", nameof(AppDbContext), ContextId);
+        logger?.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("disposed", ConsoleColor.Red));
     }
 
     /// <inheritdoc/>

@@ -21,7 +21,7 @@ internal readonly struct LogMessage
         return new(value);
     }
 
-    public static implicit operator LogMessage((string Value, ConsoleColor Foreground) tuple)
+    public static implicit operator LogMessage((string Value, ConsoleColor? Foreground) tuple)
     {
         return new(tuple.Value, tuple.Foreground);
     }

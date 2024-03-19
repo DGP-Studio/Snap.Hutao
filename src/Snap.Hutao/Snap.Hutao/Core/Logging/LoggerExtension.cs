@@ -8,16 +8,6 @@ namespace Snap.Hutao.Core.Logging;
 [SuppressMessage("", "SH002")]
 internal static class LoggerExtension
 {
-    public static void LogColorizedDebug(this ILogger logger, EventId eventId, Exception? exception, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Debug, eventId, exception, message, args);
-    }
-
-    public static void LogColorizedDebug(this ILogger logger, EventId eventId, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Debug, eventId, message, args);
-    }
-
     public static void LogColorizedDebug(this ILogger logger, Exception? exception, LogMessage message, params LogArgument[] args)
     {
         logger.LogColorized(LogLevel.Debug, exception, message, args);
@@ -26,16 +16,6 @@ internal static class LoggerExtension
     public static void LogColorizedDebug(this ILogger logger, LogMessage message, params LogArgument[] args)
     {
         logger.LogColorized(LogLevel.Debug, message, args);
-    }
-
-    public static void LogColorizedTrace(this ILogger logger, EventId eventId, Exception? exception, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Trace, eventId, exception, message, args);
-    }
-
-    public static void LogColorizedTrace(this ILogger logger, EventId eventId, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Trace, eventId, message, args);
     }
 
     public static void LogColorizedTrace(this ILogger logger, Exception? exception, LogMessage message, params LogArgument[] args)
@@ -48,16 +28,6 @@ internal static class LoggerExtension
         logger.LogColorized(LogLevel.Trace, message, args);
     }
 
-    public static void LogColorizedInformation(this ILogger logger, EventId eventId, Exception? exception, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Information, eventId, exception, message, args);
-    }
-
-    public static void LogColorizedInformation(this ILogger logger, EventId eventId, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Information, eventId, message, args);
-    }
-
     public static void LogColorizedInformation(this ILogger logger, Exception? exception, LogMessage message, params LogArgument[] args)
     {
         logger.LogColorized(LogLevel.Information, exception, message, args);
@@ -66,16 +36,6 @@ internal static class LoggerExtension
     public static void LogColorizedInformation(this ILogger logger, LogMessage message, params LogArgument[] args)
     {
         logger.LogColorized(LogLevel.Information, message, args);
-    }
-
-    public static void LogColorizedWarning(this ILogger logger, EventId eventId, Exception? exception, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Warning, eventId, exception, message, args);
-    }
-
-    public static void LogColorizedWarning(this ILogger logger, EventId eventId, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Warning, eventId, message, args);
     }
 
     public static void LogColorizedWarning(this ILogger logger, Exception? exception, LogMessage message, params LogArgument[] args)
@@ -88,16 +48,6 @@ internal static class LoggerExtension
         logger.LogColorized(LogLevel.Warning, message, args);
     }
 
-    public static void LogColorizedError(this ILogger logger, EventId eventId, Exception? exception, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Error, eventId, exception, message, args);
-    }
-
-    public static void LogColorizedError(this ILogger logger, EventId eventId, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Error, eventId, message, args);
-    }
-
     public static void LogColorizedError(this ILogger logger, Exception? exception, LogMessage message, params LogArgument[] args)
     {
         logger.LogColorized(LogLevel.Error, exception, message, args);
@@ -106,16 +56,6 @@ internal static class LoggerExtension
     public static void LogColorizedError(this ILogger logger, LogMessage message, params LogArgument[] args)
     {
         logger.LogColorized(LogLevel.Error, message, args);
-    }
-
-    public static void LogColorizedCritical(this ILogger logger, EventId eventId, Exception? exception, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Critical, eventId, exception, message, args);
-    }
-
-    public static void LogColorizedCritical(this ILogger logger, EventId eventId, LogMessage message, params LogArgument[] args)
-    {
-        logger.LogColorized(LogLevel.Critical, eventId, message, args);
     }
 
     public static void LogColorizedCritical(this ILogger logger, Exception? exception, LogMessage message, params LogArgument[] args)
