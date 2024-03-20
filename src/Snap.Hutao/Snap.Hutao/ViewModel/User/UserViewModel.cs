@@ -67,10 +67,13 @@ internal sealed partial class UserViewModel : ObservableObject
                 }
             }
 
-            if (SetProperty(ref selectedUser, value))
+            if (!ReferenceEquals(selectedUser, value))
             {
+                selectedUser = value;
                 userService.Current = value;
             }
+
+            OnPropertyChanged(nameof(SelectedUser));
         }
     }
 
@@ -216,6 +219,11 @@ internal sealed partial class UserViewModel : ObservableObject
 
         try
         {
+            if (user.IsSelected)
+            {
+                SelectedUser = default;
+            }
+
             await userService.RemoveUserAsync(user).ConfigureAwait(false);
             infoBarService.Success(SH.FormatViewModelUserRemoved(user.UserInfo?.Nickname));
         }
