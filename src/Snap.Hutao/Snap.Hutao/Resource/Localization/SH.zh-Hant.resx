@@ -996,7 +996,7 @@
     <value>無法找到遊戲本體路徑，請前往設定修改</value>
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
-    <value>未開啟長路徑功能，無法設定注冊表鍵值</value>
+    <value>未開啟長路徑功能，無法設定註冊表鍵值</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>無法讀取遊戲設定檔 {0}，可能是檔案不存在</value>
@@ -1293,7 +1293,7 @@
     <value>登入胡桃通行證</value>
   </data>
   <data name="ViewDialogHutaoPassportRegisterTitle" xml:space="preserve">
-    <value>建立胡桃通行證用戶</value>
+    <value>註冊胡桃通行證</value>
   </data>
   <data name="ViewDialogHutaoPassportResetPasswordTitle" xml:space="preserve">
     <value>重設胡桃通行證用戶密碼</value>
@@ -1395,7 +1395,7 @@
     <value>環境</value>
   </data>
   <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
-    <value>安裝完成後重啟胡桃以查看是否正常生效</value>
+    <value>安裝完成後重新啟動胡桃以查看是否正常生效</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
     <value>如果上方的圖標中存在亂碼，請前往</value>
@@ -1671,7 +1671,7 @@
     <value>無感驗證復合 URL 配置成功</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
-    <value>設置數據目錄成功，重啟以應用更改</value>
+    <value>設置數據目錄成功，重新啟動以應用更改</value>
   </data>
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>儲存遊戲路徑失敗</value>
@@ -2376,7 +2376,7 @@
     <value>圖片版權訊息</value>
   </data>
   <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
-    <value>更改視窗的背景圖片來源，重啟胡桃以盡快生效</value>
+    <value>更改視窗的背景圖片來源，重新啟動胡桃以盡快生效</value>
   </data>
   <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
     <value>背景圖片</value>
@@ -2451,7 +2451,7 @@
     <value>系統管理員模式</value>
   </data>
   <data name="ViewPageSettingElevatedModeRestartAction" xml:space="preserve">
-    <value>以系統管理員身分重啟動</value>
+    <value>以系統管理員身分重新啟動</value>
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
     <value>在祈願紀錄頁面顯示或隱藏無記錄的歷史祈願活動</value>
@@ -2466,7 +2466,7 @@
     <value>顯示</value>
   </data>
   <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
-    <value>您解鎖了含有違反原神服務條款風險的「啟動遊戲-高級功能」，將自行承擔任何不良後果。</value>
+    <value>您解鎖了含有違反原神服務條款風險的「啟動遊戲-進階功能」，將自行承擔任何不良後果。</value>
   </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
     <value>前往反饋</value>
@@ -2532,7 +2532,7 @@
     <value>胡桃雲服務到期時間</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃雲通行證帳號</value>
+    <value>胡桃通行證帳號</value>
   </data>
   <data name="ViewPageSettingHutaoPassportLicensedDeveloperDescription" xml:space="preserve">
     <value>您可以無限制使用任何基於胡桃雲服務的功能</value>
@@ -2559,7 +2559,7 @@
     <value>使用兌換碼</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRegisterAction" xml:space="preserve">
-    <value>建立帳號</value>
+    <value>註冊</value>
   </data>
   <data name="ViewPageSettingHutaoPassportResetPasswordAction" xml:space="preserve">
     <value>重設密碼</value>
@@ -2568,10 +2568,10 @@
     <value>刪除帳號</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
-    <value>在完整閱讀原神和胡桃工具箱使用者協定後，我選擇啟用「啟動遊戲 - 高級功能」</value>
+    <value>在完整閱讀原神和胡桃工具箱使用者協定後，我選擇啟用「啟動遊戲 - 進階功能」</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
-    <value>啟動高級功能</value>
+    <value>進階功能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
     <value>更改自動連續點按功能的快速鍵</value>
@@ -2601,10 +2601,10 @@
     <value>重設圖片資源</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在啟動遊戲頁面的程序部分加入解鎖幀率限制選項</value>
+    <value>在啟動遊戲頁面的程序部分加入解鎖 FPS 限制選項</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
-    <value>啟動遊戲-解鎖幀率限制</value>
+    <value>啟動遊戲-解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>更改目錄后需要手動移動目錄内的數據，否則會重新創建用戶數據</value>
@@ -2742,7 +2742,7 @@
     <value>登入失敗，請重新登入</value>
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
-    <value>立即登入或建立帳號</value>
+    <value>立即登入或註冊</value>
   </data>
   <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
     <value>控制胡桃啟動時是否開啟主控台，重新啟動後生效</value>
@@ -2811,7 +2811,7 @@
     <value>重新整理數據</value>
   </data>
   <data name="ViewSpiralAbyssRefreshDescription" xml:space="preserve">
-    <value>同步 HoYo-LAB 的深淵挑戰記錄</value>
+    <value>同步 HoYoLAB 的深淵挑戰記錄</value>
   </data>
   <data name="ViewSpiralAbyssReveal" xml:space="preserve">
     <value>出戰次數</value>
@@ -3030,7 +3030,7 @@
     <value>尚未獲得</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtainedDetail" xml:space="preserve">
-    <value>尚未獲得參量質變儀</value>
+    <value>尚未獲得參數質變儀</value>
   </data>
   <data name="WebDailyNoteTransformerNotReached" xml:space="preserve">
     <value>冷卻中</value>
