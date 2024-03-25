@@ -144,6 +144,9 @@
   <data name="ContentDialogSavePrimaryButtonText" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
+    <value>No results found</value>
+  </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>Invalid Uri</value>
   </data>

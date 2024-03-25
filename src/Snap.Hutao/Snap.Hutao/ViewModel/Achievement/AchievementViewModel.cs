@@ -381,26 +381,29 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         {
             SetProperty(ref selectedAchievementGoal, null);
 
-            if (!string.IsNullOrEmpty(search))
+            if (string.IsNullOrEmpty(search))
             {
-                if (uint.TryParse(search, out uint achievementId))
-                {
-                    Achievements.Filter = view => view.Inner.Id == achievementId;
-                    return;
-                }
-
-                if (VersionRegex().IsMatch(search))
-                {
-                    Achievements.Filter = view => view.Inner.Version == search;
-                    return;
-                }
-
-                Achievements.Filter = view =>
-                {
-                    return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
-                        || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
-                };
+                Achievements.Filter = default!;
+                return;
             }
+
+            if (uint.TryParse(search, out uint achievementId))
+            {
+                Achievements.Filter = view => view.Inner.Id == achievementId;
+                return;
+            }
+
+            if (VersionRegex().IsMatch(search))
+            {
+                Achievements.Filter = view => view.Inner.Version == search;
+                return;
+            }
+
+            Achievements.Filter = view =>
+            {
+                return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
+                    || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
+            };
         }
     }
 

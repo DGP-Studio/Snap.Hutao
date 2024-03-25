@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Control.Extension;
+using System.Collections;
 
 namespace Snap.Hutao.Control.AutoSuggestBox;
 
@@ -56,7 +57,9 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
             sender.ItemsSource = AvailableTokens
                 .Where(kvp => kvp.Value.Value.Contains(Text, StringComparison.OrdinalIgnoreCase))
                 .OrderBy(kvp => kvp.Value.Kind)
-                .Select(kvp => kvp.Value);
+                .ThenBy(kvp => kvp.Value.Order)
+                .Select(kvp => kvp.Value)
+                .DefaultIfEmpty(SearchToken.NotFound);
         }
     }
 
@@ -77,11 +80,23 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
             return;
         }
 
-        args.Item = AvailableTokens.GetValueOrDefault(args.TokenText) ?? new SearchToken(SearchTokenKind.None, args.TokenText);
+        if (AvailableTokens.GetValueOrDefault(args.TokenText) is { } token)
+        {
+            args.Item = token;
+        }
+        else
+        {
+            args.Cancel = true;
+        }
     }
 
     private void OnTokenItemCollectionChanged(TokenizingTextBox sender, object args)
     {
+        if (args is SearchToken { Kind: SearchTokenKind.None } token)
+        {
+            ((IList)sender.ItemsSource).Remove(token);
+        }
+
         FilterCommand.TryExecute(FilterCommandParameter);
     }
 }
