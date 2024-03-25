@@ -10,7 +10,6 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
@@ -185,11 +184,6 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
                 if (statistics is not null)
                 {
                     statistics = this.SortStatistics(statistics);
-                    foreach (var item in statistics)
-                    {
-                        Debug.Print("Name: {0}, Id: {1}, Rank: {2}, Material: {3}, Item: {4}",
-                            item.Inner.Name, item.Inner.Id.Value, item.Inner.RankLevel, item.Inner.MaterialType, item.Inner.ItemType);
-                    }
                 }
             }
             catch (OperationCanceledException)
