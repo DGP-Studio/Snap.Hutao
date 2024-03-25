@@ -213,12 +213,12 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             if (y is null) { return -1; }
 
             // 摩拉、矿、经验书全局只出现一次，放在最前面
-            if (x.Inner.Name == "摩拉") { return -1; }
-            if (y.Inner.Name == "摩拉") { return 1; }
-            if (x.Inner.Name == "精锻用魔矿") { return -1; }
-            if (y.Inner.Name == "精锻用魔矿") { return 1; }
-            if (x.Inner.Name == "大英雄的经验") { return -1; }
-            if (y.Inner.Name == "大英雄的经验") { return 1; }
+            if (x.Inner.Id.Value == 202U) { return -1; } // 摩拉
+            if (y.Inner.Id.Value == 202U) { return 1; }
+            if (x.Inner.Id.Value == 104013U) { return -1; } // 精锻用魔矿
+            if (y.Inner.Id.Value == 104013U) { return 1; }
+            if (x.Inner.Id.Value == 104003U) { return -1; } // 大英雄的经验
+            if (y.Inner.Id.Value == 104003U) { return 1; }
 
             // 剩下的物品暂时按照id排序，更细致的排序策略以后再说
             return (int)x.Inner.Id.Value - (int)y.Inner.Id.Value;
