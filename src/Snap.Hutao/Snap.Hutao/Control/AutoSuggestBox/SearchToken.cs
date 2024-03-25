@@ -7,15 +7,16 @@ namespace Snap.Hutao.Control.AutoSuggestBox;
 
 internal sealed class SearchToken
 {
-    public static readonly SearchToken NotFound = new(SearchTokenKind.None, SH.ControlAutoSuggestBoxNotFoundValue);
+    public static readonly SearchToken NotFound = new(SearchTokenKind.None, SH.ControlAutoSuggestBoxNotFoundValue, 0);
 
-    public SearchToken(SearchTokenKind kind, string value, Uri? iconUri = null, Uri? sideIconUri = null, Color? quality = null)
+    public SearchToken(SearchTokenKind kind, string value, int order, Uri? iconUri = null, Uri? sideIconUri = null, Color? quality = null)
     {
         Value = value;
         Kind = kind;
         IconUri = iconUri;
         SideIconUri = sideIconUri;
         Quality = quality;
+        Order = order;
     }
 
     public SearchTokenKind Kind { get; }
@@ -27,6 +28,8 @@ internal sealed class SearchToken
     public Uri? SideIconUri { get; }
 
     public Color? Quality { get; }
+
+    public int Order { get; }
 
     public override string ToString()
     {

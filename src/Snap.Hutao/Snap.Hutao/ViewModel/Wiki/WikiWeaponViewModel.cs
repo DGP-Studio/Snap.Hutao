@@ -119,10 +119,10 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                 availableTokens = FrozenDictionary.ToFrozenDictionary(
                 [
-                    .. weapons.Select(w => KeyValuePair.Create(w.Name, new SearchToken(SearchTokenKind.Weapon, w.Name, sideIconUri: EquipIconConverter.IconNameToUri(w.Icon)))),
-                    .. IntrinsicFrozen.FightProperties.Select(f => KeyValuePair.Create(f, new SearchToken(SearchTokenKind.FightProperty, f))),
-                    .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(SearchTokenKind.ItemQuality, i, quality: QualityColorConverter.QualityNameToColor(i)))),
-                    .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(SearchTokenKind.WeaponType, w, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
+                    .. weapons.Select((weapon, index) => KeyValuePair.Create(weapon.Name, new SearchToken(SearchTokenKind.Weapon, weapon.Name, index, sideIconUri: EquipIconConverter.IconNameToUri(weapon.Icon)))),
+                    .. IntrinsicFrozen.FightPropertyNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.FightProperty, nv.Name, (int)nv.Value))),
+                    .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
+                    .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
                 ]);
             }
             catch (OperationCanceledException)
