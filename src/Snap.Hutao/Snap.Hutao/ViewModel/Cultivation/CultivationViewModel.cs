@@ -10,6 +10,7 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Cultivation;
 
@@ -181,6 +182,15 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             {
                 CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
                 statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(SelectedProject, context, token).ConfigureAwait(false);
+                if (statistics is not null)
+                {
+                    statistics = this.SortStatistics(statistics);
+                    foreach (var item in statistics)
+                    {
+                        Debug.Print("Name: {0}, Id: {1}, Rank: {2}, Material: {3}, Item: {4}",
+                            item.Inner.Name, item.Inner.Id.Value, item.Inner.RankLevel, item.Inner.MaterialType, item.Inner.ItemType);
+                    }
+                }
             }
             catch (OperationCanceledException)
             {
@@ -189,6 +199,35 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
             await taskContext.SwitchToMainThreadAsync();
             StatisticsItems = statistics;
+        }
+    }
+
+    private ObservableCollection<StatisticsCultivateItem> SortStatistics(ObservableCollection<StatisticsCultivateItem> statistics)
+    {
+        return statistics.Order(new StatisticsCaltivateItemComparer()).ToObservableCollection();
+    }
+
+    private class StatisticsCaltivateItemComparer: IComparer<StatisticsCultivateItem>
+    {
+        public int Compare(StatisticsCultivateItem? x, StatisticsCultivateItem? y)
+        {
+            // TODO: 理论上的最优解：先通过观测枢获取所有背包物品，然后根据filter字段依次分类，先按这个类别做排序，然后再按品质等进行排序
+            // 不仅如此，以后想按照材料类型分类的话，这也是必做的。
+
+            // 对null做判定，防止IDE警告
+            if (x is null) { return -1; }
+            if (y is null) { return -1; }
+
+            // 摩拉、矿、经验书全局只出现一次，放在最前面
+            if (x.Inner.Name == "摩拉") { return -1; }
+            if (y.Inner.Name == "摩拉") { return 1; }
+            if (x.Inner.Name == "精锻用魔矿") { return -1; }
+            if (y.Inner.Name == "精锻用魔矿") { return 1; }
+            if (x.Inner.Name == "大英雄的经验") { return -1; }
+            if (y.Inner.Name == "大英雄的经验") { return 1; }
+
+            // 剩下的物品暂时按照id排序，更细致的排序策略以后再说
+            return (int)x.Inner.Id.Value - (int)y.Inner.Id.Value;
         }
     }
 
