@@ -144,6 +144,9 @@
   <data name="ContentDialogSavePrimaryButtonText" xml:space="preserve">
     <value>儲存</value>
   </data>
+  <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
+    <value>未找到结果</value>
+  </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>無效的 Uri</value>
   </data>
