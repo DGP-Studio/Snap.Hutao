@@ -1,42 +1,36 @@
-![HutaoRepoBanner2-20231222](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/2d178de1-95bc-44a1-a95e-20c5f11a8628)
+![HutaoRepoBanner3-en](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/7289da68-59cf-409b-bd85-4b5a01d0c091)
 
 
-胡桃工具箱是一款以 MIT 协议开源的原神工具箱，专为现代化 Windows 平台设计，旨在改善桌面端玩家的游戏体验。通过将既有的官方资源与开发团队设计的全新 功能相结合，它提供了一套完整且实用的工具集，且无需依赖任何移动设备。它不对游戏客户端进行任何破坏性修改以确保工具箱的安全性
+胡桃工具箱是一款以 MIT 协议开源的原神工具箱，专为现代化 Windows 平台设计，旨在改善桌面端玩家的游戏体验。通过将既有的官方资源与开发团队设计的全新功能相结合，提供了一套完整且实用的工具集，且无需依赖任何移动设备。它不对游戏客户端进行任何破坏性修改以确保工具箱的安全性
 
 Snap Hutao is an open-source Genshin Impact toolkit under MIT license, designed for modern Windows platform to improve the gaming experience for desktop players. By combining existing official resources with new features designed by the development team, it provides a complete and useful set of tools without the need to rely on mobile devices. Snap Hutao does not take any destructive modification to the game client to ensure the security of the toolkit.
 
-## 下载使用 / Download
+## 安装 / Installation
 
 ![](https://ci.appveyor.com/api/projects/status/n4s40t9llru4si9y?svg=true) [![GitHub Release](https://img.shields.io/github/release/DGP-Studio/Snap.Hutao?style=flat)](https://github.com/DGP-Studio/Snap.Hutao/releases/latest) [![Github All Releases](https://img.shields.io/github/downloads/DGP-Studio/Snap.Hutao/total.svg?style=flat)]() 
 
 ---
 
-#### 使用安装器安装 / Install with Snap.Hutao.Depolyment Installer
+你可以按照[快速开始](https://hut.ao/zh/quick-start.html)文档中提供的流程安装并设置 Snap Hutao。
 
-Snap.Hutao.Depolyment 是一个由 DGP-Studio 重新包装的 Windows 应用安装器，适用于缺少专业计算机知识的一般用户，可以在安装时同时解决缺少必要系统环境的问题。
+You can follow the instructions in the [Quick Start](https://hut.ao/en/quick-start.html) document to install and set up Snap Hutao.
 
-Snap.Hutao.Depolyment is a Windows application installer repackaged by DGP-Studio for the users who lacks computer knowledge and can solve the problem of missing necessary system environment at the same time as the installation.
+## 本地化翻译 / Localization
 
-[从 GitHub 发布页获取 / Download from GitHub release](https://github.com/DGP-Studio/Snap.Hutao.Deployment/releases/latest) 
+![zh-TW translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json) ![en translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json) ![id translation](https://img.shields.io/badge/dynamic/json?color=blue&label=id&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27id%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json) ![ja translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json) ![ko translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ko&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ko%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)![pt-PT translation](https://img.shields.io/badge/dynamic/json?color=blue&label=pt-PT&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27pt-PT%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)  ![ru translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ru&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ru%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)
 
-[从极狐Lab 发布页获取 / Download from Jihu Gitlab release](https://jihulab.com/DGP-Studio/Snap.Hutao.Deployment/-/releases)
+Snap Hutao 使用 [Crowdin](https://translate.hut.ao/) 作为客户端文本翻译平台，在该平台上你可以为你熟悉的语言提交翻译文本。我们感谢每一个为 Snap Hutao 做出贡献的社区成员，并且欢迎更多的朋友能参与到这个项目中。
 
-#### 使用 MSIX 包安装 / Install with MSIX Package
+Snap Hutao uses [Crowdin](https://translate.hut.ao/) as a client text translation platform where you can submit translated text for languages you are familiar with. We are grateful to every community member who has contributed to Snap Hutao and welcome more friends to participate in this project.
 
-直接使用 Snap Hutao MSIX 安装包，使用 Windows 内置的 App Installer 即可安装。如在安装中出现问题，请查阅我们的[常见问题](https://hut.ao/zh/advanced/FAQ.html)文档
+## 社区 / Community
 
-Install with Snap Hutao MSIX package, can be installed with Windows built-in App Installer. If you faced any issue, please check our [FAQ](https://hut.ao/en/advanced/FAQ.html) document.
-
-[从 GitHub 发布页获取 / Download from GitHub release](https://github.com/DGP-Studio/Snap.Hutao/releases/latest) 
-
-[从极狐Lab 发布页获取 / Download from Jihu Gitlab release](https://jihulab.com/DGP-Studio/Snap.Hutao/-/releases)
+[![Discord](https://img.shields.io/discord/952488447753465916?color=5865f2&label=%20Discord)](https://discord.gg/CcH5XtDtvR) [![QQ](https://img.shields.io/badge/QQ-EB1923?logo=tencent-qq&logoColor=white&label=567908135)](https://qm.qq.com/q/WJKykrY9W)
 
 ## 贡献 / Contribute
 
-* [向我们提交 PR / Make Pull Requests](https://github.com/DGP-Studio/Snap.Hutao/pulls)
-* [在 Crowdin 上进行本地化 / Translate Project on Crowdin](https://translate.hut.ao/)
+* [向我们提交 PR / Make Pull Requests](https://hut.ao/development/contribute.html)
 * [为我们更新文档 / Enhance our Document](https://github.com/DGP-Studio/Snap.Hutao.Docs)
-* [帮助我们测试程序 / Test Binary Package](https://hut.ao/development/contribute.html)
 
 ## 特别感谢 / Special Thanks
 
