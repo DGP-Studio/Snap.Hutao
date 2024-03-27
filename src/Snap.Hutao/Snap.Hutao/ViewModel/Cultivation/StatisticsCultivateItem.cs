@@ -28,7 +28,7 @@ internal sealed class StatisticsCultivateItem
     public Material Inner { get; }
 
     /// <summary>
-    /// 对应背包物品的个数
+    /// 对应需求物品的个数
     /// </summary>
     public uint Count { get; set; }
 
@@ -40,10 +40,10 @@ internal sealed class StatisticsCultivateItem
     /// <summary>
     /// 是否完成
     /// </summary>
-    public bool IsFinished { get => Count >= TotalCount; }
+    public bool IsFinished { get => TotalCount >= Count; }
 
     /// <summary>
     /// 格式化总数
     /// </summary>
-    public string CountFormatted { get => $"{Count}/{TotalCount}"; }
+    public string CountFormatted { get => $"{TotalCount}/{Count}"; }
 }
