@@ -201,10 +201,24 @@ internal static partial class EnumerableExtension
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+    public static List<TSource> SortBy<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+    {
+        list.Sort((left, right) => comparer.Compare(keySelector(left), keySelector(right)));
+        return list;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public static List<TSource> SortByDescending<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector)
         where TKey : IComparable
     {
         list.Sort((left, right) => keySelector(right).CompareTo(keySelector(left)));
+        return list;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+    public static List<TSource> SortByDescending<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+    {
+        list.Sort((left, right) => comparer.Compare(keySelector(right), keySelector(left)));
         return list;
     }
 }
