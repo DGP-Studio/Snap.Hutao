@@ -420,12 +420,14 @@
                                                             <TextBlock
                                                                 VerticalAlignment="Center"
                                                                 Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                Text="{Binding Selected.Name}"/>
+                                                                Text="{Binding Selected.Name}"
+                                                                TextWrapping="NoWrap"/>
                                                             <TextBlock
                                                                 Margin="24,0,0,0"
                                                                 VerticalAlignment="Center"
                                                                 Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                Text="{Binding Selected.FetterInfo.Title}"/>
+                                                                Text="{Binding Selected.FetterInfo.Title}"
+                                                                TextWrapping="NoWrap"/>
                                                         </StackPanel>
 
                                                         <TextBlock
