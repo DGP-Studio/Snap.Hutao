@@ -174,12 +174,20 @@
                     </ItemContainer.Resources>
                     <shvcp:HorizontalCard>
                         <shvcp:HorizontalCard.Left>
-                            <shvco:ItemIcon
-                                Grid.Column="0"
-                                Width="40"
-                                Height="40"
-                                Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
-                                Quality="{Binding Inner.RankLevel}"/>
+                            <Grid Grid.Column="0">
+                                <shvco:ItemIcon
+                                    Width="40"
+                                    Height="40"
+                                    Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
+                                    Opacity="{Binding IsFinished, Converter={StaticResource BoolToOpacityConverter}}"
+                                    Quality="{Binding Inner.RankLevel}"/>
+                                <FontIcon
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="24"
+                                    Glyph="&#xE73E;"
+                                    Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </Grid>
                         </shvcp:HorizontalCard.Left>
                         <shvcp:HorizontalCard.Right>
                             <Grid Margin="16,0">
