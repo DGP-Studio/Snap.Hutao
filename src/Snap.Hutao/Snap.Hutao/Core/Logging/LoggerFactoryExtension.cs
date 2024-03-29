@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Core.Logging;
 
-internal static class LoggerFactoryExtensions
+internal static class LoggerFactoryExtension
 {
     public static ILoggingBuilder AddConsoleWindow(this ILoggingBuilder builder)
     {

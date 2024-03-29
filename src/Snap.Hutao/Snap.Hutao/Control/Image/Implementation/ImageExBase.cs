@@ -6,6 +6,7 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Snap.Hutao.Win32;
 using System.IO;
 using Windows.Foundation;
 
@@ -158,7 +159,6 @@ internal abstract partial class ImageExBase : Microsoft.UI.Xaml.Controls.Control
         if (value)
         {
             control.LayoutUpdated += control.OnImageExBaseLayoutUpdated;
-
             control.InvalidateLazyLoading();
         }
         else
@@ -169,7 +169,7 @@ internal abstract partial class ImageExBase : Microsoft.UI.Xaml.Controls.Control
 
     private static void LazyLoadingThresholdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is ImageExBase control && control.EnableLazyLoading)
+        if (d is ImageExBase { EnableLazyLoading: true } control)
         {
             control.InvalidateLazyLoading();
         }
@@ -229,9 +229,6 @@ internal abstract partial class ImageExBase : Microsoft.UI.Xaml.Controls.Control
 
     private void AttachPlaceholderSource(ImageSource? source)
     {
-        // Setting the source at this point should call ImageExOpened/VisualStateManager.GoToState
-        // as we register to both the ImageOpened/ImageFailed events of the underlying control.
-        // We only need to call those methods if we fail in other cases before we get here.
         if (PlaceholderImage is Microsoft.UI.Xaml.Controls.Image image)
         {
             image.Source = source;
@@ -239,6 +236,15 @@ internal abstract partial class ImageExBase : Microsoft.UI.Xaml.Controls.Control
         else if (PlaceholderImage is ImageBrush brush)
         {
             brush.ImageSource = source;
+        }
+
+        if (source is null)
+        {
+            VisualStateManager.GoToState(this, UnloadedState, true);
+        }
+        else if (source is BitmapSource { PixelHeight: > 0, PixelWidth: > 0 })
+        {
+            VisualStateManager.GoToState(this, LoadedState, true);
         }
     }
 
@@ -311,8 +317,7 @@ internal abstract partial class ImageExBase : Microsoft.UI.Xaml.Controls.Control
         }
 
         tokenSource?.Cancel();
-
-        tokenSource = new CancellationTokenSource();
+        tokenSource = new();
 
         AttachPlaceholderSource(null);
 
@@ -443,9 +448,10 @@ internal abstract partial class ImageExBase : Microsoft.UI.Xaml.Controls.Control
             return;
         }
 
-        Rect controlRect = TransformToVisual(hostElement)
-            .TransformBounds(new Rect(0, 0, ActualWidth, ActualHeight));
+        Rect controlRect = TransformToVisual(hostElement).TransformBounds(StructMarshal.Rect(ActualSize));
         double lazyLoadingThreshold = LazyLoadingThreshold;
+
+        // Left/Top 1 Threshold, Right/Bottom 2 Threshold
         Rect hostRect = new(
             0 - lazyLoadingThreshold,
             0 - lazyLoadingThreshold,

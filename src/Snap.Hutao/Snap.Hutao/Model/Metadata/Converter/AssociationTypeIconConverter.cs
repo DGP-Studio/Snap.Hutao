@@ -9,24 +9,6 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 
 internal sealed class AssociationTypeIconConverter : ValueConverter<AssociationType, Uri?>
 {
-    private static readonly FrozenDictionary<string, AssociationType> LocalizedNameToAssociationType = FrozenDictionary.ToFrozenDictionary(
-    [
-        KeyValuePair.Create(SH.ModelIntrinsicAssociationTypeMondstadt, AssociationType.ASSOC_TYPE_MONDSTADT),
-        KeyValuePair.Create(SH.ModelIntrinsicAssociationTypeLiyue, AssociationType.ASSOC_TYPE_LIYUE),
-        KeyValuePair.Create(SH.ModelIntrinsicAssociationTypeFatui, AssociationType.ASSOC_TYPE_FATUI),
-        KeyValuePair.Create(SH.ModelIntrinsicAssociationTypeInazuma, AssociationType.ASSOC_TYPE_INAZUMA),
-        KeyValuePair.Create(SH.ModelIntrinsicAssociationTypeRanger, AssociationType.ASSOC_TYPE_RANGER),
-        KeyValuePair.Create(SH.ModelIntrinsicAssociationTypeSumeru, AssociationType.ASSOC_TYPE_SUMERU),
-        KeyValuePair.Create(SH.ModelIntrinsicAssociationTypeFontaine, AssociationType.ASSOC_TYPE_FONTAINE),
-        KeyValuePair.Create(SH.ModelIntrinsicAssociationTypeNatlan, AssociationType.ASSOC_TYPE_NATLAN),
-        KeyValuePair.Create(SH.ModelIntrinsicAssociationTypeSnezhnaya, AssociationType.ASSOC_TYPE_SNEZHNAYA),
-    ]);
-
-    public static Uri? AssociationTypeNameToIconUri(string associationTypeName)
-    {
-        return AssociationTypeToIconUri(LocalizedNameToAssociationType.GetValueOrDefault(associationTypeName));
-    }
-
     public static Uri? AssociationTypeToIconUri(AssociationType type)
     {
         string? association = type switch

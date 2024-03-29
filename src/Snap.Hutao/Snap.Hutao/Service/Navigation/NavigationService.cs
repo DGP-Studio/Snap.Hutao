@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Helper;
@@ -81,7 +82,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
 
         if (currentType == pageType)
         {
-            logger.LogInformation("Navigate to {pageType} : succeed, already in", pageType);
+            logger.LogColorizedInformation("Navigate to {Page} : {Result}, already in", (pageType, ConsoleColor.DarkGreen), ("succeed", ConsoleColor.Green));
             return NavigationResult.AlreadyNavigatedTo;
         }
 
@@ -91,7 +92,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         try
         {
             navigated = frame?.Navigate(pageType, data) ?? false;
-            logger.LogInformation("Navigate to {pageType} : {result}", pageType, navigated ? "succeed" : "failed");
+            logger.LogColorizedInformation("Navigate to {Page} : {Result}", (pageType, ConsoleColor.Magenta), navigated ? ("succeed", ConsoleColor.Green) : ("succeed", ConsoleColor.Red));
         }
         catch (Exception ex)
         {

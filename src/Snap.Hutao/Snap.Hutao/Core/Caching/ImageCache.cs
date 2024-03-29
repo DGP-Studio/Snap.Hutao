@@ -3,13 +3,13 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.IO.Hashing;
+using Snap.Hutao.Core.Logging;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -104,12 +104,12 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         {
             if (concurrentTasks.TryAdd(fileName, taskCompletionSource.Task))
             {
-                logger.LogDebug("Begin downloading image file from '{Uri}' to '{File}'", uri, filePath);
+                logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (filePath, ConsoleColor.Cyan));
                 await DownloadFileAsync(uri, filePath).ConfigureAwait(false);
             }
             else if (concurrentTasks.TryGetValue(fileName, out Task? task))
             {
-                logger.LogDebug("Waiting for a queued image download task to complete for '{Uri}'", uri);
+                logger.LogDebug("Waiting for a queued image download task to complete for '{Uri}'", (uri, ConsoleColor.Cyan));
                 await task.ConfigureAwait(false);
             }
 
@@ -132,10 +132,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     private static string GetCacheFileName(Uri uri)
     {
-        string url = uri.ToString();
-        byte[] chars = Encoding.UTF8.GetBytes(url);
-        byte[] hash = SHA1.HashData(chars);
-        return System.Convert.ToHexString(hash);
+        return Hash.SHA1HexString(uri.ToString());
     }
 
     private static bool IsFileInvalid(string file, bool treatNullFileAsInvalid = true)

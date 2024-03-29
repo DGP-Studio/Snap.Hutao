@@ -7,19 +7,12 @@ using Windows.Media.Casting;
 
 namespace Snap.Hutao.Control.Image.Implementation;
 
-internal class ImageEx : ImageExBase
+[DependencyProperty("NineGrid", typeof(Thickness))]
+internal partial class ImageEx : ImageExBase
 {
-    private static readonly DependencyProperty NineGridProperty = DependencyProperty.Register(nameof(NineGrid), typeof(Thickness), typeof(ImageEx), new PropertyMetadata(default(Thickness)));
-
     public ImageEx()
         : base()
     {
-    }
-
-    public Thickness NineGrid
-    {
-        get => (Thickness)GetValue(NineGridProperty);
-        set => SetValue(NineGridProperty, value);
     }
 
     public override CompositionBrush GetAlphaMask()

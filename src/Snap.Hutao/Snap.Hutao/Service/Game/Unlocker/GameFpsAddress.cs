@@ -16,7 +16,7 @@ internal static class GameFpsAddress
     private const byte ASM_JMP = 0xE9;
 #pragma warning restore SA1310
 
-    public static unsafe void UnsafeFindFpsAddress(GameFpsUnlockerState state, in RequiredGameModule requiredGameModule)
+    public static unsafe void UnsafeFindFpsAddress(GameFpsUnlockerContext state, in RequiredGameModule requiredGameModule)
     {
         bool readOk = UnsafeReadModulesMemory(state.GameProcess, requiredGameModule, out VirtualMemory localMemory);
         HutaoException.ThrowIfNot(readOk, HutaoExceptionKind.GameFpsUnlockingFailed, SH.ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed);

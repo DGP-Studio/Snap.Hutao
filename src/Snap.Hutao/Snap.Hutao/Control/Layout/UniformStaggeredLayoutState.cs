@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Runtime.InteropServices;
 
@@ -67,46 +66,6 @@ internal sealed class UniformStaggeredLayoutState
         return columnLayout[columnIndex];
     }
 
-    /// <summary>
-    /// Clear everything that has been calculated.
-    /// </summary>
-    internal void Clear()
-    {
-        // https://github.com/DGP-Studio/Snap.Hutao/issues/1079
-        // The first element must be force refreshed otherwise
-        // it will use the old one realized
-        // https://github.com/DGP-Studio/Snap.Hutao/issues/1099
-        // Now we need to refresh the first element of each column
-        // https://github.com/DGP-Studio/Snap.Hutao/issues/1099
-        // Finally we need to refresh the whole layout when we reset
-        if (context.ItemCount > 0)
-        {
-            for (int i = 0; i < context.ItemCount; i++)
-            {
-                RecycleElementAt(i);
-            }
-        }
-
-        columnLayout.Clear();
-        items.Clear();
-    }
-
-    /// <summary>
-    /// Clear the layout columns so they will be recalculated.
-    /// </summary>
-    internal void ClearColumns()
-    {
-        columnLayout.Clear();
-    }
-
-    /// <summary>
-    /// Gets the estimated height of the layout.
-    /// </summary>
-    /// <returns>The estimated height of the layout.</returns>
-    /// <remarks>
-    /// If all of the items have been calculated then the actual height will be returned.
-    /// If all of the items have not been calculated then an estimated height will be calculated based on the average height of the items.
-    /// </remarks>
     internal double GetHeight()
     {
         double desiredHeight = columnLayout.Values.Max(c => c.Height);
@@ -139,10 +98,37 @@ internal sealed class UniformStaggeredLayoutState
         return desiredHeight;
     }
 
+    internal void Clear()
+    {
+        RecycleElements();
+        ClearColumns();
+        ClearItems();
+    }
+
+    internal void ClearColumns()
+    {
+        columnLayout.Clear();
+    }
+
+    internal void ClearItems()
+    {
+        items.Clear();
+    }
+
+    internal void RecycleElements()
+    {
+        if (context.ItemCount > 0)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                RecycleElementAt(i);
+            }
+        }
+    }
+
     internal void RecycleElementAt(int index)
     {
-        UIElement element = context.GetOrCreateElementAt(index);
-        context.RecycleElement(element);
+        context.RecycleElement(context.GetOrCreateElementAt(index));
     }
 
     internal void RemoveFromIndex(int index)
@@ -175,7 +161,7 @@ internal sealed class UniformStaggeredLayoutState
     {
         for (int i = startIndex; i <= endIndex; i++)
         {
-            if (i > items.Count)
+            if (i >= items.Count)
             {
                 break;
             }
@@ -184,7 +170,7 @@ internal sealed class UniformStaggeredLayoutState
             item.Height = 0;
             item.Top = 0;
 
-            // We must recycle all elements to ensure that it gets the correct context
+            // We must recycle all removed elements to ensure that it gets the correct context
             RecycleElementAt(i);
         }
 

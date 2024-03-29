@@ -290,6 +290,7 @@
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotOverview}">
                     <ScrollViewer
                         Margin="16,0"
+                        cw:ScrollViewerExtensions.HorizontalScrollBarMargin="0,0,-16,0"
                         HorizontalScrollBarVisibility="Auto"
                         HorizontalScrollMode="Enabled"
                         VerticalScrollMode="Disabled">
@@ -478,10 +479,12 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
+                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <shvc:HutaoStatisticsCard Grid.Column="0" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent}"/>
                             <shvc:HutaoStatisticsCard Grid.Column="1" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent2}"/>
                             <shvc:HutaoStatisticsCard Grid.Column="2" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.WeaponEvent}"/>
+                            <shvc:HutaoStatisticsCard Grid.Column="3" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.Chronicled}"/>
                         </Grid>
                     </Grid>
                 </PivotItem>

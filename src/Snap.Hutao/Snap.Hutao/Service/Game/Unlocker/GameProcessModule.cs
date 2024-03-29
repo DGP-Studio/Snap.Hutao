@@ -13,7 +13,7 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 
 internal static class GameProcessModule
 {
-    public static async ValueTask<ValueResult<FindModuleResult, RequiredGameModule>> FindModuleAsync(GameFpsUnlockerState state)
+    public static async ValueTask<ValueResult<FindModuleResult, RequiredGameModule>> FindModuleAsync(GameFpsUnlockerContext state)
     {
         ValueStopwatch watch = ValueStopwatch.StartNew();
         using (PeriodicTimer timer = new(state.TimingOptions.FindModuleDelay))

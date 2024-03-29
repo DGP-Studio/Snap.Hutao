@@ -33,8 +33,8 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
     protected override Size ArrangeOverride(Size finalSize)
     {
         int itemCount = Children.Count;
-        double availableWidthPerItem = (finalSize.Width - (Spacing * (itemCount - 1))) / itemCount;
-        double actualItemWidth = Math.Max(MinItemWidth, availableWidthPerItem);
+        double availableItemWidth = (finalSize.Width - (Spacing * (itemCount - 1))) / itemCount;
+        double actualItemWidth = Math.Max(MinItemWidth, availableItemWidth);
 
         double offset = 0;
         foreach (UIElement child in Children)
@@ -46,13 +46,14 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
         return finalSize;
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
+    private static void OnLoaded(object sender, RoutedEventArgs e)
     {
-        MinWidth = (MinItemWidth * Children.Count) + (Spacing * (Children.Count - 1));
+        HorizontalEqualPanel panel = (HorizontalEqualPanel)sender;
+        panel.MinWidth = (panel.MinItemWidth * panel.Children.Count) + (panel.Spacing * (panel.Children.Count - 1));
     }
 
-    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    private static void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        InvalidateMeasure();
+        ((HorizontalEqualPanel)sender).InvalidateMeasure();
     }
 }

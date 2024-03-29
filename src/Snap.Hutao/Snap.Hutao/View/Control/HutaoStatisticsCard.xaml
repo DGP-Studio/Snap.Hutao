@@ -52,41 +52,49 @@
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource UpPullColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"/>
+                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"
+                    Visibility="{Binding UpItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
                     ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
-                    ItemsSource="{Binding UpItems}"/>
+                    ItemsSource="{Binding UpItems}"
+                    Visibility="{Binding UpItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
                 <TextBlock
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource OrangeColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
+                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                    Visibility="{Binding OrangeItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
                     ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
-                    ItemsSource="{Binding OrangeItems}"/>
+                    ItemsSource="{Binding OrangeItems}"
+                    Visibility="{Binding OrangeItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
                 <TextBlock
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource PurpleColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
+                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                    Visibility="{Binding PurpleItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
                     ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
-                    ItemsSource="{Binding PurpleItems}"/>
+                    ItemsSource="{Binding PurpleItems}"
+                    Visibility="{Binding PurpleItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
                 <TextBlock
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource BlueColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
+                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"
+                    Visibility="{Binding BlueItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
                     ItemsPanel="{StaticResource WrapPanelSpacing4Template}"
-                    ItemsSource="{Binding BlueItems}"/>
+                    ItemsSource="{Binding BlueItems}"
+                    Visibility="{Binding BlueItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

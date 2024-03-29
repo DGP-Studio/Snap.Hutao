@@ -6,6 +6,7 @@ using Windows.Foundation.Collections;
 
 namespace Snap.Hutao.Control.Collection.Alternating;
 
+[Obsolete("Use SettingsCard instead")]
 [DependencyProperty("ItemAlternateBackground", typeof(Microsoft.UI.Xaml.Media.Brush))]
 internal sealed partial class AlternatingItemsControl : ItemsControl
 {

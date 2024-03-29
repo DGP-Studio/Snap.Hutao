@@ -17,7 +17,7 @@ internal sealed class LaunchStatus
 
     public string Description { get; set; }
 
-    public static LaunchStatus FromUnlockState(GameFpsUnlockerState unlockerState)
+    public static LaunchStatus FromUnlockerContext(GameFpsUnlockerContext unlockerState)
     {
         if (unlockerState.FindModuleResult == FindModuleResult.Ok)
         {

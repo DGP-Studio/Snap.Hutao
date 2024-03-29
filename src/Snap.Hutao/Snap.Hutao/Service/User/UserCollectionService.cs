@@ -16,7 +16,7 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserCollectionService))]
 internal sealed partial class UserCollectionService : IUserCollectionService, IDisposable
 {
-    private readonly ScopedDbCurrent<BindingUser, Model.Entity.User, UserChangedMessage> dbCurrent;
+    private readonly ScopedDbCurrent<BindingUser, EntityUser, UserChangedMessage> dbCurrent;
     private readonly IUserInitializationService userInitializationService;
     private readonly IServiceProvider serviceProvider;
     private readonly IUserDbService userDbService;
@@ -163,7 +163,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        userCollection.Add(newUser);
+        userCollection.Add(newUser); // Database synced in the collection
         if (newUser.Entity.Mid is not null)
         {
             midUserMap?.Add(newUser.Entity.Mid, newUser);
@@ -178,9 +178,6 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
             }
         }
 
-        // Sync database
-        await taskContext.SwitchToBackgroundAsync();
-        await userDbService.AddUserAsync(newUser.Entity).ConfigureAwait(false);
         ArgumentNullException.ThrowIfNull(newUser.UserInfo);
         return new(UserOptionResult.Added, newUser.UserInfo.Uid);
     }

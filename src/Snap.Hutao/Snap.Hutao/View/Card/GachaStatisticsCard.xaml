@@ -70,7 +70,7 @@
                         Maximum="{Binding GuaranteeOrangeThreshold}"
                         ProgressForeground="{StaticResource OrangeColorBrush}"
                         TextForeground="{StaticResource OrangeColorBrush}"
-                        Value="{Binding LastOrangePull}"/>
+                        Value="{Binding LastOrangePull, Mode=OneWay}"/>
                     <shvcp:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastPurplePull}"

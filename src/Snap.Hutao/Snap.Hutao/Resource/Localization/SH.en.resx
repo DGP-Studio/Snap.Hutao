@@ -144,6 +144,9 @@
   <data name="ContentDialogSavePrimaryButtonText" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
+    <value>No results found</value>
+  </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>Invalid Uri</value>
   </data>
@@ -2342,6 +2345,9 @@
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>Enter your HoYoLab UID</value>
   </data>
+  <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
+    <value>You are using an embedded webview to login to your MiHoYo passport account, the client will fetch the Cookie data when you click on I'm Signed in button. All network communication initialed in this webview occurs only between your computer and MiHoYo official servers.</value>
+  </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>I'm logged in</value>
   </data>
@@ -2922,7 +2928,7 @@
     <value>〓Event Duration〓.*?\d\.\d Available throughout the entirety of Version</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓Event Duration〓|Event Wish Duration|【Availability Duration】).*?(\d\.\dAfter the Version update).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓Event Duration〓|Event Wish Duration|【Availability Duration】|〓Discount Period〓).*?(\d\.\dAfter the Version update).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓Update Maintenance Duration〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>

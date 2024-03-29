@@ -4,6 +4,7 @@
 using System.Buffers.Binary;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using Windows.Foundation;
 using Windows.Graphics;
 
 namespace Snap.Hutao.Win32;
@@ -26,45 +27,26 @@ internal static class StructMarshal
         return color;
     }
 
-    /// <summary>
-    /// 从 0,0 点构造一个新的<see cref="Windows.Graphics.RectInt32"/>
-    /// </summary>
-    /// <param name="size">尺寸</param>
-    /// <returns>新的实例</returns>
+    public static Rect Rect(Vector2 size)
+    {
+        return new(0, 0, size.X, size.Y);
+    }
+
     public static RectInt32 RectInt32(SizeInt32 size)
     {
         return new(0, 0, size.Width, size.Height);
     }
 
-    /// <summary>
-    /// 构造一个新的<see cref="Windows.Graphics.RectInt32"/>
-    /// </summary>
-    /// <param name="point">左上角位置</param>
-    /// <param name="size">尺寸</param>
-    /// <returns>新的实例</returns>
     public static RectInt32 RectInt32(PointInt32 point, Vector2 size)
     {
         return RectInt32(point.X, point.Y, size);
     }
 
-    /// <summary>
-    /// 构造一个新的<see cref="Windows.Graphics.RectInt32"/>
-    /// </summary>
-    /// <param name="x">X</param>
-    /// <param name="y">Y</param>
-    /// <param name="size">尺寸</param>
-    /// <returns>新的实例</returns>
     public static RectInt32 RectInt32(int x, int y, Vector2 size)
     {
         return new(x, y, (int)size.X, (int)size.Y);
     }
 
-    /// <summary>
-    /// 构造一个新的<see cref="Windows.Graphics.RectInt32"/>
-    /// </summary>
-    /// <param name="point">左上角位置</param>
-    /// <param name="size">尺寸</param>
-    /// <returns>新的实例</returns>
     public static RectInt32 RectInt32(PointInt32 point, SizeInt32 size)
     {
         return new(point.X, point.Y, size.Width, size.Height);

@@ -13,6 +13,4 @@ namespace Snap.Hutao.Control;
 /// </summary>
 [HighQuality]
 [DependencyProperty("DataContext", typeof(object))]
-internal sealed partial class BindingProxy : DependencyObject
-{
-}
+internal sealed partial class BindingProxy : DependencyObject;

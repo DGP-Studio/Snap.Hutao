@@ -14,6 +14,7 @@ using Windows.UI;
 
 namespace Snap.Hutao.Control.Text;
 
+// TODO: change the parsing to syntax tree
 [DependencyProperty("Description", typeof(string), "", nameof(OnDescriptionChanged))]
 [DependencyProperty("TextStyle", typeof(Style), default(Style), nameof(OnTextStyleChanged))]
 internal sealed partial class HtmlDescriptionTextBlock : ContentControl

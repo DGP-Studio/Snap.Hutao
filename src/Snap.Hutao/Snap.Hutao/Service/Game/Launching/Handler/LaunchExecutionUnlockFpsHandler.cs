@@ -18,15 +18,17 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
             context.Progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
 
             IProgressFactory progressFactory = context.ServiceProvider.GetRequiredService<IProgressFactory>();
-            IProgress<GameFpsUnlockerState> progress = progressFactory.CreateForMainThread<GameFpsUnlockerState>(status => context.Progress.Report(LaunchStatus.FromUnlockState(status)));
+            IProgress<GameFpsUnlockerContext> progress = progressFactory.CreateForMainThread<GameFpsUnlockerContext>(c => context.Progress.Report(LaunchStatus.FromUnlockerContext(c)));
             GameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process, new(100, 20000, 3000), progress);
 
             try
             {
-                await unlocker.UnlockAsync(context.CancellationToken).ConfigureAwait(false);
-                unlocker.PostUnlockAsync(context.CancellationToken).SafeForget();
+                if (await unlocker.UnlockAsync(context.CancellationToken).ConfigureAwait(false))
+                {
+                    unlocker.PostUnlockAsync(context.CancellationToken).SafeForget();
+                }
             }
-            catch (InvalidOperationException ex)
+            catch (Exception ex)
             {
                 context.Logger.LogCritical(ex, "Unlocking FPS failed");
 

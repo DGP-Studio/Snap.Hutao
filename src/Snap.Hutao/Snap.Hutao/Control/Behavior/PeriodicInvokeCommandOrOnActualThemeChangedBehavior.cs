@@ -33,6 +33,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
 
     protected override bool Uninitialize()
     {
+        periodicTimerCancellationTokenSource.Cancel();
         AssociatedObject.ActualThemeChanged -= OnActualThemeChanged;
         return true;
     }

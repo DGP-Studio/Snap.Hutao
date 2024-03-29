@@ -12,7 +12,6 @@ internal sealed class UInt32Extension : MarkupExtension
 
     protected override object ProvideValue()
     {
-        _ = uint.TryParse(Value, out uint result);
-        return result;
+        return XamlBindingHelper.ConvertValue(typeof(uint), Value);
     }
 }

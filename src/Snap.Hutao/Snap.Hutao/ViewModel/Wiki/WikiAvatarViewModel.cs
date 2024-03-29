@@ -119,12 +119,12 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
                 availableTokens = FrozenDictionary.ToFrozenDictionary(
                 [
-                    .. avatars.Select(avatar => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
-                    .. IntrinsicFrozen.AssociationTypes.Select(assoc => KeyValuePair.Create(assoc, new SearchToken(SearchTokenKind.AssociationType, assoc, iconUri: AssociationTypeIconConverter.AssociationTypeNameToIconUri(assoc)))),
-                    .. IntrinsicFrozen.BodyTypes.Select(b => KeyValuePair.Create(b, new SearchToken(SearchTokenKind.BodyType, b))),
-                    .. IntrinsicFrozen.ElementNames.Select(e => KeyValuePair.Create(e, new SearchToken(SearchTokenKind.ElementName, e, iconUri: ElementNameIconConverter.ElementNameToIconUri(e)))),
-                    .. IntrinsicFrozen.ItemQualities.Select(i => KeyValuePair.Create(i, new SearchToken(SearchTokenKind.ItemQuality, i, quality: QualityColorConverter.QualityNameToColor(i)))),
-                    .. IntrinsicFrozen.WeaponTypes.Select(w => KeyValuePair.Create(w, new SearchToken(SearchTokenKind.WeaponType, w, iconUri: WeaponTypeIconConverter.WeaponTypeNameToIconUri(w)))),
+                    .. avatars.Select((avatar, index) => KeyValuePair.Create(avatar.Name, new SearchToken(SearchTokenKind.Avatar, avatar.Name, index, sideIconUri: AvatarSideIconConverter.IconNameToUri(avatar.SideIcon)))),
+                    .. IntrinsicFrozen.AssociationTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.AssociationType, nv.Name, (int)nv.Value, iconUri: AssociationTypeIconConverter.AssociationTypeToIconUri(nv.Value)))),
+                    .. IntrinsicFrozen.BodyTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.BodyType, nv.Name, (int)nv.Value))),
+                    .. IntrinsicFrozen.ElementNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ElementName, nv.Name, nv.Value, iconUri: ElementNameIconConverter.ElementNameToIconUri(nv.Name)))),
+                    .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
+                    .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
                 ]);
 
                 return true;
@@ -246,10 +246,11 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         if (FilterTokens.IsNullOrEmpty())
         {
             Avatars.Filter = default!;
-            return;
         }
-
-        Avatars.Filter = AvatarFilter.Compile(FilterTokens);
+        else
+        {
+            Avatars.Filter = AvatarFilter.Compile(FilterTokens);
+        }
 
         if (Selected is not null && Avatars.Contains(Selected))
         {

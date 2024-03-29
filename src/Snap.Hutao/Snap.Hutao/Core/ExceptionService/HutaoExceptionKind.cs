@@ -9,6 +9,7 @@ internal enum HutaoExceptionKind
 
     // Foundation
     ServiceTypeCastFailed,
+    ImageCacheInvalidUri,
 
     // IO
     FileSystemCreateFileInsufficientPermissions,

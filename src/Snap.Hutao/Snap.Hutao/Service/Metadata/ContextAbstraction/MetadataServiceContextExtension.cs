@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Cultivation;
 
 namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
@@ -67,7 +68,7 @@ internal static class MetadataServiceContextExtension
 #pragma warning disable SH002
     public static IEnumerable<Material> EnumerateInventoryMaterial(this IMetadataListMaterialSource context)
     {
-        return context.Materials.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id.Value);
+        return context.Materials.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id, MaterialIdComparer.Shared);
     }
 
     public static Avatar GetAvatar(this IMetadataDictionaryIdAvatarSource context, AvatarId id)

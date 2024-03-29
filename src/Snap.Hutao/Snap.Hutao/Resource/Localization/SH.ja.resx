@@ -144,6 +144,9 @@
   <data name="ContentDialogSavePrimaryButtonText" xml:space="preserve">
     <value>保存</value>
   </data>
+  <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
+    <value>未找到结果</value>
+  </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>無効なURL</value>
   </data>
@@ -2247,7 +2250,7 @@
     <value>ファイル</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
-    <value>进程联动</value>
+    <value>インタープロセス</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>指定したディスプレイで実行</value>
@@ -2341,6 +2344,9 @@
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>HoYoLab UIDを入力してください</value>
+  </data>
+  <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
+    <value>你正在通过由我们提供的内嵌网页视图登录 米哈游通行证，我们会在你点击 我已登录 按钮后，读取你的 Cookie 信息，由此视图发起的网络通信只发生于你的计算机与米哈游服务器之间</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>ログインしました</value>
@@ -2922,7 +2928,7 @@
     <value>〓イベント期間〓.*?\d\.\d当バージョン期間オープン</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓イベント期間〓|祈願期間|【開始日時】).*?(\d\.\dバージョンアップ完了後).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓メンテナンス時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
