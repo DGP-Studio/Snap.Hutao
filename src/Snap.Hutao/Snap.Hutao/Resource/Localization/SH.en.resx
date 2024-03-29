@@ -2345,6 +2345,9 @@
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>Enter your HoYoLab UID</value>
   </data>
+  <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
+    <value>You are using an embedded webview to login to your MiHoYo passport account, the client will fetch the Cookie data when you click on I'm Signed in button. All network communication initialed in this webview occurs only between your computer and MiHoYo official servers.</value>
+  </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>I'm logged in</value>
   </data>
