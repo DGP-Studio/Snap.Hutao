@@ -13,16 +13,22 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock
-            Grid.Row="0"
-            Margin="12,0,0,0"
-            VerticalAlignment="Center"
-            Text="{shcm:ResourceString Name=ViewPageLoginMihoyoUserTitle}"/>
-        <Button
-            Margin="16"
-            HorizontalAlignment="Right"
-            Command="{x:Bind HandleCurrentCookieCommand}"
-            Content="{shcm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="12">
+                <TextBlock Text="{shcm:ResourceString Name=ViewPageLoginMihoyoUserTitle}"/>
+                <TextBlock Text="{shcm:ResourceString Name=ViewPageLoginMihoyoUserDescription}"/>
+            </StackPanel>
+            <Button
+                Grid.Column="1"
+                Margin="12"
+                Command="{x:Bind HandleCurrentCookieCommand}"
+                Content="{shcm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
+        </Grid>
         <WebView2 x:Name="WebView" Grid.Row="2"/>
     </Grid>
+
 </Page>
