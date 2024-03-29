@@ -2345,6 +2345,9 @@
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>請輸入您的 HoYoLAB UID</value>
   </data>
+  <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
+    <value>你正在通过由我们提供的内嵌网页视图登录 米哈游通行证，我们会在你点击 我已登录 按钮后，读取你的 Cookie 信息，你的账号与密码不会泄漏</value>
+  </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>我已登入</value>
   </data>
