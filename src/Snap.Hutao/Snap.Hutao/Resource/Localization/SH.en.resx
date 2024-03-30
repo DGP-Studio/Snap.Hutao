@@ -2988,7 +2988,7 @@
     <value>{0} mins</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
-    <value>Incomplete Daily Commissions</value>
+    <value>Daily Commissions are not Completed</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
     <value>Daily Commission Reward not claimed</value>
