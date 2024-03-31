@@ -226,7 +226,7 @@
     <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
-    <value>流浪者</value>
+    <value>Viajante</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>Refinar {0}</value>
@@ -528,7 +528,7 @@
     <value>Onda 4: Uma onda surgirá somente depois de matar todos os inimigos da onda anterior</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave99999" xml:space="preserve">
-    <value>维持场上 4 个盗宝团怪物，击杀后立即替换，总数 12 个</value>
+    <value>Mantenha 4 monstros do grupo de ladrões de tesouro no campo, substituindo-os imediatamente após serem derrotados, totalizando 12 monstros.</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>Atualize os dados de exibição</value>
@@ -783,7 +783,7 @@
     <value>Exibição de personagens: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
-    <value>必应每日一图</value>
+    <value>Imagem do Dia do Bing</value>
   </data>
   <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
     <value>胡桃每日一图</value>
