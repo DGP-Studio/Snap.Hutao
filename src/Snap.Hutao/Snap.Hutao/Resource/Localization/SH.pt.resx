@@ -145,7 +145,7 @@
     <value>Salvar</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
-    <value>未找到结果</value>
+    <value>Nenhum resultado.</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>Uri inválido</value>
@@ -190,16 +190,16 @@
     <value>O WebView2 Runtime não foi detectado</value>
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
-    <value>[{0}] 热键 [{1}] 注册失败</value>
+    <value>Falha ao definir atalho [{0}] para [{1}].</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
-    <value>深色</value>
+    <value>Tema Escuro</value>
   </data>
   <data name="CoreWindowThemeLight" xml:space="preserve">
-    <value>浅色</value>
+    <value>Tema Claro</value>
   </data>
   <data name="CoreWindowThemeSystem" xml:space="preserve">
-    <value>跟随系统</value>
+    <value>Padrão do sistema</value>
   </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>Exportar</value>
@@ -2388,7 +2388,7 @@
     <value>背景图片</value>
   </data>
   <data name="ViewPageSettingBackgroundImageLocalFolderCopyrightHeader" xml:space="preserve">
-    <value>当前背景为本地图片，如遇版权问题由用户个人负责</value>
+    <value>A imagem de fundo utilizada é armazenada localmente no dispositivo do usuário. Em caso de violação de direitos autorais, o usuário será o único responsável.</value>
   </data>
   <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
     <value>O cache de imagens é salvo aqui</value>
@@ -2397,7 +2397,7 @@
     <value>Pasta de cache</value>
   </data>
   <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
-    <value>胡桃通行证</value>
+    <value>Passe de Batalha da Hutao</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Copiar</value>
@@ -2592,7 +2592,7 @@
     <value>Site oficial</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
-    <value>自定义背景图片，支持 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
+    <value>Personalize o plano de fundo com imagens nos formatos bmp, gif, ico, jpg, jpeg, png, tiff e webp.</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
     <value>Abrir pasta do fundo</value>
@@ -2607,10 +2607,10 @@
     <value>Redefinir recurso de imagem</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+    <value>Adicionar a opção de desbloqueio do limite de taxa de quadros na seção de processo da página de inicialização do jogo.</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
-    <value>启动游戏-解锁帧率限制</value>
+    <value>Iniciar o jogo - Desbloquear limite de taxa de quadros</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>É necessário mover os dados no diretório manualmente, caso contrário, serão criados novos dados de usuário.</value>
@@ -2646,10 +2646,10 @@
     <value>Avalie o Snap Hutao</value>
   </data>
   <data name="ViewPageSettingThemeDescription" xml:space="preserve">
-    <value>更改窗体的颜色主题</value>
+    <value>Altere a cor do tema do formulário.</value>
   </data>
   <data name="ViewPageSettingThemeHeader" xml:space="preserve">
-    <value>颜色主题</value>
+    <value>Esquema de cores</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>Contribuir com traduções</value>
@@ -3081,7 +3081,7 @@
     <value>Evento de oração de personagem-2</value>
   </data>
   <data name="WebGachaConfigTypeChronicledWish" xml:space="preserve">
-    <value>集录祈愿</value>
+    <value>Orações coletadas</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
     <value>Oração de Novatos</value>
