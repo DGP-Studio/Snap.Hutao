@@ -40,15 +40,6 @@ internal sealed partial class UserDbService : IUserDbService
         }
     }
 
-    public async ValueTask AddUserAsync(Model.Entity.User user)
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.Users.AddAndSaveAsync(user).ConfigureAwait(false);
-        }
-    }
-
     public async ValueTask RemoveUsersAsync()
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
