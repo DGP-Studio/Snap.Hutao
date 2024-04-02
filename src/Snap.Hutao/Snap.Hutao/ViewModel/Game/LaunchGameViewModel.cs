@@ -40,6 +40,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly ILogger<LaunchGameViewModel> logger;
+    private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly ResourceClient resourceClient;
     private readonly RuntimeOptions runtimeOptions;
@@ -99,7 +100,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 {
                     using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                     {
-                        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
+                        LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
 
                         await taskContext.SwitchToMainThreadAsync();
                         await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);

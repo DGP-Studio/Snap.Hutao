@@ -18,6 +18,11 @@ internal static class InfoBarServiceExtension
         infoBarService.Information(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
     }
 
+    public static void Information(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 5000)
+    {
+        infoBarService.Information(builder => builder.SetTitle(title).SetMessage(message).SetActionButton(buttonBuilder => buttonBuilder.SetContent(buttonContent).SetCommand(buttonCommand)).SetDelay(delay));
+    }
+
     public static void Information(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
     {
         infoBarService.PrepareInfoBarAndShow(builder => builder.SetSeverity(InfoBarSeverity.Informational).Configure(configure));
@@ -48,6 +53,11 @@ internal static class InfoBarServiceExtension
         infoBarService.Warning(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
     }
 
+    public static void Warning(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 30000)
+    {
+        infoBarService.Warning(builder => builder.SetTitle(title).SetMessage(message).SetActionButton(buttonBuilder => buttonBuilder.SetContent(buttonContent).SetCommand(buttonCommand)).SetDelay(delay));
+    }
+
     public static void Warning(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
     {
         infoBarService.PrepareInfoBarAndShow(builder => builder.SetSeverity(InfoBarSeverity.Warning).Configure(configure));
@@ -63,6 +73,11 @@ internal static class InfoBarServiceExtension
         infoBarService.Error(builder => builder.SetTitle(title).SetMessage(message).SetDelay(milliSeconds));
     }
 
+    public static void Error(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 0)
+    {
+        infoBarService.Error(builder => builder.SetTitle(title).SetMessage(message).SetActionButton(buttonBuilder => buttonBuilder.SetContent(buttonContent).SetCommand(buttonCommand)).SetDelay(delay));
+    }
+
     public static void Error(this IInfoBarService infoBarService, Exception ex, int milliSeconds = 0)
     {
         infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage(ex.Message).SetDelay(milliSeconds));
@@ -71,6 +86,11 @@ internal static class InfoBarServiceExtension
     public static void Error(this IInfoBarService infoBarService, Exception ex, string subtitle, int milliSeconds = 0)
     {
         infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage($"{subtitle}\n{ex.Message}").SetDelay(milliSeconds));
+    }
+
+    public static void Error(this IInfoBarService infoBarService, Exception ex, string subtitle, string buttonContent, ICommand buttonCommand, int milliSeconds = 0)
+    {
+        infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage($"{subtitle}\n{ex.Message}").SetActionButton(buttonBuilder => buttonBuilder.SetContent(buttonContent).SetCommand(buttonCommand)).SetDelay(milliSeconds));
     }
 
     public static void Error(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
