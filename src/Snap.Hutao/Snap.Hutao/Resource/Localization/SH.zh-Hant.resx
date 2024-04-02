@@ -2834,6 +2834,15 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>上傳資料</value>
   </data>
+  <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
+    <value>是否立即下载</value>
+  </data>
+  <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
+    <value>下载更新失败</value>
+  </data>
+  <data name="ViewTitileUpdatePackageDownloadTitle" xml:space="preserve">
+    <value>胡桃 {0} 版本已发布</value>
+  </data>
   <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
     <value>是否立即安裝？</value>
   </data>
@@ -2842,6 +2851,9 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>自動連續點按</value>
+  </data>
+  <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
+    <value>正在安装更新</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>工具</value>
