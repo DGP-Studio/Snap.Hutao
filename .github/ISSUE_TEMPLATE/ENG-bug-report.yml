@@ -40,7 +40,7 @@ body:
     attributes:
       label: Snap Hutao Version
       description: You can find the version in application's title bar
-      placeholder: e.g. 1.4.15.0
+      placeholder: e.g. 1.9.9.0
     validations:
       required: true
 
@@ -62,20 +62,19 @@ body:
       description: Please select the most associated category of your issue
       options:
         - Installation and Environment
+        - Game Launcher
+        - Wish Export
         - Achievement
         - My Character
-        - Game Launcher
         - Realtime Note
         - Develop Plan
-        - File Cache
-        - Wish Export
-        - Game Record
-        - Hutao Database
-        - User Interface
-        - Snap Hutao Cloud
-        - Snap Hutao Account
-        - Checkin
+        - Spiral Abyss
         - Wiki
+        - MiHoYo Account Panel
+        - Daily Checkin Reward
+        - Hutao Passport/Hutao Cloud
+        - User Interface
+        - File Cache
         - Announcement
         - Other
     validations:
