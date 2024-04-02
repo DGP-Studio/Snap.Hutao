@@ -7,7 +7,9 @@ namespace Snap.Hutao.Service.Abstraction;
 
 internal interface IUpdateService
 {
-    ValueTask<bool> CheckForUpdateAndDownloadAsync(IProgress<UpdateStatus> progress, CancellationToken token = default);
+    ValueTask<CheckUpdateResult> CheckUpdateAsync(IProgress<UpdateStatus> progress, CancellationToken token = default);
 
-    ValueTask<bool> LaunchUpdaterAsync();
+    ValueTask<bool> DownloadUpdateAsync(CheckUpdateResult checkUpdateResult, IProgress<UpdateStatus> progress, CancellationToken token = default);
+
+    ValueTask<LaunchUpdaterResult> LaunchUpdaterAsync();
 }

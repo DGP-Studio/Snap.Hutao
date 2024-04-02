@@ -24,54 +24,71 @@ internal sealed partial class UpdateService : IUpdateService
 
     private readonly IServiceProvider serviceProvider;
 
-    public async ValueTask<bool> CheckForUpdateAndDownloadAsync(IProgress<UpdateStatus> progress, CancellationToken token = default)
+    public async ValueTask<CheckUpdateResult> CheckUpdateAsync(IProgress<UpdateStatus> progress, CancellationToken token = default)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
             await taskContext.SwitchToBackgroundAsync();
 
-            HutaoInfrastructureClient infrastructureClient = serviceProvider.GetRequiredService<HutaoInfrastructureClient>();
+            HutaoInfrastructureClient infrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
             HutaoResponse<HutaoVersionInformation> response = await infrastructureClient.GetHutaoVersionInfomationAsync(token).ConfigureAwait(false);
+
+            CheckUpdateResult checkUpdateResult = new();
 
             if (!response.IsOk())
             {
-                return false;
+                checkUpdateResult.Kind = CheckUpdateResultKind.VersionApiInvalidResponse;
+                return checkUpdateResult;
+            }
+            else
+            {
+                checkUpdateResult.Kind = CheckUpdateResultKind.NeedDownload;
+                checkUpdateResult.HutaoVersionInformation = response.Data;
             }
 
-            HutaoVersionInformation versionInformation = response.Data;
             string msixPath = GetUpdatePackagePath();
 
             if (!LocalSetting.Get(SettingKeys.OverrideUpdateVersionComparison, false))
             {
-                if (scope.ServiceProvider.GetRequiredService<RuntimeOptions>().Version >= versionInformation.Version)
+                // Launched in an updated version
+                if (scope.ServiceProvider.GetRequiredService<RuntimeOptions>().Version >= checkUpdateResult.HutaoVersionInformation.Version)
                 {
                     if (File.Exists(msixPath))
                     {
                         File.Delete(msixPath);
                     }
 
-                    return false;
+                    checkUpdateResult.Kind = CheckUpdateResultKind.AlreayUpdated;
+                    return checkUpdateResult;
                 }
             }
 
-            progress.Report(new(versionInformation.Version.ToString(), 0, 0));
+            progress.Report(new(checkUpdateResult.HutaoVersionInformation.Version.ToString(), 0, 0));
 
-            if (versionInformation.Sha256 is not { Length: > 0 } sha256)
+            if (checkUpdateResult.HutaoVersionInformation.Sha256 is not { Length: > 0 } sha256)
             {
-                return false;
+                checkUpdateResult.Kind = CheckUpdateResultKind.VersionApiInvalidSha256;
+                return checkUpdateResult;
             }
 
             if (File.Exists(msixPath) && await CheckUpdateCacheSHA256Async(msixPath, sha256, token).ConfigureAwait(false))
             {
-                return true;
+                checkUpdateResult.Kind = CheckUpdateResultKind.NeedInstall;
+                return checkUpdateResult;
             }
 
-            return await DownloadUpdatePackageAsync(versionInformation, msixPath, progress, token).ConfigureAwait(false);
+            return checkUpdateResult;
         }
     }
 
-    public async ValueTask<bool> LaunchUpdaterAsync()
+    public ValueTask<bool> DownloadUpdateAsync(CheckUpdateResult checkUpdateResult, IProgress<UpdateStatus> progress, CancellationToken token = default)
+    {
+        ArgumentNullException.ThrowIfNull(checkUpdateResult.HutaoVersionInformation);
+        return DownloadUpdatePackageAsync(checkUpdateResult.HutaoVersionInformation, GetUpdatePackagePath(), progress, token);
+    }
+
+    public async ValueTask<LaunchUpdaterResult> LaunchUpdaterAsync()
     {
         RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         string updaterTargetPath = runtimeOptions.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
@@ -88,19 +105,19 @@ internal sealed partial class UpdateService : IUpdateService
 
         try
         {
-            Process.Start(new ProcessStartInfo()
+            Process? process = Process.Start(new ProcessStartInfo()
             {
                 Arguments = commandLine,
                 FileName = updaterTargetPath,
                 UseShellExecute = true,
             });
 
-            return true;
+            return new() { IsSuccess = true, Process = process };
         }
         catch (Exception ex)
         {
             serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
-            return false;
+            return new() { IsSuccess = false };
         }
     }
 

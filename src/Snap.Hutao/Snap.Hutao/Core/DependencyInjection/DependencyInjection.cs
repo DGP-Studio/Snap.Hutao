@@ -24,7 +24,13 @@ internal static class DependencyInjection
         ServiceProvider serviceProvider = new ServiceCollection()
 
             // Microsoft extension
-            .AddLogging(builder => builder.AddDebug().AddConsoleWindow())
+            .AddLogging(builder =>
+            {
+                builder
+                    .SetMinimumLevel(LogLevel.Trace)
+                    .AddDebug()
+                    .AddConsoleWindow();
+            })
             .AddMemoryCache()
 
             // Hutao extensions
