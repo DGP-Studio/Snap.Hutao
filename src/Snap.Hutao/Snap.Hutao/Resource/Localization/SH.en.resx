@@ -2835,13 +2835,13 @@
     <value>Upload Data</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
-    <value>是否立即下载</value>
+    <value>Download Now?</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
-    <value>下载更新失败</value>
+    <value>Failed to Download Update Patch</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadTitle" xml:space="preserve">
-    <value>胡桃 {0} 版本已发布</value>
+    <value>Snap Hutao {0} is Released</value>
   </data>
   <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
     <value>Install now?</value>
@@ -2853,7 +2853,7 @@
     <value>Auto Click</value>
   </data>
   <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
-    <value>正在安装更新</value>
+    <value>Installing New Version Patch</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>Tools</value>
