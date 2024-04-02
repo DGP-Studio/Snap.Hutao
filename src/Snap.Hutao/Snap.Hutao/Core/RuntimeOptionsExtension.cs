@@ -16,11 +16,15 @@ internal static class RuntimeOptionsExtension
 
     public static string GetDataFolderServerCacheFolder(this RuntimeOptions options)
     {
-        return Path.Combine(options.DataFolder, "ServerCache");
+        string directory = Path.Combine(options.DataFolder, "ServerCache");
+        Directory.CreateDirectory(directory);
+        return directory;
     }
 
     public static string GetDataFolderBackgroundFolder(this RuntimeOptions options)
     {
-        return Path.Combine(options.DataFolder, "Background");
+        string directory = Path.Combine(options.DataFolder, "Background");
+        Directory.CreateDirectory(directory);
+        return directory;
     }
 }

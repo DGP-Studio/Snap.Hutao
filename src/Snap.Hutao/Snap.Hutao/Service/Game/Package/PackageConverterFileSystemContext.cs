@@ -22,10 +22,10 @@ internal readonly struct PackageConverterFileSystemContext
     public readonly string ScatteredFilesUrl;
     public readonly string PkgVersionUrl;
 
-    public PackageConverterFileSystemContext(bool isTargetOversea, string dataFolder, string gameFolder, string scatteredFilesUrl)
+    public PackageConverterFileSystemContext(bool isTargetOversea, string serverCacheFolder, string gameFolder, string scatteredFilesUrl)
     {
         GameFolder = gameFolder;
-        ServerCacheFolder = Path.Combine(dataFolder, "ServerCache");
+        ServerCacheFolder = serverCacheFolder;
 
         string serverCacheOversea = Path.Combine(ServerCacheFolder, "Oversea");
         string serverCacheChinese = Path.Combine(ServerCacheFolder, "Chinese");

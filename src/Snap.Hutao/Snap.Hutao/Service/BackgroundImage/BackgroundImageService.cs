@@ -88,7 +88,6 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                     if (currentBackgroundPathSet is not { Count: > 0 })
                     {
                         string backgroundFolder = runtimeOptions.GetDataFolderBackgroundFolder();
-                        Directory.CreateDirectory(backgroundFolder);
 
                         currentBackgroundPathSet = Directory
                             .GetFiles(backgroundFolder, "*.*", SearchOption.AllDirectories)
