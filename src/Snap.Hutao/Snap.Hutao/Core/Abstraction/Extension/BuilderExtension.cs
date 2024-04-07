@@ -1,10 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Diagnostics;
 
-namespace Snap.Hutao.Web.Request.Builder;
+namespace Snap.Hutao.Core.Abstraction.Extension;
 
 internal static class BuilderExtension
 {

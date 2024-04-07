@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using System.Collections.ObjectModel;
+using Windows.Foundation;
 
 namespace Snap.Hutao.Service.Notification;
 
-[HighQuality]
-internal interface IInfoBarService
+internal sealed class InfoBarOptionsBuilder : IInfoBarOptionsBuilder
 {
-    ObservableCollection<InfoBar> Collection { get; }
-
-    void PrepareInfoBarAndShow(Action<IInfoBarOptionsBuilder> configure);
+    public InfoBarOptions Options { get; } = new();
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Net.Http;
+using Snap.Hutao.Core.Abstraction;
 
 namespace Snap.Hutao.Web.Request.Builder.Abstraction;
 
