@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Animation;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Abstraction.Extension;
@@ -19,6 +20,8 @@ internal sealed class InfoBarOptions
     public string? Message { get; set; }
 
     public object? Content { get; set; }
+
+    public ButtonBase? ActionButton { get; set; }
 
     public int MilliSecondsDelay { get; set; }
 }

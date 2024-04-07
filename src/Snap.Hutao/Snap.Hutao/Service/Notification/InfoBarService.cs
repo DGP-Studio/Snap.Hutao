@@ -58,6 +58,7 @@ internal sealed class InfoBarService : IInfoBarService
             Message = builder.Options.Message,
             Content = builder.Options.Content,
             IsOpen = true,
+            ActionButton = builder.Options.ActionButton,
             Transitions = [new AddDeleteThemeTransition()],
         };
 
