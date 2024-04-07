@@ -184,7 +184,7 @@ internal sealed class LaunchOptions : DbStoreOptions
 
             static int RestrictIndex(List<NameValue<int>> monitors, string index)
             {
-                return Math.Clamp(int.Parse(index, CultureInfo.InvariantCulture) - 1, 0, monitors.Count);
+                return Math.Clamp(int.Parse(index, CultureInfo.InvariantCulture) - 1, 0, monitors.Count - 1);
             }
         }
 
