@@ -8,7 +8,6 @@ internal enum HutaoExceptionKind
     None,
 
     // Foundation
-    ServiceTypeCastFailed,
     ImageCacheInvalidUri,
 
     // IO

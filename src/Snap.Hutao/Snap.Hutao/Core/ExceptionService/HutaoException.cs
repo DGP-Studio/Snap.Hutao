@@ -40,15 +40,23 @@ internal sealed class HutaoException : Exception
         }
     }
 
-    public static HutaoException ServiceTypeCastFailed<TFrom, TTo>(string name, Exception? innerException = default)
-    {
-        string message = $"This instance of '{typeof(TFrom).FullName}' '{name}' doesn't implement '{typeof(TTo).FullName}'";
-        throw new HutaoException(HutaoExceptionKind.ServiceTypeCastFailed, message, innerException);
-    }
-
+    [DoesNotReturn]
     public static HutaoException GachaStatisticsInvalidItemId(uint id, Exception? innerException = default)
     {
         string message = SH.FormatServiceGachaStatisticsFactoryItemIdInvalid(id);
         throw new HutaoException(HutaoExceptionKind.GachaStatisticsInvalidItemId, message, innerException);
+    }
+
+    [DoesNotReturn]
+    public static InvalidCastException InvalidCast<TFrom, TTo>(string name, Exception? innerException = default)
+    {
+        string message = $"This instance of '{typeof(TFrom).FullName}' '{name}' doesn't implement '{typeof(TTo).FullName}'";
+        throw new InvalidCastException(message, innerException);
+    }
+
+    [DoesNotReturn]
+    public static OperationCanceledException OperationCanceled(string message, Exception? innerException = default)
+    {
+        return new OperationCanceledException(message, innerException);
     }
 }

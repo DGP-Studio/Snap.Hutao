@@ -121,7 +121,7 @@ internal sealed class DownloadSummary : ObservableObject
     {
         if (imageCache is not IImageCacheFilePathOperation imageCacheFilePathOperation)
         {
-            throw HutaoException.ServiceTypeCastFailed<IImageCache, IImageCacheFilePathOperation>(nameof(imageCache));
+            throw HutaoException.InvalidCast<IImageCache, IImageCacheFilePathOperation>(nameof(imageCache));
         }
 
         using (ZipArchive archive = new(stream))

@@ -5,8 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
-using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
@@ -23,9 +21,6 @@ using SortDirection = CommunityToolkit.WinUI.Collections.SortDirection;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-/// <summary>
-/// 成就视图模型
-/// </summary>
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
@@ -34,14 +29,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     private readonly SortDescription uncompletedItemsFirstSortDescription = new(nameof(AchievementView.IsChecked), SortDirection.Ascending);
     private readonly SortDescription completionTimeSortDescription = new(nameof(AchievementView.Time), SortDirection.Descending);
 
-    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
-    private readonly IContentDialogFactory contentDialogFactory;
-    private readonly AchievementImporter achievementImporter;
-    private readonly IAchievementService achievementService;
-    private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
-    private readonly JsonSerializerOptions options;
-    private readonly ITaskContext taskContext;
+    private readonly AchievementViewModelDependencies dependencies;
 
     private AdvancedCollectionView<AchievementView>? achievements;
     private List<AchievementGoalView>? achievementGoals;
@@ -52,18 +40,12 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     private string searchText = string.Empty;
     private string? finishDescription;
 
-    /// <summary>
-    /// 成就存档集合
-    /// </summary>
     public ObservableCollection<EntityAchievementArchive>? Archives
     {
         get => archives;
         set => SetProperty(ref archives, value);
     }
 
-    /// <summary>
-    /// 选中的成就存档
-    /// </summary>
     public EntityAchievementArchive? SelectedArchive
     {
         get => selectedArchive;
@@ -71,38 +53,24 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         {
             if (SetProperty(ref selectedArchive, value))
             {
-                if (IsViewDisposed)
-                {
-                    return;
-                }
-
-                achievementService.CurrentArchive = value;
+                dependencies.AchievementService.CurrentArchive = value;
                 UpdateAchievementsAsync(value).SafeForget();
             }
         }
     }
 
-    /// <summary>
-    /// 成就视图
-    /// </summary>
     public AdvancedCollectionView<AchievementView>? Achievements
     {
         get => achievements;
         set => SetProperty(ref achievements, value);
     }
 
-    /// <summary>
-    /// 成就分类
-    /// </summary>
     public List<AchievementGoalView>? AchievementGoals
     {
         get => achievementGoals;
         set => SetProperty(ref achievementGoals, value);
     }
 
-    /// <summary>
-    /// 选中的成就分类
-    /// </summary>
     public AchievementGoalView? SelectedAchievementGoal
     {
         get => selectedAchievementGoal;
@@ -116,27 +84,18 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    /// <summary>
-    /// 搜索文本
-    /// </summary>
     public string SearchText
     {
         get => searchText;
         set => SetProperty(ref searchText, value);
     }
 
-    /// <summary>
-    /// 未完成优先
-    /// </summary>
     public bool IsUncompletedItemsFirst
     {
         get => isUncompletedItemsFirst;
         set => SetProperty(ref isUncompletedItemsFirst, value);
     }
 
-    /// <summary>
-    /// 完成进度描述
-    /// </summary>
     public string? FinishDescription
     {
         get => finishDescription;
@@ -160,36 +119,30 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
+        if (!await dependencies.MetadataService.InitializeAsync().ConfigureAwait(false))
         {
-            try
-            {
-                List<AchievementGoalView> sortedGoals;
-                ObservableCollection<EntityAchievementArchive> archives;
-
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
-                {
-                    List<MetadataAchievementGoal> goals = await metadataService
-                        .GetAchievementGoalListAsync(CancellationToken)
-                        .ConfigureAwait(false);
-
-                    sortedGoals = goals.SortBy(goal => goal.Order).SelectList(AchievementGoalView.From);
-                    archives = achievementService.ArchiveCollection;
-                }
-
-                await taskContext.SwitchToMainThreadAsync();
-
-                AchievementGoals = sortedGoals;
-                Archives = archives;
-                SelectedArchive = achievementService.CurrentArchive;
-                return true;
-            }
-            catch (OperationCanceledException)
-            {
-            }
+            return false;
         }
 
-        return false;
+        List<AchievementGoalView> sortedGoals;
+        ObservableCollection<EntityAchievementArchive> archives;
+
+        using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+        {
+            List<MetadataAchievementGoal> goals = await dependencies.MetadataService
+                .GetAchievementGoalListAsync(CancellationToken)
+                .ConfigureAwait(false);
+
+            sortedGoals = goals.SortBy(goal => goal.Order).SelectList(AchievementGoalView.From);
+            archives = dependencies.AchievementService.ArchiveCollection;
+        }
+
+        await dependencies.TaskContext.SwitchToMainThreadAsync();
+
+        AchievementGoals = sortedGoals;
+        Archives = archives;
+        SelectedArchive = dependencies.AchievementService.CurrentArchive;
+        return true;
     }
 
     [GeneratedRegex("\\d\\.\\d")]
@@ -200,25 +153,25 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         if (Archives is not null)
         {
-            AchievementArchiveCreateDialog dialog = await contentDialogFactory.CreateInstanceAsync<AchievementArchiveCreateDialog>().ConfigureAwait(false);
+            AchievementArchiveCreateDialog dialog = await dependencies.ContentDialogFactory.CreateInstanceAsync<AchievementArchiveCreateDialog>().ConfigureAwait(false);
             (bool isOk, string name) = await dialog.GetInputAsync().ConfigureAwait(false);
 
             if (isOk)
             {
-                ArchiveAddResult result = await achievementService.AddArchiveAsync(EntityAchievementArchive.From(name)).ConfigureAwait(false);
+                ArchiveAddResult result = await dependencies.AchievementService.AddArchiveAsync(EntityAchievementArchive.From(name)).ConfigureAwait(false);
 
                 switch (result)
                 {
                     case ArchiveAddResult.Added:
-                        await taskContext.SwitchToMainThreadAsync();
-                        SelectedArchive = achievementService.CurrentArchive;
-                        infoBarService.Success(SH.FormatViewModelAchievementArchiveAdded(name));
+                        await dependencies.TaskContext.SwitchToMainThreadAsync();
+                        SelectedArchive = dependencies.AchievementService.CurrentArchive;
+                        dependencies.InfoBarService.Success(SH.FormatViewModelAchievementArchiveAdded(name));
                         break;
                     case ArchiveAddResult.InvalidName:
-                        infoBarService.Warning(SH.ViewModelAchievementArchiveInvalidName);
+                        dependencies.InfoBarService.Warning(SH.ViewModelAchievementArchiveInvalidName);
                         break;
                     case ArchiveAddResult.AlreadyExists:
-                        infoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name));
+                        dependencies.InfoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name));
                         break;
                     default:
                         throw Must.NeverHappen();
@@ -234,7 +187,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         {
             string title = SH.FormatViewModelAchievementRemoveArchiveTitle(SelectedArchive.Name);
             string content = SH.ViewModelAchievementRemoveArchiveContent;
-            ContentDialogResult result = await contentDialogFactory
+            ContentDialogResult result = await dependencies.ContentDialogFactory
                 .CreateForConfirmCancelAsync(title, content)
                 .ConfigureAwait(false);
 
@@ -244,11 +197,11 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                 {
                     using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                     {
-                        await achievementService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
+                        await dependencies.AchievementService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
                     }
 
                     // Re-select first archive
-                    await taskContext.SwitchToMainThreadAsync();
+                    await dependencies.TaskContext.SwitchToMainThreadAsync();
                     SelectedArchive = Archives.FirstOrDefault();
                 }
                 catch (OperationCanceledException)
@@ -263,21 +216,21 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         if (SelectedArchive is not null && Achievements is not null)
         {
-            (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
+            (bool isOk, ValueFile file) = dependencies.FileSystemPickerInteraction.SaveFile(
                 SH.ViewModelAchievementUIAFExportPickerTitle,
-                $"{achievementService.CurrentArchive?.Name}.json",
+                $"{dependencies.AchievementService.CurrentArchive?.Name}.json",
                 [(SH.ViewModelAchievementExportFileType, "*.json")]);
 
             if (isOk)
             {
-                UIAF uiaf = await achievementService.ExportToUIAFAsync(SelectedArchive).ConfigureAwait(false);
-                if (await file.SerializeToJsonAsync(uiaf, options).ConfigureAwait(false))
+                UIAF uiaf = await dependencies.AchievementService.ExportToUIAFAsync(SelectedArchive).ConfigureAwait(false);
+                if (await file.SerializeToJsonAsync(uiaf, dependencies.JsonSerializerOptions).ConfigureAwait(false))
                 {
-                    infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
+                    dependencies.InfoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
                 }
                 else
                 {
-                    infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+                    dependencies.InfoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
                 }
             }
         }
@@ -286,20 +239,20 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("ImportUIAFFromClipboardCommand")]
     private async Task ImportUIAFFromClipboardAsync()
     {
-        if (await achievementImporter.FromClipboardAsync().ConfigureAwait(false))
+        if (await dependencies.AchievementImporter.FromClipboardAsync().ConfigureAwait(false))
         {
-            ArgumentNullException.ThrowIfNull(achievementService.CurrentArchive);
-            await UpdateAchievementsAsync(achievementService.CurrentArchive).ConfigureAwait(false);
+            ArgumentNullException.ThrowIfNull(dependencies.AchievementService.CurrentArchive);
+            await UpdateAchievementsAsync(dependencies.AchievementService.CurrentArchive).ConfigureAwait(false);
         }
     }
 
     [Command("ImportUIAFFromFileCommand")]
     private async Task ImportUIAFFromFileAsync()
     {
-        if (await achievementImporter.FromFileAsync().ConfigureAwait(false))
+        if (await dependencies.AchievementImporter.FromFileAsync().ConfigureAwait(false))
         {
-            ArgumentNullException.ThrowIfNull(achievementService.CurrentArchive);
-            await UpdateAchievementsAsync(achievementService.CurrentArchive).ConfigureAwait(false);
+            ArgumentNullException.ThrowIfNull(dependencies.AchievementService.CurrentArchive);
+            await UpdateAchievementsAsync(dependencies.AchievementService.CurrentArchive).ConfigureAwait(false);
         }
     }
 
@@ -311,11 +264,11 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        List<MetadataAchievement> achievements = await metadataService.GetAchievementListAsync(CancellationToken).ConfigureAwait(false);
+        List<MetadataAchievement> achievements = await dependencies.MetadataService.GetAchievementListAsync(CancellationToken).ConfigureAwait(false);
 
         if (TryGetAchievements(archive, achievements, out List<AchievementView>? combined))
         {
-            await taskContext.SwitchToMainThreadAsync();
+            await dependencies.TaskContext.SwitchToMainThreadAsync();
 
             Achievements = new(combined, true);
             UpdateAchievementsFinishPercent();
@@ -328,12 +281,12 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         try
         {
-            combined = achievementService.GetAchievementViewList(archive, achievements);
+            combined = dependencies.AchievementService.GetAchievementViewList(archive, achievements);
             return true;
         }
         catch (Core.ExceptionService.UserdataCorruptedException ex)
         {
-            infoBarService.Error(ex);
+            dependencies.InfoBarService.Error(ex);
             combined = default;
             return false;
         }
@@ -418,7 +371,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         if (achievement is not null)
         {
-            achievementService.SaveAchievement(achievement);
+            dependencies.AchievementService.SaveAchievement(achievement);
             UpdateAchievementsFinishPercent();
         }
     }
