@@ -1334,6 +1334,12 @@
   <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
     <value>계정 이름 설정</value>
   </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogHint" xml:space="preserve">
+    <value>请选择当前游戏路径对应的游戏服务器</value>
+  </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
+    <value>正在修复配置文件</value>
+  </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>변환에 시간이 걸릴 수 있습니다. 호두를 끄지 마세요</value>
   </data>
@@ -1625,6 +1631,12 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>서버 변경 실패</value>
   </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
+    <value>修复配置文件</value>
+  </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
+    <value>修复完成</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>识别显示器</value>
   </data>
@@ -1636,6 +1648,9 @@
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
     <value>아직 서버를 선택하지 않았습니다</value>
+  </data>
+  <data name="ViewModelLaunchGameSetGamePathButtonText" xml:space="preserve">
+    <value>设置游戏目录</value>
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>계정 전환 살패</value>
