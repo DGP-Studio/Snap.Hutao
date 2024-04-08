@@ -14,17 +14,13 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Vertical">
-        <shccs:ComboBox2
-            HorizontalAlignment="Stretch"
-            DisplayMemberPath="DisplayName"
-            EnableMemberPath="IsNotCompatOnly"
-            ItemsSource="{x:Bind KnownSchemes}"
-            SelectedItem="{x:Bind SelectedScheme, Mode=TwoWay}"
-            Style="{StaticResource DefaultComboBoxStyle}"/>
-        <TextBlock
-            Margin="0,8,0,0"
-            HorizontalAlignment="Center"
-            Text="{shcm:ResourceString Name=ViewDialogLaunchGameConfigurationFixDialogHint}"/>
-    </StackPanel>
+    <shccs:ComboBox2
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Center"
+        DisplayMemberPath="DisplayName"
+        EnableMemberPath="IsNotCompatOnly"
+        Header="{shcm:ResourceString Name=ViewDialogLaunchGameConfigurationFixDialogHint}"
+        ItemsSource="{x:Bind KnownSchemes}"
+        SelectedItem="{x:Bind SelectedScheme, Mode=TwoWay}"
+        Style="{StaticResource DefaultComboBoxStyle}"/>
 </ContentDialog>
