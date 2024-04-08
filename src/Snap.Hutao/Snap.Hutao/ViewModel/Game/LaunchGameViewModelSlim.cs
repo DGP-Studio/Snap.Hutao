@@ -23,6 +23,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 {
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly ILogger<LaunchGameViewModelSlim> logger;
+    private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
     private readonly ITaskContext taskContext;
@@ -47,7 +48,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
+        LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
         ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
 
         try
@@ -76,7 +77,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private async Task LaunchAsync()
     {
         IInfoBarService infoBarService = ServiceProvider.GetRequiredService<IInfoBarService>();
-        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
+        LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
 
         try
         {

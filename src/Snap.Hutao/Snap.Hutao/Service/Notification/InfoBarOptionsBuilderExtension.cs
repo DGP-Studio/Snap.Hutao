@@ -47,6 +47,14 @@ internal static class InfoBarOptionsBuilderExtension
         return builder;
     }
 
+    public static IInfoBarOptionsBuilder SetActionButton<TBuilder>(this TBuilder builder, Action<ButtonBuilder> configureButton)
+        where TBuilder : IInfoBarOptionsBuilder
+    {
+        ButtonBuilder buttonBaseBuilder = new ButtonBuilder().Configure(configureButton);
+        builder.Configure(builder => builder.Options.ActionButton = buttonBaseBuilder.Button);
+        return builder;
+    }
+
     public static IInfoBarOptionsBuilder SetDelay<TBuilder>(this TBuilder builder, int milliSeconds)
         where TBuilder : IInfoBarOptionsBuilder
     {

@@ -176,6 +176,7 @@
     <None Remove="View\Dialog\HutaoPassportResetPasswordDialog.xaml" />
     <None Remove="View\Dialog\HutaoPassportUnregisterDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
+    <None Remove="View\Dialog\LaunchGameConfigurationFixDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
     <None Remove="View\Dialog\ReconfirmDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
@@ -348,6 +349,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\LaunchGameConfigurationFixDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Control\Theme\SegmentedOverride.xaml">
