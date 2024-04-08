@@ -1334,6 +1334,9 @@
   <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
     <value>为账号命名</value>
   </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogHint" xml:space="preserve">
+    <value>请选择当前游戏路径对应的游戏服务器</value>
+  </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
     <value>正在修复配置文件</value>
   </data>

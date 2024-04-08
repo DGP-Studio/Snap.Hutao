@@ -10,15 +10,19 @@ namespace Snap.Hutao.View.Dialog;
 [DependencyProperty("SelectedScheme", typeof(LaunchScheme))]
 internal sealed partial class LaunchGameConfigurationFixDialog : ContentDialog
 {
-    public LaunchGameConfigurationFixDialog()
+    private readonly ITaskContext taskContext;
+
+    public LaunchGameConfigurationFixDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
     public async ValueTask<ValueResult<bool, LaunchScheme?>> GetLaunchSchemeAsync()
     {
+        await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
-
         return new(result == ContentDialogResult.Primary, SelectedScheme);
     }
 }

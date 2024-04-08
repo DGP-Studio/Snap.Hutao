@@ -75,15 +75,15 @@ internal sealed partial class LaunchGameShared
         if (isOk)
         {
             ArgumentNullException.ThrowIfNull(launchScheme);
-
+            string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
             string content = $"""
                 [General]
-                channel={(int)launchScheme.Channel}
+                channel={launchScheme.Channel:D}
                 cps=mihoyo
                 game_version={version}
-                sub_channel={(int)launchScheme.SubChannel}
+                sub_channel={launchScheme.SubChannel:D}
                 sdk_version=
-                game_biz=hk4e_{(launchScheme.IsOversea ? "global" : "cn")}
+                game_biz={gameBiz}
                 """;
 
             await File.WriteAllTextAsync(gameFileSystem.GameConfigFilePath, content).ConfigureAwait(false);
