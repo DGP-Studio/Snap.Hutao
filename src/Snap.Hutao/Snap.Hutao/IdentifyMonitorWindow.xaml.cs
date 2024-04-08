@@ -27,4 +27,27 @@ internal sealed partial class IdentifyMonitorWindow : Window
     }
 
     public string Monitor { get; private set; }
+
+    public static async ValueTask IdentifyAllMonitorsAsync(int secondsDelay)
+    {
+        List<IdentifyMonitorWindow> windows = [];
+
+        IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
+        for (int i = 0; i < displayAreas.Count; i++)
+        {
+            windows.Add(new IdentifyMonitorWindow(displayAreas[i], i + 1));
+        }
+
+        foreach (IdentifyMonitorWindow window in windows)
+        {
+            window.Activate();
+        }
+
+        await Delay.FromSeconds(secondsDelay).ConfigureAwait(true);
+
+        foreach (IdentifyMonitorWindow window in windows)
+        {
+            window.Close();
+        }
+    }
 }

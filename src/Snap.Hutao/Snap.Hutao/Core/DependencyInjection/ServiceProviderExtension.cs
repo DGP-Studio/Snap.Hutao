@@ -18,13 +18,22 @@ internal static class ServiceProviderExtension
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsDisposedSlow(this IServiceProvider? serviceProvider)
+    public static bool IsDisposed(this IServiceProvider? serviceProvider)
     {
         if (serviceProvider is null)
         {
             return true;
         }
 
+        if (serviceProvider is ServiceProvider serviceProviderImpl)
+        {
+            return GetPrivateDisposed(serviceProviderImpl);
+        }
+
         return serviceProvider.GetType().GetField("_disposed")?.GetValue(serviceProvider) is true;
     }
+
+    // private bool _disposed;
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_disposed")]
+    private static extern ref bool GetPrivateDisposed(ServiceProvider serviceProvider);
 }

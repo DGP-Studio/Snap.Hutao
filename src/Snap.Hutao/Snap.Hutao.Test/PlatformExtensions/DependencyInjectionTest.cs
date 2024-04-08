@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace Snap.Hutao.Test.PlatformExtensions;
@@ -11,6 +12,7 @@ public sealed class DependencyInjectionTest
         .AddSingleton<IService, ServiceB>()
         .AddScoped<IScopedService, ServiceA>()
         .AddTransient(typeof(IGenericService<>), typeof(GenericService<>))
+        .AddLogging(builder => builder.AddConsole())
         .BuildServiceProvider();
 
     [TestMethod]
@@ -39,6 +41,13 @@ public sealed class DependencyInjectionTest
             IScopedService service2 = scope.ServiceProvider.GetRequiredService<IScopedService>();
             Assert.AreNotEqual(service1.Id, service2.Id);
         }
+    }
+
+    [TestMethod]
+    public void LoggerWithInterfaceTypeCanBeResolved()
+    {
+        Assert.IsNotNull(services.GetService<ILogger<IScopedService>>());
+        Assert.IsNotNull(services.GetRequiredService<ILoggerFactory>().CreateLogger(nameof(IScopedService)));
     }
 
     private interface IService

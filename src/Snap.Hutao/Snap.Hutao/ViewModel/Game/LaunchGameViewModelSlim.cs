@@ -22,7 +22,6 @@ namespace Snap.Hutao.ViewModel.Game;
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>, IViewModelSupportLaunchExecution
 {
     private readonly LaunchStatusOptions launchStatusOptions;
-    private readonly ILogger<LaunchGameViewModelSlim> logger;
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
@@ -32,6 +31,8 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private GameAccount? selectedGameAccount;
     private GameAccountFilter? gameAccountFilter;
 
+    LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
+
     public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
 
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
@@ -40,10 +41,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     /// 选中的账号
     /// </summary>
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
-
-    public void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableList<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
-    {
-    }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
@@ -59,7 +56,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
                 SelectedGameAccount ??= gameService.DetectCurrentGameAccount(scheme);
             }
         }
-        catch (UserdataCorruptedException ex)
+        catch (Exception ex)
         {
             infoBarService.Error(ex);
         }
@@ -76,23 +73,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
-        IInfoBarService infoBarService = ServiceProvider.GetRequiredService<IInfoBarService>();
-        LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
-
-        try
-        {
-            LaunchExecutionContext context = new(Ioc.Default, this, scheme, SelectedGameAccount);
-            LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
-
-            if (result.Kind is not LaunchExecutionResultKind.Ok)
-            {
-                infoBarService.Warning(result.ErrorMessage);
-            }
-        }
-        catch (Exception ex)
-        {
-            logger.LogCritical(ex, "Launch failed");
-            infoBarService.Error(ex);
-        }
+        await this.LaunchExecutionAsync().ConfigureAwait(false);
     }
 }

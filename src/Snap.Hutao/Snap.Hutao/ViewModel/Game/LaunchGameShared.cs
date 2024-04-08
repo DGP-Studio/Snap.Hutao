@@ -41,7 +41,7 @@ internal sealed partial class LaunchGameShared
                     if (!IgnoredInvalidChannelOptions.Contains(options))
                     {
                         // 后台收集
-                        throw ThrowHelper.NotSupported($"不支持的 MultiChannel: {options}");
+                        HutaoException.Throw(HutaoExceptionKind.GameConfigInvalidChannelOptions, $"不支持的 ChannelOptions: {options}");
                     }
                 }
 
@@ -70,7 +70,9 @@ internal sealed partial class LaunchGameShared
         string persistentScriptVersionFile = Path.Combine(gameFileSystem.GameDirectory, dataFolder, "Persistent", "ScriptVersion");
         string version = await File.ReadAllTextAsync(persistentScriptVersionFile).ConfigureAwait(false);
 
-        LaunchGameConfigurationFixDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameConfigurationFixDialog>().ConfigureAwait(false);
+        LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
+            .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()
+            .ConfigureAwait(false);
 
         await taskContext.SwitchToMainThreadAsync();
         dialog.KnownSchemes = KnownLaunchSchemes.Get().Where(scheme => scheme.IsOversea == isOversea);

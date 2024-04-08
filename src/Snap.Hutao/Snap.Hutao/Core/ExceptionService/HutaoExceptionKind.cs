@@ -17,4 +17,5 @@ internal enum HutaoExceptionKind
     // Service
     GachaStatisticsInvalidItemId,
     GameFpsUnlockingFailed,
+    GameConfigInvalidChannelOptions,
 }
