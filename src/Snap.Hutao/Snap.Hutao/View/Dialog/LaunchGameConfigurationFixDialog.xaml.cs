@@ -19,10 +19,10 @@ internal sealed partial class LaunchGameConfigurationFixDialog : ContentDialog
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
-    public async ValueTask<ValueResult<bool, LaunchScheme?>> GetLaunchSchemeAsync()
+    public async ValueTask<ValueResult<bool, LaunchScheme>> GetLaunchSchemeAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
-        return new(result == ContentDialogResult.Primary, SelectedScheme);
+        return new(result is ContentDialogResult.Primary, SelectedScheme);
     }
 }

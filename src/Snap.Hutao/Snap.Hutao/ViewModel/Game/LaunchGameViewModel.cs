@@ -100,7 +100,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 {
                     using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                     {
-                        LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
+                        LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
 
                         await taskContext.SwitchToMainThreadAsync();
                         await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
@@ -179,6 +179,30 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         ImmutableList<GamePathEntry> gamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
         SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, entry);
         return ValueTask.FromResult(true);
+    }
+
+    [Command("IdentifyMonitorsCommand")]
+    private static async Task IdentifyMonitorsAsync()
+    {
+        List<IdentifyMonitorWindow> windows = [];
+
+        IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
+        for (int i = 0; i < displayAreas.Count; i++)
+        {
+            windows.Add(new IdentifyMonitorWindow(displayAreas[i], i + 1));
+        }
+
+        foreach (IdentifyMonitorWindow window in windows)
+        {
+            window.Activate();
+        }
+
+        await Delay.FromSeconds(3).ConfigureAwait(true);
+
+        foreach (IdentifyMonitorWindow window in windows)
+        {
+            window.Close();
+        }
     }
 
     [Command("SetGamePathCommand")]
@@ -339,30 +363,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             {
                 Filter = gameAccountFilter.Filter,
             };
-        }
-    }
-
-    [Command("IdentifyMonitorsCommand")]
-    private async Task IdentifyMonitorsAsync()
-    {
-        List<IdentifyMonitorWindow> windows = [];
-
-        IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
-        for (int i = 0; i < displayAreas.Count; i++)
-        {
-            windows.Add(new IdentifyMonitorWindow(displayAreas[i], i + 1));
-        }
-
-        foreach (IdentifyMonitorWindow window in windows)
-        {
-            window.Activate();
-        }
-
-        await Delay.FromSeconds(3).ConfigureAwait(true);
-
-        foreach (IdentifyMonitorWindow window in windows)
-        {
-            window.Close();
         }
     }
 }

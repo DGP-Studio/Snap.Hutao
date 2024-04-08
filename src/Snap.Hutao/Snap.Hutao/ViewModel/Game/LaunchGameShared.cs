@@ -25,7 +25,7 @@ internal sealed partial class LaunchGameShared
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
 
-    public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile(IGameServiceFacade gameService, IInfoBarService infoBarService)
+    public LaunchScheme? GetCurrentLaunchSchemeFromConfigFile()
     {
         ChannelOptions options = gameService.GetChannelOptions();
 
@@ -58,23 +58,27 @@ internal sealed partial class LaunchGameShared
     }
 
     [Command("HandleConfigurationFileNotFoundCommand")]
-    private async ValueTask HandleConfigurationFileNotFoundAsync()
+    private async Task HandleConfigurationFileNotFoundAsync()
     {
-        launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem);
-        ArgumentNullException.ThrowIfNull(gameFileSystem);
+        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        {
+            return;
+        }
+
         bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
-        string version = await File.ReadAllTextAsync(Path.Combine(gameFileSystem.GameDirectory, isOversea ? GameConstants.GenshinImpactData : GameConstants.YuanShenData, "Persistent", "ScriptVersion")).ConfigureAwait(false);
+        string dataFolder = isOversea ? GameConstants.GenshinImpactData : GameConstants.YuanShenData;
+        string persistentScriptVersionFile = Path.Combine(gameFileSystem.GameDirectory, dataFolder, "Persistent", "ScriptVersion");
+        string version = await File.ReadAllTextAsync(persistentScriptVersionFile).ConfigureAwait(false);
 
         LaunchGameConfigurationFixDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameConfigurationFixDialog>().ConfigureAwait(false);
 
         await taskContext.SwitchToMainThreadAsync();
         dialog.KnownSchemes = KnownLaunchSchemes.Get().Where(scheme => scheme.IsOversea == isOversea);
         dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
-        (bool isOk, LaunchScheme? launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
+        (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
 
         if (isOk)
         {
-            ArgumentNullException.ThrowIfNull(launchScheme);
             string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
             string content = $"""
                 [General]
