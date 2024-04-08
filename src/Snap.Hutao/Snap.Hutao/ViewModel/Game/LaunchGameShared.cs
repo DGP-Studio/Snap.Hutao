@@ -58,7 +58,7 @@ internal sealed partial class LaunchGameShared
     }
 
     [Command("HandleConfigurationFileNotFoundCommand")]
-    private async void HandleConfigurationFileNotFoundAsync()
+    private async ValueTask HandleConfigurationFileNotFoundAsync()
     {
         launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem);
         ArgumentNullException.ThrowIfNull(gameFileSystem);
