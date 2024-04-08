@@ -1334,6 +1334,12 @@
   <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
     <value>名前を変更</value>
   </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogHint" xml:space="preserve">
+    <value>请选择当前游戏路径对应的游戏服务器</value>
+  </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
+    <value>正在修复配置文件</value>
+  </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>変換に時間がかかる場合があります、アプリを閉じないでください</value>
   </data>
@@ -1625,6 +1631,12 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>サーバーの切り替えができませんでした</value>
   </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
+    <value>修复配置文件</value>
+  </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
+    <value>修复完成</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>モニターの識別</value>
   </data>
@@ -1636,6 +1648,9 @@
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
     <value>サーバーが選択されていません</value>
+  </data>
+  <data name="ViewModelLaunchGameSetGamePathButtonText" xml:space="preserve">
+    <value>设置游戏目录</value>
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>アカウントの切り替えができませんでした</value>
