@@ -1,9 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Abstraction.Extension;
 
 namespace Snap.Hutao.Control.Builder.ButtonBase;

@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Control.Builder.ButtonBase;
 
-internal sealed class ButtonBaseBuilder<TButton> : IButtonBaseBuilder<TButton>
+internal class ButtonBaseBuilder<TButton> : IButtonBaseBuilder<TButton>
     where TButton : Microsoft.UI.Xaml.Controls.Primitives.ButtonBase, new()
 {
     public TButton Button { get; } = new();
