@@ -990,43 +990,43 @@
     <value>Запрашиваемая версия пакета</value>
   </data>
   <data name="ServiceGamePackageRequestPackageVerionFailed" xml:space="preserve">
-    <value>获取 Package Version 失败</value>
+    <value>Не удалось получить версию пакета</value>
   </data>
   <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
-    <value>下载客户端文件失败：{0}</value>
+    <value>Не удалось загрузить файл клиента: {0}</value>
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
-    <value>无法找到游戏路径，请前往设置修改</value>
+    <value>Невозможно найти путь к игре. Измените его в настройках.</value>
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
-    <value>未开启长路径功能，无法设置注册表键值</value>
+    <value>Невозможно установить ключ реестра. Включен лимит MAX_PATH</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
-    <value>无法读取游戏配置文件 {0}，可能是文件不存在</value>
+    <value>Невозможно прочитать файл конфигурации игры {0}, возможно файл не существует</value>
   </data>
   <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
-    <value>无法读取或保存配置文件，请以管理员模式重试</value>
+    <value>Невозможно открыть или сохранить профиль без прав администратора</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
-    <value>在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成，请重试</value>
+    <value>Ошибка при поиске необходимых модулей: не удалось прочитать ни один модуль, возможно, загружен драйвер защиты; пожалуйста, повторите попытку</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
-    <value>在查找必要的模块时遇到问题：查找模块超时，请重试</value>
+    <value>Ошибка при поиске необходимых модулей: таймаут; пожалуйста, повторите попытку</value>
   </data>
   <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
-    <value>在匹配内存时遇到问题：无法匹配到期望的内容</value>
+    <value>Ошибка соответствия шаблону памяти: нет ожидаемого содержимого</value>
   </data>
   <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
-    <value>在读取必要的模块内存时遇到问题：无法将模块内存复制到指定位置</value>
+    <value>Ошибка чтения памяти требуемых модулей: не удалось скопировать память модуля в место назначения</value>
   </data>
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
-    <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
+    <value>Ошибка чтения памяти модулей процесса: не удалось прочитать действительное значение по заданному адресу</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>Запись молитв доступна до \n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
-    <value>无法找到缓存的元数据文件</value>
+    <value>Невозможно найти кэш файл метаданных</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
     <value>HTTP {0} | Ошибка {1}: Не удалось загрузить файл проверки метаданных</value>
@@ -1107,7 +1107,7 @@
     <value>After Ascension</value>
   </data>
   <data name="ViewControlElevationText" xml:space="preserve">
-    <value>需要管理员权限</value>
+    <value>Требуются привилегии администратора</value>
   </data>
   <data name="ViewControlLoadingText" xml:space="preserve">
     <value>Загрузка, пожалуйста подождите</value>
@@ -1119,7 +1119,7 @@
     <value>Гарант</value>
   </data>
   <data name="ViewControlStatisticsCardOrangeAveragePullText" xml:space="preserve">
-    <value>五星平均抽数</value>
+    <value>Среднее 5-зв. выпадение</value>
   </data>
   <data name="ViewControlStatisticsCardOrangeText" xml:space="preserve">
     <value>5-зв.</value>
@@ -1152,13 +1152,13 @@
     <value>Статистика</value>
   </data>
   <data name="ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed" xml:space="preserve">
-    <value>当前 WebView2 版本不支持管理配置，继续使用可能会导致异常，请尽快升级</value>
+    <value>Текущая версия WebView2 не поддерживает конфигурацию управления, дальнейшее использование может привести к ошибкам, пожалуйста, установите обновление</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>План разработки</value>
   </data>
   <data name="ViewDailyNoteHeader" xml:space="preserve">
-    <value>实时便笺</value>
+    <value>Заметки в реальном времени</value>
   </data>
   <data name="ViewDataHeader" xml:space="preserve">
     <value>Data</value>
@@ -1167,10 +1167,10 @@
     <value>Enter here</value>
   </data>
   <data name="ViewDialogAchievementArchiveCreateTitle" xml:space="preserve">
-    <value>设置成就存档的名称</value>
+    <value>Установить имя архива достижений</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategy" xml:space="preserve">
-    <value>导入模式</value>
+    <value>Режим импорта</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
     <value>贪婪（添加新数据，更新已完成项）</value>
@@ -1182,7 +1182,7 @@
     <value>覆盖（删除老数据，添加新的数据）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
-    <value>为当前存档导入成就</value>
+    <value>Импорт данных о достижениях в текущий архив</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
     <value>角色目标等级</value>
@@ -1338,7 +1338,7 @@
     <value>请选择当前游戏路径对应的游戏服务器</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>正在修复配置文件</value>
+    <value>Восстановление файла конфигурации</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>转换可能需要花费一段时间，请勿关闭胡桃</value>
@@ -1632,7 +1632,7 @@
     <value>切换服务器失败</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
-    <value>修复配置文件</value>
+    <value>Восстановление файла конфигурации</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
     <value>Восстановление завершено</value>
