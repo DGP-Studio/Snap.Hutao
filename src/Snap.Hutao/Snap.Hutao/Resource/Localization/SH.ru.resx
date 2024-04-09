@@ -145,7 +145,7 @@
     <value>Сохранить</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
-    <value>未找到结果</value>
+    <value>Результаты не найдены</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>Ошибка ссылки</value>
@@ -193,10 +193,10 @@
     <value>[{0}] 热键 [{1}] 注册失败</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
-    <value>深色</value>
+    <value>Тёмная</value>
   </data>
   <data name="CoreWindowThemeLight" xml:space="preserve">
-    <value>浅色</value>
+    <value>Светлая</value>
   </data>
   <data name="CoreWindowThemeSystem" xml:space="preserve">
     <value>跟随系统</value>
