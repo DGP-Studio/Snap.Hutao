@@ -190,7 +190,7 @@
     <value>Среда выполнения WebView2 не обнаружена</value>
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
-    <value>[{0}] 热键 [{1}] 注册失败</value>
+    <value>Регистрация [{0}] горячей клавиши [{1}] не удалась</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>Тёмная</value>
@@ -199,7 +199,7 @@
     <value>Светлая</value>
   </data>
   <data name="CoreWindowThemeSystem" xml:space="preserve">
-    <value>跟随系统</value>
+    <value>Системная</value>
   </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
     <value>Экспорт</value>
@@ -783,19 +783,19 @@
     <value>Демонстрация персонажей: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
-    <value>必应每日一图</value>
+    <value>Ежедневные обои Bing</value>
   </data>
   <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
-    <value>胡桃每日一图</value>
+    <value>Ежедневные обои Hutao</value>
   </data>
   <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
-    <value>官方启动器壁纸</value>
+    <value>Официальные обои лаунчера Genshin</value>
   </data>
   <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
-    <value>本地随机图片</value>
+    <value>Ваше случайное изображение</value>
   </data>
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
-    <value>无背景图片</value>
+    <value>Без обоев</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>Не удалось сохранить статус плана разработки.</value>
@@ -855,7 +855,7 @@
     <value>Преобразователь готов</value>
   </data>
   <data name="ServiceDiscordActivityElevationRequiredHint" xml:space="preserve">
-    <value>权限不足，将无法为您设置 Discord Activity 状态</value>
+    <value>Отсутствует разрешение, не удается установить активность в Discord.</value>
   </data>
   <data name="ServiceDiscordGameActivityDetails" xml:space="preserve">
     <value>Исследование Тейвата</value>
@@ -870,25 +870,25 @@
     <value>Unable to resolve wish history End Id</value>
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
-    <value>角色活动</value>
+    <value>Молитва события персонажа</value>
   </data>
   <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
-    <value>集录祈愿</value>
+    <value>Хроники желаний</value>
   </data>
   <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
-    <value>奔行世间</value>
+    <value>Жажда странствий</value>
   </data>
   <data name="ServiceGachaLogFactoryWeaponWishName" xml:space="preserve">
-    <value>神铸赋形</value>
+    <value>Воплощение божества</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudEndIdFetchFailed" xml:space="preserve">
-    <value>获取云端祈愿记录失败</value>
+    <value>Не удалось получить историю молитв из облака</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
-    <value>祈愿记录上传服务不可用</value>
+    <value>Услуга загрузки истории молитв недоступна</value>
   </data>
   <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
-    <value>数据包含异常物品, Id：{0}</value>
+    <value>Данные содержат неожиданный элемент, Id: {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
     <value>Не удалось получить ключ авторизации</value>
@@ -897,7 +897,7 @@
     <value>Путь к Genshin Impact не установлен или содержит ошибки</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>找不到原神内置浏览器缓存路径：\n{0}</value>
+    <value>Не удается найти путь к кэшу встроенного браузера Genshin Impact: \n{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>Can't find available URL</value>
@@ -957,19 +957,19 @@
     <value>Ограничение FPS успешно разблокировано.</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>正在尝试解锁帧率上限</value>
+    <value>Попытка снять ограничение частоты кадров</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
-    <value>等待游戏进程退出</value>
+    <value>Ожидание закрытия процесса игры</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
-    <value>选择游戏本体</value>
+    <value>Выберите исполняемый файл игры</value>
   </data>
   <data name="ServiceGameLocatorPickerFilterText" xml:space="preserve">
     <value>Игровой клиент</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
-    <value>找不到 Unity 日志文件</value>
+    <value>Лог Unity не найден</value>
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Путь к игре не найден в файле журнала Unity</value>
@@ -984,10 +984,10 @@
     <value>Изменить: {0}</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
-    <value>重命名数据文件夹名称失败</value>
+    <value>Не удалось изменить имя папки</value>
   </data>
   <data name="ServiceGamePackageRequestPackageVerion" xml:space="preserve">
-    <value>获取 Package Version</value>
+    <value>Запрашиваемая версия пакета</value>
   </data>
   <data name="ServiceGamePackageRequestPackageVerionFailed" xml:space="preserve">
     <value>获取 Package Version 失败</value>
@@ -1635,7 +1635,7 @@
     <value>修复配置文件</value>
   </data>
   <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
-    <value>修复完成</value>
+    <value>Восстановление завершено</value>
   </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>识别显示器</value>
@@ -3108,7 +3108,7 @@
     <value>Молитва события персонажа - 2</value>
   </data>
   <data name="WebGachaConfigTypeChronicledWish" xml:space="preserve">
-    <value>集录祈愿</value>
+    <value>Хроники желаний</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
     <value>Молитва новичка</value>
