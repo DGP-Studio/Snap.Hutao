@@ -12,7 +12,7 @@ internal static class HttpHeadersExtension
         ArgumentNullException.ThrowIfNull(name);
 
         // We have to work around the .NET API a little bit. See the comment below for details.
-        values ??= Enumerable.Empty<string?>();
+        values ??= [];
         values = values.Where(v => v is not null);
 
         if (values.Any())

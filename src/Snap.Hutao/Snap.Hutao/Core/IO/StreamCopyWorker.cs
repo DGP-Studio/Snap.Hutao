@@ -1,7 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Buffer;
 using Snap.Hutao.Core.Diagnostics;
+using System.Buffers;
 using System.IO;
 
 namespace Snap.Hutao.Core.IO;
@@ -51,26 +53,30 @@ internal class StreamCopyWorker<TStatus>
 
         long totalBytesRead = 0;
         int bytesRead;
-        Memory<byte> buffer = new byte[bufferSize];
 
-        do
+        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(bufferSize))
         {
-            bytesRead = await source.ReadAsync(buffer).ConfigureAwait(false);
-            if (bytesRead == 0)
-            {
-                progress.Report(statusFactory(totalBytesRead));
-                break;
-            }
+            Memory<byte> buffer = memoryOwner.Memory;
 
-            await destination.WriteAsync(buffer[..bytesRead]).ConfigureAwait(false);
-
-            totalBytesRead += bytesRead;
-            if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000)
+            do
             {
-                progress.Report(statusFactory(totalBytesRead));
-                stopwatch = ValueStopwatch.StartNew();
+                bytesRead = await source.ReadAsync(buffer).ConfigureAwait(false);
+                if (bytesRead is 0)
+                {
+                    progress.Report(statusFactory(totalBytesRead));
+                    break;
+                }
+
+                await destination.WriteAsync(buffer[..bytesRead]).ConfigureAwait(false);
+
+                totalBytesRead += bytesRead;
+                if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000)
+                {
+                    progress.Report(statusFactory(totalBytesRead));
+                    stopwatch = ValueStopwatch.StartNew();
+                }
             }
+            while (bytesRead > 0);
         }
-        while (bytesRead > 0);
     }
 }

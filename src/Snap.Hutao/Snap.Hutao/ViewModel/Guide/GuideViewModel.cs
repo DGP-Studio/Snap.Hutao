@@ -36,8 +36,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     {
         get
         {
-            uint value = LocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, 0U);
-            GuideState state = (GuideState)value;
+            GuideState state = UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language);
 
             if (state is GuideState.Document)
             {
@@ -61,12 +60,12 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
                 (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionNext, true);
             }
 
-            return value;
+            return (uint)state;
         }
 
         set
         {
-            LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, value);
+            LocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, value);
             OnPropertyChanged();
         }
     }
@@ -93,13 +92,14 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }
     }
 
+    #region Agreement
     public bool IsTermOfServiceAgreed
     {
         get => isTermOfServiceAgreed; set
         {
             if (SetProperty(ref isTermOfServiceAgreed, value))
             {
-                OnAgreeSateChanged();
+                OnAgreementStateChanged();
             }
         }
     }
@@ -110,7 +110,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref isPrivacyPolicyAgreed, value))
             {
-                OnAgreeSateChanged();
+                OnAgreementStateChanged();
             }
         }
     }
@@ -121,7 +121,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref isIssueReportAgreed, value))
             {
-                OnAgreeSateChanged();
+                OnAgreementStateChanged();
             }
         }
     }
@@ -132,14 +132,12 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref isOpenSourceLicenseAgreed, value))
             {
-                OnAgreeSateChanged();
+                OnAgreementStateChanged();
             }
         }
     }
+    #endregion
 
-    /// <summary>
-    /// 下载信息
-    /// </summary>
     public ObservableCollection<DownloadSummary>? DownloadSummaries
     {
         get => downloadSummaries;
@@ -152,7 +150,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         ++State;
     }
 
-    private void OnAgreeSateChanged()
+    private void OnAgreementStateChanged()
     {
         IsNextOrCompleteButtonEnabled = IsTermOfServiceAgreed && IsPrivacyPolicyAgreed && IsIssueReportAgreed && IsOpenSourceLicenseAgreed;
     }
@@ -173,7 +171,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }).ConfigureAwait(false);
 
         StaticResource.FulfillAll();
-        UnsafeLocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, GuideState.Completed);
+        UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Completed);
         AppInstance.Restart(string.Empty);
     }
 }

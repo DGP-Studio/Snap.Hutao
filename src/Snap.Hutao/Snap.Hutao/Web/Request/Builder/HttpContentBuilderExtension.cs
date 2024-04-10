@@ -35,8 +35,7 @@ internal static class HttpContentBuilderExtension
     }
 
     [DebuggerStepThrough]
-    public static T SetFormUrlEncodedContent<T>(
-        this T builder, IEnumerable<KeyValuePair<string, string>> content)
+    public static T SetFormUrlEncodedContent<T>(this T builder, IEnumerable<KeyValuePair<string, string>> content)
         where T : IHttpContentBuilder
     {
         ArgumentNullException.ThrowIfNull(builder);

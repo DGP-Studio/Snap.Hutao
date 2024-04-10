@@ -41,12 +41,6 @@ internal static partial class HttpHeadersBuilderExtension
         return builder.ConfigureHeaders<TBuilder, THeaders>(headers => headers.Add(name, value));
     }
 
-    public static T SetReferer<T>(this T builder, string referer)
-        where T : IHttpHeadersBuilder<HttpHeaders>
-    {
-        return builder.SetHeader("Referer", referer);
-    }
-
     [DebuggerStepThrough]
     public static T SetHeader<T>(this T builder, string name)
         where T : IHttpHeadersBuilder<HttpHeaders>
@@ -78,6 +72,12 @@ internal static partial class HttpHeadersBuilderExtension
         return builder
             .RemoveHeader<TBuilder, THeaders>(name)
             .AddHeader<TBuilder, THeaders>(name, value);
+    }
+
+    public static T SetReferer<T>(this T builder, string referer)
+        where T : IHttpHeadersBuilder<HttpHeaders>
+    {
+        return builder.SetHeader("Referer", referer);
     }
 
     [DebuggerStepThrough]

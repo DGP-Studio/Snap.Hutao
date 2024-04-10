@@ -348,9 +348,6 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\Dialog\LaunchGameConfigurationFixDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

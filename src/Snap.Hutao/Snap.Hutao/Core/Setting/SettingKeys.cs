@@ -20,7 +20,9 @@ internal static class SettingKeys
     #region Application
     public const string LaunchTimes = "LaunchTimes";
     public const string DataFolderPath = "DataFolderPath";
-    public const string Major1Minor7Revision0GuideState = "Major1Minor7Revision0GuideState";
+    public const string Major1Minor10Revision0GuideState = "Major1Minor10Revision0GuideState";
+    public const string StaticResourceImageQuality = "StaticResourceImageQuality";
+    public const string StaticResourceUseTrimmedArchive = "StaticResourceUseTrimmedArchive";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
     public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled2";
     #endregion
@@ -60,6 +62,10 @@ internal static class SettingKeys
     #endregion
 
     #region Obsolete
+
+    [Obsolete("重置新手引导状态")]
+    public const string Major1Minor7Revision0GuideState = "Major1Minor7Revision0GuideState";
+
     [Obsolete("重置调试控制台开关")]
     public const string IsAllocConsoleDebugModeEnabledLegacy1 = "IsAllocConsoleDebugModeEnabled";
     #endregion
