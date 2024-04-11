@@ -468,24 +468,15 @@
                             Margin="16"
                             CornerRadius="{ThemeResource ControlCornerRadius}"
                             IsLoading="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
-                        <Grid
+                        <shvc:HutaoStatisticsPanel
                             Margin="16"
-                            ColumnSpacing="16"
+                            Spacing="16"
+                            Statistics="{Binding HutaoCloudStatisticsViewModel.Statistics}"
                             Visibility="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
                             <mxi:Interaction.Behaviors>
                                 <shcb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudStatisticsViewModel.OpenUICommand}"/>
                             </mxi:Interaction.Behaviors>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <shvc:HutaoStatisticsCard Grid.Column="0" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent}"/>
-                            <shvc:HutaoStatisticsCard Grid.Column="1" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent2}"/>
-                            <shvc:HutaoStatisticsCard Grid.Column="2" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.WeaponEvent}"/>
-                            <shvc:HutaoStatisticsCard Grid.Column="3" DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.Chronicled}"/>
-                        </Grid>
+                        </shvc:HutaoStatisticsPanel>
                     </Grid>
                 </PivotItem>
             </Pivot>

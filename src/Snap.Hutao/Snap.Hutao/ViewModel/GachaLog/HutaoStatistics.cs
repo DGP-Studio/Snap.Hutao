@@ -26,5 +26,5 @@ internal sealed class HutaoStatistics
     /// <summary>
     /// 集录祈愿
     /// </summary>
-    public HutaoWishSummary Chronicled { get; set; } = default!;
+    public HutaoWishSummary? Chronicled { get; set; }
 }
