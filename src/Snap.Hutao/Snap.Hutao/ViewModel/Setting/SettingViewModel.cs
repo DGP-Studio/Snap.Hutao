@@ -224,7 +224,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private static void ResetStaticResource()
     {
         StaticResource.FailAll();
-        UnsafeLocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, GuideState.StaticResourceBegin);
+        UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
         AppInstance.Restart(string.Empty);
     }
 

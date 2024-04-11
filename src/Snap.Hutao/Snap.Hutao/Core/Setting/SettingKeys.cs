@@ -20,7 +20,7 @@ internal static class SettingKeys
     #region Application
     public const string LaunchTimes = "LaunchTimes";
     public const string DataFolderPath = "DataFolderPath";
-    public const string Major1Minor10Revision0GuideState = "Major1Minor10Revision0GuideState";
+    public const string Major1Minor10Revision0GuideState = "Major1Minor10Revision0GuideState1";
     public const string StaticResourceImageQuality = "StaticResourceImageQuality";
     public const string StaticResourceUseTrimmedArchive = "StaticResourceUseTrimmedArchive";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";

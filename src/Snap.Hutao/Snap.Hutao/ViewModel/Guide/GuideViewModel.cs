@@ -6,6 +6,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
+using Snap.Hutao.Web.Hoyolab;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
@@ -20,12 +21,15 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+    private readonly StaticResourceOptions staticResourceOptions;
     private readonly CultureOptions cultureOptions;
     private readonly RuntimeOptions runtimeOptions;
+    private readonly AppOptions appOptions;
 
     private string nextOrCompleteButtonText = SH.ViewModelGuideActionNext;
     private bool isNextOrCompleteButtonEnabled = true;
     private NameValue<CultureInfo>? selectedCulture;
+    private NameValue<Region>? selectedRegion;
     private bool isTermOfServiceAgreed;
     private bool isPrivacyPolicyAgreed;
     private bool isIssueReportAgreed;
@@ -78,6 +82,10 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
+    public AppOptions AppOptions { get => appOptions; }
+
+    public StaticResourceOptions StaticResourceOptions { get => staticResourceOptions; }
+
     public NameValue<CultureInfo>? SelectedCulture
     {
         get => selectedCulture ??= CultureOptions.GetCurrentCultureForSelectionOrDefault();
@@ -88,6 +96,18 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
                 CultureOptions.CurrentCulture = value.Value;
                 ++State;
                 AppInstance.Restart(string.Empty);
+            }
+        }
+    }
+
+    public NameValue<Region>? SelectedRegion
+    {
+        get => selectedRegion ??= AppOptions.GetCurrentRegionForSelectionOrDefault();
+        set
+        {
+            if (SetProperty(ref selectedRegion, value) && value is not null)
+            {
+                AppOptions.Region = value.Value;
             }
         }
     }
