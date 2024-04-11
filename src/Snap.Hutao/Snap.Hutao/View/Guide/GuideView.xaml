@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Guide"
@@ -266,12 +265,20 @@
                     HorizontalAlignment="Center"
                     IsHitTestVisible="False"
                     SelectedIndex="{Binding State, Mode=TwoWay}">
+                    <!--
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepLanguage}" Icon="{shcm:FontIcon Glyph=&#xF2B7;}"/>
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepDocument}" Icon="{shcm:FontIcon Glyph=&#xF28B;}"/>
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepEnvironment}" Icon="{shcm:FontIcon Glyph=&#xE81E;}"/>
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepCommonSetting}" Icon="{shcm:FontIcon Glyph=&#xE713;}"/>
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepStaticResourceSetting}" Icon="{shcm:FontIcon Glyph=&#xE8BA;}"/>
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepStaticResource}" Icon="{shcm:FontIcon Glyph=&#xE8B9;}"/>
+                    -->
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xF2B7;}"/>
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xF28B;}"/>
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE81E;}"/>
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE713;}"/>
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE8BA;}"/>
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE8B9;}"/>
                 </cwc:Segmented>
                 <Button
                     Command="{Binding NextOrCompleteCommand}"
