@@ -1397,6 +1397,12 @@
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
     <value>User Agreement and Legal Notices</value>
   </data>
+  <data name="ViewGuideStepCommonSetting" xml:space="preserve">
+    <value>基础设置</value>
+  </data>
+  <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
+    <value>稍后可以在设置中修改</value>
+  </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Document</value>
   </data>
@@ -1407,7 +1413,7 @@
     <value>Restart Snap Hutao after the installation to check if it takes effect</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
-    <value>If icons above are mojibake or unable to load, please visit</value>
+    <value>如果上方的图标中存在乱码或方块字，请前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
     <value>to download and install the font</value>
@@ -1423,6 +1429,24 @@
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Assets</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
+    <value>图像资源设置</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingHint" xml:space="preserve">
+    <value>* 除非你卸载并重新安装胡桃，否则你将无法更改这些设置</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumHeader" xml:space="preserve">
+    <value>图片资源包体</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumOff" xml:space="preserve">
+    <value>全部资源（节省 0% 磁盘空间占用）</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumOn" xml:space="preserve">
+    <value>部分资源（节省 13.5% 磁盘空间占用）</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
+    <value>图片资源质量</value>
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>Abyss Stats</value>
@@ -1612,6 +1636,12 @@
   </data>
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
     <value>Dowloading Assets</value>
+  </data>
+  <data name="ViewModelGuideStaticResourceQualityHigh" xml:space="preserve">
+    <value>高质量（节省 72.8% 磁盘空间占用）</value>
+  </data>
+  <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
+    <value>原图（节省 0% 磁盘空间占用）</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Please enter correct email address</value>
