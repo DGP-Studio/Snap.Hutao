@@ -116,15 +116,15 @@ internal sealed partial class Activation : IActivation
 
         // If it's the first time launch, we show the guide window anyway.
         // Otherwise, we check if there's any unfulfilled resource category present.
-        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
+        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
         {
             if (StaticResource.IsAnyUnfulfilledCategoryPresent())
             {
-                UnsafeLocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, GuideState.StaticResourceBegin);
+                UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
             }
         }
 
-        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, GuideState.Language) < GuideState.Completed)
+        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
         {
             await taskContext.SwitchToMainThreadAsync();
             serviceProvider.GetRequiredService<GuideWindow>();

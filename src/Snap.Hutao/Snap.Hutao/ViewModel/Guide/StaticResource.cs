@@ -16,7 +16,7 @@ internal static class StaticResource
 
     private static readonly ApplicationDataCompositeValue DefaultResourceVersionMap = new()
     {
-        // DO NOT MIDIFY THIS MAP
+        // DO NOT MODIFY THIS MAP
         { "AchievementIcon", 0 },
         { "AvatarCard", 0 },
         { "AvatarIcon", 0 },

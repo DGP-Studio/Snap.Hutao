@@ -3,6 +3,7 @@
 
 using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Core.Diagnostics;
+using System.Buffers;
 using System.IO;
 using System.Net.Http;
 
@@ -77,34 +78,36 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
                 using (HttpResponseMessage response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
                 {
                     response.EnsureSuccessStatusCode();
-
-                    Memory<byte> buffer = new byte[bufferSize];
-                    using (Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
+                    using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent())
                     {
-                        int totalBytesRead = 0;
-                        int bytesReadAfterPreviousReport = 0;
-                        do
+                        Memory<byte> buffer = memoryOwner.Memory;
+                        using (Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
                         {
-                            int bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
-                            if (bytesRead <= 0)
+                            int totalBytesRead = 0;
+                            int bytesReadAfterPreviousReport = 0;
+                            do
                             {
-                                progress.Report(new(bytesReadAfterPreviousReport));
-                                bytesReadAfterPreviousReport = 0;
-                                break;
-                            }
+                                int bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
+                                if (bytesRead <= 0)
+                                {
+                                    progress.Report(new(bytesReadAfterPreviousReport));
+                                    bytesReadAfterPreviousReport = 0;
+                                    break;
+                                }
 
-                            await RandomAccess.WriteAsync(destFileHandle, buffer[..bytesRead], shard.StartOffset + totalBytesRead, token).ConfigureAwait(false);
+                                await RandomAccess.WriteAsync(destFileHandle, buffer[..bytesRead], shard.StartOffset + totalBytesRead, token).ConfigureAwait(false);
 
-                            totalBytesRead += bytesRead;
-                            bytesReadAfterPreviousReport += bytesRead;
-                            if (stopwatch.GetElapsedTime().TotalMilliseconds > 500)
-                            {
-                                progress.Report(new(bytesReadAfterPreviousReport));
-                                bytesReadAfterPreviousReport = 0;
-                                stopwatch = ValueStopwatch.StartNew();
+                                totalBytesRead += bytesRead;
+                                bytesReadAfterPreviousReport += bytesRead;
+                                if (stopwatch.GetElapsedTime().TotalMilliseconds > 500)
+                                {
+                                    progress.Report(new(bytesReadAfterPreviousReport));
+                                    bytesReadAfterPreviousReport = 0;
+                                    stopwatch = ValueStopwatch.StartNew();
+                                }
                             }
+                            while (true);
                         }
-                        while (true);
                     }
                 }
             }
