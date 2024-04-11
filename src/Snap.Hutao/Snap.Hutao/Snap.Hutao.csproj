@@ -349,6 +349,7 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
   <ItemGroup>
     <Page Update="View\Control\HutaoStatisticsPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
