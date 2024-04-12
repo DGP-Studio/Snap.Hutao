@@ -1382,6 +1382,9 @@
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>기원 기록</value>
   </data>
+  <data name="ViewGuideStaticResourceDownloadSize" xml:space="preserve">
+    <value>预计下载大小：{0}</value>
+  </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
     <value>我已阅读并同意</value>
   </data>
@@ -1440,10 +1443,10 @@
     <value>图片资源包体</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumOff" xml:space="preserve">
-    <value>全部资源（节省 0% 磁盘空间占用）</value>
+    <value>完整包体</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingMinimumOn" xml:space="preserve">
-    <value>部分资源（节省 13.5% 磁盘空间占用）</value>
+    <value>精简包体</value>
   </data>
   <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
     <value>图片资源质量</value>
@@ -1638,10 +1641,10 @@
     <value>下载资源文件中，请稍候</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityHigh" xml:space="preserve">
-    <value>高质量（节省 72.8% 磁盘空间占用）</value>
+    <value>高质量</value>
   </data>
   <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
-    <value>原图（节省 0% 磁盘空间占用）</value>
+    <value>原图</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>请输入正确的邮箱</value>
