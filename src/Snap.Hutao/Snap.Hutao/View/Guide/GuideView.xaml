@@ -223,11 +223,13 @@
                             ItemsSource="{Binding StaticResourceOptions.ImageQualities}"
                             SelectedItem="{Binding StaticResourceOptions.ImageQuality, Mode=TwoWay}"/>
                         <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingMinimumHeader}"/>
-                        <ToggleSwitch
-                            IsOn="{Binding StaticResourceOptions.UseTrimmedArchive, Mode=TwoWay}"
-                            OffContent="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingMinimumOff}"
-                            OnContent="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingMinimumOn}"/>
-
+                        <ListView
+                            MinWidth="320"
+                            Margin="0,8,0,32"
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding StaticResourceOptions.ImageArchives}"
+                            SelectedItem="{Binding StaticResourceOptions.ImageArchive, Mode=TwoWay}"/>
+                        
                         <TextBlock Margin="0,16,0,0" Text="{Binding StaticResourceOptions.SizeInformationText, Mode=OneWay}"/>
                     </StackPanel>
 

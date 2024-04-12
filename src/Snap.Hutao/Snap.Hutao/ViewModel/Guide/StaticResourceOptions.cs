@@ -13,9 +13,12 @@ namespace Snap.Hutao.ViewModel.Guide;
 internal sealed class StaticResourceOptions : ObservableObject
 {
     private readonly List<NameValue<StaticResourceQuality>> imageQualities = CollectionsNameValue.FromEnum<StaticResourceQuality>(q => q.GetLocalizedDescription());
+    private readonly List<NameValue<StaticResourceArchive>> imageArchives = CollectionsNameValue.FromEnum<StaticResourceArchive>(a => a.GetLocalizedDescription());
 
     private NameValue<StaticResourceQuality>? imageQuality;
+    private NameValue<StaticResourceArchive>? imageArchive;
     private string? sizeInformationText;
+
     private StaticResourceSizeInformation? sizeInformation;
 
     public List<NameValue<StaticResourceQuality>> ImageQualities { get => imageQualities; }
@@ -33,13 +36,18 @@ internal sealed class StaticResourceOptions : ObservableObject
         }
     }
 
-    public bool UseTrimmedArchive
+    public List<NameValue<StaticResourceArchive>> ImageArchives { get => imageArchives; }
+
+    public NameValue<StaticResourceArchive>? ImageArchive
     {
-        get => LocalSetting.Get(SettingKeys.StaticResourceUseTrimmedArchive, false);
+        get => imageArchive ??= ImageArchives.First(a => a.Value == UnsafeLocalSetting.Get(SettingKeys.StaticResourceImageArchive, StaticResourceArchive.Full));
         set
         {
-            LocalSetting.Set(SettingKeys.StaticResourceUseTrimmedArchive, value);
-            UpdateSizeInformationText();
+            if (SetProperty(ref imageArchive, value) && value is not null)
+            {
+                UnsafeLocalSetting.Set(SettingKeys.StaticResourceImageArchive, value.Value);
+                UpdateSizeInformationText();
+            }
         }
     }
 
@@ -59,12 +67,12 @@ internal sealed class StaticResourceOptions : ObservableObject
     {
         if (SizeInformation is not null)
         {
-            long result = (ImageQuality?.Value, minimum: UseTrimmedArchive) switch
+            long result = (ImageQuality?.Value, ImageArchive?.Value) switch
             {
-                (StaticResourceQuality.Raw, minimum: false) => SizeInformation.RawFull,
-                (StaticResourceQuality.Raw, minimum: true) => SizeInformation.RawMinimum,
-                (StaticResourceQuality.High, minimum: false) => SizeInformation.HighFull,
-                (StaticResourceQuality.High, minimum: true) => SizeInformation.HighMinimum,
+                (StaticResourceQuality.Raw, StaticResourceArchive.Full) => SizeInformation.RawFull,
+                (StaticResourceQuality.Raw, StaticResourceArchive.Minimum) => SizeInformation.RawMinimum,
+                (StaticResourceQuality.High, StaticResourceArchive.Full) => SizeInformation.HighFull,
+                (StaticResourceQuality.High, StaticResourceArchive.Minimum) => SizeInformation.HighMinimum,
                 _ => 0,
             };
 

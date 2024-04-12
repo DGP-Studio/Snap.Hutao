@@ -15,6 +15,12 @@ internal static class StaticResourceHttpHeaderBuilderExtension
     {
         return builder
             .SetHeader("x-quality", $"{UnsafeLocalSetting.Get(SettingKeys.StaticResourceImageQuality, StaticResourceQuality.Raw)}")
-            .SetHeader("x-minimum", $"{LocalSetting.Get(SettingKeys.StaticResourceUseTrimmedArchive, false)}");
+            .SetHeader("x-archive", $"{UnsafeLocalSetting.Get(SettingKeys.StaticResourceImageArchive, StaticResourceArchive.Full)}");
+    }
+
+    public static TBuilder SetStaticResourceControlHeadersIf<TBuilder>(this TBuilder builder, bool condition)
+        where TBuilder : IHttpHeadersBuilder<HttpHeaders>
+    {
+        return condition ? builder.SetStaticResourceControlHeaders() : builder;
     }
 }

@@ -5,6 +5,9 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.ViewModel.Guide;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.IO;
@@ -36,6 +39,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     private readonly ConcurrentDictionary<string, Task> concurrentTasks = new();
 
     private readonly IHttpClientFactory httpClientFactory;
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<ImageCache> logger;
 
@@ -169,38 +173,49 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCache));
         while (retryCount < 3)
         {
-            using (HttpResponseMessage message = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
-            {
-                if (message.RequestMessage is { RequestUri: { } target } && target != uri)
-                {
-                    logger.LogDebug("The Request '{Source}' has been redirected to '{Target}'", uri, target);
-                }
+            HttpRequestMessageBuilder requestMessageBuilder = httpRequestMessageBuilderFactory
+                .Create()
+                .SetRequestUri(uri)
 
-                if (message.IsSuccessStatusCode)
+                // These headers are only available for our own api
+                .SetStaticResourceControlHeadersIf(uri.Host.Contains("api.snapgenshin.com", StringComparison.OrdinalIgnoreCase))
+                .Get();
+
+            using (HttpRequestMessage requestMessage = requestMessageBuilder.HttpRequestMessage)
+            {
+                using (HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
-                    using (Stream httpStream = await message.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    if (responseMessage.RequestMessage is { RequestUri: { } target } && target != uri)
                     {
-                        using (FileStream fileStream = File.Create(baseFile))
+                        logger.LogDebug("The Request '{Source}' has been redirected to '{Target}'", uri, target);
+                    }
+
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        using (Stream httpStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
                         {
-                            await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
-                            return;
+                            using (FileStream fileStream = File.Create(baseFile))
+                            {
+                                await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
+                                return;
+                            }
                         }
                     }
-                }
 
-                switch (message.StatusCode)
-                {
-                    case HttpStatusCode.TooManyRequests:
-                        {
-                            retryCount++;
-                            TimeSpan delay = message.Headers.RetryAfter?.Delta ?? retryCountToDelay[retryCount];
-                            logger.LogInformation("Retry download '{Uri}' after {Delay}.", uri, delay);
-                            await Task.Delay(delay).ConfigureAwait(false);
-                            break;
-                        }
+                    switch (responseMessage.StatusCode)
+                    {
+                        case HttpStatusCode.TooManyRequests:
+                            {
+                                retryCount++;
+                                TimeSpan delay = responseMessage.Headers.RetryAfter?.Delta ?? retryCountToDelay[retryCount];
+                                logger.LogInformation("Retry download '{Uri}' after {Delay}.", uri, delay);
+                                await Task.Delay(delay).ConfigureAwait(false);
+                                break;
+                            }
 
-                    default:
-                        return;
+                        default:
+                            return;
+                    }
                 }
             }
         }

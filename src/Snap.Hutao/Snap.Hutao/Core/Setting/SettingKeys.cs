@@ -22,7 +22,7 @@ internal static class SettingKeys
     public const string DataFolderPath = "DataFolderPath";
     public const string Major1Minor10Revision0GuideState = "Major1Minor10Revision0GuideState1";
     public const string StaticResourceImageQuality = "StaticResourceImageQuality";
-    public const string StaticResourceUseTrimmedArchive = "StaticResourceUseTrimmedArchive";
+    public const string StaticResourceImageArchive = "StaticResourceImageArchive";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
     public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled2";
     #endregion
