@@ -227,6 +227,8 @@
                             IsOn="{Binding StaticResourceOptions.UseTrimmedArchive, Mode=TwoWay}"
                             OffContent="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingMinimumOff}"
                             OnContent="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingMinimumOn}"/>
+
+                        <TextBlock Margin="0,16,0,0" Text="{Binding StaticResourceOptions.SizeInformationText, Mode=OneWay}"/>
                     </StackPanel>
 
                     <TextBlock

@@ -17,6 +17,16 @@ internal sealed partial class HutaoInfrastructureClient
     private readonly ILogger<HutaoInfrastructureClient> logger;
     private readonly HttpClient httpClient;
 
+    public async ValueTask<HutaoResponse<StaticResourceSizeInformation>> GetStaticSizeAsync(CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.StaticSize)
+            .Get();
+
+        HutaoResponse<StaticResourceSizeInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<StaticResourceSizeInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
+
     public async ValueTask<HutaoResponse<IPInformation>> GetIPInformationAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
