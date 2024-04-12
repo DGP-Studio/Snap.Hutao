@@ -59,12 +59,12 @@ internal sealed class StaticResourceOptions : ObservableObject
     {
         if (SizeInformation is not null)
         {
-            long result = (ImageQuality?.Value, UseTrimmedArchive) switch
+            long result = (ImageQuality?.Value, minimum: UseTrimmedArchive) switch
             {
-                (StaticResourceQuality.Raw, false) => SizeInformation.RawFull,
-                (StaticResourceQuality.Raw, true) => SizeInformation.RawMinimum,
-                (StaticResourceQuality.High, false) => SizeInformation.HighFull,
-                (StaticResourceQuality.High, true) => SizeInformation.HighMinimum,
+                (StaticResourceQuality.Raw, minimum: false) => SizeInformation.RawFull,
+                (StaticResourceQuality.Raw, minimum: true) => SizeInformation.RawMinimum,
+                (StaticResourceQuality.High, minimum: false) => SizeInformation.HighFull,
+                (StaticResourceQuality.High, minimum: true) => SizeInformation.HighMinimum,
                 _ => 0,
             };
 
