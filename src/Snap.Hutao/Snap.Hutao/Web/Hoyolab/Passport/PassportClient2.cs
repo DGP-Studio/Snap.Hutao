@@ -79,7 +79,6 @@ internal sealed partial class PassportClient2
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.AccountGetSTokenByGameToken)
-            .SetHeader("x-rpc-device_id", HoyolabOptions.DeviceId40)
             .PostJson(data);
 
         Response<LoginResult>? resp = await builder
