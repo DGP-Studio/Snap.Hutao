@@ -28,6 +28,7 @@ internal static partial class IocHttpClientConfiguration
                         clientHandler.AllowAutoRedirect = true;
                         clientHandler.UseProxy = true;
                         clientHandler.Proxy = provider.GetRequiredService<DynamicHttpProxy>();
+                        clientHandler.UseCookies = false;
                     });
             })
             .AddHttpClients();
