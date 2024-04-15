@@ -4,6 +4,7 @@
 using Snap.Discord.GameSDK.ABI;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.Unicode;
 
 namespace Snap.Hutao.Service.Discord;
@@ -158,7 +159,7 @@ internal static class DiscordController
         static unsafe void DebugWriteDiscordMessage(void* state, DiscordLogLevel logLevel, sbyte* ptr)
         {
             ReadOnlySpan<byte> utf8 = MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)ptr);
-            string message = System.Text.Encoding.UTF8.GetString(utf8);
+            string message = Encoding.UTF8.GetString(utf8);
             System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK]:[{logLevel}]:{message}");
         }
     }
@@ -224,18 +225,18 @@ internal static class DiscordController
         }
     }
 
-    private static unsafe void SetString(sbyte* reference, int length, string source)
+    private static unsafe void SetString(sbyte* reference, int length, in ReadOnlySpan<char> source)
     {
-        Span<sbyte> sbytes = new(reference, length);
-        sbytes.Clear();
-        Utf8.FromUtf16(source.AsSpan(), MemoryMarshal.Cast<sbyte, byte>(sbytes), out _, out _);
+        Span<byte> bytes = new(reference, length);
+        bytes.Clear();
+        Utf8.FromUtf16(source, bytes, out _, out _);
     }
 
     private static unsafe void SetString(sbyte* reference, int length, in ReadOnlySpan<byte> source)
     {
-        Span<sbyte> sbytes = new(reference, length);
-        sbytes.Clear();
-        source.CopyTo(MemoryMarshal.Cast<sbyte, byte>(sbytes));
+        Span<byte> bytes = new(reference, length);
+        bytes.Clear();
+        source.CopyTo(bytes);
     }
 
     private struct DiscordAsyncAction
