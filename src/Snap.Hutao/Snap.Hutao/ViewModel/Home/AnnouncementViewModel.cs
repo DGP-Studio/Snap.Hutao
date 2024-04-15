@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Announcement;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.View.Card;
 using Snap.Hutao.View.Card.Primitive;

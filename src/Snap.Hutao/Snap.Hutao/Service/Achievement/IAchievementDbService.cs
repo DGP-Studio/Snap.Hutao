@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Abstraction;
 using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 
-internal interface IAchievementDbService
+internal interface IAchievementDbService : IAppDbService<Model.Entity.AchievementArchive>, IAppDbService<EntityAchievement>
 {
     ValueTask RemoveAchievementArchiveAsync(Model.Entity.AchievementArchive archive);
 

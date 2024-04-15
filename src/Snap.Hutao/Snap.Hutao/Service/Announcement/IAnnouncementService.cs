@@ -4,7 +4,7 @@
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
-namespace Snap.Hutao.Service.Abstraction;
+namespace Snap.Hutao.Service.Announcement;
 
 /// <summary>
 /// 公告服务

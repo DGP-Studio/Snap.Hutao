@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
-using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Announcement;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
