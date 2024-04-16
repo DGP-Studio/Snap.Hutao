@@ -10,8 +10,6 @@ using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Shell;
 using System.Diagnostics;
-using System.Text;
-using static Snap.Hutao.Core.Logging.ConsoleVirtualTerminalSequences;
 
 namespace Snap.Hutao;
 

@@ -48,6 +48,12 @@ internal sealed class HutaoException : Exception
     }
 
     [DoesNotReturn]
+    public static HutaoException UserdataCorrupted(string message, Exception? innerException = default)
+    {
+        throw new HutaoException(HutaoExceptionKind.UserdataCorrupted, message, innerException);
+    }
+
+    [DoesNotReturn]
     public static InvalidCastException InvalidCast<TFrom, TTo>(string name, Exception? innerException = default)
     {
         string message = $"This instance of '{typeof(TFrom).FullName}' '{name}' doesn't implement '{typeof(TTo).FullName}'";

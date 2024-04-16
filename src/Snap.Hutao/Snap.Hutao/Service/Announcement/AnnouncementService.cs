@@ -10,6 +10,7 @@ using Snap.Hutao.Web.Response;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using WebAnnouncement = Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement.Announcement;
 
 namespace Snap.Hutao.Service;
 
@@ -72,7 +73,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // 将公告内容联入公告列表
         foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
         {
-            foreach (ref readonly Announcement item in CollectionsMarshal.AsSpan(listWrapper.List))
+            foreach (ref readonly WebAnnouncement item in CollectionsMarshal.AsSpan(listWrapper.List))
             {
                 contentMap.TryGetValue(item.AnnId, out string? rawContent);
                 item.Content = rawContent ?? string.Empty;
@@ -83,7 +84,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
         foreach (ref readonly AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
         {
-            foreach (ref readonly Announcement item in CollectionsMarshal.AsSpan(listWrapper.List))
+            foreach (ref readonly WebAnnouncement item in CollectionsMarshal.AsSpan(listWrapper.List))
             {
                 item.Subtitle = new StringBuilder(item.Subtitle)
                     .Replace("\r<br>", string.Empty)
@@ -99,12 +100,12 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     private static void AdjustAnnouncementTime(List<AnnouncementListWrapper> announcementListWrappers, in TimeSpan offset)
     {
         // 活动公告
-        List<Announcement> activities = announcementListWrappers
+        List<WebAnnouncement> activities = announcementListWrappers
             .Single(wrapper => wrapper.TypeId == 1)
             .List;
 
         // 更新公告
-        Announcement versionUpdate = announcementListWrappers
+        WebAnnouncement versionUpdate = announcementListWrappers
             .Single(wrapper => wrapper.TypeId == 2)
             .List
             .Single(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title));
@@ -116,7 +117,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
         DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(versionMatch.Groups[1].ValueSpan, offset);
 
-        foreach (ref readonly Announcement announcement in CollectionsMarshal.AsSpan(activities))
+        foreach (ref readonly WebAnnouncement announcement in CollectionsMarshal.AsSpan(activities))
         {
             if (AnnouncementRegex.PermanentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } permanent)
             {

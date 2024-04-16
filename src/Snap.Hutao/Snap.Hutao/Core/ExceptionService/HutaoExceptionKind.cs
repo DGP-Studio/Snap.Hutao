@@ -10,6 +10,7 @@ internal enum HutaoExceptionKind
     // Foundation
     ImageCacheInvalidUri,
     DatabaseCorrupted,
+    UserdataCorrupted,
 
     // IO
     FileSystemCreateFileInsufficientPermissions,

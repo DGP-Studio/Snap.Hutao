@@ -14,9 +14,9 @@ internal static class AppDbServiceAppDbEntityExtension
         return service.Execute(dbset => dbset.ExecuteDeleteWhere(e => e.InnerId == entity.InnerId));
     }
 
-    public static ValueTask<int> DeleteByInnerIdAsync<TEntity>(this IAppDbService<TEntity> service, TEntity entity)
+    public static ValueTask<int> DeleteByInnerIdAsync<TEntity>(this IAppDbService<TEntity> service, TEntity entity, CancellationToken token = default)
         where TEntity : class, IAppDbEntity
     {
-        return service.ExecuteAsync(dbset => dbset.ExecuteDeleteWhereAsync(e => e.InnerId == entity.InnerId));
+        return service.ExecuteAsync((dbset, token) => dbset.ExecuteDeleteWhereAsync(e => e.InnerId == entity.InnerId, token), token);
     }
 }

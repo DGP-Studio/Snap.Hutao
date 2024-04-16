@@ -2,13 +2,10 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Web.Request.Builder;
 using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
@@ -35,29 +32,31 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         }
         catch (ArgumentException ex)
         {
-            throw HutaoException.Throw(HutaoExceptionKind.DatabaseCorrupted, SH.ServiceAchievementUserdataCorruptedInnerIdNotUnique, ex);
+            throw HutaoException.UserdataCorrupted(SH.ServiceAchievementUserdataCorruptedAchievementIdNotUnique, ex);
         }
     }
 
-    public async ValueTask<int> GetFinishedAchievementCountByArchiveIdAsync(Guid archiveId)
+    public ValueTask<int> GetFinishedAchievementCountByArchiveIdAsync(Guid archiveId, CancellationToken token = default)
     {
-        return await this.QueryAsync<EntityAchievement, int>(query => query
+        return this.QueryAsync<EntityAchievement, int>(
+            (query, token) => query
                 .Where(a => a.ArchiveId == archiveId)
                 .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
-                .CountAsync())
-            .ConfigureAwait(false);
+                .CountAsync(token),
+            token);
     }
 
     [SuppressMessage("", "CA1305")]
-    public async ValueTask<List<EntityAchievement>> GetLatestFinishedAchievementListByArchiveIdAsync(Guid archiveId, int take)
+    public ValueTask<List<EntityAchievement>> GetLatestFinishedAchievementListByArchiveIdAsync(Guid archiveId, int take, CancellationToken token = default)
     {
-        return await this.QueryAsync<EntityAchievement, List<EntityAchievement>>(query => query
+        return this.QueryAsync<EntityAchievement, List<EntityAchievement>>(
+            (query, token) => query
                 .Where(a => a.ArchiveId == archiveId)
                 .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
                 .OrderByDescending(a => a.Time.ToString())
                 .Take(take)
-                .ToListAsync())
-            .ConfigureAwait(false);
+                .ToListAsync(token),
+            token);
     }
 
     public void OverwriteAchievement(EntityAchievement achievement)
@@ -69,12 +68,12 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         }
     }
 
-    public async ValueTask OverwriteAchievementAsync(EntityAchievement achievement)
+    public async ValueTask OverwriteAchievementAsync(EntityAchievement achievement, CancellationToken token = default)
     {
-        await this.DeleteByInnerIdAsync(achievement).ConfigureAwait(false);
+        await this.DeleteByInnerIdAsync(achievement, token).ConfigureAwait(false);
         if (achievement.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
         {
-            await this.AddAsync(achievement).ConfigureAwait(false);
+            await this.AddAsync(achievement, token).ConfigureAwait(false);
         }
     }
 
@@ -83,10 +82,10 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         return this.Query<AchievementArchive, ObservableCollection<AchievementArchive>>(query => query.ToObservableCollection());
     }
 
-    public async ValueTask RemoveAchievementArchiveAsync(AchievementArchive archive)
+    public async ValueTask RemoveAchievementArchiveAsync(AchievementArchive archive, CancellationToken token = default)
     {
         // It will cascade deleted the achievements.
-        await this.DeleteAsync(archive).ConfigureAwait(false);
+        await this.DeleteAsync(archive, token).ConfigureAwait(false);
     }
 
     public List<EntityAchievement> GetAchievementListByArchiveId(Guid archiveId)
@@ -94,12 +93,13 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         return this.Query<EntityAchievement, List<EntityAchievement>>(query => [.. query.Where(a => a.ArchiveId == archiveId)]);
     }
 
-    public async ValueTask<List<EntityAchievement>> GetAchievementListByArchiveIdAsync(Guid archiveId)
+    public ValueTask<List<EntityAchievement>> GetAchievementListByArchiveIdAsync(Guid archiveId, CancellationToken token = default)
     {
-        return await this.QueryAsync<EntityAchievement, List<EntityAchievement>>(query => query
+        return this.QueryAsync<EntityAchievement, List<EntityAchievement>>(
+            (query, token) => query
                 .Where(a => a.ArchiveId == archiveId)
-                .ToListAsync())
-            .ConfigureAwait(false);
+                .ToListAsync(token),
+            token);
     }
 
     public List<AchievementArchive> GetAchievementArchiveList()
@@ -107,7 +107,7 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         return this.Query<AchievementArchive, List<AchievementArchive>>(query => [.. query]);
     }
 
-    public async ValueTask<List<AchievementArchive>> GetAchievementArchiveListAsync()
+    public async ValueTask<List<AchievementArchive>> GetAchievementArchiveListAsync(CancellationToken token = default)
     {
         return await this.QueryAsync<AchievementArchive, List<AchievementArchive>>(query => query.ToListAsync()).ConfigureAwait(false);
     }
