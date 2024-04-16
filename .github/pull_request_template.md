@@ -8,7 +8,7 @@
 ## Related Issue
 
 <!--- If there's an associated issue, please use [GitHub Keyword](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/using-keywords-in-issues-and-pull-requests) to link it -->
-<!-- e.g. fix #999, resolve #999, close #999>
+<!-- e.g. fix #999, resolve #999, close #999 -->
 
 ## Checklist
 
