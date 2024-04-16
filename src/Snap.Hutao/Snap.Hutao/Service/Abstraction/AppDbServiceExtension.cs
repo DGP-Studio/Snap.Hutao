@@ -84,18 +84,6 @@ internal static class AppDbServiceExtension
         return service.ExecuteAsync((dbset, token) => dbset.AddRangeAndSaveAsync(entities, token), token);
     }
 
-    public static TEntity Single<TEntity>(this IAppDbService<TEntity> service, Expression<Func<TEntity, bool>> predicate)
-        where TEntity : class
-    {
-        return service.Execute(dbset => dbset.AsNoTracking().Single(predicate));
-    }
-
-    public static ValueTask<TEntity> SingleAsync<TEntity>(this IAppDbService<TEntity> service, Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
-        where TEntity : class
-    {
-        return service.ExecuteAsync((dbset, token) => dbset.AsNoTracking().SingleAsync(predicate, token), token);
-    }
-
     public static TResult Query<TEntity, TResult>(this IAppDbService<TEntity> service, Func<IQueryable<TEntity>, TResult> func)
         where TEntity : class
     {
@@ -124,6 +112,18 @@ internal static class AppDbServiceExtension
         where TEntity : class
     {
         return service.ExecuteAsync((dbset, token) => func(dbset.AsNoTracking(), token), token);
+    }
+
+    public static TEntity Single<TEntity>(this IAppDbService<TEntity> service, Expression<Func<TEntity, bool>> predicate)
+        where TEntity : class
+    {
+        return service.Query(query => query.Single(predicate));
+    }
+
+    public static ValueTask<TEntity> SingleAsync<TEntity>(this IAppDbService<TEntity> service, Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
+        where TEntity : class
+    {
+        return service.QueryAsync((query, token) => query.SingleAsync(predicate, token), token);
     }
 
     public static int Update<TEntity>(this IAppDbService<TEntity> service, TEntity entity)

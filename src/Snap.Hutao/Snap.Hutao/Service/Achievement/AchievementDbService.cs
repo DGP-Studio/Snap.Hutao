@@ -11,9 +11,6 @@ using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 
-/// <summary>
-/// 成就数据库服务
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IAchievementDbService))]
 internal sealed partial class AchievementDbService : IAchievementDbService
@@ -79,7 +76,7 @@ internal sealed partial class AchievementDbService : IAchievementDbService
 
     public ObservableCollection<AchievementArchive> GetAchievementArchiveCollection()
     {
-        return this.Query<AchievementArchive, ObservableCollection<AchievementArchive>>(query => query.ToObservableCollection());
+        return this.ObservableCollection<AchievementArchive>();
     }
 
     public async ValueTask RemoveAchievementArchiveAsync(AchievementArchive archive, CancellationToken token = default)
@@ -90,25 +87,21 @@ internal sealed partial class AchievementDbService : IAchievementDbService
 
     public List<EntityAchievement> GetAchievementListByArchiveId(Guid archiveId)
     {
-        return this.Query<EntityAchievement, List<EntityAchievement>>(query => [.. query.Where(a => a.ArchiveId == archiveId)]);
+        return this.ListByArchiveId<EntityAchievement>(archiveId);
     }
 
     public ValueTask<List<EntityAchievement>> GetAchievementListByArchiveIdAsync(Guid archiveId, CancellationToken token = default)
     {
-        return this.QueryAsync<EntityAchievement, List<EntityAchievement>>(
-            (query, token) => query
-                .Where(a => a.ArchiveId == archiveId)
-                .ToListAsync(token),
-            token);
+        return this.ListByArchiveIdAsync<EntityAchievement>(archiveId, token);
     }
 
     public List<AchievementArchive> GetAchievementArchiveList()
     {
-        return this.Query<AchievementArchive, List<AchievementArchive>>(query => [.. query]);
+        return this.List<AchievementArchive>();
     }
 
-    public async ValueTask<List<AchievementArchive>> GetAchievementArchiveListAsync(CancellationToken token = default)
+    public ValueTask<List<AchievementArchive>> GetAchievementArchiveListAsync(CancellationToken token = default)
     {
-        return await this.QueryAsync<AchievementArchive, List<AchievementArchive>>(query => query.ToListAsync()).ConfigureAwait(false);
+        return this.ListAsync<AchievementArchive>(token);
     }
 }

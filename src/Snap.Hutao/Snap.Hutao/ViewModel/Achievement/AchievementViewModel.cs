@@ -3,11 +3,13 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
@@ -158,19 +160,19 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
             if (isOk)
             {
-                ArchiveAddResult result = await dependencies.AchievementService.AddArchiveAsync(EntityAchievementArchive.From(name)).ConfigureAwait(false);
+                ArchiveAddResultKind result = await dependencies.AchievementService.AddArchiveAsync(EntityAchievementArchive.From(name)).ConfigureAwait(false);
 
                 switch (result)
                 {
-                    case ArchiveAddResult.Added:
+                    case ArchiveAddResultKind.Added:
                         await dependencies.TaskContext.SwitchToMainThreadAsync();
                         SelectedArchive = dependencies.AchievementService.CurrentArchive;
                         dependencies.InfoBarService.Success(SH.FormatViewModelAchievementArchiveAdded(name));
                         break;
-                    case ArchiveAddResult.InvalidName:
+                    case ArchiveAddResultKind.InvalidName:
                         dependencies.InfoBarService.Warning(SH.ViewModelAchievementArchiveInvalidName);
                         break;
-                    case ArchiveAddResult.AlreadyExists:
+                    case ArchiveAddResultKind.AlreadyExists:
                         dependencies.InfoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name));
                         break;
                     default:
@@ -264,9 +266,11 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        List<MetadataAchievement> achievements = await dependencies.MetadataService.GetAchievementListAsync(CancellationToken).ConfigureAwait(false);
+        AchievementServiceMetadataContext context = await dependencies.MetadataService
+            .GetContextAsync<AchievementServiceMetadataContext>(CancellationToken)
+            .ConfigureAwait(false);
 
-        if (TryGetAchievements(archive, achievements, out List<AchievementView>? combined))
+        if (TryGetAchievements(archive, context, out List<AchievementView>? combined))
         {
             await dependencies.TaskContext.SwitchToMainThreadAsync();
 
@@ -277,14 +281,14 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    private bool TryGetAchievements(EntityAchievementArchive archive, List<MetadataAchievement> achievements, [NotNullWhen(true)] out List<AchievementView>? combined)
+    private bool TryGetAchievements(EntityAchievementArchive archive, AchievementServiceMetadataContext context, [NotNullWhen(true)] out List<AchievementView>? combined)
     {
         try
         {
-            combined = dependencies.AchievementService.GetAchievementViewList(archive, achievements);
+            combined = dependencies.AchievementService.GetAchievementViewList(archive, context);
             return true;
         }
-        catch (Core.ExceptionService.UserdataCorruptedException ex)
+        catch (HutaoException ex)
         {
             dependencies.InfoBarService.Error(ex);
             combined = default;

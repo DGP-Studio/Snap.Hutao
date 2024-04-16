@@ -18,14 +18,19 @@ internal static class MetadataServiceContextExtension
 
         // List
         {
-            if (context is IMetadataListMaterialSource listMaterialSource)
+            if (context is IMetadataListAchievementSource listAchievementSource)
             {
-                listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
+                listAchievementSource.Achievements = await metadataService.GetAchievementListAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataListGachaEventSource listGachaEventSource)
             {
                 listGachaEventSource.GachaEvents = await metadataService.GetGachaEventListAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataListMaterialSource listMaterialSource)
+            {
+                listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
             }
         }
 

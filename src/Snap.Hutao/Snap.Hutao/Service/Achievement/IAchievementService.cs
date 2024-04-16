@@ -32,13 +32,7 @@ internal interface IAchievementService
     /// <returns>UIAF</returns>
     ValueTask<UIAF> ExportToUIAFAsync(EntityArchive selectedArchive);
 
-    /// <summary>
-    /// 获取整合的成就
-    /// </summary>
-    /// <param name="archive">用户</param>
-    /// <param name="metadata">元数据</param>
-    /// <returns>整合的成就</returns>
-    List<AchievementView> GetAchievementViewList(EntityArchive archive, List<MetadataAchievement> metadata);
+    List<AchievementView> GetAchievementViewList(EntityArchive archive, AchievementServiceMetadataContext context);
 
     /// <summary>
     /// 异步导入UIAF数据
@@ -47,7 +41,7 @@ internal interface IAchievementService
     /// <param name="list">UIAF数据</param>
     /// <param name="strategy">选项</param>
     /// <returns>导入结果</returns>
-    ValueTask<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy);
+    ValueTask<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportStrategyKind strategy);
 
     /// <summary>
     /// 异步移除存档
@@ -67,5 +61,5 @@ internal interface IAchievementService
     /// </summary>
     /// <param name="newArchive">新存档</param>
     /// <returns>存档添加结果</returns>
-    ValueTask<ArchiveAddResult> AddArchiveAsync(EntityArchive newArchive);
+    ValueTask<ArchiveAddResultKind> AddArchiveAsync(EntityArchive newArchive);
 }

@@ -29,7 +29,7 @@ internal readonly struct TempFile : IDisposable
         }
         catch (UnauthorizedAccessException ex)
         {
-            HutaoException.Throw(HutaoExceptionKind.FileSystemCreateFileInsufficientPermissions, SH.CoreIOTempFileCreateFail, ex);
+            HutaoException.Throw(SH.CoreIOTempFileCreateFail, ex);
         }
 
         if (delete)

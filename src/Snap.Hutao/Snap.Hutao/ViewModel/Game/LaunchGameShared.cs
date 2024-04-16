@@ -41,7 +41,7 @@ internal sealed partial class LaunchGameShared
                     if (!IgnoredInvalidChannelOptions.Contains(options))
                     {
                         // 后台收集
-                        HutaoException.Throw(HutaoExceptionKind.GameConfigInvalidChannelOptions, $"不支持的 ChannelOptions: {options}");
+                        HutaoException.Throw($"不支持的 ChannelOptions: {options}");
                     }
                 }
 

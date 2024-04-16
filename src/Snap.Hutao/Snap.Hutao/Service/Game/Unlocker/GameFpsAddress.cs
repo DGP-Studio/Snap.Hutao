@@ -19,12 +19,12 @@ internal static class GameFpsAddress
     public static unsafe void UnsafeFindFpsAddress(GameFpsUnlockerContext state, in RequiredGameModule requiredGameModule)
     {
         bool readOk = UnsafeReadModulesMemory(state.GameProcess, requiredGameModule, out VirtualMemory localMemory);
-        HutaoException.ThrowIfNot(readOk, HutaoExceptionKind.GameFpsUnlockingFailed, SH.ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed);
+        HutaoException.ThrowIfNot(readOk, SH.ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed);
 
         using (localMemory)
         {
             int offset = IndexOfPattern(localMemory.AsSpan()[(int)requiredGameModule.UnityPlayer.Size..]);
-            HutaoException.ThrowIfNot(offset >= 0, HutaoExceptionKind.GameFpsUnlockingFailed, SH.ServiceGameUnlockerInterestedPatternNotFound);
+            HutaoException.ThrowIfNot(offset >= 0, SH.ServiceGameUnlockerInterestedPatternNotFound);
 
             byte* pLocalMemory = (byte*)localMemory.Pointer;
             ref readonly Module unityPlayer = ref requiredGameModule.UnityPlayer;
@@ -76,7 +76,7 @@ internal static class GameFpsAddress
     {
         value = 0;
         bool result = ReadProcessMemory((HANDLE)process.Handle, (void*)baseAddress, ref value, out _);
-        HutaoException.ThrowIfNot(result, HutaoExceptionKind.GameFpsUnlockingFailed, SH.ServiceGameUnlockerReadProcessMemoryPointerAddressFailed);
+        HutaoException.ThrowIfNot(result, SH.ServiceGameUnlockerReadProcessMemoryPointerAddressFailed);
         return result;
     }
 }
