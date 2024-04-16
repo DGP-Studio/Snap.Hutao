@@ -653,7 +653,7 @@
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
     <value>打开 UIAF Json 文件</value>
   </data>
-  <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
+  <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>한 업적 아카이브에서 Id 동일한 업적 발견됨</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
