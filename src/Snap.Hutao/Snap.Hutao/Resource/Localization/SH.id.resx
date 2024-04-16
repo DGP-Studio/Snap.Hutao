@@ -653,7 +653,7 @@
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
     <value>Buka berkas UIAF Json</value>
   </data>
-  <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
+  <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>Terdapat beberapa ID pencapaian yang identik dalam satu arsip pencapaian</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
