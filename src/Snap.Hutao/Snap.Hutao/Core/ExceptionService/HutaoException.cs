@@ -28,21 +28,20 @@ internal sealed class HutaoException : Exception
     {
         if (!condition)
         {
-            throw new HutaoException(kind, message, innerException);
+            throw new HutaoException(message, innerException);
         }
     }
 
     [DoesNotReturn]
     public static HutaoException GachaStatisticsInvalidItemId(uint id, Exception? innerException = default)
     {
-        string message = SH.FormatServiceGachaStatisticsFactoryItemIdInvalid(id);
-        throw new HutaoException(HutaoExceptionKind.GachaStatisticsInvalidItemId, message, innerException);
+        throw new HutaoException(SH.FormatServiceGachaStatisticsFactoryItemIdInvalid(id), innerException);
     }
 
     [DoesNotReturn]
     public static HutaoException UserdataCorrupted(string message, Exception? innerException = default)
     {
-        throw new HutaoException(HutaoExceptionKind.UserdataCorrupted, message, innerException);
+        throw new HutaoException(message, innerException);
     }
 
     [DoesNotReturn]

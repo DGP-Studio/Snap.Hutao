@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
@@ -31,12 +32,12 @@ internal sealed partial class AchievementViewModelSlim : Abstraction.ViewModelSl
 
             if (await metadataService.InitializeAsync().ConfigureAwait(false))
             {
-                Dictionary<AchievementId, Model.Metadata.Achievement.Achievement> achievementMap = await metadataService
-                    .GetIdToAchievementMapAsync()
+                AchievementServiceMetadataContext context = await metadataService
+                    .GetContextAsync<AchievementServiceMetadataContext>()
                     .ConfigureAwait(false);
                 List<AchievementStatistics> list = await scope.ServiceProvider
                     .GetRequiredService<IAchievementStatisticsService>()
-                    .GetAchievementStatisticsAsync(achievementMap)
+                    .GetAchievementStatisticsAsync(context)
                     .ConfigureAwait(false);
 
                 await taskContext.SwitchToMainThreadAsync();
