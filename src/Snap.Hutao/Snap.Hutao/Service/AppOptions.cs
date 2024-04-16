@@ -15,6 +15,7 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
+    private bool? isNeverHeldStatisticsItemVisible;
     private bool? isEmptyHistoryWishVisible;
     private BackdropType? backdropType;
     private ElementTheme? elementTheme;
@@ -26,6 +27,12 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible);
         set => SetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible, value);
+    }
+
+    public bool IsNeverHeldStatisticsItemVisible
+    {
+        get => GetOption(ref isNeverHeldStatisticsItemVisible, SettingEntry.IsNeverHeldStatisticsItemVisible);
+        set => SetOption(ref isNeverHeldStatisticsItemVisible, SettingEntry.IsNeverHeldStatisticsItemVisible, value);
     }
 
     public List<NameValue<BackdropType>> BackdropTypes { get; } = CollectionsNameValue.FromEnum<BackdropType>(type => type >= 0);

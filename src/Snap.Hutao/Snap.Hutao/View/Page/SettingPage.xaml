@@ -559,6 +559,15 @@
                                         OffContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
                                         OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
                                 </cwc:SettingsCard>
+                                <cwc:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageSettingNeverHeldItemVisibleDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageSettingNeverHeldItemVisibleHeader}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE890;}">
+                                    <ToggleSwitch
+                                        IsOn="{Binding AppOptions.IsNeverHeldStatisticsItemVisible, Mode=TwoWay}"
+                                        OffContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
+                                        OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
+                                </cwc:SettingsCard>
                             </StackPanel>
                         </Border>
                     </Border>
