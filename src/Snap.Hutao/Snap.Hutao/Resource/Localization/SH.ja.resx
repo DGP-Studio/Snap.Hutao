@@ -653,7 +653,7 @@
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
     <value>UIAF Json ファイルを開く</value>
   </data>
-  <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
+  <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>複数の同一アチーブメント Idがアーカイブに混在しています</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
