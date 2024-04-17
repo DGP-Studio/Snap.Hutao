@@ -46,11 +46,17 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         {
             DailyNoteEntry newEntry = DailyNoteEntry.From(userAndUid);
 
-            Web.Response.Response<WebDailyNote> dailyNoteResponse = await serviceProvider
-                .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
-                .Create(PlayerUid.IsOversea(roleUid))
-                .GetDailyNoteAsync(userAndUid)
-                .ConfigureAwait(false);
+            Web.Response.Response<WebDailyNote> dailyNoteResponse;
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                IGameRecordClient gameRecordClient = scope.ServiceProvider
+                    .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+                    .Create(PlayerUid.IsOversea(roleUid));
+
+                dailyNoteResponse = await gameRecordClient
+                    .GetDailyNoteAsync(userAndUid)
+                    .ConfigureAwait(false);
+            }
 
             if (dailyNoteResponse.IsOk())
             {
@@ -117,11 +123,17 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 continue;
             }
 
-            Web.Response.Response<WebDailyNote> dailyNoteResponse = await serviceProvider
-                .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
-                .Create(PlayerUid.IsOversea(entry.Uid))
-                .GetDailyNoteAsync(new(entry.User, entry.Uid))
-                .ConfigureAwait(false);
+            Web.Response.Response<WebDailyNote> dailyNoteResponse;
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                IGameRecordClient gameRecordClient = serviceProvider
+                    .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+                    .Create(PlayerUid.IsOversea(entry.Uid));
+
+                dailyNoteResponse = await gameRecordClient
+                    .GetDailyNoteAsync(new(entry.User, entry.Uid))
+                    .ConfigureAwait(false);
+            }
 
             if (dailyNoteResponse.IsOk())
             {

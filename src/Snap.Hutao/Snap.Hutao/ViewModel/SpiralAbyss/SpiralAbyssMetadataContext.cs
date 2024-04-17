@@ -8,6 +8,7 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
+// TODO: replace this
 internal sealed class SpiralAbyssMetadataContext
 {
     public Dictionary<TowerScheduleId, TowerSchedule> IdScheduleMap { get; set; } = default!;

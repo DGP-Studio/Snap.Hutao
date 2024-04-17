@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -11,9 +10,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
-/// <summary>
-/// 养成计算器客户端
-/// </summary>
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
@@ -23,14 +19,6 @@ internal sealed partial class CalculateClient
     private readonly ILogger<CalculateClient> logger;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 异步计算结果
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="delta">差异</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>消耗结果</returns>
-    [ApiInformation(Cookie = CookieType.Cookie)]
     public async ValueTask<Response<Consumption>> ComputeAsync(Model.Entity.User user, AvatarPromotionDelta delta, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -46,12 +34,6 @@ internal sealed partial class CalculateClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取角色列表
-    /// </summary>
-    /// <param name="userAndUid">用户与角色</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色列表</returns>
     public async ValueTask<List<Avatar>> GetAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         int currentPage = 1;
@@ -91,13 +73,6 @@ internal sealed partial class CalculateClient
         return avatars;
     }
 
-    /// <summary>
-    /// 异步获取角色详情
-    /// </summary>
-    /// <param name="userAndUid">用户与角色</param>
-    /// <param name="avatar">角色</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色详情</returns>
     public async ValueTask<Response<AvatarDetail>> GetAvatarDetailAsync(UserAndUid userAndUid, Avatar avatar, CancellationToken token = default)
     {
         string url = userAndUid.User.IsOversea
@@ -117,13 +92,6 @@ internal sealed partial class CalculateClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取摹本的家具列表
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="shareCode">摹本码</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>家具列表</returns>
     public async ValueTask<Response<FurnitureListWrapper>> FurnitureBlueprintAsync(Model.Entity.User user, string shareCode, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -139,13 +107,6 @@ internal sealed partial class CalculateClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 家具数量计算
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="items">物品</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>消耗</returns>
     public async ValueTask<Response<ListWrapper<Item>>> FurnitureComputeAsync(Model.Entity.User user, List<Item> items, CancellationToken token)
     {
         ListWrapper<IdCount> data = new() { List = items.Select(i => new IdCount { Id = i.Id, Count = i.Num }).ToList() };

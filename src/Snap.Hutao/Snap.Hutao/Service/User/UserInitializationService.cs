@@ -68,6 +68,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             return false;
         }
 
+        // TODO: sharing scope
         if (!await TrySetUserLTokenAsync(user, token).ConfigureAwait(false))
         {
             return false;
@@ -100,11 +101,17 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             return true;
         }
 
-        Response<LTokenWrapper> lTokenResponse = await serviceProvider
-            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
-            .Create(user.IsOversea)
-            .GetLTokenBySTokenAsync(user.Entity, token)
-            .ConfigureAwait(false);
+        Response<LTokenWrapper> lTokenResponse;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            IPassportClient passportClient = scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+                .Create(user.IsOversea);
+
+            lTokenResponse = await passportClient
+                .GetLTokenBySTokenAsync(user.Entity, token)
+                .ConfigureAwait(false);
+        }
 
         if (lTokenResponse.IsOk())
         {
@@ -131,11 +138,17 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             }
         }
 
-        Response<UidCookieToken> cookieTokenResponse = await serviceProvider
-            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
-            .Create(user.IsOversea)
-            .GetCookieAccountInfoBySTokenAsync(user.Entity, token)
-            .ConfigureAwait(false);
+        Response<UidCookieToken> cookieTokenResponse;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            IPassportClient passportClient = scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+                .Create(user.IsOversea);
+
+            cookieTokenResponse = await passportClient
+                .GetCookieAccountInfoBySTokenAsync(user.Entity, token)
+                .ConfigureAwait(false);
+        }
 
         if (cookieTokenResponse.IsOk())
         {
@@ -157,11 +170,17 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
     private async ValueTask<bool> TrySetUserUserInfoAsync(ViewModel.User.User user, CancellationToken token)
     {
-        Response<UserFullInfoWrapper> response = await serviceProvider
-            .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
-            .Create(user.IsOversea)
-            .GetUserFullInfoAsync(user.Entity, token)
-            .ConfigureAwait(false);
+        Response<UserFullInfoWrapper> response;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            IUserClient userClient = scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
+                .Create(user.IsOversea);
+
+            response = await userClient
+                .GetUserFullInfoAsync(user.Entity, token)
+                .ConfigureAwait(false);
+        }
 
         if (response.IsOk())
         {
@@ -176,10 +195,16 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
     private async ValueTask<bool> TrySetUserUserGameRolesAsync(ViewModel.User.User user, CancellationToken token)
     {
-        Response<ListWrapper<UserGameRole>> userGameRolesResponse = await serviceProvider
-            .GetRequiredService<BindingClient>()
-            .GetUserGameRolesOverseaAwareAsync(user.Entity, token)
-            .ConfigureAwait(false);
+        Response<ListWrapper<UserGameRole>> userGameRolesResponse;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            BindingClient bindingClient = scope.ServiceProvider
+                .GetRequiredService<BindingClient>();
+
+            userGameRolesResponse = await bindingClient
+                .GetUserGameRolesOverseaAwareAsync(user.Entity, token)
+                .ConfigureAwait(false);
+        }
 
         if (userGameRolesResponse.IsOk())
         {
