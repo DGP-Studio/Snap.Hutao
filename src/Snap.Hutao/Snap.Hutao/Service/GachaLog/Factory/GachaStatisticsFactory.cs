@@ -55,7 +55,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         List<HistoryWishBuilder> historyWishBuilders,
         in GachaLogServiceMetadataContext context,
         bool isEmptyHistoryWishVisible,
-        bool isNeverHeldStatisticsItemVisible)
+        bool isUnobtainedWishItemVisible)
     {
         TypedWishSummaryBuilderContext standardContext = TypedWishSummaryBuilderContext.StandardWish(taskContext, gachaLogClient);
         TypedWishSummaryBuilder standardWishBuilder = new(standardContext);
@@ -75,7 +75,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         Dictionary<Weapon, int> purpleWeaponCounter = [];
         Dictionary<Weapon, int> blueWeaponCounter = [];
 
-        if (isNeverHeldStatisticsItemVisible)
+        if (isUnobtainedWishItemVisible)
         {
             orangeAvatarCounter = context.IdAvatarMap.Values
                 .Where(avatar => avatar.Quality == QualityType.QUALITY_ORANGE)

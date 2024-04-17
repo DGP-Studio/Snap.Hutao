@@ -74,7 +74,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public string GeetestCustomCompositeUrl
     {
-        get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, false);
+        get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl);
         set => SetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, value);
     }
 
