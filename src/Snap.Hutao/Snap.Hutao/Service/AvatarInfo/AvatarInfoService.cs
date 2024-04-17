@@ -13,9 +13,6 @@ using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 
-/// <summary>
-/// 角色信息服务
-/// </summary>
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IAvatarInfoService))]
@@ -23,12 +20,11 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
 {
     private readonly AvatarInfoDbBulkOperation avatarInfoDbBulkOperation;
     private readonly IAvatarInfoDbService avatarInfoDbService;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<AvatarInfoService> logger;
     private readonly IMetadataService metadataService;
     private readonly ISummaryFactory summaryFactory;
-    private readonly EnkaClient enkaClient;
 
-    /// <inheritdoc/>
     public async ValueTask<ValueResult<RefreshResult, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOption refreshOption, CancellationToken token = default)
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
@@ -92,8 +88,13 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
 
     private async ValueTask<EnkaResponse?> GetEnkaResponseAsync(PlayerUid uid, CancellationToken token = default)
     {
-        return await enkaClient.GetForwardDataAsync(uid, token).ConfigureAwait(false)
-            ?? await enkaClient.GetDataAsync(uid, token).ConfigureAwait(false);
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            EnkaClient enkaClient = scope.ServiceProvider.GetRequiredService<EnkaClient>();
+
+            return await enkaClient.GetForwardDataAsync(uid, token).ConfigureAwait(false)
+                ?? await enkaClient.GetDataAsync(uid, token).ConfigureAwait(false);
+        }
     }
 
     private async ValueTask<Summary> GetSummaryCoreAsync(IEnumerable<EntityAvatarInfo> avatarInfos, CancellationToken token)

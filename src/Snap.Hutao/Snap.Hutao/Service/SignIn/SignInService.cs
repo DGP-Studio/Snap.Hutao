@@ -16,31 +16,22 @@ internal sealed partial class SignInService : ISignInService
 
     public async ValueTask<ValueResult<bool, string>> ClaimRewardAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        ISignInClient signInClient = serviceProvider
-            .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
-            .Create(userAndUid.User.IsOversea);
-
-        Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User, token).ConfigureAwait(false);
-
-        if (rewardResponse.IsOk())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
+            ISignInClient signInClient = scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<ISignInClient>>()
+                .Create(userAndUid.User.IsOversea);
+
+            Response<Reward> rewardResponse = await signInClient.GetRewardAsync(userAndUid.User, token).ConfigureAwait(false);
+
+            if (!rewardResponse.IsOk())
+            {
+                return new(false, SH.ServiceSignInRewardListRequestFailed);
+            }
+
             Response<SignInResult> resultResponse = await signInClient.SignAsync(userAndUid, token).ConfigureAwait(false);
 
-            if (resultResponse.IsOk(showInfoBar: false))
-            {
-                Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid, token).ConfigureAwait(false);
-                if (infoResponse.IsOk())
-                {
-                    int index = infoResponse.Data.TotalSignDay - 1;
-                    Award award = rewardResponse.Data.Awards[index];
-                    return new(true, SH.FormatServiceSignInSuccessRewardFormat(award.Name, award.Count));
-                }
-                else
-                {
-                    return new(false, SH.ServiceSignInInfoRequestFailed);
-                }
-            }
-            else
+            if (!resultResponse.IsOk(showInfoBar: false))
             {
                 string message = resultResponse.Message;
 
@@ -56,10 +47,16 @@ internal sealed partial class SignInService : ISignInService
 
                 return new(false, SH.FormatServiceSignInClaimRewardFailedFormat(message));
             }
-        }
-        else
-        {
-            return new(false, SH.ServiceSignInRewardListRequestFailed);
+
+            Response<SignInRewardInfo> infoResponse = await signInClient.GetInfoAsync(userAndUid, token).ConfigureAwait(false);
+            if (!infoResponse.IsOk())
+            {
+                return new(false, SH.ServiceSignInInfoRequestFailed);
+            }
+
+            int index = infoResponse.Data.TotalSignDay - 1;
+            Award award = rewardResponse.Data.Awards[index];
+            return new(true, SH.FormatServiceSignInSuccessRewardFormat(award.Name, award.Count));
         }
     }
 }
