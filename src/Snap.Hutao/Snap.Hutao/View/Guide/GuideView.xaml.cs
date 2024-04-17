@@ -14,7 +14,7 @@ internal sealed partial class GuideView : UserControl
 {
     public GuideView()
     {
+        this.InitializeDataContext<GuideViewModel>();
         InitializeComponent();
-        DataContext = this.ServiceProvider().GetRequiredService<GuideViewModel>();
     }
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Page;
 using Snap.Hutao.ViewModel;
@@ -23,12 +24,11 @@ internal sealed partial class MainView : UserControl
     {
         IServiceProvider serviceProvider = Ioc.Default;
 
-        MainViewModel mainViewModel = serviceProvider.GetRequiredService<MainViewModel>();
+        this.InitializeDataContext<MainViewModel>(serviceProvider);
 
-        DataContext = mainViewModel;
         InitializeComponent();
 
-        mainViewModel.Initialize(new BackgroundImagePresenterAccessor(BackgroundImagePresenter));
+        (DataContext as MainViewModel)?.Initialize(new BackgroundImagePresenterAccessor(BackgroundImagePresenter));
 
         navigationService = serviceProvider.GetRequiredService<INavigationService>();
         if (navigationService is INavigationInitialization navigationInitialization)

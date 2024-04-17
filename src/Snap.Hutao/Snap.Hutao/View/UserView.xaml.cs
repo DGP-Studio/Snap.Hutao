@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.View;
@@ -17,7 +18,7 @@ internal sealed partial class UserView : UserControl
     /// </summary>
     public UserView()
     {
+        this.InitializeDataContext<UserViewModel>();
         InitializeComponent();
-        DataContext = Ioc.Default.GetRequiredService<UserViewModel>();
     }
 }

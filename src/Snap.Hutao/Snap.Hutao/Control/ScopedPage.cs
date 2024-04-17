@@ -44,9 +44,17 @@ internal class ScopedPage : Page
     protected void InitializeWith<TViewModel>()
         where TViewModel : class, IViewModel
     {
-        IViewModel viewModel = currentScope.ServiceProvider.GetRequiredService<TViewModel>();
-        viewModel.CancellationToken = viewCancellationTokenSource.Token;
-        DataContext = viewModel;
+        try
+        {
+            IViewModel viewModel = currentScope.ServiceProvider.GetRequiredService<TViewModel>();
+            viewModel.CancellationToken = viewCancellationTokenSource.Token;
+            DataContext = viewModel;
+        }
+        catch (Exception ex)
+        {
+            currentScope.ServiceProvider.GetRequiredService<ILogger<ScopedPage>>().LogError(ex, "Failed to initialize view model.");
+            throw;
+        }
     }
 
     /// <inheritdoc/>
