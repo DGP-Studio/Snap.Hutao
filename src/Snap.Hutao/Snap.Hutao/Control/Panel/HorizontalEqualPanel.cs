@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using System.Runtime.InteropServices;
 using Windows.Foundation;
 
 namespace Snap.Hutao.Control.Panel;
@@ -18,19 +19,14 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        int itemCount = Children.Count(child => child.Visibility is Visibility.Visible);
-        foreach (UIElement child in Children)
+        List<UIElement> visibleChildren = Children.Where(child => child.Visibility is Visibility.Visible).ToList();
+        foreach (ref readonly UIElement visibleChild in CollectionsMarshal.AsSpan(visibleChildren))
         {
-            if (child.Visibility is Visibility.Collapsed)
-            {
-                continue;
-            }
-
             // ScrollViewer will always return an Infinity Size, we should use ActualWidth for this situation.
             double availableWidth = double.IsInfinity(availableSize.Width) ? ActualWidth : availableSize.Width;
-            double childAvailableWidth = (availableWidth + Spacing) / itemCount;
+            double childAvailableWidth = (availableWidth + Spacing) / visibleChildren.Count;
             double childMaxAvailableWidth = Math.Max(MinItemWidth, childAvailableWidth);
-            child.Measure(new(childMaxAvailableWidth - Spacing, ActualHeight));
+            visibleChild.Measure(new(childMaxAvailableWidth - Spacing, ActualHeight));
         }
 
         return base.MeasureOverride(availableSize);
@@ -38,19 +34,14 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        int itemCount = Children.Count(child => child.Visibility is Visibility.Visible);
-        double availableItemWidth = (finalSize.Width - (Spacing * (itemCount - 1))) / itemCount;
+        List<UIElement> visibleChildren = Children.Where(child => child.Visibility is Visibility.Visible).ToList();
+        double availableItemWidth = (finalSize.Width - (Spacing * (visibleChildren.Count - 1))) / visibleChildren.Count;
         double actualItemWidth = Math.Max(MinItemWidth, availableItemWidth);
 
         double offset = 0;
-        foreach (UIElement child in Children)
+        foreach (ref readonly UIElement visibleChild in CollectionsMarshal.AsSpan(visibleChildren))
         {
-            if (child.Visibility is Visibility.Collapsed)
-            {
-                continue;
-            }
-
-            child.Arrange(new Rect(offset, 0, actualItemWidth, finalSize.Height));
+            visibleChild.Arrange(new Rect(offset, 0, actualItemWidth, finalSize.Height));
             offset += actualItemWidth + Spacing;
         }
 
@@ -60,7 +51,8 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
     private static void OnLoaded(object sender, RoutedEventArgs e)
     {
         HorizontalEqualPanel panel = (HorizontalEqualPanel)sender;
-        panel.MinWidth = (panel.MinItemWidth * panel.Children.Count) + (panel.Spacing * (panel.Children.Count - 1));
+        int vivibleChildrenCount = panel.Children.Count(child => child.Visibility is Visibility.Visible);
+        panel.MinWidth = (panel.MinItemWidth * vivibleChildrenCount) + (panel.Spacing * (vivibleChildrenCount - 1));
     }
 
     private static void OnSizeChanged(object sender, SizeChangedEventArgs e)
