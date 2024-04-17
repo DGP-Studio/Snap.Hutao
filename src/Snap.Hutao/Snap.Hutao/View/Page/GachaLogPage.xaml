@@ -468,15 +468,18 @@
                             Margin="16"
                             CornerRadius="{ThemeResource ControlCornerRadius}"
                             IsLoading="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
-                        <shvc:HutaoStatisticsPanel
+                        <shcp:HorizontalEqualPanel
                             Margin="16"
                             Spacing="16"
-                            Statistics="{Binding HutaoCloudStatisticsViewModel.Statistics}"
                             Visibility="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
                             <mxi:Interaction.Behaviors>
                                 <shcb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudStatisticsViewModel.OpenUICommand}"/>
                             </mxi:Interaction.Behaviors>
-                        </shvc:HutaoStatisticsPanel>
+                            <shvc:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent}"/>
+                            <shvc:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent2}"/>
+                            <shvc:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.WeaponEvent}"/>
+                            <shvc:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.Chronicled}" Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                        </shcp:HorizontalEqualPanel>
                     </Grid>
                 </PivotItem>
             </Pivot>

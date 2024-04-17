@@ -18,11 +18,17 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
 
     protected override Size MeasureOverride(Size availableSize)
     {
+        int itemCount = Children.Count(child => child.Visibility is Visibility.Visible);
         foreach (UIElement child in Children)
         {
+            if (child.Visibility is Visibility.Collapsed)
+            {
+                continue;
+            }
+
             // ScrollViewer will always return an Infinity Size, we should use ActualWidth for this situation.
             double availableWidth = double.IsInfinity(availableSize.Width) ? ActualWidth : availableSize.Width;
-            double childAvailableWidth = (availableWidth + Spacing) / Children.Count;
+            double childAvailableWidth = (availableWidth + Spacing) / itemCount;
             double childMaxAvailableWidth = Math.Max(MinItemWidth, childAvailableWidth);
             child.Measure(new(childMaxAvailableWidth - Spacing, ActualHeight));
         }
@@ -32,13 +38,18 @@ internal partial class HorizontalEqualPanel : Microsoft.UI.Xaml.Controls.Panel
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        int itemCount = Children.Count;
+        int itemCount = Children.Count(child => child.Visibility is Visibility.Visible);
         double availableItemWidth = (finalSize.Width - (Spacing * (itemCount - 1))) / itemCount;
         double actualItemWidth = Math.Max(MinItemWidth, availableItemWidth);
 
         double offset = 0;
         foreach (UIElement child in Children)
         {
+            if (child.Visibility is Visibility.Collapsed)
+            {
+                continue;
+            }
+
             child.Arrange(new Rect(offset, 0, actualItemWidth, finalSize.Height));
             offset += actualItemWidth + Spacing;
         }
