@@ -2636,10 +2636,10 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快捷键</value>
   </data>
-  <data name="ViewPageSettingNeverHeldItemVisibleDescription" xml:space="preserve">
+  <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>在祈愿记录页面显示或隐藏未持有过的角色或武器</value>
   </data>
-  <data name="ViewPageSettingNeverHeldItemVisibleHeader" xml:space="preserve">
+  <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未持有过的角色或武器</value>
   </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">

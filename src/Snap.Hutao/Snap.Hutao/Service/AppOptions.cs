@@ -15,8 +15,8 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
-    private bool? isNeverHeldStatisticsItemVisible;
     private bool? isEmptyHistoryWishVisible;
+    private bool? isUnobtainedWishItemVisible;
     private BackdropType? backdropType;
     private ElementTheme? elementTheme;
     private BackgroundImageType? backgroundImageType;
@@ -25,14 +25,14 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public bool IsEmptyHistoryWishVisible
     {
-        get => GetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible);
+        get => GetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible, false);
         set => SetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible, value);
     }
 
-    public bool IsNeverHeldStatisticsItemVisible
+    public bool IsUnobtainedWishItemVisible
     {
-        get => GetOption(ref isNeverHeldStatisticsItemVisible, SettingEntry.IsNeverHeldStatisticsItemVisible);
-        set => SetOption(ref isNeverHeldStatisticsItemVisible, SettingEntry.IsNeverHeldStatisticsItemVisible, value);
+        get => GetOption(ref isUnobtainedWishItemVisible, SettingEntry.IsUnobtainedWishItemVisible, false);
+        set => SetOption(ref isUnobtainedWishItemVisible, SettingEntry.IsUnobtainedWishItemVisible, value);
     }
 
     public List<NameValue<BackdropType>> BackdropTypes { get; } = CollectionsNameValue.FromEnum<BackdropType>(type => type >= 0);
@@ -74,7 +74,7 @@ internal sealed partial class AppOptions : DbStoreOptions
 
     public string GeetestCustomCompositeUrl
     {
-        get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl);
+        get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, false);
         set => SetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, value);
     }
 

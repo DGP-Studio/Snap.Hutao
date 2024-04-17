@@ -45,7 +45,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         await taskContext.SwitchToBackgroundAsync();
 
         List<HistoryWishBuilder> historyWishBuilders = context.GachaEvents.SelectList(gachaEvent => new HistoryWishBuilder(gachaEvent, context));
-        return CreateCore(taskContext, homaGachaLogClient, items, historyWishBuilders, context, options.IsEmptyHistoryWishVisible, options.IsNeverHeldStatisticsItemVisible);
+        return CreateCore(taskContext, homaGachaLogClient, items, historyWishBuilders, context, options.IsEmptyHistoryWishVisible, options.IsUnobtainedWishItemVisible);
     }
 
     private static GachaStatistics CreateCore(

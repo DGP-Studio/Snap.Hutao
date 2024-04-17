@@ -560,11 +560,11 @@
                                         OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
-                                    Description="{shcm:ResourceString Name=ViewPageSettingNeverHeldItemVisibleDescription}"
-                                    Header="{shcm:ResourceString Name=ViewPageSettingNeverHeldItemVisibleHeader}"
+                                    Description="{shcm:ResourceString Name=ViewPageSettingUnobtainedWishItemVisibleDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageSettingUnobtainedWishItemVisibleHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE890;}">
                                     <ToggleSwitch
-                                        IsOn="{Binding AppOptions.IsNeverHeldStatisticsItemVisible, Mode=TwoWay}"
+                                        IsOn="{Binding AppOptions.IsUnobtainedWishItemVisible, Mode=TwoWay}"
                                         OffContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
                                         OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
                                 </cwc:SettingsCard>

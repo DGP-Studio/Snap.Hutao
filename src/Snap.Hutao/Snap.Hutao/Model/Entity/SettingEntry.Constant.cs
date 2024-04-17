@@ -19,7 +19,7 @@ internal sealed partial class SettingEntry
     public const string AnnouncementRegion = "AnnouncementRegion";
 
     public const string IsEmptyHistoryWishVisible = "IsEmptyHistoryWishVisible";
-    public const string IsNeverHeldStatisticsItemVisible = "IsNeverHeldStatisticsItemVisible";
+    public const string IsUnobtainedWishItemVisible = "IsUnobtainedWishItemVisible";
 
     public const string GeetestCustomCompositeUrl = "GeetestCustomCompositeUrl";
 
