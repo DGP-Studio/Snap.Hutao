@@ -35,11 +35,11 @@
     <Configurations>Debug;Release</Configurations>
     <!--
       Required for .NET 8 MSIX packaging
-      
+
       10.2.4.1 Security - Software Dependencies
       Products may depend on non-integrated software (such as another product or module)
       to deliver primary functionality only as long as the additional required software
-      is disclosed within the first two lines of the description in the Store. 
+      is disclosed within the first two lines of the description in the Store.
     -->
     <SelfContained>true</SelfContained>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
@@ -52,7 +52,7 @@
 	<AppxManifest Include="Package.appxmanifest" Condition="'$(ConfigurationName)'!='Debug'" />
 	<AppxManifest Include="Package.development.appxmanifest" Condition="'$(ConfigurationName)'=='Debug'" />
   </ItemGroup>
-  
+
   <!-- Included Files -->
   <ItemGroup>
     <None Remove="Assets\LargeTile.scale-100.png" />
@@ -205,7 +205,7 @@
     <None Remove="View\TitleView.xaml" />
     <None Remove="View\UserView.xaml" />
   </ItemGroup>
-  
+
   <!-- Analyzer Files -->
   <ItemGroup>
     <AdditionalFiles Include="CodeMetricsConfig.txt" />
@@ -220,7 +220,7 @@
     <AdditionalFiles Include="Resource\Localization\SH.ru.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
   </ItemGroup>
-  
+
   <!-- Assets Files -->
   <ItemGroup>
     <Content Update="Assets\Logo.ico" />
@@ -389,37 +389,37 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="Control\Theme\ScrollViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="Control\Theme\FlyoutStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="View\Dialog\HutaoPassportUnregisterDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="View\Dialog\HutaoPassportResetPasswordDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="View\Dialog\HutaoPassportRegisterDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="View\Dialog\HutaoPassportLoginDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -569,13 +569,13 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-	
+
   <ItemGroup>
     <Page Update="IdentifyMonitorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-	
+
   <ItemGroup>
     <Page Update="View\Control\HutaoStatisticsCard.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -617,7 +617,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <!-- Pages -->
   <ItemGroup>
     <Page Update="View\Dialog\LaunchGamePackageConvertDialog.xaml">
