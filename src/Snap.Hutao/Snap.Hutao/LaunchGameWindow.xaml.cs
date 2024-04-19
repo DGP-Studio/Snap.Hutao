@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
@@ -35,7 +36,7 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOpt
         scope = serviceProvider.CreateScope();
         windowOptions = new(this, DragableGrid, new(MaxWidth, MaxHeight));
         this.InitializeController(serviceProvider);
-        RootGrid.DataContext = scope.ServiceProvider.GetRequiredService<LaunchGameViewModel>();
+        RootGrid.InitializeDataContext<LaunchGameViewModel>(scope.ServiceProvider);
     }
 
     /// <inheritdoc/>

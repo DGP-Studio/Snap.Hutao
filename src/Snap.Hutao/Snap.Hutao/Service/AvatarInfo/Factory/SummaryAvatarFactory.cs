@@ -17,9 +17,6 @@ using PropertyWeapon = Snap.Hutao.ViewModel.AvatarProperty.WeaponView;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
-/// <summary>
-/// 单个角色工厂
-/// </summary>
 [HighQuality]
 internal sealed class SummaryAvatarFactory
 {
@@ -27,14 +24,9 @@ internal sealed class SummaryAvatarFactory
     private readonly DateTimeOffset showcaseRefreshTime;
     private readonly DateTimeOffset gameRecordRefreshTime;
     private readonly DateTimeOffset calculatorRefreshTime;
-    private readonly SummaryMetadataContext metadataContext;
+    private readonly SummaryFactoryMetadataContext metadataContext;
 
-    /// <summary>
-    /// 构造一个新的角色工厂
-    /// </summary>
-    /// <param name="metadataContext">元数据上下文</param>
-    /// <param name="avatarInfo">角色信息</param>
-    public SummaryAvatarFactory(SummaryMetadataContext metadataContext, EntityAvatarInfo avatarInfo)
+    public SummaryAvatarFactory(SummaryFactoryMetadataContext metadataContext, EntityAvatarInfo avatarInfo)
     {
         this.metadataContext = metadataContext;
         this.avatarInfo = avatarInfo.Info;

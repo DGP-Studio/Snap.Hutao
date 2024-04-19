@@ -17,16 +17,15 @@ namespace Snap.Hutao.Service;
 /// <inheritdoc/>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IAnnouncementService))]
+[Injection(InjectAs.Scoped, typeof(IAnnouncementService))]
 internal sealed partial class AnnouncementService : IAnnouncementService
 {
     private static readonly string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
 
-    private readonly AnnouncementClient announcementClient;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
 
-    /// <inheritdoc/>
     public async ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(string languageCode, Region region, CancellationToken cancellationToken = default)
     {
         // 缓存中存在记录，直接返回
@@ -36,29 +35,37 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         }
 
         await taskContext.SwitchToBackgroundAsync();
-        Response<AnnouncementWrapper> announcementWrapperResponse = await announcementClient
-            .GetAnnouncementsAsync(languageCode, region, cancellationToken)
-            .ConfigureAwait(false);
 
-        if (!announcementWrapperResponse.IsOk())
+        List<AnnouncementContent>? contents;
+        AnnouncementWrapper wrapper;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            return default!;
+            AnnouncementClient announcementClient = scope.ServiceProvider.GetRequiredService<AnnouncementClient>();
+
+            Response<AnnouncementWrapper> announcementWrapperResponse = await announcementClient
+                .GetAnnouncementsAsync(languageCode, region, cancellationToken)
+                .ConfigureAwait(false);
+
+            if (!announcementWrapperResponse.IsOk())
+            {
+                return default!;
+            }
+
+            wrapper = announcementWrapperResponse.Data;
+
+            Response<ListWrapper<AnnouncementContent>> announcementContentResponse = await announcementClient
+                .GetAnnouncementContentsAsync(languageCode, region, cancellationToken)
+                .ConfigureAwait(false);
+
+            if (!announcementContentResponse.IsOk())
+            {
+                return default!;
+            }
+
+            contents = announcementContentResponse.Data.List;
         }
 
-        AnnouncementWrapper wrapper = announcementWrapperResponse.Data;
-        Response<ListWrapper<AnnouncementContent>> announcementContentResponse = await announcementClient
-            .GetAnnouncementContentsAsync(languageCode, region, cancellationToken)
-            .ConfigureAwait(false);
-
-        if (!announcementContentResponse.IsOk())
-        {
-            return default!;
-        }
-
-        List<AnnouncementContent> contents = announcementContentResponse.Data.List;
-
-        Dictionary<int, string> contentMap = contents
-            .ToDictionary(id => id.AnnId, content => content.Content);
+        Dictionary<int, string> contentMap = contents.ToDictionary(id => id.AnnId, content => content.Content);
 
         // 将活动公告置于前方
         wrapper.List.Reverse();
@@ -75,8 +82,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         {
             foreach (ref readonly WebAnnouncement item in CollectionsMarshal.AsSpan(listWrapper.List))
             {
-                contentMap.TryGetValue(item.AnnId, out string? rawContent);
-                item.Content = rawContent ?? string.Empty;
+                item.Content = contentMap.GetValueOrDefault(item.AnnId, string.Empty);
             }
         }
 

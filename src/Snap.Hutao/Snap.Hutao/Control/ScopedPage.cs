@@ -15,7 +15,7 @@ internal class ScopedPage : Page
 {
     private readonly RoutedEventHandler unloadEventHandler;
     private readonly CancellationTokenSource viewCancellationTokenSource = new();
-    private readonly IServiceScope currentScope;
+    private readonly IServiceScope pageScope;
 
     private bool inFrame = true;
 
@@ -23,7 +23,7 @@ internal class ScopedPage : Page
     {
         unloadEventHandler = OnUnloaded;
         Unloaded += unloadEventHandler;
-        currentScope = Ioc.Default.GetRequiredService<IScopedPageScopeReferenceTracker>().CreateScope();
+        pageScope = Ioc.Default.GetRequiredService<IScopedPageScopeReferenceTracker>().CreateScope();
     }
 
     public async ValueTask NotifyRecipientAsync(INavigationData extra)
@@ -44,9 +44,17 @@ internal class ScopedPage : Page
     protected void InitializeWith<TViewModel>()
         where TViewModel : class, IViewModel
     {
-        IViewModel viewModel = currentScope.ServiceProvider.GetRequiredService<TViewModel>();
-        viewModel.CancellationToken = viewCancellationTokenSource.Token;
-        DataContext = viewModel;
+        try
+        {
+            IViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
+            viewModel.CancellationToken = viewCancellationTokenSource.Token;
+            DataContext = viewModel;
+        }
+        catch (Exception ex)
+        {
+            pageScope.ServiceProvider.GetRequiredService<ILogger<ScopedPage>>().LogError(ex, "Failed to initialize view model.");
+            throw;
+        }
     }
 
     /// <inheritdoc/>
@@ -95,7 +103,7 @@ internal class ScopedPage : Page
                 viewModel.IsViewDisposed = true;
 
                 // Dispose the scope
-                currentScope.Dispose();
+                pageScope.Dispose();
             }
         }
     }

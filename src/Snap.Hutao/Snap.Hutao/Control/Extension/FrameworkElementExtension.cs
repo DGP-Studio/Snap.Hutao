@@ -28,4 +28,21 @@ internal static class FrameworkElementExtension
         frameworkElement.IsRightTapEnabled = false;
         frameworkElement.IsTabStop = false;
     }
+
+    public static void InitializeDataContext<TDataContext>(this FrameworkElement frameworkElement, IServiceProvider? serviceProvider = default)
+        where TDataContext : class
+    {
+        IServiceProvider service = serviceProvider ?? Ioc.Default;
+        try
+        {
+            frameworkElement.DataContext = service.GetRequiredService<TDataContext>();
+        }
+        catch (Exception ex)
+        {
+
+            ILogger? logger = service.GetRequiredService(typeof(ILogger<>).MakeGenericType([frameworkElement.GetType()])) as ILogger;
+            logger?.LogError(ex, "Failed to initialize DataContext");
+            throw;
+        }
+    }
 }

@@ -19,7 +19,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 [HighQuality]
 internal sealed class SummaryReliquaryFactory
 {
-    private readonly SummaryMetadataContext metadataContext;
+    private readonly SummaryFactoryMetadataContext metadataContext;
     private readonly ModelAvatarInfo avatarInfo;
     private readonly Web.Enka.Model.Equip equip;
 
@@ -29,7 +29,7 @@ internal sealed class SummaryReliquaryFactory
     /// <param name="metadataContext">元数据上下文</param>
     /// <param name="avatarInfo">角色信息</param>
     /// <param name="equip">圣遗物</param>
-    public SummaryReliquaryFactory(SummaryMetadataContext metadataContext, ModelAvatarInfo avatarInfo, Web.Enka.Model.Equip equip)
+    public SummaryReliquaryFactory(SummaryFactoryMetadataContext metadataContext, ModelAvatarInfo avatarInfo, Web.Enka.Model.Equip equip)
     {
         this.metadataContext = metadataContext;
         this.avatarInfo = avatarInfo;
@@ -70,7 +70,7 @@ internal sealed class SummaryReliquaryFactory
             result.ComposedSubProperties = CreateComposedSubProperties(equip.Reliquary.AppendPropIdList);
 
             ReliquaryMainAffixLevel relicLevel = metadataContext.ReliquaryLevels.Single(r => r.Level == equip.Reliquary.Level && r.Rank == reliquary.RankLevel);
-            FightProperty property = metadataContext.IdReliquaryMainAffixMap[equip.Reliquary.MainPropId];
+            FightProperty property = metadataContext.IdReliquaryMainPropertyMap[equip.Reliquary.MainPropId];
 
             result.MainProperty = FightPropertyFormat.ToNameValue(property, relicLevel.PropertyMap[property]);
             result.Score = ScoreReliquary(property, reliquary, relicLevel, subProperty);

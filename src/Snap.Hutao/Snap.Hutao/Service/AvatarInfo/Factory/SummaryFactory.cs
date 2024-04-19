@@ -20,12 +20,12 @@ internal sealed partial class SummaryFactory : ISummaryFactory
     /// <inheritdoc/>
     public async ValueTask<Summary> CreateAsync(IEnumerable<Model.Entity.AvatarInfo> avatarInfos, CancellationToken token)
     {
-        SummaryMetadataContext metadataContext = new()
+        SummaryFactoryMetadataContext metadataContext = new()
         {
             IdAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false),
             IdWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false),
             IdReliquaryAffixWeightMap = await metadataService.GetIdToReliquaryAffixWeightMapAsync(token).ConfigureAwait(false),
-            IdReliquaryMainAffixMap = await metadataService.GetIdToReliquaryMainPropertyMapAsync(token).ConfigureAwait(false),
+            IdReliquaryMainPropertyMap = await metadataService.GetIdToReliquaryMainPropertyMapAsync(token).ConfigureAwait(false),
             IdReliquarySubAffixMap = await metadataService.GetIdToReliquarySubAffixMapAsync(token).ConfigureAwait(false),
             ReliquaryLevels = await metadataService.GetReliquaryLevelListAsync(token).ConfigureAwait(false),
             Reliquaries = await metadataService.GetReliquaryListAsync(token).ConfigureAwait(false),
