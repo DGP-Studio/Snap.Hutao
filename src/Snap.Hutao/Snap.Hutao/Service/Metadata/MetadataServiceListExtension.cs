@@ -80,7 +80,7 @@ internal static class MetadataServiceListExtension
         return metadataService.FromCacheOrFileAsync<List<ReliquaryMainAffix>>(FileNameReliquaryMainAffix, token);
     }
 
-    public static ValueTask<List<ReliquaryMainAffixLevel>> GetReliquaryLevelListAsync(this IMetadataService metadataService, CancellationToken token = default)
+    public static ValueTask<List<ReliquaryMainAffixLevel>> GetReliquaryMainAffixLevelListAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         return metadataService.FromCacheOrFileAsync<List<ReliquaryMainAffixLevel>>(FileNameReliquaryMainAffixLevel, token);
     }

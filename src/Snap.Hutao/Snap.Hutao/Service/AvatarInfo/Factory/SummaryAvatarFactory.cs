@@ -6,7 +6,9 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Format;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.Web.Enka.Model;
+using System.Runtime.InteropServices;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
@@ -24,11 +26,11 @@ internal sealed class SummaryAvatarFactory
     private readonly DateTimeOffset showcaseRefreshTime;
     private readonly DateTimeOffset gameRecordRefreshTime;
     private readonly DateTimeOffset calculatorRefreshTime;
-    private readonly SummaryFactoryMetadataContext metadataContext;
+    private readonly SummaryFactoryMetadataContext context;
 
-    public SummaryAvatarFactory(SummaryFactoryMetadataContext metadataContext, EntityAvatarInfo avatarInfo)
+    public SummaryAvatarFactory(SummaryFactoryMetadataContext context, EntityAvatarInfo avatarInfo)
     {
-        this.metadataContext = metadataContext;
+        this.context = context;
         this.avatarInfo = avatarInfo.Info;
 
         showcaseRefreshTime = avatarInfo.ShowcaseRefreshTime;
@@ -36,70 +38,38 @@ internal sealed class SummaryAvatarFactory
         calculatorRefreshTime = avatarInfo.CalculatorRefreshTime;
     }
 
-    /// <summary>
-    /// 创建角色
-    /// </summary>
-    /// <returns>角色</returns>
+    public static PropertyAvatar Create(SummaryFactoryMetadataContext context, EntityAvatarInfo avatarInfo)
+    {
+        return new SummaryAvatarFactory(context, avatarInfo).Create();
+    }
+
     public PropertyAvatar Create()
     {
         ReliquaryAndWeapon reliquaryAndWeapon = ProcessEquip(avatarInfo.EquipList.EmptyIfNull());
-        MetadataAvatar avatar = metadataContext.IdAvatarMap[avatarInfo.AvatarId];
+        MetadataAvatar avatar = context.IdAvatarMap[avatarInfo.AvatarId];
 
-        PropertyAvatar propertyAvatar = new()
-        {
-            // metadata part
-            Id = avatar.Id,
-            Name = avatar.Name,
-            Quality = avatar.Quality,
-            NameCard = AvatarNameCardPicConverter.AvatarToUri(avatar),
-            Element = ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore),
+        PropertyAvatar propertyAvatar = new AvatarViewBuilder()
+            .SetId(avatar.Id)
+            .SetName(avatar.Name)
+            .SetQuality(avatar.Quality)
+            .SetNameCard(AvatarNameCardPicConverter.AvatarToUri(avatar))
+            .SetElement(ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore))
+            .SetConstellations(avatar.SkillDepot.Talents, avatarInfo.TalentIdList)
+            .SetSkills(avatarInfo.SkillLevelMap, avatarInfo.ProudSkillExtraLevelMap, avatar.SkillDepot.CompositeSkillsNoInherents())
+            .SetFetterLevel(avatarInfo.FetterInfo?.ExpLevel)
+            .SetProperties(SummaryAvatarProperties.Create(avatarInfo.FightPropMap))
+            .SetCritScore(avatarInfo.FightPropMap)
+            .SetLevelNumber(avatarInfo.PropMap?[PlayerProperty.PROP_LEVEL].Value)
+            .SetWeapon(reliquaryAndWeapon.Weapon)
+            .SetReliquaries(reliquaryAndWeapon.Reliquaries)
+            .SetScore(reliquaryAndWeapon.Reliquaries.Sum(r => r.Score))
+            .SetShowcaseRefreshTimeFormat(showcaseRefreshTime, SH.FormatServiceAvatarInfoSummaryShowcaseRefreshTimeFormat, SH.ServiceAvatarInfoSummaryShowcaseNotRefreshed)
+            .SetGameRecordRefreshTimeFormat(gameRecordRefreshTime, SH.FormatServiceAvatarInfoSummaryGameRecordRefreshTimeFormat, SH.ServiceAvatarInfoSummaryGameRecordNotRefreshed)
+            .SetCalculatorRefreshTimeFormat(calculatorRefreshTime, SH.FormatServiceAvatarInfoSummaryCalculatorRefreshTimeFormat, SH.ServiceAvatarInfoSummaryCalculatorNotRefreshed)
+            .ApplyCostumeIconOrDefault(avatarInfo, avatar)
+            .AvatarView;
 
-            // webinfo & metadata mixed part
-            Constellations = SummaryHelper.CreateConstellations(avatar.SkillDepot.Talents, avatarInfo.TalentIdList),
-            Skills = SummaryHelper.CreateSkills(avatarInfo.SkillLevelMap, avatarInfo.ProudSkillExtraLevelMap, avatar.SkillDepot.CompositeSkillsNoInherents()),
-
-            // webinfo part
-            FetterLevel = avatarInfo.FetterInfo?.ExpLevel ?? 0U,
-            Properties = SummaryAvatarProperties.Create(avatarInfo.FightPropMap),
-            CritScore = $"{SummaryHelper.ScoreCrit(avatarInfo.FightPropMap):F2}",
-            LevelNumber = avatarInfo.PropMap?[PlayerProperty.PROP_LEVEL].Value ?? 0U,
-
-            // processed webinfo part
-            Weapon = reliquaryAndWeapon.Weapon,
-            Reliquaries = reliquaryAndWeapon.Reliquaries,
-            Score = $"{reliquaryAndWeapon.Reliquaries.Sum(r => r.Score):F2}",
-
-            // times
-            ShowcaseRefreshTimeFormat = showcaseRefreshTime == DateTimeOffsetExtension.DatebaseDefaultTime
-                ? SH.ServiceAvatarInfoSummaryShowcaseNotRefreshed
-                : SH.FormatServiceAvatarInfoSummaryShowcaseRefreshTimeFormat(showcaseRefreshTime.ToLocalTime()),
-            GameRecordRefreshTimeFormat = gameRecordRefreshTime == DateTimeOffsetExtension.DatebaseDefaultTime
-                ? SH.ServiceAvatarInfoSummaryGameRecordNotRefreshed
-                : SH.FormatServiceAvatarInfoSummaryGameRecordRefreshTimeFormat(gameRecordRefreshTime.ToLocalTime()),
-            CalculatorRefreshTimeFormat = calculatorRefreshTime == DateTimeOffsetExtension.DatebaseDefaultTime
-                ? SH.ServiceAvatarInfoSummaryCalculatorNotRefreshed
-                : SH.FormatServiceAvatarInfoSummaryCalculatorRefreshTimeFormat(calculatorRefreshTime.ToLocalTime()),
-        };
-
-        ApplyCostumeIconOrDefault(ref propertyAvatar, avatar);
         return propertyAvatar;
-    }
-
-    private void ApplyCostumeIconOrDefault(ref PropertyAvatar propertyAvatar, MetadataAvatar avatar)
-    {
-        if (avatarInfo.CostumeId.TryGetValue(out CostumeId id))
-        {
-            Model.Metadata.Avatar.Costume costume = avatar.Costumes.Single(c => c.Id == id);
-
-            // Set to costume icon
-            propertyAvatar.Icon = AvatarIconConverter.IconNameToUri(costume.FrontIcon);
-            propertyAvatar.SideIcon = AvatarIconConverter.IconNameToUri(costume.SideIcon);
-        }
-        else
-        {
-            propertyAvatar.Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
-            propertyAvatar.SideIcon = AvatarIconConverter.IconNameToUri(avatar.SideIcon);
-        }
     }
 
     private ReliquaryAndWeapon ProcessEquip(List<Equip> equipments)
@@ -107,12 +77,12 @@ internal sealed class SummaryAvatarFactory
         List<PropertyReliquary> reliquaryList = [];
         PropertyWeapon? weapon = null;
 
-        foreach (Equip equip in equipments)
+        foreach (ref readonly Equip equip in CollectionsMarshal.AsSpan(equipments))
         {
             switch (equip.Flat.ItemType)
             {
                 case ItemType.ITEM_RELIQUARY:
-                    SummaryReliquaryFactory summaryReliquaryFactory = new(metadataContext, avatarInfo, equip);
+                    SummaryReliquaryFactory summaryReliquaryFactory = new(context, avatarInfo, equip);
                     reliquaryList.Add(summaryReliquaryFactory.CreateReliquary());
                     break;
                 case ItemType.ITEM_WEAPON:
@@ -126,7 +96,7 @@ internal sealed class SummaryAvatarFactory
 
     private PropertyWeapon CreateWeapon(Equip equip)
     {
-        MetadataWeapon weapon = metadataContext.IdWeaponMap[equip.ItemId];
+        MetadataWeapon weapon = context.IdWeaponMap[equip.ItemId];
 
         // AffixMap can be null when it's a white weapon.
         ArgumentNullException.ThrowIfNull(equip.Weapon);
@@ -160,7 +130,9 @@ internal sealed class SummaryAvatarFactory
             // EquipBase
             Level = $"Lv.{equip.Weapon.Level.Value}",
             Quality = weapon.Quality,
-            MainProperty = mainStat is not null ? FightPropertyFormat.ToNameValue(mainStat.AppendPropId, mainStat.StatValue) : NameValueDefaults.String,
+            MainProperty = mainStat is not null
+                ? FightPropertyFormat.ToNameValue(mainStat.AppendPropId, mainStat.StatValue)
+                : NameValueDefaults.String,
 
             // Weapon
             Id = weapon.Id,

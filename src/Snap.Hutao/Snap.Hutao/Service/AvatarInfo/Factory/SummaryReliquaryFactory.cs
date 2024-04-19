@@ -69,7 +69,7 @@ internal sealed class SummaryReliquaryFactory
             ArgumentNullException.ThrowIfNull(equip.Flat.ReliquarySubstats);
             result.ComposedSubProperties = CreateComposedSubProperties(equip.Reliquary.AppendPropIdList);
 
-            ReliquaryMainAffixLevel relicLevel = metadataContext.ReliquaryLevels.Single(r => r.Level == equip.Reliquary.Level && r.Rank == reliquary.RankLevel);
+            ReliquaryMainAffixLevel relicLevel = metadataContext.ReliquaryMainAffixLevels.Single(r => r.Level == equip.Reliquary.Level && r.Rank == reliquary.RankLevel);
             FightProperty property = metadataContext.IdReliquaryMainPropertyMap[equip.Reliquary.MainPropId];
 
             result.MainProperty = FightPropertyFormat.ToNameValue(property, relicLevel.PropertyMap[property]);
@@ -146,7 +146,7 @@ internal sealed class SummaryReliquaryFactory
             // 从喵插件抓取的圣遗物评分权重
             // 部分复杂的角色暂时使用了默认值
             ReliquaryAffixWeight affixWeight = metadataContext.IdReliquaryAffixWeightMap.GetValueOrDefault(avatarInfo.AvatarId, ReliquaryAffixWeight.Default);
-            ReliquaryMainAffixLevel? maxRelicLevel = metadataContext.ReliquaryLevels.Where(r => r.Rank == reliquary.RankLevel).MaxBy(r => r.Level);
+            ReliquaryMainAffixLevel? maxRelicLevel = metadataContext.ReliquaryMainAffixLevels.Where(r => r.Rank == reliquary.RankLevel).MaxBy(r => r.Level);
             ArgumentNullException.ThrowIfNull(maxRelicLevel);
 
             float percent = relicLevel.PropertyMap[property] / maxRelicLevel.PropertyMap[property];

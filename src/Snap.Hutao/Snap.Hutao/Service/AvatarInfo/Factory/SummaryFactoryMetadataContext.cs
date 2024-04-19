@@ -17,7 +17,8 @@ internal sealed class SummaryFactoryMetadataContext : IMetadataContext,
     IMetadataDictionaryIdWeaponSource,
     IMetadataDictionaryIdReliquaryAffixWeightSource,
     IMetadataDictionaryIdReliquaryMainPropertySource,
-    IMetadataDictionaryIdReliquarySubAffixSource
+    IMetadataDictionaryIdReliquarySubAffixSource,
+    IMetadataListReliquaryMainAffixLevelSource
 {
     public Dictionary<AvatarId, MetadataAvatar> IdAvatarMap { get; set; } = default!;
 
@@ -29,7 +30,7 @@ internal sealed class SummaryFactoryMetadataContext : IMetadataContext,
 
     public Dictionary<ReliquarySubAffixId, ReliquarySubAffix> IdReliquarySubAffixMap { get; set; } = default!;
 
-    public List<ReliquaryMainAffixLevel> ReliquaryLevels { get; set; } = default!;
+    public List<ReliquaryMainAffixLevel> ReliquaryMainAffixLevels { get; set; } = default!;
 
     public List<MetadataReliquary> Reliquaries { get; set; } = default!;
 }

@@ -33,6 +33,16 @@ internal static class MetadataServiceContextExtension
             {
                 listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
             }
+
+            if (context is IMetadataListReliquaryMainAffixLevelSource listReliquaryMainAffixLevelSource)
+            {
+                listReliquaryMainAffixLevelSource.ReliquaryMainAffixLevels = await metadataService.GetReliquaryMainAffixLevelListAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataListReliquarySource listReliquarySource)
+            {
+                listReliquarySource.Reliquaries = await metadataService.GetReliquaryListAsync(token).ConfigureAwait(false);
+            }
         }
 
         // Dictionary
