@@ -5,7 +5,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Format;
 using Snap.Hutao.Model.Metadata.Converter;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.Web.Enka.Model;
 using System.Runtime.InteropServices;
@@ -82,8 +81,7 @@ internal sealed class SummaryAvatarFactory
             switch (equip.Flat.ItemType)
             {
                 case ItemType.ITEM_RELIQUARY:
-                    SummaryReliquaryFactory summaryReliquaryFactory = new(context, avatarInfo, equip);
-                    reliquaryList.Add(summaryReliquaryFactory.CreateReliquary());
+                    reliquaryList.Add(SummaryReliquaryFactory.Create(context, avatarInfo, equip));
                     break;
                 case ItemType.ITEM_WEAPON:
                     weapon = CreateWeapon(equip);

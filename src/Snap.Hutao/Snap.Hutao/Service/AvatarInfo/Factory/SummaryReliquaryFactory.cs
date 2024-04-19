@@ -23,12 +23,6 @@ internal sealed class SummaryReliquaryFactory
     private readonly ModelAvatarInfo avatarInfo;
     private readonly Web.Enka.Model.Equip equip;
 
-    /// <summary>
-    /// 构造一个新的圣遗物工厂
-    /// </summary>
-    /// <param name="metadataContext">元数据上下文</param>
-    /// <param name="avatarInfo">角色信息</param>
-    /// <param name="equip">圣遗物</param>
     public SummaryReliquaryFactory(SummaryFactoryMetadataContext metadataContext, ModelAvatarInfo avatarInfo, Web.Enka.Model.Equip equip)
     {
         this.metadataContext = metadataContext;
@@ -36,11 +30,12 @@ internal sealed class SummaryReliquaryFactory
         this.equip = equip;
     }
 
-    /// <summary>
-    /// 构造圣遗物
-    /// </summary>
-    /// <returns>圣遗物</returns>
-    public ReliquaryView CreateReliquary()
+    public static ReliquaryView Create(SummaryFactoryMetadataContext metadataContext, ModelAvatarInfo avatarInfo, Web.Enka.Model.Equip equip)
+    {
+        return new SummaryReliquaryFactory(metadataContext, avatarInfo, equip).Create();
+    }
+
+    public ReliquaryView Create()
     {
         MetadataReliquary reliquary = metadataContext.Reliquaries.Single(r => r.Ids.Contains(equip.ItemId));
 
