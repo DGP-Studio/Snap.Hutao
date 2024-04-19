@@ -2702,6 +2702,12 @@
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>贡献翻译</value>
   </data>
+  <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
+    <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
+  </data>
+  <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
+    <value>未抽取到的祈愿物品</value>
+  </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>前往商店</value>
   </data>
