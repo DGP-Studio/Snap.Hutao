@@ -47,6 +47,21 @@ internal unsafe struct IFileOperation
         return ThisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
+    public unsafe HRESULT DeleteItem(IShellItem* psiItem, IFileOperationProgressSink* pfopsItem)
+    {
+        return ThisPtr->DeleteItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, pfopsItem);
+    }
+
+    public unsafe HRESULT MoveItem(IShellItem* psiItem, IShellItem* psiDestinationFolder, [AllowNull] PCWSTR pszNewName, IFileOperationProgressSink* pfopsItem)
+    {
+        return ThisPtr->MoveItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, psiDestinationFolder, pszNewName, pfopsItem);
+    }
+
+    public unsafe HRESULT PerformOperations()
+    {
+        return ThisPtr->PerformOperations((IFileOperation*)Unsafe.AsPointer(ref this));
+    }
+
     internal readonly struct Vftbl
     {
         internal readonly IUnknown.Vftbl IUnknownVftbl;
