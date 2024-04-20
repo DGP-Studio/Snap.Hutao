@@ -20,23 +20,14 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
     public async ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync()
     {
-        string targetLogoPath = Path.Combine(runtimeOptions.DataFolder, "ShellLinkLogo.ico");
+        Uri elevatedLauncherUri = "ms-appx:///Snap.Hutao.Elevated.Launcher.exe".ToUri();
+        StorageFile launcherFile = await StorageFile.GetFileFromApplicationUriAsync(elevatedLauncherUri);
+        string elevatedLauncherPath = launcherFile.Path;
 
-        try
-        {
-            Uri sourceLogoUri = "ms-appx:///Assets/Logo.ico".ToUri();
-            StorageFile iconFile = await StorageFile.GetFileFromApplicationUriAsync(sourceLogoUri);
-            await iconFile.OverwriteCopyAsync(targetLogoPath).ConfigureAwait(false);
-        }
-        catch
-        {
-            return false;
-        }
-
-        return UnsafeTryCreateDesktopShoutcutForElevatedLaunch(targetLogoPath);
+        return UnsafeTryCreateDesktopShoutcutForElevatedLaunch(elevatedLauncherPath);
     }
 
-    private unsafe bool UnsafeTryCreateDesktopShoutcutForElevatedLaunch(string targetLogoPath)
+    private unsafe bool UnsafeTryCreateDesktopShoutcutForElevatedLaunch(string elevatedLauncherPath)
     {
         bool result = false;
 
@@ -44,16 +35,9 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
         HRESULT hr = CoCreateInstance(in ShellLink.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IShellLinkW.IID, out IShellLinkW* pShellLink);
         if (SUCCEEDED(hr))
         {
-            pShellLink->SetPath($"shell:AppsFolder\\{runtimeOptions.FamilyName}!App");
+            pShellLink->SetPath(elevatedLauncherPath);
+            pShellLink->SetArguments(runtimeOptions.FamilyName);
             pShellLink->SetShowCmd(SHOW_WINDOW_CMD.SW_NORMAL);
-            pShellLink->SetIconLocation(targetLogoPath, 0);
-
-            if (SUCCEEDED(pShellLink->QueryInterface(in IShellLinkDataList.IID, out IShellLinkDataList* pShellLinkDataList)))
-            {
-                pShellLinkDataList->GetFlags(out uint flags);
-                pShellLinkDataList->SetFlags(flags | (uint)SHELL_LINK_DATA_FLAGS.SLDF_RUNAS_USER);
-                pShellLinkDataList->Release();
-            }
 
             if (SUCCEEDED(pShellLink->QueryInterface(in IPersistFile.IID, out IPersistFile* pPersistFile)))
             {

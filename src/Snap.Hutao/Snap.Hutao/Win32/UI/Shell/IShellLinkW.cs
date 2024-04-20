@@ -70,6 +70,14 @@ internal unsafe struct IShellLinkW
         }
     }
 
+    public HRESULT SetArguments(string szArgs)
+    {
+        fixed (char* pszArgs = szArgs)
+        {
+            return ThisPtr->SetArguments((IShellLinkW*)Unsafe.AsPointer(ref this), pszArgs);
+        }
+    }
+
     internal unsafe readonly struct Vftbl
     {
         internal readonly IUnknown.Vftbl IUnknownVftbl;
