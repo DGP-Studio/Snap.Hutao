@@ -20,9 +20,18 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
     public async ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync()
     {
-        Uri elevatedLauncherUri = "ms-appx:///Snap.Hutao.Elevated.Launcher.exe".ToUri();
-        StorageFile launcherFile = await StorageFile.GetFileFromApplicationUriAsync(elevatedLauncherUri);
-        string elevatedLauncherPath = launcherFile.Path;
+        string elevatedLauncherPath = Path.Combine(runtimeOptions.DataFolder, "Snap.Hutao.Elevated.Launcher.exe");
+
+        try
+        {
+            Uri elevatedLauncherUri = "ms-appx:///Snap.Hutao.Elevated.Launcher.exe".ToUri();
+            StorageFile launcherFile = await StorageFile.GetFileFromApplicationUriAsync(elevatedLauncherUri);
+            await launcherFile.OverwriteCopyAsync(elevatedLauncherPath).ConfigureAwait(false);
+        }
+        catch
+        {
+            return false;
+        }
 
         return UnsafeTryCreateDesktopShoutcutForElevatedLaunch(elevatedLauncherPath);
     }
