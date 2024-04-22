@@ -10,6 +10,7 @@ using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
+using Snap.Hutao.View.Dialog;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
@@ -69,14 +70,15 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
         if (checkUpdateResult.Kind is CheckUpdateResultKind.NeedDownload)
         {
-            ContentDialogResult downloadUpdateUserConsentResult = await contentDialogFactory
-                .CreateForConfirmCancelAsync(
-                    SH.FormatViewTitileUpdatePackageDownloadTitle(UpdateStatus?.Version),
-                    SH.ViewTitileUpdatePackageDownloadContent,
-                    ContentDialogButton.Primary)
+            UpdatePackageDownloadConfirmDialog dialog = await contentDialogFactory
+                .CreateInstanceAsync<UpdatePackageDownloadConfirmDialog>()
                 .ConfigureAwait(false);
 
-            if (downloadUpdateUserConsentResult is ContentDialogResult.Primary)
+            await taskContext.SwitchToMainThreadAsync();
+
+            dialog.Title = SH.FormatViewTitileUpdatePackageDownloadTitle(UpdateStatus?.Version);
+
+            if (await dialog.ShowAsync() is ContentDialogResult.Primary)
             {
                 // This method will set CheckUpdateResult.Kind to NeedInstall if download success
                 if (!await DownloadPackageAsync(progress, checkUpdateResult).ConfigureAwait(false))
