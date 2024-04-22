@@ -1361,6 +1361,9 @@
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>Hapus data pengguna secara permanen?</value>
   </data>
+  <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
+    <value>查看更新日志</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Tuju saya kesana</value>
   </data>
@@ -2889,7 +2892,7 @@
     <value>Mengunggah Data</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
-    <value>是否立即下载</value>
+    <value>是否立即下载？</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>下载更新失败</value>
