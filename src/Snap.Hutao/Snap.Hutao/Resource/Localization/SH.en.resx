@@ -2922,13 +2922,19 @@
     <value>Weapon WIKI</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓Event Duration〓|〓Quest Start Time〓).*?\d\.\dthe Version update(?:after|)Permanently available</value>
+    <value>(?:〓Event Duration〓|〓Quest Start Time〓).*?Permanently.*?Version.*?(\d\.\d).*?update</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓Event Duration〓.*?\d\.\d Available throughout the entirety of Version</value>
+    <value>〓Event Duration〓.*?Available throughout the entirety of Version (\d\.\d)</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓Event Duration〓|Event Wish Duration|【Availability Duration】|〓Discount Period〓).*?(\d\.\dAfter the Version update).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓Event Duration〓|Event Wish Duration|【Availability Duration】|〓Discount Period〓).*?After.*?(\d\.\d).*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
+    <value>Dear.*?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
+    <value>Version \d\.\d Update Maintenance Preview</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓Update Maintenance Duration〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
