@@ -25,7 +25,7 @@ internal sealed partial class CardClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CardCreateVerification(true))
-            .SetUserCookieAndFpHeader(user, CookieType.LToken)
+            .SetUserCookieAndFpHeader(user, CookieType.Cookie)
             .SetHeader("x-rpc-challenge_game", $"{headers.ChallengeGame}")
             .SetHeader("x-rpc-challenge_path", headers.ChallengePath)
             .Get();
@@ -39,10 +39,11 @@ internal sealed partial class CardClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<VerificationResult>> VerifyVerificationAsync(CardVerifiationHeaders headers, string challenge, string validate, CancellationToken token)
+    public async ValueTask<Response<VerificationResult>> VerifyVerificationAsync(User user, CardVerifiationHeaders headers, string challenge, string validate, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CardVerifyVerification)
+            .SetUserCookieAndFpHeader(user, CookieType.Cookie)
             .SetHeader("x-rpc-challenge_game", $"{headers.ChallengeGame}")
             .SetHeader("x-rpc-challenge_path", headers.ChallengePath)
             .PostJson(new VerificationData(challenge, validate));
