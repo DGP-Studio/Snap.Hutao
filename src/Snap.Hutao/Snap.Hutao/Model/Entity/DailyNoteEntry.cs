@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Entity.Abstraction;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
@@ -52,6 +53,52 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
     /// Json!!! 实时便笺
     /// </summary>
     public DailyNote? DailyNote { get; set; }
+
+    [NotMapped]
+    public List<ChapterId> ArchonQuestIds { get; set; } = default!;
+
+    [NotMapped]
+    public int ArchonQuestStatusValue
+    {
+        get
+        {
+            if (DailyNote is { ArchonQuestProgress.List: { Count: > 0 } list })
+            {
+                return ArchonQuestIds.IndexOf(list.Single().Id);
+            }
+
+            return ArchonQuestIds.Count;
+        }
+    }
+
+    [NotMapped]
+    public string ArchonQuestStatusFormatted
+    {
+        get
+        {
+            if (DailyNote is { ArchonQuestProgress.List: { Count: > 0 } list })
+            {
+                return list.Single().Status.GetLocalizedDescription();
+            }
+
+            return SH.WebDailyNoteArchonQuestStatusFinished;
+        }
+    }
+
+    [NotMapped]
+    public string ArchonQuestChapterFormatted
+    {
+        get
+        {
+            if (DailyNote is { ArchonQuestProgress.List: { Count: > 0 } list })
+            {
+                ArchonQuest quest = list.Single();
+                return $"{quest.ChapterNum} {quest.ChapterTitle}";
+            }
+
+            return string.Empty;
+        }
+    }
 
     /// <summary>
     /// 刷新时间

@@ -119,9 +119,9 @@
                                 MinHeight="48"
                                 Background="{x:Null}"
                                 CornerRadius="{ThemeResource ControlCornerRadius}"
-                                Maximum="{Binding DailyNote.ArchonQuestProgress.ArchonQuestIds.Count, Mode=OneWay}"
+                                Maximum="{Binding ArchonQuestIds.Count, Mode=OneWay}"
                                 Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                                Value="{Binding DailyNote.ArchonQuestProgress.ArchonQuestStatusValue, Mode=OneWay}"/>
+                                Value="{Binding ArchonQuestStatusValue, Mode=OneWay}"/>
                             <shci:CachedImage
                                 Grid.Column="0"
                                 Margin="4"
@@ -135,13 +135,13 @@
                                 VerticalAlignment="Center">
                                 <TextBlock
                                     Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{Binding DailyNote.ArchonQuestProgress.ArchonQuestStatusFormatted, Mode=OneWay}"
+                                    Text="{Binding ArchonQuestStatusFormatted, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"/>
                                 <TextBlock
                                     Opacity="0.6"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding DailyNote.ArchonQuestProgress.ArchonQuestChapterFormatted, Mode=OneWay}"
+                                    Text="{Binding ArchonQuestChapterFormatted, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"/>
                             </StackPanel>

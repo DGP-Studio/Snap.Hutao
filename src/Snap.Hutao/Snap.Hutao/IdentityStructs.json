@@ -24,6 +24,18 @@
     "EqualityOperators": true
   },
   {
+    "Name": "ChapterId",
+    "Documentation": "章节 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "ChapterGroupId",
+    "Documentation": "章节分组 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
     "Name": "EquipAffixId",
     "Documentation": "装备属性 Id",
     "Equatable": true,
@@ -110,6 +122,12 @@
   {
     "Name": "PromoteLevel",
     "Documentation": "突破等级 0 - 6",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "QuestId",
+    "Documentation": "任务 Id",
     "Equatable": true,
     "EqualityOperators": true
   },

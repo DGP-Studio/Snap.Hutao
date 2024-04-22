@@ -20,6 +20,11 @@ internal static class MetadataServiceListExtension
         return metadataService.FromCacheOrFileAsync<List<Model.Metadata.Achievement.Achievement>>(FileNameAchievement, token);
     }
 
+    public static ValueTask<List<Chapter>> GetChapterListAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheOrFileAsync<List<Chapter>>(FileNameChapter, token);
+    }
+
     public static ValueTask<List<AchievementGoal>> GetAchievementGoalListAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         return metadataService.FromCacheOrFileAsync<List<AchievementGoal>>(FileNameAchievementGoal, token);
