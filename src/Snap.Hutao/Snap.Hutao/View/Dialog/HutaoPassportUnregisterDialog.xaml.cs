@@ -14,7 +14,7 @@ namespace Snap.Hutao.View.Dialog;
 [DependencyProperty("VerifyCode", typeof(string))]
 internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
 {
-    private readonly HutaoPassportClient homaPassportClient;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
@@ -23,7 +23,7 @@ internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
         InitializeComponent();
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        homaPassportClient = serviceProvider.GetRequiredService<HutaoPassportClient>();
+        serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
     }
 
@@ -49,7 +49,12 @@ internal sealed partial class HutaoPassportUnregisterDialog : ContentDialog
             return;
         }
 
-        HutaoResponse response = await homaPassportClient.RequestVerifyAsync(UserName, VerifyCodeRequestType.CancelRegistration).ConfigureAwait(false);
-        infoBarService.Information(response.GetLocalizationMessage());
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
+
+            HutaoResponse response = await hutaoPassportClient.RequestVerifyAsync(UserName, VerifyCodeRequestType.CancelRegistration).ConfigureAwait(false);
+            infoBarService.Information(response.GetLocalizationMessage());
+        }
     }
 }

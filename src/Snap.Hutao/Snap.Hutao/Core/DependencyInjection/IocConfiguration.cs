@@ -33,17 +33,17 @@ internal static class IocConfiguration
         return services
             .AddTransient(typeof(Database.ScopedDbCurrent<,>))
             .AddTransient(typeof(Database.ScopedDbCurrent<,,>))
-            .AddDbContext<AppDbContext>(AddDbContextCore);
+            .AddDbContextPool<AppDbContext>(AddDbContextCore);
     }
 
-    private static void AddDbContextCore(IServiceProvider provider, DbContextOptionsBuilder builder)
+    private static void AddDbContextCore(IServiceProvider serviceProvider, DbContextOptionsBuilder builder)
     {
-        RuntimeOptions runtimeOptions = provider.GetRequiredService<RuntimeOptions>();
+        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         string dbFile = System.IO.Path.Combine(runtimeOptions.DataFolder, "Userdata.db");
         string sqlConnectionString = $"Data Source={dbFile}";
 
         // Temporarily create a context
-        using (AppDbContext context = AppDbContext.Create(sqlConnectionString))
+        using (AppDbContext context = AppDbContext.Create(serviceProvider, sqlConnectionString))
         {
             if (context.Database.GetPendingMigrations().Any())
             {

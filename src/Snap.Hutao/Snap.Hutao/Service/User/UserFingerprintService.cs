@@ -12,7 +12,7 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserFingerprintService))]
 internal sealed partial class UserFingerprintService : IUserFingerprintService
 {
-    private readonly DeviceFpClient deviceFpClient;
+    private readonly IServiceScopeFactory serviceScopeFactory;
 
     public async ValueTask TryInitializeAsync(ViewModel.User.User user, CancellationToken token = default)
     {
@@ -101,7 +101,13 @@ internal sealed partial class UserFingerprintService : IUserFingerprintService
             DeviceFp = string.IsNullOrEmpty(user.Fingerprint) ? Core.Random.GetLowerHexString(13) : user.Fingerprint,
         };
 
-        Response<DeviceFpWrapper> response = await deviceFpClient.GetFingerprintAsync(data, token).ConfigureAwait(false);
+        Response<DeviceFpWrapper> response;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            DeviceFpClient deviceFpClient = scope.ServiceProvider.GetRequiredService<DeviceFpClient>();
+            response = await deviceFpClient.GetFingerprintAsync(data, token).ConfigureAwait(false);
+        }
+
         user.TryUpdateFingerprint(response.IsOk() ? response.Data.DeviceFp : string.Empty);
 
         user.NeedDbUpdateAfterResume = true;

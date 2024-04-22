@@ -29,12 +29,12 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
+    private readonly IHttpClientFactory httpClientFactory;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
     private readonly IMemoryCache memoryCache;
-    private readonly HttpClient httpClient;
 
     private bool isInitialized;
 
@@ -85,7 +85,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         else
         {
             FileNotFoundException exception = new(SH.ServiceMetadataFileNotFound, fileName);
-            throw ThrowHelper.UserdataCorrupted(SH.ServiceMetadataFileNotFound, exception);
+            throw HutaoException.Throw(SH.ServiceMetadataFileNotFound, exception);
         }
     }
 
@@ -119,10 +119,13 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         Dictionary<string, string>? metadataFileHashs;
         try
         {
-            // download meta check file
-            metadataFileHashs = await httpClient
-                .GetFromJsonAsync<Dictionary<string, string>>(metadataOptions.GetLocalizedRemoteFile(MetaFileName), options, token)
-                .ConfigureAwait(false);
+            // Download meta check file
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+            {
+                metadataFileHashs = await httpClient
+                    .GetFromJsonAsync<Dictionary<string, string>>(metadataOptions.GetLocalizedRemoteFile(MetaFileName), options, token)
+                    .ConfigureAwait(false);
+            }
 
             if (metadataFileHashs is null)
             {
@@ -176,9 +179,13 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
     private async ValueTask DownloadMetadataSourceFilesAsync(string fileFullName, CancellationToken token)
     {
-        Stream sourceStream = await httpClient
-            .GetStreamAsync(metadataOptions.GetLocalizedRemoteFile(fileFullName), token)
-            .ConfigureAwait(false);
+        Stream sourceStream;
+        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+        {
+            sourceStream = await httpClient
+                .GetStreamAsync(metadataOptions.GetLocalizedRemoteFile(fileFullName), token)
+                .ConfigureAwait(false);
+        }
 
         // Write stream while convert LF to CRLF
         using (StreamReader streamReader = new(sourceStream))

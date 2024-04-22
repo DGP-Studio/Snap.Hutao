@@ -17,7 +17,7 @@ namespace Snap.Hutao.Service.Hutao;
 internal sealed partial class HutaoAsAService : IHutaoAsAService
 {
     private const int AnnouncementDuration = 30;
-    private readonly HutaoAsAServiceClient hutaoAsServiceClient;
+    private readonly IServiceScopeFactory serviceScopeFactory;
 
     private ObservableCollection<HutaoAnnouncement>? announcements;
 
@@ -29,7 +29,13 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
 
             ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, new ApplicationDataCompositeValue());
             List<long> data = excludedIds.Select(kvp => long.Parse(kvp.Key, CultureInfo.InvariantCulture)).ToList();
-            Response<List<HutaoAnnouncement>> response = await hutaoAsServiceClient.GetAnnouncementListAsync(data, token).ConfigureAwait(false);
+
+            Response<List<HutaoAnnouncement>> response;
+            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            {
+                HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+                response = await hutaoAsAServiceClient.GetAnnouncementListAsync(data, token).ConfigureAwait(false);
+            }
 
             if (response.IsOk())
             {

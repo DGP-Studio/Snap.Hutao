@@ -18,7 +18,7 @@ internal sealed class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactor
 #if DEBUG
         // TODO: replace with your own database file path.
         string userdataDbName = @"D:\Hutao\Userdata.db";
-        return AppDbContext.Create($"Data Source={userdataDbName}");
+        return AppDbContext.Create(default!, $"Data Source={userdataDbName}");
 #else
         throw Must.NeverHappen();
 #endif
