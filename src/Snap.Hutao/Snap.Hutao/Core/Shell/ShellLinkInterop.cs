@@ -20,10 +20,15 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
     public async ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync()
     {
+        string targetLogoPath = Path.Combine(runtimeOptions.DataFolder, "ShellLinkLogo.ico");
         string elevatedLauncherPath = Path.Combine(runtimeOptions.DataFolder, "Snap.Hutao.Elevated.Launcher.exe");
 
         try
         {
+            Uri sourceLogoUri = "ms-appx:///Assets/Logo.ico".ToUri();
+            StorageFile iconFile = await StorageFile.GetFileFromApplicationUriAsync(sourceLogoUri);
+            await iconFile.OverwriteCopyAsync(targetLogoPath).ConfigureAwait(false);
+
             Uri elevatedLauncherUri = "ms-appx:///Snap.Hutao.Elevated.Launcher.exe".ToUri();
             StorageFile launcherFile = await StorageFile.GetFileFromApplicationUriAsync(elevatedLauncherUri);
             await launcherFile.OverwriteCopyAsync(elevatedLauncherPath).ConfigureAwait(false);
@@ -33,10 +38,10 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
             return false;
         }
 
-        return UnsafeTryCreateDesktopShoutcutForElevatedLaunch(elevatedLauncherPath);
+        return UnsafeTryCreateDesktopShoutcutForElevatedLaunch(targetLogoPath, elevatedLauncherPath);
     }
 
-    private unsafe bool UnsafeTryCreateDesktopShoutcutForElevatedLaunch(string elevatedLauncherPath)
+    private unsafe bool UnsafeTryCreateDesktopShoutcutForElevatedLaunch(string targetLogoPath, string elevatedLauncherPath)
     {
         bool result = false;
 
@@ -47,6 +52,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
             pShellLink->SetPath(elevatedLauncherPath);
             pShellLink->SetArguments(runtimeOptions.FamilyName);
             pShellLink->SetShowCmd(SHOW_WINDOW_CMD.SW_NORMAL);
+            pShellLink->SetIconLocation(targetLogoPath, 0);
 
             if (SUCCEEDED(pShellLink->QueryInterface(in IPersistFile.IID, out IPersistFile* pPersistFile)))
             {
