@@ -7,6 +7,7 @@ using Snap.Hutao.Service.Announcement;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
+using System.Collections.Specialized;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -110,15 +111,15 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             .Single(wrapper => wrapper.TypeId == 1)
             .List;
 
-        Dictionary<string, DateTimeOffset> versionStartTimeDict = new Dictionary<string, DateTimeOffset>();
+        // 游戏公告
+        List<WebAnnouncement> announcements = announcementListWrappers
+            .Single(wrapper => wrapper.TypeId == 2)
+            .List;
+
+        Dictionary<string, DateTimeOffset> versionStartTimes = [];
 
         // 更新公告
-        WebAnnouncement? versionUpdate = announcementListWrappers
-            .Single(wrapper => wrapper.TypeId == 2)
-            .List
-            .SingleOrDefault(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title));
-
-        if (versionUpdate is not null)
+        if (announcements.SingleOrDefault(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title)) is { } versionUpdate)
         {
             if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } versionUpdateMatch)
             {
@@ -126,16 +127,11 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             }
 
             DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdateMatch.Groups[1].ValueSpan, offset);
-            versionStartTimeDict.Add(VersionRegex().Match(versionUpdate.Title).Groups[1].Value, versionUpdateTime);
+            versionStartTimes.TryAdd(VersionRegex().Match(versionUpdate.Title).Groups[1].Value, versionUpdateTime);
         }
 
         // 更新预告
-        WebAnnouncement? versionUpdatePreview = announcementListWrappers
-            .Single(wrapper => wrapper.TypeId == 2)
-            .List
-            .SingleOrDefault(ann => AnnouncementRegex.VersionUpdatePreviewTitleRegex.IsMatch(ann.Title));
-
-        if (versionUpdatePreview is not null)
+        if (announcements.SingleOrDefault(ann => AnnouncementRegex.VersionUpdatePreviewTitleRegex.IsMatch(ann.Title)) is { } versionUpdatePreview)
         {
             if (AnnouncementRegex.VersionUpdatePreviewTimeRegex.Match(versionUpdatePreview.Content) is not { Success: true } versionUpdatePreviewMatch)
             {
@@ -143,7 +139,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             }
 
             DateTimeOffset versionUpdatePreviewTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdatePreviewMatch.Groups[1].ValueSpan, offset);
-            versionStartTimeDict.TryAdd(VersionRegex().Match(versionUpdatePreview.Title).Groups[1].Value, versionUpdatePreviewTime);
+            versionStartTimes.TryAdd(VersionRegex().Match(versionUpdatePreview.Title).Groups[1].Value, versionUpdatePreviewTime);
         }
 
         foreach (ref readonly WebAnnouncement announcement in CollectionsMarshal.AsSpan(activities))
@@ -152,7 +148,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
             if (AnnouncementRegex.PermanentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } permanent)
             {
-                if (versionStartTimeDict.TryGetValue(permanent.Groups[1].Value, out versionStartTime))
+                if (versionStartTimes.TryGetValue(permanent.Groups[1].Value, out versionStartTime))
                 {
                     announcement.StartTime = versionStartTime;
                     continue;
@@ -161,7 +157,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
             if (AnnouncementRegex.PersistentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } persistent)
             {
-                if (versionStartTimeDict.TryGetValue(persistent.Groups[1].Value, out versionStartTime))
+                if (versionStartTimes.TryGetValue(persistent.Groups[1].Value, out versionStartTime))
                 {
                     announcement.StartTime = versionStartTime;
                     announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
@@ -171,7 +167,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
             if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
             {
-                if (versionStartTimeDict.TryGetValue(transient.Groups[1].Value, out versionStartTime))
+                if (versionStartTimes.TryGetValue(transient.Groups[1].Value, out versionStartTime))
                 {
                     announcement.StartTime = versionStartTime;
                     announcement.EndTime = UnsafeDateTimeOffset.ParseDateTime(transient.Groups[2].ValueSpan, offset);
