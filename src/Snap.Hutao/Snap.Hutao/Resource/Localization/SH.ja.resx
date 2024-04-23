@@ -2922,19 +2922,25 @@
     <value>武器一覧</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓イベント期間〓|〓任務開始時間〓).*?\d\.\dバージョンアップ(?:完了|)後常設オープン</value>
+    <value>(?:〓イベント期間〓|〓任務開(?:始|放)時間〓).*?(\d\.\d).*?開放</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓イベント期間〓.*?\d\.\d当バージョン期間オープン</value>
+    <value>〓イベント期間〓.*?(\d\.\d)バージョン</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓イベント期間〓|祈願期間|【開始日時】).*?(\d\.\dバージョンアップ完了後).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓イベント期間〓|祈願期間|【開始日時】).*?(\d\.\d)バージョンアップ.*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
+    <value>親愛.*?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
+    <value>Ver\.\d\.\dバージョンアップのお知らせ</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓メンテナンス時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>Ver.\d\.\d.+正式リリース</value>
+    <value>Ver\.\d\.\d.*?正式リリース</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>{0} 日後に開始</value>

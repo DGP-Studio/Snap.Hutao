@@ -7,6 +7,7 @@ using Snap.Hutao.Service.Announcement;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
+using System.Collections.Specialized;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -110,39 +111,68 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             .Single(wrapper => wrapper.TypeId == 1)
             .List;
 
-        // 更新公告
-        WebAnnouncement versionUpdate = announcementListWrappers
+        // 游戏公告
+        List<WebAnnouncement> announcements = announcementListWrappers
             .Single(wrapper => wrapper.TypeId == 2)
-            .List
-            .Single(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title));
+            .List;
 
-        if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } versionMatch)
+        Dictionary<string, DateTimeOffset> versionStartTimes = [];
+
+        // 更新公告
+        if (announcements.SingleOrDefault(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title)) is { } versionUpdate)
         {
-            return;
+            if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } versionUpdateMatch)
+            {
+                return;
+            }
+
+            DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdateMatch.Groups[1].ValueSpan, offset);
+            versionStartTimes.TryAdd(VersionRegex().Match(versionUpdate.Title).Groups[1].Value, versionUpdateTime);
         }
 
-        DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(versionMatch.Groups[1].ValueSpan, offset);
+        // 更新预告
+        if (announcements.SingleOrDefault(ann => AnnouncementRegex.VersionUpdatePreviewTitleRegex.IsMatch(ann.Title)) is { } versionUpdatePreview)
+        {
+            if (AnnouncementRegex.VersionUpdatePreviewTimeRegex.Match(versionUpdatePreview.Content) is not { Success: true } versionUpdatePreviewMatch)
+            {
+                return;
+            }
+
+            DateTimeOffset versionUpdatePreviewTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdatePreviewMatch.Groups[1].ValueSpan, offset);
+            versionStartTimes.TryAdd(VersionRegex().Match(versionUpdatePreview.Title).Groups[1].Value, versionUpdatePreviewTime);
+        }
 
         foreach (ref readonly WebAnnouncement announcement in CollectionsMarshal.AsSpan(activities))
         {
+            DateTimeOffset versionStartTime;
+
             if (AnnouncementRegex.PermanentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } permanent)
             {
-                announcement.StartTime = versionUpdateTime;
-                continue;
+                if (versionStartTimes.TryGetValue(permanent.Groups[1].Value, out versionStartTime))
+                {
+                    announcement.StartTime = versionStartTime;
+                    continue;
+                }
             }
 
             if (AnnouncementRegex.PersistentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } persistent)
             {
-                announcement.StartTime = versionUpdateTime;
-                announcement.EndTime = versionUpdateTime + TimeSpan.FromDays(42);
-                continue;
+                if (versionStartTimes.TryGetValue(persistent.Groups[1].Value, out versionStartTime))
+                {
+                    announcement.StartTime = versionStartTime;
+                    announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
+                    continue;
+                }
             }
 
             if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
             {
-                announcement.StartTime = versionUpdateTime;
-                announcement.EndTime = UnsafeDateTimeOffset.ParseDateTime(transient.Groups[2].ValueSpan, offset);
-                continue;
+                if (versionStartTimes.TryGetValue(transient.Groups[1].Value, out versionStartTime))
+                {
+                    announcement.StartTime = versionStartTime;
+                    announcement.EndTime = UnsafeDateTimeOffset.ParseDateTime(transient.Groups[2].ValueSpan, offset);
+                    continue;
+                }
             }
 
             MatchCollection matches = AnnouncementRegex.XmlTimeTagRegex().Matches(announcement.Content);
@@ -177,4 +207,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             announcement.EndTime = max;
         }
     }
+
+    [GeneratedRegex("(\\d\\.\\d)")]
+    private static partial Regex VersionRegex();
 }

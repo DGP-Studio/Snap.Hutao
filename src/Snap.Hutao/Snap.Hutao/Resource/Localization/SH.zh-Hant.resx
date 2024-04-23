@@ -2922,13 +2922,19 @@
     <value>武器資料</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓活動時間〓|〓任務開放時間〓).*?\d\.\d版本更新(?:完成|)後永久開放</value>
+    <value>(?:〓活動時間〓|〓任務開放時間〓).*?(\d\.\d)版本更新(?:完成|)後永久開放</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓活動時間〓.*?\d\.\d版本期間持續開放</value>
+    <value>〓活動時間〓.*?(\d\.\d)版本期間持續開放</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活動時間〓|祈願時間|【上架時間】|〓折扣時間〓).*?(\d\.\d版本更新後).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓活動時間〓|祈願時間|【上架時間】|〓折扣時間〓).*?(\d\.\d).*?版本更新後.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
+    <value>親愛.*?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
+    <value>\d\.\d版本更新維護預告</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓更新時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
