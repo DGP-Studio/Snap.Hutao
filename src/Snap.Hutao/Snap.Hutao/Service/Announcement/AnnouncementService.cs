@@ -110,54 +110,79 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             .Single(wrapper => wrapper.TypeId == 1)
             .List;
 
-        // x.x版本更新说明
-        WebAnnouncement versionUpdate = announcementListWrappers
-            .Single(wrapper => wrapper.TypeId == 2)
-            .List
-            .Single(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title));
+        Dictionary<string, DateTimeOffset> versionStartTimeDict = new Dictionary<string, DateTimeOffset>();
 
-        if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } versionUpdateMatch)
+        // x.x版本更新说明
+        try
         {
-            return;
+            WebAnnouncement versionUpdate = announcementListWrappers
+                .Single(wrapper => wrapper.TypeId == 2)
+                .List
+                .Single(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title));
+
+            if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } versionUpdateMatch)
+            {
+                return;
+            }
+
+            DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdateMatch.Groups[1].ValueSpan, offset);
+            versionStartTimeDict.Add(new Regex("(\\d\\.\\d)").Match(versionUpdate.Title).Groups[1].Value, versionUpdateTime);
+        }
+        catch (Exception)
+        {
         }
 
         // x.x版本更新维护预告
-        WebAnnouncement versionUpdatePreview = announcementListWrappers
-            .Single(wrapper => wrapper.TypeId == 2)
-            .List
-            .Single(ann => AnnouncementRegex.VersionUpdatePreviewTitleRegex.IsMatch(ann.Title));
-
-        if (AnnouncementRegex.VersionUpdatePreviewTimeRegex.Match(versionUpdatePreview.Content) is not { Success: true } versionUpdatePreviewMatch)
+        try
         {
-            return;
-        }
+            WebAnnouncement versionUpdatePreview = announcementListWrappers
+                .Single(wrapper => wrapper.TypeId == 2)
+                .List
+                .Single(ann => AnnouncementRegex.VersionUpdatePreviewTitleRegex.IsMatch(ann.Title));
 
-        Dictionary<string, DateTimeOffset> versionStartTimeDict = new Dictionary<string, DateTimeOffset>();
-        DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdateMatch.Groups[1].ValueSpan, offset);
-        DateTimeOffset versionUpdatePreviewTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdatePreviewMatch.Groups[1].ValueSpan, offset);
-        versionStartTimeDict.Add(new Regex("(\\d\\.\\d)").Match(versionUpdate.Title).Groups[1].Value, versionUpdateTime);
-        versionStartTimeDict.TryAdd(new Regex("(\\d\\.\\d)").Match(versionUpdatePreview.Title).Groups[1].Value, versionUpdatePreviewTime);
+            if (AnnouncementRegex.VersionUpdatePreviewTimeRegex.Match(versionUpdatePreview.Content) is not { Success: true } versionUpdatePreviewMatch)
+            {
+                return;
+            }
+
+            DateTimeOffset versionUpdatePreviewTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdatePreviewMatch.Groups[1].ValueSpan, offset);
+            versionStartTimeDict.TryAdd(new Regex("(\\d\\.\\d)").Match(versionUpdatePreview.Title).Groups[1].Value, versionUpdatePreviewTime);
+        }
+        catch (Exception)
+        {
+        }
 
         foreach (ref readonly WebAnnouncement announcement in CollectionsMarshal.AsSpan(activities))
         {
+            DateTimeOffset versionStartTime;
+
             if (AnnouncementRegex.PermanentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } permanent)
             {
-                announcement.StartTime = versionStartTimeDict[permanent.Groups[1].Value];
-                continue;
+                if (versionStartTimeDict.TryGetValue(permanent.Groups[1].Value, out versionStartTime))
+                {
+                    announcement.StartTime = versionStartTime;
+                    continue;
+                }
             }
 
             if (AnnouncementRegex.PersistentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } persistent)
             {
-                announcement.StartTime = versionStartTimeDict[persistent.Groups[1].Value];
-                announcement.EndTime = versionStartTimeDict[persistent.Groups[1].Value] + TimeSpan.FromDays(42);
-                continue;
+                if (versionStartTimeDict.TryGetValue(persistent.Groups[1].Value, out versionStartTime))
+                {
+                    announcement.StartTime = versionStartTime;
+                    announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
+                    continue;
+                }
             }
 
             if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
             {
-                announcement.StartTime = versionStartTimeDict[transient.Groups[1].Value];
-                announcement.EndTime = UnsafeDateTimeOffset.ParseDateTime(transient.Groups[2].ValueSpan, offset);
-                continue;
+                if (versionStartTimeDict.TryGetValue(transient.Groups[1].Value, out versionStartTime))
+                {
+                    announcement.StartTime = versionStartTime;
+                    announcement.EndTime = UnsafeDateTimeOffset.ParseDateTime(transient.Groups[2].ValueSpan, offset);
+                    continue;
+                }
             }
 
             MatchCollection matches = AnnouncementRegex.XmlTimeTagRegex().Matches(announcement.Content);
