@@ -5,7 +5,9 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Core.Windowing;
@@ -220,14 +222,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         return ValueTask.FromResult(true);
     }
 
-    [Command("ResetStaticResourceCommand")]
-    private static void ResetStaticResource()
-    {
-        StaticResource.FailAll();
-        UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
-        AppInstance.Restart(string.Empty);
-    }
-
     [Command("StoreReviewCommand")]
     private static async Task StoreReviewAsync()
     {
@@ -238,6 +232,24 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private static async Task CheckUpdateAsync()
     {
         await Launcher.LaunchUriAsync(new("ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
+    }
+
+    [Command("ResetStaticResourceCommand")]
+    private async Task ResetStaticResource()
+    {
+        ContentDialog dialog = await contentDialogFactory
+            .CreateForIndeterminateProgressAsync(SH.ViewModelSettingResetStaticResourceProgress)
+            .ConfigureAwait(false);
+
+        await using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+        {
+            await taskContext.SwitchToBackgroundAsync();
+            StaticResource.FailAll();
+            Directory.Delete(Path.Combine(runtimeOptions.LocalCache, nameof(ImageCache)), true);
+            UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
+        }
+
+        AppInstance.Restart(string.Empty);
     }
 
     [Command("DeleteGameWebCacheCommand")]
