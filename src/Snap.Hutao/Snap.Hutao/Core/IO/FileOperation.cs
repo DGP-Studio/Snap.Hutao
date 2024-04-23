@@ -50,14 +50,11 @@ internal static class FileOperation
     {
         bool result = false;
 
-        HRESULT hr = CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation);
-        if (SUCCEEDED(hr))
+        if (SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation)))
         {
-            hr = SHCreateItemFromParsingName(sourceFileName.AsSpan(), default, in IShellItem.IID, out IShellItem* pSourceShellItem);
-            if (SUCCEEDED(hr))
+            if (SUCCEEDED(SHCreateItemFromParsingName(sourceFileName, default, in IShellItem.IID, out IShellItem* pSourceShellItem)))
             {
-                hr = SHCreateItemFromParsingName(destFileName.AsSpan(), default, in IShellItem.IID, out IShellItem* pDestShellItem);
-                if (SUCCEEDED(hr))
+                if (SUCCEEDED(SHCreateItemFromParsingName(destFileName, default, in IShellItem.IID, out IShellItem* pDestShellItem)))
                 {
                     pFileOperation->MoveItem(pSourceShellItem, pDestShellItem, default, default);
 
@@ -82,11 +79,9 @@ internal static class FileOperation
     {
         bool result = false;
 
-        HRESULT hr = CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation);
-        if (SUCCEEDED(hr))
+        if (SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation)))
         {
-            hr = SHCreateItemFromParsingName(path.AsSpan(), default, in IShellItem.IID, out IShellItem* pShellItem);
-            if (SUCCEEDED(hr))
+            if (SUCCEEDED(SHCreateItemFromParsingName(path, default, in IShellItem.IID, out IShellItem* pShellItem)))
             {
                 pFileOperation->DeleteItem(pShellItem, default);
 

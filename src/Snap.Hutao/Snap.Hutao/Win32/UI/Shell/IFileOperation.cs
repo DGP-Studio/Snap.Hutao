@@ -52,9 +52,12 @@ internal unsafe struct IFileOperation
         return ThisPtr->DeleteItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, pfopsItem);
     }
 
-    public unsafe HRESULT MoveItem(IShellItem* psiItem, IShellItem* psiDestinationFolder, [AllowNull] PCWSTR pszNewName, IFileOperationProgressSink* pfopsItem)
+    public unsafe HRESULT MoveItem(IShellItem* psiItem, IShellItem* psiDestinationFolder, [AllowNull] string szNewName, IFileOperationProgressSink* pfopsItem)
     {
-        return ThisPtr->MoveItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, psiDestinationFolder, pszNewName, pfopsItem);
+        fixed (char* pszNewName = szNewName)
+        {
+            return ThisPtr->MoveItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, psiDestinationFolder, pszNewName, pfopsItem);
+        }
     }
 
     public unsafe HRESULT PerformOperations()

@@ -241,10 +241,11 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             .CreateForIndeterminateProgressAsync(SH.ViewModelSettingResetStaticResourceProgress)
             .ConfigureAwait(false);
 
-        using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+        await using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
         {
+            await taskContext.SwitchToBackgroundAsync();
             StaticResource.FailAll();
-            await Task.Run(() => Directory.Delete(Path.Combine(runtimeOptions.LocalCache, nameof(ImageCache)), true)).ConfigureAwait(false);
+            Directory.Delete(Path.Combine(runtimeOptions.LocalCache, nameof(ImageCache)), true);
             UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
         }
 
