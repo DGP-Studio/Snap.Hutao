@@ -113,18 +113,21 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         Dictionary<string, DateTimeOffset> versionStartTimeDict = new Dictionary<string, DateTimeOffset>();
 
         // 更新公告
-        WebAnnouncement versionUpdate = announcementListWrappers
+        WebAnnouncement? versionUpdate = announcementListWrappers
             .Single(wrapper => wrapper.TypeId == 2)
             .List
-            .Single(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title));
+            .SingleOrDefault(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title));
 
-        if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } versionUpdateMatch)
+        if (versionUpdate is not null)
         {
-            return;
-        }
+            if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is not { Success: true } versionUpdateMatch)
+            {
+                return;
+            }
 
-        DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdateMatch.Groups[1].ValueSpan, offset);
-        versionStartTimeDict.Add(VersionRegex().Match(versionUpdate.Title).Groups[1].Value, versionUpdateTime);
+            DateTimeOffset versionUpdateTime = UnsafeDateTimeOffset.ParseDateTime(versionUpdateMatch.Groups[1].ValueSpan, offset);
+            versionStartTimeDict.Add(VersionRegex().Match(versionUpdate.Title).Groups[1].Value, versionUpdateTime);
+        }
 
         // 更新预告
         WebAnnouncement? versionUpdatePreview = announcementListWrappers
