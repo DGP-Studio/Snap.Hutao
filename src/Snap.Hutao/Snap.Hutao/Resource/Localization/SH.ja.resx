@@ -1724,6 +1724,9 @@
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>非探知認証複合URLの構成に成功しました</value>
   </data>
+  <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
+    <value>正在重置图片资源</value>
+  </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>データディレクトリのリセットが完了しました、再起動して変更を適用します</value>
   </data>
@@ -2991,13 +2994,19 @@
     <value>武器一覧</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓イベント期間〓|〓任務開始時間〓).*?\d\.\dバージョンアップ(?:完了|)後常設オープン</value>
+    <value>(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)后永久开放</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓イベント期間〓.*?\d\.\d当バージョン期間オープン</value>
+    <value>〓活动时间〓.*?(\d\.\d)版本期间持续开放</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓イベント期間〓|祈願期間|【開始日時】).*?(\d\.\dバージョンアップ完了後).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d)版本更新后.*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
+    <value>将于&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;进行版本更新维护</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
+    <value>\d\.\d版本更新维护预告</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓メンテナンス時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
