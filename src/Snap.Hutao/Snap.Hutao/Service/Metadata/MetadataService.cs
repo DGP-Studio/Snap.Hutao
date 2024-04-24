@@ -6,6 +6,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
@@ -29,7 +30,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
-    private readonly IHttpClientFactory httpClientFactory;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
     private readonly IInfoBarService infoBarService;
@@ -119,12 +120,16 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         Dictionary<string, string>? metadataFileHashs;
         try
         {
-            // Download meta check file
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+            using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
-                metadataFileHashs = await httpClient
-                    .GetFromJsonAsync<Dictionary<string, string>>(metadataOptions.GetLocalizedRemoteFile(MetaFileName), options, token)
-                    .ConfigureAwait(false);
+                IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
+                using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+                {
+                    // Download meta check file
+                    metadataFileHashs = await httpClient
+                        .GetFromJsonAsync<Dictionary<string, string>>(metadataOptions.GetLocalizedRemoteFile(MetaFileName), options, token)
+                        .ConfigureAwait(false);
+                }
             }
 
             if (metadataFileHashs is null)
@@ -180,26 +185,27 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     private async ValueTask DownloadMetadataSourceFilesAsync(string fileFullName, CancellationToken token)
     {
         Stream sourceStream;
-        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            sourceStream = await httpClient
-                .GetStreamAsync(metadataOptions.GetLocalizedRemoteFile(fileFullName), token)
-                .ConfigureAwait(false);
+            IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
+            {
+                sourceStream = await httpClient
+                    .GetStreamAsync(metadataOptions.GetLocalizedRemoteFile(fileFullName), token)
+                    .ConfigureAwait(false);
+            }
         }
 
         // Write stream while convert LF to CRLF
-        using (StreamReader streamReader = new(sourceStream))
+        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(metadataOptions.GetLocalizedLocalFile(fileFullName))))
         {
-            using (StreamWriter streamWriter = File.CreateText(metadataOptions.GetLocalizedLocalFile(fileFullName)))
+            while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
             {
-                while (await streamReader.ReadLineAsync(token).ConfigureAwait(false) is { } line)
-                {
-                    await streamWriter.WriteAsync(line).ConfigureAwait(false);
+                await readerWriter.WriteAsync(line).ConfigureAwait(false);
 
-                    if (!streamReader.EndOfStream)
-                    {
-                        await streamWriter.WriteAsync(StringLiterals.CRLF).ConfigureAwait(false);
-                    }
+                if (!readerWriter.Reader.EndOfStream)
+                {
+                    await readerWriter.WriteAsync(StringLiterals.CRLF).ConfigureAwait(false);
                 }
             }
         }

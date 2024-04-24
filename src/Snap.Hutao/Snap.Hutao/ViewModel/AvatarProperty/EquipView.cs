@@ -10,7 +10,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 /// 装备基类
 /// </summary>
 [HighQuality]
-internal abstract class Equip : NameIconDescription
+internal abstract class EquipView : NameIconDescription
 {
     /// <summary>
     /// 等级

@@ -28,11 +28,12 @@ internal sealed partial class SummaryFactory : ISummaryFactory
         IOrderedEnumerable<AvatarView> avatars = avatarInfos
             .Where(a => !AvatarIds.IsPlayer(a.Info.AvatarId))
             .Select(a => SummaryAvatarFactory.Create(context, a))
-            .OrderByDescending(a => a.LevelNumber)
-            .ThenByDescending(a => a.FetterLevel)
-            .ThenBy(a => a.Element);
+            .OrderByDescending(a => a.Quality)
+            .ThenByDescending(a => a.LevelNumber)
+            .ThenBy(a => a.Element)
+            .ThenBy(a => a.Weapon?.WeaponType)
+            .ThenByDescending(a => a.FetterLevel);
 
-        // TODO: thenby weapon type
         return new()
         {
             Avatars = [.. avatars],

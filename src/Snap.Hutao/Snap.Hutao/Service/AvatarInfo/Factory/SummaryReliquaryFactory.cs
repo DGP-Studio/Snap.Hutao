@@ -13,9 +13,6 @@ using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
-/// <summary>
-/// 圣遗物工厂
-/// </summary>
 [HighQuality]
 internal sealed class SummaryReliquaryFactory
 {
@@ -37,7 +34,7 @@ internal sealed class SummaryReliquaryFactory
 
     public ReliquaryView Create()
     {
-        MetadataReliquary reliquary = metadataContext.Reliquaries.Single(r => r.Ids.Contains(equip.ItemId));
+        MetadataReliquary reliquary = metadataContext.IdReliquaryMap[equip.ItemId];
 
         ArgumentNullException.ThrowIfNull(equip.Reliquary);
         List<ReliquarySubProperty> subProperty = equip.Reliquary.AppendPropIdList.EmptyIfNull().SelectList(CreateSubProperty);
@@ -74,10 +71,10 @@ internal sealed class SummaryReliquaryFactory
         return result;
     }
 
-    private static int GetSecondaryAffixCount(MetadataReliquary reliquary, Web.Enka.Model.Reliquary enkaReliquary)
+    private static int GetSecondaryAffixCount(MetadataReliquary metaReliquary, Web.Enka.Model.Reliquary enkaReliquary)
     {
         // 强化词条个数
-        return (reliquary.RankLevel, enkaReliquary.Level.Value) switch
+        return (metaReliquary.RankLevel, enkaReliquary.Level.Value) switch
         {
             (QualityType.QUALITY_ORANGE, > 20U) => 5,
             (QualityType.QUALITY_ORANGE, > 16U) => 4,

@@ -12,7 +12,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
 internal static class AvatarViewBuilderExtension
 {
-    public static TBuilder ApplyCostumeIconOrDefault<TBuilder>(this TBuilder builder, Web.Enka.Model.AvatarInfo avatarInfo, Avatar avatar)
+    public static TBuilder SetCostumeIconOrDefault<TBuilder>(this TBuilder builder, Web.Enka.Model.AvatarInfo avatarInfo, Avatar avatar)
         where TBuilder : IAvatarViewBuilder
     {
         if (avatarInfo.CostumeId.TryGetValue(out CostumeId id))

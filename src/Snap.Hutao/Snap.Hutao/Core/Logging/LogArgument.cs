@@ -21,6 +21,11 @@ internal readonly struct LogArgument
         return new(argument);
     }
 
+    public static implicit operator LogArgument(double argument)
+    {
+        return new(argument);
+    }
+
     public static implicit operator LogArgument((object? Argument, ConsoleColor Foreground) tuple)
     {
         return new(tuple.Argument, tuple.Foreground);

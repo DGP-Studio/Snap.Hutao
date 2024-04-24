@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using WinRT;

@@ -62,6 +62,11 @@ internal static class MetadataServiceContextExtension
                 dictionaryIdMaterialSource.IdMaterialMap = await metadataService.GetIdToMaterialMapAsync(token).ConfigureAwait(false);
             }
 
+            if (context is IMetadataDictionaryIdReliquarySource dictionaryIdReliquarySource)
+            {
+                dictionaryIdReliquarySource.IdReliquaryMap = await metadataService.GetIdToReliquaryMapAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataDictionaryIdReliquaryAffixWeightSource dictionaryIdReliquaryAffixWeightSource)
             {
                 dictionaryIdReliquaryAffixWeightSource.IdReliquaryAffixWeightMap = await metadataService.GetIdToReliquaryAffixWeightMapAsync(token).ConfigureAwait(false);
