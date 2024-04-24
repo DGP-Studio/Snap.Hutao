@@ -1488,7 +1488,7 @@
     <value>该操作是不可逆的，该存档和其内的所有成就状态会丢失</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
-    <value>确定要删除存档 {0} 吗？</value>
+    <value>Вы уверены, что хотите удалить архив {0}?</value>
   </data>
   <data name="ViewModelAchievementUIAFExportPickerTitle" xml:space="preserve">
     <value>导出 UIAF Json 文件到指定路径</value>
@@ -1662,7 +1662,7 @@
     <value>请先创建一个成就存档</value>
   </data>
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
-    <value>导入失败</value>
+    <value>Ошибка загрузки</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切换服务器失败</value>
@@ -2565,7 +2565,7 @@
     <value>Достижения</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>实时便笺</value>
+    <value>Заметки в реальном времени</value>
   </data>
   <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>祈愿记录</value>
