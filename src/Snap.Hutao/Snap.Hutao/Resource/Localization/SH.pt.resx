@@ -873,7 +873,7 @@
     <value>Evento de oração de personagem</value>
   </data>
   <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
-    <value>集录祈愿</value>
+    <value>Orações coletadas</value>
   </data>
   <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
     <value>Invocação do Mochileiro</value>
