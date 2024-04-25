@@ -6,9 +6,6 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
-/// <summary>
-/// 简述帮助类
-/// </summary>
 [HighQuality]
 internal static class SummaryHelper
 {

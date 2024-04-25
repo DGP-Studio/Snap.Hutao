@@ -52,7 +52,7 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
                             return new(RefreshResult.ShowcaseNotOpen, default);
                         }
 
-                        List<EntityAvatarInfo> list = avatarInfoDbBulkOperation.UpdateDbAvatarInfosByShowcase(userAndUid.Uid.Value, resp.AvatarInfoList, token);
+                        List<EntityAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosByShowcaseAsync(userAndUid.Uid.Value, resp.AvatarInfoList, token);
                         Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }

@@ -5,6 +5,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
@@ -81,12 +82,12 @@ internal sealed class AvatarView : INameIconSide, ICalculableSource<ICalculableA
     /// <summary>
     /// 评分
     /// </summary>
-    public string Score { get; set; } = default!;
+    public string ScoreFormatted { get => $"{Score:F2}"; }
 
     /// <summary>
     /// 双爆评分
     /// </summary>
-    public string CritScore { get; set; } = default!;
+    public string CritScoreFormatted { get => $"{CritScore:F2}"; }
 
     /// <summary>
     /// 好感度等级
@@ -108,6 +109,10 @@ internal sealed class AvatarView : INameIconSide, ICalculableSource<ICalculableA
     /// 等级数字
     /// </summary>
     internal uint LevelNumber { get; set; }
+
+    internal float Score { get; set; }
+
+    internal float CritScore { get; set; }
 
     /// <inheritdoc/>
     public ICalculableAvatar ToCalculable()

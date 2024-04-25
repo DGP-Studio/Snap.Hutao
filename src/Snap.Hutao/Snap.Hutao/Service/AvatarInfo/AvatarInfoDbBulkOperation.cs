@@ -12,7 +12,9 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Response;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using CalculateAvatar = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Avatar;
 using EnkaAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
@@ -21,9 +23,6 @@ using RecordPlayerInfo = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.PlayerInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 
-/// <summary>
-/// 角色信息数据库操作
-/// </summary>
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
@@ -32,18 +31,10 @@ internal sealed partial class AvatarInfoDbBulkOperation
     private readonly IServiceProvider serviceProvider;
     private readonly IAvatarInfoDbService avatarInfoDbService;
 
-    /// <summary>
-    /// 更新数据库角色信息
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <param name="webInfos">Enka信息</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色列表</returns>
-    public List<EntityAvatarInfo> UpdateDbAvatarInfosByShowcase(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
+    public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByShowcaseAsync(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
     {
-        token.ThrowIfCancellationRequested();
-        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
-        EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
+        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
+        EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -56,28 +47,19 @@ internal sealed partial class AvatarInfoDbBulkOperation
                     continue;
                 }
 
-                token.ThrowIfCancellationRequested();
-                EntityAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == webInfo.AvatarId);
+                EntityAvatarInfo? entity = dbInfoMap.GetValueOrDefault(webInfo.AvatarId);
                 AddOrUpdateAvatarInfo(entity, uid, appDbContext, webInfo);
             }
 
-            token.ThrowIfCancellationRequested();
-            return avatarInfoDbService.GetAvatarInfoListByUid(uid);
+            return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
         }
     }
 
-    /// <summary>
-    /// 米游社我的角色方式 更新数据库角色信息
-    /// </summary>
-    /// <param name="userAndUid">用户与角色</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色列表</returns>
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndUid userAndUid, CancellationToken token)
     {
-        token.ThrowIfCancellationRequested();
         string uid = userAndUid.Uid.Value;
         List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
-        EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
+        EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -90,51 +72,47 @@ internal sealed partial class AvatarInfoDbBulkOperation
                 .GetPlayerInfoAsync(userAndUid, token)
                 .ConfigureAwait(false);
 
-            if (playerInfoResponse.IsOk())
+            if (!playerInfoResponse.IsOk())
             {
-                Response<CharacterWrapper> charactersResponse = await gameRecordClient
-                    .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
-                    .ConfigureAwait(false);
+                goto Return;
+            }
 
-                token.ThrowIfCancellationRequested();
+            Response<CharacterWrapper> charactersResponse = await gameRecordClient
+                .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
+                .ConfigureAwait(false);
 
-                if (charactersResponse.IsOk())
+            if (!charactersResponse.IsOk())
+            {
+                goto Return;
+            }
+
+            List<RecordCharacter> characters = charactersResponse.Data.Avatars;
+
+            GameRecordCharacterAvatarInfoTransformer transformer = serviceProvider
+                .GetRequiredService<GameRecordCharacterAvatarInfoTransformer>();
+
+            foreach (RecordCharacter character in characters)
+            {
+                if (AvatarIds.IsPlayer(character.Id))
                 {
-                    List<RecordCharacter> characters = charactersResponse.Data.Avatars;
-
-                    GameRecordCharacterAvatarInfoTransformer transformer = serviceProvider
-                        .GetRequiredService<GameRecordCharacterAvatarInfoTransformer>();
-
-                    foreach (RecordCharacter character in characters)
-                    {
-                        if (AvatarIds.IsPlayer(character.Id))
-                        {
-                            continue;
-                        }
-
-                        token.ThrowIfCancellationRequested();
-                        EntityAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == character.Id);
-                        AddOrUpdateAvatarInfo(entity, character.Id, uid, appDbContext, transformer, character);
-                    }
+                    continue;
                 }
+
+                EntityAvatarInfo? entity = dbInfoMap.GetValueOrDefault(character.Id);
+                AddOrUpdateAvatarInfo(entity, character.Id, uid, appDbContext, transformer, character);
             }
         }
 
+    Return:
         return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// 米游社养成计算方式 更新数据库角色信息
-    /// </summary>
-    /// <param name="userAndUid">用户与角色</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色列表</returns>
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
         string uid = userAndUid.Uid.Value;
         List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
-        EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
+        EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -155,8 +133,6 @@ internal sealed partial class AvatarInfoDbBulkOperation
                     continue;
                 }
 
-                token.ThrowIfCancellationRequested();
-
                 Response<AvatarDetail> detailAvatarResponse = await calculateClient
                     .GetAvatarDetailAsync(userAndUid, avatar, token)
                     .ConfigureAwait(false);
@@ -166,8 +142,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
                     continue;
                 }
 
-                token.ThrowIfCancellationRequested();
-                EntityAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == avatar.Id);
+                EntityAvatarInfo? entity = dbInfoMap.GetValueOrDefault(avatar.Id);
                 AddOrUpdateAvatarInfo(entity, avatar.Id, uid, appDbContext, transformer, detailAvatarResponse.Data);
             }
         }
@@ -181,15 +156,14 @@ internal sealed partial class AvatarInfoDbBulkOperation
         if (entity is null)
         {
             entity = EntityAvatarInfo.From(uid, webInfo);
-            entity.ShowcaseRefreshTime = DateTimeOffset.UtcNow;
-            appDbContext.AvatarInfos.AddAndSave(entity);
         }
         else
         {
             entity.Info = webInfo;
-            entity.ShowcaseRefreshTime = DateTimeOffset.UtcNow;
-            appDbContext.AvatarInfos.UpdateAndSave(entity);
         }
+
+        entity.ShowcaseRefreshTime = DateTimeOffset.UtcNow;
+        appDbContext.AvatarInfos.UpdateAndSave(entity);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -200,17 +174,16 @@ internal sealed partial class AvatarInfoDbBulkOperation
             EnkaAvatarInfo avatarInfo = new() { AvatarId = avatarId };
             transformer.Transform(ref avatarInfo, source);
             entity = EntityAvatarInfo.From(uid, avatarInfo);
-            entity.CalculatorRefreshTime = DateTimeOffset.UtcNow;
-            appDbContext.AvatarInfos.AddAndSave(entity);
         }
         else
         {
             EnkaAvatarInfo avatarInfo = entity.Info;
             transformer.Transform(ref avatarInfo, source);
             entity.Info = avatarInfo;
-            entity.CalculatorRefreshTime = DateTimeOffset.UtcNow;
-            appDbContext.AvatarInfos.UpdateAndSave(entity);
         }
+
+        entity.CalculatorRefreshTime = DateTimeOffset.UtcNow;
+        appDbContext.AvatarInfos.UpdateAndSave(entity);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -221,29 +194,29 @@ internal sealed partial class AvatarInfoDbBulkOperation
             EnkaAvatarInfo avatarInfo = new() { AvatarId = avatarId };
             transformer.Transform(ref avatarInfo, source);
             entity = EntityAvatarInfo.From(uid, avatarInfo);
-            entity.GameRecordRefreshTime = DateTimeOffset.UtcNow;
-            appDbContext.AvatarInfos.AddAndSave(entity);
         }
         else
         {
             EnkaAvatarInfo avatarInfo = entity.Info;
             transformer.Transform(ref avatarInfo, source);
             entity.Info = avatarInfo;
-            entity.GameRecordRefreshTime = DateTimeOffset.UtcNow;
-            appDbContext.AvatarInfos.UpdateAndSave(entity);
         }
+
+        entity.GameRecordRefreshTime = DateTimeOffset.UtcNow;
+        appDbContext.AvatarInfos.UpdateAndSave(entity);
     }
 
-    private void EnsureItemsAvatarIdDistinct(ref List<EntityAvatarInfo> dbInfos, string uid)
+    private void EnsureItemsAvatarIdUnique(ref List<EntityAvatarInfo> dbInfos, string uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap)
     {
-        int distinctCount = dbInfos.Select(info => info.Info.AvatarId).ToHashSet().Count;
-
-        // Avatars are actually less than the list told us.
-        // This means that there are duplicate items.
-        if (distinctCount < dbInfos.Count)
+        dbInfoMap = [];
+        foreach (ref readonly EntityAvatarInfo info in CollectionsMarshal.AsSpan(dbInfos))
         {
-            avatarInfoDbService.RemoveAvatarInfoRangeByUid(uid);
-            dbInfos = [];
+            if (!dbInfoMap.TryAdd(info.Info.AvatarId, info))
+            {
+                avatarInfoDbService.RemoveAvatarInfoRangeByUid(uid);
+                dbInfoMap.Clear();
+                dbInfos.Clear();
+            }
         }
     }
 }

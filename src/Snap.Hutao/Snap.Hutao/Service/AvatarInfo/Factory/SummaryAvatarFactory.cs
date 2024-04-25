@@ -64,7 +64,7 @@ internal sealed class SummaryAvatarFactory
             .SetGameRecordRefreshTimeFormat(gameRecordRefreshTime, SH.FormatServiceAvatarInfoSummaryGameRecordRefreshTimeFormat, SH.ServiceAvatarInfoSummaryGameRecordNotRefreshed)
             .SetCalculatorRefreshTimeFormat(calculatorRefreshTime, SH.FormatServiceAvatarInfoSummaryCalculatorRefreshTimeFormat, SH.ServiceAvatarInfoSummaryCalculatorNotRefreshed)
             .SetCostumeIconOrDefault(avatarInfo, avatar)
-            .AvatarView;
+            .View;
 
         return propertyAvatar;
     }
@@ -127,10 +127,10 @@ internal sealed class SummaryAvatarFactory
             .SetLevelNumber(equip.Weapon.Level)
             .SetSubProperty(subProperty)
             .SetAffixLevelNumber(affixLevel + 1)
-            .SetAffixName(weapon.Affix?.Name ?? string.Empty)
+            .SetAffixName(weapon.Affix?.Name)
             .SetAffixDescription(weapon.Affix?.Descriptions.Single(a => a.Level == affixLevel).Description)
             .SetWeaponType(weapon.WeaponType)
-            .WeaponView;
+            .View;
     }
 
     private readonly struct ReliquaryAndWeapon

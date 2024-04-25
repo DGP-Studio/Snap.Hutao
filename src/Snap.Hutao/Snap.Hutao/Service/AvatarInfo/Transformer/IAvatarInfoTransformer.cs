@@ -15,5 +15,5 @@ internal interface IAvatarInfoTransformer<in TSource>
     /// </summary>
     /// <param name="avatarInfo">基底，角色Id必定存在</param>
     /// <param name="source">源</param>
-    void Transform(ref Web.Enka.Model.AvatarInfo avatarInfo, TSource source);
+    void Transform(ref readonly Web.Enka.Model.AvatarInfo avatarInfo, TSource source);
 }

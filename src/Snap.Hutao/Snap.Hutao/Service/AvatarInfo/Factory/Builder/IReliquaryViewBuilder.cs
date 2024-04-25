@@ -5,6 +5,6 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
-internal interface IWeaponViewBuilder : IEquipViewBuilder<WeaponView>
+internal interface IReliquaryViewBuilder : IEquipViewBuilder<ReliquaryView>, IScoreAccess
 {
 }

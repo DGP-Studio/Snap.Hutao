@@ -229,7 +229,7 @@
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding StaticResourceOptions.ImageArchives}"
                             SelectedItem="{Binding StaticResourceOptions.ImageArchive, Mode=TwoWay}"/>
-                        
+
                         <TextBlock Margin="0,16,0,0" Text="{Binding StaticResourceOptions.SizeInformationText, Mode=OneWay}"/>
                     </StackPanel>
 

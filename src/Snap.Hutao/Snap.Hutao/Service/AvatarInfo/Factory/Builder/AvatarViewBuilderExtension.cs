@@ -20,13 +20,13 @@ internal static class AvatarViewBuilderExtension
             Costume costume = avatar.Costumes.Single(c => c.Id == id);
 
             // Set to costume icon
-            builder.AvatarView.Icon = AvatarIconConverter.IconNameToUri(costume.FrontIcon);
-            builder.AvatarView.SideIcon = AvatarIconConverter.IconNameToUri(costume.SideIcon);
+            builder.View.Icon = AvatarIconConverter.IconNameToUri(costume.FrontIcon);
+            builder.View.SideIcon = AvatarIconConverter.IconNameToUri(costume.SideIcon);
         }
         else
         {
-            builder.AvatarView.Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
-            builder.AvatarView.SideIcon = AvatarIconConverter.IconNameToUri(avatar.SideIcon);
+            builder.View.Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
+            builder.View.SideIcon = AvatarIconConverter.IconNameToUri(avatar.SideIcon);
         }
 
         return builder;
@@ -41,7 +41,7 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetCalculatorRefreshTimeFormat<TBuilder>(this TBuilder builder, string calculatorRefreshTimeFormat)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.CalculatorRefreshTimeFormat = calculatorRefreshTimeFormat);
+        return builder.Configure(b => b.View.CalculatorRefreshTimeFormat = calculatorRefreshTimeFormat);
     }
 
     public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, List<Skill> talents, List<SkillId>? talentIds)
@@ -65,7 +65,7 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, List<ConstellationView> constellations)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.Constellations = constellations);
+        return builder.Configure(b => b.View.Constellations = constellations);
     }
 
     public static TBuilder SetCritScore<TBuilder>(this TBuilder builder, Dictionary<FightProperty, float>? fightPropMap)
@@ -90,19 +90,13 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetCritScore<TBuilder>(this TBuilder builder, float critScore)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.SetCritScore($"{critScore:F2}");
-    }
-
-    public static TBuilder SetCritScore<TBuilder>(this TBuilder builder, string critScore)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.Configure(b => b.AvatarView.CritScore = critScore);
+        return builder.Configure(b => b.View.CritScore = critScore);
     }
 
     public static TBuilder SetElement<TBuilder>(this TBuilder builder, ElementType element)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.Element = element);
+        return builder.Configure(b => b.View.Element = element);
     }
 
     public static TBuilder SetFetterLevel<TBuilder>(this TBuilder builder, FetterLevel? level)
@@ -110,7 +104,7 @@ internal static class AvatarViewBuilderExtension
     {
         if (level.TryGetValue(out FetterLevel value))
         {
-            return builder.Configure(b => b.AvatarView.FetterLevel = value);
+            return builder.Configure(b => b.View.FetterLevel = value);
         }
 
         return builder;
@@ -119,7 +113,7 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetFetterLevel<TBuilder>(this TBuilder builder, uint level)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.FetterLevel = level);
+        return builder.Configure(b => b.View.FetterLevel = level);
     }
 
     public static TBuilder SetGameRecordRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
@@ -131,13 +125,13 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetGameRecordRefreshTimeFormat<TBuilder>(this TBuilder builder, string gameRecordRefreshTimeFormat)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.GameRecordRefreshTimeFormat = gameRecordRefreshTimeFormat);
+        return builder.Configure(b => b.View.GameRecordRefreshTimeFormat = gameRecordRefreshTimeFormat);
     }
 
     public static TBuilder SetId<TBuilder>(this TBuilder builder, AvatarId id)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.Id = id);
+        return builder.Configure(b => b.View.Id = id);
     }
 
     public static TBuilder SetLevelNumber<TBuilder>(this TBuilder builder, uint? levelNumber)
@@ -145,7 +139,7 @@ internal static class AvatarViewBuilderExtension
     {
         if (levelNumber.TryGetValue(out uint value))
         {
-            return builder.Configure(b => b.AvatarView.LevelNumber = value);
+            return builder.Configure(b => b.View.LevelNumber = value);
         }
 
         return builder;
@@ -154,43 +148,31 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetName<TBuilder>(this TBuilder builder, string name)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.Name = name);
+        return builder.Configure(b => b.View.Name = name);
     }
 
     public static TBuilder SetNameCard<TBuilder>(this TBuilder builder, Uri nameCard)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.NameCard = nameCard);
+        return builder.Configure(b => b.View.NameCard = nameCard);
     }
 
     public static TBuilder SetProperties<TBuilder>(this TBuilder builder, List<AvatarProperty> properties)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.Properties = properties);
+        return builder.Configure(b => b.View.Properties = properties);
     }
 
     public static TBuilder SetQuality<TBuilder>(this TBuilder builder, QualityType quality)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.Quality = quality);
+        return builder.Configure(b => b.View.Quality = quality);
     }
 
     public static TBuilder SetReliquaries<TBuilder>(this TBuilder builder, List<ReliquaryView> reliquaries)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.Reliquaries = reliquaries);
-    }
-
-    public static TBuilder SetScore<TBuilder>(this TBuilder builder, float score)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.SetScore($"{score:F2}");
-    }
-
-    public static TBuilder SetScore<TBuilder>(this TBuilder builder, string score)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.Configure(b => b.AvatarView.Score = score);
+        return builder.Configure(b => b.View.Reliquaries = reliquaries);
     }
 
     public static TBuilder SetShowcaseRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
@@ -202,7 +184,7 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetShowcaseRefreshTimeFormat<TBuilder>(this TBuilder builder, string showcaseRefreshTimeFormat)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.ShowcaseRefreshTimeFormat = showcaseRefreshTimeFormat);
+        return builder.Configure(b => b.View.ShowcaseRefreshTimeFormat = showcaseRefreshTimeFormat);
     }
 
     public static TBuilder SetSkills<TBuilder>(this TBuilder builder, Dictionary<SkillId, SkillLevel>? skillLevelMap, Dictionary<SkillGroupId, SkillLevel>? proudSkillExtraLevelMap, List<ProudableSkill> proudSkills)
@@ -249,12 +231,12 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetSkills<TBuilder>(this TBuilder builder, List<SkillView> skills)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.Skills = skills);
+        return builder.Configure(b => b.View.Skills = skills);
     }
 
     public static TBuilder SetWeapon<TBuilder>(this TBuilder builder, WeaponView? weapon)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.AvatarView.Weapon = weapon);
+        return builder.Configure(b => b.View.Weapon = weapon);
     }
 }
