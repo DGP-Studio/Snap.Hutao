@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Message;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
@@ -24,11 +27,13 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly HutaoSpiralAbyssClient spiralAbyssClient;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
     private readonly HutaoDatabaseViewModel hutaoDatabaseViewModel;
+    private readonly HutaoUserOptions hutaoUserOptions;
 
     private ObservableCollection<SpiralAbyssView>? spiralAbyssEntries;
     private SpiralAbyssView? selectedView;
@@ -128,6 +133,18 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
+            if (!hutaoUserOptions.IsLoggedIn)
+            {
+                ContentDialogResult result = await contentDialogFactory
+                    .CreateForConfirmCancelAsync(SH.ViewModelSpiralAbyssUploadRecordHomaNotLoginTitle, SH.ViewModelSpiralAbyssUploadRecordHomaNotLoginContent)
+                    .ConfigureAwait(false);
+
+                if (result is not ContentDialogResult.Primary)
+                {
+                    return;
+                }
+            }
+
             SimpleRecord? record = await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false);
             if (record is not null)
             {
