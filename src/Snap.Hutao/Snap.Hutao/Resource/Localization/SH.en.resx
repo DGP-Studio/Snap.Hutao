@@ -1725,7 +1725,7 @@
     <value>CAPTCHA Verification composite URL successfully configured</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
-    <value>正在重置图片资源</value>
+    <value>Resetting Static Resource</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Set data directory successfully. Restart to apply changes.</value>
@@ -1737,7 +1737,7 @@
     <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
   </data>
   <data name="ViewModelSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
-    <value>上传深渊数据</value>
+    <value>Upload Abyss Records</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>User [{0}] added successfully</value>
