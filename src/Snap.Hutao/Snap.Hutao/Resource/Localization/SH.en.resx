@@ -1734,7 +1734,7 @@
     <value>Failed to save game path</value>
   </data>
   <data name="ViewModelSpiralAbyssUploadRecordHomaNotLoginContent" xml:space="preserve">
-    <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
+    <value>No Hutao Passport logged in currently, uploading Abyss Records will not grant you Hutao Cloud privilege extension.</value>
   </data>
   <data name="ViewModelSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
     <value>Upload Abyss Records</value>
