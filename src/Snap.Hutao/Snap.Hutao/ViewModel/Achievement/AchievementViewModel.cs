@@ -28,13 +28,17 @@ namespace Snap.Hutao.ViewModel.Achievement;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
 {
-    private readonly SortDescription uncompletedItemsFirstSortDescription = new(nameof(AchievementView.IsChecked), SortDirection.Ascending);
-    private readonly SortDescription completionTimeSortDescription = new(nameof(AchievementView.Time), SortDirection.Descending);
+    private readonly SortDescription achievementUncompletedItemsFirstSortDescription = new(nameof(AchievementView.IsChecked), SortDirection.Ascending);
+    private readonly SortDescription achievementCompletionTimeSortDescription = new(nameof(AchievementView.Time), SortDirection.Descending);
+    private readonly SortDescription achievementGoalUncompletedItemsFirstSortDescription = new(nameof(AchievementGoalView.FinishPercent), SortDirection.Ascending);
+
+    private readonly SortDescription achievementDefaultSortDescription = new(nameof(AchievementView.Order), SortDirection.Ascending);
+    private readonly SortDescription achievementGoalDefaultSortDescription = new(nameof(AchievementGoalView.Order), SortDirection.Ascending);
 
     private readonly AchievementViewModelDependencies dependencies;
 
     private AdvancedCollectionView<AchievementView>? achievements;
-    private List<AchievementGoalView>? achievementGoals;
+    private AdvancedCollectionView<AchievementGoalView>? achievementGoals;
     private AchievementGoalView? selectedAchievementGoal;
     private ObservableCollection<EntityAchievementArchive>? archives;
     private EntityAchievementArchive? selectedArchive;
@@ -67,7 +71,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         set => SetProperty(ref achievements, value);
     }
 
-    public List<AchievementGoalView>? AchievementGoals
+    public AdvancedCollectionView<AchievementGoalView>? AchievementGoals
     {
         get => achievementGoals;
         set => SetProperty(ref achievementGoals, value);
@@ -141,7 +145,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
         await dependencies.TaskContext.SwitchToMainThreadAsync();
 
-        AchievementGoals = sortedGoals;
+        AchievementGoals = new(sortedGoals, true);
         Archives = archives;
         SelectedArchive = dependencies.AchievementService.CurrentArchive;
         return true;
@@ -299,20 +303,23 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("SortUncompletedSwitchCommand")]
     private void UpdateAchievementsSort()
     {
-        if (Achievements is null)
+        if (Achievements is null || AchievementGoals is null)
         {
             return;
         }
 
+        Achievements.SortDescriptions.Clear();
+        AchievementGoals.SortDescriptions.Clear();
+
         if (IsUncompletedItemsFirst)
         {
-            Achievements.SortDescriptions.Add(uncompletedItemsFirstSortDescription);
-            Achievements.SortDescriptions.Add(completionTimeSortDescription);
+            Achievements.SortDescriptions.Add(achievementUncompletedItemsFirstSortDescription);
+            Achievements.SortDescriptions.Add(achievementCompletionTimeSortDescription);
+            AchievementGoals.SortDescriptions.Add(achievementGoalUncompletedItemsFirstSortDescription);
         }
-        else
-        {
-            Achievements.SortDescriptions.Clear();
-        }
+
+        Achievements.SortDescriptions.Add(achievementDefaultSortDescription);
+        AchievementGoals.SortDescriptions.Add(achievementGoalDefaultSortDescription);
     }
 
     private void UpdateAchievementsFilterByGoal(AchievementGoalView? goal)
