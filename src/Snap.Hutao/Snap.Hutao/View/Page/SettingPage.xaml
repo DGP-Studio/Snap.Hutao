@@ -265,6 +265,22 @@
                                         </cwc:SettingsExpander.Items>
                                     </cwc:SettingsExpander>
                                 </ScrollViewer>
+                                <ScrollViewer>
+                                    <cwc:SettingsExpander
+                                        Description="{shcm:ResourceString Name=ViewPageSettingHutaoCloudAutoUploadDescription}"
+                                        Header="{shcm:ResourceString Name=ViewPageSettingHutaoCloudAutoUploadHeader}"
+                                        HeaderIcon="{shcm:FontIcon Glyph=&#xE898;}"
+                                        IsExpanded="True">
+                                        <cwc:SettingsExpander.Items>
+                                            <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageSettingHutaoCloudGachaLogAutoUploadDescription}" Header="{shcm:ResourceString Name=ViewPageSettingHutaoCloudGachaLogAutoUploadHeader}">
+                                                <ToggleSwitch IsOn="{Binding AppOptions.IsAutoUploadGachaLogEnabled, Mode=TwoWay}"/>
+                                            </cwc:SettingsCard>
+                                            <cwc:SettingsCard Description="{shcm:ResourceString Name=ViewPageSettingHutaoCloudSpiralAbyssAutoUploadDescription}" Header="{shcm:ResourceString Name=ViewPageSettingHutaoCloudSpiralAbyssAutoUploadHeader}">
+                                                <ToggleSwitch IsOn="{Binding AppOptions.IsAutoUploadSpiralAbyssRecordEnabled, Mode=TwoWay}"/>
+                                            </cwc:SettingsCard>
+                                        </cwc:SettingsExpander.Items>
+                                    </cwc:SettingsExpander>
+                                </ScrollViewer>
                             </StackPanel>
                         </Border>
                     </Border>

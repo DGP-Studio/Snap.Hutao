@@ -16,6 +16,9 @@ internal sealed partial class SettingEntry
     public const string ElementTheme = "ElementTheme";
     public const string BackgroundImageType = "BackgroundImageType";
 
+    public const string IsAutoUploadGachaLogEnabled = "IsAutoUploadGachaLogEnabled";
+    public const string IsAutoUploadSpiralAbyssRecordEnabled = "IsAutoUploadSpiralAbyssRecordEnabled";
+
     public const string AnnouncementRegion = "AnnouncementRegion";
 
     public const string IsEmptyHistoryWishVisible = "IsEmptyHistoryWishVisible";

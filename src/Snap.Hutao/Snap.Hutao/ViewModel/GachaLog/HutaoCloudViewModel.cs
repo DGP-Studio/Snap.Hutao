@@ -47,6 +47,35 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     /// </summary>
     internal ICommand RetrieveCommand { get; set; }
 
+    [Command("UploadCommand")]
+    internal async Task UploadAsync(GachaArchive? gachaArchive)
+    {
+        if (gachaArchive is not null)
+        {
+            ContentDialog dialog = await contentDialogFactory
+                .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogUploadToHutaoCloudProgress)
+                .ConfigureAwait(false);
+
+            bool isOk;
+            string message;
+
+            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+            {
+                (isOk, message) = await hutaoCloudService.UploadGachaItemsAsync(gachaArchive).ConfigureAwait(false);
+            }
+
+            if (isOk)
+            {
+                infoBarService.Success(message);
+                await RefreshUidCollectionAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                infoBarService.Warning(message);
+            }
+        }
+    }
+
     /// <summary>
     /// 异步获取祈愿记录
     /// </summary>
@@ -75,35 +104,6 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     private static async Task NavigateToAfdianSkuAsync()
     {
         await Windows.System.Launcher.LaunchUriAsync("https://afdian.net/item/80d3b9decf9011edb5f452540025c377".ToUri());
-    }
-
-    [Command("UploadCommand")]
-    private async Task UploadAsync(GachaArchive? gachaArchive)
-    {
-        if (gachaArchive is not null)
-        {
-            ContentDialog dialog = await contentDialogFactory
-                .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogUploadToHutaoCloudProgress)
-                .ConfigureAwait(false);
-
-            bool isOk;
-            string message;
-
-            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
-            {
-                (isOk, message) = await hutaoCloudService.UploadGachaItemsAsync(gachaArchive).ConfigureAwait(false);
-            }
-
-            if (isOk)
-            {
-                infoBarService.Success(message);
-                await RefreshUidCollectionAsync().ConfigureAwait(false);
-            }
-            else
-            {
-                infoBarService.Warning(message);
-            }
-        }
     }
 
     [Command("DeleteCommand")]

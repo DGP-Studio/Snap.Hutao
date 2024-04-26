@@ -15,6 +15,8 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
+    private bool? isAutoUploadGachaLogEnabled;
+    private bool? isAutoUploadSpiralAbyssRecordEnabled;
     private bool? isEmptyHistoryWishVisible;
     private bool? isUnobtainedWishItemVisible;
     private BackdropType? backdropType;
@@ -22,6 +24,18 @@ internal sealed partial class AppOptions : DbStoreOptions
     private BackgroundImageType? backgroundImageType;
     private Region? region;
     private string? geetestCustomCompositeUrl;
+
+    public bool IsAutoUploadGachaLogEnabled
+    {
+        get => GetOption(ref isAutoUploadGachaLogEnabled, SettingEntry.IsAutoUploadGachaLogEnabled, false);
+        set => SetOption(ref isAutoUploadGachaLogEnabled, SettingEntry.IsAutoUploadGachaLogEnabled, value);
+    }
+
+    public bool IsAutoUploadSpiralAbyssRecordEnabled
+    {
+        get => GetOption(ref isAutoUploadSpiralAbyssRecordEnabled, SettingEntry.IsAutoUploadSpiralAbyssRecordEnabled, false);
+        set => SetOption(ref isAutoUploadSpiralAbyssRecordEnabled, SettingEntry.IsAutoUploadSpiralAbyssRecordEnabled, value);
+    }
 
     public bool IsEmptyHistoryWishVisible
     {

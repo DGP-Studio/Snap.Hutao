@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Message;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
@@ -37,6 +38,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
     private readonly HutaoDatabaseViewModel hutaoDatabaseViewModel;
     private readonly HutaoUserOptions hutaoUserOptions;
+    private readonly AppOptions appOptions;
 
     private ObservableCollection<SpiralAbyssView>? spiralAbyssEntries;
     private SpiralAbyssView? selectedView;
@@ -127,6 +129,11 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
 
                 await taskContext.SwitchToMainThreadAsync();
                 SelectedView = SpiralAbyssEntries.FirstOrDefault(s => s.Engaged);
+
+                if (hutaoUserOptions.IsLoggedIn && appOptions.IsAutoUploadSpiralAbyssRecordEnabled)
+                {
+                    await UploadSpiralAbyssRecordCoreAsync(userAndUid).ConfigureAwait(false);
+                }
             }
         }
     }
@@ -150,30 +157,35 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 }
             }
 
-            SimpleRecord? record = await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false);
-            if (record is not null)
-            {
-                Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
-
-                if (response is { ReturnCode: 0 })
-                {
-                    if (response is ILocalizableResponse localizableResponse)
-                    {
-                        infoBarService.Success(localizableResponse.GetLocalizationMessage());
-                    }
-                }
-                else
-                {
-                    if (response is ILocalizableResponse localizableResponse)
-                    {
-                        infoBarService.Warning(localizableResponse.GetLocalizationMessage());
-                    }
-                }
-            }
+            await UploadSpiralAbyssRecordCoreAsync(userAndUid).ConfigureAwait(false);
         }
         else
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
+        }
+    }
+
+    private async ValueTask UploadSpiralAbyssRecordCoreAsync(UserAndUid userAndUid)
+    {
+        SimpleRecord? record = await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false);
+        if (record is not null)
+        {
+            Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
+
+            if (response is { ReturnCode: 0 })
+            {
+                if (response is ILocalizableResponse localizableResponse)
+                {
+                    infoBarService.Success(localizableResponse.GetLocalizationMessage());
+                }
+            }
+            else
+            {
+                if (response is ILocalizableResponse localizableResponse)
+                {
+                    infoBarService.Warning(localizableResponse.GetLocalizationMessage());
+                }
+            }
         }
     }
 }

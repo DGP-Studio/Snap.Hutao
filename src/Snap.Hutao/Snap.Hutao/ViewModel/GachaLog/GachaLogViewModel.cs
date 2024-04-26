@@ -11,6 +11,7 @@ using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Notification;
@@ -38,6 +39,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
     private readonly ITaskContext taskContext;
+    private readonly AppOptions appOptions;
 
     private ObservableCollection<GachaArchive>? archives;
     private GachaArchive? selectedArchive;
@@ -198,6 +200,11 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             {
                 await SetSelectedArchiveAndUpdateStatisticsAsync(gachaLogService.CurrentArchive, true).ConfigureAwait(false);
                 await hideToken.DisposeAsync().ConfigureAwait(false);
+
+                if (HutaoCloudViewModel.Options.IsCloudServiceAllowed && appOptions.IsAutoUploadGachaLogEnabled)
+                {
+                    await HutaoCloudViewModel.UploadAsync(gachaLogService.CurrentArchive).ConfigureAwait(false);
+                }
             }
             else
             {

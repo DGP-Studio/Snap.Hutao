@@ -2594,6 +2594,24 @@
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>主页</value>
   </data>
+  <data name="ViewPageSettingHutaoCloudAutoUploadDescription" xml:space="preserve">
+    <value>登录胡桃通行证后自动上传至胡桃云</value>
+  </data>
+  <data name="ViewPageSettingHutaoCloudAutoUploadHeader" xml:space="preserve">
+    <value>自动上传</value>
+  </data>
+  <data name="ViewPageSettingHutaoCloudGachaLogAutoUploadDescription" xml:space="preserve">
+    <value>刷新祈愿记录后自动上传至胡桃云，需要有效的胡桃云服务</value>
+  </data>
+  <data name="ViewPageSettingHutaoCloudGachaLogAutoUploadHeader" xml:space="preserve">
+    <value>自动上传祈愿记录</value>
+  </data>
+  <data name="ViewPageSettingHutaoCloudSpiralAbyssAutoUploadDescription" xml:space="preserve">
+    <value>刷新深境螺旋数据后自动上传至胡桃云</value>
+  </data>
+  <data name="ViewPageSettingHutaoCloudSpiralAbyssAutoUploadHeader" xml:space="preserve">
+    <value>自动上传深境螺旋数据</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportDangerZoneDescription" xml:space="preserve">
     <value>三思而后行</value>
   </data>
