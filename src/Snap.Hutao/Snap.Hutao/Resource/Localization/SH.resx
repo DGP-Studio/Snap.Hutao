@@ -1361,6 +1361,18 @@
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>是否永久删除用户数据</value>
   </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginCloseButtonText" xml:space="preserve">
+    <value>前往登录</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
+    <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
+    <value>继续上传</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
+    <value>上传深渊数据</value>
+  </data>
   <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
     <value>查看更新日志</value>
   </data>
@@ -1732,12 +1744,6 @@
   </data>
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>保存游戏路径失败</value>
-  </data>
-  <data name="ViewModelSpiralAbyssUploadRecordHomaNotLoginContent" xml:space="preserve">
-    <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
-  </data>
-  <data name="ViewModelSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
-    <value>上传深渊数据</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>用户 [{0}] 添加成功</value>
