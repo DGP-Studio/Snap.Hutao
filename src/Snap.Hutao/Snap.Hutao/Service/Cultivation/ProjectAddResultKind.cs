@@ -7,7 +7,7 @@ namespace Snap.Hutao.Service.Cultivation;
 /// 项目添加结果
 /// </summary>
 [HighQuality]
-internal enum ProjectAddResult
+internal enum ProjectAddResultKind
 {
     /// <summary>
     /// 添加成功

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Model.Entity.Abstraction;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +14,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("cultivate_projects")]
-internal sealed class CultivateProject : ISelectable, IMappingFrom<CultivateProject, string, string>
+internal sealed class CultivateProject : ISelectable, IMappingFrom<CultivateProject, string, string>, IAppDbEntity
 {
     /// <summary>
     /// 内部Id

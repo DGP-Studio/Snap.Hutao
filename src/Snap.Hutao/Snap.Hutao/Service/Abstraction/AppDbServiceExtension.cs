@@ -126,6 +126,18 @@ internal static class AppDbServiceExtension
         return service.QueryAsync((query, token) => query.SingleAsync(predicate, token), token);
     }
 
+    public static TEntity? SingleOrDefault<TEntity>(this IAppDbService<TEntity> service, Expression<Func<TEntity, bool>> predicate)
+        where TEntity : class
+    {
+        return service.Query(query => query.SingleOrDefault(predicate));
+    }
+
+    public static ValueTask<TEntity?> SingleOrDefaultAsync<TEntity>(this IAppDbService<TEntity> service, Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
+        where TEntity : class
+    {
+        return service.QueryAsync((query, token) => query.SingleOrDefaultAsync(predicate, token), token);
+    }
+
     public static int Update<TEntity>(this IAppDbService<TEntity> service, TEntity entity)
         where TEntity : class
     {
@@ -144,9 +156,21 @@ internal static class AppDbServiceExtension
         return service.Execute(dbset => dbset.RemoveAndSave(entity));
     }
 
+    public static int Delete<TEntity>(this IAppDbService<TEntity> service, Expression<Func<TEntity, bool>> predicate)
+        where TEntity : class
+    {
+        return service.Execute(dbset => dbset.Where(predicate).ExecuteDelete());
+    }
+
     public static ValueTask<int> DeleteAsync<TEntity>(this IAppDbService<TEntity> service, TEntity entity, CancellationToken token = default)
         where TEntity : class
     {
         return service.ExecuteAsync((dbset, token) => dbset.RemoveAndSaveAsync(entity, token), token);
+    }
+
+    public static ValueTask<int> DeleteAsync<TEntity>(this IAppDbService<TEntity> service, Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
+        where TEntity : class
+    {
+        return service.ExecuteAsync((dbset, token) => dbset.Where(predicate).ExecuteDeleteAsync(token), token);
     }
 }

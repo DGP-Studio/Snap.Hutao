@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Cultivation;
@@ -15,182 +14,90 @@ internal sealed partial class CultivationDbService : ICultivationDbService
 {
     private readonly IServiceProvider serviceProvider;
 
+    public IServiceProvider ServiceProvider { get => serviceProvider; }
+
     public List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            IQueryable<InventoryItem> result = appDbContext.InventoryItems.AsNoTracking().Where(a => a.ProjectId == projectId);
-            return [.. result];
-        }
+        return this.List<InventoryItem>(i => i.ProjectId == projectId);
     }
 
-    public async ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId)
+    public ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return await appDbContext.InventoryItems
-                .AsNoTracking()
-                .Where(a => a.ProjectId == projectId)
-                .ToListAsync()
-                .ConfigureAwait(false);
-        }
+        return this.ListAsync<InventoryItem>(i => i.ProjectId == projectId, token);
     }
 
-    public async ValueTask<List<CultivateEntry>> GetCultivateEntryListByProjectIdAsync(Guid projectId)
+    public ValueTask<List<CultivateEntry>> GetCultivateEntryListByProjectIdAsync(Guid projectId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return await appDbContext.CultivateEntries
-                .AsNoTracking()
-                .Where(e => e.ProjectId == projectId)
-                .ToListAsync()
-                .ConfigureAwait(false);
-        }
+        return this.ListAsync<CultivateEntry>(e => e.ProjectId == projectId, token);
     }
 
-    public async ValueTask<List<CultivateEntry>> GetCultivateEntryIncludeLevelInformationListByProjectIdAsync(Guid projectId)
+    public ValueTask<List<CultivateEntry>> GetCultivateEntryListIncludingLevelInformationByProjectIdAsync(Guid projectId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return await appDbContext.CultivateEntries
-                .AsNoTracking()
-                .Where(e => e.ProjectId == projectId)
-                .Include(e => e.LevelInformation)
-                .ToListAsync()
-                .ConfigureAwait(false);
-        }
+        return this.ListAsync<CultivateEntry, CultivateEntry>(query => query.Where(e => e.ProjectId == projectId).Include(e => e.LevelInformation), token);
     }
 
-    public async ValueTask<List<CultivateItem>> GetCultivateItemListByEntryIdAsync(Guid entryId)
+    public ValueTask<List<CultivateItem>> GetCultivateItemListByEntryIdAsync(Guid entryId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return await appDbContext.CultivateItems
-                .Where(i => i.EntryId == entryId)
-                .OrderBy(i => i.ItemId)
-                .ToListAsync()
-                .ConfigureAwait(false);
-        }
+        return this.ListAsync<CultivateItem, CultivateItem>(query => query.Where(i => i.EntryId == entryId).OrderBy(i => i.ItemId), token);
     }
 
-    public async ValueTask RemoveCultivateEntryByIdAsync(Guid entryId)
+    public async ValueTask RemoveCultivateEntryByIdAsync(Guid entryId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.CultivateEntries
-                .ExecuteDeleteWhereAsync(i => i.InnerId == entryId)
-                .ConfigureAwait(false);
-        }
+        await this.DeleteByInnerIdAsync<CultivateEntry>(entryId, token).ConfigureAwait(false);
     }
 
     public void UpdateCultivateItem(CultivateItem item)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.CultivateItems.UpdateAndSave(item);
-        }
+        this.Update(item);
     }
 
-    public async ValueTask UpdateCultivateItemAsync(CultivateItem item)
+    public async ValueTask UpdateCultivateItemAsync(CultivateItem item, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.CultivateItems.UpdateAndSaveAsync(item).ConfigureAwait(false);
-        }
+        await this.UpdateAsync(item, token).ConfigureAwait(false);
     }
 
-    public async ValueTask<CultivateEntry?> GetCultivateEntryByProjectIdAndItemIdAsync(Guid projectId, uint itemId)
+    public async ValueTask<CultivateEntry?> GetCultivateEntryByProjectIdAndItemIdAsync(Guid projectId, uint itemId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return await appDbContext.CultivateEntries
-                .SingleOrDefaultAsync(e => e.ProjectId == projectId && e.Id == itemId)
-                .ConfigureAwait(false);
-        }
+        return await this.SingleOrDefaultAsync<CultivateEntry>(e => e.ProjectId == projectId && e.Id == itemId, token).ConfigureAwait(false);
     }
 
-    public async ValueTask AddCultivateEntryAsync(CultivateEntry entry)
+    public async ValueTask AddCultivateEntryAsync(CultivateEntry entry, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.CultivateEntries.AddAndSaveAsync(entry).ConfigureAwait(false);
-        }
+        await this.AddAsync(entry, token).ConfigureAwait(false);
     }
 
-    public async ValueTask RemoveCultivateItemRangeByEntryIdAsync(Guid entryId)
+    public async ValueTask RemoveCultivateItemRangeByEntryIdAsync(Guid entryId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.CultivateItems
-                .ExecuteDeleteWhereAsync(i => i.EntryId == entryId)
-                .ConfigureAwait(false);
-        }
+        await this.DeleteAsync<CultivateItem>(i => i.EntryId == entryId, token).ConfigureAwait(false);
     }
 
-    public async ValueTask AddCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd)
+    public async ValueTask AddCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.CultivateItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);
-        }
+        await this.AddRangeAsync(toAdd, token).ConfigureAwait(false);
     }
 
-    public async ValueTask AddCultivateProjectAsync(CultivateProject project)
+    public async ValueTask AddCultivateProjectAsync(CultivateProject project, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.CultivateProjects.AddAndSaveAsync(project).ConfigureAwait(false);
-        }
+        await this.AddAsync(project, token).ConfigureAwait(false);
     }
 
-    public async ValueTask RemoveCultivateProjectByIdAsync(Guid projectId)
+    public async ValueTask RemoveCultivateProjectByIdAsync(Guid projectId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.CultivateProjects
-                .ExecuteDeleteWhereAsync(p => p.InnerId == projectId)
-                .ConfigureAwait(false);
-        }
+        await this.DeleteByInnerIdAsync<CultivateProject>(projectId, token).ConfigureAwait(false);
     }
 
     public ObservableCollection<CultivateProject> GetCultivateProjectCollection()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.CultivateProjects.AsNoTracking().ToObservableCollection();
-        }
+        return this.ObservableCollection<CultivateProject>();
     }
 
-    public async ValueTask RemoveLevelInformationByEntryIdAsync(Guid entryId)
+    public async ValueTask RemoveLevelInformationByEntryIdAsync(Guid entryId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.LevelInformations.ExecuteDeleteWhereAsync(l => l.EntryId == entryId).ConfigureAwait(false);
-        }
+        await this.DeleteAsync<CultivateEntryLevelInformation>(l => l.EntryId == entryId, token).ConfigureAwait(false);
     }
 
-    public async ValueTask AddLevelInformationAsync(CultivateEntryLevelInformation levelInformation)
+    public async ValueTask AddLevelInformationAsync(CultivateEntryLevelInformation levelInformation, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.LevelInformations.AddAndSaveAsync(levelInformation).ConfigureAwait(false);
-        }
+        await this.AddAsync(levelInformation, token).ConfigureAwait(false);
     }
 }

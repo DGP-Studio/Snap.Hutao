@@ -7,7 +7,7 @@ namespace Snap.Hutao.Service.AvatarInfo;
 /// 刷新结果
 /// </summary>
 [HighQuality]
-internal enum RefreshResult
+internal enum RefreshResultKind
 {
     /// <summary>
     /// 正常

@@ -120,7 +120,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         try
         {
-            ValueResult<RefreshResult, Summary?> summaryResult;
+            ValueResult<RefreshResultKind, Summary?> summaryResult;
             using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
             {
                 ContentDialog dialog = await contentDialogFactory
@@ -135,8 +135,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                 }
             }
 
-            (RefreshResult result, Summary? summary) = summaryResult;
-            if (result == RefreshResult.Ok)
+            (RefreshResultKind result, Summary? summary) = summaryResult;
+            if (result == RefreshResultKind.Ok)
             {
                 await taskContext.SwitchToMainThreadAsync();
                 Summary = summary;
@@ -146,16 +146,16 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             {
                 switch (result)
                 {
-                    case RefreshResult.APIUnavailable:
+                    case RefreshResultKind.APIUnavailable:
                         infoBarService.Warning(SH.ViewModelAvatarPropertyEnkaApiUnavailable);
                         break;
 
-                    case RefreshResult.StatusCodeNotSucceed:
+                    case RefreshResultKind.StatusCodeNotSucceed:
                         ArgumentNullException.ThrowIfNull(summary);
                         infoBarService.Warning(summary.Message);
                         break;
 
-                    case RefreshResult.ShowcaseNotOpen:
+                    case RefreshResultKind.ShowcaseNotOpen:
                         infoBarService.Warning(SH.ViewModelAvatarPropertyShowcaseNotOpen);
                         break;
                 }

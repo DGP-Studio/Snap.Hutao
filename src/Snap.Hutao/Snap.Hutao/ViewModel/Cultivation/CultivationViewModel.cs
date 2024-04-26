@@ -86,15 +86,15 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         switch (await cultivationService.TryAddProjectAsync(project).ConfigureAwait(false))
         {
-            case ProjectAddResult.Added:
+            case ProjectAddResultKind.Added:
                 infoBarService.Success(SH.ViewModelCultivationProjectAdded);
                 await taskContext.SwitchToMainThreadAsync();
                 SelectedProject = project;
                 break;
-            case ProjectAddResult.InvalidName:
+            case ProjectAddResultKind.InvalidName:
                 infoBarService.Information(SH.ViewModelCultivationProjectInvalidName);
                 break;
-            case ProjectAddResult.AlreadyExists:
+            case ProjectAddResultKind.AlreadyExists:
                 infoBarService.Information(SH.ViewModelCultivationProjectAlreadyExists);
                 break;
             default:

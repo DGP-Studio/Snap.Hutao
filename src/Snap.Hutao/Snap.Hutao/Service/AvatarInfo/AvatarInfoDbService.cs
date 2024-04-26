@@ -29,11 +29,11 @@ internal sealed partial class AvatarInfoDbService : IAvatarInfoDbService
 
     public void RemoveAvatarInfoRangeByUid(string uid)
     {
-        this.Execute(dbset => dbset.Where(i => i.Uid == uid).ExecuteDelete());
+        this.Delete(i => i.Uid == uid);
     }
 
     public async ValueTask RemoveAvatarInfoRangeByUidAsync(string uid, CancellationToken token = default)
     {
-        await this.ExecuteAsync((dbset, token) => dbset.Where(i => i.Uid == uid).ExecuteDeleteAsync(token), token).ConfigureAwait(false);
+        await this.DeleteAsync(i => i.Uid == uid, token).ConfigureAwait(false);
     }
 }

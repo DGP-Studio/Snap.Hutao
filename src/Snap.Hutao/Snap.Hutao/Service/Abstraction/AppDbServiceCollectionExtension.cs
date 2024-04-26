@@ -30,7 +30,13 @@ internal static class AppDbServiceCollectionExtension
     public static ValueTask<List<TEntity>> ListAsync<TEntity>(this IAppDbService<TEntity> service, Expression<Func<TEntity, bool>> predicate, CancellationToken token = default)
         where TEntity : class
     {
-        return service.QueryAsync((query, token) => query.Where(predicate).ToListAsync(token), token);
+        return service.ListAsync(query => query.Where(predicate), token);
+    }
+
+    public static ValueTask<List<TResult>> ListAsync<TEntity, TResult>(this IAppDbService<TEntity> service, Func<IQueryable<TEntity>, IQueryable<TResult>> query, CancellationToken token = default)
+        where TEntity : class
+    {
+        return service.QueryAsync((query1, token) => query(query1).ToListAsync(token), token);
     }
 
     public static ObservableCollection<TEntity> ObservableCollection<TEntity>(this IAppDbService<TEntity> service)

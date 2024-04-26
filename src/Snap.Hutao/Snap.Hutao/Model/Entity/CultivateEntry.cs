@@ -13,7 +13,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("cultivate_entries")]
-internal sealed class CultivateEntry : IDbMappingForeignKeyFrom<CultivateEntry, CultivateType, uint>
+internal sealed class CultivateEntry : IDbMappingForeignKeyFrom<CultivateEntry, CultivateType, uint>, IAppDbEntity
 {
     /// <summary>
     /// 内部Id

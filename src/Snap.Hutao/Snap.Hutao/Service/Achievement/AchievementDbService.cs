@@ -46,13 +46,12 @@ internal sealed partial class AchievementDbService : IAchievementDbService
     [SuppressMessage("", "CA1305")]
     public ValueTask<List<EntityAchievement>> GetLatestFinishedAchievementListByArchiveIdAsync(Guid archiveId, int take, CancellationToken token = default)
     {
-        return this.QueryAsync<EntityAchievement, List<EntityAchievement>>(
-            (query, token) => query
+        return this.ListAsync<EntityAchievement, EntityAchievement>(
+            query => query
                 .Where(a => a.ArchiveId == archiveId)
                 .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
                 .OrderByDescending(a => a.Time.ToString())
-                .Take(take)
-                .ToListAsync(token),
+                .Take(take),
             token);
     }
 

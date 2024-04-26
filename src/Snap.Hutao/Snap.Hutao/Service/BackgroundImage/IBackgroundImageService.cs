@@ -5,5 +5,4 @@ namespace Snap.Hutao.Service.BackgroundImage;
 
 internal interface IBackgroundImageService
 {
-    ValueTask<ValueResult<bool, BackgroundImage?>> GetNextBackgroundImageAsync(BackgroundImage? previous);
-}
+    ValueTask<ValueResult<bool, BackgroundImage?>> GetNextBackgroundImageAsync(BackgroundImage? previous, CancellationToken token = default);
