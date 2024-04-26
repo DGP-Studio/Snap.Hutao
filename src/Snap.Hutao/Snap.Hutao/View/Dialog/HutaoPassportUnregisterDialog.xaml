@@ -37,6 +37,8 @@
                 Content="{shcm:ResourceString Name=ViewPageHutaoPassportVerifyCodeAction}"/>
         </Grid>
         <PasswordBox
+            Width="360"
+            MaxWidth="360"
             Margin="0,16,0,0"
             IsEnabled="{x:Bind VerifyCode, Converter={StaticResource StringBoolConverter}, Mode=OneWay}"
             Password="{x:Bind Password, Mode=TwoWay}"
