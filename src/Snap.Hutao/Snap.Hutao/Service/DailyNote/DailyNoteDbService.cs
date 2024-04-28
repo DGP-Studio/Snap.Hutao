@@ -2,10 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.DailyNote;
 
@@ -15,67 +13,40 @@ internal sealed partial class DailyNoteDbService : IDailyNoteDbService
 {
     private readonly IServiceProvider serviceProvider;
 
+    public IServiceProvider ServiceProvider { get => serviceProvider; }
+
     public bool ContainsUid(string uid)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.DailyNotes.AsNoTracking().Any(n => n.Uid == uid);
-        }
+        return this.Query(query => query.Any(n => n.Uid == uid));
     }
 
-    public async ValueTask<bool> ContainsUidAsync(string uid)
+    public ValueTask<bool> ContainsUidAsync(string uid, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return await appDbContext.DailyNotes.AsNoTracking().AnyAsync(n => n.Uid == uid).ConfigureAwait(false);
-        }
+        return this.QueryAsync(query => query.AnyAsync(n => n.Uid == uid));
     }
 
-    public async ValueTask AddDailyNoteEntryAsync(DailyNoteEntry entry)
+    public async ValueTask AddDailyNoteEntryAsync(DailyNoteEntry entry, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.DailyNotes.AddAndSaveAsync(entry).ConfigureAwait(false);
-        }
+        await this.AddAsync(entry, token).ConfigureAwait(false);
     }
 
-    public async ValueTask DeleteDailyNoteEntryByIdAsync(Guid entryId)
+    public async ValueTask DeleteDailyNoteEntryByIdAsync(Guid entryId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.DailyNotes.ExecuteDeleteWhereAsync(d => d.InnerId == entryId).ConfigureAwait(false);
-        }
+        await this.DeleteByInnerIdAsync(entryId, token).ConfigureAwait(false);
     }
 
-    public async ValueTask UpdateDailyNoteEntryAsync(DailyNoteEntry entry)
+    public async ValueTask UpdateDailyNoteEntryAsync(DailyNoteEntry entry, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.DailyNotes.UpdateAndSaveAsync(entry).ConfigureAwait(false);
-        }
+        await this.UpdateAsync(entry, token).ConfigureAwait(false);
     }
 
-    public List<DailyNoteEntry> GetDailyNoteEntryIncludeUserList()
+    public List<DailyNoteEntry> GetDailyNoteEntryListIncludingUser()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            IIncludableQueryable<DailyNoteEntry, Model.Entity.User> result = appDbContext.DailyNotes.AsNoTracking().Include(n => n.User);
-            return [.. result];
-        }
+        return this.List(query => query.Include(n => n.User));
     }
 
-    public async ValueTask<List<DailyNoteEntry>> GetDailyNoteEntryIncludeUserListAsync()
+    public ValueTask<List<DailyNoteEntry>> GetDailyNoteEntryListIncludingUserAsync(CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return await appDbContext.DailyNotes.AsNoTracking().Include(n => n.User).ToListAsync().ConfigureAwait(false);
-        }
+        return this.ListAsync(query => query.Include(n => n.User), token);
     }
 }

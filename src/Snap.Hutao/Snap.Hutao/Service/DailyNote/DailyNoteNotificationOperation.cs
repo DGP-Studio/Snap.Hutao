@@ -5,6 +5,7 @@ using CommunityToolkit.WinUI.Notifications;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.DailyNote.NotifySuppression;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
@@ -25,7 +26,7 @@ internal sealed partial class DailyNoteNotificationOperation
 
     private readonly ITaskContext taskContext;
     private readonly IGameServiceFacade gameService;
-    private readonly BindingClient bindingClient;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly DailyNoteOptions options;
     private readonly RuntimeOptions runtimeOptions;
 
@@ -41,9 +42,7 @@ internal sealed partial class DailyNoteNotificationOperation
             return;
         }
 
-        List<DailyNoteNotifyInfo> notifyInfos = [];
-
-        CheckNotifySuppressed(entry, notifyInfos);
+        NotifySuppressionInvoker.Check(entry, out List<DailyNoteNotifyInfo> notifyInfos);
 
         if (notifyInfos.Count <= 0)
         {
@@ -58,9 +57,14 @@ internal sealed partial class DailyNoteNotificationOperation
         }
         else
         {
-            Response<ListWrapper<UserGameRole>> rolesResponse = await bindingClient
-                .GetUserGameRolesOverseaAwareAsync(entry.User)
-                .ConfigureAwait(false);
+            Response<ListWrapper<UserGameRole>> rolesResponse;
+            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            {
+                BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
+                rolesResponse = await bindingClient
+                    .GetUserGameRolesOverseaAwareAsync(entry.User)
+                    .ConfigureAwait(false);
+            }
 
             if (rolesResponse.IsOk())
             {
@@ -98,7 +102,7 @@ internal sealed partial class DailyNoteNotificationOperation
                         HintWeight = 1,
                         Children =
                         {
-                            new AdaptiveImage() { Source = info.AdaptiveIcon, HintRemoveMargin = true, },
+                            // new AdaptiveImage() { Source = info.AdaptiveIcon, HintRemoveMargin = true, },
                             new AdaptiveText() { Text = info.AdaptiveHint, HintAlign = AdaptiveTextAlign.Center,  },
                             new AdaptiveText() { Text = info.Title, HintAlign = AdaptiveTextAlign.Center, HintStyle = AdaptiveTextStyle.CaptionSubtle, },
                         },
@@ -120,121 +124,6 @@ internal sealed partial class DailyNoteNotificationOperation
 
         await taskContext.SwitchToMainThreadAsync();
         builder.Show(toast => toast.SuppressPopup = ShouldSuppressPopup(options));
-    }
-
-    private static void CheckNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
-    {
-        // Image limitation.
-        // https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=uwp#adding-images
-        // NotifySuppressed judge
-        ChcekResinNotifySuppressed(entry, notifyInfos);
-        CheckHomeCoinNotifySuppressed(entry, notifyInfos);
-        CheckDailyTaskNotifySuppressed(entry, notifyInfos);
-        CheckTransformerNotifySuppressed(entry, notifyInfos);
-        CheckExpeditionNotifySuppressed(entry, notifyInfos);
-    }
-
-    private static void ChcekResinNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
-    {
-        ArgumentNullException.ThrowIfNull(entry.DailyNote);
-        if (entry.DailyNote.CurrentResin >= entry.ResinNotifyThreshold)
-        {
-            if (!entry.ResinNotifySuppressed)
-            {
-                notifyInfos.Add(new(
-                    SH.ServiceDailyNoteNotifierResin,
-                    Web.HutaoEndpoints.StaticRaw("ItemIcon", "UI_ItemIcon_210.png"),
-                    $"{entry.DailyNote.CurrentResin}",
-                    SH.FormatServiceDailyNoteNotifierResinCurrent(entry.DailyNote.CurrentResin)));
-                entry.ResinNotifySuppressed = true;
-            }
-        }
-        else
-        {
-            entry.ResinNotifySuppressed = false;
-        }
-    }
-
-    private static void CheckHomeCoinNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
-    {
-        ArgumentNullException.ThrowIfNull(entry.DailyNote);
-        if (entry.DailyNote.CurrentHomeCoin >= entry.HomeCoinNotifyThreshold)
-        {
-            if (!entry.HomeCoinNotifySuppressed)
-            {
-                notifyInfos.Add(new(
-                    SH.ServiceDailyNoteNotifierHomeCoin,
-                    Web.HutaoEndpoints.StaticRaw("ItemIcon", "UI_ItemIcon_204.png"),
-                    $"{entry.DailyNote.CurrentHomeCoin}",
-                    SH.FormatServiceDailyNoteNotifierHomeCoinCurrent(entry.DailyNote.CurrentHomeCoin)));
-                entry.HomeCoinNotifySuppressed = true;
-            }
-        }
-        else
-        {
-            entry.HomeCoinNotifySuppressed = false;
-        }
-    }
-
-    private static void CheckDailyTaskNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
-    {
-        if (entry is { DailyTaskNotify: true, DailyNote.IsExtraTaskRewardReceived: false })
-        {
-            if (!entry.DailyTaskNotifySuppressed)
-            {
-                notifyInfos.Add(new(
-                    SH.ServiceDailyNoteNotifierDailyTask,
-                    Web.HutaoEndpoints.StaticRaw("Bg", "UI_MarkQuest_Events_Proce.png"),
-                    SH.ServiceDailyNoteNotifierDailyTaskHint,
-                    entry.DailyNote.ExtraTaskRewardDescription));
-                entry.DailyTaskNotifySuppressed = true;
-            }
-        }
-        else
-        {
-            entry.DailyTaskNotifySuppressed = false;
-        }
-    }
-
-    private static void CheckTransformerNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
-    {
-        if (entry is { TransformerNotify: true, DailyNote.Transformer: { Obtained: true, RecoveryTime.Reached: true } })
-        {
-            if (!entry.TransformerNotifySuppressed)
-            {
-                notifyInfos.Add(new(
-                    SH.ServiceDailyNoteNotifierTransformer,
-                    Web.HutaoEndpoints.StaticRaw("ItemIcon", "UI_ItemIcon_220021.png"),
-                    SH.ServiceDailyNoteNotifierTransformerAdaptiveHint,
-                    SH.ServiceDailyNoteNotifierTransformerHint));
-                entry.TransformerNotifySuppressed = true;
-            }
-        }
-        else
-        {
-            entry.TransformerNotifySuppressed = false;
-        }
-    }
-
-    private static void CheckExpeditionNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
-    {
-        ArgumentNullException.ThrowIfNull(entry.DailyNote);
-        if (entry.ExpeditionNotify && entry.DailyNote.Expeditions.All(e => e.Status == ExpeditionStatus.Finished))
-        {
-            if (!entry.ExpeditionNotifySuppressed)
-            {
-                notifyInfos.Add(new(
-                    SH.ServiceDailyNoteNotifierExpedition,
-                    Web.HutaoEndpoints.StaticRaw("Bg", "UI_Icon_Intee_Explore_1.png"),
-                    SH.ServiceDailyNoteNotifierExpeditionAdaptiveHint,
-                    SH.ServiceDailyNoteNotifierExpeditionHint));
-                entry.ExpeditionNotifySuppressed = true;
-            }
-        }
-        else
-        {
-            entry.ExpeditionNotifySuppressed = false;
-        }
     }
 
     private bool ShouldSuppressPopup(DailyNoteOptions options)

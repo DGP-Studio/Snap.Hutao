@@ -15,15 +15,13 @@ namespace Snap.Hutao.Core;
 [Injection(InjectAs.Singleton)]
 internal sealed class RuntimeOptions
 {
-    private readonly IServiceProvider serviceProvider;
-
-    private readonly Lazy<(Version Version, string UserAgent)> lazyVersionAndUserAgent = new(() =>
+    private readonly LazySlim<(Version Version, string UserAgent)> lazyVersionAndUserAgent = new(() =>
     {
         Version version = Package.Current.Id.Version.ToVersion();
         return (version, $"Snap Hutao/{version}");
     });
 
-    private readonly Lazy<string> lazyDataFolder = new(() =>
+    private readonly LazySlim<string> lazyDataFolder = new(() =>
     {
         string preferredPath = LocalSetting.Get(SettingKeys.DataFolderPath, string.Empty);
 
@@ -48,14 +46,14 @@ internal sealed class RuntimeOptions
         return path;
     });
 
-    private readonly Lazy<string> lazyDeviceId = new(() =>
+    private readonly LazySlim<string> lazyDeviceId = new(() =>
     {
         string userName = Environment.UserName;
         object? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\", "MachineGuid", userName);
         return Convert.ToMd5HexString($"{userName}{machineGuid}");
     });
 
-    private readonly Lazy<(string Version, bool Supported)> lazyWebViewEnvironment = new(() =>
+    private readonly LazySlim<(string Version, bool Supported)> lazyWebViewEnvironment = new(() =>
     {
         try
         {
@@ -68,7 +66,7 @@ internal sealed class RuntimeOptions
         }
     });
 
-    private readonly Lazy<bool> lazyElevated = new(() =>
+    private readonly LazySlim<bool> lazyElevated = new(() =>
     {
         if (LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false))
         {
@@ -82,18 +80,18 @@ internal sealed class RuntimeOptions
         }
     });
 
-    private readonly Lazy<string> lazyLocalCache = new(() => ApplicationData.Current.LocalCacheFolder.Path);
-    private readonly Lazy<string> lazyInstalledLocation = new(() => Package.Current.InstalledLocation.Path);
-    private readonly Lazy<string> lazyFamilyName = new(() => Package.Current.Id.FamilyName);
+    private readonly LazySlim<string> lazyLocalCache = new(() => ApplicationData.Current.LocalCacheFolder.Path);
+    private readonly LazySlim<string> lazyInstalledLocation = new(() => Package.Current.InstalledLocation.Path);
+    private readonly LazySlim<string> lazyFamilyName = new(() => Package.Current.Id.FamilyName);
 
-    private bool isToastAvailable;
-    private bool isToastAvailableInitialized;
-    private object isToastAvailableLock = new();
-
-    public RuntimeOptions(IServiceProvider serviceProvider, ILogger<RuntimeOptions> logger)
+    private readonly LazySlim<bool> lazyToastAvailable = new(() =>
     {
-        this.serviceProvider = serviceProvider;
+        ITaskContext taskContext = Ioc.Default.GetRequiredService<ITaskContext>();
+        return taskContext.InvokeOnMainThread(() => ToastNotificationManager.CreateToastNotifier().Setting is NotificationSetting.Enabled);
+    });
 
+    public RuntimeOptions()
+    {
         AppLaunchTime = DateTimeOffset.UtcNow;
     }
 
@@ -117,19 +115,7 @@ internal sealed class RuntimeOptions
 
     public bool IsElevated { get => lazyElevated.Value; }
 
-    public bool IsToastAvailable
-    {
-        get
-        {
-            return LazyInitializer.EnsureInitialized(ref isToastAvailable, ref isToastAvailableInitialized, ref isToastAvailableLock, GetIsToastAvailable);
-
-            bool GetIsToastAvailable()
-            {
-                ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-                return taskContext.InvokeOnMainThread(() => ToastNotificationManager.CreateToastNotifier().Setting is NotificationSetting.Enabled);
-            }
-        }
-    }
+    public bool IsToastAvailable { get => lazyToastAvailable.Value; }
 
     public DateTimeOffset AppLaunchTime { get; }
 }
