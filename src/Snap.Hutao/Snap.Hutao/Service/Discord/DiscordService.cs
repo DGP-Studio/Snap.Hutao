@@ -50,10 +50,15 @@ internal sealed partial class DiscordService : IDiscordService, IDisposable
             return false;
         }
 
-        foreach (Process process in discordProcesses)
+        foreach (ref readonly Process process in discordProcesses.AsSpan())
         {
             try
             {
+                if (string.Equals(process.MainWindowTitle, "Discord Updater", StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+
                 _ = process.Handle;
             }
             catch (Exception)

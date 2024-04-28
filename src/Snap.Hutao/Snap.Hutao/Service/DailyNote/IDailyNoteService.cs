@@ -7,32 +7,15 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-/// <summary>
-/// 实时便笺服务
-/// </summary>
 [HighQuality]
 internal interface IDailyNoteService
 {
-    /// <summary>
-    /// 添加实时便笺
-    /// </summary>
-    /// <param name="userAndUid">角色</param>
-    /// <returns>任务</returns>
     ValueTask AddDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default);
 
     ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync(bool forceRefresh = false, CancellationToken token = default);
 
-    /// <summary>
-    /// 异步刷新实时便笺
-    /// </summary>
-    /// <returns>任务</returns>
     ValueTask RefreshDailyNotesAsync(CancellationToken token = default);
 
-    /// <summary>
-    /// 移除指定的实时便笺
-    /// </summary>
-    /// <param name="entry">指定的实时便笺</param>
-    /// <returns>任务</returns>
     ValueTask RemoveDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default);
 
     ValueTask UpdateDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default);

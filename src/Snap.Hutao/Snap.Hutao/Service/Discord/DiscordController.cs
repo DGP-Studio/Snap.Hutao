@@ -21,7 +21,7 @@ internal static class DiscordController
 
     private static long currentClientId;
     private static unsafe IDiscordCore* discordCorePtr;
-    private static bool isInitialized;
+    private static bool isCallbackInitialized;
 
     public static async ValueTask<DiscordResult> SetDefaultActivityAsync(DateTimeOffset startTime)
     {
@@ -108,7 +108,7 @@ internal static class DiscordController
 
     public static unsafe void Stop()
     {
-        if (!isInitialized)
+        if (!isCallbackInitialized)
         {
             return;
         }
@@ -147,13 +147,13 @@ internal static class DiscordController
             discordCorePtr->set_log_hook(discordCorePtr, DiscordLogLevel.Debug, default, &DebugWriteDiscordMessage);
         }
 
-        if (isInitialized)
+        if (isCallbackInitialized)
         {
             return;
         }
 
         DiscordRunCallbacksAsync(StopTokenSource.Token).SafeForget();
-        isInitialized = true;
+        isCallbackInitialized = true;
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
         static unsafe void DebugWriteDiscordMessage(void* state, DiscordLogLevel logLevel, sbyte* ptr)
@@ -183,7 +183,7 @@ internal static class DiscordController
                     {
                         try
                         {
-                            DiscordResult result = DiscordCoreRunRunCallbacks();
+                            DiscordResult result = RunDiscordCoreRunCallbacks();
                             if (result is not DiscordResult.Ok)
                             {
                                 if (result is DiscordResult.NotRunning)
@@ -200,11 +200,11 @@ internal static class DiscordController
                                 }
                             }
                         }
-                        catch (SEHException ex)
+                        catch (Exception ex)
                         {
                             // Known error codes:
                             // 0x80004005 E_FAIL
-                            System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK ERROR]:0x{ex.ErrorCode:X}");
+                            System.Diagnostics.Debug.WriteLine($"[Discord.GameSDK ERROR]:0x{ex.HResult:X}");
                         }
                     }
                 }
@@ -214,7 +214,7 @@ internal static class DiscordController
             }
         }
 
-        unsafe DiscordResult DiscordCoreRunRunCallbacks()
+        unsafe DiscordResult RunDiscordCoreRunCallbacks()
         {
             if (discordCorePtr is not null)
             {
@@ -253,6 +253,7 @@ internal static class DiscordController
         public DiscordUpdateActivityAsyncAction(IDiscordActivityManager* activityManagerPtr)
         {
             this.activityManagerPtr = activityManagerPtr;
+            discordAsyncAction.Result = (DiscordResult)(-1);
         }
 
         public DiscordResult WaitUpdateActivity(DiscordActivity activity)
@@ -262,7 +263,7 @@ internal static class DiscordController
                 activityManagerPtr->update_activity(activityManagerPtr, &activity, actionPtr, &HandleResult);
             }
 
-            SpinWaitPolyfill.SpinUntil(ref discordAsyncAction, &CheckActionCompleted);
+            SpinWaitPolyfill.SpinUntil(ref discordAsyncAction, &CheckActionCompleted, TimeSpan.FromSeconds(5));
             return discordAsyncAction.Result;
         }
 
