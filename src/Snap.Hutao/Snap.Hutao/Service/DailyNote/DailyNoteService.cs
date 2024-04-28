@@ -38,11 +38,11 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public async ValueTask AddDailyNoteAsync(UserAndUid userAndUid)
+    public async ValueTask AddDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         string roleUid = userAndUid.Uid.Value;
 
-        if (await dailyNoteDbService.ContainsUidAsync(roleUid).ConfigureAwait(false))
+        if (await dailyNoteDbService.ContainsUidAsync(roleUid, token).ConfigureAwait(false))
         {
             return;
         }
@@ -57,7 +57,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 .Create(PlayerUid.IsOversea(roleUid));
 
             dailyNoteResponse = await gameRecordClient
-                .GetDailyNoteAsync(userAndUid)
+                .GetDailyNoteAsync(userAndUid, token)
                 .ConfigureAwait(false);
         }
 
@@ -67,7 +67,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         }
 
         newEntry.UserGameRole = userService.GetUserGameRoleByUid(roleUid);
-        await dailyNoteDbService.AddDailyNoteEntryAsync(newEntry).ConfigureAwait(false);
+        await dailyNoteDbService.AddDailyNoteEntryAsync(newEntry, token).ConfigureAwait(false);
 
         newEntry.User = userAndUid.User;
         await taskContext.SwitchToMainThreadAsync();
@@ -75,15 +75,15 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public async ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync(bool forceRefresh = false)
+    public async ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync(bool forceRefresh = false, CancellationToken token = default)
     {
         if (entries is null)
         {
             // IUserService.GetUserGameRoleByUid only usable after call IUserService.GetRoleCollectionAsync
             await userService.GetRoleCollectionAsync().ConfigureAwait(false);
-            await RefreshDailyNotesCoreAsync(forceRefresh).ConfigureAwait(false);
+            await RefreshDailyNotesCoreAsync(forceRefresh, token).ConfigureAwait(false);
 
-            List<DailyNoteEntry> entryList = await dailyNoteDbService.GetDailyNoteEntryListIncludingUserAsync().ConfigureAwait(false);
+            List<DailyNoteEntry> entryList = await dailyNoteDbService.GetDailyNoteEntryListIncludingUserAsync(token).ConfigureAwait(false);
             entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
             entries = entryList.ToObservableCollection();
         }
@@ -92,35 +92,35 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public ValueTask RefreshDailyNotesAsync()
+    public ValueTask RefreshDailyNotesAsync(CancellationToken token = default)
     {
-        return RefreshDailyNotesCoreAsync(true);
+        return RefreshDailyNotesCoreAsync(true, token);
     }
 
     /// <inheritdoc/>
-    public async ValueTask RemoveDailyNoteAsync(DailyNoteEntry entry)
+    public async ValueTask RemoveDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default)
     {
         await taskContext.SwitchToMainThreadAsync();
         ArgumentNullException.ThrowIfNull(entries);
         entries.Remove(entry);
 
         await taskContext.SwitchToBackgroundAsync();
-        await dailyNoteDbService.DeleteDailyNoteEntryByIdAsync(entry.InnerId).ConfigureAwait(false);
+        await dailyNoteDbService.DeleteDailyNoteEntryByIdAsync(entry.InnerId, token).ConfigureAwait(false);
     }
 
-    public async ValueTask UpdateDailyNoteAsync(DailyNoteEntry entry)
+    public async ValueTask UpdateDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default)
     {
         await taskContext.SwitchToBackgroundAsync();
-        await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
+        await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry, token).ConfigureAwait(false);
     }
 
-    private async ValueTask RefreshDailyNotesCoreAsync(bool forceRefresh)
+    private async ValueTask RefreshDailyNotesCoreAsync(bool forceRefresh, CancellationToken token = default)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             DailyNoteWebhookOperation dailyNoteWebhookOperation = serviceProvider.GetRequiredService<DailyNoteWebhookOperation>();
 
-            foreach (DailyNoteEntry entry in await dailyNoteDbService.GetDailyNoteEntryListIncludingUserAsync().ConfigureAwait(false))
+            foreach (DailyNoteEntry entry in await dailyNoteDbService.GetDailyNoteEntryListIncludingUserAsync(token).ConfigureAwait(false))
             {
                 if (!forceRefresh && entry.DailyNote is not null)
                 {
@@ -132,7 +132,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                         .Create(PlayerUid.IsOversea(entry.Uid));
 
                 Web.Response.Response<WebDailyNote> dailyNoteResponse = await gameRecordClient
-                    .GetDailyNoteAsync(new(entry.User, entry.Uid))
+                    .GetDailyNoteAsync(new(entry.User, entry.Uid), token)
                     .ConfigureAwait(false);
 
                 if (dailyNoteResponse.IsOk())
@@ -141,19 +141,19 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                     entry.UpdateDailyNote(dailyNote);
 
                     // 集合内的实时便笺与数据库取出的非同一个对象，需要分别更新
-                    // cache
+                    // Cache
                     await taskContext.SwitchToMainThreadAsync();
                     if (entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid) is { } cachedEntry)
                     {
                         entry.CopyTo(cachedEntry);
                     }
 
-                    // database
+                    // Database
                     {
                         // 发送通知必须早于数据库更新，否则会导致通知重复
                         await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
-                        await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
-                        await dailyNoteWebhookOperation.TryPostDailyNoteToWebhookAsync(entry.Uid, dailyNote).ConfigureAwait(false);
+                        await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry, token).ConfigureAwait(false);
+                        await dailyNoteWebhookOperation.TryPostDailyNoteToWebhookAsync(entry.Uid, dailyNote, token).ConfigureAwait(false);
                     }
                 }
             }
