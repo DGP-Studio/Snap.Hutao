@@ -6,9 +6,12 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Message;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.View.Dialog;
+using Snap.Hutao.View.Page;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hutao.Response;
@@ -29,6 +32,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly HutaoSpiralAbyssClient spiralAbyssClient;
+    private readonly INavigationService navigationService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
@@ -135,12 +139,14 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         {
             if (!hutaoUserOptions.IsLoggedIn)
             {
-                ContentDialogResult result = await contentDialogFactory
-                    .CreateForConfirmCancelAsync(SH.ViewModelSpiralAbyssUploadRecordHomaNotLoginTitle, SH.ViewModelSpiralAbyssUploadRecordHomaNotLoginContent)
+                SpiralAbyssUploadRecordHomaNotLoginDialog dialog = await contentDialogFactory
+                    .CreateInstanceAsync<SpiralAbyssUploadRecordHomaNotLoginDialog>()
                     .ConfigureAwait(false);
 
-                if (result is not ContentDialogResult.Primary)
+                if (!await dialog.ConfirmAsync().ConfigureAwait(false))
                 {
+                    await taskContext.SwitchToMainThreadAsync();
+                    await navigationService.NavigateAsync<SettingPage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
                     return;
                 }
             }
