@@ -1365,13 +1365,13 @@
     <value>前往登录</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
-    <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
+    <value>No Hutao Passport logged in currently, uploading Abyss Records will not grant you Hutao Cloud privilege extension.</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
     <value>继续上传</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
-    <value>上传深渊数据</value>
+    <value>Upload Abyss Records</value>
   </data>
   <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
     <value>查看更新日志</value>
