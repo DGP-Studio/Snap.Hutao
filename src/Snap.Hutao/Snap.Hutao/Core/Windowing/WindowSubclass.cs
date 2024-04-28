@@ -48,7 +48,7 @@ internal sealed class WindowSubclass : IDisposable
     {
         windowProc = OnSubclassProcedure;
         bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, 0);
-        bool propHooked = SetPropW(options.Hwnd, "NonRudeHWND", 1);
+        bool propHooked = SetPropW(options.Hwnd, "NonRudeHWND", BOOL.TRUE);
         hotKeyController.RegisterAll();
 
         bool titleBarHooked = true;
