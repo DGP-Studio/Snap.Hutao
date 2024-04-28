@@ -68,8 +68,17 @@ internal sealed partial class DailyNoteNotificationOperation
 
             if (rolesResponse.IsOk())
             {
-                List<UserGameRole> roles = rolesResponse.Data.List;
-                attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? ToastAttributionUnknown;
+                BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
+
+                Response<ListWrapper<UserGameRole>> rolesResponse = await bindingClient
+                    .GetUserGameRolesOverseaAwareAsync(entry.User)
+                    .ConfigureAwait(false);
+
+                if (rolesResponse.IsOk())
+                {
+                    List<UserGameRole> roles = rolesResponse.Data.List;
+                    attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? ToastAttributionUnknown;
+                }
             }
         }
 
