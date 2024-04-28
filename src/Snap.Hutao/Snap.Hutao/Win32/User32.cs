@@ -90,9 +90,9 @@ internal static class User32
     public static extern HANDLE RemovePropW(HWND hWnd, PCWSTR lpString);
 
     [DebuggerStepThrough]
-    public static unsafe HANDLE RemovePropW(HWND hWnd, string str)
+    public static unsafe HANDLE RemovePropW(HWND hWnd, string @string)
     {
-        fixed (char* lpString = str)
+        fixed (char* lpString = @string)
         {
             return RemovePropW(hWnd, lpString);
         }
@@ -117,12 +117,12 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL SetPropW(HWND hWnd, PCWSTR lpString, [AllowNull] nint hData);
+    public static extern BOOL SetPropW(HWND hWnd, PCWSTR lpString, [AllowNull] HANDLE hData);
 
     [DebuggerStepThrough]
-    public static unsafe BOOL SetPropW(HWND hWnd, string str, [AllowNull] nint hData)
+    public static unsafe BOOL SetPropW(HWND hWnd, string @string, [AllowNull] HANDLE hData)
     {
-        fixed (char* lpString = str)
+        fixed (char* lpString = @string)
         {
             return SetPropW(hWnd, lpString, hData);
         }
