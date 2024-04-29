@@ -90,7 +90,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             {
                 DailyNoteMetadataContext context = await scope.GetRequiredService<IMetadataService>().GetContextAsync<DailyNoteMetadataContext>(token).ConfigureAwait(false);
 
-                List<DailyNoteEntry> entryList = await dailyNoteDbService.GetDailyNoteEntryIncludeUserListAsync(token).ConfigureAwait(false);
+                List<DailyNoteEntry> entryList = await dailyNoteDbService.GetDailyNoteEntryListIncludingUserAsync(token).ConfigureAwait(false);
                 entryList.ForEach(entry =>
                 {
                     entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid);
