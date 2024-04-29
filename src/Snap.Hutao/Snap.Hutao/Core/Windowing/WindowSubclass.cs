@@ -48,6 +48,7 @@ internal sealed class WindowSubclass : IDisposable
     {
         windowProc = OnSubclassProcedure;
         bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, 0);
+        bool propHooked = SetPropW(options.Hwnd, "NonRudeHWND", BOOL.TRUE);
         hotKeyController.RegisterAll();
 
         bool titleBarHooked = true;
@@ -55,7 +56,7 @@ internal sealed class WindowSubclass : IDisposable
         // only hook up drag bar proc when use legacy Window.ExtendsContentIntoTitleBar
         if (!options.UseLegacyDragBarImplementation)
         {
-            return windowHooked && titleBarHooked;
+            return windowHooked && propHooked && titleBarHooked;
         }
 
         titleBarHooked = false;
@@ -63,13 +64,13 @@ internal sealed class WindowSubclass : IDisposable
 
         if (hwndDragBar.IsNull)
         {
-            return windowHooked && titleBarHooked;
+            return windowHooked && propHooked && titleBarHooked;
         }
 
         legacyDragBarProc = OnLegacyDragBarProcedure;
         titleBarHooked = SetWindowSubclass(hwndDragBar, legacyDragBarProc, DragBarSubclassId, 0);
 
-        return windowHooked && titleBarHooked;
+        return windowHooked && propHooked && titleBarHooked;
     }
 
     /// <inheritdoc/>
@@ -78,6 +79,7 @@ internal sealed class WindowSubclass : IDisposable
         hotKeyController.UnregisterAll();
 
         RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
+        RemovePropW(options.Hwnd, "NonRudeHWND");
         windowProc = default!;
 
         if (options.UseLegacyDragBarImplementation)
