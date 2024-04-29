@@ -16,7 +16,7 @@ internal sealed class HutaoException : Exception
         throw new HutaoException(message, innerException);
     }
 
-    public static void ThrowIf(bool condition, string message, Exception? innerException = default)
+    public static void ThrowIf([DoesNotReturnIf(true)] bool condition, string message, Exception? innerException = default)
     {
         if (condition)
         {
@@ -24,7 +24,7 @@ internal sealed class HutaoException : Exception
         }
     }
 
-    public static void ThrowIfNot(bool condition, string message, Exception? innerException = default)
+    public static void ThrowIfNot([DoesNotReturnIf(false)] bool condition, string message, Exception? innerException = default)
     {
         if (!condition)
         {
