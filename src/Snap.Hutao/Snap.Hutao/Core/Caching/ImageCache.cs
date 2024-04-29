@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
@@ -28,6 +29,7 @@ namespace Snap.Hutao.Core.Caching;
 internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
     private const string CacheFolderName = nameof(ImageCache);
+    private const string CacheFailedDownloadTasksName = $"{nameof(ImageCache)}.FailedDownloadTasks";
 
     private readonly FrozenDictionary<int, TimeSpan> retryCountToDelay = FrozenDictionary.ToFrozenDictionary(
     [
@@ -38,10 +40,11 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
     private readonly ConcurrentDictionary<string, Task> concurrentTasks = new();
 
-    private readonly IHttpClientFactory httpClientFactory;
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IHttpClientFactory httpClientFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<ImageCache> logger;
+    private readonly IMemoryCache memoryCache;
 
     private string? baseFolder;
     private string? cacheFolder;
@@ -192,6 +195,16 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
 
                     if (responseMessage.IsSuccessStatusCode)
                     {
+                        if (responseMessage.Content.Headers.ContentType?.MediaType is "application/json")
+                        {
+#if DEBUG
+                            DebugTrack(uri);
+#endif
+                            string raw = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            logger.LogColorizedCritical("Failed to download '{Uri}' with unexpected body '{Raw}'", (uri, ConsoleColor.Red), (raw, ConsoleColor.DarkYellow));
+                            return;
+                        }
+
                         using (Stream httpStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
                         {
                             using (FileStream fileStream = File.Create(baseFile))
@@ -214,6 +227,10 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                             }
 
                         default:
+#if DEBUG
+                            DebugTrack(uri);
+#endif
+                            logger.LogColorizedCritical("Failed to download '{Uri}' with status code '{StatusCode}'", (uri, ConsoleColor.Red), (responseMessage.StatusCode, ConsoleColor.DarkYellow));
                             return;
                     }
                 }
@@ -221,3 +238,14 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         }
     }
 }
+
+#if DEBUG
+internal partial class ImageCache
+{
+    private void DebugTrack(Uri uri)
+    {
+        HashSet<string>? set = memoryCache.GetOrCreate(CacheFailedDownloadTasksName, entry => entry.Value ??= new HashSet<string>()) as HashSet<string>;
+        set?.Add(uri.ToString());
+    }
+}
+#endif

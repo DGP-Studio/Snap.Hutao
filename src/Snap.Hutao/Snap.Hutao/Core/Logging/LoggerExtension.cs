@@ -151,7 +151,7 @@ internal static class LoggerExtension
                     }
                     else
                     {
-                        resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.Default);
+                        resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.ForegroundWhite);
                     }
                 }
             }
@@ -164,7 +164,7 @@ internal static class LoggerExtension
         // Restore default colors
         if (message.ForegroundColor.HasValue || message.BackgroundColor.HasValue)
         {
-            resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.Default);
+            resultMessageBuilder.Append(ConsoleVirtualTerminalSequences.ForegroundWhite);
         }
 
         return resultMessageBuilder.ToString();
