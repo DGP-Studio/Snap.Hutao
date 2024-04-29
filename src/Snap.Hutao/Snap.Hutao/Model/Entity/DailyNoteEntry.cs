@@ -96,7 +96,7 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
                 return $"{quest.ChapterNum} {quest.ChapterTitle}";
             }
 
-            return string.Empty;
+            return SH.WebDailyNoteArchonQuestChapterFinished;
         }
     }
 

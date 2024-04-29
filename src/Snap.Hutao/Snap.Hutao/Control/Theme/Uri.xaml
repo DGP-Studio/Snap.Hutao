@@ -20,6 +20,8 @@
 
     <!--  Mark  -->
     <x:String x:Key="UI_MarkQuest_Events_Proce">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Events_Proce.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Events_Start">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Events_Start.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Main_Proce">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Main_Proce.png</x:String>
     <x:String x:Key="UI_MarkQuest_Main_Start">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Main_Start.png</x:String>
     <x:String x:Key="UI_MarkTower">https://api.snapgenshin.com/static/raw/Mark/UI_MarkTower.png</x:String>
 
