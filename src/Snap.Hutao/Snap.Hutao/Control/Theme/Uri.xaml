@@ -17,8 +17,11 @@
     <x:String x:Key="UI_Icon_Intee_Explore_1">https://api.snapgenshin.com/static/raw/Bg/UI_Icon_Intee_Explore_1.png</x:String>
     <x:String x:Key="UI_ImgSign_ItemIcon">https://api.snapgenshin.com/static/raw/Bg/UI_ImgSign_ItemIcon.png</x:String>
     <x:String x:Key="UI_ItemIcon_None">https://api.snapgenshin.com/static/raw/Bg/UI_ItemIcon_None.png</x:String>
-    <x:String x:Key="UI_MarkQuest_Events_Proce">https://api.snapgenshin.com/static/raw/Bg/UI_MarkQuest_Events_Proce.png</x:String>
-    <x:String x:Key="UI_MarkTower">https://api.snapgenshin.com/static/raw/Bg/UI_MarkTower.png</x:String>
+
+    <!--  Mark  -->
+    <x:String x:Key="UI_MarkQuest_Events_Proce">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Events_Proce.png</x:String>
+    <x:String x:Key="UI_MarkQuest_Main_Start">https://api.snapgenshin.com/static/raw/Mark/UI_MarkQuest_Main_Start.png</x:String>
+    <x:String x:Key="UI_MarkTower">https://api.snapgenshin.com/static/raw/Mark/UI_MarkTower.png</x:String>
 
     <!--  ItemIcon  -->
     <x:String x:Key="UI_ItemIcon_201">https://api.snapgenshin.com/static/raw/ItemIcon/UI_ItemIcon_201.png</x:String>

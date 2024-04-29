@@ -127,8 +127,7 @@
                                 Margin="4"
                                 VerticalAlignment="Center"
                                 shch:FrameworkElementHelper.SquareLength="32"
-                                Source="{StaticResource UI_ItemIcon_210}"/>
-                            <!--  TODO ICON  -->
+                                Source="{StaticResource UI_MarkQuest_Main_Start}"/>
                             <StackPanel
                                 Grid.Column="1"
                                 Margin="8,0,0,0"
