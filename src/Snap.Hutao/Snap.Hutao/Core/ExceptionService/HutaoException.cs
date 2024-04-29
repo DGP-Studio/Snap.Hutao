@@ -60,6 +60,6 @@ internal sealed class HutaoException : Exception
     [DoesNotReturn]
     public static OperationCanceledException OperationCanceled(string message, Exception? innerException = default)
     {
-        return new OperationCanceledException(message, innerException);
+        throw new OperationCanceledException(message, innerException);
     }
 }
