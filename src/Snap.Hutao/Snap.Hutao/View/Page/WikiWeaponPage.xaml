@@ -233,7 +233,7 @@
                                     </ListView>
                                 </SplitView.Pane>
                                 <SplitView.Content>
-                                    <Grid Padding="16">
+                                    <Grid>
                                         <StackPanel VerticalAlignment="Center" Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
                                             <shci:CachedImage
                                                 Height="120"
@@ -246,8 +246,8 @@
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{shcm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
                                         </StackPanel>
-                                        <ScrollViewer Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-                                            <StackPanel Spacing="16">
+                                        <ScrollViewer Padding="16,0" Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                            <StackPanel Margin="0,16" Spacing="16">
                                                 <Border Style="{ThemeResource BorderCardStyle}">
                                                     <Border.Background>
                                                         <ImageBrush ImageSource="ms-appx:///Resource/Icon/UI_GachaShowPanel_Bg_Weapon.png"/>

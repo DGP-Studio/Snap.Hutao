@@ -362,10 +362,9 @@
                                             <shcb:SelectedItemInViewBehavior/>
                                         </mxi:Interaction.Behaviors>
                                     </ListView>
-
                                 </SplitView.Pane>
                                 <SplitView.Content>
-                                    <Grid Padding="16">
+                                    <Grid>
                                         <StackPanel VerticalAlignment="Center" Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
                                             <shci:CachedImage
                                                 Height="120"
@@ -378,8 +377,11 @@
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{shcm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
                                         </StackPanel>
-                                        <ScrollViewer Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-                                            <StackPanel HorizontalAlignment="Left" Spacing="16">
+                                        <ScrollViewer Padding="16,0" Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                            <StackPanel
+                                                Margin="0,16"
+                                                HorizontalAlignment="Left"
+                                                Spacing="16">
                                                 <!--  简介  -->
                                                 <Grid Style="{ThemeResource GridCardStyle}">
                                                     <Grid.RowDefinitions>
