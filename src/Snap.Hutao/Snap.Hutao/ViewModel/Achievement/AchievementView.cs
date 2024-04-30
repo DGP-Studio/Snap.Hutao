@@ -43,6 +43,11 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
     /// </summary>
     public Model.Metadata.Achievement.Achievement Inner { get; }
 
+    public uint Order
+    {
+        get => Inner.Order;
+    }
+
     /// <summary>
     /// 是否选中
     /// </summary>

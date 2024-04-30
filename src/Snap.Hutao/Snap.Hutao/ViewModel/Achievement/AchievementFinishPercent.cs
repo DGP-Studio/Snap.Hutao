@@ -30,7 +30,7 @@ internal static class AchievementFinishPercent
             throw HutaoException.InvalidCast<IEnumerable<AchievementView>, List<AchievementView>>("AchievementViewModel.Achievements.SourceCollection");
         }
 
-        Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.ToDictionary(x => x.Id, AchievementGoalStatistics.From);
+        Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.SourceCollection.ToDictionary(x => x.Id, AchievementGoalStatistics.From);
 
         foreach (ref readonly AchievementView achievementView in CollectionsMarshal.AsSpan(list))
         {
