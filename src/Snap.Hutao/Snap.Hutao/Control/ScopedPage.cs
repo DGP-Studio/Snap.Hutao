@@ -104,6 +104,7 @@ internal class ScopedPage : Page
 
                 // Dispose the scope
                 pageScope.Dispose();
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true);
             }
         }
     }
