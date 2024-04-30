@@ -2,10 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.Achievement;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
-using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 

@@ -5,7 +5,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 

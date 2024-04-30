@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Control;
 using Snap.Hutao.Model.Intrinsic;
-using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 

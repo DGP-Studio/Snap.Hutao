@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Abstraction.Extension;
-using Snap.Hutao.Model;
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;

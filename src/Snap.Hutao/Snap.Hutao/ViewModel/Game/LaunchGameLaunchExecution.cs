@@ -9,17 +9,17 @@ namespace Snap.Hutao.ViewModel.Game;
 
 internal static class LaunchGameLaunchExecution
 {
-    public static async ValueTask LaunchExecutionAsync(this IViewModelSupportLaunchExecution launchExecution)
+    public static async ValueTask LaunchExecutionAsync(this IViewModelSupportLaunchExecution launchExecution, LaunchScheme? targetScheme)
     {
         IServiceProvider root = Ioc.Default;
         IInfoBarService infoBarService = root.GetRequiredService<IInfoBarService>();
         ILogger<IViewModelSupportLaunchExecution> logger = root.GetRequiredService<ILogger<IViewModelSupportLaunchExecution>>();
 
-        LaunchScheme? scheme = launchExecution.Shared.GetCurrentLaunchSchemeFromConfigFile();
+        // LaunchScheme? scheme = launchExecution.Shared.GetCurrentLaunchSchemeFromConfigFile();
         try
         {
             // Root service provider is required.
-            LaunchExecutionContext context = new(root, launchExecution, scheme, launchExecution.SelectedGameAccount);
+            LaunchExecutionContext context = new(root, launchExecution, targetScheme, launchExecution.SelectedGameAccount);
             LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
 
             if (result.Kind is not LaunchExecutionResultKind.Ok)

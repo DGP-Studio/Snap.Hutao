@@ -5,7 +5,6 @@ using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.ViewModel.Achievement;
 using System.Collections.ObjectModel;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
-using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 
