@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using Snap.Hutao.Core.Abstraction.Extension;
 using System.Collections.ObjectModel;
 using Windows.Foundation;
 
@@ -34,26 +35,30 @@ internal sealed class InfoBarService : IInfoBarService
         get => collection ??= [];
     }
 
-    public void PrepareInfoBarAndShow(InfoBarSeverity severity, string? title, string? message, int delay)
+    public void PrepareInfoBarAndShow(Action<IInfoBarOptionsBuilder> configure)
     {
         if (collection is null)
         {
             return;
         }
 
-        PrepareInfoBarAndShowCoreAsync(severity, title, message, delay).SafeForget(logger);
+        PrepareInfoBarAndShowCoreAsync(configure).SafeForget(logger);
     }
 
-    private async ValueTask PrepareInfoBarAndShowCoreAsync(InfoBarSeverity severity, string? title, string? message, int delay)
+    private async ValueTask PrepareInfoBarAndShowCoreAsync(Action<IInfoBarOptionsBuilder> configure)
     {
+        IInfoBarOptionsBuilder builder = new InfoBarOptionsBuilder().Configure(configure);
+
         await taskContext.SwitchToMainThreadAsync();
 
         InfoBar infoBar = new()
         {
-            Severity = severity,
-            Title = title,
-            Message = message,
+            Severity = builder.Options.Severity,
+            Title = builder.Options.Title,
+            Message = builder.Options.Message,
+            Content = builder.Options.Content,
             IsOpen = true,
+            ActionButton = builder.Options.ActionButton,
             Transitions = [new AddDeleteThemeTransition()],
         };
 
@@ -61,9 +66,9 @@ internal sealed class InfoBarService : IInfoBarService
         ArgumentNullException.ThrowIfNull(collection);
         collection.Add(infoBar);
 
-        if (delay > 0)
+        if (builder.Options.MilliSecondsDelay > 0)
         {
-            await Delay.FromMilliSeconds(delay).ConfigureAwait(true);
+            await Delay.FromMilliSeconds(builder.Options.MilliSecondsDelay).ConfigureAwait(true);
             collection.Remove(infoBar);
             infoBar.IsOpen = false;
         }

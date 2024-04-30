@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -13,9 +12,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-/// <summary>
-/// 通行证客户端
-/// </summary>
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc2)]
@@ -25,13 +21,6 @@ internal sealed partial class PassportClient2
     private readonly ILogger<PassportClient2> logger;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 异步验证 LToken
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>验证信息</returns>
-    [ApiInformation(Cookie = CookieType.LToken)]
     public async ValueTask<Response<UserInfoWrapper>> VerifyLtokenAsync(User user, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -46,13 +35,6 @@ internal sealed partial class PassportClient2
         return Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// V1 SToken 登录
-    /// </summary>
-    /// <param name="stokenV1">v1 SToken</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>登录数据</returns>
-    [ApiInformation(Salt = SaltType.PROD)]
     public async ValueTask<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -79,7 +61,6 @@ internal sealed partial class PassportClient2
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.AccountGetSTokenByGameToken)
-            .SetHeader("x-rpc-device_id", HoyolabOptions.DeviceId40)
             .PostJson(data);
 
         Response<LoginResult>? resp = await builder

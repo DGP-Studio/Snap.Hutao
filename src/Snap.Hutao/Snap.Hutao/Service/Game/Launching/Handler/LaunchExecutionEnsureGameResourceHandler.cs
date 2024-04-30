@@ -7,6 +7,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
@@ -41,6 +42,9 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                     // context.Result is set in EnsureGameResourceAsync
                     return;
                 }
+
+                // Backup config file, in order to prevent a incompatible launcher to delete it.
+                context.ServiceProvider.GetRequiredService<IGameConfigurationFileService>().Backup(gameFileSystem.GameConfigFilePath);
 
                 await context.TaskContext.SwitchToMainThreadAsync();
                 context.UpdateGamePathEntry();

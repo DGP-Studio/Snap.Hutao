@@ -35,7 +35,7 @@ internal sealed class CachedImage : Implementation.ImageEx
 
         try
         {
-            HutaoException.ThrowIf(string.IsNullOrEmpty(imageUri.Host), HutaoExceptionKind.ImageCacheInvalidUri, SH.ControlImageCachedImageInvalidResourceUri);
+            HutaoException.ThrowIf(string.IsNullOrEmpty(imageUri.Host), SH.ControlImageCachedImageInvalidResourceUri);
             string file = await imageCache.GetFileFromCacheAsync(imageUri).ConfigureAwait(true); // BitmapImage need to be created by main thread.
             token.ThrowIfCancellationRequested(); // check token state to determine whether the operation should be canceled.
             return new BitmapImage(file.ToUri()); // BitmapImage initialize with a uri will increase image quality and loading speed.

@@ -11,9 +11,6 @@ using System.Globalization;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-/// <summary>
-/// 实时便笺选项
-/// </summary>
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class DailyNoteOptions : DbStoreOptions
@@ -38,9 +35,6 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
     private bool? isSilentWhenPlayingGame;
     private string? webhookUrl;
 
-    /// <summary>
-    /// 刷新时间
-    /// </summary>
     public List<NameValue<int>> RefreshTimes { get => refreshTimes; }
 
     public bool IsAutoRefreshEnabled
@@ -76,9 +70,6 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         }
     }
 
-    /// <summary>
-    /// 选中的刷新时间
-    /// </summary>
     public NameValue<int>? SelectedRefreshTime
     {
         get
@@ -114,18 +105,12 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         }
     }
 
-    /// <summary>
-    /// 提醒式通知
-    /// </summary>
     public bool IsReminderNotification
     {
         get => GetOption(ref isReminderNotification, SettingEntry.DailyNoteReminderNotify);
         set => SetOption(ref isReminderNotification, SettingEntry.DailyNoteReminderNotify, value);
     }
 
-    /// <summary>
-    /// 是否开启免打扰模式
-    /// </summary>
     public bool IsSilentWhenPlayingGame
     {
         get => GetOption(ref isSilentWhenPlayingGame, SettingEntry.DailyNoteSilentWhenPlayingGame);

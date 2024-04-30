@@ -36,4 +36,6 @@ internal sealed class GameFileSystem
     public string GameConfigFilePath { get => gameConfigFilePath ??= Path.Combine(GameDirectory, GameConstants.ConfigFileName); }
 
     public string PCGameSDKFilePath { get => pcGameSDKFilePath ??= Path.Combine(GameDirectory, GameConstants.PCGameSDKFilePath); }
+
+    public string ScreenShotDirectory { get => Path.Combine(GameDirectory, "ScreenShot"); }
 }

@@ -49,7 +49,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     {
         byte[] content = new byte[header->ContentLength];
         serverStream.ReadAtLeast(content, header->ContentLength, false);
-        HutaoException.ThrowIf(XxHash64.HashToUInt64(content) != header->Checksum, HutaoExceptionKind.PrivateNamedPipeContentHashIncorrect, "PipePacket Content Hash incorrect");
+        HutaoException.ThrowIf(XxHash64.HashToUInt64(content) != header->Checksum, "PipePacket Content Hash incorrect");
         return content;
     }
 

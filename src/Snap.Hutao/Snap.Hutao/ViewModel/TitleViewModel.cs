@@ -2,12 +2,16 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Windowing.HotKey;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
+using Snap.Hutao.View.Dialog;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
@@ -19,6 +23,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IProgressFactory progressFactory;
+    private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
     private readonly HotKeyOptions hotKeyOptions;
     private readonly IUpdateService updateService;
@@ -61,21 +66,80 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
     private async ValueTask DoCheckUpdateAsync()
     {
         IProgress<UpdateStatus> progress = progressFactory.CreateForMainThread<UpdateStatus>(status => UpdateStatus = status);
-        if (await updateService.CheckForUpdateAndDownloadAsync(progress).ConfigureAwait(false))
+        CheckUpdateResult checkUpdateResult = await updateService.CheckUpdateAsync(progress).ConfigureAwait(false);
+
+        if (checkUpdateResult.Kind is CheckUpdateResultKind.NeedDownload)
         {
-            ContentDialogResult result = await contentDialogFactory
+            UpdatePackageDownloadConfirmDialog dialog = await contentDialogFactory
+                .CreateInstanceAsync<UpdatePackageDownloadConfirmDialog>()
+                .ConfigureAwait(false);
+
+            await taskContext.SwitchToMainThreadAsync();
+
+            dialog.Title = SH.FormatViewTitileUpdatePackageDownloadTitle(UpdateStatus?.Version);
+
+            if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+            {
+                // This method will set CheckUpdateResult.Kind to NeedInstall if download success
+                if (!await DownloadPackageAsync(progress, checkUpdateResult).ConfigureAwait(false))
+                {
+                    infoBarService.Warning(SH.ViewTitileUpdatePackageDownloadFailedMessage);
+                    return;
+                }
+            }
+        }
+
+        if (checkUpdateResult.Kind is CheckUpdateResultKind.NeedInstall)
+        {
+            ContentDialogResult installUpdateUserConsentResult = await contentDialogFactory
                 .CreateForConfirmCancelAsync(
                     SH.FormatViewTitileUpdatePackageReadyTitle(UpdateStatus?.Version),
                     SH.ViewTitileUpdatePackageReadyContent,
                     ContentDialogButton.Primary)
                 .ConfigureAwait(false);
-            if (result == ContentDialogResult.Primary)
+
+            if (installUpdateUserConsentResult is ContentDialogResult.Primary)
             {
-                await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
+                LaunchUpdaterResult launchUpdaterResult = await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
+                if (launchUpdaterResult.IsSuccess)
+                {
+                    ContentDialog contentDialog = await contentDialogFactory
+                        .CreateForIndeterminateProgressAsync(SH.ViewTitleUpdatePackageInstallingContent)
+                        .ConfigureAwait(false);
+                    using (await contentDialog.BlockAsync(taskContext).ConfigureAwait(false))
+                    {
+                        if (launchUpdaterResult.Process is { } updater)
+                        {
+                            await updater.WaitForExitAsync().ConfigureAwait(false);
+                        }
+                    }
+                }
             }
         }
 
         await taskContext.SwitchToMainThreadAsync();
         UpdateStatus = null;
+    }
+
+    private async ValueTask<bool> DownloadPackageAsync(IProgress<UpdateStatus> progress, CheckUpdateResult checkUpdateResult)
+    {
+        bool downloadSuccess = true;
+        try
+        {
+            if (await updateService.DownloadUpdateAsync(checkUpdateResult, progress).ConfigureAwait(false))
+            {
+                checkUpdateResult.Kind = CheckUpdateResultKind.NeedInstall;
+            }
+            else
+            {
+                downloadSuccess = false;
+            }
+        }
+        catch
+        {
+            downloadSuccess = false;
+        }
+
+        return downloadSuccess;
     }
 }

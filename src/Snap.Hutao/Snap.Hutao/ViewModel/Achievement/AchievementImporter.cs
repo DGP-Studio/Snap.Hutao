@@ -15,123 +15,99 @@ using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-/// <summary>
-/// 成就导入器
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AchievementImporter
 {
-    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
-    private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IAchievementService achievementService;
-    private readonly IClipboardProvider clipboardInterop;
-    private readonly IInfoBarService infoBarService;
-    private readonly JsonSerializerOptions options;
-    private readonly ITaskContext taskContext;
+    private readonly AchievementImporterDependencies dependencies;
 
-    /// <summary>
-    /// 从剪贴板导入
-    /// </summary>
-    /// <returns>是否导入成功</returns>
     public async ValueTask<bool> FromClipboardAsync()
     {
-        if (achievementService.CurrentArchive is { } archive)
+        if (dependencies.AchievementService.CurrentArchive is not { } archive)
         {
-            if (await TryCatchGetUIAFFromClipboardAsync().ConfigureAwait(false) is { } uiaf)
-            {
-                return await TryImportAsync(archive, uiaf).ConfigureAwait(false);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
-            }
-        }
-        else
-        {
-            infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
+            dependencies.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
+            return false;
         }
 
-        return false;
+        if (await TryCatchGetUIAFFromClipboardAsync().ConfigureAwait(false) is not { } uiaf)
+        {
+            dependencies.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
+            return false;
+        }
+
+        return await TryImportAsync(archive, uiaf).ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// 从文件导入
-    /// </summary>
-    /// <returns>是否导入成功</returns>
     public async ValueTask<bool> FromFileAsync()
     {
-        if (achievementService.CurrentArchive is { } archive)
+        if (dependencies.AchievementService.CurrentArchive is not { } archive)
         {
-            ValueResult<bool, ValueFile> pickerResult = fileSystemPickerInteraction.PickFile(
-                SH.ServiceAchievementUIAFImportPickerTitile,
-                [(SH.ServiceAchievementUIAFImportPickerFilterText, "*.json")]);
-
-            if (pickerResult.TryGetValue(out ValueFile file))
-            {
-                ValueResult<bool, UIAF?> uiafResult = await file.DeserializeFromJsonAsync<UIAF>(options).ConfigureAwait(false);
-
-                if (uiafResult.TryGetValue(out UIAF? uiaf))
-                {
-                    return await TryImportAsync(archive, uiaf).ConfigureAwait(false);
-                }
-                else
-                {
-                    infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
-                }
-            }
-        }
-        else
-        {
-            infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
+            dependencies.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
+            return false;
         }
 
-        return false;
+        ValueResult<bool, ValueFile> pickerResult = dependencies.FileSystemPickerInteraction.PickFile(
+            SH.ServiceAchievementUIAFImportPickerTitile,
+            [(SH.ServiceAchievementUIAFImportPickerFilterText, "*.json")]);
+
+        if (!pickerResult.TryGetValue(out ValueFile file))
+        {
+            return false;
+        }
+
+        ValueResult<bool, UIAF?> uiafResult = await file.DeserializeFromJsonAsync<UIAF>(dependencies.JsonSerializerOptions).ConfigureAwait(false);
+
+        if (!uiafResult.TryGetValue(out UIAF? uiaf))
+        {
+            dependencies.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
+            return false;
+        }
+
+        return await TryImportAsync(archive, uiaf).ConfigureAwait(false);
     }
 
     private async ValueTask<UIAF?> TryCatchGetUIAFFromClipboardAsync()
     {
         try
         {
-            return await clipboardInterop.DeserializeFromJsonAsync<UIAF>().ConfigureAwait(false);
+            return await dependencies.ClipboardProvider.DeserializeFromJsonAsync<UIAF>().ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            infoBarService?.Error(ex, SH.ViewModelImportFromClipboardErrorTitle);
+            dependencies.InfoBarService.Error(ex, SH.ViewModelImportFromClipboardErrorTitle);
             return null;
         }
     }
 
     private async ValueTask<bool> TryImportAsync(EntityAchievementArchive archive, UIAF uiaf)
     {
-        if (uiaf.IsCurrentVersionSupported())
+        if (!uiaf.IsCurrentVersionSupported())
         {
-            AchievementImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<AchievementImportDialog>(uiaf).ConfigureAwait(false);
-            (bool isOk, ImportStrategy strategy) = await importDialog.GetImportStrategyAsync().ConfigureAwait(false);
-
-            if (isOk)
-            {
-                await taskContext.SwitchToMainThreadAsync();
-                ContentDialog dialog = await contentDialogFactory
-                    .CreateForIndeterminateProgressAsync(SH.ViewModelAchievementImportProgress)
-                    .ConfigureAwait(false);
-
-                ImportResult result;
-                using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
-                {
-                    result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
-                }
-
-                infoBarService.Success($"{result}");
-                return true;
-            }
-        }
-        else
-        {
-            infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelAchievementImportWarningMessage);
+            dependencies.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelAchievementImportWarningMessage);
+            return false;
         }
 
-        return false;
+        AchievementImportDialog importDialog = await dependencies.ContentDialogFactory
+            .CreateInstanceAsync<AchievementImportDialog>(uiaf).ConfigureAwait(false);
+        (bool isOk, ImportStrategyKind strategy) = await importDialog.GetImportStrategyAsync().ConfigureAwait(false);
+
+        if (!isOk)
+        {
+            return false;
+        }
+
+        await dependencies.TaskContext.SwitchToMainThreadAsync();
+        ContentDialog dialog = await dependencies.ContentDialogFactory
+            .CreateForIndeterminateProgressAsync(SH.ViewModelAchievementImportProgress)
+            .ConfigureAwait(false);
+
+        ImportResult result;
+        using (await dialog.BlockAsync(dependencies.TaskContext).ConfigureAwait(false))
+        {
+            result = await dependencies.AchievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
+        }
+
+        dependencies.InfoBarService.Success($"{result}");
+        return true;
     }
 }

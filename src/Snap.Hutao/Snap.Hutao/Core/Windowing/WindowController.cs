@@ -29,6 +29,7 @@ internal sealed class WindowController
     private readonly WindowOptions options;
     private readonly IServiceProvider serviceProvider;
     private readonly WindowSubclass subclass;
+    private readonly WindowNonRudeHWND windowNonRudeHWND;
 
     public WindowController(Window window, in WindowOptions options, IServiceProvider serviceProvider)
     {
@@ -39,6 +40,8 @@ internal sealed class WindowController
         // Window reference must be set before Window Subclass created
         serviceProvider.GetRequiredService<ICurrentWindowReference>().Window = window;
         subclass = new(window, options, serviceProvider);
+        windowNonRudeHWND = new(options.Hwnd);
+
         InitializeCore();
     }
 
@@ -137,27 +140,19 @@ internal sealed class WindowController
     {
         SaveOrSkipWindowSize();
         subclass?.Dispose();
+        windowNonRudeHWND?.Dispose();
     }
 
     private void ExtendsContentIntoTitleBar()
     {
-        if (options.UseLegacyDragBarImplementation)
-        {
-            // use normal Window method to extend.
-            window.ExtendsContentIntoTitleBar = true;
-            window.SetTitleBar(options.TitleBar);
-        }
-        else
-        {
-            AppWindowTitleBar appTitleBar = window.AppWindow.TitleBar;
-            appTitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-            appTitleBar.ExtendsContentIntoTitleBar = true;
+        AppWindowTitleBar appTitleBar = window.AppWindow.TitleBar;
+        appTitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
+        appTitleBar.ExtendsContentIntoTitleBar = true;
 
-            UpdateTitleButtonColor();
-            UpdateDragRectangles();
-            options.TitleBar.ActualThemeChanged += (_, _) => UpdateTitleButtonColor();
-            options.TitleBar.SizeChanged += (_, _) => UpdateDragRectangles();
-        }
+        UpdateTitleButtonColor();
+        UpdateDragRectangles();
+        options.TitleBar.ActualThemeChanged += (_, _) => UpdateTitleButtonColor();
+        options.TitleBar.SizeChanged += (_, _) => UpdateDragRectangles();
     }
 
     private bool UpdateSystemBackdrop(BackdropType backdropType)

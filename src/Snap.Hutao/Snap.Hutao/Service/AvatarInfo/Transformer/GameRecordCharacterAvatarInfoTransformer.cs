@@ -15,7 +15,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Transformer;
 internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTransformer<Character>
 {
     /// <inheritdoc/>
-    public void Transform(ref Web.Enka.Model.AvatarInfo avatarInfo, Character source)
+    public void Transform(ref readonly Web.Enka.Model.AvatarInfo avatarInfo, Character source)
     {
         // update fetter
         avatarInfo.FetterInfo ??= new();

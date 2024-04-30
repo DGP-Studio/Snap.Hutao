@@ -1,7 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.System.Com;
+using Snap.Hutao.Win32.UI.Shell;
 using System.IO;
+using static Snap.Hutao.Win32.Macros;
+using static Snap.Hutao.Win32.Ole32;
+using static Snap.Hutao.Win32.Shell32;
 
 namespace Snap.Hutao.Core.IO;
 
@@ -38,5 +44,58 @@ internal static class FileOperation
 
         File.Move(sourceFileName, destFileName, false);
         return true;
+    }
+
+    public static unsafe bool UnsafeMove(string sourceFileName, string destFileName)
+    {
+        bool result = false;
+
+        if (SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation)))
+        {
+            if (SUCCEEDED(SHCreateItemFromParsingName(sourceFileName, default, in IShellItem.IID, out IShellItem* pSourceShellItem)))
+            {
+                if (SUCCEEDED(SHCreateItemFromParsingName(destFileName, default, in IShellItem.IID, out IShellItem* pDestShellItem)))
+                {
+                    pFileOperation->MoveItem(pSourceShellItem, pDestShellItem, default, default);
+
+                    if (SUCCEEDED(pFileOperation->PerformOperations()))
+                    {
+                        result = true;
+                    }
+
+                    pDestShellItem->Release();
+                }
+
+                pSourceShellItem->Release();
+            }
+
+            pFileOperation->Release();
+        }
+
+        return result;
+    }
+
+    public static unsafe bool UnsafeDelete(string path)
+    {
+        bool result = false;
+
+        if (SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation)))
+        {
+            if (SUCCEEDED(SHCreateItemFromParsingName(path, default, in IShellItem.IID, out IShellItem* pShellItem)))
+            {
+                pFileOperation->DeleteItem(pShellItem, default);
+
+                if (SUCCEEDED(pFileOperation->PerformOperations()))
+                {
+                    result = true;
+                }
+
+                pShellItem->Release();
+            }
+
+            pFileOperation->Release();
+        }
+
+        return result;
     }
 }

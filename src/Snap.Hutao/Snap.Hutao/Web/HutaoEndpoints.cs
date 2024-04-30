@@ -270,6 +270,8 @@ internal static class HutaoEndpoints
     {
         return $"{ApiSnapGenshinStaticZip}/{fileName}.zip";
     }
+
+    public const string StaticSize = $"{ApiSnapGenshin}/static/size";
     #endregion
 
     #region Wallpaper

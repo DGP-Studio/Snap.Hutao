@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.Entity.Configuration;
 using System.Diagnostics;
@@ -24,18 +25,8 @@ internal sealed class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
-    }
-
-    /// <summary>
-    /// 构造一个新的应用程序数据库上下文
-    /// </summary>
-    /// <param name="options">选项</param>
-    /// <param name="logger">日志器</param>
-    public AppDbContext(DbContextOptions<AppDbContext> options, ILogger<AppDbContext> logger)
-        : this(options)
-    {
-        this.logger = logger;
-        logger.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("created", ConsoleColor.Green));
+        logger = this.GetService<ILogger<AppDbContext>>();
+        logger?.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("created", ConsoleColor.Green));
     }
 
     public DbSet<SettingEntry> Settings { get; set; } = default!;
@@ -74,14 +65,14 @@ internal sealed class AppDbContext : DbContext
 
     public DbSet<SpiralAbyssEntry> SpiralAbysses { get; set; } = default!;
 
-    /// <summary>
-    /// 构造一个临时的应用程序数据库上下文
-    /// </summary>
-    /// <param name="sqlConnectionString">连接字符串</param>
-    /// <returns>应用程序数据库上下文</returns>
-    public static AppDbContext Create(string sqlConnectionString)
+    public static AppDbContext Create(IServiceProvider serviceProvider, string sqlConnectionString)
     {
-        return new(new DbContextOptionsBuilder<AppDbContext>().UseSqlite(sqlConnectionString).Options);
+        DbContextOptions<AppDbContext> options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseApplicationServiceProvider(serviceProvider)
+            .UseSqlite(sqlConnectionString)
+            .Options;
+
+        return new(options);
     }
 
     /// <inheritdoc/>

@@ -19,5 +19,5 @@ internal interface IAvatarInfoService
     /// <param name="refreshOption">刷新选项</param>
     /// <param name="token">取消令牌</param>
     /// <returns>总览数据</returns>
-    ValueTask<ValueResult<RefreshResult, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOption refreshOption, CancellationToken token = default);
+    ValueTask<ValueResult<RefreshResultKind, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOption refreshOption, CancellationToken token = default);
 }

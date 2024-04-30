@@ -93,11 +93,17 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     public async ValueTask<bool> RefreshCookieTokenAsync(Model.Entity.User user)
     {
         // TODO: 提醒其他组件此用户的Cookie已更改
-        Response<UidCookieToken> cookieTokenResponse = await serviceProvider
-            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
-            .Create(user.IsOversea)
-            .GetCookieAccountInfoBySTokenAsync(user)
-            .ConfigureAwait(false);
+        Response<UidCookieToken> cookieTokenResponse;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            IPassportClient passportClient = serviceProvider
+                .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+                .Create(user.IsOversea);
+
+            cookieTokenResponse = await passportClient
+                .GetCookieAccountInfoBySTokenAsync(user)
+                .ConfigureAwait(false);
+        }
 
         if (!cookieTokenResponse.IsOk())
         {

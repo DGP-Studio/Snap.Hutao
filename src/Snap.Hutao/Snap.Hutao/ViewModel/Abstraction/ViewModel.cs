@@ -11,6 +11,7 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 /// 视图模型抽象类
 /// </summary>
 [HighQuality]
+[SuppressMessage("", "SA1124")]
 internal abstract partial class ViewModel : ObservableObject, IViewModel
 {
     private bool isInitialized;
@@ -28,9 +29,15 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
     [Command("OpenUICommand")]
     protected virtual async Task OpenUIAsync()
     {
-        // Set value on UI thread
-        IsInitialized = await InitializeUIAsync().ConfigureAwait(true);
-        Initialization.TrySetResult(IsInitialized);
+        try
+        {
+            // ConfigureAwait(true) sets value on UI thread
+            IsInitialized = await InitializeUIAsync().ConfigureAwait(true);
+            Initialization.TrySetResult(IsInitialized);
+        }
+        catch (OperationCanceledException)
+        {
+        }
     }
 
     protected virtual ValueTask<bool> InitializeUIAsync()
@@ -45,6 +52,8 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
         ThrowIfViewDisposed();
         return disposable;
     }
+
+    #region SetProperty
 
     protected new bool SetProperty<T>([NotNullIfNotNull(nameof(newValue))] ref T field, T newValue, [CallerMemberName] string? propertyName = null)
     {
@@ -99,12 +108,13 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
 
         return false;
     }
+    #endregion
 
     private void ThrowIfViewDisposed()
     {
         if (IsViewDisposed)
         {
-            ThrowHelper.OperationCanceled(SH.ViewModelViewDisposedOperationCancel);
+            HutaoException.OperationCanceled(SH.ViewModelViewDisposedOperationCancel);
         }
     }
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Extension;
 
 namespace Snap.Hutao.View.Card;
 
@@ -15,7 +16,7 @@ internal sealed partial class LaunchGameCard : Button
     /// </summary>
     public LaunchGameCard()
     {
-        DataContext = Ioc.Default.GetRequiredService<ViewModel.Game.LaunchGameViewModelSlim>();
+        this.InitializeDataContext<ViewModel.Game.LaunchGameViewModelSlim>();
         InitializeComponent();
     }
 }

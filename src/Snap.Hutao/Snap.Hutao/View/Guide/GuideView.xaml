@@ -49,7 +49,7 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <cwc:SwitchPresenter Value="{Binding State, Mode=OneWay}">
+        <cwc:SwitchPresenter ContentTransitions="{ThemeResource EntranceThemeTransitions}" Value="{Binding State, Mode=OneWay}">
             <cwc:Case Value="{shcm:UInt32 Value=0}">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <GridView
@@ -125,10 +125,11 @@
                     <StackPanel
                         Margin="16"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Center"
+                        Spacing="{ThemeResource SettingsCardSpacing}">
                         <TextBlock
                             Margin="1,0,0,5"
-                            Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                            Style="{StaticResource TitleTextBlockStyle}"
                             Text="Segoe Fluent Icons"/>
                         <StackPanel
                             Margin="0,8"
@@ -155,7 +156,10 @@
                             <Run Text="{shcm:ResourceString Name=ViewGuideStepEnvironmentFontDescription2}"/>
                         </TextBlock>
                         <TextBlock Text="{shcm:ResourceString Name=ViewGuideStepEnvironmentAfterInstallDescription}"/>
-                        <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
+                        <TextBlock
+                            Margin="1,32,0,5"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
                         <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding RuntimeOptions.WebView2Version}"/>
                         <TextBlock>
                             <Run Text="{shcm:ResourceString Name=ViewGuideStepEnvironmentWebView2Description1}"/>
@@ -169,6 +173,78 @@
                 </Grid>
             </cwc:Case>
             <cwc:Case Value="{shcm:UInt32 Value=3}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        Grid.Row="0"
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingHomeAnnouncementRegionHeader}"/>
+                        <ListView
+                            MinWidth="320"
+                            Margin="0,8,0,0"
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding AppOptions.LazyRegions.Value}"
+                            SelectedItem="{Binding SelectedRegion, Mode=TwoWay}"/>
+                    </StackPanel>
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        Opacity="0.7"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{shcm:ResourceString Name=ViewGuideStepCommonSettingHint}"/>
+                </Grid>
+            </cwc:Case>
+            <cwc:Case Value="{shcm:UInt32 Value=4}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel
+                        Grid.Row="0"
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingQualityHeader}"/>
+                        <ListView
+                            MinWidth="320"
+                            Margin="0,8,0,32"
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding StaticResourceOptions.ImageQualities}"
+                            SelectedItem="{Binding StaticResourceOptions.ImageQuality, Mode=TwoWay}"/>
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingMinimumHeader}"/>
+                        <ListView
+                            MinWidth="320"
+                            Margin="0,8,0,32"
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding StaticResourceOptions.ImageArchives}"
+                            SelectedItem="{Binding StaticResourceOptions.ImageArchive, Mode=TwoWay}"/>
+
+                        <TextBlock Margin="0,16,0,0" Text="{Binding StaticResourceOptions.SizeInformationText, Mode=OneWay}"/>
+                    </StackPanel>
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingHint}"/>
+                </Grid>
+            </cwc:Case>
+            <cwc:Case Value="{shcm:UInt32 Value=5}">
                 <StackPanel Margin="32,0" HorizontalAlignment="Left">
                     <TextBlock
                         Margin="1,16,0,5"
@@ -190,12 +266,23 @@
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <cwc:Segmented
                     Margin="16"
+                    HorizontalAlignment="Center"
                     IsHitTestVisible="False"
                     SelectedIndex="{Binding State, Mode=TwoWay}">
+                    <!--
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepLanguage}" Icon="{shcm:FontIcon Glyph=&#xF2B7;}"/>
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepDocument}" Icon="{shcm:FontIcon Glyph=&#xF28B;}"/>
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepEnvironment}" Icon="{shcm:FontIcon Glyph=&#xE81E;}"/>
+                    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepCommonSetting}" Icon="{shcm:FontIcon Glyph=&#xE713;}"/>
+                    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepStaticResourceSetting}" Icon="{shcm:FontIcon Glyph=&#xE8BA;}"/>
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepStaticResource}" Icon="{shcm:FontIcon Glyph=&#xE8B9;}"/>
+                    -->
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xF2B7;}"/>
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xF28B;}"/>
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE81E;}"/>
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE713;}"/>
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE8BA;}"/>
+                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE8B9;}"/>
                 </cwc:Segmented>
                 <Button
                     Command="{Binding NextOrCompleteCommand}"

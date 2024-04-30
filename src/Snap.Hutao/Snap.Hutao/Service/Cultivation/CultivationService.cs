@@ -4,13 +4,13 @@
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.ObjectModel;
+using CalculateItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
 
 namespace Snap.Hutao.Service.Cultivation;
 
@@ -25,28 +25,46 @@ internal sealed partial class CultivationService : ICultivationService
     private readonly ScopedDbCurrent<CultivateProject, Message.CultivateProjectChangedMessage> dbCurrent;
     private readonly ICultivationDbService cultivationDbService;
     private readonly IInventoryDbService inventoryDbService;
-    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+
+    private ObservableCollection<CultivateProject>? projects;
+
+    /// <inheritdoc/>
+    public CultivateProject? Current
+    {
+        get => dbCurrent.Current;
+        set => dbCurrent.Current = value;
+    }
+
+    /// <inheritdoc/>
+    public ObservableCollection<CultivateProject> ProjectCollection
+    {
+        get
+        {
+            if (projects is null)
+            {
+                projects = cultivationDbService.GetCultivateProjectCollection();
+                Current ??= projects.SelectedOrDefault();
+            }
+
+            return projects;
+        }
+    }
 
     /// <inheritdoc/>
     public List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        Guid projectId = cultivateProject.InnerId;
+        List<InventoryItem> entities = cultivationDbService.GetInventoryItemListByProjectId(projectId);
+
+        List<InventoryItemView> results = [];
+        foreach (Material meta in context.EnumerateInventoryMaterial())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            Guid projectId = cultivateProject.InnerId;
-            List<InventoryItem> entities = cultivationDbService.GetInventoryItemListByProjectId(projectId);
-
-            List<InventoryItemView> results = [];
-            foreach (Material meta in context.EnumerateInventoryMaterial())
-            {
-                InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.From(projectId, meta.Id);
-                results.Add(new(entity, meta, saveCommand));
-            }
-
-            return results;
+            InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.From(projectId, meta.Id);
+            results.Add(new(entity, meta, saveCommand));
         }
+
+        return results;
     }
 
     /// <inheritdoc/>
@@ -54,13 +72,15 @@ internal sealed partial class CultivationService : ICultivationService
     {
         await taskContext.SwitchToBackgroundAsync();
         List<CultivateEntry> entries = await cultivationDbService
-            .GetCultivateEntryIncludeLevelInformationListByProjectIdAsync(cultivateProject.InnerId)
+            .GetCultivateEntryListIncludingLevelInformationByProjectIdAsync(cultivateProject.InnerId)
             .ConfigureAwait(false);
 
         List<CultivateEntryView> resultEntries = new(entries.Count);
         foreach (CultivateEntry entry in entries)
         {
             List<CultivateItemView> entryItems = [];
+
+            // Async operation here, thus we can't use the Span trick.
             foreach (CultivateItem cultivateItem in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId).ConfigureAwait(false))
             {
                 entryItems.Add(new(cultivateItem, context.GetMaterial(cultivateItem.ItemId)));
@@ -78,9 +98,7 @@ internal sealed partial class CultivationService : ICultivationService
             resultEntries.Add(new(entry, item, entryItems));
         }
 
-        return resultEntries
-            .OrderByDescending(e => e.IsToday)
-            .ToObservableCollection();
+        return resultEntries.SortByDescending(e => e.IsToday).ToObservableCollection();
     }
 
     /// <inheritdoc/>
@@ -92,11 +110,9 @@ internal sealed partial class CultivationService : ICultivationService
 
         Guid projectId = cultivateProject.InnerId;
 
-        token.ThrowIfCancellationRequested();
-
-        foreach (CultivateEntry entry in await cultivationDbService.GetCultivateEntryListByProjectIdAsync(projectId).ConfigureAwait(false))
+        foreach (CultivateEntry entry in await cultivationDbService.GetCultivateEntryListByProjectIdAsync(projectId, token).ConfigureAwait(false))
         {
-            foreach (CultivateItem item in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId).ConfigureAwait(false))
+            foreach (CultivateItem item in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId, token).ConfigureAwait(false))
             {
                 if (item.IsFinished)
                 {
@@ -114,9 +130,7 @@ internal sealed partial class CultivationService : ICultivationService
             }
         }
 
-        token.ThrowIfCancellationRequested();
-
-        foreach (InventoryItem inventoryItem in await cultivationDbService.GetInventoryItemListByProjectIdAsync(projectId).ConfigureAwait(false))
+        foreach (InventoryItem inventoryItem in await cultivationDbService.GetInventoryItemListByProjectIdAsync(projectId, token).ConfigureAwait(false))
         {
             if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is { } existedItem)
             {
@@ -124,15 +138,12 @@ internal sealed partial class CultivationService : ICultivationService
             }
         }
 
-        token.ThrowIfCancellationRequested();
-
         return resultItems.SortBy(item => item.Inner.Id, MaterialIdComparer.Shared).ToObservableCollection();
     }
 
     /// <inheritdoc/>
     public async ValueTask RemoveCultivateEntryAsync(Guid entryId)
     {
-        await taskContext.SwitchToBackgroundAsync();
         await cultivationDbService.RemoveCultivateEntryByIdAsync(entryId).ConfigureAwait(false);
     }
 
@@ -149,7 +160,7 @@ internal sealed partial class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> SaveConsumptionAsync(CultivateType type, uint itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items, LevelInformation levelInformation)
+    public async ValueTask<bool> SaveConsumptionAsync(CultivateType type, uint itemId, List<CalculateItem> items, LevelInformation levelInformation)
     {
         if (items.Count == 0)
         {
@@ -189,5 +200,46 @@ internal sealed partial class CultivationService : ICultivationService
         await cultivationDbService.AddCultivateItemRangeAsync(toAdd).ConfigureAwait(false);
 
         return true;
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask<ProjectAddResultKind> TryAddProjectAsync(CultivateProject project)
+    {
+        if (string.IsNullOrWhiteSpace(project.Name))
+        {
+            return ProjectAddResultKind.InvalidName;
+        }
+
+        ArgumentNullException.ThrowIfNull(projects);
+
+        if (projects.Any(a => a.Name == project.Name))
+        {
+            return ProjectAddResultKind.AlreadyExists;
+        }
+
+        // Sync cache
+        await taskContext.SwitchToMainThreadAsync();
+        projects.Add(project);
+
+        // Sync database
+        await taskContext.SwitchToBackgroundAsync();
+        await cultivationDbService.AddCultivateProjectAsync(project).ConfigureAwait(false);
+
+        return ProjectAddResultKind.Added;
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask RemoveProjectAsync(CultivateProject project)
+    {
+        ArgumentNullException.ThrowIfNull(projects);
+
+        // Sync cache
+        // Keep this on main thread.
+        await taskContext.SwitchToMainThreadAsync();
+        projects.Remove(project);
+
+        // Sync database
+        await taskContext.SwitchToBackgroundAsync();
+        await cultivationDbService.RemoveCultivateProjectByIdAsync(project.InnerId).ConfigureAwait(false);
     }
 }

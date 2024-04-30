@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction.Extension;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Diagnostics;
 using System.Net.Http;
@@ -34,8 +35,7 @@ internal static class HttpContentBuilderExtension
     }
 
     [DebuggerStepThrough]
-    public static T SetFormUrlEncodedContent<T>(
-        this T builder, IEnumerable<KeyValuePair<string, string>> content)
+    public static T SetFormUrlEncodedContent<T>(this T builder, IEnumerable<KeyValuePair<string, string>> content)
         where T : IHttpContentBuilder
     {
         ArgumentNullException.ThrowIfNull(builder);

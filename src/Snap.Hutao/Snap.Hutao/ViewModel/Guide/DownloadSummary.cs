@@ -7,105 +7,107 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Web.Request.Builder;
+using Snap.Hutao.Web.Request.Builder.Abstraction;
+using System.Collections.Frozen;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
-/// <summary>
-/// 下载信息
-/// </summary>
 internal sealed class DownloadSummary : ObservableObject
 {
+    private static readonly FrozenSet<string?> AllowedMediaTypes = FrozenSet.ToFrozenSet(
+    [
+        "application/octet-stream",
+        "application/zip",
+    ]);
+
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly IImageCache imageCache;
+    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly HttpClient httpClient;
+
     private readonly string fileName;
     private readonly string fileUrl;
-    private readonly Progress<StreamCopyStatus> progress;
+    private readonly IProgress<StreamCopyStatus> progress;
+
     private string description = SH.ViewModelWelcomeDownloadSummaryDefault;
     private double progressValue;
 
-    /// <summary>
-    /// 构造一个新的下载信息
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="fileName">压缩文件名称</param>
     public DownloadSummary(IServiceProvider serviceProvider, string fileName)
     {
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        httpRequestMessageBuilderFactory = serviceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
         httpClient = serviceProvider.GetRequiredService<HttpClient>();
+        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(serviceProvider.GetRequiredService<RuntimeOptions>().UserAgent);
         imageCache = serviceProvider.GetRequiredService<IImageCache>();
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(runtimeOptions.UserAgent);
 
         this.serviceProvider = serviceProvider;
 
-        DisplayName = fileName;
         this.fileName = fileName;
         fileUrl = Web.HutaoEndpoints.StaticZip(fileName);
 
-        progress = new(UpdateProgressStatus);
+        progress = serviceProvider.GetRequiredService<IProgressFactory>().CreateForMainThread<StreamCopyStatus>(UpdateProgressStatus);
     }
 
-    /// <summary>
-    /// 显示名称
-    /// </summary>
-    public string DisplayName { get; init; }
+    public string DisplayName { get => fileName; }
 
-    /// <summary>
-    /// 描述
-    /// </summary>
     public string Description { get => description; private set => SetProperty(ref description, value); }
 
-    /// <summary>
-    /// 进度值，最大1
-    /// </summary>
     public double ProgressValue { get => progressValue; set => SetProperty(ref progressValue, value); }
 
-    /// <summary>
-    /// 异步下载并解压
-    /// </summary>
-    /// <returns>任务</returns>
     public async ValueTask<bool> DownloadAndExtractAsync()
     {
         ILogger<DownloadSummary> logger = serviceProvider.GetRequiredService<ILogger<DownloadSummary>>();
         try
         {
-            HttpResponseMessage response = await httpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            HttpRequestMessage message = httpRequestMessageBuilderFactory
+                .Create()
+                .SetRequestUri(fileUrl)
+                .SetStaticResourceControlHeaders()
+                .Get()
+                .HttpRequestMessage;
 
-            if (response.Content.Headers.ContentType?.MediaType is not ("application/octet-stream" or "application/zip"))
+            using (message)
             {
-                logger.LogWarning("Download Static Zip failed, Content-Type is {Type}", response.Content.Headers.ContentType);
-                await taskContext.SwitchToMainThreadAsync();
-                Description = SH.ViewModelWelcomeDownloadSummaryContentTypeNotMatch;
-                return false;
-            }
-
-            long contentLength = response.Content.Headers.ContentLength ?? 0;
-            logger.LogInformation("Begin download, length: {length}", contentLength);
-            using (Stream content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-            {
-                using (TempFileStream temp = new(FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                using (HttpResponseMessage response = await httpClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
-                    await new StreamCopyWorker(content, temp, contentLength).CopyAsync(progress).ConfigureAwait(false);
-                    ExtractFiles(temp);
+                    if (!AllowedMediaTypes.Contains(response.Content.Headers.ContentType?.MediaType))
+                    {
+                        logger.LogWarning("Download Static Zip failed, Content-Type is {Type}", response.Content.Headers.ContentType);
+                        await taskContext.SwitchToMainThreadAsync();
+                        Description = SH.ViewModelWelcomeDownloadSummaryContentTypeNotMatch;
+                        return false;
+                    }
 
-                    await taskContext.SwitchToMainThreadAsync();
-                    ProgressValue = 1;
-                    Description = SH.ViewModelWelcomeDownloadSummaryComplete;
-                    return true;
+                    long contentLength = response.Content.Headers.ContentLength ?? 0;
+                    logger.LogInformation("Begin download, size: {length}", Converters.ToFileSizeString(contentLength));
+                    using (Stream content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    {
+                        using (TempFileStream temp = new(FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                        {
+                            await new StreamCopyWorker(content, temp, contentLength).CopyAsync(progress).ConfigureAwait(false);
+                            ExtractFiles(temp);
+                            await taskContext.SwitchToMainThreadAsync();
+                            ProgressValue = 1;
+                            Description = SH.ViewModelWelcomeDownloadSummaryComplete;
+                            return true;
+                        }
+                    }
                 }
             }
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Download Static Zip failed");
+            logger.LogError(ex, "Download static zip failed");
+
             await taskContext.SwitchToMainThreadAsync();
-            Description = ex is HttpRequestException httpRequestException
-                ? $"{SH.ViewModelWelcomeDownloadSummaryException} - [HTTP '{httpRequestException.StatusCode:D}'] [Error '{httpRequestException.HttpRequestError}']"
+            Description = ex is HttpRequestException httpRequestEx
+                ? $"{SH.ViewModelWelcomeDownloadSummaryException} - [HTTP '{httpRequestEx.StatusCode:D}'] [Error '{httpRequestEx.HttpRequestError}']"
                 : ex.Message;
             return false;
         }
@@ -114,14 +116,14 @@ internal sealed class DownloadSummary : ObservableObject
     private void UpdateProgressStatus(StreamCopyStatus status)
     {
         Description = $"{Converters.ToFileSizeString(status.BytesCopied)}/{Converters.ToFileSizeString(status.TotalBytes)}";
-        ProgressValue = status.TotalBytes == 0 ? 0 : (double)status.BytesCopied / status.TotalBytes;
+        ProgressValue = status.TotalBytes is 0 ? 0 : (double)status.BytesCopied / status.TotalBytes;
     }
 
     private void ExtractFiles(Stream stream)
     {
         if (imageCache is not IImageCacheFilePathOperation imageCacheFilePathOperation)
         {
-            throw HutaoException.ServiceTypeCastFailed<IImageCache, IImageCacheFilePathOperation>(nameof(imageCache));
+            throw HutaoException.InvalidCast<IImageCache, IImageCacheFilePathOperation>(nameof(imageCache));
         }
 
         using (ZipArchive archive = new(stream))

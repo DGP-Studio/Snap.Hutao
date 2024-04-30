@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request.Builder;
@@ -13,9 +12,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 
-/// <summary>
-/// 授权客户端
-/// </summary>
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
@@ -25,7 +21,6 @@ internal sealed partial class AuthClient
     private readonly ILogger<BindingClient> logger;
     private readonly HttpClient httpClient;
 
-    [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.K2)]
     public async ValueTask<Response<ActionTicketWrapper>> GetActionTicketBySTokenAsync(string action, User user, CancellationToken token = default)
     {
         ArgumentException.ThrowIfNullOrEmpty(user.Aid);
@@ -45,13 +40,6 @@ internal sealed partial class AuthClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 获取 MultiToken
-    /// </summary>
-    /// <param name="cookie">login cookie</param>
-    /// <param name="isOversea">是否为国际服</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>包含token的字典</returns>
     public async ValueTask<Response<ListWrapper<NameToken>>> GetMultiTokenByLoginTicketAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
     {
         Response<ListWrapper<NameToken>>? resp = null;

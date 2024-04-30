@@ -178,7 +178,16 @@ internal sealed class LaunchOptions : DbStoreOptions
     [AllowNull]
     public NameValue<int> Monitor
     {
-        get => GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[int.Parse(index, CultureInfo.InvariantCulture) - 1], Monitors[0]);
+        get
+        {
+            return GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[RestrictIndex(Monitors, index)], Monitors[0]);
+
+            static int RestrictIndex(List<NameValue<int>> monitors, string index)
+            {
+                return Math.Clamp(int.Parse(index, CultureInfo.InvariantCulture) - 1, 0, monitors.Count - 1);
+            }
+        }
+
         set
         {
             if (value is not null)

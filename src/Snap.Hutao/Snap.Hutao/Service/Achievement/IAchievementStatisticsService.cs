@@ -9,5 +9,5 @@ namespace Snap.Hutao.Service.Achievement;
 
 internal interface IAchievementStatisticsService
 {
-    ValueTask<List<AchievementStatistics>> GetAchievementStatisticsAsync(Dictionary<AchievementId, MetadataAchievement> achievementMap);
+    ValueTask<List<AchievementStatistics>> GetAchievementStatisticsAsync(AchievementServiceMetadataContext context, CancellationToken token = default);
 }

@@ -25,22 +25,12 @@ internal static class MetadataServiceDictionaryExtension
 
     public static ValueTask<Dictionary<ExtendedEquipAffixId, ReliquarySet>> GetExtendedEquipAffixIdToReliquarySetMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<ReliquarySet, (ExtendedEquipAffixId Id, ReliquarySet Set), ExtendedEquipAffixId, ReliquarySet>(
-            FileNameReliquarySet,
-            list => list.SelectMany(set => set.EquipAffixIds.Select(id => (Id: id, Set: set))),
-            tuple => tuple.Id,
-            tuple => tuple.Set,
-            token);
+        return metadataService.FromCacheAsDictionaryAsync(FileNameReliquarySet, (List<ReliquarySet> list) => list.SelectMany(set => set.EquipAffixIds, (set, id) => (Id: id, Set: set)), token);
     }
 
     public static ValueTask<Dictionary<TowerLevelGroupId, List<TowerLevel>>> GetGroupIdToTowerLevelGroupMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<TowerLevel, IGrouping<TowerLevelGroupId, TowerLevel>, TowerLevelGroupId, List<TowerLevel>>(
-            FileNameTowerLevel,
-            list => list.GroupBy(l => l.GroupId),
-            g => g.Key,
-            g => g.ToList(),
-            token);
+        return metadataService.FromCacheAsDictionaryAsync(FileNameTowerLevel, (List<TowerLevel> list) => list.GroupBy(l => l.GroupId), g => g.Key, g => g.ToList(), token);
     }
 
     public static ValueTask<Dictionary<AchievementId, Model.Metadata.Achievement.Achievement>> GetIdToAchievementMapAsync(this IMetadataService metadataService, CancellationToken token = default)
@@ -79,6 +69,11 @@ internal static class MetadataServiceDictionaryExtension
     public static ValueTask<Dictionary<MaterialId, Material>> GetIdToMaterialMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         return metadataService.FromCacheAsDictionaryAsync<MaterialId, Material>(FileNameMaterial, a => a.Id, token);
+    }
+
+    public static ValueTask<Dictionary<ReliquaryId, Reliquary>> GetIdToReliquaryMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync(FileNameReliquary, (List<Reliquary> list) => list.SelectMany(r => r.Ids, (r, i) => (Index: i, Reliquary: r)), token);
     }
 
     public static ValueTask<Dictionary<AvatarId, ReliquaryAffixWeight>> GetIdToReliquaryAffixWeightMapAsync(this IMetadataService metadataService, CancellationToken token = default)
@@ -175,6 +170,12 @@ internal static class MetadataServiceDictionaryExtension
         List<TData> list = await metadataService.FromCacheOrFileAsync<List<TData>>(fileName, token).ConfigureAwait(false);
         Dictionary<TKey, TValue> dict = list.ToDictionaryIgnoringDuplicateKeys(keySelector, valueSelector); // There are duplicate name items
         return metadataService.MemoryCache.Set(cacheKey, dict);
+    }
+
+    private static ValueTask<Dictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TData, TKey, TValue>(this IMetadataService metadataService, string fileName, Func<List<TData>, IEnumerable<(TKey Key, TValue Value)>> listSelector, CancellationToken token)
+        where TKey : notnull
+    {
+        return FromCacheAsDictionaryAsync(metadataService, fileName, listSelector, kvp => kvp.Key, kvp => kvp.Value, token);
     }
 
     private static async ValueTask<Dictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TData, TMiddle, TKey, TValue>(this IMetadataService metadataService, string fileName, Func<List<TData>, IEnumerable<TMiddle>> listSelector, Func<TMiddle, TKey> keySelector, Func<TMiddle, TValue> valueSelector, CancellationToken token)

@@ -13,6 +13,12 @@ internal static partial class AnnouncementRegex
     /// <inheritdoc cref="SH.WebAnnouncementMatchVersionUpdateTime"/>
     public static readonly Regex VersionUpdateTimeRegex = new(SH.WebAnnouncementMatchVersionUpdateTime, RegexOptions.Compiled);
 
+    /// <inheritdoc cref="SH.WebAnnouncementMatchVersionUpdatePreviewTitle"/>
+    public static readonly Regex VersionUpdatePreviewTitleRegex = new(SH.WebAnnouncementMatchVersionUpdatePreviewTitle, RegexOptions.Compiled);
+
+    /// <inheritdoc cref="SH.WebAnnouncementMatchVersionUpdatePreviewTime"/>
+    public static readonly Regex VersionUpdatePreviewTimeRegex = new(SH.WebAnnouncementMatchVersionUpdatePreviewTime, RegexOptions.Compiled);
+
     /// <inheritdoc cref="SH.WebAnnouncementMatchTransientActivityTime"/>
     public static readonly Regex TransientActivityAfterUpdateTimeRegex = new(SH.WebAnnouncementMatchTransientActivityTime, RegexOptions.Compiled);
 

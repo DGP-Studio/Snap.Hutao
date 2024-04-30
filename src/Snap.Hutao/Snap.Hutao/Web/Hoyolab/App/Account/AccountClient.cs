@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request.Builder;
@@ -13,9 +12,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.App.Account;
 
-/// <summary>
-/// 账户客户端
-/// </summary>
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
@@ -25,14 +21,6 @@ internal sealed partial class AccountClient
     private readonly ILogger<AccountClient> logger;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 异步生成米游社操作验证密钥
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="data">提交数据</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.K2)]
     public async ValueTask<Response<GameAuthKey>> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()

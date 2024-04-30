@@ -19,7 +19,7 @@ internal sealed class HutaoStatisticsFactory
     private readonly GachaEvent avatarEvent;
     private readonly GachaEvent avatarEvent2;
     private readonly GachaEvent weaponEvent;
-    private readonly GachaEvent chronicledEvent;
+    private readonly GachaEvent? chronicledEvent;
 
     public HutaoStatisticsFactory(in HutaoStatisticsFactoryMetadataContext context)
     {
@@ -32,7 +32,7 @@ internal sealed class HutaoStatisticsFactory
         avatarEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.ActivityAvatar);
         avatarEvent2 = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.SpecialActivityAvatar);
         weaponEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.ActivityWeapon);
-        chronicledEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaType.ActivityCity);
+        chronicledEvent = context.GachaEvents.SingleOrDefault(g => g.From < now && g.To > now && g.Type == GachaType.ActivityCity);
     }
 
     public HutaoStatistics Create(GachaEventStatistics raw)
@@ -42,7 +42,7 @@ internal sealed class HutaoStatisticsFactory
             AvatarEvent = CreateWishSummary(avatarEvent, raw.AvatarEvent),
             AvatarEvent2 = CreateWishSummary(avatarEvent2, raw.AvatarEvent2),
             WeaponEvent = CreateWishSummary(weaponEvent, raw.WeaponEvent),
-            Chronicled = CreateWishSummary(chronicledEvent, raw.Chronicled),
+            Chronicled = chronicledEvent is null ? null : CreateWishSummary(chronicledEvent, raw.Chronicled),
         };
     }
 

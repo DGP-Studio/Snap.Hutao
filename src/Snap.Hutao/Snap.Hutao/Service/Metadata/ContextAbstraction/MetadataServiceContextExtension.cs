@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -18,19 +19,39 @@ internal static class MetadataServiceContextExtension
 
         // List
         {
-            if (context is IMetadataListMaterialSource listMaterialSource)
+            if (context is IMetadataListAchievementSource listAchievementSource)
             {
-                listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
+                listAchievementSource.Achievements = await metadataService.GetAchievementListAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataListGachaEventSource listGachaEventSource)
             {
                 listGachaEventSource.GachaEvents = await metadataService.GetGachaEventListAsync(token).ConfigureAwait(false);
             }
+
+            if (context is IMetadataListMaterialSource listMaterialSource)
+            {
+                listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataListReliquaryMainAffixLevelSource listReliquaryMainAffixLevelSource)
+            {
+                listReliquaryMainAffixLevelSource.ReliquaryMainAffixLevels = await metadataService.GetReliquaryMainAffixLevelListAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataListReliquarySource listReliquarySource)
+            {
+                listReliquarySource.Reliquaries = await metadataService.GetReliquaryListAsync(token).ConfigureAwait(false);
+            }
         }
 
         // Dictionary
         {
+            if (context is IMetadataDictionaryIdAchievementSource dictionaryIdAchievementSource)
+            {
+                dictionaryIdAchievementSource.IdAchievementMap = await metadataService.GetIdToAchievementMapAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataDictionaryIdAvatarSource dictionaryIdAvatarSource)
             {
                 dictionaryIdAvatarSource.IdAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
@@ -39,6 +60,26 @@ internal static class MetadataServiceContextExtension
             if (context is IMetadataDictionaryIdMaterialSource dictionaryIdMaterialSource)
             {
                 dictionaryIdMaterialSource.IdMaterialMap = await metadataService.GetIdToMaterialMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdReliquarySource dictionaryIdReliquarySource)
+            {
+                dictionaryIdReliquarySource.IdReliquaryMap = await metadataService.GetIdToReliquaryMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdReliquaryAffixWeightSource dictionaryIdReliquaryAffixWeightSource)
+            {
+                dictionaryIdReliquaryAffixWeightSource.IdReliquaryAffixWeightMap = await metadataService.GetIdToReliquaryAffixWeightMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdReliquaryMainPropertySource dictionaryIdReliquaryMainPropertySource)
+            {
+                dictionaryIdReliquaryMainPropertySource.IdReliquaryMainPropertyMap = await metadataService.GetIdToReliquaryMainPropertyMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryIdReliquarySubAffixSource dictionaryIdReliquarySubAffixSource)
+            {
+                dictionaryIdReliquarySubAffixSource.IdReliquarySubAffixMap = await metadataService.GetIdToReliquarySubAffixMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdWeaponSource dictionaryIdWeaponSource)

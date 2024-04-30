@@ -653,7 +653,7 @@
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
     <value>打开 UIAF Json 文件</value>
   </data>
-  <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
+  <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>单个成就存档内发现多个相同的成就 Id</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
@@ -1334,6 +1334,12 @@
   <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
     <value>为账号命名</value>
   </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogHint" xml:space="preserve">
+    <value>请选择当前游戏路径对应的游戏服务器</value>
+  </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
+    <value>正在修复配置文件</value>
+  </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>转换可能需要花费一段时间，请勿关闭胡桃</value>
   </data>
@@ -1354,6 +1360,21 @@
   </data>
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>是否永久删除用户数据</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginCloseButtonText" xml:space="preserve">
+    <value>前往登录</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
+    <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
+    <value>继续上传</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
+    <value>上传深渊数据</value>
+  </data>
+  <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
+    <value>查看更新日志</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>立即前往</value>
@@ -1376,6 +1397,9 @@
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈愿记录</value>
   </data>
+  <data name="ViewGuideStaticResourceDownloadSize" xml:space="preserve">
+    <value>预计下载大小：{0}</value>
+  </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
     <value>我已阅读并同意</value>
   </data>
@@ -1391,6 +1415,12 @@
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
     <value>用户使用协议与法律声明</value>
   </data>
+  <data name="ViewGuideStepCommonSetting" xml:space="preserve">
+    <value>基础设置</value>
+  </data>
+  <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
+    <value>稍后可以在设置中修改</value>
+  </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>文档</value>
   </data>
@@ -1401,7 +1431,7 @@
     <value>安装完成后重启胡桃以查看是否正常生效</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
-    <value>如果上方的图标中存在乱码，请前往</value>
+    <value>如果上方的图标中存在乱码或方块字，请前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
     <value>下载并自行安装图标字体</value>
@@ -1417,6 +1447,24 @@
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>资源</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
+    <value>图像资源设置</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingHint" xml:space="preserve">
+    <value>* 除非你卸载并重新安装胡桃，否则你将无法更改这些设置</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumHeader" xml:space="preserve">
+    <value>图片资源包体</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumOff" xml:space="preserve">
+    <value>完整包体</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumOn" xml:space="preserve">
+    <value>精简包体</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
+    <value>图片资源质量</value>
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深渊统计</value>
@@ -1607,6 +1655,12 @@
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
     <value>下载资源文件中，请稍候</value>
   </data>
+  <data name="ViewModelGuideStaticResourceQualityHigh" xml:space="preserve">
+    <value>高质量</value>
+  </data>
+  <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
+    <value>原图</value>
+  </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>请输入正确的邮箱</value>
   </data>
@@ -1625,6 +1679,12 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切换服务器失败</value>
   </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
+    <value>修复配置文件</value>
+  </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
+    <value>修复完成</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>识别显示器</value>
   </data>
@@ -1636,6 +1696,9 @@
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
     <value>尚未选择任何服务器</value>
+  </data>
+  <data name="ViewModelLaunchGameSetGamePathButtonText" xml:space="preserve">
+    <value>设置游戏目录</value>
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>切换账号失败</value>
@@ -1672,6 +1735,9 @@
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>无感验证复合 Url 配置成功</value>
+  </data>
+  <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
+    <value>正在重置图片资源</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>设置数据目录成功，重启以应用更改</value>
@@ -2654,6 +2720,12 @@
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>贡献翻译</value>
   </data>
+  <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
+    <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
+  </data>
+  <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
+    <value>未抽取到的祈愿物品</value>
+  </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>前往商店</value>
   </data>
@@ -2834,6 +2906,15 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>上传数据</value>
   </data>
+  <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
+    <value>是否立即下载？</value>
+  </data>
+  <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
+    <value>下载更新失败</value>
+  </data>
+  <data name="ViewTitileUpdatePackageDownloadTitle" xml:space="preserve">
+    <value>胡桃 {0} 版本已发布</value>
+  </data>
   <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
     <value>是否立即安装？</value>
   </data>
@@ -2842,6 +2923,9 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>自动连点</value>
+  </data>
+  <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
+    <value>正在安装更新</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>工具</value>
@@ -2922,13 +3006,19 @@
     <value>武器资料</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|〓任务开放时间〓).*?\d\.\d版本更新(?:完成|)后永久开放</value>
+    <value>(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)后永久开放</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓活动时间〓.*?\d\.\d版本期间持续开放</value>
+    <value>〓活动时间〓.*?(\d\.\d)版本期间持续开放</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d)版本更新后.*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
+    <value>将于&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;进行版本更新维护</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
+    <value>\d\.\d版本更新维护预告</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>

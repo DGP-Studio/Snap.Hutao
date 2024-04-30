@@ -7,7 +7,7 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 /// 视图模型接口
 /// </summary>
 [HighQuality]
-internal interface IViewModel
+internal interface IViewModel : IPageScoped
 {
     /// <summary>
     /// 用于通知页面卸载的取消令牌

@@ -6,14 +6,12 @@ namespace Snap.Hutao.Service.DailyNote;
 internal readonly struct DailyNoteNotifyInfo
 {
     public readonly string Title;
-    public readonly string AdaptiveIcon;
     public readonly string AdaptiveHint;
     public readonly string Hint;
 
-    public DailyNoteNotifyInfo(string title, string adaptiveIcon, string adaptiveHint, string hint)
+    public DailyNoteNotifyInfo(string title, string adaptiveHint, string hint)
     {
         Title = title;
-        AdaptiveIcon = adaptiveIcon;
         AdaptiveHint = adaptiveHint;
         Hint = hint;
     }

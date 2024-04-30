@@ -14,7 +14,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Transformer;
 internal sealed class CalculateAvatarDetailAvatarInfoTransformer : IAvatarInfoTransformer<AvatarDetail>
 {
     /// <inheritdoc/>
-    public void Transform(ref Web.Enka.Model.AvatarInfo avatarInfo, AvatarDetail source)
+    public void Transform(ref readonly Web.Enka.Model.AvatarInfo avatarInfo, AvatarDetail source)
     {
         // update skills
         avatarInfo.SkillLevelMap = source.SkillList.ToDictionary(s => (SkillId)s.Id, s => (SkillLevel)s.LevelCurrent);

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.ViewModel.Guide;
 
 namespace Snap.Hutao.View.Guide;
@@ -13,7 +14,7 @@ internal sealed partial class GuideView : UserControl
 {
     public GuideView()
     {
+        this.InitializeDataContext<GuideViewModel>();
         InitializeComponent();
-        DataContext = Ioc.Default.GetRequiredService<GuideViewModel>();
     }
 }

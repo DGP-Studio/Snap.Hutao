@@ -20,7 +20,6 @@ namespace Snap.Hutao.Core.Windowing;
 internal sealed class WindowSubclass : IDisposable
 {
     private const int WindowSubclassId = 101;
-    private const int DragBarSubclassId = 102;
 
     private readonly Window window;
     private readonly WindowOptions options;
@@ -29,7 +28,6 @@ internal sealed class WindowSubclass : IDisposable
 
     // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC windowProc = default!;
-    private SUBCLASSPROC legacyDragBarProc = default!;
 
     public WindowSubclass(Window window, in WindowOptions options, IServiceProvider serviceProvider)
     {
@@ -50,26 +48,7 @@ internal sealed class WindowSubclass : IDisposable
         bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, 0);
         hotKeyController.RegisterAll();
 
-        bool titleBarHooked = true;
-
-        // only hook up drag bar proc when use legacy Window.ExtendsContentIntoTitleBar
-        if (!options.UseLegacyDragBarImplementation)
-        {
-            return windowHooked && titleBarHooked;
-        }
-
-        titleBarHooked = false;
-        HWND hwndDragBar = FindWindowExW(options.Hwnd, default, "DRAG_BAR_WINDOW_CLASS", default);
-
-        if (hwndDragBar.IsNull)
-        {
-            return windowHooked && titleBarHooked;
-        }
-
-        legacyDragBarProc = OnLegacyDragBarProcedure;
-        titleBarHooked = SetWindowSubclass(hwndDragBar, legacyDragBarProc, DragBarSubclassId, 0);
-
-        return windowHooked && titleBarHooked;
+        return windowHooked;
     }
 
     /// <inheritdoc/>
@@ -79,12 +58,6 @@ internal sealed class WindowSubclass : IDisposable
 
         RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
         windowProc = default!;
-
-        if (options.UseLegacyDragBarImplementation)
-        {
-            RemoveWindowSubclass(options.Hwnd, legacyDragBarProc, DragBarSubclassId);
-            legacyDragBarProc = default!;
-        }
     }
 
     [SuppressMessage("", "SH002")]
@@ -122,21 +95,6 @@ internal sealed class WindowSubclass : IDisposable
                     }
 
                     break;
-                }
-        }
-
-        return DefSubclassProc(hwnd, uMsg, wParam, lParam);
-    }
-
-    [SuppressMessage("", "SH002")]
-    private LRESULT OnLegacyDragBarProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
-    {
-        switch (uMsg)
-        {
-            case WM_NCRBUTTONDOWN:
-            case WM_NCRBUTTONUP:
-                {
-                    return (LRESULT)(nint)WM_NULL;
                 }
         }
 

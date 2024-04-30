@@ -19,6 +19,8 @@
             PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
             Text="{x:Bind UserName, Mode=TwoWay}"/>
         <PasswordBox
+            Width="360"
+            MaxWidth="360"
             Margin="0,16,0,0"
             Password="{x:Bind Password, Mode=TwoWay}"
             PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>

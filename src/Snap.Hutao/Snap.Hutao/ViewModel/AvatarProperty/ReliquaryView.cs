@@ -7,7 +7,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 /// 圣遗物
 /// </summary>
 [HighQuality]
-internal sealed class ReliquaryView : Equip
+internal sealed class ReliquaryView : EquipView
 {
     /// <summary>
     /// 初始词条

@@ -16,8 +16,8 @@ namespace Snap.Hutao.Model.Entity;
 [HighQuality]
 [Table("achievements")]
 [SuppressMessage("", "SA1124")]
-internal sealed class Achievement
-    : IEquatable<Achievement>,
+internal sealed class Achievement : IAppDbEntityHasArchive,
+    IEquatable<Achievement>,
     IDbMappingForeignKeyFrom<Achievement, AchievementId>,
     IDbMappingForeignKeyFrom<Achievement, UIAFItem>
 {

@@ -22,7 +22,7 @@ namespace Snap.Hutao.ViewModel.Game;
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>, IViewModelSupportLaunchExecution
 {
     private readonly LaunchStatusOptions launchStatusOptions;
-    private readonly ILogger<LaunchGameViewModelSlim> logger;
+    private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
     private readonly ITaskContext taskContext;
@@ -30,6 +30,8 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     private AdvancedCollectionView<GameAccount>? gameAccountsView;
     private GameAccount? selectedGameAccount;
     private GameAccountFilter? gameAccountFilter;
+
+    LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
 
     public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
 
@@ -40,14 +42,10 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     /// </summary>
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
-    public void SetGamePathEntriesAndSelectedGamePathEntry(ImmutableList<GamePathEntry> gamePathEntries, GamePathEntry? selectedEntry)
-    {
-    }
-
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
+        LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
         ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
 
         try
@@ -58,7 +56,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
                 SelectedGameAccount ??= gameService.DetectCurrentGameAccount(scheme);
             }
         }
-        catch (UserdataCorruptedException ex)
+        catch (Exception ex)
         {
             infoBarService.Error(ex);
         }
@@ -75,23 +73,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
-        IInfoBarService infoBarService = ServiceProvider.GetRequiredService<IInfoBarService>();
-        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
-
-        try
-        {
-            LaunchExecutionContext context = new(Ioc.Default, this, scheme, SelectedGameAccount);
-            LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
-
-            if (result.Kind is not LaunchExecutionResultKind.Ok)
-            {
-                infoBarService.Warning(result.ErrorMessage);
-            }
-        }
-        catch (Exception ex)
-        {
-            logger.LogCritical(ex, "Launch failed");
-            infoBarService.Error(ex);
-        }
+        await this.LaunchExecutionAsync().ConfigureAwait(false);
     }
 }

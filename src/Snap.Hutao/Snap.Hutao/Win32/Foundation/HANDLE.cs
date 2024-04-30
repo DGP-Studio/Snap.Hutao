@@ -8,4 +8,6 @@ internal readonly struct HANDLE
     public readonly nint Value;
 
     public static unsafe implicit operator HANDLE(nint value) => *(HANDLE*)&value;
+
+    public static unsafe implicit operator HANDLE(BOOL value) => *(int*)&value;
 }

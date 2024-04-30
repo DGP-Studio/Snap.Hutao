@@ -24,7 +24,17 @@ internal enum GuideState : uint
     Environment,
 
     /// <summary>
-    /// 开始下载资源
+    /// 正在查看常用设置
+    /// </summary>
+    CommonSetting,
+
+    /// <summary>
+    /// 正在查看图像资源设置
+    /// </summary>
+    StaticResourceSetting,
+
+    /// <summary>
+    /// 开始下载图像资源
     /// </summary>
     StaticResourceBegin,
 

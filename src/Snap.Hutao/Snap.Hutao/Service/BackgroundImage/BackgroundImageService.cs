@@ -26,11 +26,11 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
-    private HashSet<string> currentBackgroundPathSet;
+    private HashSet<string>? currentBackgroundPathSet;
 
-    public async ValueTask<ValueResult<bool, BackgroundImage?>> GetNextBackgroundImageAsync(BackgroundImage? previous)
+    public async ValueTask<ValueResult<bool, BackgroundImage?>> GetNextBackgroundImageAsync(BackgroundImage? previous, CancellationToken token = default)
     {
-        HashSet<string> backgroundSet = await SkipOrInitBackgroundAsync().ConfigureAwait(false);
+        HashSet<string> backgroundSet = await SkipOrInitBackgroundAsync(token).ConfigureAwait(false);
 
         if (backgroundSet.Count <= 0)
         {
@@ -79,7 +79,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         }
     }
 
-    private async ValueTask<HashSet<string>> SkipOrInitBackgroundAsync()
+    private async ValueTask<HashSet<string>> SkipOrInitBackgroundAsync(CancellationToken token = default)
     {
         switch (appOptions.BackgroundImageType)
         {
@@ -88,10 +88,9 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                     if (currentBackgroundPathSet is not { Count: > 0 })
                     {
                         string backgroundFolder = runtimeOptions.GetDataFolderBackgroundFolder();
-                        Directory.CreateDirectory(backgroundFolder);
 
                         currentBackgroundPathSet = Directory
-                            .GetFiles(backgroundFolder, "*.*", SearchOption.AllDirectories)
+                            .EnumerateFiles(backgroundFolder, "*", SearchOption.AllDirectories)
                             .Where(path => AllowedFormats.Contains(Path.GetExtension(path)))
                             .ToHashSet();
                     }
@@ -101,13 +100,13 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 }
 
             case BackgroundImageType.HutaoBing:
-                await SetCurrentBackgroundPathSetAsync(client => client.GetBingWallpaperAsync()).ConfigureAwait(false);
+                await SetCurrentBackgroundPathSetAsync((client, token) => client.GetBingWallpaperAsync(token), token).ConfigureAwait(false);
                 break;
             case BackgroundImageType.HutaoDaily:
-                await SetCurrentBackgroundPathSetAsync(client => client.GetTodayWallpaperAsync()).ConfigureAwait(false);
+                await SetCurrentBackgroundPathSetAsync((client, token) => client.GetTodayWallpaperAsync(token), token).ConfigureAwait(false);
                 break;
             case BackgroundImageType.HutaoOfficialLauncher:
-                await SetCurrentBackgroundPathSetAsync(client => client.GetLauncherWallpaperAsync()).ConfigureAwait(false);
+                await SetCurrentBackgroundPathSetAsync((client, token) => client.GetLauncherWallpaperAsync(token), token).ConfigureAwait(false);
                 break;
             default:
                 currentBackgroundPathSet = [];
@@ -117,10 +116,10 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
         currentBackgroundPathSet ??= [];
         return currentBackgroundPathSet;
 
-        async Task SetCurrentBackgroundPathSetAsync(Func<HutaoWallpaperClient, ValueTask<Response<Wallpaper>>> responseFactory)
+        async Task SetCurrentBackgroundPathSetAsync(Func<HutaoWallpaperClient, CancellationToken, ValueTask<Response<Wallpaper>>> responseFactory, CancellationToken token = default)
         {
             HutaoWallpaperClient wallpaperClient = serviceProvider.GetRequiredService<HutaoWallpaperClient>();
-            Response<Wallpaper> response = await responseFactory(wallpaperClient).ConfigureAwait(false);
+            Response<Wallpaper> response = await responseFactory(wallpaperClient, token).ConfigureAwait(false);
             if (response is { Data: Wallpaper wallpaper })
             {
                 await taskContext.SwitchToMainThreadAsync();

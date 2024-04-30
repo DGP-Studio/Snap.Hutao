@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics;
+
 namespace Snap.Hutao.Core.Threading;
 
 internal delegate bool SpinWaitPredicate<T>(ref readonly T state);
@@ -14,5 +16,24 @@ internal static class SpinWaitPolyfill
         {
             spinner.SpinOnce();
         }
+    }
+
+    [SuppressMessage("", "SH002")]
+    public static unsafe bool SpinUntil<T>(ref T state, delegate*<ref readonly T, bool> condition, TimeSpan timeout)
+    {
+        long startTime = Stopwatch.GetTimestamp();
+
+        SpinWait spinner = default;
+        while (!condition(ref state))
+        {
+            spinner.SpinOnce();
+
+            if (timeout < Stopwatch.GetElapsedTime(startTime))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

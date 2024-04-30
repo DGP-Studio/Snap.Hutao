@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Model.Entity.Abstraction;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
@@ -16,7 +17,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("daily_notes")]
-internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteEntry, UserAndUid>
+internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteEntry, UserAndUid>, IAppDbEntity
 {
     /// <summary>
     /// 内部Id
@@ -68,61 +69,26 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
         }
     }
 
-    /// <summary>
-    /// 树脂提醒阈值
-    /// </summary>
     public int ResinNotifyThreshold { get; set; }
 
-    /// <summary>
-    /// 用于判断树脂是否继续提醒
-    /// </summary>
     public bool ResinNotifySuppressed { get; set; }
 
-    /// <summary>
-    /// 洞天宝钱提醒阈值
-    /// </summary>
     public int HomeCoinNotifyThreshold { get; set; }
 
-    /// <summary>
-    /// 用于判断洞天宝钱是否继续提醒
-    /// </summary>
     public bool HomeCoinNotifySuppressed { get; set; }
 
-    /// <summary>
-    /// 参量质变仪提醒
-    /// </summary>
     public bool TransformerNotify { get; set; }
 
-    /// <summary>
-    /// 用于判断参量质变仪是否继续提醒
-    /// </summary>
     public bool TransformerNotifySuppressed { get; set; }
 
-    /// <summary>
-    /// 每日委托提醒
-    /// </summary>
     public bool DailyTaskNotify { get; set; }
 
-    /// <summary>
-    /// 用于判断每日委托是否继续提醒
-    /// </summary>
     public bool DailyTaskNotifySuppressed { get; set; }
 
-    /// <summary>
-    /// 探索派遣提醒
-    /// </summary>
     public bool ExpeditionNotify { get; set; }
 
-    /// <summary>
-    /// 用于判断探索派遣是否继续提醒
-    /// </summary>
     public bool ExpeditionNotifySuppressed { get; set; }
 
-    /// <summary>
-    /// 构造一个新的实时便笺
-    /// </summary>
-    /// <param name="userAndUid">用户与角色</param>
-    /// <returns>新的实时便笺</returns>
     public static DailyNoteEntry From(UserAndUid userAndUid)
     {
         return new()
@@ -134,10 +100,6 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
         };
     }
 
-    /// <summary>
-    /// 更新实时便笺
-    /// </summary>
-    /// <param name="dailyNote">新的值</param>
     public void UpdateDailyNote(DailyNote? dailyNote)
     {
         DailyNote = dailyNote;
@@ -145,5 +107,25 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
 
         RefreshTime = DateTimeOffset.UtcNow;
         OnPropertyChanged(nameof(RefreshTimeFormatted));
+    }
+
+    public void CopyTo(DailyNoteEntry other)
+    {
+        other.UpdateDailyNote(DailyNote);
+
+        other.ResinNotifySuppressed = ResinNotifySuppressed;
+        other.OnPropertyChanged(nameof(ResinNotifySuppressed));
+
+        other.HomeCoinNotifySuppressed = HomeCoinNotifySuppressed;
+        other.OnPropertyChanged(nameof(HomeCoinNotifySuppressed));
+
+        other.TransformerNotifySuppressed = TransformerNotifySuppressed;
+        other.OnPropertyChanged(nameof(TransformerNotifySuppressed));
+
+        other.DailyTaskNotifySuppressed = DailyTaskNotifySuppressed;
+        other.OnPropertyChanged(nameof(DailyTaskNotifySuppressed));
+
+        other.ExpeditionNotifySuppressed = ExpeditionNotifySuppressed;
+        other.OnPropertyChanged(nameof(ExpeditionNotifySuppressed));
     }
 }

@@ -5,8 +5,6 @@ namespace Snap.Hutao.Service.User;
 
 internal interface IUserDbService
 {
-    ValueTask AddUserAsync(Model.Entity.User user);
-
     ValueTask DeleteUserByIdAsync(Guid id);
 
     ValueTask RemoveUsersAsync();

@@ -85,6 +85,19 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static extern int ReleaseDC([AllowNull] HWND hWnd, HDC hDC);
 
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern HANDLE RemovePropW(HWND hWnd, PCWSTR lpString);
+
+    [DebuggerStepThrough]
+    public static unsafe HANDLE RemovePropW(HWND hWnd, string @string)
+    {
+        fixed (char* lpString = @string)
+        {
+            return RemovePropW(hWnd, lpString);
+        }
+    }
+
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static unsafe extern uint SendInput(uint cInputs, INPUT* pInputs, int cbSize);
@@ -101,6 +114,19 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL SetForegroundWindow(HWND hWnd);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL SetPropW(HWND hWnd, PCWSTR lpString, [AllowNull] HANDLE hData);
+
+    [DebuggerStepThrough]
+    public static unsafe BOOL SetPropW(HWND hWnd, string @string, [AllowNull] HANDLE hData)
+    {
+        fixed (char* lpString = @string)
+        {
+            return SetPropW(hWnd, lpString, hData);
+        }
+    }
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]

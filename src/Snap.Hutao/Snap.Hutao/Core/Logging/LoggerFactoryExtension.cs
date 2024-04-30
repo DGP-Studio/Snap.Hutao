@@ -9,7 +9,11 @@ internal static class LoggerFactoryExtension
     {
         builder.Services.AddSingleton<ConsoleWindowLifeTime>();
 
-        builder.AddSimpleConsole();
+        builder.AddSimpleConsole(options =>
+        {
+            options.TimestampFormat = "yyyy-MM-dd HH:mm:ss.fff ";
+        });
+
         return builder;
     }
 }

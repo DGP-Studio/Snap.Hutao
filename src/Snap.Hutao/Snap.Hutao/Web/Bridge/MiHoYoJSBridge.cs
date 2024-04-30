@@ -259,31 +259,35 @@ internal class MiHoYoJSBridge
 
     protected virtual async ValueTask<JsResult<Dictionary<string, object>>> GetUserInfoAsync(JsParam param)
     {
-        Response<UserFullInfoWrapper> response = await serviceProvider
-            .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
-            .Create(userAndUid.User.IsOversea)
-            .GetUserFullInfoAsync(userAndUid.User)
-            .ConfigureAwait(false);
-
-        if (response.IsOk())
+        Response<UserFullInfoWrapper> response;
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            UserInfo info = response.Data.UserInfo;
-            return new()
-            {
-                Data = new()
-                {
-                    ["id"] = info.Uid,
-                    ["gender"] = info.Gender,
-                    ["nickname"] = info.Nickname,
-                    ["introduce"] = info.Introduce,
-                    ["avatar_url"] = info.AvatarUrl,
-                },
-            };
+            IUserClient userClient = scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
+                .Create(userAndUid.User.IsOversea);
+
+            response = await userClient
+                .GetUserFullInfoAsync(userAndUid.User)
+                .ConfigureAwait(false);
         }
-        else
+
+        if (!response.IsOk())
         {
             return new();
         }
+
+        UserInfo info = response.Data.UserInfo;
+        return new()
+        {
+            Data = new()
+            {
+                ["id"] = info.Uid,
+                ["gender"] = info.Gender,
+                ["nickname"] = info.Nickname,
+                ["introduce"] = info.Introduce,
+                ["avatar_url"] = info.AvatarUrl,
+            },
+        };
     }
 
     protected virtual async ValueTask<IJsBridgeResult?> PushPageAsync(JsParam<PushPagePayload> param)

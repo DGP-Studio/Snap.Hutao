@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Net.Http;
 using System.Net.Http.Headers;

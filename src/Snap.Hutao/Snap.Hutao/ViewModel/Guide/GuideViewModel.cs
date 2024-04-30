@@ -6,6 +6,9 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
+using Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.Response;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
@@ -20,12 +23,15 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+    private readonly StaticResourceOptions staticResourceOptions;
     private readonly CultureOptions cultureOptions;
     private readonly RuntimeOptions runtimeOptions;
+    private readonly AppOptions appOptions;
 
     private string nextOrCompleteButtonText = SH.ViewModelGuideActionNext;
     private bool isNextOrCompleteButtonEnabled = true;
     private NameValue<CultureInfo>? selectedCulture;
+    private NameValue<Region>? selectedRegion;
     private bool isTermOfServiceAgreed;
     private bool isPrivacyPolicyAgreed;
     private bool isIssueReportAgreed;
@@ -36,8 +42,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     {
         get
         {
-            uint value = LocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, 0U);
-            GuideState state = (GuideState)value;
+            GuideState state = UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language);
 
             if (state is GuideState.Document)
             {
@@ -61,12 +66,12 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
                 (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionNext, true);
             }
 
-            return value;
+            return (uint)state;
         }
 
         set
         {
-            LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, value);
+            LocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, value);
             OnPropertyChanged();
         }
     }
@@ -78,6 +83,10 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     public CultureOptions CultureOptions { get => cultureOptions; }
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+
+    public AppOptions AppOptions { get => appOptions; }
+
+    public StaticResourceOptions StaticResourceOptions { get => staticResourceOptions; }
 
     public NameValue<CultureInfo>? SelectedCulture
     {
@@ -93,13 +102,26 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }
     }
 
+    public NameValue<Region>? SelectedRegion
+    {
+        get => selectedRegion ??= AppOptions.GetCurrentRegionForSelectionOrDefault();
+        set
+        {
+            if (SetProperty(ref selectedRegion, value) && value is not null)
+            {
+                AppOptions.Region = value.Value;
+            }
+        }
+    }
+
+    #region Agreement
     public bool IsTermOfServiceAgreed
     {
         get => isTermOfServiceAgreed; set
         {
             if (SetProperty(ref isTermOfServiceAgreed, value))
             {
-                OnAgreeSateChanged();
+                OnAgreementStateChanged();
             }
         }
     }
@@ -110,7 +132,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref isPrivacyPolicyAgreed, value))
             {
-                OnAgreeSateChanged();
+                OnAgreementStateChanged();
             }
         }
     }
@@ -121,7 +143,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref isIssueReportAgreed, value))
             {
-                OnAgreeSateChanged();
+                OnAgreementStateChanged();
             }
         }
     }
@@ -132,18 +154,29 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref isOpenSourceLicenseAgreed, value))
             {
-                OnAgreeSateChanged();
+                OnAgreementStateChanged();
             }
         }
     }
+    #endregion
 
-    /// <summary>
-    /// 下载信息
-    /// </summary>
     public ObservableCollection<DownloadSummary>? DownloadSummaries
     {
         get => downloadSummaries;
         set => SetProperty(ref downloadSummaries, value);
+    }
+
+    protected override async ValueTask<bool> InitializeUIAsync()
+    {
+        HutaoInfrastructureClient hutaoInfrastructureClient = serviceProvider.GetRequiredService<HutaoInfrastructureClient>();
+        HutaoResponse<StaticResourceSizeInformation> response = await hutaoInfrastructureClient.GetStaticSizeAsync().ConfigureAwait(false);
+        if (response.IsOk())
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            StaticResourceOptions.SizeInformation = response.Data;
+        }
+
+        return true;
     }
 
     [Command("NextOrCompleteCommand")]
@@ -152,7 +185,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         ++State;
     }
 
-    private void OnAgreeSateChanged()
+    private void OnAgreementStateChanged()
     {
         IsNextOrCompleteButtonEnabled = IsTermOfServiceAgreed && IsPrivacyPolicyAgreed && IsIssueReportAgreed && IsOpenSourceLicenseAgreed;
     }
@@ -173,7 +206,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }).ConfigureAwait(false);
 
         StaticResource.FulfillAll();
-        UnsafeLocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, GuideState.Completed);
+        UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Completed);
         AppInstance.Restart(string.Empty);
     }
 }

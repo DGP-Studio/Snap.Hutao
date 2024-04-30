@@ -59,7 +59,7 @@ internal sealed partial class PackageConverter
         string scatteredFilesUrl = gameResource.Game.Latest.DecompressedPath;
         string pkgVersionUrl = $"{scatteredFilesUrl}/{PackageVersion}";
 
-        PackageConverterFileSystemContext context = new(targetScheme.IsOversea, runtimeOptions.DataFolder, gameFolder, scatteredFilesUrl);
+        PackageConverterFileSystemContext context = new(targetScheme.IsOversea, runtimeOptions.GetDataFolderServerCacheFolder(), gameFolder, scatteredFilesUrl);
 
         // Step 1
         progress.Report(new(SH.ServiceGamePackageRequestPackageVerion));

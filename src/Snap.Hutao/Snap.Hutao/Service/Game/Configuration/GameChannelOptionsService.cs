@@ -11,6 +11,7 @@ namespace Snap.Hutao.Service.Game.Configuration;
 [Injection(InjectAs.Singleton, typeof(IGameChannelOptionsService))]
 internal sealed partial class GameChannelOptionsService : IGameChannelOptionsService
 {
+    private readonly IGameConfigurationFileService gameConfigurationFileService;
     private readonly LaunchOptions launchOptions;
 
     public ChannelOptions GetChannelOptions()
@@ -21,6 +22,13 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
         }
 
         bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
+
+        if (!File.Exists(gameFileSystem.GameConfigFilePath))
+        {
+            // Try restore the configuration file if it does not exist
+            // The configuration file may be deleted by a incompatible launcher
+            gameConfigurationFileService.Restore(gameFileSystem.GameConfigFilePath);
+        }
 
         if (!File.Exists(gameFileSystem.GameConfigFilePath))
         {

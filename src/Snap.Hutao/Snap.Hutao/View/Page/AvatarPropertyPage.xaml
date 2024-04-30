@@ -735,7 +735,7 @@
                                                                 HorizontalAlignment="Right"
                                                                 Foreground="#FFFFFFFF"
                                                                 Style="{StaticResource TitleTextBlockStyle}"
-                                                                Text="{Binding SelectedAvatar.Score}"/>
+                                                                Text="{Binding SelectedAvatar.ScoreFormatted}"/>
                                                             <TextBlock
                                                                 HorizontalAlignment="Right"
                                                                 Foreground="#FFFFFFFF"
@@ -747,7 +747,7 @@
                                                                 HorizontalAlignment="Right"
                                                                 Foreground="#FFFFFFFF"
                                                                 Style="{StaticResource TitleTextBlockStyle}"
-                                                                Text="{Binding SelectedAvatar.CritScore}"/>
+                                                                Text="{Binding SelectedAvatar.CritScoreFormatted}"/>
                                                             <TextBlock
                                                                 HorizontalAlignment="Right"
                                                                 Foreground="#FFFFFFFF"

@@ -13,11 +13,6 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 [HighQuality]
 internal static class SummaryAvatarProperties
 {
-    /// <summary>
-    /// 创建角色属性
-    /// </summary>
-    /// <param name="fightPropMap">属性映射</param>
-    /// <returns>列表</returns>
     public static List<AvatarProperty> Create(Dictionary<FightProperty, float>? fightPropMap)
     {
         if (fightPropMap is null)
@@ -25,32 +20,27 @@ internal static class SummaryAvatarProperties
             return [];
         }
 
-        AvatarProperty hpProp = ToAvatarProperty(FightProperty.FIGHT_PROP_BASE_HP, fightPropMap);
-        AvatarProperty atkProp = ToAvatarProperty(FightProperty.FIGHT_PROP_BASE_ATTACK, fightPropMap);
-        AvatarProperty defProp = ToAvatarProperty(FightProperty.FIGHT_PROP_BASE_DEFENSE, fightPropMap);
-        AvatarProperty emProp = FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_ELEMENT_MASTERY, fightPropMap);
-        AvatarProperty critRateProp = FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_CRITICAL, fightPropMap);
-        AvatarProperty critDMGProp = FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_CRITICAL_HURT, fightPropMap);
-        AvatarProperty chargeEffProp = FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY, fightPropMap);
-
-        List<AvatarProperty> properties = new(9) { hpProp, atkProp, defProp, emProp, critRateProp, critDMGProp, chargeEffProp };
+        List<AvatarProperty> properties =
+        [
+            ToAvatarProperty(FightProperty.FIGHT_PROP_BASE_HP, fightPropMap),
+            ToAvatarProperty(FightProperty.FIGHT_PROP_BASE_ATTACK, fightPropMap),
+            ToAvatarProperty(FightProperty.FIGHT_PROP_BASE_DEFENSE, fightPropMap),
+            FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_ELEMENT_MASTERY, fightPropMap),
+            FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_CRITICAL, fightPropMap),
+            FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_CRITICAL_HURT, fightPropMap),
+            FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY, fightPropMap)
+        ];
 
         // 元素伤害
-        if (TryGetBonusFightProperty(fightPropMap, out FightProperty bonusProperty, out float value))
+        if (TryGetBonusFightProperty(fightPropMap, out FightProperty bonusProperty, out float value) && value > 0)
         {
-            if (value > 0)
-            {
-                properties.Add(FightPropertyFormat.ToAvatarProperty(bonusProperty, value));
-            }
+            properties.Add(FightPropertyFormat.ToAvatarProperty(bonusProperty, value));
         }
 
         // 物伤 可以和其他元素伤害并存，所以分别判断
-        if (fightPropMap.TryGetValue(FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT, out float addValue))
+        if (fightPropMap.TryGetValue(FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT, out float addValue) && addValue > 0)
         {
-            if (addValue > 0)
-            {
-                properties.Add(FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT, addValue));
-            }
+            properties.Add(FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT, addValue));
         }
 
         return properties;

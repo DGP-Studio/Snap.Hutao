@@ -41,11 +41,6 @@ internal readonly struct WindowOptions
     /// </summary>
     public readonly bool PersistSize;
 
-    /// <summary>
-    /// 是否使用 Win UI 3 自带的拓展标题栏实现
-    /// </summary>
-    public readonly bool UseLegacyDragBarImplementation = !AppWindowTitleBar.IsCustomizationSupported();
-
     public WindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, bool persistSize = false)
     {
         Hwnd = WindowNative.GetWindowHandle(window);

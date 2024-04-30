@@ -11,11 +11,6 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 [HighQuality]
 internal sealed class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?, Uri>
 {
-    /// <summary>
-    /// 从角色转换到名片
-    /// </summary>
-    /// <param name="avatar">角色</param>
-    /// <returns>名片</returns>
     public static Uri AvatarToUri(Avatar.Avatar? avatar)
     {
         if (avatar is null)

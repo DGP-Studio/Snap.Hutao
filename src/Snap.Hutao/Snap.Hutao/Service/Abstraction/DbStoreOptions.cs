@@ -14,20 +14,10 @@ namespace Snap.Hutao.Service.Abstraction;
 /// 数据库存储选项的设置
 /// </summary>
 [ConstructorGenerated]
-internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbStoreOptions>
+internal abstract partial class DbStoreOptions : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
 
-    /// <inheritdoc/>
-    public DbStoreOptions Value { get => this; }
-
-    /// <summary>
-    /// 从数据库中获取字符串数据
-    /// </summary>
-    /// <param name="storage">存储字段</param>
-    /// <param name="key">键</param>
-    /// <param name="defaultValue">默认值</param>
-    /// <returns>值</returns>
     protected string GetOption(ref string? storage, string key, string defaultValue = "")
     {
         return GetOption(ref storage, key, () => defaultValue);
@@ -49,13 +39,6 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         return storage;
     }
 
-    /// <summary>
-    /// 从数据库中获取bool数据
-    /// </summary>
-    /// <param name="storage">存储字段</param>
-    /// <param name="key">键</param>
-    /// <param name="defaultValue">默认值</param>
-    /// <returns>值</returns>
     protected bool GetOption(ref bool? storage, string key, bool defaultValue = false)
     {
         return GetOption(ref storage, key, () => defaultValue);
@@ -78,13 +61,6 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         return storage.Value;
     }
 
-    /// <summary>
-    /// 从数据库中获取int数据
-    /// </summary>
-    /// <param name="storage">存储字段</param>
-    /// <param name="key">键</param>
-    /// <param name="defaultValue">默认值</param>
-    /// <returns>值</returns>
     protected int GetOption(ref int? storage, string key, int defaultValue = 0)
     {
         return GetOption(ref storage, key, () => defaultValue);
@@ -107,15 +83,6 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         return storage.Value;
     }
 
-    /// <summary>
-    /// 从数据库中获取任何类型的数据
-    /// </summary>
-    /// <typeparam name="T">数据的类型</typeparam>
-    /// <param name="storage">存储字段</param>
-    /// <param name="key">键</param>
-    /// <param name="deserializer">反序列化器</param>
-    /// <param name="defaultValue">默认值</param>
-    /// <returns>值</returns>
     [return: NotNull]
     protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, [DisallowNull] T defaultValue)
     {
@@ -160,13 +127,6 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         return storage;
     }
 
-    /// <summary>
-    /// 将值存入数据库
-    /// </summary>
-    /// <param name="storage">存储字段</param>
-    /// <param name="key">键</param>
-    /// <param name="value">值</param>
-    /// <param name="propertyName">属性名称</param>
     protected void SetOption(ref string? storage, string key, string? value, [CallerMemberName] string? propertyName = null)
     {
         if (!SetProperty(ref storage, value, propertyName))
@@ -182,14 +142,6 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         }
     }
 
-    /// <summary>
-    /// 将值存入数据库
-    /// </summary>
-    /// <param name="storage">存储字段</param>
-    /// <param name="key">键</param>
-    /// <param name="value">值</param>
-    /// <param name="propertyName">属性名称</param>
-    /// <returns>是否设置了值</returns>
     protected bool SetOption(ref bool? storage, string key, bool value, [CallerMemberName] string? propertyName = null)
     {
         bool set = SetProperty(ref storage, value, propertyName);
@@ -208,13 +160,6 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         return set;
     }
 
-    /// <summary>
-    /// 将值存入数据库
-    /// </summary>
-    /// <param name="storage">存储字段</param>
-    /// <param name="key">键</param>
-    /// <param name="value">值</param>
-    /// <param name="propertyName">属性名称</param>
     protected void SetOption(ref int? storage, string key, int value, [CallerMemberName] string? propertyName = null)
     {
         if (!SetProperty(ref storage, value, propertyName))
@@ -230,15 +175,6 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         }
     }
 
-    /// <summary>
-    /// 将值存入数据库
-    /// </summary>
-    /// <typeparam name="T">数据的类型</typeparam>
-    /// <param name="storage">存储字段</param>
-    /// <param name="key">键</param>
-    /// <param name="value">值</param>
-    /// <param name="serializer">序列化器</param>
-    /// <param name="propertyName">属性名称</param>
     protected void SetOption<T>(ref T? storage, string key, T value, Func<T, string> serializer, [CallerMemberName] string? propertyName = null)
     {
         if (!SetProperty(ref storage, value, propertyName))

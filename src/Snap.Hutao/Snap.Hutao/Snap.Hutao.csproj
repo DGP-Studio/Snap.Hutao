@@ -35,22 +35,24 @@
     <Configurations>Debug;Release</Configurations>
     <!--
       Required for .NET 8 MSIX packaging
-      
+
       10.2.4.1 Security - Software Dependencies
       Products may depend on non-integrated software (such as another product or module)
       to deliver primary functionality only as long as the additional required software
-      is disclosed within the first two lines of the description in the Store. 
+      is disclosed within the first two lines of the description in the Store.
     -->
     <SelfContained>true</SelfContained>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <WindowsAppSdkUndockedRegFreeWinRTInitialize>false</WindowsAppSdkUndockedRegFreeWinRTInitialize>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode>
   </PropertyGroup>
 
   <ItemGroup>
 	<AppxManifest Include="Package.appxmanifest" Condition="'$(ConfigurationName)'!='Debug'" />
 	<AppxManifest Include="Package.development.appxmanifest" Condition="'$(ConfigurationName)'=='Debug'" />
   </ItemGroup>
-  
+
   <!-- Included Files -->
   <ItemGroup>
     <None Remove="Assets\LargeTile.scale-100.png" />
@@ -176,8 +178,11 @@
     <None Remove="View\Dialog\HutaoPassportResetPasswordDialog.xaml" />
     <None Remove="View\Dialog\HutaoPassportUnregisterDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
+    <None Remove="View\Dialog\LaunchGameConfigurationFixDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
     <None Remove="View\Dialog\ReconfirmDialog.xaml" />
+    <None Remove="View\Dialog\SpiralAbyssUploadRecordHomaNotLoginDialog.xaml" />
+    <None Remove="View\Dialog\UpdatePackageDownloadConfirmDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
     <None Remove="View\Dialog\UserQRCodeDialog.xaml" />
     <None Remove="View\Guide\GuideView.xaml" />
@@ -202,7 +207,7 @@
     <None Remove="View\TitleView.xaml" />
     <None Remove="View\UserView.xaml" />
   </ItemGroup>
-  
+
   <!-- Analyzer Files -->
   <ItemGroup>
     <AdditionalFiles Include="CodeMetricsConfig.txt" />
@@ -217,7 +222,7 @@
     <AdditionalFiles Include="Resource\Localization\SH.ru.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
   </ItemGroup>
-  
+
   <!-- Assets Files -->
   <ItemGroup>
     <Content Update="Assets\Logo.ico" />
@@ -302,8 +307,8 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -318,14 +323,18 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
-    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.15.3">
+    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.0.6">
+	<PackageReference Include="Snap.Hutao.Elevated.Launcher.Runtime" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -347,7 +356,19 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <Page Update="View\Dialog\SpiralAbyssUploadRecordHomaNotLoginDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\UpdatePackageDownloadConfirmDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\LaunchGameConfigurationFixDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Control\Theme\SegmentedOverride.xaml">
@@ -384,37 +405,37 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="Control\Theme\ScrollViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="Control\Theme\FlyoutStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="View\Dialog\HutaoPassportUnregisterDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="View\Dialog\HutaoPassportResetPasswordDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="View\Dialog\HutaoPassportRegisterDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Update="View\Dialog\HutaoPassportLoginDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -564,13 +585,13 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-	
+
   <ItemGroup>
     <Page Update="IdentifyMonitorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-	
+
   <ItemGroup>
     <Page Update="View\Control\HutaoStatisticsCard.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -612,7 +633,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  
+
   <!-- Pages -->
   <ItemGroup>
     <Page Update="View\Dialog\LaunchGamePackageConvertDialog.xaml">

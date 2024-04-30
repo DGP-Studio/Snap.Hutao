@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 using Snap.Hutao.Web.Request.Builder;
@@ -13,9 +12,6 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
-/// <summary>
-/// 卡片客户端
-/// </summary>
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
@@ -29,7 +25,7 @@ internal sealed partial class CardClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CardCreateVerification(true))
-            .SetUserCookieAndFpHeader(user, CookieType.LToken)
+            .SetUserCookieAndFpHeader(user, CookieType.Cookie)
             .SetHeader("x-rpc-challenge_game", $"{headers.ChallengeGame}")
             .SetHeader("x-rpc-challenge_path", headers.ChallengePath)
             .Get();
@@ -43,10 +39,11 @@ internal sealed partial class CardClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<VerificationResult>> VerifyVerificationAsync(CardVerifiationHeaders headers, string challenge, string validate, CancellationToken token)
+    public async ValueTask<Response<VerificationResult>> VerifyVerificationAsync(User user, CardVerifiationHeaders headers, string challenge, string validate, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.CardVerifyVerification)
+            .SetUserCookieAndFpHeader(user, CookieType.Cookie)
             .SetHeader("x-rpc-challenge_game", $"{headers.ChallengeGame}")
             .SetHeader("x-rpc-challenge_path", headers.ChallengePath)
             .PostJson(new VerificationData(challenge, validate));
@@ -60,13 +57,6 @@ internal sealed partial class CardClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取桌面小组件数据
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>桌面小组件数据</returns>
-    [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.X6)]
     public async ValueTask<Response<DailyNote.WidgetDailyNote>> GetWidgetDataAsync(User user, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()

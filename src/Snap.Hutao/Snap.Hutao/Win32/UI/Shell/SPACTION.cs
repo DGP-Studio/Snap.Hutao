@@ -1,0 +1,22 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Snap.Hutao.Win32.UI.Shell;
+
+internal enum SPACTION
+{
+    SPACTION_NONE = 0,
+    SPACTION_MOVING = 1,
+    SPACTION_COPYING = 2,
+    SPACTION_RECYCLING = 3,
+    SPACTION_APPLYINGATTRIBS = 4,
+    SPACTION_DOWNLOADING = 5,
+    SPACTION_SEARCHING_INTERNET = 6,
+    SPACTION_CALCULATING = 7,
+    SPACTION_UPLOADING = 8,
+    SPACTION_SEARCHING_FILES = 9,
+    SPACTION_DELETING = 10,
+    SPACTION_RENAMING = 11,
+    SPACTION_FORMATTING = 12,
+    SPACTION_COPY_MOVING = 13,
+}

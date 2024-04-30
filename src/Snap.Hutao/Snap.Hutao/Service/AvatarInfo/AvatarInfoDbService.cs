@@ -4,6 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
@@ -14,44 +15,25 @@ internal sealed partial class AvatarInfoDbService : IAvatarInfoDbService
 {
     private readonly IServiceProvider serviceProvider;
 
+    public IServiceProvider ServiceProvider { get => serviceProvider; }
+
     public List<EntityAvatarInfo> GetAvatarInfoListByUid(string uid)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            IQueryable<EntityAvatarInfo> result = appDbContext.AvatarInfos.AsNoTracking().Where(i => i.Uid == uid);
-            return [.. result];
-        }
+        return this.List(i => i.Uid == uid);
     }
 
-    public async ValueTask<List<EntityAvatarInfo>> GetAvatarInfoListByUidAsync(string uid)
+    public ValueTask<List<EntityAvatarInfo>> GetAvatarInfoListByUidAsync(string uid, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return await appDbContext.AvatarInfos
-                .AsNoTracking()
-                .Where(i => i.Uid == uid)
-                .ToListAsync()
-                .ConfigureAwait(false);
-        }
+        return this.ListAsync(i => i.Uid == uid, token);
     }
 
     public void RemoveAvatarInfoRangeByUid(string uid)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.AvatarInfos.ExecuteDeleteWhere(i => i.Uid == uid);
-        }
+        this.Delete(i => i.Uid == uid);
     }
 
-    public async ValueTask RemoveAvatarInfoRangeByUidAsync(string uid)
+    public async ValueTask RemoveAvatarInfoRangeByUidAsync(string uid, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.AvatarInfos.ExecuteDeleteWhereAsync(i => i.Uid == uid).ConfigureAwait(false);
-        }
+        await this.DeleteAsync(i => i.Uid == uid, token).ConfigureAwait(false);
     }
 }

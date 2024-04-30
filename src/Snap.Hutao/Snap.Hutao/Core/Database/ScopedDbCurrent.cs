@@ -38,7 +38,7 @@ internal sealed partial class ScopedDbCurrent<TEntity, TMessage>
                 return;
             }
 
-            if (serviceProvider.IsDisposedSlow())
+            if (serviceProvider.IsDisposed())
             {
                 return;
             }
@@ -96,7 +96,7 @@ internal sealed partial class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
                 return;
             }
 
-            if (serviceProvider.IsDisposedSlow())
+            if (serviceProvider.IsDisposed())
             {
                 return;
             }

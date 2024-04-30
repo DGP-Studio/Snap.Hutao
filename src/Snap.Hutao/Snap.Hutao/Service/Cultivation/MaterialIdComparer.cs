@@ -8,9 +8,10 @@ namespace Snap.Hutao.Service.Cultivation;
 
 internal sealed class MaterialIdComparer : IComparer<MaterialId>
 {
-    private static readonly Lazy<MaterialIdComparer> LazyShared = new(() => new());
+    private static MaterialIdComparer? shared;
+    private static object? syncRoot;
 
-    public static MaterialIdComparer Shared { get => LazyShared.Value; }
+    public static MaterialIdComparer Shared { get => LazyInitializer.EnsureInitialized(ref shared, ref syncRoot, () => new()); }
 
     public int Compare(MaterialId x, MaterialId y)
     {

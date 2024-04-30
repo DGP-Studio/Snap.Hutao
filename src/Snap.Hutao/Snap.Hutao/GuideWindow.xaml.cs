@@ -14,10 +14,10 @@ namespace Snap.Hutao;
 internal sealed partial class GuideWindow : Window, IWindowOptionsSource, IMinMaxInfoHandler
 {
     private const int MinWidth = 1000;
-    private const int MinHeight = 600;
+    private const int MinHeight = 650;
 
     private const int MaxWidth = 1200;
-    private const int MaxHeight = 750;
+    private const int MaxHeight = 800;
 
     private readonly WindowOptions windowOptions;
 

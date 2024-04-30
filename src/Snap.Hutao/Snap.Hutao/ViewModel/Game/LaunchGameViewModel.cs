@@ -40,6 +40,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly ILogger<LaunchGameViewModel> logger;
+    private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly ResourceClient resourceClient;
     private readonly RuntimeOptions runtimeOptions;
@@ -58,6 +59,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private ImmutableList<GamePathEntry> gamePathEntries;
     private GamePathEntry? selectedGamePathEntry;
     private GameAccountFilter? gameAccountFilter;
+
+    LaunchGameShared IViewModelSupportLaunchExecution.Shared { get => launchGameShared; }
 
     public LaunchOptions LaunchOptions { get => launchOptions; }
 
@@ -82,7 +85,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public GameResource? GameResource { get => gameResource; set => SetProperty(ref gameResource, value); }
 
-    [AlsoAsyncSets(nameof(SelectedScheme), nameof(GameAccountsView))]
     public bool GamePathSelectedAndValid
     {
         get => gamePathSelectedAndValid;
@@ -99,7 +101,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 {
                     using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                     {
-                        LaunchScheme? scheme = LaunchGameShared.GetCurrentLaunchSchemeFromConfigFile(gameService, infoBarService);
+                        LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
 
                         await taskContext.SwitchToMainThreadAsync();
                         await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
@@ -148,7 +150,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public ImmutableList<GamePathEntry> GamePathEntries { get => gamePathEntries; set => SetProperty(ref gamePathEntries, value); }
 
-    [AlsoSets(nameof(GamePathSelectedAndValid))]
     public GamePathEntry? SelectedGamePathEntry
     {
         get => selectedGamePathEntry;
@@ -180,6 +181,12 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         return ValueTask.FromResult(true);
     }
 
+    [Command("IdentifyMonitorsCommand")]
+    private static async Task IdentifyMonitorsAsync()
+    {
+        await IdentifyMonitorWindow.IdentifyAllMonitorsAsync(3);
+    }
+
     [Command("SetGamePathCommand")]
     private async Task SetGamePathAsync()
     {
@@ -209,21 +216,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
-        try
-        {
-            LaunchExecutionContext context = new(Ioc.Default, this, SelectedScheme, SelectedGameAccount);
-            LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
-
-            if (result.Kind is not LaunchExecutionResultKind.Ok)
-            {
-                infoBarService.Warning(result.ErrorMessage);
-            }
-        }
-        catch (Exception ex)
-        {
-            logger.LogCritical(ex, "Launch failed");
-            infoBarService.Error(ex);
-        }
+        await this.LaunchExecutionAsync().ConfigureAwait(false);
     }
 
     [Command("DetectGameAccountCommand")]
@@ -244,7 +237,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 SelectedGameAccount = account;
             }
         }
-        catch (UserdataCorruptedException ex)
+        catch (Exception ex)
         {
             infoBarService.Error(ex);
         }
@@ -253,47 +246,54 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("AttachGameAccountCommand")]
     private void AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)
     {
-        if (gameAccount is not null)
+        if (gameAccount is null)
         {
-            if (userService.Current?.SelectedUserGameRole is { } role)
-            {
-                gameService.AttachGameAccountToUid(gameAccount, role.GameUid);
-            }
-            else
-            {
-                infoBarService.Warning(SH.MustSelectUserAndUid);
-            }
+            return;
+        }
+
+        if (userService.Current?.SelectedUserGameRole is { } role)
+        {
+            gameService.AttachGameAccountToUid(gameAccount, role.GameUid);
+        }
+        else
+        {
+            infoBarService.Warning(SH.MustSelectUserAndUid);
         }
     }
 
     [Command("ModifyGameAccountCommand")]
     private async Task ModifyGameAccountAsync(GameAccount? gameAccount)
     {
-        if (gameAccount is not null)
+        if (gameAccount is null)
         {
-            await gameService.ModifyGameAccountAsync(gameAccount).ConfigureAwait(false);
+            return;
         }
+
+        await gameService.ModifyGameAccountAsync(gameAccount).ConfigureAwait(false);
     }
 
     [Command("RemoveGameAccountCommand")]
     private async Task RemoveGameAccountAsync(GameAccount? gameAccount)
     {
-        if (gameAccount is not null)
+        if (gameAccount is null)
         {
-            await gameService.RemoveGameAccountAsync(gameAccount).ConfigureAwait(false);
+            return;
         }
+
+        await gameService.RemoveGameAccountAsync(gameAccount).ConfigureAwait(false);
     }
 
     [Command("OpenScreenshotFolderCommand")]
     private async Task OpenScreenshotFolderAsync()
     {
-        string game = LaunchOptions.GamePath;
-        string? directory = Path.GetDirectoryName(game);
-        ArgumentException.ThrowIfNullOrEmpty(directory);
-        string screenshot = Path.Combine(directory, "ScreenShot");
-        if (Directory.Exists(screenshot))
+        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
         {
-            await Windows.System.Launcher.LaunchFolderPathAsync(screenshot);
+            return;
+        }
+
+        if (Directory.Exists(gameFileSystem.ScreenShotDirectory))
+        {
+            await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.ScreenShotDirectory);
         }
     }
 
@@ -301,12 +301,12 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     {
         if (SetProperty(ref selectedScheme, value, nameof(SelectedScheme)))
         {
-            UpdateGameResourceAsync(value).SafeForget();
-            await UpdateGameAccountsViewAsync().ConfigureAwait(false);
-
             // Clear the selected game account to prevent setting
             // incorrect CN/OS account when scheme not match
             SelectedGameAccount = default;
+
+            await UpdateGameAccountsViewAsync().ConfigureAwait(false);
+            UpdateGameResourceAsync(value).SafeForget();
         }
 
         async ValueTask UpdateGameResourceAsync(LaunchScheme? scheme)
@@ -338,30 +338,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             {
                 Filter = gameAccountFilter.Filter,
             };
-        }
-    }
-
-    [Command("IdentifyMonitorsCommand")]
-    private async Task IdentifyMonitorsAsync()
-    {
-        List<IdentifyMonitorWindow> windows = [];
-
-        IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
-        for (int i = 0; i < displayAreas.Count; i++)
-        {
-            windows.Add(new IdentifyMonitorWindow(displayAreas[i], i + 1));
-        }
-
-        foreach (IdentifyMonitorWindow window in windows)
-        {
-            window.Activate();
-        }
-
-        await Delay.FromSeconds(3).ConfigureAwait(true);
-
-        foreach (IdentifyMonitorWindow window in windows)
-        {
-            window.Close();
         }
     }
 }

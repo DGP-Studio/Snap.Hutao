@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
@@ -15,7 +16,18 @@ internal sealed partial class HutaoInfrastructureClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<HutaoInfrastructureClient> logger;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
+
+    public async ValueTask<HutaoResponse<StaticResourceSizeInformation>> GetStaticSizeAsync(CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(HutaoEndpoints.StaticSize)
+            .Get();
+
+        HutaoResponse<StaticResourceSizeInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<StaticResourceSizeInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        return Web.Response.Response.DefaultIfNull(resp);
+    }
 
     public async ValueTask<HutaoResponse<IPInformation>> GetIPInformationAsync(CancellationToken token = default)
     {
@@ -31,6 +43,7 @@ internal sealed partial class HutaoInfrastructureClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.PatchSnapHutao)
+            .SetHeader("x-device-id", runtimeOptions.DeviceId)
             .Get();
 
         HutaoResponse<HutaoVersionInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<HutaoVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);

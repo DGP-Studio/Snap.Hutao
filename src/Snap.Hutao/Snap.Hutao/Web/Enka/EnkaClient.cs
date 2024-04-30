@@ -15,9 +15,6 @@ using System.Net.Sockets;
 
 namespace Snap.Hutao.Web.Enka;
 
-/// <summary>
-/// Enka API 客户端
-/// </summary>
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
@@ -29,23 +26,11 @@ internal sealed partial class EnkaClient
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 异步获取转发的 Enka API 响应
-    /// </summary>
-    /// <param name="playerUid">玩家Uid</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>Enka API 响应</returns>
     public ValueTask<EnkaResponse?> GetForwardDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
         return TryGetEnkaResponseCoreAsync(HutaoEndpoints.Enka(playerUid), token);
     }
 
-    /// <summary>
-    /// 异步获取 Enka API 响应
-    /// </summary>
-    /// <param name="playerUid">玩家Uid</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>Enka API 响应</returns>
     public ValueTask<EnkaResponse?> GetDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
         return TryGetEnkaResponseCoreAsync(string.Format(CultureInfo.CurrentCulture, EnkaAPI, playerUid), token);

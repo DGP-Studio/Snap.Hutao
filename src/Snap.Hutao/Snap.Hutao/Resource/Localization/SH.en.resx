@@ -653,7 +653,7 @@
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
     <value>Open UIAF Json File</value>
   </data>
-  <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
+  <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
     <value>Multiple identical achievement IDs found in a single achievement archive</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
@@ -1334,6 +1334,12 @@
   <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
     <value>Name the account</value>
   </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogHint" xml:space="preserve">
+    <value>Select game server of the current gane client path</value>
+  </data>
+  <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
+    <value>Fixing configuration file</value>
+  </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>Conversion may take some time. Please don't close HuTao.</value>
   </data>
@@ -1354,6 +1360,21 @@
   </data>
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>Delete user data permanently?</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginCloseButtonText" xml:space="preserve">
+    <value>Log in Now</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
+    <value>No Hutao Passport logged in currently, uploading Abyss Records will not grant you Hutao Cloud privilege extension.</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
+    <value>Continue to Upload</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
+    <value>Upload Abyss Records</value>
+  </data>
+  <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
+    <value>Check Update Logs</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Take me there</value>
@@ -1376,6 +1397,9 @@
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>Wish History</value>
   </data>
+  <data name="ViewGuideStaticResourceDownloadSize" xml:space="preserve">
+    <value>Expected asset size: {0}</value>
+  </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
     <value>I've read and agreed to</value>
   </data>
@@ -1390,6 +1414,12 @@
   </data>
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
     <value>User Agreement and Legal Notices</value>
+  </data>
+  <data name="ViewGuideStepCommonSetting" xml:space="preserve">
+    <value>Basic Settings</value>
+  </data>
+  <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
+    <value>You may make changes in Settings</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Document</value>
@@ -1417,6 +1447,24 @@
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>Assets</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSetting" xml:space="preserve">
+    <value>Image Assets Settings</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingHint" xml:space="preserve">
+    <value>* Unless uninstall and reinstall Snap Hutao, you cannot change this setting</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumHeader" xml:space="preserve">
+    <value>Image Assets Archive</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumOff" xml:space="preserve">
+    <value>Full Archive</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingMinimumOn" xml:space="preserve">
+    <value>Minimum Archive</value>
+  </data>
+  <data name="ViewGuideStepStaticResourceSettingQualityHeader" xml:space="preserve">
+    <value>Image Assets Quality</value>
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>Abyss Stats</value>
@@ -1607,6 +1655,12 @@
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
     <value>Dowloading Assets</value>
   </data>
+  <data name="ViewModelGuideStaticResourceQualityHigh" xml:space="preserve">
+    <value>Raw</value>
+  </data>
+  <data name="ViewModelGuideStaticResourceQualityRaw" xml:space="preserve">
+    <value>High Quality</value>
+  </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Please enter correct email address</value>
   </data>
@@ -1625,6 +1679,12 @@
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Convert server failed</value>
   </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileButtonText" xml:space="preserve">
+    <value>Fix Configuration File</value>
+  </data>
+  <data name="ViewModelLaunchGameFixConfigurationFileSuccess" xml:space="preserve">
+    <value>Fix Complete</value>
+  </data>
   <data name="ViewModelLaunchGameIdentifyMonitorsAction" xml:space="preserve">
     <value>Identify Monitors</value>
   </data>
@@ -1636,6 +1696,9 @@
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
     <value>No server selected</value>
+  </data>
+  <data name="ViewModelLaunchGameSetGamePathButtonText" xml:space="preserve">
+    <value>Set Game Path</value>
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>Switch game account failed</value>
@@ -1672,6 +1735,9 @@
   </data>
   <data name="ViewModelSettingGeetestCustomUrlSucceed" xml:space="preserve">
     <value>CAPTCHA Verification composite URL successfully configured</value>
+  </data>
+  <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
+    <value>Resetting Static Resource</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Set data directory successfully. Restart to apply changes.</value>
@@ -2654,6 +2720,12 @@
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>Contribute Translations</value>
   </data>
+  <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
+    <value>Display undrawn wish items in Character and Weapon tabs in Wish Export</value>
+  </data>
+  <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
+    <value>Undrawn Wish Items</value>
+  </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>Store Page</value>
   </data>
@@ -2834,6 +2906,15 @@
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>Upload Data</value>
   </data>
+  <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
+    <value>Download Now?</value>
+  </data>
+  <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
+    <value>Failed to Download Update Patch</value>
+  </data>
+  <data name="ViewTitileUpdatePackageDownloadTitle" xml:space="preserve">
+    <value>Snap Hutao {0} is Released</value>
+  </data>
   <data name="ViewTitileUpdatePackageReadyContent" xml:space="preserve">
     <value>Install now?</value>
   </data>
@@ -2842,6 +2923,9 @@
   </data>
   <data name="ViewTitleAutoClicking" xml:space="preserve">
     <value>Auto Click</value>
+  </data>
+  <data name="ViewTitleUpdatePackageInstallingContent" xml:space="preserve">
+    <value>Installing New Version Patch</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>Tools</value>
@@ -2922,13 +3006,19 @@
     <value>Weapon WIKI</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓Event Duration〓|〓Quest Start Time〓).*?\d\.\dthe Version update(?:after|)Permanently available</value>
+    <value>(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)后永久开放</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓Event Duration〓.*?\d\.\d Available throughout the entirety of Version</value>
+    <value>〓活动时间〓.*?(\d\.\d)版本期间持续开放</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓Event Duration〓|Event Wish Duration|【Availability Duration】|〓Discount Period〓).*?(\d\.\dAfter the Version update).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d)版本更新后.*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
+    <value>将于&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;进行版本更新维护</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
+    <value>\d\.\d版本更新维护预告</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓Update Maintenance Duration〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
@@ -2988,7 +3078,7 @@
     <value>{0} mins</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
-    <value>Incomplete Daily Commissions</value>
+    <value>Daily Commissions are not Completed</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
     <value>Daily Commission Reward not claimed</value>

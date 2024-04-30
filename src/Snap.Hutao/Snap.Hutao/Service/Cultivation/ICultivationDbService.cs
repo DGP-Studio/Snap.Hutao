@@ -2,43 +2,48 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Abstraction;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-internal interface ICultivationDbService
+internal interface ICultivationDbService : IAppDbService<InventoryItem>,
+    IAppDbService<CultivateEntryLevelInformation>,
+    IAppDbService<CultivateProject>,
+    IAppDbService<CultivateEntry>,
+    IAppDbService<CultivateItem>
 {
-    ValueTask AddCultivateProjectAsync(CultivateProject project);
+    ValueTask AddCultivateProjectAsync(CultivateProject project, CancellationToken token = default);
 
-    ValueTask RemoveCultivateEntryByIdAsync(Guid entryId);
+    ValueTask RemoveCultivateEntryByIdAsync(Guid entryId, CancellationToken token = default);
 
-    ValueTask RemoveCultivateItemRangeByEntryIdAsync(Guid entryId);
+    ValueTask RemoveCultivateItemRangeByEntryIdAsync(Guid entryId, CancellationToken token = default);
 
-    ValueTask RemoveCultivateProjectByIdAsync(Guid projectId);
+    ValueTask RemoveCultivateProjectByIdAsync(Guid projectId, CancellationToken token = default);
 
-    ValueTask<CultivateEntry?> GetCultivateEntryByProjectIdAndItemIdAsync(Guid projectId, uint itemId);
+    ValueTask<CultivateEntry?> GetCultivateEntryByProjectIdAndItemIdAsync(Guid projectId, uint itemId, CancellationToken token = default);
 
-    ValueTask<List<CultivateEntry>> GetCultivateEntryListByProjectIdAsync(Guid projectId);
+    ValueTask<List<CultivateEntry>> GetCultivateEntryListByProjectIdAsync(Guid projectId, CancellationToken token = default);
 
-    ValueTask<List<CultivateItem>> GetCultivateItemListByEntryIdAsync(Guid entryId);
+    ValueTask<List<CultivateItem>> GetCultivateItemListByEntryIdAsync(Guid entryId, CancellationToken token = default);
 
     ObservableCollection<CultivateProject> GetCultivateProjectCollection();
 
     List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId);
 
-    ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId);
+    ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId, CancellationToken token = default);
 
-    ValueTask AddCultivateEntryAsync(CultivateEntry entry);
+    ValueTask AddCultivateEntryAsync(CultivateEntry entry, CancellationToken token = default);
 
-    ValueTask AddCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd);
+    ValueTask AddCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd, CancellationToken token = default);
 
     void UpdateCultivateItem(CultivateItem item);
 
-    ValueTask UpdateCultivateItemAsync(CultivateItem item);
+    ValueTask UpdateCultivateItemAsync(CultivateItem item, CancellationToken token = default);
 
-    ValueTask RemoveLevelInformationByEntryIdAsync(Guid entryId);
+    ValueTask RemoveLevelInformationByEntryIdAsync(Guid entryId, CancellationToken token = default);
 
-    ValueTask AddLevelInformationAsync(CultivateEntryLevelInformation levelInformation);
+    ValueTask AddLevelInformationAsync(CultivateEntryLevelInformation levelInformation, CancellationToken token = default);
 
-    ValueTask<List<CultivateEntry>> GetCultivateEntryIncludeLevelInformationListByProjectIdAsync(Guid projectId);
+    ValueTask<List<CultivateEntry>> GetCultivateEntryListIncludingLevelInformationByProjectIdAsync(Guid projectId, CancellationToken token = default);
 }

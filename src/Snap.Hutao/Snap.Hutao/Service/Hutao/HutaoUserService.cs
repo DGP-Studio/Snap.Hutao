@@ -15,7 +15,7 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
 {
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
-    private readonly HutaoPassportClient passportClient;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ITaskContext taskContext;
     private readonly HutaoUserOptions options;
 
@@ -40,19 +40,24 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
         }
         else
         {
-            Web.Response.Response<string> response = await passportClient.LoginAsync(userName, password, token).ConfigureAwait(false);
+            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            {
+                HutaoPassportClient hutaoPassportClient = scope.ServiceProvider.GetRequiredService<HutaoPassportClient>();
 
-            if (response.IsOk())
-            {
-                if (await options.PostLoginSucceedAsync(passportClient, taskContext, userName, password, response.Data).ConfigureAwait(false))
+                Web.Response.Response<string> response = await hutaoPassportClient.LoginAsync(userName, password, token).ConfigureAwait(false);
+
+                if (response.IsOk())
                 {
-                    isInitialized = true;
+                    if (await options.PostLoginSucceedAsync(hutaoPassportClient, taskContext, userName, password, response.Data).ConfigureAwait(false))
+                    {
+                        isInitialized = true;
+                    }
                 }
-            }
-            else
-            {
-                await taskContext.SwitchToMainThreadAsync();
-                options.PostLoginFailed();
+                else
+                {
+                    await taskContext.SwitchToMainThreadAsync();
+                    options.PostLoginFailed();
+                }
             }
         }
 

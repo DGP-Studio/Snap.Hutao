@@ -30,10 +30,10 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     /// <inheritdoc/>
     public async ValueTask<bool> UnlockAsync(CancellationToken token = default)
     {
-        HutaoException.ThrowIfNot(context.IsUnlockerValid, HutaoExceptionKind.GameFpsUnlockingFailed, "This Unlocker is invalid");
+        HutaoException.ThrowIfNot(context.IsUnlockerValid, "This Unlocker is invalid");
         (FindModuleResult result, RequiredGameModule gameModule) = await GameProcessModule.FindModuleAsync(context).ConfigureAwait(false);
-        HutaoException.ThrowIfNot(result != FindModuleResult.TimeLimitExeeded, HutaoExceptionKind.GameFpsUnlockingFailed, SH.ServiceGameUnlockerFindModuleTimeLimitExeeded);
-        HutaoException.ThrowIfNot(result != FindModuleResult.NoModuleFound, HutaoExceptionKind.GameFpsUnlockingFailed, SH.ServiceGameUnlockerFindModuleNoModuleFound);
+        HutaoException.ThrowIfNot(result != FindModuleResult.TimeLimitExeeded, SH.ServiceGameUnlockerFindModuleTimeLimitExeeded);
+        HutaoException.ThrowIfNot(result != FindModuleResult.NoModuleFound, SH.ServiceGameUnlockerFindModuleNoModuleFound);
 
         GameFpsAddress.UnsafeFindFpsAddress(context, gameModule);
         context.Report();

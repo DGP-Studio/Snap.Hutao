@@ -5,50 +5,61 @@ namespace Snap.Hutao.Core.ExceptionService;
 
 internal sealed class HutaoException : Exception
 {
-    public HutaoException(HutaoExceptionKind kind, string message, Exception? innerException)
-        : this(message, innerException)
-    {
-        Kind = kind;
-    }
-
-    private HutaoException(string message, Exception? innerException)
+    public HutaoException(string message, Exception? innerException)
         : base($"{message}\n{innerException?.Message}", innerException)
     {
     }
 
-    public HutaoExceptionKind Kind { get; private set; }
-
     [DoesNotReturn]
-    public static HutaoException Throw(HutaoExceptionKind kind, string message, Exception? innerException = default)
+    public static HutaoException Throw(string message, Exception? innerException = default)
     {
-        throw new HutaoException(kind, message, innerException);
+        throw new HutaoException(message, innerException);
     }
 
-    public static void ThrowIf(bool condition, HutaoExceptionKind kind, string message, Exception? innerException = default)
+    public static void ThrowIf([DoesNotReturnIf(true)] bool condition, string message, Exception? innerException = default)
     {
         if (condition)
         {
-            throw new HutaoException(kind, message, innerException);
+            throw new HutaoException(message, innerException);
         }
     }
 
-    public static void ThrowIfNot(bool condition, HutaoExceptionKind kind, string message, Exception? innerException = default)
+    public static void ThrowIfNot([DoesNotReturnIf(false)] bool condition, string message, Exception? innerException = default)
     {
         if (!condition)
         {
-            throw new HutaoException(kind, message, innerException);
+            throw new HutaoException(message, innerException);
         }
     }
 
-    public static HutaoException ServiceTypeCastFailed<TFrom, TTo>(string name, Exception? innerException = default)
-    {
-        string message = $"This instance of '{typeof(TFrom).FullName}' '{name}' doesn't implement '{typeof(TTo).FullName}'";
-        throw new HutaoException(HutaoExceptionKind.ServiceTypeCastFailed, message, innerException);
-    }
-
+    [DoesNotReturn]
     public static HutaoException GachaStatisticsInvalidItemId(uint id, Exception? innerException = default)
     {
-        string message = SH.FormatServiceGachaStatisticsFactoryItemIdInvalid(id);
-        throw new HutaoException(HutaoExceptionKind.GachaStatisticsInvalidItemId, message, innerException);
+        throw new HutaoException(SH.FormatServiceGachaStatisticsFactoryItemIdInvalid(id), innerException);
+    }
+
+    [DoesNotReturn]
+    public static HutaoException UserdataCorrupted(string message, Exception? innerException = default)
+    {
+        throw new HutaoException(message, innerException);
+    }
+
+    [DoesNotReturn]
+    public static InvalidCastException InvalidCast<TFrom, TTo>(string name, Exception? innerException = default)
+    {
+        string message = $"This instance of '{typeof(TFrom).FullName}' '{name}' doesn't implement '{typeof(TTo).FullName}'";
+        throw new InvalidCastException(message, innerException);
+    }
+
+    [DoesNotReturn]
+    public static NotSupportedException NotSupported(string? message = default, Exception? innerException = default)
+    {
+        throw new NotSupportedException(message, innerException);
+    }
+
+    [DoesNotReturn]
+    public static OperationCanceledException OperationCanceled(string message, Exception? innerException = default)
+    {
+        throw new OperationCanceledException(message, innerException);
     }
 }

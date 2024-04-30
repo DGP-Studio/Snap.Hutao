@@ -11,5 +11,5 @@ internal interface IInfoBarService
 {
     ObservableCollection<InfoBar> Collection { get; }
 
-    void PrepareInfoBarAndShow(InfoBarSeverity severity, string? title, string? message, int delay);
+    void PrepareInfoBarAndShow(Action<IInfoBarOptionsBuilder> configure);
 }

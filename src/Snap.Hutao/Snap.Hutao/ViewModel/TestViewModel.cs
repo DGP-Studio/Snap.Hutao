@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.Guide;
@@ -18,6 +20,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
     private readonly HutaoAsAServiceClient homaAsAServiceClient;
     private readonly IInfoBarService infoBarService;
+    private readonly ILogger<TestViewModel> logger;
+    private readonly IMemoryCache memoryCache;
     private readonly ITaskContext taskContext;
     private readonly MainWindow mainWindow;
 
@@ -84,7 +88,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {
-        UnsafeLocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, GuideState.Language);
+        UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language);
     }
 
     [Command("ExceptionCommand")]
@@ -121,6 +125,15 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             infoBarService.Success(response.Message);
             await taskContext.SwitchToMainThreadAsync();
             Announcement = new();
+        }
+    }
+
+    [Command("DebugPrintImageCacheFailedDownloadTasksCommand")]
+    private void DebugPrintImageCacheFailedDownloadTasks()
+    {
+        if (memoryCache.TryGetValue($"{nameof(ImageCache)}.FailedDownloadTasks", out HashSet<string>? set))
+        {
+            logger.LogInformation("Failed ImageCache download tasks: [{Tasks}]", set?.ToString(','));
         }
     }
 }
