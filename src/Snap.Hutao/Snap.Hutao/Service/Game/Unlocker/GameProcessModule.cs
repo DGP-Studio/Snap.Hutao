@@ -5,7 +5,6 @@ using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Memory;
 using Snap.Hutao.Win32.System.ProcessStatus;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.Kernel32;
 

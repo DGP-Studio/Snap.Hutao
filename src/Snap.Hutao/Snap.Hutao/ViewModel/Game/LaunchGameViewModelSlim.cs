@@ -2,14 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Launching;
-using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Game;
@@ -73,6 +69,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     [Command("LaunchCommand")]
     private async Task LaunchAsync()
     {
-        await this.LaunchExecutionAsync().ConfigureAwait(false);
+        await this.LaunchExecutionAsync(launchGameShared.GetCurrentLaunchSchemeFromConfigFile()).ConfigureAwait(false);
     }
 }

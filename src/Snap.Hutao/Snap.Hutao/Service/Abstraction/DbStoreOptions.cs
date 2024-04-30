@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Options;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Database;
 using System.Globalization;

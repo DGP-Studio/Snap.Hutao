@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.ViewModel.Cultivation;
 
 namespace Snap.Hutao.Service.Cultivation;
 

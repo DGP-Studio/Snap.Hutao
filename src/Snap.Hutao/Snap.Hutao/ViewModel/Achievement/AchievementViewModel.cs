@@ -16,7 +16,6 @@ using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
-using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
 using SortDescription = CommunityToolkit.WinUI.Collections.SortDescription;
 using SortDirection = CommunityToolkit.WinUI.Collections.SortDirection;

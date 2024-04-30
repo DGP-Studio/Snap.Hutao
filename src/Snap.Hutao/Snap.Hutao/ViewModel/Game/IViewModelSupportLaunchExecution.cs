@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game.PathAbstraction;
-using Snap.Hutao.Service.Notification;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.ViewModel.Game;

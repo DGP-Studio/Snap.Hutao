@@ -9,7 +9,6 @@ using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using static Snap.Hutao.Win32.ComCtl32;
 using static Snap.Hutao.Win32.ConstValues;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Core.Windowing;
 

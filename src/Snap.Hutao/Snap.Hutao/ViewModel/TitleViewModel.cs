@@ -11,7 +11,6 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
 using Snap.Hutao.View.Dialog;
-using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 

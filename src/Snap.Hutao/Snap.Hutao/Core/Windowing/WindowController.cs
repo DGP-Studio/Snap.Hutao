@@ -13,7 +13,6 @@ using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Dwm;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using System.Collections.Frozen;
 using System.IO;
 using Windows.Graphics;
 using Windows.UI;
