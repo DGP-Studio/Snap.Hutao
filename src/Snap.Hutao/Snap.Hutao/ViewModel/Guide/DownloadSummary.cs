@@ -65,41 +65,57 @@ internal sealed class DownloadSummary : ObservableObject
         ILogger<DownloadSummary> logger = serviceProvider.GetRequiredService<ILogger<DownloadSummary>>();
         try
         {
-            HttpRequestMessage message = httpRequestMessageBuilderFactory
-                .Create()
-                .SetRequestUri(fileUrl)
-                .SetStaticResourceControlHeaders()
-                .Get()
-                .HttpRequestMessage;
-
-            using (message)
+            int retryTimes = 0;
+            while (retryTimes++ < 3)
             {
-                using (HttpResponseMessage response = await httpClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
-                {
-                    if (!AllowedMediaTypes.Contains(response.Content.Headers.ContentType?.MediaType))
-                    {
-                        logger.LogWarning("Download Static Zip failed, Content-Type is {Type}", response.Content.Headers.ContentType);
-                        await taskContext.SwitchToMainThreadAsync();
-                        Description = SH.ViewModelWelcomeDownloadSummaryContentTypeNotMatch;
-                        return false;
-                    }
+                HttpRequestMessage message = httpRequestMessageBuilderFactory
+                    .Create()
+                    .SetRequestUri(fileUrl)
+                    .SetStaticResourceControlHeaders()
+                    .Get()
+                    .HttpRequestMessage;
 
-                    long contentLength = response.Content.Headers.ContentLength ?? 0;
-                    logger.LogInformation("Begin download, size: {length}", Converters.ToFileSizeString(contentLength));
-                    using (Stream content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                TimeSpan delay = default;
+
+                using (message)
+                {
+                    using (HttpResponseMessage response = await httpClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                     {
-                        using (TempFileStream temp = new(FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                        if (!AllowedMediaTypes.Contains(response.Content.Headers.ContentType?.MediaType))
                         {
-                            await new StreamCopyWorker(content, temp, contentLength).CopyAsync(progress).ConfigureAwait(false);
-                            ExtractFiles(temp);
+                            logger.LogWarning("Download Static Zip failed, Content-Type is {Type}", response.Content.Headers.ContentType);
                             await taskContext.SwitchToMainThreadAsync();
-                            ProgressValue = 1;
-                            Description = SH.ViewModelWelcomeDownloadSummaryComplete;
-                            return true;
+                            Description = SH.ViewModelWelcomeDownloadSummaryContentTypeNotMatch;
+                        }
+                        else
+                        {
+                            long contentLength = response.Content.Headers.ContentLength ?? 0;
+                            logger.LogInformation("Begin download, size: {length}", Converters.ToFileSizeString(contentLength));
+                            using (Stream content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                            {
+                                using (TempFileStream temp = new(FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                                {
+                                    await new StreamCopyWorker(content, temp, contentLength).CopyAsync(progress).ConfigureAwait(false);
+                                    ExtractFiles(temp);
+                                    await taskContext.SwitchToMainThreadAsync();
+                                    ProgressValue = 1;
+                                    Description = SH.ViewModelWelcomeDownloadSummaryComplete;
+                                    return true;
+                                }
+                            }
+                        }
+
+                        if (response.Headers.RetryAfter?.Delta is { } retryAfter)
+                        {
+                            delay = retryAfter;
                         }
                     }
                 }
+
+                await Task.Delay(delay).ConfigureAwait(false);
             }
+
+            return false;
         }
         catch (Exception ex)
         {
