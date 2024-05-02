@@ -1362,19 +1362,19 @@
     <value>是否永久刪除用戶數據</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginCloseButtonText" xml:space="preserve">
-    <value>前往登录</value>
+    <value>前往登入畫面</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
     <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
-    <value>继续上传</value>
+    <value>繼續上傳</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
     <value>上传深渊数据</value>
   </data>
   <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
-    <value>查看更新日志</value>
+    <value>查看更新日誌</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>立即前往</value>
@@ -1737,7 +1737,7 @@
     <value>無感驗證復合 URL 配置成功</value>
   </data>
   <data name="ViewModelSettingResetStaticResourceProgress" xml:space="preserve">
-    <value>正在重置图片资源</value>
+    <value>正在重設圖片資源</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>設置數據目錄成功，重新啟動以應用更改</value>
@@ -2907,7 +2907,7 @@
     <value>上傳資料</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
-    <value>是否立即下载？</value>
+    <value>是否立即下載？</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadFailedMessage" xml:space="preserve">
     <value>下載更新失敗</value>
@@ -3018,7 +3018,7 @@
     <value>将于&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;进行版本更新维护</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
-    <value>\d\.\d版本更新维护预告</value>
+    <value>\d\.\d版本更新停服說明</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓更新時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
