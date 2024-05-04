@@ -10,7 +10,6 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.UI.Shell.PropertiesSystem;
 
 [SupportedOSPlatform("windows6.0.6000")]
-[Guid("FC0CA0A7-C316-4FD2-9031-3E628E6D4F23")]
 internal unsafe readonly struct IObjectWithPropertyKey
 {
     public readonly Vftbl* ThisPtr;

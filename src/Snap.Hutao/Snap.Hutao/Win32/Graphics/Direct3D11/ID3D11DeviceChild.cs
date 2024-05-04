@@ -5,9 +5,11 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32.Graphics.Direct3D11;
 
+[SupportedOSPlatform("windows6.1")]
 internal unsafe readonly struct ID3D11DeviceChild
 {
     public readonly Vftbl* ThisPtr;

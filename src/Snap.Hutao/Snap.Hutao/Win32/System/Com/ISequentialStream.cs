@@ -9,7 +9,6 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.System.Com;
 
 [SupportedOSPlatform("windows5.0")]
-[Guid("0C733A30-2A1C-11CE-ADE5-00AA0044773D")]
 internal unsafe readonly struct ISequentialStream
 {
     public readonly Vftbl* ThisPtr;
