@@ -42,6 +42,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly MainWindow mainWindow;
 
+    private long counter;
+
     private UploadAnnouncement announcement = new();
 
     public UploadAnnouncement Announcement { get => announcement; set => SetProperty(ref announcement, value); }
@@ -157,6 +159,8 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("TestWindowsGraphicsCaptureCommand")]
     private unsafe void TestWindowsGraphicsCapture()
     {
+        counter = 0;
+
         // https://github.com/obsproject/obs-studio/blob/master/libobs-winrt/winrt-capture.cpp
         if (!UniversalApiContract.IsPresent(WindowsVersion.Windows10Version1903))
         {
@@ -172,8 +176,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
         D3D11_CREATE_DEVICE_FLAG flag = D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT | D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_DEBUG;
 
-        ID3D11Device* pD3D11Device = default;
-        if (SUCCEEDED(D3D11CreateDevice(default, D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, default, flag, default, 0, D3D11_SDK_VERSION, &pD3D11Device, default, default)))
+        if (SUCCEEDED(D3D11CreateDevice(default, D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, default, flag, [], D3D11_SDK_VERSION, out ID3D11Device* pD3D11Device, out _, out _)))
         {
             if (SUCCEEDED(IUnknownMarshal.QueryInterface(pD3D11Device, in IDXGIDevice.IID, out IDXGIDevice* pDXGIDevice)))
             {
@@ -182,31 +185,36 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                     IDirect3DDevice direct3DDevice = WinRT.CastExtensions.As<IDirect3DDevice>(WinRT.IInspectable.FromAbi((nint)inspectable));
 
                     SizeInt32 size = new(1920, 1080);
-                    Direct3D11CaptureFramePool framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(direct3DDevice, DirectXPixelFormat.B8G8R8A8UIntNormalized, 2, size);
-                    GC.KeepAlive(framePool);
-                    framePool.FrameArrived += (pool, obj) =>
+                    using (Direct3D11CaptureFramePool framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(direct3DDevice, DirectXPixelFormat.B8G8R8A8UIntNormalized, 2, size))
                     {
-                        using (Direct3D11CaptureFrame frame = framePool.TryGetNextFrame())
+                        framePool.FrameArrived += (pool, obj) =>
                         {
-                            if (frame is not null)
+                            Interlocked.Increment(ref counter);
+                            using (Direct3D11CaptureFrame frame = framePool.TryGetNextFrame())
                             {
-                                logger.LogInformation("Content Size: {Width} x {Height}", frame.ContentSize.Width, frame.ContentSize.Height);
+                                if (frame is not null)
+                                {
+                                    logger.LogInformation("Content Size: {Width} x {Height} {Count}", frame.ContentSize.Width, frame.ContentSize.Height, Volatile.Read(ref counter));
+                                }
+                                else
+                                {
+                                    logger.LogInformation("Null Frame");
+                                }
                             }
-                            else
-                            {
-                                logger.LogInformation("Null Frame");
-                            }
+                        };
+
+                        HWND hwnd = serviceProvider.GetRequiredService<ICurrentWindowReference>().GetWindowHandle();
+                        GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForWindow(hwnd, out GraphicsCaptureItem item);
+
+                        using (GraphicsCaptureSession captureSession = framePool.CreateCaptureSession(item))
+                        {
+                            captureSession.IsCursorCaptureEnabled = false;
+                            captureSession.IsBorderRequired = false;
+                            captureSession.StartCapture();
+
+                            Thread.Sleep(1000);
                         }
-                    };
-
-                    HWND hwnd = serviceProvider.GetRequiredService<ICurrentWindowReference>().GetWindowHandle();
-
-                    GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForWindow(hwnd, out GraphicsCaptureItem item);
-
-                    GraphicsCaptureSession captureSession = framePool.CreateCaptureSession(item);
-                    captureSession.StartCapture();
-
-                    Thread.Sleep(1000);
+                    }
                 }
                 else
                 {
@@ -224,7 +232,5 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         {
             logger.LogWarning("D3D11CreateDevice failed");
         }
-
-        _ = 1;
     }
 }

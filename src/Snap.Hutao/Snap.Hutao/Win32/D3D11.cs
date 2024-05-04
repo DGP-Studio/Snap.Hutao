@@ -29,4 +29,21 @@ internal static class D3D11
 
     [DllImport("d3d11.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static unsafe extern HRESULT D3D11CreateDevice([AllowNull] IDXGIAdapter* pAdapter, D3D_DRIVER_TYPE DriverType, HMODULE Software, D3D11_CREATE_DEVICE_FLAG Flags, [AllowNull] D3D_FEATURE_LEVEL* pFeatureLevels, uint FeatureLevels, uint SDKVersion, [MaybeNull] ID3D11Device** ppDevice, [MaybeNull] D3D_FEATURE_LEVEL* pFeatureLevel, [MaybeNull] ID3D11DeviceContext** ppImmediateContext);
+
+    public static unsafe HRESULT D3D11CreateDevice([AllowNull] IDXGIAdapter* pAdapter, D3D_DRIVER_TYPE DriverType, HMODULE Software, D3D11_CREATE_DEVICE_FLAG Flags, [AllowNull] ReadOnlySpan<D3D_FEATURE_LEVEL> featureLevels, uint SDKVersion, out ID3D11Device* pDevice, out D3D_FEATURE_LEVEL featureLevel, out ID3D11DeviceContext* pImmediateContext)
+    {
+        fixed (ID3D11Device** ppDevice = &pDevice)
+        {
+            fixed (D3D_FEATURE_LEVEL* pFeatureLevels = featureLevels)
+            {
+                fixed (D3D_FEATURE_LEVEL* pFeatureLevel = &featureLevel)
+                {
+                    fixed (ID3D11DeviceContext** ppImmediateContext = &pImmediateContext)
+                    {
+                        return D3D11CreateDevice(pAdapter, DriverType, Software, Flags, pFeatureLevels, (uint)featureLevels.Length, SDKVersion, ppDevice, pFeatureLevel, ppImmediateContext);
+                    }
+                }
+            }
+        }
+    }
 }
