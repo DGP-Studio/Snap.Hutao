@@ -1,0 +1,15 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Snap.Hutao.Win32.Graphics.Direct3D11;
+
+internal enum D3D11_DSV_DIMENSION
+{
+    D3D11_DSV_DIMENSION_UNKNOWN = 0,
+    D3D11_DSV_DIMENSION_TEXTURE1D = 1,
+    D3D11_DSV_DIMENSION_TEXTURE1DARRAY = 2,
+    D3D11_DSV_DIMENSION_TEXTURE2D = 3,
+    D3D11_DSV_DIMENSION_TEXTURE2DARRAY = 4,
+    D3D11_DSV_DIMENSION_TEXTURE2DMS = 5,
+    D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY = 6,
+}

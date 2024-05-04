@@ -1,0 +1,20 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Snap.Hutao.Win32.Graphics.Direct3D;
+
+internal enum D3D_FEATURE_LEVEL
+{
+    D3D_FEATURE_LEVEL_1_0_GENERIC = 0x100,
+    D3D_FEATURE_LEVEL_1_0_CORE = 0x1000,
+    D3D_FEATURE_LEVEL_9_1 = 0x9100,
+    D3D_FEATURE_LEVEL_9_2 = 0x9200,
+    D3D_FEATURE_LEVEL_9_3 = 0x9300,
+    D3D_FEATURE_LEVEL_10_0 = 0xA000,
+    D3D_FEATURE_LEVEL_10_1 = 0xA100,
+    D3D_FEATURE_LEVEL_11_0 = 0xB000,
+    D3D_FEATURE_LEVEL_11_1 = 0xB100,
+    D3D_FEATURE_LEVEL_12_0 = 0xC000,
+    D3D_FEATURE_LEVEL_12_1 = 0xC100,
+    D3D_FEATURE_LEVEL_12_2 = 0xC200,
+}

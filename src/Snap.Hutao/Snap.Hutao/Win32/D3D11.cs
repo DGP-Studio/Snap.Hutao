@@ -1,0 +1,32 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.Graphics.Direct3D;
+using Snap.Hutao.Win32.Graphics.Direct3D11;
+using Snap.Hutao.Win32.Graphics.Dxgi;
+using Snap.Hutao.Win32.System.WinRT;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+
+namespace Snap.Hutao.Win32;
+
+[SuppressMessage("", "SA1313")]
+[SuppressMessage("", "SYSLIB1054")]
+internal static class D3D11
+{
+    [DllImport("d3d11.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    public static unsafe extern HRESULT CreateDirect3D11DeviceFromDXGIDevice(IDXGIDevice* dxgiDevice, IInspectable** graphicsDevice);
+
+    [DebuggerStepThrough]
+    public static unsafe HRESULT CreateDirect3D11DeviceFromDXGIDevice(IDXGIDevice* dxgiDevice, out IInspectable* graphicsDevice)
+    {
+        fixed (IInspectable** pGraphicsDevice = &graphicsDevice)
+        {
+            return CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice, pGraphicsDevice);
+        }
+    }
+
+    [DllImport("d3d11.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    public static unsafe extern HRESULT D3D11CreateDevice([AllowNull] IDXGIAdapter* pAdapter, D3D_DRIVER_TYPE DriverType, HMODULE Software, D3D11_CREATE_DEVICE_FLAG Flags, [AllowNull] D3D_FEATURE_LEVEL* pFeatureLevels, uint FeatureLevels, uint SDKVersion, [MaybeNull] ID3D11Device** ppDevice, [MaybeNull] D3D_FEATURE_LEVEL* pFeatureLevel, [MaybeNull] ID3D11DeviceContext** ppImmediateContext);
+}

@@ -12,40 +12,17 @@ namespace Snap.Hutao.Win32.UI.Shell;
 
 [SuppressMessage("", "SH002")]
 [SupportedOSPlatform("windows6.0.6000")]
-[Guid("42F85136-DB7E-439C-85F1-E4075D135FC8")]
 internal unsafe struct IFileDialog
 {
     public readonly Vftbl* ThisPtr;
 
-    internal static unsafe ref readonly Guid IID
+    internal static ref readonly Guid IID
     {
         get
         {
             ReadOnlySpan<byte> data = [0x36, 0x51, 0xF8, 0x42, 0x7E, 0xDB, 0x9C, 0x43, 0x85, 0xF1, 0xE4, 0x07, 0x5D, 0x13, 0x5F, 0xC8];
             return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
-    }
-
-    public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
-        where TInterface : unmanaged
-    {
-        fixed (Guid* riid2 = &riid)
-        {
-            fixed (TInterface** ppvObject = &pvObject)
-            {
-                return ThisPtr->IModalWindowVftbl.IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
-            }
-        }
-    }
-
-    public uint AddRef()
-    {
-        return ThisPtr->IModalWindowVftbl.IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
-    }
-
-    public uint Release()
-    {
-        return ThisPtr->IModalWindowVftbl.IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public HRESULT Show([AllowNull] HWND hwndOwner)

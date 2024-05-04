@@ -10,11 +10,11 @@ namespace Snap.Hutao.Win32.System.Com;
 
 [SupportedOSPlatform("windows5.0")]
 [Guid("0000010C-0000-0000-C000-000000000046")]
-internal unsafe struct IPersist
+internal unsafe readonly struct IPersist
 {
     public readonly Vftbl* ThisPtr;
 
-    internal static unsafe ref readonly Guid IID
+    internal static ref readonly Guid IID
     {
         get
         {
@@ -23,29 +23,7 @@ internal unsafe struct IPersist
         }
     }
 
-    public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
-        where TInterface : unmanaged
-    {
-        fixed (Guid* riid2 = &riid)
-        {
-            fixed (TInterface** ppvObject = &pvObject)
-            {
-                return ThisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
-            }
-        }
-    }
-
-    public uint AddRef()
-    {
-        return ThisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
-    }
-
-    public uint Release()
-    {
-        return ThisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
-    }
-
-    internal unsafe readonly struct Vftbl
+    internal readonly struct Vftbl
     {
         internal readonly IUnknown.Vftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IPersist*, Guid*, HRESULT> GetClassID;
