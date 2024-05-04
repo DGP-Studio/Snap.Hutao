@@ -11,40 +11,17 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [SupportedOSPlatform("windows6.0.6000")]
-[Guid("0C9FB851-E5C9-43EB-A370-F0677B13874C")]
-internal unsafe struct IOperationsProgressDialog
+internal unsafe readonly struct IOperationsProgressDialog
 {
     public readonly Vftbl* ThisPtr;
 
-    internal static unsafe ref readonly Guid IID
+    internal static ref readonly Guid IID
     {
         get
         {
             ReadOnlySpan<byte> data = [0x51, 0xB8, 0x9F, 0x0C, 0xC9, 0xE5, 0xEB, 0x43, 0xA3, 0x70, 0xF0, 0x67, 0x7B, 0x13, 0x87, 0x4C];
             return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
-    }
-
-    public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
-        where TInterface : unmanaged
-    {
-        fixed (Guid* riid2 = &riid)
-        {
-            fixed (TInterface** ppvObject = &pvObject)
-            {
-                return ThisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
-            }
-        }
-    }
-
-    public uint AddRef()
-    {
-        return ThisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
-    }
-
-    public uint Release()
-    {
-        return ThisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     internal readonly struct Vftbl

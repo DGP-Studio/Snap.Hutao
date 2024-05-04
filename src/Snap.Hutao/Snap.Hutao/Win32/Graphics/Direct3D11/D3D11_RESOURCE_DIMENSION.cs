@@ -1,0 +1,13 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Snap.Hutao.Win32.Graphics.Direct3D11;
+
+internal enum D3D11_RESOURCE_DIMENSION
+{
+    D3D11_RESOURCE_DIMENSION_UNKNOWN = 0,
+    D3D11_RESOURCE_DIMENSION_BUFFER = 1,
+    D3D11_RESOURCE_DIMENSION_TEXTURE1D = 2,
+    D3D11_RESOURCE_DIMENSION_TEXTURE2D = 3,
+    D3D11_RESOURCE_DIMENSION_TEXTURE3D = 4,
+}

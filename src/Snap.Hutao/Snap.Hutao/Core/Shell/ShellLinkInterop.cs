@@ -54,7 +54,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
             pShellLink->SetShowCmd(SHOW_WINDOW_CMD.SW_NORMAL);
             pShellLink->SetIconLocation(targetLogoPath, 0);
 
-            if (SUCCEEDED(pShellLink->QueryInterface(in IPersistFile.IID, out IPersistFile* pPersistFile)))
+            if (SUCCEEDED(IUnknownMarshal.QueryInterface(pShellLink, in IPersistFile.IID, out IPersistFile* pPersistFile)))
             {
                 string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 string target = Path.Combine(desktop, $"{SH.FormatAppNameAndVersion(runtimeOptions.Version)}.lnk");
@@ -64,10 +64,10 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
                     result = true;
                 }
 
-                pPersistFile->Release();
+                IUnknownMarshal.Release(pPersistFile);
             }
 
-            pShellLink->Release();
+            IUnknownMarshal.Release(pShellLink);
         }
 
         return result;

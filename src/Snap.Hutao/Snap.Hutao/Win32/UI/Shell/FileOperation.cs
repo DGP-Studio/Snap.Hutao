@@ -6,10 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
-[Guid("3AD05575-8857-4850-9277-11B85BDB8E09")]
-internal readonly struct FileOperation
+internal unsafe readonly struct FileOperation
 {
-    internal static unsafe ref readonly Guid CLSID
+    internal static ref readonly Guid CLSID
     {
         get
         {

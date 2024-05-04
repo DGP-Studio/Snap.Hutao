@@ -10,40 +10,17 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [SupportedOSPlatform("windows5.0")]
-[Guid("45E2B4AE-B1C3-11D0-B92F-00A0C90312E1")]
 internal unsafe struct IShellLinkDataList
 {
     public readonly Vftbl* ThisPtr;
 
-    internal static unsafe ref readonly Guid IID
+    internal static ref readonly Guid IID
     {
         get
         {
             ReadOnlySpan<byte> data = [0xAE, 0xB4, 0xE2, 0x45, 0xC3, 0xB1, 0xD0, 0x11, 0xB9, 0x2F, 0x00, 0xA0, 0xC9, 0x03, 0x12, 0xE1];
             return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
-    }
-
-    public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
-        where TInterface : unmanaged
-    {
-        fixed (Guid* riid2 = &riid)
-        {
-            fixed (TInterface** ppvObject = &pvObject)
-            {
-                return ThisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
-            }
-        }
-    }
-
-    public uint AddRef()
-    {
-        return ThisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
-    }
-
-    public uint Release()
-    {
-        return ThisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
     }
 
     public HRESULT GetFlags(out uint dwFlags)

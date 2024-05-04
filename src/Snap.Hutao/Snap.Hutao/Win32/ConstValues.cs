@@ -6,6 +6,7 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SA1310")]
 internal static class ConstValues
 {
+    public const uint D3D11_SDK_VERSION = 0x00000007U;
     public const uint WM_NULL = 0x00000000U;
     public const uint WM_ERASEBKGND = 0x00000014U;
     public const uint WM_GETMINMAXINFO = 0x00000024U;

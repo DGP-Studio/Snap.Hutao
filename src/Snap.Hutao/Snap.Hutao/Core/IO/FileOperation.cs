@@ -4,6 +4,7 @@
 using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell;
 using System.IO;
+using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.Ole32;
 using static Snap.Hutao.Win32.Shell32;
@@ -62,13 +63,13 @@ internal static class FileOperation
                         result = true;
                     }
 
-                    pDestShellItem->Release();
+                    IUnknownMarshal.Release(pDestShellItem);
                 }
 
-                pSourceShellItem->Release();
+                IUnknownMarshal.Release(pSourceShellItem);
             }
 
-            pFileOperation->Release();
+            IUnknownMarshal.Release(pFileOperation);
         }
 
         return result;
@@ -89,10 +90,10 @@ internal static class FileOperation
                     result = true;
                 }
 
-                pShellItem->Release();
+                IUnknownMarshal.Release(pShellItem);
             }
 
-            pFileOperation->Release();
+            IUnknownMarshal.Release(pFileOperation);
         }
 
         return result;
