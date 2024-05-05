@@ -11,7 +11,7 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.Graphics.Direct3D11;
 
 [SupportedOSPlatform("windows6.1")]
-internal unsafe readonly struct ID3D11DeviceContext
+internal unsafe struct ID3D11DeviceContext
 {
     public readonly Vftbl* ThisPtr;
 
@@ -22,6 +22,26 @@ internal unsafe readonly struct ID3D11DeviceContext
             ReadOnlySpan<byte> data = [0x6C, 0xA9, 0xBF, 0xC0, 0x89, 0xE0, 0xFB, 0x44, 0x8E, 0xAF, 0x26, 0xF8, 0x79, 0x61, 0x90, 0xDA];
             return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
+    }
+
+    [SuppressMessage("", "SA1313")]
+    public HRESULT Map(ID3D11Resource* pResource, uint Subresource, D3D11_MAP MapType, uint MapFlags, [MaybeNull] out D3D11_MAPPED_SUBRESOURCE mappedResource)
+    {
+        fixed (D3D11_MAPPED_SUBRESOURCE* pMappedResource = &mappedResource)
+        {
+            return ThisPtr->Map((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), pResource, Subresource, MapType, MapFlags, pMappedResource);
+        }
+    }
+
+    [SuppressMessage("", "SA1313")]
+    public void Unmap(ID3D11Resource* pResource, uint Subresource)
+    {
+        ThisPtr->Unmap((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), pResource, Subresource);
+    }
+
+    public void CopyResource(ID3D11Resource* pDstResource, ID3D11Resource* pSrcResource)
+    {
+        ThisPtr->CopyResource((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), pDstResource, pSrcResource);
     }
 
     internal readonly struct Vftbl

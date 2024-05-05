@@ -8,7 +8,7 @@ using Windows.Graphics.Capture;
 
 namespace Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
 
-internal static class GraphicsCaptureItemInteropExtension
+internal static class IGraphicsCaptureItemInteropExtension
 {
     public static unsafe HRESULT CreateForWindow(this IGraphicsCaptureItemInterop interop, HWND window, out GraphicsCaptureItem result)
     {

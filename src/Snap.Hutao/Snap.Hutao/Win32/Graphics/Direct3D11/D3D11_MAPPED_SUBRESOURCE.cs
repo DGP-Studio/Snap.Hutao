@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.Graphics.Direct3D11;
 
+[SuppressMessage("", "SA1307")]
 internal struct D3D11_MAPPED_SUBRESOURCE
 {
     public unsafe void* pData;

@@ -12,7 +12,7 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.Graphics.Direct3D11;
 
 [SupportedOSPlatform("windows6.1")]
-internal unsafe readonly struct ID3D11Device
+internal unsafe struct ID3D11Device
 {
     public readonly Vftbl* ThisPtr;
 
@@ -22,6 +22,28 @@ internal unsafe readonly struct ID3D11Device
         {
             ReadOnlySpan<byte> data = [0xDB, 0x6D, 0x6F, 0xDB, 0x77, 0xAC, 0x88, 0x4E, 0x82, 0x53, 0x81, 0x9D, 0xF9, 0xBB, 0xF1, 0x40];
             return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
+        }
+    }
+
+    public HRESULT CreateTexture2D(ref readonly D3D11_TEXTURE2D_DESC desc, [AllowNull] ref readonly D3D11_SUBRESOURCE_DATA initialData, [MaybeNull] out ID3D11Texture2D* pTexture2D)
+    {
+        fixed (D3D11_TEXTURE2D_DESC* pDesc = &desc)
+        {
+            fixed (D3D11_SUBRESOURCE_DATA* pInitialData = &initialData)
+            {
+                fixed (ID3D11Texture2D** ppTexture2D = &pTexture2D)
+                {
+                    return ThisPtr->CreateTexture2D((ID3D11Device*)Unsafe.AsPointer(ref this), pDesc, pInitialData, ppTexture2D);
+                }
+            }
+        }
+    }
+
+    public void GetImmediateContext(out ID3D11DeviceContext* pImmediateContext)
+    {
+        fixed (ID3D11DeviceContext** ppImmediateContext = &pImmediateContext)
+        {
+            ThisPtr->GetImmediateContext((ID3D11Device*)Unsafe.AsPointer(ref this), ppImmediateContext);
         }
     }
 

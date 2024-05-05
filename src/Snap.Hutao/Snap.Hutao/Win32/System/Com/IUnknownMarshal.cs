@@ -7,14 +7,14 @@ namespace Snap.Hutao.Win32.System.Com;
 
 internal static class IUnknownMarshal
 {
-    public static unsafe HRESULT QueryInterface<TInterface>(void* pIUnknown, ref readonly Guid riid, out TInterface* pvObject)
+    public static unsafe HRESULT QueryInterface<TInterface>(void* pIUnknown, ref readonly Guid iid, out TInterface* pvObject)
         where TInterface : unmanaged
     {
-        fixed (Guid* riid2 = &riid)
+        fixed (Guid* riid = &iid)
         {
             fixed (TInterface** ppvObject = &pvObject)
             {
-                return ((IUnknown*)pIUnknown)->ThisPtr->QueryInterface((IUnknown*)pIUnknown, riid2, (void**)ppvObject);
+                return ((IUnknown*)pIUnknown)->ThisPtr->QueryInterface((IUnknown*)pIUnknown, riid, (void**)ppvObject);
             }
         }
     }

@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
 
-internal unsafe readonly struct IDXGISurface
+internal unsafe struct IDXGISurface
 {
     public readonly Vftbl* ThisPtr;
 
@@ -17,6 +17,26 @@ internal unsafe readonly struct IDXGISurface
         {
             ReadOnlySpan<byte> data = [0x6C, 0xB5, 0xFC, 0xCA, 0xC3, 0x6A, 0x89, 0x48, 0xBF, 0x47, 0x9E, 0x23, 0xBB, 0xD2, 0x60, 0xEC];
             return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
+        }
+    }
+
+    public HRESULT GetDevice<T>(ref readonly Guid iid, out T* pDevice)
+        where T : unmanaged
+    {
+        fixed (Guid* riid = &iid)
+        {
+            fixed (T** ppDevice = &pDevice)
+            {
+                return ThisPtr->IDXGIDeviceSubObjectVftbl.GetDevice((IDXGIDeviceSubObject*)Unsafe.AsPointer(ref this), riid, (void**)ppDevice);
+            }
+        }
+    }
+
+    public HRESULT GetDesc(out DXGI_SURFACE_DESC desc)
+    {
+        fixed (DXGI_SURFACE_DESC* pDesc = &desc)
+        {
+            return ThisPtr->GetDesc((IDXGISurface*)Unsafe.AsPointer(ref this), pDesc);
         }
     }
 
