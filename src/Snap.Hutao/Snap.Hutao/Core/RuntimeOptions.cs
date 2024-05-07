@@ -3,6 +3,7 @@
 
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
+using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using System.IO;
 using System.Security.Principal;
@@ -50,7 +51,7 @@ internal sealed class RuntimeOptions
     {
         string userName = Environment.UserName;
         object? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\", "MachineGuid", userName);
-        return Convert.ToMd5HexString($"{userName}{machineGuid}");
+        return Hash.MD5HexString($"{userName}{machineGuid}");
     });
 
     private readonly LazySlim<(string Version, bool Supported)> lazyWebViewEnvironment = new(() =>

@@ -1,10 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Composition;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Gdi;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.System.WinRT.Graphics.Capture;

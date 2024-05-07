@@ -4,7 +4,6 @@
 using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell;
 using System.IO;
-using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.Ole32;
 using static Snap.Hutao.Win32.Shell32;

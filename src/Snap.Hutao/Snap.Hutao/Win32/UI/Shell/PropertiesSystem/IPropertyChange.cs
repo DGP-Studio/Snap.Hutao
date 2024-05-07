@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.System.Com.StructuredStorage;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;

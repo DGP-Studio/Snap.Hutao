@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Gdi;
-using System.Runtime.InteropServices;
 using Windows.Graphics.Capture;
 
 namespace Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
