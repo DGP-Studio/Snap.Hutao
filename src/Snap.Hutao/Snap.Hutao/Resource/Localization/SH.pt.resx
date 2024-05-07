@@ -3044,6 +3044,9 @@
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>Copiado para a área de transferência</value>
   </data>
+  <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
+    <value>所有魔神任务已完成</value>
+  </data>
   <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
     <value>Concluído</value>
   </data>
