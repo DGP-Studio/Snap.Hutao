@@ -46,7 +46,7 @@ internal sealed class CultivateItemView : ObservableObject, IEntityWithMetadata<
     /// <summary>
     /// 是否为今日物品
     /// </summary>
-    public bool IsToday { get => Inner.IsTodaysItem(); }
+    public bool IsToday { get => Inner.IsTodaysItem(true); }
 
     /// <summary>
     /// 星期中的日期
