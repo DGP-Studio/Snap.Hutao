@@ -67,7 +67,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
                 IUnknownMarshal.Release(pPersistFile);
             }
 
-            IUnknownMarshal.Release(pShellLink);
+            uint value = IUnknownMarshal.Release(pShellLink);
         }
 
         return result;

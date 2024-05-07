@@ -47,7 +47,7 @@
 
         <NavigationView
             x:Name="NavView"
-            Margin="-1,0,0,-1"
+            Margin="0,0,0,0"
             shch:NavigationViewHelper.PaneCornerRadius="0"
             CompactPaneLength="48"
             IsBackEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
