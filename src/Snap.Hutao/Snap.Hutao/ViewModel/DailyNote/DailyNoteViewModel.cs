@@ -7,6 +7,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote;
+using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Control;
@@ -27,6 +28,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IDailyNoteService dailyNoteService;
     private readonly DailyNoteOptions dailyNoteOptions;
+    private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
@@ -53,22 +55,26 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
-        try
+        if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            await taskContext.SwitchToBackgroundAsync();
-            ObservableCollection<UserAndUid> roles = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
-            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntryCollectionAsync().ConfigureAwait(false);
+            try
+            {
+                await taskContext.SwitchToBackgroundAsync();
+                ObservableCollection<UserAndUid> roles = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
+                ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntryCollectionAsync().ConfigureAwait(false);
 
-            await taskContext.SwitchToMainThreadAsync();
-            UserAndUids = roles;
-            DailyNoteEntries = entries;
-            return true;
+                await taskContext.SwitchToMainThreadAsync();
+                UserAndUids = roles;
+                DailyNoteEntries = entries;
+                return true;
+            }
+            catch (Core.ExceptionService.UserdataCorruptedException ex)
+            {
+                infoBarService.Error(ex);
+            }
         }
-        catch (Core.ExceptionService.UserdataCorruptedException ex)
-        {
-            infoBarService.Error(ex);
-            return false;
-        }
+
+        return false;
     }
 
     [Command("TrackRoleCommand")]

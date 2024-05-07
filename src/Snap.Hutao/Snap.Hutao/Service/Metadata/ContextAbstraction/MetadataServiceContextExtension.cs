@@ -23,6 +23,11 @@ internal static class MetadataServiceContextExtension
                 listAchievementSource.Achievements = await metadataService.GetAchievementListAsync(token).ConfigureAwait(false);
             }
 
+            if (context is IMetadataListChapterSource listChapterSource)
+            {
+                listChapterSource.Chapters = await metadataService.GetChapterListAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataListGachaEventSource listGachaEventSource)
             {
                 listGachaEventSource.GachaEvents = await metadataService.GetGachaEventListAsync(token).ConfigureAwait(false);

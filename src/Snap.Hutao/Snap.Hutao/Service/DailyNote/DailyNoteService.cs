@@ -5,7 +5,11 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.ViewModel.DailyNote;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -83,9 +87,18 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             await userService.GetRoleCollectionAsync().ConfigureAwait(false);
             await RefreshDailyNotesCoreAsync(forceRefresh, token).ConfigureAwait(false);
 
-            List<DailyNoteEntry> entryList = await dailyNoteDbService.GetDailyNoteEntryListIncludingUserAsync(token).ConfigureAwait(false);
-            entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
-            entries = entryList.ToObservableCollection();
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                DailyNoteMetadataContext context = await scope.GetRequiredService<IMetadataService>().GetContextAsync<DailyNoteMetadataContext>(token).ConfigureAwait(false);
+
+                List<DailyNoteEntry> entryList = await dailyNoteDbService.GetDailyNoteEntryListIncludingUserAsync(token).ConfigureAwait(false);
+                entryList.ForEach(entry =>
+                {
+                    entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid);
+                    entry.ArchonQuestView = DailyNoteArchonQuestView.Create(entry.DailyNote, context.Chapters);
+                });
+                entries = entryList.ToObservableCollection();
+            }
         }
 
         return entries;

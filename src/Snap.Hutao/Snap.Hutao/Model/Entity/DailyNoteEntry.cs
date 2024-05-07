@@ -4,6 +4,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Entity.Abstraction;
+using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.DailyNote;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
@@ -52,6 +54,9 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
     /// Json!!! 实时便笺
     /// </summary>
     public DailyNote? DailyNote { get; set; }
+
+    [NotMapped]
+    public DailyNoteArchonQuestView ArchonQuestView { get; set; } = default!;
 
     /// <summary>
     /// 刷新时间

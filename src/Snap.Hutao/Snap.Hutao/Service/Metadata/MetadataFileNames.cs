@@ -10,6 +10,7 @@ internal static class MetadataFileNames
     public const string FileNameAvatar = "Avatar";
     public const string FileNameAvatarCurve = "AvatarCurve";
     public const string FileNameAvatarPromote = "AvatarPromote";
+    public const string FileNameChapter = "Chapter";
     public const string FileNameDisplayItem = "DisplayItem";
     public const string FileNameGachaEvent = "GachaEvent";
     public const string FileNameMaterial = "Material";
