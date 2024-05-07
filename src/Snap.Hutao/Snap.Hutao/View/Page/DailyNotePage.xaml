@@ -13,6 +13,7 @@
     xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shme="using:Snap.Hutao.Model.Entity"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
@@ -32,11 +33,10 @@
             FalseValue="{StaticResource UI_MarkQuest_Events_Start}"
             TrueValue="{StaticResource UI_MarkQuest_Events_Proce}"/>
 
-        <cwconv:DoubleToObjectConverter
+        <cwconv:BoolToObjectConverter
             x:Name="ArchonQuestIconConverter"
-            FalseValue="{StaticResource UI_MarkQuest_Main_Proce}"
-            GreaterThan="0"
-            TrueValue="{StaticResource UI_MarkQuest_Main_Start}"/>
+            FalseValue="{StaticResource UI_MarkQuest_Main_Start}"
+            TrueValue="{StaticResource UI_MarkQuest_Main_Proce}"/>
 
         <DataTemplate x:Key="UserAndUidTemplate">
             <Grid Padding="0,0,0,16">
@@ -55,7 +55,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="DailyNoteEntryTemplate">
+        <DataTemplate x:Key="DailyNoteEntryTemplate" x:DataType="shme:DailyNoteEntry">
             <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <ItemContainer.Resources>
                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
@@ -131,28 +131,28 @@
                                 MinHeight="48"
                                 Background="{x:Null}"
                                 CornerRadius="{ThemeResource ControlCornerRadius}"
-                                Maximum="{Binding ArchonQuestIds.Count, Mode=OneWay}"
+                                Maximum="{Binding ArchonQuestView.Ids.Count, Mode=OneWay}"
                                 Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
-                                Value="{Binding ArchonQuestStatusValue, Mode=OneWay}"/>
+                                Value="{Binding ArchonQuestView.ProgressValue, Mode=OneWay}"/>
                             <shci:CachedImage
                                 Grid.Column="0"
                                 Margin="4"
                                 VerticalAlignment="Center"
                                 shch:FrameworkElementHelper.SquareLength="32"
-                                Source="{Binding DailyNote.ArchonQuestProgress.List.Count, Converter={StaticResource ArchonQuestIconConverter}}"/>
+                                Source="{Binding DailyNote.IsArchonQuestFinished, Converter={StaticResource ArchonQuestIconConverter}}"/>
                             <StackPanel
                                 Grid.Column="1"
                                 Margin="8,0,0,0"
                                 VerticalAlignment="Center">
                                 <TextBlock
                                     Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{Binding ArchonQuestStatusFormatted, Mode=OneWay}"
+                                    Text="{Binding ArchonQuestView.ProgressFormatted, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"/>
                                 <TextBlock
                                     Opacity="0.6"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding ArchonQuestChapterFormatted, Mode=OneWay}"
+                                    Text="{Binding ArchonQuestView.ChapterFormatted, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"/>
                             </StackPanel>

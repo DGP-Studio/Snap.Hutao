@@ -132,4 +132,10 @@ internal sealed class DailyNote : DailyNoteCommon
 
     [JsonPropertyName("archon_quest_progress")]
     public ArchonQuestProgress ArchonQuestProgress { get; set; } = default!;
+
+    [JsonIgnore]
+    public bool IsArchonQuestFinished
+    {
+        get => ArchonQuestProgress.List.Count == 0;
+    }
 }

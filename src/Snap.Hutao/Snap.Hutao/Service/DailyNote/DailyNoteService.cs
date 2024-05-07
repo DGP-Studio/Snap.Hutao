@@ -9,6 +9,7 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.ViewModel.DailyNote;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -94,10 +95,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 entryList.ForEach(entry =>
                 {
                     entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid);
-                    entry.ArchonQuestIds = context.Chapters
-                        .Where(chapter => chapter.QuestType is Model.Intrinsic.QuestType.AQ)
-                        .Select(chapter => chapter.Id)
-                        .ToList();
+                    entry.ArchonQuestView = DailyNoteArchonQuestView.Create(entry.DailyNote, context.Chapters);
                 });
                 entries = entryList.ToObservableCollection();
             }
