@@ -323,8 +323,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" />
-    <PackageReference Include="QRCoder" Version="1.4.3" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
+    <PackageReference Include="QRCoder" Version="1.5.1" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
     <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.0">
       <PrivateAssets>all</PrivateAssets>
@@ -343,7 +343,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
-    <PackageReference Include="TaskScheduler" Version="2.10.1" />
+    <PackageReference Include="TaskScheduler" Version="2.11.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
