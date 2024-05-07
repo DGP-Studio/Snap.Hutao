@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote;
+using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
 
@@ -17,6 +18,7 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
 {
     private readonly ITaskContext taskContext;
     private readonly IInfoBarService infoBarService;
+    private readonly IMetadataService metadataService;
     private readonly IDailyNoteService dailyNoteService;
 
     private List<DailyNoteEntry>? dailyNoteEntries;
@@ -29,25 +31,28 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        try
+        if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            await taskContext.SwitchToBackgroundAsync();
-            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService
-                .GetDailyNoteEntryCollectionAsync()
-                .ConfigureAwait(false);
+            try
+            {
+                await taskContext.SwitchToBackgroundAsync();
+                ObservableCollection<DailyNoteEntry> entries = await dailyNoteService
+                    .GetDailyNoteEntryCollectionAsync()
+                    .ConfigureAwait(false);
 
-            // 此处使用浅拷贝的列表以避免当导航到实时便笺页面后
-            // 由于主页尚未卸载，添加或删除便笺可能会崩溃的问题
-            List<DailyNoteEntry> entryList = [.. entries];
+                // 此处使用浅拷贝的列表以避免当导航到实时便笺页面后
+                // 由于主页尚未卸载，添加或删除便笺可能会崩溃的问题
+                List<DailyNoteEntry> entryList = [.. entries];
 
-            await taskContext.SwitchToMainThreadAsync();
-            DailyNoteEntries = entryList;
-            IsInitialized = true;
-        }
-        catch (Core.ExceptionService.UserdataCorruptedException ex)
-        {
-            infoBarService.Error(ex);
-            return;
+                await taskContext.SwitchToMainThreadAsync();
+                DailyNoteEntries = entryList;
+                IsInitialized = true;
+            }
+            catch (Core.ExceptionService.UserdataCorruptedException ex)
+            {
+                infoBarService.Error(ex);
+                return;
+            }
         }
     }
 }
