@@ -7,10 +7,9 @@ using Snap.Hutao.Win32.Graphics.Direct3D;
 using Snap.Hutao.Win32.Graphics.Direct3D11;
 using Snap.Hutao.Win32.Graphics.Dxgi;
 using Snap.Hutao.Win32.System.Com;
-using Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
 using Windows.Graphics.Capture;
-using Windows.Graphics.DirectX;
 using Windows.Graphics.DirectX.Direct3D11;
+using WinRT;
 using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.D3D11;
 using static Snap.Hutao.Win32.Macros;
@@ -39,6 +38,7 @@ internal sealed partial class GameScreenCaptureService
         return true;
     }
 
+    [SuppressMessage("", "SH002")]
     public unsafe bool TryStartCapture(HWND hwnd, [NotNullWhen(true)] out GameScreenCaptureSession? session)
     {
         session = default;
@@ -64,6 +64,8 @@ internal sealed partial class GameScreenCaptureService
             return false;
         }
 
+        IUnknownMarshal.Release(pDXGIDevice);
+
         hr = CreateDirect3D11DeviceFromDXGIDevice(pDXGIDevice, out Win32.System.WinRT.IInspectable* inspectable);
         if (FAILED(hr))
         {
@@ -71,29 +73,13 @@ internal sealed partial class GameScreenCaptureService
             return false;
         }
 
-        IDirect3DDevice direct3DDevice = WinRT.IInspectable.FromAbi((nint)inspectable).ObjRef.AsInterface<IDirect3DDevice>();
-        GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForWindow(hwnd, out GraphicsCaptureItem item);
+        IUnknownMarshal.Release(inspectable);
 
-        // Note
-        Direct3D11CaptureFramePool framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(direct3DDevice, DirectXPixelFormat.B8G8R8A8UIntNormalized, 2, item.Size);
+        IDirect3DDevice direct3DDevice = IInspectable.FromAbi((nint)inspectable).ObjRef.AsInterface<IDirect3DDevice>();
 
-        IUnknownMarshal.Release(pDXGIDevice);
+        GameScreenCaptureContext captureContext = new(direct3DDevice, hwnd);
+        session = new(captureContext, logger);
+
         return true;
-    }
-}
-
-internal sealed class GameScreenCaptureSession : IDisposable
-{
-    private readonly Direct3D11CaptureFramePool framePool;
-    private readonly GraphicsCaptureSession session;
-
-    public GameScreenCaptureSession(Direct3D11CaptureFramePool framePool)
-    {
-        this.session = session;
-    }
-
-    public void Dispose()
-    {
-        session.Dispose();
     }
 }

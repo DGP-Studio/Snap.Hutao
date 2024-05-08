@@ -52,6 +52,12 @@ internal sealed class HutaoException : Exception
     }
 
     [DoesNotReturn]
+    public static InvalidOperationException InvalidOperation(string message, Exception? innerException = default)
+    {
+        throw new InvalidOperationException(message, innerException);
+    }
+
+    [DoesNotReturn]
     public static NotSupportedException NotSupported(string? message = default, Exception? innerException = default)
     {
         throw new NotSupportedException(message, innerException);
