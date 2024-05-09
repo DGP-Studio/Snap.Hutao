@@ -1173,40 +1173,40 @@
     <value>Режим импорта</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
-    <value>贪婪（添加新数据，更新已完成项）</value>
+    <value>Жадно (добавляют новые данные, обновляют завершенные записи)</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyLazy" xml:space="preserve">
-    <value>懒惰（添加新数据，跳过已完成项）</value>
+    <value>Лениво (добавление новых данных, пропуск завершенных записей)</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyOverwrite" xml:space="preserve">
-    <value>覆盖（删除老数据，添加新的数据）</value>
+    <value>Перезапись (удаление старых данных, добавление новых)</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>Импорт данных о достижениях в текущий архив</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
-    <value>角色目标等级</value>
+    <value>Целевой уровень персонажа</value>
   </data>
   <data name="ViewDialogCultivateBatchSkillATarget" xml:space="preserve">
-    <value>普通攻击目标等级</value>
+    <value>Уровень цели обычной атаки</value>
   </data>
   <data name="ViewDialogCultivateBatchSkillETarget" xml:space="preserve">
-    <value>元素战技目标等级</value>
+    <value>Целевой уровень Элементального навыка</value>
   </data>
   <data name="ViewDialogCultivateBatchSkillQTarget" xml:space="preserve">
-    <value>元素爆发目标等级</value>
+    <value>Целевой уровень Взрыва стихий</value>
   </data>
   <data name="ViewDialogCultivateBatchWeaponLevelTarget" xml:space="preserve">
-    <value>武器目标等级</value>
+    <value>Целевой уровень оружия</value>
   </data>
   <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
-    <value>绑定当前用户与角色</value>
+    <value>Связать текущего пользователя и роль</value>
   </data>
   <data name="ViewDialogCultivateProjectInputPlaceholder" xml:space="preserve">
-    <value>在此处输入计划名称</value>
+    <value>Введите название плана</value>
   </data>
   <data name="ViewDialogCultivateProjectTitle" xml:space="preserve">
-    <value>创建新的养成计划</value>
+    <value>Создание нового плана</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
     <value>批量添加或更新到当前养成计划</value>
@@ -1218,7 +1218,7 @@
     <value>每日委托上线提醒</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationExpeditionNotify" xml:space="preserve">
-    <value>探索派遣完成提醒</value>
+    <value>Уведомление об окончании экспедиции</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
     <value>洞天宝钱提醒阈值</value>
@@ -1236,7 +1236,7 @@
     <value>参量质变仪提醒</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlInputPlaceholder" xml:space="preserve">
-    <value>请输入 Url</value>
+    <value>Пожалуйста, введите URL</value>
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>实时便笺 Webhook Url</value>
@@ -1287,7 +1287,7 @@
     <value>将会通过 GET 方式对接口发送请求</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleHeader" xml:space="preserve">
-    <value>示例</value>
+    <value>Пример</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
     <value>配置无感验证接口</value>
@@ -1368,7 +1368,7 @@
     <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
-    <value>继续上传</value>
+    <value>Продолжить загрузку</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
     <value>上传深渊数据</value>
@@ -1389,37 +1389,37 @@
     <value>在此处输入包含 SToken 的 Cookie</value>
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
-    <value>设置 Cookie</value>
+    <value>Установка cookie-файлов</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
-    <value>反馈中心</value>
+    <value>Центр обратной связи</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
-    <value>祈愿记录</value>
+    <value>История молитв</value>
   </data>
   <data name="ViewGuideStaticResourceDownloadSize" xml:space="preserve">
-    <value>预计下载大小：{0}</value>
+    <value>Примерный размер загрузки: {0}</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
-    <value>我已阅读并同意</value>
+    <value>Я прочитал и согласен с</value>
   </data>
   <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
     <value>问题报告方式与流程</value>
   </data>
   <data name="ViewGuideStepAgreementOpenSourceLicense" xml:space="preserve">
-    <value>Snap Hutao 开源许可</value>
+    <value>Лицензия с открытым исходным кодом Snap Hutao</value>
   </data>
   <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
-    <value>用户数据与隐私权益</value>
+    <value>Данные пользователя и права на конфиденциальность</value>
   </data>
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
-    <value>用户使用协议与法律声明</value>
+    <value>Пользовательское соглашение</value>
   </data>
   <data name="ViewGuideStepCommonSetting" xml:space="preserve">
-    <value>基础设置</value>
+    <value>Основные настройки</value>
   </data>
   <data name="ViewGuideStepCommonSettingHint" xml:space="preserve">
-    <value>稍后可以在设置中修改</value>
+    <value>Это можно изменить позже в настройках</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Документация</value>
