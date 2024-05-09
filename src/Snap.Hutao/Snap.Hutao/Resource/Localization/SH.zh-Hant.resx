@@ -1371,7 +1371,7 @@
     <value>繼續上傳</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
-    <value>上传深渊数据</value>
+    <value>Загрузите данные о Бездне</value>
   </data>
   <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
     <value>查看更新日誌</value>
