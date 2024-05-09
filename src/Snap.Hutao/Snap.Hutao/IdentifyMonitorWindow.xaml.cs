@@ -32,6 +32,7 @@ internal sealed partial class IdentifyMonitorWindow : Window
     {
         List<IdentifyMonitorWindow> windows = [];
 
+        // TODO: the order here is not sync with unity.
         IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
         for (int i = 0; i < displayAreas.Count; i++)
         {

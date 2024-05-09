@@ -17,7 +17,8 @@ using static Snap.Hutao.Win32.Macros;
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
 [ConstructorGenerated]
-internal sealed partial class GameScreenCaptureService
+[Injection(InjectAs.Singleton, typeof(IGameScreenCaptureService))]
+internal sealed partial class GameScreenCaptureService : IGameScreenCaptureService
 {
     private readonly ILogger<GameScreenCaptureService> logger;
 

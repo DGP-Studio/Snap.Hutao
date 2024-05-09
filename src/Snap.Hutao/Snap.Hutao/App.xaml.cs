@@ -48,6 +48,8 @@ public sealed partial class App : Application
     /// <param name="serviceProvider">服务提供器</param>
     public App(IServiceProvider serviceProvider)
     {
+        // DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
+
         // Load app resource
         InitializeComponent();
         activation = serviceProvider.GetRequiredService<IActivation>();
