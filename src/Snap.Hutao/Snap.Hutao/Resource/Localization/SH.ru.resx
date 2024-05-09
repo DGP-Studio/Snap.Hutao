@@ -1329,13 +1329,13 @@
     <value>UIGF 版本</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
-    <value>在此处输入名称</value>
+    <value>Введите имя</value>
   </data>
   <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
-    <value>为账号命名</value>
+    <value>Назовите ваш аккаунт</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogHint" xml:space="preserve">
-    <value>请选择当前游戏路径对应的游戏服务器</value>
+    <value>Пожалуйста, выберите ваш игровой сервер</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
     <value>Восстановление файла конфигурации</value>
@@ -1347,7 +1347,7 @@
     <value>正在转换客户端</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>使用米游社扫描二维码</value>
+    <value>Отсканируйте QR-код с помощью Miyusha</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>为防止你在无意间启用，请输入正在启用的功能开关的&lt;b&gt;标题名称&lt;/b&gt;</value>
@@ -1356,7 +1356,7 @@
     <value>你正在启用一个危险功能</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
-    <value>该操作是不可逆的，所有用户登录状态会丢失</value>
+    <value>Эта операция необратима, и все входы пользователей в систему будут удалены</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>是否永久删除用户数据</value>
