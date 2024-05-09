@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.WinRT;
 
+// RAIIFree: WindowsDeleteString
 internal readonly struct HSTRING
 {
     public readonly nint Value;

@@ -77,6 +77,18 @@ internal static class User32
         }
     }
 
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static unsafe extern ushort RegisterClassW(WNDCLASSW* lpWndClass);
+
+    public static unsafe ushort RegisterClassW(ref readonly WNDCLASSW lpWndClass)
+    {
+        fixed (WNDCLASSW* pWndClass = &lpWndClass)
+        {
+            return RegisterClassW(pWndClass);
+        }
+    }
+
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows6.0.6000")]
     public static extern BOOL RegisterHotKey([AllowNull] HWND hWnd, int id, HOT_KEY_MODIFIERS fsModifiers, uint vk);

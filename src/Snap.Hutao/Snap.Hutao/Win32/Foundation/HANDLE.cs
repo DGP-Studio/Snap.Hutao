@@ -3,6 +3,8 @@
 
 namespace Snap.Hutao.Win32.Foundation;
 
+// RAIIFree: CloseHandle
+// InvalidHandleValue: -1, 0
 internal readonly struct HANDLE
 {
     public readonly nint Value;
