@@ -10,8 +10,6 @@ namespace Snap.Hutao.Win32.UI.WindowsAndMessaging;
 internal struct WNDCLASSW
 {
     public WNDCLASS_STYLES style;
-
-    [MarshalAs(UnmanagedType.FunctionPtr)]
     public WNDPROC lpfnWndProc;
     public int cbClsExtra;
     public int cbWndExtra;

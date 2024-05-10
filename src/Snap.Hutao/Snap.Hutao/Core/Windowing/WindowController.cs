@@ -89,9 +89,9 @@ internal sealed class WindowController
         SizeInt32 scaledSize = options.InitSize.Scale(scale);
         RectInt32 rect = StructMarshal.RectInt32(scaledSize);
 
-        if (options.PersistSize)
+        if (!string.IsNullOrEmpty(options.PersistRectKey))
         {
-            RectInt32 persistedRect = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (CompactRect)rect);
+            RectInt32 persistedRect = (CompactRect)LocalSetting.Get(options.PersistRectKey, (CompactRect)rect);
             if (persistedRect.Size() >= options.InitSize.Size())
             {
                 rect = persistedRect.Scale(scale);
@@ -104,7 +104,7 @@ internal sealed class WindowController
 
     private void SaveOrSkipWindowSize()
     {
-        if (!options.PersistSize)
+        if (string.IsNullOrEmpty(options.PersistRectKey))
         {
             return;
         }
@@ -116,7 +116,7 @@ internal sealed class WindowController
         if (!windowPlacement.ShowCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
         {
             double scale = 1.0 / options.GetRasterizationScale();
-            LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)window.AppWindow.GetRect().Scale(scale));
+            LocalSetting.Set(options.PersistRectKey, (CompactRect)window.AppWindow.GetRect().Scale(scale));
         }
     }
 

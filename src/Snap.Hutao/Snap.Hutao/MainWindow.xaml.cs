@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
@@ -27,7 +28,7 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     public MainWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true);
+        windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), SettingKeys.WindowRect);
         this.InitializeController(serviceProvider);
     }
 

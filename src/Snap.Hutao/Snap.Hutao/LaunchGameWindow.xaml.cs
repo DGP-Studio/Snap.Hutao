@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;

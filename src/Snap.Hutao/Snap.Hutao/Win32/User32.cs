@@ -12,6 +12,7 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32;
 
 [SuppressMessage("", "SH002")]
+[SuppressMessage("", "SA1313")]
 [SuppressMessage("", "SYSLIB1054")]
 internal static class User32
 {
@@ -19,7 +20,30 @@ internal static class User32
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern BOOL AttachThreadInput(uint idAttach, uint idAttachTo, BOOL fAttach);
 
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", ExactSpelling = true, SetLastError = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static unsafe extern HWND CreateWindowExW(WINDOW_EX_STYLE dwExStyle, [AllowNull] PCWSTR lpClassName, [AllowNull] PCWSTR lpWindowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, [AllowNull] HWND hWndParent, [AllowNull] HMENU hMenu, [AllowNull] HINSTANCE hInstance, [AllowNull] void* lpParam);
+
+    public static unsafe HWND CreateWindowExW(WINDOW_EX_STYLE dwExStyle, [AllowNull] string className, [AllowNull] string windowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, [AllowNull] HWND hWndParent, [AllowNull] HMENU hMenu, [AllowNull] HINSTANCE hInstance, [AllowNull] void* lpParam)
+    {
+        fixed (char* lpClassName = className)
+        {
+            fixed (char* lpWindowName = windowName)
+            {
+                return CreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+            }
+        }
+    }
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern LRESULT DefWindowProcW(HWND hWnd, uint Msg, WPARAM wParam, LPARAM lParam);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL DestroyWindow(HWND hWnd);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern HWND FindWindowExW([AllowNull] HWND hWndParent, [AllowNull] HWND hWndChildAfter, [AllowNull] PCWSTR lpszClass, [AllowNull] PCWSTR lpszWindow);
 
@@ -47,7 +71,7 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static extern HWND GetForegroundWindow();
 
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern nint GetWindowLongPtrW(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex);
 
@@ -93,6 +117,18 @@ internal static class User32
     [SupportedOSPlatform("windows6.0.6000")]
     public static extern BOOL RegisterHotKey([AllowNull] HWND hWnd, int id, HOT_KEY_MODIFIERS fsModifiers, uint vk);
 
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern uint RegisterWindowMessageW(PCWSTR lpString);
+
+    public static unsafe uint RegisterWindowMessageW(string @string)
+    {
+        fixed (char* lpString = @string)
+        {
+            return RegisterWindowMessageW(lpString);
+        }
+    }
+
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern int ReleaseDC([AllowNull] HWND hWnd, HDC hDC);
@@ -127,7 +163,7 @@ internal static class User32
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL SetForegroundWindow(HWND hWnd);
 
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL SetPropW(HWND hWnd, PCWSTR lpString, [AllowNull] HANDLE hData);
 
@@ -140,7 +176,7 @@ internal static class User32
         }
     }
 
-    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern nint SetWindowLongPtrW(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex, nint dwNewLong);
 

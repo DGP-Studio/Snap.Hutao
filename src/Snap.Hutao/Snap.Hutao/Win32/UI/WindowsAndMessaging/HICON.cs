@@ -8,4 +8,8 @@ namespace Snap.Hutao.Win32.UI.WindowsAndMessaging;
 internal readonly struct HICON
 {
     public readonly nint Value;
+
+    public static unsafe implicit operator HICON(nint value) => *(HICON*)&value;
+
+    public static unsafe implicit operator nint(HICON value) => *(nint*)&value;
 }

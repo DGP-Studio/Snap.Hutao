@@ -4,9 +4,12 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing.Backdrop;
 using Snap.Hutao.Core.Windowing.HotKey;
+using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.ComCtl32;
 using static Snap.Hutao.Win32.ConstValues;
 
@@ -27,6 +30,7 @@ internal sealed class WindowSubclass : IDisposable
 
     // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC windowProc = default!;
+    private UnmanagedAccess<WindowSubclass> unmanagedAccess = default!;
 
     public WindowSubclass(Window window, in WindowOptions options, IServiceProvider serviceProvider)
     {
@@ -41,10 +45,11 @@ internal sealed class WindowSubclass : IDisposable
     /// 尝试设置窗体子类
     /// </summary>
     /// <returns>是否设置成功</returns>
-    public bool Initialize()
+    public unsafe bool Initialize()
     {
-        windowProc = OnSubclassProcedure;
-        bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, 0);
+        windowProc = SUBCLASSPROC.Create(&OnSubclassProcedure);
+        unmanagedAccess = UnmanagedAccess.Create(this);
+        bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, unmanagedAccess);
         hotKeyController.RegisterAll();
 
         return windowHooked;
@@ -57,18 +62,23 @@ internal sealed class WindowSubclass : IDisposable
 
         RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
         windowProc = default!;
+        unmanagedAccess.Dispose();
     }
 
     [SuppressMessage("", "SH002")]
-    private unsafe LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+    private static unsafe LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
     {
+        WindowSubclass? state = UnmanagedAccess.Get<WindowSubclass>(dwRefData);
+        ArgumentNullException.ThrowIfNull(state);
+
         switch (uMsg)
         {
             case WM_GETMINMAXINFO:
                 {
-                    if (window is IMinMaxInfoHandler handler)
+                    if (state.window is IMinMaxInfoHandler handler)
                     {
-                        handler.HandleMinMaxInfo(ref *(MINMAXINFO*)lParam, options.GetRasterizationScale());
+                        handler.HandleMinMaxInfo(ref *(MINMAXINFO*)lParam, state.options.GetRasterizationScale());
                     }
 
                     break;
@@ -82,13 +92,13 @@ internal sealed class WindowSubclass : IDisposable
 
             case WM_HOTKEY:
                 {
-                    hotKeyController.OnHotKeyPressed(*(HotKeyParameter*)&lParam);
+                    state.hotKeyController.OnHotKeyPressed(*(HotKeyParameter*)&lParam);
                     break;
                 }
 
             case WM_ERASEBKGND:
                 {
-                    if (window.SystemBackdrop is IBackdropNeedEraseBackground)
+                    if (state.window.SystemBackdrop is IBackdropNeedEraseBackground)
                     {
                         return (LRESULT)(int)BOOL.TRUE;
                     }

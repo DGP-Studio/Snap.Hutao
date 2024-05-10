@@ -38,15 +38,18 @@ internal readonly struct WindowOptions
     /// <summary>
     /// 是否持久化尺寸
     /// </summary>
+    [Obsolete]
     public readonly bool PersistSize;
 
-    public WindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, bool persistSize = false)
+    public readonly string? PersistRectKey;
+
+    public WindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, string? persistSize = default)
     {
         Hwnd = WindowNative.GetWindowHandle(window);
         InputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
         TitleBar = titleBar;
         InitSize = initSize;
-        PersistSize = persistSize;
+        PersistRectKey = persistSize;
     }
 
     /// <summary>

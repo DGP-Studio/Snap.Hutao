@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Windowing.NotifyIcon;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using WinRT;
@@ -49,9 +50,12 @@ public static partial class Program
         // By adding the using statement, we can dispose the injected services when we closing
         using (ServiceProvider serviceProvider = DependencyInjection.Initialize())
         {
-            // In a Desktop app this runs a message pump internally,
-            // and does not return until the application shuts down.
-            Application.Start(AppInitializationCallback);
+            using (NotifyIconController notifyIconController = new())
+            {
+                // In a Desktop app this runs a message pump internally,
+                // and does not return until the application shuts down.
+                Application.Start(AppInitializationCallback);
+            }
         }
     }
 

@@ -18,9 +18,9 @@ internal static class ComCtl32
 
     [DllImport("COMCTL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static extern BOOL RemoveWindowSubclass(HWND hWnd, [MarshalAs(UnmanagedType.FunctionPtr)] SUBCLASSPROC pfnSubclass, nuint uIdSubclass);
+    public static extern BOOL RemoveWindowSubclass(HWND hWnd, SUBCLASSPROC pfnSubclass, nuint uIdSubclass);
 
     [DllImport("COMCTL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
-    public static unsafe extern BOOL SetWindowSubclass(HWND hWnd, [MarshalAs(UnmanagedType.FunctionPtr)] SUBCLASSPROC pfnSubclass, nuint uIdSubclass, nuint dwRefData);
+    public static unsafe extern BOOL SetWindowSubclass(HWND hWnd, SUBCLASSPROC pfnSubclass, nuint uIdSubclass, nuint dwRefData);
 }

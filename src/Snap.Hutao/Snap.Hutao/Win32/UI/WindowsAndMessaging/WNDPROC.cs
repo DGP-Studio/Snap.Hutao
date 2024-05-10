@@ -2,9 +2,20 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
-[UnmanagedFunctionPointer(CallingConvention.Winapi)]
-internal delegate LRESULT WNDPROC(HWND param0, uint param1, WPARAM param2, LPARAM param3);
+internal unsafe readonly struct WNDPROC
+{
+    private readonly delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT> value;
+
+    public WNDPROC(delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT> method)
+    {
+        value = method;
+    }
+
+    public static WNDPROC Create(delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT> method)
+    {
+        return new(method);
+    }
+}

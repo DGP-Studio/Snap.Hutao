@@ -7,6 +7,8 @@ namespace Snap.Hutao.Win32;
 internal static class ConstValues
 {
     public const uint D3D11_SDK_VERSION = 0x00000007U;
+    public const uint NOTIFYICON_VERSION = 0x00000003U;
+    public const uint NOTIFYICON_VERSION_4 = 0x00000004U;
     public const uint WM_NULL = 0x00000000U;
     public const uint WM_ERASEBKGND = 0x00000014U;
     public const uint WM_GETMINMAXINFO = 0x00000024U;

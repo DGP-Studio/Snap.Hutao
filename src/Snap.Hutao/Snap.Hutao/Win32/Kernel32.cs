@@ -22,7 +22,7 @@ internal static class Kernel32
     [SupportedOSPlatform("windows5.0")]
     public static extern BOOL CloseHandle(HANDLE hObject);
 
-    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static unsafe extern HANDLE CreateEventW([AllowNull] SECURITY_ATTRIBUTES* lpEventAttributes, BOOL bManualReset, BOOL bInitialState, [AllowNull] PCWSTR lpName);
 
@@ -72,7 +72,7 @@ internal static class Kernel32
         }
     }
 
-    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true)]
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern uint K32GetModuleBaseNameW(HANDLE hProcess, [AllowNull] HMODULE hModule, PWSTR lpBaseName, uint nSize);
 
     [DebuggerStepThrough]
@@ -128,7 +128,7 @@ internal static class Kernel32
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern BOOL SetConsoleMode(HANDLE hConsoleHandle, CONSOLE_MODE dwMode);
 
-    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = true)]
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
     public static extern BOOL SetConsoleTitleW(PCWSTR lpConsoleTitle);
 
     [DebuggerStepThrough]

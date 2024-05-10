@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 
@@ -24,7 +25,7 @@ internal sealed partial class GuideWindow : Window, IWindowOptionsSource, IMinMa
     public GuideWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        windowOptions = new(this, DragableGrid, new(MinWidth, MinHeight));
+        windowOptions = new(this, DragableGrid, new(MinWidth, MinHeight), SettingKeys.GuideWindowRect);
         this.InitializeController(serviceProvider);
     }
 
