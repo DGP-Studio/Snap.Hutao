@@ -1,12 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Core.Windowing.NotifyIcon;
@@ -17,9 +19,9 @@ internal sealed class NotifyIconMessageWindow : IDisposable
     public const uint WM_NOTIFYICON_CALLBACK = 0x444U;
     private const string WindowClassName = "SnapHutaoNotifyIconMessageWindowClass";
 
-    private static readonly ConcurrentDictionary<HWND, NotifyIconMessageWindow> WindowTable = [];
-
     public readonly HWND HWND;
+
+    private static readonly ConcurrentDictionary<HWND, NotifyIconMessageWindow> WindowTable = [];
 
     [SuppressMessage("", "SA1306")]
     private uint WM_TASKBARCREATED;
@@ -87,14 +89,50 @@ internal sealed class NotifyIconMessageWindow : IDisposable
             }
 
             // https://learn.microsoft.com/zh-cn/windows/win32/api/shellapi/ns-shellapi-notifyicondataw
-            if (uMsg == WM_NOTIFYICON_CALLBACK)
+            if (uMsg is WM_NOTIFYICON_CALLBACK)
             {
                 LPARAM2 lParam2 = *(LPARAM2*)&lParam;
                 WPARAM2 wParam2 = *(WPARAM2*)&wParam;
-                Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [X: {wParam2.X} Y: {wParam2.Y}] [Low: 0x{lParam2.Low:X8} High: 0x{lParam2.High:X8}]");
-                switch (lParam.Value)
-                {
 
+                switch (lParam2.Low)
+                {
+                    case WM_MOUSEMOVE:
+                        // X: wParam2.X Y: wParam2.Y Low: WM_MOUSEMOVE
+                        break;
+                    case NIN_SELECT:
+                        // X: wParam2.X Y: wParam2.Y Low: NIN_SELECT
+                        break;
+                    case NIN_POPUPOPEN:
+                        // X: wParam2.X Y: 0? Low: NIN_POPUPOPEN
+                        break;
+                    case NIN_POPUPCLOSE:
+                        // X: wParam2.X Y: 0? Low: NIN_POPUPCLOSE
+                        break;
+                    case WM_LBUTTONDOWN:
+                    case WM_LBUTTONUP:
+                        break;
+                    case WM_RBUTTONDOWN:
+                    case WM_RBUTTONUP:
+                        break;
+                    case WM_CONTEXTMENU:
+                        Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [X: {wParam2.X} Y: {wParam2.Y}] [Low: WM_CONTEXTMENU High: 0x{lParam2.High:X8}]");
+                        break;
+                    default:
+                        Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [X: {wParam2.X} Y: {wParam2.Y}] [Low: 0x{lParam2.Low:X8} High: 0x{lParam2.High:X8}]");
+                        break;
+                }
+            }
+            else
+            {
+                switch (uMsg)
+                {
+                    case WM_ACTIVATEAPP:
+                        break;
+                    case WM_DWMNCRENDERINGCHANGED:
+                        break;
+                    default:
+                        Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [wParam: 0x{wParam.Value:X8}] [lParam: 0x{lParam.Value:X8}]");
+                        break;
                 }
             }
         }
