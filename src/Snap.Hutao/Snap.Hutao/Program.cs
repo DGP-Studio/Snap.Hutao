@@ -50,12 +50,9 @@ public static partial class Program
         // By adding the using statement, we can dispose the injected services when we closing
         using (ServiceProvider serviceProvider = DependencyInjection.Initialize())
         {
-            using (NotifyIconController notifyIconController = new())
-            {
-                // In a Desktop app this runs a message pump internally,
-                // and does not return until the application shuts down.
-                Application.Start(AppInitializationCallback);
-            }
+            // In a Desktop app this runs a message pump internally,
+            // and does not return until the application shuts down.
+            Application.Start(AppInitializationCallback);
         }
     }
 

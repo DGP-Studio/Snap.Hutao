@@ -12,12 +12,12 @@ namespace Snap.Hutao.Core.Windowing;
 
 internal static class WindowExtension
 {
-    private static readonly ConditionalWeakTable<Window, WindowController> WindowControllers = [];
+    private static readonly ConditionalWeakTable<Window, XamlWindowController> WindowControllers = [];
 
     public static void InitializeController<TWindow>(this TWindow window, IServiceProvider serviceProvider)
-        where TWindow : Window, IWindowOptionsSource
+        where TWindow : Window, IXamlWindowOptionsSource
     {
-        WindowController windowController = new(window, window.WindowOptions, serviceProvider);
+        XamlWindowController windowController = new(window, window.WindowOptions, serviceProvider);
         WindowControllers.Add(window, windowController);
     }
 

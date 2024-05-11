@@ -8,7 +8,9 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Core.Shell;
+using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Core.Windowing.HotKey;
+using Snap.Hutao.Core.Windowing.NotifyIcon;
 using System.Diagnostics;
 
 namespace Snap.Hutao;
@@ -41,6 +43,8 @@ public sealed partial class App : Application
     private readonly IServiceProvider serviceProvider;
     private readonly IActivation activation;
     private readonly ILogger<App> logger;
+
+    private NotifyIconController? notifyIconController;
 
     /// <summary>
     /// Initializes the singleton application object.
@@ -75,11 +79,9 @@ public sealed partial class App : Application
             logger.LogColorizedInformation((ConsoleBanner, ConsoleColor.DarkYellow));
             LogDiagnosticInformation();
 
-            // manually invoke
+            // Manually invoke
             activation.Activate(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
-            activation.Initialize();
-
-            serviceProvider.GetRequiredService<IJumpListInterop>().ConfigureAsync().SafeForget();
+            activation.PostInitialization();
         }
         catch
         {

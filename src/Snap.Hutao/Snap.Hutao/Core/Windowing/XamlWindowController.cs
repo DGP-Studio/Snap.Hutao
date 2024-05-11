@@ -22,15 +22,15 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.Core.Windowing;
 
 [SuppressMessage("", "CA1001")]
-internal sealed class WindowController
+internal sealed class XamlWindowController
 {
     private readonly Window window;
-    private readonly WindowOptions options;
+    private readonly XamlWindowOptions options;
     private readonly IServiceProvider serviceProvider;
-    private readonly WindowSubclass subclass;
-    private readonly WindowNonRudeHWND windowNonRudeHWND;
+    private readonly XamlWindowSubclass subclass;
+    private readonly XamlWindowNonRudeHWND windowNonRudeHWND;
 
-    public WindowController(Window window, in WindowOptions options, IServiceProvider serviceProvider)
+    public XamlWindowController(Window window, in XamlWindowOptions options, IServiceProvider serviceProvider)
     {
         this.window = window;
         this.options = options;
@@ -38,7 +38,7 @@ internal sealed class WindowController
 
         // Window reference must be set before Window Subclass created
         serviceProvider.GetRequiredService<ICurrentWindowReference>().Window = window;
-        subclass = new(window, options, serviceProvider);
+        subclass = new(window, options);
         windowNonRudeHWND = new(options.Hwnd);
 
         InitializeCore();

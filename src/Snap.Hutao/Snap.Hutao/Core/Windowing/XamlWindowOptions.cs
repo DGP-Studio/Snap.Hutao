@@ -13,7 +13,7 @@ namespace Snap.Hutao.Core.Windowing;
 /// <summary>
 /// Window 选项
 /// </summary>
-internal readonly struct WindowOptions
+internal readonly struct XamlWindowOptions
 {
     /// <summary>
     /// 窗体句柄
@@ -43,7 +43,7 @@ internal readonly struct WindowOptions
 
     public readonly string? PersistRectKey;
 
-    public WindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, string? persistSize = default)
+    public XamlWindowOptions(Window window, FrameworkElement titleBar, SizeInt32 initSize, string? persistSize = default)
     {
         Hwnd = WindowNative.GetWindowHandle(window);
         InputNonClientPointerSource = InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);

@@ -15,7 +15,7 @@ namespace Snap.Hutao;
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOptionsSource, IMinMaxInfoHandler
+internal sealed partial class LaunchGameWindow : Window, IDisposable, IXamlWindowOptionsSource, IMinMaxInfoHandler
 {
     private const int MinWidth = 240;
     private const int MinHeight = 240;
@@ -23,7 +23,7 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOpt
     private const int MaxWidth = 320;
     private const int MaxHeight = 320;
 
-    private readonly WindowOptions windowOptions;
+    private readonly XamlWindowOptions windowOptions;
     private readonly IServiceScope scope;
 
     /// <summary>
@@ -41,7 +41,7 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOpt
     }
 
     /// <inheritdoc/>
-    public WindowOptions WindowOptions { get => windowOptions; }
+    public XamlWindowOptions WindowOptions { get => windowOptions; }
 
     /// <inheritdoc/>
     public void Dispose()

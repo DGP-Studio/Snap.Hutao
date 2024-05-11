@@ -14,12 +14,12 @@ namespace Snap.Hutao;
 [HighQuality]
 [Injection(InjectAs.Singleton)]
 [SuppressMessage("", "CA1001")]
-internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMaxInfoHandler
+internal sealed partial class MainWindow : Window, IXamlWindowOptionsSource, IMinMaxInfoHandler
 {
     private const int MinWidth = 1000;
     private const int MinHeight = 600;
 
-    private readonly WindowOptions windowOptions;
+    private readonly XamlWindowOptions windowOptions;
 
     /// <summary>
     /// 构造一个新的主窗体
@@ -33,7 +33,7 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IMinMax
     }
 
     /// <inheritdoc/>
-    public WindowOptions WindowOptions { get => windowOptions; }
+    public XamlWindowOptions WindowOptions { get => windowOptions; }
 
     /// <inheritdoc/>
     public unsafe void HandleMinMaxInfo(ref MINMAXINFO pInfo, double scalingFactor)

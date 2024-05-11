@@ -17,10 +17,10 @@ namespace Snap.Hutao.Core.Windowing.HotKey;
 [SuppressMessage("", "SA1124")]
 internal sealed class HotKeyCombination : ObservableObject
 {
-    private readonly ICurrentWindowReference currentWindowReference;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
 
+    private readonly HWND hwnd;
     private readonly string settingKey;
     private readonly int hotKeyId;
     private readonly HotKeyParameter defaultHotKeyParameter;
@@ -36,12 +36,12 @@ internal sealed class HotKeyCombination : ObservableObject
     private VirtualKey key;
     private bool isEnabled;
 
-    public HotKeyCombination(IServiceProvider serviceProvider, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VirtualKey defaultKey)
+    public HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VirtualKey defaultKey)
     {
-        currentWindowReference = serviceProvider.GetRequiredService<ICurrentWindowReference>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
+        this.hwnd = hwnd;
         this.settingKey = settingKey;
         this.hotKeyId = hotKeyId;
         defaultHotKeyParameter = new(defaultModifiers, defaultKey);
@@ -53,7 +53,7 @@ internal sealed class HotKeyCombination : ObservableObject
 
             HotKeyParameter actual = LocalSettingGetHotKeyParameter();
             modifiers = actual.Modifiers;
-            InitializeModifiersComposeFields();
+            InitializeModifiersCompositionFields();
             key = actual.Key;
 
             keyNameValue = VirtualKeys.GetList().Single(v => v.Value == key);
@@ -164,8 +164,8 @@ internal sealed class HotKeyCombination : ObservableObject
 
                 _ = (value, registered) switch
                 {
-                    (true, false) => RegisterForCurrentWindow(),
-                    (false, true) => UnregisterForCurrentWindow(),
+                    (true, false) => Register(),
+                    (false, true) => Unregister(),
                     _ => false,
                 };
             }
@@ -174,7 +174,7 @@ internal sealed class HotKeyCombination : ObservableObject
 
     public string DisplayName { get => ToString(); }
 
-    public bool RegisterForCurrentWindow()
+    public bool Register()
     {
         if (!runtimeOptions.IsElevated || !IsEnabled)
         {
@@ -186,7 +186,6 @@ internal sealed class HotKeyCombination : ObservableObject
             return true;
         }
 
-        HWND hwnd = currentWindowReference.GetWindowHandle();
         BOOL result = RegisterHotKey(hwnd, hotKeyId, Modifiers, (uint)Key);
         registered = result;
 
@@ -198,7 +197,7 @@ internal sealed class HotKeyCombination : ObservableObject
         return result;
     }
 
-    public bool UnregisterForCurrentWindow()
+    public bool Unregister()
     {
         if (!runtimeOptions.IsElevated)
         {
@@ -210,7 +209,6 @@ internal sealed class HotKeyCombination : ObservableObject
             return true;
         }
 
-        HWND hwnd = currentWindowReference.GetWindowHandle();
         BOOL result = UnregisterHotKey(hwnd, hotKeyId);
         registered = !result;
         return result;
@@ -272,7 +270,7 @@ internal sealed class HotKeyCombination : ObservableObject
         Modifiers = modifiers;
     }
 
-    private void InitializeModifiersComposeFields()
+    private void InitializeModifiersCompositionFields()
     {
         if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_WIN))
         {
@@ -309,7 +307,7 @@ internal sealed class HotKeyCombination : ObservableObject
         HotKeyParameter current = new(Modifiers, Key);
         LocalSetting.Set(settingKey, *(int*)&current);
 
-        UnregisterForCurrentWindow();
-        RegisterForCurrentWindow();
+        Unregister();
+        Register();
     }
 }

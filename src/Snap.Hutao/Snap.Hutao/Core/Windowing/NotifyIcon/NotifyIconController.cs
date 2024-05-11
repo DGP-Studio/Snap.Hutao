@@ -10,6 +10,7 @@ using static Snap.Hutao.Win32.ConstValues;
 
 namespace Snap.Hutao.Core.Windowing.NotifyIcon;
 
+[Injection(InjectAs.Singleton)]
 internal sealed class NotifyIconController : IDisposable
 {
     private readonly NotifyIconMessageWindow messageWindow;
@@ -17,12 +18,22 @@ internal sealed class NotifyIconController : IDisposable
 
     public NotifyIconController()
     {
-        messageWindow = new();
-
-        NotifyIconMethods.Delete(Id);
-
         StorageFile iconFile = StorageFile.GetFileFromApplicationUriAsync("ms-appx:///Assets/Logo.ico".ToUri()).AsTask().GetAwaiter().GetResult();
         icon = new(iconFile.Path);
+
+        messageWindow = new()
+        {
+            TaskbarCreated = window =>
+            {
+                NotifyIconMethods.Delete(Id);
+                if (!NotifyIconMethods.Add(Id, window.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
+                {
+                    HutaoException.InvalidOperation("Failed to recreate NotifyIcon");
+                }
+            },
+        };
+
+        NotifyIconMethods.Delete(Id);
 
         if (!NotifyIconMethods.Add(Id, messageWindow.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
         {

@@ -12,7 +12,7 @@ namespace Snap.Hutao;
 /// 指引窗口
 /// </summary>
 [Injection(InjectAs.Singleton)]
-internal sealed partial class GuideWindow : Window, IWindowOptionsSource, IMinMaxInfoHandler
+internal sealed partial class GuideWindow : Window, IXamlWindowOptionsSource, IMinMaxInfoHandler
 {
     private const int MinWidth = 1000;
     private const int MinHeight = 650;
@@ -20,7 +20,7 @@ internal sealed partial class GuideWindow : Window, IWindowOptionsSource, IMinMa
     private const int MaxWidth = 1200;
     private const int MaxHeight = 800;
 
-    private readonly WindowOptions windowOptions;
+    private readonly XamlWindowOptions windowOptions;
 
     public GuideWindow(IServiceProvider serviceProvider)
     {
@@ -29,7 +29,7 @@ internal sealed partial class GuideWindow : Window, IWindowOptionsSource, IMinMa
         this.InitializeController(serviceProvider);
     }
 
-    WindowOptions IWindowOptionsSource.WindowOptions { get => windowOptions; }
+    XamlWindowOptions IXamlWindowOptionsSource.WindowOptions { get => windowOptions; }
 
     public unsafe void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor)
     {

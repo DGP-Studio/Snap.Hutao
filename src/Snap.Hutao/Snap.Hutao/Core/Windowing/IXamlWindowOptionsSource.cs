@@ -6,10 +6,10 @@ namespace Snap.Hutao.Core.Windowing;
 /// <summary>
 /// 为扩展窗体提供必要的选项
 /// </summary>
-internal interface IWindowOptionsSource
+internal interface IXamlWindowOptionsSource
 {
     /// <summary>
     /// 窗体选项
     /// </summary>
-    WindowOptions WindowOptions { get; }
+    XamlWindowOptions WindowOptions { get; }
 }

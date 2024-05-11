@@ -5,6 +5,8 @@ using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Core.Windowing.HotKey;
+using Snap.Hutao.Core.Windowing.NotifyIcon;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
@@ -22,7 +24,7 @@ namespace Snap.Hutao.Core.LifeCycle;
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IActivation))]
 [SuppressMessage("", "CA1001")]
-internal sealed partial class Activation : IActivation
+internal sealed partial class Activation : IActivation, IDisposable
 {
     public const string Action = nameof(Action);
     public const string Uid = nameof(Uid);
@@ -42,6 +44,8 @@ internal sealed partial class Activation : IActivation
     /// <inheritdoc/>
     public void Activate(HutaoActivationArguments args)
     {
+        // Before activate, we try to redirect to the opened process in App,
+        // And we check if it's a toast activation.
         if (ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
         {
             return;
@@ -51,10 +55,21 @@ internal sealed partial class Activation : IActivation
     }
 
     /// <inheritdoc/>
-    public void Initialize()
+    public void PostInitialization()
     {
         serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget();
         ToastNotificationManagerCompat.OnActivated += NotificationActivate;
+
+        serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
+        if (LocalSetting.Get(SettingKeys.IsNotifyIconEnabled, true))
+        {
+            _ = serviceProvider.GetRequiredService<NotifyIconController>();
+        }
+    }
+
+    public void Dispose()
+    {
+        activateSemaphore.Dispose();
     }
 
     private void NotificationActivate(ToastNotificationActivatedEventArgsCompat args)
@@ -94,12 +109,6 @@ internal sealed partial class Activation : IActivation
             ArgumentNullException.ThrowIfNull(args.LaunchActivatedArguments);
             switch (args.LaunchActivatedArguments)
             {
-                case LaunchGame:
-                    {
-                        await HandleLaunchGameActionAsync().ConfigureAwait(false);
-                        break;
-                    }
-
                 default:
                     {
                         await HandleNormalLaunchActionAsync().ConfigureAwait(false);
@@ -112,10 +121,9 @@ internal sealed partial class Activation : IActivation
     private async ValueTask HandleNormalLaunchActionAsync()
     {
         // Increase launch times
-        LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => x + 1);
+        LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => unchecked(x + 1));
 
-        // If it's the first time launch, we show the guide window anyway.
-        // Otherwise, we check if there's any unfulfilled resource category present.
+        // If the guide is completed, we check if there's any unfulfilled resource category present.
         if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
         {
             if (StaticResource.IsAnyUnfulfilledCategoryPresent())
@@ -124,6 +132,7 @@ internal sealed partial class Activation : IActivation
             }
         }
 
+        // If it's the first time launch, show the guide window anyway.
         if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
         {
             await taskContext.SwitchToMainThreadAsync();
@@ -158,10 +167,7 @@ internal sealed partial class Activation : IActivation
             hutaoUserServiceInitialization.InitializeInternalAsync().SafeForget();
         }
 
-        serviceProvider
-            .GetRequiredService<IDiscordService>()
-            .SetNormalActivityAsync()
-            .SafeForget();
+        serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget();
     }
 
     private async ValueTask HandleUrlActivationAsync(Uri uri, bool isRedirectTo)

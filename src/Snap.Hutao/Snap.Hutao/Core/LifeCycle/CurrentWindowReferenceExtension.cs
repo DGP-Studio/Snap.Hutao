@@ -17,7 +17,7 @@ internal static class CurrentWindowReferenceExtension
 
     public static HWND GetWindowHandle(this ICurrentWindowReference reference)
     {
-        return reference.Window is IWindowOptionsSource optionsSource
+        return reference.Window is IXamlWindowOptionsSource optionsSource
             ? optionsSource.WindowOptions.Hwnd
             : WindowNative.GetWindowHandle(reference.Window);
     }

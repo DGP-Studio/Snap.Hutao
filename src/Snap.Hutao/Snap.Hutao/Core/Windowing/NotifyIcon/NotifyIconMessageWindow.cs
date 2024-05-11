@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
@@ -19,12 +21,10 @@ internal sealed class NotifyIconMessageWindow : IDisposable
     public const uint WM_NOTIFYICON_CALLBACK = 0x444U;
     private const string WindowClassName = "SnapHutaoNotifyIconMessageWindowClass";
 
-    public readonly HWND HWND;
-
     private static readonly ConcurrentDictionary<HWND, NotifyIconMessageWindow> WindowTable = [];
 
     [SuppressMessage("", "SA1306")]
-    private uint WM_TASKBARCREATED;
+    private readonly uint WM_TASKBARCREATED;
 
     private bool isDisposed;
 
@@ -62,6 +62,10 @@ internal sealed class NotifyIconMessageWindow : IDisposable
         Dispose();
     }
 
+    public Action<NotifyIconMessageWindow>? TaskbarCreated { get; set; }
+
+    public HWND HWND { get; }
+
     public void Dispose()
     {
         if (isDisposed)
@@ -81,59 +85,62 @@ internal sealed class NotifyIconMessageWindow : IDisposable
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static unsafe LRESULT OnWindowProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam)
     {
-        if (WindowTable.TryGetValue(hwnd, out NotifyIconMessageWindow? window))
+        if (!WindowTable.TryGetValue(hwnd, out NotifyIconMessageWindow? window))
         {
-            if (uMsg == window.WM_TASKBARCREATED)
-            {
-                // TODO: Re-add the notify icon.
-            }
+            return DefWindowProcW(hwnd, uMsg, wParam, lParam);
+        }
 
-            // https://learn.microsoft.com/zh-cn/windows/win32/api/shellapi/ns-shellapi-notifyicondataw
-            if (uMsg is WM_NOTIFYICON_CALLBACK)
-            {
-                LPARAM2 lParam2 = *(LPARAM2*)&lParam;
-                WPARAM2 wParam2 = *(WPARAM2*)&wParam;
+        if (uMsg == window.WM_TASKBARCREATED)
+        {
+            // TODO: Re-add the notify icon.
+            window.TaskbarCreated?.Invoke(window);
+        }
 
-                switch (lParam2.Low)
-                {
-                    case WM_MOUSEMOVE:
-                        // X: wParam2.X Y: wParam2.Y Low: WM_MOUSEMOVE
-                        break;
-                    case NIN_SELECT:
-                        // X: wParam2.X Y: wParam2.Y Low: NIN_SELECT
-                        break;
-                    case NIN_POPUPOPEN:
-                        // X: wParam2.X Y: 0? Low: NIN_POPUPOPEN
-                        break;
-                    case NIN_POPUPCLOSE:
-                        // X: wParam2.X Y: 0? Low: NIN_POPUPCLOSE
-                        break;
-                    case WM_LBUTTONDOWN:
-                    case WM_LBUTTONUP:
-                        break;
-                    case WM_RBUTTONDOWN:
-                    case WM_RBUTTONUP:
-                        break;
-                    case WM_CONTEXTMENU:
-                        Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [X: {wParam2.X} Y: {wParam2.Y}] [Low: WM_CONTEXTMENU High: 0x{lParam2.High:X8}]");
-                        break;
-                    default:
-                        Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [X: {wParam2.X} Y: {wParam2.Y}] [Low: 0x{lParam2.Low:X8} High: 0x{lParam2.High:X8}]");
-                        break;
-                }
-            }
-            else
+        // https://learn.microsoft.com/zh-cn/windows/win32/api/shellapi/ns-shellapi-notifyicondataw
+        if (uMsg is WM_NOTIFYICON_CALLBACK)
+        {
+            LPARAM2 lParam2 = *(LPARAM2*)&lParam;
+            WPARAM2 wParam2 = *(WPARAM2*)&wParam;
+
+            switch (lParam2.Low)
             {
-                switch (uMsg)
-                {
-                    case WM_ACTIVATEAPP:
-                        break;
-                    case WM_DWMNCRENDERINGCHANGED:
-                        break;
-                    default:
-                        Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [wParam: 0x{wParam.Value:X8}] [lParam: 0x{lParam.Value:X8}]");
-                        break;
-                }
+                case WM_MOUSEMOVE:
+                    // X: wParam2.X Y: wParam2.Y Low: WM_MOUSEMOVE
+                    break;
+                case NIN_SELECT:
+                    // X: wParam2.X Y: wParam2.Y Low: NIN_SELECT
+                    break;
+                case NIN_POPUPOPEN:
+                    // X: wParam2.X Y: 0? Low: NIN_POPUPOPEN
+                    break;
+                case NIN_POPUPCLOSE:
+                    // X: wParam2.X Y: 0? Low: NIN_POPUPCLOSE
+                    break;
+                case WM_LBUTTONDOWN:
+                case WM_LBUTTONUP:
+                    break;
+                case WM_RBUTTONDOWN:
+                case WM_RBUTTONUP:
+                    break;
+                case WM_CONTEXTMENU:
+                    Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [X: {wParam2.X} Y: {wParam2.Y}] [Low: WM_CONTEXTMENU High: 0x{lParam2.High:X8}]");
+                    break;
+                default:
+                    Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [X: {wParam2.X} Y: {wParam2.Y}] [Low: 0x{lParam2.Low:X8} High: 0x{lParam2.High:X8}]");
+                    break;
+            }
+        }
+        else
+        {
+            switch (uMsg)
+            {
+                case WM_ACTIVATEAPP:
+                    break;
+                case WM_DWMNCRENDERINGCHANGED:
+                    break;
+                default:
+                    Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [wParam: 0x{wParam.Value:X8}] [lParam: 0x{lParam.Value:X8}]");
+                    break;
             }
         }
 
@@ -150,5 +157,19 @@ internal sealed class NotifyIconMessageWindow : IDisposable
     {
         public readonly ushort X;
         public readonly ushort Y;
+    }
+}
+
+internal sealed class NotifyIconXamlHostWindow : Window
+{
+    public NotifyIconXamlHostWindow()
+    {
+        Content = new Border();
+
+        OverlappedPresenter presenter = OverlappedPresenter.Create();
+        presenter.SetBorderAndTitleBar(false, false);
+        presenter.IsAlwaysOnTop = true;
+        presenter.IsResizable = false;
+        AppWindow.SetPresenter(presenter);
     }
 }

@@ -10,5 +10,5 @@ internal interface IActivation
 {
     void Activate(HutaoActivationArguments args);
 
-    void Initialize();
+    void PostInitialization();
 }
