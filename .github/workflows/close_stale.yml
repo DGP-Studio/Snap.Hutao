@@ -10,7 +10,7 @@ jobs:
       - uses: actions/stale@v9
         with:
           any-of-labels: 'needs-more-info,需要更多信息'
-          stale-issue-message: 'This issue is stale because it has been open 30 days with no activity. Remove stale label or comment or this will be closed in 3 days.'
+          stale-issue-message: 'This issue is stale because it has been open 7 days with no activity. Remove stale label or comment or this will be closed in 3 days.'
           days-before-stale: 7
           days-before-close: 3
           close-issue-reason: not_planned
