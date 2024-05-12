@@ -11,6 +11,15 @@ var version = "version";
 var repoDir = "repoDir";
 var outputPath = "outputPath";
 
+// Extension
+
+static ProcessArgumentBuilder AppendIf(this ProcessArgumentBuilder builder, string text, bool condition)
+{
+    return condition ? builder.Append(text) : builder;
+}
+
+// Properties
+
 string solution
 {
     get => System.IO.Path.Combine(repoDir, "src", "Snap.Hutao", "Snap.Hutao.sln");
@@ -157,6 +166,7 @@ Task("Build binary package")
                                             .Append("/p:AppxPackageSigningEnabled=false")
                                             .Append("/p:AppxBundle=Never")
                                             .Append("/p:AppxPackageOutput=" + outputPath)
+                                            .AppendIf("/p:AlphaConstants=IS_ALPHA_BUILD", !AppVeyor.IsRunningOnAppVeyor)
     };
 
     DotNetBuild(project, settings);
