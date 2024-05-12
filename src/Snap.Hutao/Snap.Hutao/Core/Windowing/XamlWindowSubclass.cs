@@ -3,10 +3,12 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing.Backdrop;
+using Snap.Hutao.Core.Windowing.NotifyIcon;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.ComCtl32;
@@ -36,9 +38,7 @@ internal sealed class XamlWindowSubclass : IDisposable
     {
         windowProc = SUBCLASSPROC.Create(&OnSubclassProcedure);
         unmanagedAccess = UnmanagedAccess.Create(this);
-        bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, unmanagedAccess);
-
-        return windowHooked;
+        return SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, unmanagedAccess);
     }
 
     public void Dispose()
@@ -75,7 +75,7 @@ internal sealed class XamlWindowSubclass : IDisposable
 
             case WM_ERASEBKGND:
                 {
-                    if (state.window.SystemBackdrop is IBackdropNeedEraseBackground)
+                    if (state.window is IWindowNeedEraseBackground || state.window.SystemBackdrop is IBackdropNeedEraseBackground)
                     {
                         return (LRESULT)(int)BOOL.TRUE;
                     }

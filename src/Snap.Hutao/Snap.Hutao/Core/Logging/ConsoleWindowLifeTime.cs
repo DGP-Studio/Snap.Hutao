@@ -10,11 +10,18 @@ namespace Snap.Hutao.Core.Logging;
 
 internal sealed class ConsoleWindowLifeTime : IDisposable
 {
+    public const bool DebugModeEnabled =
+#if IS_ALPHA_BUILD
+        true;
+#else
+        false;
+#endif
+
     private readonly bool consoleWindowAllocated;
 
     public ConsoleWindowLifeTime()
     {
-        if (LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false))
+        if (LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, DebugModeEnabled))
         {
             consoleWindowAllocated = AllocConsole();
             if (consoleWindowAllocated)

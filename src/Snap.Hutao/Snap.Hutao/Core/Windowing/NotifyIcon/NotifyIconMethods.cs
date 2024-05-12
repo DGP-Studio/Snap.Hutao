@@ -4,6 +4,7 @@
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.Shell32;
 
 namespace Snap.Hutao.Core.Windowing.NotifyIcon;
@@ -50,6 +51,20 @@ internal sealed class NotifyIconMethods
         data.guidItem = id;
 
         return Delete(in data);
+    }
+
+    [SuppressMessage("", "SH002")]
+    public static unsafe RECT GetRect(Guid id, HWND hWND)
+    {
+        NOTIFYICONIDENTIFIER identifier = new()
+        {
+            cbSize = (uint)sizeof(NOTIFYICONIDENTIFIER),
+            hWnd = hWND,
+            guidItem = id,
+        };
+
+        Marshal.ThrowExceptionForHR(Shell_NotifyIconGetRect(ref identifier, out RECT rect));
+        return rect;
     }
 
     public static BOOL SetFocus(ref readonly NOTIFYICONDATAW data)

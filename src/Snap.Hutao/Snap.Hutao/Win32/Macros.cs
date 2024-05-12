@@ -28,4 +28,10 @@ internal static class Macros
         // 0x80000000 or 0x80070000 | LOWBYTE(x)
         return x <= 0 ? (int)x : (int)(((uint)x & 0x0000FFFFU) | ((uint)FACILITY_CODE.FACILITY_WIN32 << 16) | 0x80000000U);
     }
+
+    public static unsafe COLORREF RGB(byte r, byte g, byte b)
+    {
+        uint value = (ushort)(r | g << 8) | (uint)b << 16;
+        return *(COLORREF*)&value;
+    }
 }

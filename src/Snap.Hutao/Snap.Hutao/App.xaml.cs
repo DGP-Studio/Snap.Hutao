@@ -44,8 +44,6 @@ public sealed partial class App : Application
     private readonly IActivation activation;
     private readonly ILogger<App> logger;
 
-    private NotifyIconController? notifyIconController;
-
     /// <summary>
     /// Initializes the singleton application object.
     /// </summary>

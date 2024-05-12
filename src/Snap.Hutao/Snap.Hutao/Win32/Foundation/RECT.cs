@@ -4,10 +4,10 @@
 namespace Snap.Hutao.Win32.Foundation;
 
 [SuppressMessage("", "SA1307")]
-internal readonly struct RECT
+internal struct RECT
 {
-    public readonly int left;
-    public readonly int top;
-    public readonly int right;
-    public readonly int bottom;
+    public int left;
+    public int top;
+    public int right;
+    public int bottom;
 }

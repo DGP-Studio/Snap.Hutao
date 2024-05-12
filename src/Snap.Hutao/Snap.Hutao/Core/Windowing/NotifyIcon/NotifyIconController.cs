@@ -1,7 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -13,6 +16,8 @@ namespace Snap.Hutao.Core.Windowing.NotifyIcon;
 [Injection(InjectAs.Singleton)]
 internal sealed class NotifyIconController : IDisposable
 {
+    private readonly LazySlim<NotifyIconContextMenu> lazyMenu = new(() => new());
+    private readonly NotifyIconXamlHostWindow xamlHostWindow;
     private readonly NotifyIconMessageWindow messageWindow;
     private readonly System.Drawing.Icon icon;
 
@@ -20,6 +25,8 @@ internal sealed class NotifyIconController : IDisposable
     {
         StorageFile iconFile = StorageFile.GetFileFromApplicationUriAsync("ms-appx:///Assets/Logo.ico".ToUri()).AsTask().GetAwaiter().GetResult();
         icon = new(iconFile.Path);
+
+        xamlHostWindow = new();
 
         messageWindow = new()
         {
@@ -31,10 +38,15 @@ internal sealed class NotifyIconController : IDisposable
                     HutaoException.InvalidOperation("Failed to recreate NotifyIcon");
                 }
             },
+            ContextMenuRequested = (window, point) =>
+            {
+                Flyout flyout = lazyMenu.Value;
+                RECT iconRect = NotifyIconMethods.GetRect(Id, window.HWND);
+                xamlHostWindow.ShowFlyoutAt(flyout, new Windows.Foundation.Point(point.X, point.Y), iconRect);
+            },
         };
 
         NotifyIconMethods.Delete(Id);
-
         if (!NotifyIconMethods.Add(Id, messageWindow.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
         {
             HutaoException.InvalidOperation("Failed to create NotifyIcon");
@@ -61,5 +73,7 @@ internal sealed class NotifyIconController : IDisposable
         messageWindow.Dispose();
         NotifyIconMethods.Delete(Id);
         icon.Dispose();
+
+        xamlHostWindow.Dispose();
     }
 }

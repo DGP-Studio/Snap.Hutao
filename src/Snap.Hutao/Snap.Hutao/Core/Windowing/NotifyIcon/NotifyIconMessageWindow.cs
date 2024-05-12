@@ -1,9 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Snap.Hutao.Core.Windowing.Backdrop;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Collections.Concurrent;
@@ -64,6 +67,8 @@ internal sealed class NotifyIconMessageWindow : IDisposable
 
     public Action<NotifyIconMessageWindow>? TaskbarCreated { get; set; }
 
+    public Action<NotifyIconMessageWindow, PointUInt16>? ContextMenuRequested { get; set; }
+
     public HWND HWND { get; }
 
     public void Dispose()
@@ -100,7 +105,7 @@ internal sealed class NotifyIconMessageWindow : IDisposable
         if (uMsg is WM_NOTIFYICON_CALLBACK)
         {
             LPARAM2 lParam2 = *(LPARAM2*)&lParam;
-            WPARAM2 wParam2 = *(WPARAM2*)&wParam;
+            PointUInt16 wParam2 = *(PointUInt16*)&wParam;
 
             switch (lParam2.Low)
             {
@@ -123,6 +128,7 @@ internal sealed class NotifyIconMessageWindow : IDisposable
                 case WM_RBUTTONUP:
                     break;
                 case WM_CONTEXTMENU:
+                    window.ContextMenuRequested?.Invoke(window, wParam2);
                     Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [X: {wParam2.X} Y: {wParam2.Y}] [Low: WM_CONTEXTMENU High: 0x{lParam2.High:X8}]");
                     break;
                 default:
@@ -151,25 +157,5 @@ internal sealed class NotifyIconMessageWindow : IDisposable
     {
         public readonly uint Low;
         public readonly uint High;
-    }
-
-    private readonly struct WPARAM2
-    {
-        public readonly ushort X;
-        public readonly ushort Y;
-    }
-}
-
-internal sealed class NotifyIconXamlHostWindow : Window
-{
-    public NotifyIconXamlHostWindow()
-    {
-        Content = new Border();
-
-        OverlappedPresenter presenter = OverlappedPresenter.Create();
-        presenter.SetBorderAndTitleBar(false, false);
-        presenter.IsAlwaysOnTop = true;
-        presenter.IsResizable = false;
-        AppWindow.SetPresenter(presenter);
     }
 }

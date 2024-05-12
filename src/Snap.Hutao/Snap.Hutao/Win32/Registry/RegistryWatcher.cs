@@ -129,8 +129,14 @@ internal sealed partial class RegistryWatcher : IDisposable
 
             if (!disposed)
             {
-                // Before exiting, signal the Dispose method.
-                disposeEvent.Reset();
+                try
+                {
+                    // Before exiting, signal the Dispose method.
+                    disposeEvent.Reset();
+                }
+                catch
+                {
+                }
             }
         }
         catch (OperationCanceledException)

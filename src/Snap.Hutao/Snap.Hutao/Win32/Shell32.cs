@@ -35,6 +35,21 @@ internal static class Shell32
     }
 
     [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows6.1")]
+    public static unsafe extern HRESULT Shell_NotifyIconGetRect(NOTIFYICONIDENTIFIER* identifier, RECT* iconLocation);
+
+    public static unsafe HRESULT Shell_NotifyIconGetRect(ref readonly NOTIFYICONIDENTIFIER identifier, out RECT iconLocation)
+    {
+        fixed (NOTIFYICONIDENTIFIER* p = &identifier)
+        {
+            fixed (RECT* pRect = &iconLocation)
+            {
+                return Shell_NotifyIconGetRect(p, pRect);
+            }
+        }
+    }
+
+    [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static unsafe extern BOOL Shell_NotifyIconW(NOTIFY_ICON_MESSAGE dwMessage, NOTIFYICONDATAW* lpData);
 

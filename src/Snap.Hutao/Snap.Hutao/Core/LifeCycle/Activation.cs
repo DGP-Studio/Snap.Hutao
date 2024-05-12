@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing.HotKey;
@@ -63,6 +64,7 @@ internal sealed partial class Activation : IActivation, IDisposable
         serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
         if (LocalSetting.Get(SettingKeys.IsNotifyIconEnabled, true))
         {
+            serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
             _ = serviceProvider.GetRequiredService<NotifyIconController>();
         }
     }
