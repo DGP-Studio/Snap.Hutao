@@ -5,19 +5,19 @@ using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-[Injection(InjectAs.Singleton, typeof(ICurrentWindowReference))]
-internal sealed class CurrentWindowReference : ICurrentWindowReference
+[Injection(InjectAs.Singleton, typeof(ICurrentXamlWindowReference))]
+internal sealed class CurrentXamlWindowReference : ICurrentXamlWindowReference
 {
     private readonly WeakReference<Window> reference = new(default!);
 
     [SuppressMessage("", "SH007")]
-    public Window Window
+    public Window? Window
     {
         get
         {
             reference.TryGetTarget(out Window? window);
             return window!;
         }
-        set => reference.SetTarget(value);
+        set => reference.SetTarget(value!);
     }
 }

@@ -7,7 +7,7 @@ namespace Snap.Hutao.Web.Bridge.Model;
 /// DS2请求
 /// </summary>
 [HighQuality]
-internal sealed class DynamicSecrect2Playload
+internal sealed class DataSignV2Payload
 {
     /// <summary>
     /// q

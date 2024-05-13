@@ -22,6 +22,12 @@ internal static class WindowExtension
         WindowControllers.Add(window, windowController);
     }
 
+    public static bool IsControllerInitialized<TWindow>(this TWindow window)
+        where TWindow : Window
+    {
+        return WindowControllers.TryGetValue(window, out _);
+    }
+
     public static void SetLayeredWindow(this Window window)
     {
         HWND hwnd = (HWND)WindowNative.GetWindowHandle(window);
@@ -29,5 +35,22 @@ internal static class WindowExtension
         style |= (nint)WINDOW_EX_STYLE.WS_EX_LAYERED;
         SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
         SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+    }
+
+    public static void Show(this Window window)
+    {
+        ShowWindow(GetWindowHandle(window), SHOW_WINDOW_CMD.SW_NORMAL);
+    }
+
+    public static void Hide(this Window window)
+    {
+        ShowWindow(GetWindowHandle(window), SHOW_WINDOW_CMD.SW_HIDE);
+    }
+
+    public static HWND GetWindowHandle(this Window? window)
+    {
+        return window is IXamlWindowOptionsSource optionsSource
+            ? optionsSource.WindowOptions.Hwnd
+            : WindowNative.GetWindowHandle(window);
     }
 }

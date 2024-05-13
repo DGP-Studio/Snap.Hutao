@@ -192,6 +192,12 @@
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 热键 [{1}] 注册失败</value>
   </data>
+  <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
+    <value>主界面</value>
+  </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>深色</value>
   </data>

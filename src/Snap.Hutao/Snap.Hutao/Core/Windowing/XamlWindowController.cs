@@ -36,8 +36,7 @@ internal sealed class XamlWindowController
         this.options = options;
         this.serviceProvider = serviceProvider;
 
-        // Window reference must be set before Window Subclass created
-        serviceProvider.GetRequiredService<ICurrentWindowReference>().Window = window;
+        serviceProvider.GetRequiredService<ICurrentXamlWindowReference>().Window = window;
         subclass = new(window, options);
         windowNonRudeHWND = new(options.Hwnd);
 
@@ -137,9 +136,23 @@ internal sealed class XamlWindowController
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        SaveOrSkipWindowSize();
-        subclass?.Dispose();
-        windowNonRudeHWND?.Dispose();
+        if (LocalSetting.Get(SettingKeys.IsNotifyIconEnabled, true))
+        {
+            args.Handled = true;
+            window.Hide();
+        }
+        else
+        {
+            SaveOrSkipWindowSize();
+            subclass?.Dispose();
+            windowNonRudeHWND?.Dispose();
+
+            ICurrentXamlWindowReference currentXamlWindowReference = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>();
+            if (currentXamlWindowReference.Window == window)
+            {
+                currentXamlWindowReference.Window = default!;
+            }
+        }
     }
 
     private void ExtendsContentIntoTitleBar()

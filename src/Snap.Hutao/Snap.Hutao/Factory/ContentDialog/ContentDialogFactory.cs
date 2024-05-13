@@ -13,7 +13,7 @@ namespace Snap.Hutao.Factory.ContentDialog;
 [Injection(InjectAs.Singleton, typeof(IContentDialogFactory))]
 internal sealed partial class ContentDialogFactory : IContentDialogFactory
 {
-    private readonly ICurrentWindowReference currentWindowReference;
+    private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;

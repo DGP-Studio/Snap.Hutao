@@ -18,7 +18,7 @@ namespace Snap.Hutao.Factory.Picker;
 [Injection(InjectAs.Transient, typeof(IFileSystemPickerInteraction))]
 internal sealed partial class FileSystemPickerInteraction : IFileSystemPickerInteraction
 {
-    private readonly ICurrentWindowReference currentWindowReference;
+    private readonly ICurrentXamlWindowReference currentWindowReference;
 
     public unsafe ValueResult<bool, ValueFile> PickFile(string? title, string? defaultFileName, (string Name, string Type)[]? filters)
     {

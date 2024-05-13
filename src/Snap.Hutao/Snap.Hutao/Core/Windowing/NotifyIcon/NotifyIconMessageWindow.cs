@@ -1,16 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Snap.Hutao.Core.Windowing.Backdrop;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.ConstValues;
@@ -129,10 +122,8 @@ internal sealed class NotifyIconMessageWindow : IDisposable
                     break;
                 case WM_CONTEXTMENU:
                     window.ContextMenuRequested?.Invoke(window, wParam2);
-                    Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [X: {wParam2.X} Y: {wParam2.Y}] [Low: WM_CONTEXTMENU High: 0x{lParam2.High:X8}]");
                     break;
                 default:
-                    Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [X: {wParam2.X} Y: {wParam2.Y}] [Low: 0x{lParam2.Low:X8} High: 0x{lParam2.High:X8}]");
                     break;
             }
         }
@@ -145,7 +136,6 @@ internal sealed class NotifyIconMessageWindow : IDisposable
                 case WM_DWMNCRENDERINGCHANGED:
                     break;
                 default:
-                    Debug.WriteLine($"[uMsg: 0x{uMsg:X8}] [wParam: 0x{wParam.Value:X8}] [lParam: 0x{lParam.Value:X8}]");
                     break;
             }
         }

@@ -38,7 +38,7 @@ internal sealed partial class Activation : IActivation, IDisposable
     private const string UrlActionRefresh = "/REFRESH";
 
     private readonly IServiceProvider serviceProvider;
-    private readonly ICurrentWindowReference currentWindowReference;
+    private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly ITaskContext taskContext;
     private readonly SemaphoreSlim activateSemaphore = new(1);
 

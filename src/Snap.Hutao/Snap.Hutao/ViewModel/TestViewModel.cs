@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
@@ -46,7 +47,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly ILogger<TestViewModel> logger;
     private readonly IMemoryCache memoryCache;
     private readonly ITaskContext taskContext;
-    private readonly MainWindow mainWindow;
 
     private UploadAnnouncement announcement = new();
 
@@ -117,14 +117,17 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ExceptionCommand")]
     private static void ThrowTestException()
     {
-        Must.NeverHappen();
+        HutaoException.Throw("Test Exception");
     }
 
     [Command("ResetMainWindowSizeCommand")]
     private void ResetMainWindowSize()
     {
-        double scale = mainWindow.WindowOptions.GetRasterizationScale();
-        mainWindow.AppWindow.Resize(new Windows.Graphics.SizeInt32(1372, 772).Scale(scale));
+        if (serviceProvider.GetRequiredService<ICurrentXamlWindowReference>().Window is MainWindow mainWindow)
+        {
+            double scale = mainWindow.WindowOptions.GetRasterizationScale();
+            mainWindow.AppWindow.Resize(new Windows.Graphics.SizeInt32(1372, 772).Scale(scale));
+        }
     }
 
     [Command("UploadAnnouncementCommand")]
@@ -186,7 +189,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 {
                     IDirect3DDevice direct3DDevice = WinRT.IInspectable.FromAbi((nint)inspectable).ObjRef.AsInterface<IDirect3DDevice>();
 
-                    HWND hwnd = serviceProvider.GetRequiredService<ICurrentWindowReference>().GetWindowHandle();
+                    HWND hwnd = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>().GetWindowHandle();
                     GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForWindow(hwnd, out GraphicsCaptureItem item);
 
                     using (Direct3D11CaptureFramePool framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(direct3DDevice, DirectXPixelFormat.B8G8R8A8UIntNormalized, 2, item.Size))

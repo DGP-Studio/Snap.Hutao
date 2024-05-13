@@ -32,13 +32,19 @@
         </Grid.RowDefinitions>
         <TextBlock Margin="8" Text="{Binding Title}"/>
         <Grid Grid.Row="1" Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel
+                Margin="4,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal"
+                Spacing="2">
                 <AppBarButton
-                    Margin="4,0"
+                    Command="{Binding ShowMainWindowCommand}"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Assets/Logo.ico}"
+                    Label="{shcm:ResourceString Name=CoreWindowingNotifyIconViewLabel}"/>
+                <AppBarButton
                     Command="{Binding ExitCommand}"
                     Icon="{shcm:FontIcon Glyph=&#xE7E8;}"
-                    Label="退出"
-                    Style="{ThemeResource DefaultAppBarButtonStyle}"/>
+                    Label="{shcm:ResourceString Name=CoreWindowingNotifyIconExitLabel}"/>
             </StackPanel>
         </Grid>
     </Grid>

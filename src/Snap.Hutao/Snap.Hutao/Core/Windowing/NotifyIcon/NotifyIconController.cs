@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
@@ -40,9 +39,8 @@ internal sealed class NotifyIconController : IDisposable
             },
             ContextMenuRequested = (window, point) =>
             {
-                Flyout flyout = lazyMenu.Value;
                 RECT iconRect = NotifyIconMethods.GetRect(Id, window.HWND);
-                xamlHostWindow.ShowFlyoutAt(flyout, new Windows.Foundation.Point(point.X, point.Y), iconRect);
+                xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new Windows.Foundation.Point(point.X, point.Y), iconRect);
             },
         };
 
