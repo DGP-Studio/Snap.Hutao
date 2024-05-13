@@ -29,8 +29,6 @@ internal sealed partial class MainWindow : Window, IXamlWindowOptionsSource, IMi
         InitializeComponent();
         windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), SettingKeys.WindowRect);
         this.InitializeController(serviceProvider);
-
-        Closed += OnClosed;
     }
 
     /// <inheritdoc/>
@@ -41,14 +39,5 @@ internal sealed partial class MainWindow : Window, IXamlWindowOptionsSource, IMi
     {
         pInfo.ptMinTrackSize.x = (int)Math.Max(MinWidth * scalingFactor, pInfo.ptMinTrackSize.x);
         pInfo.ptMinTrackSize.y = (int)Math.Max(MinHeight * scalingFactor, pInfo.ptMinTrackSize.y);
-    }
-
-    private void OnClosed(object sender, WindowEventArgs args)
-    {
-        if (LocalSetting.Get(SettingKeys.IsNotifyIconEnabled, true))
-        {
-            args.Handled = true;
-            this.Hide();
-        }
     }
 }

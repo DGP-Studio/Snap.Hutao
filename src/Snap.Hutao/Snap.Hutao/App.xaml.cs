@@ -50,8 +50,6 @@ public sealed partial class App : Application
     /// <param name="serviceProvider">服务提供器</param>
     public App(IServiceProvider serviceProvider)
     {
-        // DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
-
         // Load app resource
         InitializeComponent();
         activation = serviceProvider.GetRequiredService<IActivation>();
@@ -59,6 +57,14 @@ public sealed partial class App : Application
         serviceProvider.GetRequiredService<ExceptionRecorder>().Record(this);
 
         this.serviceProvider = serviceProvider;
+    }
+
+    public bool IsExiting { get; private set; }
+
+    public new void Exit()
+    {
+        IsExiting = true;
+        base.Exit();
     }
 
     /// <inheritdoc/>
