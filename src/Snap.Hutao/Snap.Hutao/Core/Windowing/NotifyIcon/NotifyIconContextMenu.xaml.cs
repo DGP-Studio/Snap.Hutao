@@ -8,10 +8,10 @@ namespace Snap.Hutao.Core.Windowing.NotifyIcon;
 
 internal sealed partial class NotifyIconContextMenu : Flyout
 {
-    public NotifyIconContextMenu()
+    public NotifyIconContextMenu(IServiceProvider serviceProvider)
     {
         AllowFocusOnInteraction = false;
         InitializeComponent();
-        Root.DataContext = Ioc.Default.GetRequiredService<NotifyIconViewModel>();
+        Root.DataContext = serviceProvider.GetRequiredService<NotifyIconViewModel>();
     }
 }

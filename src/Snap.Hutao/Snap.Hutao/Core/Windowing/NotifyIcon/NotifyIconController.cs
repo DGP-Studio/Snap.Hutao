@@ -14,13 +14,15 @@ namespace Snap.Hutao.Core.Windowing.NotifyIcon;
 [Injection(InjectAs.Singleton)]
 internal sealed class NotifyIconController : IDisposable
 {
-    private readonly LazySlim<NotifyIconContextMenu> lazyMenu = new(() => new());
+    private readonly LazySlim<NotifyIconContextMenu> lazyMenu;
     private readonly NotifyIconXamlHostWindow xamlHostWindow;
     private readonly NotifyIconMessageWindow messageWindow;
     private readonly System.Drawing.Icon icon;
 
-    public NotifyIconController()
+    public NotifyIconController(IServiceProvider serviceProvider)
     {
+        lazyMenu = new(() => new(serviceProvider));
+
         StorageFile iconFile = StorageFile.GetFileFromApplicationUriAsync("ms-appx:///Assets/Logo.ico".ToUri()).AsTask().GetAwaiter().GetResult();
         icon = new(iconFile.Path);
 
@@ -28,31 +30,11 @@ internal sealed class NotifyIconController : IDisposable
 
         messageWindow = new()
         {
-            TaskbarCreated = window =>
-            {
-                NotifyIconMethods.Delete(Id);
-                if (!NotifyIconMethods.Add(Id, window.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
-                {
-                    HutaoException.InvalidOperation("Failed to recreate NotifyIcon");
-                }
-            },
-            ContextMenuRequested = (window, point) =>
-            {
-                RECT iconRect = NotifyIconMethods.GetRect(Id, window.HWND);
-                xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new Windows.Foundation.Point(point.X, point.Y), iconRect);
-            },
+            TaskbarCreated = OnRecreateNotifyIconRequested,
+            ContextMenuRequested = OnContextMenuRequested,
         };
 
-        NotifyIconMethods.Delete(Id);
-        if (!NotifyIconMethods.Add(Id, messageWindow.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
-        {
-            HutaoException.InvalidOperation("Failed to create NotifyIcon");
-        }
-
-        if (!NotifyIconMethods.SetVersion(Id, NOTIFYICON_VERSION_4))
-        {
-            HutaoException.InvalidOperation("Failed to set NotifyIcon version");
-        }
+        CreateNotifyIcon();
     }
 
     private static ref readonly Guid Id
@@ -72,5 +54,39 @@ internal sealed class NotifyIconController : IDisposable
         icon.Dispose();
 
         xamlHostWindow.Dispose();
+    }
+
+    private void OnRecreateNotifyIconRequested(NotifyIconMessageWindow window)
+    {
+        NotifyIconMethods.Delete(Id);
+        if (!NotifyIconMethods.Add(Id, window.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
+        {
+            HutaoException.InvalidOperation("Failed to recreate NotifyIcon");
+        }
+
+        if (!NotifyIconMethods.SetVersion(Id, NOTIFYICON_VERSION_4))
+        {
+            HutaoException.InvalidOperation("Failed to set NotifyIcon version");
+        }
+    }
+
+    private void CreateNotifyIcon()
+    {
+        NotifyIconMethods.Delete(Id);
+        if (!NotifyIconMethods.Add(Id, messageWindow.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
+        {
+            HutaoException.InvalidOperation("Failed to create NotifyIcon");
+        }
+
+        if (!NotifyIconMethods.SetVersion(Id, NOTIFYICON_VERSION_4))
+        {
+            HutaoException.InvalidOperation("Failed to set NotifyIcon version");
+        }
+    }
+
+    private void OnContextMenuRequested(NotifyIconMessageWindow window, PointUInt16 point)
+    {
+        RECT iconRect = NotifyIconMethods.GetRect(Id, window.HWND);
+        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new Windows.Foundation.Point(point.X, point.Y), iconRect);
     }
 }

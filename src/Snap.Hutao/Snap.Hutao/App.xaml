@@ -6,6 +6,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources/>
+                <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.SettingsControls/SettingsCard/SettingsCard.xaml"/>
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.TokenizingTextBox/TokenizingTextBox.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Loading.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Control/Image/CachedImage.xaml"/>

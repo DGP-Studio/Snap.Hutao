@@ -102,8 +102,17 @@ internal sealed class NotifyIconMessageWindow : IDisposable
 
             switch (lParam2.Low)
             {
+                case WM_CONTEXTMENU:
+                    window.ContextMenuRequested?.Invoke(window, wParam2);
+                    break;
                 case WM_MOUSEMOVE:
                     // X: wParam2.X Y: wParam2.Y Low: WM_MOUSEMOVE
+                    break;
+                case WM_LBUTTONDOWN:
+                case WM_LBUTTONUP:
+                    break;
+                case WM_RBUTTONDOWN:
+                case WM_RBUTTONUP:
                     break;
                 case NIN_SELECT:
                     // X: wParam2.X Y: wParam2.Y Low: NIN_SELECT
@@ -113,15 +122,6 @@ internal sealed class NotifyIconMessageWindow : IDisposable
                     break;
                 case NIN_POPUPCLOSE:
                     // X: wParam2.X Y: 0? Low: NIN_POPUPCLOSE
-                    break;
-                case WM_LBUTTONDOWN:
-                case WM_LBUTTONUP:
-                    break;
-                case WM_RBUTTONDOWN:
-                case WM_RBUTTONUP:
-                    break;
-                case WM_CONTEXTMENU:
-                    window.ContextMenuRequested?.Invoke(window, wParam2);
                     break;
                 default:
                     break;

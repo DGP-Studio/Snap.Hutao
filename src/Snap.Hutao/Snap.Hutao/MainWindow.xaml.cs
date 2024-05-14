@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
@@ -30,8 +31,11 @@ internal sealed partial class MainWindow : Window, IXamlWindowOptionsSource, IMi
         windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), SettingKeys.WindowRect);
         this.InitializeController(serviceProvider);
 
-        var policy = this.GetDesktopWindowXamlSource()!.SiteBridge.ResizePolicy;
-        _ = 1;
+        if (this.GetDesktopWindowXamlSource() is { } desktopWindowXamlSource)
+        {
+            DesktopChildSiteBridge desktopChildSiteBridge = desktopWindowXamlSource.SiteBridge;
+            desktopChildSiteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
+        }
     }
 
     /// <inheritdoc/>
