@@ -41,7 +41,7 @@ public sealed partial class App : Application
         """;
 
     private readonly IServiceProvider serviceProvider;
-    private readonly IActivation activation;
+    private readonly IAppActivation activation;
     private readonly ILogger<App> logger;
 
     /// <summary>
@@ -52,7 +52,7 @@ public sealed partial class App : Application
     {
         // Load app resource
         InitializeComponent();
-        activation = serviceProvider.GetRequiredService<IActivation>();
+        activation = serviceProvider.GetRequiredService<IAppActivation>();
         logger = serviceProvider.GetRequiredService<ILogger<App>>();
         serviceProvider.GetRequiredService<ExceptionRecorder>().Record(this);
 

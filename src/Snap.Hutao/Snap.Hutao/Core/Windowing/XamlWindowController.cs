@@ -36,7 +36,6 @@ internal sealed class XamlWindowController
         this.options = options;
         this.serviceProvider = serviceProvider;
 
-        serviceProvider.GetRequiredService<ICurrentXamlWindowReference>().Window = window;
         subclass = new(window, options);
         windowNonRudeHWND = new(options.Hwnd);
 
@@ -140,18 +139,20 @@ internal sealed class XamlWindowController
         {
             args.Handled = true;
             window.Hide();
-        }
-        else
-        {
-            SaveOrSkipWindowSize();
-            subclass?.Dispose();
-            windowNonRudeHWND?.Dispose();
 
             ICurrentXamlWindowReference currentXamlWindowReference = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>();
             if (currentXamlWindowReference.Window == window)
             {
                 currentXamlWindowReference.Window = default!;
             }
+
+            GC.Collect(GC.MaxGeneration);
+        }
+        else
+        {
+            SaveOrSkipWindowSize();
+            subclass?.Dispose();
+            windowNonRudeHWND?.Dispose();
         }
     }
 

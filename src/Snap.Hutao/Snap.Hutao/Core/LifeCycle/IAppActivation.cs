@@ -3,12 +3,14 @@
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-/// <summary>
-/// 激活
-/// </summary>
-internal interface IActivation
+internal interface IAppActivation
 {
     void Activate(HutaoActivationArguments args);
 
     void PostInitialization();
+}
+
+internal interface IAppActivationActionHandlersAccess
+{
+    ValueTask HandleLaunchGameActionAsync(string? uid = null);
 }

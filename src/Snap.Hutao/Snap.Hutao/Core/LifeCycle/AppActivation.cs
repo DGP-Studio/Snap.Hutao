@@ -23,9 +23,9 @@ namespace Snap.Hutao.Core.LifeCycle;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IActivation))]
+[Injection(InjectAs.Singleton, typeof(IAppActivation))]
 [SuppressMessage("", "CA1001")]
-internal sealed partial class Activation : IActivation, IDisposable
+internal sealed partial class AppActivation : IAppActivation, IAppActivationActionHandlersAccess, IDisposable
 {
     public const string Action = nameof(Action);
     public const string Uid = nameof(Uid);
@@ -72,6 +72,36 @@ internal sealed partial class Activation : IActivation, IDisposable
     public void Dispose()
     {
         activateSemaphore.Dispose();
+    }
+
+    public async ValueTask HandleLaunchGameActionAsync(string? uid = null)
+    {
+        serviceProvider
+            .GetRequiredService<IMemoryCache>()
+            .Set(ViewModel.Game.LaunchGameViewModel.DesiredUid, uid);
+
+        await taskContext.SwitchToMainThreadAsync();
+
+        if (currentWindowReference.Window is null)
+        {
+            currentWindowReference.Window = serviceProvider.GetRequiredService<LaunchGameWindow>();
+            return;
+        }
+
+        if (currentWindowReference.Window is MainWindow)
+        {
+            await serviceProvider
+                .GetRequiredService<INavigationService>()
+                .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
+                .ConfigureAwait(false);
+
+            return;
+        }
+        else
+        {
+            // We have a non-Main Window, just exit current process anyway
+            Process.GetCurrentProcess().Kill();
+        }
     }
 
     private void NotificationActivate(ToastNotificationActivatedEventArgsCompat args)
@@ -138,7 +168,7 @@ internal sealed partial class Activation : IActivation, IDisposable
         if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
         {
             await taskContext.SwitchToMainThreadAsync();
-            serviceProvider.GetRequiredService<GuideWindow>();
+            currentWindowReference.Window = serviceProvider.GetRequiredService<GuideWindow>();
         }
         else
         {
@@ -155,7 +185,7 @@ internal sealed partial class Activation : IActivation, IDisposable
 
         await taskContext.SwitchToMainThreadAsync();
 
-        serviceProvider.GetRequiredService<MainWindow>();
+        currentWindowReference.Window = serviceProvider.GetRequiredService<MainWindow>();
 
         await taskContext.SwitchToBackgroundAsync();
 
@@ -250,36 +280,6 @@ internal sealed partial class Activation : IActivation, IDisposable
 
                     break;
                 }
-        }
-    }
-
-    private async ValueTask HandleLaunchGameActionAsync(string? uid = null)
-    {
-        serviceProvider
-            .GetRequiredService<IMemoryCache>()
-            .Set(ViewModel.Game.LaunchGameViewModel.DesiredUid, uid);
-
-        await taskContext.SwitchToMainThreadAsync();
-
-        if (currentWindowReference.Window is null)
-        {
-            serviceProvider.GetRequiredService<LaunchGameWindow>();
-            return;
-        }
-
-        if (currentWindowReference.Window is MainWindow)
-        {
-            await serviceProvider
-                .GetRequiredService<INavigationService>()
-                .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
-                .ConfigureAwait(false);
-
-            return;
-        }
-        else
-        {
-            // We have a non-Main Window, just exit current process anyway
-            Process.GetCurrentProcess().Kill();
         }
     }
 }

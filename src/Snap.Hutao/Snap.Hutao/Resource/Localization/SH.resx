@@ -195,8 +195,11 @@
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
     <value>退出</value>
   </data>
+  <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
+    <value>启动游戏</value>
+  </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>主界面</value>
+    <value>窗口</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>深色</value>

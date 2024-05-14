@@ -112,7 +112,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         if (await Initialization.Task.ConfigureAwait(false))
         {
-            if (data.Data is Activation.ImportUIAFFromClipboard)
+            if (data.Data is AppActivation.ImportUIAFFromClipboard)
             {
                 await ImportUIAFFromClipboardAsync().ConfigureAwait(false);
                 return true;

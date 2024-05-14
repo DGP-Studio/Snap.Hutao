@@ -37,14 +37,30 @@
                 HorizontalAlignment="Right"
                 Orientation="Horizontal"
                 Spacing="2">
-                <AppBarButton
-                    Command="{Binding ShowMainWindowCommand}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Assets/Logo.ico}"
-                    Label="{shcm:ResourceString Name=CoreWindowingNotifyIconViewLabel}"/>
-                <AppBarButton
-                    Command="{Binding ExitCommand}"
-                    Icon="{shcm:FontIcon Glyph=&#xE7E8;}"
-                    Label="{shcm:ResourceString Name=CoreWindowingNotifyIconExitLabel}"/>
+                <AppBarButton Command="{Binding ShowWindowCommand}" Label="{shcm:ResourceString Name=CoreWindowingNotifyIconViewLabel}">
+                    <AppBarButton.Icon>
+                        <FontIcon
+                            Width="20"
+                            Height="20"
+                            Glyph="&#xE80F;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Command="{Binding LaunchGameCommand}" Label="{shcm:ResourceString Name=CoreWindowingNotifyIconLaunchGameLabel}">
+                    <AppBarButton.Icon>
+                        <FontIcon
+                            Width="20"
+                            Height="20"
+                            Glyph="&#xE7FC;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Command="{Binding ExitCommand}" Label="{shcm:ResourceString Name=CoreWindowingNotifyIconExitLabel}">
+                    <AppBarButton.Icon>
+                        <FontIcon
+                            Width="20"
+                            Height="20"
+                            Glyph="&#xE7E8;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
             </StackPanel>
         </Grid>
     </Grid>

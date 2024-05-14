@@ -15,9 +15,9 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class NotifyIconViewModel : ObservableObject
 {
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IServiceProvider serviceProvider;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly App app;
 
     public string Title
@@ -40,8 +40,8 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         }
     }
 
-    [Command("ShowMainWindowCommand")]
-    private void ShowMainWindow()
+    [Command("ShowWindowCommand")]
+    private void ShowWindow()
     {
         switch (currentXamlWindowReference.Window)
         {
@@ -61,20 +61,28 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
                     // TODO: Can actually be no any window is initialized
                     mainWindow.Show();
+                    mainWindow.WindowOptions.BringToForeground();
                     break;
                 }
 
             case Window otherWindow:
                 {
-                    if (otherWindow is IXamlWindowOptionsSource optionsSource)
-                    {
-                        otherWindow.Show();
-                        optionsSource.WindowOptions.BringToForeground();
-                    }
-
+                    otherWindow.Show();
+                    (otherWindow as IXamlWindowOptionsSource)?.WindowOptions.BringToForeground();
                     return;
                 }
         }
+    }
+
+    [Command("LaunchGameCommand")]
+    private async Task LaunchGame()
+    {
+        if (serviceProvider.GetRequiredService<IAppActivation>() is IAppActivationActionHandlersAccess access)
+        {
+            await access.HandleLaunchGameActionAsync();
+        }
+
+        ShowWindow();
     }
 
     [Command("ExitCommand")]
