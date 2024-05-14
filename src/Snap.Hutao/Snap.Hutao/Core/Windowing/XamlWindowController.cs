@@ -169,7 +169,7 @@ internal sealed class XamlWindowController
 
     private bool UpdateSystemBackdrop(BackdropType backdropType)
     {
-        window.SystemBackdrop = backdropType switch
+        SystemBackdrop? actualBackdop = backdropType switch
         {
             BackdropType.Transparent => new Backdrop.TransparentBackdrop(),
             BackdropType.MicaAlt => new MicaBackdrop() { Kind = MicaKind.BaseAlt },
@@ -177,6 +177,8 @@ internal sealed class XamlWindowController
             BackdropType.Acrylic => new DesktopAcrylicBackdrop(),
             _ => null,
         };
+
+        window.SystemBackdrop = new Backdrop.SystemBackdropDesktopWindowXamlSourceAccess(actualBackdop);
 
         return true;
     }

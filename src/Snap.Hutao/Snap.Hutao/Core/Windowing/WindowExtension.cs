@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Hosting;
+using Snap.Hutao.Core.Windowing.Backdrop;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Runtime.CompilerServices;
@@ -45,6 +47,16 @@ internal static class WindowExtension
     public static void Hide(this Window window)
     {
         ShowWindow(GetWindowHandle(window), SHOW_WINDOW_CMD.SW_HIDE);
+    }
+
+    public static DesktopWindowXamlSource? GetDesktopWindowXamlSource(this Window window)
+    {
+        if (window.SystemBackdrop is SystemBackdropDesktopWindowXamlSourceAccess access)
+        {
+            return access.DesktopWindowXamlSource;
+        }
+
+        return default;
     }
 
     public static HWND GetWindowHandle(this Window? window)

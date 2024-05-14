@@ -9,9 +9,9 @@ using Windows.UI;
 
 namespace Snap.Hutao.Core.Windowing.Backdrop;
 
-internal sealed class TransparentBackdrop : SystemBackdrop, IDisposable, IBackdropNeedEraseBackground
+internal sealed class TransparentBackdrop : SystemBackdrop, IBackdropNeedEraseBackground
 {
-    private readonly object compositorLock = new();
+    private object? compositorLock;
 
     private Color tintColor;
     private Windows.UI.Composition.CompositionColorBrush? brush;
@@ -31,25 +31,12 @@ internal sealed class TransparentBackdrop : SystemBackdrop, IDisposable, IBackdr
     {
         get
         {
-            if (compositor is null)
+            return LazyInitializer.EnsureInitialized(ref compositor, ref compositorLock, () =>
             {
-                lock (compositorLock)
-                {
-                    if (compositor is null)
-                    {
-                        DispatcherQueue.EnsureSystemDispatcherQueue();
-                        compositor = new Windows.UI.Composition.Compositor();
-                    }
-                }
-            }
-
-            return compositor;
+                DispatcherQueue.EnsureSystemDispatcherQueue();
+                return new Windows.UI.Composition.Compositor();
+            });
         }
-    }
-
-    public void Dispose()
-    {
-        compositor?.Dispose();
     }
 
     protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop connectedTarget, XamlRoot xamlRoot)
@@ -61,5 +48,13 @@ internal sealed class TransparentBackdrop : SystemBackdrop, IDisposable, IBackdr
     protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop disconnectedTarget)
     {
         disconnectedTarget.SystemBackdrop = null;
+
+        if (compositorLock is not null)
+        {
+            lock (compositorLock)
+            {
+                compositor?.Dispose();
+            }
+        }
     }
 }

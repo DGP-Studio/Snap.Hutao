@@ -29,6 +29,9 @@ internal sealed partial class MainWindow : Window, IXamlWindowOptionsSource, IMi
         InitializeComponent();
         windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), SettingKeys.WindowRect);
         this.InitializeController(serviceProvider);
+
+        var policy = this.GetDesktopWindowXamlSource()!.SiteBridge.ResizePolicy;
+        _ = 1;
     }
 
     /// <inheritdoc/>
