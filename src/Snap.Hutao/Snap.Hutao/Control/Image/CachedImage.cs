@@ -23,13 +23,10 @@ internal sealed class CachedImage : Implementation.ImageEx
     {
         DefaultStyleKey = typeof(CachedImage);
         DefaultStyleResourceUri = "ms-appx:///Control/Image/CachedImage.xaml".ToUri();
-
-        IsCacheEnabled = true;
-        EnableLazyLoading = false;
     }
 
     /// <inheritdoc/>
-    protected override async Task<ImageSource?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
+    protected override async Task<Uri?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
         IImageCache imageCache = this.ServiceProvider().GetRequiredService<IImageCache>();
 
@@ -38,10 +35,7 @@ internal sealed class CachedImage : Implementation.ImageEx
             HutaoException.ThrowIf(string.IsNullOrEmpty(imageUri.Host), SH.ControlImageCachedImageInvalidResourceUri);
             string file = await imageCache.GetFileFromCacheAsync(imageUri).ConfigureAwait(true); // BitmapImage need to be created by main thread.
             token.ThrowIfCancellationRequested(); // check token state to determine whether the operation should be canceled.
-
-            // https://learn.microsoft.com/en-us/windows/uwp/debug-test-perf/optimize-animations-and-media#optimize-image-resources
-            // BitmapImage initialize with a uri will increase image quality and loading speed.
-            return new BitmapImage(file.ToUri());
+            return file.ToUri();
         }
         catch (COMException)
         {
