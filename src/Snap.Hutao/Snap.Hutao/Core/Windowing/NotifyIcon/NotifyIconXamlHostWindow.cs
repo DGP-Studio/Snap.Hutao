@@ -23,7 +23,7 @@ internal sealed class NotifyIconXamlHostWindow : Window, IDisposable, IWindowNee
     {
         Content = new Border();
 
-        this.SetLayeredWindow();
+        this.SetLayered();
 
         AppWindow.Title = "SnapHutaoNotifyIconXamlHost";
         AppWindow.IsShownInSwitchers = false;
@@ -36,8 +36,7 @@ internal sealed class NotifyIconXamlHostWindow : Window, IDisposable, IWindowNee
             presenter.SetBorderAndTitleBar(false, false);
         }
 
-        XamlWindowOptions options = new(this, default!, default);
-        subclass = new(this, options);
+        subclass = new(this);
         subclass.Initialize();
 
         Activate();

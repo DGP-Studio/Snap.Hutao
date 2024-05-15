@@ -5,7 +5,9 @@ using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using Windows.Graphics;
 
 namespace Snap.Hutao;
 
@@ -14,12 +16,13 @@ namespace Snap.Hutao;
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class MainWindow : Window, IXamlWindowOptionsSource, IMinMaxInfoHandler
+internal sealed partial class MainWindow : Window,
+    IXamlWindowExtendContentIntoTitleBar,
+    IXamlWindowRectPersisted,
+    IXamlWindowSubclassMinMaxInfoHandler
 {
     private const int MinWidth = 1000;
     private const int MinHeight = 600;
-
-    private readonly XamlWindowOptions windowOptions;
 
     /// <summary>
     /// 构造一个新的主窗体
@@ -28,18 +31,14 @@ internal sealed partial class MainWindow : Window, IXamlWindowOptionsSource, IMi
     public MainWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), SettingKeys.WindowRect);
         this.InitializeController(serviceProvider);
-
-        if (this.GetDesktopWindowXamlSource() is { } desktopWindowXamlSource)
-        {
-            DesktopChildSiteBridge desktopChildSiteBridge = desktopWindowXamlSource.SiteBridge;
-            desktopChildSiteBridge.ResizePolicy = ContentSizePolicy.ResizeContentToParentWindow;
-        }
     }
 
-    /// <inheritdoc/>
-    public XamlWindowOptions WindowOptions { get => windowOptions; }
+    public FrameworkElement TitleBarAccess { get => TitleBarView.DragArea; }
+
+    public string PersistRectKey { get => SettingKeys.WindowRect; }
+
+    public SizeInt32 InitSize { get; } = new(1200, 741);
 
     /// <inheritdoc/>
     public unsafe void HandleMinMaxInfo(ref MINMAXINFO pInfo, double scalingFactor)

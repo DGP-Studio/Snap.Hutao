@@ -7,6 +7,7 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
@@ -125,7 +126,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     {
         if (serviceProvider.GetRequiredService<ICurrentXamlWindowReference>().Window is MainWindow mainWindow)
         {
-            double scale = mainWindow.WindowOptions.GetRasterizationScale();
+            double scale = mainWindow.GetRasterizationScale();
             mainWindow.AppWindow.Resize(new Windows.Graphics.SizeInt32(1372, 772).Scale(scale));
         }
     }

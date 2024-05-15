@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.Core.Windowing.Backdrop;
 using Snap.Hutao.Core.Windowing.NotifyIcon;
 using Snap.Hutao.Win32;
@@ -22,28 +23,28 @@ internal sealed class XamlWindowSubclass : IDisposable
     private const int WindowSubclassId = 101;
 
     private readonly Window window;
-    private readonly XamlWindowOptions options;
+    private readonly HWND hwnd;
 
     // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC windowProc = default!;
     private UnmanagedAccess<XamlWindowSubclass> unmanagedAccess = default!;
 
-    public XamlWindowSubclass(Window window, in XamlWindowOptions options)
+    public XamlWindowSubclass(Window window)
     {
         this.window = window;
-        this.options = options;
+        hwnd = window.GetWindowHandle();
     }
 
     public unsafe bool Initialize()
     {
         windowProc = SUBCLASSPROC.Create(&OnSubclassProcedure);
         unmanagedAccess = UnmanagedAccess.Create(this);
-        return SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, unmanagedAccess);
+        return SetWindowSubclass(hwnd, windowProc, WindowSubclassId, unmanagedAccess);
     }
 
     public void Dispose()
     {
-        RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
+        RemoveWindowSubclass(hwnd, windowProc, WindowSubclassId);
         windowProc = default!;
         unmanagedAccess.Dispose();
     }
@@ -59,9 +60,9 @@ internal sealed class XamlWindowSubclass : IDisposable
         {
             case WM_GETMINMAXINFO:
                 {
-                    if (state.window is IMinMaxInfoHandler handler)
+                    if (state.window is IXamlWindowSubclassMinMaxInfoHandler handler)
                     {
-                        handler.HandleMinMaxInfo(ref *(MINMAXINFO*)lParam, state.options.GetRasterizationScale());
+                        handler.HandleMinMaxInfo(ref *(MINMAXINFO*)lParam, state.window.GetRasterizationScale());
                     }
 
                     break;

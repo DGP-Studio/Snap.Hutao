@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Core.Windowing;
+namespace Snap.Hutao.Core.Windowing.Abstraction;
 
 /// <summary>
 /// 为扩展窗体提供必要的选项

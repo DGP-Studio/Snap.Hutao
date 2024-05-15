@@ -1,8 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
+using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.Core.Windowing.Backdrop;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
@@ -18,9 +20,9 @@ internal static class WindowExtension
     private static readonly ConditionalWeakTable<Window, XamlWindowController> WindowControllers = [];
 
     public static void InitializeController<TWindow>(this TWindow window, IServiceProvider serviceProvider)
-        where TWindow : Window, IXamlWindowOptionsSource
+        where TWindow : Window
     {
-        XamlWindowController windowController = new(window, window.WindowOptions, serviceProvider);
+        XamlWindowController windowController = new(window, serviceProvider);
         WindowControllers.Add(window, windowController);
     }
 
@@ -28,25 +30,6 @@ internal static class WindowExtension
         where TWindow : Window
     {
         return WindowControllers.TryGetValue(window, out _);
-    }
-
-    public static void SetLayeredWindow(this Window window)
-    {
-        HWND hwnd = (HWND)WindowNative.GetWindowHandle(window);
-        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
-        style |= (nint)WINDOW_EX_STYLE.WS_EX_LAYERED;
-        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
-        SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
-    }
-
-    public static void Show(this Window window)
-    {
-        ShowWindow(GetWindowHandle(window), SHOW_WINDOW_CMD.SW_NORMAL);
-    }
-
-    public static void Hide(this Window window)
-    {
-        ShowWindow(GetWindowHandle(window), SHOW_WINDOW_CMD.SW_HIDE);
     }
 
     public static DesktopWindowXamlSource? GetDesktopWindowXamlSource(this Window window)
@@ -59,10 +42,64 @@ internal static class WindowExtension
         return default;
     }
 
+    public static InputNonClientPointerSource GetInputNonClientPointerSource(this Window window)
+    {
+        return InputNonClientPointerSource.GetForWindowId(window.AppWindow.Id);
+    }
+
     public static HWND GetWindowHandle(this Window? window)
     {
-        return window is IXamlWindowOptionsSource optionsSource
-            ? optionsSource.WindowOptions.Hwnd
-            : WindowNative.GetWindowHandle(window);
+        return WindowNative.GetWindowHandle(window);
+    }
+
+    public static void Show(this Window window)
+    {
+        ShowWindow(GetWindowHandle(window), SHOW_WINDOW_CMD.SW_NORMAL);
+    }
+
+    public static void Hide(this Window window)
+    {
+        ShowWindow(GetWindowHandle(window), SHOW_WINDOW_CMD.SW_HIDE);
+    }
+
+    public static void SetLayered(this Window window)
+    {
+        HWND hwnd = (HWND)WindowNative.GetWindowHandle(window);
+        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+        style |= (nint)WINDOW_EX_STYLE.WS_EX_LAYERED;
+        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+        SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+    }
+
+    public static unsafe void BringToForeground(this Window window)
+    {
+        HWND fgHwnd = GetForegroundWindow();
+        HWND hwnd = window.GetWindowHandle();
+
+        uint threadIdHwnd = GetWindowThreadProcessId(hwnd, default);
+        uint threadIdFgHwnd = GetWindowThreadProcessId(fgHwnd, default);
+
+        if (threadIdHwnd != threadIdFgHwnd)
+        {
+            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, true);
+            SetForegroundWindow(hwnd);
+            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, false);
+        }
+        else
+        {
+            SetForegroundWindow(hwnd);
+        }
+    }
+
+    public static double GetRasterizationScale(this Window window)
+    {
+        // TODO: test this
+        if (window.Content is not null)
+        {
+            return window.Content.RasterizationScale;
+        }
+
+        uint dpi = GetDpiForWindow(window.GetWindowHandle());
+        return Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);
     }
 }
