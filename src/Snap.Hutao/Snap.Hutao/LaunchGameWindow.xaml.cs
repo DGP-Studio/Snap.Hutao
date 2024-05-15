@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Windowing;
@@ -11,9 +12,6 @@ using Windows.Graphics;
 
 namespace Snap.Hutao;
 
-/// <summary>
-/// 启动游戏窗口
-/// </summary>
 [HighQuality]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class LaunchGameWindow : Window,
@@ -30,15 +28,16 @@ internal sealed partial class LaunchGameWindow : Window,
 
     private readonly IServiceScope scope;
 
-    /// <summary>
-    /// 构造一个新的启动游戏窗口
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
     public LaunchGameWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
 
         scope = serviceProvider.CreateScope();
+
+        if (AppWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.IsMaximizable = false;
+        }
 
         this.InitializeController(serviceProvider);
         RootGrid.InitializeDataContext<LaunchGameViewModel>(scope.ServiceProvider);

@@ -14,6 +14,7 @@ internal static class ConstValues
     public const uint WM_ACTIVATEAPP = 0x0000001CU;
     public const uint WM_GETMINMAXINFO = 0x00000024U;
     public const uint WM_CONTEXTMENU = 0x000007BU;
+    public const uint WM_NCLBUTTONDBLCLK = 0x000000A3U;
     public const uint WM_NCRBUTTONDOWN = 0x000000A4U;
     public const uint WM_NCRBUTTONUP = 0x000000A5U;
     public const uint WM_MOUSEMOVE = 0x00000200U;

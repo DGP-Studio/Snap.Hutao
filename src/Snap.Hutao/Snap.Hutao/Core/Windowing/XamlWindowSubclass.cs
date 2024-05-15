@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.Core.Windowing.Backdrop;
@@ -72,6 +73,16 @@ internal sealed class XamlWindowSubclass : IDisposable
             case WM_NCRBUTTONUP:
                 {
                     return default;
+                }
+
+            case WM_NCLBUTTONDBLCLK:
+                {
+                    if (state.window.AppWindow.Presenter is OverlappedPresenter { IsMaximizable: false })
+                    {
+                        return default;
+                    }
+
+                    break;
                 }
 
             case WM_ERASEBKGND:

@@ -92,12 +92,6 @@ internal static class WindowExtension
 
     public static double GetRasterizationScale(this Window window)
     {
-        // TODO: test this
-        if (window.Content is not null)
-        {
-            return window.Content.RasterizationScale;
-        }
-
         uint dpi = GetDpiForWindow(window.GetWindowHandle());
         return Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);
     }
