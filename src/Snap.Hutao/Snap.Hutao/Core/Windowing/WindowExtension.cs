@@ -4,7 +4,6 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
-using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.Core.Windowing.Backdrop;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
