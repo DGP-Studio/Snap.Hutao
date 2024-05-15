@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - 'feat/*'
     paths-ignore:
       - '.gitattributes'
       - '.github/**'
