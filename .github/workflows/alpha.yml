@@ -28,7 +28,14 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ${{ matrix.runner }}
+
+    strategy:
+      matrix:
+        runner:
+          - self-hosted
+          - windows-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
