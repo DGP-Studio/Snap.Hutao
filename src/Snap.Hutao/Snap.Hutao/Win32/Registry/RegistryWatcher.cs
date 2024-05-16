@@ -21,7 +21,6 @@ internal sealed partial class RegistryWatcher : IDisposable
         REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_LAST_SET |
         REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_SECURITY;
 
-    private readonly ManualResetEvent disposeEvent = new(false);
     private readonly CancellationTokenSource cancellationTokenSource = new();
 
     private readonly HKEY hKey;
@@ -69,17 +68,10 @@ internal sealed partial class RegistryWatcher : IDisposable
                 return;
             }
 
-            // Signal the inner while loop to exit
-            disposeEvent.Reset();
-
             // Cancel the outer while loop
             cancellationTokenSource.Cancel();
-
-            // Wait for both loops to exit
-            disposeEvent.WaitOne();
-            disposeEvent.Dispose();
-
             cancellationTokenSource.Dispose();
+
             disposed = true;
 
             GC.SuppressFinalize(this);
@@ -88,58 +80,32 @@ internal sealed partial class RegistryWatcher : IDisposable
 
     private async ValueTask WatchAsync(CancellationToken token)
     {
-        try
+        while (!token.IsCancellationRequested)
         {
-            while (!token.IsCancellationRequested)
+            await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+
+            HRESULT hResult = HRESULT_FROM_WIN32(RegOpenKeyExW(hKey, subKey, 0, RegSamFlags, out HKEY registryKey));
+            Marshal.ThrowExceptionForHR(hResult);
+
+            using (AutoResetEvent notifyEvent = new(false))
             {
-                await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+                HANDLE hEvent = (HANDLE)notifyEvent.SafeWaitHandle.DangerousGetHandle();
 
-                HRESULT hResult = HRESULT_FROM_WIN32(RegOpenKeyExW(hKey, subKey, 0, RegSamFlags, out HKEY registryKey));
-                Marshal.ThrowExceptionForHR(hResult);
-
-                using (ManualResetEvent notifyEvent = new(false))
-                {
-                    HANDLE hEvent = (HANDLE)notifyEvent.SafeWaitHandle.DangerousGetHandle();
-
-                    try
-                    {
-                        // If disposeEvent is signaled, the Dispose method
-                        // has been called and the object is shutting down.
-                        // The outer token has already canceled, so we can
-                        // skip both loops and exit the method.
-                        while (!disposeEvent.WaitOne(0, true))
-                        {
-                            HRESULT hRESULT = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, hEvent, true));
-                            Marshal.ThrowExceptionForHR(hRESULT);
-
-                            if (WaitHandle.WaitAny([notifyEvent, disposeEvent]) is 0)
-                            {
-                                valueChangedCallback();
-                                notifyEvent.Reset();
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        RegCloseKey(registryKey);
-                    }
-                }
-            }
-
-            if (!disposed)
-            {
                 try
                 {
-                    // Before exiting, signal the Dispose method.
-                    disposeEvent.Set();
+                    HRESULT hRESULT = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, hEvent, true));
+                    Marshal.ThrowExceptionForHR(hRESULT);
+
+                    if (WaitHandle.WaitAny([notifyEvent, token.WaitHandle]) is 0)
+                    {
+                        valueChangedCallback();
+                    }
                 }
-                catch
+                finally
                 {
+                    RegCloseKey(registryKey);
                 }
             }
-        }
-        catch (OperationCanceledException)
-        {
         }
     }
 }
