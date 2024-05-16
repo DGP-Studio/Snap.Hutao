@@ -29,6 +29,7 @@ internal sealed partial class RegistryWatcher : IDisposable
     private readonly Action valueChangedCallback;
     private readonly object syncRoot = new();
     private bool disposed;
+    private bool disposing;
 
     public RegistryWatcher(string keyName, Action valueChangedCallback)
     {
@@ -69,6 +70,8 @@ internal sealed partial class RegistryWatcher : IDisposable
                 return;
             }
 
+            disposing = true;
+
             // First cancel the outer while loop
             cancellationTokenSource.Cancel();
 
@@ -104,11 +107,11 @@ internal sealed partial class RegistryWatcher : IDisposable
 
                     try
                     {
-                        // If terminateEvent is signaled, the Dispose method
+                        // If disposeEvent is signaled, the Dispose method
                         // has been called and the object is shutting down.
                         // The outer token has already canceled, so we can
                         // skip both loops and exit the method.
-                        while (!disposeEvent.WaitOne(0, true))
+                        while (!disposing && !disposeEvent.WaitOne(0, true))
                         {
                             HRESULT hRESULT = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, hEvent, true));
                             Marshal.ThrowExceptionForHR(hRESULT);

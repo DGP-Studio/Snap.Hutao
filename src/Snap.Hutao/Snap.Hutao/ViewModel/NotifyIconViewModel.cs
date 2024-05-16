@@ -48,7 +48,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
             case MainWindow mainWindow:
                 {
                     // MainWindow is activated, bring to foreground
-                    mainWindow.Show();
+                    mainWindow.SwitchTo();
                     mainWindow.BringToForeground();
                     return;
                 }
@@ -60,14 +60,14 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
                     currentXamlWindowReference.Window = mainWindow;
 
                     // TODO: Can actually be no any window is initialized
-                    mainWindow.Show();
+                    mainWindow.SwitchTo();
                     mainWindow.BringToForeground();
                     break;
                 }
 
             case Window otherWindow:
                 {
-                    otherWindow.Show();
+                    otherWindow.SwitchTo();
                     otherWindow.BringToForeground();
                     return;
                 }

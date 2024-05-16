@@ -101,6 +101,14 @@ internal static class User32
         }
     }
 
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL IsIconic(HWND hWnd);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL IsWindowVisible(HWND hWnd);
+
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static unsafe extern ushort RegisterClassW(WNDCLASSW* lpWndClass);

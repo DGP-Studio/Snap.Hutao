@@ -56,6 +56,21 @@ internal static class WindowExtension
         ShowWindow(GetWindowHandle(window), SHOW_WINDOW_CMD.SW_NORMAL);
     }
 
+    public static void SwitchTo(this Window window)
+    {
+        HWND hwnd = GetWindowHandle(window);
+        if (!IsWindowVisible(hwnd))
+        {
+            ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_SHOW);
+        }
+        else if (IsIconic(hwnd))
+        {
+            ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
+        }
+
+        SetForegroundWindow(hwnd);
+    }
+
     public static void Hide(this Window window)
     {
         ShowWindow(GetWindowHandle(window), SHOW_WINDOW_CMD.SW_HIDE);
@@ -92,6 +107,11 @@ internal static class WindowExtension
 
     public static double GetRasterizationScale(this Window window)
     {
+        if (window is { Content.XamlRoot: { } xamlRoot })
+        {
+            return xamlRoot.RasterizationScale;
+        }
+
         uint dpi = GetDpiForWindow(window.GetWindowHandle());
         return Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);
     }

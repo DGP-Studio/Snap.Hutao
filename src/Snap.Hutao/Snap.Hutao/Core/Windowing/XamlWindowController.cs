@@ -4,6 +4,7 @@
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Content;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -281,13 +282,9 @@ internal sealed class XamlWindowController
             return;
         }
 
-        AppWindowTitleBar appTitleBar = window.AppWindow.TitleBar;
-
-        double scale = window.GetRasterizationScale();
-
         // 48 is the navigation button leftInset
-        RectInt32 dragRect = StructMarshal.RectInt32(48, 0, xamlWindow.TitleBarAccess.ActualSize).Scale(scale);
-        appTitleBar.SetDragRectangles([dragRect]);
+        RectInt32 dragRect = StructMarshal.RectInt32(48, 0, xamlWindow.TitleBarAccess.ActualSize).Scale(window.GetRasterizationScale());
+        window.GetInputNonClientPointerSource().SetRegionRects(NonClientRegionKind.Caption, [dragRect]);
     }
     #endregion
 }
