@@ -20,7 +20,19 @@ internal static class User32
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern BOOL AttachThreadInput(uint idAttach, uint idAttachTo, BOOL fAttach);
 
-    [DllImport("USER32.dll", ExactSpelling = true, SetLastError = true)]
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static unsafe extern BOOL ClientToScreen(HWND hWnd, POINT* lpPoint);
+
+    public static unsafe BOOL ClientToScreen(HWND hWnd, ref POINT point)
+    {
+        fixed (POINT* lpPoint = &point)
+        {
+            return ClientToScreen(hWnd, lpPoint);
+        }
+    }
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
     [SupportedOSPlatform("windows5.0")]
     public static unsafe extern HWND CreateWindowExW(WINDOW_EX_STYLE dwExStyle, [AllowNull] PCWSTR lpClassName, [AllowNull] PCWSTR lpWindowName, WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, [AllowNull] HWND hWndParent, [AllowNull] HMENU hMenu, [AllowNull] HINSTANCE hInstance, [AllowNull] void* lpParam);
 
@@ -56,6 +68,18 @@ internal static class User32
             {
                 return FindWindowExW(hWndParent, hWndChildAfter, lpszClass, lpszWindow);
             }
+        }
+    }
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static unsafe extern BOOL GetClientRect(HWND hWnd, RECT* lpRect);
+
+    public static unsafe BOOL GetClientRect(HWND hWnd, out RECT rect)
+    {
+        fixed (RECT* lpRect = &rect)
+        {
+            return GetClientRect(hWnd, lpRect);
         }
     }
 

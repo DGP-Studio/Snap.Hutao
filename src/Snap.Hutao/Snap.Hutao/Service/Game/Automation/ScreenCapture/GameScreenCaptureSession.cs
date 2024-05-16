@@ -135,6 +135,11 @@ internal sealed class GameScreenCaptureSession : IDisposable
             return;
         }
 
+        bool boxAvailable = captureContext.TryGetClientBox(dxgiSurfaceDesc.Width, dxgiSurfaceDesc.Height, out D3D11_BOX clientBox);
+        (uint textureWidth, uint textureHeight) = boxAvailable
+            ? (clientBox.right - clientBox.left, clientBox.bottom - clientBox.top)
+            : (dxgiSurfaceDesc.Width, dxgiSurfaceDesc.Height);
+
         // Should be the same device used to create the frame pool.
         if (FAILED(pDXGISurface->GetDevice(in ID3D11Device.IID, out ID3D11Device* pD3D11Device)))
         {
@@ -142,18 +147,14 @@ internal sealed class GameScreenCaptureSession : IDisposable
         }
 
         D3D11_TEXTURE2D_DESC d3d11Texture2DDesc = default;
-        d3d11Texture2DDesc.Width = dxgiSurfaceDesc.Width;
-        d3d11Texture2DDesc.Height = dxgiSurfaceDesc.Height;
-        d3d11Texture2DDesc.ArraySize = 1;
-
-        // We have to copy out the resource to a CPU readable texture.
+        d3d11Texture2DDesc.Width = textureWidth;
+        d3d11Texture2DDesc.Height = textureHeight;
+        d3d11Texture2DDesc.Format = dxgiSurfaceDesc.Format;
         d3d11Texture2DDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG.D3D11_CPU_ACCESS_READ;
-
-        // DirectX will automatically convert any format to B8G8R8A8_UNORM.
-        d3d11Texture2DDesc.Format = DXGI_FORMAT.DXGI_FORMAT_B8G8R8A8_UNORM;
-        d3d11Texture2DDesc.MipLevels = 1;
-        d3d11Texture2DDesc.SampleDesc.Count = 1;
         d3d11Texture2DDesc.Usage = D3D11_USAGE.D3D11_USAGE_STAGING;
+        d3d11Texture2DDesc.SampleDesc.Count = 1;
+        d3d11Texture2DDesc.ArraySize = 1;
+        d3d11Texture2DDesc.MipLevels = 1;
 
         if (FAILED(pD3D11Device->CreateTexture2D(ref d3d11Texture2DDesc, ref Unsafe.NullRef<D3D11_SUBRESOURCE_DATA>(), out ID3D11Texture2D* pD3D11Texture2D)))
         {
@@ -166,7 +167,15 @@ internal sealed class GameScreenCaptureSession : IDisposable
         }
 
         pD3D11Device->GetImmediateContext(out ID3D11DeviceContext* pD3D11DeviceContext);
-        pD3D11DeviceContext->CopyResource((ID3D11Resource*)pD3D11Texture2D, pD3D11Resource);
+
+        if (boxAvailable)
+        {
+
+        }
+        else
+        {
+            pD3D11DeviceContext->CopyResource((ID3D11Resource*)pD3D11Texture2D, pD3D11Resource);
+        }
 
         if (FAILED(pD3D11DeviceContext->Map((ID3D11Resource*)pD3D11Texture2D, 0U, D3D11_MAP.D3D11_MAP_READ, 0U, out D3D11_MAPPED_SUBRESOURCE d3d11MappedSubresource)))
         {

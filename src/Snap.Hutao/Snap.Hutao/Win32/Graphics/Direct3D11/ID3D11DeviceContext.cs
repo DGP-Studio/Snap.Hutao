@@ -39,6 +39,11 @@ internal unsafe struct ID3D11DeviceContext
         ThisPtr->Unmap((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), pResource, Subresource);
     }
 
+    public void CopySubresourceRegion(ID3D11Resource* pDstResource, uint DstSubresource, uint DstX, uint DstY, uint DstZ, ID3D11Resource* pSrcResource, uint SrcSubresource, D3D11_BOX* pSrcBox)
+    {
+        ThisPtr->CopySubresourceRegion((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), pDstResource, DstSubresource, DstX, DstY, DstZ, pSrcResource, SrcSubresource, pSrcBox);
+    }
+
     public void CopyResource(ID3D11Resource* pDstResource, ID3D11Resource* pSrcResource)
     {
         ThisPtr->CopyResource((ID3D11DeviceContext*)Unsafe.AsPointer(ref this), pDstResource, pSrcResource);

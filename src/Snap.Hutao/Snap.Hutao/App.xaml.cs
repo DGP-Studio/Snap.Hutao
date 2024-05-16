@@ -8,9 +8,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Core.Windowing.HotKey;
-using Snap.Hutao.Core.Windowing.NotifyIcon;
+using Snap.Hutao.Core.Windowing;
 using System.Diagnostics;
 
 namespace Snap.Hutao;
@@ -63,7 +61,7 @@ public sealed partial class App : Application
 
     public new void Exit()
     {
-        IsExiting = true;
+        XamlWindowLifetime.IsApplicationExiting = true;
         base.Exit();
     }
 

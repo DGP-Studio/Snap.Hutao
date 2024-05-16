@@ -29,7 +29,6 @@ internal sealed partial class RegistryWatcher : IDisposable
     private readonly Action valueChangedCallback;
     private readonly object syncRoot = new();
     private bool disposed;
-    private bool disposing;
 
     public RegistryWatcher(string keyName, Action valueChangedCallback)
     {
@@ -70,20 +69,17 @@ internal sealed partial class RegistryWatcher : IDisposable
                 return;
             }
 
-            disposing = true;
+            // Signal the inner while loop to exit
+            disposeEvent.Reset();
 
-            // First cancel the outer while loop
+            // Cancel the outer while loop
             cancellationTokenSource.Cancel();
-
-            // Then signal the inner while loop to exit
-            disposeEvent.Set();
 
             // Wait for both loops to exit
             disposeEvent.WaitOne();
-
             disposeEvent.Dispose();
-            cancellationTokenSource.Dispose();
 
+            cancellationTokenSource.Dispose();
             disposed = true;
 
             GC.SuppressFinalize(this);
@@ -111,7 +107,7 @@ internal sealed partial class RegistryWatcher : IDisposable
                         // has been called and the object is shutting down.
                         // The outer token has already canceled, so we can
                         // skip both loops and exit the method.
-                        while (!disposing && !disposeEvent.WaitOne(0, true))
+                        while (!disposeEvent.WaitOne(0, true))
                         {
                             HRESULT hRESULT = HRESULT_FROM_WIN32(RegNotifyChangeKeyValue(registryKey, true, RegNotifyFilters, hEvent, true));
                             Marshal.ThrowExceptionForHR(hRESULT);
@@ -135,7 +131,7 @@ internal sealed partial class RegistryWatcher : IDisposable
                 try
                 {
                     // Before exiting, signal the Dispose method.
-                    disposeEvent.Reset();
+                    disposeEvent.Set();
                 }
                 catch
                 {

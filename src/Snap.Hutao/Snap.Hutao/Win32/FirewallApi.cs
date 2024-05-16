@@ -13,7 +13,7 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SH002")]
 [SuppressMessage("", "SA1313")]
 [SuppressMessage("", "SYSLIB1054")]
-internal static class ApiMsWinNetIsolation
+internal static class FirewallApi
 {
     [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.0")]
