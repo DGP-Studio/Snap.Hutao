@@ -216,6 +216,7 @@ internal sealed class GameScreenCaptureSession : IDisposable
 
             case DXGI_FORMAT.DXGI_FORMAT_R16G16B16A16_FLOAT:
                 {
+                    // TODO: replace with HLSL implementation.
                     int rowLength = (int)textureWidth * 8;
                     IMemoryOwner<byte> buffer = GameScreenCaptureMemoryPool.Shared.Rent((int)(textureHeight * textureWidth * 4));
                     Span<Bgra32> pixelBuffer = MemoryMarshal.Cast<byte, Bgra32>(buffer.Memory.Span);
