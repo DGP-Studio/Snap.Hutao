@@ -8,45 +8,19 @@ using Windows.UI;
 
 namespace Snap.Hutao.Control.Media;
 
-/// <summary>
-/// RGBA 颜色
-/// </summary>
 [HighQuality]
 internal struct Rgba32
 {
-    /// <summary>
-    /// R
-    /// </summary>
     public byte R;
-
-    /// <summary>
-    /// G
-    /// </summary>
     public byte G;
-
-    /// <summary>
-    /// B
-    /// </summary>
     public byte B;
-
-    /// <summary>
-    /// A
-    /// </summary>
     public byte A;
 
-    /// <summary>
-    /// 构造一个新的 RGBA8 颜色
-    /// </summary>
-    /// <param name="hex">色值字符串</param>
     public Rgba32(string hex)
         : this(hex.Length == 6 ? Convert.ToUInt32($"{hex}FF", 16) : Convert.ToUInt32(hex, 16))
     {
     }
 
-    /// <summary>
-    /// 使用 RGBA 代码初始化新的结构
-    /// </summary>
-    /// <param name="xrgbaCode">RGBA 代码</param>
     public unsafe Rgba32(uint xrgbaCode)
     {
         // uint layout: 0xRRGGBBAA is AABBGGRR
@@ -80,11 +54,6 @@ internal struct Rgba32
         return *(Color*)&rgba;
     }
 
-    /// <summary>
-    /// 从 HSL 颜色转换
-    /// </summary>
-    /// <param name="hsl">HSL 颜色</param>
-    /// <returns>RGBA8颜色</returns>
     public static Rgba32 FromHsl(Hsla32 hsl)
     {
         double chroma = (1 - Math.Abs((2 * hsl.L) - 1)) * hsl.S;
@@ -138,10 +107,6 @@ internal struct Rgba32
         return new(r, g, b, a);
     }
 
-    /// <summary>
-    /// 转换到 HSL 颜色
-    /// </summary>
-    /// <returns>HSL 颜色</returns>
     public readonly Hsla32 ToHsl()
     {
         const double toDouble = 1.0 / 255;

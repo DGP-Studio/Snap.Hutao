@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Graphics.Direct3D11;
@@ -8,7 +9,9 @@ using Snap.Hutao.Win32.Graphics.Dxgi;
 using Snap.Hutao.Win32.Graphics.Dxgi.Common;
 using Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
 using System.Buffers;
+using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Windows.Graphics;
 using Windows.Graphics.Capture;
 using Windows.Graphics.DirectX.Direct3D11;
@@ -19,12 +22,14 @@ namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
 internal sealed class GameScreenCaptureSession : IDisposable
 {
+    private static readonly Half ByteMaxValue = 255;
+
     private readonly GameScreenCaptureContext captureContext;
     private readonly Direct3D11CaptureFramePool framePool;
     private readonly GraphicsCaptureSession session;
     private readonly ILogger logger;
 
-    private TaskCompletionSource<IMemoryOwner<byte>>? frameRawPixelDataTaskCompletionSource;
+    private TaskCompletionSource<GameScreenCaptureResult>? frameRawPixelDataTaskCompletionSource;
     private bool isFrameRawPixelDataRequested;
     private SizeInt32 contentSize;
 
@@ -47,7 +52,7 @@ internal sealed class GameScreenCaptureSession : IDisposable
         session.StartCapture();
     }
 
-    public async ValueTask<IMemoryOwner<byte>> RequestFrameRawPixelDataAsync()
+    public async ValueTask<GameScreenCaptureResult> RequestFrameAsync()
     {
         if (Volatile.Read(ref isFrameRawPixelDataRequested))
         {
@@ -170,7 +175,7 @@ internal sealed class GameScreenCaptureSession : IDisposable
 
         if (boxAvailable)
         {
-
+            pD3D11DeviceContext->CopySubresourceRegion((ID3D11Resource*)pD3D11Texture2D, 0U, 0U, 0U, 0U, pD3D11Resource, 0U, in clientBox);
         }
         else
         {
@@ -190,17 +195,53 @@ internal sealed class GameScreenCaptureSession : IDisposable
         // │     Actual data    │ Stride  │
         // │                    │         │
         // └────────────────────┴─────────┘
-        ReadOnlySpan2D<byte> subresource = new(d3d11MappedSubresource.pData, (int)d3d11Texture2DDesc.Height, (int)d3d11MappedSubresource.RowPitch);
-
-        int rowLength = contentSize.Width * 4;
-        IMemoryOwner<byte> buffer = GameScreenCaptureMemoryPool.Shared.Rent(contentSize.Height * rowLength);
-
-        for (int row = 0; row < contentSize.Height; row++)
-        {
-            subresource[row][..rowLength].CopyTo(buffer.Memory.Span.Slice(row * rowLength, rowLength));
-        }
+        ReadOnlySpan2D<byte> subresource = new(d3d11MappedSubresource.pData, (int)textureHeight, (int)d3d11MappedSubresource.RowPitch);
 
         ArgumentNullException.ThrowIfNull(frameRawPixelDataTaskCompletionSource);
-        frameRawPixelDataTaskCompletionSource.SetResult(buffer);
+        switch (dxgiSurfaceDesc.Format)
+        {
+            case DXGI_FORMAT.DXGI_FORMAT_B8G8R8A8_UNORM:
+                {
+                    int rowLength = (int)textureWidth * 4;
+                    IMemoryOwner<byte> buffer = GameScreenCaptureMemoryPool.Shared.Rent((int)(textureHeight * textureWidth * 4));
+
+                    for (int row = 0; row < textureHeight; row++)
+                    {
+                        subresource[row][..rowLength].CopyTo(buffer.Memory.Span.Slice(row * rowLength, rowLength));
+                    }
+
+                    frameRawPixelDataTaskCompletionSource.SetResult(new(buffer, (int)textureWidth, (int)textureHeight));
+                    return;
+                }
+
+            case DXGI_FORMAT.DXGI_FORMAT_R16G16B16A16_FLOAT:
+                {
+                    int rowLength = (int)textureWidth * 8;
+                    IMemoryOwner<byte> buffer = GameScreenCaptureMemoryPool.Shared.Rent((int)(textureHeight * textureWidth * 4));
+                    Span<Bgra32> pixelBuffer = MemoryMarshal.Cast<byte, Bgra32>(buffer.Memory.Span);
+
+                    for (int row = 0; row < textureHeight; row++)
+                    {
+                        ReadOnlySpan<Rgba64> subresourceRow = MemoryMarshal.Cast<byte, Rgba64>(subresource[row][..rowLength]);
+                        Span<Bgra32> bufferRow = pixelBuffer.Slice(row * (int)textureWidth, (int)textureWidth);
+                        for (int column = 0; column < textureWidth; column++)
+                        {
+                            ref readonly Rgba64 float16Pixel = ref subresourceRow[column];
+                            ref Bgra32 pixel = ref bufferRow[column];
+                            pixel.B = (byte)(float16Pixel.B * ByteMaxValue);
+                            pixel.G = (byte)(float16Pixel.G * ByteMaxValue);
+                            pixel.R = (byte)(float16Pixel.R * ByteMaxValue);
+                            pixel.A = (byte)(float16Pixel.A * ByteMaxValue);
+                        }
+                    }
+
+                    frameRawPixelDataTaskCompletionSource.SetResult(new(buffer, (int)textureWidth, (int)textureHeight));
+                    return;
+                }
+
+            default:
+                HutaoException.NotSupported($"Unexpected DXGI_FORMAT: {dxgiSurfaceDesc.Format}");
+                return;
+        }
     }
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "Snap.Hutao": {
       "commandName": "MsixPackage",
-      "nativeDebugging": true,
+      "nativeDebugging": false,
       "doNotLaunchApp": false,
       "allowLocalNetworkLoopbackProperty": true
     },

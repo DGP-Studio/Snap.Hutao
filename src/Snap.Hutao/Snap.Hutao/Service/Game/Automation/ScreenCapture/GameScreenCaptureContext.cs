@@ -52,19 +52,19 @@ internal readonly struct GameScreenCaptureContext
     {
         clientBox = default;
 
-        // Check if the window is minimized
+        // Ensure the window is not minimized
         if (IsIconic(hwnd))
         {
             return false;
         }
 
-        // Check if the window is at least partially in the screen
+        // Ensure the window is at least partially in the screen
         if (!(GetClientRect(hwnd, out RECT clientRect) && (clientRect.right > 0) && (clientRect.bottom > 0)))
         {
             return false;
         }
 
-        // Make sure we get the window chrome rect
+        // Ensure we get the window chrome rect
         if (DwmGetWindowAttribute(hwnd, DWMWINDOWATTRIBUTE.DWMWA_EXTENDED_FRAME_BOUNDS, out RECT windowRect) != HRESULT.S_OK)
         {
             return false;
