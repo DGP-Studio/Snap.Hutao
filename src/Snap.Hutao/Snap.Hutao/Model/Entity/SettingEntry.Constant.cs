@@ -23,6 +23,7 @@ internal sealed partial class SettingEntry
 
     public const string GeetestCustomCompositeUrl = "GeetestCustomCompositeUrl";
 
+    public const string DailyNoteIsAutoRefreshEnabled = "DailyNote.IsAutoRefreshEnabled";
     public const string DailyNoteRefreshSeconds = "DailyNote.RefreshSeconds";
     public const string DailyNoteReminderNotify = "DailyNote.ReminderNotify";
     public const string DailyNoteSilentWhenPlayingGame = "DailyNote.SilentWhenPlayingGame";

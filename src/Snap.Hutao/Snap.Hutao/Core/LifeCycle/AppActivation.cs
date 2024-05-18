@@ -6,11 +6,13 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Core.Windowing.HotKey;
 using Snap.Hutao.Core.Windowing.NotifyIcon;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Service.Job;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.ViewModel.Guide;
@@ -67,6 +69,9 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
             _ = serviceProvider.GetRequiredService<NotifyIconController>();
         }
+
+        serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
+        serviceProvider.GetRequiredService<IQuartzService>().StartAsync(default).SafeForget();
     }
 
     public void Dispose()

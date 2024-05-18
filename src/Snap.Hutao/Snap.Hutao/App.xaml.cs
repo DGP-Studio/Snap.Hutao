@@ -57,8 +57,6 @@ public sealed partial class App : Application
         this.serviceProvider = serviceProvider;
     }
 
-    public bool IsExiting { get; private set; }
-
     public new void Exit()
     {
         XamlWindowLifetime.IsApplicationExiting = true;
@@ -85,9 +83,9 @@ public sealed partial class App : Application
             activation.Activate(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
             activation.PostInitialization();
         }
-        catch
+        catch (Exception ex)
         {
-            // AppInstance.GetCurrent() calls failed
+            System.Diagnostics.Debug.WriteLine(ex);
             Process.GetCurrentProcess().Kill();
         }
     }

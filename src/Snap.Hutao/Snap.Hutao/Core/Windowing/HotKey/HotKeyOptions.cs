@@ -58,7 +58,8 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
         isDisposed = true;
 
-        UnregisterAll();
+        MouseClickRepeatForeverKeyCombination.Unregister();
+
         hotKeyMessageWindow.Dispose();
         cancellationTokenSource?.Dispose();
 
@@ -104,11 +105,6 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
 
             Thread.Sleep(System.Random.Shared.Next(100, 150));
         }
-    }
-
-    private void UnregisterAll()
-    {
-        MouseClickRepeatForeverKeyCombination.Unregister();
     }
 
     [SuppressMessage("", "SH002")]
