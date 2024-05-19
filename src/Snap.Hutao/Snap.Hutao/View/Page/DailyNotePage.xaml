@@ -499,10 +499,7 @@
                             <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                         </StackPanel.Resources>
 
-                        <cwcont:HeaderedContentControl
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            IsEnabled="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}">
+                        <cwcont:HeaderedContentControl HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                             <cwcont:HeaderedContentControl.Header>
                                 <TextBlock
                                     Margin="1,0,0,5"
@@ -510,12 +507,6 @@
                                     Text="{shcm:ResourceString Name=ViewPageDailyNoteSettingRefreshHeader}"/>
                             </cwcont:HeaderedContentControl.Header>
                             <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
-                                <InfoBar
-                                    Title="{shcm:ResourceString Name=ViewPageDailyNoteSettingRefreshElevatedHint}"
-                                    IsClosable="False"
-                                    IsOpen="True"
-                                    Severity="Warning"
-                                    Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                 <cwcont:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageDailyNoteSettingAutoRefreshDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageDailyNoteSettingAutoRefresh}"
@@ -524,7 +515,6 @@
                                 </cwcont:SettingsCard>
                                 <RadioButtons
                                     Margin="1,11,0,5"
-                                    IsEnabled="{Binding DailyNoteOptions.IsAutoRefreshEnabled}"
                                     ItemsSource="{Binding DailyNoteOptions.RefreshTimes}"
                                     SelectedItem="{Binding DailyNoteOptions.SelectedRefreshTime, Mode=TwoWay}">
                                     <RadioButtons.Header>
