@@ -515,6 +515,7 @@
                                 </cwcont:SettingsCard>
                                 <RadioButtons
                                     Margin="1,11,0,5"
+                                    IsEnabled="{Binding DailyNoteOptions.IsAutoRefreshEnabled}"
                                     ItemsSource="{Binding DailyNoteOptions.RefreshTimes}"
                                     SelectedItem="{Binding DailyNoteOptions.SelectedRefreshTime, Mode=TwoWay}">
                                     <RadioButtons.Header>
