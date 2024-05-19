@@ -21,13 +21,17 @@ internal sealed class NotifyIconMethods
     {
         NOTIFYICONDATAW data = default;
         data.cbSize = (uint)sizeof(NOTIFYICONDATAW);
-        data.uFlags = NOTIFY_ICON_DATA_FLAGS.NIF_MESSAGE | NOTIFY_ICON_DATA_FLAGS.NIF_ICON | NOTIFY_ICON_DATA_FLAGS.NIF_TIP | NOTIFY_ICON_DATA_FLAGS.NIF_GUID;
+        data.uFlags =
+            NOTIFY_ICON_DATA_FLAGS.NIF_MESSAGE |
+            NOTIFY_ICON_DATA_FLAGS.NIF_ICON |
+            NOTIFY_ICON_DATA_FLAGS.NIF_TIP |
+            NOTIFY_ICON_DATA_FLAGS.NIF_STATE |
+            NOTIFY_ICON_DATA_FLAGS.NIF_GUID;
         data.guidItem = id;
         data.hWnd = hWnd;
         tip.AsSpan().CopyTo(new(data.szTip, 128));
         data.uCallbackMessage = uCallbackMessage;
         data.hIcon = hIcon;
-        data.dwState = NOTIFY_ICON_STATE.NIS_HIDDEN;
         data.dwStateMask = NOTIFY_ICON_STATE.NIS_HIDDEN;
 
         return Add(in data);

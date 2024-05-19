@@ -6,6 +6,8 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
 using Windows.Storage;
 using static Snap.Hutao.Win32.ConstValues;
 
@@ -18,6 +20,7 @@ internal sealed class NotifyIconController : IDisposable
     private readonly NotifyIconXamlHostWindow xamlHostWindow;
     private readonly NotifyIconMessageWindow messageWindow;
     private readonly System.Drawing.Icon icon;
+    private readonly Guid id;
 
     public NotifyIconController(IServiceProvider serviceProvider)
     {
@@ -25,6 +28,7 @@ internal sealed class NotifyIconController : IDisposable
 
         StorageFile iconFile = StorageFile.GetFileFromApplicationUriAsync("ms-appx:///Assets/Logo.ico".ToUri()).AsTask().GetAwaiter().GetResult();
         icon = new(iconFile.Path);
+        id = Unsafe.As<byte, Guid>(ref MemoryMarshal.GetArrayDataReference(MD5.HashData(Encoding.UTF8.GetBytes(iconFile.Path))));
 
         xamlHostWindow = new();
 
@@ -37,20 +41,10 @@ internal sealed class NotifyIconController : IDisposable
         CreateNotifyIcon();
     }
 
-    private static ref readonly Guid Id
-    {
-        get
-        {
-            // MD5 for "Snap.Hutao"
-            ReadOnlySpan<byte> data = [0xEE, 0x01, 0x5C, 0xCB, 0xF3, 0x97, 0xC6, 0x93, 0xE8, 0x77, 0xCE, 0x09, 0x54, 0x90, 0xEE, 0xAC];
-            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
-        }
-    }
-
     public void Dispose()
     {
         messageWindow.Dispose();
-        NotifyIconMethods.Delete(Id);
+        NotifyIconMethods.Delete(id);
         icon.Dispose();
 
         xamlHostWindow.Dispose();
@@ -58,13 +52,13 @@ internal sealed class NotifyIconController : IDisposable
 
     private void OnRecreateNotifyIconRequested(NotifyIconMessageWindow window)
     {
-        NotifyIconMethods.Delete(Id);
-        if (!NotifyIconMethods.Add(Id, window.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
+        NotifyIconMethods.Delete(id);
+        if (!NotifyIconMethods.Add(id, window.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
         {
             HutaoException.InvalidOperation("Failed to recreate NotifyIcon");
         }
 
-        if (!NotifyIconMethods.SetVersion(Id, NOTIFYICON_VERSION_4))
+        if (!NotifyIconMethods.SetVersion(id, NOTIFYICON_VERSION_4))
         {
             HutaoException.InvalidOperation("Failed to set NotifyIcon version");
         }
@@ -72,21 +66,22 @@ internal sealed class NotifyIconController : IDisposable
 
     private void CreateNotifyIcon()
     {
-        NotifyIconMethods.Delete(Id);
-        if (!NotifyIconMethods.Add(Id, messageWindow.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
+        NotifyIconMethods.Delete(id);
+        if (!NotifyIconMethods.Add(id, messageWindow.HWND, "Snap Hutao", NotifyIconMessageWindow.WM_NOTIFYICON_CALLBACK, (HICON)icon.Handle))
         {
             HutaoException.InvalidOperation("Failed to create NotifyIcon");
         }
 
-        if (!NotifyIconMethods.SetVersion(Id, NOTIFYICON_VERSION_4))
+        if (!NotifyIconMethods.SetVersion(id, NOTIFYICON_VERSION_4))
         {
             HutaoException.InvalidOperation("Failed to set NotifyIcon version");
         }
     }
 
+    [SuppressMessage("", "SH002")]
     private void OnContextMenuRequested(NotifyIconMessageWindow window, PointUInt16 point)
     {
-        RECT iconRect = NotifyIconMethods.GetRect(Id, window.HWND);
+        RECT iconRect = NotifyIconMethods.GetRect(id, window.HWND);
         xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new Windows.Foundation.Point(point.X, point.Y), iconRect);
     }
 }
