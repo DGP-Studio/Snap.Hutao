@@ -14,7 +14,7 @@ namespace Snap.Hutao;
 /// 主窗体
 /// </summary>
 [HighQuality]
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Singleton)]
 internal sealed partial class MainWindow : Window,
     IXamlWindowExtendContentIntoTitleBar,
     IXamlWindowRectPersisted,
