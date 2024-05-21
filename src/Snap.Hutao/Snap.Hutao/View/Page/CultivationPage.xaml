@@ -381,7 +381,7 @@
                                     ItemTemplate="{StaticResource InventoryItemTemplate}"
                                     ItemsSource="{Binding InventoryItems}">
                                     <ItemsRepeater.Layout>
-                                        <cwcont:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
+                                        <shcl:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
                                     </ItemsRepeater.Layout>
                                 </ItemsRepeater>
                             </ScrollView>
