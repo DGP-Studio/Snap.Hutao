@@ -7,7 +7,7 @@ using Snap.Hutao.Win32.NetworkManagement.WindowsFirewall;
 using Snap.Hutao.Win32.Security;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.AdvApi32;
-using static Snap.Hutao.Win32.ApiMsWinNetIsolation;
+using static Snap.Hutao.Win32.FirewallApi;
 using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Core.IO.Http.Loopback;

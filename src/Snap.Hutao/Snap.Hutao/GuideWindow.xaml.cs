@@ -2,8 +2,11 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using Windows.Graphics;
 
 namespace Snap.Hutao;
 
@@ -11,7 +14,10 @@ namespace Snap.Hutao;
 /// 指引窗口
 /// </summary>
 [Injection(InjectAs.Singleton)]
-internal sealed partial class GuideWindow : Window, IWindowOptionsSource, IMinMaxInfoHandler
+internal sealed partial class GuideWindow : Window,
+    IXamlWindowExtendContentIntoTitleBar,
+    IXamlWindowRectPersisted,
+    IXamlWindowSubclassMinMaxInfoHandler
 {
     private const int MinWidth = 1000;
     private const int MinHeight = 650;
@@ -19,16 +25,17 @@ internal sealed partial class GuideWindow : Window, IWindowOptionsSource, IMinMa
     private const int MaxWidth = 1200;
     private const int MaxHeight = 800;
 
-    private readonly WindowOptions windowOptions;
-
     public GuideWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        windowOptions = new(this, DragableGrid, new(MinWidth, MinHeight));
         this.InitializeController(serviceProvider);
     }
 
-    WindowOptions IWindowOptionsSource.WindowOptions { get => windowOptions; }
+    public FrameworkElement TitleBarAccess { get => DragableGrid; }
+
+    public string PersistRectKey { get => SettingKeys.GuideWindowRect; }
+
+    public SizeInt32 InitSize { get; } = new(MinWidth, MinHeight);
 
     public unsafe void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor)
     {

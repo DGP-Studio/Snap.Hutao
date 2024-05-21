@@ -17,7 +17,6 @@
             <shci:CachedImage
                 Width="120"
                 Height="120"
-                EnableLazyLoading="False"
                 Source="{StaticResource UI_EmotionIcon272}"/>
             <TextBlock
                 Margin="0,16,0,0"

@@ -4,14 +4,17 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Direct3D;
 using Snap.Hutao.Win32.Graphics.Direct3D11;
+using Snap.Hutao.Win32.Graphics.Dwm;
 using Snap.Hutao.Win32.Graphics.Dxgi;
 using Snap.Hutao.Win32.Graphics.Dxgi.Common;
 using Snap.Hutao.Win32.System.Com;
@@ -28,7 +31,9 @@ using Windows.Storage.Streams;
 using WinRT;
 using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.D3D11;
+using static Snap.Hutao.Win32.DwmApi;
 using static Snap.Hutao.Win32.Macros;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -46,7 +51,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly ILogger<TestViewModel> logger;
     private readonly IMemoryCache memoryCache;
     private readonly ITaskContext taskContext;
-    private readonly MainWindow mainWindow;
 
     private UploadAnnouncement announcement = new();
 
@@ -117,14 +121,17 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ExceptionCommand")]
     private static void ThrowTestException()
     {
-        Must.NeverHappen();
+        HutaoException.Throw("Test Exception");
     }
 
     [Command("ResetMainWindowSizeCommand")]
     private void ResetMainWindowSize()
     {
-        double scale = mainWindow.WindowOptions.GetRasterizationScale();
-        mainWindow.AppWindow.Resize(new Windows.Graphics.SizeInt32(1372, 772).Scale(scale));
+        if (serviceProvider.GetRequiredService<ICurrentXamlWindowReference>().Window is MainWindow mainWindow)
+        {
+            double scale = mainWindow.GetRasterizationScale();
+            mainWindow.AppWindow.Resize(new Windows.Graphics.SizeInt32(1372, 772).Scale(scale));
+        }
     }
 
     [Command("UploadAnnouncementCommand")]
@@ -186,7 +193,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 {
                     IDirect3DDevice direct3DDevice = WinRT.IInspectable.FromAbi((nint)inspectable).ObjRef.AsInterface<IDirect3DDevice>();
 
-                    HWND hwnd = serviceProvider.GetRequiredService<ICurrentWindowReference>().GetWindowHandle();
+                    HWND hwnd = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>().GetWindowHandle();
                     GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForWindow(hwnd, out GraphicsCaptureItem item);
 
                     using (Direct3D11CaptureFramePool framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(direct3DDevice, DirectXPixelFormat.B8G8R8A8UIntNormalized, 2, item.Size))
@@ -210,9 +217,14 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                                         return;
                                     }
 
+                                    bool boxAvailable = TryGetClientBox(hwnd, surfaceDesc.Width, surfaceDesc.Height, out D3D11_BOX clientBox);
+                                    (uint textureWidth, uint textureHeight) = boxAvailable
+                                        ? (clientBox.right - clientBox.left, clientBox.bottom - clientBox.top)
+                                        : (surfaceDesc.Width, surfaceDesc.Height);
+
                                     D3D11_TEXTURE2D_DESC texture2DDesc = default;
-                                    texture2DDesc.Width = surfaceDesc.Width;
-                                    texture2DDesc.Height = surfaceDesc.Height;
+                                    texture2DDesc.Width = textureWidth;
+                                    texture2DDesc.Height = textureHeight;
                                     texture2DDesc.ArraySize = 1;
                                     texture2DDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG.D3D11_CPU_ACCESS_READ;
                                     texture2DDesc.Format = DXGI_FORMAT.DXGI_FORMAT_B8G8R8A8_UNORM;
@@ -236,14 +248,21 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                                     }
 
                                     pD3D11Device->GetImmediateContext(out ID3D11DeviceContext* pDeviceContext);
-                                    pDeviceContext->CopyResource((ID3D11Resource*)pTexture2D, pD3D11Resource);
+
+                                    if (boxAvailable)
+                                    {
+                                        pDeviceContext->CopySubresourceRegion((ID3D11Resource*)pTexture2D, 0, 0, 0, 0, pD3D11Resource, 0, in clientBox);
+                                    }
+                                    else
+                                    {
+                                        logger.LogInformation("Box not available");
+                                        pDeviceContext->CopyResource((ID3D11Resource*)pTexture2D, pD3D11Resource);
+                                    }
 
                                     if (FAILED(pDeviceContext->Map((ID3D11Resource*)pTexture2D, 0, D3D11_MAP.D3D11_MAP_READ, 0, out D3D11_MAPPED_SUBRESOURCE mappedSubresource)))
                                     {
                                         return;
                                     }
-
-                                    int size = (int)(mappedSubresource.RowPitch * texture2DDesc.Height * 4);
 
                                     SoftwareBitmap softwareBitmap = new(BitmapPixelFormat.Bgra8, (int)texture2DDesc.Width, (int)texture2DDesc.Height, BitmapAlphaMode.Premultiplied);
                                     using (BitmapBuffer bitmapBuffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.Write))
@@ -309,6 +328,46 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         else
         {
             logger.LogWarning("D3D11CreateDevice failed");
+        }
+
+        static bool TryGetClientBox(HWND hwnd, uint width, uint height, out D3D11_BOX clientBox)
+        {
+            clientBox = default;
+            return false;
+
+            // Ensure the window is not minimized
+            if (IsIconic(hwnd))
+            {
+                return false;
+            }
+
+            // Ensure the window is at least partially in the screen
+            if (!(GetClientRect(hwnd, out RECT clientRect) && (clientRect.right > 0) && (clientRect.bottom > 0)))
+            {
+                return false;
+            }
+
+            // Ensure we get the window chrome rect
+            if (DwmGetWindowAttribute(hwnd, DWMWINDOWATTRIBUTE.DWMWA_EXTENDED_FRAME_BOUNDS, out RECT windowRect) != HRESULT.S_OK)
+            {
+                return false;
+            }
+
+            // Provide a client side (0, 0) and translate to screen coordinates
+            POINT clientPoint = default;
+            if (!ClientToScreen(hwnd, ref clientPoint))
+            {
+                return false;
+            }
+
+            uint left = clientBox.left = clientPoint.x > windowRect.left ? (uint)(clientPoint.x - windowRect.left) : 0U;
+            uint top = clientBox.top = clientPoint.y > windowRect.top ? (uint)(clientPoint.y - windowRect.top) : 0U;
+            clientBox.right = left + (width > left ? (uint)Math.Min(width - left, clientRect.right) : 1U);
+            clientBox.bottom = top + (height > top ? (uint)Math.Min(height - top, clientRect.bottom) : 1U);
+            clientBox.front = 0U;
+            clientBox.back = 1U;
+
+            return clientBox.right <= width && clientBox.bottom <= height;
         }
     }
 }

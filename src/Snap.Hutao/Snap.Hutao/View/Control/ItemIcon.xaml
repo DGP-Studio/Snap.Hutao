@@ -15,15 +15,14 @@
     <Grid>
         <Grid CornerRadius="{StaticResource ControlCornerRadius}">
             <!--  Disable some CachedImage's LazyLoading function here can increase response speed  -->
-            <shci:CachedImage EnableLazyLoading="False" Source="{x:Bind Quality, Converter={StaticResource QualityConverter}, Mode=OneWay}"/>
-            <shci:CachedImage EnableLazyLoading="False" Source="{StaticResource UI_ImgSign_ItemIcon}"/>
+            <shci:CachedImage Source="{x:Bind Quality, Converter={StaticResource QualityConverter}, Mode=OneWay}"/>
+            <shci:CachedImage Source="{StaticResource UI_ImgSign_ItemIcon}"/>
             <shci:CachedImage Source="{x:Bind Icon, Mode=OneWay}"/>
             <shci:CachedImage
                 Margin="2"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 shch:FrameworkElementHelper.SquareLength="16"
-                EnableLazyLoading="False"
                 Source="{x:Bind Badge, Mode=OneWay}"/>
         </Grid>
     </Grid>

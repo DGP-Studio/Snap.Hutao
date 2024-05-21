@@ -8,6 +8,7 @@ using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Core.Windowing;
@@ -154,7 +155,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
     public bool IsAllocConsoleDebugModeEnabled
     {
-        get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, false);
+        get => LocalSetting.Get(SettingKeys.IsAllocConsoleDebugModeEnabled, ConsoleWindowLifeTime.DebugModeEnabled);
         set
         {
             if (IsViewDisposed)

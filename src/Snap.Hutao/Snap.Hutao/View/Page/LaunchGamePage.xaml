@@ -415,7 +415,6 @@
                     <shci:CachedImage
                         Height="120"
                         MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                        EnableLazyLoading="False"
                         Source="{StaticResource UI_EmotionIcon445}"/>
                     <TextBlock
                         Margin="0,5,0,21"

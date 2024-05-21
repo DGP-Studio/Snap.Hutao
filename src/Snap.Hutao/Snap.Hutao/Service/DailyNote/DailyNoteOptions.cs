@@ -1,12 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core;
-using Snap.Hutao.Core.Shell;
+using Quartz;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.Job;
 using System.Globalization;
 
 namespace Snap.Hutao.Service.DailyNote;
@@ -26,10 +25,9 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         new(SH.ViewModelDailyNoteRefreshTime60, OneMinute * 60),
     ];
 
-    private readonly RuntimeOptions runtimeOptions;
-    private readonly IServiceProvider serviceProvider;
-    private readonly IScheduleTaskInterop scheduleTaskInterop;
+    private readonly IQuartzService quartzService;
 
+    private bool? isAutoRefreshEnabled;
     private NameValue<int>? selectedRefreshTime;
     private bool? isReminderNotification;
     private bool? isSilentWhenPlayingGame;
@@ -39,68 +37,41 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 
     public bool IsAutoRefreshEnabled
     {
-        get => scheduleTaskInterop.IsDailyNoteRefreshEnabled();
+        get => GetOption(ref isAutoRefreshEnabled, SettingEntry.DailyNoteIsAutoRefreshEnabled, true);
         set
         {
-            if (runtimeOptions.IsElevated)
+            if (SetOption(ref isAutoRefreshEnabled, SettingEntry.DailyNoteIsAutoRefreshEnabled, value))
             {
-                // leave below untouched if we are running in elevated privilege
-                return;
-            }
-
-            if (value)
-            {
-                if (SelectedRefreshTime is not null)
+                if (value)
                 {
-                    if (!scheduleTaskInterop.RegisterForDailyNoteRefresh(SelectedRefreshTime.Value))
+                    if (SelectedRefreshTime is not null)
                     {
-                        serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteModifyTaskFail);
+                        quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
+                        {
+                            return builder.WithSimpleSchedule(sb => sb.WithIntervalInMinutes(SelectedRefreshTime.Value).RepeatForever());
+                        }).SafeForget();
                     }
                 }
-            }
-            else
-            {
-                if (!scheduleTaskInterop.UnregisterForDailyNoteRefresh())
+                else
                 {
-                    serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteModifyTaskFail);
+                    quartzService.StopJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName).SafeForget();
                 }
             }
-
-            OnPropertyChanged();
         }
     }
 
     public NameValue<int>? SelectedRefreshTime
     {
-        get
-        {
-            if (runtimeOptions.IsElevated)
-            {
-                // leave untouched when we are running in elevated privilege
-                return null;
-            }
-
-            return GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time, CultureInfo.InvariantCulture)), RefreshTimes[1]);
-        }
-
+        get => GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time, CultureInfo.InvariantCulture)), RefreshTimes[1]);
         set
         {
-            if (runtimeOptions.IsElevated)
-            {
-                // leave untouched when we are running in elevated privilege
-                return;
-            }
-
             if (value is not null)
             {
-                if (scheduleTaskInterop.RegisterForDailyNoteRefresh(value.Value))
+                SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, value, value => $"{value.Value}");
+                quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
                 {
-                    SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, value, value => $"{value.Value}");
-                }
-                else
-                {
-                    serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteModifyTaskFail);
-                }
+                    return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(value.Value).RepeatForever());
+                }).SafeForget();
             }
         }
     }

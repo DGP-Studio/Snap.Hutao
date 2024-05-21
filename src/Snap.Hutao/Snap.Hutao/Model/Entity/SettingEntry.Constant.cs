@@ -12,6 +12,7 @@ internal sealed partial class SettingEntry
     public const string GamePathEntries = "GamePathEntries";
     public const string Culture = "Culture";
 
+    public const string IsNotifyIconEnabled = "IsNotifyIconEnabled";
     public const string SystemBackdropType = "SystemBackdropType";
     public const string ElementTheme = "ElementTheme";
     public const string BackgroundImageType = "BackgroundImageType";
@@ -23,6 +24,7 @@ internal sealed partial class SettingEntry
 
     public const string GeetestCustomCompositeUrl = "GeetestCustomCompositeUrl";
 
+    public const string DailyNoteIsAutoRefreshEnabled = "DailyNote.IsAutoRefreshEnabled";
     public const string DailyNoteRefreshSeconds = "DailyNote.RefreshSeconds";
     public const string DailyNoteReminderNotify = "DailyNote.ReminderNotify";
     public const string DailyNoteSilentWhenPlayingGame = "DailyNote.SilentWhenPlayingGame";

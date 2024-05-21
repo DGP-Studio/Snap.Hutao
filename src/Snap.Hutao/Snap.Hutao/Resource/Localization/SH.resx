@@ -192,6 +192,18 @@
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 热键 [{1}] 注册失败</value>
   </data>
+  <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
+    <value>启动游戏</value>
+  </data>
+  <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
+    <value>胡桃已进入后台运行</value>
+  </data>
+  <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
+    <value>窗口</value>
+  </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>深色</value>
   </data>
@@ -2653,6 +2665,12 @@
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快捷键</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
+    <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
+    <value>通知区域图标</value>
   </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>前往官网</value>

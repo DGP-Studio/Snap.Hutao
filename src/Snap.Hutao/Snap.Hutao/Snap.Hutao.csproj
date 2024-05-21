@@ -109,6 +109,7 @@
     <None Remove="Control\Theme\TransitionCollection.xaml" />
     <None Remove="Control\Theme\Uri.xaml" />
     <None Remove="Control\Theme\WindowOverride.xaml" />
+    <None Remove="Core\Windowing\NotifyIcon\NotifyIconContextMenu.xaml" />
     <None Remove="GuideWindow.xaml" />
     <None Remove="IdentifyMonitorWindow.xaml" />
     <None Remove="IdentityStructs.json" />
@@ -307,8 +308,8 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -325,8 +326,9 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
     <PackageReference Include="QRCoder" Version="1.5.1" />
+    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.9.0" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
-    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.0">
+    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -354,6 +356,11 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Core\Windowing\NotifyIcon\NotifyIconContextMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\SpiralAbyssUploadRecordHomaNotLoginDialog.xaml">

@@ -5,8 +5,6 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Core.Threading;
 
-internal delegate bool SpinWaitPredicate<T>(ref readonly T state);
-
 internal static class SpinWaitPolyfill
 {
     public static unsafe void SpinUntil<T>(ref T state, delegate*<ref readonly T, bool> condition)

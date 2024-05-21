@@ -3,6 +3,8 @@
 
 namespace Snap.Hutao.Win32.Foundation;
 
+// RAIIFree: FreeLibrary
+// InvalidHandleValue: 0
 internal readonly struct HMODULE
 {
     public readonly nint Value;

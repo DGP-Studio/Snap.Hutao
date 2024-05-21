@@ -1,20 +1,24 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using Windows.Graphics;
 
 namespace Snap.Hutao;
 
-/// <summary>
-/// 启动游戏窗口
-/// </summary>
 [HighQuality]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOptionsSource, IMinMaxInfoHandler
+internal sealed partial class LaunchGameWindow : Window,
+    IDisposable,
+    IXamlWindowExtendContentIntoTitleBar,
+    IXamlWindowHasInitSize,
+    IXamlWindowSubclassMinMaxInfoHandler
 {
     private const int MinWidth = 240;
     private const int MinHeight = 240;
@@ -22,25 +26,26 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOpt
     private const int MaxWidth = 320;
     private const int MaxHeight = 320;
 
-    private readonly WindowOptions windowOptions;
     private readonly IServiceScope scope;
 
-    /// <summary>
-    /// 构造一个新的启动游戏窗口
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
     public LaunchGameWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
 
         scope = serviceProvider.CreateScope();
-        windowOptions = new(this, DragableGrid, new(MaxWidth, MaxHeight));
+
+        if (AppWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.IsMaximizable = false;
+        }
+
         this.InitializeController(serviceProvider);
         RootGrid.InitializeDataContext<LaunchGameViewModel>(scope.ServiceProvider);
     }
 
-    /// <inheritdoc/>
-    public WindowOptions WindowOptions { get => windowOptions; }
+    public FrameworkElement TitleBarAccess { get => DragableGrid; }
+
+    public SizeInt32 InitSize { get; } = new(MaxWidth, MaxHeight);
 
     /// <inheritdoc/>
     public void Dispose()

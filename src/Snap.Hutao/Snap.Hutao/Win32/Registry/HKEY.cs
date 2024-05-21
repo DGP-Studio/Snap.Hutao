@@ -3,6 +3,8 @@
 
 namespace Snap.Hutao.Win32.Registry;
 
+// RAIIFree: RegCloseKey
+// InvalidHandleValue: -1, 0
 [SuppressMessage("", "SA1310")]
 internal readonly struct HKEY
 {

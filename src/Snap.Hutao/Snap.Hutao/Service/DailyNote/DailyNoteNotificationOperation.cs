@@ -77,8 +77,8 @@ internal sealed partial class DailyNoteNotificationOperation
             .AddAttributionText(attribution)
             .AddButton(new ToastButton()
                 .SetContent(SH.ServiceDailyNoteNotifierActionLaunchGameButton)
-                .AddArgument(Activation.Action, Activation.LaunchGame)
-                .AddArgument(Activation.Uid, entry.Uid))
+                .AddArgument(AppActivation.Action, AppActivation.LaunchGame)
+                .AddArgument(AppActivation.Uid, entry.Uid))
             .AddButton(new ToastButtonDismiss(SH.ServiceDailyNoteNotifierActionLaunchGameDismiss));
 
         if (options.IsReminderNotification)

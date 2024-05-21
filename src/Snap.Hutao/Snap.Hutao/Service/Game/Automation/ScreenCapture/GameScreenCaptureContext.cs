@@ -2,11 +2,14 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.Graphics.Direct3D11;
+using Snap.Hutao.Win32.Graphics.Dwm;
 using Snap.Hutao.Win32.Graphics.Gdi;
 using Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
 using Windows.Graphics.Capture;
 using Windows.Graphics.DirectX;
 using Windows.Graphics.DirectX.Direct3D11;
+using static Snap.Hutao.Win32.DwmApi;
 using static Snap.Hutao.Win32.Gdi32;
 using static Snap.Hutao.Win32.User32;
 
@@ -43,6 +46,45 @@ internal readonly struct GameScreenCaptureContext
         session.IsCursorCaptureEnabled = false;
         session.IsBorderRequired = false;
         return session;
+    }
+
+    public bool TryGetClientBox(uint width, uint height, out D3D11_BOX clientBox)
+    {
+        clientBox = default;
+
+        // Ensure the window is not minimized
+        if (IsIconic(hwnd))
+        {
+            return false;
+        }
+
+        // Ensure the window is at least partially in the screen
+        if (!(GetClientRect(hwnd, out RECT clientRect) && (clientRect.right > 0) && (clientRect.bottom > 0)))
+        {
+            return false;
+        }
+
+        // Ensure we get the window chrome rect
+        if (DwmGetWindowAttribute(hwnd, DWMWINDOWATTRIBUTE.DWMWA_EXTENDED_FRAME_BOUNDS, out RECT windowRect) != HRESULT.S_OK)
+        {
+            return false;
+        }
+
+        // Provide a client side (0, 0) and translate to screen coordinates
+        POINT clientPoint = default;
+        if (!ClientToScreen(hwnd, ref clientPoint))
+        {
+            return false;
+        }
+
+        uint left = clientBox.left = clientPoint.x > windowRect.left ? (uint)(clientPoint.x - windowRect.left) : 0U;
+        uint top = clientBox.top = clientPoint.y > windowRect.top ? (uint)(clientPoint.y - windowRect.top) : 0U;
+        clientBox.right = left + (width > left ? (uint)Math.Min(width - left, clientRect.right) : 1U);
+        clientBox.bottom = top + (height > top ? (uint)Math.Min(height - top, clientRect.bottom) : 1U);
+        clientBox.front = 0U;
+        clientBox.back = 1U;
+
+        return clientBox.right <= width && clientBox.bottom <= height;
     }
 
     private static DirectXPixelFormat DeterminePixelFormat(HWND hwnd)

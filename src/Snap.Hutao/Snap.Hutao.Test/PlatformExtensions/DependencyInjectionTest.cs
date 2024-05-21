@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 
 namespace Snap.Hutao.Test.PlatformExtensions;
 
@@ -11,6 +12,8 @@ public sealed class DependencyInjectionTest
         .AddSingleton<IService, ServiceA>()
         .AddSingleton<IService, ServiceB>()
         .AddScoped<IScopedService, ServiceA>()
+        .AddKeyedTransient<IKeyedService, KeyedServiceA>("A")
+        .AddKeyedTransient<IKeyedService, KeyedServiceB>("B")
         .AddTransient(typeof(IGenericService<>), typeof(GenericService<>))
         .AddLogging(builder => builder.AddConsole())
         .BuildServiceProvider();
@@ -48,6 +51,15 @@ public sealed class DependencyInjectionTest
     {
         Assert.IsNotNull(services.GetService<ILogger<IScopedService>>());
         Assert.IsNotNull(services.GetRequiredService<ILoggerFactory>().CreateLogger(nameof(IScopedService)));
+    }
+
+    [TestMethod]
+    public void KeyedServicesCanBeResolvedAsEnumerable()
+    {
+        Assert.IsNotNull(services.GetRequiredKeyedService<IKeyedService>("A"));
+        Assert.IsNotNull(services.GetRequiredKeyedService<IKeyedService>("B"));
+
+        Assert.AreEqual(0, services.GetServices<IKeyedService>().Count());
     }
 
     private interface IService
@@ -94,5 +106,15 @@ public sealed class DependencyInjectionTest
         public NonInjectedServiceB(NonInjectedServiceA? serviceA)
         {
         }
+    }
+
+    private interface IKeyedService;
+
+    private sealed class KeyedServiceA : IKeyedService
+    {
+    }
+
+    private sealed class KeyedServiceB : IKeyedService
+    {
     }
 }

@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.Graphics.Gdi;
 
+// InvalidHandleValue: -1, 0
 internal readonly struct HMONITOR
 {
     public readonly nint Value;

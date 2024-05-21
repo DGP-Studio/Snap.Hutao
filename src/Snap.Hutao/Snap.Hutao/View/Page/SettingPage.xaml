@@ -348,6 +348,12 @@
                                         <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewPageSettingBackgroundImageLocalFolderCopyrightHeader}" Visibility="{Binding BackgroundImageOptions.Wallpaper, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                                     </cwc:SettingsExpander.Items>
                                 </cwc:SettingsExpander>
+                                <cwc:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageSettingNotifyIconDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageSettingNotifyIconHeader}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE91C;}">
+                                    <ToggleSwitch IsOn="{Binding AppOptions.IsNotifyIconEnabled, Mode=TwoWay}"/>
+                                </cwc:SettingsCard>
                             </StackPanel>
                         </Border>
                     </Border>

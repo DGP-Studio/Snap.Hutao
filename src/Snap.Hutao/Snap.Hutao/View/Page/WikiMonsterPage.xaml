@@ -46,7 +46,13 @@
         </DataTemplate>
 
         <DataTemplate x:Key="MonsterBaseValueTemplate">
-            <cwc:SettingsCard Header="{Binding Name}">
+            <cwc:SettingsCard MinHeight="40" Padding="0,0,16,0">
+                <cwc:SettingsCard.Resources>
+                    <x:Double x:Key="SettingsCardLeftIndention">16</x:Double>
+                </cwc:SettingsCard.Resources>
+                <cwc:SettingsCard.Header>
+                    <TextBlock Text="{Binding Name}" TextWrapping="NoWrap"/>
+                </cwc:SettingsCard.Header>
                 <TextBlock Text="{Binding Value}"/>
             </cwc:SettingsCard>
         </DataTemplate>
@@ -94,23 +100,6 @@
                                 Margin="6,8,0,0"
                                 LocalSettingKeySuffixForCurrent="WikiMonsterPage.Monsters"/>
                         </CommandBar.Content>
-                        <!--<AppBarElementContainer Visibility="Collapsed">
-                            <AutoSuggestBox
-                                Width="240"
-                                Height="36"
-                                Margin="16,6,6,0"
-                                HorizontalAlignment="Stretch"
-                                VerticalContentAlignment="Center"
-                                PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder}"
-                                QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
-                                Text="{Binding FilterText, Mode=TwoWay}">
-                                <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                                        <mxic:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding FilterText}"/>
-                                    </mxic:EventTriggerBehavior>
-                                </mxi:Interaction.Behaviors>
-                            </AutoSuggestBox>
-                        </AppBarElementContainer>-->
                     </CommandBar>
                 </Border>
             </Border>
