@@ -12,6 +12,7 @@ internal sealed partial class SettingEntry
     public const string GamePathEntries = "GamePathEntries";
     public const string Culture = "Culture";
 
+    public const string IsNotifyIconEnabled = "IsNotifyIconEnabled";
     public const string SystemBackdropType = "SystemBackdropType";
     public const string ElementTheme = "ElementTheme";
     public const string BackgroundImageType = "BackgroundImageType";

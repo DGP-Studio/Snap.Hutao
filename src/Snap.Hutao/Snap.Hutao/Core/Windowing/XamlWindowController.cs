@@ -97,7 +97,7 @@ internal sealed class XamlWindowController
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        if (LocalSetting.Get(SettingKeys.IsNotifyIconEnabled, true) && !XamlWindowLifetime.IsApplicationExiting)
+        if (XamlWindowLifetime.ApplicationLaunchedWithNotifyIcon && !XamlWindowLifetime.ApplicationExiting)
         {
             args.Handled = true;
             window.Hide();

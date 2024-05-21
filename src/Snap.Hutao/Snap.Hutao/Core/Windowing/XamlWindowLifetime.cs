@@ -5,5 +5,7 @@ namespace Snap.Hutao.Core.Windowing;
 
 internal static class XamlWindowLifetime
 {
-    public static bool IsApplicationExiting { get; set; }
+    public static bool ApplicationLaunchedWithNotifyIcon { get; set; }
+
+    public static bool ApplicationExiting { get; set; }
 }

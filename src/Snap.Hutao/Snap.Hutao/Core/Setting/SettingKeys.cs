@@ -30,7 +30,6 @@ internal static class SettingKeys
     public const string StaticResourceImageArchive = "StaticResourceImageArchive";
     public const string HotKeyMouseClickRepeatForever = "HotKeyMouseClickRepeatForever";
     public const string IsAllocConsoleDebugModeEnabled = "IsAllocConsoleDebugModeEnabled2";
-    public const string IsNotifyIconEnabled = "IsNotifyIconEnabled";
     #endregion
 
     #region Passport

@@ -2663,6 +2663,12 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快捷键</value>
   </data>
+  <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
+    <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
+    <value>通知区域图标</value>
+  </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>前往官网</value>
   </data>

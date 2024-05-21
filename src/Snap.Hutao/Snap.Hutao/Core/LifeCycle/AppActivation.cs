@@ -7,8 +7,10 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
+using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Core.Windowing.HotKey;
 using Snap.Hutao.Core.Windowing.NotifyIcon;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
@@ -64,8 +66,9 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         ToastNotificationManagerCompat.OnActivated += NotificationActivate;
 
         serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
-        if (LocalSetting.Get(SettingKeys.IsNotifyIconEnabled, true))
+        if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
         {
+            XamlWindowLifetime.ApplicationLaunchedWithNotifyIcon = true;
             serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
             _ = serviceProvider.GetRequiredService<NotifyIconController>();
         }
