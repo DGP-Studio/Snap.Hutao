@@ -152,6 +152,8 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                     announcement.StartTime = versionStartTime;
                     continue;
                 }
+
+                announcement.StartTime = UnsafeDateTimeOffset.ParseDateTime(permanent.Groups[2].ValueSpan, offset);
             }
 
             if (AnnouncementRegex.PersistentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } persistent)
