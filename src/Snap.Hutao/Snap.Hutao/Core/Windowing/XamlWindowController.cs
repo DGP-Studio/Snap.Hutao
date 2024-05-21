@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Notifications;
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Content;
@@ -11,6 +12,7 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing.Abstraction;
+using Snap.Hutao.Core.Windowing.NotifyIcon;
 using Snap.Hutao.Service;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
@@ -101,6 +103,15 @@ internal sealed class XamlWindowController
         {
             args.Handled = true;
             window.Hide();
+
+            RECT iconRect = serviceProvider.GetRequiredService<NotifyIconController>().GetRect();
+            RECT primaryRect = StructMarshal.RECT(DisplayArea.Primary.OuterBounds);
+            if (!IntersectRect(out _, in primaryRect, in iconRect))
+            {
+                new ToastContentBuilder()
+                    .AddText(SH.CoreWindowingNotifyIconPromotedHint)
+                    .Show();
+            }
 
             ICurrentXamlWindowReference currentXamlWindowReference = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>();
             if (currentXamlWindowReference.Window == window)

@@ -50,6 +50,11 @@ internal sealed class NotifyIconController : IDisposable
         xamlHostWindow.Dispose();
     }
 
+    public RECT GetRect()
+    {
+        return NotifyIconMethods.GetRect(id, messageWindow.HWND);
+    }
+
     private void OnRecreateNotifyIconRequested(NotifyIconMessageWindow window)
     {
         NotifyIconMethods.Delete(id);
@@ -81,7 +86,6 @@ internal sealed class NotifyIconController : IDisposable
     [SuppressMessage("", "SH002")]
     private void OnContextMenuRequested(NotifyIconMessageWindow window, PointUInt16 point)
     {
-        RECT iconRect = NotifyIconMethods.GetRect(id, window.HWND);
-        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new Windows.Foundation.Point(point.X, point.Y), iconRect);
+        xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new Windows.Foundation.Point(point.X, point.Y), GetRect());
     }
 }

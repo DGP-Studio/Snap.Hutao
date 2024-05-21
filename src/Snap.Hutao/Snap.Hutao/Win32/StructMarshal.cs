@@ -33,6 +33,11 @@ internal static class StructMarshal
         return new(0, 0, size.X, size.Y);
     }
 
+    public static RECT RECT(RectInt32 rect)
+    {
+        return new(rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
+    }
+
     public static RectInt32 RectInt32(RECT rect)
     {
         return new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);

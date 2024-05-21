@@ -127,6 +127,24 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
+    public static unsafe extern BOOL IntersectRect([Out] RECT* lprcDst, RECT* lprcSrc1, RECT* lprcSrc2);
+
+    public static unsafe BOOL IntersectRect(out RECT rcDst, ref readonly RECT rcSrc1, ref readonly RECT rcSrc2)
+    {
+        fixed (RECT* lprcDst = &rcDst)
+        {
+            fixed (RECT* lprcSrc1 = &rcSrc1)
+            {
+                fixed (RECT* lprcSrc2 = &rcSrc2)
+                {
+                    return IntersectRect(lprcDst, lprcSrc1, lprcSrc2);
+                }
+            }
+        }
+    }
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
     public static extern BOOL IsIconic(HWND hWnd);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
