@@ -1569,7 +1569,7 @@
     <value>不能添加名称无效的计划</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
-    <value>此操作不可逆，此计划和其内的背包物品会丢失</value>
+    <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
     <value>确认要删除当前计划吗？</value>
