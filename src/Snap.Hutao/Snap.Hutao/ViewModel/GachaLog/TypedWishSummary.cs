@@ -66,7 +66,7 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     public string TotalOrangeFormatted
     {
-        get => $"{TotalOrangePull} [{TotalOrangePercent,6:p2}]";
+        get => $"{TotalOrangePull} [{(TotalOrangePercent is double.NaN ? 0D : TotalOrangePercent),6:p2}]";
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     public string TotalPurpleFormatted
     {
-        get => $"{TotalPurplePull} [{TotalPurplePercent,6:p2}]";
+        get => $"{TotalPurplePull} [{(TotalPurplePercent is double.NaN ? 0D : TotalPurplePercent),6:p2}]";
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ internal sealed partial class TypedWishSummary : Wish
     /// </summary>
     public string TotalBlueFormatted
     {
-        get => $"{TotalBluePull} [{TotalBluePercent,6:p2}]";
+        get => $"{TotalBluePull} [{(TotalBluePercent is double.NaN ? 0D : TotalBluePercent),6:p2}]";
     }
 
     public ColorSegmentCollection PullPercentSegmentSource
