@@ -68,7 +68,7 @@ internal sealed class WrapLayoutState
     {
         foreach (ref readonly WrapItem item in CollectionsMarshal.AsSpan(items))
         {
-            item.Position = default;
+            item.Position = WrapItem.EmptyPosition;
         }
     }
 
