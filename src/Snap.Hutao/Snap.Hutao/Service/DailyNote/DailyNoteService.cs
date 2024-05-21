@@ -54,6 +54,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         DailyNoteEntry newEntry = DailyNoteEntry.From(userAndUid);
 
         Web.Response.Response<WebDailyNote> dailyNoteResponse;
+        DailyNoteMetadataContext context;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IGameRecordClient gameRecordClient = scope.ServiceProvider
@@ -63,6 +64,8 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             dailyNoteResponse = await gameRecordClient
                 .GetDailyNoteAsync(userAndUid, token)
                 .ConfigureAwait(false);
+
+            context = await scope.GetRequiredService<IMetadataService>().GetContextAsync<DailyNoteMetadataContext>(token).ConfigureAwait(false);
         }
 
         if (dailyNoteResponse.IsOk())
@@ -71,6 +74,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         }
 
         newEntry.UserGameRole = userService.GetUserGameRoleByUid(roleUid);
+        newEntry.ArchonQuestView = DailyNoteArchonQuestView.Create(newEntry.DailyNote, context.Chapters);
         await dailyNoteDbService.AddDailyNoteEntryAsync(newEntry, token).ConfigureAwait(false);
 
         newEntry.User = userAndUid.User;
