@@ -8,6 +8,8 @@ namespace Snap.Hutao.Control.Layout;
 
 internal sealed class WrapItem
 {
+    public static Point EmptyPosition { get; } = new(float.NegativeInfinity, float.NegativeInfinity);
+
     public WrapItem(int index)
     {
         Index = index;
@@ -15,9 +17,9 @@ internal sealed class WrapItem
 
     public int Index { get; }
 
-    public Size? Size { get; set; }
+    public Size Size { get; set; } = Size.Empty;
 
-    public Point? Position { get; set; }
+    public Point Position { get; set; } = EmptyPosition;
 
     public UIElement? Element { get; set; }
 }

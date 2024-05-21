@@ -15,13 +15,11 @@ internal sealed partial class WrapLayout : VirtualizingLayout
     protected override void InitializeForContextCore(VirtualizingLayoutContext context)
     {
         context.LayoutState = new WrapLayoutState(context);
-        base.InitializeForContextCore(context);
     }
 
     protected override void UninitializeForContextCore(VirtualizingLayoutContext context)
     {
         context.LayoutState = default;
-        base.UninitializeForContextCore(context);
     }
 
     protected override void OnItemsChangedCore(VirtualizingLayoutContext context, object source, NotifyCollectionChangedEventArgs args)
@@ -60,6 +58,16 @@ internal sealed partial class WrapLayout : VirtualizingLayout
 
     protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)
     {
+        if (context.ItemCount is 0)
+        {
+            return new Size(availableSize.Width, 0);
+        }
+
+        if ((context.RealizationRect.Width is 0) && (context.RealizationRect.Height is 0))
+        {
+            return new Size(availableSize.Width, 0.0f);
+        }
+
         Size spacing = new(HorizontalSpacing, VerticalSpacing);
 
         WrapLayoutState state = (WrapLayoutState)context.LayoutState;
@@ -68,42 +76,42 @@ internal sealed partial class WrapLayout : VirtualizingLayout
         {
             state.ClearPositions();
             state.Spacing = spacing;
-            state.AvailableWidth = availableSize.Height;
+            state.AvailableWidth = availableSize.Width;
         }
 
         double currentHeight = 0;
-        Point position = default;
+        Point itemPosition = default;
         for (int i = 0; i < context.ItemCount; ++i)
         {
-            bool measured = false;
+            bool itemMeasured = false;
             WrapItem item = state.GetItemAt(i);
-            if (item.Size is null)
+            if (item.Size == Size.Empty)
             {
                 item.Element = context.GetOrCreateElementAt(i);
                 item.Element.Measure(availableSize);
                 item.Size = item.Element.DesiredSize;
-                measured = true;
+                itemMeasured = true;
             }
 
-            Size currentSize = item.Size.Value;
+            Size itemSize = item.Size;
 
-            if (item.Position is null)
+            if (item.Position == WrapItem.EmptyPosition)
             {
-                if (availableSize.Width < position.X + currentSize.Height)
+                if (availableSize.Width < itemPosition.X + itemSize.Width)
                 {
                     // New Row
-                    position.X = 0;
-                    position.Y += currentHeight + spacing.Height;
+                    itemPosition.X = 0;
+                    itemPosition.Y += currentHeight + spacing.Height;
                     currentHeight = 0;
                 }
 
-                item.Position = position;
+                item.Position = itemPosition;
             }
 
-            position = item.Position.Value;
+            itemPosition = item.Position;
 
-            double vEnd = position.Y + currentSize.Width;
-            if (vEnd < context.RealizationRect.Top)
+            double bottom = itemPosition.Y + itemSize.Height;
+            if (bottom < context.RealizationRect.Top)
             {
                 // Item is "above" the bounds
                 if (item.Element is not null)
@@ -114,7 +122,7 @@ internal sealed partial class WrapLayout : VirtualizingLayout
 
                 continue;
             }
-            else if (position.Y > context.RealizationRect.Bottom)
+            else if (itemPosition.Y > context.RealizationRect.Bottom)
             {
                 // Item is "below" the bounds.
                 if (item.Element is not null)
@@ -126,34 +134,34 @@ internal sealed partial class WrapLayout : VirtualizingLayout
                 // We don't need to measure anything below the bounds
                 break;
             }
-            else if (!measured)
+            else if (!itemMeasured)
             {
                 // Always measure elements that are within the bounds
                 item.Element = context.GetOrCreateElementAt(i);
                 item.Element.Measure(availableSize);
 
-                currentSize = item.Element.DesiredSize;
-                if (currentSize != item.Size)
+                itemSize = item.Element.DesiredSize;
+                if (itemSize != item.Size)
                 {
                     // this item changed size; we need to recalculate layout for everything after this
                     state.RemoveFromIndex(i + 1);
-                    item.Size = currentSize;
+                    item.Size = itemSize;
 
                     // did the change make it go into the new row?
-                    if (availableSize.Width < position.X + currentSize.Width)
+                    if (availableSize.Width < itemPosition.X + itemSize.Width)
                     {
                         // New Row
-                        position.X = 0;
-                        position.Y += currentHeight + spacing.Height;
+                        itemPosition.X = 0;
+                        itemPosition.Y += currentHeight + spacing.Height;
                         currentHeight = 0;
                     }
 
-                    item.Position = position;
+                    item.Position = itemPosition;
                 }
             }
 
-            position.X += currentSize.Width + spacing.Width;
-            currentHeight = Math.Max(currentSize.Height, currentHeight);
+            itemPosition.X += itemSize.Width + spacing.Width;
+            currentHeight = Math.Max(itemSize.Height, currentHeight);
         }
 
         return new Size(double.IsInfinity(availableSize.Width) ? 0 : Math.Ceiling(availableSize.Width), state.GetHeight());
@@ -165,34 +173,9 @@ internal sealed partial class WrapLayout : VirtualizingLayout
         {
             WrapLayoutState state = (WrapLayoutState)context.LayoutState;
 
-            bool ArrangeItem(WrapItem item)
-            {
-                if (item is { Size: null } or { Position: null })
-                {
-                    return false;
-                }
-
-                Size desiredSize = item.Size.Value;
-
-                Point position = item.Position.Value;
-
-                if (context.RealizationRect.Top <= position.Y + desiredSize.Height && position.Y <= context.RealizationRect.Bottom)
-                {
-                    // place the item
-                    UIElement child = context.GetOrCreateElementAt(item.Index);
-                    child.Arrange(new Rect(position, desiredSize));
-                }
-                else if (position.Y > context.RealizationRect.Bottom)
-                {
-                    return false;
-                }
-
-                return true;
-            }
-
             for (int i = 0; i < context.ItemCount; ++i)
             {
-                if (!ArrangeItem(state.GetItemAt(i)))
+                if (!ArrangeItem(context, state.GetItemAt(i)))
                 {
                     break;
                 }
@@ -200,14 +183,38 @@ internal sealed partial class WrapLayout : VirtualizingLayout
         }
 
         return finalSize;
+
+        static bool ArrangeItem(VirtualizingLayoutContext context, WrapItem item)
+        {
+            if (item.Size == Size.Empty || item.Position == WrapItem.EmptyPosition)
+            {
+                return false;
+            }
+
+            Size size = item.Size;
+            Point position = item.Position;
+
+            if (context.RealizationRect.Top <= position.Y + size.Height && position.Y <= context.RealizationRect.Bottom)
+            {
+                // place the item
+                UIElement child = context.GetOrCreateElementAt(item.Index);
+                child.Arrange(new Rect(position, size));
+            }
+            else if (position.Y > context.RealizationRect.Bottom)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 
     private static void LayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is WrapLayout wp)
+        if (d is WrapLayout layout)
         {
-            wp.InvalidateMeasure();
-            wp.InvalidateArrange();
+            layout.InvalidateMeasure();
+            layout.InvalidateArrange();
         }
     }
 }

@@ -1,7 +1,6 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Runtime.InteropServices;
 using Windows.Foundation;
@@ -26,7 +25,10 @@ internal sealed class WrapLayoutState
 
     public WrapItem GetItemAt(int index)
     {
-        ArgumentOutOfRangeException.ThrowIfNegative(index);
+        if (index < 0)
+        {
+            throw new IndexOutOfRangeException();
+        }
 
         if (index <= (items.Count - 1))
         {
@@ -80,23 +82,24 @@ internal sealed class WrapLayoutState
         Point? lastPosition = default;
         double maxHeight = 0;
 
+        Span<WrapItem> itemSpan = CollectionsMarshal.AsSpan(items);
         for (int i = items.Count - 1; i >= 0; --i)
         {
-            WrapItem item = items[i];
+            ref readonly WrapItem item = ref itemSpan[i];
 
-            if (item.Position is null || item.Size is null)
+            if (item.Position == WrapItem.EmptyPosition || item.Size == Size.Empty)
             {
                 continue;
             }
 
-            if (lastPosition is not null && lastPosition.Value.Y > item.Position.Value.Y)
+            if (lastPosition is not null && lastPosition.Value.Y > item.Position.Y)
             {
                 // This is a row above the last item.
                 break;
             }
 
             lastPosition = item.Position;
-            maxHeight = Math.Max(maxHeight, item.Size.Value.Height);
+            maxHeight = Math.Max(maxHeight, item.Size.Height);
         }
 
         return lastPosition?.Y + maxHeight ?? 0;
@@ -104,7 +107,6 @@ internal sealed class WrapLayoutState
 
     public void RecycleElementAt(int index)
     {
-        UIElement element = context.GetOrCreateElementAt(index);
-        context.RecycleElement(element);
+        context.RecycleElement(context.GetOrCreateElementAt(index));
     }
 }
