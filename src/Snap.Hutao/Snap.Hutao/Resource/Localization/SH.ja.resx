@@ -3251,6 +3251,9 @@
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] の[{1}] のリクエストにエラーが発生、時間をおいてから試してください</value>
   </data>
+  <data name="WebResponseSignInErrorHint" xml:space="preserve">
+    <value>登录失败，请前往 HoYoLAB 初始化账号，原始消息：{0}</value>
+  </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>モニターID</value>
   </data>
