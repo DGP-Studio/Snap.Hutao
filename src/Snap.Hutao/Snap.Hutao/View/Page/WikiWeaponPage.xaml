@@ -218,7 +218,7 @@
                                 DisplayMode="Inline"
                                 IsPaneOpen="True"
                                 OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
-                                PaneBackground="{StaticResource CardBackgroundFillColorSecondary}">
+                                PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
                                 <SplitView.Pane>
                                     <ListView
                                         Grid.Row="1"

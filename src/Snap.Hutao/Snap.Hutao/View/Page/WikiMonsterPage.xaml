@@ -104,8 +104,10 @@
                 </Border>
             </Border>
 
-            <cwc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-
+            <cwc:SwitchPresenter
+                Grid.Row="1"
+                ContentTransitions="{ThemeResource EntranceThemeTransitions}"
+                Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
                 <cwc:Case Value="List">
                     <Border Margin="16,0,16,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                         <Border Style="{ThemeResource AcrylicBorderCardStyle}">
@@ -113,7 +115,7 @@
                                 DisplayMode="Inline"
                                 IsPaneOpen="True"
                                 OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
-                                PaneBackground="{StaticResource CardBackgroundFillColorSecondary}">
+                                PaneBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
                                 <SplitView.Pane>
                                     <ListView
                                         Grid.Row="1"
