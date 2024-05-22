@@ -3251,6 +3251,9 @@
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 網路請求異常，請稍後再試</value>
   </data>
+  <data name="WebResponseSignInErrorHint" xml:space="preserve">
+    <value>登录失败，请前往 HoYoLAB 初始化账号，原始消息：{0}</value>
+  </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>顯示器編號</value>
   </data>
