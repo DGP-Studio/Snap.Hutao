@@ -145,7 +145,7 @@
     <value>保存</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
-    <value>未找到结果</value>
+    <value>検索結果なし</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>無効なURL</value>
@@ -2682,10 +2682,10 @@
     <value>公式サイト</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
-    <value>自定义背景图片，支持 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
+    <value>カスタム背景を設定する / bmp、git、ico、jpg、jpeg、png、tiff、webp形式をサポートしています</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
-    <value>打开背景图片文件夹</value>
+    <value>カスタム背景フォルダーを開く</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>リセット</value>
