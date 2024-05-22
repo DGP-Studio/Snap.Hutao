@@ -49,10 +49,21 @@ internal class Response : ICommonResponse<Response>
             response.Message = SH.FormatWebResponseRefreshCookieHintFormat(response.Message);
         }
 
+        switch ((KnownReturnCode)response.ReturnCode)
+        {
+            case KnownReturnCode.PleaseLogin:
+            case KnownReturnCode.RET_TOKEN_INVALID:
+                response.Message = SH.FormatWebResponseRefreshCookieHintFormat(response.Message);
+                break;
+            case KnownReturnCode.SignInError:
+                response.Message = SH.FormatWebResponseSignInErrorHint(response.Message);
+                break;
+        }
+
         return response;
     }
 
-    public static Response<TData> CloneReturnCodeAndMessage<TData, TOther>(Response<TOther> response, [CallerMemberName] string callerName = default!)
+    public static Response<TData> CloneReturnCodeAndMessage<TData, TOther>(Response<TOther> response)
     {
         return new(response.ReturnCode, response.Message, default);
     }
@@ -63,16 +74,14 @@ internal class Response : ICommonResponse<Response>
         {
             return true;
         }
-        else
-        {
-            if (showInfoBar)
-            {
-                serviceProvider ??= Ioc.Default;
-                serviceProvider.GetRequiredService<IInfoBarService>().Error(ToString());
-            }
 
-            return false;
+        if (showInfoBar)
+        {
+            serviceProvider ??= Ioc.Default;
+            serviceProvider.GetRequiredService<IInfoBarService>().Error(ToString());
         }
+
+        return false;
     }
 
     public override string ToString()
@@ -102,20 +111,12 @@ internal class Response<TData> : Response, ICommonResponse<Response<TData>>, IJs
     [MemberNotNullWhen(true, nameof(Data))]
     public override bool IsOk(bool showInfoBar = true, IServiceProvider? serviceProvider = null)
     {
-        if (ReturnCode == 0)
+        bool result = base.IsOk(showInfoBar, serviceProvider);
+        if (result)
         {
             ArgumentNullException.ThrowIfNull(Data);
-            return true;
         }
-        else
-        {
-            if (showInfoBar)
-            {
-                serviceProvider ??= Ioc.Default;
-                serviceProvider.GetRequiredService<IInfoBarService>().Error(ToString());
-            }
 
-            return false;
-        }
+        return result;
     }
 }
