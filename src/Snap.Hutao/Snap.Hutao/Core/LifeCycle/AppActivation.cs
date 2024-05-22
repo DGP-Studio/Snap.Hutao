@@ -44,6 +44,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     private readonly IServiceProvider serviceProvider;
     private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly ITaskContext taskContext;
+
     private readonly SemaphoreSlim activateSemaphore = new(1);
 
     /// <inheritdoc/>
@@ -65,16 +66,24 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget();
         ToastNotificationManagerCompat.OnActivated += NotificationActivate;
 
-        serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
-        if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
+        using (activateSemaphore.Enter())
         {
-            XamlWindowLifetime.ApplicationLaunchedWithNotifyIcon = true;
-            serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
-            _ = serviceProvider.GetRequiredService<NotifyIconController>();
-        }
+            serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
+            if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
+            {
+                return;
+            }
 
-        serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
-        serviceProvider.GetRequiredService<IQuartzService>().StartAsync(default).SafeForget();
+            if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
+            {
+                XamlWindowLifetime.ApplicationLaunchedWithNotifyIcon = true;
+                serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
+                _ = serviceProvider.GetRequiredService<NotifyIconController>();
+            }
+
+            serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
+            serviceProvider.GetRequiredService<IQuartzService>().StartAsync(default).SafeForget();
+        }
     }
 
     public void Dispose()
@@ -172,7 +181,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             }
         }
 
-        // If it's the first time launch, show the guide window anyway.
         if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
         {
             await taskContext.SwitchToMainThreadAsync();

@@ -117,6 +117,7 @@
     <None Remove="Resource\BlurBackground.png" />
     <None Remove="Resource\Font\CascadiaMono.ttf" />
     <None Remove="Resource\Font\MiSans-Regular.ttf" />
+    <None Remove="Resource\GuideStaticResourceQualityComparison.png" />
     <None Remove="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
     <None Remove="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <None Remove="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
@@ -266,6 +267,7 @@
     <Content Include="Resource\BlurBackground.png" />
     <Content Include="Resource\Font\CascadiaMono.ttf" />
     <Content Include="Resource\Font\MiSans-Regular.ttf" />
+    <Content Include="Resource\GuideStaticResourceQualityComparison.png" />
     <Content Include="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
     <Content Include="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
