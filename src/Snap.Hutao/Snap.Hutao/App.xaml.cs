@@ -85,7 +85,7 @@ public sealed partial class App : Application
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine(ex);
+            Debug.WriteLine(ex);
             Process.GetCurrentProcess().Kill();
         }
     }
