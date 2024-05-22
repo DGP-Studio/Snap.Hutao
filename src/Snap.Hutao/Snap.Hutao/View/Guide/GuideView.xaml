@@ -214,23 +214,53 @@
                         Grid.Row="0"
                         Margin="16"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingQualityHeader}"/>
-                        <ListView
-                            MinWidth="320"
-                            Margin="0,8,0,32"
-                            DisplayMemberPath="Name"
-                            ItemsSource="{Binding StaticResourceOptions.ImageQualities}"
-                            SelectedItem="{Binding StaticResourceOptions.ImageQuality, Mode=TwoWay}"/>
-                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingMinimumHeader}"/>
-                        <ListView
-                            MinWidth="320"
-                            Margin="0,8,0,32"
-                            DisplayMemberPath="Name"
-                            ItemsSource="{Binding StaticResourceOptions.ImageArchives}"
-                            SelectedItem="{Binding StaticResourceOptions.ImageArchive, Mode=TwoWay}"/>
-
-                        <TextBlock Margin="0,16,0,0" Text="{Binding StaticResourceOptions.SizeInformationText, Mode=OneWay}"/>
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="16">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingQualityHeader}"/>
+                            <ListView
+                                MinWidth="320"
+                                Margin="0,8,0,32"
+                                DisplayMemberPath="Name"
+                                ItemsSource="{Binding StaticResourceOptions.ImageQualities}"
+                                SelectedItem="{Binding StaticResourceOptions.ImageQuality, Mode=TwoWay}"/>
+                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingMinimumHeader}"/>
+                            <ListView
+                                MinWidth="320"
+                                Margin="0,8,0,32"
+                                DisplayMemberPath="Name"
+                                ItemsSource="{Binding StaticResourceOptions.ImageArchives}"
+                                SelectedItem="{Binding StaticResourceOptions.ImageArchive, Mode=TwoWay}"/>
+                            <TextBlock Margin="0,16,0,0" Text="{Binding StaticResourceOptions.SizeInformationText, Mode=OneWay}"/>
+                        </StackPanel>
+                        <Grid VerticalAlignment="Center" Style="{ThemeResource GridCardStyle}">
+                            <Image
+                                Width="320"
+                                Height="320"
+                                VerticalAlignment="Center"
+                                Source="ms-appx:///Resource/GuideStaticResourceQualityComparison.png"/>
+                            <Rectangle
+                                Width="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                Fill="White"/>
+                            <Grid
+                                Margin="4"
+                                Padding="16"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Bottom"
+                                Style="{ThemeResource GridCardStyle}">
+                                <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
+                                    <TextBlock Text="{shcm:ResourceString Name=ViewModelGuideStaticResourceQualityHigh}"/>
+                                    <TextBlock Text="233 KB"/>
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Right" Orientation="Vertical">
+                                    <TextBlock Text="{shcm:ResourceString Name=ViewModelGuideStaticResourceQualityRaw}" TextAlignment="Right"/>
+                                    <TextBlock Text="1030 KB" TextAlignment="Right"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
                     </StackPanel>
 
                     <TextBlock
