@@ -3251,6 +3251,9 @@
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{1}] network request exception in [{0}] please try again later</value>
   </data>
+  <data name="WebResponseSignInErrorHint" xml:space="preserve">
+    <value>登录失败，请前往 HoYoLAB 初始化账号，原始消息：{0}</value>
+  </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>Monitor ID</value>
   </data>
