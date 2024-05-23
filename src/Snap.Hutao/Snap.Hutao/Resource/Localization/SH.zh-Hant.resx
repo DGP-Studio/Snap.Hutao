@@ -1994,6 +1994,9 @@
   <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
     <value>重新整理</value>
   </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
+    <value>未启用通知区域图标，关闭窗口后自动刷新将不会执行</value>
+  </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>在我游玩原神時不通知我</value>
   </data>
@@ -2664,7 +2667,7 @@
     <value>進階功能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>更改自動連續點按功能的快速鍵</value>
+    <value>更改自动连点功能的快捷键，仅管理员模式下生效</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
     <value>自動連續點按</value>
