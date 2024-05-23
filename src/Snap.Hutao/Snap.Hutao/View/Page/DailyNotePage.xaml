@@ -507,6 +507,12 @@
                                     Text="{shcm:ResourceString Name=ViewPageDailyNoteSettingRefreshHeader}"/>
                             </cwcont:HeaderedContentControl.Header>
                             <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                                <InfoBar
+                                    Title="{shcm:ResourceString Name=ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint}"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Warning"
+                                    Visibility="{Binding AppOptions.IsNotifyIconEnabled, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                 <cwcont:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageDailyNoteSettingAutoRefreshDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageDailyNoteSettingAutoRefresh}"
