@@ -1994,6 +1994,9 @@
   <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
     <value>동기화</value>
   </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
+    <value>未启用通知区域图标，关闭窗口后自动刷新将不会执行</value>
+  </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>원신을 플레이 할 때 알리지 않음</value>
   </data>
@@ -2664,7 +2667,7 @@
     <value>고급 기능 활성화</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>更改自动连点功能的快捷键</value>
+    <value>更改自动连点功能的快捷键，仅管理员模式下生效</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
     <value>自动连点</value>
