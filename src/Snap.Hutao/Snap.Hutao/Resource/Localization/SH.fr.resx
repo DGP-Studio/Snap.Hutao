@@ -192,6 +192,18 @@
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>Échec de l'enregistrement de [{0}] en touche de raccourci [{1}]</value>
   </data>
+  <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
+    <value>Lanceur de jeu</value>
+  </data>
+  <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
+    <value>胡桃已进入后台运行</value>
+  </data>
+  <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
+    <value>窗口</value>
+  </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>Sombre</value>
   </data>
@@ -409,7 +421,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
-    <value>旅行者</value>
+    <value>Voyageur</value>
   </data>
   <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
     <value>{0} 月 {1} 日</value>
@@ -1473,7 +1485,7 @@
     <value>有新的通知</value>
   </data>
   <data name="ViewLaunchGameHeader" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Lanceur de jeu</value>
   </data>
   <data name="ViewListViewDragElevatedHint" xml:space="preserve">
     <value>管理员模式下无法拖动排序</value>
@@ -1555,6 +1567,12 @@
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>不能添加名称无效的计划</value>
+  </data>
+  <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
+    <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
+  </data>
+  <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
+    <value>确认要删除当前计划吗？</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>实时便笺 Webhook Url 配置成功</value>
@@ -1647,7 +1665,7 @@
     <value>我已阅读并同意上方的条款</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
-    <value>完成</value>
+    <value>Terminer</value>
   </data>
   <data name="ViewModelGuideActionNext" xml:space="preserve">
     <value>下一步</value>
@@ -1773,7 +1791,7 @@
     <value>下载完成</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
-    <value>完成</value>
+    <value>Terminer</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryContentTypeNotMatch" xml:space="preserve">
     <value>响应内容不是有效的文件字节流</value>
@@ -1791,7 +1809,7 @@
     <value>创建新存档以继续</value>
   </data>
   <data name="ViewPageAchievementExportLabel" xml:space="preserve">
-    <value>导出</value>
+    <value>Exporter</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>从剪贴板导入</value>
@@ -1800,7 +1818,7 @@
     <value>从 UIAF 文件导入</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
-    <value>导入</value>
+    <value>Importer</value>
   </data>
   <data name="ViewPageAchievementRemoveArchive" xml:space="preserve">
     <value>删除当前存档</value>
@@ -2031,7 +2049,7 @@
     <value>全量刷新</value>
   </data>
   <data name="ViewPageGachaLogExportAction" xml:space="preserve">
-    <value>导出</value>
+    <value>Exporter</value>
   </data>
   <data name="ViewPageGachaLogHint" xml:space="preserve">
     <value>尚未获取任何祈愿记录</value>
@@ -2067,7 +2085,7 @@
     <value>上传当前的祈愿存档</value>
   </data>
   <data name="ViewPageGachaLogImportAction" xml:space="preserve">
-    <value>导入</value>
+    <value>Importer</value>
   </data>
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
     <value>导入来自其它 App 的数据</value>
@@ -2238,7 +2256,7 @@
     <value>请输入验证码</value>
   </data>
   <data name="ViewPageLaunchGameAction" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Lanceur de jeu</value>
   </data>
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>高级功能</value>
@@ -2583,7 +2601,7 @@
     <value>祈愿记录</value>
   </data>
   <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Lanceur de jeu</value>
   </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
     <value>隐藏</value>
@@ -2653,6 +2671,12 @@
   </data>
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>快捷键</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
+    <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
+    <value>通知区域图标</value>
   </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>前往官网</value>
@@ -3006,7 +3030,7 @@
     <value>武器资料</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)后永久开放</value>
+    <value>(?:(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;)后永久开放</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
     <value>〓活动时间〓.*?(\d\.\d)版本期间持续开放</value>
@@ -3043,6 +3067,9 @@
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>已复制到剪贴板</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
+    <value>所有魔神任务已完成</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
     <value>全部完成</value>
@@ -3223,6 +3250,9 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+  </data>
+  <data name="WebResponseSignInErrorHint" xml:space="preserve">
+    <value>登录失败，请前往 HoYoLAB 初始化账号，原始消息：{0}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>显示器编号</value>
