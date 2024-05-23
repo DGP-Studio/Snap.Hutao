@@ -426,8 +426,10 @@
                                 <cwc:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageSettingKeyShortcutAutoClickingHeader}"
-                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE92E;}">
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE92E;}"
+                                    IsEnabled="{Binding RuntimeOptions.IsElevated}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <shvc:Elevation Margin="0,0,16,0" Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                         <Button
                                             MinWidth="32"
                                             MinHeight="32"
@@ -437,7 +439,7 @@
                                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                             Style="{ThemeResource SettingButtonStyle}">
                                             <Button.Flyout>
-                                                <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding16And10Style}">
+                                                <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding16And10Style}" ShouldConstrainToRootBounds="False">
                                                     <cwc:UniformGrid
                                                         ColumnSpacing="16"
                                                         Columns="2"
@@ -447,7 +449,7 @@
                                                             MinWidth="64"
                                                             VerticalAlignment="Center"
                                                             Content="Win"
-                                                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}"/>
+                                                            IsEnabled="False"/>
                                                         <CheckBox
                                                             MinWidth="64"
                                                             VerticalAlignment="Center"
