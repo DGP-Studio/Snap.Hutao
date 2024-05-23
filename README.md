@@ -17,7 +17,15 @@ You can follow the instructions in the [Quick Start](https://hut.ao/en/quick-sta
 
 ## 本地化翻译 / Localization
 
-[![zh-TW translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao) [![en translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao) [![id translation](https://img.shields.io/badge/dynamic/json?color=blue&label=id&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27id%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao) [![ja translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao) [![ko translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ko&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ko%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao) [![pt-PT translation](https://img.shields.io/badge/dynamic/json?color=blue&label=pt-PT&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27pt-PT%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao) [![ru translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ru&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ru%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao)
+[![zh-TW translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao)
+[![en translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao)
+[![fr translation](https://img.shields.io/badge/dynamic/json?color=blue&label=fr&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27fr%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao)
+[![id translation](https://img.shields.io/badge/dynamic/json?color=blue&label=id&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27id%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao)
+[![ja translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao)
+[![ko translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ko&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ko%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao)
+[![pt-PT translation](https://img.shields.io/badge/dynamic/json?color=blue&label=pt-PT&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27pt-PT%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao)
+[![ru translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ru&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ru%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao)
+[![vi translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15670597-565845.json)](https://crowdin.com/project/snap-hutao)
 
 Snap Hutao 使用 [Crowdin](https://translate.hut.ao/) 作为客户端文本翻译平台，在该平台上你可以为你熟悉的语言提交翻译文本。我们感谢每一个为 Snap Hutao 做出贡献的社区成员，并且欢迎更多的朋友能参与到这个项目中。
 
@@ -46,13 +54,13 @@ Snap Hutao uses [Crowdin](https://translate.hut.ao/) as a client text translatio
 * [CommunityToolkit/dotnet](https://github.com/CommunityToolkit/dotnet)
 * [CommunityToolkit/Labs-Windows](https://github.com/CommunityToolkit/Labs-Windows)
 * [CommunityToolkit/Windows](https://github.com/CommunityToolkit/Windows)
-* [dahall/taskscheduler](https://github.com/dahall/taskscheduler)
 * [dotnet/efcore](https://github.com/dotnet/efcore)
 * [dotnet/runtime](https://github.com/dotnet/runtime)
 * [DotNetAnalyzers/StyleCopAnalyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers)
 * [microsoft/vs-validation](https://github.com/microsoft/vs-validation)
 * [microsoft/WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
 * [microsoft/microsoft-ui-xaml](https://github.com/microsoft/microsoft-ui-xaml)
+* [quartznet/quartznet](https://github.com/quartznet/quartznet)
 
 ### 支撑项目 / Supporter Project
 
@@ -64,9 +72,9 @@ Snap Hutao uses [Crowdin](https://translate.hut.ao/) as a client text translatio
 Snap Hutao is currently using sponsored software from the following service providers.
 
 | [![](https://www.netlify.com/v3/img/components/netlify-light.svg)](https://www.netlify.com/) | [![](https://support.crowdin.com/assets/logos/core-logo/svg/crowdin-core-logo-cDark.svg)](https://crowdin.com/) | [![](https://gitlab.cn/images/icons/logos/logo-121-75.svg)](https://gitlab.cn/) |
-|:----------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:|
-|              [![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/73ae8b90-f3c7-4033-b2b7-f4126331ce66)](https://about.signpath.io)              |                        [![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/49aed8ee-9f19-4a8a-998c-7b93ee286d65)](https://1password.com/)                         |  [![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/ad121220-d2d3-4f49-b215-b6d063dc229d)](https://about.signpath.io)   |
-
+|:-:|:-:|:-:|
+|[![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/73ae8b90-f3c7-4033-b2b7-f4126331ce66)](https://about.signpath.io)|[![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/49aed8ee-9f19-4a8a-998c-7b93ee286d65)](https://1password.com/)|[![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/ad121220-d2d3-4f49-b215-b6d063dc229d)](https://www.digitalocean.com)|
+|[![jetbrains](https://github.com/DGP-Studio/Snap.Hutao/assets/36357191/4105772a-728a-4a84-9c6e-d713a5698a20)](https://www.jetbrains.com/opensource/)|||
 
 - Netlify provides document and home page hosting service for Snap Hutao
 
@@ -79,6 +87,8 @@ Snap Hutao is currently using sponsored software from the following service prov
 - 1Password provides Snap Hutao development team with their amazing password management software
   
 - DigitalOcean provides reliable cloud database for Snap Hutao database backup
+
+- Jetbrains provides powerful IDE for Snap Hutao infrastructure services coding
 
 ## 开发 / Development
 
