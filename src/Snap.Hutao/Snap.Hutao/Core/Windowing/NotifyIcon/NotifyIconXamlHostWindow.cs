@@ -15,11 +15,9 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Core.Windowing.NotifyIcon;
 
-internal sealed class NotifyIconXamlHostWindow : Window, IDisposable, IWindowNeedEraseBackground
+internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackground
 {
-    private readonly XamlWindowSubclass subclass;
-
-    public NotifyIconXamlHostWindow()
+    public NotifyIconXamlHostWindow(IServiceProvider serviceProvider)
     {
         Content = new Border();
 
@@ -36,10 +34,7 @@ internal sealed class NotifyIconXamlHostWindow : Window, IDisposable, IWindowNee
             presenter.SetBorderAndTitleBar(false, false);
         }
 
-        subclass = new(this);
-        subclass.Initialize();
-
-        Activate();
+        this.InitializeController(serviceProvider);
     }
 
     public void ShowFlyoutAt(FlyoutBase flyout, Point point, RECT icon)
@@ -59,10 +54,5 @@ internal sealed class NotifyIconXamlHostWindow : Window, IDisposable, IWindowNee
             Placement = FlyoutPlacementMode.Auto,
             ShowMode = FlyoutShowMode.Transient,
         });
-    }
-
-    public void Dispose()
-    {
-        subclass.Dispose();
     }
 }

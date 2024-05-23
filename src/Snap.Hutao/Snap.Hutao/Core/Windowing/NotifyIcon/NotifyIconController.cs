@@ -30,7 +30,7 @@ internal sealed class NotifyIconController : IDisposable
         icon = new(iconFile.Path);
         id = Unsafe.As<byte, Guid>(ref MemoryMarshal.GetArrayDataReference(MD5.HashData(Encoding.UTF8.GetBytes(iconFile.Path))));
 
-        xamlHostWindow = new();
+        xamlHostWindow = new(serviceProvider);
 
         messageWindow = new()
         {
@@ -46,8 +46,6 @@ internal sealed class NotifyIconController : IDisposable
         messageWindow.Dispose();
         NotifyIconMethods.Delete(id);
         icon.Dispose();
-
-        xamlHostWindow.Dispose();
     }
 
     public RECT GetRect()

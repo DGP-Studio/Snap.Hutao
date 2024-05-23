@@ -39,15 +39,19 @@ internal sealed class TransparentBackdrop : SystemBackdrop, IBackdropNeedEraseBa
         }
     }
 
-    protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop connectedTarget, XamlRoot xamlRoot)
+    protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
     {
+        base.OnTargetConnected(target, xamlRoot);
+
         brush ??= Compositor.CreateColorBrush(tintColor);
-        connectedTarget.SystemBackdrop = brush;
+        target.SystemBackdrop = brush;
     }
 
-    protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop disconnectedTarget)
+    protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop target)
     {
-        disconnectedTarget.SystemBackdrop = null;
+        base.OnTargetDisconnected(target);
+
+        target.SystemBackdrop = null;
 
         if (compositorLock is not null)
         {
