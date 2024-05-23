@@ -2,13 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Quartz;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.DailyNote;
-using Snap.Hutao.Service.Job;
-using System.Collections.Specialized;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using Windows.Globalization;

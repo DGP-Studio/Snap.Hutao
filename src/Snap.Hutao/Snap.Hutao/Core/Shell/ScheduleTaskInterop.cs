@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.TaskScheduler;
-using System.IO;
 using System.Runtime.InteropServices;
-using Windows.Storage;
 
 namespace Snap.Hutao.Core.Shell;
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Cultivation;
 using System.ComponentModel.DataAnnotations;
@@ -63,7 +64,7 @@ internal sealed class CultivateEntryLevelInformation : IMappingFrom<CultivateEnt
                 WeaponLevelFrom = source.WeaponLevelFrom,
                 WeaponLevelTo = source.WeaponLevelTo,
             },
-            _ => throw Must.NeverHappen($"不支持的养成类型{type}"),
+            _ => throw HutaoException.NotSupported($"不支持的养成类型{type}"),
         };
     }
 }

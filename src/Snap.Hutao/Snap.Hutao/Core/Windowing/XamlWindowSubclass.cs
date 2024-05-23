@@ -5,12 +5,10 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.Core.Windowing.Backdrop;
-using Snap.Hutao.Core.Windowing.NotifyIcon;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.ComCtl32;
@@ -87,7 +85,9 @@ internal sealed class XamlWindowSubclass : IDisposable
 
             case WM_ERASEBKGND:
                 {
-                    if (state.window is IWindowNeedEraseBackground || state.window.SystemBackdrop is IBackdropNeedEraseBackground)
+                    if (state.window is IWindowNeedEraseBackground ||
+                        state.window.SystemBackdrop is IBackdropNeedEraseBackground ||
+                        state.window.SystemBackdrop is SystemBackdropDesktopWindowXamlSourceAccess { InnerBackdrop: IBackdropNeedEraseBackground })
                     {
                         return (LRESULT)(int)BOOL.TRUE;
                     }

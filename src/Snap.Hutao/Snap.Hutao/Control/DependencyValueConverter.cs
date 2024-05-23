@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Core.ExceptionService;
 
 namespace Snap.Hutao.Control;
 
@@ -40,6 +41,6 @@ internal abstract class DependencyValueConverter<TFrom, TTo> : DependencyObject,
     /// <returns>源</returns>
     public virtual TFrom ConvertBack(TTo to)
     {
-        throw Must.NeverHappen();
+        throw HutaoException.NotSupported();
     }
 }

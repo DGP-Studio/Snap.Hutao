@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Win32.Foundation;
-using WinRT.Interop;
 
 namespace Snap.Hutao.Core.LifeCycle;
 

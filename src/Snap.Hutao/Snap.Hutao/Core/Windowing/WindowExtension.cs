@@ -76,13 +76,17 @@ internal static class WindowExtension
         ShowWindow(GetWindowHandle(window), SHOW_WINDOW_CMD.SW_HIDE);
     }
 
-    public static void SetLayered(this Window window)
+    public static void SetLayered(this Window window, bool full = true)
     {
         HWND hwnd = (HWND)WindowNative.GetWindowHandle(window);
         nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         style |= (nint)WINDOW_EX_STYLE.WS_EX_LAYERED;
         SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
-        SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+
+        if (full)
+        {
+            SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_COLORKEY | LAYERED_WINDOW_ATTRIBUTES_FLAGS.LWA_ALPHA);
+        }
     }
 
     public static unsafe void BringToForeground(this Window window)

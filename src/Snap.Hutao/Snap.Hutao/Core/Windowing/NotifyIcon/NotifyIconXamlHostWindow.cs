@@ -48,11 +48,16 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
         ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_NORMAL);
         SetForegroundWindow(hwnd);
 
-        AppWindow.MoveAndResize(StructMarshal.RectInt32(icon));
+        MoveAndResize(icon);
         flyout.ShowAt(Content, new()
         {
             Placement = FlyoutPlacementMode.Auto,
             ShowMode = FlyoutShowMode.Transient,
         });
+    }
+
+    public void MoveAndResize(RECT icon)
+    {
+        AppWindow.MoveAndResize(StructMarshal.RectInt32(icon));
     }
 }

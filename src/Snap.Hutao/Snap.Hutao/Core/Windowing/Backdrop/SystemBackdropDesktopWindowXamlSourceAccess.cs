@@ -24,6 +24,8 @@ internal sealed class SystemBackdropDesktopWindowXamlSourceAccess : SystemBackdr
         get; private set;
     }
 
+    public SystemBackdrop? InnerBackdrop { get => innerBackdrop; }
+
     protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
     {
         DesktopWindowXamlSource = DesktopWindowXamlSource.FromAbi(target.As<IInspectable>().ThisPtr);

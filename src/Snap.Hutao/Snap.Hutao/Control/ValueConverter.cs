@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Core.ExceptionService;
 
 namespace Snap.Hutao.Control;
 
@@ -39,6 +40,6 @@ internal abstract class ValueConverter<TFrom, TTo> : IValueConverter
     /// <returns>源</returns>
     public virtual TFrom ConvertBack(TTo to)
     {
-        throw Must.NeverHappen();
+        throw HutaoException.NotSupported();
     }
 }

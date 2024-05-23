@@ -6,9 +6,6 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Snap.Hutao.Win32;
-using System.IO;
-using Windows.Foundation;
 
 namespace Snap.Hutao.Control.Image.Implementation;
 

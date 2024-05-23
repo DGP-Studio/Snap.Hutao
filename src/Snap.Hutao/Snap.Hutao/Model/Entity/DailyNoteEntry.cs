@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Entity.Abstraction;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.DailyNote;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;

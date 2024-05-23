@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Abstraction;
@@ -65,7 +66,7 @@ internal sealed class GachaLogServiceMetadataContext : IMetadataContext,
         {
             8U => IdAvatarMap[id],
             5U => IdWeaponMap[id],
-            _ => throw Must.NeverHappen($"Id places: {place}"),
+            _ => throw HutaoException.NotSupported($"Id places: {place}"),
         };
     }
 

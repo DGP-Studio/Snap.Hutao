@@ -31,7 +31,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         catch (SqliteException ex)
         {
             string message = SH.FormatServiceGachaLogArchiveCollectionUserdataCorruptedMessage(ex.Message);
-            throw ThrowHelper.UserdataCorrupted(message, ex);
+            throw HutaoException.Throw(message, ex);
         }
     }
 
@@ -97,7 +97,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
         catch (SqliteException ex)
         {
-            ThrowHelper.UserdataCorrupted(SH.ServiceGachaLogEndIdUserdataCorruptedMessage, ex);
+            HutaoException.Throw(SH.ServiceGachaLogEndIdUserdataCorruptedMessage, ex);
         }
 
         return item?.Id ?? 0L;
@@ -126,7 +126,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
         catch (SqliteException ex)
         {
-            ThrowHelper.UserdataCorrupted(SH.ServiceGachaLogEndIdUserdataCorruptedMessage, ex);
+            HutaoException.Throw(SH.ServiceGachaLogEndIdUserdataCorruptedMessage, ex);
         }
 
         return item?.Id ?? 0L;
@@ -156,7 +156,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
         catch (SqliteException ex)
         {
-            ThrowHelper.UserdataCorrupted(SH.ServiceGachaLogEndIdUserdataCorruptedMessage, ex);
+            HutaoException.Throw(SH.ServiceGachaLogEndIdUserdataCorruptedMessage, ex);
         }
 
         return item?.Id ?? 0L;

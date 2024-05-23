@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog.Factory;
@@ -124,7 +125,7 @@ internal sealed partial class GachaLogService : IGachaLogService
         {
             RefreshStrategy.AggressiveMerge => false,
             RefreshStrategy.LazyMerge => true,
-            _ => throw Must.NeverHappen(),
+            _ => throw HutaoException.NotSupported(),
         };
 
         (bool authkeyValid, GachaArchive? result) = await FetchGachaLogsAsync(query, isLazy, progress, token).ConfigureAwait(false);

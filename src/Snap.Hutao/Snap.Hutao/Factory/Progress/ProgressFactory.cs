@@ -15,7 +15,7 @@ internal sealed partial class ProgressFactory : IProgressFactory
     {
         if (taskContext is not ITaskContextUnsafe @unsafe)
         {
-            throw ThrowHelper.NotSupported();
+            throw HutaoException.NotSupported();
         }
 
         return new DispatcherQueueProgress<T>(handler, @unsafe.DispatcherQueue);

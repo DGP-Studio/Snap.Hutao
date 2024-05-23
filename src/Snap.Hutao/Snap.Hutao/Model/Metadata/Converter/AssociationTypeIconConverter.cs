@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
@@ -21,7 +22,7 @@ internal sealed class AssociationTypeIconConverter : ValueConverter<AssociationT
             AssociationType.ASSOC_TYPE_FONTAINE => "Fontaine",
             AssociationType.ASSOC_TYPE_NATLAN => default,
             AssociationType.ASSOC_TYPE_SNEZHNAYA => default,
-            _ => throw Must.NeverHappen(),
+            _ => throw HutaoException.NotSupported(),
         };
 
         return association is null

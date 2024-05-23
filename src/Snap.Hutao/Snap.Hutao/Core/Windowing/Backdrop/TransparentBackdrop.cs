@@ -29,14 +29,11 @@ internal sealed class TransparentBackdrop : SystemBackdrop, IBackdropNeedEraseBa
 
     internal Windows.UI.Composition.Compositor Compositor
     {
-        get
+        get => LazyInitializer.EnsureInitialized(ref compositor, ref compositorLock, () =>
         {
-            return LazyInitializer.EnsureInitialized(ref compositor, ref compositorLock, () =>
-            {
-                DispatcherQueue.EnsureSystemDispatcherQueue();
-                return new Windows.UI.Composition.Compositor();
-            });
-        }
+            DispatcherQueue.EnsureSystemDispatcherQueue();
+            return new Windows.UI.Composition.Compositor();
+        });
     }
 
     protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)

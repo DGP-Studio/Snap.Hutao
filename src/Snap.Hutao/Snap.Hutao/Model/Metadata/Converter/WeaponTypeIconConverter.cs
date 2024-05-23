@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
 using System.Collections.Frozen;
 
@@ -41,7 +42,7 @@ internal sealed class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
             WeaponType.WEAPON_POLE => "03",
             WeaponType.WEAPON_CLAYMORE => "04",
             WeaponType.WEAPON_CATALYST => "Catalyst_MD",
-            _ => throw Must.NeverHappen(),
+            _ => throw HutaoException.NotSupported(),
         };
 
         return Web.HutaoEndpoints.StaticRaw("Skill", $"Skill_A_{weapon}.png").ToUri();

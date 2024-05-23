@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;

@@ -39,6 +39,7 @@ internal sealed class NotifyIconController : IDisposable
         };
 
         CreateNotifyIcon();
+        xamlHostWindow.MoveAndResize(GetRect());
     }
 
     public void Dispose()
