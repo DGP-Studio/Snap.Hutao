@@ -124,7 +124,7 @@
     <value>胡桃 Dev {0} [管理员]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
-    <value>胡桃 {0} [管理员]</value>
+    <value>Snap Hutao {0} [Quản trị viên]</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>胡桃</value>
@@ -133,10 +133,10 @@
     <value>Snap Hutao {0}</value>
   </data>
   <data name="ContentDialogCancelCloseButtonText" xml:space="preserve">
-    <value>取消</value>
+    <value>Hủy bỏ</value>
   </data>
   <data name="ContentDialogCompletePrimaryButtonText" xml:space="preserve">
-    <value>完成</value>
+    <value>Hoàn thành</value>
   </data>
   <data name="ContentDialogConfirmPrimaryButtonText" xml:space="preserve">
     <value>确认</value>
@@ -148,7 +148,7 @@
     <value>Không tìm thấy kết quả</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>无效的 Uri</value>
+    <value>Uri không hợp lệ</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -160,7 +160,7 @@
     <value>网格</value>
   </data>
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
-    <value>列表</value>
+    <value>Danh sách</value>
   </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
     <value>数据库已损坏：{0}</value>
@@ -214,7 +214,7 @@
     <value>Hệ thống</value>
   </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
-    <value>导出</value>
+    <value>Xuất</value>
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>导入</value>
@@ -223,7 +223,7 @@
     <value>欢迎使用胡桃</value>
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
-    <value>选择账号并启动</value>
+    <value>Lựa chọn tài khoản để khởi động</value>
   </data>
   <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
     <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
@@ -238,7 +238,7 @@
     <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
-    <value>流浪者</value>
+    <value>Kẻ lang thang</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
     <value>精炼 {0}</value>
@@ -292,7 +292,7 @@
     <value>刷新于 {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
-    <value>第 {0} 期</value>
+    <value/>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
     <value>角色</value>
@@ -552,10 +552,10 @@
     <value>精炼 {0} 阶</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必须登录 米游社/HoYoLAB 并选择一个用户与角色</value>
+    <value>Phải đăng nhập vào tài khoản MiHoYo BBS của bạn và chọn người dùng</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
+    <value>Đã xoá {1} bản ghi cầu nguyện của UID: {0}</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>Đã đạt đến số lượng lịch sử cầu nguyện tối đa cho phép trên Snap Hutao Cloud</value>
@@ -567,13 +567,13 @@
     <value>祈愿数据存在无效的物品，无法保存至胡桃云</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
-    <value>数据异常，无法保存至云端，请勿跨账号上传或尝试删除云端数据后重试</value>
+    <value>Tìm thấy dữ liệu bất thường, không thể tải lên Snap Hutao Cloud. Vui lòng không tải lên từ nhiều tài khoản hoặc bạn có thể thử xóa dữ liệu đám mây và thử lại.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>上传了 Uid：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
+    <value>Đã tải lên {1} bản ghi cầu nguyện của UID: {0}, đã được lưu trữ {2}</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
-    <value>请先登录或注册胡桃账号</value>
+    <value>Vui lòng đăng nhập hoặc đăng ký tài khoản Snap Hutao trước tiên</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>Đăng nhập thành công</value>
@@ -594,7 +594,7 @@
     <value>Đăng ký không thành công, lỗi máy chủ, vui lòng liên hệ nhà phát triển để khắc phục</value>
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
-    <value>用户不存在，注销失败</value>
+    <value>Người dùng không tồn tại, thất bại trong việc xoá tài khoản</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
     <value>Huỷ đăng ký thành công</value>
@@ -666,7 +666,7 @@
     <value>打开 UIAF Json 文件</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
-    <value>单个成就存档内发现多个相同的成就 Id</value>
+    <value>Đã tìm thấy nhiều ID thành tựu giống hệt nhau trong kho lưu trữ thành tựu</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value/>
@@ -769,11 +769,11 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESWater" xml:space="preserve">
-    <value>水元素抗性</value>
+    <value>Kháng nguyên tố thuỷ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESWind" xml:space="preserve">
-    <value>风元素抗性</value>
+    <value>Kháng nguyên tố phong</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
@@ -789,7 +789,7 @@
     <value>原神战绩：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
-    <value>角色橱窗：尚未刷新</value>
+    <value>Enka: N/A</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
     <value>角色橱窗：{0:MM-dd HH:mm}</value>
@@ -798,13 +798,13 @@
     <value>必应每日一图</value>
   </data>
   <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
-    <value>胡桃每日一图</value>
+    <value>Hình nền hằng ngày của Hutao</value>
   </data>
   <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
-    <value>官方启动器壁纸</value>
+    <value>Hình nền launcher chính thức của Genshin</value>
   </data>
   <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
-    <value>本地随机图片</value>
+    <value>Hình nền ngẫu nhiên trong máy</value>
   </data>
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>无背景图片</value>
@@ -861,7 +861,7 @@
     <value>参量质变仪</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformerAdaptiveHint" xml:space="preserve">
-    <value/>
+    <value>Sẵn sàng</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>参量质变仪已准备完成</value>
@@ -873,10 +873,10 @@
     <value>正在提瓦特大陆中探索</value>
   </data>
   <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
-    <value>由 {0} 启动</value>
+    <value>Bắt đầu bởi {0}</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
-    <value>无法获取祈愿记录：{0}</value>
+    <value>Không thể lấy lịch sử cầu nguyện: {0}</value>
   </data>
   <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
     <value>无法获取祈愿记录 End Id</value>
