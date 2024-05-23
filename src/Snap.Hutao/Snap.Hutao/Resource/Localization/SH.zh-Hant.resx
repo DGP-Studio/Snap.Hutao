@@ -2667,7 +2667,7 @@
     <value>進階功能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>更改自动连点功能的快捷键</value>
+    <value>更改自動連續點按功能的快速鍵</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
     <value>自動連續點按</value>
