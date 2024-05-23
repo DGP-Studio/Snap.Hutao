@@ -2664,7 +2664,7 @@
     <value>高级功能</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingDescription" xml:space="preserve">
-    <value>更改自动连点功能的快捷键</value>
+    <value>更改自动连点功能的快捷键，仅管理员模式下生效</value>
   </data>
   <data name="ViewPageSettingKeyShortcutAutoClickingHeader" xml:space="preserve">
     <value>自动连点</value>

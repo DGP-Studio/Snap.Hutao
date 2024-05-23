@@ -27,7 +27,6 @@ internal sealed class HotKeyCombination : ObservableObject
 
     private bool registered;
 
-    private bool modifierHasWindows;
     private bool modifierHasControl;
     private bool modifierHasShift;
     private bool modifierHasAlt;
@@ -52,7 +51,10 @@ internal sealed class HotKeyCombination : ObservableObject
             isEnabled = LocalSetting.Get($"{settingKey}.IsEnabled", true);
 
             HotKeyParameter actual = LocalSettingGetHotKeyParameter();
-            modifiers = actual.Modifiers;
+
+            // HOT_KEY_MODIFIERS.MOD_WIN is reversed for use by the OS.
+            // It should not be used by the application.
+            modifiers = actual.Modifiers & ~HOT_KEY_MODIFIERS.MOD_WIN;
             InitializeModifiersCompositionFields();
             key = actual.Key;
 
@@ -61,18 +63,6 @@ internal sealed class HotKeyCombination : ObservableObject
     }
 
     #region Binding Property
-    public bool ModifierHasWindows
-    {
-        get => modifierHasWindows;
-        set
-        {
-            if (SetProperty(ref modifierHasWindows, value))
-            {
-                UpdateModifiers();
-            }
-        }
-    }
-
     public bool ModifierHasControl
     {
         get => modifierHasControl;
@@ -218,11 +208,6 @@ internal sealed class HotKeyCombination : ObservableObject
     {
         StringBuilder stringBuilder = new();
 
-        if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_WIN))
-        {
-            stringBuilder.Append("Win").Append(" + ");
-        }
-
         if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_CONTROL))
         {
             stringBuilder.Append("Ctrl").Append(" + ");
@@ -247,11 +232,6 @@ internal sealed class HotKeyCombination : ObservableObject
     {
         HOT_KEY_MODIFIERS modifiers = default;
 
-        if (ModifierHasWindows)
-        {
-            modifiers |= HOT_KEY_MODIFIERS.MOD_WIN;
-        }
-
         if (ModifierHasControl)
         {
             modifiers |= HOT_KEY_MODIFIERS.MOD_CONTROL;
@@ -272,11 +252,6 @@ internal sealed class HotKeyCombination : ObservableObject
 
     private void InitializeModifiersCompositionFields()
     {
-        if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_WIN))
-        {
-            modifierHasWindows = true;
-        }
-
         if (Modifiers.HasFlag(HOT_KEY_MODIFIERS.MOD_CONTROL))
         {
             modifierHasControl = true;

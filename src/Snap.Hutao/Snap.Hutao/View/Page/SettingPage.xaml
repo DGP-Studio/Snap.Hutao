@@ -437,7 +437,7 @@
                                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                             Style="{ThemeResource SettingButtonStyle}">
                                             <Button.Flyout>
-                                                <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding16And10Style}">
+                                                <Flyout FlyoutPresenterStyle="{ThemeResource FlyoutPresenterPadding16And10Style}" ShouldConstrainToRootBounds="False">
                                                     <cwc:UniformGrid
                                                         ColumnSpacing="16"
                                                         Columns="2"
@@ -447,7 +447,7 @@
                                                             MinWidth="64"
                                                             VerticalAlignment="Center"
                                                             Content="Win"
-                                                            IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.ModifierHasWindows, Mode=TwoWay}"/>
+                                                            IsEnabled="False"/>
                                                         <CheckBox
                                                             MinWidth="64"
                                                             VerticalAlignment="Center"
