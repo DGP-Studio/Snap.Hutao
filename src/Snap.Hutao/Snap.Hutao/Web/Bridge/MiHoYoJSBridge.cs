@@ -191,7 +191,7 @@ internal class MiHoYoJSBridge
             Data = new()
             {
                 ["language"] = cultureOptions.LanguageCode,
-                ["timeZone"] = $"GMT{(offset.Hours >= 0 ? "+" : " - ")}{offset.Hours:D1}",
+                ["timeZone"] = $"GMT{(offset.Hours >= 0 ? "+" : " - ")}{Math.Abs(offset.Hours):D1}",
             },
         };
     }

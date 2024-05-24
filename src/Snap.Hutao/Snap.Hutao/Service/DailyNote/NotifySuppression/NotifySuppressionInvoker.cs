@@ -18,6 +18,7 @@ internal static class NotifySuppressionInvoker
         context.Invoke<ExpeditionNotifySuppressionChecker>();
     }
 
+    [SuppressMessage("", "CA1859")]
     private static void Invoke<T>(this INotifySuppressionContext context)
         where T : INotifySuppressionChecker, new()
     {

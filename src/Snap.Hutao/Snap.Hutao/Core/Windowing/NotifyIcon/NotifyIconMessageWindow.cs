@@ -143,10 +143,11 @@ internal sealed class NotifyIconMessageWindow : IDisposable
         return DefWindowProcW(hwnd, uMsg, wParam, lParam);
     }
 
-    [UnconditionalSuppressMessage("", "CS0649")]
     private readonly struct LPARAM2
     {
+#pragma warning disable CS0649
         public readonly uint Low;
         public readonly uint High;
+#pragma warning restore CS0649
     }
 }
