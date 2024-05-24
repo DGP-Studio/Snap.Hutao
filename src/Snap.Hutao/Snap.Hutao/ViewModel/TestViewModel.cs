@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
@@ -11,29 +10,6 @@ using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
-using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.Graphics.Direct3D;
-using Snap.Hutao.Win32.Graphics.Direct3D11;
-using Snap.Hutao.Win32.Graphics.Dwm;
-using Snap.Hutao.Win32.Graphics.Dxgi;
-using Snap.Hutao.Win32.Graphics.Dxgi.Common;
-using Snap.Hutao.Win32.System.Com;
-using Snap.Hutao.Win32.System.WinRT;
-using Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
-using System.IO;
-using System.Runtime.CompilerServices;
-using Windows.Foundation;
-using Windows.Graphics.Capture;
-using Windows.Graphics.DirectX;
-using Windows.Graphics.DirectX.Direct3D11;
-using Windows.Graphics.Imaging;
-using Windows.Storage.Streams;
-using WinRT;
-using static Snap.Hutao.Win32.ConstValues;
-using static Snap.Hutao.Win32.D3D11;
-using static Snap.Hutao.Win32.DwmApi;
-using static Snap.Hutao.Win32.Macros;
-using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -46,8 +22,8 @@ namespace Snap.Hutao.ViewModel;
 internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
     private readonly HutaoAsAServiceClient homaAsAServiceClient;
-    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
+    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly ILogger<TestViewModel> logger;
     private readonly IMemoryCache memoryCache;
     private readonly ITaskContext taskContext;
@@ -127,7 +103,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("ResetMainWindowSizeCommand")]
     private void ResetMainWindowSize()
     {
-        if (serviceProvider.GetRequiredService<ICurrentXamlWindowReference>().Window is MainWindow mainWindow)
+        if (currentXamlWindowReference.Window is MainWindow mainWindow)
         {
             double scale = mainWindow.GetRasterizationScale();
             mainWindow.AppWindow.Resize(new Windows.Graphics.SizeInt32(1372, 772).Scale(scale));
@@ -164,210 +140,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         if (memoryCache.TryGetValue($"{nameof(ImageCache)}.FailedDownloadTasks", out HashSet<string>? set))
         {
             logger.LogInformation("Failed ImageCache download tasks: [{Tasks}]", set?.ToString(','));
-        }
-    }
-
-    [Command("TestWindowsGraphicsCaptureCommand")]
-    private unsafe void TestWindowsGraphicsCapture()
-    {
-        // https://github.com/obsproject/obs-studio/blob/master/libobs-winrt/winrt-capture.cpp
-        if (!Core.UniversalApiContract.IsPresent(WindowsVersion.Windows10Version1903))
-        {
-            logger.LogWarning("Windows 10 Version 1903 or later is required for Windows.Graphics.Capture API.");
-            return;
-        }
-
-        if (!GraphicsCaptureSession.IsSupported())
-        {
-            logger.LogWarning("GraphicsCaptureSession is not supported.");
-            return;
-        }
-
-        D3D11_CREATE_DEVICE_FLAG flag = D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT | D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_DEBUG;
-
-        if (SUCCEEDED(D3D11CreateDevice(default, D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, default, flag, [], D3D11_SDK_VERSION, out ID3D11Device* pD3D11Device, out _, out _)))
-        {
-            if (SUCCEEDED(IUnknownMarshal.QueryInterface(pD3D11Device, in IDXGIDevice.IID, out IDXGIDevice* pDXGIDevice)))
-            {
-                if (SUCCEEDED(CreateDirect3D11DeviceFromDXGIDevice(pDXGIDevice, out Win32.System.WinRT.IInspectable* inspectable)))
-                {
-                    IDirect3DDevice direct3DDevice = WinRT.IInspectable.FromAbi((nint)inspectable).ObjRef.AsInterface<IDirect3DDevice>();
-
-                    HWND hwnd = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>().GetWindowHandle();
-                    GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForWindow(hwnd, out GraphicsCaptureItem item);
-
-                    using (Direct3D11CaptureFramePool framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(direct3DDevice, DirectXPixelFormat.B8G8R8A8UIntNormalized, 2, item.Size))
-                    {
-                        framePool.FrameArrived += (pool, _) =>
-                        {
-                            using (Direct3D11CaptureFrame frame = pool.TryGetNextFrame())
-                            {
-                                if (frame is not null)
-                                {
-                                    logger.LogInformation("Content Size: {Width} x {Height}", frame.ContentSize.Width, frame.ContentSize.Height);
-
-                                    IDirect3DDxgiInterfaceAccess access = frame.Surface.As<IDirect3DDxgiInterfaceAccess>();
-                                    if (FAILED(access.GetInterface(in IDXGISurface.IID, out IDXGISurface* pDXGISurface)))
-                                    {
-                                        return;
-                                    }
-
-                                    if (FAILED(pDXGISurface->GetDesc(out DXGI_SURFACE_DESC surfaceDesc)))
-                                    {
-                                        return;
-                                    }
-
-                                    bool boxAvailable = TryGetClientBox(hwnd, surfaceDesc.Width, surfaceDesc.Height, out D3D11_BOX clientBox);
-                                    (uint textureWidth, uint textureHeight) = boxAvailable
-                                        ? (clientBox.right - clientBox.left, clientBox.bottom - clientBox.top)
-                                        : (surfaceDesc.Width, surfaceDesc.Height);
-
-                                    D3D11_TEXTURE2D_DESC texture2DDesc = default;
-                                    texture2DDesc.Width = textureWidth;
-                                    texture2DDesc.Height = textureHeight;
-                                    texture2DDesc.ArraySize = 1;
-                                    texture2DDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG.D3D11_CPU_ACCESS_READ;
-                                    texture2DDesc.Format = DXGI_FORMAT.DXGI_FORMAT_B8G8R8A8_UNORM;
-                                    texture2DDesc.MipLevels = 1;
-                                    texture2DDesc.SampleDesc.Count = 1;
-                                    texture2DDesc.Usage = D3D11_USAGE.D3D11_USAGE_STAGING;
-
-                                    if (FAILED(pDXGISurface->GetDevice(in ID3D11Device.IID, out ID3D11Device* pD3D11Device)))
-                                    {
-                                        return;
-                                    }
-
-                                    if (FAILED(pD3D11Device->CreateTexture2D(ref texture2DDesc, ref Unsafe.NullRef<D3D11_SUBRESOURCE_DATA>(), out ID3D11Texture2D* pTexture2D)))
-                                    {
-                                        return;
-                                    }
-
-                                    if (FAILED(access.GetInterface(in ID3D11Resource.IID, out ID3D11Resource* pD3D11Resource)))
-                                    {
-                                        return;
-                                    }
-
-                                    pD3D11Device->GetImmediateContext(out ID3D11DeviceContext* pDeviceContext);
-
-                                    if (boxAvailable)
-                                    {
-                                        pDeviceContext->CopySubresourceRegion((ID3D11Resource*)pTexture2D, 0, 0, 0, 0, pD3D11Resource, 0, in clientBox);
-                                    }
-                                    else
-                                    {
-                                        logger.LogInformation("Box not available");
-                                        pDeviceContext->CopyResource((ID3D11Resource*)pTexture2D, pD3D11Resource);
-                                    }
-
-                                    if (FAILED(pDeviceContext->Map((ID3D11Resource*)pTexture2D, 0, D3D11_MAP.D3D11_MAP_READ, 0, out D3D11_MAPPED_SUBRESOURCE mappedSubresource)))
-                                    {
-                                        return;
-                                    }
-
-                                    SoftwareBitmap softwareBitmap = new(BitmapPixelFormat.Bgra8, (int)texture2DDesc.Width, (int)texture2DDesc.Height, BitmapAlphaMode.Premultiplied);
-                                    using (BitmapBuffer bitmapBuffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.Write))
-                                    {
-                                        using (IMemoryBufferReference reference = bitmapBuffer.CreateReference())
-                                        {
-                                            reference.As<IMemoryBufferByteAccess>().GetBuffer(out Span<byte> bufferSpan);
-                                            fixed (byte* p = bufferSpan)
-                                            {
-                                                for (uint i = 0; i < texture2DDesc.Height; i++)
-                                                {
-                                                    System.Buffer.MemoryCopy(((byte*)mappedSubresource.pData) + (i * mappedSubresource.RowPitch), p + (i * texture2DDesc.Width * 4), texture2DDesc.Width * 4, texture2DDesc.Width * 4);
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    using (InMemoryRandomAccessStream stream = new())
-                                    {
-                                        BitmapEncoder encoder = BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream).AsTask().Result;
-                                        encoder.SetSoftwareBitmap(softwareBitmap);
-                                        encoder.FlushAsync().AsTask().Wait();
-
-                                        using (FileStream fileStream = new("D:\\test.png", FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
-                                        {
-                                            stream.AsStream().CopyTo(fileStream);
-                                        }
-                                    }
-
-                                    _ = 1;
-
-                                    pDeviceContext->Unmap((ID3D11Resource*)pTexture2D, 0);
-                                }
-                                else
-                                {
-                                    logger.LogInformation("Null Frame");
-                                }
-                            }
-                        };
-
-                        using (GraphicsCaptureSession captureSession = framePool.CreateCaptureSession(item))
-                        {
-                            captureSession.IsCursorCaptureEnabled = false;
-                            captureSession.IsBorderRequired = false;
-                            captureSession.StartCapture();
-
-                            Thread.Sleep(1000);
-                        }
-                    }
-                }
-                else
-                {
-                    logger.LogWarning("CreateDirect3D11DeviceFromDXGIDevice failed");
-                }
-
-                IUnknownMarshal.Release(pDXGIDevice);
-            }
-            else
-            {
-                logger.LogWarning("ID3D11Device As IDXGIDevice failed");
-            }
-        }
-        else
-        {
-            logger.LogWarning("D3D11CreateDevice failed");
-        }
-
-        static bool TryGetClientBox(HWND hwnd, uint width, uint height, out D3D11_BOX clientBox)
-        {
-            clientBox = default;
-            return false;
-
-            // Ensure the window is not minimized
-            if (IsIconic(hwnd))
-            {
-                return false;
-            }
-
-            // Ensure the window is at least partially in the screen
-            if (!(GetClientRect(hwnd, out RECT clientRect) && (clientRect.right > 0) && (clientRect.bottom > 0)))
-            {
-                return false;
-            }
-
-            // Ensure we get the window chrome rect
-            if (DwmGetWindowAttribute(hwnd, DWMWINDOWATTRIBUTE.DWMWA_EXTENDED_FRAME_BOUNDS, out RECT windowRect) != HRESULT.S_OK)
-            {
-                return false;
-            }
-
-            // Provide a client side (0, 0) and translate to screen coordinates
-            POINT clientPoint = default;
-            if (!ClientToScreen(hwnd, ref clientPoint))
-            {
-                return false;
-            }
-
-            uint left = clientBox.left = clientPoint.x > windowRect.left ? (uint)(clientPoint.x - windowRect.left) : 0U;
-            uint top = clientBox.top = clientPoint.y > windowRect.top ? (uint)(clientPoint.y - windowRect.top) : 0U;
-            clientBox.right = left + (width > left ? (uint)Math.Min(width - left, clientRect.right) : 1U);
-            clientBox.bottom = top + (height > top ? (uint)Math.Min(height - top, clientRect.bottom) : 1U);
-            clientBox.front = 0U;
-            clientBox.back = 1U;
-
-            return clientBox.right <= width && clientBox.bottom <= height;
         }
     }
 }

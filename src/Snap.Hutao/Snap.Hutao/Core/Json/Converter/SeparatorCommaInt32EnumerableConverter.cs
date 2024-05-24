@@ -22,7 +22,7 @@ internal sealed class SeparatorCommaInt32EnumerableConverter : JsonConverter<IEn
             return EnumerateNumbers(source);
         }
 
-        return Enumerable.Empty<int>();
+        return [];
     }
 
     /// <inheritdoc/>

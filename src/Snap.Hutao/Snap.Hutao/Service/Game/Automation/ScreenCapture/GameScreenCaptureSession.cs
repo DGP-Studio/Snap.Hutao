@@ -9,7 +9,6 @@ using Snap.Hutao.Win32.Graphics.Dxgi;
 using Snap.Hutao.Win32.Graphics.Dxgi.Common;
 using Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
 using System.Buffers;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Graphics;
@@ -114,8 +113,9 @@ internal sealed class GameScreenCaptureSession : IDisposable
             {
                 UnsafeProcessFrameSurface(frame.Surface);
             }
-            catch (Exception ex) // TODO: test if it's device lost.
+            catch (Exception ex)
             {
+                // TODO: test if it's device lost.
                 logger.LogError(ex, "Failed to process the frame surface.");
                 needsReset = true;
             }
@@ -209,8 +209,9 @@ internal sealed class GameScreenCaptureSession : IDisposable
                     {
                         subresource[row][..rowLength].CopyTo(buffer.Memory.Span.Slice(row * rowLength, rowLength));
                     }
-
+#pragma warning disable CA2000
                     frameRawPixelDataTaskCompletionSource.SetResult(new(buffer, (int)textureWidth, (int)textureHeight));
+#pragma warning restore CA2000
                     return;
                 }
 
@@ -235,8 +236,9 @@ internal sealed class GameScreenCaptureSession : IDisposable
                             pixel.A = (byte)(float16Pixel.A * ByteMaxValue);
                         }
                     }
-
+#pragma warning disable CA2000
                     frameRawPixelDataTaskCompletionSource.SetResult(new(buffer, (int)textureWidth, (int)textureHeight));
+#pragma warning restore CA2000
                     return;
                 }
 

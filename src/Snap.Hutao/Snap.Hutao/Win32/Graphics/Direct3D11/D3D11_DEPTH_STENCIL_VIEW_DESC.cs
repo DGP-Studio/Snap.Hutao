@@ -14,7 +14,7 @@ internal struct D3D11_DEPTH_STENCIL_VIEW_DESC
     public Union Anonymous;
 
     [StructLayout(LayoutKind.Explicit)]
-    public struct Union
+    internal struct Union
     {
         [FieldOffset(0)]
         public D3D11_TEX1D_DSV Texture1D;

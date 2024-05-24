@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+
 namespace Snap.Hutao.Web.Hoyolab;
 
 [JsonConverter(typeof(RegionConverter))]
@@ -17,7 +19,7 @@ internal readonly struct Region
 
     public Region(string value)
     {
-        Must.Argument(HoyolabRegex.RegionRegex().IsMatch(value), SH.WebHoyolabInvalidRegion);
+        HutaoException.ThrowIfNot(HoyolabRegex.RegionRegex().IsMatch(value), SH.WebHoyolabInvalidRegion);
         Value = value;
     }
 
@@ -44,13 +46,13 @@ internal readonly struct Region
             '7' => new("os_euro"),               // 欧服
             '8' => new("os_asia"),               // 亚服
             '9' => new("os_cht"),                // 台服
-            _ => throw Must.NeverHappen(),
+            _ => throw HutaoException.NotSupported(),
         };
     }
 
     public static bool IsOversea(string value)
     {
-        Must.Argument(HoyolabRegex.RegionRegex().IsMatch(value), SH.WebHoyolabInvalidRegion);
+        HutaoException.ThrowIfNot(HoyolabRegex.RegionRegex().IsMatch(value), SH.WebHoyolabInvalidRegion);
         return value.AsSpan()[..2] switch
         {
             "os" => true,

@@ -67,7 +67,7 @@ internal abstract class HttpContentSerializer : IHttpContentSerializer, IHttpCon
                 The content to be serialized does not match the specified type. 
                 Expected an instance of the class "{contentType.FullName}", but got "{actualContentType.FullName}".
                 """;
-            ThrowHelper.Argument(message, nameof(contentType));
+            HutaoException.Argument(message, nameof(contentType));
         }
 
         // The contentType is optional. In that case, try to get the type on our own.

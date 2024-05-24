@@ -25,10 +25,7 @@ internal sealed class WrapLayoutState
 
     public WrapItem GetItemAt(int index)
     {
-        if (index < 0)
-        {
-            throw new IndexOutOfRangeException();
-        }
+        ArgumentOutOfRangeException.ThrowIfNegative(index);
 
         if (index <= (items.Count - 1))
         {

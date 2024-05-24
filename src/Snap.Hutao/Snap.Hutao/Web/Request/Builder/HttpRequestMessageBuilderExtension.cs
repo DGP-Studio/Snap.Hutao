@@ -11,7 +11,7 @@ namespace Snap.Hutao.Web.Request.Builder;
 
 internal static class HttpRequestMessageBuilderExtension
 {
-    private const string RequestErrorMessage = "请求异常已忽略: {0}";
+    private const string RequestErrorMessage = "请求异常已忽略: {Uri}";
 
     internal static async ValueTask<TResult?> TryCatchSendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)
         where TResult : class

@@ -19,7 +19,7 @@ namespace Snap.Hutao.ViewModel.Guide;
 
 internal sealed class DownloadSummary : ObservableObject
 {
-    private static readonly FrozenSet<string?> AllowedMediaTypes = FrozenSet.ToFrozenSet(
+    private static readonly FrozenSet<string?> AllowedMediaTypes = FrozenSet.ToFrozenSet<string?>(
     [
         "application/octet-stream",
         "application/zip",

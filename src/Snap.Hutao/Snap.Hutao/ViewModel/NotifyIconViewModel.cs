@@ -79,7 +79,7 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     {
         if (serviceProvider.GetRequiredService<IAppActivation>() is IAppActivationActionHandlersAccess access)
         {
-            await access.HandleLaunchGameActionAsync();
+            await access.HandleLaunchGameActionAsync().ConfigureAwait(false);
         }
 
         ShowWindow();

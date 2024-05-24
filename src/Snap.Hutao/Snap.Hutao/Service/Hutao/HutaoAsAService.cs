@@ -27,7 +27,7 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
         {
             RelayCommand<HutaoAnnouncement> dismissCommand = new(DismissAnnouncement);
 
-            ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, new ApplicationDataCompositeValue());
+            ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, []);
             List<long> data = excludedIds.Select(kvp => long.Parse(kvp.Key, CultureInfo.InvariantCulture)).ToList();
 
             Response<List<HutaoAnnouncement>> response;
@@ -56,7 +56,7 @@ internal sealed partial class HutaoAsAService : IHutaoAsAService
     {
         if (announcement is not null && announcements is not null)
         {
-            ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, new ApplicationDataCompositeValue());
+            ApplicationDataCompositeValue excludedIds = LocalSetting.Get(SettingKeys.ExcludedAnnouncementIds, []);
 
             foreach ((string key, object value) in excludedIds)
             {

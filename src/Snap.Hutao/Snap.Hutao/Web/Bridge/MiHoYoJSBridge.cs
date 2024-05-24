@@ -184,13 +184,14 @@ internal class MiHoYoJSBridge
     protected virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
     {
         CultureOptions cultureOptions = serviceProvider.GetRequiredService<CultureOptions>();
+        TimeSpan offset = TimeZoneInfo.Local.GetUtcOffset(DateTimeOffset.Now);
 
         return new()
         {
             Data = new()
             {
                 ["language"] = cultureOptions.LanguageCode,
-                ["timeZone"] = "GMT+8",
+                ["timeZone"] = $"GMT{(offset.Hours >= 0 ? "+" : " - ")}{offset.Hours:D1}",
             },
         };
     }

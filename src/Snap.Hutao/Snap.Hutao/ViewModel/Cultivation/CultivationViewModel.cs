@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Cultivation;
@@ -99,7 +100,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
                 infoBarService.Information(SH.ViewModelCultivationProjectAlreadyExists);
                 break;
             default:
-                throw Must.NeverHappen();
+                throw HutaoException.NotSupported();
         }
     }
 

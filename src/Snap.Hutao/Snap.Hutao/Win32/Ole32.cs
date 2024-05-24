@@ -18,6 +18,7 @@ internal static class Ole32
     public static unsafe extern HRESULT CoCreateInstance(Guid* rclsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, Guid* riid, void** ppv);
 
     [DebuggerStepThrough]
+    [SuppressMessage("", "SH002")]
     public static unsafe HRESULT CoCreateInstance<T>(ref readonly Guid clsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, ref readonly Guid iid, out T* pv)
         where T : unmanaged
     {

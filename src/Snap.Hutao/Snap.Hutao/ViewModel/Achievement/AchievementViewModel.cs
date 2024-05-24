@@ -179,7 +179,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                         dependencies.InfoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name));
                         break;
                     default:
-                        throw Must.NeverHappen();
+                        throw HutaoException.NotSupported();
                 }
             }
         }

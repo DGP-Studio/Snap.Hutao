@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Metadata;
@@ -48,7 +49,7 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
                 DailyNoteEntries = entryList;
                 IsInitialized = true;
             }
-            catch (Core.ExceptionService.UserdataCorruptedException ex)
+            catch (HutaoException ex)
             {
                 infoBarService.Error(ex);
                 return;

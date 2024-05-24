@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
-using Snap.Hutao.Core;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
@@ -69,7 +69,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
                 DailyNoteEntries = entries;
                 return true;
             }
-            catch (Core.ExceptionService.UserdataCorruptedException ex)
+            catch (HutaoException ex)
             {
                 infoBarService.Error(ex);
             }

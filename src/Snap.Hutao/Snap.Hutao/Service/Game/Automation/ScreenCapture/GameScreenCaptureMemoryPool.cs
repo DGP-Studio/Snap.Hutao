@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
 internal sealed class GameScreenCaptureMemoryPool : MemoryPool<byte>
 {
-    private static LazySlim<GameScreenCaptureMemoryPool> lazyShared = new(() => new());
+    private static readonly LazySlim<GameScreenCaptureMemoryPool> LazyShared = new(() => new());
 
     private readonly object syncRoot = new();
     private readonly LinkedList<GameScreenCaptureBuffer> unrentedBuffers = [];
@@ -17,7 +17,7 @@ internal sealed class GameScreenCaptureMemoryPool : MemoryPool<byte>
 
     private int bufferCount;
 
-    public new static GameScreenCaptureMemoryPool Shared { get => lazyShared.Value; }
+    public static new GameScreenCaptureMemoryPool Shared { get => LazyShared.Value; }
 
     public override int MaxBufferSize { get => Array.MaxLength; }
 

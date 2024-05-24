@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 
 namespace Snap.Hutao.Test.BaseClassLibrary;
 

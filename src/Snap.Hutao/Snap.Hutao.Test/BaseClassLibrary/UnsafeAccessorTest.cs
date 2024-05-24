@@ -16,7 +16,7 @@ public class UnsafeAccessorTest
     [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "get_TestProperty")]
     private static extern int InternalGetInterfaceProperty(ITestInterface instance);
 
-    interface ITestInterface
+    internal interface ITestInterface
     {
         internal int TestProperty { get; }
     }

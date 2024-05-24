@@ -1,9 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Package;
-using System.IO;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.ExceptionService;
@@ -21,93 +18,5 @@ internal static class ThrowHelper
     public static ArgumentException Argument(string message, string? paramName)
     {
         throw new ArgumentException(message, paramName);
-    }
-
-    [DoesNotReturn]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static DatabaseCorruptedException DatabaseCorrupted(string message, Exception? inner)
-    {
-        throw new DatabaseCorruptedException(message, inner);
-    }
-
-    [DoesNotReturn]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static GameFileOperationException GameFileOperation(string message, Exception? inner)
-    {
-        throw new GameFileOperationException(message, inner);
-    }
-
-    [DoesNotReturn]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static InvalidDataException InvalidData(string message, Exception? inner = default)
-    {
-        throw new InvalidDataException(message, inner);
-    }
-
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static void InvalidDataIf([DoesNotReturnIf(true)] bool condition, string message, Exception? inner = default)
-    {
-        if (condition)
-        {
-            throw new InvalidDataException(message, inner);
-        }
-    }
-
-    [DoesNotReturn]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static InvalidOperationException InvalidOperation(string message, Exception? inner = default)
-    {
-        throw new InvalidOperationException(message, inner);
-    }
-
-    [DoesNotReturn]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static NotSupportedException NotSupported()
-    {
-        throw new NotSupportedException();
-    }
-
-    [DoesNotReturn]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static NotSupportedException NotSupported(string message)
-    {
-        throw new NotSupportedException(message);
-    }
-
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static void NotSupportedIf(bool condition, string message)
-    {
-        if (condition)
-        {
-            throw new NotSupportedException(message);
-        }
-    }
-
-    [DoesNotReturn]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static OperationCanceledException OperationCanceled(string message, Exception? inner = default)
-    {
-        throw new OperationCanceledException(message, inner);
-    }
-
-    [DoesNotReturn]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static PackageConvertException PackageConvert(string message, Exception? inner = default)
-    {
-        throw new PackageConvertException(message, inner);
-    }
-
-    [DoesNotReturn]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static RuntimeEnvironmentException RuntimeEnvironment(string message, Exception? inner)
-    {
-        throw new RuntimeEnvironmentException(message, inner);
-    }
-
-    [DoesNotReturn]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static UserdataCorruptedException UserdataCorrupted(string message, Exception? inner)
-    {
-        throw new UserdataCorruptedException(message, inner);
     }
 }

@@ -15,11 +15,6 @@ namespace Snap.Hutao.ViewModel.Complex;
 [HighQuality]
 internal sealed class Team : List<AvatarView>
 {
-    /// <summary>
-    /// 构造一个新的队伍
-    /// </summary>
-    /// <param name="team">队伍</param>
-    /// <param name="idAvatarMap">映射</param>
     public Team(ItemRate<string, int> team, Dictionary<AvatarId, Avatar> idAvatarMap, int rank)
         : base(4)
     {

@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
 
+[SuppressMessage("", "SA1307")]
 internal struct DXGI_MAPPED_RECT
 {
     public int Pitch;

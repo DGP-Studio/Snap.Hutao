@@ -34,6 +34,7 @@ internal sealed class HotKeyCombination : ObservableObject
     private VirtualKey key;
     private bool isEnabled;
 
+    [SuppressMessage("", "SH002")]
     public HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VirtualKey defaultKey)
     {
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();

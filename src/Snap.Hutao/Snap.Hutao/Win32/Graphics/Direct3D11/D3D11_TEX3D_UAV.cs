@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Win32.Graphics.Direct3D11;
 
-public struct D3D11_TEX3D_UAV
+internal struct D3D11_TEX3D_UAV
 {
     public uint MipSlice;
     public uint FirstWSlice;

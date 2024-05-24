@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.Graphics.Direct3D;
 
+[SuppressMessage("", "CA1069")]
 internal enum D3D_PRIMITIVE_TOPOLOGY
 {
     D3D_PRIMITIVE_TOPOLOGY_UNDEFINED = 0,

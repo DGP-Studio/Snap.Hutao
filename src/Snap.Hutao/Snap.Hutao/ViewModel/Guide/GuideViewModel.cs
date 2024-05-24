@@ -17,6 +17,7 @@ namespace Snap.Hutao.ViewModel.Guide;
 /// <summary>
 /// 指引视图模型
 /// </summary>
+[SuppressMessage("", "SA1124")]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GuideViewModel : Abstraction.ViewModel

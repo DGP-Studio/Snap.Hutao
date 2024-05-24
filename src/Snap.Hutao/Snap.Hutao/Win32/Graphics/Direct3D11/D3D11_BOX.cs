@@ -3,7 +3,8 @@
 
 namespace Snap.Hutao.Win32.Graphics.Direct3D11;
 
-public struct D3D11_BOX
+[SuppressMessage("", "SA1307")]
+internal struct D3D11_BOX
 {
     public uint left;
     public uint top;

@@ -62,7 +62,7 @@ internal sealed partial class QuartzService : IQuartzService, IDisposable
     {
         DisposeAsync().GetAwaiter().GetResult();
 
-        async ValueTask DisposeAsync()
+        async Task DisposeAsync()
         {
             if (scheduler is null)
             {

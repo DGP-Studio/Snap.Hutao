@@ -22,6 +22,7 @@ internal readonly struct GameScreenCaptureContext
     private readonly IDirect3DDevice direct3DDevice;
     private readonly HWND hwnd;
 
+    [SuppressMessage("", "SH002")]
     public GameScreenCaptureContext(IDirect3DDevice direct3DDevice, HWND hwnd)
     {
         this.direct3DDevice = direct3DDevice;
@@ -87,6 +88,7 @@ internal readonly struct GameScreenCaptureContext
         return clientBox.right <= width && clientBox.bottom <= height;
     }
 
+    [SuppressMessage("", "SH002")]
     private static DirectXPixelFormat DeterminePixelFormat(HWND hwnd)
     {
         HDC hdc = GetDC(hwnd);

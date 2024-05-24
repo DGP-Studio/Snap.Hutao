@@ -180,7 +180,7 @@ internal sealed partial class PackageConverter
         }
         catch (IOException ex)
         {
-            throw ThrowHelper.PackageConvert(SH.ServiceGamePackageRequestPackageVerionFailed, ex);
+            throw HutaoException.Throw(SH.ServiceGamePackageRequestPackageVerionFailed, ex);
         }
     }
 
@@ -252,13 +252,13 @@ internal sealed partial class PackageConverter
             {
                 // System.IO.IOException: The response ended prematurely.
                 // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
-                ThrowHelper.PackageConvert(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName), ex);
+                HutaoException.Throw(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName), ex);
             }
         }
 
         if (!string.Equals(info.Remote.Md5, await MD5.HashFileAsync(cacheFile).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
         {
-            ThrowHelper.PackageConvert(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName));
+            HutaoException.Throw(SH.FormatServiceGamePackageRequestScatteredFileFailed(remoteName));
         }
     }
 
@@ -318,7 +318,7 @@ internal sealed partial class PackageConverter
         {
             // Access to the path is denied.
             // When user install the game in special folder like 'Program Files'
-            throw ThrowHelper.GameFileOperation(SH.ServiceGamePackageRenameDataFolderFailed, ex);
+            throw HutaoException.Throw(SH.ServiceGamePackageRenameDataFolderFailed, ex);
         }
 
         // 重新下载所有 *pkg_version 文件

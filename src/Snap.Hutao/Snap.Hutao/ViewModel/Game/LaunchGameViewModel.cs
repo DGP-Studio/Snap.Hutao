@@ -37,7 +37,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
-    private readonly ILogger<LaunchGameViewModel> logger;
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
     private readonly ResourceClient resourceClient;
@@ -117,7 +116,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                         }
                     }
                 }
-                catch (UserdataCorruptedException ex)
+                catch (HutaoException ex)
                 {
                     infoBarService.Error(ex);
                 }
@@ -182,7 +181,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     [Command("IdentifyMonitorsCommand")]
     private static async Task IdentifyMonitorsAsync()
     {
-        await IdentifyMonitorWindow.IdentifyAllMonitorsAsync(3);
+        await IdentifyMonitorWindow.IdentifyAllMonitorsAsync(3).ConfigureAwait(false);
     }
 
     [Command("SetGamePathCommand")]
