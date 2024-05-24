@@ -14,7 +14,7 @@ namespace Snap.Hutao.Win32;
 [SuppressMessage("", "SYSLIB1054")]
 internal static class AdvApi32
 {
-    [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
+    [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static unsafe extern BOOL ConvertSidToStringSidW(PSID Sid, PWSTR* StringSid);
 
@@ -26,7 +26,7 @@ internal static class AdvApi32
         }
     }
 
-    [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
+    [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static unsafe extern BOOL ConvertStringSidToSidW(PCWSTR StringSid, PSID* Sid);
 
@@ -41,7 +41,7 @@ internal static class AdvApi32
         }
     }
 
-    [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
+    [DllImport("ADVAPI32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern BOOL EqualSid(PSID pSid1, PSID pSid2);
 
