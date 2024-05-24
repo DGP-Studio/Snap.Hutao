@@ -33,7 +33,7 @@ internal sealed class HotKeyMessageWindow : IDisposable
             atom = RegisterClassW(&wc);
         }
 
-        ArgumentOutOfRangeException.ThrowIfEqual<ushort>(atom, 0);
+        ArgumentOutOfRangeException.ThrowIfZero(atom);
 
         HWND = CreateWindowExW(0, WindowClassName, WindowClassName, 0, 0, 0, 0, 0, default, default, default, default);
 

@@ -46,7 +46,7 @@ internal static class CookieExtension
 
     private static bool TryGetValuesToCookie(this Cookie source, in ReadOnlySpan<string> keys, [NotNullWhen(true)] out Cookie? cookie)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(keys.Length, 0, "Empty keys is not supported");
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(keys.Length);
         SortedDictionary<string, string> cookieMap = [];
 
         foreach (ref readonly string key in keys)

@@ -25,7 +25,7 @@ internal sealed class GameScreenCaptureMemoryPool : MemoryPool<byte>
 
     public override IMemoryOwner<byte> Rent(int minBufferSize = -1)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(minBufferSize, 0);
+        ArgumentOutOfRangeException.ThrowIfNegative(minBufferSize);
 
         lock (syncRoot)
         {

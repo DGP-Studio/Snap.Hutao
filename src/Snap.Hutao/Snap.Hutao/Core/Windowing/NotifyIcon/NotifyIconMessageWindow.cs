@@ -38,7 +38,7 @@ internal sealed class NotifyIconMessageWindow : IDisposable
             atom = RegisterClassW(&wc);
         }
 
-        ArgumentOutOfRangeException.ThrowIfEqual<ushort>(atom, 0);
+        ArgumentOutOfRangeException.ThrowIfZero(atom);
 
         // https://learn.microsoft.com/zh,cn/windows/win32/shell/taskbar#taskbar,creation,notification
         WM_TASKBARCREATED = RegisterWindowMessageW("TaskbarCreated");
