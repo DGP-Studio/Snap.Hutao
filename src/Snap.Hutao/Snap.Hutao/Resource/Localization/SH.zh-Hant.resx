@@ -199,7 +199,7 @@
     <value>啟動遊戲</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已进入后台运行</value>
+    <value>胡桃已進入後臺運行</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
     <value>窗口</value>
@@ -1377,7 +1377,7 @@
     <value>前往登入畫面</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
-    <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
+    <value>當前未登入胡桃賬號，上傳深淵數據無法獲贈胡桃雲時長</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
     <value>繼續上傳</value>
@@ -1569,10 +1569,10 @@
     <value>不能新增名稱無效的計劃</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
+    <value>此操作不可逆，此計劃的養成物品與背包材料將會丟失</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
-    <value>确认要删除当前计划吗？</value>
+    <value>確定要刪除當前計劃嗎？</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>即時便箋 Webhook URL 配置成功</value>
@@ -2100,7 +2100,7 @@
     <value>輸入</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
-    <value>從胡桃云恢復祈願紀錄</value>
+    <value>從胡桃雲恢復祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>重新整理</value>
@@ -2433,7 +2433,7 @@
     <value>請輸入您的 HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通過由我們提供的內嵌網頁視圖登錄 米哈遊通行證，我們會在你點擊 我已登錄 按鈕後，讀取你的 Cookie 信息，由此視圖髪起的網絡通信只髪生於你的計算機與米哈遊服務器之間</value>
+    <value>你正在通過由我們提供的內嵌網頁視圖登錄 米哈遊通行證，我們會在你點擊 我已登錄 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與米哈遊服務器之間</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>我已登入</value>
@@ -3042,7 +3042,7 @@
     <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d)版本更新后.*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
-    <value>将于&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;进行版本更新维护</value>
+    <value>將於&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;進行版本更新維護</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
     <value>\d\.\d版本更新停服說明</value>
@@ -3072,7 +3072,7 @@
     <value>已複製到剪貼簿</value>
   </data>
   <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
-    <value>所有魔神任务已完成</value>
+    <value>所有魔神任務已完成</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
     <value>全部完成</value>
@@ -3255,7 +3255,7 @@
     <value>[{0}] 中的 [{1}] 網路請求異常，請稍後再試</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
-    <value>登录失败，请前往 HoYoLAB 初始化账号，原始消息：{0}</value>
+    <value>登入失敗，請前往 HoYoLAB 初始化賬號，原始消息：{0}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>顯示器編號</value>
