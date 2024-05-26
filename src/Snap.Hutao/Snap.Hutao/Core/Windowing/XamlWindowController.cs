@@ -104,9 +104,7 @@ internal sealed class XamlWindowController
             args.Handled = true;
             window.Hide();
 
-            RECT iconRect = serviceProvider.GetRequiredService<NotifyIconController>().GetRect();
-            RECT primaryRect = StructMarshal.RECT(DisplayArea.Primary.OuterBounds);
-            if (!IntersectRect(out _, in primaryRect, in iconRect))
+            if (!IsNotifyIconVisible())
             {
                 new ToastContentBuilder()
                     .AddText(SH.CoreWindowingNotifyIconPromotedHint)
@@ -130,6 +128,30 @@ internal sealed class XamlWindowController
 
             subclass?.Dispose();
             windowNonRudeHWND?.Dispose();
+        }
+    }
+
+    private unsafe bool IsNotifyIconVisible()
+    {
+        RECT iconRect = serviceProvider.GetRequiredService<NotifyIconController>().GetRect();
+
+        if (UniversalApiContract.IsPresent(WindowsVersion.Windows11))
+        {
+            RECT primaryRect = StructMarshal.RECT(DisplayArea.Primary.OuterBounds);
+            return IntersectRect(out _, in primaryRect, in iconRect);
+        }
+        else
+        {
+            HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
+            HWND trayNotifyWnd = FindWindowExW(shellTrayWnd, default, "TrayNotifyWnd", default);
+            HWND button = FindWindowExW(trayNotifyWnd, default, "Button", default);
+
+            if (GetWindowRect(button, out RECT buttonRect))
+            {
+                return !EqualRect(in buttonRect, in iconRect);
+            }
+
+            return false;
         }
     }
 
