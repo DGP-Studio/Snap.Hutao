@@ -1964,6 +1964,9 @@
   <data name="ViewPageDailyNoteNotificationSetting" xml:space="preserve">
     <value>Configurações de notificação</value>
   </data>
+  <data name="ViewPageDailyNoteNotificationUnavailableHint" xml:space="preserve">
+    <value>胡桃的通知权限已被关闭</value>
+  </data>
   <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
     <value>Atualizar</value>
   </data>
