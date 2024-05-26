@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
@@ -31,6 +32,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly DailyNoteOptions dailyNoteOptions;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
     private readonly AppOptions appOptions;
@@ -39,6 +41,8 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private ObservableCollection<DailyNoteEntry>? dailyNoteEntries;
 
     public DailyNoteOptions DailyNoteOptions { get => dailyNoteOptions; }
+
+    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public AppOptions AppOptions { get => appOptions; }
 

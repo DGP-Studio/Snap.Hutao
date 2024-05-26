@@ -545,7 +545,7 @@
                             </cwcont:HeaderedContentControl.Header>
                             <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
                                 <InfoBar
-                                    Title="胡桃的通知权限已被关闭"
+                                    Title="{shcm:ResourceString Name=ViewPageDailyNoteNotificationUnavailableHint}"
                                     IsClosable="False"
                                     IsOpen="True"
                                     Severity="Warning"
