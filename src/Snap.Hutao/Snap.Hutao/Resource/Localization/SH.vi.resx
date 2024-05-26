@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDevNameAndVersion" xml:space="preserve">
-    <value>胡桃 Dev {0}</value>
+    <value>Snap Hutao Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>胡桃 Dev {0} [管理员]</value>
+    <value>Snap Hutao Dev {0} [Quyền Quản Trị Viên]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
     <value>Snap Hutao {0} [Quản trị viên]</value>
   </data>
   <data name="AppName" xml:space="preserve">
-    <value>胡桃</value>
+    <value>Snap Hutao</value>
   </data>
   <data name="AppNameAndVersion" xml:space="preserve">
     <value>Snap Hutao {0}</value>
@@ -139,10 +139,10 @@
     <value>Hoàn thành</value>
   </data>
   <data name="ContentDialogConfirmPrimaryButtonText" xml:space="preserve">
-    <value>确认</value>
+    <value>OK</value>
   </data>
   <data name="ContentDialogSavePrimaryButtonText" xml:space="preserve">
-    <value>保存</value>
+    <value>Lưu</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
     <value>Không tìm thấy kết quả</value>
@@ -178,7 +178,7 @@
     <value>Không đủ quyền hạn, không thể tạo các tập tin tạm thời</value>
   </data>
   <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>Trình khởi chạy</value>
   </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
     <value>Tiến trình làm mới ghi chú thời gian thực của Snap Hutao. KHÔNG chỉnh sửa hoặc xoá nó.</value>
@@ -193,7 +193,7 @@
     <value/>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
-    <value>退出</value>
+    <value>Thoát</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
     <value>启动游戏</value>
@@ -202,13 +202,13 @@
     <value>胡桃已进入后台运行</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>窗口</value>
+    <value>Cửa sổ</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
-    <value>深色</value>
+    <value>Tối</value>
   </data>
   <data name="CoreWindowThemeLight" xml:space="preserve">
-    <value>浅色</value>
+    <value>Sáng</value>
   </data>
   <data name="CoreWindowThemeSystem" xml:space="preserve">
     <value>Hệ thống</value>
@@ -217,7 +217,7 @@
     <value>Xuất</value>
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
-    <value>导入</value>
+    <value>Nhập</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>欢迎使用胡桃</value>
@@ -274,13 +274,13 @@
     <value>上场 {0} 次</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
-    <value>渠道服</value>
+    <value>Máy chủ BiliBili</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
-    <value>官方服</value>
+    <value>Máy chủ Trung Quốc</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
-    <value>国际服</value>
+    <value>Máy chủ Quốc Tế</value>
   </data>
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
     <value>网络异常</value>
@@ -295,16 +295,16 @@
     <value/>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
-    <value>角色</value>
+    <value>Tài khoản</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
     <value>Không xác định</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
-    <value>武器</value>
+    <value>Vũ khí</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
-    <value>愚人众</value>
+    <value>Fatui</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeFontaine" xml:space="preserve">
@@ -312,15 +312,15 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeInazuma" xml:space="preserve">
-    <value>稻妻</value>
+    <value>Inazuma</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeLiyue" xml:space="preserve">
-    <value>璃月</value>
+    <value>Liyue</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeMondstadt" xml:space="preserve">
-    <value>蒙德</value>
+    <value>Mondstadt</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNatlan" xml:space="preserve">
@@ -332,7 +332,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
-    <value>至冬</value>
+    <value>Snezhnaya</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeSumeru" xml:space="preserve">
