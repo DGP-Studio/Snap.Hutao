@@ -1965,7 +1965,7 @@
     <value>通知設定</value>
   </data>
   <data name="ViewPageDailyNoteNotificationUnavailableHint" xml:space="preserve">
-    <value>胡桃的通知权限已被关闭</value>
+    <value>胡桃的通知權限已被關閉</value>
   </data>
   <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
     <value>立即重新整理</value>
