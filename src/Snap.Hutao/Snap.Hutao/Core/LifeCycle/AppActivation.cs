@@ -68,11 +68,15 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         using (activateSemaphore.Enter())
         {
-            serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
+            // TODO: Introduced in 1.10.2, remove in later version
+            serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
+
             if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
             {
                 return;
             }
+
+            serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
 
             if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
             {
@@ -81,7 +85,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                 _ = serviceProvider.GetRequiredService<NotifyIconController>();
             }
 
-            serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
             serviceProvider.GetRequiredService<IQuartzService>().StartAsync(default).SafeForget();
         }
     }
