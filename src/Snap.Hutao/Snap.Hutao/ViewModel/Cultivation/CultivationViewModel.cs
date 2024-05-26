@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Cultivation;
@@ -98,7 +100,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
                 infoBarService.Information(SH.ViewModelCultivationProjectAlreadyExists);
                 break;
             default:
-                throw Must.NeverHappen();
+                throw HutaoException.NotSupported();
         }
     }
 
@@ -110,10 +112,17 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             return;
         }
 
-        await cultivationService.RemoveProjectAsync(project).ConfigureAwait(false);
-        await taskContext.SwitchToMainThreadAsync();
-        ArgumentNullException.ThrowIfNull(Projects);
-        SelectedProject = Projects.FirstOrDefault();
+        ContentDialogResult result = await contentDialogFactory
+            .CreateForConfirmCancelAsync(SH.ViewModelCultivationRemoveProjectTitle, SH.ViewModelCultivationRemoveProjectContent)
+            .ConfigureAwait(false);
+
+        if (result is ContentDialogResult.Primary)
+        {
+            await cultivationService.RemoveProjectAsync(project).ConfigureAwait(false);
+            await taskContext.SwitchToMainThreadAsync();
+            ArgumentNullException.ThrowIfNull(Projects);
+            SelectedProject = Projects.FirstOrDefault();
+        }
     }
 
     private async ValueTask UpdateEntryCollectionAsync(CultivateProject? project)

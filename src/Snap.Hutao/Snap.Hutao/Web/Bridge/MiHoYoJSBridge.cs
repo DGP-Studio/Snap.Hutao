@@ -184,18 +184,19 @@ internal class MiHoYoJSBridge
     protected virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
     {
         CultureOptions cultureOptions = serviceProvider.GetRequiredService<CultureOptions>();
+        TimeSpan offset = TimeZoneInfo.Local.GetUtcOffset(DateTimeOffset.Now);
 
         return new()
         {
             Data = new()
             {
                 ["language"] = cultureOptions.LanguageCode,
-                ["timeZone"] = "GMT+8",
+                ["timeZone"] = $"GMT{(offset.Hours >= 0 ? "+" : " - ")}{Math.Abs(offset.Hours):D1}",
             },
         };
     }
 
-    protected virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
+    protected virtual JsResult<Dictionary<string, string>> GetDataSignV1(JsParam param)
     {
         DataSignOptions options = DataSignOptions.CreateForGeneration1(SaltType.LK2, true);
         return new()
@@ -207,7 +208,7 @@ internal class MiHoYoJSBridge
         };
     }
 
-    protected virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
+    protected virtual JsResult<Dictionary<string, string>> GetDataSignV2(JsParam<DataSignV2Payload> param)
     {
         DataSignOptions options = DataSignOptions.CreateForGeneration2(SaltType.X4, false, param.Payload.Body, param.Payload.GetQueryParam());
         return new()
@@ -451,8 +452,8 @@ internal class MiHoYoJSBridge
                 "getCookieInfo" => GetCookieInfo(param),
                 "getCookieToken" => await GetCookieTokenAsync(param).ConfigureAwait(false),
                 "getCurrentLocale" => GetCurrentLocale(param),
-                "getDS" => GetDynamicSecrectV1(param),
-                "getDS2" => GetDynamicSecrectV2(param),
+                "getDS" => GetDataSignV1(param),
+                "getDS2" => GetDataSignV2(param),
                 "getHTTPRequestHeaders" => GetHttpRequestHeader(param),
                 "getStatusBarHeight" => GetStatusBarHeight(param),
                 "getUserInfo" => await GetUserInfoAsync(param).ConfigureAwait(false),

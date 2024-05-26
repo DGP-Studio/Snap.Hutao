@@ -18,6 +18,6 @@ internal static class SHA256
     public static async ValueTask<string> HashAsync(Stream stream, CancellationToken token = default)
     {
         byte[] bytes = await System.Security.Cryptography.SHA256.HashDataAsync(stream, token).ConfigureAwait(false);
-        return System.Convert.ToHexString(bytes);
+        return Convert.ToHexString(bytes);
     }
 }

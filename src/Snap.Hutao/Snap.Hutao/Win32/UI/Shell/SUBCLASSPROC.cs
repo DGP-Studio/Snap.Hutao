@@ -2,9 +2,21 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
-[UnmanagedFunctionPointer(CallingConvention.Winapi)]
-internal delegate LRESULT SUBCLASSPROC(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData);
+internal unsafe readonly struct SUBCLASSPROC
+{
+    [SuppressMessage("", "IDE0052")]
+    private readonly delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, nuint, nuint, LRESULT> value;
+
+    public SUBCLASSPROC(delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, nuint, nuint, LRESULT> method)
+    {
+        value = method;
+    }
+
+    public static SUBCLASSPROC Create(delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, nuint, nuint, LRESULT> method)
+    {
+        return new(method);
+    }
+}

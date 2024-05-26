@@ -48,37 +48,17 @@ internal sealed partial class DailyNoteNotificationOperation
             return;
         }
 
-        string? attribution = SH.ServiceDailyNoteNotifierAttribution;
-
-        if (entry.UserGameRole is not null)
-        {
-            attribution = entry.UserGameRole.ToString();
-        }
-        else
-        {
-            Response<ListWrapper<UserGameRole>> rolesResponse;
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
-            {
-                BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
-                rolesResponse = await bindingClient
-                    .GetUserGameRolesOverseaAwareAsync(entry.User)
-                    .ConfigureAwait(false);
-            }
-
-            if (rolesResponse.IsOk())
-            {
-                List<UserGameRole> roles = rolesResponse.Data.List;
-                attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? ToastAttributionUnknown;
-            }
-        }
+        string attribution = entry.UserGameRole is not null
+            ? entry.UserGameRole.ToString()
+            : await GetUserUidAsync(entry).ConfigureAwait(false);
 
         ToastContentBuilder builder = new ToastContentBuilder()
             .AddHeader(ToastHeaderIdArgument, SH.ServiceDailyNoteNotifierTitle, ToastHeaderIdArgument)
             .AddAttributionText(attribution)
             .AddButton(new ToastButton()
                 .SetContent(SH.ServiceDailyNoteNotifierActionLaunchGameButton)
-                .AddArgument(Activation.Action, Activation.LaunchGame)
-                .AddArgument(Activation.Uid, entry.Uid))
+                .AddArgument(AppActivation.Action, AppActivation.LaunchGame)
+                .AddArgument(AppActivation.Uid, entry.Uid))
             .AddButton(new ToastButtonDismiss(SH.ServiceDailyNoteNotifierActionLaunchGameDismiss));
 
         if (options.IsReminderNotification)
@@ -129,5 +109,25 @@ internal sealed partial class DailyNoteNotificationOperation
     {
         // Prevent notify when we are in game && silent mode.
         return options.IsSilentWhenPlayingGame && gameService.IsGameRunning();
+    }
+
+    private async ValueTask<string> GetUserUidAsync(DailyNoteEntry entry)
+    {
+        Response<ListWrapper<UserGameRole>> rolesResponse;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
+            rolesResponse = await bindingClient
+                .GetUserGameRolesOverseaAwareAsync(entry.User)
+                .ConfigureAwait(false);
+        }
+
+        if (rolesResponse.IsOk())
+        {
+            List<UserGameRole> roles = rolesResponse.Data.List;
+            return roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? ToastAttributionUnknown;
+        }
+
+        return SH.ServiceDailyNoteNotifierAttribution;
     }
 }

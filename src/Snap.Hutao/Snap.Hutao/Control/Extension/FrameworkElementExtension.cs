@@ -39,7 +39,6 @@ internal static class FrameworkElementExtension
         }
         catch (Exception ex)
         {
-
             ILogger? logger = service.GetRequiredService(typeof(ILogger<>).MakeGenericType([frameworkElement.GetType()])) as ILogger;
             logger?.LogError(ex, "Failed to initialize DataContext");
             throw;

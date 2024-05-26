@@ -14,7 +14,6 @@ global using Snap.Hutao.Core.Annotation;
 global using Snap.Hutao.Core.DependencyInjection;
 global using Snap.Hutao.Core.DependencyInjection.Annotation;
 global using Snap.Hutao.Core.Threading;
-global using Snap.Hutao.Core.Validation;
 global using Snap.Hutao.Extension;
 global using Snap.Hutao.Resource.Localization;
 

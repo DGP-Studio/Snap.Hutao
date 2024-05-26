@@ -11,7 +11,7 @@ namespace Snap.Hutao.Web.Request.Builder;
 
 internal static class HttpRequestMessageBuilderExtension
 {
-    private const string RequestErrorMessage = "请求异常已忽略";
+    private const string RequestErrorMessage = "请求异常已忽略: {Uri}";
 
     internal static async ValueTask<TResult?> TryCatchSendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)
         where TResult : class
@@ -29,7 +29,7 @@ internal static class HttpRequestMessageBuilderExtension
         }
         catch (HttpRequestException ex)
         {
-            logger.LogWarning(ex, RequestErrorMessage);
+            logger.LogWarning(ex, RequestErrorMessage, builder.HttpRequestMessage.RequestUri);
 
             if (ex.StatusCode is HttpStatusCode.BadGateway)
             {
@@ -50,22 +50,22 @@ internal static class HttpRequestMessageBuilderExtension
         }
         catch (IOException ex)
         {
-            logger.LogWarning(ex, RequestErrorMessage);
+            logger.LogWarning(ex, RequestErrorMessage, builder.HttpRequestMessage.RequestUri);
             return default;
         }
         catch (JsonException ex)
         {
-            logger.LogWarning(ex, RequestErrorMessage);
+            logger.LogWarning(ex, RequestErrorMessage, builder.HttpRequestMessage.RequestUri);
             return default;
         }
         catch (HttpContentSerializationException ex)
         {
-            logger.LogWarning(ex, RequestErrorMessage);
+            logger.LogWarning(ex, RequestErrorMessage, builder.HttpRequestMessage.RequestUri);
             return default;
         }
         catch (SocketException ex)
         {
-            logger.LogWarning(ex, RequestErrorMessage);
+            logger.LogWarning(ex, RequestErrorMessage, builder.HttpRequestMessage.RequestUri);
             return default;
         }
     }
@@ -80,23 +80,23 @@ internal static class HttpRequestMessageBuilderExtension
         }
         catch (HttpRequestException ex)
         {
-            logger.LogWarning(ex, RequestErrorMessage);
+            logger.LogWarning(ex, RequestErrorMessage, builder.HttpRequestMessage.RequestUri);
         }
         catch (IOException ex)
         {
-            logger.LogWarning(ex, RequestErrorMessage);
+            logger.LogWarning(ex, RequestErrorMessage, builder.HttpRequestMessage.RequestUri);
         }
         catch (JsonException ex)
         {
-            logger.LogWarning(ex, RequestErrorMessage);
+            logger.LogWarning(ex, RequestErrorMessage, builder.HttpRequestMessage.RequestUri);
         }
         catch (HttpContentSerializationException ex)
         {
-            logger.LogWarning(ex, RequestErrorMessage);
+            logger.LogWarning(ex, RequestErrorMessage, builder.HttpRequestMessage.RequestUri);
         }
         catch (SocketException ex)
         {
-            logger.LogWarning(ex, RequestErrorMessage);
+            logger.LogWarning(ex, RequestErrorMessage, builder.HttpRequestMessage.RequestUri);
         }
     }
 }

@@ -22,6 +22,6 @@ internal sealed class Int32ToVisibilityRevertConverter : IValueConverter
     /// <inheritdoc/>
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        throw ThrowHelper.NotSupported();
+        throw HutaoException.NotSupported();
     }
 }

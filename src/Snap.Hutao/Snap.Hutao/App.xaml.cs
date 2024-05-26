@@ -8,7 +8,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Core.Shell;
+using Snap.Hutao.Core.Windowing;
 using System.Diagnostics;
 
 namespace Snap.Hutao;
@@ -39,7 +39,7 @@ public sealed partial class App : Application
         """;
 
     private readonly IServiceProvider serviceProvider;
-    private readonly IActivation activation;
+    private readonly IAppActivation activation;
     private readonly ILogger<App> logger;
 
     /// <summary>
@@ -50,11 +50,17 @@ public sealed partial class App : Application
     {
         // Load app resource
         InitializeComponent();
-        activation = serviceProvider.GetRequiredService<IActivation>();
+        activation = serviceProvider.GetRequiredService<IAppActivation>();
         logger = serviceProvider.GetRequiredService<ILogger<App>>();
         serviceProvider.GetRequiredService<ExceptionRecorder>().Record(this);
 
         this.serviceProvider = serviceProvider;
+    }
+
+    public new void Exit()
+    {
+        XamlWindowLifetime.ApplicationExiting = true;
+        base.Exit();
     }
 
     /// <inheritdoc/>
@@ -73,15 +79,13 @@ public sealed partial class App : Application
             logger.LogColorizedInformation((ConsoleBanner, ConsoleColor.DarkYellow));
             LogDiagnosticInformation();
 
-            // manually invoke
+            // Manually invoke
             activation.Activate(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
-            activation.Initialize();
-
-            serviceProvider.GetRequiredService<IJumpListInterop>().ConfigureAsync().SafeForget();
+            activation.PostInitialization();
         }
-        catch
+        catch (Exception ex)
         {
-            // AppInstance.GetCurrent() calls failed
+            Debug.WriteLine(ex);
             Process.GetCurrentProcess().Kill();
         }
     }

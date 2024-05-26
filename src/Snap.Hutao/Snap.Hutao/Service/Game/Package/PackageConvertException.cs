@@ -7,6 +7,7 @@ namespace Snap.Hutao.Service.Game.Package;
 /// 包转换异常
 /// </summary>
 [HighQuality]
+[Obsolete]
 internal sealed class PackageConvertException : Exception
 {
     /// <inheritdoc cref="Exception(string?, Exception?)"/>

@@ -10,12 +10,11 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [SupportedOSPlatform("windows5.1.2600")]
-[Guid("B4DB1657-70D7-485E-8E3E-6FCB5A5C1802")]
-internal unsafe struct IModalWindow
+internal unsafe readonly struct IModalWindow
 {
     public readonly Vftbl* ThisPtr;
 
-    internal static unsafe ref readonly Guid IID
+    internal static ref readonly Guid IID
     {
         get
         {
@@ -24,29 +23,7 @@ internal unsafe struct IModalWindow
         }
     }
 
-    public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
-        where TInterface : unmanaged
-    {
-        fixed (Guid* riid2 = &riid)
-        {
-            fixed (TInterface** ppvObject = &pvObject)
-            {
-                return ThisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
-            }
-        }
-    }
-
-    public uint AddRef()
-    {
-        return ThisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
-    }
-
-    public uint Release()
-    {
-        return ThisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
-    }
-
-    internal unsafe readonly struct Vftbl
+    internal readonly struct Vftbl
     {
         internal readonly IUnknown.Vftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IModalWindow*, HWND, HRESULT> Show;

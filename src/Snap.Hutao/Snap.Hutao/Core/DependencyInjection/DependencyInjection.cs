@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Quartz;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using System.Globalization;
@@ -32,6 +33,9 @@ internal static class DependencyInjection
                     .AddConsoleWindow();
             })
             .AddMemoryCache()
+
+            // Quartz
+            .AddQuartz()
 
             // Hutao extensions
             .AddJsonOptions()

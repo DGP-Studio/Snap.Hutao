@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+
 namespace Snap.Hutao.Control.Text.Syntax.MiHoYo;
 
 internal sealed class MiHoYoColorTextSyntax : MiHoYoXmlElementSyntax
@@ -27,7 +29,7 @@ internal sealed class MiHoYoColorTextSyntax : MiHoYoXmlElementSyntax
             {
                 MiHoYoColorKind.Rgba => new(Position.Start + 17, Position.End - 8),
                 MiHoYoColorKind.Rgb => new(Position.Start + 15, Position.End - 8),
-                _ => throw Must.NeverHappen(),
+                _ => throw HutaoException.NotSupported(),
             };
         }
     }
@@ -40,7 +42,7 @@ internal sealed class MiHoYoColorTextSyntax : MiHoYoXmlElementSyntax
             {
                 MiHoYoColorKind.Rgba => new(Position.Start + 8, Position.Start + 16),
                 MiHoYoColorKind.Rgb => new(Position.Start + 8, Position.Start + 14),
-                _ => throw Must.NeverHappen(),
+                _ => throw HutaoException.NotSupported(),
             };
         }
     }

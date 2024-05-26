@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -97,7 +98,7 @@ internal sealed class CalculableSkill
             SkillType.A => SettingKeys.CultivationAvatarSkillACurrent,
             SkillType.E => SettingKeys.CultivationAvatarSkillECurrent,
             SkillType.Q => SettingKeys.CultivationAvatarSkillQCurrent,
-            _ => throw Must.NeverHappen(),
+            _ => throw HutaoException.NotSupported(),
         };
     }
 
@@ -108,7 +109,7 @@ internal sealed class CalculableSkill
             SkillType.A => SettingKeys.CultivationAvatarSkillATarget,
             SkillType.E => SettingKeys.CultivationAvatarSkillETarget,
             SkillType.Q => SettingKeys.CultivationAvatarSkillQTarget,
-            _ => throw Must.NeverHappen(),
+            _ => throw HutaoException.NotSupported(),
         };
     }
 }

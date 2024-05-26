@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32.Foundation;
 using System.Buffers.Binary;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -30,6 +31,16 @@ internal static class StructMarshal
     public static Rect Rect(Vector2 size)
     {
         return new(0, 0, size.X, size.Y);
+    }
+
+    public static RECT RECT(RectInt32 rect)
+    {
+        return new(rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
+    }
+
+    public static RectInt32 RectInt32(RECT rect)
+    {
+        return new(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
     }
 
     public static RectInt32 RectInt32(SizeInt32 size)

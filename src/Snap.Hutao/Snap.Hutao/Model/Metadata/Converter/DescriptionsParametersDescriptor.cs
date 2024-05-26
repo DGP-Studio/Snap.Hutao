@@ -68,7 +68,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
             }
             else
             {
-                ThrowHelper.InvalidOperation($"ParameterFormat failed, value: `{desc}`", default);
+                HutaoException.InvalidOperation($"ParameterFormat failed, value: `{desc}`", default);
             }
         }
 

@@ -32,7 +32,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
 
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByShowcaseAsync(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
     {
-        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
+        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
         EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -50,14 +50,14 @@ internal sealed partial class AvatarInfoDbBulkOperation
                 AddOrUpdateAvatarInfo(entity, uid, appDbContext, webInfo);
             }
 
-            return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
+            return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
         }
     }
 
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndUid userAndUid, CancellationToken token)
     {
         string uid = userAndUid.Uid.Value;
-        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
+        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
         EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -103,14 +103,14 @@ internal sealed partial class AvatarInfoDbBulkOperation
         }
 
     Return:
-        return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
+        return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
     }
 
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
         string uid = userAndUid.Uid.Value;
-        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
+        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
         EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -146,7 +146,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             }
         }
 
-        return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
+        return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

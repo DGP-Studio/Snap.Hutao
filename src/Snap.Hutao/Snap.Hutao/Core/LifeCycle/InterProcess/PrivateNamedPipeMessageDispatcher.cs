@@ -16,6 +16,6 @@ internal sealed partial class PrivateNamedPipeMessageDispatcher
             return;
         }
 
-        serviceProvider.GetRequiredService<IActivation>().Activate(args);
+        serviceProvider.GetRequiredService<IAppActivation>().Activate(args);
     }
 }

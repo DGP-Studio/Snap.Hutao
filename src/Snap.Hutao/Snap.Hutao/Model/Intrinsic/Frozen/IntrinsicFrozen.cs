@@ -11,25 +11,25 @@ namespace Snap.Hutao.Model.Intrinsic.Frozen;
 [HighQuality]
 internal static class IntrinsicFrozen
 {
-    public static FrozenSet<string> AssociationTypes { get; } = Enum.GetValues<AssociationType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
+    public static FrozenSet<string> AssociationTypes { get; } = NamesFromEnum<AssociationType>(e => e.GetLocalizedDescriptionOrDefault());
 
-    public static FrozenSet<NameValue<AssociationType>> AssociationTypeNameValues { get; } = Enum.GetValues<AssociationType>().Select(e => new NameValue<AssociationType>(e.GetLocalizedDescriptionOrDefault()!, e)).Where(nv => !string.IsNullOrEmpty(nv.Name)).ToFrozenSet();
+    public static FrozenSet<NameValue<AssociationType>> AssociationTypeNameValues { get; } = NameValuesFromEnum<AssociationType>(e => e.GetLocalizedDescriptionOrDefault());
 
-    public static FrozenSet<string> WeaponTypes { get; } = Enum.GetValues<WeaponType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
+    public static FrozenSet<string> WeaponTypes { get; } = NamesFromEnum<WeaponType>(e => e.GetLocalizedDescriptionOrDefault());
 
-    public static FrozenSet<NameValue<WeaponType>> WeaponTypeNameValues { get; } = Enum.GetValues<WeaponType>().Select(e => new NameValue<WeaponType>(e.GetLocalizedDescriptionOrDefault()!, e)).Where(nv => !string.IsNullOrEmpty(nv.Name)).ToFrozenSet();
+    public static FrozenSet<NameValue<WeaponType>> WeaponTypeNameValues { get; } = NameValuesFromEnum<WeaponType>(e => e.GetLocalizedDescriptionOrDefault());
 
-    public static FrozenSet<string> ItemQualities { get; } = Enum.GetValues<QualityType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
+    public static FrozenSet<string> ItemQualities { get; } = NamesFromEnum<QualityType>(e => e.GetLocalizedDescriptionOrDefault());
 
-    public static FrozenSet<NameValue<QualityType>> ItemQualityNameValues { get; } = Enum.GetValues<QualityType>().Select(e => new NameValue<QualityType>(e.GetLocalizedDescriptionOrDefault()!, e)).Where(nv => !string.IsNullOrEmpty(nv.Name)).ToFrozenSet();
+    public static FrozenSet<NameValue<QualityType>> ItemQualityNameValues { get; } = NameValuesFromEnum<QualityType>(e => e.GetLocalizedDescriptionOrDefault());
 
-    public static FrozenSet<string> BodyTypes { get; } = Enum.GetValues<BodyType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
+    public static FrozenSet<string> BodyTypes { get; } = NamesFromEnum<BodyType>(e => e.GetLocalizedDescriptionOrDefault());
 
-    public static FrozenSet<NameValue<BodyType>> BodyTypeNameValues { get; } = Enum.GetValues<BodyType>().Select(e => new NameValue<BodyType>(e.GetLocalizedDescriptionOrDefault()!, e)).Where(nv => !string.IsNullOrEmpty(nv.Name)).ToFrozenSet();
+    public static FrozenSet<NameValue<BodyType>> BodyTypeNameValues { get; } = NameValuesFromEnum<BodyType>(e => e.GetLocalizedDescriptionOrDefault());
 
-    public static FrozenSet<string> FightProperties { get; } = Enum.GetValues<FightProperty>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToFrozenSet();
+    public static FrozenSet<string> FightProperties { get; } = NamesFromEnum<FightProperty>(e => e.GetLocalizedDescriptionOrDefault());
 
-    public static FrozenSet<NameValue<FightProperty>> FightPropertyNameValues { get; } = Enum.GetValues<FightProperty>().Select(e => new NameValue<FightProperty>(e.GetLocalizedDescriptionOrDefault()!, e)).Where(nv => !string.IsNullOrEmpty(nv.Name)).ToFrozenSet();
+    public static FrozenSet<NameValue<FightProperty>> FightPropertyNameValues { get; } = NameValuesFromEnum<FightProperty>(e => e.GetLocalizedDescriptionOrDefault());
 
     public static FrozenSet<string> ElementNames { get; } = FrozenSet.ToFrozenSet(
     [
@@ -63,4 +63,50 @@ internal static class IntrinsicFrozen
         SH.ModelMetadataMaterialWeaponEnhancementMaterial,
         SH.ModelMetadataMaterialWeaponAscensionMaterial,
     ]);
+
+    private static FrozenSet<string> NamesFromEnum<TEnum>(Func<TEnum, string?> selector)
+        where TEnum : struct, Enum
+    {
+        return NamesFromEnumValues(Enum.GetValues<TEnum>(), selector);
+    }
+
+    private static FrozenSet<string> NamesFromEnumValues<TEnum>(TEnum[] values, Func<TEnum, string?> selector)
+    {
+        return NotNull(values, selector).ToFrozenSet();
+
+        static IEnumerable<string> NotNull(TEnum[] values, Func<TEnum, string?> selector)
+        {
+            foreach (TEnum value in values)
+            {
+                string? name = selector(value);
+                if (!string.IsNullOrEmpty(name))
+                {
+                    yield return name;
+                }
+            }
+        }
+    }
+
+    private static FrozenSet<NameValue<TEnum>> NameValuesFromEnum<TEnum>(Func<TEnum, string?> selector)
+        where TEnum : struct, Enum
+    {
+        return NameValuesFromEnumValues(Enum.GetValues<TEnum>(), selector);
+    }
+
+    private static FrozenSet<NameValue<TEnum>> NameValuesFromEnumValues<TEnum>(TEnum[] values, Func<TEnum, string?> selector)
+    {
+        return NotNull(values, selector).ToFrozenSet();
+
+        static IEnumerable<NameValue<TEnum>> NotNull(TEnum[] values, Func<TEnum, string?> selector)
+        {
+            foreach (TEnum value in values)
+            {
+                string? name = selector(value);
+                if (!string.IsNullOrEmpty(name))
+                {
+                    yield return new(name, value);
+                }
+            }
+        }
+    }
 }

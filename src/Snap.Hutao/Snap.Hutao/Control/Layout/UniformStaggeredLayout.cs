@@ -63,12 +63,12 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
     /// <inheritdoc/>
     protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)
     {
-        if (context.ItemCount == 0)
+        if (context.ItemCount is 0)
         {
             return new Size(availableSize.Width, 0);
         }
 
-        if ((context.RealizationRect.Width == 0) && (context.RealizationRect.Height == 0))
+        if ((context.RealizationRect.Width is 0) && (context.RealizationRect.Height is 0))
         {
             return new Size(availableSize.Width, 0.0f);
         }

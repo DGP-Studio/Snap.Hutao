@@ -369,7 +369,6 @@
                                             <shci:CachedImage
                                                 Height="120"
                                                 MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                                                EnableLazyLoading="False"
                                                 Source="{StaticResource UI_EmotionIcon89}"/>
                                             <TextBlock
                                                 Margin="0,5,0,21"
@@ -754,7 +753,6 @@
                                     <shci:CachedImage
                                         Height="120"
                                         MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                                        EnableLazyLoading="False"
                                         Source="{StaticResource UI_EmotionIcon89}"/>
                                     <TextBlock
                                         Margin="0,5,0,21"

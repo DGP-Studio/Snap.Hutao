@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -46,7 +47,14 @@ public sealed class UnsafeRuntimeBehaviorTest
         Assert.AreEqual(1212, testStruct.Value4);
     }
 
-
+    [TestMethod]
+    public unsafe void UnsafeUtf8StringReference()
+    {
+        void* ptr = Unsafe.AsPointer(ref MemoryMarshal.GetReference("test"u8));
+        GC.Collect(GC.MaxGeneration);
+        ReadOnlySpan<byte> bytes = MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)ptr);
+        Console.WriteLine(System.Text.Encoding.UTF8.GetString(bytes));
+    }
 
     private readonly struct TestStruct
     {

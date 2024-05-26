@@ -55,7 +55,7 @@ internal sealed partial class ObjectCacheDbService : IObjectCacheDbService
         }
         catch (DbUpdateException ex)
         {
-            ThrowHelper.DatabaseCorrupted($"无法存储 Key:{key} 对应的值到数据库缓存", ex);
+            HutaoException.Throw($"无法存储 Key:{key} 对应的值到数据库缓存", ex);
         }
 
         return default!;

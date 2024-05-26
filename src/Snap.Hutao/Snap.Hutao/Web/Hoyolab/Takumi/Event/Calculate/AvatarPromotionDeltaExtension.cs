@@ -22,8 +22,8 @@ internal static class AvatarPromotionDeltaExtension
             return false;
         }
 
-        copy.SkillList = new(3)
-        {
+        copy.SkillList =
+        [
             new()
             {
                 Id = skillViewA.GroupId,
@@ -42,7 +42,7 @@ internal static class AvatarPromotionDeltaExtension
                 LevelCurrent = Math.Min(skillViewQ.LevelNumber, deltaQ.LevelTarget),
                 LevelTarget = deltaQ.LevelTarget,
             },
-        };
+        ];
 
         if (avatar.Weapon is not WeaponView weaponView || source.Weapon is not { } deltaWeapon)
         {

@@ -11,12 +11,11 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [SupportedOSPlatform("windows6.0.6000")]
-[Guid("947AAB5F-0A5C-4C13-B4D6-4BF7836FC9F8")]
 internal unsafe struct IFileOperation
 {
     public readonly Vftbl* ThisPtr;
 
-    internal static unsafe ref readonly Guid IID
+    internal static ref readonly Guid IID
     {
         get
         {
@@ -25,34 +24,7 @@ internal unsafe struct IFileOperation
         }
     }
 
-    public unsafe HRESULT QueryInterface<TInterface>(ref readonly Guid riid, out TInterface* pvObject)
-        where TInterface : unmanaged
-    {
-        fixed (Guid* riid2 = &riid)
-        {
-            fixed (TInterface** ppvObject = &pvObject)
-            {
-                return ThisPtr->IUnknownVftbl.QueryInterface((IUnknown*)Unsafe.AsPointer(ref this), riid2, (void**)ppvObject);
-            }
-        }
-    }
-
-    public uint AddRef()
-    {
-        return ThisPtr->IUnknownVftbl.AddRef((IUnknown*)Unsafe.AsPointer(ref this));
-    }
-
-    public uint Release()
-    {
-        return ThisPtr->IUnknownVftbl.Release((IUnknown*)Unsafe.AsPointer(ref this));
-    }
-
-    public unsafe HRESULT DeleteItem(IShellItem* psiItem, IFileOperationProgressSink* pfopsItem)
-    {
-        return ThisPtr->DeleteItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, pfopsItem);
-    }
-
-    public unsafe HRESULT MoveItem(IShellItem* psiItem, IShellItem* psiDestinationFolder, [AllowNull] string szNewName, IFileOperationProgressSink* pfopsItem)
+    public HRESULT MoveItem(IShellItem* psiItem, IShellItem* psiDestinationFolder, [AllowNull] string szNewName, IFileOperationProgressSink* pfopsItem)
     {
         fixed (char* pszNewName = szNewName)
         {
@@ -60,7 +32,12 @@ internal unsafe struct IFileOperation
         }
     }
 
-    public unsafe HRESULT PerformOperations()
+    public HRESULT DeleteItem(IShellItem* psiItem, IFileOperationProgressSink* pfopsItem)
+    {
+        return ThisPtr->DeleteItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, pfopsItem);
+    }
+
+    public HRESULT PerformOperations()
     {
         return ThisPtr->PerformOperations((IFileOperation*)Unsafe.AsPointer(ref this));
     }

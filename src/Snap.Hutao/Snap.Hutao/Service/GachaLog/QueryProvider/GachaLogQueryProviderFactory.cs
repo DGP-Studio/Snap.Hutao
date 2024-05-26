@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 [ConstructorGenerated]
@@ -17,7 +19,7 @@ internal sealed partial class GachaLogQueryProviderFactory : IGachaLogQueryProvi
             RefreshOption.SToken => serviceProvider.GetRequiredService<GachaLogQuerySTokenProvider>(),
             RefreshOption.WebCache => serviceProvider.GetRequiredService<GachaLogQueryWebCacheProvider>(),
             RefreshOption.ManualInput => serviceProvider.GetRequiredService<GachaLogQueryManualInputProvider>(),
-            _ => throw Must.NeverHappen("不支持的刷新选项"),
+            _ => throw HutaoException.NotSupported("不支持的刷新选项"),
         };
     }
 }

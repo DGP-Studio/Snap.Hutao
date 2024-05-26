@@ -15,7 +15,7 @@ internal static class SupportedCultures
         /*ToNameValue(CultureInfo.GetCultureInfo("de")),*/
         ToNameValue(CultureInfo.GetCultureInfo("en")),
         /*ToNameValue(CultureInfo.GetCultureInfo("es")),*/
-        /*ToNameValue(CultureInfo.GetCultureInfo("fr")),*/
+        ToNameValue(CultureInfo.GetCultureInfo("fr")),
         ToNameValue(CultureInfo.GetCultureInfo("id")),
         /*ToNameValue(CultureInfo.GetCultureInfo("it")),*/
         ToNameValue(CultureInfo.GetCultureInfo("ja")),

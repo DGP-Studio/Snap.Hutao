@@ -1,8 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+
 namespace Snap.Hutao.Control.Text.Syntax.MiHoYo;
 
+// TODO: Pooling syntax nodes to reduce memory allocation
 internal sealed class MiHoYoSyntaxTree
 {
     public MiHoYoSyntaxNode Root { get; set; } = default!;
@@ -75,7 +78,7 @@ internal sealed class MiHoYoSyntaxTree
                         {
                             17 => MiHoYoColorKind.Rgba,
                             15 => MiHoYoColorKind.Rgb,
-                            _ => throw Must.NeverHappen(),
+                            _ => throw HutaoException.NotSupported(),
                         };
 
                         TextPosition position = new(0, endOfXmlColorRightClosingAtUnprocessedContent);

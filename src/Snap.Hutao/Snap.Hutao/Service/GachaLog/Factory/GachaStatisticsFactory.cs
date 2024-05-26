@@ -59,7 +59,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         HomaGachaLogClient gachaLogClient,
         List<Model.Entity.GachaItem> items,
         List<HistoryWishBuilder> historyWishBuilders,
-        in GachaLogServiceMetadataContext context,
+        GachaLogServiceMetadataContext context,
         AppOptions appOptions)
     {
         TypedWishSummaryBuilderContext standardContext = TypedWishSummaryBuilderContext.StandardWish(taskContext, gachaLogClient);

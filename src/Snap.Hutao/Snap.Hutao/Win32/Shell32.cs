@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Com;
+using Snap.Hutao.Win32.UI.Shell;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
@@ -30,6 +31,33 @@ internal static class Shell32
                     return SHCreateItemFromParsingName(pszPath, pbc, pGuid, (void**)ppv);
                 }
             }
+        }
+    }
+
+    [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows6.1")]
+    public static unsafe extern HRESULT Shell_NotifyIconGetRect(NOTIFYICONIDENTIFIER* identifier, RECT* iconLocation);
+
+    public static unsafe HRESULT Shell_NotifyIconGetRect(ref readonly NOTIFYICONIDENTIFIER identifier, out RECT iconLocation)
+    {
+        fixed (NOTIFYICONIDENTIFIER* p = &identifier)
+        {
+            fixed (RECT* pRect = &iconLocation)
+            {
+                return Shell_NotifyIconGetRect(p, pRect);
+            }
+        }
+    }
+
+    [DllImport("SHELL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static unsafe extern BOOL Shell_NotifyIconW(NOTIFY_ICON_MESSAGE dwMessage, NOTIFYICONDATAW* lpData);
+
+    public static unsafe BOOL Shell_NotifyIconW(NOTIFY_ICON_MESSAGE dwMessage, ref readonly NOTIFYICONDATAW data)
+    {
+        fixed (NOTIFYICONDATAW* p = &data)
+        {
+            return Shell_NotifyIconW(dwMessage, p);
         }
     }
 }

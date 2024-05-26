@@ -15,7 +15,7 @@ internal static class SemaphoreSlimExtension
         }
         catch (ObjectDisposedException ex)
         {
-            ThrowHelper.OperationCanceled(SH.CoreThreadingSemaphoreSlimDisposed, ex);
+            HutaoException.OperationCanceled(SH.CoreThreadingSemaphoreSlimDisposed, ex);
         }
 
         return new SemaphoreSlimToken(semaphoreSlim);
@@ -29,7 +29,7 @@ internal static class SemaphoreSlimExtension
         }
         catch (ObjectDisposedException ex)
         {
-            ThrowHelper.OperationCanceled(SH.CoreThreadingSemaphoreSlimDisposed, ex);
+            HutaoException.OperationCanceled(SH.CoreThreadingSemaphoreSlimDisposed, ex);
         }
 
         return new SemaphoreSlimToken(semaphoreSlim);

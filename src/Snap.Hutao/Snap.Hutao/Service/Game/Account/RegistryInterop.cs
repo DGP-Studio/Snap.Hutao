@@ -70,7 +70,7 @@ internal static class RegistryInterop
         {
             SchemeType.ChineseOfficial => (ChineseKeyName, SdkChineseValueName),
             SchemeType.Oversea => (OverseaKeyName, SdkOverseaValueName),
-            _ => throw ThrowHelper.NotSupported($"Invalid account SchemeType: {scheme}"),
+            _ => throw HutaoException.NotSupported($"Invalid account SchemeType: {scheme}"),
         };
     }
 }

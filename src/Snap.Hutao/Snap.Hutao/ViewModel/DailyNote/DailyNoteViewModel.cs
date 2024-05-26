@@ -4,9 +4,12 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.DailyNote;
+using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Control;
@@ -27,10 +30,12 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IDailyNoteService dailyNoteService;
     private readonly DailyNoteOptions dailyNoteOptions;
+    private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
+    private readonly AppOptions appOptions;
 
     private ObservableCollection<UserAndUid>? userAndUids;
     private ObservableCollection<DailyNoteEntry>? dailyNoteEntries;
@@ -38,6 +43,8 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     public DailyNoteOptions DailyNoteOptions { get => dailyNoteOptions; }
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+
+    public AppOptions AppOptions { get => appOptions; }
 
     public IWebViewerSource VerifyUrlSource { get; } = new DailyNoteWebViewerSource();
 
@@ -53,22 +60,26 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
-        try
+        if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            await taskContext.SwitchToBackgroundAsync();
-            ObservableCollection<UserAndUid> roles = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
-            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntryCollectionAsync().ConfigureAwait(false);
+            try
+            {
+                await taskContext.SwitchToBackgroundAsync();
+                ObservableCollection<UserAndUid> roles = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
+                ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntryCollectionAsync().ConfigureAwait(false);
 
-            await taskContext.SwitchToMainThreadAsync();
-            UserAndUids = roles;
-            DailyNoteEntries = entries;
-            return true;
+                await taskContext.SwitchToMainThreadAsync();
+                UserAndUids = roles;
+                DailyNoteEntries = entries;
+                return true;
+            }
+            catch (HutaoException ex)
+            {
+                infoBarService.Error(ex);
+            }
         }
-        catch (Core.ExceptionService.UserdataCorruptedException ex)
-        {
-            infoBarService.Error(ex);
-            return false;
-        }
+
+        return false;
     }
 
     [Command("TrackRoleCommand")]

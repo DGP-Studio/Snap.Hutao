@@ -78,7 +78,7 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
                 using (HttpResponseMessage response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
                 {
                     response.EnsureSuccessStatusCode();
-                    using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent())
+                    using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(bufferSize))
                     {
                         Memory<byte> buffer = memoryOwner.Memory;
                         using (Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))

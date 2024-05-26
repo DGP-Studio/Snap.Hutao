@@ -15,6 +15,7 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
+    private bool? isNotifyIconEnabled;
     private bool? isEmptyHistoryWishVisible;
     private bool? isUnobtainedWishItemVisible;
     private BackdropType? backdropType;
@@ -22,6 +23,12 @@ internal sealed partial class AppOptions : DbStoreOptions
     private BackgroundImageType? backgroundImageType;
     private Region? region;
     private string? geetestCustomCompositeUrl;
+
+    public bool IsNotifyIconEnabled
+    {
+        get => GetOption(ref isNotifyIconEnabled, SettingEntry.IsNotifyIconEnabled, true);
+        set => SetOption(ref isNotifyIconEnabled, SettingEntry.IsNotifyIconEnabled, value);
+    }
 
     public bool IsEmptyHistoryWishVisible
     {

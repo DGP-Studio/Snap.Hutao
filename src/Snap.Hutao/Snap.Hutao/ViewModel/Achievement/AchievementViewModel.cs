@@ -112,7 +112,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         if (await Initialization.Task.ConfigureAwait(false))
         {
-            if (data.Data is Activation.ImportUIAFFromClipboard)
+            if (data.Data is AppActivation.ImportUIAFFromClipboard)
             {
                 await ImportUIAFFromClipboardAsync().ConfigureAwait(false);
                 return true;
@@ -179,7 +179,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                         dependencies.InfoBarService.Warning(SH.FormatViewModelAchievementArchiveAlreadyExists(name));
                         break;
                     default:
-                        throw Must.NeverHappen();
+                        throw HutaoException.NotSupported();
                 }
             }
         }
@@ -372,8 +372,13 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private void UpdateAchievementsFinishPercent()
     {
+        // 保存成就状态时，需要保持当前选择的成就分类
+        AchievementGoalView? currentSelectedAchievementGoal = SelectedAchievementGoal;
+
         // 仅 读取成就列表 与 保存成就状态 时需要刷新成就进度
         AchievementFinishPercent.Update(this);
+
+        SelectedAchievementGoal = currentSelectedAchievementGoal;
     }
 
     [Command("SaveAchievementCommand")]

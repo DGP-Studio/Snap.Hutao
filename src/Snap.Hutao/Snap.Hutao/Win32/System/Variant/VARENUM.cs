@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.Variant;
 
+[SuppressMessage("", "CA1069")]
 internal enum VARENUM : ushort
 {
     VT_EMPTY = 0,

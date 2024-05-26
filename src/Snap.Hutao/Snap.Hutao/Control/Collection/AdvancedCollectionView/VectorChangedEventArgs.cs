@@ -7,7 +7,7 @@ namespace Snap.Hutao.Control.Collection.AdvancedCollectionView;
 
 internal sealed class VectorChangedEventArgs : IVectorChangedEventArgs
 {
-    public VectorChangedEventArgs(CollectionChange cc, int index = -1, object item = null!)
+    public VectorChangedEventArgs(CollectionChange cc, int index = -1, object item = default!)
     {
         CollectionChange = cc;
         Index = (uint)index;

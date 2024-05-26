@@ -129,7 +129,7 @@ internal sealed partial class GameAccountService : IGameAccountService
         }
         catch (InvalidOperationException ex)
         {
-            throw ThrowHelper.UserdataCorrupted(SH.ServiceGameDetectGameAccountMultiMatched, ex);
+            throw HutaoException.Throw(SH.ServiceGameDetectGameAccountMultiMatched, ex);
         }
     }
 }

@@ -62,13 +62,13 @@ internal static class FileOperation
                         result = true;
                     }
 
-                    pDestShellItem->Release();
+                    IUnknownMarshal.Release(pDestShellItem);
                 }
 
-                pSourceShellItem->Release();
+                IUnknownMarshal.Release(pSourceShellItem);
             }
 
-            pFileOperation->Release();
+            IUnknownMarshal.Release(pFileOperation);
         }
 
         return result;
@@ -89,10 +89,10 @@ internal static class FileOperation
                     result = true;
                 }
 
-                pShellItem->Release();
+                IUnknownMarshal.Release(pShellItem);
             }
 
-            pFileOperation->Release();
+            IUnknownMarshal.Release(pFileOperation);
         }
 
         return result;

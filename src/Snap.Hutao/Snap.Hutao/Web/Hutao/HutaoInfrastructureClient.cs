@@ -43,7 +43,7 @@ internal sealed partial class HutaoInfrastructureClient
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.PatchSnapHutao)
-            .SetHeader("x-device-id", runtimeOptions.DeviceId)
+            .SetHeader("x-hutao-device-id", runtimeOptions.DeviceId)
             .Get();
 
         HutaoResponse<HutaoVersionInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<HutaoVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);

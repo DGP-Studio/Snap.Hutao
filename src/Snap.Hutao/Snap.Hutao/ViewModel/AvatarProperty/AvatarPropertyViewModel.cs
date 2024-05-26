@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Media;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Message;
@@ -310,7 +311,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                 return CultivateCoreResult.SaveConsumptionFailed;
             }
         }
-        catch (Core.ExceptionService.UserdataCorruptedException ex)
+        catch (HutaoException ex)
         {
             infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
         }

@@ -112,7 +112,7 @@ internal sealed partial class UserViewModel : ObservableObject
                 infoBarService.Success(SH.FormatViewModelUserUpdated(uid));
                 break;
             default:
-                throw Must.NeverHappen();
+                throw HutaoException.NotSupported();
         }
     }
 
@@ -124,7 +124,7 @@ internal sealed partial class UserViewModel : ObservableObject
             Users = await userService.GetUserCollectionAsync().ConfigureAwait(true);
             SelectedUser = userService.Current;
         }
-        catch (UserdataCorruptedException ex)
+        catch (HutaoException ex)
         {
             infoBarService.Error(ex);
         }
@@ -227,7 +227,7 @@ internal sealed partial class UserViewModel : ObservableObject
             await userService.RemoveUserAsync(user).ConfigureAwait(false);
             infoBarService.Success(SH.FormatViewModelUserRemoved(user.UserInfo?.Nickname));
         }
-        catch (UserdataCorruptedException ex)
+        catch (HutaoException ex)
         {
             infoBarService.Error(ex);
         }

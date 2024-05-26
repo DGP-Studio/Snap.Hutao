@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+
 namespace Snap.Hutao.Web.Hoyolab;
 
 /// <summary>
@@ -26,7 +28,7 @@ internal readonly partial struct PlayerUid
     /// <param name="region">服务器，当提供该参数时会无条件信任</param>
     public PlayerUid(string value, in Region? region = default)
     {
-        Must.Argument(HoyolabRegex.UidRegex().IsMatch(value), SH.WebHoyolabInvalidUid);
+        HutaoException.ThrowIfNot(HoyolabRegex.UidRegex().IsMatch(value), SH.WebHoyolabInvalidUid);
         Value = value;
         Region = region ?? Region.UnsafeFromUidString(value);
     }
@@ -43,9 +45,7 @@ internal readonly partial struct PlayerUid
 
     public static bool IsOversea(string uid)
     {
-        Must.Argument(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
-
-        ReadOnlySpan<char> uidSpan = uid.AsSpan();
+        HutaoException.ThrowIfNot(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
 
         return uid.AsSpan()[^9] switch
         {
@@ -56,7 +56,7 @@ internal readonly partial struct PlayerUid
 
     public static TimeSpan GetRegionTimeZoneUtcOffsetForUid(string uid)
     {
-        Must.Argument(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
+        HutaoException.ThrowIfNot(HoyolabRegex.UidRegex().IsMatch(uid), SH.WebHoyolabInvalidUid);
 
         // 美服 UTC-05
         // 欧服 UTC+01

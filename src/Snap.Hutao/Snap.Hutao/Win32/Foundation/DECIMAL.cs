@@ -14,6 +14,7 @@ internal struct DECIMAL
 
     public byte sign;
 
+    [SuppressMessage("", "IDE1006")]
     public unsafe ushort signscale
     {
         get

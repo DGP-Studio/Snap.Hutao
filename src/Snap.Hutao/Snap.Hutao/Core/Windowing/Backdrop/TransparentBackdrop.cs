@@ -9,9 +9,9 @@ using Windows.UI;
 
 namespace Snap.Hutao.Core.Windowing.Backdrop;
 
-internal sealed class TransparentBackdrop : SystemBackdrop, IDisposable, IBackdropNeedEraseBackground
+internal sealed class TransparentBackdrop : SystemBackdrop, IBackdropNeedEraseBackground
 {
-    private readonly object compositorLock = new();
+    private object? compositorLock;
 
     private Color tintColor;
     private Windows.UI.Composition.CompositionColorBrush? brush;
@@ -29,37 +29,33 @@ internal sealed class TransparentBackdrop : SystemBackdrop, IDisposable, IBackdr
 
     internal Windows.UI.Composition.Compositor Compositor
     {
-        get
+        get => LazyInitializer.EnsureInitialized(ref compositor, ref compositorLock, () =>
         {
-            if (compositor is null)
-            {
-                lock (compositorLock)
-                {
-                    if (compositor is null)
-                    {
-                        DispatcherQueue.EnsureSystemDispatcherQueue();
-                        compositor = new Windows.UI.Composition.Compositor();
-                    }
-                }
-            }
-
-            return compositor;
-        }
+            DispatcherQueue.EnsureSystemDispatcherQueue();
+            return new Windows.UI.Composition.Compositor();
+        });
     }
 
-    public void Dispose()
+    protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
     {
-        compositor?.Dispose();
-    }
+        base.OnTargetConnected(target, xamlRoot);
 
-    protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop connectedTarget, XamlRoot xamlRoot)
-    {
         brush ??= Compositor.CreateColorBrush(tintColor);
-        connectedTarget.SystemBackdrop = brush;
+        target.SystemBackdrop = brush;
     }
 
-    protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop disconnectedTarget)
+    protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop target)
     {
-        disconnectedTarget.SystemBackdrop = null;
+        base.OnTargetDisconnected(target);
+
+        target.SystemBackdrop = null;
+
+        if (compositorLock is not null)
+        {
+            lock (compositorLock)
+            {
+                compositor?.Dispose();
+            }
+        }
     }
 }

@@ -8,12 +8,17 @@ namespace Snap.Hutao.Core.IO.Hashing;
 
 internal static class Hash
 {
-    public static string SHA1HexString(string input)
+    public static unsafe string SHA1HexString(string input)
     {
-        return HashCore(System.Convert.ToHexString, SHA1.HashData, Encoding.UTF8.GetBytes, input);
+        return HashCore(Convert.ToHexString, SHA1.HashData, Encoding.UTF8.GetBytes, input);
     }
 
-    private static TResult HashCore<TInput, TResult>(Func<byte[], TResult> resultConverter, Func<byte[], byte[]> hashMethod, Func<TInput, byte[]> bytesConverter, TInput input)
+    public static unsafe string MD5HexString(string input)
+    {
+        return HashCore(Convert.ToHexString, System.Security.Cryptography.MD5.HashData, Encoding.UTF8.GetBytes, input);
+    }
+
+    private static unsafe TResult HashCore<TInput, TResult>(Func<byte[], TResult> resultConverter, Func<byte[], byte[]> hashMethod, Func<TInput, byte[]> bytesConverter, TInput input)
     {
         return resultConverter(hashMethod(bytesConverter(input)));
     }

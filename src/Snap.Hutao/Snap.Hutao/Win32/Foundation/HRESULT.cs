@@ -8,6 +8,7 @@ namespace Snap.Hutao.Win32.Foundation;
 [SuppressMessage("", "SA1310")]
 internal readonly partial struct HRESULT
 {
+    public static readonly HRESULT S_OK = unchecked((int)0x00000000);
     public static readonly HRESULT E_FAIL = unchecked((int)0x80004005);
 
     public readonly int Value;
@@ -15,12 +16,17 @@ internal readonly partial struct HRESULT
     public static unsafe implicit operator int(HRESULT value) => *(int*)&value;
 
     public static unsafe implicit operator HRESULT(int value) => *(HRESULT*)&value;
+
+    public override string ToString()
+    {
+        return $"0x{Value:X8}";
+    }
 }
 
 #if DEBUG
 [DebuggerDisplay("{DebuggerDisplay}")]
 internal readonly partial struct HRESULT
 {
-    private string DebuggerDisplay => $"0x{Value:X8}";
+    private string DebuggerDisplay { get => ToString(); }
 }
 #endif

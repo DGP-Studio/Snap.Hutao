@@ -75,7 +75,7 @@ internal sealed class HutaoStatisticsFactory
                     QualityType.QUALITY_ORANGE => orangeItems,
                     QualityType.QUALITY_PURPLE => purpleItems,
                     QualityType.QUALITY_BLUE => blueItems,
-                    _ => throw Must.NeverHappen("意外的物品等级"),
+                    _ => throw HutaoException.NotSupported("意外的物品等级"),
                 };
 
                 list.Add(statisticsItem);

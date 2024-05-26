@@ -28,7 +28,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
 
         if (!uigf.IsCurrentVersionSupported(out UIGFVersion version))
         {
-            ThrowHelper.InvalidOperation(SH.ServiceUIGFImportUnsupportedVersion);
+            HutaoException.InvalidOperation(SH.ServiceUIGFImportUnsupportedVersion);
         }
 
         // v2.3+ support any locale
@@ -39,13 +39,13 @@ internal sealed partial class UIGFImportService : IUIGFImportService
             if (!cultureOptions.LanguageCodeFitsCurrentLocale(uigf.Info.Language))
             {
                 string message = SH.FormatServiceGachaUIGFImportLanguageNotMatch(uigf.Info.Language, cultureOptions.LanguageCode);
-                ThrowHelper.InvalidOperation(message);
+                HutaoException.InvalidOperation(message);
             }
 
             if (!uigf.IsMajor2Minor2OrLowerListValid(out long id))
             {
                 string message = SH.FormatServiceGachaLogUIGFImportItemInvalidFormat(id);
-                ThrowHelper.InvalidOperation(message);
+                HutaoException.InvalidOperation(message);
             }
         }
 
@@ -54,7 +54,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
             if (!uigf.IsMajor2Minor3OrHigherListValid(out long id))
             {
                 string message = SH.FormatServiceGachaLogUIGFImportItemInvalidFormat(id);
-                ThrowHelper.InvalidOperation(message);
+                HutaoException.InvalidOperation(message);
             }
         }
 
@@ -79,7 +79,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
                     .OrderByDescending(i => i.Id)
                     .Select(i => GachaItem.From(archiveId, i, context.GetItemId(i)))
                     .ToList(),
-                _ => throw Must.NeverHappen(),
+                _ => throw HutaoException.NotSupported(),
             };
 
             ThrowIfContainsInvalidItem(currentTypedList);
@@ -97,7 +97,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         // 因此从尾部开始查找
         if (currentTypeToAdd.LastOrDefault(item => item.ItemId is 0U) is { } item)
         {
-            ThrowHelper.InvalidOperation(SH.FormatServiceGachaLogUIGFImportItemInvalidFormat(item.Id));
+            HutaoException.InvalidOperation(SH.FormatServiceGachaLogUIGFImportItemInvalidFormat(item.Id));
         }
     }
 }

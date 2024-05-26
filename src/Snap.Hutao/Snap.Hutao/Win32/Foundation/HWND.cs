@@ -7,9 +7,7 @@ internal readonly struct HWND
 {
     public readonly nint Value;
 
-    public HWND(nint value) => Value = value;
-
-    public bool IsNull => Value is 0;
-
     public static unsafe implicit operator HWND(nint value) => *(HWND*)&value;
+
+    public static unsafe implicit operator nint(HWND value) => *(nint*)&value;
 }

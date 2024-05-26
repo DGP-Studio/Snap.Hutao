@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Control.AutoSuggestBox;
 using Snap.Hutao.Control.Collection.AdvancedCollectionView;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -204,7 +205,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
                 infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
             }
         }
-        catch (Core.ExceptionService.UserdataCorruptedException ex)
+        catch (HutaoException ex)
         {
             infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
         }

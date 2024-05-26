@@ -27,6 +27,7 @@ internal sealed class StreamReaderWriter : IDisposable
     }
 
     /// <inheritdoc cref="StreamWriter.WriteAsync(string?)"/>
+    [SuppressMessage("", "SH003")]
     public Task WriteAsync(string value)
     {
         return writer.WriteAsync(value);

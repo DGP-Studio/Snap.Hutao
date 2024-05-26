@@ -179,7 +179,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                     {
                         authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
                     }
-                    catch (UserdataCorruptedException ex)
+                    catch (HutaoException ex)
                     {
                         authkeyValid = false;
                         infoBarService.Error(ex);
@@ -349,7 +349,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             Statistics = statistics;
             IsInitialized = true;
         }
-        catch (UserdataCorruptedException ex)
+        catch (HutaoException ex)
         {
             infoBarService.Error(ex);
         }
