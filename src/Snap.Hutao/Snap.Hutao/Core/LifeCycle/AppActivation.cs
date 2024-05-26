@@ -69,6 +69,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         using (activateSemaphore.Enter())
         {
             // TODO: Introduced in 1.10.2, remove in later version
+            serviceProvider.GetRequiredService<IJumpListInterop>().ClearAsync().SafeForget();
             serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
 
             if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
