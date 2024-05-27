@@ -60,7 +60,7 @@ internal static class User32
     public static unsafe extern BOOL EqualRect(RECT* lprc1, RECT* lprc2);
 
     [DebuggerStepThrough]
-    public static unsafe BOOL EqualRect(in RECT rc1, in RECT rc2)
+    public static unsafe BOOL EqualRect(ref readonly RECT rc1, ref readonly RECT rc2)
     {
         fixed (RECT* lprc1 = &rc1)
         {
