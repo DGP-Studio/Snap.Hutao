@@ -23,6 +23,7 @@
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shcb:DeferLoadBehavior ElementNames="TopPanel,GameAnnouncementPivot"/>
     </mxi:Interaction.Behaviors>
     <shc:ScopedPage.Resources>
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
@@ -207,7 +208,7 @@
     <Grid>
         <ScrollViewer Padding="0" Style="{StaticResource DefaultScrollViewerStyle}">
             <StackPanel>
-                <StackPanel>
+                <StackPanel Name="TopPanel">
                     <TextBlock
                         Margin="16,16,16,0"
                         Style="{StaticResource TitleTextBlockStyle}"
@@ -240,7 +241,11 @@
                     </ScrollViewer>
                 </StackPanel>
 
-                <Pivot Style="{StaticResource DefaultPivotStyle}">
+                <Pivot
+                    x:Name="GameAnnouncementPivot"
+                    x:Load="False"
+                    Style="{StaticResource DefaultPivotStyle}"
+                    Transitions="{ThemeResource EntranceThemeTransitions}">
                     <PivotItem
                         Content="{Binding Announcement.List[0]}"
                         ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
