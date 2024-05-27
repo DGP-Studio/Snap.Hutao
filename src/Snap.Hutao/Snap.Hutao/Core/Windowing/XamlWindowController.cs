@@ -140,19 +140,17 @@ internal sealed class XamlWindowController
             RECT primaryRect = StructMarshal.RECT(DisplayArea.Primary.OuterBounds);
             return IntersectRect(out _, in primaryRect, in iconRect);
         }
-        else
+        
+        HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
+        HWND trayNotifyWnd = FindWindowExW(shellTrayWnd, default, "TrayNotifyWnd", default);
+        HWND button = FindWindowExW(trayNotifyWnd, default, "Button", default);
+
+        if (GetWindowRect(button, out RECT buttonRect))
         {
-            HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
-            HWND trayNotifyWnd = FindWindowExW(shellTrayWnd, default, "TrayNotifyWnd", default);
-            HWND button = FindWindowExW(trayNotifyWnd, default, "Button", default);
-
-            if (GetWindowRect(button, out RECT buttonRect))
-            {
-                return !EqualRect(in buttonRect, in iconRect);
-            }
-
-            return false;
+            return !EqualRect(in buttonRect, in iconRect);
         }
+
+        return false;
     }
 
     #region SystemBackdrop & ElementTheme
