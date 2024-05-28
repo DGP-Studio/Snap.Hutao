@@ -57,6 +57,22 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
+    public static unsafe extern BOOL EqualRect(RECT* lprc1, RECT* lprc2);
+
+    [DebuggerStepThrough]
+    public static unsafe BOOL EqualRect(ref readonly RECT rc1, ref readonly RECT rc2)
+    {
+        fixed (RECT* lprc1 = &rc1)
+        {
+            fixed (RECT* lprc2 = &rc2)
+            {
+                return EqualRect(lprc1, lprc2);
+            }
+        }
+    }
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
     public static extern HWND FindWindowExW([AllowNull] HWND hWndParent, [AllowNull] HWND hWndChildAfter, [AllowNull] PCWSTR lpszClass, [AllowNull] PCWSTR lpszWindow);
 
     [DebuggerStepThrough]
@@ -109,6 +125,19 @@ internal static class User32
         fixed (WINDOWPLACEMENT* lpwndpl = &wndpl)
         {
             return GetWindowPlacement(hWnd, lpwndpl);
+        }
+    }
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static unsafe extern BOOL GetWindowRect(HWND hWnd, RECT* lpRect);
+
+    [DebuggerStepThrough]
+    public static unsafe BOOL GetWindowRect(HWND hWnd, out RECT rect)
+    {
+        fixed (RECT* lpRect = &rect)
+        {
+            return GetWindowRect(hWnd, lpRect);
         }
     }
 
