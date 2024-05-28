@@ -145,7 +145,7 @@
     <value>保存</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
-    <value>未找到结果</value>
+    <value>検索結果なし</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>無効なURL</value>
@@ -191,6 +191,18 @@
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
     <value>[{0}] 热键 [{1}] 注册失败</value>
+  </data>
+  <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
+    <value>ゲームランチャー</value>
+  </data>
+  <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
+    <value>胡桃已进入后台运行</value>
+  </data>
+  <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
+    <value>窗口</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>深色</value>
@@ -783,13 +795,13 @@
     <value>キャラクターラインナップ：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceBackgroundImageTypeBing" xml:space="preserve">
-    <value>必应每日一图</value>
+    <value>Bingからのランダム画像</value>
   </data>
   <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
-    <value>胡桃每日一图</value>
+    <value>日替わり胡桃画像</value>
   </data>
   <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
-    <value>官方启动器壁纸</value>
+    <value>公式ランチャー背景</value>
   </data>
   <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
     <value>本地随机图片</value>
@@ -873,7 +885,7 @@
     <value>イベント祈願・キャラクター</value>
   </data>
   <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
-    <value>集录祈愿</value>
+    <value>集録祈願</value>
   </data>
   <data name="ServiceGachaLogFactoryPermanentWishName" xml:space="preserve">
     <value>奔走世間</value>
@@ -1556,6 +1568,12 @@
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>育成計画名に無効な言葉が入っています</value>
   </data>
+  <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
+    <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
+  </data>
+  <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
+    <value>确认要删除当前计划吗？</value>
+  </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>リアルタイムノートのWebhook URLの設定に成功しました。</value>
   </data>
@@ -1946,6 +1964,9 @@
   <data name="ViewPageDailyNoteNotificationSetting" xml:space="preserve">
     <value>通知設定</value>
   </data>
+  <data name="ViewPageDailyNoteNotificationUnavailableHint" xml:space="preserve">
+    <value>胡桃的通知权限已被关闭</value>
+  </data>
   <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
     <value>すぐに更新</value>
   </data>
@@ -1975,6 +1996,9 @@
   </data>
   <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
     <value>更新</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
+    <value>未启用通知区域图标，关闭窗口后自动刷新将不会执行</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>プレイ中に通知をオフ</value>
@@ -2654,14 +2678,20 @@
   <data name="ViewPageSettingKeyShortcutHeader" xml:space="preserve">
     <value>ショートカットキー</value>
   </data>
+  <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
+    <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
+  </data>
+  <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
+    <value>通知区域图标</value>
+  </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>公式サイト</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderDescription" xml:space="preserve">
-    <value>自定义背景图片，支持 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
+    <value>カスタム背景を設定する / bmp、git、ico、jpg、jpeg、png、tiff、webp形式をサポートしています</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
-    <value>打开背景图片文件夹</value>
+    <value>カスタム背景フォルダーを開く</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>リセット</value>
@@ -3006,7 +3036,7 @@
     <value>武器一覧</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)后永久开放</value>
+    <value>(?:(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;)后永久开放</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
     <value>〓活动时间〓.*?(\d\.\d)版本期间持续开放</value>
@@ -3043,6 +3073,9 @@
   </data>
   <data name="WebBridgeShareCopyToClipboardSuccess" xml:space="preserve">
     <value>クリップボードにコピーしました。</value>
+  </data>
+  <data name="WebDailyNoteArchonQuestChapterFinished" xml:space="preserve">
+    <value>所有魔神任务已完成</value>
   </data>
   <data name="WebDailyNoteArchonQuestStatusFinished" xml:space="preserve">
     <value>すべて完了</value>
@@ -3171,7 +3204,7 @@
     <value>イベント祈願・キャラクター2</value>
   </data>
   <data name="WebGachaConfigTypeChronicledWish" xml:space="preserve">
-    <value>集录祈愿</value>
+    <value>集録祈願</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
     <value>初心者祈願</value>
@@ -3223,6 +3256,9 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] の[{1}] のリクエストにエラーが発生、時間をおいてから試してください</value>
+  </data>
+  <data name="WebResponseSignInErrorHint" xml:space="preserve">
+    <value>登录失败，请前往 HoYoLAB 初始化账号，原始消息：{0}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>モニターID</value>

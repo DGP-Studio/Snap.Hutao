@@ -121,10 +121,10 @@
     <value>Snap Hutao Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>Snap Hutao Dev {0} [Administrateur]</value>
+    <value>Snap Hutao Dev {0} [Quyền Quản Trị Viên]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
-    <value>Snap Hutao {0} [Administrateur]</value>
+    <value>Snap Hutao {0} [Quản trị viên]</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>Snap Hutao</value>
@@ -133,154 +133,154 @@
     <value>Snap Hutao {0}</value>
   </data>
   <data name="ContentDialogCancelCloseButtonText" xml:space="preserve">
-    <value>Annuler</value>
+    <value>Hủy bỏ</value>
   </data>
   <data name="ContentDialogCompletePrimaryButtonText" xml:space="preserve">
-    <value>Terminer</value>
+    <value>Hoàn thành</value>
   </data>
   <data name="ContentDialogConfirmPrimaryButtonText" xml:space="preserve">
-    <value>Confirmer</value>
+    <value>OK</value>
   </data>
   <data name="ContentDialogSavePrimaryButtonText" xml:space="preserve">
-    <value>Sauvegarder</value>
+    <value>Lưu</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
-    <value>Aucun résultat trouvé</value>
+    <value>Không tìm thấy kết quả</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>Uri invalide</value>
+    <value>Uri không hợp lệ</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
   </data>
   <data name="ControlImageCompositionImageSystemException" xml:space="preserve">
-    <value>Erreur lors de l'application de la source de CompositionImage</value>
+    <value>应用 CompositionImage 的源时发生异常</value>
   </data>
   <data name="ControlPanelPanelSelectorDropdownGridName" xml:space="preserve">
-    <value>Grille</value>
+    <value>网格</value>
   </data>
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
-    <value>Liste</value>
+    <value>Danh sách</value>
   </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
-    <value>La base de donnée est corrompue : {0}</value>
+    <value>数据库已损坏：{0}</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>L'archive des données de l'utilisateur est corrompue : {0}</value>
+    <value>用户数据已损坏：{0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
-    <value>Ne pas utiliser cette fonction en mode administrateur : {0}</value>
+    <value>请勿在管理员模式下使用此功能 {0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarTitle" xml:space="preserve">
-    <value>Échec de l'ouverture du sélecteur de fichiers</value>
+    <value>无法打开文件选择器</value>
   </data>
   <data name="CoreIOTempFileCreateFail" xml:space="preserve">
-    <value>Permission insuffisante, échec de la création d'un fichier temporaire</value>
+    <value>Không đủ quyền hạn, không thể tạo các tập tin tạm thời</value>
   </data>
   <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
-    <value>Lanceur de jeu</value>
+    <value>Trình khởi chạy</value>
   </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
-    <value>Snap Hutao : tâche d'actualisation des notes actuelles. Ne la modifiez pas et ne la supprimez pas.</value>
+    <value>Tiến trình làm mới ghi chú thời gian thực của Snap Hutao. KHÔNG chỉnh sửa hoặc xoá nó.</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
-    <value>Sémaphore éliminé, opération annulée</value>
+    <value>信号量已经被释放，操作取消</value>
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
-    <value>Aucun moteur d'exécution WebView2 n'est détecté</value>
+    <value>Không phát hiện WebView2 Runtime</value>
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
-    <value>Échec de l'enregistrement de [{0}] en touche de raccourci [{1}]</value>
+    <value/>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
-    <value>退出</value>
+    <value>Thoát</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
-    <value>Lanceur de jeu</value>
+    <value>启动游戏</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
     <value>胡桃已进入后台运行</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>窗口</value>
+    <value>Cửa sổ</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
-    <value>Sombre</value>
+    <value>Tối</value>
   </data>
   <data name="CoreWindowThemeLight" xml:space="preserve">
-    <value>Clair</value>
+    <value>Sáng</value>
   </data>
   <data name="CoreWindowThemeSystem" xml:space="preserve">
-    <value>Système</value>
+    <value>Hệ thống</value>
   </data>
   <data name="FilePickerExportCommit" xml:space="preserve">
-    <value>Exporter</value>
+    <value>Xuất</value>
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
-    <value>Importer</value>
+    <value>Nhập</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
-    <value>Bienvenue à Snap Hutao, Voyageur ~</value>
+    <value>欢迎使用胡桃</value>
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
-    <value>Choisir le compte à lancer</value>
+    <value>Lựa chọn tài khoản để khởi động</value>
   </data>
   <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlD" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;Prince&lt;/color&gt;/&lt;color=#FFB6C1&gt;Princesse&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;王子&lt;/color&gt;/&lt;color=#FFB6C1&gt;公主&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameMetaAvatarSexProInfoPronounBoyGirlFirst" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;Je&lt;/color&gt;/&lt;color=#FFB6C1&gt;Je&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;我&lt;/color&gt;/&lt;color=#FFB6C1&gt;我&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameNickname" xml:space="preserve">
-    <value>Voyageur</value>
+    <value>旅行者</value>
   </data>
   <data name="MetadataSpecialNamePlayerAvatarSexProInfoPronounHeShe" xml:space="preserve">
-    <value>&lt;color=#1E90FF&gt;Il&lt;/color&gt;/&lt;color=#FFB6C1&gt;Elle&lt;/color&gt;</value>
+    <value>&lt;color=#1E90FF&gt;他&lt;/color&gt;/&lt;color=#FFB6C1&gt;她&lt;/color&gt;</value>
   </data>
   <data name="MetadataSpecialNameRealNameId1" xml:space="preserve">
-    <value>Vagabond</value>
+    <value>Kẻ lang thang</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
-    <value>Raffiner {0}</value>
+    <value>精炼 {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
-    <value>Lundi/Jeudi/Dimanche</value>
+    <value>周一/周四/周日</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek25" xml:space="preserve">
-    <value>Mardi/Vendredi/Dimanche</value>
+    <value>周二/周五/周日</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
-    <value>Mercredi/Samedi/Dimanche</value>
+    <value>周三/周六/周日</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
-    <value>{0:f2} invocations</value>
+    <value>{0:f2} 抽</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
-    <value>Les pires invocations {0}</value>
+    <value>最非 {0} 抽</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
-    <value>Les meilleures invocations {0}</value>
+    <value>最欧 {0} 抽</value>
   </data>
   <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
-    <value>{0} invocations</value>
+    <value>{0} 抽</value>
   </data>
   <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
     <value>第 {0} 层</value>
   </data>
   <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
-    <value>Niveau {0}</value>
+    <value>Cấp độ {0}</value>
   </data>
   <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
-    <value>Apparu {0} fois</value>
+    <value>上场 {0} 次</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
-    <value>BiliBili</value>
+    <value>Máy chủ BiliBili</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
-    <value>Chinois</value>
+    <value>Máy chủ Trung Quốc</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
-    <value>国际服</value>
+    <value>Máy chủ Quốc Tế</value>
   </data>
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
     <value>网络异常</value>
@@ -292,51 +292,51 @@
     <value>刷新于 {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
-    <value>第 {0} 期</value>
+    <value/>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
-    <value>角色</value>
+    <value>Tài khoản</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
-    <value>未知</value>
+    <value>Không xác định</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
-    <value>武器</value>
+    <value>Vũ khí</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
-    <value>愚人众</value>
+    <value>Fatui</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeFontaine" xml:space="preserve">
-    <value>枫丹</value>
+    <value>Fontaine</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeInazuma" xml:space="preserve">
-    <value>稻妻</value>
+    <value>Inazuma</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeLiyue" xml:space="preserve">
-    <value>璃月</value>
+    <value>Liyue</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeMondstadt" xml:space="preserve">
-    <value>蒙德</value>
+    <value>Mondstadt</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNatlan" xml:space="preserve">
-    <value>纳塔</value>
+    <value>Natlan</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
-    <value>游侠</value>
+    <value>Ranger</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
-    <value>至冬</value>
+    <value>Snezhnaya</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeSumeru" xml:space="preserve">
-    <value>须弥</value>
+    <value>Sumeru</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
@@ -355,79 +355,79 @@
     <value>成男</value>
   </data>
   <data name="ModelIntrinsicElementNameElec" xml:space="preserve">
-    <value>雷</value>
+    <value>Lôi</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameFire" xml:space="preserve">
-    <value>火</value>
+    <value>Hoả</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameGrass" xml:space="preserve">
-    <value>草</value>
+    <value>Thảo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameIce" xml:space="preserve">
-    <value>冰</value>
+    <value>Băng</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameRock" xml:space="preserve">
-    <value>岩</value>
+    <value>Nham</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameWater" xml:space="preserve">
-    <value>水</value>
+    <value>Thủy</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameWind" xml:space="preserve">
-    <value>风</value>
+    <value>Phong</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
-    <value>三星</value>
+    <value>3 Sao</value>
   </data>
   <data name="ModelIntrinsicItemQualityGreen" xml:space="preserve">
-    <value>二星</value>
+    <value>2 Sao</value>
   </data>
   <data name="ModelIntrinsicItemQualityOrange" xml:space="preserve">
-    <value>五星</value>
+    <value>5 Sao</value>
   </data>
   <data name="ModelIntrinsicItemQualityPurple" xml:space="preserve">
-    <value>四星</value>
+    <value>4 Sao</value>
   </data>
   <data name="ModelIntrinsicItemQualityRed" xml:space="preserve">
-    <value>限定五星</value>
+    <value/>
   </data>
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
-    <value>一星</value>
+    <value>1 sao</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
-    <value>弓</value>
+    <value>Cung</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeCatalyst" xml:space="preserve">
-    <value>法器</value>
+    <value>Pháp Khí</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeClaymore" xml:space="preserve">
-    <value>双手剑</value>
+    <value>Trọng kiếm</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypePole" xml:space="preserve">
-    <value>长柄武器</value>
+    <value>Vũ khí cán dài</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeSwordOneHand" xml:space="preserve">
-    <value>单手剑</value>
+    <value>Kiếm đơn</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
-    <value>Voyageur</value>
+    <value>Nhà lữ hành</value>
   </data>
   <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
-    <value>{0} 月 {1} 日</value>
+    <value>{0}/{1}</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
-    <value>角色与武器培养素材</value>
+    <value>Nguyên liệu bồi dưỡng nhân vật và vũ khí</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterAscensionMaterial" xml:space="preserve">
@@ -435,7 +435,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterEXPMaterial" xml:space="preserve">
-    <value>角色经验素材</value>
+    <value>Nguyên liệu EXP nhân vật</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterLevelUpMaterial" xml:space="preserve">
@@ -443,7 +443,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterTalentMaterial" xml:space="preserve">
-    <value>角色天赋素材</value>
+    <value>Nguyên liệu thiên phú nhân vật</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
@@ -451,11 +451,11 @@
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
-    <value>武器突破素材</value>
+    <value>Nguyện liệu đột phá vũ khí</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
-    <value>武器强化素材</value>
+    <value>Nguyên liệu cường hoá vũ khí</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataTowerGoalTypeDefeatMonsters" xml:space="preserve">
@@ -546,19 +546,19 @@
     <value>请更新角色橱窗数据</value>
   </data>
   <data name="ModelNameValueDefaultName" xml:space="preserve">
-    <value>暂无数据</value>
+    <value>Không có dữ liệu</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>精炼 {0} 阶</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必须登录 米游社/HoYoLAB 并选择一个用户与角色</value>
+    <value>Phải đăng nhập vào tài khoản MiHoYo BBS của bạn và chọn người dùng</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
+    <value>Đã xoá {1} bản ghi cầu nguyện của UID: {0}</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
-    <value>胡桃云保存的祈愿记录存档数已达当前账号上限</value>
+    <value>Đã đạt đến số lượng lịch sử cầu nguyện tối đa cho phép trên Snap Hutao Cloud</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
     <value>未开通祈愿记录上传服务或已到期</value>
@@ -567,19 +567,19 @@
     <value>祈愿数据存在无效的物品，无法保存至胡桃云</value>
   </data>
   <data name="ServerGachaLogServiceServerDatabaseError" xml:space="preserve">
-    <value>数据异常，无法保存至云端，请勿跨账号上传或尝试删除云端数据后重试</value>
+    <value>Tìm thấy dữ liệu bất thường, không thể tải lên Snap Hutao Cloud. Vui lòng không tải lên từ nhiều tài khoản hoặc bạn có thể thử xóa dữ liệu đám mây và thử lại.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>上传了 Uid：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
+    <value>Đã tải lên {1} bản ghi cầu nguyện của UID: {0}, đã được lưu trữ {2}</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
-    <value>请先登录或注册胡桃账号</value>
+    <value>Vui lòng đăng nhập hoặc đăng ký tài khoản Snap Hutao trước tiên</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
-    <value>登录成功</value>
+    <value>Đăng nhập thành công</value>
   </data>
   <data name="ServerPassportRegisterSucceed" xml:space="preserve">
-    <value>注册成功</value>
+    <value>Đăng ký thành công</value>
   </data>
   <data name="ServerPassportResetPasswordSucceed" xml:space="preserve">
     <value>新密码设置成功</value>
@@ -588,16 +588,16 @@
     <value>当前邮箱尚未注册</value>
   </data>
   <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
-    <value>当前邮箱已被注册</value>
+    <value>Địa chỉ email hiện tại đã được đăng ký</value>
   </data>
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
-    <value>注册失败，服务器异常，请尽快联系开发者解决</value>
+    <value>Đăng ký không thành công, lỗi máy chủ, vui lòng liên hệ nhà phát triển để khắc phục</value>
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
-    <value>用户不存在，注销失败</value>
+    <value>Người dùng không tồn tại, không thể xoá tài khoản</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
-    <value>用户注销成功</value>
+    <value>Huỷ đăng ký thành công</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>用户不存在，获取用户信息失败</value>
@@ -606,37 +606,37 @@
     <value>用户名或密码错误</value>
   </data>
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
-    <value>验证失败</value>
+    <value>Xác minh thất bại</value>
   </data>
   <data name="ServerPassportVerifyRequestNotCurrentUser" xml:space="preserve">
-    <value>验证请求失败，不是当前登录的账号</value>
+    <value>Yêu cầu xác minh không thành công, đó không phải là tài khoản hiện đang đăng nhập</value>
   </data>
   <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
-    <value>验证码已发送至邮箱</value>
+    <value>Mã xác nhận đã được gửi đến email của bạn</value>
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
-    <value>验证请求失败，当前邮箱已被注册</value>
+    <value>Yêu cầu xác minh không thành công, địa chỉ email hiện tại đã được đăng ký</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
-    <value>验证请求过快，请 1 分钟后再试</value>
+    <value>Yêu cầu xác minh quá thường xuyên. Vui lòng thử lại sau 1 phút.</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>上传深渊记录失败，当前 Uid 已被胡桃数据库封禁</value>
+    <value>Không thể tải lên bản ghi la hoàn thâm cảnh, UID hiện tại đã bị cơ sở dữ liệu Hutao cấm</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
-    <value>上传深渊记录失败，正在计算统计数据</value>
+    <value>Không thể tải lên bản ghi la hoàn thâm cảnh, máy chủ đang tính toán dữ liệu thống kê</value>
   </data>
   <data name="ServerRecordComputingStatistics2" xml:space="preserve">
-    <value>获取数据失败，正在计算统计数据</value>
+    <value>Không lấy được dữ liệu, máy chủ đang tính toán dữ liệu thống kê</value>
   </data>
   <data name="ServerRecordInternalException" xml:space="preserve">
-    <value>上传深渊记录失败，服务器异常，请尽快联系开发者解决</value>
+    <value>Không tải lên được bản ghi la hoàn thâm cảnh, lỗi máy chủ, vui lòng liên hệ nhà phát triển để khắc phục</value>
   </data>
   <data name="ServerRecordInvalidData" xml:space="preserve">
-    <value>上传深渊记录失败，存在无效的数据</value>
+    <value>Không thể tải lên bản ghi la hoàn thâm cảnh, phát hiện thấy dữ liệu không hợp lệ</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
-    <value>无效的 Uid</value>
+    <value>UID không hợp lệ</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
     <value>上传深渊记录失败，不是本期数据</value>
@@ -645,31 +645,31 @@
     <value>上传深渊记录失败，当前 Uid 的记录仍在处理中，请勿重复操作</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
-    <value>上传深渊记录成功，获赠祈愿记录上传服务时长</value>
+    <value>Đã tải lên bản ghi la hoàn thâm cảnh thành công. Đã nhận được extension đặc quyền cho dịch vụ Snap Hutao Cloud.</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
-    <value>上传深渊记录成功，但未登录胡桃通行证，无法获赠祈愿记录上传服务时长</value>
+    <value>Đã tải lên bản ghi la hoàn thành công. Không nhận được đặc quyền nào của Snap Hutao Cloud do chưa đăng nhập tài khoản Snap Hutao.</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
-    <value>上传深渊记录成功，但无法找到用户，无法获赠祈愿记录上传服务时长</value>
+    <value>Đã tải lên bản ghi la hoàn thâm cảnh thành công. Không nhận được đặc quyền nào của Snap Hutao Cloud vì không tìm thấy tài khoản Snap Hutao.</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
-    <value>上传深渊记录成功，但不是本期首次提交，无法获赠祈愿记录上传服务时长</value>
+    <value>Đã tải lên bản ghi la hoàn thành công. Không nhận được đặc quyền của Snap Hutao Cloud vì đây không phải là lần tải lên đầu tiên trong lịch trình hiện tại.</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
-    <value>新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就</value>
+    <value>Mới: {0} thành tựu | Đã cập nhật: {1} thành tựu | Xoá: {2} thành tựu</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerFilterText" xml:space="preserve">
-    <value>UIAF Json 文件</value>
+    <value>Tập tin UIAF Json</value>
   </data>
   <data name="ServiceAchievementUIAFImportPickerTitile" xml:space="preserve">
     <value>打开 UIAF Json 文件</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedAchievementIdNotUnique" xml:space="preserve">
-    <value>单个成就存档内发现多个相同的成就 Id</value>
+    <value>Đã tìm thấy nhiều ID thành tựu giống hệt nhau trong kho lưu trữ thành tựu</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
-    <value>攻击力</value>
+    <value/>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyBaseAtk" xml:space="preserve">
@@ -677,7 +677,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyBaseDef" xml:space="preserve">
-    <value>基础防御力</value>
+    <value>Phòng ngự cơ bản</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyBaseHp" xml:space="preserve">
@@ -689,35 +689,35 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyCE" xml:space="preserve">
-    <value>元素充能效率</value>
+    <value>Hiệu Quả Nạp Nguyên Tố</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyCR" xml:space="preserve">
-    <value>暴击率</value>
+    <value>Tỉ lệ bạo kích</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBElec" xml:space="preserve">
-    <value>雷元素伤害加成</value>
+    <value>Tăng ST Nguyên Tố Lôi</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBFire" xml:space="preserve">
-    <value>火元素伤害加成</value>
+    <value>Tăng ST Nguyên Tố Lôi</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBGrass" xml:space="preserve">
-    <value>草元素伤害加成</value>
+    <value>Tăng ST nguyên tố thảo</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBIce" xml:space="preserve">
-    <value>冰元素伤害加成</value>
+    <value>Tăng ST nguyên tố băng</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBPhyiscal" xml:space="preserve">
-    <value>物理伤害加成</value>
+    <value>Tăng ST vật lí</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBRock" xml:space="preserve">
-    <value>岩元素伤害加成</value>
+    <value>Tăng ST nguyên tố nham</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBWater" xml:space="preserve">
@@ -725,7 +725,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBWind" xml:space="preserve">
-    <value>风元素伤害加成</value>
+    <value>Tăng ST nguyên tố phong</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDef" xml:space="preserve">
@@ -741,7 +741,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
-    <value>生命值</value>
+    <value>HP</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESElec" xml:space="preserve">
@@ -765,15 +765,15 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESRock" xml:space="preserve">
-    <value>岩元素抗性</value>
+    <value>Kháng nguyên tố nham</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESWater" xml:space="preserve">
-    <value>水元素抗性</value>
+    <value>Kháng nguyên tố thuỷ</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESWind" xml:space="preserve">
-    <value>风元素抗性</value>
+    <value>Kháng nguyên tố phong</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
@@ -789,7 +789,7 @@
     <value>原神战绩：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
-    <value>角色橱窗：尚未刷新</value>
+    <value>Enka: N/A</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
     <value>角色橱窗：{0:MM-dd HH:mm}</value>
@@ -798,13 +798,13 @@
     <value>必应每日一图</value>
   </data>
   <data name="ServiceBackgroundImageTypeDaily" xml:space="preserve">
-    <value>胡桃每日一图</value>
+    <value>Hình nền hằng ngày của Hutao</value>
   </data>
   <data name="ServiceBackgroundImageTypeLauncher" xml:space="preserve">
-    <value>官方启动器壁纸</value>
+    <value>Hình nền launcher chính thức của Genshin</value>
   </data>
   <data name="ServiceBackgroundImageTypeLocalFolder" xml:space="preserve">
-    <value>本地随机图片</value>
+    <value>Hình nền ngẫu nhiên trong máy</value>
   </data>
   <data name="ServiceBackgroundImageTypeNone" xml:space="preserve">
     <value>无背景图片</value>
@@ -822,16 +822,16 @@
     <value>我知道了</value>
   </data>
   <data name="ServiceDailyNoteNotifierAttribution" xml:space="preserve">
-    <value>请求异常</value>
+    <value>Kháng nguyên tố thuỷ</value>
   </data>
   <data name="ServiceDailyNoteNotifierDailyTask" xml:space="preserve">
-    <value>每日委托</value>
+    <value>Ủy thác mỗi ngày</value>
   </data>
   <data name="ServiceDailyNoteNotifierDailyTaskHint" xml:space="preserve">
     <value>奖励未领取</value>
   </data>
   <data name="ServiceDailyNoteNotifierExpedition" xml:space="preserve">
-    <value>探索派遣</value>
+    <value>Phái đi thám hiểm</value>
   </data>
   <data name="ServiceDailyNoteNotifierExpeditionAdaptiveHint" xml:space="preserve">
     <value>已完成</value>
@@ -843,7 +843,7 @@
     <value>洞天宝钱</value>
   </data>
   <data name="ServiceDailyNoteNotifierHomeCoinCurrent" xml:space="preserve">
-    <value>当前洞天宝钱：{0}</value>
+    <value>Tiền động tiên hiện tại: {0}</value>
   </data>
   <data name="ServiceDailyNoteNotifierMultiValueReached" xml:space="preserve">
     <value>多个提醒项达到设定值</value>
@@ -861,7 +861,7 @@
     <value>参量质变仪</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformerAdaptiveHint" xml:space="preserve">
-    <value>准备完成</value>
+    <value>Sẵn sàng</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformerHint" xml:space="preserve">
     <value>参量质变仪已准备完成</value>
@@ -873,16 +873,16 @@
     <value>正在提瓦特大陆中探索</value>
   </data>
   <data name="ServiceDiscordGameLaunchedBy" xml:space="preserve">
-    <value>由 {0} 启动</value>
+    <value>Bắt đầu bởi {0}</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
-    <value>无法获取祈愿记录：{0}</value>
+    <value>Không thể lấy lịch sử cầu nguyện: {0}</value>
   </data>
   <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
     <value>无法获取祈愿记录 End Id</value>
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
-    <value>角色活动</value>
+    <value>Cầu nguyện nhân vật</value>
   </data>
   <data name="ServiceGachaLogFactoryChronicledWishName" xml:space="preserve">
     <value>集录祈愿</value>
@@ -891,25 +891,25 @@
     <value>奔行世间</value>
   </data>
   <data name="ServiceGachaLogFactoryWeaponWishName" xml:space="preserve">
-    <value>神铸赋形</value>
+    <value>Thân hình thần đúc</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudEndIdFetchFailed" xml:space="preserve">
-    <value>获取云端祈愿记录失败</value>
+    <value>Không thể lấy lịch sử cầu nguyện trên cloud</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
-    <value>祈愿记录上传服务不可用</value>
+    <value>Dịch vụ tải lên lịch sử cầu nguyện hiện không khả dụng</value>
   </data>
   <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
-    <value>数据包含异常物品, Id：{0}</value>
+    <value>Dữ liệu chứa mục không mong muốn, ID: {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
     <value>请求验证密钥失败</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
-    <value>未正确提供原神路径，或当前设置的路径不正确</value>
+    <value>Đường dẫn trò chơi Genshin Impact chưa được thiết lập hoặc thiết lập không đúng</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>找不到原神内置浏览器缓存路径：\n{0}</value>
+    <value>Không thể tìm thấy đường dẫn đến cache của trình duyệt nhúng Genshin Impact: \n{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>未找到可用的 Url</value>
@@ -918,22 +918,22 @@
     <value>提供的 Url 无效</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
-    <value>HoYoLab 账号不支持使用 SToken 刷新祈愿记录</value>
+    <value>Làm mới SToken không hỗ trợ tài khoản HoYoLab</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>Url 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>Ngôn ngữ của URL: {0} không khớp với ngôn ngữ của Snap Hutao: {1}, vui lòng thử lại sau khi chuyển ngôn ngữ của ứng dụng trùng với ngôn ngữ URL</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>不支持的 Item Id：{0}</value>
   </data>
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
-    <value>UIGF 文件的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>Ngôn ngữ của tập tin UIGF: {0} không khớp với ngôn ngữ của Snap Hutao: {1}, vui lòng thử lại sau khi chuyển ngôn ngữ của ứng dụng trùng với ngôn ngữ của tập tin UIGF</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多个匹配账号，请删除重复的账号</value>
   </data>
   <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
-    <value>文件系统权限不足，无法转换服务器</value>
+    <value>Không có quyền ghi vào tập tin hệ thống, không thể bắt đầu quá trình chuyển đổi máy chủ.</value>
   </data>
   <data name="ServiceGameEnsureGameResourceQueryResourceInformation" xml:space="preserve">
     <value>下载游戏资源索引</value>
@@ -942,13 +942,13 @@
     <value>游戏文件操作失败：{0}</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameFpsUnlockFailed" xml:space="preserve">
-    <value>解锁帧率上限失败</value>
+    <value>Không thể mở khoá giới hạn khung hình</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameIsRunning" xml:space="preserve">
-    <value>游戏进程运行中</value>
+    <value>Trò chơi đang chạy</value>
   </data>
   <data name="ServiceGameLaunchExecutionGamePathNotValid" xml:space="preserve">
-    <value>请选择游戏路径</value>
+    <value>Chọn đường dẫn game</value>
   </data>
   <data name="ServiceGameLaunchExecutionGameResourceQueryIndexFailed" xml:space="preserve">
     <value>下载游戏资源索引失败: {0}</value>
@@ -966,13 +966,13 @@
     <value>解锁帧率上限失败，正在结束游戏进程</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsSucceed" xml:space="preserve">
-    <value>解锁帧率上限成功</value>
+    <value>Mở khoá giới hạn khung hình thành công</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>正在尝试解锁帧率上限</value>
+    <value>Thử mở khoá giới hạn khung hình...</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
-    <value>等待游戏进程退出</value>
+    <value>Đang đợi tiến trình trò chơi đóng...</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>选择游戏本体</value>
@@ -1005,7 +1005,7 @@
     <value>获取 Package Version 失败</value>
   </data>
   <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
-    <value>下载客户端文件失败：{0}</value>
+    <value/>
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
     <value>无法找到游戏路径，请前往设置修改</value>
@@ -1485,7 +1485,7 @@
     <value>有新的通知</value>
   </data>
   <data name="ViewLaunchGameHeader" xml:space="preserve">
-    <value>Lanceur de jeu</value>
+    <value>启动游戏</value>
   </data>
   <data name="ViewListViewDragElevatedHint" xml:space="preserve">
     <value>管理员模式下无法拖动排序</value>
@@ -1665,7 +1665,7 @@
     <value>我已阅读并同意上方的条款</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
-    <value>Terminer</value>
+    <value>完成</value>
   </data>
   <data name="ViewModelGuideActionNext" xml:space="preserve">
     <value>下一步</value>
@@ -1791,7 +1791,7 @@
     <value>下载完成</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
-    <value>Terminer</value>
+    <value>完成</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryContentTypeNotMatch" xml:space="preserve">
     <value>响应内容不是有效的文件字节流</value>
@@ -1809,7 +1809,7 @@
     <value>创建新存档以继续</value>
   </data>
   <data name="ViewPageAchievementExportLabel" xml:space="preserve">
-    <value>Exporter</value>
+    <value>导出</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
     <value>从剪贴板导入</value>
@@ -1818,7 +1818,7 @@
     <value>从 UIAF 文件导入</value>
   </data>
   <data name="ViewPageAchievementImportLabel" xml:space="preserve">
-    <value>Importer</value>
+    <value>导入</value>
   </data>
   <data name="ViewPageAchievementRemoveArchive" xml:space="preserve">
     <value>删除当前存档</value>
@@ -2055,7 +2055,7 @@
     <value>全量刷新</value>
   </data>
   <data name="ViewPageGachaLogExportAction" xml:space="preserve">
-    <value>Exporter</value>
+    <value>导出</value>
   </data>
   <data name="ViewPageGachaLogHint" xml:space="preserve">
     <value>尚未获取任何祈愿记录</value>
@@ -2091,7 +2091,7 @@
     <value>上传当前的祈愿存档</value>
   </data>
   <data name="ViewPageGachaLogImportAction" xml:space="preserve">
-    <value>Importer</value>
+    <value>导入</value>
   </data>
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
     <value>导入来自其它 App 的数据</value>
@@ -2262,7 +2262,7 @@
     <value>请输入验证码</value>
   </data>
   <data name="ViewPageLaunchGameAction" xml:space="preserve">
-    <value>Lanceur de jeu</value>
+    <value>启动游戏</value>
   </data>
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>高级功能</value>
@@ -2607,7 +2607,7 @@
     <value>祈愿记录</value>
   </data>
   <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>Lanceur de jeu</value>
+    <value>启动游戏</value>
   </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
     <value>隐藏</value>
