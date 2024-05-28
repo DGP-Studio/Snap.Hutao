@@ -640,7 +640,7 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <cw:ControlSizeTrigger MinWidth="1000" TargetElement="{x:Bind SettingPageGrid}"/>
+                        <cw:ControlSizeTrigger MinWidth="1140" TargetElement="{x:Bind SettingPageGrid}"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ScrollViwerRightPanel.Visibility" Value="Visible"/>

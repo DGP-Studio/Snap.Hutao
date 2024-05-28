@@ -131,8 +131,16 @@ internal sealed class XamlWindowController
         }
     }
 
-    private unsafe bool IsNotifyIconVisible()
+    private bool IsNotifyIconVisible()
     {
+        // Shell_NotifyIconGetRect returns E_FAIL when Shell_TrayWnd is not present,
+        // We pre-check it to avoid the exception.
+        HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
+        if (shellTrayWnd == default)
+        {
+            return false;
+        }
+
         RECT iconRect = serviceProvider.GetRequiredService<NotifyIconController>().GetRect();
 
         if (UniversalApiContract.IsPresent(WindowsVersion.Windows11))
@@ -141,7 +149,6 @@ internal sealed class XamlWindowController
             return IntersectRect(out _, in primaryRect, in iconRect);
         }
 
-        HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
         HWND trayNotifyWnd = FindWindowExW(shellTrayWnd, default, "TrayNotifyWnd", default);
         HWND button = FindWindowExW(trayNotifyWnd, default, "Button", default);
 
