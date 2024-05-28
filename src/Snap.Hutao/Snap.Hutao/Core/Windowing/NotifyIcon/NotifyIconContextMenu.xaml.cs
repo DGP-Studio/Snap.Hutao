@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.ViewModel;
 
 namespace Snap.Hutao.Core.Windowing.NotifyIcon;
@@ -12,6 +13,6 @@ internal sealed partial class NotifyIconContextMenu : Flyout
     {
         AllowFocusOnInteraction = false;
         InitializeComponent();
-        Root.DataContext = serviceProvider.GetRequiredService<NotifyIconViewModel>();
+        Root.InitializeDataContext<NotifyIconViewModel>(serviceProvider);
     }
 }

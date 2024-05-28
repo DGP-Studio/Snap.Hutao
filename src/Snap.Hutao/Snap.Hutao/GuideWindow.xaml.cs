@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
@@ -28,6 +29,12 @@ internal sealed partial class GuideWindow : Window,
     public GuideWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+
+        if (AppWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.IsMaximizable = false;
+        }
+
         this.InitializeController(serviceProvider);
     }
 

@@ -223,6 +223,7 @@
     <AdditionalFiles Include="Resource\Localization\SH.ko.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.pt.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.ru.resx" />
+    <AdditionalFiles Include="Resource\Localization\SH.vi.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
   </ItemGroup>
 
@@ -339,7 +340,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.0.8">
+    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
