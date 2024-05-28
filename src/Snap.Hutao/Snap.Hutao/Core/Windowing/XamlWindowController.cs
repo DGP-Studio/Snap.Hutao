@@ -140,7 +140,7 @@ internal sealed class XamlWindowController
             RECT primaryRect = StructMarshal.RECT(DisplayArea.Primary.OuterBounds);
             return IntersectRect(out _, in primaryRect, in iconRect);
         }
-        
+
         HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
         HWND trayNotifyWnd = FindWindowExW(shellTrayWnd, default, "TrayNotifyWnd", default);
         HWND button = FindWindowExW(trayNotifyWnd, default, "Button", default);
