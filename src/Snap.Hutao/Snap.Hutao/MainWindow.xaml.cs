@@ -39,6 +39,8 @@ internal sealed partial class MainWindow : Window,
 
     public SizeInt32 InitSize { get; } = new(1200, 741);
 
+    public SizeInt32 MinSize { get; } = new(MinWidth, MinHeight);
+
     /// <inheritdoc/>
     public unsafe void HandleMinMaxInfo(ref MINMAXINFO pInfo, double scalingFactor)
     {

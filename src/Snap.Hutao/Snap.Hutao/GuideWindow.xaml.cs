@@ -44,6 +44,8 @@ internal sealed partial class GuideWindow : Window,
 
     public SizeInt32 InitSize { get; } = new(MinWidth, MinHeight);
 
+    public SizeInt32 MinSize { get; } = new(MinWidth, MinHeight);
+
     public unsafe void HandleMinMaxInfo(ref MINMAXINFO info, double scalingFactor)
     {
         info.ptMinTrackSize.x = (int)Math.Max(MinWidth * scalingFactor, info.ptMinTrackSize.x);
