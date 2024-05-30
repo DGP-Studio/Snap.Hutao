@@ -52,6 +52,12 @@
     <Thickness x:Key="InfoBarIconMargin">19,16,19,16</Thickness>
     <Thickness x:Key="InfoBarContentRootPadding">0,0,0,0</Thickness>
     <x:Double x:Key="InfoBarIconFontSize">20</x:Double>
+
+    <Thickness x:Key="InfoBarTitleHorizontalOrientationMargin">0,0,0,0</Thickness>
+    <Thickness x:Key="InfoBarMessageHorizontalOrientationMargin">12,0,0,0</Thickness>
+    <Thickness x:Key="InfoBarTitleVerticalOrientationMargin">0,16,0,0</Thickness>
+    <Thickness x:Key="InfoBarMessageVerticalOrientationMargin">0,6,0,0</Thickness>
+
     <!--  TODO: When will DefaultInfoBarStyle added  -->
     <Style TargetType="InfoBar">
         <Setter Property="shch:InfoBarHelper.IsTextSelectionEnabled" Value="False"/>
