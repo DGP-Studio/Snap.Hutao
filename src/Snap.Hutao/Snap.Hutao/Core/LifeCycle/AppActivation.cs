@@ -52,7 +52,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     {
         // Before activate, we try to redirect to the opened process in App,
         // And we check if it's a toast activation.
-        if (ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
+        if (args.Kind is HutaoActivationKind.Toast)
         {
             return;
         }
@@ -188,7 +188,12 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
         {
             await taskContext.SwitchToMainThreadAsync();
-            currentWindowReference.Window = serviceProvider.GetRequiredService<GuideWindow>();
+
+            GuideWindow guideWindow = serviceProvider.GetRequiredService<GuideWindow>();
+            currentWindowReference.Window = guideWindow;
+
+            guideWindow.SwitchTo();
+            guideWindow.BringToForeground();
         }
         else
         {
@@ -205,7 +210,11 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         await taskContext.SwitchToMainThreadAsync();
 
-        currentWindowReference.Window = serviceProvider.GetRequiredService<MainWindow>();
+        MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+        currentWindowReference.Window = mainWindow;
+
+        mainWindow.SwitchTo();
+        mainWindow.BringToForeground();
 
         await taskContext.SwitchToBackgroundAsync();
 

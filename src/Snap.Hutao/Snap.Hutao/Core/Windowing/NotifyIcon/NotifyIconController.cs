@@ -37,6 +37,7 @@ internal sealed class NotifyIconController : IDisposable
         {
             TaskbarCreated = OnRecreateNotifyIconRequested,
             ContextMenuRequested = OnContextMenuRequested,
+            IconSelected = OnContextMenuRequested,
         };
 
         CreateNotifyIcon();

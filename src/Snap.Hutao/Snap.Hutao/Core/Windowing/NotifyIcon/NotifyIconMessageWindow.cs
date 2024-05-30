@@ -62,6 +62,8 @@ internal sealed class NotifyIconMessageWindow : IDisposable
 
     public Action<NotifyIconMessageWindow, PointUInt16>? ContextMenuRequested { get; set; }
 
+    public Action<NotifyIconMessageWindow, PointUInt16>? IconSelected { get; set; }
+
     public HWND HWND { get; }
 
     public void Dispose()
@@ -116,6 +118,7 @@ internal sealed class NotifyIconMessageWindow : IDisposable
                     break;
                 case NIN_SELECT:
                     // X: wParam2.X Y: wParam2.Y Low: NIN_SELECT
+                    window.IconSelected?.Invoke(window, wParam2);
                     break;
                 case NIN_POPUPOPEN:
                     // X: wParam2.X Y: 0? Low: NIN_POPUPOPEN

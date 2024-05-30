@@ -72,6 +72,7 @@ public sealed partial class App : Application
 
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
             {
+                logger.LogDebug("Application exiting on RedirectActivationTo");
                 Exit();
                 return;
             }
@@ -85,7 +86,7 @@ public sealed partial class App : Application
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex);
+            logger.LogError(ex, "Application failed in App.OnLaunched");
             Process.GetCurrentProcess().Kill();
         }
     }

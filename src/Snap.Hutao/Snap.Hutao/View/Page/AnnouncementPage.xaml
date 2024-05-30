@@ -174,7 +174,7 @@
         <DataTemplate x:Key="HutaoAnnouncementTemplate">
             <InfoBar
                 Title="{Binding Title}"
-                Margin="0,8,0,0"
+                Margin="0,0,0,0"
                 shch:InfoBarHelper.IsTextSelectionEnabled="True"
                 CloseButtonCommand="{Binding DismissCommand}"
                 CloseButtonCommandParameter="{Binding}"
@@ -219,6 +219,7 @@
 
                 <ItemsControl
                     ItemTemplate="{StaticResource HutaoAnnouncementTemplate}"
+                    ItemsPanel="{ThemeResource StackPanelSpacing8Template}"
                     ItemsSource="{Binding HutaoAnnouncements}"
                     Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
