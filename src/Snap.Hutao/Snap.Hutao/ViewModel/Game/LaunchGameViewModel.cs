@@ -288,10 +288,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             return;
         }
 
-        if (Directory.Exists(gameFileSystem.ScreenShotDirectory))
-        {
-            await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.ScreenShotDirectory);
-        }
+        Directory.CreateDirectory(gameFileSystem.ScreenShotDirectory);
+        await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.ScreenShotDirectory);
     }
 
     private async ValueTask SetSelectedSchemeAsync(LaunchScheme? value)

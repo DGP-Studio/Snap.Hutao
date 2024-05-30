@@ -37,30 +37,33 @@
                         </Grid.RowDefinitions>
                         <!--  Image Layer  -->
                         <Border cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
-                            <Border
-                                x:Name="ImageZoomBorder"
-                                VerticalAlignment="Top"
-                                cw:VisualExtensions.NormalizedCenterPoint="0.5">
-                                <cww:ConstrainedBox
-                                    Margin="-4"
-                                    AspectRatio="1080:390"
-                                    CornerRadius="{ThemeResource ControlCornerRadiusTop}">
-                                    <shci:CachedImage
-                                        VerticalAlignment="Center"
-                                        PlaceholderMargin="16"
-                                        PlaceholderSource="{StaticResource UI_EmotionIcon271}"
-                                        Source="{Binding Banner}"
-                                        Stretch="UniformToFill"/>
-                                </cww:ConstrainedBox>
-                                <cwa:Explicit.Animations>
-                                    <cwa:AnimationSet x:Name="ImageZoomInAnimation">
-                                        <shca:ImageZoomInAnimation/>
-                                    </cwa:AnimationSet>
-                                    <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
-                                        <shca:ImageZoomOutAnimation/>
-                                    </cwa:AnimationSet>
-                                </cwa:Explicit.Animations>
-                            </Border>
+                            <Grid>
+                                <Border
+                                    x:Name="ImageZoomBorder"
+                                    VerticalAlignment="Top"
+                                    cw:VisualExtensions.NormalizedCenterPoint="0.5">
+                                    <cww:ConstrainedBox
+                                        Margin="-4"
+                                        AspectRatio="1080:390"
+                                        CornerRadius="{ThemeResource ControlCornerRadiusTop}">
+                                        <shci:CachedImage
+                                            VerticalAlignment="Center"
+                                            PlaceholderMargin="16"
+                                            PlaceholderSource="{StaticResource UI_EmotionIcon271}"
+                                            Source="{Binding Banner}"
+                                            Stretch="UniformToFill"/>
+                                    </cww:ConstrainedBox>
+                                    <cwa:Explicit.Animations>
+                                        <cwa:AnimationSet x:Name="ImageZoomInAnimation">
+                                            <shca:ImageZoomInAnimation/>
+                                        </cwa:AnimationSet>
+                                        <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
+                                            <shca:ImageZoomOutAnimation/>
+                                        </cwa:AnimationSet>
+                                    </cwa:Explicit.Animations>
+                                </Border>
+                                <Border Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
+                            </Grid>
                         </Border>
                         <!--  Time Description  -->
                         <Border
