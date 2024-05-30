@@ -164,47 +164,51 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             {
                 default:
                     {
-                        await HandleNormalLaunchActionAsync().ConfigureAwait(false);
+                        await HandleNormalLaunchActionAsync(args.IsRedirectTo).ConfigureAwait(false);
                         break;
                     }
             }
         }
     }
 
-    private async ValueTask HandleNormalLaunchActionAsync()
+    private async ValueTask HandleNormalLaunchActionAsync(bool isRedirectTo)
     {
-        // Increase launch times
-        LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => unchecked(x + 1));
-
-        // If the guide is completed, we check if there's any unfulfilled resource category present.
-        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
+        if (!isRedirectTo)
         {
-            if (StaticResource.IsAnyUnfulfilledCategoryPresent())
+            // Increase launch times
+            LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => unchecked(x + 1));
+
+            // If the guide is completed, we check if there's any unfulfilled resource category present.
+            if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
             {
-                UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
+                if (StaticResource.IsAnyUnfulfilledCategoryPresent())
+                {
+                    UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
+                }
+            }
+
+            if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
+            {
+                await taskContext.SwitchToMainThreadAsync();
+
+                GuideWindow guideWindow = serviceProvider.GetRequiredService<GuideWindow>();
+                currentWindowReference.Window = guideWindow;
+
+                guideWindow.SwitchTo();
+                guideWindow.BringToForeground();
+                return;
             }
         }
 
-        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
-        {
-            await taskContext.SwitchToMainThreadAsync();
-
-            GuideWindow guideWindow = serviceProvider.GetRequiredService<GuideWindow>();
-            currentWindowReference.Window = guideWindow;
-
-            guideWindow.SwitchTo();
-            guideWindow.BringToForeground();
-        }
-        else
-        {
-            await WaitMainWindowAsync().ConfigureAwait(false);
-        }
+        await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
     }
 
-    private async ValueTask WaitMainWindowAsync()
+    private async ValueTask WaitMainWindowOrCurrentAsync()
     {
-        if (currentWindowReference.Window is not null)
+        if (currentWindowReference.Window is { } window)
         {
+            window.SwitchTo();
+            window.BringToForeground();
             return;
         }
 
@@ -243,7 +247,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         {
             case CategoryAchievement:
                 {
-                    await WaitMainWindowAsync().ConfigureAwait(false);
+                    await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
                     await HandleAchievementActionAsync(action, parameter, isRedirectTo).ConfigureAwait(false);
                     break;
                 }
@@ -256,7 +260,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
             default:
                 {
-                    await HandleNormalLaunchActionAsync().ConfigureAwait(false);
+                    await HandleNormalLaunchActionAsync(isRedirectTo).ConfigureAwait(false);
                     break;
                 }
         }
