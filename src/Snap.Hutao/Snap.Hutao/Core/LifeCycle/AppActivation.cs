@@ -50,13 +50,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     /// <inheritdoc/>
     public void Activate(HutaoActivationArguments args)
     {
-        // Before activate, we try to redirect to the opened process in App,
-        // And we check if it's a toast activation.
-        if (args.Kind is HutaoActivationKind.Toast)
-        {
-            return;
-        }
-
         HandleActivationAsync(args).SafeForget();
     }
 
