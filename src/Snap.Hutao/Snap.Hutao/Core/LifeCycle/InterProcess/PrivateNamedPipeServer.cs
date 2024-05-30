@@ -4,6 +4,8 @@
 using Snap.Hutao.Core.ExceptionService;
 using System.IO.Hashing;
 using System.IO.Pipes;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
@@ -12,7 +14,7 @@ namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 internal sealed partial class PrivateNamedPipeServer : IDisposable
 {
     private readonly PrivateNamedPipeMessageDispatcher messageDispatcher;
-
+    private readonly RuntimeOptions runtimeOptions;
     private readonly NamedPipeServerStream serverStream = new("Snap.Hutao.PrivateNamedPipe", PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances, PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
     private readonly CancellationTokenSource serverTokenSource = new();
     private readonly SemaphoreSlim serverSemaphore = new(1);
@@ -31,6 +33,17 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     {
         using (await serverSemaphore.EnterAsync(serverTokenSource.Token).ConfigureAwait(false))
         {
+            if (runtimeOptions.IsElevated)
+            {
+                SecurityIdentifier everyOne = new(WellKnownSidType.WorldSid, null);
+                SecurityIdentifier users = new(WellKnownSidType.BuiltinUsersSid, null);
+
+                PipeSecurity pipeSecurity = new();
+                pipeSecurity.AddAccessRule(new PipeAccessRule(everyOne, PipeAccessRights.ReadWrite, AccessControlType.Allow));
+                pipeSecurity.AddAccessRule(new PipeAccessRule(users, PipeAccessRights.ReadWrite, AccessControlType.Allow));
+                serverStream.SetAccessControl(pipeSecurity);
+            }
+
             while (!serverTokenSource.IsCancellationRequested)
             {
                 try
