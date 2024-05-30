@@ -23,7 +23,6 @@
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
-        <shcb:DeferLoadBehavior ElementNames="TopPanel,GameAnnouncementPivot"/>
     </mxi:Interaction.Behaviors>
     <shc:ScopedPage.Resources>
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
@@ -218,9 +217,12 @@
                 </Border>
 
                 <ItemsControl
+                    x:Name="HutaoAnnouncementControl"
+                    x:Load="False"
                     ItemTemplate="{StaticResource HutaoAnnouncementTemplate}"
                     ItemsPanel="{ThemeResource StackPanelSpacing8Template}"
                     ItemsSource="{Binding HutaoAnnouncements}"
+                    Transitions="{ThemeResource EntranceThemeTransitions}"
                     Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
                 <!--  ItemsRepeater will behave abnormal if no direct scrollhost wrapping it  -->

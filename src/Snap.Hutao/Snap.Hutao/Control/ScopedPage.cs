@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.View.Helper;
 using Snap.Hutao.ViewModel.Abstraction;
 
 namespace Snap.Hutao.Control;
@@ -48,6 +49,7 @@ internal class ScopedPage : Page
         {
             IViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
             viewModel.CancellationToken = viewCancellationTokenSource.Token;
+            viewModel.DeferContentLoader = new DeferContentLoader(this);
             DataContext = viewModel;
         }
         catch (Exception ex)
