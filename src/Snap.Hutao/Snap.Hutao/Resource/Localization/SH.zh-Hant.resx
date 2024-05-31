@@ -121,7 +121,7 @@
     <value>胡桃 Dev {0}</value>
   </data>
   <data name="AppElevatedDevNameAndVersion" xml:space="preserve">
-    <value>胡桃Dev {0} [系統管理员]</value>
+    <value>胡桃 Dev {0} [系統管理員]</value>
   </data>
   <data name="AppElevatedNameAndVersion" xml:space="preserve">
     <value>胡桃 {0} [系統管理員]</value>
@@ -166,7 +166,7 @@
     <value>數據庫已損壞：{0}</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>用户數據已損壞：{0}</value>
+    <value>用戶數據已損壞：{0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
     <value>請勿在系統管理員模式下使用此功能 {0}</value>
@@ -274,13 +274,13 @@
     <value>上場 {0} 次</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
-    <value>渠道伺服器</value>
+    <value>渠道服</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
-    <value>官方伺服器</value>
+    <value>官方服</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
-    <value>國際伺服器</value>
+    <value>國際服</value>
   </data>
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
     <value>網絡異常</value>
@@ -573,7 +573,7 @@
     <value>上傳了 UID：{0} 的 {1} 筆祈願記錄，儲存了 {2} 筆</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
-    <value>請先登入或注冊胡桃帳號</value>
+    <value>請先登入或註冊胡桃帳號</value>
   </data>
   <data name="ServerPassportLoginSucceed" xml:space="preserve">
     <value>登入成功</value>
@@ -1011,7 +1011,7 @@
     <value>無法找到遊戲本體路徑，請前往設定修改</value>
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
-    <value>未開啟長路徑功能，無法設定註冊表鍵值</value>
+    <value>未開啟長路徑功能，無法設定登錄檔鍵值</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>無法讀取遊戲設定檔 {0}，可能是檔案不存在</value>
@@ -3225,10 +3225,10 @@
     <value>無效的 UID</value>
   </data>
   <data name="WebHoyolabRegionCNGF01" xml:space="preserve">
-    <value>大陸伺服器 官方伺服器</value>
+    <value>陸服 官方服</value>
   </data>
   <data name="WebHoyolabRegionCNQD01" xml:space="preserve">
-    <value>大陸伺服器 渠道伺服器</value>
+    <value>陸服 渠道服</value>
   </data>
   <data name="WebHoyolabRegionOSASIA" xml:space="preserve">
     <value>國際服 亞服</value>
