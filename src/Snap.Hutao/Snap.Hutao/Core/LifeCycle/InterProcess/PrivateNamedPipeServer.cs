@@ -1,8 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ExceptionService;
-using System.IO.Hashing;
+using System.Diagnostics;
 using System.IO.Pipes;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -74,17 +73,10 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         }
     }
 
-    private static unsafe byte[] GetValidatedContent(NamedPipeServerStream serverStream, PipePacketHeader* header)
-    {
-        byte[] content = new byte[header->ContentLength];
-        serverStream.ReadAtLeast(content, header->ContentLength, false);
-        HutaoException.ThrowIf(XxHash64.HashToUInt64(content) != header->Checksum, "PipePacket Content Hash incorrect");
-        return content;
-    }
-
     private unsafe void RunPacketSession(NamedPipeServerStream serverStream, CancellationToken token)
     {
         Span<byte> headerSpan = stackalloc byte[sizeof(PipePacketHeader)];
+        bool shouldElevate = false;
         bool sessionTerminated = false;
         while (serverStream.IsConnected && !sessionTerminated && !token.IsCancellationRequested)
         {
@@ -96,12 +88,34 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                 switch ((header->Type, header->Command, header->ContentType))
                 {
                     case (PipePacketType.Request, PipePacketCommand.RedirectActivation, PipePacketContentType.Json):
-                        ReadOnlySpan<byte> content = GetValidatedContent(serverStream, header);
-                        messageDispatcher.RedirectActivation(JsonSerializer.Deserialize<HutaoActivationArguments>(content));
+                        ReadOnlySpan<byte> content = serverStream.GetValidatedContent(header);
+                        HutaoActivationArguments? hutaoArgs = JsonSerializer.Deserialize<HutaoActivationArguments>(content);
+                        ArgumentNullException.ThrowIfNull(hutaoArgs);
+
+                        PipePacketHeader responsePacket = default;
+                        responsePacket.Version = 1;
+                        responsePacket.Type = PipePacketType.Response;
+                        responsePacket.ContentType = PipePacketContentType.Json;
+
+                        shouldElevate = !runtimeOptions.IsElevated && hutaoArgs.IsElevated;
+                        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(shouldElevate);
+                        serverStream.WritePacket(&responsePacket, jsonBytes);
+                        serverStream.Flush();
+
+                        if (!shouldElevate)
+                        {
+                            messageDispatcher.RedirectActivation(hutaoArgs);
+                        }
+
                         break;
                     case (PipePacketType.Termination, _, _):
                         serverStream.Disconnect();
                         sessionTerminated = true;
+                        if (shouldElevate)
+                        {
+                            Process.GetCurrentProcess().Kill();
+                        }
+
                         return;
                 }
             }

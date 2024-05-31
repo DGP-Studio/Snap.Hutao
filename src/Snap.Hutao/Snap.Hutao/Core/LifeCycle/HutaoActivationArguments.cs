@@ -8,6 +8,8 @@ namespace Snap.Hutao.Core.LifeCycle;
 
 internal sealed class HutaoActivationArguments
 {
+    public bool IsElevated { get; set; }
+
     public bool IsRedirectTo { get; set; }
 
     public bool IsToastActivated { get; set; }
@@ -18,10 +20,11 @@ internal sealed class HutaoActivationArguments
 
     public string? LaunchActivatedArguments { get; set; }
 
-    public static HutaoActivationArguments FromAppActivationArguments(AppActivationArguments args, bool isRedirected = false)
+    public static HutaoActivationArguments FromAppActivationArguments(AppActivationArguments args, bool isRedirected = false, bool isElevated = false)
     {
         HutaoActivationArguments result = new()
         {
+            IsElevated = isElevated,
             IsRedirectTo = isRedirected,
         };
 
