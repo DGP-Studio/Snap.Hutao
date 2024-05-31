@@ -39,7 +39,7 @@ internal sealed partial class GameScreenCaptureService : IGameScreenCaptureServi
 
     public bool IsSupported()
     {
-        if (!Core.UniversalApiContract.IsPresent(WindowsVersion.Windows10Version1903))
+        if (!UniversalApiContract.IsPresent(WindowsVersion.Windows10Version1903))
         {
             logger.LogWarning("Windows 10 Version 1903 or later is required for Windows.Graphics.Capture API.");
             return false;
