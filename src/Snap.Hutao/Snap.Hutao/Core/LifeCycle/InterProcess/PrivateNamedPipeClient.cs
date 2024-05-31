@@ -2,21 +2,16 @@
 // Licensed under the MIT license.
 
 using Microsoft.Windows.AppLifecycle;
-using System.IO.Hashing;
 using System.IO.Pipes;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
 [Injection(InjectAs.Singleton)]
-internal sealed class PrivateNamedPipeClient : IDisposable
+[ConstructorGenerated]
+internal sealed partial class PrivateNamedPipeClient : IDisposable
 {
-    private readonly RuntimeOptions runtimeOptions;
     private readonly NamedPipeClientStream clientStream = new(".", "Snap.Hutao.PrivateNamedPipe", PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
-
-    public PrivateNamedPipeClient(IServiceProvider serviceProvider)
-    {
-        runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-    }
+    private readonly RuntimeOptions runtimeOptions;
 
     public unsafe bool TryRedirectActivationTo(AppActivationArguments args)
     {
