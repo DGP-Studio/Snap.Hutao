@@ -27,7 +27,7 @@ namespace Snap.Hutao.ViewModel.Game;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Injection(InjectAs.Singleton)]
 internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution
 {
     /// <summary>
