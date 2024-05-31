@@ -7,9 +7,23 @@ using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32;
 
+[SuppressMessage("", "SA1313")]
+[SuppressMessage("", "SYSLIB1054")]
 internal static class Dxgi
 {
-    [DllImport("dxgi.dll", ExactSpelling = true, PreserveSig = false)]
+    [DllImport("dxgi.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.1")]
-    public unsafe static extern HRESULT CreateDXGIFactory2([In] uint Flags, [In][Const] Guid* riid, [Out][ComOutPtr] void** ppFactory);
+    public static unsafe extern HRESULT CreateDXGIFactory2(uint Flags, Guid* riid, void** ppFactory);
+
+    public static unsafe HRESULT CreateDXGIFactory2<T>(uint Flags, ref readonly Guid iid, out T* pFactory)
+        where T : unmanaged
+    {
+        fixed (Guid* riid = &iid)
+        {
+            fixed (T** ppFactory = &pFactory)
+            {
+                return CreateDXGIFactory2(Flags, riid, (void**)ppFactory);
+            }
+        }
+    }
 }
