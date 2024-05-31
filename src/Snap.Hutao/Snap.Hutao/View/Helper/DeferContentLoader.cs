@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Markup;
+using Snap.Hutao.Control;
 
 namespace Snap.Hutao.View.Helper;
 
@@ -11,14 +13,28 @@ internal sealed class DeferContentLoader : IDeferContentLoader
 
     public DeferContentLoader(FrameworkElement element)
     {
-        this.reference.SetTarget(element);
+        reference.SetTarget(element);
     }
 
-    public void Load(string name)
+    public DependencyObject? Load(string name)
     {
         if (reference.TryGetTarget(out FrameworkElement? element))
         {
-            element.FindName(name);
+            return element.FindName(name) as DependencyObject;
+        }
+
+        return default;
+    }
+
+    public void Unload(DependencyObject @object)
+    {
+        if (reference.TryGetTarget(out FrameworkElement? element) && element is ScopedPage scopedPage)
+        {
+           scopedPage.UnloadObjectOverride(@object);
+        }
+        else
+        {
+            XamlMarkupHelper.UnloadObject(@object);
         }
     }
 }

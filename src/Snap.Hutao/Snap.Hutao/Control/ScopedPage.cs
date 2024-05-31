@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Helper;
@@ -35,6 +36,11 @@ internal class ScopedPage : Page
         }
 
         extra.NotifyNavigationCompleted();
+    }
+
+    public virtual void UnloadObjectOverride(DependencyObject unloadableObject)
+    {
+        XamlMarkupHelper.UnloadObject(unloadableObject);
     }
 
     /// <summary>
