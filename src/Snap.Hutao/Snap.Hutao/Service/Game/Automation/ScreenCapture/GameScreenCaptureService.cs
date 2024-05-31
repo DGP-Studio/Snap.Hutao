@@ -12,6 +12,7 @@ using Windows.Graphics.DirectX.Direct3D11;
 using WinRT;
 using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.D3d11;
+using static Snap.Hutao.Win32.Dxgi;
 using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
@@ -20,6 +21,20 @@ namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 [Injection(InjectAs.Singleton, typeof(IGameScreenCaptureService))]
 internal sealed partial class GameScreenCaptureService : IGameScreenCaptureService
 {
+    private const uint CreateDXGIFactoryFlag =
+#if DEBUG
+        DXGI_CREATE_FACTORY_DEBUG;
+#else
+        0;
+#endif
+
+    private const D3D11_CREATE_DEVICE_FLAG D3d11CreateDeviceFlag =
+        D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT
+#if DEBUG
+        | D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_DEBUG
+#endif
+        ;
+
     private readonly ILogger<GameScreenCaptureService> logger;
 
     public bool IsSupported()
@@ -44,19 +59,33 @@ internal sealed partial class GameScreenCaptureService : IGameScreenCaptureServi
     {
         session = default;
 
-        D3D11_CREATE_DEVICE_FLAG flag = D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT
-#if DEBUG
-            | D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_DEBUG
-#endif
-            ;
-
         HRESULT hr;
-        hr = D3D11CreateDevice(default, D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, default, flag, [], D3D11_SDK_VERSION, out ID3D11Device* pD3D11Device, out _, out _);
+        hr = CreateDXGIFactory2(CreateDXGIFactoryFlag, in IDXGIFactory6.IID, out IDXGIFactory6* factory);
+        if (FAILED(hr))
+        {
+            logger.LogWarning("CreateDXGIFactory2 failed with code: {Code}", hr);
+            return false;
+        }
+
+        IUnknownMarshal.Release(factory);
+
+        hr = factory->EnumAdapterByGpuPreference(0U, DXGI_GPU_PREFERENCE.DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, in IDXGIAdapter.IID, out IDXGIAdapter* adapter);
+        if (hr != HRESULT.DXGI_ERROR_NOT_FOUND)
+        {
+            logger.LogWarning("IDXGIFactory6.EnumAdapterByGpuPreference failed with code: {Code}", hr);
+            return false;
+        }
+
+        IUnknownMarshal.Release(adapter);
+
+        hr = D3D11CreateDevice(adapter, D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, default, D3d11CreateDeviceFlag, [], D3D11_SDK_VERSION, out ID3D11Device* pD3D11Device, out _, out _);
         if (FAILED(hr))
         {
             logger.LogWarning("D3D11CreateDevice failed with code: {Code}", hr);
             return false;
         }
+
+        IUnknownMarshal.Release(pD3D11Device);
 
         hr = IUnknownMarshal.QueryInterface(pD3D11Device, in IDXGIDevice.IID, out IDXGIDevice* pDXGIDevice);
         if (FAILED(hr))
