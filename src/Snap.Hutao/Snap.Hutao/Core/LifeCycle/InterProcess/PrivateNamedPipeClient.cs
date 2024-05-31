@@ -17,7 +17,6 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
     {
         if (clientStream.TryConnectOnce())
         {
-            Span<byte> headerSpan = stackalloc byte[sizeof(PipePacketHeader)];
             bool serverElevated = false;
             {
                 // Connect
@@ -31,6 +30,7 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
 
             {
                 // Get previous instance elevated status
+                Span<byte> headerSpan = stackalloc byte[sizeof(PipePacketHeader)];
                 clientStream.ReadExactly(headerSpan);
                 fixed (byte* pHeader = headerSpan)
                 {
