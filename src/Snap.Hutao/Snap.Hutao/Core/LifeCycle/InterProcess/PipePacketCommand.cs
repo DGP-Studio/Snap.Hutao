@@ -6,6 +6,9 @@ namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 internal enum PipePacketCommand : byte
 {
     None = 0,
+    Connect = 1,
 
     RedirectActivation = 10,
+
+    Exit = 30,
 }

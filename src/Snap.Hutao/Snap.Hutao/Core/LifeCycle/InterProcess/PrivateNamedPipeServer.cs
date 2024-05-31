@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Diagnostics;
 using System.IO.Pipes;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -13,6 +12,8 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
 {
     private readonly PrivateNamedPipeMessageDispatcher messageDispatcher;
     private readonly RuntimeOptions runtimeOptions;
+    private readonly ITaskContext taskContext;
+    private readonly App app;
 
     private readonly CancellationTokenSource serverTokenSource = new();
     private readonly SemaphoreSlim serverSemaphore = new(1);
@@ -23,6 +24,8 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     {
         messageDispatcher = serviceProvider.GetRequiredService<PrivateNamedPipeMessageDispatcher>();
         runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        app = serviceProvider.GetRequiredService<App>();
 
         PipeSecurity? pipeSecurity = default;
 
@@ -76,7 +79,6 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     private unsafe void RunPacketSession(NamedPipeServerStream serverStream, CancellationToken token)
     {
         Span<byte> headerSpan = stackalloc byte[sizeof(PipePacketHeader)];
-        bool shouldElevate = false;
         bool sessionTerminated = false;
         while (serverStream.IsConnected && !sessionTerminated && !token.IsCancellationRequested)
         {
@@ -87,33 +89,26 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
 
                 switch ((header->Type, header->Command, header->ContentType))
                 {
-                    case (PipePacketType.Request, PipePacketCommand.RedirectActivation, PipePacketContentType.Json):
-                        ReadOnlySpan<byte> content = serverStream.GetValidatedContent(header);
-                        HutaoActivationArguments? hutaoArgs = JsonSerializer.Deserialize<HutaoActivationArguments>(content);
-                        ArgumentNullException.ThrowIfNull(hutaoArgs);
+                    case (PipePacketType.Request, PipePacketCommand.Connect, _):
+                        PipePacketHeader elevatedPacket = default;
+                        elevatedPacket.Version = 1;
+                        elevatedPacket.Type = PipePacketType.Response;
+                        elevatedPacket.ContentType = PipePacketContentType.Json;
 
-                        PipePacketHeader responsePacket = default;
-                        responsePacket.Version = 1;
-                        responsePacket.Type = PipePacketType.Response;
-                        responsePacket.ContentType = PipePacketContentType.Json;
-
-                        shouldElevate = !runtimeOptions.IsElevated && hutaoArgs.IsElevated;
-                        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(shouldElevate);
-                        serverStream.WritePacket(&responsePacket, jsonBytes);
-                        serverStream.Flush();
-
-                        if (!shouldElevate)
-                        {
-                            messageDispatcher.RedirectActivation(hutaoArgs);
-                        }
+                        byte[] elevatedBytes = JsonSerializer.SerializeToUtf8Bytes(runtimeOptions.IsElevated);
+                        serverStream.WritePacket(&elevatedPacket, elevatedBytes);
 
                         break;
-                    case (PipePacketType.Termination, _, _):
+                    case (PipePacketType.Request, PipePacketCommand.RedirectActivation, PipePacketContentType.Json):
+                        ReadOnlySpan<byte> content = serverStream.GetValidatedContent(header);
+                        messageDispatcher.RedirectActivation(JsonSerializer.Deserialize<HutaoActivationArguments>(content));
+                        break;
+                    case (PipePacketType.SessionTermination, _, _):
                         serverStream.Disconnect();
                         sessionTerminated = true;
-                        if (shouldElevate)
+                        if (header->Command is PipePacketCommand.Exit)
                         {
-                            Process.GetCurrentProcess().Kill();
+                            messageDispatcher.Exit();
                         }
 
                         return;
