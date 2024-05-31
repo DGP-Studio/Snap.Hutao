@@ -99,7 +99,7 @@ internal sealed class XamlWindowController
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        if (XamlWindowLifetime.ApplicationLaunchedWithNotifyIcon && !XamlWindowLifetime.ApplicationExiting)
+        if (XamlLifetime.ApplicationLaunchedWithNotifyIcon && !XamlLifetime.ApplicationExiting)
         {
             args.Handled = true;
             window.Hide();

@@ -11,7 +11,7 @@ using Windows.Graphics.Capture;
 using Windows.Graphics.DirectX.Direct3D11;
 using WinRT;
 using static Snap.Hutao.Win32.ConstValues;
-using static Snap.Hutao.Win32.D3D11;
+using static Snap.Hutao.Win32.D3d11;
 using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;

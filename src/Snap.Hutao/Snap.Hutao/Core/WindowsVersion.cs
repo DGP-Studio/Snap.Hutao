@@ -3,6 +3,8 @@
 
 namespace Snap.Hutao.Core;
 
+// See %PROGRAMFILES(X86)%\Windows Kits\10\Platforms\UAP\
+// Windows.Foundation.UniversalApiContract
 internal enum WindowsVersion : ushort
 {
     /// <summary>

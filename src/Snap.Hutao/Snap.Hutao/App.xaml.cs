@@ -59,7 +59,7 @@ public sealed partial class App : Application
 
     public new void Exit()
     {
-        XamlWindowLifetime.ApplicationExiting = true;
+        XamlLifetime.ApplicationExiting = true;
         base.Exit();
     }
 
