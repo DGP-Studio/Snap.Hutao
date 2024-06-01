@@ -1878,7 +1878,7 @@
     <value>同步角色天賦信息</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>從 HoYoLAB 戰績同步</value>
+    <value>從 HoYoLAB - 戰績同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>同步角色天賦外的大部分信息</value>
@@ -2961,7 +2961,7 @@
     <value>工具</value>
   </data>
   <data name="ViewUserCookieOperation" xml:space="preserve">
-    <value>米遊社</value>
+    <value>米游社</value>
   </data>
   <data name="ViewUserCookieOperation2" xml:space="preserve">
     <value>HoYoLAB</value>
@@ -3174,7 +3174,7 @@
     <value>{0} 秒</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>驗證失敗，請手動進行驗證或前往「 HoYoLAB -工具箱-戰績-即時便箋」頁面查看。</value>
+    <value>驗證失敗，請手動進行驗證或前往「米游社-旅行工具-原神战绩-实时便笺」頁面查看。</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>錯誤的 UID 格式</value>
@@ -3246,7 +3246,7 @@
     <value>胡桃服務維護中</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>驗證失敗，請手動進行驗證或前往「 HoYoLAB -工具箱-戰績」頁面查看。</value>
+    <value>驗證失敗，請手動進行驗證或前往「米游社-旅行工具-原神战绩」頁面查看。</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>狀態：{0} | 信息：{1}</value>
