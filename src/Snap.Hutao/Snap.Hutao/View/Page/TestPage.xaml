@@ -119,6 +119,11 @@
                 Header="Compensation GachaLog Service Time For 15 Days"
                 IsClickEnabled="True"/>
 
+            <cwc:SettingsCard
+                Command="{Binding ScreenCaptureCommand}"
+                Header="Screen Capture Test"
+                IsClickEnabled="True"/>
+
             <cwc:SettingsCard Header="Crash">
                 <StackPanel Orientation="Horizontal">
                     <Button Command="{Binding ExceptionCommand}" Content="Activate"/>

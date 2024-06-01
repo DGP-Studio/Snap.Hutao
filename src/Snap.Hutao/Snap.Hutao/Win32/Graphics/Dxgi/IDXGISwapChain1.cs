@@ -8,7 +8,8 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
 
-internal unsafe readonly struct IDXGISwapChain1
+[SuppressMessage("", "SA1313")]
+internal unsafe struct IDXGISwapChain1
 {
     public readonly Vftbl* ThisPtr;
 
@@ -18,6 +19,23 @@ internal unsafe readonly struct IDXGISwapChain1
         {
             ReadOnlySpan<byte> data = [0xF7, 0x45, 0x0A, 0x79, 0x42, 0x0D, 0x76, 0x48, 0x98, 0x3A, 0x0A, 0x55, 0xCF, 0xE6, 0xF4, 0xAA];
             return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
+        }
+    }
+
+    public HRESULT Present(uint SyncInterval, uint Flags)
+    {
+        return ThisPtr->IDXGISwapChainVftbl.Present((IDXGISwapChain*)Unsafe.AsPointer(ref this), SyncInterval, Flags);
+    }
+
+    public HRESULT GetBuffer<T>(uint Buffer, ref readonly Guid iid, out T* pSurface)
+        where T : unmanaged
+    {
+        fixed (Guid* riid = &iid)
+        {
+            fixed (T** ppSurface = &pSurface)
+            {
+                return ThisPtr->IDXGISwapChainVftbl.GetBuffer((IDXGISwapChain*)Unsafe.AsPointer(ref this), Buffer, riid, (void**)ppSurface);
+            }
         }
     }
 

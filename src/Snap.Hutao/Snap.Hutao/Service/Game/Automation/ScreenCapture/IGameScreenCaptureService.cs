@@ -9,5 +9,5 @@ internal interface IGameScreenCaptureService
 {
     bool IsSupported();
 
-    bool TryStartCapture(HWND hwnd, [NotNullWhen(true)] out GameScreenCaptureSession? session);
+    bool TryStartCapture(HWND hwnd, bool preview, [NotNullWhen(true)] out GameScreenCaptureSession? session);
 }

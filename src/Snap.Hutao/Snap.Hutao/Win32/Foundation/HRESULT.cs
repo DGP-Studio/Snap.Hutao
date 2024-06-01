@@ -11,6 +11,8 @@ internal readonly partial struct HRESULT
     public static readonly HRESULT S_OK = unchecked((int)0x00000000);
     public static readonly HRESULT E_FAIL = unchecked((int)0x80004005);
     public static readonly HRESULT DXGI_ERROR_NOT_FOUND = unchecked((int)0x887A0002);
+    public static readonly HRESULT DXGI_ERROR_DEVICE_REMOVED = unchecked((int)0x887A0005);
+    public static readonly HRESULT DXGI_ERROR_DEVICE_RESET = unchecked((int)0x887A0007);
 
     public readonly int Value;
 
