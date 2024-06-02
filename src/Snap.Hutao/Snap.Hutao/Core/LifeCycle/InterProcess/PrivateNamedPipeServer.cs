@@ -12,8 +12,6 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
 {
     private readonly PrivateNamedPipeMessageDispatcher messageDispatcher;
     private readonly RuntimeOptions runtimeOptions;
-    private readonly ITaskContext taskContext;
-    private readonly App app;
 
     private readonly CancellationTokenSource serverTokenSource = new();
     private readonly SemaphoreSlim serverSemaphore = new(1);
@@ -24,8 +22,6 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     {
         messageDispatcher = serviceProvider.GetRequiredService<PrivateNamedPipeMessageDispatcher>();
         runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        app = serviceProvider.GetRequiredService<App>();
 
         PipeSecurity? pipeSecurity = default;
 
@@ -89,7 +85,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
 
                 switch ((header->Type, header->Command, header->ContentType))
                 {
-                    case (PipePacketType.Request, PipePacketCommand.Connect, _):
+                    case (PipePacketType.Request, PipePacketCommand.RequestElevatedStatus, _):
                         PipePacketHeader elevatedPacket = default;
                         elevatedPacket.Version = 1;
                         elevatedPacket.Type = PipePacketType.Response;

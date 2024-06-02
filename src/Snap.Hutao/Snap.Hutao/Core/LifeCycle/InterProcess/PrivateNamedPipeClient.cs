@@ -23,7 +23,7 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
                 PipePacketHeader connectPacket = default;
                 connectPacket.Version = 1;
                 connectPacket.Type = PipePacketType.Request;
-                connectPacket.Command = PipePacketCommand.Connect;
+                connectPacket.Command = PipePacketCommand.RequestElevatedStatus;
 
                 clientStream.Write(new(&connectPacket, sizeof(PipePacketHeader)));
             }
