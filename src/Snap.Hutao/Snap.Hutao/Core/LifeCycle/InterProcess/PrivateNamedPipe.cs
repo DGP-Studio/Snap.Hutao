@@ -3,10 +3,8 @@
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
-internal enum PipePacketType : byte
+internal static class PrivateNamedPipe
 {
-    None = 0,
-    Request = 1,
-    Response = 2,
-    SessionTermination = 3,
+    public const int Version = 1;
+    public const string Name = "Snap.Hutao.PrivateNamedPipe";
 }

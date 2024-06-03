@@ -2,45 +2,39 @@
 // Licensed under the MIT license.
 
 using Microsoft.Windows.AppLifecycle;
-using System.IO.Hashing;
+using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
 using System.IO.Pipes;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 
 [Injection(InjectAs.Singleton)]
-internal sealed class PrivateNamedPipeClient : IDisposable
+[ConstructorGenerated]
+internal sealed partial class PrivateNamedPipeClient : IDisposable
 {
-    private readonly NamedPipeClientStream clientStream = new(".", "Snap.Hutao.PrivateNamedPipe", PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+    private readonly NamedPipeClientStream clientStream = new(".", PrivateNamedPipe.Name, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+    private readonly RuntimeOptions runtimeOptions;
 
     public unsafe bool TryRedirectActivationTo(AppActivationArguments args)
     {
         if (clientStream.TryConnectOnce())
         {
+            clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.RequestElevationStatus);
+            clientStream.ReadPacket(stackalloc byte[sizeof(PipePacketHeader)], out ElevationStatusResponse? response);
+            ArgumentNullException.ThrowIfNull(response);
+
+            // Prefer elevated instance
+            if (runtimeOptions.IsElevated && !response.IsElevated)
             {
-                PipePacketHeader redirectActivationPacket = default;
-                redirectActivationPacket.Version = 1;
-                redirectActivationPacket.Type = PipePacketType.Request;
-                redirectActivationPacket.Command = PipePacketCommand.RedirectActivation;
-                redirectActivationPacket.ContentType = PipePacketContentType.Json;
-
-                HutaoActivationArguments hutaoArgs = HutaoActivationArguments.FromAppActivationArguments(args, isRedirected: true);
-                byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(hutaoArgs);
-
-                redirectActivationPacket.ContentLength = jsonBytes.Length;
-                redirectActivationPacket.Checksum = XxHash64.HashToUInt64(jsonBytes);
-
-                clientStream.Write(new(&redirectActivationPacket, sizeof(PipePacketHeader)));
-                clientStream.Write(jsonBytes);
+                // Notify previous instance to exit
+                clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.Exit);
+                clientStream.Flush();
+                return false;
             }
 
-            {
-                PipePacketHeader terminationPacket = default;
-                terminationPacket.Version = 1;
-                terminationPacket.Type = PipePacketType.Termination;
-
-                clientStream.Write(new(&terminationPacket, sizeof(PipePacketHeader)));
-            }
-
+            // Redirect to previous instance
+            HutaoActivationArguments hutaoArgs = HutaoActivationArguments.FromAppActivationArguments(args, isRedirected: true);
+            clientStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.RedirectActivation, hutaoArgs);
+            clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.SessionTermination, PipePacketCommand.None);
             clientStream.Flush();
             return true;
         }

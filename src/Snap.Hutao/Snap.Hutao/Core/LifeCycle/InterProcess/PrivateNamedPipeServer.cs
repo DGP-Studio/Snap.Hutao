@@ -1,8 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ExceptionService;
-using System.IO.Hashing;
+using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
 using System.IO.Pipes;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -36,7 +35,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         }
 
         serverStream = NamedPipeServerStreamAcl.Create(
-            "Snap.Hutao.PrivateNamedPipe",
+            PrivateNamedPipe.Name,
             PipeDirection.InOut,
             NamedPipeServerStream.MaxAllowedServerInstances,
             PipeTransmissionMode.Byte,
@@ -74,36 +73,30 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         }
     }
 
-    private static unsafe byte[] GetValidatedContent(NamedPipeServerStream serverStream, PipePacketHeader* header)
-    {
-        byte[] content = new byte[header->ContentLength];
-        serverStream.ReadAtLeast(content, header->ContentLength, false);
-        HutaoException.ThrowIf(XxHash64.HashToUInt64(content) != header->Checksum, "PipePacket Content Hash incorrect");
-        return content;
-    }
-
     private unsafe void RunPacketSession(NamedPipeServerStream serverStream, CancellationToken token)
     {
-        Span<byte> headerSpan = stackalloc byte[sizeof(PipePacketHeader)];
-        bool sessionTerminated = false;
-        while (serverStream.IsConnected && !sessionTerminated && !token.IsCancellationRequested)
+        while (serverStream.IsConnected && !token.IsCancellationRequested)
         {
-            serverStream.ReadExactly(headerSpan);
-            fixed (byte* pHeader = headerSpan)
+            serverStream.ReadPacket(out PipePacketHeader header);
+            switch ((header.Type, header.Command))
             {
-                PipePacketHeader* header = (PipePacketHeader*)pHeader;
+                case (PipePacketType.Request, PipePacketCommand.RequestElevationStatus):
+                    ElevationStatusResponse resp = new(runtimeOptions.IsElevated);
+                    serverStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Response, PipePacketCommand.ResponseElevationStatus, resp);
+                    serverStream.Flush();
+                    break;
+                case (PipePacketType.Request, PipePacketCommand.RedirectActivation):
+                    HutaoActivationArguments? hutaoArgs = serverStream.ReadJsonContent<HutaoActivationArguments>(in header);
+                    messageDispatcher.RedirectActivation(hutaoArgs);
+                    break;
+                case (PipePacketType.SessionTermination, _):
+                    serverStream.Disconnect();
+                    if (header.Command is PipePacketCommand.Exit)
+                    {
+                        messageDispatcher.ExitApplication();
+                    }
 
-                switch ((header->Type, header->Command, header->ContentType))
-                {
-                    case (PipePacketType.Request, PipePacketCommand.RedirectActivation, PipePacketContentType.Json):
-                        ReadOnlySpan<byte> content = GetValidatedContent(serverStream, header);
-                        messageDispatcher.RedirectActivation(JsonSerializer.Deserialize<HutaoActivationArguments>(content));
-                        break;
-                    case (PipePacketType.Termination, _, _):
-                        serverStream.Disconnect();
-                        sessionTerminated = true;
-                        return;
-                }
+                    return;
             }
         }
     }
