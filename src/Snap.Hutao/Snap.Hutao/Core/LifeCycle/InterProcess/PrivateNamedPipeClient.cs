@@ -19,7 +19,7 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
         if (clientStream.TryConnectOnce())
         {
             clientStream.WritePacket(PrivateNamedPipe.Version, PipePacketType.Request, PipePacketCommand.RequestElevationStatus);
-            clientStream.ReadPacket(stackalloc byte[sizeof(PipePacketHeader)], out ElevationStatusResponse? response);
+            clientStream.ReadPacket(out PipePacketHeader header, out ElevationStatusResponse? response);
             ArgumentNullException.ThrowIfNull(response);
 
             // Prefer elevated instance
