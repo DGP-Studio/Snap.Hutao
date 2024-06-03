@@ -35,7 +35,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         }
 
         serverStream = NamedPipeServerStreamAcl.Create(
-            "Snap.Hutao.PrivateNamedPipe",
+            PrivateNamedPipe.Name,
             PipeDirection.InOut,
             NamedPipeServerStream.MaxAllowedServerInstances,
             PipeTransmissionMode.Byte,
@@ -77,42 +77,27 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     {
         while (serverStream.IsConnected && !token.IsCancellationRequested)
         {
-            PipePacketHeader header = serverStream.ReadPacket(out HutaoActivationArguments? hutaoArgs);
+            serverStream.ReadPacket(out PipePacketHeader header);
             switch ((header.Type, header.Command))
             {
                 case (PipePacketType.Request, PipePacketCommand.RequestElevationStatus):
-                    RespondElevationStatus();
+                    ElevationStatusResponse resp = new(runtimeOptions.IsElevated);
+                    serverStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Response, PipePacketCommand.ResponseElevationStatus, resp);
+                    serverStream.Flush();
                     break;
                 case (PipePacketType.Request, PipePacketCommand.RedirectActivation):
+                    HutaoActivationArguments? hutaoArgs = serverStream.ReadJsonContent<HutaoActivationArguments>(in header);
                     messageDispatcher.RedirectActivation(hutaoArgs);
                     break;
                 case (PipePacketType.SessionTermination, _):
                     serverStream.Disconnect();
                     if (header.Command is PipePacketCommand.Exit)
                     {
-                        messageDispatcher.Exit();
+                        messageDispatcher.ExitApplication();
                     }
 
                     return;
             }
-        }
-
-        void RespondElevationStatus()
-        {
-            PipePacketHeader elevatedPacket = default;
-            elevatedPacket.Version = 1;
-            elevatedPacket.Type = PipePacketType.Response;
-            elevatedPacket.Command = PipePacketCommand.ResponseElevationStatus;
-            elevatedPacket.ContentType = PipePacketContentType.Json;
-
-            ElevationStatusResponse resp = new()
-            {
-                IsElevated = runtimeOptions.IsElevated,
-            };
-
-            byte[] elevatedBytes = JsonSerializer.SerializeToUtf8Bytes(resp);
-            serverStream.WritePacket(&elevatedPacket, elevatedBytes);
-            serverStream.Flush();
         }
     }
 }

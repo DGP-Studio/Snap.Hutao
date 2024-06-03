@@ -19,7 +19,7 @@ internal sealed partial class PrivateNamedPipeMessageDispatcher
         serviceProvider.GetRequiredService<IAppActivation>().Activate(args);
     }
 
-    public void Exit()
+    public void ExitApplication()
     {
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         App app = serviceProvider.GetRequiredService<App>();
