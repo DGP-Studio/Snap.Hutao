@@ -103,7 +103,7 @@ internal static class TypeNameHelper
 
             if (builder is null)
             {
-                if (options.NestedTypeDelimiter != DefaultNestedTypeDelimiter)
+                if (options.NestedTypeDelimiter is not DefaultNestedTypeDelimiter)
                 {
                     return name.Replace(DefaultNestedTypeDelimiter, options.NestedTypeDelimiter);
                 }
@@ -112,7 +112,7 @@ internal static class TypeNameHelper
             }
 
             builder.Append(name);
-            if (options.NestedTypeDelimiter != DefaultNestedTypeDelimiter)
+            if (options.NestedTypeDelimiter is not DefaultNestedTypeDelimiter)
             {
                 builder.Replace(DefaultNestedTypeDelimiter, options.NestedTypeDelimiter, builder.Length - name.Length, name.Length);
             }
