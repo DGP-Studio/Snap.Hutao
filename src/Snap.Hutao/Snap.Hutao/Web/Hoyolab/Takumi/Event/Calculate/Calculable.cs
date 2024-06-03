@@ -7,14 +7,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// 可计算的物品
 /// </summary>
 [HighQuality]
-internal class Calculable
+internal class Calculable : PromotionDelta
 {
-    /// <summary>
-    /// Id
-    /// </summary>
-    [JsonPropertyName("id")]
-    public uint Id { get; set; }
-
     /// <summary>
     /// 名称
     /// </summary>
@@ -28,22 +22,10 @@ internal class Calculable
     public Uri Icon { get; set; } = default!;
 
     /// <summary>
-    /// 默认值设为1，因为部分API不返回该字段
-    /// </summary>
-    [JsonPropertyName("level_current")]
-    public uint LevelCurrent { get; set; } = 1;
-
-    /// <summary>
     /// 最大等级
     /// </summary>
     [JsonPropertyName("max_level")]
     public int MaxLevel { get; set; }
-
-    /// <summary>
-    /// 目标等级
-    /// </summary>
-    [JsonIgnore]
-    public uint LevelTarget { get; set; }
 
     /// <summary>
     /// 转化到提升差异

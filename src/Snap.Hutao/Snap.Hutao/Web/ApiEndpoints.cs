@@ -153,31 +153,14 @@ internal static class ApiEndpoints
 
     #region ApiTakumiEventCalculate
 
-    /// <summary>
-    /// 计算器角色列表 size 20
-    /// </summary>
+    #region V1
     public const string CalculateAvatarList = $"{ApiTakumiEventCalculate}/v1/avatar/list";
 
-    /// <summary>
-    /// 计算器角色技能列表
-    /// </summary>
-    /// <param name="avatar">元素类型</param>
-    /// <returns>技能列表</returns>
     public static string CalculateAvatarSkillList(Hoyolab.Takumi.Event.Calculate.Avatar avatar)
     {
         return $"{ApiTakumiEventCalculate}/v1/avatarSkill/list?avatar_id={avatar.Id}&element_attr_id={(int)avatar.ElementAttrId}";
     }
 
-    /// <summary>
-    /// 计算器结果
-    /// </summary>
-    public const string CalculateCompute = $"{ApiTakumiEventCalculate}/v2/compute";
-
-    /// <summary>
-    /// 计算器洞天摹本
-    /// </summary>
-    /// <param name="shareCode">分享码</param>
-    /// <returns>洞天摹本</returns>
     public static string CalculateFurnitureBlueprint(string shareCode)
     {
         // &region=cn_gf01
@@ -185,36 +168,28 @@ internal static class ApiEndpoints
         return $"{ApiTakumiEventCalculate}/v1/furniture/blueprint?share_code={shareCode}";
     }
 
-    /// <summary>
-    /// 计算器家具计算
-    /// </summary>
     public const string CalculateFurnitureCompute = $"{ApiTakumiEventCalculate}/v1/furniture/compute";
 
-    /// <summary>
-    /// 计算器家具列表 size 32
-    /// </summary>
     public const string CalculateFurnitureList = $"{ApiTakumiEventCalculate}/v1/furniture/list";
 
-    /// <summary>
-    /// 计算器同步角色详情 size 20
-    /// </summary>
-    /// <param name="avatarId">角色Id</param>
-    /// <param name="uid">uid</param>
-    /// <returns>角色详情</returns>
     public static string CalculateSyncAvatarDetail(in AvatarId avatarId, in PlayerUid uid)
     {
         return $"{ApiTakumiEventCalculate}/v1/sync/avatar/detail?avatar_id={avatarId.Value}&uid={uid.Value}&region={uid.Region}";
     }
 
-    /// <summary>
-    /// 计算器同步角色列表 size 20
-    /// </summary>
     public const string CalculateSyncAvatarList = $"{ApiTakumiEventCalculate}/v1/sync/avatar/list";
 
-    /// <summary>
-    /// 计算器武器列表 size 20
-    /// </summary>
     public const string CalculateWeaponList = $"{ApiTakumiEventCalculate}/v1/weapon/list";
+    #endregion
+
+    #region V2
+    public const string CalculateCompute = $"{ApiTakumiEventCalculate}/v2/compute";
+    #endregion
+
+    #region V3
+    public const string CalculateBatchCompute = $"{ApiTakumiEventCalculate}/v3/batch_compute";
+    #endregion
+
     #endregion
 
     #region ApiTakumiEventLuna

@@ -34,6 +34,30 @@ internal sealed partial class CalculateClient
         return Response.Response.DefaultIfNull(resp);
     }
 
+    public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, List<AvatarPromotionDelta> deltas, CancellationToken token = default)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(deltas.Count, 8);
+
+        BatchConsumptionData data = new()
+        {
+            Items = deltas,
+            Region = userAndUid.Uid.Region,
+            Uid = userAndUid.Uid.ToString(),
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.CalculateBatchCompute)
+            .SetUserCookieAndFpHeader(userAndUid.User, CookieType.Cookie)
+            .SetReferer(userAndUid.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
+            .PostJson(data);
+
+        Response<BatchConsumption>? resp = await builder
+            .TryCatchSendAsync<Response<BatchConsumption>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
     public async ValueTask<List<Avatar>> GetAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         int currentPage = 1;
@@ -152,5 +176,17 @@ internal sealed partial class CalculateClient
 
         [JsonPropertyName("id")]
         public uint Id { get; set; }
+    }
+
+    private class BatchConsumptionData
+    {
+        [JsonPropertyName("items")]
+        public List<AvatarPromotionDelta> Items { get; set; } = default!;
+
+        [JsonPropertyName("region")]
+        public Region Region { get; set; } = default!;
+
+        [JsonPropertyName("uid")]
+        public string Uid { get; set; } = default!;
     }
 }
