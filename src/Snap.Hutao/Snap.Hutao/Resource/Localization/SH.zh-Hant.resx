@@ -2436,13 +2436,13 @@
     <value>請輸入您的 HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通過由我們提供的內嵌網頁視圖登入 miHoYo 通行證賬號，我們會在你點擊 我已登入 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與 miHoYo 服務器之間</value>
+    <value>你正在通過由我們提供的內嵌網頁視圖登錄 米哈游通行证，我們會在你點擊 我已登錄 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與米哈遊服務器之間</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>我已登入</value>
   </data>
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
-    <value>在下方登入 miHoYo 通行證賬號</value>
+    <value>在下方登入米哈游通行证</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>開啟截圖檔案夾</value>
@@ -3174,7 +3174,7 @@
     <value>{0} 秒</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>驗證失敗，請手動進行驗證或前往「米游社-旅行工具-原神战绩-实时便笺」頁面查看。</value>
+    <value>驗證失敗，請手動進行驗證或前往「 HoYoLAB -工具箱-戰績-即時便箋」頁面查看。</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>錯誤的 UID 格式</value>
@@ -3246,7 +3246,7 @@
     <value>胡桃服務維護中</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>驗證失敗，請手動進行驗證或前往「米游社-旅行工具-原神战绩」頁面查看。</value>
+    <value>驗證失敗，請手動進行驗證或前往「 HoYoLAB -工具箱-戰績」頁面查看。</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>狀態：{0} | 信息：{1}</value>
