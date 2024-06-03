@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
 using System.IO.Pipes;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -74,42 +75,44 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
 
     private unsafe void RunPacketSession(NamedPipeServerStream serverStream, CancellationToken token)
     {
-        Span<byte> headerSpan = stackalloc byte[sizeof(PipePacketHeader)];
-        bool sessionTerminated = false;
-        while (serverStream.IsConnected && !sessionTerminated && !token.IsCancellationRequested)
+        while (serverStream.IsConnected && !token.IsCancellationRequested)
         {
-            serverStream.ReadExactly(headerSpan);
-            fixed (byte* pHeader = headerSpan)
+            PipePacketHeader header = serverStream.ReadPacket(out HutaoActivationArguments? hutaoArgs);
+            switch ((header.Type, header.Command))
             {
-                PipePacketHeader* header = (PipePacketHeader*)pHeader;
+                case (PipePacketType.Request, PipePacketCommand.RequestElevationStatus):
+                    RespondElevationStatus();
+                    break;
+                case (PipePacketType.Request, PipePacketCommand.RedirectActivation):
+                    messageDispatcher.RedirectActivation(hutaoArgs);
+                    break;
+                case (PipePacketType.SessionTermination, _):
+                    serverStream.Disconnect();
+                    if (header.Command is PipePacketCommand.Exit)
+                    {
+                        messageDispatcher.Exit();
+                    }
 
-                switch ((header->Type, header->Command, header->ContentType))
-                {
-                    case (PipePacketType.Request, PipePacketCommand.RequestElevatedStatus, _):
-                        PipePacketHeader elevatedPacket = default;
-                        elevatedPacket.Version = 1;
-                        elevatedPacket.Type = PipePacketType.Response;
-                        elevatedPacket.ContentType = PipePacketContentType.Json;
-
-                        byte[] elevatedBytes = JsonSerializer.SerializeToUtf8Bytes(runtimeOptions.IsElevated);
-                        serverStream.WritePacket(&elevatedPacket, elevatedBytes);
-
-                        break;
-                    case (PipePacketType.Request, PipePacketCommand.RedirectActivation, PipePacketContentType.Json):
-                        ReadOnlySpan<byte> content = serverStream.GetValidatedContent(header);
-                        messageDispatcher.RedirectActivation(JsonSerializer.Deserialize<HutaoActivationArguments>(content));
-                        break;
-                    case (PipePacketType.SessionTermination, _, _):
-                        serverStream.Disconnect();
-                        sessionTerminated = true;
-                        if (header->Command is PipePacketCommand.Exit)
-                        {
-                            messageDispatcher.Exit();
-                        }
-
-                        return;
-                }
+                    return;
             }
+        }
+
+        void RespondElevationStatus()
+        {
+            PipePacketHeader elevatedPacket = default;
+            elevatedPacket.Version = 1;
+            elevatedPacket.Type = PipePacketType.Response;
+            elevatedPacket.Command = PipePacketCommand.ResponseElevationStatus;
+            elevatedPacket.ContentType = PipePacketContentType.Json;
+
+            ElevationStatusResponse resp = new()
+            {
+                IsElevated = runtimeOptions.IsElevated,
+            };
+
+            byte[] elevatedBytes = JsonSerializer.SerializeToUtf8Bytes(resp);
+            serverStream.WritePacket(&elevatedPacket, elevatedBytes);
+            serverStream.Flush();
         }
     }
 }

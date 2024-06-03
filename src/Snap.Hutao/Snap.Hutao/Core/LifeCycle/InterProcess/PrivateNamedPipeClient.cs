@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core.LifeCycle.InterProcess.Model;
 using System.IO.Pipes;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
@@ -17,30 +18,20 @@ internal sealed partial class PrivateNamedPipeClient : IDisposable
     {
         if (clientStream.TryConnectOnce())
         {
-            bool serverElevated = false;
             {
                 // Connect
                 PipePacketHeader connectPacket = default;
                 connectPacket.Version = 1;
                 connectPacket.Type = PipePacketType.Request;
-                connectPacket.Command = PipePacketCommand.RequestElevatedStatus;
+                connectPacket.Command = PipePacketCommand.RequestElevationStatus;
 
                 clientStream.Write(new(&connectPacket, sizeof(PipePacketHeader)));
             }
 
-            {
-                // Get previous instance elevated status
-                Span<byte> headerSpan = stackalloc byte[sizeof(PipePacketHeader)];
-                clientStream.ReadExactly(headerSpan);
-                fixed (byte* pHeader = headerSpan)
-                {
-                    PipePacketHeader* header = (PipePacketHeader*)pHeader;
-                    ReadOnlySpan<byte> content = clientStream.GetValidatedContent(header);
-                    serverElevated = JsonSerializer.Deserialize<bool>(content);
-                }
-            }
+            clientStream.ReadPacket(out ElevationStatusResponse? serverElevationStatus);
+            ArgumentNullException.ThrowIfNull(serverElevationStatus);
 
-            if (!serverElevated && runtimeOptions.IsElevated)
+            if (runtimeOptions.IsElevated && !serverElevationStatus.IsElevated)
             {
                 // Kill previous instance to use current elevated instance
                 PipePacketHeader killPacket = default;

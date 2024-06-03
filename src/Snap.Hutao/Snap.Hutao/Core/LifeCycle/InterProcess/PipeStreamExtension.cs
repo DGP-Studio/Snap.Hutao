@@ -17,6 +17,26 @@ internal static class PipeStreamExtension
         return content;
     }
 
+    public static unsafe PipePacketHeader ReadPacket<TData>(this PipeStream stream, out TData? data)
+        where TData : class
+    {
+        data = default;
+
+        Span<byte> headerSpan = stackalloc byte[sizeof(PipePacketHeader)];
+        stream.ReadExactly(headerSpan);
+        fixed (byte* pHeader = headerSpan)
+        {
+            PipePacketHeader* header = (PipePacketHeader*)pHeader;
+            if (header->ContentType is PipePacketContentType.Json)
+            {
+                ReadOnlySpan<byte> content = stream.GetValidatedContent(header);
+                data = JsonSerializer.Deserialize<TData>(content);
+            }
+
+            return *header;
+        }
+    }
+
     public static unsafe void WritePacket(this PipeStream stream, PipePacketHeader* header, byte[] content)
     {
         header->ContentLength = content.Length;
