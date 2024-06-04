@@ -104,16 +104,13 @@ internal class ScopedPage : Page
             viewCancellationTokenSource.Cancel();
             IViewModel viewModel = (IViewModel)DataContext;
 
-            using (SemaphoreSlim locker = viewModel.DisposeLock)
-            {
-                // Wait to ensure viewmodel operation is completed
-                locker.Wait();
-                viewModel.IsViewDisposed = true;
+            // Wait to ensure viewmodel operation is completed
+            viewModel.DisposeLock.Wait();
+            viewModel.IsViewDisposed = true;
 
-                // Dispose the scope
-                pageScope.Dispose();
-                GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true);
-            }
+            // Dispose the scope
+            pageScope.Dispose();
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true);
         }
     }
 }
