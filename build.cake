@@ -11,6 +11,7 @@ var version = "version";
 var repoDir = "repoDir";
 var outputPath = "outputPath";
 
+var pfxPath = "pfxPath";
 var pw = "pw";
 
 // Extension
@@ -66,7 +67,8 @@ if (GitHubActions.IsRunningOnGitHubActions)
 
         var certificateBase64 = HasEnvironmentVariable("CERTIFICATE") ? EnvironmentVariable("CERTIFICATE") : throw new Exception("Cannot find CERTIFICATE");
         pw = HasEnvironmentVariable("PW") ? EnvironmentVariable("PW") : throw new Exception("Cannot find PW");
-        System.IO.File.WriteAllBytes(System.IO.Path.Combine(outputPath, "temp.pfx"), System.Convert.FromBase64String(certificateBase64));
+        pfxPath = System.IO.Path.Combine(repoDir, "temp.pfx");
+        System.IO.File.WriteAllBytes(pfxPath, System.Convert.FromBase64String(certificateBase64));
 
         Information($"Version: {version}");
     }
@@ -256,7 +258,6 @@ Task("Sign")
         }
 
         var signPath = System.IO.Path.Combine(winsdkBinPath, "signtool.exe");
-        var pfxPath = System.IO.Path.Combine(outputPath, "temp.pfx");
         var arguments = $"sign /debug /v /a /fd SHA256 /f {pfxPath} /p {pw} {System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix")}";
 
         var p = StartProcess(
