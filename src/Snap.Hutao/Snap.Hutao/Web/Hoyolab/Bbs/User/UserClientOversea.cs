@@ -27,7 +27,7 @@ internal sealed partial class UserClientOversea : IUserClient
             .Get();
 
         Response<UserFullInfoWrapper>? resp = await builder
-            .TryCatchSendAsync<Response<UserFullInfoWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<UserFullInfoWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

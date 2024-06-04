@@ -3,13 +3,14 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Win32.Registry;
+using System.Linq.Expressions;
 using System.Net;
 using System.Reflection;
 
 namespace Snap.Hutao.Core.IO.Http.Proxy;
 
 [Injection(InjectAs.Singleton)]
-internal sealed partial class DynamicHttpProxy : ObservableObject, IWebProxy, IDisposable
+internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWebProxy, IDisposable
 {
     private const string ProxySettingPath = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections";
 
@@ -20,7 +21,7 @@ internal sealed partial class DynamicHttpProxy : ObservableObject, IWebProxy, ID
 
     private IWebProxy innerProxy = default!;
 
-    public DynamicHttpProxy(IServiceProvider serviceProvider)
+    public HttpProxyUsingSystemProxy(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
         UpdateInnerProxy();

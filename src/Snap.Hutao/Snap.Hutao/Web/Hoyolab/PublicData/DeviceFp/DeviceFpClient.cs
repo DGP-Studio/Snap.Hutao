@@ -24,7 +24,7 @@ internal sealed partial class DeviceFpClient
             .PostJson(data);
 
         Response<DeviceFpWrapper>? resp = await builder
-            .TryCatchSendAsync<Response<DeviceFpWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<DeviceFpWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

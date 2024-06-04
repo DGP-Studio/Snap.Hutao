@@ -41,6 +41,6 @@ internal sealed partial class HutaoDocumentationClient
             .SetHeader("x-algolia-application-id", AlgoliaApplicationId)
             .PostJson(data);
 
-        return await builder.TryCatchSendAsync<AlgoliaResponse>(httpClient, logger, token).ConfigureAwait(false);
+        return await builder.SendAsync<AlgoliaResponse>(httpClient, logger, token).ConfigureAwait(false);
     }
 }

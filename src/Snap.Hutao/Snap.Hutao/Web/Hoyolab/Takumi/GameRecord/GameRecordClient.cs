@@ -35,7 +35,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<DailyNote.DailyNote>? resp = await builder
-            .TryCatchSendAsync<Response<DailyNote.DailyNote>>(httpClient, logger, token)
+            .SendAsync<Response<DailyNote.DailyNote>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         // We have a verification procedure to handle
@@ -59,7 +59,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                 await verifiedbuilder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
                 resp = await verifiedbuilder
-                    .TryCatchSendAsync<Response<DailyNote.DailyNote>>(httpClient, logger, token)
+                    .SendAsync<Response<DailyNote.DailyNote>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
         }
@@ -78,7 +78,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<PlayerInfo>? resp = await builder
-            .TryCatchSendAsync<Response<PlayerInfo>>(httpClient, logger, token)
+            .SendAsync<Response<PlayerInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         // We have a verification procedure to handle
@@ -102,7 +102,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                 await verifiedbuilder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
                 resp = await verifiedbuilder
-                    .TryCatchSendAsync<Response<PlayerInfo>>(httpClient, logger, token)
+                    .SendAsync<Response<PlayerInfo>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
         }
@@ -121,7 +121,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<SpiralAbyss.SpiralAbyss>? resp = await builder
-            .TryCatchSendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
+            .SendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         // We have a verification procedure to handle
@@ -145,7 +145,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                 await verifiedbuilder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
                 resp = await verifiedbuilder
-                    .TryCatchSendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
+                    .SendAsync<Response<SpiralAbyss.SpiralAbyss>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
         }
@@ -164,7 +164,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<BasicRoleInfo>? resp = await builder
-            .TryCatchSendAsync<Response<BasicRoleInfo>>(httpClient, logger, token)
+            .SendAsync<Response<BasicRoleInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -181,7 +181,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<CharacterWrapper>? resp = await builder
-            .TryCatchSendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         // We have a verification procedure to handle
@@ -205,7 +205,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                 await verifiedBuilder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
                 resp = await verifiedBuilder
-                    .TryCatchSendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
+                    .SendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
         }

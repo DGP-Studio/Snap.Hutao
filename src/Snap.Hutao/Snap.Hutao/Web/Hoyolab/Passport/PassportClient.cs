@@ -30,7 +30,7 @@ internal sealed partial class PassportClient : IPassportClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 
         Response<UidCookieToken>? resp = await builder
-            .TryCatchSendAsync<Response<UidCookieToken>>(httpClient, logger, token)
+            .SendAsync<Response<UidCookieToken>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -46,7 +46,7 @@ internal sealed partial class PassportClient : IPassportClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 
         Response<LTokenWrapper>? resp = await builder
-            .TryCatchSendAsync<Response<LTokenWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<LTokenWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

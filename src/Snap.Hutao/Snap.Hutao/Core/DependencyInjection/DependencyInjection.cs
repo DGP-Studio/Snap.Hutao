@@ -41,7 +41,7 @@ internal static class DependencyInjection
             .AddJsonOptions()
             .AddDatabase()
             .AddInjections()
-            .AddAllHttpClients()
+            .AddConfiguredHttpClients()
 
             // Discrete services
             .AddSingleton<IMessenger, WeakReferenceMessenger>()

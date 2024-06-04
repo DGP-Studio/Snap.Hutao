@@ -32,7 +32,7 @@ internal sealed partial class AccountClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.K2, false).ConfigureAwait(false);
 
         Response<GameAuthKey>? resp = await builder
-            .TryCatchSendAsync<Response<GameAuthKey>>(httpClient, logger, token)
+            .SendAsync<Response<GameAuthKey>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

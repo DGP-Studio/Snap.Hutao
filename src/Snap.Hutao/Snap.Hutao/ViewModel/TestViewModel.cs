@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
@@ -13,6 +14,7 @@ using Snap.Hutao.View.Converter;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Win32.Foundation;
+using System.IO;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -162,5 +164,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 }
             }
         }
+    }
+
+    [Command("FileOperationRenameCommand")]
+    private void FileOperationRename()
+    {
+        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string source = Path.Combine(desktop, "TestFolder");
+        DirectoryOperation.UnsafeRename(source, "TestFolder1");
     }
 }

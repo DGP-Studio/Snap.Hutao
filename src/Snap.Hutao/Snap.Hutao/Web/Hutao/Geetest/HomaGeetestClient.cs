@@ -43,7 +43,7 @@ internal sealed partial class HomaGeetestClient
             .Get();
 
         GeetestResponse? resp = await builder
-            .TryCatchSendAsync<GeetestResponse>(httpClient, logger, token)
+            .SendAsync<GeetestResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         if (resp is null)

@@ -122,7 +122,8 @@ internal sealed class GameScreenCaptureSession : IDisposable
             try
             {
                 captureContext.UpdatePreview(previewWindow, frame.Surface);
-                //UnsafeProcessFrameSurface(frame.Surface);
+
+                // UnsafeProcessFrameSurface(frame.Surface);
             }
             catch (Exception ex)
             {

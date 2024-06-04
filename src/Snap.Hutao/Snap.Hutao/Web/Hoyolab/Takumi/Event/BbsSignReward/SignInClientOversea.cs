@@ -32,7 +32,7 @@ internal sealed partial class SignInClientOversea : ISignInClient
             .Get();
 
         Response<SignInRewardInfo>? resp = await builder
-            .TryCatchSendAsync<Response<SignInRewardInfo>>(httpClient, logger, token)
+            .SendAsync<Response<SignInRewardInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -46,7 +46,7 @@ internal sealed partial class SignInClientOversea : ISignInClient
             .Get();
 
         Response<Reward>? resp = await builder
-            .TryCatchSendAsync<Response<Reward>>(httpClient, logger, token)
+            .SendAsync<Response<Reward>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -60,7 +60,7 @@ internal sealed partial class SignInClientOversea : ISignInClient
             .PostJson(new SignInData(userAndUid.Uid, true));
 
         Response<SignInResult>? resp = await builder
-            .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)
+            .SendAsync<Response<SignInResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         if (resp is { Data: { Success: 1, Gt: string gt, Challenge: string originChallenge } })
@@ -76,7 +76,7 @@ internal sealed partial class SignInClientOversea : ISignInClient
                     .PostJson(new SignInData(userAndUid.Uid, true));
 
                 resp = await verifiedBuilder
-                    .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)
+                    .SendAsync<Response<SignInResult>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
             else

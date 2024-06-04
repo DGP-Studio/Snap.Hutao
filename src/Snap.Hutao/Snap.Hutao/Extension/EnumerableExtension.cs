@@ -104,7 +104,7 @@ internal static partial class EnumerableExtension
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ObservableReorderableDbCollection<TEntityOnly, TEntity> ToObservableReorderableDbCollection<TEntityOnly, TEntity>(this IEnumerable<TEntityOnly> source, IServiceProvider serviceProvider)
-        where TEntityOnly : class, IEntityOnly<TEntity>
+        where TEntityOnly : class, IEntityAccess<TEntity>
         where TEntity : class, IReorderable
     {
         return source is List<TEntityOnly> list

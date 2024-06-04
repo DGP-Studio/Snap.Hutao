@@ -11,7 +11,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// 用于视图绑定的成就
 /// </summary>
 [HighQuality]
-internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Model.Entity.Achievement, Model.Metadata.Achievement.Achievement>
+internal sealed class AchievementView : ObservableObject, IEntityAccessWithMetadata<Model.Entity.Achievement, Model.Metadata.Achievement.Achievement>
 {
     /// <summary>
     /// 满进度占位符

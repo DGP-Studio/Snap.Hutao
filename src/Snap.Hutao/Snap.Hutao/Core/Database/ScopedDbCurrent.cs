@@ -73,7 +73,7 @@ internal sealed partial class ScopedDbCurrent<TEntity, TMessage>
 
 [ConstructorGenerated]
 internal sealed partial class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
-    where TEntityOnly : class, IEntityOnly<TEntity>
+    where TEntityOnly : class, IEntityAccess<TEntity>
     where TEntity : class, ISelectable
     where TMessage : Message.ValueChangedMessage<TEntityOnly>, new()
 {

@@ -32,7 +32,7 @@ internal sealed partial class BindingClient2
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<ListWrapper<UserGameRole>>? resp = await builder
-            .TryCatchSendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -49,7 +49,7 @@ internal sealed partial class BindingClient2
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<GameAuthKey>? resp = await builder
-            .TryCatchSendAsync<Response<GameAuthKey>>(httpClient, logger, token)
+            .SendAsync<Response<GameAuthKey>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

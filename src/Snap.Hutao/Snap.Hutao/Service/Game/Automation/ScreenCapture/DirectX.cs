@@ -80,7 +80,6 @@ internal static class DirectX
             return false;
         }
 
-        //IUnknownMarshal.Release(swapChain);
         return true;
     }
 }

@@ -27,4 +27,11 @@ internal static class RuntimeOptionsExtension
         Directory.CreateDirectory(directory);
         return directory;
     }
+
+    public static string GetLocalCacheImageCacheFolder(this RuntimeOptions options)
+    {
+        string directory = Path.Combine(options.LocalCache, "ImageCache");
+        Directory.CreateDirectory(directory);
+        return directory;
+    }
 }
