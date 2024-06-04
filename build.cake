@@ -11,6 +11,8 @@ var version = "version";
 var repoDir = "repoDir";
 var outputPath = "outputPath";
 
+var pw = "pw";
+
 // Extension
 
 static ProcessArgumentBuilder AppendIf(this ProcessArgumentBuilder builder, string text, bool condition)
@@ -62,6 +64,10 @@ if (GitHubActions.IsRunningOnGitHubActions)
             }
         );
 
+        var certificateBase64 = HasEnvironmentVariable("CERTIFICATE") ? EnvironmentVariable("CERTIFICATE") : throw new Exception("Cannot find CERTIFICATE");
+        pw = HasEnvironmentVariable("PW") ? EnvironmentVariable("PW") : throw new Exception("Cannot find PW");
+        System.IO.File.WriteAllBytes(System.IO.Path.Combine(outputPath, "temp.pfx"), System.Convert.FromBase64String(certificateBase64));
+
         Information($"Version: {version}");
     }
 
@@ -88,10 +94,19 @@ else // Local
     Information($"Version: {version}");
 }
 
+// Windows SDK
+var registry = new WindowsRegistry();
+var winsdkRegistry = registry.LocalMachine.OpenKey(@"SOFTWARE\Microsoft\Windows Kits\Installed Roots");
+var winsdkVersion = winsdkRegistry.GetSubKeyNames().MaxBy(key => int.Parse(key.Split(".")[2]));
+var winsdkPath = (string)winsdkRegistry.GetValue("KitsRoot10");
+var winsdkBinPath = System.IO.Path.Combine(winsdkPath, "bin", winsdkVersion, "x64");
+Information($"Windows SDK: {winsdkPath}");
+
 Task("Build")
     .IsDependentOn("Build binary package")
     .IsDependentOn("Copy files")
-    .IsDependentOn("Build MSIX");
+    .IsDependentOn("Build MSIX")
+    .IsDependentOn("Sign");
 
 Task("NuGet Restore")
     .Does(() =>
@@ -208,11 +223,7 @@ Task("Build MSIX")
         arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Local-{version}.msix");
     }
 
-    var registry = new WindowsRegistry();
-    var winsdkRegistry = registry.LocalMachine.OpenKey(@"SOFTWARE\Microsoft\Windows Kits\Installed Roots");
-    var winsdkVersion = winsdkRegistry.GetSubKeyNames().MaxBy(key => int.Parse(key.Split(".")[2]));
-    var winsdkPath = (string)winsdkRegistry.GetValue("KitsRoot10");
-    var makeappxPath = System.IO.Path.Combine(winsdkPath, "bin", winsdkVersion, "x64", "makeappx.exe");
+    var makeappxPath = System.IO.Path.Combine(winsdkBinPath, "makeappx.exe");
 
     var p = StartProcess(
         makeappxPath,
@@ -223,7 +234,47 @@ Task("Build MSIX")
     );
     if (p != 0)
     {
-        throw new InvalidOperationException("Build failed with exit code " + p);
+        throw new InvalidOperationException("Build MSIX failed with exit code " + p);
+    }
+});
+
+Task("Sign")
+    .IsDependentOn("Build MSIX")
+    .Does(() =>
+{
+    if (AppVeyor.IsRunningOnAppVeyor)
+    {
+        Information("Move to SignPath. Skip signing.");
+        return;
+    }
+    else if (GitHubActions.IsRunningOnGitHubActions)
+    {
+        if (GitHubActions.Environment.PullRequest.IsPullRequest)
+        {
+            Information("Is Pull Request. Skip signing.");
+            return;
+        }
+
+        var signPath = System.IO.Path.Combine(winsdkBinPath, "signtool.exe");
+        var pfxPath = System.IO.Path.Combine(outputPath, "temp.pfx");
+        var arguments = $"sign /debug /v /a /fd SHA256 /f {pfxPath} /p {pw} {System.IO.Path.Combine(outputPath, $"Snap.Hutao.Alpha-{version}.msix")}";
+
+        var p = StartProcess(
+            signPath,
+            new ProcessSettings
+            {
+                Arguments = arguments
+            }
+        );
+        if (p != 0)
+        {
+            throw new InvalidOperationException("Sign failed with exit code " + p);
+        }
+    }
+    else
+    {
+        Information("Local configuration. Skip signing.");
+        return;
     }
 });
 
