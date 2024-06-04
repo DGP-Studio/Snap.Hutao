@@ -207,8 +207,15 @@ Task("Build MSIX")
     {
         arguments = "pack /d " + binPath + " /p " + System.IO.Path.Combine(outputPath, $"Snap.Hutao.Local-{version}.msix");
     }
+
+    var registry = new WindowsRegistry();
+    var winsdkRegistry = registry.LocalMachine.OpenKey(@"SOFTWARE\Microsoft\Windows Kits\Installed Roots");
+    var winsdkVersion = winsdkRegistry.GetSubKeyNames().MaxBy(key => int.Parse(key.Split(".")[2]));
+    var winsdkPath = (string)winsdkRegistry.GetValue("KitsRoot10");
+    var makeappxPath = System.IO.Path.Combine(winsdkPath, "bin", winsdkVersion, "x64", "makeappx.exe");
+
     var p = StartProcess(
-        "makeappx.exe",
+        makeappxPath,
         new ProcessSettings
         {
             Arguments = arguments
