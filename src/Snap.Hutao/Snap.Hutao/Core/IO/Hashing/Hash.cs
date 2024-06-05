@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Snap.Hutao.Core.IO.Hashing;
 
+#if NET9_0_OR_GREATER
+[Obsolete]
+#endif
 internal static class Hash
 {
     public static unsafe string SHA1HexString(string input)

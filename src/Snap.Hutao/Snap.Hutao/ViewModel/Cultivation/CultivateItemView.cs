@@ -11,7 +11,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 /// 养成物品
 /// </summary>
 [HighQuality]
-internal sealed class CultivateItemView : ObservableObject, IEntityWithMetadata<Model.Entity.CultivateItem, Material>
+internal sealed class CultivateItemView : ObservableObject, IEntityAccessWithMetadata<Model.Entity.CultivateItem, Material>
 {
     /// <summary>
     /// 养成物品

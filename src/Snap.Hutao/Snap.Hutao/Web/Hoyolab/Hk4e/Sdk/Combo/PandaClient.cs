@@ -26,7 +26,7 @@ internal sealed partial class PandaClient
             .PostJson(options);
 
         Response<UrlWrapper>? resp = await builder
-            .TryCatchSendAsync<Response<UrlWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<UrlWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -41,7 +41,7 @@ internal sealed partial class PandaClient
             .PostJson(options);
 
         Response<GameLoginResult>? resp = await builder
-            .TryCatchSendAsync<Response<GameLoginResult>>(httpClient, logger, token)
+            .SendAsync<Response<GameLoginResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

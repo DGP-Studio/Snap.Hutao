@@ -34,27 +34,27 @@ internal static class IocConfiguration
             .AddTransient(typeof(Database.ScopedDbCurrent<,>))
             .AddTransient(typeof(Database.ScopedDbCurrent<,,>))
             .AddDbContextPool<AppDbContext>(AddDbContextCore);
-    }
 
-    private static void AddDbContextCore(IServiceProvider serviceProvider, DbContextOptionsBuilder builder)
-    {
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        string dbFile = System.IO.Path.Combine(runtimeOptions.DataFolder, "Userdata.db");
-        string sqlConnectionString = $"Data Source={dbFile}";
-
-        // Temporarily create a context
-        using (AppDbContext context = AppDbContext.Create(serviceProvider, sqlConnectionString))
+        static void AddDbContextCore(IServiceProvider serviceProvider, DbContextOptionsBuilder builder)
         {
-            if (context.Database.GetPendingMigrations().Any())
-            {
-                System.Diagnostics.Debug.WriteLine("[Database] Performing AppDbContext Migrations");
-                context.Database.Migrate();
-            }
-        }
+            RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+            string dbFile = System.IO.Path.Combine(runtimeOptions.DataFolder, "Userdata.db");
+            string sqlConnectionString = $"Data Source={dbFile}";
 
-        builder
-            .EnableSensitiveDataLogging()
-            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-            .UseSqlite(sqlConnectionString);
+            // Temporarily create a context
+            using (AppDbContext context = AppDbContext.Create(serviceProvider, sqlConnectionString))
+            {
+                if (context.Database.GetPendingMigrations().Any())
+                {
+                    System.Diagnostics.Debug.WriteLine("[Database] Performing AppDbContext Migrations");
+                    context.Database.Migrate();
+                }
+            }
+
+            builder
+                .EnableSensitiveDataLogging()
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .UseSqlite(sqlConnectionString);
+        }
     }
 }

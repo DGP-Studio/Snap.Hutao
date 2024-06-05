@@ -25,7 +25,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
     private readonly HutaoDocumentationClient hutaoDocumentationClient;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IClipboardProvider clipboardProvider;
-    private readonly DynamicHttpProxy dynamicHttpProxy;
+    private readonly HttpProxyUsingSystemProxy dynamicHttpProxy;
     private readonly LoopbackManager loopbackManager;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
@@ -38,7 +38,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
-    public DynamicHttpProxy DynamicHttpProxy { get => dynamicHttpProxy; }
+    public HttpProxyUsingSystemProxy DynamicHttpProxy { get => dynamicHttpProxy; }
 
     public LoopbackManager LoopbackManager { get => loopbackManager; }
 

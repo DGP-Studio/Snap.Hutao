@@ -38,7 +38,7 @@ internal sealed partial class SignInClient : ISignInClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<ExtraAwardInfo>? resp = await builder
-            .TryCatchSendAsync<Response<ExtraAwardInfo>>(httpClient, logger, token)
+            .SendAsync<Response<ExtraAwardInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -55,7 +55,7 @@ internal sealed partial class SignInClient : ISignInClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInRewardInfo>? resp = await builder
-            .TryCatchSendAsync<Response<SignInRewardInfo>>(httpClient, logger, token)
+            .SendAsync<Response<SignInRewardInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -72,7 +72,7 @@ internal sealed partial class SignInClient : ISignInClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInRewardReSignInfo>? resp = await builder
-            .TryCatchSendAsync<Response<SignInRewardReSignInfo>>(httpClient, logger, token)
+            .SendAsync<Response<SignInRewardReSignInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -87,7 +87,7 @@ internal sealed partial class SignInClient : ISignInClient
             .Get();
 
         Response<Reward>? resp = await builder
-            .TryCatchSendAsync<Response<Reward>>(httpClient, logger, token)
+            .SendAsync<Response<Reward>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -104,7 +104,7 @@ internal sealed partial class SignInClient : ISignInClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInResult>? resp = await builder
-            .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)
+            .SendAsync<Response<SignInResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -121,7 +121,7 @@ internal sealed partial class SignInClient : ISignInClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
         Response<SignInResult>? resp = await builder
-            .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)
+            .SendAsync<Response<SignInResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         if (resp is { Data: { Success: 1, Gt: string gt, Challenge: string originChallenge } })
@@ -140,7 +140,7 @@ internal sealed partial class SignInClient : ISignInClient
                 await verifiedBuilder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
 
                 resp = await verifiedBuilder
-                    .TryCatchSendAsync<Response<SignInResult>>(httpClient, logger, token)
+                    .SendAsync<Response<SignInResult>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
             else

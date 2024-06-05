@@ -97,6 +97,11 @@ internal static class AvatarIds
     public static readonly AvatarId Navia = 10000091;
     public static readonly AvatarId Gaming = 10000092;
     public static readonly AvatarId Xianyun = 10000093;
+    public static readonly AvatarId Chiori = 10000094;
+    public static readonly AvatarId Sigewinne = 10000095;
+    public static readonly AvatarId Arlecchino = 10000096;
+    public static readonly AvatarId Sethos = 10000097;
+    public static readonly AvatarId Clorinde = 10000098;
 
     /// <summary>
     /// 检查该角色是否为主角

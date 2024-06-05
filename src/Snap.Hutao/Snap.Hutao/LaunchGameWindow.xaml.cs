@@ -47,6 +47,8 @@ internal sealed partial class LaunchGameWindow : Window,
 
     public SizeInt32 InitSize { get; } = new(MaxWidth, MaxHeight);
 
+    public SizeInt32 MinSize { get; } = new(MinWidth, MinHeight);
+
     /// <inheritdoc/>
     public void Dispose()
     {

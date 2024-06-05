@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.View.Helper;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
@@ -21,6 +22,8 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
     public CancellationToken CancellationToken { get; set; }
 
     public SemaphoreSlim DisposeLock { get; set; } = new(1);
+
+    public IDeferContentLoader DeferContentLoader { get; set; } = default!;
 
     public bool IsViewDisposed { get; set; }
 

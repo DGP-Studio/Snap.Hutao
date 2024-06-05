@@ -15,7 +15,7 @@ internal static partial class IocHttpClientConfiguration
 {
     private const string ApplicationJson = "application/json";
 
-    public static IServiceCollection AddAllHttpClients(this IServiceCollection services)
+    public static IServiceCollection AddConfiguredHttpClients(this IServiceCollection services)
     {
         services
             .ConfigureHttpClientDefaults(clientBuilder =>
@@ -27,7 +27,7 @@ internal static partial class IocHttpClientConfiguration
                         HttpClientHandler clientHandler = (HttpClientHandler)handler;
                         clientHandler.AllowAutoRedirect = true;
                         clientHandler.UseProxy = true;
-                        clientHandler.Proxy = provider.GetRequiredService<DynamicHttpProxy>();
+                        clientHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
                     });
             })
             .AddHttpClients();

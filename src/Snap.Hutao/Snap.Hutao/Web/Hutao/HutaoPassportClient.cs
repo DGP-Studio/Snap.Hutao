@@ -64,7 +64,7 @@ internal sealed partial class HutaoPassportClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
-            .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -92,7 +92,7 @@ internal sealed partial class HutaoPassportClient
             .PostJson(data);
 
         HutaoResponse<string>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<string>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<string>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -114,7 +114,7 @@ internal sealed partial class HutaoPassportClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse? resp = await builder
-            .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -142,7 +142,7 @@ internal sealed partial class HutaoPassportClient
             .PostJson(data);
 
         HutaoResponse<string>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<string>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<string>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -168,7 +168,7 @@ internal sealed partial class HutaoPassportClient
             .PostJson(data);
 
         HutaoResponse<string>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<string>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<string>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -188,7 +188,7 @@ internal sealed partial class HutaoPassportClient
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         HutaoResponse<UserInfo>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<UserInfo>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<UserInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

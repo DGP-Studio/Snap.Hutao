@@ -24,7 +24,7 @@ internal static class SupportedCultures
         ToNameValue(CultureInfo.GetCultureInfo("ru")),
         /*ToNameValue(CultureInfo.GetCultureInfo("th")),*/
         /*ToNameValue(CultureInfo.GetCultureInfo("tr")),*/
-        /*ToNameValue(CultureInfo.GetCultureInfo("vi")),*/
+        ToNameValue(CultureInfo.GetCultureInfo("vi")),
     ];
 
     public static List<NameValue<CultureInfo>> Get()

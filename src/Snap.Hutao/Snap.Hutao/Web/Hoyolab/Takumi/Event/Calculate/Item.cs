@@ -40,4 +40,7 @@ internal sealed class Item
     /// </summary>
     [JsonPropertyName("level")]
     public QualityType Level { get; set; }
+
+    [JsonPropertyName("lack_num")]
+    public uint LackNum { get; set; }
 }

@@ -7,7 +7,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// 计算信息
 /// </summary>
 [HighQuality]
-internal sealed class PromotionDelta
+internal class PromotionDelta
 {
     /// <summary>
     /// 物品Id

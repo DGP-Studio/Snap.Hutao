@@ -41,7 +41,7 @@ internal sealed partial class ResourceClient
             .Get();
 
         Response<GameResource>? resp = await builder
-            .TryCatchSendAsync<Response<GameResource>>(httpClient, logger, token)
+            .SendAsync<Response<GameResource>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         // 最新版完整包
@@ -70,7 +70,7 @@ internal sealed partial class ResourceClient
             .Get();
 
         Response<GameContent>? resp = await builder
-            .TryCatchSendAsync<Response<GameContent>>(httpClient, logger, token)
+            .SendAsync<Response<GameContent>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

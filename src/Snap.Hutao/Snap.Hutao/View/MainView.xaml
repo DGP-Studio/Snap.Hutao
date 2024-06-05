@@ -31,7 +31,7 @@
         <shvcs:BackdropTypeToOpacityConverter x:Key="BackdropTypeToOpacityConverter"/>
     </UserControl.Resources>
 
-    <Grid Transitions="{ThemeResource EntranceThemeTransitions}">
+    <Grid>
         <Border Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Opacity="{Binding AppOptions.BackdropType, Converter={StaticResource BackdropTypeToOpacityConverter}, Mode=OneWay}">
             <Border.OpacityTransition>
                 <ScalarTransition Duration="0:0:1"/>

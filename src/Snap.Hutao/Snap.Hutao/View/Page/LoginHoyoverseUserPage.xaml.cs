@@ -49,7 +49,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         HttpClient httpClient = serviceProvider.GetRequiredService<HttpClient>();
 
         WebApiResponse<AccountInfoWrapper>? resp = await builder
-            .TryCatchSendAsync<WebApiResponse<AccountInfoWrapper>>(httpClient, logger, token)
+            .SendAsync<WebApiResponse<AccountInfoWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return $"{resp?.Data?.AccountInfo?.AccountId}";

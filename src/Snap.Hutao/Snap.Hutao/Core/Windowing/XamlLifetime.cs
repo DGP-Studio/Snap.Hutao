@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Core.Windowing;
 
-internal static class XamlWindowLifetime
+internal static class XamlLifetime
 {
     public static bool ApplicationLaunchedWithNotifyIcon { get; set; }
 

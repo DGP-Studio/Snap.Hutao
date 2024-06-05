@@ -4,12 +4,17 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.Service.Game.Automation.ScreenCapture;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.View.Converter;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
+using Snap.Hutao.Win32.Foundation;
+using System.IO;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -27,6 +32,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly ILogger<TestViewModel> logger;
     private readonly IMemoryCache memoryCache;
     private readonly ITaskContext taskContext;
+    private readonly IGameScreenCaptureService gameScreenCaptureService;
 
     private UploadAnnouncement announcement = new();
 
@@ -141,5 +147,30 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         {
             logger.LogInformation("Failed ImageCache download tasks: [{Tasks}]", set?.ToString(','));
         }
+    }
+
+    [Command("ScreenCaptureCommand")]
+    private async Task ScreenCaptureAsync()
+    {
+        HWND hwnd = currentXamlWindowReference.GetWindowHandle();
+        if (gameScreenCaptureService.TryStartCapture(hwnd, true, out GameScreenCaptureSession? session))
+        {
+            using (session)
+            {
+                while (true)
+                {
+                    await session.RequestFrameAsync();
+                    await Task.Delay(1000);
+                }
+            }
+        }
+    }
+
+    [Command("FileOperationRenameCommand")]
+    private void FileOperationRename()
+    {
+        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string source = Path.Combine(desktop, "TestFolder");
+        DirectoryOperation.UnsafeRename(source, "TestFolder1");
     }
 }

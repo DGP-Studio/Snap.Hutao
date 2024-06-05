@@ -12,14 +12,14 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 
 internal static class GameProcessModule
 {
-    public static async ValueTask<ValueResult<FindModuleResult, RequiredGameModule>> FindModuleAsync(GameFpsUnlockerContext state)
+    public static async ValueTask<ValueResult<FindModuleResult, RequiredRemoteModule>> FindModuleAsync(GameFpsUnlockerContext state)
     {
         ValueStopwatch watch = ValueStopwatch.StartNew();
-        using (PeriodicTimer timer = new(state.TimingOptions.FindModuleDelay))
+        using (PeriodicTimer timer = new(state.Options.FindModuleDelay))
         {
             while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
             {
-                FindModuleResult result = UnsafeGetGameModuleInfo((HANDLE)state.GameProcess.Handle, out RequiredGameModule gameModule);
+                FindModuleResult result = UnsafeGetGameModuleInfo((HANDLE)state.GameProcess.Handle, out RequiredRemoteModule gameModule);
                 if (result == FindModuleResult.Ok)
                 {
                     return new(FindModuleResult.Ok, gameModule);
@@ -30,7 +30,7 @@ internal static class GameProcessModule
                     return new(FindModuleResult.NoModuleFound, default);
                 }
 
-                if (watch.GetElapsedTime() > state.TimingOptions.FindModuleLimit)
+                if (watch.GetElapsedTime() > state.Options.FindModuleLimit)
                 {
                     break;
                 }
@@ -40,7 +40,7 @@ internal static class GameProcessModule
         return new(FindModuleResult.TimeLimitExeeded, default);
     }
 
-    private static FindModuleResult UnsafeGetGameModuleInfo(in HANDLE hProcess, out RequiredGameModule info)
+    private static FindModuleResult UnsafeGetGameModuleInfo(in HANDLE hProcess, out RequiredRemoteModule info)
     {
         FindModuleResult unityPlayerResult = UnsafeFindModule(hProcess, "UnityPlayer.dll", out Module unityPlayer);
         FindModuleResult userAssemblyResult = UnsafeFindModule(hProcess, "UserAssembly.dll", out Module userAssembly);

@@ -44,7 +44,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<bool>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<bool>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<bool>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -64,7 +64,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<RankInfo>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<RankInfo>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<RankInfo>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -83,7 +83,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<Overview>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<Overview>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<Overview>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -102,7 +102,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<AvatarAppearanceRank>>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<List<AvatarAppearanceRank>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<AvatarAppearanceRank>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -121,7 +121,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<AvatarUsageRank>>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<List<AvatarUsageRank>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<AvatarUsageRank>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -140,7 +140,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<AvatarCollocation>>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<List<AvatarCollocation>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<AvatarCollocation>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -159,7 +159,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<WeaponCollocation>>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<List<WeaponCollocation>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<WeaponCollocation>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -178,7 +178,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<AvatarConstellationInfo>>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<List<AvatarConstellationInfo>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<AvatarConstellationInfo>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -197,7 +197,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .Get();
 
         HutaoResponse<List<TeamAppearance>>? resp = await builder
-            .TryCatchSendAsync<HutaoResponse<List<TeamAppearance>>>(httpClient, logger, token)
+            .SendAsync<HutaoResponse<List<TeamAppearance>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);
@@ -256,7 +256,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             .PostJson(playerRecord);
 
         HutaoResponse? resp = await builder
-            .TryCatchSendAsync<HutaoResponse>(httpClient, logger, token)
+            .SendAsync<HutaoResponse>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Web.Response.Response.DefaultIfNull(resp);

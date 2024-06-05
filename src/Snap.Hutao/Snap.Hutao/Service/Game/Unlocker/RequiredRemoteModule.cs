@@ -3,13 +3,13 @@
 
 namespace Snap.Hutao.Service.Game.Unlocker;
 
-internal readonly struct RequiredGameModule
+internal readonly struct RequiredRemoteModule
 {
     public readonly bool HasValue = false;
     public readonly Module UnityPlayer;
     public readonly Module UserAssembly;
 
-    public RequiredGameModule(in Module unityPlayer, in Module userAssembly)
+    public RequiredRemoteModule(in Module unityPlayer, in Module userAssembly)
     {
         HasValue = true;
         UnityPlayer = unityPlayer;

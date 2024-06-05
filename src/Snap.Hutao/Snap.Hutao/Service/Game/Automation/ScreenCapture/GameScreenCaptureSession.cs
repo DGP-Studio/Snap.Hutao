@@ -7,6 +7,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Graphics.Direct3D11;
 using Snap.Hutao.Win32.Graphics.Dxgi;
 using Snap.Hutao.Win32.Graphics.Dxgi.Common;
+using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
 using System.Buffers;
 using System.Runtime.CompilerServices;
@@ -24,6 +25,7 @@ internal sealed class GameScreenCaptureSession : IDisposable
     private static readonly Half ByteMaxValue = 255;
 
     private readonly GameScreenCaptureContext captureContext;
+    private readonly GameScreenCaptureDebugPreviewWindow? previewWindow;
     private readonly Direct3D11CaptureFramePool framePool;
     private readonly GraphicsCaptureSession session;
     private readonly ILogger logger;
@@ -35,16 +37,23 @@ internal sealed class GameScreenCaptureSession : IDisposable
     private bool isDisposed;
 
     [SuppressMessage("", "SH002")]
-    public GameScreenCaptureSession(GameScreenCaptureContext captureContext, ILogger logger)
+    public unsafe GameScreenCaptureSession(GameScreenCaptureContext captureContext, ILogger logger)
     {
         this.captureContext = captureContext;
         this.logger = logger;
 
         contentSize = captureContext.Item.Size;
 
+        if (captureContext.PreviewEnabled)
+        {
+            previewWindow = new();
+        }
+
         captureContext.Item.Closed += OnItemClosed;
 
         framePool = captureContext.CreatePool();
+        captureContext.AttachPreview(previewWindow);
+
         framePool.FrameArrived += OnFrameArrived;
 
         session = captureContext.CreateSession(framePool);
@@ -76,6 +85,7 @@ internal sealed class GameScreenCaptureSession : IDisposable
             return;
         }
 
+        captureContext.DetachPreview(previewWindow);
         session.Dispose();
         framePool.Dispose();
         isDisposed = true;
@@ -111,7 +121,9 @@ internal sealed class GameScreenCaptureSession : IDisposable
 
             try
             {
-                UnsafeProcessFrameSurface(frame.Surface);
+                captureContext.UpdatePreview(previewWindow, frame.Surface);
+
+                // UnsafeProcessFrameSurface(frame.Surface);
             }
             catch (Exception ex)
             {
@@ -135,6 +147,8 @@ internal sealed class GameScreenCaptureSession : IDisposable
             return;
         }
 
+        IUnknownMarshal.Release(pDXGISurface);
+
         if (FAILED(pDXGISurface->GetDesc(out DXGI_SURFACE_DESC dxgiSurfaceDesc)))
         {
             return;
@@ -151,6 +165,8 @@ internal sealed class GameScreenCaptureSession : IDisposable
             return;
         }
 
+        IUnknownMarshal.Release(pD3D11Device);
+
         D3D11_TEXTURE2D_DESC d3d11Texture2DDesc = default;
         d3d11Texture2DDesc.Width = textureWidth;
         d3d11Texture2DDesc.Height = textureHeight;
@@ -166,12 +182,17 @@ internal sealed class GameScreenCaptureSession : IDisposable
             return;
         }
 
+        IUnknownMarshal.Release(pD3D11Texture2D);
+
         if (FAILED(access.GetInterface(in ID3D11Resource.IID, out ID3D11Resource* pD3D11Resource)))
         {
             return;
         }
 
+        IUnknownMarshal.Release(pD3D11Resource);
+
         pD3D11Device->GetImmediateContext(out ID3D11DeviceContext* pD3D11DeviceContext);
+        IUnknownMarshal.Release(pD3D11DeviceContext);
 
         if (boxAvailable)
         {

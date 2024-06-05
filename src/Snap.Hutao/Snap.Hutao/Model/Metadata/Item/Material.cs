@@ -75,7 +75,7 @@ internal sealed class Material : DisplayItem
             DayOfWeek.Monday or DayOfWeek.Thursday => Materials.MondayThursdayItems.Contains(Id),
             DayOfWeek.Tuesday or DayOfWeek.Friday => Materials.TuesdayFridayItems.Contains(Id),
             DayOfWeek.Wednesday or DayOfWeek.Saturday => Materials.WednesdaySaturdayItems.Contains(Id),
-            _ => treatSundayAsTrue,
+            _ => treatSundayAsTrue && (Materials.MondayThursdayItems.Contains(Id) || Materials.TuesdayFridayItems.Contains(Id) || Materials.WednesdaySaturdayItems.Contains(Id)),
         };
     }
 

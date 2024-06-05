@@ -5,5 +5,5 @@ namespace Snap.Hutao.Core.Abstraction;
 
 internal interface IPinnable<TData>
 {
-    ref readonly TData GetPinnableReference();
+    ref TData GetPinnableReference();
 }

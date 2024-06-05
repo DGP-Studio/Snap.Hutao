@@ -6,14 +6,25 @@ namespace Snap.Hutao.Test.IncomingFeature;
 public class SpiralAbyssScheduleIdTest
 {
     private static readonly TimeSpan Utc8 = new(8, 0, 0);
+    private static readonly DateTimeOffset AcrobaticsBattleIntroducedTime = new(2024, 7, 1, 4, 0, 0, Utc8);
 
     [TestMethod]
     public void Test()
     {
         Console.WriteLine($"当前第 {GetForDateTimeOffset(DateTimeOffset.Now)} 期");
 
-        DateTimeOffset dateTimeOffset = new(2020, 7, 1, 4, 0, 0, Utc8);
-        Console.WriteLine($"2020-07-01 04:00:00 为第 {GetForDateTimeOffset(dateTimeOffset)} 期");
+        // 2020-07-01 04:00:00 为第 1 期
+        // 2024-06-16 04:00:00 为第 96 期
+        // 2024-07-01 04:00:00 为第 97 期
+        // 2024-07-16 04:00:00 为第 98 期
+        // 2024-08-01 04:00:00 为第 99 期
+        Console.WriteLine($"2020-07-01 04:00:00 为第 {GetForDateTimeOffset(new(2020, 07, 01, 4, 0, 0, Utc8))} 期");
+        Console.WriteLine($"2024-06-16 04:00:00 为第 {GetForDateTimeOffset(new(2024, 06, 16, 4, 0, 0, Utc8))} 期");
+        Console.WriteLine($"2024-07-01 04:00:00 为第 {GetForDateTimeOffset(new(2024, 07, 01, 4, 0, 0, Utc8))} 期");
+        Console.WriteLine($"2024-07-16 04:00:00 为第 {GetForDateTimeOffset(new(2024, 07, 16, 4, 0, 0, Utc8))} 期");
+        Console.WriteLine($"2024-08-01 04:00:00 为第 {GetForDateTimeOffset(new(2024, 08, 01, 4, 0, 0, Utc8))} 期");
+        Console.WriteLine($"2024-08-16 04:00:00 为第 {GetForDateTimeOffset(new(2024, 08, 16, 4, 0, 0, Utc8))} 期");
+        Console.WriteLine($"2024-09-01 04:00:00 为第 {GetForDateTimeOffset(new(2024, 09, 01, 4, 0, 0, Utc8))} 期");
     }
 
     public static int GetForDateTimeOffset(DateTimeOffset dateTimeOffset)
@@ -36,6 +47,12 @@ public class SpiralAbyssScheduleIdTest
         if (day is 1 && hour < 4)
         {
             periodNum--;
+        }
+
+        if (dateTimeOffset >= AcrobaticsBattleIntroducedTime)
+        {
+            // 当超过 96 期时，每一个月一期
+            periodNum = (4 * 12 * 2) + ((periodNum - (4 * 12 * 2)) / 2);
         }
 
         return periodNum;

@@ -32,6 +32,6 @@ internal sealed partial class DailyNoteWebhookOperation
             .SetHeader("x-uid", $"{playerUid}")
             .PostJson(dailyNote);
 
-        await builder.TryCatchSendAsync(httpClient, logger, token).ConfigureAwait(false);
+        await builder.SendAsync(httpClient, logger, token).ConfigureAwait(false);
     }
 }

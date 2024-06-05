@@ -15,4 +15,9 @@ internal readonly struct Module
         Address = address;
         Size = size;
     }
+
+    public unsafe Span<byte> AsSpan()
+    {
+        return new((void*)Address, (int)Size);
+    }
 }

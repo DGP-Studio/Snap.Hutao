@@ -38,7 +38,7 @@ internal sealed partial class AnnouncementClient
             .Get();
 
         Response<AnnouncementWrapper>? resp = await builder
-            .TryCatchSendAsync<Response<AnnouncementWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<AnnouncementWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -62,7 +62,7 @@ internal sealed partial class AnnouncementClient
             .Get();
 
         Response<ListWrapper<AnnouncementContent>>? resp = await builder
-            .TryCatchSendAsync<Response<ListWrapper<AnnouncementContent>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<AnnouncementContent>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

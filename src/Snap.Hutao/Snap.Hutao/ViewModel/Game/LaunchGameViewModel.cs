@@ -27,7 +27,7 @@ namespace Snap.Hutao.ViewModel.Game;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Injection(InjectAs.Singleton)]
 internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IViewModelSupportLaunchExecution
 {
     /// <summary>
@@ -288,10 +288,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             return;
         }
 
-        if (Directory.Exists(gameFileSystem.ScreenShotDirectory))
-        {
-            await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.ScreenShotDirectory);
-        }
+        Directory.CreateDirectory(gameFileSystem.ScreenShotDirectory);
+        await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.ScreenShotDirectory);
     }
 
     private async ValueTask SetSelectedSchemeAsync(LaunchScheme? value)

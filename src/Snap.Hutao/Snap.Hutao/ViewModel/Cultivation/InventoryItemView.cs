@@ -11,7 +11,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 /// 背包物品
 /// </summary>
 [HighQuality]
-internal sealed class InventoryItemView : ObservableObject, IEntityWithMetadata<Model.Entity.InventoryItem, Material>
+internal sealed class InventoryItemView : ObservableObject, IEntityAccessWithMetadata<Model.Entity.InventoryItem, Material>
 {
     /// <summary>
     /// 创建一个新的背包物品

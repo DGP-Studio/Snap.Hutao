@@ -50,13 +50,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     /// <inheritdoc/>
     public void Activate(HutaoActivationArguments args)
     {
-        // Before activate, we try to redirect to the opened process in App,
-        // And we check if it's a toast activation.
-        if (ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
-        {
-            return;
-        }
-
         HandleActivationAsync(args).SafeForget();
     }
 
@@ -69,6 +62,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         using (activateSemaphore.Enter())
         {
             // TODO: Introduced in 1.10.2, remove in later version
+            serviceProvider.GetRequiredService<IJumpListInterop>().ClearAsync().SafeForget();
             serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
 
             if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
@@ -80,7 +74,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
             if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
             {
-                XamlWindowLifetime.ApplicationLaunchedWithNotifyIcon = true;
+                XamlLifetime.ApplicationLaunchedWithNotifyIcon = true;
                 serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
                 _ = serviceProvider.GetRequiredService<NotifyIconController>();
             }
@@ -102,25 +96,31 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         await taskContext.SwitchToMainThreadAsync();
 
-        if (currentWindowReference.Window is null)
+        switch (currentWindowReference.Window)
         {
-            currentWindowReference.Window = serviceProvider.GetRequiredService<LaunchGameWindow>();
-            return;
-        }
+            case null:
+                LaunchGameWindow launchGameWindow = serviceProvider.GetRequiredService<LaunchGameWindow>();
+                currentWindowReference.Window = launchGameWindow;
 
-        if (currentWindowReference.Window is MainWindow)
-        {
-            await serviceProvider
-                .GetRequiredService<INavigationService>()
-                .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
-                .ConfigureAwait(false);
+                launchGameWindow.SwitchTo();
+                launchGameWindow.BringToForeground();
+                return;
 
-            return;
-        }
-        else
-        {
-            // We have a non-Main Window, just exit current process anyway
-            Process.GetCurrentProcess().Kill();
+            case MainWindow:
+                await serviceProvider
+                    .GetRequiredService<INavigationService>()
+                    .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
+                    .ConfigureAwait(false);
+                return;
+
+            case LaunchGameWindow currentLaunchGameWindow:
+                currentLaunchGameWindow.SwitchTo();
+                currentLaunchGameWindow.BringToForeground();
+                return;
+
+            default:
+                Process.GetCurrentProcess().Kill();
+                return;
         }
     }
 
@@ -163,48 +163,61 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             {
                 default:
                     {
-                        await HandleNormalLaunchActionAsync().ConfigureAwait(false);
+                        await HandleNormalLaunchActionAsync(args.IsRedirectTo).ConfigureAwait(false);
                         break;
                     }
             }
         }
     }
 
-    private async ValueTask HandleNormalLaunchActionAsync()
+    private async ValueTask HandleNormalLaunchActionAsync(bool isRedirectTo)
     {
-        // Increase launch times
-        LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => unchecked(x + 1));
-
-        // If the guide is completed, we check if there's any unfulfilled resource category present.
-        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
+        if (!isRedirectTo)
         {
-            if (StaticResource.IsAnyUnfulfilledCategoryPresent())
+            // Increase launch times
+            LocalSetting.Update(SettingKeys.LaunchTimes, 0, x => unchecked(x + 1));
+
+            // If the guide is completed, we check if there's any unfulfilled resource category present.
+            if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) >= GuideState.StaticResourceBegin)
             {
-                UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
+                if (StaticResource.IsAnyUnfulfilledCategoryPresent())
+                {
+                    UnsafeLocalSetting.Set(SettingKeys.Major1Minor10Revision0GuideState, GuideState.StaticResourceBegin);
+                }
+            }
+
+            if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
+            {
+                await taskContext.SwitchToMainThreadAsync();
+
+                GuideWindow guideWindow = serviceProvider.GetRequiredService<GuideWindow>();
+                currentWindowReference.Window = guideWindow;
+
+                guideWindow.SwitchTo();
+                guideWindow.BringToForeground();
+                return;
             }
         }
 
-        if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
-        {
-            await taskContext.SwitchToMainThreadAsync();
-            currentWindowReference.Window = serviceProvider.GetRequiredService<GuideWindow>();
-        }
-        else
-        {
-            await WaitMainWindowAsync().ConfigureAwait(false);
-        }
+        await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
     }
 
-    private async ValueTask WaitMainWindowAsync()
+    private async ValueTask WaitMainWindowOrCurrentAsync()
     {
-        if (currentWindowReference.Window is not null)
+        if (currentWindowReference.Window is { } window)
         {
+            window.SwitchTo();
+            window.BringToForeground();
             return;
         }
 
         await taskContext.SwitchToMainThreadAsync();
 
-        currentWindowReference.Window = serviceProvider.GetRequiredService<MainWindow>();
+        MainWindow mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+        currentWindowReference.Window = mainWindow;
+
+        mainWindow.SwitchTo();
+        mainWindow.BringToForeground();
 
         await taskContext.SwitchToBackgroundAsync();
 
@@ -233,7 +246,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         {
             case CategoryAchievement:
                 {
-                    await WaitMainWindowAsync().ConfigureAwait(false);
+                    await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
                     await HandleAchievementActionAsync(action, parameter, isRedirectTo).ConfigureAwait(false);
                     break;
                 }
@@ -246,7 +259,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
             default:
                 {
-                    await HandleNormalLaunchActionAsync().ConfigureAwait(false);
+                    await HandleNormalLaunchActionAsync(isRedirectTo).ConfigureAwait(false);
                     break;
                 }
         }

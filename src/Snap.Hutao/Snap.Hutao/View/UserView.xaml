@@ -213,13 +213,16 @@
                                 HorizontalAlignment="Center"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewUserCookieOperation}"/>
-                            <AppBarButton
-                                Width="{StaticResource LargeAppBarButtonWidth}"
-                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
-                                Margin="2,-4"
-                                Command="{Binding LoginMihoyoUserCommand}"
-                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                            <Grid Background="Transparent" ToolTipService.ToolTip="{shcm:ResourceString Name=ViewUserLoginMihoyoUserDisabledTooltip}">
+                                <AppBarButton
+                                    Width="{StaticResource LargeAppBarButtonWidth}"
+                                    MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                    Margin="2,-4"
+                                    Command="{Binding LoginMihoyoUserCommand}"
+                                    Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
+                                    IsEnabled="False"
+                                    Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                            </Grid>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"

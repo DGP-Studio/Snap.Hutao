@@ -325,7 +325,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
                 await DataFolderView.SetFolderSizeAsync().ConfigureAwait(false);
             }
 
-            infoBarService.Information(SH.ViewModelSettingActionComplete);
+            infoBarService.Success(SH.ViewModelSettingActionComplete);
         }
     }
 
@@ -371,7 +371,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     {
         if (await shellLinkInterop.TryCreateDesktopShoutcutForElevatedLaunchAsync().ConfigureAwait(false))
         {
-            infoBarService.Information(SH.ViewModelSettingActionComplete);
+            infoBarService.Success(SH.ViewModelSettingActionComplete);
         }
         else
         {

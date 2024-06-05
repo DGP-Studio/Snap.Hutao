@@ -28,7 +28,31 @@ internal sealed partial class CalculateClient
             .PostJson(delta);
 
         Response<Consumption>? resp = await builder
-            .TryCatchSendAsync<Response<Consumption>>(httpClient, logger, token)
+            .SendAsync<Response<Consumption>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, List<AvatarPromotionDelta> deltas, CancellationToken token = default)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(deltas.Count, 8);
+
+        BatchConsumptionData data = new()
+        {
+            Items = deltas,
+            Region = userAndUid.Uid.Region,
+            Uid = userAndUid.Uid.ToString(),
+        };
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.CalculateBatchCompute)
+            .SetUserCookieAndFpHeader(userAndUid.User, CookieType.Cookie)
+            .SetReferer(userAndUid.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
+            .PostJson(data);
+
+        Response<BatchConsumption>? resp = await builder
+            .SendAsync<Response<BatchConsumption>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -53,7 +77,7 @@ internal sealed partial class CalculateClient
                 .PostJson(filter);
 
             resp = await builder
-                .TryCatchSendAsync<Response<ListWrapper<Avatar>>>(httpClient, logger, token)
+                .SendAsync<Response<ListWrapper<Avatar>>>(httpClient, logger, token)
                 .ConfigureAwait(false);
 
             if (resp is not null && resp.IsOk())
@@ -86,7 +110,7 @@ internal sealed partial class CalculateClient
             .Get();
 
         Response<AvatarDetail>? resp = await builder
-            .TryCatchSendAsync<Response<AvatarDetail>>(httpClient, logger, token)
+            .SendAsync<Response<AvatarDetail>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -101,7 +125,7 @@ internal sealed partial class CalculateClient
             .Get();
 
         Response<FurnitureListWrapper>? resp = await builder
-            .TryCatchSendAsync<Response<FurnitureListWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<FurnitureListWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -118,7 +142,7 @@ internal sealed partial class CalculateClient
             .PostJson(data);
 
         Response<ListWrapper<Item>>? resp = await builder
-            .TryCatchSendAsync<Response<ListWrapper<Item>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<Item>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -152,5 +176,17 @@ internal sealed partial class CalculateClient
 
         [JsonPropertyName("id")]
         public uint Id { get; set; }
+    }
+
+    private class BatchConsumptionData
+    {
+        [JsonPropertyName("items")]
+        public List<AvatarPromotionDelta> Items { get; set; } = default!;
+
+        [JsonPropertyName("region")]
+        public Region Region { get; set; } = default!;
+
+        [JsonPropertyName("uid")]
+        public string Uid { get; set; } = default!;
     }
 }

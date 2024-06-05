@@ -19,7 +19,12 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
 
             IProgressFactory progressFactory = context.ServiceProvider.GetRequiredService<IProgressFactory>();
             IProgress<GameFpsUnlockerContext> progress = progressFactory.CreateForMainThread<GameFpsUnlockerContext>(c => context.Progress.Report(LaunchStatus.FromUnlockerContext(c)));
-            GameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process, new(100, 20000, 3000), progress);
+            if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+            {
+                return;
+            }
+
+            GameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process, new(gameFileSystem, 100, 20000, 3000), progress);
 
             try
             {

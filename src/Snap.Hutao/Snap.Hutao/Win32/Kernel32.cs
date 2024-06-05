@@ -4,6 +4,7 @@
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Security;
 using Snap.Hutao.Win32.System.Console;
+using Snap.Hutao.Win32.System.LibraryLoader;
 using Snap.Hutao.Win32.System.ProcessStatus;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -40,6 +41,10 @@ internal static class Kernel32
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern BOOL FreeConsole();
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static extern BOOL FreeLibrary(HMODULE hLibModule);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static unsafe extern BOOL GetConsoleMode(HANDLE hConsoleHandle, CONSOLE_MODE* lpMode);
@@ -93,6 +98,19 @@ internal static class Kernel32
         fixed (MODULEINFO* lpmodinfo = &modinfo)
         {
             return K32GetModuleInformation(hProcess, hModule, lpmodinfo, (uint)sizeof(MODULEINFO));
+        }
+    }
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static extern HMODULE LoadLibraryExW(PCWSTR lpLibFileName, [AllowNull] HANDLE hFile, LOAD_LIBRARY_FLAGS dwFlags);
+
+    [DebuggerStepThrough]
+    public static unsafe HMODULE LoadLibraryExW(ReadOnlySpan<char> libFileName, [AllowNull] HANDLE hFile, LOAD_LIBRARY_FLAGS dwFlags)
+    {
+        fixed (char* lpLibFileName = libFileName)
+        {
+            return LoadLibraryExW(lpLibFileName, hFile, dwFlags);
         }
     }
 

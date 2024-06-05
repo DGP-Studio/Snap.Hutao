@@ -100,6 +100,6 @@ internal sealed partial class LaunchGameShared
     [Command("HandleGamePathNullOrEmptyCommand")]
     private void HandleGamePathNullOrEmpty()
     {
-        navigationService.Navigate<LaunchGamePage>(INavigationAwaiter.Default);
+        navigationService.Navigate<LaunchGamePage>(INavigationAwaiter.Default, true);
     }
 }

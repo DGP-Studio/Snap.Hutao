@@ -59,7 +59,7 @@ public sealed partial class App : Application
 
     public new void Exit()
     {
-        XamlWindowLifetime.ApplicationExiting = true;
+        XamlLifetime.ApplicationExiting = true;
         base.Exit();
     }
 
@@ -72,6 +72,7 @@ public sealed partial class App : Application
 
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
             {
+                logger.LogDebug("Application exiting on RedirectActivationTo");
                 Exit();
                 return;
             }
@@ -80,12 +81,19 @@ public sealed partial class App : Application
             LogDiagnosticInformation();
 
             // Manually invoke
-            activation.Activate(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
+            HutaoActivationArguments hutaoArgs = HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs);
+            if (hutaoArgs.Kind is HutaoActivationKind.Toast)
+            {
+                Exit();
+                return;
+            }
+
+            activation.Activate(hutaoArgs);
             activation.PostInitialization();
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex);
+            logger.LogError(ex, "Application failed in App.OnLaunched");
             Process.GetCurrentProcess().Kill();
         }
     }

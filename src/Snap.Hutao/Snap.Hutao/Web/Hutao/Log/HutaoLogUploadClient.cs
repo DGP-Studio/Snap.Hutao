@@ -35,7 +35,7 @@ internal sealed partial class HutaoLogUploadClient
             .PostJson(BuildFromException(exception));
 
         Response<string>? resp = await builder
-            .TryCatchSendAsync<Response<string>>(httpClient, logger, default)
+            .SendAsync<Response<string>>(httpClient, logger, default)
             .ConfigureAwait(false);
 
         return resp?.Data;

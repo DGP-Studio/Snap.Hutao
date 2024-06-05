@@ -13,7 +13,7 @@ namespace Snap.Hutao.Win32;
 
 [SuppressMessage("", "SA1313")]
 [SuppressMessage("", "SYSLIB1054")]
-internal static class D3D11
+internal static class D3d11
 {
     [DllImport("d3d11.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static unsafe extern HRESULT CreateDirect3D11DeviceFromDXGIDevice(IDXGIDevice* dxgiDevice, IInspectable** graphicsDevice);

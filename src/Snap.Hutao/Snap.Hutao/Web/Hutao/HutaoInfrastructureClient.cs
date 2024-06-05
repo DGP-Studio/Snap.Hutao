@@ -25,7 +25,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetRequestUri(HutaoEndpoints.StaticSize)
             .Get();
 
-        HutaoResponse<StaticResourceSizeInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<StaticResourceSizeInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<StaticResourceSizeInformation>? resp = await builder.SendAsync<HutaoResponse<StaticResourceSizeInformation>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
@@ -35,7 +35,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetRequestUri(HutaoEndpoints.Ip)
             .Get();
 
-        HutaoResponse<IPInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<IPInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<IPInformation>? resp = await builder.SendAsync<HutaoResponse<IPInformation>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
@@ -46,7 +46,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetHeader("x-hutao-device-id", runtimeOptions.DeviceId)
             .Get();
 
-        HutaoResponse<HutaoVersionInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<HutaoVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<HutaoVersionInformation>? resp = await builder.SendAsync<HutaoResponse<HutaoVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
@@ -56,7 +56,7 @@ internal sealed partial class HutaoInfrastructureClient
             .SetRequestUri(HutaoEndpoints.PatchYaeAchievement)
             .Get();
 
-        HutaoResponse<YaeVersionInformation>? resp = await builder.TryCatchSendAsync<HutaoResponse<YaeVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<YaeVersionInformation>? resp = await builder.SendAsync<HutaoResponse<YaeVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 }

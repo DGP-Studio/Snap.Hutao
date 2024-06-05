@@ -52,7 +52,7 @@ internal sealed partial class BindingClient
             .Get();
 
         Response<ListWrapper<UserGameRole>>? resp = await builder
-            .TryCatchSendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -66,7 +66,7 @@ internal sealed partial class BindingClient
             .Get();
 
         Response<ListWrapper<UserGameRole>>? resp = await builder
-            .TryCatchSendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
+            .SendAsync<Response<ListWrapper<UserGameRole>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

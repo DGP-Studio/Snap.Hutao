@@ -315,7 +315,11 @@
             </DataTemplate>
 
             <DataTemplate x:Key="AvatarPropertyTemplate">
-                <Grid Padding="16,8" Background="{Binding Background, Mode=OneWay}">
+                <Grid
+                    Padding="16,8"
+                    Background="{Binding Background, Mode=OneWay}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="0,1,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
@@ -775,9 +779,8 @@
                                                     Background="{x:Null}"
                                                     Header="{shcm:ResourceString Name=ViewPageAvatarPropertyHeader}">
                                                     <Border Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" CornerRadius="{ThemeResource ControlCornerRadiusBottom}">
-                                                        <shcca:AlternatingItemsControl
-                                                            Margin="0,0,0,-2"
-                                                            ItemAlternateBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                                                        <ItemsControl
+                                                            Margin="0,-1,0,0"
                                                             ItemTemplate="{StaticResource AvatarPropertyTemplate}"
                                                             ItemsSource="{Binding SelectedAvatar.Properties}"/>
                                                     </Border>

@@ -3,16 +3,9 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.Graphics.Direct3D;
 using Snap.Hutao.Win32.Graphics.Direct3D11;
-using Snap.Hutao.Win32.Graphics.Dxgi;
-using Snap.Hutao.Win32.System.Com;
 using Windows.Graphics.Capture;
-using Windows.Graphics.DirectX.Direct3D11;
-using WinRT;
 using static Snap.Hutao.Win32.ConstValues;
-using static Snap.Hutao.Win32.D3D11;
-using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
@@ -20,11 +13,25 @@ namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 [Injection(InjectAs.Singleton, typeof(IGameScreenCaptureService))]
 internal sealed partial class GameScreenCaptureService : IGameScreenCaptureService
 {
+    private const uint CreateDXGIFactoryFlag =
+#if DEBUG
+        DXGI_CREATE_FACTORY_DEBUG;
+#else
+        0;
+#endif
+
+    private const D3D11_CREATE_DEVICE_FLAG D3d11CreateDeviceFlag =
+        D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT
+#if DEBUG
+        | D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_DEBUG
+#endif
+        ;
+
     private readonly ILogger<GameScreenCaptureService> logger;
 
     public bool IsSupported()
     {
-        if (!Core.UniversalApiContract.IsPresent(WindowsVersion.Windows10Version1903))
+        if (!UniversalApiContract.IsPresent(WindowsVersion.Windows10Version1903))
         {
             logger.LogWarning("Windows 10 Version 1903 or later is required for Windows.Graphics.Capture API.");
             return false;
@@ -40,47 +47,34 @@ internal sealed partial class GameScreenCaptureService : IGameScreenCaptureServi
     }
 
     [SuppressMessage("", "SH002")]
-    public unsafe bool TryStartCapture(HWND hwnd, [NotNullWhen(true)] out GameScreenCaptureSession? session)
+    public unsafe bool TryStartCapture(HWND hwnd, bool preview, [NotNullWhen(true)] out GameScreenCaptureSession? session)
     {
         session = default;
 
-        D3D11_CREATE_DEVICE_FLAG flag = D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT
-#if DEBUG
-            | D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_DEBUG
-#endif
-            ;
+        GameScreenCaptureContextCreationResult result = GameScreenCaptureContext.Create(hwnd, preview);
 
-        HRESULT hr;
-        hr = D3D11CreateDevice(default, D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE, default, flag, [], D3D11_SDK_VERSION, out ID3D11Device* pD3D11Device, out _, out _);
-        if (FAILED(hr))
+        switch (result.Kind)
         {
-            logger.LogWarning("D3D11CreateDevice failed with code: {Code}", hr);
-            return false;
+            case GameScreenCaptureContextCreationResultKind.Success:
+                session = new(result.Context, logger);
+                return true;
+            case GameScreenCaptureContextCreationResultKind.CreateDxgiFactoryFailed:
+                logger.LogWarning("CreateDXGIFactory2 failed with code: {Code}", result.HResult);
+                return false;
+            case GameScreenCaptureContextCreationResultKind.EnumAdapterByGpuPreferenceFailed:
+                logger.LogWarning("IDXGIFactory6.EnumAdapterByGpuPreference failed with code: {Code}", result.HResult);
+                return false;
+            case GameScreenCaptureContextCreationResultKind.D3D11CreateDeviceFailed:
+                logger.LogWarning("D3D11CreateDevice failed with code: {Code}", result.HResult);
+                return false;
+            case GameScreenCaptureContextCreationResultKind.D3D11DeviceQueryDXGIDeviceFailed:
+                logger.LogWarning("ID3D11Device.QueryInterface<IDXGIDevice> failed with code: {Code}", result.HResult);
+                return false;
+            case GameScreenCaptureContextCreationResultKind.CreateDirect3D11DeviceFromDXGIDeviceFailed:
+                logger.LogWarning("CreateDirect3D11DeviceFromDXGIDevice failed with code: {Code}", result.HResult);
+                return false;
+            default:
+                return false;
         }
-
-        hr = IUnknownMarshal.QueryInterface(pD3D11Device, in IDXGIDevice.IID, out IDXGIDevice* pDXGIDevice);
-        if (FAILED(hr))
-        {
-            logger.LogWarning("ID3D11Device.QueryInterface<IDXGIDevice> failed with code: {Code}", hr);
-            return false;
-        }
-
-        IUnknownMarshal.Release(pDXGIDevice);
-
-        hr = CreateDirect3D11DeviceFromDXGIDevice(pDXGIDevice, out Win32.System.WinRT.IInspectable* inspectable);
-        if (FAILED(hr))
-        {
-            logger.LogWarning("CreateDirect3D11DeviceFromDXGIDevice failed with code: {Code}", hr);
-            return false;
-        }
-
-        IUnknownMarshal.Release(inspectable);
-
-        IDirect3DDevice direct3DDevice = IInspectable.FromAbi((nint)inspectable).ObjRef.AsInterface<IDirect3DDevice>();
-
-        GameScreenCaptureContext captureContext = new(direct3DDevice, hwnd);
-        session = new(captureContext, logger);
-
-        return true;
     }
 }

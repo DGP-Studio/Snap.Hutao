@@ -96,7 +96,7 @@ internal sealed class XamlWindowSubclass : IDisposable
                 }
         }
 
-        if (XamlWindowLifetime.ApplicationExiting)
+        if (XamlLifetime.ApplicationExiting)
         {
             return default;
         }

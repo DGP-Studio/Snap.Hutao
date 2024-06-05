@@ -70,7 +70,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
 
 [SuppressMessage("", "SA1402")]
 internal sealed class ObservableReorderableDbCollection<TEntityOnly, TEntity> : ObservableCollection<TEntityOnly>
-    where TEntityOnly : class, IEntityOnly<TEntity>
+    where TEntityOnly : class, IEntityAccess<TEntity>
     where TEntity : class, IReorderable
 {
     private readonly IServiceProvider serviceProvider;

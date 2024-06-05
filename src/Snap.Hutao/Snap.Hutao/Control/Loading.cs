@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Markup;
 
 namespace Snap.Hutao.Control;
 
@@ -36,9 +37,18 @@ internal class Loading : Microsoft.UI.Xaml.Controls.ContentControl
     private static void IsLoadingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         Loading control = (Loading)d;
-        control.presenter ??= control.GetTemplateChild("ContentGrid") as FrameworkElement;
 
-        control?.Update();
+        if ((bool)e.NewValue)
+        {
+            control.presenter ??= control.GetTemplateChild("ContentGrid") as FrameworkElement;
+        }
+        else if (control.presenter is not null)
+        {
+            XamlMarkupHelper.UnloadObject(control.presenter);
+            control.presenter = null;
+        }
+
+        control.Update();
     }
 
     private void Update()

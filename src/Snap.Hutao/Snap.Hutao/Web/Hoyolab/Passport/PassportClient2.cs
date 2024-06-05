@@ -29,7 +29,7 @@ internal sealed partial class PassportClient2
             .PostJson(new Timestamp());
 
         Response<UserInfoWrapper>? resp = await builder
-            .TryCatchSendAsync<Response<UserInfoWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<UserInfoWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -45,7 +45,7 @@ internal sealed partial class PassportClient2
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);
 
         Response<LoginResult>? resp = await builder
-            .TryCatchSendAsync<Response<LoginResult>>(httpClient, logger, token)
+            .SendAsync<Response<LoginResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -64,7 +64,7 @@ internal sealed partial class PassportClient2
             .PostJson(data);
 
         Response<LoginResult>? resp = await builder
-            .TryCatchSendAsync<Response<LoginResult>>(httpClient, logger, token)
+            .SendAsync<Response<LoginResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

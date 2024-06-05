@@ -34,7 +34,7 @@ internal sealed partial class AuthClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.K2, true).ConfigureAwait(false);
 
         Response<ActionTicketWrapper>? resp = await builder
-            .TryCatchSendAsync<Response<ActionTicketWrapper>>(httpClient, logger, token)
+            .SendAsync<Response<ActionTicketWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -57,7 +57,7 @@ internal sealed partial class AuthClient
                 .Get();
 
             resp = await builder
-                .TryCatchSendAsync<Response<ListWrapper<NameToken>>>(httpClient, logger, token)
+                .SendAsync<Response<ListWrapper<NameToken>>>(httpClient, logger, token)
                 .ConfigureAwait(false);
         }
 

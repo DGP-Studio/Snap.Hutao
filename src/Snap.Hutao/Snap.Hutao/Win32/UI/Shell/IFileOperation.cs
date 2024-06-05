@@ -24,7 +24,22 @@ internal unsafe struct IFileOperation
         }
     }
 
-    public HRESULT MoveItem(IShellItem* psiItem, IShellItem* psiDestinationFolder, [AllowNull] string szNewName, IFileOperationProgressSink* pfopsItem)
+    public HRESULT SetOperationFlags(FILEOPERATION_FLAGS dwOperationFlags)
+    {
+        return ThisPtr->SetOperationFlags((IFileOperation*)Unsafe.AsPointer(ref this), dwOperationFlags);
+    }
+
+    [SuppressMessage("", "SH002")]
+    public HRESULT RenameItem(IShellItem* psiItem, ReadOnlySpan<char> szNewName, IFileOperationProgressSink* pfopsItem)
+    {
+        fixed (char* pszNewName = szNewName)
+        {
+            return ThisPtr->RenameItem((IFileOperation*)Unsafe.AsPointer(ref this), psiItem, pszNewName, pfopsItem);
+        }
+    }
+
+    [SuppressMessage("", "SH002")]
+    public HRESULT MoveItem(IShellItem* psiItem, IShellItem* psiDestinationFolder, [AllowNull] ReadOnlySpan<char> szNewName, IFileOperationProgressSink* pfopsItem)
     {
         fixed (char* pszNewName = szNewName)
         {

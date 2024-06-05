@@ -12,7 +12,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 深渊视图
 /// </summary>
 [HighQuality]
-internal sealed class SpiralAbyssView : IEntityOnly<SpiralAbyssEntry?>,
+internal sealed class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>,
     IMappingFrom<SpiralAbyssView, SpiralAbyssEntry, SpiralAbyssMetadataContext>,
     IMappingFrom<SpiralAbyssView, SpiralAbyssEntry?, TowerSchedule, SpiralAbyssMetadataContext>
 {

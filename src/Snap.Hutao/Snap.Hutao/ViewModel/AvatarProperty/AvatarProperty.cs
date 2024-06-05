@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml.Media;
-using Snap.Hutao.Control.Collection.Alternating;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using System.Collections.Frozen;
@@ -14,7 +12,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 /// 角色属性值
 /// </summary>
 [HighQuality]
-internal sealed class AvatarProperty : ObservableObject, INameIcon, IAlternatingItem
+internal sealed class AvatarProperty : ObservableObject, INameIcon
 {
     private static readonly FrozenDictionary<FightProperty, Uri> PropertyIcons = FrozenDictionary.ToFrozenDictionary(
     [
@@ -37,8 +35,6 @@ internal sealed class AvatarProperty : ObservableObject, INameIcon, IAlternating
         KeyValuePair.Create(FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT, Web.HutaoEndpoints.StaticRaw("Property", "UI_Icon_PhysicalAttackUp.png").ToUri()),
         KeyValuePair.Create(FightProperty.FIGHT_PROP_SHIELD_COST_MINUS_RATIO, Web.HutaoEndpoints.StaticRaw("Property", "UI_Icon_ShieldCostMinus.png").ToUri()),
     ]);
-
-    private Brush? background;
 
     /// <summary>
     /// 构造一个新的角色属性值
@@ -75,6 +71,4 @@ internal sealed class AvatarProperty : ObservableObject, INameIcon, IAlternating
     /// 绿字
     /// </summary>
     public string? AddValue { get; }
-
-    public Brush? Background { get => background; set => SetProperty(ref background, value); }
 }

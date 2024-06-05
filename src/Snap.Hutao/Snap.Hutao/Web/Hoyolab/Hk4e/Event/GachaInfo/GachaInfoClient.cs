@@ -40,7 +40,7 @@ internal sealed partial class GachaInfoClient
             .Get();
 
         Response<GachaLogPage>? resp = await builder
-            .TryCatchSendAsync<Response<GachaLogPage>>(httpClient, logger, token)
+            .SendAsync<Response<GachaLogPage>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

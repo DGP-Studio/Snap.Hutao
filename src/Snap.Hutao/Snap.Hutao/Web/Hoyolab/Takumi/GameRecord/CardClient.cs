@@ -33,7 +33,7 @@ internal sealed partial class CardClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<VerificationRegistration>? resp = await builder
-            .TryCatchSendAsync<Response<VerificationRegistration>>(httpClient, logger, token)
+            .SendAsync<Response<VerificationRegistration>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -51,7 +51,7 @@ internal sealed partial class CardClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
         Response<VerificationResult>? resp = await builder
-            .TryCatchSendAsync<Response<VerificationResult>>(httpClient, logger, token)
+            .SendAsync<Response<VerificationResult>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -67,7 +67,7 @@ internal sealed partial class CardClient
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X6, false).ConfigureAwait(false);
 
         Response<DailyNote.WidgetDailyNote>? resp = await builder
-            .TryCatchSendAsync<Response<DailyNote.WidgetDailyNote>>(httpClient, logger, token)
+            .SendAsync<Response<DailyNote.WidgetDailyNote>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

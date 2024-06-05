@@ -7,7 +7,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// 消耗
 /// </summary>
 [HighQuality]
-internal sealed class Consumption
+internal class Consumption
 {
     /// <summary>
     /// 角色等级消耗
@@ -26,4 +26,7 @@ internal sealed class Consumption
     /// </summary>
     [JsonPropertyName("weapon_consume")]
     public List<Item>? WeaponConsume { get; set; }
+
+    [JsonPropertyName("skills_consume")]
+    public List<BatchSkillCosumption>? SkillsComsume { get; set; }
 }

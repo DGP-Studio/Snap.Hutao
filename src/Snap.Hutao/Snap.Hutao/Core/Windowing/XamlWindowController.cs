@@ -99,14 +99,12 @@ internal sealed class XamlWindowController
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        if (XamlWindowLifetime.ApplicationLaunchedWithNotifyIcon && !XamlWindowLifetime.ApplicationExiting)
+        if (XamlLifetime.ApplicationLaunchedWithNotifyIcon && !XamlLifetime.ApplicationExiting)
         {
             args.Handled = true;
             window.Hide();
 
-            RECT iconRect = serviceProvider.GetRequiredService<NotifyIconController>().GetRect();
-            RECT primaryRect = StructMarshal.RECT(DisplayArea.Primary.OuterBounds);
-            if (!IntersectRect(out _, in primaryRect, in iconRect))
+            if (!IsNotifyIconVisible())
             {
                 new ToastContentBuilder()
                     .AddText(SH.CoreWindowingNotifyIconPromotedHint)
@@ -131,6 +129,35 @@ internal sealed class XamlWindowController
             subclass?.Dispose();
             windowNonRudeHWND?.Dispose();
         }
+    }
+
+    private bool IsNotifyIconVisible()
+    {
+        // Shell_NotifyIconGetRect returns E_FAIL when Shell_TrayWnd is not present,
+        // We pre-check it to avoid the exception.
+        HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
+        if (shellTrayWnd == default)
+        {
+            return false;
+        }
+
+        RECT iconRect = serviceProvider.GetRequiredService<NotifyIconController>().GetRect();
+
+        if (UniversalApiContract.IsPresent(WindowsVersion.Windows11))
+        {
+            RECT primaryRect = StructMarshal.RECT(DisplayArea.Primary.OuterBounds);
+            return IntersectRect(out _, in primaryRect, in iconRect);
+        }
+
+        HWND trayNotifyWnd = FindWindowExW(shellTrayWnd, default, "TrayNotifyWnd", default);
+        HWND button = FindWindowExW(trayNotifyWnd, default, "Button", default);
+
+        if (GetWindowRect(button, out RECT buttonRect))
+        {
+            return !EqualRect(in buttonRect, in iconRect);
+        }
+
+        return false;
     }
 
     #region SystemBackdrop & ElementTheme
@@ -210,15 +237,18 @@ internal sealed class XamlWindowController
     private void RecoverOrInitWindowSize(IXamlWindowHasInitSize xamlWindow)
     {
         double scale = window.GetRasterizationScale();
-        SizeInt32 scaledSize = xamlWindow.InitSize.Scale(scale);
-        RectInt32 rect = StructMarshal.RectInt32(scaledSize);
+        RectInt32 rect = StructMarshal.RectInt32(xamlWindow.InitSize.Scale(scale));
 
         if (window is IXamlWindowRectPersisted rectPersisted)
         {
-            RectInt32 persistedRect = (CompactRect)LocalSetting.Get(rectPersisted.PersistRectKey, (CompactRect)rect);
-            if (persistedRect.Size() >= xamlWindow.InitSize.Size())
+            RectInt32 nonDpiPersistedRect = (RectInt16)LocalSetting.Get(rectPersisted.PersistRectKey, (RectInt16)rect);
+            RectInt32 persistedRect = nonDpiPersistedRect.Scale(scale);
+
+            // If the persisted size is less than min size, we want to reset to the init size.
+            // So we only recover the size when it's greater than or equal to the min size.
+            if (persistedRect.Size() >= xamlWindow.MinSize.Size())
             {
-                rect = persistedRect.Scale(scale);
+                rect = persistedRect;
             }
         }
 
@@ -234,8 +264,9 @@ internal sealed class XamlWindowController
         // prevent save value when we are maximized.
         if (!windowPlacement.ShowCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
         {
+            // We save the non-dpi rect here
             double scale = 1.0 / window.GetRasterizationScale();
-            LocalSetting.Set(rectPersisted.PersistRectKey, (CompactRect)window.AppWindow.GetRect().Scale(scale));
+            LocalSetting.Set(rectPersisted.PersistRectKey, (RectInt16)window.AppWindow.GetRect().Scale(scale));
         }
     }
     #endregion

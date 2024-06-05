@@ -3,8 +3,11 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.View.Helper;
 using Snap.Hutao.ViewModel.Abstraction;
 
 namespace Snap.Hutao.Control;
@@ -36,6 +39,11 @@ internal class ScopedPage : Page
         extra.NotifyNavigationCompleted();
     }
 
+    public virtual void UnloadObjectOverride(DependencyObject unloadableObject)
+    {
+        XamlMarkupHelper.UnloadObject(unloadableObject);
+    }
+
     /// <summary>
     /// 初始化
     /// 应当在 InitializeComponent() 前调用
@@ -46,8 +54,14 @@ internal class ScopedPage : Page
     {
         try
         {
-            IViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
-            viewModel.CancellationToken = viewCancellationTokenSource.Token;
+            TViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
+            using (viewModel.DisposeLock.Enter())
+            {
+                viewModel.IsViewDisposed = false;
+                viewModel.CancellationToken = viewCancellationTokenSource.Token;
+                viewModel.DeferContentLoader = new DeferContentLoader(this);
+            }
+
             DataContext = viewModel;
         }
         catch (Exception ex)
@@ -96,10 +110,9 @@ internal class ScopedPage : Page
             viewCancellationTokenSource.Cancel();
             IViewModel viewModel = (IViewModel)DataContext;
 
-            using (SemaphoreSlim locker = viewModel.DisposeLock)
+            using (viewModel.DisposeLock.Enter())
             {
                 // Wait to ensure viewmodel operation is completed
-                locker.Wait();
                 viewModel.IsViewDisposed = true;
 
                 // Dispose the scope

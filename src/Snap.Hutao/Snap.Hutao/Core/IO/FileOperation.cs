@@ -45,6 +45,30 @@ internal static class FileOperation
         return true;
     }
 
+    public static unsafe bool UnsafeDelete(string path)
+    {
+        bool result = false;
+
+        if (SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation)))
+        {
+            if (SUCCEEDED(SHCreateItemFromParsingName(path, default, in IShellItem.IID, out IShellItem* pShellItem)))
+            {
+                pFileOperation->DeleteItem(pShellItem, default);
+
+                if (SUCCEEDED(pFileOperation->PerformOperations()))
+                {
+                    result = true;
+                }
+
+                IUnknownMarshal.Release(pShellItem);
+            }
+
+            IUnknownMarshal.Release(pFileOperation);
+        }
+
+        return result;
+    }
+
     public static unsafe bool UnsafeMove(string sourceFileName, string destFileName)
     {
         bool result = false;
@@ -66,30 +90,6 @@ internal static class FileOperation
                 }
 
                 IUnknownMarshal.Release(pSourceShellItem);
-            }
-
-            IUnknownMarshal.Release(pFileOperation);
-        }
-
-        return result;
-    }
-
-    public static unsafe bool UnsafeDelete(string path)
-    {
-        bool result = false;
-
-        if (SUCCEEDED(CoCreateInstance(in Win32.UI.Shell.FileOperation.CLSID, default, CLSCTX.CLSCTX_INPROC_SERVER, in IFileOperation.IID, out IFileOperation* pFileOperation)))
-        {
-            if (SUCCEEDED(SHCreateItemFromParsingName(path, default, in IShellItem.IID, out IShellItem* pShellItem)))
-            {
-                pFileOperation->DeleteItem(pShellItem, default);
-
-                if (SUCCEEDED(pFileOperation->PerformOperations()))
-                {
-                    result = true;
-                }
-
-                IUnknownMarshal.Release(pShellItem);
             }
 
             IUnknownMarshal.Release(pFileOperation);

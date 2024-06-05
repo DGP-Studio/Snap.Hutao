@@ -82,31 +82,10 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return storage.Value;
     }
 
-    [return: NotNull]
-    protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, [DisallowNull] T defaultValue)
+    [return: NotNullIfNotNull(nameof(defaultValue))]
+    protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, T defaultValue)
     {
-        if (storage is not null)
-        {
-            return storage;
-        }
-
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            if (value is null)
-            {
-                storage = defaultValue;
-            }
-            else
-            {
-                T targetValue = deserializer(value);
-                ArgumentNullException.ThrowIfNull(targetValue);
-                storage = targetValue;
-            }
-        }
-
-        return storage;
+        return GetOption(ref storage, key, deserializer, () => defaultValue);
     }
 
     protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, Func<T> defaultValueFactory)

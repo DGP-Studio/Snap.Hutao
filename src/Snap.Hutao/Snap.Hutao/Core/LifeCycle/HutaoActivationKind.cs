@@ -7,5 +7,6 @@ internal enum HutaoActivationKind
 {
     None,
     Launch,
+    Toast,
     Protocol,
 }

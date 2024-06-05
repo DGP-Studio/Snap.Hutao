@@ -16,43 +16,30 @@ internal static class GameFpsAddress
     private const byte ASM_JMP = 0xE9;
 #pragma warning restore SA1310
 
-    public static unsafe void UnsafeFindFpsAddress(GameFpsUnlockerContext state, in RequiredGameModule requiredGameModule)
+    public static unsafe void UnsafeFindFpsAddress(GameFpsUnlockerContext context, in RequiredRemoteModule remoteModule, in RequiredLocalModule localModule)
     {
-        bool readOk = UnsafeReadModulesMemory(state.GameProcess, requiredGameModule, out VirtualMemory localMemory);
-        HutaoException.ThrowIfNot(readOk, SH.ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed);
+        int offsetToUserAssembly = IndexOfPattern(localModule.UserAssembly.AsSpan());
+        HutaoException.ThrowIfNot(offsetToUserAssembly >= 0, SH.ServiceGameUnlockerInterestedPatternNotFound);
 
-        using (localMemory)
+        nuint rip = localModule.UserAssembly.Address + (uint)offsetToUserAssembly;
+        rip += 5U;
+        rip += (nuint)(*(int*)(rip + 2U) + 6);
+
+        nuint remoteVirtualAddress = remoteModule.UserAssembly.Address + (rip - localModule.UserAssembly.Address);
+
+        nuint ptr = 0;
+        SpinWait.SpinUntil(() => UnsafeReadProcessMemory(context.GameProcess, remoteVirtualAddress, out ptr) && ptr != 0);
+
+        nuint localVirtualAddress = ptr - remoteModule.UnityPlayer.Address + localModule.UnityPlayer.Address;
+
+        while (*(byte*)localVirtualAddress is ASM_CALL or ASM_JMP)
         {
-            int offset = IndexOfPattern(localMemory.AsSpan()[(int)requiredGameModule.UnityPlayer.Size..]);
-            HutaoException.ThrowIfNot(offset >= 0, SH.ServiceGameUnlockerInterestedPatternNotFound);
-
-            byte* pLocalMemory = (byte*)localMemory.Pointer;
-            ref readonly Module unityPlayer = ref requiredGameModule.UnityPlayer;
-            ref readonly Module userAssembly = ref requiredGameModule.UserAssembly;
-
-            nuint localMemoryUnityPlayerAddress = (nuint)pLocalMemory;
-            nuint localMemoryUserAssemblyAddress = localMemoryUnityPlayerAddress + unityPlayer.Size;
-
-            nuint rip = localMemoryUserAssemblyAddress + (uint)offset;
-            rip += 5U;
-            rip += (nuint)(*(int*)(rip + 2U) + 6);
-
-            nuint address = userAssembly.Address + (rip - localMemoryUserAssemblyAddress);
-
-            nuint ptr = 0;
-            SpinWait.SpinUntil(() => UnsafeReadProcessMemory(state.GameProcess, address, out ptr) && ptr != 0);
-
-            rip = ptr - unityPlayer.Address + localMemoryUnityPlayerAddress;
-
-            while (*(byte*)rip is ASM_CALL or ASM_JMP)
-            {
-                rip += (nuint)(*(int*)(rip + 1) + 5);
-            }
-
-            nuint localMemoryActualAddress = rip + *(uint*)(rip + 2) + 6;
-            nuint actualOffset = localMemoryActualAddress - localMemoryUnityPlayerAddress;
-            state.FpsAddress = unityPlayer.Address + actualOffset;
+            localVirtualAddress += (nuint)(*(int*)(localVirtualAddress + 1) + 5);
         }
+
+        localVirtualAddress += *(uint*)(localVirtualAddress + 2) + 6;
+        nuint relativeVirtualAddress = localVirtualAddress - localModule.UnityPlayer.Address;
+        context.FpsAddress = remoteModule.UnityPlayer.Address + relativeVirtualAddress;
     }
 
     private static int IndexOfPattern(in ReadOnlySpan<byte> memory)
@@ -60,16 +47,6 @@ internal static class GameFpsAddress
         // B9 3C 00 00 00 FF 15
         ReadOnlySpan<byte> part = [0xB9, 0x3C, 0x00, 0x00, 0x00, 0xFF, 0x15];
         return memory.IndexOf(part);
-    }
-
-    private static unsafe bool UnsafeReadModulesMemory(Process process, in RequiredGameModule moduleEntryInfo, out VirtualMemory memory)
-    {
-        ref readonly Module unityPlayer = ref moduleEntryInfo.UnityPlayer;
-        ref readonly Module userAssembly = ref moduleEntryInfo.UserAssembly;
-
-        memory = new VirtualMemory(unityPlayer.Size + userAssembly.Size);
-        return ReadProcessMemory(process.Handle, (void*)unityPlayer.Address, memory.AsSpan()[..(int)unityPlayer.Size], out _)
-            && ReadProcessMemory(process.Handle, (void*)userAssembly.Address, memory.AsSpan()[(int)unityPlayer.Size..], out _);
     }
 
     private static unsafe bool UnsafeReadProcessMemory(Process process, nuint baseAddress, out nuint value)

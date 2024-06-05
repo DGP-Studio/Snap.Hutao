@@ -37,46 +37,48 @@
                         </Grid.RowDefinitions>
                         <!--  Image Layer  -->
                         <Border cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadiusTop}">
-                            <Border
-                                x:Name="ImageZoomBorder"
-                                VerticalAlignment="Top"
-                                cw:VisualExtensions.NormalizedCenterPoint="0.5">
-                                <cww:ConstrainedBox
-                                    Margin="-4"
-                                    AspectRatio="1080:390"
-                                    CornerRadius="{ThemeResource ControlCornerRadiusTop}">
-                                    <shci:CachedImage
-                                        VerticalAlignment="Center"
-                                        PlaceholderMargin="16"
-                                        PlaceholderSource="{StaticResource UI_EmotionIcon271}"
-                                        Source="{Binding Banner}"
-                                        Stretch="UniformToFill"/>
-                                </cww:ConstrainedBox>
-                                <cwa:Explicit.Animations>
-                                    <cwa:AnimationSet x:Name="ImageZoomInAnimation">
-                                        <shca:ImageZoomInAnimation/>
-                                    </cwa:AnimationSet>
-                                    <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
-                                        <shca:ImageZoomOutAnimation/>
-                                    </cwa:AnimationSet>
-                                </cwa:Explicit.Animations>
-                            </Border>
+                            <Grid>
+                                <Border
+                                    x:Name="ImageZoomBorder"
+                                    VerticalAlignment="Top"
+                                    cw:VisualExtensions.NormalizedCenterPoint="0.5">
+                                    <cww:ConstrainedBox
+                                        Margin="-4"
+                                        AspectRatio="1080:390"
+                                        CornerRadius="{ThemeResource ControlCornerRadiusTop}">
+                                        <shci:CachedImage
+                                            VerticalAlignment="Center"
+                                            PlaceholderMargin="16"
+                                            PlaceholderSource="{StaticResource UI_EmotionIcon271}"
+                                            Source="{Binding Banner}"
+                                            Stretch="UniformToFill"/>
+                                    </cww:ConstrainedBox>
+                                    <cwa:Explicit.Animations>
+                                        <cwa:AnimationSet x:Name="ImageZoomInAnimation">
+                                            <shca:ImageZoomInAnimation/>
+                                        </cwa:AnimationSet>
+                                        <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
+                                            <shca:ImageZoomOutAnimation/>
+                                        </cwa:AnimationSet>
+                                    </cwa:Explicit.Animations>
+                                </Border>
+                                <Border Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
+                            </Grid>
                         </Border>
                         <!--  Time Description  -->
-                        <Grid Grid.Row="0">
-                            <Border
-                                HorizontalAlignment="Stretch"
+                        <Border
+                            Grid.Row="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom"
+                            Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ProgressBar
+                                MinHeight="2"
                                 VerticalAlignment="Bottom"
-                                Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <ProgressBar
-                                    MinHeight="2"
-                                    VerticalAlignment="Bottom"
-                                    Background="Transparent"
-                                    CornerRadius="0"
-                                    Maximum="1"
-                                    Value="{Binding TimePercent, Mode=OneWay}"/>
-                            </Border>
-                        </Grid>
+                                Background="Transparent"
+                                CornerRadius="0"
+                                Maximum="1"
+                                Value="{Binding TimePercent, Mode=OneWay}"/>
+                        </Border>
                         <!--  General Description  -->
                         <Border Grid.Row="1">
                             <StackPanel Margin="4" VerticalAlignment="Bottom">
@@ -122,6 +124,7 @@
                             </StackPanel>
                         </Border>
                     </Grid>
+
                     <!--  公告详情网页视图  -->
                     <FlyoutBase.AttachedFlyout>
                         <Flyout LightDismissOverlayMode="On" Placement="Full">
@@ -173,7 +176,7 @@
         <DataTemplate x:Key="HutaoAnnouncementTemplate">
             <InfoBar
                 Title="{Binding Title}"
-                Margin="0,8,0,0"
+                Margin="0,0,0,0"
                 shch:InfoBarHelper.IsTextSelectionEnabled="True"
                 CloseButtonCommand="{Binding DismissCommand}"
                 CloseButtonCommandParameter="{Binding}"
@@ -206,41 +209,50 @@
 
     <Grid>
         <ScrollViewer Padding="0" Style="{StaticResource DefaultScrollViewerStyle}">
-            <StackPanel>
-                <StackPanel>
-                    <TextBlock
-                        Margin="16,16,16,0"
-                        Style="{StaticResource TitleTextBlockStyle}"
-                        Text="{Binding GreetingText}"/>
+            <StackPanel Padding="16" Spacing="16">
+                <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                        <TextBlock
+                            Margin="16,8"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="{Binding GreetingText}"/>
+                    </Border>
+                </Border>
 
-                    <ItemsControl
-                        Margin="16,8,16,0"
-                        ItemTemplate="{StaticResource HutaoAnnouncementTemplate}"
-                        ItemsSource="{Binding HutaoAnnouncements}"
-                        Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                <ItemsControl
+                    x:Name="HutaoAnnouncementControl"
+                    x:Load="False"
+                    ItemTemplate="{StaticResource HutaoAnnouncementTemplate}"
+                    ItemsPanel="{ThemeResource StackPanelSpacing8Template}"
+                    ItemsSource="{Binding HutaoAnnouncements}"
+                    Transitions="{ThemeResource EntranceThemeTransitions}"
+                    Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
 
-                    <!--  ItemsRepeater will behave abnormal if no direct scrollhost wrapping it  -->
-                    <ScrollViewer>
-                        <ItemsRepeater
-                            Margin="16"
-                            HorizontalAlignment="Stretch"
-                            ItemTemplate="{StaticResource CardTemplate}"
-                            ItemsSource="{Binding Cards, Mode=OneWay}">
-                            <ItemsRepeater.Layout>
-                                <UniformGridLayout
-                                    ItemsJustification="Start"
-                                    ItemsStretch="Fill"
-                                    MinColumnSpacing="12"
-                                    MinItemHeight="180"
-                                    MinItemWidth="300"
-                                    MinRowSpacing="12"
-                                    Orientation="Horizontal"/>
-                            </ItemsRepeater.Layout>
-                        </ItemsRepeater>
-                    </ScrollViewer>
-                </StackPanel>
+                <!--  ItemsRepeater will behave abnormal if no direct scrollhost wrapping it  -->
+                <ScrollViewer CanContentRenderOutsideBounds="True">
+                    <ItemsRepeater
+                        HorizontalAlignment="Stretch"
+                        ItemTemplate="{StaticResource CardTemplate}"
+                        ItemsSource="{Binding Cards, Mode=OneWay}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsJustification="Start"
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="12"
+                                MinItemHeight="180"
+                                MinItemWidth="300"
+                                MinRowSpacing="12"
+                                Orientation="Horizontal"/>
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </ScrollViewer>
 
-                <Pivot Style="{StaticResource DefaultPivotStyle}">
+                <Pivot
+                    x:Name="GameAnnouncementPivot"
+                    Margin="-16"
+                    x:Load="False"
+                    Style="{ThemeResource CardPivotStyle}"
+                    Transitions="{ThemeResource EntranceThemeTransitions}">
                     <PivotItem
                         Content="{Binding Announcement.List[0]}"
                         ContentTemplate="{StaticResource AnnouncementPivotItemContentTemplate}"
