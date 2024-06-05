@@ -3,8 +3,8 @@
 
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
+using Snap.Hutao.Win32.System.LibraryLoader;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.Kernel32;
 
 namespace Snap.Hutao.Service.Game.Unlocker;
@@ -76,9 +76,9 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     {
         string gameFoler = gameFileSystem.GameDirectory;
         string dataFoler = gameFileSystem.DataDirectory;
-
-        nint unityPlayerAddress = NativeLibrary.Load(System.IO.Path.Combine(gameFoler, "UnityPlayer.dll"));
-        nint userAssemblyAddress = NativeLibrary.Load(System.IO.Path.Combine(dataFoler, "Native", "UserAssembly.dll"));
+        LOAD_LIBRARY_FLAGS flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_AS_IMAGE_RESOURCE;
+        HMODULE unityPlayerAddress = LoadLibraryExW(System.IO.Path.Combine(gameFoler, "UnityPlayer.dll"), default, flags);
+        HMODULE userAssemblyAddress = LoadLibraryExW(System.IO.Path.Combine(dataFoler, "Native", "UserAssembly.dll"), default, flags);
 
         return new(unityPlayerAddress, userAssemblyAddress);
     }

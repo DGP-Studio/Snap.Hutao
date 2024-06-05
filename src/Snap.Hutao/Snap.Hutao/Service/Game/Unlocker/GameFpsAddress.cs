@@ -21,7 +21,6 @@ internal static class GameFpsAddress
         int offsetToUserAssembly = IndexOfPattern(localModule.UserAssembly.AsSpan());
         HutaoException.ThrowIfNot(offsetToUserAssembly >= 0, SH.ServiceGameUnlockerInterestedPatternNotFound);
 
-        // Register Instruction Pointer
         nuint rip = localModule.UserAssembly.Address + (uint)offsetToUserAssembly;
         rip += 5U;
         rip += (nuint)(*(int*)(rip + 2U) + 6);
