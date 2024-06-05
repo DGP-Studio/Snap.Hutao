@@ -96,25 +96,31 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         await taskContext.SwitchToMainThreadAsync();
 
-        if (currentWindowReference.Window is null)
+        switch (currentWindowReference.Window)
         {
-            currentWindowReference.Window = serviceProvider.GetRequiredService<LaunchGameWindow>();
-            return;
-        }
+            case null:
+                LaunchGameWindow launchGameWindow = serviceProvider.GetRequiredService<LaunchGameWindow>();
+                currentWindowReference.Window = launchGameWindow;
 
-        if (currentWindowReference.Window is MainWindow)
-        {
-            await serviceProvider
-                .GetRequiredService<INavigationService>()
-                .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
-                .ConfigureAwait(false);
+                launchGameWindow.SwitchTo();
+                launchGameWindow.BringToForeground();
+                return;
 
-            return;
-        }
-        else
-        {
-            // We have a non-Main Window, just exit current process anyway
-            Process.GetCurrentProcess().Kill();
+            case MainWindow:
+                await serviceProvider
+                    .GetRequiredService<INavigationService>()
+                    .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
+                    .ConfigureAwait(false);
+                return;
+
+            case LaunchGameWindow currentLaunchGameWindow:
+                currentLaunchGameWindow.SwitchTo();
+                currentLaunchGameWindow.BringToForeground();
+                return;
+
+            default:
+                Process.GetCurrentProcess().Kill();
+                return;
         }
     }
 
