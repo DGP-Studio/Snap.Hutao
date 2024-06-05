@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.System.ProcessStatus;
-using System.Diagnostics;
+using Snap.Hutao.Win32.System.Diagnostics.Debug;
+using Snap.Hutao.Win32.System.SystemService;
 using static Snap.Hutao.Win32.Kernel32;
 
 namespace Snap.Hutao.Service.Game.Unlocker;
@@ -14,16 +14,11 @@ internal readonly struct RequiredLocalModule : IDisposable
     public readonly Module UnityPlayer;
     public readonly Module UserAssembly;
 
-    public RequiredLocalModule(in HMODULE unityPlayer, in HMODULE userAssembly)
+    public unsafe RequiredLocalModule(in HMODULE unityPlayer, in HMODULE userAssembly)
     {
         HasValue = true;
-        HANDLE process = Process.GetCurrentProcess().Handle;
-
-        K32GetModuleInformation(process, unityPlayer, out MODULEINFO upInfo);
-        UnityPlayer = new((nuint)(nint)unityPlayer, upInfo.SizeOfImage);
-
-        K32GetModuleInformation(process, userAssembly, out MODULEINFO uaInfo);
-        UserAssembly = new((nuint)(nint)userAssembly, uaInfo.SizeOfImage);
+        UnityPlayer = new((nuint)(nint)unityPlayer, ((IMAGE_NT_HEADERS64*)((IMAGE_DOS_HEADER*)(nint)unityPlayer)->e_lfanew)->OptionalHeader.SizeOfImage);
+        UserAssembly = new((nuint)(nint)userAssembly, ((IMAGE_NT_HEADERS64*)((IMAGE_DOS_HEADER*)(nint)userAssembly)->e_lfanew)->OptionalHeader.SizeOfImage);
     }
 
     public void Dispose()
