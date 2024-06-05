@@ -4,6 +4,7 @@
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.Diagnostics.Debug;
 using Snap.Hutao.Win32.System.SystemService;
+using System.Runtime.CompilerServices;
 using static Snap.Hutao.Win32.Kernel32;
 
 namespace Snap.Hutao.Service.Game.Unlocker;
@@ -14,16 +15,28 @@ internal readonly struct RequiredLocalModule : IDisposable
     public readonly Module UnityPlayer;
     public readonly Module UserAssembly;
 
-    public unsafe RequiredLocalModule(in HMODULE unityPlayer, in HMODULE userAssembly)
+    [SuppressMessage("", "SH002")]
+    public RequiredLocalModule(HMODULE unityPlayer, HMODULE userAssembly)
     {
+        // Align the pointer
+        unityPlayer = (nint)(unityPlayer & ~0x3L);
+        userAssembly = (nint)(userAssembly & ~0x3L);
+
         HasValue = true;
-        UnityPlayer = new((nuint)(nint)unityPlayer, ((IMAGE_NT_HEADERS64*)((IMAGE_DOS_HEADER*)(nint)unityPlayer)->e_lfanew)->OptionalHeader.SizeOfImage);
-        UserAssembly = new((nuint)(nint)userAssembly, ((IMAGE_NT_HEADERS64*)((IMAGE_DOS_HEADER*)(nint)userAssembly)->e_lfanew)->OptionalHeader.SizeOfImage);
+        UnityPlayer = new((nuint)(nint)unityPlayer, GetImageSize(unityPlayer));
+        UserAssembly = new((nuint)(nint)userAssembly, GetImageSize(userAssembly));
     }
 
     public void Dispose()
     {
         FreeLibrary((nint)UnityPlayer.Address);
         FreeLibrary((nint)UserAssembly.Address);
+    }
+
+    [SuppressMessage("", "SH002")]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private unsafe uint GetImageSize(HMODULE hModule)
+    {
+        return ((IMAGE_NT_HEADERS64*)((IMAGE_DOS_HEADER*)(nint)hModule)->e_lfanew)->OptionalHeader.SizeOfImage;
     }
 }
