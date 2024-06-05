@@ -2996,6 +2996,9 @@
   <data name="ViewUserDocumentationHeader" xml:space="preserve">
     <value>Dokumen</value>
   </data>
+  <data name="ViewUserLoginMihoyoUserDisabledTooltip" xml:space="preserve">
+    <value>由于米游社安全策略的相关更改，网页登录暂不可用</value>
+  </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
     <value>Tidak masuk</value>
   </data>
