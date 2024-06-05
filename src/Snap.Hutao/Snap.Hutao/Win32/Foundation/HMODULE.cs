@@ -8,4 +8,6 @@ namespace Snap.Hutao.Win32.Foundation;
 internal readonly struct HMODULE
 {
     public readonly nint Value;
+
+    public static unsafe implicit operator HMODULE(nint value) => *(HMODULE*)&value;
 }

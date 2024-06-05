@@ -18,7 +18,7 @@ internal sealed class GameFpsUnlockerContext
 
     public nuint FpsAddress { get; set; }
 
-    public UnlockTimingOptions TimingOptions { get; set; }
+    public UnlockOptions Options { get; set; }
 
     public Process GameProcess { get; set; } = default!;
 

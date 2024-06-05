@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Game.Scheme;
 using System.IO;
 
 namespace Snap.Hutao.Service.Game;
@@ -38,4 +39,6 @@ internal sealed class GameFileSystem
     public string PCGameSDKFilePath { get => pcGameSDKFilePath ??= Path.Combine(GameDirectory, GameConstants.PCGameSDKFilePath); }
 
     public string ScreenShotDirectory { get => Path.Combine(GameDirectory, "ScreenShot"); }
+
+    public string DataDirectory { get => Path.Combine(GameDirectory, LaunchScheme.ExecutableIsOversea(GameFileName) ? GameConstants.GenshinImpactData : GameConstants.YuanShenData); }
 }
