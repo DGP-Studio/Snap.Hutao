@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Core.Abstraction;
 
-internal interface IPinnable<TData>
+internal interface IResurrectable
 {
-    ref TData GetPinnableReference();
+    void Resurrect();
 }

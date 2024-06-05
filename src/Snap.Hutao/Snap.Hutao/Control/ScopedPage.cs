@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.ViewModel.Abstraction;
@@ -53,9 +54,14 @@ internal class ScopedPage : Page
     {
         try
         {
-            IViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
-            viewModel.CancellationToken = viewCancellationTokenSource.Token;
-            viewModel.DeferContentLoader = new DeferContentLoader(this);
+            TViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
+            using (viewModel.DisposeLock.Enter())
+            {
+                viewModel.IsViewDisposed = false;
+                viewModel.CancellationToken = viewCancellationTokenSource.Token;
+                viewModel.DeferContentLoader = new DeferContentLoader(this);
+            }
+
             DataContext = viewModel;
         }
         catch (Exception ex)
@@ -104,13 +110,15 @@ internal class ScopedPage : Page
             viewCancellationTokenSource.Cancel();
             IViewModel viewModel = (IViewModel)DataContext;
 
-            // Wait to ensure viewmodel operation is completed
-            viewModel.DisposeLock.Wait();
-            viewModel.IsViewDisposed = true;
+            using (viewModel.DisposeLock.Enter())
+            {
+                // Wait to ensure viewmodel operation is completed
+                viewModel.IsViewDisposed = true;
 
-            // Dispose the scope
-            pageScope.Dispose();
-            GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true);
+                // Dispose the scope
+                pageScope.Dispose();
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, true);
+            }
         }
     }
 }
