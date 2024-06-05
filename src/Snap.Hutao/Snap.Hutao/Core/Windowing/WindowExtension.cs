@@ -63,7 +63,8 @@ internal static class WindowExtension
         {
             ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_SHOW);
         }
-        else if (IsIconic(hwnd))
+
+        if (IsIconic(hwnd))
         {
             ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
         }
