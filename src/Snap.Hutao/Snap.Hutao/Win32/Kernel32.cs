@@ -42,7 +42,7 @@ internal static class Kernel32
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern BOOL FreeConsole();
 
-    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true, SetLastError = true)]
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]
     public static extern BOOL FreeLibrary(HMODULE hLibModule);
 
