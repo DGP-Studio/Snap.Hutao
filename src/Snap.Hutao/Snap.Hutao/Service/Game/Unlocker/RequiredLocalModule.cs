@@ -37,6 +37,8 @@ internal readonly struct RequiredLocalModule : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private unsafe uint GetImageSize(HMODULE hModule)
     {
-        return ((IMAGE_NT_HEADERS64*)((IMAGE_DOS_HEADER*)(nint)hModule)->e_lfanew)->OptionalHeader.SizeOfImage;
+        IMAGE_DOS_HEADER* pImageDosHeader = (IMAGE_DOS_HEADER*)(nint)hModule;
+        IMAGE_NT_HEADERS64* pImageNtHeader = (IMAGE_NT_HEADERS64*)(pImageDosHeader->e_lfanew + hModule);
+        return pImageNtHeader->OptionalHeader.SizeOfImage;
     }
 }
