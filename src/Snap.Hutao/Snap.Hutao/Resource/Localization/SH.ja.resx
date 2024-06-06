@@ -552,10 +552,10 @@
     <value>精錬ランク{0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>MiyousheかHoYoLAB にログインして、ユーザーを選択する必要があります</value>
+    <value>必须登录 米游社 / HoYoLAB 并选择一个用户与角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>UID: {0} の祈願履歴を {1} 件 削除しました</value>
+    <value>删除了 UID：{0} 的 {1} 条祈愿记录</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>胡桃クラウドへ保存された祈願履歴の数が現在のアカウントの上限に達しました。</value>
@@ -570,7 +570,7 @@
     <value>データが異常なため、胡桃クラウドにアップロードできません。 複数のアカウントに跨がってアップロードしないでください。アップロードしたい場合は、クラウド データを削除してもう一度試してください。</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>UID: {0} の祈願履歴を {1} 件アップロードしました。保存済みは {2} 件です。</value>
+    <value>上传了 UID：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>最初に胡桃アカウントにログインするか、アカウントを登録してください。</value>
@@ -621,7 +621,7 @@
     <value>認証リクエストが多すぎます。一分後にやり直してください。</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。このUIDは胡桃クラウドからBANされています。</value>
+    <value>上传深渊记录失败，当前 UID 已被胡桃数据库封禁</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
     <value>深境螺旋のデータをアップロードできません。サーバーが統計データを計算しています。</value>
@@ -636,13 +636,13 @@
     <value>深境螺旋のデータをアップロードできません。異常なデータを検知しました。</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
-    <value>無効なUIDです。</value>
+    <value>無効なUIDです</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
     <value>深境螺旋のデータをアップロードできません。現行の期間のデータではありません。</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>深境螺旋のデータをアップロードできません。現在このUIDのレコードを処理中です。繰り返しアップロードしないでください。</value>
+    <value>上传深渊记录失败，当前 UID 的记录仍在处理中，请勿重复操作</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>深境螺旋のデータをアップロードしました。胡桃クラウドの利用期間延長特典を受け取りました。</value>
@@ -1545,10 +1545,10 @@
     <value>育成計画の追加に失敗しました</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>完了しました：追加／更新：{0}、スキップ{1}</value>
+    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>操作の一部に失敗しました：追加／更新：{0}、スキップ{1}</value>
+    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>選択中の育成計画に正常に追加されました</value>
@@ -2067,10 +2067,10 @@
     <value>Afdianへ移動し、胡桃クラウドのサービスを購入します。</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>クラウドサービスの購入/更新</value>
+    <value>购买 / 续费云服务</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>このUidのクラウドバックアップを削除する</value>
+    <value>删除此 UID 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>デベロッパーアカウントは利用期限がありません</value>
@@ -2079,7 +2079,7 @@
     <value>胡桃クラウドのサービス期限が切れました。</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>このUidのクラウドバックアップをダウンロードする</value>
+    <value>下载此 UID 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>各シーズンの深境螺旋の記録を初めてアップロードすると3日間のフリーライセンスが付与されます。</value>
@@ -2406,7 +2406,7 @@
     <value>リネーム</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>ゲームサーバーを切り替える(天空島/世界樹/グローバル)</value>
+    <value>切换游戏服务器（国服 / 渠道服 / 国际服）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>サーバー</value>
@@ -2415,7 +2415,7 @@
     <value>アップデートをする前に、ランチャーと同じサーバーに変更する必要があります。</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>ゲーム内のグラフィック設定で垂直同期を無効にしてください。フレームレートを上げるにはもっと高性能のグラフィックボードが必要となります。</value>
+    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>フレームレート上限解除</value>
@@ -2433,7 +2433,7 @@
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>HoYoLab UIDを入力してください</value>
+    <value>请输入你的 HoYoLab UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
     <value>你正在通过由我们提供的内嵌网页视图登录 米哈游通行证，我们会在你点击 我已登录 按钮后，读取你的 Cookie 信息，由此视图发起的网络通信只发生于你的计算机与米哈游服务器之间</value>
@@ -2511,7 +2511,7 @@
     <value>デベロッパーが明確に指示しない限り、以下の機能を有効にすべきではありません。</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>ユーザーデータ／メタデータはここに格納</value>
+    <value>用户数据 / 元数据 在此处存放</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
     <value>データフォルダ</value>
@@ -2646,7 +2646,7 @@
     <value>テスト段階のあらゆる機能を使用できます。</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃の運用と開発または保守</value>
+    <value>胡桃开发 / 运维</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>胡桃クラウドの引き替えコードを一部のユーザーに配布する事があります。</value>
@@ -2703,7 +2703,7 @@
     <value>画像リソースをリセット</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+    <value>在「启动游戏-进程」选项卡加入「解锁帧率限制」选项</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>启动游戏-解锁帧率限制</value>
@@ -2751,7 +2751,7 @@
     <value>和訳を提供</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
+    <value>在「祈愿记录-角色」与「祈愿记录-武器」中显示未抽取到的祈愿物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽取到的祈愿物品</value>
