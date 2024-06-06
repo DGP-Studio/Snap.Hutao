@@ -148,7 +148,7 @@
     <value>未找到結果</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>無效的 Uri</value>
+    <value>無效的 URI</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -552,7 +552,7 @@
     <value>精煉 {0} 階</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必須登入 米游社/ HoYoLAB 並選擇一個用戶與角色</value>
+    <value>必須登入 米遊社/ HoYoLAB 並選擇一個用戶與角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>刪除了 UID：{0} 的 {1} 筆祈願記錄</value>
@@ -1359,7 +1359,7 @@
     <value>正在轉換客戶端</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>使用米游社掃描 QR 碼</value>
+    <value>使用米遊社掃描 QR 碼</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>為防止你在無意間啟用，請輸入正在啟用的功能開關的&lt;b&gt;標題名稱&lt;/b&gt;</value>
@@ -2961,7 +2961,7 @@
     <value>工具</value>
   </data>
   <data name="ViewUserCookieOperation" xml:space="preserve">
-    <value>米游社</value>
+    <value>米遊社</value>
   </data>
   <data name="ViewUserCookieOperation2" xml:space="preserve">
     <value>HoYoLAB</value>
@@ -2997,7 +2997,7 @@
     <value>文檔</value>
   </data>
   <data name="ViewUserLoginMihoyoUserDisabledTooltip" xml:space="preserve">
-    <value>由于米游社安全策略的相关更改，网页登录暂不可用</value>
+    <value>由於米遊社安全策略的相關更改，網頁登入暫不可用</value>
   </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
     <value>尚未登入</value>
