@@ -555,7 +555,7 @@
     <value>必须登录 米游社 / HoYoLAB 并选择一个用户与角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>删除了 Uid：{0} 的 {1} 条祈愿记录</value>
+    <value>删除了 UID：{0} 的 {1} 条祈愿记录</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>胡桃云保存的祈愿记录存档数已达当前账号上限</value>
@@ -570,7 +570,7 @@
     <value>数据异常，无法保存至云端，请勿跨账号上传或尝试删除云端数据后重试</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>上传了 Uid：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
+    <value>上传了 UID：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>请先登录或注册胡桃账号</value>
@@ -621,7 +621,7 @@
     <value>验证请求过快，请 1 分钟后再试</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>上传深渊记录失败，当前 Uid 已被胡桃数据库封禁</value>
+    <value>上传深渊记录失败，当前 UID 已被胡桃数据库封禁</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
     <value>上传深渊记录失败，正在计算统计数据</value>
@@ -636,13 +636,13 @@
     <value>上传深渊记录失败，存在无效的数据</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
-    <value>无效的 Uid</value>
+    <value>无效的 UID</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
     <value>上传深渊记录失败，不是本期数据</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>上传深渊记录失败，当前 Uid 的记录仍在处理中，请勿重复操作</value>
+    <value>上传深渊记录失败，当前 UID 的记录仍在处理中，请勿重复操作</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>上传深渊记录成功，获赠祈愿记录上传服务时长</value>
@@ -2070,7 +2070,7 @@
     <value>购买 / 续费云服务</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>删除此 Uid 的云端存档</value>
+    <value>删除此 UID 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>开发者账号无视服务到期时间</value>
@@ -2079,7 +2079,7 @@
     <value>胡桃云服务时长不足</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>下载此 Uid 的云端存档</value>
+    <value>下载此 UID 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>每期深渊首次上传可免费获得 3 天时长</value>
@@ -2433,7 +2433,7 @@
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>请输入你的 HoYoLab Uid</value>
+    <value>请输入你的 HoYoLab UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
     <value>你正在通过由我们提供的内嵌网页视图登录 米哈游通行证，我们会在你点击 我已登录 按钮后，读取你的 Cookie 信息，由此视图发起的网络通信只发生于你的计算机与米哈游服务器之间</value>
