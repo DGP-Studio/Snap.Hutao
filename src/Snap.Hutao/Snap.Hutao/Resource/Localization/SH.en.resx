@@ -552,10 +552,10 @@
     <value>Refinement {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>Must sign in to your MiHoYo BBS account and select a user</value>
+    <value>必须登录 米游社 / HoYoLAB 并选择一个用户与角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>Deleted {1} wish records from UID: {0}</value>
+    <value>删除了 UID：{0} 的 {1} 条祈愿记录</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>Reached max allowed number of wish history archives on Snap Hutao Cloud</value>
@@ -570,7 +570,7 @@
     <value>Found abnormal data, unable to upload to Snap Hutao Cloud. Please do not upload across accounts or you can attempt to delete cloud data and try again.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>Uploaded {1} wish records of UID: {0}, stored {2}</value>
+    <value>上传了 UID：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Please login or register Snap Hutao account first</value>
@@ -621,7 +621,7 @@
     <value>Verification request is too frequent. Please try again in 1 minute.</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>Failed to upload Sprial Abyss record, current UID is banned by Hutao Database</value>
+    <value>上传深渊记录失败，当前 UID 已被胡桃数据库封禁</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
     <value>Failed to upload Sprial Abyss record, server is calculating statistical data</value>
@@ -642,7 +642,7 @@
     <value>Failed to upload Spiral Abyss record. It is not data for the current schedule.</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>Failed to upload Sprial Abyss record. The record for the current UID is still being processed. Please do not repeat the operation.</value>
+    <value>上传深渊记录失败，当前 UID 的记录仍在处理中，请勿重复操作</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>Uploaded Spiral Abyss record successfully. Received a privilege extension for Snap Hutao Cloud service.</value>
@@ -1545,10 +1545,10 @@
     <value>Failed to add Enhancement Progression plan</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>Operation completed: added/updated {0}, skipped {1}</value>
+    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>Operation not fully completed, added/updated {0}, skipped {1}</value>
+    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Successfully added to current plan</value>
@@ -2067,10 +2067,10 @@
     <value>Go to Afdian to Buy Related Services</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>Buy or Renew Cloud Service</value>
+    <value>购买 / 续费云服务</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>Delete the Cloud Archive of This UID</value>
+    <value>删除此 UID 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Lifetime developer license</value>
@@ -2079,7 +2079,7 @@
     <value>Snap Hutao Cloud Service Expired</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>Download the Cloud Archive of this UID</value>
+    <value>下载此 UID 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>Free 3-day license after uploading current schedule Abyss record</value>
@@ -2406,7 +2406,7 @@
     <value>Rename</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>Switch game server (CN/BiliBili/Global)</value>
+    <value>切换游戏服务器（国服 / 渠道服 / 国际服）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>Server</value>
@@ -2415,7 +2415,7 @@
     <value>You need to convert to a server that matches the launcher before updating the version</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>Please turn off V-Sync in the game settings. You may need a high-performance graphic card to support a high frame rate limit.</value>
+    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>Unlock Frame Rate Limit</value>
@@ -2433,7 +2433,7 @@
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>Enter your HoYoLab UID</value>
+    <value>请输入你的 HoYoLab UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
     <value>You are using an embedded webview to login to your MiHoYo passport account, the client will fetch the Cookie data when you click on I'm Signed in button. All network communication initialed in this webview occurs only between your computer and MiHoYo official servers.</value>
@@ -2511,7 +2511,7 @@
     <value>Unless the developer explicitly asks you to do this, you should not execute the operations below!</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>User data and metadata are saved here</value>
+    <value>用户数据 / 元数据 在此处存放</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
     <value>Data Folder</value>
@@ -2646,7 +2646,7 @@
     <value>You are unlimited in any testing feature</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>Snap Hutao developer and maintainer</value>
+    <value>胡桃开发 / 运维</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>We sometimes give away Snap Hutao Cloud redemption codes to some users</value>
@@ -2703,7 +2703,7 @@
     <value>Reset Image Resource</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>Add Unlock Frame Rate Limit Option in Game Launcher Process Section</value>
+    <value>在「启动游戏-进程」选项卡加入「解锁帧率限制」选项</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>Game Launcher - Unlock Frame Rate Limit</value>
@@ -2751,7 +2751,7 @@
     <value>Contribute Translations</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>Display undrawn wish items in Character and Weapon tabs in Wish Export</value>
+    <value>在「祈愿记录-角色」与「祈愿记录-武器」中显示未抽取到的祈愿物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>Undrawn Wish Items</value>
