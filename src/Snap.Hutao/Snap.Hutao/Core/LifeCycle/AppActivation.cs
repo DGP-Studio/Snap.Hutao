@@ -56,30 +56,39 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     /// <inheritdoc/>
     public void PostInitialization()
     {
-        serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget();
-        ToastNotificationManagerCompat.OnActivated += NotificationActivate;
+        RunPostInitializationAsync().SafeForget();
 
-        using (activateSemaphore.Enter())
+        async ValueTask RunPostInitializationAsync()
         {
-            // TODO: Introduced in 1.10.2, remove in later version
-            serviceProvider.GetRequiredService<IJumpListInterop>().ClearAsync().SafeForget();
-            serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
+            await taskContext.SwitchToBackgroundAsync();
 
-            if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
+            serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget();
+            ToastNotificationManagerCompat.OnActivated += NotificationActivate;
+
+            using (await activateSemaphore.EnterAsync().ConfigureAwait(false))
             {
-                return;
+                // TODO: Introduced in 1.10.2, remove in later version
+                serviceProvider.GetRequiredService<IJumpListInterop>().ClearAsync().SafeForget();
+                serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
+
+                if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
+                {
+                    return;
+                }
+
+                serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
+
+                if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
+                {
+                    XamlLifetime.ApplicationLaunchedWithNotifyIcon = true;
+
+                    await taskContext.SwitchToMainThreadAsync();
+                    serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
+                    _ = serviceProvider.GetRequiredService<NotifyIconController>();
+                }
+
+                serviceProvider.GetRequiredService<IQuartzService>().StartAsync(default).SafeForget();
             }
-
-            serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
-
-            if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
-            {
-                XamlLifetime.ApplicationLaunchedWithNotifyIcon = true;
-                serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
-                _ = serviceProvider.GetRequiredService<NotifyIconController>();
-            }
-
-            serviceProvider.GetRequiredService<IQuartzService>().StartAsync(default).SafeForget();
         }
     }
 
@@ -140,6 +149,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private async ValueTask HandleActivationAsync(HutaoActivationArguments args)
     {
+        await taskContext.SwitchToBackgroundAsync();
+
         if (activateSemaphore.CurrentCount > 0)
         {
             using (await activateSemaphore.EnterAsync().ConfigureAwait(false))
