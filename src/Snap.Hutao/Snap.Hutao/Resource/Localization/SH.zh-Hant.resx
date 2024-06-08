@@ -585,10 +585,10 @@
     <value>新密碼設定成功</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
-    <value>當前電子郵件地址尚未註冊</value>
+    <value>當前電子郵件信箱尚未註冊</value>
   </data>
   <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
-    <value>當前電子郵件地址已被註冊</value>
+    <value>當前電子郵件信箱已被註冊</value>
   </data>
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>註冊失敗，伺服器異常，請盡快聯繫開發者解決</value>
@@ -615,7 +615,7 @@
     <value>驗證碼已發送至信箱</value>
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
-    <value>驗證請求失敗，當前電子郵件地址已被註冊</value>
+    <value>驗證請求失敗，當前電子郵件信箱已被註冊</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>驗證請求過快，請 1 分鐘後再試</value>
@@ -1374,7 +1374,7 @@
     <value>是否永久刪除用戶數據</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginCloseButtonText" xml:space="preserve">
-    <value>前往登入畫面</value>
+    <value>前往登入</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
     <value>當前未登入胡桃賬號，上傳深淵數據無法獲贈胡桃雲時長</value>
@@ -1452,7 +1452,7 @@
     <value>若未檢測到 WebView2 Runtime信息，可以前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
-    <value>下載並自行安裝運行時</value>
+    <value>下載並自行安裝Runtime</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>語言</value>
@@ -1614,7 +1614,7 @@
     <value>匯出失敗</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIFG JSON 檔案</value>
+    <value>UIGF Json 檔案</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>匯入完成</value>
@@ -1680,7 +1680,7 @@
     <value>原圖</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
-    <value>請輸入正確的電子郵件地址</value>
+    <value>請輸入正確的電子郵件信箱</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>剪貼板中的文本格式不正塙</value>
@@ -2253,7 +2253,7 @@
     <value>刪除帳號的數據將永遠丢失，無法恢復</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
-    <value>請輸入電子郵件地址</value>
+    <value>請輸入電子郵件信箱</value>
   </data>
   <data name="ViewPageHutaoPassportVerifyCodeAction" xml:space="preserve">
     <value>取得驗證碼</value>
@@ -2436,13 +2436,13 @@
     <value>請輸入您的 HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通過由我們提供的內嵌網頁視圖登錄 HoYoverse 通行证，我們會在你點擊 我已登錄 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與 COGNOSPHERE 伺服器之間</value>
+    <value>你正在通過由我們提供的內嵌網頁視圖登入 HoYoverse 通行證，我們會在你點擊 我已登入 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的電腦與 COGNOSPHERE 伺服器之間</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>我已登入</value>
   </data>
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
-    <value>在下方登入 HoYoverse 通行证</value>
+    <value>在下方登入 HoYoverse 通行證</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>開啟截圖檔案夾</value>
@@ -2760,7 +2760,7 @@
     <value>前往商店</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
-    <value>WebView 2 運行時</value>
+    <value>WebView2 運行時</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
     <value>下半</value>
@@ -2973,7 +2973,7 @@
     <value>旅行工具</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
-    <value>網頁登陸</value>
+    <value>網頁登入</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
     <value>掃描 QR 碼以登入</value>
@@ -3051,7 +3051,7 @@
     <value>將於&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;進行版本更新維護</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
-    <value>\d\.\d版本更新停服說明</value>
+    <value>\d\.\d版本更新維護預告</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓更新時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
