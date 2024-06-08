@@ -552,7 +552,7 @@
     <value>精煉 {0} 階</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必須登入 米遊社/ HoYoLAB 並選擇一個用戶與角色</value>
+    <value>必須登入 米遊社 / HoYoLAB 並選擇一個用戶與角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>刪除了 UID：{0} 的 {1} 筆祈願記錄</value>
@@ -1383,7 +1383,7 @@
     <value>繼續上傳</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
-    <value>Загрузите данные о Бездне</value>
+    <value>上傳深淵數據</value>
   </data>
   <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
     <value>查看更新日誌</value>
@@ -1545,10 +1545,10 @@
     <value>養成計劃添加失敗</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>操作完成：添加/更新：{0} 個，跳過 {1} 個</value>
+    <value>操作完成：添加 / 更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>操作未全部完成：添加/更新：{0} 個，跳過 {1} 個</value>
+    <value>操作未全部完成：添加 / 更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功新增至目前養成計劃</value>
@@ -1956,7 +1956,7 @@
     <value>配置 Webhook</value>
   </data>
   <data name="ViewPageDailyNoteDataInteropHeader" xml:space="preserve">
-    <value>資料互操作</value>
+    <value>數據互操作</value>
   </data>
   <data name="ViewPageDailyNoteNotificationHeader" xml:space="preserve">
     <value>通知</value>
@@ -2406,7 +2406,7 @@
     <value>重新命名</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>切換遊戲伺服器（陸服/渠道服/國際服）</value>
+    <value>切換遊戲伺服器（陸服 / 渠道服 / 國際服）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>伺服器</value>
@@ -2436,13 +2436,13 @@
     <value>請輸入您的 HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通過由我們提供的內嵌網頁視圖登錄 米哈游通行证，我們會在你點擊 我已登錄 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與米哈遊服務器之間</value>
+    <value>你正在通過由我們提供的內嵌網頁視圖登錄 HoYoverse 通行证，我們會在你點擊 我已登錄 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與 COGNOSPHERE 伺服器之間</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>我已登入</value>
   </data>
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
-    <value>在下方登入米哈游通行证</value>
+    <value>在下方登入 HoYoverse 通行证</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>開啟截圖檔案夾</value>
@@ -2511,10 +2511,10 @@
     <value>除非開發人員明確要求你這樣做，否則不應嘗試執行下方的操作！</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>用戶數據 / 元資料 存放在此</value>
+    <value>用戶數據 / 元數據 存放在此</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>資料 檔案夾</value>
+    <value>數據 檔案夾</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>刪除</value>
@@ -2646,7 +2646,7 @@
     <value>您可以無限制使用任何測試功能</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃開發/營運</value>
+    <value>胡桃開發 / 營運</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>我們有時會向某些用戶贈送胡桃雲兌換碼</value>
@@ -2925,7 +2925,7 @@
     <value>出戰次數</value>
   </data>
   <data name="ViewSpiralAbyssStatistics" xml:space="preserve">
-    <value>統計資料</value>
+    <value>統計數據</value>
   </data>
   <data name="ViewSpiralAbyssTakeDamage" xml:space="preserve">
     <value>最多承傷</value>
@@ -2934,7 +2934,7 @@
     <value>獲得淵星</value>
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
-    <value>上傳資料</value>
+    <value>上傳數據</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
     <value>是否立即下載？</value>
@@ -3183,7 +3183,7 @@
     <value>錯誤的 UID 格式</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>角色UID不存在，請稍候再試</value>
+    <value>角色 UID 不存在，請稍候再試</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>遊戲維護中</value>
