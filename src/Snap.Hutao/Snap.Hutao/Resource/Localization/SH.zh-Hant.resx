@@ -2703,7 +2703,7 @@
     <value>重設圖片資源</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在「启动游戏-进程」选项卡加入「解锁帧率限制」选项</value>
+    <value>在「啟動遊戲-進程」選項卡加入「解鎖 FPS 限制」選項</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>啟動遊戲-解鎖 FPS 限制</value>
@@ -2751,7 +2751,7 @@
     <value>貢獻翻譯</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在「祈愿记录-角色」与「祈愿记录-武器」中显示未抽取到的祈愿物品</value>
+    <value>在「祈願記錄-角色」與「祈願記錄-武器」中顯示未抽到的祈願物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽取到的祈願物品</value>
