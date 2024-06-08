@@ -552,10 +552,10 @@
     <value>精煉 {0} 階</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必须登录 米游社 / HoYoLAB 并选择一个用户与角色</value>
+    <value>必須登入 米遊社/ HoYoLAB 並選擇一個用戶與角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>删除了 UID：{0} 的 {1} 条祈愿记录</value>
+    <value>刪除了 UID：{0} 的 {1} 筆祈願記錄</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>胡桃雲儲存的祈願記錄存檔數已達當前帳號上限</value>
@@ -570,7 +570,7 @@
     <value>數據異常，無法儲存至雲端，請勿跨帳號上傳或嘗試删除雲端數據後重試</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>上传了 UID：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
+    <value>上傳了 UID：{0} 的 {1} 筆祈願記錄，儲存了 {2} 筆</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>請先登入或註冊胡桃帳號</value>
@@ -621,7 +621,7 @@
     <value>驗證請求過快，請 1 分鐘後再試</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>上传深渊记录失败，当前 UID 已被胡桃数据库封禁</value>
+    <value>上傳深淵記錄失敗，當前 UID 已被胡桃數據庫封禁</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
     <value>上傳深淵記錄失敗，正在計算統計數據</value>
@@ -642,7 +642,7 @@
     <value>上傳深淵記錄失敗，不是本期數據</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>上传深渊记录失败，当前 UID 的记录仍在处理中，请勿重复操作</value>
+    <value>上傳深淵記錄失敗，當前 UID 的紀錄仍在處理中，請勿重複操作</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>上傳深淵記錄成功，獲贈祈願記錄上傳服務時長</value>
@@ -1545,10 +1545,10 @@
     <value>養成計劃添加失敗</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>操作完成：添加/更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>操作未全部完成：添加/更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功新增至目前養成計劃</value>
@@ -2067,10 +2067,10 @@
     <value>前往爱发电購買相關服務</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>购买 / 续费云服务</value>
+    <value>購買 / 續費雲服務</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>删除此 UID 的云端存档</value>
+    <value>刪除此 UID 的雲端存檔</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>開發者賬號無視服務到期時間</value>
@@ -2079,7 +2079,7 @@
     <value>胡桃雲服務時長不足</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>下载此 UID 的云端存档</value>
+    <value>下載此 UID 的雲端存檔</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>每期深淵首次上傳可免費獲得 3 天時長</value>
@@ -2406,7 +2406,7 @@
     <value>重新命名</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>切换游戏服务器（国服 / 渠道服 / 国际服）</value>
+    <value>切換遊戲伺服器（陸服/渠道服/國際服）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>伺服器</value>
@@ -2415,7 +2415,7 @@
     <value>版本更新前需要提前轉換至與其啟動器匹配的伺服器</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率</value>
+    <value>請在游戲内關閉 V-Sync 選項，需要高性能的顯示卡以支持更高的 FPS</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>解鎖 FPS 限制</value>
@@ -2433,7 +2433,7 @@
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>请输入你的 HoYoLab UID</value>
+    <value>請輸入您的 HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
     <value>你正在通過由我們提供的內嵌網頁視圖登錄 米哈游通行证，我們會在你點擊 我已登錄 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與米哈遊服務器之間</value>
@@ -2511,7 +2511,7 @@
     <value>除非開發人員明確要求你這樣做，否則不應嘗試執行下方的操作！</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>用户数据 / 元数据 在此处存放</value>
+    <value>用戶數據 / 元資料 存放在此</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
     <value>資料 檔案夾</value>
@@ -2646,7 +2646,7 @@
     <value>您可以無限制使用任何測試功能</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃开发 / 运维</value>
+    <value>胡桃開發/營運</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>我們有時會向某些用戶贈送胡桃雲兌換碼</value>
