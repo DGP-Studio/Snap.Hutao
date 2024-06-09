@@ -2001,7 +2001,7 @@
     <value>為啟用通知區域圖標，關閉窗口後自動重新整理將不會執行</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
-    <value>在我游玩原神時不通知我</value>
+    <value>在我遊玩原神時不通知我</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>免打擾模式</value>
@@ -2013,7 +2013,7 @@
     <value>搜尋問題與建議</value>
   </data>
   <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
-    <value>基本資訊</value>
+    <value>基本信息</value>
   </data>
   <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
     <value>常用連結</value>
