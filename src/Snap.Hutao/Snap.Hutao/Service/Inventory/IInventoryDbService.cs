@@ -9,7 +9,7 @@ internal interface IInventoryDbService
 {
     ValueTask AddInventoryItemRangeByProjectId(List<InventoryItem> items);
 
-    ValueTask RemoveInventoryItemRangeByProjectId(Guid projectId);
+    ValueTask RemoveInventoryItemRangeByProjectId(Guid projectId, bool includeMora = false);
 
     void UpdateInventoryItem(InventoryItem item);
 

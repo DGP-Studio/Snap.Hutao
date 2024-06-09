@@ -36,7 +36,7 @@ internal sealed partial class CalculateClient
 
     public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, List<AvatarPromotionDelta> deltas, CancellationToken token = default)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(deltas.Count, 8);
+        //ArgumentOutOfRangeException.ThrowIfGreaterThan(deltas.Count, 8);
 
         BatchConsumptionData data = new()
         {

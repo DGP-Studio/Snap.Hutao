@@ -14,7 +14,7 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 角色的接口实现部分
 /// </summary>
-internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IItemSource, INameQuality, ICalculableSource<ICalculableAvatar>
+internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IItemSource, INameQuality, ICalculableSource<ICalculableAvatar>, ICultivatable
 {
     /// <summary>
     /// [非元数据] 搭配数据

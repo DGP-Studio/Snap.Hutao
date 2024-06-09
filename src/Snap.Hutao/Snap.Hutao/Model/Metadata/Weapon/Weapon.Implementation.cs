@@ -14,7 +14,7 @@ namespace Snap.Hutao.Model.Metadata.Weapon;
 /// <summary>
 /// 武器的接口实现
 /// </summary>
-internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource, IItemSource, INameQuality, ICalculableSource<ICalculableWeapon>
+internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource, IItemSource, INameQuality, ICalculableSource<ICalculableWeapon>, ICultivatable
 {
     /// <summary>
     /// [非元数据] 搭配数据

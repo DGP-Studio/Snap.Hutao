@@ -2,15 +2,29 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Model.Metadata.Abstraction;
+using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.Model.Metadata.Weapon;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Inventory;
+using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.Cultivation;
+using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
+using AvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
+using BatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
+using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 using CalculateItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
+using PromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.PromotionDelta;
 
 namespace Snap.Hutao.Service.Cultivation;
 
@@ -24,7 +38,10 @@ internal sealed partial class CultivationService : ICultivationService
 {
     private readonly ScopedDbCurrent<CultivateProject, Message.CultivateProjectChangedMessage> dbCurrent;
     private readonly ICultivationDbService cultivationDbService;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInventoryDbService inventoryDbService;
+    private readonly IMetadataService metadataService;
+    private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
     private ObservableCollection<CultivateProject>? projects;
@@ -241,5 +258,134 @@ internal sealed partial class CultivationService : ICultivationService
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
         await cultivationDbService.RemoveCultivateProjectByIdAsync(project.InnerId).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask RefreshInventoryAsync(CultivateProject project)
+    {
+        List<ICultivatable> cultivatables =
+        [
+            .. await metadataService.GetAvatarListAsync().ConfigureAwait(false),
+            .. (await metadataService.GetWeaponListAsync().ConfigureAwait(false)).Where(weapon => weapon.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
+        ];
+
+        BatchConsumption? batchConsumption = default;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+            {
+                CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+
+                Response<BatchConsumption>? resp = await calculateClient
+                    .BatchComputeAsync(userAndUid, GeneratePromotionDeltas(cultivatables))
+                    .ConfigureAwait(false);
+
+                if (!resp.IsOk())
+                {
+                    return;
+                }
+
+                batchConsumption = resp.Data;
+            }
+        }
+
+        if (batchConsumption is { OverallConsume: { } items })
+        {
+            await inventoryDbService.RemoveInventoryItemRangeByProjectId(project.InnerId, true).ConfigureAwait(false);
+            await inventoryDbService.AddInventoryItemRangeByProjectId(items.SelectList(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum)))).ConfigureAwait(false);
+        }
+    }
+
+    private static List<AvatarPromotionDelta> GeneratePromotionDeltas(List<ICultivatable> cultivatables)
+    {
+        List<Avatar> avatars = [];
+        List<Weapon> weapons = [];
+        HashSet<MaterialId> materialIds = [];
+
+        while (cultivatables.Count > 0)
+        {
+            ICultivatable bestItem = cultivatables.OrderByDescending(item => item.CultivationItems.Count(material => !materialIds.Contains(material))).First();
+
+            if (bestItem.CultivationItems.All(materialIds.Contains))
+            {
+                break;
+            }
+
+            switch (bestItem)
+            {
+                case Avatar avatar:
+                    avatars.Add(avatar);
+                    break;
+                case Weapon weapon:
+                    weapons.Add(weapon);
+                    break;
+                default:
+                    throw HutaoException.NotSupported();
+            }
+
+            foreach (ref readonly MaterialId materialId in CollectionsMarshal.AsSpan(bestItem.CultivationItems))
+            {
+                materialIds.Add(materialId);
+            }
+
+            cultivatables.Remove(bestItem);
+        }
+
+        List<AvatarPromotionDelta> deltas = [];
+
+        for (int i = 0; i < Math.Max(avatars.Count, weapons.Count); i++)
+        {
+            Avatar? avatar = avatars.ElementAtOrDefault(i);
+            Weapon? weapon = weapons.ElementAtOrDefault(i);
+
+            if (avatar is not null)
+            {
+                AvatarPromotionDelta delta = new()
+                {
+                    AvatarId = avatar.Id,
+                    AvatarLevelCurrent = 1,
+                    AvatarLevelTarget = 90,
+                    SkillList = avatar.SkillDepot.CompositeSkillsNoInherents().SelectList(skill => new PromotionDelta()
+                    {
+                        Id = skill.GroupId,
+                        LevelCurrent = 1,
+                        LevelTarget = 10,
+                    }),
+                };
+
+                if (weapon is not null)
+                {
+                    delta.Weapon = new()
+                    {
+                        Id = weapon.Id,
+                        LevelCurrent = 1,
+                        LevelTarget = 90,
+                    };
+                }
+
+                deltas.Add(delta);
+
+                continue;
+            }
+
+            if (weapon is not null)
+            {
+                AvatarPromotionDelta delta = new()
+                {
+                    Weapon = new()
+                    {
+                        Id = weapon.Id,
+                        LevelCurrent = 1,
+                        LevelTarget = 90,
+                    },
+                };
+
+                deltas.Add(delta);
+
+                continue;
+            }
+        }
+
+        return deltas;
     }
 }

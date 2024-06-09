@@ -270,6 +270,10 @@
                             </shc:SizeRestrictedContentControl>
                         </AppBarElementContainer>
                         <AppBarButton
+                            Command="{Binding RefreshInventoryCommand}"
+                            Icon="{shcm:FontIcon Glyph=&#xE72C;}"
+                            Label="{shcm:ResourceString Name=ViewPageCultivationRefreshInventory}"/>
+                        <AppBarButton
                             Command="{Binding AddProjectCommand}"
                             Icon="{shcm:FontIcon Glyph=&#xE710;}"
                             Label="{shcm:ResourceString Name=ViewPageCultivationAddProject}"/>

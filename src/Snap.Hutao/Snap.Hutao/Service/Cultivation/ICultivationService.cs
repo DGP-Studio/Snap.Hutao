@@ -66,4 +66,6 @@ internal interface ICultivationService
     /// <param name="project">项目</param>
     /// <returns>添加操作的结果</returns>
     ValueTask<ProjectAddResultKind> TryAddProjectAsync(CultivateProject project);
+
+    ValueTask RefreshInventoryAsync(CultivateProject project);
 }
