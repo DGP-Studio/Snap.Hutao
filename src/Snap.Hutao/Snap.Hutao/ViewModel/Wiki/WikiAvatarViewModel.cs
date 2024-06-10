@@ -148,7 +148,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         foreach (Avatar avatar in avatars)
         {
-            avatar.Collocation = hutaoCache.AvatarCollocations.GetValueOrDefault(avatar.Id);
+            avatar.CollocationView = hutaoCache.AvatarCollocations.GetValueOrDefault(avatar.Id);
             avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus, idMaterialMap);
             avatar.CultivationItemsView ??= avatar.CultivationItems.SelectList(i => idMaterialMap.GetValueOrDefault(i, Material.Default));
         }

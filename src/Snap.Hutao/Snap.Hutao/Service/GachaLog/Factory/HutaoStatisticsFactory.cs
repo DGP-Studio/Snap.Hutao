@@ -55,7 +55,7 @@ internal sealed class HutaoStatisticsFactory
 
         foreach (ref readonly ItemCount item in CollectionsMarshal.AsSpan(items))
         {
-            IStatisticsItemSource source = item.Item.StringLength() switch
+            IStatisticsItemConvertible source = item.Item.StringLength() switch
             {
                 8U => context.GetAvatar(item.Item),
                 5U => context.GetWeapon(item.Item),

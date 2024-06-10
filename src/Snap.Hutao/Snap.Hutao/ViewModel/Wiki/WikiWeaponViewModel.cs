@@ -141,7 +141,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
             foreach (Weapon weapon in weapons)
             {
-                weapon.Collocation = hutaoCache.WeaponCollocations.GetValueOrDefault(weapon.Id);
+                weapon.CollocationView = hutaoCache.WeaponCollocations.GetValueOrDefault(weapon.Id);
                 weapon.CultivationItemsView ??= weapon.CultivationItems.SelectList(i => idMaterialMap.GetValueOrDefault(i, Material.Default));
             }
         }

@@ -44,7 +44,7 @@ internal sealed class TypedWishSummaryBuilder
     /// <param name="item">祈愿物品</param>
     /// <param name="source">对应武器</param>
     /// <param name="isUp">是否为Up物品</param>
-    public void Track(GachaItem item, ISummaryItemSource source, bool isUp)
+    public void Track(GachaItem item, ISummaryItemConvertible source, bool isUp)
     {
         if (!context.TypeEvaluator(item.GachaType))
         {

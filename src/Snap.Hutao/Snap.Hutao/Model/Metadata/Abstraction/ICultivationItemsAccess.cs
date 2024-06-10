@@ -5,7 +5,7 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Abstraction;
 
-internal interface ICultivatable
+internal interface ICultivationItemsAccess
 {
     List<MaterialId> CultivationItems { get; }
 }

@@ -1,99 +1,118 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata.Abstraction;
+using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.Complex;
+using Snap.Hutao.ViewModel.GachaLog;
+using Snap.Hutao.ViewModel.Wiki;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
-/// <summary>
-/// 角色
-/// </summary>
 [HighQuality]
-internal partial class Avatar
+internal partial class Avatar : INameQualityAccess,
+    IStatisticsItemConvertible,
+    ISummaryItemConvertible,
+    IItemConvertible,
+    ICalculableSource<ICalculableAvatar>,
+    ICultivationItemsAccess
 {
-    /// <summary>
-    /// Id
-    /// </summary>
     public AvatarId Id { get; set; }
 
-    /// <summary>
-    /// 突破提升 Id 外键
-    /// </summary>
     public PromoteId PromoteId { get; set; }
 
-    /// <summary>
-    /// 排序号
-    /// </summary>
     public uint Sort { get; set; }
 
-    /// <summary>
-    /// 体型
-    /// </summary>
     public BodyType Body { get; set; } = default!;
 
-    /// <summary>
-    /// 正面图标
-    /// </summary>
     public string Icon { get; set; } = default!;
 
-    /// <summary>
-    /// 侧面图标
-    /// </summary>
     public string SideIcon { get; set; } = default!;
 
-    /// <summary>
-    /// 名称
-    /// </summary>
     public string Name { get; set; } = default!;
 
-    /// <summary>
-    /// 描述
-    /// </summary>
     public string Description { get; set; } = default!;
 
-    /// <summary>
-    /// 角色加入游戏时间
-    /// </summary>
     public DateTimeOffset BeginTime { get; set; }
 
-    /// <summary>
-    /// 星级
-    /// </summary>
     public QualityType Quality { get; set; }
 
-    /// <summary>
-    /// 武器类型
-    /// </summary>
     public WeaponType Weapon { get; set; }
 
-    /// <summary>
-    /// 基础数值
-    /// </summary>
     public AvatarBaseValue BaseValue { get; set; } = default!;
 
-    /// <summary>
-    /// 生长曲线
-    /// </summary>
     public List<TypeValue<FightProperty, GrowCurveType>> GrowCurves { get; set; } = default!;
 
-    /// <summary>
-    /// 技能
-    /// </summary>
     public SkillDepot SkillDepot { get; set; } = default!;
 
-    /// <summary>
-    /// 好感信息/基本信息
-    /// </summary>
     public FetterInfo FetterInfo { get; set; } = default!;
 
-    /// <summary>
-    /// 皮肤
-    /// </summary>
     public List<Costume> Costumes { get; set; } = default!;
 
-    /// <summary>
-    /// 养成物品
-    /// </summary>
     public List<MaterialId> CultivationItems { get; set; } = default!;
+
+    [JsonIgnore]
+    public AvatarCollocationView? CollocationView { get; set; }
+
+    [JsonIgnore]
+    public CookBonusView? CookBonusView { get; set; }
+
+    [JsonIgnore]
+    public List<Material>? CultivationItemsView { get; set; }
+
+    [SuppressMessage("", "CA1822")]
+    public uint MaxLevel { get => GetMaxLevel(); }
+
+    public static uint GetMaxLevel()
+    {
+        return 90U;
+    }
+
+    public ICalculableAvatar ToCalculable()
+    {
+        return CalculableAvatar.From(this);
+    }
+
+    public Model.Item ToItem()
+    {
+        return new()
+        {
+            Name = Name,
+            Icon = AvatarIconConverter.IconNameToUri(Icon),
+            Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
+            Quality = Quality,
+        };
+    }
+
+    public StatisticsItem ToStatisticsItem(int count)
+    {
+        return new()
+        {
+            Name = Name,
+            Icon = AvatarIconConverter.IconNameToUri(Icon),
+            Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
+            Quality = Quality,
+
+            Count = count,
+        };
+    }
+
+    public SummaryItem ToSummaryItem(int lastPull, in DateTimeOffset time, bool isUp)
+    {
+        return new()
+        {
+            Name = Name,
+            Icon = AvatarIconConverter.IconNameToUri(Icon),
+            Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
+            Quality = Quality,
+
+            Time = time,
+            LastPull = lastPull,
+            IsUp = isUp,
+        };
+    }
 }

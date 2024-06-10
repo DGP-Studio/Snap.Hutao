@@ -12,7 +12,8 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("inventory_items")]
-internal sealed class InventoryItem : IDbMappingForeignKeyFrom<InventoryItem, uint>, IDbMappingForeignKeyFrom<InventoryItem, uint, uint>
+internal sealed class InventoryItem : IDbMappingForeignKeyFrom<InventoryItem, uint>,
+    IDbMappingForeignKeyFrom<InventoryItem, uint, uint>
 {
     /// <summary>
     /// 内部Id

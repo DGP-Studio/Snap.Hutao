@@ -262,7 +262,7 @@ internal sealed partial class CultivationService : ICultivationService
     /// <inheritdoc/>
     public async ValueTask RefreshInventoryAsync(CultivateProject project)
     {
-        List<ICultivatable> cultivatables =
+        List<ICultivationItemsAccess> cultivationItemsEntryList =
         [
             .. await metadataService.GetAvatarListAsync().ConfigureAwait(false),
             .. (await metadataService.GetWeaponListAsync().ConfigureAwait(false)).Where(weapon => weapon.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
@@ -280,7 +280,7 @@ internal sealed partial class CultivationService : ICultivationService
             CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
 
             Response<BatchConsumption>? resp = await calculateClient
-                .BatchComputeAsync(userAndUid, GeneratePromotionDeltas(cultivatables), true)
+                .BatchComputeAsync(userAndUid, GeneratePromotionDeltas(cultivationItemsEntryList), true)
                 .ConfigureAwait(false);
 
             if (!resp.IsOk())
@@ -298,7 +298,7 @@ internal sealed partial class CultivationService : ICultivationService
         }
     }
 
-    private static List<AvatarPromotionDelta> GeneratePromotionDeltas(List<ICultivatable> cultivatables)
+    private static List<AvatarPromotionDelta> GeneratePromotionDeltas(List<ICultivationItemsAccess> cultivatables)
     {
         List<MetadataAvatar> avatars = [];
         List<MetadataWeapon> weapons = [];
@@ -306,7 +306,7 @@ internal sealed partial class CultivationService : ICultivationService
 
         while (cultivatables.Count > 0)
         {
-            ICultivatable bestItem = cultivatables.OrderByDescending(item => item.CultivationItems.Count(material => !materialIds.Contains(material))).First();
+            ICultivationItemsAccess bestItem = cultivatables.OrderByDescending(item => item.CultivationItems.Count(material => !materialIds.Contains(material))).First();
 
             if (bestItem.CultivationItems.All(materialIds.Contains))
             {

@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model.Metadata.Abstraction;
 /// 物品与星级
 /// </summary>
 [HighQuality]
-internal interface INameQuality
+internal interface INameQualityAccess
 {
     /// <summary>
     /// 名称
