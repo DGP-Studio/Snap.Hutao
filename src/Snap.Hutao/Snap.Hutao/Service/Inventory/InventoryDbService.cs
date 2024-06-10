@@ -14,14 +14,14 @@ internal sealed partial class InventoryDbService : IInventoryDbService
 {
     private readonly IServiceProvider serviceProvider;
 
-    public async ValueTask RemoveInventoryItemRangeByProjectId(Guid projectId, bool includeMora = false)
+    public async ValueTask RemoveInventoryItemRangeByProjectId(Guid projectId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await appDbContext.InventoryItems
                 .AsNoTracking()
-                .Where(a => a.ProjectId == projectId && (includeMora || a.ItemId != 202U)) // 摩拉
+                .Where(a => a.ProjectId == projectId)
                 .ExecuteDeleteAsync()
                 .ConfigureAwait(false);
         }

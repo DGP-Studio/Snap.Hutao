@@ -293,7 +293,7 @@ internal sealed partial class CultivationService : ICultivationService
 
         if (batchConsumption is { OverallConsume: { } items })
         {
-            await inventoryDbService.RemoveInventoryItemRangeByProjectId(project.InnerId, true).ConfigureAwait(false);
+            await inventoryDbService.RemoveInventoryItemRangeByProjectId(project.InnerId).ConfigureAwait(false);
             await inventoryDbService.AddInventoryItemRangeByProjectId(items.SelectList(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum)))).ConfigureAwait(false);
         }
     }
