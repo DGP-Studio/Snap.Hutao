@@ -7,6 +7,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Cultivation;
+using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
@@ -30,6 +31,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly ICultivationService cultivationService;
     private readonly ILogger<CultivationViewModel> logger;
     private readonly INavigationService navigationService;
+    private readonly IInventoryService inventoryService;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
@@ -174,7 +176,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     {
         if (inventoryItem is not null)
         {
-            cultivationService.SaveInventoryItem(inventoryItem);
+            inventoryService.SaveInventoryItem(inventoryItem);
             await UpdateStatisticsItemsAsync().ConfigureAwait(false);
         }
     }
@@ -195,7 +197,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
             using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
             {
-                await cultivationService.RefreshInventoryAsync(SelectedProject).ConfigureAwait(false);
+                await inventoryService.RefreshInventoryAsync(SelectedProject).ConfigureAwait(false);
 
                 await UpdateInventoryItemsAsync().ConfigureAwait(false);
                 await UpdateStatisticsItemsAsync().ConfigureAwait(false);
@@ -234,7 +236,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
-            InventoryItems = cultivationService.GetInventoryItemViews(SelectedProject, context, SaveInventoryItemCommand);
+            InventoryItems = inventoryService.GetInventoryItemViews(SelectedProject, context, SaveInventoryItemCommand);
         }
     }
 

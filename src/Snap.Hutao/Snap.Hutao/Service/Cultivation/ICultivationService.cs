@@ -27,8 +27,6 @@ internal interface ICultivationService
 
     ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject, ICultivationMetadataContext context);
 
-    List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand);
-
     ValueTask<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(
         CultivateProject cultivateProject, ICultivationMetadataContext context, CancellationToken token);
 
@@ -55,17 +53,9 @@ internal interface ICultivationService
     void SaveCultivateItem(CultivateItemView item);
 
     /// <summary>
-    /// 保存单个物品
-    /// </summary>
-    /// <param name="item">物品</param>
-    void SaveInventoryItem(InventoryItemView item);
-
-    /// <summary>
     /// 异步尝试添加新的项目
     /// </summary>
     /// <param name="project">项目</param>
     /// <returns>添加操作的结果</returns>
     ValueTask<ProjectAddResultKind> TryAddProjectAsync(CultivateProject project);
-
-    ValueTask RefreshInventoryAsync(CultivateProject project);
 }

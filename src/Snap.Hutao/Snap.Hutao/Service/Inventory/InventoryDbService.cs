@@ -1,10 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.Inventory;
 
@@ -14,43 +12,35 @@ internal sealed partial class InventoryDbService : IInventoryDbService
 {
     private readonly IServiceProvider serviceProvider;
 
-    public async ValueTask RemoveInventoryItemRangeByProjectId(Guid projectId)
+    public IServiceProvider ServiceProvider { get => serviceProvider; }
+
+    public async ValueTask RemoveInventoryItemRangeByProjectIdAsync(Guid projectId, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.InventoryItems
-                .AsNoTracking()
-                .Where(a => a.ProjectId == projectId)
-                .ExecuteDeleteAsync()
-                .ConfigureAwait(false);
-        }
+        await this.DeleteAsync(i => i.ProjectId == projectId, token).ConfigureAwait(false);
     }
 
-    public async ValueTask AddInventoryItemRangeByProjectId(List<InventoryItem> items)
+    public async ValueTask AddInventoryItemRangeByProjectIdAsync(List<InventoryItem> items, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.InventoryItems.AddRangeAndSaveAsync(items).ConfigureAwait(false);
-        }
+        await this.AddRangeAsync(items, token).ConfigureAwait(false);
     }
 
     public void UpdateInventoryItem(InventoryItem item)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.InventoryItems.UpdateAndSave(item);
-        }
+        this.Update(item);
     }
 
-    public async ValueTask UpdateInventoryItemAsync(InventoryItem item)
+    public async ValueTask UpdateInventoryItemAsync(InventoryItem item, CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.InventoryItems.UpdateAndSaveAsync(item).ConfigureAwait(false);
-        }
+        await this.UpdateAsync(item, token).ConfigureAwait(false);
+    }
+
+    public List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId)
+    {
+        return this.List(i => i.ProjectId == projectId);
+    }
+
+    public ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId, CancellationToken token = default)
+    {
+        return this.ListAsync(i => i.ProjectId == projectId, token);
     }
 }
