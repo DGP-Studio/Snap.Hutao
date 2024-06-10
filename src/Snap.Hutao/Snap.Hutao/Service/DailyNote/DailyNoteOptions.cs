@@ -48,7 +48,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
                     {
                         quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
                         {
-                            return builder.WithSimpleSchedule(sb => sb.WithIntervalInMinutes(SelectedRefreshTime.Value).RepeatForever());
+                            return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(SelectedRefreshTime.Value).RepeatForever());
                         }).SafeForget();
                     }
                 }
