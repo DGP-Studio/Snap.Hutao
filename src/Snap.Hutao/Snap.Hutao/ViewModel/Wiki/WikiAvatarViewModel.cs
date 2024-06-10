@@ -177,16 +177,16 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        Response<CalculateBatchConsumption> consumptionResponse = await calculateClient
+        Response<CalculateBatchConsumption> response = await calculateClient
             .BatchComputeAsync(userAndUid, delta)
             .ConfigureAwait(false);
 
-        if (!consumptionResponse.IsOk())
+        if (!response.IsOk())
         {
             return;
         }
 
-        CalculateBatchConsumption batchConsumption = consumptionResponse.Data;
+        CalculateBatchConsumption batchConsumption = response.Data;
         LevelInformation levelInformation = LevelInformation.From(delta);
         try
         {

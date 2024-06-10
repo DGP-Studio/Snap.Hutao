@@ -197,19 +197,14 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        Response<CalculatorBatchConsumption> consumptionResponse = await calculatorClient.BatchComputeAsync(userAndUid, delta).ConfigureAwait(false);
+        Response<CalculatorBatchConsumption> response = await calculatorClient.BatchComputeAsync(userAndUid, delta).ConfigureAwait(false);
 
-        if (!consumptionResponse.IsOk())
+        if (!response.IsOk())
         {
             return;
         }
 
-        CalculatorBatchConsumption batchConsumption = consumptionResponse.Data;
-
-        CalculatorConsumption? consumption = batchConsumption.Items.FirstOrDefault();
-        ArgumentNullException.ThrowIfNull(consumption);
-
-        if (!await SaveCultivationAsync(consumption, delta).ConfigureAwait(false))
+        if (!await SaveCultivationAsync(response.Data.Items.Single(), delta).ConfigureAwait(false))
         {
             infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
             return;
@@ -246,9 +241,10 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         ContentDialog progressDialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyBatchCultivateProgressTitle)
             .ConfigureAwait(false);
+
+        BatchCultivateResult result = default;
         using (await progressDialog.BlockAsync(taskContext).ConfigureAwait(false))
         {
-            BatchCultivateResult result = default;
             List<CalculatorAvatarPromotionDelta> deltas = [];
             foreach (AvatarView avatar in avatars)
             {
@@ -261,16 +257,14 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                 deltas.Add(copy);
             }
 
-            Response<CalculatorBatchConsumption> consumptionResponse = await calculatorClient.BatchComputeAsync(userAndUid, deltas).ConfigureAwait(false);
+            Response<CalculatorBatchConsumption> response = await calculatorClient.BatchComputeAsync(userAndUid, deltas).ConfigureAwait(false);
 
-            if (!consumptionResponse.IsOk())
+            if (!response.IsOk())
             {
                 return;
             }
 
-            CalculatorBatchConsumption batchConsumption = consumptionResponse.Data;
-
-            foreach ((CalculatorConsumption consumption, CalculatorAvatarPromotionDelta delta) in batchConsumption.Items.Zip(deltas))
+            foreach ((CalculatorConsumption consumption, CalculatorAvatarPromotionDelta delta) in response.Data.Items.Zip(deltas))
             {
                 if (!await SaveCultivationAsync(consumption, delta).ConfigureAwait(false))
                 {
@@ -280,15 +274,15 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
                 ++result.SucceedCount;
             }
+        }
 
-            if (result.Interrupted)
-            {
-                infoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompletedFormat(result.SucceedCount, result.SkippedCount));
-            }
-            else
-            {
-                infoBarService.Success(SH.FormatViewModelCultivationBatchAddCompletedFormat(result.SucceedCount, result.SkippedCount));
-            }
+        if (result.Interrupted)
+        {
+            infoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompletedFormat(result.SucceedCount, result.SkippedCount));
+        }
+        else
+        {
+            infoBarService.Success(SH.FormatViewModelCultivationBatchAddCompletedFormat(result.SucceedCount, result.SkippedCount));
         }
     }
 
