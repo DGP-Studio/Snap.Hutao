@@ -31,14 +31,14 @@
                 <Slider
                     MinWidth="160"
                     Margin="32,0,0,0"
-                    Maximum="160"
+                    Maximum="{Binding DailyNote.MaxResin}"
                     Minimum="0"
                     Value="{Binding ResinNotifyThreshold, Mode=TwoWay}"/>
             </clw:SettingsCard>
             <clw:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold}">
                 <Slider
                     MinWidth="160"
-                    Maximum="2400"
+                    Maximum="{Binding DailyNote.MaxHomeCoin}"
                     Minimum="0"
                     Value="{Binding HomeCoinNotifyThreshold, Mode=TwoWay}"/>
             </clw:SettingsCard>
