@@ -20,13 +20,14 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
+using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
-using CalculateConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -154,7 +155,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (userService.Current is null)
+        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
@@ -169,8 +170,8 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        Response<CalculateConsumption> consumptionResponse = await calculateClient
-            .ComputeAsync(userService.Current.Entity, delta)
+        Response<CalculateBatchConsumption> consumptionResponse = await calculateClient
+            .BatchComputeAsync(userAndUid, delta)
             .ConfigureAwait(false);
 
         if (!consumptionResponse.IsOk())
@@ -178,12 +179,12 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        CalculateConsumption consumption = consumptionResponse.Data;
+        CalculateBatchConsumption batchConsumption = consumptionResponse.Data;
         LevelInformation levelInformation = LevelInformation.From(delta);
         try
         {
             bool saved = await cultivationService
-                .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, consumption.WeaponConsume.EmptyIfNull(), levelInformation)
+                .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, batchConsumption.OverallConsume, levelInformation)
                 .ConfigureAwait(false);
 
             if (saved)

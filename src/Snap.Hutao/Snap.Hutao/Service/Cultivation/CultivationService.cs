@@ -3,28 +3,26 @@
 
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Metadata.Abstraction;
-using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
-using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.Cultivation;
 using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
-using AvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
-using BatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
-using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 using CalculateItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
-using PromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.PromotionDelta;
+using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
+using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
+using ModelItem = Snap.Hutao.Model.Item;
 
 namespace Snap.Hutao.Service.Cultivation;
 
@@ -41,6 +39,7 @@ internal sealed partial class CultivationService : ICultivationService
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInventoryDbService inventoryDbService;
     private readonly IMetadataService metadataService;
+    private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
@@ -103,7 +102,7 @@ internal sealed partial class CultivationService : ICultivationService
                 entryItems.Add(new(cultivateItem, context.GetMaterial(cultivateItem.ItemId)));
             }
 
-            Item item = entry.Type switch
+            ModelItem item = entry.Type switch
             {
                 CultivateType.AvatarAndSkill => context.GetAvatar(entry.Id).ToItem(),
                 CultivateType.Weapon => context.GetWeapon(entry.Id).ToItem(),
@@ -272,21 +271,24 @@ internal sealed partial class CultivationService : ICultivationService
         BatchConsumption? batchConsumption = default;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+            if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {
-                CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
-
-                Response<BatchConsumption>? resp = await calculateClient
-                    .BatchComputeAsync(userAndUid, GeneratePromotionDeltas(cultivatables))
-                    .ConfigureAwait(false);
-
-                if (!resp.IsOk())
-                {
-                    return;
-                }
-
-                batchConsumption = resp.Data;
+                infoBarService.Warning(SH.MustSelectUserAndUid);
+                return;
             }
+
+            CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+
+            Response<BatchConsumption>? resp = await calculateClient
+                .BatchComputeAsync(userAndUid, GeneratePromotionDeltas(cultivatables), true)
+                .ConfigureAwait(false);
+
+            if (!resp.IsOk())
+            {
+                return;
+            }
+
+            batchConsumption = resp.Data;
         }
 
         if (batchConsumption is { OverallConsume: { } items })
@@ -298,8 +300,8 @@ internal sealed partial class CultivationService : ICultivationService
 
     private static List<AvatarPromotionDelta> GeneratePromotionDeltas(List<ICultivatable> cultivatables)
     {
-        List<Avatar> avatars = [];
-        List<Weapon> weapons = [];
+        List<MetadataAvatar> avatars = [];
+        List<MetadataWeapon> weapons = [];
         HashSet<MaterialId> materialIds = [];
 
         while (cultivatables.Count > 0)
@@ -313,10 +315,10 @@ internal sealed partial class CultivationService : ICultivationService
 
             switch (bestItem)
             {
-                case Avatar avatar:
+                case MetadataAvatar avatar:
                     avatars.Add(avatar);
                     break;
-                case Weapon weapon:
+                case MetadataWeapon weapon:
                     weapons.Add(weapon);
                     break;
                 default:
@@ -335,8 +337,8 @@ internal sealed partial class CultivationService : ICultivationService
 
         for (int i = 0; i < Math.Max(avatars.Count, weapons.Count); i++)
         {
-            Avatar? avatar = avatars.ElementAtOrDefault(i);
-            Weapon? weapon = weapons.ElementAtOrDefault(i);
+            MetadataAvatar? avatar = avatars.ElementAtOrDefault(i);
+            MetadataWeapon? weapon = weapons.ElementAtOrDefault(i);
 
             if (avatar is not null)
             {

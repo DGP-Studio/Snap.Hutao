@@ -34,15 +34,20 @@ internal sealed partial class CalculateClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, List<AvatarPromotionDelta> deltas, CancellationToken token = default)
+    public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, AvatarPromotionDelta delta, bool syncMaterials = false, CancellationToken token = default)
+    {
+        return await BatchComputeAsync(userAndUid, [delta], syncMaterials, token).ConfigureAwait(false);
+    }
+
+    public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, List<AvatarPromotionDelta> deltas, bool syncMaterials = false, CancellationToken token = default)
     {
         //ArgumentOutOfRangeException.ThrowIfGreaterThan(deltas.Count, 8);
 
         BatchConsumptionData data = new()
         {
             Items = deltas,
-            Region = userAndUid.Uid.Region,
-            Uid = userAndUid.Uid.ToString(),
+            Region = syncMaterials ? userAndUid.Uid.Region : default!,
+            Uid = syncMaterials ? userAndUid.Uid.ToString() : default!,
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
