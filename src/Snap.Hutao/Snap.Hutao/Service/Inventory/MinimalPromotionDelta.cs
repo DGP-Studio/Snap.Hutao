@@ -4,6 +4,7 @@
 using Google.OrTools.LinearSolver;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Primitive;
@@ -21,6 +22,7 @@ internal sealed partial class MinimalPromotionDelta
 {
     private const string CacheKey = $"{nameof(MinimalPromotionDelta)}.Cache";
 
+    private readonly ILogger<MinimalPromotionDelta> logger;
     private readonly IMetadataService metadataService;
     private readonly IMemoryCache memoryCache;
 
@@ -37,7 +39,11 @@ internal sealed partial class MinimalPromotionDelta
             .. (await metadataService.GetWeaponListAsync().ConfigureAwait(false)).Where(w => w.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
         ];
 
-        List<ICultivationItemsAccess> minimal = Minimize(cultivationItemsEntryList);
+        List<ICultivationItemsAccess> minimal;
+        using (ValueStopwatch.MeasureExecution(logger))
+        {
+            minimal = Minimize(cultivationItemsEntryList);
+        }
 
         // Gurantee the order of avatar and weapon
         // Make sure weapons can have avatar to attach

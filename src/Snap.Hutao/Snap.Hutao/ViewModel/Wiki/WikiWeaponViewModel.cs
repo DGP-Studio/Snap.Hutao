@@ -102,9 +102,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                 List<Weapon> weapons = await metadataService.GetWeaponListAsync().ConfigureAwait(false);
                 IEnumerable<Weapon> sorted = weapons
-                    .OrderByDescending(weapon => weapon.RankLevel)
-                    .ThenBy(weapon => weapon.WeaponType)
-                    .ThenByDescending(weapon => weapon.Id.Value);
+                    .OrderByDescending(weapon => weapon.Sort);
                 List<Weapon> list = [.. sorted];
 
                 await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);

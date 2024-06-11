@@ -24,6 +24,8 @@ internal sealed partial class Weapon : INameQualityAccess,
 
     public PromoteId PromoteId { get; set; }
 
+    public uint Sort { get; set; }
+
     public WeaponType WeaponType { get; set; }
 
     public QualityType RankLevel { get; set; }
