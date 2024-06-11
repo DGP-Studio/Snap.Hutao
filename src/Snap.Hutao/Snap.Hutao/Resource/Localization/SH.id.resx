@@ -2595,7 +2595,7 @@
     <value>Pilih server game tempat Anda ingin menerima pengumuman.</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>Pemberitahuan Server</value>
+    <value>游戏公告所属服务器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Mengelola Cards di dasbor utama</value>
