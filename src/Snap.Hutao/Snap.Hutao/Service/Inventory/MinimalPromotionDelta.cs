@@ -3,6 +3,7 @@
 
 using Google.OrTools.LinearSolver;
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Primitive;
@@ -35,7 +36,13 @@ internal sealed partial class MinimalPromotionDelta
             .. (await metadataService.GetAvatarListAsync().ConfigureAwait(false)).Where(a => a.BeginTime <= DateTimeOffset.Now),
             .. (await metadataService.GetWeaponListAsync().ConfigureAwait(false)).Where(w => w.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
         ];
-        return memoryCache.Set(CacheKey, GeneratePromotionDeltas(Minimize(cultivationItemsEntryList)));
+
+        List<ICultivationItemsAccess> minimal = Minimize(cultivationItemsEntryList);
+
+        // Gurantee the order of avatar and weapon
+        // Make sure weapons can have avatar to attach
+        minimal.Sort(CultivationItemsAccessComparer.Shared);
+        return memoryCache.Set(CacheKey, ToPromotionDeltaList(minimal));
     }
 
     private static List<ICultivationItemsAccess> Minimize(List<ICultivationItemsAccess> cultivationItems)
@@ -82,9 +89,10 @@ internal sealed partial class MinimalPromotionDelta
         }
     }
 
-    private static List<AvatarPromotionDelta> GeneratePromotionDeltas(List<ICultivationItemsAccess> cultivationItems)
+    private static List<AvatarPromotionDelta> ToPromotionDeltaList(List<ICultivationItemsAccess> cultivationItems)
     {
         List<AvatarPromotionDelta> deltas = [];
+        int currentWeaponEmptyAvatarIndex = 0;
 
         foreach (ref readonly ICultivationItemsAccess item in CollectionsMarshal.AsSpan(cultivationItems))
         {
@@ -103,34 +111,49 @@ internal sealed partial class MinimalPromotionDelta
                             LevelTarget = 10,
                         }),
                     });
-                    break;
-                case MetadataWeapon weapon:
-                    if (deltas.FirstOrDefault(d => d.Weapon is null) is { } delta)
-                    {
-                        delta.Weapon = new()
-                        {
-                            Id = weapon.Id,
-                            LevelCurrent = 1,
-                            LevelTarget = 90,
-                        };
 
-                        break;
+                    break;
+
+                case MetadataWeapon weapon:
+                    AvatarPromotionDelta delta;
+                    if (currentWeaponEmptyAvatarIndex < deltas.Count)
+                    {
+                        delta = deltas[currentWeaponEmptyAvatarIndex++];
+                    }
+                    else
+                    {
+                        delta = new();
+                        deltas.Add(delta);
                     }
 
-                    deltas.Add(new()
+                    delta.Weapon = new()
                     {
-                        Weapon = new()
-                        {
-                            Id = weapon.Id,
-                            LevelCurrent = 1,
-                            LevelTarget = 90,
-                        },
-                    });
+                        Id = weapon.Id,
+                        LevelCurrent = 1,
+                        LevelTarget = 90,
+                    };
 
                     break;
             }
         }
 
         return deltas;
+    }
+
+    private sealed class CultivationItemsAccessComparer : IComparer<ICultivationItemsAccess>
+    {
+        private static readonly LazySlim<CultivationItemsAccessComparer> LazyShared = new(() => new());
+
+        public static CultivationItemsAccessComparer Shared { get => LazyShared.Value; }
+
+        public int Compare(ICultivationItemsAccess? x, ICultivationItemsAccess? y)
+        {
+            return (x, y) switch
+            {
+                (MetadataAvatar, MetadataWeapon) => -1,
+                (MetadataWeapon, MetadataAvatar) => 1,
+                _ => 0,
+            };
+        }
     }
 }
