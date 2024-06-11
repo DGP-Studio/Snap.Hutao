@@ -2595,7 +2595,7 @@
     <value>Select the game server for which you want to get announcements</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>Announcement Server</value>
+    <value>游戏公告所属服务器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Manage cards on home dashboard</value>
