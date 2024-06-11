@@ -278,7 +278,7 @@ internal static class HutaoEndpoints
 
     public const string WallpaperBing = $"{ApiSnapGenshin}/wallpaper/bing";
 
-    public const string WallpaperGenshinLauncher = $"{ApiSnapGenshin}/wallpaper/genshin-launcher";
+    public const string WallpaperGenshinLauncher = $"{ApiSnapGenshin}/wallpaper/hoyoplay";
 
     public const string WallpaperToday = $"{ApiSnapGenshin}/wallpaper/today";
     #endregion
