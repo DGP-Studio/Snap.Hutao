@@ -2595,7 +2595,7 @@
     <value>お知らせを受け取りたいサーバーを選択してください</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>お知らせのサーバー</value>
+    <value>游戏公告所属服务器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>ダッシュボードを整理する</value>
