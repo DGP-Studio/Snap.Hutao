@@ -7,5 +7,7 @@ namespace Snap.Hutao.Model.Metadata.Abstraction;
 
 internal interface ICultivationItemsAccess
 {
+    string Name { get; }
+
     List<MaterialId> CultivationItems { get; }
 }

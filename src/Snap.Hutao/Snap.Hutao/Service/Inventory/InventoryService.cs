@@ -59,8 +59,10 @@ internal sealed partial class InventoryService : IInventoryService
         List<ICultivationItemsAccess> cultivationItemsEntryList =
         [
             .. await metadataService.GetAvatarListAsync().ConfigureAwait(false),
-            .. (await metadataService.GetWeaponListAsync().ConfigureAwait(false)).Where(weapon => weapon.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
+            .. await metadataService.GetWeaponListAsync().ConfigureAwait(false),
         ];
+
+        cultivationItemsEntryList = MinimalPromotionDelta.Find(cultivationItemsEntryList);
 
         BatchConsumption? batchConsumption = default;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
