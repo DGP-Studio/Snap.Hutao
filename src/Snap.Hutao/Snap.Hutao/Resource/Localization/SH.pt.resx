@@ -2595,7 +2595,7 @@
     <value>Selecione o servidor de jogo para o qual você deseja obter anúncios</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>Servidor de anúncios</value>
+    <value>游戏公告所属服务器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Gerenciar cartões no painel inicial</value>
