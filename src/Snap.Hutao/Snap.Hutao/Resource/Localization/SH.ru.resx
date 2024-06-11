@@ -1568,6 +1568,9 @@
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>不能添加名称无效的计划</value>
   </data>
+  <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
+    <value>正在同步背包物品</value>
+  </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
     <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
   </data>
@@ -1924,6 +1927,9 @@
   </data>
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
     <value>Перейти</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
+    <value>同步背包物品</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Удалить список</value>
