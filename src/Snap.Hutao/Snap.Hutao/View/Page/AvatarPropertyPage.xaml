@@ -619,7 +619,8 @@
                                                         <Rectangle
                                                             Grid.RowSpan="2"
                                                             Grid.ColumnSpan="2"
-                                                            Fill="#33000000"/>
+                                                            Fill="#33000000"
+                                                            IsHitTestVisible="False"/>
                                                         <StackPanel
                                                             Margin="16"
                                                             HorizontalAlignment="Left"

@@ -343,7 +343,10 @@
                                                             Source="{Binding SelectedHistoryWish.BannerImage}"
                                                             Stretch="UniformToFill"/>
                                                     </cwcont:ConstrainedBox>
-                                                    <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
+                                                    <Border
+                                                        Grid.ColumnSpan="2"
+                                                        Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"
+                                                        IsHitTestVisible="False"/>
                                                 </Grid>
                                             </Border>
 
