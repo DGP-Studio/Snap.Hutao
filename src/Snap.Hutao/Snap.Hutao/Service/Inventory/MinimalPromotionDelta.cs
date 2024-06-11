@@ -2,16 +2,43 @@
 // Licensed under the MIT license.
 
 using Google.OrTools.LinearSolver;
+using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Runtime.InteropServices;
+using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
+using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
 
 namespace Snap.Hutao.Service.Inventory;
 
-internal static class MinimalPromotionDelta
+[ConstructorGenerated]
+[Injection(InjectAs.Singleton)]
+internal sealed partial class MinimalPromotionDelta
 {
-    public static List<ICultivationItemsAccess> Find(List<ICultivationItemsAccess> cultivationItems)
+    private const string CacheKey = $"{nameof(MinimalPromotionDelta)}.Cache";
+
+    private readonly IMetadataService metadataService;
+    private readonly IMemoryCache memoryCache;
+
+    public async ValueTask<List<AvatarPromotionDelta>> GetAsync()
+    {
+        if (memoryCache.TryGetRequiredValue(CacheKey, out List<AvatarPromotionDelta>? cache))
+        {
+            return cache;
+        }
+
+        List<ICultivationItemsAccess> cultivationItemsEntryList =
+        [
+            .. await metadataService.GetAvatarListAsync().ConfigureAwait(false),
+            .. (await metadataService.GetWeaponListAsync().ConfigureAwait(false)).Where(w => w.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
+        ];
+        return memoryCache.Set(CacheKey, GeneratePromotionDeltas(Minimize(cultivationItemsEntryList)));
+    }
+
+    private static List<ICultivationItemsAccess> Minimize(List<ICultivationItemsAccess> cultivationItems)
     {
         using (Solver? solver = Solver.CreateSolver("SCIP"))
         {
@@ -53,5 +80,57 @@ internal static class MinimalPromotionDelta
 
             return results;
         }
+    }
+
+    private static List<AvatarPromotionDelta> GeneratePromotionDeltas(List<ICultivationItemsAccess> cultivationItems)
+    {
+        List<AvatarPromotionDelta> deltas = [];
+
+        foreach (ref readonly ICultivationItemsAccess item in CollectionsMarshal.AsSpan(cultivationItems))
+        {
+            switch (item)
+            {
+                case MetadataAvatar avatar:
+                    deltas.Add(new()
+                    {
+                        AvatarId = avatar.Id,
+                        AvatarLevelCurrent = 1,
+                        AvatarLevelTarget = 90,
+                        SkillList = avatar.SkillDepot.CompositeSkillsNoInherents().SelectList(skill => new PromotionDelta()
+                        {
+                            Id = skill.GroupId,
+                            LevelCurrent = 1,
+                            LevelTarget = 10,
+                        }),
+                    });
+                    break;
+                case MetadataWeapon weapon:
+                    if (deltas.FirstOrDefault(d => d.Weapon is null) is { } delta)
+                    {
+                        delta.Weapon = new()
+                        {
+                            Id = weapon.Id,
+                            LevelCurrent = 1,
+                            LevelTarget = 90,
+                        };
+
+                        break;
+                    }
+
+                    deltas.Add(new()
+                    {
+                        Weapon = new()
+                        {
+                            Id = weapon.Id,
+                            LevelCurrent = 1,
+                            LevelTarget = 90,
+                        },
+                    });
+
+                    break;
+            }
+        }
+
+        return deltas;
     }
 }
