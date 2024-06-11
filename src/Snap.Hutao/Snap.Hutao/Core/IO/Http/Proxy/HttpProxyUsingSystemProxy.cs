@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Win32.Registry;
-using System.Linq.Expressions;
 using System.Net;
 using System.Reflection;
 

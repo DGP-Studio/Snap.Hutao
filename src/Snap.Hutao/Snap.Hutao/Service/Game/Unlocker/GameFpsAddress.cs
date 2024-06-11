@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.Memory;
 using System.Diagnostics;
 using static Snap.Hutao.Win32.Kernel32;
 

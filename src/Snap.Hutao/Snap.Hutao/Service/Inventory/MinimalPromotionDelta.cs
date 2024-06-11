@@ -32,7 +32,7 @@ internal sealed partial class MinimalPromotionDelta
 
         List<ICultivationItemsAccess> cultivationItemsEntryList =
         [
-            .. await metadataService.GetAvatarListAsync().ConfigureAwait(false),
+            .. (await metadataService.GetAvatarListAsync().ConfigureAwait(false)).Where(a => a.BeginTime <= DateTimeOffset.Now),
             .. (await metadataService.GetWeaponListAsync().ConfigureAwait(false)).Where(w => w.Quality >= Model.Intrinsic.QualityType.QUALITY_BLUE),
         ];
         return memoryCache.Set(CacheKey, GeneratePromotionDeltas(Minimize(cultivationItemsEntryList)));
