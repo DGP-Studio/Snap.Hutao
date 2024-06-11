@@ -59,7 +59,7 @@ internal sealed class GachaLogServiceMetadataContext : IMetadataContext,
         return result;
     }
 
-    public INameQuality GetNameQualityByItemId(uint id)
+    public INameQualityAccess GetNameQualityByItemId(uint id)
     {
         uint place = id.StringLength();
         return place switch

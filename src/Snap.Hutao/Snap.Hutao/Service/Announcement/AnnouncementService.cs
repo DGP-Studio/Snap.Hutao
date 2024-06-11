@@ -20,7 +20,7 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Scoped, typeof(IAnnouncementService))]
 internal sealed partial class AnnouncementService : IAnnouncementService
 {
-    private static readonly string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
+    private const string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
 
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ITaskContext taskContext;

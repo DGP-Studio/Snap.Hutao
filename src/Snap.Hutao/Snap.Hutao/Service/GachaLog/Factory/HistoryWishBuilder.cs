@@ -16,11 +16,11 @@ internal sealed class HistoryWishBuilder
 {
     private readonly GachaEvent gachaEvent;
 
-    private readonly Dictionary<IStatisticsItemSource, int> orangeUpCounter = [];
-    private readonly Dictionary<IStatisticsItemSource, int> purpleUpCounter = [];
-    private readonly Dictionary<IStatisticsItemSource, int> orangeCounter = [];
-    private readonly Dictionary<IStatisticsItemSource, int> purpleCounter = [];
-    private readonly Dictionary<IStatisticsItemSource, int> blueCounter = [];
+    private readonly Dictionary<IStatisticsItemConvertible, int> orangeUpCounter = [];
+    private readonly Dictionary<IStatisticsItemConvertible, int> purpleUpCounter = [];
+    private readonly Dictionary<IStatisticsItemConvertible, int> orangeCounter = [];
+    private readonly Dictionary<IStatisticsItemConvertible, int> purpleCounter = [];
+    private readonly Dictionary<IStatisticsItemConvertible, int> blueCounter = [];
 
     private int totalCountTracker;
 
@@ -37,18 +37,18 @@ internal sealed class HistoryWishBuilder
         switch (ConfigType)
         {
             case GachaType.ActivityAvatar or GachaType.SpecialActivityAvatar:
-                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
-                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
+                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemConvertible)a, a => 0);
+                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemConvertible)a, a => 0);
                 break;
             case GachaType.ActivityWeapon:
-                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
-                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
+                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemConvertible)w, w => 0);
+                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemConvertible)w, w => 0);
                 break;
             case GachaType.ActivityCity:
 
                 // Avatars are less than weapons, so we try to get the value from avatar map first
-                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => (IStatisticsItemSource?)context.IdAvatarMap.GetValueOrDefault(id) ?? context.IdWeaponMap[id]).ToDictionary(c => c, c => 0);
-                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => (IStatisticsItemSource?)context.IdAvatarMap.GetValueOrDefault(id) ?? context.IdWeaponMap[id]).ToDictionary(c => c, c => 0);
+                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => (IStatisticsItemConvertible?)context.IdAvatarMap.GetValueOrDefault(id) ?? context.IdWeaponMap[id]).ToDictionary(c => c, c => 0);
+                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => (IStatisticsItemConvertible?)context.IdAvatarMap.GetValueOrDefault(id) ?? context.IdWeaponMap[id]).ToDictionary(c => c, c => 0);
                 break;
         }
     }
@@ -74,7 +74,7 @@ internal sealed class HistoryWishBuilder
     /// </summary>
     /// <param name="item">物品</param>
     /// <returns>是否为Up物品</returns>
-    public bool IncreaseOrange(IStatisticsItemSource item)
+    public bool IncreaseOrange(IStatisticsItemConvertible item)
     {
         orangeCounter.IncreaseOne(item);
         ++totalCountTracker;
@@ -86,7 +86,7 @@ internal sealed class HistoryWishBuilder
     /// 计数四星物品
     /// </summary>
     /// <param name="item">物品</param>
-    public void IncreasePurple(IStatisticsItemSource item)
+    public void IncreasePurple(IStatisticsItemConvertible item)
     {
         purpleUpCounter.TryIncreaseOne(item);
         purpleCounter.IncreaseOne(item);
@@ -97,7 +97,7 @@ internal sealed class HistoryWishBuilder
     /// 计数三星武器
     /// </summary>
     /// <param name="item">武器</param>
-    public void IncreaseBlue(IStatisticsItemSource item)
+    public void IncreaseBlue(IStatisticsItemConvertible item)
     {
         blueCounter.IncreaseOne(item);
         ++totalCountTracker;

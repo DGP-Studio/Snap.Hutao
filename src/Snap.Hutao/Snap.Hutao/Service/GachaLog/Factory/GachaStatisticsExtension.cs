@@ -49,7 +49,7 @@ internal static class GachaStatisticsExtension
     /// <param name="dict">计数器</param>
     /// <returns>统计物品列表</returns>
     public static List<StatisticsItem> ToStatisticsList<TItem>(this Dictionary<TItem, int> dict)
-        where TItem : IStatisticsItemSource
+        where TItem : IStatisticsItemConvertible
     {
         IOrderedEnumerable<StatisticsItem> result = dict
             .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))

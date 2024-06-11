@@ -25,6 +25,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
+using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculatorClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 using CalculatorConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 using CalculatorItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
@@ -175,7 +176,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        if (userService.Current is null)
+        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
@@ -196,17 +197,20 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        CultivateCoreResult result = await CultivateCoreAsync(userService.Current.Entity, delta, avatar).ConfigureAwait(false);
+        Response<CalculatorBatchConsumption> response = await calculatorClient.BatchComputeAsync(userAndUid, delta).ConfigureAwait(false);
 
-        switch (result)
+        if (!response.IsOk())
         {
-            case CultivateCoreResult.Ok:
-                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-                break;
-            case CultivateCoreResult.SaveConsumptionFailed:
-                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-                break;
+            return;
         }
+
+        if (!await SaveCultivationAsync(response.Data.Items.Single(), delta).ConfigureAwait(false))
+        {
+            infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+            return;
+        }
+
+        infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
     }
 
     [Command("BatchCultivateCommand")]
@@ -217,7 +221,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        if (userService.Current is null)
+        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
@@ -237,9 +241,11 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         ContentDialog progressDialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyBatchCultivateProgressTitle)
             .ConfigureAwait(false);
+
+        BatchCultivateResult result = default;
         using (await progressDialog.BlockAsync(taskContext).ConfigureAwait(false))
         {
-            BatchCultivateResult result = default;
+            List<CalculatorAvatarPromotionDelta> deltas = [];
             foreach (AvatarView avatar in avatars)
             {
                 if (!baseline.TryGetNonErrorCopy(avatar, out CalculatorAvatarPromotionDelta? copy))
@@ -248,75 +254,64 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     continue;
                 }
 
-                CultivateCoreResult coreResult = await CultivateCoreAsync(userService.Current.Entity, copy, avatar).ConfigureAwait(false);
+                deltas.Add(copy);
+            }
 
-                switch (coreResult)
-                {
-                    case CultivateCoreResult.Ok:
-                        ++result.SucceedCount;
-                        break;
-                    case CultivateCoreResult.ComputeConsumptionFailed:
-                        result.Interrupted = true;
-                        break;
-                    case CultivateCoreResult.SaveConsumptionFailed:
-                        result.Interrupted = true;
-                        break;
-                }
+            Response<CalculatorBatchConsumption> response = await calculatorClient.BatchComputeAsync(userAndUid, deltas).ConfigureAwait(false);
 
-                if (result.Interrupted)
+            if (!response.IsOk())
+            {
+                return;
+            }
+
+            foreach ((CalculatorConsumption consumption, CalculatorAvatarPromotionDelta delta) in response.Data.Items.Zip(deltas))
+            {
+                if (!await SaveCultivationAsync(consumption, delta).ConfigureAwait(false))
                 {
+                    result.Interrupted = true;
                     break;
                 }
-            }
 
-            if (result.Interrupted)
-            {
-                infoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompletedFormat(result.SucceedCount, result.SkippedCount));
+                ++result.SucceedCount;
             }
-            else
-            {
-                infoBarService.Success(SH.FormatViewModelCultivationBatchAddCompletedFormat(result.SucceedCount, result.SkippedCount));
-            }
+        }
+
+        if (result.Interrupted)
+        {
+            infoBarService.Warning(SH.FormatViewModelCultivationBatchAddIncompletedFormat(result.SucceedCount, result.SkippedCount));
+        }
+        else
+        {
+            infoBarService.Success(SH.FormatViewModelCultivationBatchAddCompletedFormat(result.SucceedCount, result.SkippedCount));
         }
     }
 
-    private async ValueTask<CultivateCoreResult> CultivateCoreAsync(Model.Entity.User user, CalculatorAvatarPromotionDelta delta, AvatarView avatar)
+    private async ValueTask<bool> SaveCultivationAsync(CalculatorConsumption consumption, CalculatorAvatarPromotionDelta delta)
     {
-        Response<CalculatorConsumption> consumptionResponse = await calculatorClient.ComputeAsync(user, delta).ConfigureAwait(false);
-
-        if (!consumptionResponse.IsOk())
-        {
-            return CultivateCoreResult.ComputeConsumptionFailed;
-        }
-
-        CalculatorConsumption consumption = consumptionResponse.Data;
         LevelInformation levelInformation = LevelInformation.From(delta);
 
         List<CalculatorItem> items = CalculatorItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
         bool avatarSaved = await cultivationService
-            .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items, levelInformation)
+            .SaveConsumptionAsync(CultivateType.AvatarAndSkill, delta.AvatarId, items, levelInformation)
             .ConfigureAwait(false);
 
         try
         {
-            ArgumentNullException.ThrowIfNull(avatar.Weapon);
+            ArgumentNullException.ThrowIfNull(delta.Weapon);
 
             // Take a hot path if avatar is not saved.
             bool avatarAndWeaponSaved = avatarSaved && await cultivationService
-                .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull(), levelInformation)
+                .SaveConsumptionAsync(CultivateType.Weapon, delta.Weapon.Id, consumption.WeaponConsume.EmptyIfNull(), levelInformation)
                 .ConfigureAwait(false);
 
-            if (!avatarAndWeaponSaved)
-            {
-                return CultivateCoreResult.SaveConsumptionFailed;
-            }
+            return avatarAndWeaponSaved;
         }
         catch (HutaoException ex)
         {
             infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
         }
 
-        return CultivateCoreResult.Ok;
+        return true;
     }
 
     [Command("ExportAsImageCommand")]

@@ -2,15 +2,14 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.ObjectModel;
 using CalculateItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
+using ModelItem = Snap.Hutao.Model.Item;
 
 namespace Snap.Hutao.Service.Cultivation;
 
@@ -52,22 +51,6 @@ internal sealed partial class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand)
-    {
-        Guid projectId = cultivateProject.InnerId;
-        List<InventoryItem> entities = cultivationDbService.GetInventoryItemListByProjectId(projectId);
-
-        List<InventoryItemView> results = [];
-        foreach (Material meta in context.EnumerateInventoryMaterial())
-        {
-            InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.From(projectId, meta.Id);
-            results.Add(new(entity, meta, saveCommand));
-        }
-
-        return results;
-    }
-
-    /// <inheritdoc/>
     public async ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject, ICultivationMetadataContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
@@ -86,7 +69,7 @@ internal sealed partial class CultivationService : ICultivationService
                 entryItems.Add(new(cultivateItem, context.GetMaterial(cultivateItem.ItemId)));
             }
 
-            Item item = entry.Type switch
+            ModelItem item = entry.Type switch
             {
                 CultivateType.AvatarAndSkill => context.GetAvatar(entry.Id).ToItem(),
                 CultivateType.Weapon => context.GetWeapon(entry.Id).ToItem(),
@@ -130,7 +113,7 @@ internal sealed partial class CultivationService : ICultivationService
             }
         }
 
-        foreach (InventoryItem inventoryItem in await cultivationDbService.GetInventoryItemListByProjectIdAsync(projectId, token).ConfigureAwait(false))
+        foreach (InventoryItem inventoryItem in await inventoryDbService.GetInventoryItemListByProjectIdAsync(projectId, token).ConfigureAwait(false))
         {
             if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is { } existedItem)
             {
@@ -145,12 +128,6 @@ internal sealed partial class CultivationService : ICultivationService
     public async ValueTask RemoveCultivateEntryAsync(Guid entryId)
     {
         await cultivationDbService.RemoveCultivateEntryByIdAsync(entryId).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc/>
-    public void SaveInventoryItem(InventoryItemView item)
-    {
-        inventoryDbService.UpdateInventoryItem(item.Entity);
     }
 
     /// <inheritdoc/>

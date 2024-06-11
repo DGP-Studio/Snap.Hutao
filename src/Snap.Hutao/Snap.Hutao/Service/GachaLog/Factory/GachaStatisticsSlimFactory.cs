@@ -27,7 +27,7 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
         return CreateCore(context, items, uid);
     }
 
-    private static void Track(INameQuality nameQuality, ref int orangeTracker, ref int purpleTracker)
+    private static void Track(INameQualityAccess nameQuality, ref int orangeTracker, ref int purpleTracker)
     {
         switch (nameQuality.Quality)
         {
@@ -69,7 +69,7 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
         // O(n) operation
         foreach (ref readonly GachaItem item in CollectionsMarshal.AsSpan(items))
         {
-            INameQuality nameQuality = context.GetNameQualityByItemId(item.ItemId);
+            INameQualityAccess nameQuality = context.GetNameQualityByItemId(item.ItemId);
             switch (item.QueryType)
             {
                 case GachaType.Standard:

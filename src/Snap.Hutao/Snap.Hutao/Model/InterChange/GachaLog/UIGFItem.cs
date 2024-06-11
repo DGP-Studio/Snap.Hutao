@@ -13,7 +13,7 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 /// UIGF物品
 /// </summary>
 [HighQuality]
-internal sealed class UIGFItem : GachaLogItem, IMappingFrom<UIGFItem, GachaItem, INameQuality>
+internal sealed class UIGFItem : GachaLogItem, IMappingFrom<UIGFItem, GachaItem, INameQualityAccess>
 {
     /// <summary>
     /// 额外祈愿映射
@@ -22,7 +22,7 @@ internal sealed class UIGFItem : GachaLogItem, IMappingFrom<UIGFItem, GachaItem,
     [JsonEnum(JsonSerializeType.NumberString)]
     public GachaType UIGFGachaType { get; set; } = default!;
 
-    public static UIGFItem From(GachaItem item, INameQuality nameQuality)
+    public static UIGFItem From(GachaItem item, INameQualityAccess nameQuality)
     {
         return new()
         {
