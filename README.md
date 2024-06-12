@@ -72,9 +72,9 @@ Snap Hutao uses [Crowdin](https://translate.hut.ao/) as a client text translatio
 Snap Hutao is currently using sponsored software from the following service providers.
 
 | [![](https://www.netlify.com/v3/img/components/netlify-light.svg)](https://www.netlify.com/) | [![](https://support.crowdin.com/assets/logos/core-logo/svg/crowdin-core-logo-cDark.svg)](https://crowdin.com/) | [![](https://gitlab.cn/images/icons/logos/logo-121-75.svg)](https://gitlab.cn/) |
-|:-:|:-:|:-:|
-|[![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/73ae8b90-f3c7-4033-b2b7-f4126331ce66)](https://about.signpath.io)|[![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/49aed8ee-9f19-4a8a-998c-7b93ee286d65)](https://1password.com/)|[![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/ad121220-d2d3-4f49-b215-b6d063dc229d)](https://www.digitalocean.com)|
-|[![jetbrains](https://github.com/DGP-Studio/Snap.Hutao/assets/36357191/4105772a-728a-4a84-9c6e-d713a5698a20)](https://www.jetbrains.com/opensource/)|||
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| [![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/73ae8b90-f3c7-4033-b2b7-f4126331ce66)](https://about.signpath.io) | [![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/49aed8ee-9f19-4a8a-998c-7b93ee286d65)](https://1password.com/) | [![](https://github.com/DGP-Studio/Snap.Hutao/assets/10614984/ad121220-d2d3-4f49-b215-b6d063dc229d)](https://www.digitalocean.com) |
+| [![ducalis](https://raw.githubusercontent.com/DGP-Studio/Snap.Hutao.Docs/main/docs/.vuepress/public/svg/ducalis.svg)](https://hi.ducalis.io/) | [![jetbrains](https://github.com/DGP-Studio/Snap.Hutao/assets/36357191/4105772a-728a-4a84-9c6e-d713a5698a20)](https://www.jetbrains.com/opensource/) |                                                              |
 
 - Netlify provides document and home page hosting service for Snap Hutao
 
@@ -87,6 +87,8 @@ Snap Hutao is currently using sponsored software from the following service prov
 - 1Password provides Snap Hutao development team with their amazing password management software
   
 - DigitalOcean provides reliable cloud database for Snap Hutao database backup
+
+- [Ducalis.io](https://hi.ducalis.io/) provides Snap Hutao project with a complete decision-making toolkit for project management
 
 - Jetbrains provides powerful IDE for Snap Hutao infrastructure services coding
 
