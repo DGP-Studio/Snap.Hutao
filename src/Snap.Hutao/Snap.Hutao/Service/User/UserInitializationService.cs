@@ -2,12 +2,18 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Extension;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.Web.Enka;
+using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
+using MetadataProfilePicture = Snap.Hutao.Model.Metadata.Avatar.ProfilePicture;
 
 namespace Snap.Hutao.Service.User;
 
@@ -16,6 +22,7 @@ namespace Snap.Hutao.Service.User;
 internal sealed partial class UserInitializationService : IUserInitializationService
 {
     private readonly IUserFingerprintService userFingerprintService;
+    private readonly IUserGameRoleDbService userGameRoleDbService;
     private readonly IServiceProvider serviceProvider;
 
     public async ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default)
@@ -55,6 +62,30 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         }
     }
 
+    public async ValueTask RefreshUserGameRolesProfilePictureAsync(UserGameRole userGameRole, CancellationToken token = default)
+    {
+        EnkaResponse? enkaResponse;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            EnkaClient enkaClient = scope.ServiceProvider
+                .GetRequiredService<EnkaClient>();
+
+            enkaResponse = await enkaClient
+                .GetForwardPlayerInfoAsync(userGameRole, token)
+                .ConfigureAwait(false);
+        }
+
+        if (enkaResponse is { PlayerInfo: { } playerInfo })
+        {
+            UserGameRoleProfilePicture profilePicture = UserGameRoleProfilePicture.From(userGameRole, playerInfo.ProfilePicture);
+
+            await userGameRoleDbService.DeleteUserGameRoleProfilePictureByUidAsync(userGameRole.GameUid, token).ConfigureAwait(false);
+            await userGameRoleDbService.UpdateUserGameRoleProfilePictureAsync(profilePicture, token).ConfigureAwait(false);
+
+            await SetUserGameRolesProfilePictureCoreAsync(userGameRole, profilePicture, token).ConfigureAwait(false);
+        }
+    }
+
     private async ValueTask<bool> InitializeUserAsync(ViewModel.User.User user, CancellationToken token = default)
     {
         if (user.IsInitialized)
@@ -88,6 +119,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         {
             return false;
         }
+
+        TrySetUserUserGameRolesProfilePictureAsync(user, token).SafeForget();
 
         await userFingerprintService.TryInitializeAsync(user, token).ConfigureAwait(false);
 
@@ -215,5 +248,70 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         {
             return false;
         }
+    }
+
+    private async ValueTask TrySetUserUserGameRolesProfilePictureAsync(ViewModel.User.User user, CancellationToken token = default)
+    {
+        foreach (UserGameRole userGameRole in user.UserGameRoles)
+        {
+            if (await userGameRoleDbService.ContainsUidAsync(userGameRole.GameUid, token).ConfigureAwait(false))
+            {
+                UserGameRoleProfilePicture savedProfilePicture = await userGameRoleDbService
+                    .GetUserGameRoleProfilePictureByUidAsync(userGameRole.GameUid, token)
+                    .ConfigureAwait(false);
+
+                if (await SetUserGameRolesProfilePictureCoreAsync(userGameRole, savedProfilePicture, token).ConfigureAwait(false))
+                {
+                    continue;
+                }
+            }
+
+            await RefreshUserGameRolesProfilePictureAsync(userGameRole, token).ConfigureAwait(false);
+        }
+    }
+
+    private async ValueTask<bool> SetUserGameRolesProfilePictureCoreAsync(UserGameRole userGameRole, UserGameRoleProfilePicture profilePicture, CancellationToken token = default)
+    {
+        if (profilePicture.LastUpdateTime.AddDays(15) < DateTimeOffset.Now)
+        {
+            return false;
+        }
+
+        UserMetadataContext context;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            IMetadataService metadataService = scope.ServiceProvider
+                .GetRequiredService<IMetadataService>();
+
+            if (!await metadataService.InitializeAsync().ConfigureAwait(false))
+            {
+                return false;
+            }
+
+            context = await scope.ServiceProvider
+                .GetRequiredService<IMetadataService>()
+                .GetContextAsync<UserMetadataContext>(token)
+                .ConfigureAwait(false);
+        }
+
+        if (context.IdProfilePictureMap.TryGetValue(profilePicture.ProfilePictureId, out MetadataProfilePicture? metadataProfilePicture))
+        {
+            userGameRole.ProfilePictureIcon = metadataProfilePicture.Icon;
+            return true;
+        }
+
+        if (context.CostumeIdProfilePictureMap.TryGetValue(profilePicture.CostumeId, out metadataProfilePicture))
+        {
+            userGameRole.ProfilePictureIcon = metadataProfilePicture.Icon;
+            return true;
+        }
+
+        if (context.AvatarIdProfilePictureMap.TryGetValue(profilePicture.AvatarId, out metadataProfilePicture))
+        {
+            userGameRole.ProfilePictureIcon = metadataProfilePicture.Icon;
+            return true;
+        }
+
+        return false;
     }
 }

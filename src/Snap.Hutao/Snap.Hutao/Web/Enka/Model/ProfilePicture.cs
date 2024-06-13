@@ -12,5 +12,11 @@ namespace Snap.Hutao.Web.Enka.Model;
 internal sealed class ProfilePicture
 {
     [JsonPropertyName("id")]
-    public ProfilePictureId Id { get; set; }
+    public ProfilePictureId ProfilePictureId { get; set; }
+
+    [JsonPropertyName("avatarId")]
+    public AvatarId AvatarId { get; set; }
+
+    [JsonPropertyName("costumeId")]
+    public CostumeId CostumeId { get; set; }
 }

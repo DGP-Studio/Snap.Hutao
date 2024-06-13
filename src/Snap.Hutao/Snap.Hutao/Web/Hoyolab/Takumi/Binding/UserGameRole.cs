@@ -57,6 +57,8 @@ internal sealed class UserGameRole
     [JsonPropertyName("is_official")]
     public bool IsOfficial { get; set; } = default!;
 
+    public string ProfilePictureIcon { get; set; } = default!;
+
     /// <summary>
     /// 玩家服务器与等级简述
     /// </summary>

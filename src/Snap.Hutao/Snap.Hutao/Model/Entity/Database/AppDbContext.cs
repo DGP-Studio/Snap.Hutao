@@ -65,6 +65,8 @@ internal sealed class AppDbContext : DbContext
 
     public DbSet<SpiralAbyssEntry> SpiralAbysses { get; set; } = default!;
 
+    public DbSet<UserGameRoleProfilePicture> UserGameRoleProfilePictures { get; set; } = default!;
+
     public static AppDbContext Create(IServiceProvider serviceProvider, string sqlConnectionString)
     {
         DbContextOptions<AppDbContext> options = new DbContextOptionsBuilder<AppDbContext>()

@@ -66,6 +66,21 @@ internal static class MetadataServiceContextExtension
                 dictionaryIdMaterialSource.IdMaterialMap = await metadataService.GetIdToMaterialMapAsync(token).ConfigureAwait(false);
             }
 
+            if (context is IMetadataDictionaryIdProfilePictureSource dictionaryIdProfilePictureSource)
+            {
+                dictionaryIdProfilePictureSource.IdProfilePictureMap = await metadataService.GetIdToProfilePictureMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryAvatarIdProfilePictureSource dictionaryAvatarIdProfilePictureSource)
+            {
+                dictionaryAvatarIdProfilePictureSource.AvatarIdProfilePictureMap = await metadataService.GetAvatarIdToProfilePictureMapAsync(token).ConfigureAwait(false);
+            }
+
+            if (context is IMetadataDictionaryCostumeIdProfilePictureSource dictionaryCostumeIdProfilePictureSource)
+            {
+                dictionaryCostumeIdProfilePictureSource.CostumeIdProfilePictureMap = await metadataService.GetCostumeIdToProfilePictureMapAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataDictionaryIdReliquarySource dictionaryIdReliquarySource)
             {
                 dictionaryIdReliquarySource.IdReliquaryMap = await metadataService.GetIdToReliquaryMapAsync(token).ConfigureAwait(false);

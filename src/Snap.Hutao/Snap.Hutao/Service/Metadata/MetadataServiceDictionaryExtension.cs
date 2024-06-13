@@ -71,6 +71,21 @@ internal static class MetadataServiceDictionaryExtension
         return metadataService.FromCacheAsDictionaryAsync<MaterialId, Material>(FileNameMaterial, a => a.Id, token);
     }
 
+    public static ValueTask<Dictionary<ProfilePictureId, ProfilePicture>> GetIdToProfilePictureMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync<ProfilePictureId, ProfilePicture>(FileNameProfilePicture, p => p.Id, token);
+    }
+
+    public static ValueTask<Dictionary<AvatarId, ProfilePicture>> GetAvatarIdToProfilePictureMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync<AvatarId, ProfilePicture>(FileNameProfilePicture, p => p.AvatarId, token);
+    }
+
+    public static ValueTask<Dictionary<CostumeId, ProfilePicture>> GetCostumeIdToProfilePictureMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync<CostumeId, ProfilePicture>(FileNameProfilePicture, p => p.CostumeId, token);
+    }
+
     public static ValueTask<Dictionary<ReliquaryId, Reliquary>> GetIdToReliquaryMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         return metadataService.FromCacheAsDictionaryAsync(FileNameReliquary, (List<Reliquary> list) => list.SelectMany(r => r.Ids, (r, i) => (Index: i, Reliquary: r)), token);

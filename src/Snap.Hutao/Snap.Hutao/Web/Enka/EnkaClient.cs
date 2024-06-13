@@ -21,10 +21,22 @@ namespace Snap.Hutao.Web.Enka;
 internal sealed partial class EnkaClient
 {
     private const string EnkaAPI = "https://enka.network/api/uid/{0}";
+    private const string EnkaInfoAPI = "https://enka.network/api/uid/{0}?info";
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
+
+    public ValueTask<EnkaResponse?> GetForwardPlayerInfoAsync(in PlayerUid playerUid, CancellationToken token = default)
+    {
+        // TODO
+        return TryGetEnkaResponseCoreAsync($"https://enka-api.hut.ao/{playerUid}?info", token);
+    }
+
+    public ValueTask<EnkaResponse?> GetPlayerInfoAsync(in PlayerUid playerUid, CancellationToken token = default)
+    {
+        return TryGetEnkaResponseCoreAsync(string.Format(CultureInfo.CurrentCulture, EnkaInfoAPI, playerUid), token);
+    }
 
     public ValueTask<EnkaResponse?> GetForwardDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
