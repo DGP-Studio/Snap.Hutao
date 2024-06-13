@@ -1,7 +1,7 @@
 name: Feature Request [English Form]
 description: Tell us about your thought
 title: "[Feat]: Place your title here"
-labels: ["功能", "needs-triage", "priority:none"]
+labels: ["feature request", "needs-triage", "priority:none"]
 assignees:
   - Lightczx
 body:
@@ -22,6 +22,6 @@ body:
     id: req
     attributes:
       label: Detail of the Feature
-      description: Descripbe the feaure in detail. The more detailed and convincing the desciprtion the more likyly feature will be accepted. 
+      description: Descripbe the feaure in detail. The more detailed and convincing the desciprtion the more likyly feature will be accepted.
     validations:
       required: true
