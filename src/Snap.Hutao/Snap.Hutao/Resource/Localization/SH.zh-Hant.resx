@@ -2595,7 +2595,7 @@
     <value>選擇想要獲取公告的遊戲伺服器</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>游戏公告所属服务器</value>
+    <value>遊戲公告所屬伺服器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>管理主頁儀表板中的卡片</value>
