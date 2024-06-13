@@ -12,18 +12,18 @@ internal sealed partial class InfoBarDelayCloseBehavior : BehaviorBase<InfoBar>
 {
     protected override void OnAssociatedObjectLoaded()
     {
-        DelayCoreAsync().SafeForget();
+        if (MilliSecondsDelay > 0)
+        {
+            DelayCoreAsync().SafeForget();
+        }
     }
 
     private async ValueTask DelayCoreAsync()
     {
-        if (MilliSecondsDelay > 0)
+        await Delay.FromMilliSeconds(MilliSecondsDelay).ConfigureAwait(true);
+        if (AssociatedObject is not null)
         {
-            await Delay.FromMilliSeconds(MilliSecondsDelay).ConfigureAwait(true);
-            if (AssociatedObject is not null)
-            {
-                AssociatedObject.IsOpen = false;
-            }
+            AssociatedObject.IsOpen = false;
         }
     }
 }

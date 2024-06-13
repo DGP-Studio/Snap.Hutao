@@ -8,6 +8,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shcs="using:Snap.Hutao.Control.Selector"
     xmlns:shsn="using:Snap.Hutao.Service.Notification"
     mc:Ignorable="d">
 
@@ -63,25 +64,38 @@
             <DataTemplate x:Key="InfoBarTemplate" x:DataType="shsn:InfoBarOptions">
                 <InfoBar
                     Title="{Binding Title}"
+                    Closed="OnInfoBarClosed"
                     Content="{Binding Content}"
                     IsOpen="True"
                     Message="{Binding Message}"
-                    Closed="OnInfoBarClosed"
                     Severity="{Binding Severity}">
-                    <InfoBar.Transitions>
-                        <AddDeleteThemeTransition/>
-                    </InfoBar.Transitions>
+                    <mxi:Interaction.Behaviors>
+                        <shcb:InfoBarDelayCloseBehavior MilliSecondsDelay="{Binding MilliSecondsDelay}"/>
+                    </mxi:Interaction.Behaviors>
+                </InfoBar>
+            </DataTemplate>
+
+            <DataTemplate x:Key="InfoBarWithActionButtonTemplate" x:DataType="shsn:InfoBarOptions">
+                <InfoBar
+                    Title="{Binding Title}"
+                    Closed="OnInfoBarClosed"
+                    Content="{Binding Content}"
+                    IsOpen="True"
+                    Message="{Binding Message}"
+                    Severity="{Binding Severity}">
                     <InfoBar.ActionButton>
-                        <Button
-                            Command="{Binding ActionButtonCommand}"
-                            Content="{Binding ActionButtonContent}"
-                            Visibility="{Binding ActionButtonContent, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                        <Button Command="{Binding ActionButtonCommand}" Content="{Binding ActionButtonContent}"/>
                     </InfoBar.ActionButton>
                     <mxi:Interaction.Behaviors>
                         <shcb:InfoBarDelayCloseBehavior MilliSecondsDelay="{Binding MilliSecondsDelay}"/>
                     </mxi:Interaction.Behaviors>
                 </InfoBar>
             </DataTemplate>
+
+            <shcs:InfoBarTemplateSelector
+                x:Key="InfoBarTemplateSelector"
+                ActionButtonDisabled="{StaticResource InfoBarTemplate}"
+                ActionButtonEnabled="{StaticResource InfoBarWithActionButtonTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -91,9 +105,13 @@
             Margin="32,48,32,32"
             VerticalAlignment="Bottom"
             ItemContainerTransitions="{StaticResource RepositionThemeTransitions}"
-            ItemTemplate="{StaticResource InfoBarTemplate}"
+            ItemTemplateSelector="{StaticResource InfoBarTemplateSelector}"
             ItemsSource="{x:Bind InfoBars}"
-            Visibility="{x:Bind VisibilityButton.IsChecked, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
+            Visibility="{x:Bind VisibilityButton.IsChecked, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+            <ItemsControl.Transitions>
+                <AddDeleteThemeTransition/>
+            </ItemsControl.Transitions>
+        </ItemsControl>
 
         <Border
             Margin="16"
