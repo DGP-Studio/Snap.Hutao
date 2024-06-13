@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Snap.Hutao.Service.Notification;
 
@@ -16,7 +15,9 @@ internal sealed class InfoBarOptions
 
     public object? Content { get; set; }
 
-    public ButtonBase? ActionButton { get; set; }
+    public string? ActionButtonContent { get; set; }
+
+    public ICommand? ActionButtonCommand { get; set; }
 
     public int MilliSecondsDelay { get; set; }
 }
