@@ -31,6 +31,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
     public void Initialize(IBackgroundImagePresenterAccessor accessor)
     {
         backgroundImagePresenter = accessor.BackgroundImagePresenter;
+        UpdateBackgroundAsync(true).SafeForget();
     }
 
     public void Receive(BackgroundImageTypeChangedMessage message)
@@ -39,14 +40,14 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
     }
 
     [Command("UpdateBackgroundCommand")]
-    private async Task UpdateBackgroundAsync()
+    private async Task UpdateBackgroundAsync(bool forceRefresh = false)
     {
         if (backgroundImagePresenter is null)
         {
             return;
         }
 
-        (bool shouldRefresh, BackgroundImage? backgroundImage) = await backgroundImageService.GetNextBackgroundImageAsync(previousBackgroundImage).ConfigureAwait(false);
+        (bool shouldRefresh, BackgroundImage? backgroundImage) = await backgroundImageService.GetNextBackgroundImageAsync(forceRefresh ? default : previousBackgroundImage).ConfigureAwait(false);
 
         if (shouldRefresh)
         {

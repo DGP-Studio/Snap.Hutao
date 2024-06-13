@@ -40,4 +40,8 @@ internal interface IContentDialogFactory
 
     ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog;
+
+    void HideAllDialogs();
+
+    ValueTask HideAllDialogsAsync();
 }

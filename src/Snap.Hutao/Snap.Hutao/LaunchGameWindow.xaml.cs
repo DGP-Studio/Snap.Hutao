@@ -13,7 +13,7 @@ using Windows.Graphics;
 namespace Snap.Hutao;
 
 [HighQuality]
-[Injection(InjectAs.Singleton)]
+[Injection(InjectAs.Transient)]
 internal sealed partial class LaunchGameWindow : Window,
     IDisposable,
     IXamlWindowExtendContentIntoTitleBar,
