@@ -78,12 +78,12 @@ internal static class MetadataServiceDictionaryExtension
 
     public static ValueTask<Dictionary<AvatarId, ProfilePicture>> GetAvatarIdToProfilePictureMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<AvatarId, ProfilePicture>(FileNameProfilePicture, p => p.AvatarId, token);
+        return metadataService.FromCacheAsDictionaryAsync(FileNameProfilePicture, (List<ProfilePicture> list) => list.Where(p => p.UnlockType is ProfilePictureUnlockType.Avatar).Select(p => ((AvatarId)p.UnlockParameter, p)), token);
     }
 
     public static ValueTask<Dictionary<CostumeId, ProfilePicture>> GetCostumeIdToProfilePictureMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
-        return metadataService.FromCacheAsDictionaryAsync<CostumeId, ProfilePicture>(FileNameProfilePicture, p => p.CostumeId, token);
+        return metadataService.FromCacheAsDictionaryAsync(FileNameProfilePicture, (List<ProfilePicture> list) => list.Where(p => p.UnlockType is ProfilePictureUnlockType.Costume).Select(p => ((CostumeId)p.UnlockParameter, p)), token);
     }
 
     public static ValueTask<Dictionary<ReliquaryId, Reliquary>> GetIdToReliquaryMapAsync(this IMetadataService metadataService, CancellationToken token = default)
