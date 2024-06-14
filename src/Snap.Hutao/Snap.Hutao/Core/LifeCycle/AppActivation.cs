@@ -76,6 +76,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                     return;
                 }
 
+                await taskContext.SwitchToMainThreadAsync();
                 serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
 
                 if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)

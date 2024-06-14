@@ -21,8 +21,6 @@ namespace Snap.Hutao.Control.Image;
 [DependencyProperty("CachedName", typeof(string), "Unknown")]
 internal sealed partial class CachedImage : Implementation.ImageEx
 {
-    private string? file;
-
     /// <summary>
     /// 构造一个新的缓存图像
     /// </summary>
@@ -43,7 +41,6 @@ internal sealed partial class CachedImage : Implementation.ImageEx
             HutaoException.ThrowIf(string.IsNullOrEmpty(imageUri.Host), SH.ControlImageCachedImageInvalidResourceUri);
             string file = await imageCache.GetFileFromCacheAsync(imageUri).ConfigureAwait(true); // BitmapImage need to be created by main thread.
             CachedName = Path.GetFileName(file);
-            this.file = file;
             token.ThrowIfCancellationRequested(); // check token state to determine whether the operation should be canceled.
             return file.ToUri();
         }
