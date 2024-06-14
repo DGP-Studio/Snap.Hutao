@@ -2004,7 +2004,7 @@
     <value>Refresh</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
-    <value>未启用通知区域图标，关闭窗口后自动刷新将不会执行</value>
+    <value>Notification area incon is disabled, auto-refresh will be be executed after closing the window</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Do not disturb during Genshin gaming</value>
@@ -2421,7 +2421,7 @@
     <value>You need to convert to a server that matches the launcher before updating the version</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率</value>
+    <value>Please turn off [V-Sync] in your game graphic settings, need high performance GPU to support higher refresh rate gaming</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>Unlock Frame Rate Limit</value>
@@ -2439,7 +2439,7 @@
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>请输入你的 HoYoLab UID</value>
+    <value>Please input your HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
     <value>You are using an embedded webview to login to your MiHoYo passport account, the client will fetch the Cookie data when you click on I'm Signed in button. All network communication initialed in this webview occurs only between your computer and MiHoYo official servers.</value>
@@ -2517,7 +2517,7 @@
     <value>Unless the developer explicitly asks you to do this, you should not execute the operations below!</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>用户数据 / 元数据 在此处存放</value>
+    <value>User data/metadata are saved here</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
     <value>Data Folder</value>
@@ -2595,7 +2595,7 @@
     <value>Select the game server for which you want to get announcements</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>游戏公告所属服务器</value>
+    <value>Announcement Game Server Source</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Manage cards on home dashboard</value>
@@ -2652,7 +2652,7 @@
     <value>You are unlimited in any testing feature</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃开发 / 运维</value>
+    <value>Snap Hutao Developer / Maintainer</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>We sometimes give away Snap Hutao Cloud redemption codes to some users</value>
@@ -2685,10 +2685,10 @@
     <value>Shortcut Keys</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
-    <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
+    <value>Show icon in notification area, to allow background task, restart the program to activate</value>
   </data>
   <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
-    <value>通知区域图标</value>
+    <value>Notification Area Icon</value>
   </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>Official Website</value>
@@ -2709,7 +2709,7 @@
     <value>Reset Image Resource</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在「启动游戏-进程」选项卡加入「解锁帧率限制」选项</value>
+    <value>Add [Unlock Frame Rate Limit] in [Game Launcher - Process Linkage]</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>Game Launcher - Unlock Frame Rate Limit</value>
@@ -3003,7 +3003,7 @@
     <value>Document</value>
   </data>
   <data name="ViewUserLoginMihoyoUserDisabledTooltip" xml:space="preserve">
-    <value>由于米游社安全策略的相关更改，网页登录暂不可用</value>
+    <value>Due to MiYouShe's security policy changes, login from web is unavailable</value>
   </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
     <value>Haven't logged in</value>
@@ -3267,7 +3267,7 @@
     <value>[{1}] network request exception in [{0}] please try again later</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
-    <value>登录失败，请前往 HoYoLAB 初始化账号，原始消息：{0}</value>
+    <value>Login failed, please visit HoYoLAB to initial your account, original message: {0}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>Monitor ID</value>
