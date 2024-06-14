@@ -199,7 +199,7 @@
     <value>Iniciar</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已进入后台运行</value>
+    <value>Snap Hutao está sendo executado em segundo plano</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
     <value>窗口</value>
