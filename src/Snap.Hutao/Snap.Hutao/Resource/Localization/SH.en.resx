@@ -193,16 +193,16 @@
     <value>Register [{0}] hotkey [{1}] failed</value>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
-    <value>退出</value>
+    <value>Quit</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
     <value>Launch</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已进入后台运行</value>
+    <value>Snap Hutao is running in the background</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>窗口</value>
+    <value>Window</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>Dark</value>
@@ -552,10 +552,10 @@
     <value>Refinement {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必须登录 米游社 / HoYoLAB 并选择一个用户与角色</value>
+    <value>Must sign in to MiYouShe/HoYoLAB and select a user and role</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>删除了 UID：{0} 的 {1} 条祈愿记录</value>
+    <value>Deleted {1} wish records from UID: {0}</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>Reached max allowed number of wish history archives on Snap Hutao Cloud</value>
@@ -570,7 +570,7 @@
     <value>Found abnormal data, unable to upload to Snap Hutao Cloud. Please do not upload across accounts or you can attempt to delete cloud data and try again.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>上传了 UID：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
+    <value>Uploaded {1} wish records to UID: {0}, {2} records saved</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Please login or register Snap Hutao account first</value>
@@ -621,7 +621,7 @@
     <value>Verification request is too frequent. Please try again in 1 minute.</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>上传深渊记录失败，当前 UID 已被胡桃数据库封禁</value>
+    <value>Upload Sprial Abyss record failed, current UID is banned by Hutao Database</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
     <value>Failed to upload Sprial Abyss record, server is calculating statistical data</value>
@@ -642,7 +642,7 @@
     <value>Failed to upload Spiral Abyss record. It is not data for the current schedule.</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>上传深渊记录失败，当前 UID 的记录仍在处理中，请勿重复操作</value>
+    <value>Upload Sprial Abyss record failed. The record for the current UID is still being processed. Please do not repeat the operation.</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>Uploaded Spiral Abyss record successfully. Received a privilege extension for Snap Hutao Cloud service.</value>
@@ -1545,10 +1545,10 @@
     <value>Failed to add Enhancement Progression plan</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>Operation completed: added/updated {0}, skipped {1}</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>Operation not fully completed, added/updated {0}, skipped {1}</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Successfully added to current plan</value>
@@ -1569,13 +1569,13 @@
     <value>Can't add plan with invalid name</value>
   </data>
   <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
-    <value>正在同步背包物品</value>
+    <value>Syncing inventory items</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
+    <value>This action is irreversible, items and materials in this plan will lose</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
-    <value>确认要删除当前计划吗？</value>
+    <value>Are you sure to delete current plan?</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>Realtime Note Webhook URL successfully configured</value>
@@ -1929,7 +1929,7 @@
     <value>Go</value>
   </data>
   <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
-    <value>同步背包物品</value>
+    <value>Sync Inventory Items</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Delete list</value>
@@ -1971,7 +1971,7 @@
     <value>Notification Settings</value>
   </data>
   <data name="ViewPageDailyNoteNotificationUnavailableHint" xml:space="preserve">
-    <value>胡桃的通知权限已被关闭</value>
+    <value>Snap Hutao notification permission has been disabled</value>
   </data>
   <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
     <value>Refresh</value>
@@ -2076,7 +2076,7 @@
     <value>购买 / 续费云服务</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>删除此 UID 的云端存档</value>
+    <value>Delete cloud archive of this UID</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Lifetime developer license</value>
@@ -2085,7 +2085,7 @@
     <value>Snap Hutao Cloud Service Expired</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>下载此 UID 的云端存档</value>
+    <value>Download cloud archive of this UID</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>Free 3-day license after uploading current schedule Abyss record</value>
@@ -2412,7 +2412,7 @@
     <value>Rename</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>切换游戏服务器（国服 / 渠道服 / 国际服）</value>
+    <value>Switch game server (CN/Bilibili/Global)</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>Server</value>
