@@ -58,106 +58,91 @@
                 ListValue="{x:Bind ListImageExportPanel}"/>
 
             <DataTemplate x:Key="AvatarGridViewSkillTemplate">
-                <Border
-                    Width="40"
-                    Margin="0,0,6,0"
-                    Style="{StaticResource BorderCardStyle}">
-                    <StackPanel>
-                        <shci:MonoChrome
-                            Width="32"
-                            Height="32"
-                            Margin="4,4,4,0"
-                            HorizontalAlignment="Center"
-                            EnableLazyLoading="False"
-                            Source="{Binding Icon}"/>
-                        <TextBlock
-                            Margin="0,0,0,4"
-                            HorizontalAlignment="Center"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding Level}"/>
-                    </StackPanel>
-                </Border>
-
+                <shvcont:BottomTextControl
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0"
+                    Text="{Binding Level}">
+                    <shci:MonoChrome
+                        Width="40"
+                        Height="40"
+                        Margin="12"
+                        HorizontalAlignment="Center"
+                        EnableLazyLoading="False"
+                        Source="{Binding Icon}"/>
+                </shvcont:BottomTextControl>
             </DataTemplate>
 
             <DataTemplate x:Key="AvatarGridViewTemplate">
-                <Grid ColumnSpacing="6" Style="{ThemeResource GridCardStyle}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+                <Grid Style="{ThemeResource GridCardStyle}">
+
                     <Border
-                        Grid.RowSpan="2"
-                        Grid.ColumnSpan="2"
+                        Grid.ColumnSpan="3"
+                        Margin="-6"
                         CornerRadius="{ThemeResource ControlCornerRadius}">
                         <shci:CachedImage
-                            MaxWidth="145"
-                            HorizontalAlignment="Right"
+                            MaxWidth="368"
+                            MaxHeight="101"
                             Opacity="0.5"
                             Source="{Binding NameCard}"
                             Stretch="UniformToFill"/>
                     </Border>
 
-                    <shvcont:BottomTextControl
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Margin="6,6,0,6"
-                        Text="{Binding Level}">
-                        <Grid>
-                            <shvcont:ItemIcon
-                                Width="61.5"
-                                Height="61.5"
-                                Icon="{Binding Icon}"
-                                Quality="{Binding Quality}"/>
-                            <Border
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Background="#80000000"
-                                CornerRadius="0,6,0,6">
-                                <TextBlock
-                                    Margin="6,0,6,2"
-                                    Foreground="#FFFFFFFF"
-                                    Text="{Binding ActivatedConstellationCount}"/>
-                            </Border>
-                        </Grid>
-                    </shvcont:BottomTextControl>
-                    <shvcont:BottomTextControl
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Margin="0,6,6,6"
-                        Text="{Binding Weapon.Level}">
-                        <Grid>
-                            <shvcont:ItemIcon
-                                Width="61.5"
-                                Height="61.5"
-                                Icon="{Binding Weapon.Icon}"
-                                Quality="{Binding Weapon.Quality}"/>
-                            <Border
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Background="#80000000"
-                                CornerRadius="0,6,0,6">
-                                <TextBlock
-                                    Margin="6,0,6,2"
-                                    Foreground="#FFFFFFFF"
-                                    Text="{Binding Weapon.AffixLevelNumber}"/>
-                            </Border>
-                        </Grid>
-                    </shvcont:BottomTextControl>
+                    <Grid
+                        Padding="6"
+                        HorizontalAlignment="Left"
+                        ColumnSpacing="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <shvcont:BottomTextControl Grid.Column="0" Text="{Binding Level}">
+                            <Grid cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                <shvcont:ItemIcon
+                                    Width="64"
+                                    Height="64"
+                                    Icon="{Binding Icon}"
+                                    Quality="{Binding Quality}"/>
+                                <Border
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Background="#80000000"
+                                    CornerRadius="0,0,0,6">
+                                    <TextBlock
+                                        Margin="6,0,6,2"
+                                        Foreground="#FFFFFFFF"
+                                        Text="{Binding ActivatedConstellationCount}"/>
+                                </Border>
+                            </Grid>
+                        </shvcont:BottomTextControl>
+                        <shvcont:BottomTextControl Grid.Column="1" Text="{Binding Weapon.Level}">
+                            <Grid cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadius}">
+                                <shvcont:ItemIcon
+                                    Width="64"
+                                    Height="64"
+                                    Icon="{Binding Weapon.Icon}"
+                                    Quality="{Binding Weapon.Quality}"/>
+                                <Border
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Background="#80000000"
+                                    CornerRadius="0,0,0,6">
+                                    <TextBlock
+                                        Margin="6,0,6,2"
+                                        Foreground="#FFFFFFFF"
+                                        Text="{Binding Weapon.AffixLevelNumber}"/>
+                                </Border>
+                            </Grid>
+                        </shvcont:BottomTextControl>
 
-                    <ItemsControl
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="6,0,0,6"
-                        VerticalAlignment="Bottom"
-                        ItemTemplate="{StaticResource AvatarGridViewSkillTemplate}"
-                        ItemsPanel="{StaticResource HorizontalStackPanelSpacing0Template}"
-                        ItemsSource="{Binding Skills}"/>
+                        <ItemsControl
+                            Grid.Column="2"
+                            VerticalAlignment="Bottom"
+                            ItemTemplate="{StaticResource AvatarGridViewSkillTemplate}"
+                            ItemsPanel="{StaticResource HorizontalStackPanelSpacing6Template}"
+                            ItemsSource="{Binding Skills}"/>
+                    </Grid>
                 </Grid>
             </DataTemplate>
 
