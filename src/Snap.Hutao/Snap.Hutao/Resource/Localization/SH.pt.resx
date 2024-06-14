@@ -145,7 +145,7 @@
     <value>Salvar</value>
   </data>
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
-    <value>Nenhum resultado.</value>
+    <value>Nenhum resultado</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>Uri inválido</value>
@@ -2073,7 +2073,7 @@
     <value>Acesse a Afdian para comprar serviços relacionados</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>购买 / 续费云服务</value>
+    <value>Comprar/renovar serviços em nuvem</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
     <value>删除此 UID 的云端存档</value>
