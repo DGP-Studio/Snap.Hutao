@@ -13,6 +13,7 @@ using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.Core.Windowing.NotifyIcon;
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
@@ -99,11 +100,10 @@ internal sealed class XamlWindowController
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
+        serviceProvider.GetRequiredService<AppOptions>().PropertyChanged -= OnOptionsPropertyChanged;
+
         if (XamlLifetime.ApplicationLaunchedWithNotifyIcon && !XamlLifetime.ApplicationExiting)
         {
-            args.Handled = true;
-            window.Hide();
-
             if (!IsNotifyIconVisible())
             {
                 new ToastContentBuilder()
@@ -119,16 +119,15 @@ internal sealed class XamlWindowController
 
             GC.Collect(GC.MaxGeneration);
         }
-        else
-        {
-            if (window is IXamlWindowRectPersisted rectPersisted)
-            {
-                SaveOrSkipWindowSize(rectPersisted);
-            }
 
-            subclass?.Dispose();
-            windowNonRudeHWND?.Dispose();
+        if (window is IXamlWindowRectPersisted rectPersisted)
+        {
+            SaveOrSkipWindowSize(rectPersisted);
         }
+
+        subclass?.Dispose();
+        windowNonRudeHWND?.Dispose();
+        window.UninitializeController();
     }
 
     private bool IsNotifyIconVisible()

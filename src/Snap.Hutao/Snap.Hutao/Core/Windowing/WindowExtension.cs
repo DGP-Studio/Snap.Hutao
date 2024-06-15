@@ -31,6 +31,12 @@ internal static class WindowExtension
         return WindowControllers.TryGetValue(window, out _);
     }
 
+    public static void UninitializeController<TWindow>(this TWindow window)
+        where TWindow : Window
+    {
+        WindowControllers.Remove(window);
+    }
+
     public static DesktopWindowXamlSource? GetDesktopWindowXamlSource(this Window window)
     {
         if (window.SystemBackdrop is SystemBackdropDesktopWindowXamlSourceAccess access)
