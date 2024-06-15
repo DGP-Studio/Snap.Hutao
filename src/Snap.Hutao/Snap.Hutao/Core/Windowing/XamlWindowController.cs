@@ -100,8 +100,7 @@ internal sealed class XamlWindowController
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        IContentDialogFactory contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
-        contentDialogFactory.HideAllDialogs();
+        serviceProvider.GetRequiredService<AppOptions>().PropertyChanged -= OnOptionsPropertyChanged;
 
         if (XamlLifetime.ApplicationLaunchedWithNotifyIcon && !XamlLifetime.ApplicationExiting)
         {
