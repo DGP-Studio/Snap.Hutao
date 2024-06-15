@@ -69,7 +69,7 @@ jobs:
           > [!IMPORTANT]
           > 请注意，我们已换用全新的 CI 证书，原有的 `Snap.Hutao.CI.cer` 已过期并停止使用。
           >
-          > 请安装 [DGP_Studio_CA.crt](https://github.com/DGP-Automation/Hutao-Auto-Release/releases/download/certificate-ca/DGP_Studio_CA.crt) 到 `受信任的根证书颁发机构` 以安装新的测试版安装包
+          > 请安装 [DGP_Studio_CA.crt](https://github.com/DGP-Automation/Hutao-Auto-Release/releases/download/certificate-ca/DGP_Studio_CA.crt) 到 **受信任的根证书颁发机构** 以安装测试版安装包
           "
 
           echo $summary >> $Env:GITHUB_STEP_SUMMARY
