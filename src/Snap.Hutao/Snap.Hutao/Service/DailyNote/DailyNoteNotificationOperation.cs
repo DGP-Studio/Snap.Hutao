@@ -88,7 +88,7 @@ internal sealed partial class DailyNoteNotificationOperation
                     </binding>
                 </visual>
                 <actions>
-                    <action activationType="background" content="{SH.ServiceDailyNoteNotifierActionLaunchGameButton}" arguments="{AppActivation.Action}={AppActivation.LaunchGame}&amp;{AppActivation.Uid}={entry.Uid}"/>
+                    <action activationType="background" content="{SH.ServiceDailyNoteNotifierActionLaunchGameButton}" arguments="{AppActivation.Action}={AppActivation.LaunchGame};{AppActivation.Uid}={entry.Uid}"/>
                     <action activationType="system" content="{SH.ServiceDailyNoteNotifierActionLaunchGameDismiss}" arguments="dismiss"/>
                 </actions>
             </toast>
