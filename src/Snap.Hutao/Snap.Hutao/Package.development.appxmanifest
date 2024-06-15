@@ -50,7 +50,7 @@
         </desktop:Extension>
         <com:Extension Category="windows.comServer">
           <com:ComServer>
-            <com:ExeServer Executable="Snap.Hutao.exe" Arguments="-ToastActivated" DisplayName="Snap Hutao Dev Toast Activator">
+            <com:ExeServer Executable="Snap.Hutao.exe" Arguments="----AppNotificationActivated:" DisplayName="Snap Hutao Toast Activator">
               <com:Class Id="F32B561D-752E-472B-A22C-85824D421E1A" DisplayName="Snap Hutao Dev Toast Activator"/>
             </com:ExeServer>
           </com:ComServer>

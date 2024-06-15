@@ -1,16 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Windows.AppNotifications;
+
 namespace Snap.Hutao.Core.LifeCycle;
 
 internal interface IAppActivation
 {
     void Activate(HutaoActivationArguments args);
 
-    void PostInitialization();
-}
+    void NotificationActivate(AppNotificationManager manager, AppNotificationActivatedEventArgs args);
 
-internal interface IAppActivationActionHandlersAccess
-{
-    ValueTask HandleLaunchGameActionAsync(string? uid = null);
+    void PostInitialization();
 }

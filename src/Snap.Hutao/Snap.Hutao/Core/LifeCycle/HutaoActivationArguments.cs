@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Primitives;
 using Microsoft.Windows.AppLifecycle;
 
 namespace Snap.Hutao.Core.LifeCycle;
@@ -9,8 +8,6 @@ namespace Snap.Hutao.Core.LifeCycle;
 internal sealed class HutaoActivationArguments
 {
     public bool IsRedirectTo { get; set; }
-
-    public bool IsToastActivated { get; set; }
 
     public HutaoActivationKind Kind { get; set; }
 
@@ -30,17 +27,13 @@ internal sealed class HutaoActivationArguments
             case ExtendedActivationKind.Launch:
                 {
                     result.Kind = HutaoActivationKind.Launch;
-                    if (args.TryGetLaunchActivatedArguments(out string? arguments))
+
+                    if (args.TryGetLaunchActivatedArguments(out string? arguments, out bool isToastActivated))
                     {
                         result.LaunchActivatedArguments = arguments;
-
-                        foreach (StringSegment segment in new StringTokenizer(arguments, [' ']))
+                        if (isToastActivated)
                         {
-                            if (segment.AsSpan().SequenceEqual("-ToastActivated"))
-                            {
-                                result.Kind = HutaoActivationKind.Toast;
-                                break;
-                            }
+                            result.Kind = HutaoActivationKind.Toast;
                         }
                     }
 

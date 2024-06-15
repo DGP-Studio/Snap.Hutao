@@ -22,6 +22,19 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     private readonly ConcurrentQueue<Func<Task>> dialogQueue = [];
     private bool isDialogShowing;
 
+    public bool IsDialogShowing
+    {
+        get
+        {
+            if (currentWindowReference.Window is not { } window)
+            {
+                return false;
+            }
+
+            return isDialogShowing;
+        }
+    }
+
     /// <inheritdoc/>
     public async ValueTask<ContentDialogResult> CreateForConfirmAsync(string title, string content)
     {
@@ -115,7 +128,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             }
             finally
             {
-                await ShowNextDialog().ConfigureAwait(false);
+                ShowNextDialog().SafeForget();
             }
         });
 

@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
@@ -68,6 +69,10 @@ public sealed partial class App : Application
     {
         try
         {
+            // Important: You must call AppNotificationManager::Default().Register
+            // before calling AppInstance.GetCurrent.GetActivatedEventArgs.
+            AppNotificationManager.Default.NotificationInvoked += activation.NotificationActivate;
+            AppNotificationManager.Default.Register();
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
             if (serviceProvider.GetRequiredService<PrivateNamedPipeClient>().TryRedirectActivationTo(activatedEventArgs))
@@ -80,7 +85,6 @@ public sealed partial class App : Application
             logger.LogColorizedInformation((ConsoleBanner, ConsoleColor.DarkYellow));
             LogDiagnosticInformation();
 
-            // Manually invoke
             HutaoActivationArguments hutaoArgs = HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs);
             if (hutaoArgs.Kind is HutaoActivationKind.Toast)
             {
@@ -88,6 +92,7 @@ public sealed partial class App : Application
                 return;
             }
 
+            // Manually invoke
             activation.Activate(hutaoArgs);
             activation.PostInitialization();
         }

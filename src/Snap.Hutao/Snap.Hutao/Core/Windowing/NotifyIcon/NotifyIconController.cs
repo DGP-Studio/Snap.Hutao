@@ -9,7 +9,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using Windows.Storage;
 using static Snap.Hutao.Win32.ConstValues;
 
 namespace Snap.Hutao.Core.Windowing.NotifyIcon;

@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
@@ -41,8 +41,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     private const string UrlActionImport = "/IMPORT";
     private const string UrlActionRefresh = "/REFRESH";
 
-    private readonly IServiceProvider serviceProvider;
     private readonly ICurrentXamlWindowReference currentWindowReference;
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
     private readonly SemaphoreSlim activateSemaphore = new(1);
@@ -51,6 +51,18 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     public void Activate(HutaoActivationArguments args)
     {
         HandleActivationAsync(args).SafeForget();
+    }
+
+    public void NotificationActivate(AppNotificationManager manager, AppNotificationActivatedEventArgs args)
+    {
+        if (args.Arguments.TryGetValue(Action, out string? action))
+        {
+            if (action == LaunchGame)
+            {
+                _ = args.Arguments.TryGetValue(Uid, out string? uid);
+                HandleLaunchGameActionAsync(uid).SafeForget();
+            }
+        }
     }
 
     /// <inheritdoc/>
@@ -63,7 +75,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             await taskContext.SwitchToBackgroundAsync();
 
             serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget();
-            ToastNotificationManagerCompat.OnActivated += NotificationActivate;
 
             using (await activateSemaphore.EnterAsync().ConfigureAwait(false))
             {
@@ -134,20 +145,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         }
     }
 
-    private void NotificationActivate(ToastNotificationActivatedEventArgsCompat args)
-    {
-        ToastArguments toastArgs = ToastArguments.Parse(args.Argument);
-
-        if (toastArgs.TryGetValue(Action, out string? action))
-        {
-            if (action == LaunchGame)
-            {
-                _ = toastArgs.TryGetValue(Uid, out string? uid);
-                HandleLaunchGameActionAsync(uid).SafeForget();
-            }
-        }
-    }
-
     private async ValueTask HandleActivationAsync(HutaoActivationArguments args)
     {
         await taskContext.SwitchToBackgroundAsync();
@@ -163,22 +160,34 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private async ValueTask HandleActivationCoreAsync(HutaoActivationArguments args)
     {
-        if (args.Kind is HutaoActivationKind.Protocol)
+        switch (args.Kind)
         {
-            ArgumentNullException.ThrowIfNull(args.ProtocolActivatedUri);
-            await HandleUrlActivationAsync(args.ProtocolActivatedUri, args.IsRedirectTo).ConfigureAwait(false);
-        }
-        else if (args.Kind is HutaoActivationKind.Launch)
-        {
-            ArgumentNullException.ThrowIfNull(args.LaunchActivatedArguments);
-            switch (args.LaunchActivatedArguments)
-            {
-                default:
+            case HutaoActivationKind.Protocol:
+                {
+                    ArgumentNullException.ThrowIfNull(args.ProtocolActivatedUri);
+                    await HandleUrlActivationAsync(args.ProtocolActivatedUri, args.IsRedirectTo).ConfigureAwait(false);
+                    break;
+                }
+
+            case HutaoActivationKind.Launch:
+                {
+                    ArgumentNullException.ThrowIfNull(args.LaunchActivatedArguments);
+                    switch (args.LaunchActivatedArguments)
                     {
-                        await HandleNormalLaunchActionAsync(args.IsRedirectTo).ConfigureAwait(false);
-                        break;
+                        default:
+                            {
+                                await HandleNormalLaunchActionAsync(args.IsRedirectTo).ConfigureAwait(false);
+                                break;
+                            }
                     }
-            }
+
+                    break;
+                }
+
+            case HutaoActivationKind.Toast:
+                {
+                    break;
+                }
         }
     }
 
