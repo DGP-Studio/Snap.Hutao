@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Extension;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Web.Enka;
@@ -294,21 +295,30 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
                 .ConfigureAwait(false);
         }
 
-        if (context.IdProfilePictureMap.TryGetValue(profilePicture.ProfilePictureId, out MetadataProfilePicture? metadataProfilePicture))
+        if (profilePicture.ProfilePictureId is not 0U)
         {
-            userGameRole.ProfilePictureIcon = metadataProfilePicture.Icon;
+            userGameRole.ProfilePictureIcon = context.ProfilePictures
+                .Single(p => p.Id == profilePicture.ProfilePictureId)
+                .Icon;
+
             return true;
         }
 
-        if (context.CostumeIdProfilePictureMap.TryGetValue(profilePicture.CostumeId, out metadataProfilePicture))
+        if (profilePicture.CostumeId is not 0U)
         {
-            userGameRole.ProfilePictureIcon = metadataProfilePicture.Icon;
+            userGameRole.ProfilePictureIcon = context.ProfilePictures
+                .Single(p => p.UnlockType is ProfilePictureUnlockType.Costume && p.UnlockParameter == profilePicture.CostumeId)
+                .Icon;
+
             return true;
         }
 
-        if (context.AvatarIdProfilePictureMap.TryGetValue(profilePicture.AvatarId, out metadataProfilePicture))
+        if (profilePicture.AvatarId is not 0U)
         {
-            userGameRole.ProfilePictureIcon = metadataProfilePicture.Icon;
+            userGameRole.ProfilePictureIcon = context.ProfilePictures
+                .Single(p => p.UnlockType is ProfilePictureUnlockType.Avatar && p.UnlockParameter == profilePicture.AvatarId)
+                .Icon;
+
             return true;
         }
 

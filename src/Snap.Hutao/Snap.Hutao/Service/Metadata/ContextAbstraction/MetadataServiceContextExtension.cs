@@ -38,6 +38,11 @@ internal static class MetadataServiceContextExtension
                 listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
             }
 
+            if (context is IMetadataListProfilePictureSource dictionaryIdProfilePictureSource)
+            {
+                dictionaryIdProfilePictureSource.ProfilePictures = await metadataService.GetProfilePictureListAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataListReliquaryMainAffixLevelSource listReliquaryMainAffixLevelSource)
             {
                 listReliquaryMainAffixLevelSource.ReliquaryMainAffixLevels = await metadataService.GetReliquaryMainAffixLevelListAsync(token).ConfigureAwait(false);
@@ -64,21 +69,6 @@ internal static class MetadataServiceContextExtension
             if (context is IMetadataDictionaryIdMaterialSource dictionaryIdMaterialSource)
             {
                 dictionaryIdMaterialSource.IdMaterialMap = await metadataService.GetIdToMaterialMapAsync(token).ConfigureAwait(false);
-            }
-
-            if (context is IMetadataDictionaryIdProfilePictureSource dictionaryIdProfilePictureSource)
-            {
-                dictionaryIdProfilePictureSource.IdProfilePictureMap = await metadataService.GetIdToProfilePictureMapAsync(token).ConfigureAwait(false);
-            }
-
-            if (context is IMetadataDictionaryAvatarIdProfilePictureSource dictionaryAvatarIdProfilePictureSource)
-            {
-                dictionaryAvatarIdProfilePictureSource.AvatarIdProfilePictureMap = await metadataService.GetAvatarIdToProfilePictureMapAsync(token).ConfigureAwait(false);
-            }
-
-            if (context is IMetadataDictionaryCostumeIdProfilePictureSource dictionaryCostumeIdProfilePictureSource)
-            {
-                dictionaryCostumeIdProfilePictureSource.CostumeIdProfilePictureMap = await metadataService.GetCostumeIdToProfilePictureMapAsync(token).ConfigureAwait(false);
             }
 
             if (context is IMetadataDictionaryIdReliquarySource dictionaryIdReliquarySource)

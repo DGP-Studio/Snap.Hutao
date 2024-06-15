@@ -297,5 +297,4 @@ internal static class HutaoEndpoints
     private const string ApiSnapGenshinStaticZip = $"{ApiSnapGenshin}/static/zip";
     private const string ApiSnapGenshinEnka = $"{ApiSnapGenshin}/enka";
     private const string HomaSnapGenshin = "https://homa.snapgenshin.com";
-    private const string EnkaHutao = "https://enka-api.hut.ao";
 }
