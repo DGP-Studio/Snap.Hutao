@@ -10,7 +10,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 [Table("uid_profile_pictures")]
-[SuppressMessage("", "SH002")]
 internal sealed class UidProfilePicture : IMappingFrom<UidProfilePicture, PlayerUid, ProfilePicture>
 {
     [Key]
@@ -27,12 +26,13 @@ internal sealed class UidProfilePicture : IMappingFrom<UidProfilePicture, Player
 
     public DateTimeOffset RefreshTime { get; set; }
 
+    [SuppressMessage("", "SH002")]
     public static UidProfilePicture From(PlayerUid uid, ProfilePicture profilePicture)
     {
         return new()
         {
             Uid = uid.ToString(),
-            ProfilePictureId = profilePicture.ProfilePictureId,
+            ProfilePictureId = profilePicture.Id,
             AvatarId = profilePicture.AvatarId,
             CostumeId = profilePicture.CostumeId,
             RefreshTime = DateTimeOffset.Now,

@@ -21,7 +21,7 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserService))]
 internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 {
-    private readonly IUserInitializationService userInitializationService;
+    private readonly IProfilePictureService profilePictureService;
     private readonly IUserCollectionService userCollectionService;
     private readonly IServiceProvider serviceProvider;
     private readonly IUserDbService userDbService;
@@ -125,6 +125,6 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
     public async ValueTask RefreshProfilePictureAsync(UserGameRole userGameRole)
     {
-        await userInitializationService.RefreshProfilePictureAsync(userGameRole).ConfigureAwait(false);
+        await profilePictureService.RefreshUserGameRoleAsync(userGameRole).ConfigureAwait(false);
     }
 }

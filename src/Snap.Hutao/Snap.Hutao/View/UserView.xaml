@@ -29,6 +29,7 @@
                     Height="32"
                     Margin="2,0"
                     HorizontalAlignment="Left"
+                    Background="#FFDAB79B"
                     ProfilePicture="{Binding ProfilePictureIcon, Converter={StaticResource AvatarIconCircleConverter}}"/>
                 <Button
                     Grid.Column="0"
@@ -40,9 +41,9 @@
                     Background="Transparent"
                     BorderBrush="Transparent"
                     BorderThickness="0"
-                    Command="{Binding DataContext.RefreshProfilePictureCommand, Source={StaticResource ViewModelBindingProxy}}"
+                    Command="{Binding RefreshProfilePictureCommand}"
                     CommandParameter="{Binding}"
-                    CornerRadius="8">
+                    CornerRadius="{ThemeResource CornerRadiusAll16}">
                     <Button.Resources>
                         <Storyboard x:Key="ShowRefreshIcon">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RefreshIcon" Storyboard.TargetProperty="Visibility">

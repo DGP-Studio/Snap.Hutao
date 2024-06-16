@@ -298,10 +298,4 @@ internal sealed partial class UserViewModel : ObservableObject
         FlyoutBase.ShowAttachedFlyout(appBarButton);
         infoBarService.Warning(message);
     }
-
-    [Command("RefreshProfilePictureCommand")]
-    private async Task RefreshProfilePictureAsync(UserGameRole userGameRole)
-    {
-        await userService.RefreshProfilePictureAsync(userGameRole).ConfigureAwait(false);
-    }
 }

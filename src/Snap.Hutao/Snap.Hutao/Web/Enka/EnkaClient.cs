@@ -29,25 +29,25 @@ internal sealed partial class EnkaClient
 
     public ValueTask<EnkaResponse?> GetForwardPlayerInfoAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(HutaoEndpoints.EnkaPlayerInfo(playerUid), token);
+        return TryGetEnkaResponseCoreAsync(HutaoEndpoints.EnkaPlayerInfo(playerUid), true, token);
     }
 
     public ValueTask<EnkaResponse?> GetPlayerInfoAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(string.Format(CultureInfo.CurrentCulture, EnkaInfoAPI, playerUid), token);
+        return TryGetEnkaResponseCoreAsync(string.Format(CultureInfo.CurrentCulture, EnkaInfoAPI, playerUid), false, token);
     }
 
     public ValueTask<EnkaResponse?> GetForwardDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(HutaoEndpoints.Enka(playerUid), token);
+        return TryGetEnkaResponseCoreAsync(HutaoEndpoints.Enka(playerUid), true, token);
     }
 
     public ValueTask<EnkaResponse?> GetDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(string.Format(CultureInfo.CurrentCulture, EnkaAPI, playerUid), token);
+        return TryGetEnkaResponseCoreAsync(string.Format(CultureInfo.CurrentCulture, EnkaAPI, playerUid), false, token);
     }
 
-    private async ValueTask<EnkaResponse?> TryGetEnkaResponseCoreAsync(string url, CancellationToken token = default)
+    private async ValueTask<EnkaResponse?> TryGetEnkaResponseCoreAsync(string url, bool isForward, CancellationToken token = default)
     {
         try
         {
@@ -63,6 +63,16 @@ internal sealed partial class EnkaClient
                 }
                 else
                 {
+                    // We want to fallback to original API and retry when requesting our forward api
+                    if (isForward)
+                    {
+                        string content = await response.Content.ReadAsStringAsync(token).ConfigureAwait(false);
+                        if (content.Contains("nginx", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return null;
+                        }
+                    }
+
                     // https://github.com/yoimiya-kokomi/miao-plugin/pull/441
                     // Additionally, HTTP codes for UID requests:
                     // 400 = wrong UID format
