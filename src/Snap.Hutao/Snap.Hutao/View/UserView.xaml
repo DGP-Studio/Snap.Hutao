@@ -40,7 +40,7 @@
                     Background="Transparent"
                     BorderBrush="Transparent"
                     BorderThickness="0"
-                    Command="{Binding DataContext.RefreshUserGameRoleProfilePictureCommand, Source={StaticResource ViewModelBindingProxy}}"
+                    Command="{Binding DataContext.RefreshProfilePictureCommand, Source={StaticResource ViewModelBindingProxy}}"
                     CommandParameter="{Binding}"
                     CornerRadius="8">
                     <Button.Resources>

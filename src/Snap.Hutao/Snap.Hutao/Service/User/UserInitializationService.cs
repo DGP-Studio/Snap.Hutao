@@ -14,7 +14,6 @@ using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
-using MetadataProfilePicture = Snap.Hutao.Model.Metadata.Avatar.ProfilePicture;
 
 namespace Snap.Hutao.Service.User;
 
@@ -63,7 +62,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         }
     }
 
-    public async ValueTask RefreshUidProfilePictureAsync(UserGameRole userGameRole, CancellationToken token = default)
+    public async ValueTask RefreshProfilePictureAsync(UserGameRole userGameRole, CancellationToken token = default)
     {
         EnkaResponse? enkaResponse;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -263,7 +262,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
                 }
             }
 
-            await RefreshUidProfilePictureAsync(userGameRole, token).ConfigureAwait(false);
+            await RefreshProfilePictureAsync(userGameRole, token).ConfigureAwait(false);
         }
     }
 

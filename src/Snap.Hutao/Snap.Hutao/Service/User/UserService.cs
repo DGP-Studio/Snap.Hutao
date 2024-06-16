@@ -123,8 +123,8 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         return true;
     }
 
-    public async ValueTask RefreshUidProfilePictureAsync(UserGameRole userGameRole)
+    public async ValueTask RefreshProfilePictureAsync(UserGameRole userGameRole)
     {
-        await userInitializationService.RefreshUidProfilePictureAsync(userGameRole).ConfigureAwait(false);
+        await userInitializationService.RefreshProfilePictureAsync(userGameRole).ConfigureAwait(false);
     }
 }

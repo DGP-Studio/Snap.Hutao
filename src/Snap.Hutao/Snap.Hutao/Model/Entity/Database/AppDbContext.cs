@@ -25,7 +25,7 @@ internal sealed class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
-        //logger = this.GetService<ILogger<AppDbContext>>();
+        logger = this.GetService<ILogger<AppDbContext>>();
         logger?.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("created", ConsoleColor.Green));
     }
 

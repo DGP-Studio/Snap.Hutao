@@ -299,9 +299,9 @@ internal sealed partial class UserViewModel : ObservableObject
         infoBarService.Warning(message);
     }
 
-    [Command("RefreshUserGameRoleProfilePictureCommand")]
-    private void RefreshUserGameRoleProfilePicture(UserGameRole userGameRole)
+    [Command("RefreshProfilePictureCommand")]
+    private void RefreshProfilePicture(UserGameRole userGameRole)
     {
-        userService.RefreshUidProfilePictureAsync(userGameRole).SafeForget();
+        userService.RefreshProfilePictureAsync(userGameRole).SafeForget();
     }
 }
