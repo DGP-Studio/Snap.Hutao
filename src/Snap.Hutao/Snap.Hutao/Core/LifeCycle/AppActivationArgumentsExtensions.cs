@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Primitives;
 using Microsoft.Windows.AppLifecycle;
+using Microsoft.Windows.AppNotifications;
 using Windows.ApplicationModel.Activation;
 
 namespace Snap.Hutao.Core.LifeCycle;
@@ -25,10 +25,9 @@ internal static class AppActivationArgumentsExtensions
         return true;
     }
 
-    public static bool TryGetLaunchActivatedArguments(this AppActivationArguments activatedEventArgs, [NotNullWhen(true)] out string? arguments, out bool isToastActivated)
+    public static bool TryGetLaunchActivatedArguments(this AppActivationArguments activatedEventArgs, [NotNullWhen(true)] out string? arguments)
     {
         arguments = null;
-        isToastActivated = false;
 
         if (activatedEventArgs.Data is not ILaunchActivatedEventArgs launchArgs)
         {
@@ -36,15 +35,23 @@ internal static class AppActivationArgumentsExtensions
         }
 
         arguments = launchArgs.Arguments.Trim();
-        foreach (StringSegment segment in new StringTokenizer(arguments, [' ']))
+        return true;
+    }
+
+    public static bool TryGetAppNotificationActivatedArguments(this AppActivationArguments activatedEventArgs, out string? argument, [NotNullWhen(true)] out IDictionary<string, string>? arguments, [NotNullWhen(true)] out IDictionary<string, string>? userInput)
+    {
+        argument = null;
+        arguments = null;
+        userInput = null;
+
+        if (activatedEventArgs.Data is not AppNotificationActivatedEventArgs appNotificationArgs)
         {
-            if (segment.AsSpan().SequenceEqual("----AppNotificationActivated:"))
-            {
-                isToastActivated = true;
-                break;
-            }
+            return false;
         }
 
+        argument = appNotificationArgs.Argument;
+        arguments = appNotificationArgs.Arguments;
+        userInput = appNotificationArgs.UserInput;
         return true;
     }
 }

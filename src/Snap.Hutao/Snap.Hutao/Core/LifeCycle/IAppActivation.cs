@@ -9,7 +9,7 @@ internal interface IAppActivation
 {
     void Activate(HutaoActivationArguments args);
 
-    void NotificationActivate(AppNotificationManager manager, AppNotificationActivatedEventArgs args);
+    void NotificationInvoked(AppNotificationManager manager, AppNotificationActivatedEventArgs args);
 
     void PostInitialization();
 }

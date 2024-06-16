@@ -15,6 +15,10 @@ internal sealed class HutaoActivationArguments
 
     public string? LaunchActivatedArguments { get; set; }
 
+    public IDictionary<string, string>? AppNotificationActivatedArguments { get; set; }
+
+    public IDictionary<string, string>? AppNotificationActivatedUserInput { get; set; }
+
     public static HutaoActivationArguments FromAppActivationArguments(AppActivationArguments args, bool isRedirected = false)
     {
         HutaoActivationArguments result = new()
@@ -27,14 +31,9 @@ internal sealed class HutaoActivationArguments
             case ExtendedActivationKind.Launch:
                 {
                     result.Kind = HutaoActivationKind.Launch;
-
-                    if (args.TryGetLaunchActivatedArguments(out string? arguments, out bool isToastActivated))
+                    if (args.TryGetLaunchActivatedArguments(out string? arguments))
                     {
                         result.LaunchActivatedArguments = arguments;
-                        if (isToastActivated)
-                        {
-                            result.Kind = HutaoActivationKind.Toast;
-                        }
                     }
 
                     break;
@@ -46,6 +45,19 @@ internal sealed class HutaoActivationArguments
                     if (args.TryGetProtocolActivatedUri(out Uri? uri))
                     {
                         result.ProtocolActivatedUri = uri;
+                    }
+
+                    break;
+                }
+
+            case ExtendedActivationKind.AppNotification:
+                {
+                    result.Kind = HutaoActivationKind.AppNotification;
+                    if (args.TryGetAppNotificationActivatedArguments(out string? argument, out IDictionary<string, string>? arguments, out IDictionary<string, string>? userInput))
+                    {
+                        result.LaunchActivatedArguments = argument;
+                        result.AppNotificationActivatedArguments = arguments;
+                        result.AppNotificationActivatedUserInput = userInput;
                     }
 
                     break;

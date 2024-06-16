@@ -71,7 +71,7 @@ public sealed partial class App : Application
         {
             // Important: You must call AppNotificationManager::Default().Register
             // before calling AppInstance.GetCurrent.GetActivatedEventArgs.
-            AppNotificationManager.Default.NotificationInvoked += activation.NotificationActivate;
+            AppNotificationManager.Default.NotificationInvoked += activation.NotificationInvoked;
             AppNotificationManager.Default.Register();
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
@@ -85,15 +85,8 @@ public sealed partial class App : Application
             logger.LogColorizedInformation((ConsoleBanner, ConsoleColor.DarkYellow));
             LogDiagnosticInformation();
 
-            HutaoActivationArguments hutaoArgs = HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs);
-            if (hutaoArgs.Kind is HutaoActivationKind.Toast)
-            {
-                Exit();
-                return;
-            }
-
             // Manually invoke
-            activation.Activate(hutaoArgs);
+            activation.Activate(HutaoActivationArguments.FromAppActivationArguments(activatedEventArgs));
             activation.PostInitialization();
         }
         catch (Exception ex)
