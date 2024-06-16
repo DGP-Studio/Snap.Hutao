@@ -23,7 +23,7 @@ namespace Snap.Hutao.Service.User;
 internal sealed partial class UserInitializationService : IUserInitializationService
 {
     private readonly IUserFingerprintService userFingerprintService;
-    private readonly IUserGameRoleDbService userGameRoleDbService;
+    private readonly IUidProfilePictureDbService uidProfilePictureDbService;
     private readonly IServiceProvider serviceProvider;
 
     public async ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default)
@@ -63,7 +63,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         }
     }
 
-    public async ValueTask RefreshUserGameRolesProfilePictureAsync(UserGameRole userGameRole, CancellationToken token = default)
+    public async ValueTask RefreshUidProfilePictureAsync(UserGameRole userGameRole, CancellationToken token = default)
     {
         EnkaResponse? enkaResponse;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -78,12 +78,12 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
         if (enkaResponse is { PlayerInfo: { } playerInfo })
         {
-            UserGameRoleProfilePicture profilePicture = UserGameRoleProfilePicture.From(userGameRole, playerInfo.ProfilePicture);
+            UidProfilePicture profilePicture = UidProfilePicture.From(userGameRole, playerInfo.ProfilePicture);
 
-            await userGameRoleDbService.DeleteUserGameRoleProfilePictureByUidAsync(userGameRole.GameUid, token).ConfigureAwait(false);
-            await userGameRoleDbService.UpdateUserGameRoleProfilePictureAsync(profilePicture, token).ConfigureAwait(false);
+            await uidProfilePictureDbService.DeleteUidProfilePictureByUidAsync(userGameRole.GameUid, token).ConfigureAwait(false);
+            await uidProfilePictureDbService.UpdateUidProfilePictureAsync(profilePicture, token).ConfigureAwait(false);
 
-            await SetUserGameRolesProfilePictureCoreAsync(userGameRole, profilePicture, token).ConfigureAwait(false);
+            await SetUserGameRoleProfilePictureCoreAsync(userGameRole, profilePicture, token).ConfigureAwait(false);
         }
     }
 
@@ -255,25 +255,21 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
     {
         foreach (UserGameRole userGameRole in user.UserGameRoles)
         {
-            if (await userGameRoleDbService.ContainsUidAsync(userGameRole.GameUid, token).ConfigureAwait(false))
+            if (await uidProfilePictureDbService.SingleUidProfilePictureOrDefaultByUidAsync(userGameRole.GameUid, token).ConfigureAwait(false) is { } profilePicture)
             {
-                UserGameRoleProfilePicture savedProfilePicture = await userGameRoleDbService
-                    .GetUserGameRoleProfilePictureByUidAsync(userGameRole.GameUid, token)
-                    .ConfigureAwait(false);
-
-                if (await SetUserGameRolesProfilePictureCoreAsync(userGameRole, savedProfilePicture, token).ConfigureAwait(false))
+                if (await SetUserGameRoleProfilePictureCoreAsync(userGameRole, profilePicture, token).ConfigureAwait(false))
                 {
                     continue;
                 }
             }
 
-            await RefreshUserGameRolesProfilePictureAsync(userGameRole, token).ConfigureAwait(false);
+            await RefreshUidProfilePictureAsync(userGameRole, token).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask<bool> SetUserGameRolesProfilePictureCoreAsync(UserGameRole userGameRole, UserGameRoleProfilePicture profilePicture, CancellationToken token = default)
+    private async ValueTask<bool> SetUserGameRoleProfilePictureCoreAsync(UserGameRole userGameRole, UidProfilePicture profilePicture, CancellationToken token = default)
     {
-        if (profilePicture.LastUpdateTime.AddDays(15) < DateTimeOffset.Now)
+        if (profilePicture.RefreshTime.AddDays(15) < DateTimeOffset.Now)
         {
             return false;
         }

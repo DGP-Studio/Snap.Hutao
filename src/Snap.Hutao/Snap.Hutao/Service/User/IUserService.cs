@@ -54,5 +54,5 @@ internal interface IUserService
     /// <returns>任务</returns>
     ValueTask RemoveUserAsync(BindingUser user);
 
-    ValueTask RefreshUserGameRoleProfilePictureAsync(UserGameRole userGameRole);
+    ValueTask RefreshUidProfilePictureAsync(UserGameRole userGameRole);
 }

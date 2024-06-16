@@ -9,9 +9,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Snap.Hutao.Model.Entity;
 
-[Table("profile_pictures")]
+[Table("uid_profile_pictures")]
 [SuppressMessage("", "SH002")]
-internal sealed class UserGameRoleProfilePicture : IMappingFrom<UserGameRoleProfilePicture, PlayerUid, ProfilePicture>
+internal sealed class UidProfilePicture : IMappingFrom<UidProfilePicture, PlayerUid, ProfilePicture>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -25,9 +25,9 @@ internal sealed class UserGameRoleProfilePicture : IMappingFrom<UserGameRoleProf
 
     public uint CostumeId { get; set; }
 
-    public DateTimeOffset LastUpdateTime { get; set; }
+    public DateTimeOffset RefreshTime { get; set; }
 
-    public static UserGameRoleProfilePicture From(PlayerUid uid, ProfilePicture profilePicture)
+    public static UidProfilePicture From(PlayerUid uid, ProfilePicture profilePicture)
     {
         return new()
         {
@@ -35,7 +35,7 @@ internal sealed class UserGameRoleProfilePicture : IMappingFrom<UserGameRoleProf
             ProfilePictureId = profilePicture.ProfilePictureId,
             AvatarId = profilePicture.AvatarId,
             CostumeId = profilePicture.CostumeId,
-            LastUpdateTime = DateTimeOffset.Now,
+            RefreshTime = DateTimeOffset.Now,
         };
     }
 }

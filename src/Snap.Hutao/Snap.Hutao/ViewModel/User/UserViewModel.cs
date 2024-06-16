@@ -302,6 +302,6 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("RefreshUserGameRoleProfilePictureCommand")]
     private void RefreshUserGameRoleProfilePicture(UserGameRole userGameRole)
     {
-        userService.RefreshUserGameRoleProfilePictureAsync(userGameRole).SafeForget();
+        userService.RefreshUidProfilePictureAsync(userGameRole).SafeForget();
     }
 }

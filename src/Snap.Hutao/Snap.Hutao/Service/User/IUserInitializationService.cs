@@ -11,5 +11,5 @@ internal interface IUserInitializationService
 
     ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default(CancellationToken));
 
-    ValueTask RefreshUserGameRolesProfilePictureAsync(UserGameRole userGameRole, CancellationToken token = default);
+    ValueTask RefreshUidProfilePictureAsync(UserGameRole userGameRole, CancellationToken token = default);
 }

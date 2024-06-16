@@ -11,8 +11,8 @@ using Snap.Hutao.Model.Entity.Database;
 namespace Snap.Hutao.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240613144942_UserGameRoleProfilePicture")]
-    partial class UserGameRoleProfilePicture
+    [Migration("20240616104646_UidProfilePicture")]
+    partial class UidProfilePicture
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -469,6 +469,33 @@ namespace Snap.Hutao.Migrations
                     b.ToTable("spiral_abysses");
                 });
 
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.UidProfilePicture", b =>
+                {
+                    b.Property<Guid>("InnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("AvatarId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<uint>("CostumeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<uint>("ProfilePictureId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset>("RefreshTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Uid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("InnerId");
+
+                    b.ToTable("uid_profile_pictures");
+                });
+
             modelBuilder.Entity("Snap.Hutao.Model.Entity.User", b =>
                 {
                     b.Property<Guid>("InnerId")
@@ -516,33 +543,6 @@ namespace Snap.Hutao.Migrations
                     b.HasKey("InnerId");
 
                     b.ToTable("users");
-                });
-
-            modelBuilder.Entity("Snap.Hutao.Model.Entity.UserGameRoleProfilePicture", b =>
-                {
-                    b.Property<Guid>("InnerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<uint>("AvatarId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("CostumeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("LastUpdateTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<uint>("ProfilePictureId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Uid")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("InnerId");
-
-                    b.ToTable("profile_pictures");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>

@@ -25,7 +25,7 @@ internal sealed class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
-        logger = this.GetService<ILogger<AppDbContext>>();
+        //logger = this.GetService<ILogger<AppDbContext>>();
         logger?.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("created", ConsoleColor.Green));
     }
 
@@ -65,7 +65,7 @@ internal sealed class AppDbContext : DbContext
 
     public DbSet<SpiralAbyssEntry> SpiralAbysses { get; set; } = default!;
 
-    public DbSet<UserGameRoleProfilePicture> UserGameRoleProfilePictures { get; set; } = default!;
+    public DbSet<UidProfilePicture> UidProfilePictures { get; set; } = default!;
 
     public static AppDbContext Create(IServiceProvider serviceProvider, string sqlConnectionString)
     {
