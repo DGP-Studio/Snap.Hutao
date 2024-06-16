@@ -378,7 +378,6 @@
                                             IsExpanded="{Binding FallbackValue=False, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneTime}"/>
                                     </Border>
                                 </Border>
-
                                 <ItemsControl
                                     Margin="0,0,0,0"
                                     ItemTemplate="{StaticResource GameResourceTemplate}"

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Message;
 using Snap.Hutao.Service.Hutao;
@@ -142,11 +143,20 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                     .CreateInstanceAsync<SpiralAbyssUploadRecordHomaNotLoginDialog>()
                     .ConfigureAwait(false);
 
-                if (!await dialog.ConfirmAsync().ConfigureAwait(false))
+                await taskContext.SwitchToMainThreadAsync();
+                ContentDialogResult result = await dialog.ShowAsync();
+
+                switch (result)
                 {
-                    await taskContext.SwitchToMainThreadAsync();
-                    await navigationService.NavigateAsync<SettingPage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
-                    return;
+                    case ContentDialogResult.Primary:
+                        await navigationService.NavigateAsync<SettingPage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
+                        return;
+
+                    case ContentDialogResult.Secondary:
+                        break;
+
+                    case ContentDialogResult.None:
+                        return;
                 }
             }
 
