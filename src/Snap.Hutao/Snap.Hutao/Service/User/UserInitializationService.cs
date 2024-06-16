@@ -24,6 +24,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
     private readonly IUserFingerprintService userFingerprintService;
     private readonly IUidProfilePictureDbService uidProfilePictureDbService;
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
 
     public async ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default)
     {
@@ -70,9 +71,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             EnkaClient enkaClient = scope.ServiceProvider
                 .GetRequiredService<EnkaClient>();
 
-            enkaResponse = await enkaClient
-                .GetForwardPlayerInfoAsync(userGameRole, token)
-                .ConfigureAwait(false);
+            enkaResponse = await enkaClient.GetForwardPlayerInfoAsync(userGameRole, token).ConfigureAwait(false)
+                        ?? await enkaClient.GetPlayerInfoAsync(userGameRole, token).ConfigureAwait(false);
         }
 
         if (enkaResponse is { PlayerInfo: { } playerInfo })
@@ -289,6 +289,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
                 .GetContextAsync<UserMetadataContext>(token)
                 .ConfigureAwait(false);
         }
+
+        await taskContext.SwitchToMainThreadAsync();
 
         if (profilePicture.ProfilePictureId is not 0U)
         {

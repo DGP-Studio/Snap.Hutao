@@ -1,14 +1,19 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Model.Metadata.Converter;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
 /// <summary>
 /// 用户游戏角色
 /// </summary>
 [HighQuality]
-internal sealed class UserGameRole
+internal sealed class UserGameRole : ObservableObject
 {
+    private string? profilePictureIcon;
+
     /// <summary>
     /// hk4e_cn for Genshin Impact
     /// </summary>
@@ -57,14 +62,19 @@ internal sealed class UserGameRole
     [JsonPropertyName("is_official")]
     public bool IsOfficial { get; set; } = default!;
 
-    public string ProfilePictureIcon { get; set; } = default!;
-
     /// <summary>
     /// 玩家服务器与等级简述
     /// </summary>
     public string Description
     {
         get => $"{RegionName} | Lv.{Level}";
+    }
+
+    [JsonIgnore]
+    public string? ProfilePictureIcon
+    {
+        get => profilePictureIcon;
+        set => SetProperty(ref profilePictureIcon, value);
     }
 
     public static implicit operator PlayerUid(UserGameRole userGameRole)
