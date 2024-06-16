@@ -38,6 +38,11 @@ internal static class MetadataServiceContextExtension
                 listMaterialSource.Materials = await metadataService.GetMaterialListAsync(token).ConfigureAwait(false);
             }
 
+            if (context is IMetadataListProfilePictureSource dictionaryIdProfilePictureSource)
+            {
+                dictionaryIdProfilePictureSource.ProfilePictures = await metadataService.GetProfilePictureListAsync(token).ConfigureAwait(false);
+            }
+
             if (context is IMetadataListReliquaryMainAffixLevelSource listReliquaryMainAffixLevelSource)
             {
                 listReliquaryMainAffixLevelSource.ReliquaryMainAffixLevels = await metadataService.GetReliquaryMainAffixLevelListAsync(token).ConfigureAwait(false);

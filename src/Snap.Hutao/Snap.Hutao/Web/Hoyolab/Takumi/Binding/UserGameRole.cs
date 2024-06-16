@@ -1,14 +1,21 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Snap.Hutao.Service.User;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
 /// <summary>
 /// 用户游戏角色
 /// </summary>
 [HighQuality]
-internal sealed class UserGameRole
+internal sealed class UserGameRole : ObservableObject
 {
+    private string? profilePictureIcon;
+    private ICommand? refreshProfilePictureCommand;
+
     /// <summary>
     /// hk4e_cn for Genshin Impact
     /// </summary>
@@ -65,6 +72,18 @@ internal sealed class UserGameRole
         get => $"{RegionName} | Lv.{Level}";
     }
 
+    [JsonIgnore]
+    public string? ProfilePictureIcon
+    {
+        get => profilePictureIcon;
+        set => SetProperty(ref profilePictureIcon, value);
+    }
+
+    public ICommand RefreshProfilePictureCommand
+    {
+        get => refreshProfilePictureCommand ??= new AsyncRelayCommand(RefreshProfilePictureAsync);
+    }
+
     public static implicit operator PlayerUid(UserGameRole userGameRole)
     {
         return new PlayerUid(userGameRole.GameUid, userGameRole.Region);
@@ -74,5 +93,11 @@ internal sealed class UserGameRole
     public override string ToString()
     {
         return $"{Nickname} | {RegionName} | Lv.{Level}";
+    }
+
+    [SuppressMessage("", "SH003")]
+    private async Task RefreshProfilePictureAsync()
+    {
+        await Ioc.Default.GetRequiredService<IUserService>().RefreshProfilePictureAsync(this).ConfigureAwait(false);
     }
 }

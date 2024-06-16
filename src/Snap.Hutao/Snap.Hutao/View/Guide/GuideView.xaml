@@ -301,7 +301,7 @@
                     <ScrollViewer>
                         <ItemsControl
                             Margin="0,0,-4,0"
-                            HorizontalAlignment="Center"
+                            HorizontalAlignment="Left"
                             ItemContainerTransitions="{StaticResource ListViewLikeThemeTransitions}"
                             ItemTemplate="{StaticResource DownloadSummaryTemplate}"
                             ItemsPanel="{StaticResource WrapPanelSpacing0Template}"

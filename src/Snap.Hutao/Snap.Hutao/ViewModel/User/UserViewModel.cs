@@ -17,6 +17,7 @@ using Snap.Hutao.View.Dialog;
 using Snap.Hutao.View.Page;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
+using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 using System.Text;
 using EntityUser = Snap.Hutao.Model.Entity.User;

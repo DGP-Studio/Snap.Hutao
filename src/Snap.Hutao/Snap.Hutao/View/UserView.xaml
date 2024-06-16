@@ -19,14 +19,74 @@
         <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
 
         <DataTemplate x:Key="UserGameRoleTemplate">
-            <StackPanel Padding="0,6">
-                <TextBlock Text="{Binding Nickname}"/>
-                <TextBlock
-                    Margin="0,2,0,0"
-                    Opacity="0.6"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{Binding Description}"/>
-            </StackPanel>
+            <Grid Padding="0,12" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <PersonPicture
+                    Grid.Column="0"
+                    Height="32"
+                    Margin="2,0"
+                    HorizontalAlignment="Left"
+                    Background="#FFDAB79B"
+                    ProfilePicture="{Binding ProfilePictureIcon, Converter={StaticResource AvatarIconCircleConverter}}"/>
+                <Button
+                    Grid.Column="0"
+                    Width="32"
+                    Height="32"
+                    Margin="2,0"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding RefreshProfilePictureCommand}"
+                    CommandParameter="{Binding}"
+                    CornerRadius="{ThemeResource CornerRadiusAll16}">
+                    <Button.Resources>
+                        <Storyboard x:Key="ShowRefreshIcon">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RefreshIcon" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="HideRefreshIcon">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RefreshIcon" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </Button.Resources>
+                    <mxi:Interaction.Behaviors>
+                        <mxic:EventTriggerBehavior EventName="PointerEntered">
+                            <mxim:ControlStoryboardAction Storyboard="{StaticResource ShowRefreshIcon}"/>
+                        </mxic:EventTriggerBehavior>
+                        <mxic:EventTriggerBehavior EventName="PointerExited">
+                            <mxim:ControlStoryboardAction Storyboard="{StaticResource HideRefreshIcon}"/>
+                        </mxic:EventTriggerBehavior>
+                    </mxi:Interaction.Behaviors>
+                    <FontIcon
+                        x:Name="RefreshIcon"
+                        FontSize="12"
+                        Glyph="&#xE72C;"
+                        Visibility="Collapsed"/>
+                </Button>
+                <StackPanel Grid.Column="1" Margin="12,0">
+                    <TextBlock Text="{Binding Nickname}"/>
+                    <TextBlock
+                        Margin="0,2,0,0"
+                        Opacity="0.6"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding Description}"/>
+                </StackPanel>
+            </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="UserTemplate">

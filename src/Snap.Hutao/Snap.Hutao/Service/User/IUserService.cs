@@ -53,4 +53,6 @@ internal interface IUserService
     /// <param name="user">待移除的用户</param>
     /// <returns>任务</returns>
     ValueTask RemoveUserAsync(BindingUser user);
+
+    ValueTask RefreshProfilePictureAsync(UserGameRole userGameRole);
 }

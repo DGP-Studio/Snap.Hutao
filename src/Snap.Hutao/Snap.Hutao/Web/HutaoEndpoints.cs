@@ -212,6 +212,11 @@ internal static class HutaoEndpoints
         return $"{ApiSnapGenshinEnka}/{uid}";
     }
 
+    public static string EnkaPlayerInfo(in PlayerUid uid)
+    {
+        return $"{ApiSnapGenshinEnka}/{uid}/info";
+    }
+
     public const string Ip = $"{ApiSnapGenshin}/ip";
 
     #region Metadata
