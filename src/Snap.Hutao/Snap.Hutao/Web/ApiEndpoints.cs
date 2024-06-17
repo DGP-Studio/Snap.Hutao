@@ -284,6 +284,25 @@ internal static class ApiEndpoints
 
     #endregion
 
+    #region HoyoPlayApi
+
+    public static string HoyoPlayConnectGamePackages(LaunchScheme scheme)
+    {
+        return $"{HoyoPlayApiConnectApi}/getGamePackages?game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}";
+    }
+
+    public static string HoyoPlayConnectGameChannelSDKs(LaunchScheme scheme)
+    {
+        return $"{HoyoPlayApiConnectApi}/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}&sub_channel={scheme.SubChannel:D}";
+    }
+
+    public static string HoyoPlayConnectDeprecatedFileConfigs(LaunchScheme scheme)
+    {
+        return $"{HoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}&sub_channel={scheme.SubChannel:D}";
+    }
+
+    #endregion
+
     #region PassportApi | PassportApiV4
 
     /// <summary>
@@ -394,6 +413,9 @@ internal static class ApiEndpoints
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";
 
     private const string Hk4eSdk = "https://hk4e-sdk.mihoyo.com";
+
+    private const string HoyoPlayApi = "https://hyp-api.mihoyo.com";
+    private const string HoyoPlayApiConnectApi = $"{HoyoPlayApi}/hyp/hyp-connect/api";
 
     private const string PassportApi = "https://passport-api.mihoyo.com";
     private const string PassportApiAuthApi = $"{PassportApi}/account/auth/api";

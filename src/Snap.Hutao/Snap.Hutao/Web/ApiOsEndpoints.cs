@@ -298,6 +298,25 @@ internal static class ApiOsEndpoints
     }
     #endregion
 
+    #region SgHoyoPlayApi
+
+    public static string SgHoyoPlayConnectGamePackages(LaunchScheme scheme)
+    {
+        return $"{SgHoyoPlayApiConnectApi}/getGamePackages?game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}";
+    }
+
+    public static string SgHoyoPlayConnectGameChannelSDKs(LaunchScheme scheme)
+    {
+        return $"{SgHoyoPlayApiConnectApi}/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}&sub_channel={scheme.SubChannel:D}";
+    }
+
+    public static string SgHoyoPlayConnectDeprecatedFileConfigs(LaunchScheme scheme)
+    {
+        return $"{SgHoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}&sub_channel={scheme.SubChannel:D}";
+    }
+
+    #endregion
+
     #region SdkOsStaticLauncherApi
 
     public static string SdkOsStaticLauncherResource(LaunchScheme scheme)
@@ -343,6 +362,9 @@ internal static class ApiOsEndpoints
 
     private const string SgPublicApi = "https://sg-public-api.hoyoverse.com";
     private const string SgHk4eApi = "https://sg-hk4e-api.hoyoverse.com";
+
+    private const string SgHoyoPlayApi = "https://sg-hyp-api.hoyoverse.com";
+    private const string SgHoyoPlayApiConnectApi = $"{SgHoyoPlayApi}/hyp/hyp-connect/api";
 
     private const string WebApiOs = "https://webapi-os.account.hoyoverse.com";
     private const string WebApiOsAccountApi = $"{WebApiOs}/Api";

@@ -45,6 +45,10 @@ internal class LaunchScheme : IEquatable<ChannelOptions>
     /// </summary>
     public int LauncherId { get; private protected set; }
 
+    public string HoyoPlayLauncherId { get; private protected set; }
+
+    public string HoyoPlayGameId { get; private protected set; }
+
     /// <summary>
     /// API Key
     /// </summary>
