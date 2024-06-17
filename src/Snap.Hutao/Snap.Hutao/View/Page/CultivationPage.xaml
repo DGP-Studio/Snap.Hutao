@@ -289,7 +289,7 @@
                     <Grid>
                         <Pivot Style="{ThemeResource CardPivotStyle}" Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                             <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationCultivateEntry}">
-                                <ScrollView Padding="0,0">
+                                <ScrollViewer Padding="0,0">
                                     <ItemsRepeater
                                         Margin="16,16,16,0"
                                         ItemTemplate="{StaticResource CultivateEntryTemplate}"
@@ -301,12 +301,12 @@
                                                 MinRowSpacing="-4"/>
                                         </ItemsRepeater.Layout>
                                     </ItemsRepeater>
-                                </ScrollView>
+                                </ScrollViewer>
                             </PivotItem>
                             <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationMaterialStatistics}">
                                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                                        <ScrollView Padding="16,0">
+                                        <ScrollViewer Padding="16,0">
                                             <ItemsRepeater
                                                 Margin="0,16,0,0"
                                                 ItemTemplate="{StaticResource StatisticsItemTemplate}"
@@ -320,7 +320,7 @@
                                                         MinRowSpacing="-4"/>
                                                 </ItemsRepeater.Layout>
                                             </ItemsRepeater>
-                                        </ScrollView>
+                                        </ScrollViewer>
                                     </Border>
                                 </Border>
 
@@ -379,15 +379,18 @@
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationInventoryItem}">
                     <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                         <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                            <!--  Add a ScrollView for smooth scrolling  -->
                             <ScrollView HorizontalScrollBarVisibility="Hidden">
-                                <ItemsRepeater
-                                    Margin="16"
-                                    ItemTemplate="{StaticResource InventoryItemTemplate}"
-                                    ItemsSource="{Binding InventoryItems}">
-                                    <ItemsRepeater.Layout>
-                                        <shcl:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
-                                    </ItemsRepeater.Layout>
-                                </ItemsRepeater>
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                                    <ItemsRepeater
+                                        Margin="16"
+                                        ItemTemplate="{StaticResource InventoryItemTemplate}"
+                                        ItemsSource="{Binding InventoryItems}">
+                                        <ItemsRepeater.Layout>
+                                            <shcl:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
+                                        </ItemsRepeater.Layout>
+                                    </ItemsRepeater>
+                                </ScrollViewer>
                             </ScrollView>
                         </Border>
                     </Border>
