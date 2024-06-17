@@ -3,14 +3,11 @@
 
 namespace Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 
-internal sealed class GamePackage
+internal sealed class GamePackage : GameSpecified
 {
-    [JsonPropertyName("game")]
-    public GameIdentifier Game { get; set; } = default!;
-
     [JsonPropertyName("main")]
-    public Game Main { get; set; } = default!;
+    public GameBranch Main { get; set; } = default!;
 
     [JsonPropertyName("pre_download")]
-    public Game PreDownload { get; set; } = default!;
+    public GameBranch PreDownload { get; set; } = default!;
 }

@@ -3,13 +3,10 @@
 
 namespace Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 
-internal sealed class ChannelSDK
+internal sealed class ChannelSDK : GameSpecified
 {
     [JsonPropertyName("channel_sdk_pkg")]
     public PackageSegment ChannelSdkPackage { get; set; } = default!;
-
-    [JsonPropertyName("game")]
-    public GameIdentifier Game { get; set; } = default!;
 
     [JsonPropertyName("pkg_version_file_name")]
     public string PackageVersionFileName { get; set; } = default!;
