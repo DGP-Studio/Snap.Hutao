@@ -20,7 +20,7 @@ internal sealed class LaunchExecutionSetChannelOptionsHandler : ILaunchExecution
         string configPath = gameFileSystem.GameConfigFilePath;
         context.Logger.LogInformation("Game config file path: {ConfigPath}", configPath);
 
-        List<IniElement> elements = default!;
+        List<IniElement> elements;
         try
         {
             elements = [.. IniSerializer.DeserializeFromFile(configPath)];
