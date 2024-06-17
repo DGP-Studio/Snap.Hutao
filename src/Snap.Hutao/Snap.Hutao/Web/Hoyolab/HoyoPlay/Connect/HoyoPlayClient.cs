@@ -21,7 +21,7 @@ internal sealed partial class HoyoPlayClient
     private readonly HttpClient httpClient;
     private readonly ILogger<HoyoPlayClient> logger;
 
-    public async ValueTask<Response<GamePackage>> GetPackagesAsync(LaunchScheme scheme, CancellationToken token = default)
+    public async ValueTask<Response<GamePackages>> GetPackagesAsync(LaunchScheme scheme, CancellationToken token = default)
     {
         string url = scheme.IsOversea
             ? ApiOsEndpoints.SgHoyoPlayConnectGamePackages(scheme)
@@ -31,8 +31,8 @@ internal sealed partial class HoyoPlayClient
             .SetRequestUri(url)
             .Get();
 
-        Response<GamePackage>? resp = await builder
-            .SendAsync<Response<GamePackage>>(httpClient, logger, token)
+        Response<GamePackages>? resp = await builder
+            .SendAsync<Response<GamePackages>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

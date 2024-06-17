@@ -15,8 +15,8 @@ using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
-using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using System.Collections.Immutable;
 using System.IO;
 
@@ -39,7 +39,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
-    private readonly ResourceClient resourceClient;
     private readonly RuntimeOptions runtimeOptions;
     private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
@@ -47,11 +46,12 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly IGameServiceFacade gameService;
     private readonly IMemoryCache memoryCache;
     private readonly AppOptions appOptions;
+    private readonly HoyoPlayClient hoyoPlayClient;
 
     private LaunchScheme? selectedScheme;
     private AdvancedCollectionView<GameAccount>? gameAccountsView;
     private GameAccount? selectedGameAccount;
-    private GameResource? gameResource;
+    private GamePackage? gamePackage;
     private bool gamePathSelectedAndValid;
     private ImmutableList<GamePathEntry> gamePathEntries;
     private GamePathEntry? selectedGamePathEntry;
@@ -69,7 +69,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
-    [AlsoAsyncSets(nameof(GameResource), nameof(GameAccountsView))]
+    [AlsoAsyncSets(nameof(GameAccountsView), nameof(GamePackage))]
     public LaunchScheme? SelectedScheme
     {
         get => selectedScheme;
@@ -80,7 +80,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
-    public GameResource? GameResource { get => gameResource; set => SetProperty(ref gameResource, value); }
+    public GamePackage? GamePackage { get => gamePackage; set => SetProperty(ref gamePackage, value); }
 
     public bool GamePathSelectedAndValid
     {
@@ -301,10 +301,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             SelectedGameAccount = default;
 
             await UpdateGameAccountsViewAsync().ConfigureAwait(false);
-            UpdateGameResourceAsync(value).SafeForget();
+            UpdateGamePackageAsync(value).SafeForget();
         }
 
-        async ValueTask UpdateGameResourceAsync(LaunchScheme? scheme)
+        async ValueTask UpdateGamePackageAsync(LaunchScheme? scheme)
         {
             if (scheme is null)
             {
@@ -312,14 +312,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             }
 
             await taskContext.SwitchToBackgroundAsync();
-            Web.Response.Response<GameResource> response = await resourceClient
-                .GetResourceAsync(scheme)
+            Web.Response.Response<GamePackages> response = await hoyoPlayClient
+                .GetPackagesAsync(scheme)
                 .ConfigureAwait(false);
 
             if (response.IsOk())
             {
                 await taskContext.SwitchToMainThreadAsync();
-                GameResource = response.Data;
+                GamePackage = response.Data.Packages.Single();
             }
         }
 

@@ -16,4 +16,10 @@ internal sealed class Package
 
     [JsonPropertyName("res_list_url")]
     public string ResListUrl { get; set; } = default!;
+
+    [JsonIgnore]
+    public List<PackageSegment> AllPackages
+    {
+        get => [.. GamePackages, .. AudioPackages];
+    }
 }

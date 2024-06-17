@@ -6,12 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shwhshlr="using:Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource"
+    xmlns:shwhhpc="using:Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect"
+    xmlns:shwhhpcp="using:Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package"
     HorizontalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
-    d:DataContext="{d:DesignInstance shwhshlr:Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource.Package}"
+    d:DataContext="{d:DesignInstance shwhhpcp:Package}"
     IsExpanded="True"
-    ItemsSource="{Binding VoicePacks}"
+    ItemsSource="{Binding AllPackages}"
     mc:Ignorable="d">
 
     <cwc:SettingsExpander.Resources>
@@ -24,7 +25,7 @@
     </cwc:SettingsExpander.Resources>
 
     <cwc:SettingsExpander.ItemTemplate>
-        <DataTemplate x:DataType="shwhshlr:VoicePackage">
+        <DataTemplate x:DataType="shwhhpc:PackageSegment">
             <cwc:SettingsCard
                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                 ActionIcon="{shcm:FontIcon Glyph={StaticResource FontIconContentCopy}}"
@@ -42,13 +43,13 @@
                             Margin="8,0,0,0"
                             HorizontalAlignment="Left"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding PackageSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+                            Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
                         <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentFolder}"/>
                         <TextBlock
                             Width="80"
                             Margin="8,0,0,0"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+                            Text="{Binding DecompressedSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
                         <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentAsteriskBadge12}"/>
                         <TextBlock
                             Margin="8,0,0,0"
@@ -60,45 +61,4 @@
             </cwc:SettingsCard>
         </DataTemplate>
     </cwc:SettingsExpander.ItemTemplate>
-
-    <cwc:SettingsExpander.ItemsHeader>
-        <cwc:SettingsCard
-            MinHeight="52"
-            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-            ActionIcon="{shcm:FontIcon Glyph={StaticResource FontIconContentCopy}}"
-            Background="{ThemeResource InfoBarInformationalSeverityBackgroundBrush}"
-            BorderThickness="0"
-            Command="{Binding CopyPathCommand}"
-            CornerRadius="0"
-            Header="{Binding DisplayName}"
-            IsClickEnabled="True">
-            <cwc:SettingsCard.Description>
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="0,4,0,0"
-                    Orientation="Horizontal">
-                    <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentZipFolder}"/>
-                    <TextBlock
-                        Width="80"
-                        Margin="8,0,0,0"
-                        HorizontalAlignment="Left"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{Binding PackageSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
-                    <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentFolder}"/>
-                    <TextBlock
-                        Width="80"
-                        Margin="8,0,0,0"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
-                    <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentAsteriskBadge12}"/>
-                    <TextBlock
-                        Margin="8,0,0,0"
-                        IsTextSelectionEnabled="True"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{Binding Md5}"/>
-                </StackPanel>
-            </cwc:SettingsCard.Description>
-        </cwc:SettingsCard>
-    </cwc:SettingsExpander.ItemsHeader>
-
 </cwc:SettingsExpander>
