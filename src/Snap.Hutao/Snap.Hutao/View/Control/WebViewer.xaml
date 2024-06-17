@@ -17,7 +17,7 @@
                 MinWidth="42"
                 Command="{x:Bind GoBackCommand}"
                 FontSize="12"
-                IsEnabled="{x:Bind WebView.CanGoBack, Mode=OneWay}"
+                IsEnabled="{x:Bind CanGoBack, Mode=OneWay}"
                 Style="{StaticResource NavigationBackButtonSmallStyle}"/>
             <Button
                 MinWidth="42"
