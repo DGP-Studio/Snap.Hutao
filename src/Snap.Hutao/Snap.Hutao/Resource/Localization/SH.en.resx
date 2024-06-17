@@ -1373,13 +1373,13 @@
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>Delete user data permanently?</value>
   </data>
-  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginCloseButtonText" xml:space="preserve">
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
     <value>Log in Now</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
     <value>No Hutao Passport logged in currently, uploading Abyss Records will not grant you Hutao Cloud privilege extension.</value>
   </data>
-  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginSecondaryButtonText" xml:space="preserve">
     <value>Continue to Upload</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
