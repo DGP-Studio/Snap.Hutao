@@ -70,16 +70,14 @@ internal sealed partial class HutaoSpiralAbyssClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取总览数据
-    /// GET /Statistics/Overview
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>总览信息</returns>
-    public async ValueTask<HutaoResponse<Overview>> GetOverviewAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<Overview>> GetOverviewAsync(bool last = false, CancellationToken token = default)
     {
+        string url = last
+            ? HutaoEndpoints.StatisticsOverviewLast
+            : HutaoEndpoints.StatisticsOverview;
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.StatisticsOverview)
+            .SetRequestUri(url)
             .Get();
 
         HutaoResponse<Overview>? resp = await builder
@@ -89,16 +87,14 @@ internal sealed partial class HutaoSpiralAbyssClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取角色出场率
-    /// GET /Statistics/Avatar/AttendanceRate
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色出场率</returns>
-    public async ValueTask<HutaoResponse<List<AvatarAppearanceRank>>> GetAvatarAttendanceRatesAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<List<AvatarAppearanceRank>>> GetAvatarAttendanceRatesAsync(bool last = false, CancellationToken token = default)
     {
+        string url = last
+            ? HutaoEndpoints.StatisticsAvatarAttendanceRateLast
+            : HutaoEndpoints.StatisticsAvatarAttendanceRate;
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.StatisticsAvatarAttendanceRate)
+            .SetRequestUri(url)
             .Get();
 
         HutaoResponse<List<AvatarAppearanceRank>>? resp = await builder
@@ -108,16 +104,14 @@ internal sealed partial class HutaoSpiralAbyssClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取角色使用率
-    /// GET /Statistics/Avatar/UtilizationRate
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色出场率</returns>
-    public async ValueTask<HutaoResponse<List<AvatarUsageRank>>> GetAvatarUtilizationRatesAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<List<AvatarUsageRank>>> GetAvatarUtilizationRatesAsync(bool last = false, CancellationToken token = default)
     {
+        string url = last
+            ? HutaoEndpoints.StatisticsAvatarUtilizationRateLast
+            : HutaoEndpoints.StatisticsAvatarUtilizationRate;
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.StatisticsAvatarUtilizationRate)
+            .SetRequestUri(url)
             .Get();
 
         HutaoResponse<List<AvatarUsageRank>>? resp = await builder
@@ -127,16 +121,14 @@ internal sealed partial class HutaoSpiralAbyssClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取角色/武器/圣遗物搭配
-    /// GET /Statistics/Avatar/AvatarCollocation
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色/武器/圣遗物搭配</returns>
-    public async ValueTask<HutaoResponse<List<AvatarCollocation>>> GetAvatarCollocationsAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<List<AvatarCollocation>>> GetAvatarCollocationsAsync(bool last = false, CancellationToken token = default)
     {
+        string url = last
+            ? HutaoEndpoints.StatisticsAvatarAvatarCollocationLast
+            : HutaoEndpoints.StatisticsAvatarAvatarCollocation;
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.StatisticsAvatarAvatarCollocation)
+            .SetRequestUri(url)
             .Get();
 
         HutaoResponse<List<AvatarCollocation>>? resp = await builder
@@ -146,16 +138,14 @@ internal sealed partial class HutaoSpiralAbyssClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取武器搭配
-    /// GET /Statistics/Avatar/AvatarCollocation
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色/武器/圣遗物搭配</returns>
-    public async ValueTask<HutaoResponse<List<WeaponCollocation>>> GetWeaponCollocationsAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<List<WeaponCollocation>>> GetWeaponCollocationsAsync(bool last = false, CancellationToken token = default)
     {
+        string url = last
+            ? HutaoEndpoints.StatisticsWeaponWeaponCollocationLast
+            : HutaoEndpoints.StatisticsWeaponWeaponCollocation;
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.StatisticsWeaponWeaponCollocation)
+            .SetRequestUri(url)
             .Get();
 
         HutaoResponse<List<WeaponCollocation>>? resp = await builder
@@ -165,14 +155,12 @@ internal sealed partial class HutaoSpiralAbyssClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取角色命座信息
-    /// GET /Statistics/Avatar/HoldingRate
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色图片列表</returns>
-    public async ValueTask<HutaoResponse<List<AvatarConstellationInfo>>> GetAvatarHoldingRatesAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<List<AvatarConstellationInfo>>> GetAvatarHoldingRatesAsync(bool last = false, CancellationToken token = default)
     {
+        string url = last
+            ? HutaoEndpoints.StatisticsAvatarHoldingRateLast
+            : HutaoEndpoints.StatisticsAvatarHoldingRate;
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.StatisticsAvatarHoldingRate)
             .Get();
@@ -184,16 +172,14 @@ internal sealed partial class HutaoSpiralAbyssClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取队伍出场次数
-    /// GET /Team/Combination
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>队伍出场列表</returns>
-    public async ValueTask<HutaoResponse<List<TeamAppearance>>> GetTeamCombinationsAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<List<TeamAppearance>>> GetTeamCombinationsAsync(bool last = false, CancellationToken token = default)
     {
+        string url = last
+            ? HutaoEndpoints.StatisticsTeamCombinationLast
+            : HutaoEndpoints.StatisticsTeamCombination;
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.StatisticsTeamCombination)
+            .SetRequestUri(url)
             .Get();
 
         HutaoResponse<List<TeamAppearance>>? resp = await builder
