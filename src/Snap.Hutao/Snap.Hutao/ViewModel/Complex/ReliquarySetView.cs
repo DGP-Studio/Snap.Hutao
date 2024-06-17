@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
@@ -12,16 +13,12 @@ namespace Snap.Hutao.ViewModel.Complex;
 /// <summary>
 /// 圣遗物套装
 /// </summary>
-internal sealed class ReliquarySetView
+internal sealed class ReliquarySetView : RateAndDelta
 {
-    /// <summary>
-    /// 构造一个新的胡桃数据库圣遗物套装
-    /// </summary>
-    /// <param name="reliquarySetRate">圣遗物套装率</param>
-    /// <param name="idReliquarySetMap">圣遗物套装映射</param>
-    public ReliquarySetView(ItemRate<ReliquarySets, double> reliquarySetRate, Dictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
+    public ReliquarySetView(Dictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap, ItemRate<ReliquarySets, double> setRate, ItemRate<ReliquarySets, double>? lastSetRate)
+        : base(setRate.Rate, lastSetRate?.Rate)
     {
-        ReliquarySets sets = reliquarySetRate.Item;
+        ReliquarySets sets = setRate.Item;
 
         if (!sets.IsNullOrEmpty())
         {
@@ -41,8 +38,6 @@ internal sealed class ReliquarySetView
         {
             Name = SH.ViewModelComplexReliquarySetViewEmptyName;
         }
-
-        Rate = $"{reliquarySetRate.Rate:P3}";
     }
 
     /// <summary>
@@ -54,9 +49,4 @@ internal sealed class ReliquarySetView
     /// 图标
     /// </summary>
     public List<Uri>? Icons { get; }
-
-    /// <summary>
-    /// 比率
-    /// </summary>
-    public string Rate { get; }
 }

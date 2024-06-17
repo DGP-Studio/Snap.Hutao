@@ -7,5 +7,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataListReliquaryMainAffixLevelSource
 {
-    public List<ReliquaryMainAffixLevel> ReliquaryMainAffixLevels { get; set; }
+    List<ReliquaryMainAffixLevel> ReliquaryMainAffixLevels { get; set; }
 }

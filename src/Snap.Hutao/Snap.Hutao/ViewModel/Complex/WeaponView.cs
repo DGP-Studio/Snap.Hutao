@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -12,19 +13,14 @@ namespace Snap.Hutao.ViewModel.Complex;
 /// 胡桃数据库武器
 /// </summary>
 [HighQuality]
-internal sealed class WeaponView : INameIcon
+internal sealed class WeaponView : RateAndDelta, INameIcon
 {
-    /// <summary>
-    /// 构造一个胡桃数据库武器
-    /// </summary>
-    /// <param name="weapon">元数据武器</param>
-    /// <param name="rate">率</param>
-    public WeaponView(Weapon weapon, double rate)
+    public WeaponView(Weapon weapon, double rate, double? lastRate)
+        : base(rate, lastRate)
     {
         Name = weapon.Name;
         Icon = EquipIconConverter.IconNameToUri(weapon.Icon);
         Quality = weapon.Quality;
-        Rate = $"{rate:P3}";
     }
 
     /// <summary>
@@ -41,9 +37,4 @@ internal sealed class WeaponView : INameIcon
     /// 星级
     /// </summary>
     public QualityType Quality { get; }
-
-    /// <summary>
-    /// 比率
-    /// </summary>
-    public string Rate { get; }
 }

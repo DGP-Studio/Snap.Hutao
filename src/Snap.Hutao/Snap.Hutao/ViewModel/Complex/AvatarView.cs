@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -12,20 +13,15 @@ namespace Snap.Hutao.ViewModel.Complex;
 /// 角色
 /// </summary>
 [HighQuality]
-internal class AvatarView : INameIconSide
+internal class AvatarView : RateAndDelta, INameIconSide
 {
-    /// <summary>
-    /// 构造一个胡桃数据库角色
-    /// </summary>
-    /// <param name="avatar">元数据角色</param>
-    /// <param name="rate">率</param>
-    public AvatarView(Avatar avatar, double rate = 0)
+    public AvatarView(Avatar avatar, double rate, double? lastRate = default)
+        : base(rate, lastRate)
     {
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
         SideIcon = AvatarSideIconConverter.IconNameToUri(avatar.SideIcon);
         Quality = avatar.Quality;
-        Rate = $"{rate:P3}";
     }
 
     /// <summary>
@@ -47,9 +43,4 @@ internal class AvatarView : INameIconSide
     /// 星级
     /// </summary>
     public QualityType Quality { get; }
-
-    /// <summary>
-    /// 比率
-    /// </summary>
-    public string Rate { get; }
 }

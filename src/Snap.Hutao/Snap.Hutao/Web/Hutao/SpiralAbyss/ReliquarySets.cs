@@ -10,7 +10,7 @@ namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 /// </summary>
 [HighQuality]
 [JsonConverter(typeof(ReliquarySetsConverter))]
-internal sealed class ReliquarySets : List<ReliquarySet>
+internal sealed class ReliquarySets : List<ReliquarySet>, IEquatable<ReliquarySets>
 {
     /// <summary>
     /// 构造一个新的圣遗物包装器
@@ -19,5 +19,36 @@ internal sealed class ReliquarySets : List<ReliquarySet>
     public ReliquarySets(IEnumerable<ReliquarySet> sets)
         : base(sets)
     {
+    }
+
+    public bool Equals(ReliquarySets? other)
+    {
+        if (other is null)
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return this.SequenceEqual(other);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as ReliquarySets);
+    }
+
+    public override int GetHashCode()
+    {
+        HashCode hashCode = default;
+        foreach (ReliquarySet set in this)
+        {
+            hashCode.Add(set);
+        }
+
+        return hashCode.ToHashCode();
     }
 }

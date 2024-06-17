@@ -10,7 +10,7 @@ namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 /// 圣遗物套装
 /// </summary>
 [HighQuality]
-internal sealed class ReliquarySet
+internal sealed class ReliquarySet : IEquatable<ReliquarySet>
 {
     /// <summary>
     /// 构造一个新的圣遗物套装
@@ -34,7 +34,31 @@ internal sealed class ReliquarySet
     /// </summary>
     public int Count { get; }
 
-    /// <inheritdoc/>
+    public bool Equals(ReliquarySet? other)
+    {
+        if (other is null)
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return EquipAffixId == other.EquipAffixId && Count == other.Count;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as ReliquarySet);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(EquipAffixId, Count);
+    }
+
     public override string ToString()
     {
         return $"{EquipAffixId.Value}-{Count}";

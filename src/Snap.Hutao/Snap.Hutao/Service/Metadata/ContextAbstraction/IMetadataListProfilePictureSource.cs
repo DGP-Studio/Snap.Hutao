@@ -7,5 +7,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataListProfilePictureSource
 {
-    public List<ProfilePicture> ProfilePictures { get; set; }
+    List<ProfilePicture> ProfilePictures { get; set; }
 }

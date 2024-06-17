@@ -21,7 +21,7 @@ internal sealed class Team : List<AvatarView>
         foreach (StringSegment item in new StringTokenizer(team.Item, [',']))
         {
             uint id = uint.Parse(item.AsSpan(), CultureInfo.InvariantCulture);
-            Add(new(idAvatarMap[id]));
+            Add(new(idAvatarMap[id], 0));
         }
 
         AddRange(new AvatarView[4 - Count]);
@@ -33,6 +33,7 @@ internal sealed class Team : List<AvatarView>
     /// <summary>
     /// 上场次数
     /// </summary>
+    [Obsolete("Name this with another name")]
     public string Rate { get; }
 
     public int Rank { get; set; }

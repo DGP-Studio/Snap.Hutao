@@ -16,6 +16,7 @@ internal sealed class AvatarConstellationInfo : AvatarBuild
 
     /// <summary>
     /// 命之座
+    /// Order is guaranteed as ascending
     /// </summary>
     public List<ItemRate<int, double>> Constellations { get; set; } = default!;
 }

@@ -7,5 +7,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataListReliquarySource
 {
-    public List<Reliquary> Reliquaries { get; set; }
+    List<Reliquary> Reliquaries { get; set; }
 }
