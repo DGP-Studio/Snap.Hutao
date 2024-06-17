@@ -10,8 +10,10 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.View.Dialog;
-using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
-using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using Snap.Hutao.Web.Response;
 using System.IO;
 
@@ -96,13 +98,29 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
         progress.Report(new(SH.ServiceGameEnsureGameResourceQueryResourceInformation));
 
-        ResourceClient resourceClient = context.ServiceProvider.GetRequiredService<ResourceClient>();
-        Response<GameResource> response = await resourceClient.GetResourceAsync(context.Scheme).ConfigureAwait(false);
+        HoyoPlayClient hoyoPlayClient = context.ServiceProvider.GetRequiredService<HoyoPlayClient>();
 
-        if (!response.TryGetDataWithoutUINotification(out GameResource? resource))
+        Response<GamePackages> packagesResp = await hoyoPlayClient.GetPackagesAsync(context.Scheme).ConfigureAwait(false);
+        if (!packagesResp.TryGetDataWithoutUINotification(out GamePackages? gamePackages))
         {
             context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
-            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(response);
+            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(packagesResp);
+            return false;
+        }
+
+        Response<ChannelSDKs> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(context.Scheme).ConfigureAwait(false);
+        if (!sdkResp.TryGetDataWithoutUINotification(out ChannelSDKs? channelSDKs))
+        {
+            context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
+            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(sdkResp);
+            return false;
+        }
+
+        Response<DeprecatedFileConfigs> deprecatedResp = await hoyoPlayClient.GetDeprecatedFilesAsync(context.Scheme).ConfigureAwait(false);
+        if (!deprecatedResp.TryGetDataWithoutUINotification(out DeprecatedFileConfigs? deprecatedFileConfigs))
+        {
+            context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
+            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(deprecatedResp);
             return false;
         }
 
@@ -110,7 +128,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
         if (!context.Scheme.ExecutableMatches(gameFileName))
         {
-            if (!await packageConverter.EnsureGameResourceAsync(context.Scheme, resource, gameFolder, progress).ConfigureAwait(false))
+            if (!await packageConverter.EnsureGameResourceAsync(context.Scheme, gamePackages.Packages.Single(), gameFolder, progress).ConfigureAwait(false))
             {
                 context.Result.Kind = LaunchExecutionResultKind.GameResourcePackageConvertInternalError;
                 context.Result.ErrorMessage = SH.ViewModelLaunchGameEnsureGameResourceFail;
@@ -124,7 +142,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
             context.Options.UpdateGamePathAndRefreshEntries(Path.Combine(gameFolder, executableName));
         }
 
-        await packageConverter.EnsureDeprecatedFilesAndSdkAsync(resource, gameFolder).ConfigureAwait(false);
+        await packageConverter.EnsureDeprecatedFilesAndSdkAsync(channelSDKs.GameChannelSDKs.SingleOrDefault(), deprecatedFileConfigs.Configs.SingleOrDefault(), gameFolder).ConfigureAwait(false);
         return true;
     }
 

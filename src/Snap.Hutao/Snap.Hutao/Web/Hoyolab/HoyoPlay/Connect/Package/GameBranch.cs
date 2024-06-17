@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 internal sealed class GameBranch
 {
     [JsonPropertyName("major")]
-    public Package? Major { get; set; }
+    public Package Major { get; set; } = default!;
 
     [JsonPropertyName("patches")]
     public List<Package> Patches { get; set; } = default!;
