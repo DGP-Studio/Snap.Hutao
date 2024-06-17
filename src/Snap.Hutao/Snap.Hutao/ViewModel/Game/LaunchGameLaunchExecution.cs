@@ -11,26 +11,26 @@ internal static class LaunchGameLaunchExecution
 {
     public static async ValueTask LaunchExecutionAsync(this IViewModelSupportLaunchExecution launchExecution, LaunchScheme? targetScheme)
     {
-        IServiceProvider root = Ioc.Default;
-        IInfoBarService infoBarService = root.GetRequiredService<IInfoBarService>();
-        ILogger<IViewModelSupportLaunchExecution> logger = root.GetRequiredService<ILogger<IViewModelSupportLaunchExecution>>();
-
-        // LaunchScheme? scheme = launchExecution.Shared.GetCurrentLaunchSchemeFromConfigFile();
-        try
+        using (IServiceScope scope = Ioc.Default.CreateScope())
         {
-            // Root service provider is required.
-            LaunchExecutionContext context = new(root, launchExecution, targetScheme, launchExecution.SelectedGameAccount);
-            LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
+            IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
+            ILogger<IViewModelSupportLaunchExecution> logger = scope.ServiceProvider.GetRequiredService<ILogger<IViewModelSupportLaunchExecution>>();
 
-            if (result.Kind is not LaunchExecutionResultKind.Ok)
+            try
             {
-                infoBarService.Warning(result.ErrorMessage);
+                LaunchExecutionContext context = new(scope.ServiceProvider, launchExecution, targetScheme, launchExecution.SelectedGameAccount);
+                LaunchExecutionResult result = await new LaunchExecutionInvoker().InvokeAsync(context).ConfigureAwait(false);
+
+                if (result.Kind is not LaunchExecutionResultKind.Ok)
+                {
+                    infoBarService.Warning(result.ErrorMessage);
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            logger.LogCritical(ex, "Launch failed");
-            infoBarService.Error(ex);
+            catch (Exception ex)
+            {
+                logger.LogCritical(ex, "Launch failed");
+                infoBarService.Error(ex);
+            }
         }
     }
 }

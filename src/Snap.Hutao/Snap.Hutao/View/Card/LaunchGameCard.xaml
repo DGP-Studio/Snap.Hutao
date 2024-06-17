@@ -18,6 +18,7 @@
     d:DataContext="{d:DesignInstance shvg:LaunchGameViewModelSlim}"
     Background="Transparent"
     BorderBrush="{x:Null}"
+    BorderThickness="0"
     Command="{Binding LaunchCommand}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">

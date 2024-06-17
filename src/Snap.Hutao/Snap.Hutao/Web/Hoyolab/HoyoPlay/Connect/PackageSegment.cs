@@ -12,7 +12,7 @@ internal partial class PackageSegment
     public string Url { get; set; } = default!;
 
     [JsonPropertyName("md5")]
-    public string Md5 { get; set; } = default!;
+    public string MD5 { get; set; } = default!;
 
     [JsonPropertyName("size")]
     public long Size { get; set; } = default!;

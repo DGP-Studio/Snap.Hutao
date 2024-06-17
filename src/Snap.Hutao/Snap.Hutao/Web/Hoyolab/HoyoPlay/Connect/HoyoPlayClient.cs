@@ -18,8 +18,8 @@ namespace Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 internal sealed partial class HoyoPlayClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly HttpClient httpClient;
     private readonly ILogger<HoyoPlayClient> logger;
+    private readonly HttpClient httpClient;
 
     public async ValueTask<Response<GamePackagesWrapper>> GetPackagesAsync(LaunchScheme scheme, CancellationToken token = default)
     {
@@ -55,7 +55,7 @@ internal sealed partial class HoyoPlayClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<DeprecatedFileConfigurationsWrapper>> GetDeprecatedFilesAsync(LaunchScheme scheme, CancellationToken token = default)
+    public async ValueTask<Response<DeprecatedFileConfigurationsWrapper>> GetDeprecatedFileConfigurationsAsync(LaunchScheme scheme, CancellationToken token = default)
     {
         string url = scheme.IsOversea
             ? ApiOsEndpoints.SgHoyoPlayConnectDeprecatedFileConfigs(scheme)

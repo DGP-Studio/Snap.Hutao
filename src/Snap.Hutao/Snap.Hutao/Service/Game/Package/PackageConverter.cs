@@ -38,7 +38,7 @@ internal sealed partial class PackageConverter
 
     public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GamePackage gamePackage, string gameFolder, IProgress<PackageConvertStatus> progress)
     {
-        // 以 国服 => 国际 为例
+        // 以 国服 -> 国际服 为例
         // 1. 下载国际服的 pkg_version 文件，转换为索引字典
         //    获取本地对应 pkg_version 文件，转换为索引字典
         //
@@ -79,7 +79,7 @@ internal sealed partial class PackageConverter
         return await ReplaceGameResourceAsync(diffOperations, context, progress).ConfigureAwait(false);
     }
 
-    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(GameChannelSDK? channelSDK, DeprecatedFilesWrapper? deprecatedFileConfig, string gameFolder)
+    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(GameChannelSDK? channelSDK, DeprecatedFilesWrapper? deprecatedFiles, string gameFolder)
     {
         string sdkDllBackup = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll.backup");
         string sdkDll = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll");
@@ -108,9 +108,9 @@ internal sealed partial class PackageConverter
             FileOperation.Move(sdkVersion, sdkVersionBackup, true);
         }
 
-        if (deprecatedFileConfig is not null)
+        if (deprecatedFiles is not null)
         {
-            foreach (DeprecatedFile file in deprecatedFileConfig.DeprecatedFiles)
+            foreach (DeprecatedFile file in deprecatedFiles.DeprecatedFiles)
             {
                 string filePath = Path.Combine(gameFolder, file.Name);
                 FileOperation.Move(filePath, $"{filePath}.backup", true);

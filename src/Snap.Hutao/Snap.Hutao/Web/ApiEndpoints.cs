@@ -288,17 +288,17 @@ internal static class ApiEndpoints
 
     public static string HoyoPlayConnectGamePackages(LaunchScheme scheme)
     {
-        return $"{HoyoPlayApiConnectApi}/getGamePackages?game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}";
+        return $"{HoyoPlayApiConnectApi}/getGamePackages?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}";
     }
 
     public static string HoyoPlayConnectGameChannelSDKs(LaunchScheme scheme)
     {
-        return $"{HoyoPlayApiConnectApi}/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}&sub_channel={scheme.SubChannel:D}";
+        return $"{HoyoPlayApiConnectApi}/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
 
     public static string HoyoPlayConnectDeprecatedFileConfigs(LaunchScheme scheme)
     {
-        return $"{HoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}&sub_channel={scheme.SubChannel:D}";
+        return $"{HoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
 
     #endregion
@@ -364,26 +364,6 @@ internal static class ApiEndpoints
     public static string GachaInfoGetGachaLog(string query)
     {
         return $"{PublicOperationHk4eGachaInfoApi}/getGachaLog?{query}";
-    }
-    #endregion
-
-    #region SdkStaticLauncherApi
-
-    /// <summary>
-    /// 启动器资源
-    /// </summary>
-    /// <param name="scheme">启动方案</param>
-    /// <returns>启动器资源字符串</returns>
-    public static string SdkStaticLauncherResource(LaunchScheme scheme)
-    {
-        return $"{SdkStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel:D}&sub_channel_id={scheme.SubChannel:D}";
-    }
-
-    public static string SdkStaticLauncherContent(LaunchScheme scheme, string languageCode, bool advOnly = true)
-    {
-        return advOnly
-            ? $"{SdkStaticLauncherApi}/content?filter_adv=true&key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}"
-            : $"{SdkStaticLauncherApi}/content?key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}";
     }
     #endregion
 

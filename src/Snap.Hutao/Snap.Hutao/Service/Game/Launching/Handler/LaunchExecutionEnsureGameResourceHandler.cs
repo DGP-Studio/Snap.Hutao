@@ -45,7 +45,7 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
                     return;
                 }
 
-                // Backup config file, in order to prevent a incompatible launcher to delete it.
+                // Backup config file, recover when a incompatible launcher deleted it.
                 context.ServiceProvider.GetRequiredService<IGameConfigurationFileService>().Backup(gameFileSystem.GameConfigFilePath);
 
                 await context.TaskContext.SwitchToMainThreadAsync();
@@ -100,27 +100,28 @@ internal sealed class LaunchExecutionEnsureGameResourceHandler : ILaunchExecutio
 
         HoyoPlayClient hoyoPlayClient = context.ServiceProvider.GetRequiredService<HoyoPlayClient>();
 
-        Response<GamePackagesWrapper> packagesResp = await hoyoPlayClient.GetPackagesAsync(context.Scheme).ConfigureAwait(false);
-        if (!packagesResp.TryGetDataWithoutUINotification(out GamePackagesWrapper? gamePackages))
+        // We perform these requests before package conversion to ensure resources index is intact.
+        Response<GamePackagesWrapper> packagesResponse = await hoyoPlayClient.GetPackagesAsync(context.Scheme).ConfigureAwait(false);
+        if (!packagesResponse.TryGetDataWithoutUINotification(out GamePackagesWrapper? gamePackages))
         {
             context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
-            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(packagesResp);
+            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(packagesResponse);
             return false;
         }
 
-        Response<GameChannelSDKsWrapper> sdkResp = await hoyoPlayClient.GetChannelSDKAsync(context.Scheme).ConfigureAwait(false);
-        if (!sdkResp.TryGetDataWithoutUINotification(out GameChannelSDKsWrapper? channelSDKs))
+        Response<GameChannelSDKsWrapper> sdkResponse = await hoyoPlayClient.GetChannelSDKAsync(context.Scheme).ConfigureAwait(false);
+        if (!sdkResponse.TryGetDataWithoutUINotification(out GameChannelSDKsWrapper? channelSDKs))
         {
             context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
-            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(sdkResp);
+            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(sdkResponse);
             return false;
         }
 
-        Response<DeprecatedFileConfigurationsWrapper> deprecatedResp = await hoyoPlayClient.GetDeprecatedFilesAsync(context.Scheme).ConfigureAwait(false);
-        if (!deprecatedResp.TryGetDataWithoutUINotification(out DeprecatedFileConfigurationsWrapper? deprecatedFileConfigs))
+        Response<DeprecatedFileConfigurationsWrapper> deprecatedFileResponse = await hoyoPlayClient.GetDeprecatedFileConfigurationsAsync(context.Scheme).ConfigureAwait(false);
+        if (!deprecatedFileResponse.TryGetDataWithoutUINotification(out DeprecatedFileConfigurationsWrapper? deprecatedFileConfigs))
         {
             context.Result.Kind = LaunchExecutionResultKind.GameResourceIndexQueryInvalidResponse;
-            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(deprecatedResp);
+            context.Result.ErrorMessage = SH.FormatServiceGameLaunchExecutionGameResourceQueryIndexFailed(deprecatedFileResponse);
             return false;
         }
 

@@ -39,14 +39,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly LaunchGameShared launchGameShared;
     private readonly IInfoBarService infoBarService;
+    private readonly IGameServiceFacade gameService;
     private readonly RuntimeOptions runtimeOptions;
+    private readonly HoyoPlayClient hoyoPlayClient;
     private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
-    private readonly IGameServiceFacade gameService;
     private readonly IMemoryCache memoryCache;
     private readonly AppOptions appOptions;
-    private readonly HoyoPlayClient hoyoPlayClient;
 
     private LaunchScheme? selectedScheme;
     private AdvancedCollectionView<GameAccount>? gameAccountsView;

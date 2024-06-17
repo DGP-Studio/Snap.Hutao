@@ -11,6 +11,7 @@
     HorizontalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
     d:DataContext="{d:DesignInstance shwhhpcp:Package}"
+    BorderThickness="0"
     IsExpanded="True"
     ItemsSource="{Binding AllPackages}"
     mc:Ignorable="d">
@@ -36,26 +37,23 @@
                     <StackPanel
                         Grid.Row="1"
                         Margin="0,4,0,0"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Spacing="8">
                         <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentZipFolder}"/>
                         <TextBlock
                             Width="80"
-                            Margin="8,0,0,0"
-                            HorizontalAlignment="Left"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
                         <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentFolder}"/>
                         <TextBlock
                             Width="80"
-                            Margin="8,0,0,0"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding DecompressedSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
                         <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentAsteriskBadge12}"/>
                         <TextBlock
-                            Margin="8,0,0,0"
                             IsTextSelectionEnabled="True"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding Md5}"/>
+                            Text="{Binding MD5}"/>
                     </StackPanel>
                 </cwc:SettingsCard.Description>
             </cwc:SettingsCard>

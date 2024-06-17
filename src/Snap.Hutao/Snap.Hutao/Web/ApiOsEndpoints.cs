@@ -302,34 +302,19 @@ internal static class ApiOsEndpoints
 
     public static string SgHoyoPlayConnectGamePackages(LaunchScheme scheme)
     {
-        return $"{SgHoyoPlayApiConnectApi}/getGamePackages?game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}";
+        return $"{SgHoyoPlayApiConnectApi}/getGamePackages?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}";
     }
 
     public static string SgHoyoPlayConnectGameChannelSDKs(LaunchScheme scheme)
     {
-        return $"{SgHoyoPlayApiConnectApi}/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}&sub_channel={scheme.SubChannel:D}";
+        return $"{SgHoyoPlayApiConnectApi}/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
 
     public static string SgHoyoPlayConnectDeprecatedFileConfigs(LaunchScheme scheme)
     {
-        return $"{SgHoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.HoyoPlayGameId}&launcher_id={scheme.HoyoPlayLauncherId}&sub_channel={scheme.SubChannel:D}";
+        return $"{SgHoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
 
-    #endregion
-
-    #region SdkOsStaticLauncherApi
-
-    public static string SdkOsStaticLauncherResource(LaunchScheme scheme)
-    {
-        return $"{SdkOsStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel:D}&sub_channel_id={scheme.SubChannel:D}";
-    }
-
-    public static string SdkOsStaticLauncherContent(LaunchScheme scheme, string languageCode, bool advOnly = true)
-    {
-        return advOnly
-            ? $"{SdkOsStaticLauncherApi}/content?filter_adv=true&key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}"
-            : $"{SdkOsStaticLauncherApi}/content?key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}";
-    }
     #endregion
 
     #region WebApiOsAccountApi

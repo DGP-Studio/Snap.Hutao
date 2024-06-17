@@ -17,6 +17,7 @@
     d:DataContext="{d:DesignInstance shvg:GachaLogViewModelSlim}"
     Background="Transparent"
     BorderBrush="{x:Null}"
+    BorderThickness="0"
     Command="{Binding NavigateCommand}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">
