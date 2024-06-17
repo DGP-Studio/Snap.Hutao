@@ -15,7 +15,7 @@ internal sealed class Package
     public List<AudioPackageSegment> AudioPackages { get; set; } = default!;
 
     [JsonPropertyName("res_list_url")]
-    public string ResListUrl { get; set; } = default!;
+    public string ResourceListUrl { get; set; } = default!;
 
     [JsonIgnore]
     public List<PackageSegment> AllPackages

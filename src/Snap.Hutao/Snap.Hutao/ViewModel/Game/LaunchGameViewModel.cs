@@ -69,7 +69,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
-    [AlsoAsyncSets(nameof(GameAccountsView), nameof(GamePackage))]
+    [AlsoAsyncSets(nameof(GamePackage), nameof(GameAccountsView))]
     public LaunchScheme? SelectedScheme
     {
         get => selectedScheme;
@@ -312,14 +312,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             }
 
             await taskContext.SwitchToBackgroundAsync();
-            Web.Response.Response<GamePackages> response = await hoyoPlayClient
+            Web.Response.Response<GamePackagesWrapper> response = await hoyoPlayClient
                 .GetPackagesAsync(scheme)
                 .ConfigureAwait(false);
 
             if (response.IsOk())
             {
                 await taskContext.SwitchToMainThreadAsync();
-                GamePackage = response.Data.Packages.Single();
+                GamePackage = response.Data.GamePackages.Single();
             }
         }
 

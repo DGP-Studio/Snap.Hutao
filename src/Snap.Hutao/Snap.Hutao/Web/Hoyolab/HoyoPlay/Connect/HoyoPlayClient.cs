@@ -21,7 +21,7 @@ internal sealed partial class HoyoPlayClient
     private readonly HttpClient httpClient;
     private readonly ILogger<HoyoPlayClient> logger;
 
-    public async ValueTask<Response<GamePackages>> GetPackagesAsync(LaunchScheme scheme, CancellationToken token = default)
+    public async ValueTask<Response<GamePackagesWrapper>> GetPackagesAsync(LaunchScheme scheme, CancellationToken token = default)
     {
         string url = scheme.IsOversea
             ? ApiOsEndpoints.SgHoyoPlayConnectGamePackages(scheme)
@@ -31,14 +31,14 @@ internal sealed partial class HoyoPlayClient
             .SetRequestUri(url)
             .Get();
 
-        Response<GamePackages>? resp = await builder
-            .SendAsync<Response<GamePackages>>(httpClient, logger, token)
+        Response<GamePackagesWrapper>? resp = await builder
+            .SendAsync<Response<GamePackagesWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<ChannelSDKs>> GetChannelSDKAsync(LaunchScheme scheme, CancellationToken token = default)
+    public async ValueTask<Response<GameChannelSDKsWrapper>> GetChannelSDKAsync(LaunchScheme scheme, CancellationToken token = default)
     {
         string url = scheme.IsOversea
             ? ApiOsEndpoints.SgHoyoPlayConnectGameChannelSDKs(scheme)
@@ -48,14 +48,14 @@ internal sealed partial class HoyoPlayClient
             .SetRequestUri(url)
             .Get();
 
-        Response<ChannelSDKs>? resp = await builder
-            .SendAsync<Response<ChannelSDKs>>(httpClient, logger, token)
+        Response<GameChannelSDKsWrapper>? resp = await builder
+            .SendAsync<Response<GameChannelSDKsWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<DeprecatedFileConfigs>> GetDeprecatedFilesAsync(LaunchScheme scheme, CancellationToken token = default)
+    public async ValueTask<Response<DeprecatedFileConfigurationsWrapper>> GetDeprecatedFilesAsync(LaunchScheme scheme, CancellationToken token = default)
     {
         string url = scheme.IsOversea
             ? ApiOsEndpoints.SgHoyoPlayConnectDeprecatedFileConfigs(scheme)
@@ -65,8 +65,8 @@ internal sealed partial class HoyoPlayClient
             .SetRequestUri(url)
             .Get();
 
-        Response<DeprecatedFileConfigs>? resp = await builder
-            .SendAsync<Response<DeprecatedFileConfigs>>(httpClient, logger, token)
+        Response<DeprecatedFileConfigurationsWrapper>? resp = await builder
+            .SendAsync<Response<DeprecatedFileConfigurationsWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

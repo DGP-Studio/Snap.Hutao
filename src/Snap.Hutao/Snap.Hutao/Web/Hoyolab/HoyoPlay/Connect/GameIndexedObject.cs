@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 
-internal class GameSpecified
+internal class GameIndexedObject
 {
     [JsonPropertyName("game")]
     public Game Game { get; set; } = default!;

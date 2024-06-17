@@ -58,7 +58,7 @@ internal sealed partial class PackageConverter
         //    替换操作等于 先备份国服文件，随后新增国际服文件
 
         // 准备下载链接
-        string scatteredFilesUrl = gamePackage.Main.Major.ResListUrl;
+        string scatteredFilesUrl = gamePackage.Main.Major.ResourceListUrl;
         string pkgVersionUrl = $"{scatteredFilesUrl}/{PackageVersion}";
 
         PackageConverterFileSystemContext context = new(targetScheme.IsOversea, runtimeOptions.GetDataFolderServerCacheFolder(), gameFolder, scatteredFilesUrl);
@@ -79,7 +79,7 @@ internal sealed partial class PackageConverter
         return await ReplaceGameResourceAsync(diffOperations, context, progress).ConfigureAwait(false);
     }
 
-    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(ChannelSDK? channelSDK, DeprecatedFileConfig? deprecatedFileConfig, string gameFolder)
+    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(GameChannelSDK? channelSDK, DeprecatedFilesWrapper? deprecatedFileConfig, string gameFolder)
     {
         string sdkDllBackup = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll.backup");
         string sdkDll = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll");

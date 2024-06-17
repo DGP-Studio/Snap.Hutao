@@ -3,8 +3,8 @@
 
 namespace Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 
-internal sealed class GamePackages
+internal sealed class GamePackagesWrapper
 {
     [JsonPropertyName("game_packages")]
-    public List<GamePackage> Packages { get; set; } = default!;
+    public List<GamePackage> GamePackages { get; set; } = default!;
 }
