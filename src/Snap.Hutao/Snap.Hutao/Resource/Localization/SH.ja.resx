@@ -1035,7 +1035,7 @@
     <value>ゲームプロセスのメモリの読み取りに失敗しました: 指定されたアドレスで有効な値を読み取れませんでした。</value>
   </data>
   <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
-    <value>解锁帧率失败：0x{0:X8}</value>
+    <value>フレームレートロック解除に失敗しました：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>祈願履歴のアップロード期限は\n{0:yyyy.MM.dd HH:mm:ss}です。</value>
