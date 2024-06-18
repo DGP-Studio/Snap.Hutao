@@ -1035,7 +1035,7 @@
     <value>Error reading process modules' memory: could not read valid value in given address</value>
   </data>
   <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
-    <value>解锁帧率失败：0x{0:X8}</value>
+    <value>Failed to unlock frame rate：x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>Wish history data backup service will expire at \n{0:yyyy.MM.dd HH:mm:ss}</value>
