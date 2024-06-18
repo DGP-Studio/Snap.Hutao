@@ -26,15 +26,14 @@ internal sealed class Team : List<AvatarView>
 
         AddRange(new AvatarView[4 - Count]);
 
-        Rate = SH.FormatModelBindingHutaoTeamUpCountFormat(team.Rate);
+        UpCount = SH.FormatModelBindingHutaoTeamUpCountFormat(team.Rate);
         Rank = rank;
     }
 
     /// <summary>
     /// 上场次数
     /// </summary>
-    [Obsolete("Name this with another name")]
-    public string Rate { get; }
+    public string UpCount { get; }
 
     public int Rank { get; set; }
 }

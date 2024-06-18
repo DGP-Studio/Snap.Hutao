@@ -162,7 +162,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             : HutaoEndpoints.StatisticsAvatarHoldingRate;
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.StatisticsAvatarHoldingRate)
+            .SetRequestUri(url)
             .Get();
 
         HutaoResponse<List<AvatarConstellationInfo>>? resp = await builder

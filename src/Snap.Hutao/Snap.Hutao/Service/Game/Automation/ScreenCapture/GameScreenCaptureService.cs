@@ -3,9 +3,7 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.Graphics.Direct3D11;
 using Windows.Graphics.Capture;
-using static Snap.Hutao.Win32.ConstValues;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
@@ -13,20 +11,6 @@ namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 [Injection(InjectAs.Singleton, typeof(IGameScreenCaptureService))]
 internal sealed partial class GameScreenCaptureService : IGameScreenCaptureService
 {
-    private const uint CreateDXGIFactoryFlag =
-#if DEBUG
-        DXGI_CREATE_FACTORY_DEBUG;
-#else
-        0;
-#endif
-
-    private const D3D11_CREATE_DEVICE_FLAG D3d11CreateDeviceFlag =
-        D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT
-#if DEBUG
-        | D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_DEBUG
-#endif
-        ;
-
     private readonly ILogger<GameScreenCaptureService> logger;
 
     public bool IsSupported()

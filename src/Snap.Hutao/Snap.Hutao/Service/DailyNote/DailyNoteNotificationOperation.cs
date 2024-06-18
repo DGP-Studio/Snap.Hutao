@@ -104,12 +104,6 @@ internal sealed partial class DailyNoteNotificationOperation
         AppNotificationManager.Default.Show(notification);
     }
 
-    private bool ShouldSuppressPopup(DailyNoteOptions options)
-    {
-        // Prevent notify when we are in game && silent mode.
-        return options.IsSilentWhenPlayingGame && gameService.IsGameRunning();
-    }
-
     private async ValueTask<string> GetUserUidAsync(DailyNoteEntry entry)
     {
         Response<ListWrapper<UserGameRole>> rolesResponse;

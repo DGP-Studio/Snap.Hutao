@@ -212,7 +212,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
         AvatarAppearanceRanks = CurrentLeftJoinLast(raw.SortByDescending(r => r.Floor), rawLast, data => data.Floor, (raw, rawLast) => new AvatarRankView
         {
             Floor = SH.FormatModelBindingHutaoComplexRankFloor(raw.Floor),
-            Avatars = CurrentLeftJoinLast(raw.Ranks, rawLast?.Ranks, data => data.Item, (rank, rankLast) => new AvatarView(idAvatarMap[rank.Item], rank.Rate, rankLast?.Rate)).OrderByDescending(r => r.Rate).ToList(),
+            Avatars = CurrentLeftJoinLast(raw.Ranks.SortByDescending(r => r.Rate), rawLast?.Ranks, data => data.Item, (rank, rankLast) => new AvatarView(idAvatarMap[rank.Item], rank.Rate, rankLast?.Rate)).ToList(),
         }).ToList();
     }
 
@@ -230,7 +230,7 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
         AvatarUsageRanks = CurrentLeftJoinLast(raw.SortByDescending(r => r.Floor), rawLast, data => data.Floor, (raw, rawLast) => new AvatarRankView
         {
             Floor = SH.FormatModelBindingHutaoComplexRankFloor(raw.Floor),
-            Avatars = CurrentLeftJoinLast(raw.Ranks, rawLast?.Ranks, data => data.Item, (rank, rankLast) => new AvatarView(idAvatarMap[rank.Item], rank.Rate, rankLast?.Rate)).OrderByDescending(r => r.Rate).ToList(),
+            Avatars = CurrentLeftJoinLast(raw.Ranks.SortByDescending(r => r.Rate), rawLast?.Ranks, data => data.Item, (rank, rankLast) => new AvatarView(idAvatarMap[rank.Item], rank.Rate, rankLast?.Rate)).ToList(),
         }).ToList();
     }
 

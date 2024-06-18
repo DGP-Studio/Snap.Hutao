@@ -17,6 +17,7 @@
     xmlns:shct="using:Snap.Hutao.Control.Text"
     xmlns:shvcom="using:Snap.Hutao.ViewModel.Complex"
     xmlns:shvcon="using:Snap.Hutao.View.Control"
+    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvs="using:Snap.Hutao.ViewModel.SpiralAbyss"
     d:DataContext="{d:DesignInstance shvs:SpiralAbyssRecordViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -504,7 +505,7 @@
                     </mxi:Interaction.Behaviors>
 
                     <Grid.Resources>
-                        <DataTemplate x:Key="AvatarViewTemplate" d:DataType="shvcom:AvatarView">
+                        <DataTemplate x:Key="AvatarViewInTeamTemplate" d:DataType="shvcom:AvatarView">
                             <shvcon:ItemIcon
                                 Width="40"
                                 Height="40"
@@ -525,7 +526,7 @@
                                         <ItemsControl
                                             Margin="4"
                                             HorizontalAlignment="Left"
-                                            ItemTemplate="{StaticResource AvatarViewTemplate}"
+                                            ItemTemplate="{StaticResource AvatarViewInTeamTemplate}"
                                             ItemsPanel="{ThemeResource HorizontalStackPanelSpacing4Template}"
                                             ItemsSource="{Binding}"/>
                                     </Viewbox>
@@ -554,16 +555,35 @@
                                             Margin="4"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
-                                            Text="{Binding Rate}"/>
+                                            Text="{Binding UpCount}"/>
                                     </Grid>
                                 </Grid>
                             </Border>
                         </DataTemplate>
 
                         <DataTemplate x:Key="RatedAvatarTemplate" x:DataType="shvcom:AvatarView">
-                            <shvcon:BottomTextControl Text="{Binding Rate}">
-                                <shvcon:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
-                            </shvcon:BottomTextControl>
+                            <shvcp:HorizontalCard>
+                                <shvcp:HorizontalCard.Left>
+                                    <shvcon:ItemIcon
+                                        Width="56"
+                                        Height="56"
+                                        Icon="{Binding Icon}"
+                                        Quality="{Binding Quality}"/>
+                                </shvcp:HorizontalCard.Left>
+                                <shvcp:HorizontalCard.Right>
+                                    <StackPanel
+                                        Width="64"
+                                        Margin="8,8,8,8"
+                                        HorizontalAlignment="Center"
+                                        Spacing="2">
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding Rate}"/>
+                                        <shvcon:RateDeltaTextBlock
+                                            HorizontalAlignment="Center"
+                                            Text="{Binding RateDelta}"
+                                            TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                                    </StackPanel>
+                                </shvcp:HorizontalCard.Right>
+                            </shvcp:HorizontalCard>
                         </DataTemplate>
                     </Grid.Resources>
 
@@ -866,10 +886,14 @@
                                                                 <ColumnDefinition Width="1*"/>
                                                                 <ColumnDefinition Width="7*"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <TextBlock
-                                                                HorizontalAlignment="Center"
-                                                                VerticalAlignment="Center"
-                                                                Text="{Binding Rate}"/>
+                                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <TextBlock HorizontalAlignment="Center" Text="{Binding Rate}"/>
+                                                                <shvcon:RateDeltaTextBlock
+                                                                    HorizontalAlignment="Center"
+                                                                    Text="{Binding RateDelta}"
+                                                                    TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                                                            </StackPanel>
+
                                                             <ItemsControl Grid.Column="1" ItemsSource="{Binding Rates}">
                                                                 <ItemsControl.ItemsPanel>
                                                                     <ItemsPanelTemplate>
@@ -878,10 +902,13 @@
                                                                 </ItemsControl.ItemsPanel>
                                                                 <ItemsControl.ItemTemplate>
                                                                     <DataTemplate>
-                                                                        <TextBlock
-                                                                            HorizontalAlignment="Center"
-                                                                            VerticalAlignment="Center"
-                                                                            Text="{Binding}"/>
+                                                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                            <TextBlock HorizontalAlignment="Center" Text="{Binding Rate}"/>
+                                                                            <shvcon:RateDeltaTextBlock
+                                                                                HorizontalAlignment="Center"
+                                                                                Text="{Binding RateDelta}"
+                                                                                TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                                                                        </StackPanel>
                                                                     </DataTemplate>
                                                                 </ItemsControl.ItemTemplate>
                                                             </ItemsControl>
