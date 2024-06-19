@@ -661,7 +661,7 @@
 
                                     <GridView
                                         Grid.Row="1"
-                                        Padding="16,0,4,0"
+                                        Padding="16,0,4,4"
                                         DataContext="{Binding SelectedAvatarUsageRank}"
                                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                         ItemTemplate="{StaticResource RatedAvatarTemplate}"
@@ -695,7 +695,7 @@
 
                                     <GridView
                                         Grid.Row="1"
-                                        Padding="16,0,4,0"
+                                        Padding="16,0,4,4"
                                         DataContext="{Binding SelectedAvatarAppearanceRank}"
                                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                         ItemTemplate="{StaticResource RatedAvatarTemplate}"
@@ -737,7 +737,7 @@
                                                 </Border>
                                             </cwc:HeaderedContentControl.Header>
                                             <ListView
-                                                Padding="0"
+                                                Padding="0,0,0,16"
                                                 ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
                                                 ItemTemplate="{StaticResource TeamItemTemplate}"
                                                 ItemsSource="{Binding Up}"
@@ -764,7 +764,7 @@
                                                 </Border>
                                             </cwc:HeaderedContentControl.Header>
                                             <ListView
-                                                Padding="0"
+                                                Padding="0,0,0,16"
                                                 ItemContainerStyle="{ThemeResource NoneSelectionListViewItemStyle}"
                                                 ItemTemplate="{StaticResource TeamItemTemplate}"
                                                 ItemsSource="{Binding Down}"
@@ -861,6 +861,7 @@
                                     <ListView
                                         Grid.Row="1"
                                         Margin="0,0,4,0"
+                                        Padding="0,0,0,8"
                                         HorizontalContentAlignment="Stretch"
                                         ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
                                         ItemsSource="{Binding AvatarConstellationInfos}"
