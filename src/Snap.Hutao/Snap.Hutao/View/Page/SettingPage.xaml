@@ -50,6 +50,7 @@
                                     Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
                                 <cwc:UniformGrid
                                     Grid.Row="1"
+                                    Margin="16"
                                     VerticalAlignment="Bottom"
                                     ColumnSpacing="8"
                                     Columns="2"
