@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.LibraryLoader;
+using Snap.Hutao.Win32.System.Threading;
 using System.Diagnostics;
 using static Snap.Hutao.Win32.Kernel32;
 
@@ -24,6 +25,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
 
         context.GameProcess = gameProcess;
+        context.AllAccess = OpenProcess(PROCESS_ACCESS_RIGHTS.PROCESS_ALL_ACCESS, false, (uint)gameProcess.Id);
         context.Options = options;
         context.Progress = progress;
     }
@@ -73,9 +75,9 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         }
     }
 
-    private static unsafe bool UnsafeWriteProcessMemory(Process process, nuint baseAddress, int value)
+    private static unsafe bool UnsafeWriteProcessMemory(System.Diagnostics.Process process, nuint baseAddress, int value)
     {
-        return WriteProcessMemory((HANDLE)process.Handle, (void*)baseAddress, ref value, out _);
+        return WriteProcessMemory((Win32.Foundation.HANDLE)process.Handle, (void*)baseAddress, ref value, out _);
     }
 
     private static RequiredLocalModule LoadRequiredLocalModule(GameFileSystem gameFileSystem)

@@ -19,7 +19,7 @@ internal static class GameProcessModule
         {
             while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
             {
-                FindModuleResult result = UnsafeGetGameModuleInfo((HANDLE)state.GameProcess.Handle, out RequiredRemoteModule gameModule);
+                FindModuleResult result = UnsafeGetGameModuleInfo(state.AllAccess, out RequiredRemoteModule gameModule);
                 if (result == FindModuleResult.Ok)
                 {
                     return new(FindModuleResult.Ok, gameModule);

@@ -214,10 +214,10 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern HANDLE RemovePropW(HWND hWnd, PCWSTR lpString);
+    public static extern Foundation.HANDLE RemovePropW(HWND hWnd, PCWSTR lpString);
 
     [DebuggerStepThrough]
-    public static unsafe HANDLE RemovePropW(HWND hWnd, string @string)
+    public static unsafe Foundation.HANDLE RemovePropW(HWND hWnd, string @string)
     {
         fixed (char* lpString = @string)
         {
@@ -248,10 +248,10 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL SetPropW(HWND hWnd, PCWSTR lpString, [AllowNull] HANDLE hData);
+    public static extern BOOL SetPropW(HWND hWnd, PCWSTR lpString, [AllowNull] Foundation.HANDLE hData);
 
     [DebuggerStepThrough]
-    public static unsafe BOOL SetPropW(HWND hWnd, string @string, [AllowNull] HANDLE hData)
+    public static unsafe BOOL SetPropW(HWND hWnd, string @string, [AllowNull] Foundation.HANDLE hData)
     {
         fixed (char* lpString = @string)
         {

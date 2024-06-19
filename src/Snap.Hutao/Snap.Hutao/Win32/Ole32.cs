@@ -39,13 +39,13 @@ internal static class Ole32
     public static unsafe extern void CoTaskMemFree([AllowNull] void* pv);
 
     [DllImport("OLE32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    public static unsafe extern HRESULT CoWaitForMultipleObjects(uint dwFlags, uint dwTimeout, uint cHandles, HANDLE* pHandles, uint* lpdwindex);
+    public static unsafe extern HRESULT CoWaitForMultipleObjects(uint dwFlags, uint dwTimeout, uint cHandles, Foundation.HANDLE* pHandles, uint* lpdwindex);
 
     [SuppressMessage("", "SH002")]
     [DebuggerStepThrough]
-    public static unsafe HRESULT CoWaitForMultipleObjects(CWMO_FLAGS dwFlags, uint dwTimeout, ReadOnlySpan<HANDLE> handles, out uint dwindex)
+    public static unsafe HRESULT CoWaitForMultipleObjects(CWMO_FLAGS dwFlags, uint dwTimeout, ReadOnlySpan<Foundation.HANDLE> handles, out uint dwindex)
     {
-        fixed (HANDLE* pHandles = handles)
+        fixed (Foundation.HANDLE* pHandles = handles)
         {
             fixed (uint* lpdwindex = &dwindex)
             {
