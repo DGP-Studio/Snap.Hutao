@@ -193,16 +193,16 @@
     <value>Register [{0}] hotkey [{1}] failed</value>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
-    <value>退出</value>
+    <value>Quit</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
     <value>Launch</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已进入后台运行</value>
+    <value>Snap Hutao is running in the background</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>窗口</value>
+    <value>Window</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>Dark</value>
@@ -552,7 +552,7 @@
     <value>Refinement {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>Must sign in to your MiHoYo BBS account and select a user</value>
+    <value>Must sign in to MiYouShe/HoYoLAB and select a user and role</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>Deleted {1} wish records from UID: {0}</value>
@@ -570,7 +570,7 @@
     <value>Found abnormal data, unable to upload to Snap Hutao Cloud. Please do not upload across accounts or you can attempt to delete cloud data and try again.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>Uploaded {1} wish records of UID: {0}, stored {2}</value>
+    <value>Uploaded {1} wish records to UID: {0}, {2} records saved</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Please login or register Snap Hutao account first</value>
@@ -621,7 +621,7 @@
     <value>Verification request is too frequent. Please try again in 1 minute.</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>Failed to upload Sprial Abyss record, current UID is banned by Hutao Database</value>
+    <value>Upload Sprial Abyss record failed, current UID is banned by Hutao Database</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
     <value>Failed to upload Sprial Abyss record, server is calculating statistical data</value>
@@ -642,7 +642,7 @@
     <value>Failed to upload Spiral Abyss record. It is not data for the current schedule.</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>Failed to upload Sprial Abyss record. The record for the current UID is still being processed. Please do not repeat the operation.</value>
+    <value>Upload Sprial Abyss record failed. The record for the current UID is still being processed. Please do not repeat the operation.</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>Uploaded Spiral Abyss record successfully. Received a privilege extension for Snap Hutao Cloud service.</value>
@@ -1034,6 +1034,9 @@
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
     <value>Error reading process modules' memory: could not read valid value in given address</value>
   </data>
+  <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
+    <value>Failed to unlock frame rate：x{0:X8}</value>
+  </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>Wish history data backup service will expire at \n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
@@ -1373,13 +1376,13 @@
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>Delete user data permanently?</value>
   </data>
-  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginCloseButtonText" xml:space="preserve">
-    <value>Log in Now</value>
-  </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
     <value>No Hutao Passport logged in currently, uploading Abyss Records will not grant you Hutao Cloud privilege extension.</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
+    <value>Log in Now</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginSecondaryButtonText" xml:space="preserve">
     <value>Continue to Upload</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
@@ -1568,11 +1571,14 @@
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>Can't add plan with invalid name</value>
   </data>
+  <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
+    <value>Syncing inventory items</value>
+  </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
-    <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
+    <value>This action is irreversible, items and materials in this plan will lose</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectTitle" xml:space="preserve">
-    <value>确认要删除当前计划吗？</value>
+    <value>Are you sure to delete current plan?</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
     <value>Realtime Note Webhook URL successfully configured</value>
@@ -1925,6 +1931,9 @@
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
     <value>Go</value>
   </data>
+  <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
+    <value>Sync Inventory Items</value>
+  </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Delete list</value>
   </data>
@@ -1965,7 +1974,7 @@
     <value>Notification Settings</value>
   </data>
   <data name="ViewPageDailyNoteNotificationUnavailableHint" xml:space="preserve">
-    <value>胡桃的通知权限已被关闭</value>
+    <value>Snap Hutao notification permission has been disabled</value>
   </data>
   <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
     <value>Refresh</value>
@@ -1998,7 +2007,7 @@
     <value>Refresh</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
-    <value>未启用通知区域图标，关闭窗口后自动刷新将不会执行</value>
+    <value>Notification area incon is disabled, auto-refresh will be be executed after closing the window</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Do not disturb during Genshin gaming</value>
@@ -2067,10 +2076,10 @@
     <value>Go to Afdian to Buy Related Services</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>Buy or Renew Cloud Service</value>
+    <value>Buy / Renew Cloud Services</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>Delete the Cloud Archive of This UID</value>
+    <value>Delete cloud archive of this UID</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Lifetime developer license</value>
@@ -2079,7 +2088,7 @@
     <value>Snap Hutao Cloud Service Expired</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>Download the Cloud Archive of this UID</value>
+    <value>Download cloud archive of this UID</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>Free 3-day license after uploading current schedule Abyss record</value>
@@ -2406,7 +2415,7 @@
     <value>Rename</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>Switch game server (CN/BiliBili/Global)</value>
+    <value>Switch game server (CN/Bilibili/Global)</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>Server</value>
@@ -2415,7 +2424,7 @@
     <value>You need to convert to a server that matches the launcher before updating the version</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>Please turn off V-Sync in the game settings. You may need a high-performance graphic card to support a high frame rate limit.</value>
+    <value>Please turn off [V-Sync] in your game graphic settings, need high performance GPU to support higher refresh rate gaming</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>Unlock Frame Rate Limit</value>
@@ -2433,7 +2442,7 @@
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>Enter your HoYoLab UID</value>
+    <value>Please input your HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
     <value>You are using an embedded webview to login to your MiHoYo passport account, the client will fetch the Cookie data when you click on I'm Signed in button. All network communication initialed in this webview occurs only between your computer and MiHoYo official servers.</value>
@@ -2511,7 +2520,7 @@
     <value>Unless the developer explicitly asks you to do this, you should not execute the operations below!</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>User data and metadata are saved here</value>
+    <value>User data/metadata are saved here</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
     <value>Data Folder</value>
@@ -2589,7 +2598,7 @@
     <value>Select the game server for which you want to get announcements</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>Announcement Server</value>
+    <value>Announcement Game Server Source</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Manage cards on home dashboard</value>
@@ -2646,7 +2655,7 @@
     <value>You are unlimited in any testing feature</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>Snap Hutao developer and maintainer</value>
+    <value>Snap Hutao Developer / Maintainer</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>We sometimes give away Snap Hutao Cloud redemption codes to some users</value>
@@ -2679,10 +2688,10 @@
     <value>Shortcut Keys</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
-    <value>在通知区域显示图标，以允许执行后台任务，重启后生效</value>
+    <value>Show icon in notification area, to allow background task, restart the program to activate</value>
   </data>
   <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
-    <value>通知区域图标</value>
+    <value>Notification Area Icon</value>
   </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>Official Website</value>
@@ -2703,7 +2712,7 @@
     <value>Reset Image Resource</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>Add Unlock Frame Rate Limit Option in Game Launcher Process Section</value>
+    <value>Add [Unlock Frame Rate Limit] in [Game Launcher - Process Linkage]</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>Game Launcher - Unlock Frame Rate Limit</value>
@@ -2751,7 +2760,7 @@
     <value>Contribute Translations</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>Display undrawn wish items in Character and Weapon tabs in Wish Export</value>
+    <value>在「祈愿记录-角色」与「祈愿记录-武器」中显示未抽取到的祈愿物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>Undrawn Wish Items</value>
@@ -2997,7 +3006,7 @@
     <value>Document</value>
   </data>
   <data name="ViewUserLoginMihoyoUserDisabledTooltip" xml:space="preserve">
-    <value>由于米游社安全策略的相关更改，网页登录暂不可用</value>
+    <value>Due to MiYouShe's security policy changes, login from web is unavailable</value>
   </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
     <value>Haven't logged in</value>
@@ -3261,7 +3270,7 @@
     <value>[{1}] network request exception in [{0}] please try again later</value>
   </data>
   <data name="WebResponseSignInErrorHint" xml:space="preserve">
-    <value>登录失败，请前往 HoYoLAB 初始化账号，原始消息：{0}</value>
+    <value>Login failed, please visit HoYoLAB to initial your account, original message: {0}</value>
   </data>
   <data name="WindowIdentifyMonitorHeader" xml:space="preserve">
     <value>Monitor ID</value>

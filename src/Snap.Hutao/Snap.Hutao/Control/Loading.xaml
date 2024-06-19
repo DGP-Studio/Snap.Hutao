@@ -24,7 +24,7 @@
                             x:Name="ContentGrid"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            x:Load="False">
+                            x:Load="True">
                             <ContentPresenter.RenderTransform>
                                 <CompositeTransform/>
                             </ContentPresenter.RenderTransform>

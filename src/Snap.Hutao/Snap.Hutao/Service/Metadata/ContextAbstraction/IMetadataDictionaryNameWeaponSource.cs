@@ -5,5 +5,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryNameWeaponSource
 {
-    public Dictionary<string, Model.Metadata.Weapon.Weapon> NameWeaponMap { get; set; }
+    Dictionary<string, Model.Metadata.Weapon.Weapon> NameWeaponMap { get; set; }
 }

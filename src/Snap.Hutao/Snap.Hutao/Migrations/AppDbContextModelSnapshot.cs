@@ -15,7 +15,7 @@ namespace Snap.Hutao.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
                 {
@@ -464,6 +464,33 @@ namespace Snap.Hutao.Migrations
                     b.HasKey("InnerId");
 
                     b.ToTable("spiral_abysses");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.UidProfilePicture", b =>
+                {
+                    b.Property<Guid>("InnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("AvatarId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<uint>("CostumeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<uint>("ProfilePictureId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset>("RefreshTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Uid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("InnerId");
+
+                    b.ToTable("uid_profile_pictures");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.User", b =>

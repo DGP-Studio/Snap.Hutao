@@ -2,10 +2,12 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Cultivation;
+using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
@@ -29,6 +31,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private readonly ICultivationService cultivationService;
     private readonly ILogger<CultivationViewModel> logger;
     private readonly INavigationService navigationService;
+    private readonly IInventoryService inventoryService;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
@@ -140,8 +143,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToMainThreadAsync();
         CultivateEntries = entries;
-        InventoryItems = cultivationService.GetInventoryItemViews(project, context, SaveInventoryItemCommand);
 
+        await UpdateInventoryItemsAsync().ConfigureAwait(false);
         await UpdateStatisticsItemsAsync().ConfigureAwait(false);
     }
 
@@ -173,8 +176,32 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     {
         if (inventoryItem is not null)
         {
-            cultivationService.SaveInventoryItem(inventoryItem);
+            inventoryService.SaveInventoryItem(inventoryItem);
             await UpdateStatisticsItemsAsync().ConfigureAwait(false);
+        }
+    }
+
+    [Command("RefreshInventoryCommand")]
+    private async Task RefreshInventoryAsync()
+    {
+        if (SelectedProject is null)
+        {
+            return;
+        }
+
+        using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+        {
+            ContentDialog dialog = await contentDialogFactory
+                .CreateForIndeterminateProgressAsync(SH.ViewModelCultivationRefreshInventoryProgress)
+                .ConfigureAwait(false);
+
+            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+            {
+                await inventoryService.RefreshInventoryAsync(SelectedProject).ConfigureAwait(false);
+
+                await UpdateInventoryItemsAsync().ConfigureAwait(false);
+                await UpdateStatisticsItemsAsync().ConfigureAwait(false);
+            }
         }
     }
 
@@ -198,6 +225,18 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
             await taskContext.SwitchToMainThreadAsync();
             StatisticsItems = statistics;
+        }
+    }
+
+    private async ValueTask UpdateInventoryItemsAsync()
+    {
+        if (SelectedProject is not null)
+        {
+            await taskContext.SwitchToBackgroundAsync();
+            CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
+
+            await taskContext.SwitchToMainThreadAsync();
+            InventoryItems = inventoryService.GetInventoryItemViews(SelectedProject, context, SaveInventoryItemCommand);
         }
     }
 

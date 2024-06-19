@@ -11,6 +11,8 @@ namespace Snap.Hutao.Factory.ContentDialog;
 [HighQuality]
 internal interface IContentDialogFactory
 {
+    bool IsDialogShowing { get; }
+
     /// <summary>
     /// 异步确认
     /// </summary>
@@ -40,4 +42,6 @@ internal interface IContentDialogFactory
 
     ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog;
+
+    Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog);
 }

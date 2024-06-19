@@ -162,40 +162,20 @@ internal static class HutaoEndpoints
     /// </summary>
     public const string RecordUpload = $"{HomaSnapGenshin}/Record/Upload";
 
-    /// <summary>
-    /// 统计信息
-    /// </summary>
     public const string StatisticsOverview = $"{HomaSnapGenshin}/Statistics/Overview";
-
-    /// <summary>
-    /// 出场率
-    /// </summary>
+    public const string StatisticsOverviewLast = $"{StatisticsOverview}?Last=true";
     public const string StatisticsAvatarAttendanceRate = $"{HomaSnapGenshin}/Statistics/Avatar/AttendanceRate";
-
-    /// <summary>
-    /// 使用率
-    /// </summary>
+    public const string StatisticsAvatarAttendanceRateLast = $"{StatisticsAvatarAttendanceRate}?Last=true";
     public const string StatisticsAvatarUtilizationRate = $"{HomaSnapGenshin}/Statistics/Avatar/UtilizationRate";
-
-    /// <summary>
-    /// 角色搭配
-    /// </summary>
+    public const string StatisticsAvatarUtilizationRateLast = $"{StatisticsAvatarUtilizationRate}?Last=true";
     public const string StatisticsAvatarAvatarCollocation = $"{HomaSnapGenshin}/Statistics/Avatar/AvatarCollocation";
-
-    /// <summary>
-    /// 角色持有率
-    /// </summary>
+    public const string StatisticsAvatarAvatarCollocationLast = $"{StatisticsAvatarAvatarCollocation}?Last=true";
     public const string StatisticsAvatarHoldingRate = $"{HomaSnapGenshin}/Statistics/Avatar/HoldingRate";
-
-    /// <summary>
-    /// 武器搭配
-    /// </summary>
+    public const string StatisticsAvatarHoldingRateLast = $"{StatisticsAvatarHoldingRate}?Last=true";
     public const string StatisticsWeaponWeaponCollocation = $"{HomaSnapGenshin}/Statistics/Weapon/WeaponCollocation";
-
-    /// <summary>
-    /// 持有率
-    /// </summary>
+    public const string StatisticsWeaponWeaponCollocationLast = $"{StatisticsWeaponWeaponCollocation}?Last=true";
     public const string StatisticsTeamCombination = $"{HomaSnapGenshin}/Statistics/Team/Combination";
+    public const string StatisticsTeamCombinationLast = $"{StatisticsTeamCombination}?Last=true";
     #endregion
 
     public static string Website(string path)
@@ -210,6 +190,11 @@ internal static class HutaoEndpoints
     public static string Enka(in PlayerUid uid)
     {
         return $"{ApiSnapGenshinEnka}/{uid}";
+    }
+
+    public static string EnkaPlayerInfo(in PlayerUid uid)
+    {
+        return $"{ApiSnapGenshinEnka}/{uid}/info";
     }
 
     public const string Ip = $"{ApiSnapGenshin}/ip";
@@ -278,7 +263,7 @@ internal static class HutaoEndpoints
 
     public const string WallpaperBing = $"{ApiSnapGenshin}/wallpaper/bing";
 
-    public const string WallpaperGenshinLauncher = $"{ApiSnapGenshin}/wallpaper/genshin-launcher";
+    public const string WallpaperGenshinLauncher = $"{ApiSnapGenshin}/wallpaper/hoyoplay";
 
     public const string WallpaperToday = $"{ApiSnapGenshin}/wallpaper/today";
     #endregion

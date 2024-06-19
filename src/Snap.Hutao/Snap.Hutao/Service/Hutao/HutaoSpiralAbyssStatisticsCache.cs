@@ -9,6 +9,7 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Hutao;
 
@@ -124,6 +125,32 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
         return false;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static IEnumerable<TResult> CurrentLeftJoinLast<TElement, TKey, TResult>(IEnumerable<TElement> current, IEnumerable<TElement>? last, Func<TElement, TKey> keySelector, Func<TElement, TElement?, TResult> resultSelector)
+        where TKey : notnull
+    {
+        if (last is null)
+        {
+            foreach (TElement element in current)
+            {
+                yield return resultSelector(element, default);
+            }
+        }
+        else
+        {
+            Dictionary<TKey, TElement> lastMap = [];
+            foreach (TElement element in last)
+            {
+                lastMap[keySelector(element)] = element;
+            }
+
+            foreach (TElement element in current)
+            {
+                yield return resultSelector(element, lastMap.GetValueOrDefault(keySelector(element)));
+            }
+        }
+    }
+
     private async ValueTask<Dictionary<AvatarId, Avatar>> GetIdAvatarMapExtendedAsync()
     {
         if (idAvatarExtendedMap is null)
@@ -137,86 +164,91 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
 
     private async ValueTask AvatarCollocationsAsync(Dictionary<AvatarId, Avatar> idAvatarMap, Dictionary<WeaponId, Weapon> idWeaponMap, Dictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
     {
-        List<AvatarCollocation> avatarCollocationsRaw;
+        List<AvatarCollocation> raw, rawLast;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
-            avatarCollocationsRaw = await hutaoService.GetAvatarCollocationsAsync().ConfigureAwait(false);
+            raw = await hutaoService.GetAvatarCollocationsAsync(false).ConfigureAwait(false);
+            rawLast = await hutaoService.GetAvatarCollocationsAsync(true).ConfigureAwait(false);
         }
 
-        AvatarCollocations = avatarCollocationsRaw.SelectList(co => new AvatarCollocationView()
+        AvatarCollocations = CurrentLeftJoinLast(raw, rawLast, data => data.AvatarId, (raw, rawLast) => new AvatarCollocationView()
         {
-            AvatarId = co.AvatarId,
-            Avatars = co.Avatars.SelectList(a => new AvatarView(idAvatarMap[a.Item], a.Rate)),
-            Weapons = co.Weapons.SelectList(w => new WeaponView(idWeaponMap[w.Item], w.Rate)),
-            ReliquarySets = co.Reliquaries.SelectList(r => new ReliquarySetView(r, idReliquarySetMap)),
+            AvatarId = raw.AvatarId,
+            Avatars = CurrentLeftJoinLast(raw.Avatars, rawLast?.Avatars, data => data.Item, (avatar, avatarLast) => new AvatarView(idAvatarMap[avatar.Item], avatar.Rate, avatarLast?.Rate)).ToList(),
+            Weapons = CurrentLeftJoinLast(raw.Weapons, rawLast?.Weapons, data => data.Item, (weapon, weaponLast) => new WeaponView(idWeaponMap[weapon.Item], weapon.Rate, weaponLast?.Rate)).ToList(),
+            ReliquarySets = CurrentLeftJoinLast(raw.Reliquaries, rawLast?.Reliquaries, data => data.Item, (relic, relicLast) => new ReliquarySetView(idReliquarySetMap, relic, relicLast)).ToList(),
         }).ToDictionary(a => a.AvatarId);
     }
 
     private async ValueTask WeaponCollocationsAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
-        List<WeaponCollocation> weaponCollocationsRaw;
+        List<WeaponCollocation> raw, rawLast;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
-            weaponCollocationsRaw = await hutaoService.GetWeaponCollocationsAsync().ConfigureAwait(false);
+            raw = await hutaoService.GetWeaponCollocationsAsync(false).ConfigureAwait(false);
+            rawLast = await hutaoService.GetWeaponCollocationsAsync(true).ConfigureAwait(false);
         }
 
-        WeaponCollocations = weaponCollocationsRaw.SelectList(co => new WeaponCollocationView()
+        WeaponCollocations = CurrentLeftJoinLast(raw, rawLast, data => data.WeaponId, (raw, rawLast) => new WeaponCollocationView()
         {
-            WeaponId = co.WeaponId,
-            Avatars = co.Avatars.SelectList(a => new AvatarView(idAvatarMap[a.Item], a.Rate)),
+            WeaponId = raw.WeaponId,
+            Avatars = CurrentLeftJoinLast(raw.Avatars, rawLast?.Avatars, data => data.Item, (avatar, avatarLast) => new AvatarView(idAvatarMap[avatar.Item], avatar.Rate, avatarLast?.Rate)).ToList(),
         }).ToDictionary(w => w.WeaponId);
     }
 
     [SuppressMessage("", "SH003")]
     private async Task AvatarAppearanceRankAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
-        List<AvatarAppearanceRank> avatarAppearanceRanksRaw;
+        List<AvatarAppearanceRank> raw, rawLast;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
-            avatarAppearanceRanksRaw = await hutaoService.GetAvatarAppearanceRanksAsync().ConfigureAwait(false);
+            raw = await hutaoService.GetAvatarAppearanceRanksAsync(false).ConfigureAwait(false);
+            rawLast = await hutaoService.GetAvatarAppearanceRanksAsync(true).ConfigureAwait(false);
         }
 
-        AvatarAppearanceRanks = avatarAppearanceRanksRaw.SortByDescending(r => r.Floor).SelectList(rank => new AvatarRankView
+        AvatarAppearanceRanks = CurrentLeftJoinLast(raw.SortByDescending(r => r.Floor), rawLast, data => data.Floor, (raw, rawLast) => new AvatarRankView
         {
-            Floor = SH.FormatModelBindingHutaoComplexRankFloor(rank.Floor),
-            Avatars = rank.Ranks.SortByDescending(r => r.Rate).SelectList(rank => new AvatarView(idAvatarMap[rank.Item], rank.Rate)),
-        });
+            Floor = SH.FormatModelBindingHutaoComplexRankFloor(raw.Floor),
+            Avatars = CurrentLeftJoinLast(raw.Ranks.SortByDescending(r => r.Rate), rawLast?.Ranks, data => data.Item, (rank, rankLast) => new AvatarView(idAvatarMap[rank.Item], rank.Rate, rankLast?.Rate)).ToList(),
+        }).ToList();
     }
 
     [SuppressMessage("", "SH003")]
     private async Task AvatarUsageRanksAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
-        List<AvatarUsageRank> avatarUsageRanksRaw;
+        List<AvatarUsageRank> raw, rawLast;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
-            avatarUsageRanksRaw = await hutaoService.GetAvatarUsageRanksAsync().ConfigureAwait(false);
+            raw = await hutaoService.GetAvatarUsageRanksAsync(false).ConfigureAwait(false);
+            rawLast = await hutaoService.GetAvatarUsageRanksAsync(true).ConfigureAwait(false);
         }
 
-        AvatarUsageRanks = avatarUsageRanksRaw.SortByDescending(r => r.Floor).SelectList(rank => new AvatarRankView
+        AvatarUsageRanks = CurrentLeftJoinLast(raw.SortByDescending(r => r.Floor), rawLast, data => data.Floor, (raw, rawLast) => new AvatarRankView
         {
-            Floor = SH.FormatModelBindingHutaoComplexRankFloor(rank.Floor),
-            Avatars = rank.Ranks.SortByDescending(r => r.Rate).SelectList(rank => new AvatarView(idAvatarMap[rank.Item], rank.Rate)),
-        });
+            Floor = SH.FormatModelBindingHutaoComplexRankFloor(raw.Floor),
+            Avatars = CurrentLeftJoinLast(raw.Ranks.SortByDescending(r => r.Rate), rawLast?.Ranks, data => data.Item, (rank, rankLast) => new AvatarView(idAvatarMap[rank.Item], rank.Rate, rankLast?.Rate)).ToList(),
+        }).ToList();
     }
 
     [SuppressMessage("", "SH003")]
     private async Task AvatarConstellationInfosAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
-        List<AvatarConstellationInfo> avatarConstellationInfosRaw;
+        List<AvatarConstellationInfo> raw, rawLast;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
-            avatarConstellationInfosRaw = await hutaoService.GetAvatarConstellationInfosAsync().ConfigureAwait(false);
+            raw = await hutaoService.GetAvatarConstellationInfosAsync(false).ConfigureAwait(false);
+            rawLast = await hutaoService.GetAvatarConstellationInfosAsync(true).ConfigureAwait(false);
         }
 
-        AvatarConstellationInfos = avatarConstellationInfosRaw.SortBy(i => i.HoldingRate).SelectList(info =>
+        AvatarConstellationInfos = CurrentLeftJoinLast(raw.SortBy(i => i.HoldingRate), rawLast, data => data.AvatarId, (raw, rawLast) => new AvatarConstellationInfoView(idAvatarMap[raw.AvatarId], raw.HoldingRate, rawLast?.HoldingRate)
         {
-            return new AvatarConstellationInfoView(idAvatarMap[info.AvatarId], info.HoldingRate, info.Constellations.SelectList(x => x.Rate));
-        });
+            Rates = CurrentLeftJoinLast(raw.Constellations, rawLast?.Constellations, data => data.Item, (rate, rataLast) => new RateAndDelta(rate.Rate, rataLast?.Rate)).ToList(),
+        }).ToList();
     }
 
     [SuppressMessage("", "SH003")]

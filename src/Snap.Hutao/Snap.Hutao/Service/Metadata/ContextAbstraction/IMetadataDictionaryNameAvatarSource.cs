@@ -5,5 +5,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryNameAvatarSource
 {
-    public Dictionary<string, Model.Metadata.Avatar.Avatar> NameAvatarMap { get; set; }
+    Dictionary<string, Model.Metadata.Avatar.Avatar> NameAvatarMap { get; set; }
 }

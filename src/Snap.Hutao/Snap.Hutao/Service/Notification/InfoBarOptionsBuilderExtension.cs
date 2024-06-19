@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Snap.Hutao.Control.Builder.ButtonBase;
 using Snap.Hutao.Core.Abstraction.Extension;
 
 namespace Snap.Hutao.Service.Notification;
@@ -38,20 +36,17 @@ internal static class InfoBarOptionsBuilderExtension
         return builder;
     }
 
-    public static IInfoBarOptionsBuilder SetActionButton<TBuilder, TButton>(this TBuilder builder, Action<ButtonBaseBuilder<TButton>> configureButton)
+    public static IInfoBarOptionsBuilder SetActionButtonContent<TBuilder>(this TBuilder builder, string? buttonContent)
         where TBuilder : IInfoBarOptionsBuilder
-        where TButton : ButtonBase, new()
     {
-        ButtonBaseBuilder<TButton> buttonBaseBuilder = new ButtonBaseBuilder<TButton>().Configure(configureButton);
-        builder.Configure(builder => builder.Options.ActionButton = buttonBaseBuilder.Button);
+        builder.Configure(builder => builder.Options.ActionButtonContent = buttonContent);
         return builder;
     }
 
-    public static IInfoBarOptionsBuilder SetActionButton<TBuilder>(this TBuilder builder, Action<ButtonBuilder> configureButton)
+    public static IInfoBarOptionsBuilder SetActionButtonCommand<TBuilder>(this TBuilder builder, ICommand? buttonCommand)
         where TBuilder : IInfoBarOptionsBuilder
     {
-        ButtonBuilder buttonBaseBuilder = new ButtonBuilder().Configure(configureButton);
-        builder.Configure(builder => builder.Options.ActionButton = buttonBaseBuilder.Button);
+        builder.Configure(builder => builder.Options.ActionButtonCommand = buttonCommand);
         return builder;
     }
 

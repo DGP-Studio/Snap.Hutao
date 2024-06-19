@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Builder.ButtonBase;
 using Snap.Hutao.Core.Abstraction.Extension;
 
 namespace Snap.Hutao.Service.Notification;
@@ -21,7 +20,7 @@ internal static class InfoBarServiceExtension
 
     public static void Information(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 5000)
     {
-        infoBarService.Information(builder => builder.SetTitle(title).SetMessage(message).SetActionButton(buttonBuilder => buttonBuilder.SetContent(buttonContent).SetCommand(buttonCommand)).SetDelay(milliSeconds));
+        infoBarService.Information(builder => builder.SetTitle(title).SetMessage(message).SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
     }
 
     public static void Information(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
@@ -56,7 +55,7 @@ internal static class InfoBarServiceExtension
 
     public static void Warning(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 30000)
     {
-        infoBarService.Warning(builder => builder.SetTitle(title).SetMessage(message).SetActionButton(buttonBuilder => buttonBuilder.SetContent(buttonContent).SetCommand(buttonCommand)).SetDelay(milliSeconds));
+        infoBarService.Warning(builder => builder.SetTitle(title).SetMessage(message).SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
     }
 
     public static void Warning(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)
@@ -76,7 +75,7 @@ internal static class InfoBarServiceExtension
 
     public static void Error(this IInfoBarService infoBarService, string title, string message, string buttonContent, ICommand buttonCommand, int milliSeconds = 0)
     {
-        infoBarService.Error(builder => builder.SetTitle(title).SetMessage(message).SetActionButton(buttonBuilder => buttonBuilder.SetContent(buttonContent).SetCommand(buttonCommand)).SetDelay(milliSeconds));
+        infoBarService.Error(builder => builder.SetTitle(title).SetMessage(message).SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
     }
 
     public static void Error(this IInfoBarService infoBarService, Exception ex, int milliSeconds = 0)
@@ -91,7 +90,7 @@ internal static class InfoBarServiceExtension
 
     public static void Error(this IInfoBarService infoBarService, Exception ex, string subtitle, string buttonContent, ICommand buttonCommand, int milliSeconds = 0)
     {
-        infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage($"{subtitle}\n{ex.Message}").SetActionButton(buttonBuilder => buttonBuilder.SetContent(buttonContent).SetCommand(buttonCommand)).SetDelay(milliSeconds));
+        infoBarService.Error(builder => builder.SetTitle(ex.GetType().Name).SetMessage($"{subtitle}\n{ex.Message}").SetActionButtonContent(buttonContent).SetActionButtonCommand(buttonCommand).SetDelay(milliSeconds));
     }
 
     public static void Error(this IInfoBarService infoBarService, Action<IInfoBarOptionsBuilder> configure)

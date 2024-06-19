@@ -1,12 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Snap.Hutao.Win32.System.SystemInformation;
 
 internal enum IMAGE_FILE_MACHINE : ushort

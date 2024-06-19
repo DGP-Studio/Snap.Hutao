@@ -162,10 +162,16 @@
                 <shvcp:HorizontalCard.Right>
                     <StackPanel Margin="8,0,0,0" HorizontalAlignment="Left">
                         <TextBlock Text="{Binding Name}"/>
-                        <TextBlock
-                            Opacity="0.7"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding Rate}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock
+                                Opacity="0.7"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding Rate}"/>
+                            <shvcont:RateDeltaTextBlock
+                                Opacity="0.7"
+                                Text="{Binding RateDelta}"
+                                TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                        </StackPanel>
                     </StackPanel>
                 </shvcp:HorizontalCard.Right>
             </shvcp:HorizontalCard>
@@ -230,10 +236,16 @@
                             Text="{Binding Name}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap"/>
-                        <TextBlock
-                            Opacity="0.7"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding Rate}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock
+                                Opacity="0.7"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding Rate}"/>
+                            <shvcont:RateDeltaTextBlock
+                                Opacity="0.7"
+                                Text="{Binding RateDelta}"
+                                TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                        </StackPanel>
                     </StackPanel>
                 </shvcp:HorizontalCard.Right>
             </shvcp:HorizontalCard>
@@ -550,7 +562,10 @@
                                                 </Border>
 
                                                 <!--  搭配  -->
-                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                <Border
+                                                    Padding="16"
+                                                    Style="{ThemeResource BorderCardStyle}"
+                                                    Visibility="{Binding Selected.CollocationView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                     <Grid ColumnSpacing="8" RowSpacing="8">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition/>
@@ -571,7 +586,7 @@
                                                             Grid.Column="0"
                                                             ItemTemplate="{StaticResource CollocationTemplate}"
                                                             ItemsPanel="{StaticResource StackPanelSpacing4Template}"
-                                                            ItemsSource="{Binding Selected.Collocation.Avatars}"/>
+                                                            ItemsSource="{Binding Selected.CollocationView.Avatars}"/>
                                                         <TextBlock
                                                             Grid.Row="0"
                                                             Grid.Column="1"
@@ -582,7 +597,7 @@
                                                             Grid.Column="1"
                                                             ItemTemplate="{StaticResource CollocationTemplate}"
                                                             ItemsPanel="{StaticResource StackPanelSpacing4Template}"
-                                                            ItemsSource="{Binding Selected.Collocation.Weapons}"/>
+                                                            ItemsSource="{Binding Selected.CollocationView.Weapons}"/>
                                                         <TextBlock
                                                             Grid.Row="0"
                                                             Grid.Column="2"
@@ -593,7 +608,7 @@
                                                             Grid.Column="2"
                                                             ItemTemplate="{StaticResource CollocationReliquaryTemplate}"
                                                             ItemsPanel="{StaticResource StackPanelSpacing4Template}"
-                                                            ItemsSource="{Binding Selected.Collocation.ReliquarySets}"/>
+                                                            ItemsSource="{Binding Selected.CollocationView.ReliquarySets}"/>
                                                     </Grid>
                                                 </Border>
 

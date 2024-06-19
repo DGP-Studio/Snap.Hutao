@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Notifications;
+using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
@@ -20,7 +20,6 @@ namespace Snap.Hutao.Service.DailyNote;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class DailyNoteNotificationOperation
 {
-    private const string ToastHeaderIdArgument = "DAILYNOTE";
     private const string ToastAttributionUnknown = "Unknown";
 
     private readonly ITaskContext taskContext;
@@ -52,63 +51,57 @@ internal sealed partial class DailyNoteNotificationOperation
             ? entry.UserGameRole.ToString()
             : await GetUserUidAsync(entry).ConfigureAwait(false);
 
-        ToastContentBuilder builder = new ToastContentBuilder()
-            .AddHeader(ToastHeaderIdArgument, SH.ServiceDailyNoteNotifierTitle, ToastHeaderIdArgument)
-            .AddAttributionText(attribution)
-            .AddButton(new ToastButton()
-                .SetContent(SH.ServiceDailyNoteNotifierActionLaunchGameButton)
-                .AddArgument(AppActivation.Action, AppActivation.LaunchGame)
-                .AddArgument(AppActivation.Uid, entry.Uid))
-            .AddButton(new ToastButtonDismiss(SH.ServiceDailyNoteNotifierActionLaunchGameDismiss));
-
-        if (options.IsReminderNotification)
-        {
-            builder.SetToastScenario(ToastScenario.Reminder);
-        }
+        string reminder = options.IsReminderNotification ? @"scenario=""reminder""" : string.Empty;
+        string content;
 
         if (notifyInfos.Count > 2)
         {
-            builder.AddText(SH.ServiceDailyNoteNotifierMultiValueReached);
+            string adaptiveSubgroups = string.Join(string.Empty, notifyInfos.Select(info => $"""
+                <subgroup>
+                    <text hint-align="center">{info.AdaptiveHint}</text>
+                    <text hint-style="captionSubtle" hint-align="center">{info.Title}</text>
+                </subgroup>
+            """));
 
-            // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
-            if (UniversalApiContract.IsPresent(WindowsVersion.Windows10AnniversaryUpdate))
-            {
-                AdaptiveGroup group = new();
-                foreach (DailyNoteNotifyInfo info in notifyInfos)
-                {
-                    AdaptiveSubgroup subgroup = new()
-                    {
-                        HintWeight = 1,
-                        Children =
-                        {
-                            // new AdaptiveImage() { Source = info.AdaptiveIcon, HintRemoveMargin = true, },
-                            new AdaptiveText() { Text = info.AdaptiveHint, HintAlign = AdaptiveTextAlign.Center,  },
-                            new AdaptiveText() { Text = info.Title, HintAlign = AdaptiveTextAlign.Center, HintStyle = AdaptiveTextStyle.CaptionSubtle, },
-                        },
-                    };
-
-                    group.Children.Add(subgroup);
-                }
-
-                builder.AddVisualChild(group);
-            }
+            content = $"""
+                <text>{SH.ServiceDailyNoteNotifierMultiValueReached}</text>
+                <group>
+                {adaptiveSubgroups}
+                </group>
+                """;
         }
         else
         {
-            foreach (DailyNoteNotifyInfo info in notifyInfos)
-            {
-                builder.AddText(info.Hint);
-            }
+            content = string.Join(string.Empty, notifyInfos.Select(info => $"""
+                <text>{info.Hint}</text>
+            """));
+        }
+
+        string rawXml = $"""
+            <toast {reminder}>
+                <header title="{SH.ServiceDailyNoteNotifierTitle}" id="DAILYNOTE" arguments="DAILYNOTE"/>
+
+                <visual>
+                    <binding template="ToastGeneric">
+                        {content}
+                        <text placement="attribution">{attribution}</text>
+                    </binding>
+                </visual>
+                <actions>
+                    <action activationType="background" content="{SH.ServiceDailyNoteNotifierActionLaunchGameButton}" arguments="{AppActivation.Action}={AppActivation.LaunchGame};{AppActivation.Uid}={entry.Uid}"/>
+                    <action activationType="system" content="{SH.ServiceDailyNoteNotifierActionLaunchGameDismiss}" arguments="dismiss"/>
+                </actions>
+            </toast>
+            """;
+        AppNotification notification = new(rawXml);
+
+        if (options.IsSilentWhenPlayingGame && gameService.IsGameRunning())
+        {
+            notification.SuppressDisplay = true;
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        builder.Show(toast => toast.SuppressPopup = ShouldSuppressPopup(options));
-    }
-
-    private bool ShouldSuppressPopup(DailyNoteOptions options)
-    {
-        // Prevent notify when we are in game && silent mode.
-        return options.IsSilentWhenPlayingGame && gameService.IsGameRunning();
+        AppNotificationManager.Default.Show(notification);
     }
 
     private async ValueTask<string> GetUserUidAsync(DailyNoteEntry entry)

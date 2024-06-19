@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.ViewModel.Abstraction;

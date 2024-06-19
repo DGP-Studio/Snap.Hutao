@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Notifications;
+using Microsoft.Windows.AppNotifications;
 
 namespace Snap.Hutao.Service.Notification;
 
@@ -16,7 +16,8 @@ internal sealed class ToastNotificationLifeTime : IToastNotificationLifeTime
         // 用于在程序退出时尝试清除所有的系统通知
         try
         {
-            ToastNotificationManagerCompat.History.Clear();
+            AppNotificationManager.Default.RemoveAllAsync().AsTask().GetAwaiter().GetResult();
+            AppNotificationManager.Default.Unregister();
         }
         catch
         {

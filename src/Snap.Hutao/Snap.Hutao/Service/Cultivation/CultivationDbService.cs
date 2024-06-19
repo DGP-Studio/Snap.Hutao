@@ -16,16 +16,6 @@ internal sealed partial class CultivationDbService : ICultivationDbService
 
     public IServiceProvider ServiceProvider { get => serviceProvider; }
 
-    public List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId)
-    {
-        return this.List<InventoryItem>(i => i.ProjectId == projectId);
-    }
-
-    public ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId, CancellationToken token = default)
-    {
-        return this.ListAsync<InventoryItem>(i => i.ProjectId == projectId, token);
-    }
-
     public ValueTask<List<CultivateEntry>> GetCultivateEntryListByProjectIdAsync(Guid projectId, CancellationToken token = default)
     {
         return this.ListAsync<CultivateEntry>(e => e.ProjectId == projectId, token);

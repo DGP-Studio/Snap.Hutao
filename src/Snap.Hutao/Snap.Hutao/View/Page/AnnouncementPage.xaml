@@ -62,7 +62,7 @@
                                         </cwa:AnimationSet>
                                     </cwa:Explicit.Animations>
                                 </Border>
-                                <Border Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
+                                <Border Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}" IsHitTestVisible="False"/>
                             </Grid>
                         </Border>
                         <!--  Time Description  -->

@@ -54,6 +54,12 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                 if (!context.GameProcess.HasExited && context.FpsAddress != 0U)
                 {
                     UnsafeWriteProcessMemory(context.GameProcess, context.FpsAddress, launchOptions.TargetFps);
+                    WIN32_ERROR error = GetLastError();
+                    if (error is not WIN32_ERROR.NO_ERROR)
+                    {
+                        context.Description = SH.FormatServiceGameUnlockerWriteProcessMemoryFpsAddressFailed(error);
+                    }
+
                     context.Report();
                 }
                 else

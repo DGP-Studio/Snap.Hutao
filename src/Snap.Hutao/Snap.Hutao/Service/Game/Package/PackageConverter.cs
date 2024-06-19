@@ -8,7 +8,9 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Service.Game.Scheme;
-using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher.Resource;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -34,9 +36,9 @@ internal sealed partial class PackageConverter
     private readonly HttpClient httpClient;
     private readonly ILogger<PackageConverter> logger;
 
-    public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResource, string gameFolder, IProgress<PackageConvertStatus> progress)
+    public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GamePackage gamePackage, string gameFolder, IProgress<PackageConvertStatus> progress)
     {
-        // 以 国服 => 国际 为例
+        // 以 国服 -> 国际服 为例
         // 1. 下载国际服的 pkg_version 文件，转换为索引字典
         //    获取本地对应 pkg_version 文件，转换为索引字典
         //
@@ -56,7 +58,7 @@ internal sealed partial class PackageConverter
         //    替换操作等于 先备份国服文件，随后新增国际服文件
 
         // 准备下载链接
-        string scatteredFilesUrl = gameResource.Game.Latest.DecompressedPath;
+        string scatteredFilesUrl = gamePackage.Main.Major.ResourceListUrl;
         string pkgVersionUrl = $"{scatteredFilesUrl}/{PackageVersion}";
 
         PackageConverterFileSystemContext context = new(targetScheme.IsOversea, runtimeOptions.GetDataFolderServerCacheFolder(), gameFolder, scatteredFilesUrl);
@@ -77,7 +79,7 @@ internal sealed partial class PackageConverter
         return await ReplaceGameResourceAsync(diffOperations, context, progress).ConfigureAwait(false);
     }
 
-    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(GameResource resource, string gameFolder)
+    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(GameChannelSDK? channelSDK, DeprecatedFilesWrapper? deprecatedFiles, string gameFolder)
     {
         string sdkDllBackup = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll.backup");
         string sdkDll = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll");
@@ -86,9 +88,9 @@ internal sealed partial class PackageConverter
         string sdkVersion = Path.Combine(gameFolder, "sdk_pkg_version");
 
         // Only bilibili's sdk is not null
-        if (resource.Sdk is not null)
+        if (channelSDK is not null)
         {
-            using (Stream sdkWebStream = await httpClient.GetStreamAsync(resource.Sdk.Path).ConfigureAwait(false))
+            using (Stream sdkWebStream = await httpClient.GetStreamAsync(channelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
             {
                 ZipFile.ExtractToDirectory(sdkWebStream, gameFolder, true);
             }
@@ -106,9 +108,9 @@ internal sealed partial class PackageConverter
             FileOperation.Move(sdkVersion, sdkVersionBackup, true);
         }
 
-        if (resource.DeprecatedFiles is not null)
+        if (deprecatedFiles is not null)
         {
-            foreach (NameMd5 file in resource.DeprecatedFiles)
+            foreach (DeprecatedFile file in deprecatedFiles.DeprecatedFiles)
             {
                 string filePath = Path.Combine(gameFolder, file.Name);
                 FileOperation.Move(filePath, $"{filePath}.backup", true);

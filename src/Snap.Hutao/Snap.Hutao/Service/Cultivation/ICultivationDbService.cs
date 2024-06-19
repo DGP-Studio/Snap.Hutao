@@ -7,8 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-internal interface ICultivationDbService : IAppDbService<InventoryItem>,
-    IAppDbService<CultivateEntryLevelInformation>,
+internal interface ICultivationDbService : IAppDbService<CultivateEntryLevelInformation>,
     IAppDbService<CultivateProject>,
     IAppDbService<CultivateEntry>,
     IAppDbService<CultivateItem>
@@ -28,10 +27,6 @@ internal interface ICultivationDbService : IAppDbService<InventoryItem>,
     ValueTask<List<CultivateItem>> GetCultivateItemListByEntryIdAsync(Guid entryId, CancellationToken token = default);
 
     ObservableCollection<CultivateProject> GetCultivateProjectCollection();
-
-    List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId);
-
-    ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId, CancellationToken token = default);
 
     ValueTask AddCultivateEntryAsync(CultivateEntry entry, CancellationToken token = default);
 

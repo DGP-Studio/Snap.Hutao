@@ -44,7 +44,10 @@
                 CornerRadius="{ThemeResource ControlCornerRadiusTop}">
                 <shci:CachedImage Source="{Binding Event.Banner}" Stretch="UniformToFill"/>
             </cwc:ConstrainedBox>
-            <Border Margin="-1" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
+            <Border
+                Margin="-1"
+                Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"
+                IsHitTestVisible="False"/>
         </Grid>
 
         <ScrollViewer Grid.Row="1">

@@ -13,7 +13,7 @@
   <Identity
     Name="60568DGPStudio.SnapHutao"
     Publisher="CN=35C8E923-85DF-49A7-9172-B39DC6312C52"
-    Version="1.10.3.0" />
+    Version="1.10.4.0" />
 
   <Properties>
     <DisplayName>Snap Hutao</DisplayName>
@@ -50,7 +50,7 @@
         </desktop:Extension>
         <com:Extension Category="windows.comServer">
           <com:ComServer>
-            <com:ExeServer Executable="Snap.Hutao.exe" Arguments="-ToastActivated" DisplayName="Snap Hutao Toast Activator">
+            <com:ExeServer Executable="Snap.Hutao.exe" Arguments="----AppNotificationActivated:" DisplayName="Snap Hutao Toast Activator">
               <com:Class Id="5760EC4D-F7E8-4666-A965-9886D7DFFE7D" DisplayName="Snap Hutao Toast Activator"/>
             </com:ExeServer>
           </com:ComServer>

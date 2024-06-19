@@ -298,19 +298,23 @@ internal static class ApiOsEndpoints
     }
     #endregion
 
-    #region SdkOsStaticLauncherApi
+    #region SgHoyoPlayApi
 
-    public static string SdkOsStaticLauncherResource(LaunchScheme scheme)
+    public static string SgHoyoPlayConnectGamePackages(LaunchScheme scheme)
     {
-        return $"{SdkOsStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel:D}&sub_channel_id={scheme.SubChannel:D}";
+        return $"{SgHoyoPlayApiConnectApi}/getGamePackages?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}";
     }
 
-    public static string SdkOsStaticLauncherContent(LaunchScheme scheme, string languageCode, bool advOnly = true)
+    public static string SgHoyoPlayConnectGameChannelSDKs(LaunchScheme scheme)
     {
-        return advOnly
-            ? $"{SdkOsStaticLauncherApi}/content?filter_adv=true&key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}"
-            : $"{SdkOsStaticLauncherApi}/content?key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}";
+        return $"{SgHoyoPlayApiConnectApi}/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
+
+    public static string SgHoyoPlayConnectDeprecatedFileConfigs(LaunchScheme scheme)
+    {
+        return $"{SgHoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
+    }
+
     #endregion
 
     #region WebApiOsAccountApi
@@ -343,6 +347,9 @@ internal static class ApiOsEndpoints
 
     private const string SgPublicApi = "https://sg-public-api.hoyoverse.com";
     private const string SgHk4eApi = "https://sg-hk4e-api.hoyoverse.com";
+
+    private const string SgHoyoPlayApi = "https://sg-hyp-api.hoyoverse.com";
+    private const string SgHoyoPlayApiConnectApi = $"{SgHoyoPlayApi}/hyp/hyp-connect/api";
 
     private const string WebApiOs = "https://webapi-os.account.hoyoverse.com";
     private const string WebApiOsAccountApi = $"{WebApiOs}/Api";

@@ -24,51 +24,52 @@ internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
     private readonly IMemoryCache memoryCache;
 
     /// <inheritdoc/>
-    public ValueTask<Overview> GetOverviewAsync()
+    public ValueTask<Overview> GetOverviewAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(Overview), homaClient.GetOverviewAsync);
+        return FromCacheOrWebAsync(nameof(Overview), last, homaClient.GetOverviewAsync);
     }
 
     /// <inheritdoc/>
-    public ValueTask<List<AvatarAppearanceRank>> GetAvatarAppearanceRanksAsync()
+    public ValueTask<List<AvatarAppearanceRank>> GetAvatarAppearanceRanksAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(AvatarAppearanceRank), homaClient.GetAvatarAttendanceRatesAsync);
+        return FromCacheOrWebAsync(nameof(AvatarAppearanceRank), last, homaClient.GetAvatarAttendanceRatesAsync);
     }
 
     /// <inheritdoc/>
-    public ValueTask<List<AvatarUsageRank>> GetAvatarUsageRanksAsync()
+    public ValueTask<List<AvatarUsageRank>> GetAvatarUsageRanksAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(AvatarUsageRank), homaClient.GetAvatarUtilizationRatesAsync);
+        return FromCacheOrWebAsync(nameof(AvatarUsageRank), last, homaClient.GetAvatarUtilizationRatesAsync);
     }
 
     /// <inheritdoc/>
-    public ValueTask<List<AvatarConstellationInfo>> GetAvatarConstellationInfosAsync()
+    public ValueTask<List<AvatarConstellationInfo>> GetAvatarConstellationInfosAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(AvatarConstellationInfo), homaClient.GetAvatarHoldingRatesAsync);
+        return FromCacheOrWebAsync(nameof(AvatarConstellationInfo), last, homaClient.GetAvatarHoldingRatesAsync);
     }
 
     /// <inheritdoc/>
-    public ValueTask<List<AvatarCollocation>> GetAvatarCollocationsAsync()
+    public ValueTask<List<AvatarCollocation>> GetAvatarCollocationsAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(AvatarCollocation), homaClient.GetAvatarCollocationsAsync);
+        return FromCacheOrWebAsync(nameof(AvatarCollocation), last, homaClient.GetAvatarCollocationsAsync);
     }
 
     /// <inheritdoc/>
-    public ValueTask<List<WeaponCollocation>> GetWeaponCollocationsAsync()
+    public ValueTask<List<WeaponCollocation>> GetWeaponCollocationsAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(WeaponCollocation), homaClient.GetWeaponCollocationsAsync);
+        return FromCacheOrWebAsync(nameof(WeaponCollocation), last, homaClient.GetWeaponCollocationsAsync);
     }
 
     /// <inheritdoc/>
-    public ValueTask<List<TeamAppearance>> GetTeamAppearancesAsync()
+    public ValueTask<List<TeamAppearance>> GetTeamAppearancesAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(TeamAppearance), homaClient.GetTeamCombinationsAsync);
+        return FromCacheOrWebAsync(nameof(TeamAppearance), last, homaClient.GetTeamCombinationsAsync);
     }
 
-    private async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, Func<CancellationToken, ValueTask<HutaoResponse<T>>> taskFunc)
+    private async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, bool last, Func<bool, CancellationToken, ValueTask<HutaoResponse<T>>> taskFunc)
         where T : class, new()
     {
-        string key = $"{nameof(HutaoSpiralAbyssService)}.Cache.{typeName}";
+        string kind = last ? "Last" : "Current";
+        string key = $"{nameof(HutaoSpiralAbyssService)}.Cache.{typeName}.{kind}";
         if (memoryCache.TryGetValue(key, out object? cache))
         {
             T? t = cache as T;
@@ -81,7 +82,7 @@ internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
             return memoryCache.Set(key, value, cacheExpireTime);
         }
 
-        Response<T> webResponse = await taskFunc(default).ConfigureAwait(false);
+        Response<T> webResponse = await taskFunc(last, default).ConfigureAwait(false);
         T? data = webResponse.Data;
 
         if (data is not null)

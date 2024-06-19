@@ -7,5 +7,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataListMaterialSource
 {
-    public List<Material> Materials { get; set; }
+    List<Material> Materials { get; set; }
 }

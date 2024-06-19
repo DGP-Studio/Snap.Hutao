@@ -8,5 +8,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryIdMaterialSource
 {
-    public Dictionary<MaterialId, Material> IdMaterialMap { get; set; }
+    Dictionary<MaterialId, Material> IdMaterialMap { get; set; }
 }

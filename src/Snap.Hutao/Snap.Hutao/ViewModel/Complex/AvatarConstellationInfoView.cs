@@ -12,20 +12,10 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 [HighQuality]
 internal sealed class AvatarConstellationInfoView : AvatarView
 {
-    /// <summary>
-    /// 构造一个新的角色命座信息
-    /// </summary>
-    /// <param name="avatar">角色</param>
-    /// <param name="rate">持有率</param>
-    /// <param name="rates">命座比率</param>
-    public AvatarConstellationInfoView(Avatar avatar, double rate, List<double> rates)
-        : base(avatar, rate)
+    public AvatarConstellationInfoView(Avatar avatar, double rate, double? lastRate)
+        : base(avatar, rate, lastRate)
     {
-        Rates = rates.SelectList(r => $"{r:P3}");
     }
 
-    /// <summary>
-    /// 命座比率
-    /// </summary>
-    public List<string> Rates { get; }
+    public List<RateAndDelta> Rates { get; set; } = default!;
 }

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Notifications;
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Content;
@@ -9,6 +8,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.Windows.AppNotifications.Builder;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing.Abstraction;
@@ -99,14 +99,13 @@ internal sealed class XamlWindowController
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
+        serviceProvider.GetRequiredService<AppOptions>().PropertyChanged -= OnOptionsPropertyChanged;
+
         if (XamlLifetime.ApplicationLaunchedWithNotifyIcon && !XamlLifetime.ApplicationExiting)
         {
-            args.Handled = true;
-            window.Hide();
-
             if (!IsNotifyIconVisible())
             {
-                new ToastContentBuilder()
+                new AppNotificationBuilder()
                     .AddText(SH.CoreWindowingNotifyIconPromotedHint)
                     .Show();
             }
@@ -119,16 +118,15 @@ internal sealed class XamlWindowController
 
             GC.Collect(GC.MaxGeneration);
         }
-        else
-        {
-            if (window is IXamlWindowRectPersisted rectPersisted)
-            {
-                SaveOrSkipWindowSize(rectPersisted);
-            }
 
-            subclass?.Dispose();
-            windowNonRudeHWND?.Dispose();
+        if (window is IXamlWindowRectPersisted rectPersisted)
+        {
+            SaveOrSkipWindowSize(rectPersisted);
         }
+
+        subclass?.Dispose();
+        windowNonRudeHWND?.Dispose();
+        window.UninitializeController();
     }
 
     private bool IsNotifyIconVisible()

@@ -19,6 +19,7 @@ internal sealed partial class CalculateClient
     private readonly ILogger<CalculateClient> logger;
     private readonly HttpClient httpClient;
 
+    [Obsolete("Use BatchComputeAsync instead")]
     public async ValueTask<Response<Consumption>> ComputeAsync(Model.Entity.User user, AvatarPromotionDelta delta, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -34,15 +35,18 @@ internal sealed partial class CalculateClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, List<AvatarPromotionDelta> deltas, CancellationToken token = default)
+    public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, AvatarPromotionDelta delta, bool syncInventory = false, CancellationToken token = default)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(deltas.Count, 8);
+        return await BatchComputeAsync(userAndUid, [delta], syncInventory, token).ConfigureAwait(false);
+    }
 
+    public async ValueTask<Response<BatchConsumption>> BatchComputeAsync(UserAndUid userAndUid, List<AvatarPromotionDelta> deltas, bool syncInventory = false, CancellationToken token = default)
+    {
         BatchConsumptionData data = new()
         {
             Items = deltas,
-            Region = userAndUid.Uid.Region,
-            Uid = userAndUid.Uid.ToString(),
+            Region = syncInventory ? userAndUid.Uid.Region : default!,
+            Uid = syncInventory ? userAndUid.Uid.ToString() : default!,
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()

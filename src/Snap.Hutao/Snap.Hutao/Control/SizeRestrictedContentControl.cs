@@ -21,8 +21,8 @@ internal sealed partial class SizeRestrictedContentControl : ContentControl
             element.Measure(availableSize);
             Size contentDesiredSize = element.DesiredSize;
             Size contentActualOrDesiredSize = new(
-                Math.Max(element.ActualWidth, contentDesiredSize.Width),
-                Math.Max(element.ActualHeight, contentDesiredSize.Height));
+                Math.Min(Math.Max(element.ActualWidth, contentDesiredSize.Width), availableSize.Width),
+                Math.Min(Math.Max(element.ActualHeight, contentDesiredSize.Height), availableSize.Height));
 
             if (IsWidthRestricted)
             {

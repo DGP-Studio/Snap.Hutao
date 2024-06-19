@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Service;
+using System.Collections.Concurrent;
 
 namespace Snap.Hutao.Factory.ContentDialog;
 
@@ -18,10 +19,27 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
+    private readonly ConcurrentQueue<Func<Task>> dialogQueue = [];
+    private bool isDialogShowing;
+
+    public bool IsDialogShowing
+    {
+        get
+        {
+            if (currentWindowReference.Window is not { } window)
+            {
+                return false;
+            }
+
+            return isDialogShowing;
+        }
+    }
+
     /// <inheritdoc/>
     public async ValueTask<ContentDialogResult> CreateForConfirmAsync(string title, string content)
     {
         await taskContext.SwitchToMainThreadAsync();
+
         Microsoft.UI.Xaml.Controls.ContentDialog dialog = new()
         {
             XamlRoot = currentWindowReference.GetXamlRoot(),
@@ -39,6 +57,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     public async ValueTask<ContentDialogResult> CreateForConfirmCancelAsync(string title, string content, ContentDialogButton defaultButton = ContentDialogButton.Close)
     {
         await taskContext.SwitchToMainThreadAsync();
+
         Microsoft.UI.Xaml.Controls.ContentDialog dialog = new()
         {
             XamlRoot = currentWindowReference.GetXamlRoot(),
@@ -57,6 +76,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
     public async ValueTask<Microsoft.UI.Xaml.Controls.ContentDialog> CreateForIndeterminateProgressAsync(string title)
     {
         await taskContext.SwitchToMainThreadAsync();
+
         Microsoft.UI.Xaml.Controls.ContentDialog dialog = new()
         {
             XamlRoot = currentWindowReference.GetXamlRoot(),
@@ -72,9 +92,11 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
+
         TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
         contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
         contentDialog.RequestedTheme = appOptions.ElementTheme;
+
         return contentDialog;
     }
 
@@ -84,6 +106,51 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         TContentDialog contentDialog = serviceProvider.CreateInstance<TContentDialog>(parameters);
         contentDialog.XamlRoot = currentWindowReference.GetXamlRoot();
         contentDialog.RequestedTheme = appOptions.ElementTheme;
+
         return contentDialog;
+    }
+
+    [SuppressMessage("", "SH003")]
+    public Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog)
+    {
+        TaskCompletionSource<ContentDialogResult> dialogShowCompletionSource = new();
+
+        dialogQueue.Enqueue(async () =>
+        {
+            try
+            {
+                ContentDialogResult result = await contentDialog.ShowAsync();
+                dialogShowCompletionSource.SetResult(result);
+            }
+            catch (Exception ex)
+            {
+                dialogShowCompletionSource.SetException(ex);
+            }
+            finally
+            {
+                ShowNextDialog().SafeForget();
+            }
+        });
+
+        if (!isDialogShowing)
+        {
+            ShowNextDialog();
+        }
+
+        return dialogShowCompletionSource.Task;
+
+        Task ShowNextDialog()
+        {
+            if (dialogQueue.TryDequeue(out Func<Task>? showNextDialogAsync))
+            {
+                isDialogShowing = true;
+                return showNextDialogAsync();
+            }
+            else
+            {
+                isDialogShowing = false;
+                return Task.CompletedTask;
+            }
+        }
     }
 }

@@ -366,38 +366,37 @@
                 </PivotItem>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceHeader}">
                     <Grid>
-                        <ScrollViewer Visibility="{Binding GameResource, Converter={StaticResource EmptyObjectToBoolConverter}}">
+                        <ScrollViewer Visibility="{Binding GamePackage, Converter={StaticResource EmptyObjectToBoolConverter}}">
                             <StackPanel>
                                 <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                                         <shvc:LaunchGameResourceExpander
                                             cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                            DataContext="{Binding GameResource.PreDownloadGame.Latest, Mode=OneWay}"
+                                            DataContext="{Binding GamePackage.PreDownload.Major, Mode=OneWay}"
                                             Header="{shcm:ResourceString Name=ViewPageLaunchGameResourcePreDownloadHeader}"
                                             IsEnabled="{Binding FallbackValue=False, Converter={StaticResource EmptyObjectToBoolConverter}}"
                                             IsExpanded="{Binding FallbackValue=False, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneTime}"/>
                                     </Border>
                                 </Border>
-
                                 <ItemsControl
                                     Margin="0,0,0,0"
                                     ItemTemplate="{StaticResource GameResourceTemplate}"
-                                    ItemsSource="{Binding GameResource.PreDownloadGame.Diffs, Mode=OneWay}"/>
+                                    ItemsSource="{Binding GamePackage.PreDownload.Patches, Mode=OneWay}"/>
                                 <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                                         <shvc:LaunchGameResourceExpander
                                             cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                            DataContext="{Binding GameResource.Game.Latest, Mode=OneWay}"
+                                            DataContext="{Binding GamePackage.Main.Major, Mode=OneWay}"
                                             Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceLatestHeader}"/>
                                     </Border>
                                 </Border>
                                 <ItemsControl
                                     Margin="0,0,0,16"
                                     ItemTemplate="{StaticResource GameResourceTemplate}"
-                                    ItemsSource="{Binding GameResource.Game.Diffs, Mode=OneWay}"/>
+                                    ItemsSource="{Binding GamePackage.Main.Patches, Mode=OneWay}"/>
                             </StackPanel>
                         </ScrollViewer>
-                        <shvc:LoadingView IsLoading="{Binding GameResource, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+                        <shvc:LoadingView IsLoading="{Binding GamePackage, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                     </Grid>
                 </PivotItem>
             </Pivot>

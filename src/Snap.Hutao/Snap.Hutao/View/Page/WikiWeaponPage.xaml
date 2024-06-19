@@ -136,10 +136,16 @@
                 <shvcp:HorizontalCard.Right>
                     <StackPanel Margin="8,0,0,0" HorizontalAlignment="Left">
                         <TextBlock Text="{Binding Name}"/>
-                        <TextBlock
-                            Opacity="0.7"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding Rate}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock
+                                Opacity="0.7"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding Rate}"/>
+                            <shvc:RateDeltaTextBlock
+                                Opacity="0.7"
+                                Text="{Binding RateDelta}"
+                                TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                        </StackPanel>
                     </StackPanel>
                 </shvcp:HorizontalCard.Right>
             </shvcp:HorizontalCard>
@@ -333,10 +339,13 @@
                                                 </Border>
 
 
-                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                <Border
+                                                    Padding="16"
+                                                    Style="{ThemeResource BorderCardStyle}"
+                                                    Visibility="{Binding Selected.CollocationView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                     <StackPanel Spacing="16">
                                                         <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
-                                                        <ItemsControl ItemTemplate="{StaticResource CollocationTemplate}" ItemsSource="{Binding Selected.Collocation.Avatars}">
+                                                        <ItemsControl ItemTemplate="{StaticResource CollocationTemplate}" ItemsSource="{Binding Selected.CollocationView.Avatars}">
                                                             <ItemsControl.ItemsPanel>
                                                                 <ItemsPanelTemplate>
                                                                     <cwc:UniformGrid

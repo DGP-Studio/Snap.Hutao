@@ -8,5 +8,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryIdReliquaryAffixWeightSource
 {
-    public Dictionary<AvatarId, ReliquaryAffixWeight> IdReliquaryAffixWeightMap { get; set; }
+    Dictionary<AvatarId, ReliquaryAffixWeight> IdReliquaryAffixWeightMap { get; set; }
 }

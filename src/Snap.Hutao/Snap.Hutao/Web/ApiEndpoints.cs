@@ -284,6 +284,25 @@ internal static class ApiEndpoints
 
     #endregion
 
+    #region HoyoPlayApi
+
+    public static string HoyoPlayConnectGamePackages(LaunchScheme scheme)
+    {
+        return $"{HoyoPlayApiConnectApi}/getGamePackages?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}";
+    }
+
+    public static string HoyoPlayConnectGameChannelSDKs(LaunchScheme scheme)
+    {
+        return $"{HoyoPlayApiConnectApi}/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
+    }
+
+    public static string HoyoPlayConnectDeprecatedFileConfigs(LaunchScheme scheme)
+    {
+        return $"{HoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
+    }
+
+    #endregion
+
     #region PassportApi | PassportApiV4
 
     /// <summary>
@@ -348,26 +367,6 @@ internal static class ApiEndpoints
     }
     #endregion
 
-    #region SdkStaticLauncherApi
-
-    /// <summary>
-    /// 启动器资源
-    /// </summary>
-    /// <param name="scheme">启动方案</param>
-    /// <returns>启动器资源字符串</returns>
-    public static string SdkStaticLauncherResource(LaunchScheme scheme)
-    {
-        return $"{SdkStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel:D}&sub_channel_id={scheme.SubChannel:D}";
-    }
-
-    public static string SdkStaticLauncherContent(LaunchScheme scheme, string languageCode, bool advOnly = true)
-    {
-        return advOnly
-            ? $"{SdkStaticLauncherApi}/content?filter_adv=true&key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}"
-            : $"{SdkStaticLauncherApi}/content?key={scheme.Key}&launcher_id={scheme.LauncherId}&language={languageCode}";
-    }
-    #endregion
-
     #region Hosts | Queries
     private const string ApiTakumi = "https://api-takumi.mihoyo.com";
     private const string ApiTakumiAuthApi = $"{ApiTakumi}/auth/api";
@@ -394,6 +393,9 @@ internal static class ApiEndpoints
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";
 
     private const string Hk4eSdk = "https://hk4e-sdk.mihoyo.com";
+
+    private const string HoyoPlayApi = "https://hyp-api.mihoyo.com";
+    private const string HoyoPlayApiConnectApi = $"{HoyoPlayApi}/hyp/hyp-connect/api";
 
     private const string PassportApi = "https://passport-api.mihoyo.com";
     private const string PassportApiAuthApi = $"{PassportApi}/account/auth/api";

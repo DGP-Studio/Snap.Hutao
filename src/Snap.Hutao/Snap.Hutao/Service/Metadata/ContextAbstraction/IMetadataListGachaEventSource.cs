@@ -7,5 +7,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataListGachaEventSource
 {
-    public List<GachaEvent> GachaEvents { get; set; }
+    List<GachaEvent> GachaEvents { get; set; }
 }

@@ -12,7 +12,8 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("inventory_items")]
-internal sealed class InventoryItem : IDbMappingForeignKeyFrom<InventoryItem, uint>
+internal sealed class InventoryItem : IDbMappingForeignKeyFrom<InventoryItem, uint>,
+    IDbMappingForeignKeyFrom<InventoryItem, uint, uint>
 {
     /// <summary>
     /// 内部Id
@@ -54,6 +55,23 @@ internal sealed class InventoryItem : IDbMappingForeignKeyFrom<InventoryItem, ui
         {
             ProjectId = projectId,
             ItemId = itemId,
+        };
+    }
+
+    /// <summary>
+    /// 构造一个新的个数不为0的物品
+    /// </summary>
+    /// <param name="projectId">项目Id</param>
+    /// <param name="itemId">物品Id</param>
+    /// <param name="count">物品个数</param>
+    /// <returns>新的个数不为0的物品</returns>
+    public static InventoryItem From(in Guid projectId, in uint itemId, in uint count)
+    {
+        return new()
+        {
+            ProjectId = projectId,
+            ItemId = itemId,
+            Count = count,
         };
     }
 }

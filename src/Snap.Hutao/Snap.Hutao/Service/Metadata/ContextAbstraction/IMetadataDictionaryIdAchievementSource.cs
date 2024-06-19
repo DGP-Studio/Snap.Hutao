@@ -7,5 +7,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryIdAchievementSource
 {
-    public Dictionary<AchievementId, Model.Metadata.Achievement.Achievement> IdAchievementMap { get; set; }
+    Dictionary<AchievementId, Model.Metadata.Achievement.Achievement> IdAchievementMap { get; set; }
 }

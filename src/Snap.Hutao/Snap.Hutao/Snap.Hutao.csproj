@@ -160,6 +160,7 @@
     <None Remove="View\Control\LaunchGameResourceExpander.xaml" />
     <None Remove="View\Control\LoadingView.xaml" />
     <None Remove="View\Control\LoadingViewSlim.xaml" />
+    <None Remove="View\Control\RateDeltaTextBlockStyle.xaml" />
     <None Remove="View\Control\SkillPivot.xaml" />
     <None Remove="View\Control\SegmentedOverride.xaml" />
     <None Remove="View\Control\StatisticsCard.xaml" />
@@ -312,9 +313,9 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5">
+    <PackageReference Include="Google.OrTools" Version="9.10.4067" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -329,7 +330,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
     <PackageReference Include="QRCoder" Version="1.5.1" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.9.0" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
@@ -361,6 +362,11 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\RateDeltaTextBlockStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml">

@@ -16,6 +16,7 @@ internal static class MetadataFileNames
     public const string FileNameMaterial = "Material";
     public const string FileNameMonster = "Monster";
     public const string FileNameMonsterCurve = "MonsterCurve";
+    public const string FileNameProfilePicture = "ProfilePicture";
     public const string FileNameReliquary = "Reliquary";
     public const string FileNameReliquaryAffixWeight = "ReliquaryAffixWeight";
     public const string FileNameReliquaryMainAffix = "ReliquaryMainAffix";

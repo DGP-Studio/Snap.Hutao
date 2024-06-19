@@ -30,25 +30,13 @@ internal class LaunchScheme : IEquatable<ChannelOptions>
         }
     }
 
-    /// <summary>
-    /// 通道
-    /// </summary>
     public ChannelType Channel { get; private protected set; }
 
-    /// <summary>
-    /// 子通道
-    /// </summary>
     public SubChannelType SubChannel { get; private protected set; }
 
-    /// <summary>
-    /// 启动器 Id
-    /// </summary>
-    public int LauncherId { get; private protected set; }
+    public string LauncherId { get; private protected set; } = default!;
 
-    /// <summary>
-    /// API Key
-    /// </summary>
-    public string Key { get; private protected set; } = default!;
+    public string GameId { get; private protected set; } = default!;
 
     /// <summary>
     /// 是否为海外

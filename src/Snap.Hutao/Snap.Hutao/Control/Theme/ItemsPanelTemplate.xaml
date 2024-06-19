@@ -23,6 +23,9 @@
     <ItemsPanelTemplate x:Key="HorizontalStackPanelSpacing4Template">
         <StackPanel Orientation="Horizontal" Spacing="4"/>
     </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="HorizontalStackPanelSpacing6Template">
+        <StackPanel Orientation="Horizontal" Spacing="6"/>
+    </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="StackPanelSpacing4Template">
         <StackPanel Spacing="4"/>
     </ItemsPanelTemplate>
