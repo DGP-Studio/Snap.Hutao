@@ -21,11 +21,11 @@ internal sealed class LaunchStatus
     {
         if (unlockerState.FindModuleResult == FindModuleResult.Ok)
         {
-            return new(LaunchPhase.UnlockFpsSucceed, SH.ServiceGameLaunchPhaseUnlockFpsSucceed);
+            return new(LaunchPhase.UnlockFpsSucceed, unlockerState.Description ?? SH.ServiceGameLaunchPhaseUnlockFpsSucceed);
         }
         else
         {
-            return new(LaunchPhase.UnlockFpsFailed, SH.ServiceGameLaunchPhaseUnlockFpsFailed);
+            return new(LaunchPhase.UnlockFpsFailed, unlockerState.Description ?? SH.ServiceGameLaunchPhaseUnlockFpsFailed);
         }
     }
 }

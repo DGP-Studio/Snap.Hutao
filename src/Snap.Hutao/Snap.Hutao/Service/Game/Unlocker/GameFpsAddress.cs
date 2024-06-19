@@ -48,10 +48,11 @@ internal static class GameFpsAddress
         return memory.IndexOf(part);
     }
 
-    private static unsafe bool UnsafeReadProcessMemory(HANDLE processId, nuint baseAddress, out nuint value)
+    [SuppressMessage("", "SH002")]
+    private static unsafe bool UnsafeReadProcessMemory(HANDLE hProcess, nuint baseAddress, out nuint value)
     {
         value = 0;
-        bool result = ReadProcessMemory(processId, (void*)baseAddress, ref value, out _);
+        bool result = ReadProcessMemory(hProcess, (void*)baseAddress, ref value, out _);
         HutaoException.ThrowIfNot(result, SH.ServiceGameUnlockerReadProcessMemoryPointerAddressFailed);
         return result;
     }

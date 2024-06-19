@@ -55,7 +55,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             {
                 if (!context.GameProcess.HasExited && context.FpsAddress != 0U)
                 {
-                    UnsafeWriteProcessMemory(context.GameProcess, context.FpsAddress, launchOptions.TargetFps);
+                    UnsafeWriteProcessMemory(context.AllAccess, context.FpsAddress, launchOptions.TargetFps);
                     WIN32_ERROR error = GetLastError();
                     if (error is not WIN32_ERROR.NO_ERROR)
                     {
@@ -75,9 +75,10 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         }
     }
 
-    private static unsafe bool UnsafeWriteProcessMemory(System.Diagnostics.Process process, nuint baseAddress, int value)
+    [SuppressMessage("", "SH002")]
+    private static unsafe bool UnsafeWriteProcessMemory(HANDLE hProcess, nuint baseAddress, int value)
     {
-        return WriteProcessMemory((Win32.Foundation.HANDLE)process.Handle, (void*)baseAddress, ref value, out _);
+        return WriteProcessMemory(hProcess, (void*)baseAddress, ref value, out _);
     }
 
     private static RequiredLocalModule LoadRequiredLocalModule(GameFileSystem gameFileSystem)
