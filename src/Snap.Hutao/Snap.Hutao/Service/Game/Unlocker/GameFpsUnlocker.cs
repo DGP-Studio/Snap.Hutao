@@ -17,11 +17,13 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 [HighQuality]
 internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 {
+    private readonly ILogger<GameFpsUnlocker> logger;
     private readonly LaunchOptions launchOptions;
     private readonly GameFpsUnlockerContext context = new();
 
     public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, in UnlockOptions options, IProgress<GameFpsUnlockerContext> progress)
     {
+        logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
 
         context.GameProcess = gameProcess;
@@ -59,6 +61,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                     WIN32_ERROR error = GetLastError();
                     if (error is not WIN32_ERROR.NO_ERROR)
                     {
+                        logger.LogError("Failed to WriteProcessMemory at FpsAddress, error code 0x{Code:X8}", error);
                         context.Description = SH.FormatServiceGameUnlockerWriteProcessMemoryFpsAddressFailed(error);
                     }
 
