@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -190,7 +190,7 @@
     <value>Không phát hiện WebView2 Runtime</value>
   </data>
   <data name="CoreWindowHotkeyCombinationRegisterFailed" xml:space="preserve">
-    <value />
+    <value/>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
     <value>Thoát</value>
@@ -292,7 +292,7 @@
     <value>刷新于 {0:MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
-    <value />
+    <value/>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
     <value>Tài khoản</value>
@@ -395,7 +395,7 @@
     <value>4 Sao</value>
   </data>
   <data name="ModelIntrinsicItemQualityRed" xml:space="preserve">
-    <value />
+    <value/>
   </data>
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
     <value>1 sao</value>
@@ -552,10 +552,10 @@
     <value>精炼 {0} 阶</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>Phải đăng nhập vào tài khoản MiHoYo BBS của bạn và chọn người dùng</value>
+    <value>必须登录 米游社 / HoYoLAB 并选择一个用户与角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>Đã xoá {1} bản ghi cầu nguyện của UID: {0}</value>
+    <value>删除了 UID：{0} 的 {1} 条祈愿记录</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>Đã đạt đến số lượng lịch sử cầu nguyện tối đa cho phép trên Snap Hutao Cloud</value>
@@ -570,7 +570,7 @@
     <value>Tìm thấy dữ liệu bất thường, không thể tải lên Snap Hutao Cloud. Vui lòng không tải lên từ nhiều tài khoản hoặc bạn có thể thử xóa dữ liệu đám mây và thử lại.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>Đã tải lên {1} bản ghi cầu nguyện của UID: {0}, đã được lưu trữ {2}</value>
+    <value>上传了 UID：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Vui lòng đăng nhập hoặc đăng ký tài khoản Snap Hutao trước tiên</value>
@@ -621,7 +621,7 @@
     <value>Yêu cầu xác minh quá thường xuyên. Vui lòng thử lại sau 1 phút.</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>Không thể tải lên bản ghi la hoàn thâm cảnh, UID hiện tại đã bị cơ sở dữ liệu Hutao cấm</value>
+    <value>上传深渊记录失败，当前 UID 已被胡桃数据库封禁</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
     <value>Không thể tải lên bản ghi la hoàn thâm cảnh, máy chủ đang tính toán dữ liệu thống kê</value>
@@ -636,13 +636,13 @@
     <value>Không thể tải lên bản ghi la hoàn thâm cảnh, phát hiện thấy dữ liệu không hợp lệ</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
-    <value>UID không hợp lệ</value>
+    <value>无效的 UID</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
     <value>上传深渊记录失败，不是本期数据</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>上传深渊记录失败，当前 Uid 的记录仍在处理中，请勿重复操作</value>
+    <value>上传深渊记录失败，当前 UID 的记录仍在处理中，请勿重复操作</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>Đã tải lên bản ghi la hoàn thâm cảnh thành công. Đã nhận được extension đặc quyền cho dịch vụ Snap Hutao Cloud.</value>
@@ -669,7 +669,7 @@
     <value>Đã tìm thấy nhiều ID thành tựu giống hệt nhau trong kho lưu trữ thành tựu</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
-    <value />
+    <value/>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyBaseAtk" xml:space="preserve">
@@ -1005,7 +1005,7 @@
     <value>获取 Package Version 失败</value>
   </data>
   <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
-    <value />
+    <value/>
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
     <value>无法找到游戏路径，请前往设置修改</value>
@@ -1033,6 +1033,9 @@
   </data>
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
     <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
+  </data>
+  <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
+    <value>解锁帧率失败：0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>祈愿记录上传服务有效期至\n{0:yyyy.MM.dd HH:mm:ss}</value>
@@ -1090,6 +1093,9 @@
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>输入的 Cookie 无法获取用户信息</value>
+  </data>
+  <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
+    <value>复制图像</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>成就管理</value>
@@ -1373,11 +1379,11 @@
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>是否永久删除用户数据</value>
   </data>
-  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
-    <value>前往登录</value>
-  </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
     <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
+    <value>前往登录</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginSecondaryButtonText" xml:space="preserve">
     <value>继续上传</value>
@@ -1545,10 +1551,10 @@
     <value>养成计划添加失败</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>操作完成：添加/更新：{0} 个，跳过 {1} 个</value>
+    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
+    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功添加至当前养成计划</value>
@@ -1567,6 +1573,9 @@
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>不能添加名称无效的计划</value>
+  </data>
+  <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
+    <value>正在同步背包物品</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
     <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
@@ -1925,6 +1934,9 @@
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
     <value>前往</value>
   </data>
+  <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
+    <value>同步背包物品</value>
+  </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>删除清单</value>
   </data>
@@ -2067,10 +2079,10 @@
     <value>前往爱发电购买相关服务</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>购买/续费云服务</value>
+    <value>购买 / 续费云服务</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>删除此 Uid 的云端存档</value>
+    <value>删除此 UID 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>开发者账号无视服务到期时间</value>
@@ -2079,7 +2091,7 @@
     <value>胡桃云服务时长不足</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>下载此 Uid 的云端存档</value>
+    <value>下载此 UID 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>每期深渊首次上传可免费获得 3 天时长</value>
@@ -2406,7 +2418,7 @@
     <value>重命名</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>切换游戏服务器（国服/渠道服/国际服）</value>
+    <value>切换游戏服务器（国服 / 渠道服 / 国际服）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>服务器</value>
@@ -2415,7 +2427,7 @@
     <value>版本更新前需要提前转换至与启动器匹配的服务器</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>请在游戏内关闭垂直同步选项，需要高性能的显卡以支持更高的帧率</value>
+    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>解锁帧率限制</value>
@@ -2433,7 +2445,7 @@
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>请输入你的 HoYoLab Uid</value>
+    <value>请输入你的 HoYoLab UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
     <value>你正在通过由我们提供的内嵌网页视图登录 米哈游通行证，我们会在你点击 我已登录 按钮后，读取你的 Cookie 信息，由此视图发起的网络通信只发生于你的计算机与米哈游服务器之间</value>
@@ -2511,7 +2523,7 @@
     <value>除非开发人员明确要求你这么做，否则不应尝试执行下方的操作！</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>用户数据/元数据 在此处存放</value>
+    <value>用户数据 / 元数据 在此处存放</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
     <value>数据 文件夹</value>
@@ -2589,7 +2601,7 @@
     <value>选择想要获取公告的游戏服务器</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>公告所属服务器</value>
+    <value>游戏公告所属服务器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>管理主页仪表板中的卡片</value>
@@ -2646,7 +2658,7 @@
     <value>您可以无限制的使用任何测试功能</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃开发/运维</value>
+    <value>胡桃开发 / 运维</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>我们有时会向某些用户赠送胡桃云兑换码</value>
@@ -2703,7 +2715,7 @@
     <value>重置图片资源</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
+    <value>在「启动游戏-进程」选项卡加入「解锁帧率限制」选项</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>启动游戏-解锁帧率限制</value>
@@ -2751,7 +2763,7 @@
     <value>贡献翻译</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
+    <value>在「祈愿记录-角色」与「祈愿记录-武器」中显示未抽取到的祈愿物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽取到的祈愿物品</value>
