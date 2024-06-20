@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -552,10 +552,10 @@
     <value>Perbaikan {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>Anda harus masuk ke akun MiHoYo Bbs Anda dan pilih pengguna.</value>
+    <value>必须登录 米游社 / HoYoLAB 并选择一个用户与角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>Menghapus {1} catatan wish dari Uid: {0}</value>
+    <value>删除了 UID：{0} 的 {1} 条祈愿记录</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>Sudah mencapai jumlah maksimum arsip riwayat wish di Snap Hutao Cloud</value>
@@ -570,7 +570,7 @@
     <value>Menemukan data yang tidak normal, tidak dapat diunggah ke Snap Hutao Cloud. Mohon jangan mengunggah antar akun atau Anda dapat mencoba menghapus data cloud dan coba lagi.</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>Mengunggah {1} catatan wish dari Uid: {0}, tersimpan {2}</value>
+    <value>上传了 UID：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Silakan masuk atau daftar akun Hutao terlebih dahulu.</value>
@@ -621,7 +621,7 @@
     <value>Permintaan validasi terlalu sering. Silakan coba lagi dalam 1 menit.</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>Gagal mengunggah catatan Sprial Abyss, UID saat ini diblokir oleh Database Hutao.</value>
+    <value>上传深渊记录失败，当前 UID 已被胡桃数据库封禁</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
     <value>Gagal mengunggah catatan Sprial Abyss, server sedang menghitung data statistik.</value>
@@ -636,13 +636,13 @@
     <value>Gagal mengunggah catatan Sprial Abyss, data tidak valid terdeteksi.</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
-    <value>UID salah</value>
+    <value>Invalid UID</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
     <value>Gagal mengunggah catatan Spiral Abyss. Ini bukan data untuk jadwal saat ini.</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>Gagal mengunggah catatan Spiral Abyss. Catatan untuk UID saat ini masih dalam proses. Mohon tidak mengulangi operasi tersebut.</value>
+    <value>上传深渊记录失败，当前 UID 的记录仍在处理中，请勿重复操作</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>Berhasil mengunggah catatan Spiral Abyss. Menerima perpanjangan hak istimewa untuk layanan Snap Hutao Cloud.</value>
@@ -1034,6 +1034,9 @@
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
     <value>Kesalahan membaca memori modul proses: tidak dapat membaca nilai valid pada alamat yang diberikan</value>
   </data>
+  <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
+    <value>解锁帧率失败：0x{0:X8}</value>
+  </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>Layanan cadangan data riwayat keinginan akan berakhir pada \n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
@@ -1090,6 +1093,9 @@
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>Tidak bisa mendapatkan informasi pengguna dengan Cookie yang dimasukkan</value>
+  </data>
+  <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
+    <value>复制图像</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>Achievements</value>
@@ -1373,11 +1379,11 @@
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>Hapus data pengguna secara permanen?</value>
   </data>
-  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
-    <value>前往登录</value>
-  </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
     <value>当前未登录胡桃账号，上传深渊数据无法获赠胡桃云时长</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
+    <value>前往登录</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginSecondaryButtonText" xml:space="preserve">
     <value>继续上传</value>
@@ -1545,10 +1551,10 @@
     <value>Gagal menambahkan rencana pengembang.</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>Operasi selesai: ditambahkan/diperbarui {0}, dilewati {1}</value>
+    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>Operasi tidak sepenuhnya selesai, ditambahkan/diperbarui {0}, dilewati {1}</value>
+    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Berhasil ditambahkan ke rencana saat ini.</value>
@@ -1567,6 +1573,9 @@
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>Tidak dapat menambahkan rencana dengan nama yang salah.</value>
+  </data>
+  <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
+    <value>正在同步背包物品</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
     <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
@@ -1925,6 +1934,9 @@
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
     <value>Mulai</value>
   </data>
+  <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
+    <value>同步背包物品</value>
+  </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Hapus daftar</value>
   </data>
@@ -2067,10 +2079,10 @@
     <value>Pergi ke Afdian untuk Membeli Layanan Terkait</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>Beli atau Perbarui Layanan Cloud</value>
+    <value>购买 / 续费云服务</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>Hapus Arsip Cloud dari UID ini</value>
+    <value>删除此 UID 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>Lisensi pengembang seumur hidup</value>
@@ -2079,7 +2091,7 @@
     <value>Layanan Cloud Snap Hutao Kadaluarsa</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>Unduh Arsip Cloud dari UID ini</value>
+    <value>下载此 UID 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>Lisensi gratis selama 3 hari setelah mengunggah rekor Abyss saat ini</value>
@@ -2406,7 +2418,7 @@
     <value>Ubah nama</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>Alihkan server Game (CN/BiliBili/Global)</value>
+    <value>切换游戏服务器（国服 / 渠道服 / 国际服）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>Server</value>
@@ -2415,7 +2427,7 @@
     <value>Anda perlu mengonversi ke server yang sesuai dengan peluncur sebelum memperbarui versi</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>Silakan nonaktifkan V-Sync dalam pengaturan permainan. Anda mungkin memerlukan kartu grafis yang mendukung kinerja tinggi untuk membatasi frame rate yang tinggi.</value>
+    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>Membuka limit Frame Rate</value>
@@ -2433,7 +2445,7 @@
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>Masukkan UID HoYoLab Anda</value>
+    <value>请输入你的 HoYoLab UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
     <value>你正在通过由我们提供的内嵌网页视图登录 米哈游通行证，我们会在你点击 我已登录 按钮后，读取你的 Cookie 信息，由此视图发起的网络通信只发生于你的计算机与米哈游服务器之间</value>
@@ -2511,7 +2523,7 @@
     <value>Kecuali pengembang secara eksplisit meminta Anda untuk melakukannya, Anda sebaiknya tidak menjalankan operasi di bawah ini!</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>Data pengguna dan metadata disimpan di sini</value>
+    <value>用户数据 / 元数据 在此处存放</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
     <value>Berkas Data</value>
@@ -2589,7 +2601,7 @@
     <value>Pilih server game tempat Anda ingin menerima pengumuman.</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>Pemberitahuan Server</value>
+    <value>游戏公告所属服务器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Mengelola Cards di dasbor utama</value>
@@ -2646,7 +2658,7 @@
     <value>Anda memiliki akses tak terbatas pada fitur uji coba apa pun</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>Snap Hutao developer and maintainer</value>
+    <value>胡桃开发 / 运维</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>Kami terkadang memberikan kode Redemption Snap Hutao Cloud kepada beberapa pengguna</value>
@@ -2703,7 +2715,7 @@
     <value>Setel ulang Sumber Daya Gambar</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>Tambahkan Opsi Batasan FPS di Bagian Proses Peluncur Permainan</value>
+    <value>在「启动游戏-进程」选项卡加入「解锁帧率限制」选项</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>Peluncur Permainan - Buka Limit FPS</value>
@@ -2751,7 +2763,7 @@
     <value>Kontribusi penerjemahan</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
+    <value>在「祈愿记录-角色」与「祈愿记录-武器」中显示未抽取到的祈愿物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽取到的祈愿物品</value>
