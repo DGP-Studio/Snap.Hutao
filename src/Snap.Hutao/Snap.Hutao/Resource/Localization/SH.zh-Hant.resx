@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -148,7 +148,7 @@
     <value>未找到結果</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
-    <value>無效的 Uri</value>
+    <value>無效的 URI</value>
   </data>
   <data name="ControlImageCompositionImageHttpRequest" xml:space="preserve">
     <value>HTTP GET {0}</value>
@@ -552,7 +552,7 @@
     <value>精煉 {0} 階</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必須登入 米游社/ HoYoLAB 並選擇一個用戶與角色</value>
+    <value>必須登入 米遊社 / HoYoLAB 並選擇一個用戶與角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>刪除了 UID：{0} 的 {1} 筆祈願記錄</value>
@@ -585,10 +585,10 @@
     <value>新密碼設定成功</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
-    <value>當前電子郵件地址尚未註冊</value>
+    <value>當前電子郵件信箱尚未註冊</value>
   </data>
   <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
-    <value>當前電子郵件地址已被註冊</value>
+    <value>當前電子郵件信箱已被註冊</value>
   </data>
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>註冊失敗，伺服器異常，請盡快聯繫開發者解決</value>
@@ -600,7 +600,7 @@
     <value>用戶刪除成功</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
-    <value>用戶不存在，獲取用戶信息失敗</value>
+    <value>使用者不存在，獲取使用者信息失敗</value>
   </data>
   <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
     <value>用戶名稱或密碼錯誤</value>
@@ -615,7 +615,7 @@
     <value>驗證碼已發送至信箱</value>
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
-    <value>驗證請求失敗，當前電子郵件地址已被註冊</value>
+    <value>驗證請求失敗，當前電子郵件信箱已被註冊</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>驗證請求過快，請 1 分鐘後再試</value>
@@ -909,7 +909,7 @@
     <value>未正確提供原神路徑，或目前設定的路徑不正確</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>找不到原神內置瀏覽器緩存路徑：\n{0}</value>
+    <value>找不到原神內置瀏覽器快取路徑：\n{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>找不到可用的 URL</value>
@@ -963,7 +963,7 @@
     <value>遊戲進程已啟動</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsFailed" xml:space="preserve">
-    <value>解鎖 FPS 上限失敗，正在結束遊戲行程</value>
+    <value>解鎖幀 FPS 上限失敗，正在結束遊戲進程</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsSucceed" xml:space="preserve">
     <value>解鎖 FPS 上限成功</value>
@@ -1005,7 +1005,7 @@
     <value>獲取 Package Version 失敗</value>
   </data>
   <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
-    <value>下載客戶端檔案失敗：{0}</value>
+    <value>下載用戶端檔案失敗：{0}</value>
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
     <value>無法找到遊戲本體路徑，請前往設定修改</value>
@@ -1034,11 +1034,14 @@
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
     <value>在讀取遊戲程序內存時遇到問題：無法讀取到指定地址的有效值</value>
   </data>
+  <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
+    <value>解鎖 FPS 失敗：0x{0:X8}</value>
+  </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>祈願紀錄上傳服務有效期至\n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
-    <value>無法找到暫存的元數據檔案</value>
+    <value>無法找到快取的元數據檔案</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
     <value>HTTP {0} | Error:{1}：元資料校驗檔案下載失敗</value>
@@ -1089,7 +1092,7 @@
     <value>輸入的 Cookie 中必須包含 SToken</value>
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
-    <value>輸入的 Cookie 無法獲取用戶信息</value>
+    <value>輸入的 Cookie 無法獲取用戶訊息</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>成就管理</value>
@@ -1101,7 +1104,7 @@
     <value>我的角色</value>
   </data>
   <data name="ViewAvatarPropertySyncDataButtonLabel" xml:space="preserve">
-    <value>同步角色資訊</value>
+    <value>同步角色訊息</value>
   </data>
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
     <value>成就統計</value>
@@ -1170,7 +1173,7 @@
     <value>養成計劃</value>
   </data>
   <data name="ViewDailyNoteHeader" xml:space="preserve">
-    <value>即時便籤</value>
+    <value>即時便箋</value>
   </data>
   <data name="ViewDataHeader" xml:space="preserve">
     <value>數據</value>
@@ -1221,10 +1224,10 @@
     <value>創建新的養成計劃</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
-    <value>批量添加或更新到當前養成計畫</value>
+    <value>批量添加或更新到當前養成計劃</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
-    <value>添加或更新到當前養成計畫</value>
+    <value>添加或更新到當前養成計劃</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>每日委託上線提醒</value>
@@ -1356,10 +1359,10 @@
     <value>轉換可能需要花費一段時間，請勿關閉胡桃</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
-    <value>正在轉換客戶端</value>
+    <value>正在轉換用戶端</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>使用米游社掃描 QR 碼</value>
+    <value>使用米遊社掃描 QR 碼</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>為防止你在無意間啟用，請輸入正在啟用的功能開關的&lt;b&gt;標題名稱&lt;/b&gt;</value>
@@ -1373,17 +1376,17 @@
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>是否永久刪除用戶數據</value>
   </data>
-  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
-    <value>前往登入畫面</value>
-  </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint" xml:space="preserve">
     <value>當前未登入胡桃賬號，上傳深淵數據無法獲贈胡桃雲時長</value>
+  </data>
+  <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
+    <value>前往登入</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginSecondaryButtonText" xml:space="preserve">
     <value>繼續上傳</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle" xml:space="preserve">
-    <value>Загрузите данные о Бездне</value>
+    <value>上傳深淵數據</value>
   </data>
   <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
     <value>查看更新日誌</value>
@@ -1449,10 +1452,10 @@
     <value>下載並自行安裝圖標字體</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
-    <value>若未檢測到 WebView2 Runtime信息，可以前往</value>
+    <value>若未檢測到 WebView2 Runtime 訊息，可以前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
-    <value>下載並自行安裝運行時</value>
+    <value>下載並自行安裝Runtime</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>語言</value>
@@ -1521,10 +1524,10 @@
     <value>獲取培養材料中，請稍後...</value>
   </data>
   <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
-    <value>當前角色無法計算，請同步信息後再試</value>
+    <value>當前角色無法計算，請同步訊息後再試</value>
   </data>
   <data name="ViewModelAvatarPropertyEnkaApiUnavailable" xml:space="preserve">
-    <value>角色信息服務 [Enka API] 當前不可用</value>
+    <value>角色訊息服務 [Enka API] 當前不可用</value>
   </data>
   <data name="ViewModelAvatarPropertyExportImageSuccess" xml:space="preserve">
     <value>已匯出到剪貼簿</value>
@@ -1545,10 +1548,10 @@
     <value>養成計劃添加失敗</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>操作完成：添加/更新：{0} 個，跳過 {1} 個</value>
+    <value>操作完成：添加 / 更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>操作未全部完成：添加/更新：{0} 個，跳過 {1} 個</value>
+    <value>操作未全部完成：添加 / 更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功新增至目前養成計劃</value>
@@ -1567,6 +1570,9 @@
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>不能新增名稱無效的計劃</value>
+  </data>
+  <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
+    <value>正在同步背包物品</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
     <value>此操作不可逆，此計劃的養成物品與背包材料將會丟失</value>
@@ -1599,7 +1605,7 @@
     <value>8 分鐘 | 1 樹脂</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
-    <value>正在獲取即時便箋信息，請稍候</value>
+    <value>正在獲取即時便箋訊息，請稍候</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>成功儲存至指定位置</value>
@@ -1614,7 +1620,7 @@
     <value>匯出失敗</value>
   </data>
   <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
-    <value>UIFG JSON 檔案</value>
+    <value>UIGF Json 檔案</value>
   </data>
   <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
     <value>匯入完成</value>
@@ -1680,7 +1686,7 @@
     <value>原圖</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
-    <value>請輸入正確的電子郵件地址</value>
+    <value>請輸入正確的電子郵件信箱</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>剪貼板中的文本格式不正塙</value>
@@ -1746,7 +1752,7 @@
     <value>後續轉換會重新下載所需檔案，確定要刪除嗎？</value>
   </data>
   <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
-    <value>刪除轉換伺服器遊戲用戶端暫存</value>
+    <value>刪除轉換伺服器遊戲用戶端快取</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>已使用磁碟空間：{0}</value>
@@ -1851,7 +1857,7 @@
     <value>雙暴評分</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
-    <value>尚未獲取任何角色信息</value>
+    <value>尚未獲取任何角色訊息</value>
   </data>
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
     <value>圖像輸出</value>
@@ -1869,19 +1875,19 @@
     <value>從 Enka API 同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
-    <value>同步遊戲內角色展櫃中的資訊</value>
+    <value>同步遊戲內角色展櫃中的訊息</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
     <value>從 HoYoLAB - 養成計算器同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription" xml:space="preserve">
-    <value>同步角色天賦信息</value>
+    <value>同步角色天賦訊息</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
     <value>從 HoYoLAB - 戰績同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
-    <value>同步角色天賦外的大部分信息</value>
+    <value>同步角色天賦外的大部分訊息</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshTimeToggle" xml:space="preserve">
     <value>重新整理時間</value>
@@ -1905,7 +1911,7 @@
     <value>新增養成計劃以繼續</value>
   </data>
   <data name="ViewPageCultivationAddProjectDescription" xml:space="preserve">
-    <value>稍後可以前往其他頁面添加養成計劃條目</value>
+    <value>稍後可以前往其他頁面添加養成計劃項</value>
   </data>
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>添加我的角色與武器到養成計劃</value>
@@ -1924,6 +1930,9 @@
   </data>
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
     <value>前往</value>
+  </data>
+  <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
+    <value>同步背包物品</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>刪除清單</value>
@@ -1956,7 +1965,7 @@
     <value>配置 Webhook</value>
   </data>
   <data name="ViewPageDailyNoteDataInteropHeader" xml:space="preserve">
-    <value>資料互操作</value>
+    <value>數據互操作</value>
   </data>
   <data name="ViewPageDailyNoteNotificationHeader" xml:space="preserve">
     <value>通知</value>
@@ -2001,7 +2010,7 @@
     <value>為啟用通知區域圖標，關閉窗口後自動重新整理將不會執行</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
-    <value>在我游玩原神時不通知我</value>
+    <value>在我遊玩原神時不通知我</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>免打擾模式</value>
@@ -2013,7 +2022,7 @@
     <value>搜尋問題與建議</value>
   </data>
   <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
-    <value>基本資訊</value>
+    <value>基本訊息</value>
   </data>
   <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
     <value>常用連結</value>
@@ -2064,13 +2073,13 @@
     <value>胡桃雲</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseDescription" xml:space="preserve">
-    <value>前往爱发电購買相關服務</value>
+    <value>前往愛發電購買相關服務</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>購買/續費雲服務</value>
+    <value>購買 / 續費雲服務</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>刪除此UID的雲端存檔</value>
+    <value>刪除此 UID 的雲端存檔</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>開發者賬號無視服務到期時間</value>
@@ -2079,7 +2088,7 @@
     <value>胡桃雲服務時長不足</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>下載此UID的雲端存檔</value>
+    <value>下載此 UID 的雲端存檔</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>每期深淵首次上傳可免費獲得 3 天時長</value>
@@ -2121,10 +2130,10 @@
     <value>SToken 重新整理</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySTokenDescription" xml:space="preserve">
-    <value>使用當前用戶的 Cookie 信息重新整理祈願紀錄</value>
+    <value>使用當前用戶的 Cookie 訊息重新整理祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
-    <value>網頁緩存重新整理</value>
+    <value>網頁快取重新整理</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCacheDescription" xml:space="preserve">
     <value>使用遊戲內瀏覽器的網頁快取重新整理祈願紀錄</value>
@@ -2142,7 +2151,7 @@
     <value>總覽</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
-    <value>統計</value>
+    <value>全球祈願統計</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>武器</value>
@@ -2241,7 +2250,7 @@
     <value>請輸入密碼</value>
   </data>
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
-    <value>至少需要八個字元</value>
+    <value>至少需要 8 個字元</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
     <value>註冊</value>
@@ -2253,7 +2262,7 @@
     <value>刪除帳號的數據將永遠丢失，無法恢復</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
-    <value>請輸入電子郵件地址</value>
+    <value>請輸入電子郵件信箱</value>
   </data>
   <data name="ViewPageHutaoPassportVerifyCodeAction" xml:space="preserve">
     <value>取得驗證碼</value>
@@ -2328,7 +2337,7 @@
     <value>一般</value>
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
-    <value>所有選項盡會在啟動遊戲成功後儲存</value>
+    <value>所有選項僅會在啟動遊戲成功後儲存</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
     <value>在我遊戲時設定 Discord Activity 狀態</value>
@@ -2343,7 +2352,7 @@
     <value>進程聯動</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
-    <value>在指定的屏幕上運行</value>
+    <value>在指定的顯示器上運行</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
     <value>顯示器</value>
@@ -2364,7 +2373,7 @@
     <value>時長統計</value>
   </data>
   <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
-    <value>行程</value>
+    <value>進程</value>
   </data>
   <data name="ViewPageLaunchGameRegistryHeader" xml:space="preserve">
     <value>登錄檔</value>
@@ -2376,7 +2385,7 @@
     <value>資源下載</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
-    <value>用戶端</value>
+    <value>完整包</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>預下載</value>
@@ -2385,13 +2394,13 @@
     <value>選擇遊戲路徑</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
-    <value>該用戶尚未綁定即時便箋通知 UID</value>
+    <value>該帳號尚未綁定即時便箋通知 UID</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
     <value>綁定當前用戶的角色</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
-    <value>在游戲内切換賬號，網絡環境發生變化後需要重新手動檢測</value>
+    <value>在遊戲内切換賬號，網絡環境發生變化後需要重新手動檢測</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>檢測</value>
@@ -2406,7 +2415,7 @@
     <value>重新命名</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>切換遊戲伺服器（大陸伺服器/渠道伺服器/國際伺服器）</value>
+    <value>切換遊戲伺服器（陸服 / 渠道服 / 國際服）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>伺服器</value>
@@ -2436,13 +2445,13 @@
     <value>請輸入您的 HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通過由我們提供的內嵌網頁視圖登錄 米哈游通行证，我們會在你點擊 我已登錄 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與米哈遊服務器之間</value>
+    <value>你正在通過由我們提供的內嵌網頁視圖登入 HoYoverse 通行證，我們會在你點擊 我已登入 按鈕後，讀取你的 Cookie 訊息，由此視圖發起的網絡通信只發生於你的電腦與 COGNOSPHERE 伺服器之間</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>我已登入</value>
   </data>
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
-    <value>在下方登入米哈游通行证</value>
+    <value>在下方登入 HoYoverse 通行證</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>開啟截圖檔案夾</value>
@@ -2481,10 +2490,10 @@
     <value>當前背景為本地圖片，如遇版權問題由用戶個人負責</value>
   </data>
   <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
-    <value>圖片暫存存放在此</value>
+    <value>圖片快取 存放在此</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
-    <value>暫存 檔案夾</value>
+    <value>快取 檔案夾</value>
   </data>
   <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行證</value>
@@ -2511,19 +2520,19 @@
     <value>除非開發人員明確要求你這樣做，否則不應嘗試執行下方的操作！</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>用戶數據/元數據 存放在此</value>
+    <value>用戶數據 / 元數據 存放在此</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>資料 檔案夾</value>
+    <value>數據 檔案夾</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>刪除</value>
   </data>
   <data name="ViewPageSettingDeleteCacheDescription" xml:space="preserve">
-    <value>若祈願紀錄緩存重新整理頻繁提示驗證密鑰過期，可以嘗試此操作</value>
+    <value>若祈願紀錄快取重新整理頻繁提示驗證密鑰過期，可以嘗試此操作</value>
   </data>
   <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
-    <value>刪除游戲内網頁緩存</value>
+    <value>刪除遊戲内網頁快取</value>
   </data>
   <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
     <value>直接刪除用戶表的所有記錄，用於修復特定的賬號衝突問題</value>
@@ -2538,7 +2547,7 @@
     <value>IP：{0} 歸屬伺服器：{1}</value>
   </data>
   <data name="ViewPageSettingDeviceIpHeader" xml:space="preserve">
-    <value>設備 IP</value>
+    <value>裝置 IP</value>
   </data>
   <data name="ViewPageSettingElevatedModeDescription" xml:space="preserve">
     <value>系統管理員模式會影響部分功能的可用性與行為</value>
@@ -2562,7 +2571,7 @@
     <value>顯示</value>
   </data>
   <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
-    <value>您解鎖了含有違反原神服務條款風險的「啟動遊戲-進階功能」，將自行承擔任何不良後果。</value>
+    <value>您解鎖了含有違反原神服務條款風險的「啟動遊戲 - 進階功能」，將自行承擔任何不良後果。</value>
   </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
     <value>前往反饋</value>
@@ -2589,7 +2598,7 @@
     <value>選擇想要獲取公告的遊戲伺服器</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>公告所屬伺服器</value>
+    <value>遊戲公告所屬伺服器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>管理主頁儀表板中的卡片</value>
@@ -2601,7 +2610,7 @@
     <value>成就管理</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>即時便籤</value>
+    <value>即時便箋</value>
   </data>
   <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>祈願紀錄</value>
@@ -2643,10 +2652,10 @@
     <value>登出</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerDescription" xml:space="preserve">
-    <value>您可以無限制使用任何測試功能</value>
+    <value>您可以無限制地使用任何測試功能</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃開發/營運</value>
+    <value>胡桃開發 / 營運</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>我們有時會向某些用戶贈送胡桃雲兌換碼</value>
@@ -2697,16 +2706,16 @@
     <value>重設</value>
   </data>
   <data name="ViewPageSettingResetStaticResourceDescription" xml:space="preserve">
-    <value>下次啓動時會重新下載所有圖像資源</value>
+    <value>重新下載所有圖像資源</value>
   </data>
   <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
     <value>重設圖片資源</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在啟動遊戲頁面的程序部分加入解鎖 FPS 限制選項</value>
+    <value>在「啟動遊戲 - 進程」選項卡加入「解鎖 FPS 限制」選項</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
-    <value>啟動遊戲-解鎖 FPS 限制</value>
+    <value>啟動遊戲 - 解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>更改目錄后需要手動移動目錄内的數據，否則會重新創建用戶數據</value>
@@ -2751,7 +2760,7 @@
     <value>貢獻翻譯</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在祈願記錄頁面角色與武器頁籤顯示未抽取到的祈願物品</value>
+    <value>在「祈願記錄 - 角色」與「祈願記錄 - 武器」中顯示未抽到的祈願物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽取到的祈願物品</value>
@@ -2760,7 +2769,7 @@
     <value>前往商店</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
-    <value>WebView 2 運行時</value>
+    <value>WebView2 運行時</value>
   </data>
   <data name="ViewPageSpiralAbyssTeamAppearanceDownHeader" xml:space="preserve">
     <value>下半</value>
@@ -2781,7 +2790,7 @@
     <value>漢語 CV</value>
   </data>
   <data name="ViewPageWiKiAvatarConstellationNameTitle" xml:space="preserve">
-    <value>命座</value>
+    <value>命之座</value>
   </data>
   <data name="ViewPageWiKiAvatarCostumeHeader" xml:space="preserve">
     <value>衣裝</value>
@@ -2829,7 +2838,7 @@
     <value>搭配武器</value>
   </data>
   <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
-    <value>添加到養成計畫</value>
+    <value>添加到養成計劃</value>
   </data>
   <data name="ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder" xml:space="preserve">
     <value>篩選怪物</value>
@@ -2859,10 +2868,10 @@
     <value>偵錯主控台</value>
   </data>
   <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
-    <value>在啟動遊戲中轉換伺服器後會產生對應的遊戲用戶端檔案用作暫存</value>
+    <value>在啟動遊戲中轉換伺服器後會產生對應的遊戲用戶端檔案用作快取</value>
   </data>
   <data name="ViewSettingDeleteServerCacheFolderHeader" xml:space="preserve">
-    <value>刪除轉換伺服器暫存</value>
+    <value>刪除轉換伺服器快取</value>
   </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
     <value>打開檔案夾</value>
@@ -2925,7 +2934,7 @@
     <value>出戰次數</value>
   </data>
   <data name="ViewSpiralAbyssStatistics" xml:space="preserve">
-    <value>統計資料</value>
+    <value>統計數據</value>
   </data>
   <data name="ViewSpiralAbyssTakeDamage" xml:space="preserve">
     <value>最多承傷</value>
@@ -2934,7 +2943,7 @@
     <value>獲得淵星</value>
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
-    <value>上傳資料</value>
+    <value>上傳數據</value>
   </data>
   <data name="ViewTitileUpdatePackageDownloadContent" xml:space="preserve">
     <value>是否立即下載？</value>
@@ -2961,7 +2970,7 @@
     <value>工具</value>
   </data>
   <data name="ViewUserCookieOperation" xml:space="preserve">
-    <value>米游社</value>
+    <value>米遊社</value>
   </data>
   <data name="ViewUserCookieOperation2" xml:space="preserve">
     <value>HoYoLAB</value>
@@ -2973,7 +2982,7 @@
     <value>旅行工具</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
-    <value>網頁登陸</value>
+    <value>網頁登入</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
     <value>掃描 QR 碼以登入</value>
@@ -2997,7 +3006,7 @@
     <value>文檔</value>
   </data>
   <data name="ViewUserLoginMihoyoUserDisabledTooltip" xml:space="preserve">
-    <value>由于米游社安全策略的相关更改，网页登录暂不可用</value>
+    <value>由於米遊社安全策略的相關更改，網頁登入暫不可用</value>
   </data>
   <data name="ViewUserNoUserHint" xml:space="preserve">
     <value>尚未登入</value>
@@ -3051,7 +3060,7 @@
     <value>將於&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;進行版本更新維護</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
-    <value>\d\.\d版本更新停服說明</value>
+    <value>\d\.\d版本更新維護預告</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓更新時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
@@ -3177,13 +3186,13 @@
     <value>{0} 秒</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>驗證失敗，請手動進行驗證或前往「 HoYoLAB -工具箱-戰績-即時便箋」頁面查看。</value>
+    <value>驗證失敗，請手動進行驗證或前往「 HoYoLAB - 工具箱 - 戰績 - 即時便箋」頁面查看。</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>錯誤的 UID 格式</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>角色UID不存在，請稍候再試</value>
+    <value>角色 UID 不存在，請稍候再試</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
     <value>遊戲維護中</value>
@@ -3249,10 +3258,10 @@
     <value>胡桃服務維護中</value>
   </data>
   <data name="WebIndexOrSpiralAbyssVerificationFailed" xml:space="preserve">
-    <value>驗證失敗，請手動進行驗證或前往「 HoYoLAB -工具箱-戰績」頁面查看。</value>
+    <value>驗證失敗，請手動進行驗證或前往「 HoYoLAB - 工具箱 - 戰績」頁面查看。</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
-    <value>狀態：{0} | 信息：{1}</value>
+    <value>狀態：{0} | 訊息：{1}</value>
   </data>
   <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
     <value>請重新整理 Cookie，原始消息：{0}</value>
