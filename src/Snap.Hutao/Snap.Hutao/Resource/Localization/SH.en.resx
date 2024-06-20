@@ -1094,6 +1094,9 @@
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>Can't get user information with entered Cookie</value>
   </data>
+  <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
+    <value>复制图像</value>
+  </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>Achievements</value>
   </data>
