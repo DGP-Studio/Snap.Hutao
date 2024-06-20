@@ -103,7 +103,7 @@ internal sealed partial class PackageConverter
         }
         else
         {
-            // backup
+            // Backup
             FileOperation.Move(sdkDll, sdkDllBackup, true);
             FileOperation.Move(sdkVersion, sdkVersionBackup, true);
         }

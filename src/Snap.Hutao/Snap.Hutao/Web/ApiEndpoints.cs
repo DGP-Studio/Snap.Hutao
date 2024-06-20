@@ -407,9 +407,6 @@ internal static class ApiEndpoints
     private const string PublicOperationHk4e = "https://public-operation-hk4e.mihoyo.com";
     private const string PublicOperationHk4eGachaInfoApi = $"{PublicOperationHk4e}/gacha_info/api";
 
-    private const string SdkStatic = "https://sdk-static.mihoyo.com";
-    private const string SdkStaticLauncherApi = $"{SdkStatic}/hk4e_cn/mdk/launcher/api";
-
     /// <summary>
     /// Referer: https://webstatic.mihoyo.com
     /// </summary>

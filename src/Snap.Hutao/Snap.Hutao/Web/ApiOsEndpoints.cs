@@ -300,17 +300,17 @@ internal static class ApiOsEndpoints
 
     #region SgHoyoPlayApi
 
-    public static string SgHoyoPlayConnectGamePackages(LaunchScheme scheme)
+    public static string HoyoPlayConnectGamePackages(LaunchScheme scheme)
     {
         return $"{SgHoyoPlayApiConnectApi}/getGamePackages?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}";
     }
 
-    public static string SgHoyoPlayConnectGameChannelSDKs(LaunchScheme scheme)
+    public static string HoyoPlayConnectGameChannelSDKs(LaunchScheme scheme)
     {
         return $"{SgHoyoPlayApiConnectApi}/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
 
-    public static string SgHoyoPlayConnectDeprecatedFileConfigs(LaunchScheme scheme)
+    public static string HoyoPlayConnectDeprecatedFileConfigs(LaunchScheme scheme)
     {
         return $"{SgHoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
