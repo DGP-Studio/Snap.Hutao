@@ -193,16 +193,16 @@
     <value>Регистрация [{0}] горячей клавиши [{1}] не удалась</value>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
-    <value>退出</value>
+    <value>Выход</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
     <value>Game Launcher</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已进入后台运行</value>
+    <value>Snap Hutao работает в фоновом режиме</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>窗口</value>
+    <value>Окно</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>Тёмная</value>
@@ -268,7 +268,7 @@
     <value>Этаж {0}</value>
   </data>
   <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
-    <value>Level {0}</value>
+    <value>Уровень {0}</value>
   </data>
   <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
     <value>Appear {0} Times</value>
@@ -413,7 +413,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypePole" xml:space="preserve">
-    <value>Polearm</value>
+    <value>Древковое оружие</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeSwordOneHand" xml:space="preserve">
@@ -552,10 +552,10 @@
     <value>Уровень совершенствования {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必须登录 米游社 / HoYoLAB 并选择一个用户与角色</value>
+    <value>Нужно войти в систему MiYouShe / HoYoLAB и выбрать пользователя и роль</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>删除了 UID：{0} 的 {1} 条祈愿记录</value>
+    <value>Удалено {1} записей о молитвах UID {0}</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>Достигнуто максимально допустимое количество архивов истории желаний в облаке Snap Hutao</value>
@@ -570,7 +570,7 @@
     <value>Данные некорректны, не удается сохранить в облако. Пожалуйста, не загружайте через другие аккаунты или попробуйте удалить данные в облаке и повторите попытку</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>上传了 UID：{0} 的 {1} 条祈愿记录，存储了 {2} 条</value>
+    <value>Загружено {1} записей о молитвах, {2} записей сохранено. UID: {0}</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Пожалуйста, сначала войдите или зарегистрируйтесь Snap Hutao аккаунт</value>
@@ -621,7 +621,7 @@
     <value>Слишком частые запросы проверки, пожалуйста, повторите через 1 минуту</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>上传深渊记录失败，当前 UID 已被胡桃数据库封禁</value>
+    <value>Не удалось загрузить записи истории прохождения бездны в облако, текущий UID заблокирован в базе данных Snap Hutao</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
     <value>Не удалось загрузить записи из Бездны, выполняется подсчет статистики</value>
@@ -642,7 +642,7 @@
     <value>Не удалось загрузить записи из Бездны, это не текущие данные</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>上传深渊记录失败，当前 UID 的记录仍在处理中，请勿重复操作</value>
+    <value>Не удалось загрузить записи истории прохождения бездны в облако, предыдущий запрос все ещё обрабатывается. Пожалуйста, подождите.</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>Загрузка записей из Бездны успешна, выдан срок обслуживания загрузки записей о желаниях</value>
@@ -1035,7 +1035,7 @@
     <value>Ошибка чтения памяти модулей процесса: не удалось прочитать действительное значение по заданному адресу</value>
   </data>
   <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
-    <value>解锁帧率失败：0x{0:X8}</value>
+    <value>Не удалось разблокировать частоту кадров: Ошибка 0x{0:X8}</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>Запись молитв доступна до \n{0:yyyy.MM.dd HH:mm:ss}</value>
@@ -1095,7 +1095,7 @@
     <value>Предоставленные Cookie не позволяют получить информацию о пользователе.</value>
   </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
-    <value>复制图像</value>
+    <value>Скопировать изображение</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>Достижения</value>
@@ -1266,7 +1266,7 @@
     <value>是否解除 Loopback 限制</value>
   </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
-    <value>导入祈愿记录</value>
+    <value>Импорт истории молитв</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
     <value>祈愿记录 Url 已失效，请重新获取</value>
@@ -1410,7 +1410,7 @@
     <value>Установка cookie-файлов</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
-    <value>Центр обратной связи</value>
+    <value>Обратная связь</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>История молитв</value>
@@ -2445,46 +2445,46 @@
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>请输入你的 HoYoLab UID</value>
+    <value>Пожалуйста, введите ваш UID в HoYoLab</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通过由我们提供的内嵌网页视图登录 米哈游通行证，我们会在你点击 我已登录 按钮后，读取你的 Cookie 信息，由此视图发起的网络通信只发生于你的计算机与米哈游服务器之间</value>
+    <value>Вы используете встроенный браузер для захода в аккаунт MiHoYo. Когда Вы нажмёте "Я зашёл", Snap Hutao возьмёт информацию для логина из cookie браузера. Эта информация не передается на наши сервера и остается на вашем устройстве.</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
-    <value>我已登录</value>
+    <value>Я зашёл</value>
   </data>
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
     <value>在下方登录米哈游通行证</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
-    <value>打开截图文件夹</value>
+    <value>Открыть папку скриншотов</value>
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
-    <value>选择游戏路径</value>
+    <value>Выберите путь к игре</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
-    <value>关于 胡桃</value>
+    <value>О Snap Hutao</value>
   </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
-    <value>外观</value>
+    <value>Внешний вид</value>
   </data>
   <data name="ViewPageSettingApperanceLanguageDescription" xml:space="preserve">
-    <value>设置呈现语言</value>
+    <value>Выбрать язык</value>
   </data>
   <data name="ViewPageSettingApperanceLanguageHeader" xml:space="preserve">
     <value>Язык</value>
   </data>
   <data name="ViewPageSettingBackdropMaterialDescription" xml:space="preserve">
-    <value>更改窗体的背景材质</value>
+    <value>Изменение материала фона окна</value>
   </data>
   <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
-    <value>背景材质</value>
+    <value>Материал фона</value>
   </data>
   <data name="ViewPageSettingBackgroundImageCopyrightHeader" xml:space="preserve">
-    <value>图片版权信息</value>
+    <value>Информация об авторских правах изображения</value>
   </data>
   <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
-    <value>更改窗体的背景图片来源，重启胡桃以尽快生效</value>
+    <value>Изменить источник обоев программы. Для вступления изменений в силу перезагрузите Snap Hutao</value>
   </data>
   <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
     <value>背景图片</value>
@@ -2625,7 +2625,7 @@
     <value>隐藏</value>
   </data>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
-    <value>显示</value>
+    <value>Показать</value>
   </data>
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>Главная</value>
@@ -2856,19 +2856,19 @@
     <value>筛选武器</value>
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
-    <value>突破前</value>
+    <value>До возвышения</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
-    <value>登录失败，请重新登录</value>
+    <value>Не удалось войти, попробуйте еще раз.</value>
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
-    <value>立即登录或注册</value>
+    <value>Войти или зарегистрироваться</value>
   </data>
   <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
-    <value>控制胡桃启动时是否开启控制台，重启后生效</value>
+    <value>Открыть консоль при запуске Snap Hutao. Действует после перезагрузки</value>
   </data>
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
-    <value>调试控制台</value>
+    <value>Консоль отладки</value>
   </data>
   <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
     <value>在启动游戏中转换服务器后会产生对应的游戏客户端文件用作缓存</value>
@@ -3027,7 +3027,7 @@
     <value>Персонаж</value>
   </data>
   <data name="ViewUserUser" xml:space="preserve">
-    <value>用户</value>
+    <value>Пользователи</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>我们将为你下载最基本的图像资源</value>
@@ -3039,16 +3039,16 @@
     <value>请勿关闭应用程序</value>
   </data>
   <data name="ViewWelcomeTitle" xml:space="preserve">
-    <value>欢迎使用 胡桃</value>
+    <value>Добро пожаловать в Snap Hutao</value>
   </data>
   <data name="ViewWikiAvatarHeader" xml:space="preserve">
-    <value>角色资料</value>
+    <value>Вики: Персонажи</value>
   </data>
   <data name="ViewWikiMonsterHeader" xml:space="preserve">
-    <value>怪物资料</value>
+    <value>Вики: Монстры</value>
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
-    <value>武器资料</value>
+    <value>Вики: Оружие</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
     <value>(?:(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;)后永久开放</value>
@@ -3174,13 +3174,13 @@
     <value>Не получен</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtainedDetail" xml:space="preserve">
-    <value>Transformer not obtained</value>
+    <value>Параметрический преобразователь не получен</value>
   </data>
   <data name="WebDailyNoteTransformerNotReached" xml:space="preserve">
-    <value>Перезарядка</value>
+    <value>Перезаряжается</value>
   </data>
   <data name="WebDailyNoteTransformerReached" xml:space="preserve">
-    <value>Разрешить</value>
+    <value>Доступно</value>
   </data>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
     <value>Готов</value>
@@ -3252,10 +3252,10 @@
     <value>Oversea Server: TW/HK/MU server</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
-    <value>Oversea Server: EU</value>
+    <value>Глобальный Сервер: Европа</value>
   </data>
   <data name="WebHoyolabRegionOSUSA" xml:space="preserve">
-    <value>Oversea Server: NA</value>
+    <value>Глобальный Сервер: Северная Америка</value>
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
     <value>Сервер Snap Hutao находится на техническом обслуживании</value>
