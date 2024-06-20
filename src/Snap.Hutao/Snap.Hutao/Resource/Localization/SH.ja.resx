@@ -3051,7 +3051,7 @@
     <value>武器一覧</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;)后永久开放</value>
+    <value>(?:通信販売種別" の動作|Ｓ・エ神の順番交わり).*?(?:(\d\.\d)バージョン更新(?:完了|)|&amp;lt;t class=\"t_(?gl|lc)\".*?&amp;gt;(.*?*?*?)&amp;lt;/t&amp;gt; *?))以降の使用以降。</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
     <value>〓活动时间〓.*?(\d\.\d)版本期间持续开放</value>
