@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Bridge;
+using Snap.Hutao.Web.WebView2;
 
 namespace Snap.Hutao.View.Page;
 

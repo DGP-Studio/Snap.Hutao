@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:shci="using:Snap.Hutao.Control.Image">
+    xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup">
     <Style TargetType="shci:CachedImage">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}"/>
@@ -18,7 +19,7 @@
                             <MenuFlyout>
                                 <MenuFlyoutItem IsEnabled="False" Text="{TemplateBinding SourceName}"/>
                                 <MenuFlyoutItem IsEnabled="False" Text="{TemplateBinding CachedName}"/>
-                                <MenuFlyoutItem Command="{Binding CopyToClipboardCommand, RelativeSource={RelativeSource TemplatedParent}}" Text="复制图像"/>
+                                <MenuFlyoutItem Command="{Binding CopyToClipboardCommand, RelativeSource={RelativeSource TemplatedParent}}" Text="{shcm:ResourceString Name=UIXamlControlCachedImageCopyImage}"/>
                             </MenuFlyout>
                         </Grid.ContextFlyout>
                         <Image

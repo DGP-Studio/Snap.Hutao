@@ -3,7 +3,7 @@
 
 using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Control.Extension;
+using Snap.Hutao.UI.Input;
 
 namespace Snap.Hutao.UI.Xaml.Behavior;
 

@@ -3,9 +3,9 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.Control.Extension;
+namespace Snap.Hutao.UI.Xaml.Control;
 
-internal struct ContentDialogHideToken : IDisposable, IAsyncDisposable
+internal struct ContentDialogScope : IDisposable, IAsyncDisposable
 {
     private readonly ContentDialog contentDialog;
     private readonly ITaskContext taskContext;
@@ -13,7 +13,7 @@ internal struct ContentDialogHideToken : IDisposable, IAsyncDisposable
     private bool disposing = false;
     private bool disposed = false;
 
-    public ContentDialogHideToken(ContentDialog contentDialog, ITaskContext taskContext)
+    public ContentDialogScope(ContentDialog contentDialog, ITaskContext taskContext)
     {
         this.contentDialog = contentDialog;
         this.taskContext = taskContext;

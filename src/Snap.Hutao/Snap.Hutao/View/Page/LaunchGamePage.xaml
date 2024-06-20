@@ -8,11 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shccs="using:Snap.Hutao.Control.Collection.Selector"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     d:DataContext="{d:DesignInstance shvg:LaunchGameViewModel}"
@@ -172,7 +172,7 @@
                                             <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
                                                 <shvc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                                 <shc:SizeRestrictedContentControl>
-                                                    <shccs:ComboBox2
+                                                    <shuxc:ComboBox2
                                                         DisplayMemberPath="DisplayName"
                                                         EnableMemberPath="IsNotCompatOnly"
                                                         ItemsSource="{Binding KnownSchemes}"
@@ -237,7 +237,7 @@
                                             Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                                             Text="{shcm:ResourceString Name=ViewPageLaunchGameProcessHeader}"/>
                                         <cwc:SettingsExpander
-                                            shch:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.IsEnabled}"
+                                            shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding LaunchOptions.IsEnabled}"
                                             Description="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsDescription}"
                                             Header="{shcm:ResourceString Name=ViewPageLaunchGameArgumentsHeader}"
                                             HeaderIcon="{shcm:FontIcon Glyph=&#xE943;}"

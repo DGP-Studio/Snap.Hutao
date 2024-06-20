@@ -6,7 +6,7 @@ using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Snap.Hutao.Control.Extension;
+using Snap.Hutao.UI.Input;
 using System.Collections;
 
 namespace Snap.Hutao.UI.Xaml.Control.Tokenizing;

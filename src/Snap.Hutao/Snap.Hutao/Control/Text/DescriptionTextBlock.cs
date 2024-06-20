@@ -5,11 +5,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Media;
 using Snap.Hutao.Control.Text.Syntax.MiHoYo;
 using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Metadata;
+using Snap.Hutao.UI.Xaml;
 using Windows.Foundation;
 using Windows.UI;
 

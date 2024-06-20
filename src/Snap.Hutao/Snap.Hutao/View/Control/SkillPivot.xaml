@@ -5,9 +5,9 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -19,7 +19,7 @@
 
         <DataTemplate x:Key="SkillHeaderTemplate">
             <StackPanel Background="Transparent" ToolTipService.ToolTip="{Binding Name}">
-                <shci:MonoChrome shch:FrameworkElementHelper.SquareLength="36" Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
+                <shci:MonoChrome shux:FrameworkElementHelper.SquareLength="36" Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>

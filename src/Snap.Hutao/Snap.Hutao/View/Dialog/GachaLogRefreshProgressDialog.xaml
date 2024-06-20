@@ -5,8 +5,8 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     Title="{shcm:ResourceString Name=ViewDialogGachaLogRefreshProgressTitle}"
     Style="{StaticResource DefaultContentDialogStyle}"
@@ -15,7 +15,7 @@
     <ContentDialog.Resources>
         <DataTemplate x:Key="GachaItemDataTemplate">
             <shvc:ItemIcon
-                shch:FrameworkElementHelper.SquareLength="60"
+                shux:FrameworkElementHelper.SquareLength="60"
                 Badge="{Binding Badge}"
                 Icon="{Binding Icon}"
                 Quality="{Binding Quality}"/>

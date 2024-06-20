@@ -4,7 +4,7 @@
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 
-namespace Snap.Hutao.Control.Helper;
+namespace Snap.Hutao.UI.Xaml.Control;
 
 [SuppressMessage("", "SH001")]
 [DependencyProperty("IsItemsEnabled", typeof(bool), true, nameof(OnIsItemsEnabledChanged), IsAttached = true, AttachedType = typeof(SettingsExpander))]

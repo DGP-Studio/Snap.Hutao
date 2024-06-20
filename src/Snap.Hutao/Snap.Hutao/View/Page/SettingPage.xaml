@@ -10,9 +10,9 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvs="using:Snap.Hutao.ViewModel.Setting"
     d:DataContext="{d:DesignInstance shvs:SettingViewModel}"
@@ -25,7 +25,7 @@
 
     <Grid x:Name="SettingPageGrid">
         <ScrollViewer Style="{StaticResource TwoPanelScrollViewerStyle}">
-            <shch:ScrollViewerHelper.RightPanel>
+            <shuxc:ScrollViewerHelper.RightPanel>
                 <Border
                     x:Name="ScrollViwerRightPanel"
                     Width="400"
@@ -109,7 +109,7 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-            </shch:ScrollViewerHelper.RightPanel>
+            </shuxc:ScrollViewerHelper.RightPanel>
             <Grid HorizontalAlignment="Left">
                 <StackPanel
                     Grid.Column="0"
@@ -595,7 +595,7 @@
                                     <ToggleSwitch Width="120" IsOn="{Binding IsAllocConsoleDebugModeEnabled, Mode=TwoWay}"/>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsExpander
-                                    shch:SettingsExpanderHelper.IsItemsEnabled="{Binding RuntimeOptions.IsElevated}"
+                                    shuxc:SettingsExpanderHelper.IsItemsEnabled="{Binding RuntimeOptions.IsElevated}"
                                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}"
                                     IsEnabled="{Binding RuntimeOptions.IsElevated}"

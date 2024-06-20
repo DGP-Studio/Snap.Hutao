@@ -3,7 +3,7 @@
 
 using Windows.Foundation.Collections;
 
-namespace Snap.Hutao.Control.Collection.AdvancedCollectionView;
+namespace Snap.Hutao.UI.Xaml.Data;
 
 internal sealed class VectorChangedEventArgs : IVectorChangedEventArgs
 {

@@ -14,6 +14,7 @@ internal sealed partial class CardBlock : Grid
 {
     public CardBlock()
     {
+        // TODO: Convert to custom control
         InitializeComponent();
     }
 }

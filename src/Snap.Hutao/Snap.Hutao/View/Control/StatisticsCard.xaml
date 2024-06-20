@@ -7,11 +7,10 @@
     xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcb="using:Snap.Hutao.Control.Brush"
-    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
@@ -49,7 +48,7 @@
 
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <shci:CachedImage
-                        shch:FrameworkElementHelper.SquareLength="40"
+                        shux:FrameworkElementHelper.SquareLength="40"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
                         Source="{Binding Icon}"/>
                     <TextBlock
@@ -103,7 +102,7 @@
                     <SolidColorBrush Color="{Binding Color}"/>
                 </shvcont:BottomTextControl.Foreground>
                 <shvcont:ItemIcon
-                    shch:FrameworkElementHelper.SquareLength="40"
+                    shux:FrameworkElementHelper.SquareLength="40"
                     Icon="{Binding Icon}"
                     Quality="{Binding Quality}"/>
             </shvcont:BottomTextControl>
