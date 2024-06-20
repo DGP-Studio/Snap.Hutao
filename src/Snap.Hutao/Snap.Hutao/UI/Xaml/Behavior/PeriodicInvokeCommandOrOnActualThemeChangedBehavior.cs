@@ -5,24 +5,31 @@ using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Control.Extension;
 
-namespace Snap.Hutao.Control.Behavior;
+namespace Snap.Hutao.UI.Xaml.Behavior;
 
+[SuppressMessage("", "CA1001")]
 [DependencyProperty("Period", typeof(TimeSpan))]
 [DependencyProperty("Command", typeof(ICommand))]
 [DependencyProperty("CommandParameter", typeof(object))]
-internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavior : BehaviorBase<FrameworkElement>, IDisposable
+internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavior : BehaviorBase<FrameworkElement>
 {
-    private TaskCompletionSource acutalThemeChangedTaskCompletionSource = new();
-    private CancellationTokenSource periodicTimerCancellationTokenSource = new();
-
-    public void Dispose()
-    {
-        periodicTimerCancellationTokenSource.Dispose();
-    }
+    private CancellationTokenSource acutalThemeChangedCts = new();
+    private CancellationTokenSource periodicTimerStopCts = new();
 
     protected override bool Initialize()
     {
         AssociatedObject.ActualThemeChanged += OnActualThemeChanged;
+        return true;
+    }
+
+    protected override bool Uninitialize()
+    {
+        periodicTimerStopCts.Cancel();
+        periodicTimerStopCts.Dispose();
+
+        AssociatedObject.ActualThemeChanged -= OnActualThemeChanged;
+        acutalThemeChangedCts.Dispose();
+
         return true;
     }
 
@@ -31,17 +38,9 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
         RunCoreAsync().SafeForget();
     }
 
-    protected override bool Uninitialize()
-    {
-        periodicTimerCancellationTokenSource.Cancel();
-        AssociatedObject.ActualThemeChanged -= OnActualThemeChanged;
-        return true;
-    }
-
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
-        acutalThemeChangedTaskCompletionSource.TrySetResult();
-        periodicTimerCancellationTokenSource.Cancel();
+        acutalThemeChangedCts.Cancel();
     }
 
     private void TryExecuteCommand()
@@ -65,6 +64,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                     break;
                 }
 
+                // TODO: Reconsider approach to get the ServiceProvider
                 ITaskContext taskContext = Ioc.Default.GetRequiredService<ITaskContext>();
                 await taskContext.SwitchToMainThreadAsync();
                 TryExecuteCommand();
@@ -72,15 +72,23 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
                 await taskContext.SwitchToBackgroundAsync();
                 try
                 {
-                    Task nextTickTask = timer.WaitForNextTickAsync(periodicTimerCancellationTokenSource.Token).AsTask();
-                    await Task.WhenAny(nextTickTask, acutalThemeChangedTaskCompletionSource.Task).ConfigureAwait(false);
+                    using (CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(periodicTimerStopCts.Token, periodicTimerStopCts.Token))
+                    {
+                        await timer.WaitForNextTickAsync(linkedCts.Token).ConfigureAwait(false);
+                    }
                 }
                 catch (OperationCanceledException)
                 {
+                    if (periodicTimerStopCts.IsCancellationRequested)
+                    {
+                        break;
+                    }
                 }
 
-                acutalThemeChangedTaskCompletionSource = new();
-                periodicTimerCancellationTokenSource = new();
+                acutalThemeChangedCts.Dispose();
+                acutalThemeChangedCts = new();
+                periodicTimerStopCts.Dispose();
+                periodicTimerStopCts = new();
             }
             while (true);
         }

@@ -5,13 +5,13 @@ using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.Control.Behavior;
+namespace Snap.Hutao.UI.Xaml.Behavior;
 
 [SuppressMessage("", "CA1001")]
 [DependencyProperty("MilliSecondsDelay", typeof(int))]
 internal sealed partial class InfoBarDelayCloseBehavior : BehaviorBase<InfoBar>
 {
-    private readonly CancellationTokenSource closeTokenSource = new();
+    private readonly CancellationTokenSource userCloseTokenSource = new();
 
     protected override void OnAssociatedObjectLoaded()
     {
@@ -26,9 +26,9 @@ internal sealed partial class InfoBarDelayCloseBehavior : BehaviorBase<InfoBar>
     {
         try
         {
-            await Task.Delay(MilliSecondsDelay, closeTokenSource.Token).ConfigureAwait(true);
+            await Task.Delay(MilliSecondsDelay, userCloseTokenSource.Token).ConfigureAwait(true);
         }
-        catch
+        catch (OperationCanceledException)
         {
             return;
         }
@@ -43,7 +43,7 @@ internal sealed partial class InfoBarDelayCloseBehavior : BehaviorBase<InfoBar>
     {
         if (args.Reason is InfoBarCloseReason.CloseButton)
         {
-            closeTokenSource.Cancel();
+            userCloseTokenSource.Cancel();
         }
 
         AssociatedObject.Closed -= OnInfoBarClosed;

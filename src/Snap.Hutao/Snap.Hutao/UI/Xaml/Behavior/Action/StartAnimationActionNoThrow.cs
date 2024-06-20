@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI.Animations;
 using Microsoft.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
 
-namespace Snap.Hutao.Control.Behavior;
+namespace Snap.Hutao.UI.Xaml.Behavior.Action;
 
 [DependencyProperty("Animation", typeof(AnimationSet))]
 [DependencyProperty("TargetObject", typeof(UIElement))]

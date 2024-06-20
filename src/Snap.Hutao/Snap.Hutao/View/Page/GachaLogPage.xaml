@@ -10,10 +10,11 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     d:DataContext="{d:DesignInstance shvg:GachaLogViewModel}"
@@ -21,7 +22,7 @@
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
-        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
@@ -33,7 +34,7 @@
         <Flyout x:Key="HutaoCloudFlyout">
             <Grid>
                 <mxi:Interaction.Behaviors>
-                    <shcb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudViewModel.OpenUICommand}"/>
+                    <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudViewModel.OpenUICommand}"/>
                 </mxi:Interaction.Behaviors>
                 <Grid Visibility="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Grid Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -483,7 +484,7 @@
                             Spacing="16"
                             Visibility="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
                             <mxi:Interaction.Behaviors>
-                                <shcb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudStatisticsViewModel.OpenUICommand}"/>
+                                <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudStatisticsViewModel.OpenUICommand}"/>
                             </mxi:Interaction.Behaviors>
                             <shvc:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent}"/>
                             <shvc:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent2}"/>
@@ -547,7 +548,7 @@
                                 IsClickEnabled="True">
                                 <mxi:Interaction.Behaviors>
                                     <mxic:EventTriggerBehavior EventName="Click">
-                                        <shcb:ShowAttachedFlyoutAction/>
+                                        <shuxba:ShowAttachedFlyoutAction/>
                                     </mxic:EventTriggerBehavior>
                                 </mxi:Interaction.Behaviors>
                             </cwcont:SettingsCard>

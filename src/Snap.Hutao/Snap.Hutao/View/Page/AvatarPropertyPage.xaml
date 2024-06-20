@@ -10,11 +10,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shct="using:Snap.Hutao.Control.Text"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shva="using:Snap.Hutao.ViewModel.AvatarProperty"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
@@ -23,7 +23,7 @@
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
-        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>

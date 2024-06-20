@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Control.Animation;
+namespace Snap.Hutao.UI.Xaml.Media.Animation;
 
-internal static class ControlAnimationConstants
+internal static class Constants
 {
     /// <summary>
     /// 1

@@ -3,7 +3,7 @@
 
 using Windows.UI;
 
-namespace Snap.Hutao.Control.AutoSuggestBox;
+namespace Snap.Hutao.UI.Xaml.Control.Tokenizing;
 
 internal sealed class SearchToken
 {

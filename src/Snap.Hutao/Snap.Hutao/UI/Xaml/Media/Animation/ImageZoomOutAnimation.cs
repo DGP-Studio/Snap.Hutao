@@ -6,7 +6,7 @@ using CommunityToolkit.WinUI.Animations;
 using Microsoft.UI.Composition;
 using System.Numerics;
 
-namespace Snap.Hutao.Control.Animation;
+namespace Snap.Hutao.UI.Xaml.Media.Animation;
 
 /// <summary>
 /// 图片缩小动画
@@ -19,10 +19,10 @@ internal sealed class ImageZoomOutAnimation : ImplicitAnimation<string, Vector3>
     /// </summary>
     public ImageZoomOutAnimation()
     {
-        Duration = ControlAnimationConstants.ImageZoom;
+        Duration = Constants.ImageZoom;
         EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut;
         EasingType = CommunityToolkit.WinUI.Animations.EasingType.Circle;
-        To = ControlAnimationConstants.One;
+        To = Constants.One;
     }
 
     /// <inheritdoc/>

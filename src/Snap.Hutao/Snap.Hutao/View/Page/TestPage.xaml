@@ -9,7 +9,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     d:DataContext="{d:DesignInstance shv:TestViewModel}"
@@ -20,7 +20,7 @@
             <cwc:SettingsCard Header="Adopt Calculator" IsClickEnabled="True">
                 <mxi:Interaction.Behaviors>
                     <mxic:EventTriggerBehavior EventName="Click">
-                        <shcb:ShowAttachedFlyoutAction/>
+                        <shuxba:ShowAttachedFlyoutAction/>
                     </mxic:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>
@@ -40,7 +40,7 @@
             <cwc:SettingsCard Header="Community Game Record" IsClickEnabled="True">
                 <mxi:Interaction.Behaviors>
                     <mxic:EventTriggerBehavior EventName="Click">
-                        <shcb:ShowAttachedFlyoutAction/>
+                        <shuxba:ShowAttachedFlyoutAction/>
                     </mxic:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>
@@ -60,7 +60,7 @@
             <cwc:SettingsCard Header="SignIn Reward" IsClickEnabled="True">
                 <mxi:Interaction.Behaviors>
                     <mxic:EventTriggerBehavior EventName="Click">
-                        <shcb:ShowAttachedFlyoutAction/>
+                        <shuxba:ShowAttachedFlyoutAction/>
                     </mxic:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>

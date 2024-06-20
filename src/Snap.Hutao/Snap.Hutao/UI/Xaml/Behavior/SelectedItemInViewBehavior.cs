@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.Control.Behavior;
+namespace Snap.Hutao.UI.Xaml.Behavior;
 
 internal sealed class SelectedItemInViewBehavior : BehaviorBase<ListViewBase>
 {

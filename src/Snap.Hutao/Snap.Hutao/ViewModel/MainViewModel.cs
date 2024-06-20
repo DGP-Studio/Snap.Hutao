@@ -5,11 +5,11 @@ using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Animations;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Snap.Hutao.Control.Animation;
 using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Message;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
+using Snap.Hutao.UI.Xaml.Media.Animation;
 using System.Globalization;
 
 namespace Snap.Hutao.ViewModel;
@@ -58,7 +58,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
                 .Create()
                 .Opacity(
                     to: 0D,
-                    duration: ControlAnimationConstants.ImageOpacityFadeInOut,
+                    duration: Constants.ImageOpacityFadeInOut,
                     easingType: EasingType.Quartic,
                     easingMode: EasingMode.EaseInOut)
                 .StartAsync(backgroundImagePresenter)
@@ -81,7 +81,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
                 .Create()
                 .Opacity(
                     to: targetOpacity,
-                    duration: ControlAnimationConstants.ImageOpacityFadeInOut,
+                    duration: Constants.ImageOpacityFadeInOut,
                     easingType: EasingType.Quartic,
                     easingMode: EasingMode.EaseInOut)
                 .StartAsync(backgroundImagePresenter)

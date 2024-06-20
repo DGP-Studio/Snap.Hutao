@@ -6,10 +6,10 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
-using Snap.Hutao.Control.Animation;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Media.Animation;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -193,7 +193,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
             {
                 await AnimationBuilder
                     .Create()
-                    .Opacity(from: 0D, to: 1D, duration: ControlAnimationConstants.ImageScaleFadeIn)
+                    .Opacity(from: 0D, to: 1D, duration: Constants.ImageScaleFadeIn)
                     .StartAsync(this, token)
                     .ConfigureAwait(true);
             }
@@ -214,7 +214,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
             {
                 await AnimationBuilder
                     .Create()
-                    .Opacity(from: 1D, to: 0D, duration: ControlAnimationConstants.ImageScaleFadeOut)
+                    .Opacity(from: 1D, to: 0D, duration: Constants.ImageScaleFadeOut)
                     .StartAsync(this, token)
                     .ConfigureAwait(true);
             }

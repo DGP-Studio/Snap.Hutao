@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Xaml.Interactivity;
 
-namespace Snap.Hutao.Control.Behavior;
+namespace Snap.Hutao.UI.Xaml.Behavior.Action;
 
 /// <summary>
 /// 打开附着的浮出控件操作

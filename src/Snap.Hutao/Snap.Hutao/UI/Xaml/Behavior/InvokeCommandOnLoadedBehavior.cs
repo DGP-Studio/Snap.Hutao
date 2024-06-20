@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Control.Extension;
 
-namespace Snap.Hutao.Control.Behavior;
+namespace Snap.Hutao.UI.Xaml.Behavior;
 
 /// <summary>
 /// 在元素加载完成后执行命令的行为

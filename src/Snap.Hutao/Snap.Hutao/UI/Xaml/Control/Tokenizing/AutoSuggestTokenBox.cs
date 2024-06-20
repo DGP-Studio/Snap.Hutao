@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Control.Extension;
 using System.Collections;
 
-namespace Snap.Hutao.Control.AutoSuggestBox;
+namespace Snap.Hutao.UI.Xaml.Control.Tokenizing;
 
 [DependencyProperty("FilterCommand", typeof(ICommand))]
 [DependencyProperty("FilterCommandParameter", typeof(object))]
