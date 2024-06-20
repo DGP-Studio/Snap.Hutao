@@ -1095,7 +1095,7 @@
     <value>ユーザー情報を取得できません</value>
   </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
-    <value>复制图像</value>
+    <value>画像をコピー</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>アチーブメント</value>
