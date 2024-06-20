@@ -1095,7 +1095,7 @@
     <value>Can't get user information with entered Cookie</value>
   </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
-    <value>复制图像</value>
+    <value>Copy Image</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>Achievements</value>
