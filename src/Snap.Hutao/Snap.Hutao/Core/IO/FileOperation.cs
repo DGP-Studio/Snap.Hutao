@@ -45,6 +45,17 @@ internal static class FileOperation
         return true;
     }
 
+    public static bool Delete(string path)
+    {
+        if (!File.Exists(path))
+        {
+            return false;
+        }
+
+        File.Delete(path);
+        return true;
+    }
+
     public static unsafe bool UnsafeDelete(string path)
     {
         bool result = false;
