@@ -3051,7 +3051,7 @@
     <value>Senjata WIKI</value>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;)后永久开放</value>
+    <value>(?:(?:〓活动时间〓|〓任务开放时间〓).*?(?:(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt; *?))后永久开放</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
     <value>〓活动时间〓.*?(\d\.\d)版本期间持续开放</value>
