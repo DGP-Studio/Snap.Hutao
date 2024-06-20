@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.AutoSuggestBox;
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.UI.Xaml.Control.Tokenizing;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Wiki;

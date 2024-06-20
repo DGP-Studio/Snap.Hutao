@@ -8,12 +8,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shca="using:Snap.Hutao.Control.AutoSuggestBox"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shct="using:Snap.Hutao.Control.Text"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.Tokenizing"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
@@ -22,7 +22,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
-        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Page.Resources>
         <shvconv:VisibilityToObjectConverter
@@ -162,10 +162,16 @@
                 <shvcp:HorizontalCard.Right>
                     <StackPanel Margin="8,0,0,0" HorizontalAlignment="Left">
                         <TextBlock Text="{Binding Name}"/>
-                        <TextBlock
-                            Opacity="0.7"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding Rate}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock
+                                Opacity="0.7"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding Rate}"/>
+                            <shvcont:RateDeltaTextBlock
+                                Opacity="0.7"
+                                Text="{Binding RateDelta}"
+                                TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                        </StackPanel>
                     </StackPanel>
                 </shvcp:HorizontalCard.Right>
             </shvcp:HorizontalCard>
@@ -230,10 +236,16 @@
                             Text="{Binding Name}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap"/>
-                        <TextBlock
-                            Opacity="0.7"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding Rate}"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock
+                                Opacity="0.7"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding Rate}"/>
+                            <shvcont:RateDeltaTextBlock
+                                Opacity="0.7"
+                                Text="{Binding RateDelta}"
+                                TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                        </StackPanel>
                     </StackPanel>
                 </shvcp:HorizontalCard.Right>
             </shvcp:HorizontalCard>
@@ -303,7 +315,7 @@
                                 LocalSettingKeySuffixForCurrent="WikiAvatarPage.Avatars"/>
                         </CommandBar.Content>
                         <AppBarElementContainer>
-                            <shca:AutoSuggestTokenBox
+                            <shuxct:AutoSuggestTokenBox
                                 Width="600"
                                 Height="44"
                                 Margin="6,-2,6,6"
@@ -320,15 +332,15 @@
                                 SuggestedItemsSource="{Binding AvailableTokens.Values}"
                                 Text="{Binding FilterToken, Mode=TwoWay}"
                                 TokenItemTemplate="{StaticResource TokenTemplate}">
-                                <shca:AutoSuggestTokenBox.ItemsPanel>
+                                <shuxct:AutoSuggestTokenBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <cwc:WrapPanel
-                                            cw:FrameworkElementExtensions.AncestorType="shca:AutoSuggestTokenBox"
+                                            cw:FrameworkElementExtensions.AncestorType="shuxct:AutoSuggestTokenBox"
                                             HorizontalSpacing="2"
                                             StretchChild="Last"/>
                                     </ItemsPanelTemplate>
-                                </shca:AutoSuggestTokenBox.ItemsPanel>
-                            </shca:AutoSuggestTokenBox>
+                                </shuxct:AutoSuggestTokenBox.ItemsPanel>
+                            </shuxct:AutoSuggestTokenBox>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"
@@ -359,7 +371,7 @@
                                         SelectedItem="{Binding Selected, Mode=TwoWay}"
                                         SelectionMode="Single">
                                         <mxi:Interaction.Behaviors>
-                                            <shcb:SelectedItemInViewBehavior/>
+                                            <shuxb:SelectedItemInViewBehavior/>
                                         </mxi:Interaction.Behaviors>
                                     </ListView>
                                 </SplitView.Pane>
@@ -550,7 +562,10 @@
                                                 </Border>
 
                                                 <!--  搭配  -->
-                                                <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
+                                                <Border
+                                                    Padding="16"
+                                                    Style="{ThemeResource BorderCardStyle}"
+                                                    Visibility="{Binding Selected.CollocationView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                     <Grid ColumnSpacing="8" RowSpacing="8">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition/>
@@ -770,7 +785,7 @@
                                     SelectionMode="Single"
                                     Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                                     <mxi:Interaction.Behaviors>
-                                        <shcb:SelectedItemInViewBehavior/>
+                                        <shuxb:SelectedItemInViewBehavior/>
                                     </mxi:Interaction.Behaviors>
                                 </GridView>
                             </Grid>

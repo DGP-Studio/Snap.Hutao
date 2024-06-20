@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Notifications;
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Content;
@@ -9,11 +8,11 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.Windows.AppNotifications.Builder;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.Core.Windowing.NotifyIcon;
-using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
@@ -106,7 +105,7 @@ internal sealed class XamlWindowController
         {
             if (!IsNotifyIconVisible())
             {
-                new ToastContentBuilder()
+                new AppNotificationBuilder()
                     .AddText(SH.CoreWindowingNotifyIconPromotedHint)
                     .Show();
             }

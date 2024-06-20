@@ -7,5 +7,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataListChapterSource
 {
-    public List<Chapter> Chapters { get; set; }
+    List<Chapter> Chapters { get; set; }
 }

@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.System.LibraryLoader;
+using Snap.Hutao.Win32.System.Threading;
 using System.Diagnostics;
 using static Snap.Hutao.Win32.Kernel32;
 
@@ -16,14 +17,17 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 [HighQuality]
 internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 {
+    private readonly ILogger<GameFpsUnlocker> logger;
     private readonly LaunchOptions launchOptions;
     private readonly GameFpsUnlockerContext context = new();
 
     public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, in UnlockOptions options, IProgress<GameFpsUnlockerContext> progress)
     {
+        logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
 
         context.GameProcess = gameProcess;
+        context.AllAccess = OpenProcess(PROCESS_ACCESS_RIGHTS.PROCESS_ALL_ACCESS, false, (uint)gameProcess.Id);
         context.Options = options;
         context.Progress = progress;
     }
@@ -53,7 +57,14 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             {
                 if (!context.GameProcess.HasExited && context.FpsAddress != 0U)
                 {
-                    UnsafeWriteProcessMemory(context.GameProcess, context.FpsAddress, launchOptions.TargetFps);
+                    UnsafeWriteProcessMemory(context.AllAccess, context.FpsAddress, launchOptions.TargetFps);
+                    WIN32_ERROR error = GetLastError();
+                    if (error is not WIN32_ERROR.NO_ERROR)
+                    {
+                        logger.LogError("Failed to WriteProcessMemory at FpsAddress, error code 0x{Code:X8}", error);
+                        context.Description = SH.FormatServiceGameUnlockerWriteProcessMemoryFpsAddressFailed(error);
+                    }
+
                     context.Report();
                 }
                 else
@@ -67,9 +78,10 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         }
     }
 
-    private static unsafe bool UnsafeWriteProcessMemory(Process process, nuint baseAddress, int value)
+    [SuppressMessage("", "SH002")]
+    private static unsafe bool UnsafeWriteProcessMemory(HANDLE hProcess, nuint baseAddress, int value)
     {
-        return WriteProcessMemory((HANDLE)process.Handle, (void*)baseAddress, ref value, out _);
+        return WriteProcessMemory(hProcess, (void*)baseAddress, ref value, out _);
     }
 
     private static RequiredLocalModule LoadRequiredLocalModule(GameFileSystem gameFileSystem)

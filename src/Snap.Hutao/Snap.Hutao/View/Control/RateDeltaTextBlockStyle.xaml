@@ -1,0 +1,39 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shvc="using:Snap.Hutao.View.Control">
+
+    <Style BasedOn="{StaticResource DefaultRateDeltaTextBlockStyle}" TargetType="shvc:RateDeltaTextBlock"/>
+
+    <Style x:Key="DefaultRateDeltaTextBlockStyle" TargetType="shvc:RateDeltaTextBlock">
+        <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}"/>
+        <Setter Property="TextStyle" Value="{StaticResource BodyTextBlockStyle}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="shvc:RateDeltaTextBlock">
+                    <TextBlock
+                        x:Name="RootTextBlock"
+                        Foreground="{TemplateBinding Foreground}"
+                        Style="{TemplateBinding TextStyle}"
+                        Text="{TemplateBinding Text}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="NoValue"/>
+                                <VisualState x:Name="PositiveValue">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootTextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="NegativeValue">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootTextBlock.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

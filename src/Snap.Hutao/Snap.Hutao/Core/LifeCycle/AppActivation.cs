@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
@@ -11,7 +11,6 @@ using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Core.Windowing.HotKey;
 using Snap.Hutao.Core.Windowing.NotifyIcon;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Job;
@@ -37,12 +36,10 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     public const string ImportUIAFFromClipboard = nameof(ImportUIAFFromClipboard);
 
     private const string CategoryAchievement = "ACHIEVEMENT";
-    private const string CategoryDailyNote = "DAILYNOTE";
     private const string UrlActionImport = "/IMPORT";
-    private const string UrlActionRefresh = "/REFRESH";
 
-    private readonly IServiceProvider serviceProvider;
     private readonly ICurrentXamlWindowReference currentWindowReference;
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
     private readonly SemaphoreSlim activateSemaphore = new(1);
@@ -50,7 +47,47 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     /// <inheritdoc/>
     public void Activate(HutaoActivationArguments args)
     {
-        HandleActivationAsync(args).SafeForget();
+        HandleActivationExclusiveAsync(args).SafeForget();
+
+        async ValueTask HandleActivationExclusiveAsync(HutaoActivationArguments args)
+        {
+            await taskContext.SwitchToBackgroundAsync();
+
+            if (activateSemaphore.CurrentCount > 0)
+            {
+                using (await activateSemaphore.EnterAsync().ConfigureAwait(false))
+                {
+                    switch (args.Kind)
+                    {
+                        case HutaoActivationKind.Protocol:
+                            {
+                                ArgumentNullException.ThrowIfNull(args.ProtocolActivatedUri);
+                                await HandleProtocolActivationAsync(args.ProtocolActivatedUri, args.IsRedirectTo).ConfigureAwait(false);
+                                break;
+                            }
+
+                        case HutaoActivationKind.Launch:
+                            {
+                                ArgumentNullException.ThrowIfNull(args.LaunchActivatedArguments);
+                                await HandleLaunchActivationAsync(args.IsRedirectTo).ConfigureAwait(false);
+                                break;
+                            }
+
+                        case HutaoActivationKind.AppNotification:
+                            {
+                                ArgumentNullException.ThrowIfNull(args.AppNotificationActivatedArguments);
+                                await HandleAppNotificationActivationAsync(args.AppNotificationActivatedArguments, args.IsRedirectTo).ConfigureAwait(false);
+                                break;
+                            }
+                    }
+                }
+            }
+        }
+    }
+
+    public void NotificationInvoked(AppNotificationManager manager, AppNotificationActivatedEventArgs args)
+    {
+        HandleAppNotificationActivationAsync(args.Arguments, false).SafeForget();
     }
 
     /// <inheritdoc/>
@@ -62,20 +99,22 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         {
             await taskContext.SwitchToBackgroundAsync();
 
-            serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget();
-            ToastNotificationManagerCompat.OnActivated += NotificationActivate;
-
             using (await activateSemaphore.EnterAsync().ConfigureAwait(false))
             {
                 // TODO: Introduced in 1.10.2, remove in later version
-                serviceProvider.GetRequiredService<IJumpListInterop>().ClearAsync().SafeForget();
-                serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
+                {
+                    serviceProvider.GetRequiredService<IJumpListInterop>().ClearAsync().SafeForget();
+                    serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
+                }
 
                 if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
                 {
                     return;
                 }
 
+                serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget();
+
+                // RegisterHotKey should be called from main thread
                 await taskContext.SwitchToMainThreadAsync();
                 serviceProvider.GetRequiredService<HotKeyOptions>().RegisterAll();
 
@@ -88,7 +127,18 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                     _ = serviceProvider.GetRequiredService<NotifyIconController>();
                 }
 
-                serviceProvider.GetRequiredService<IQuartzService>().StartAsync(default).SafeForget();
+                serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget();
+                serviceProvider.GetRequiredService<IQuartzService>().StartAsync().SafeForget();
+
+                if (serviceProvider.GetRequiredService<IMetadataService>() is IMetadataServiceInitialization metadataServiceInitialization)
+                {
+                    metadataServiceInitialization.InitializeInternalAsync().SafeForget();
+                }
+
+                if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
+                {
+                    hutaoUserServiceInitialization.InitializeInternalAsync().SafeForget();
+                }
             }
         }
     }
@@ -134,55 +184,52 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         }
     }
 
-    private void NotificationActivate(ToastNotificationActivatedEventArgsCompat args)
+    private async ValueTask HandleProtocolActivationAsync(Uri uri, bool isRedirectTo)
     {
-        ToastArguments toastArgs = ToastArguments.Parse(args.Argument);
+        UriBuilder builder = new(uri);
 
-        if (toastArgs.TryGetValue(Action, out string? action))
-        {
-            if (action == LaunchGame)
-            {
-                _ = toastArgs.TryGetValue(Uid, out string? uid);
-                HandleLaunchGameActionAsync(uid).SafeForget();
-            }
-        }
-    }
+        string category = builder.Host.ToUpperInvariant();
+        string action = builder.Path.ToUpperInvariant();
 
-    private async ValueTask HandleActivationAsync(HutaoActivationArguments args)
-    {
-        await taskContext.SwitchToBackgroundAsync();
-
-        if (activateSemaphore.CurrentCount > 0)
+        // string parameter = builder.Query.ToUpperInvariant();
+        switch (category)
         {
-            using (await activateSemaphore.EnterAsync().ConfigureAwait(false))
-            {
-                await HandleActivationCoreAsync(args).ConfigureAwait(false);
-            }
-        }
-    }
-
-    private async ValueTask HandleActivationCoreAsync(HutaoActivationArguments args)
-    {
-        if (args.Kind is HutaoActivationKind.Protocol)
-        {
-            ArgumentNullException.ThrowIfNull(args.ProtocolActivatedUri);
-            await HandleUrlActivationAsync(args.ProtocolActivatedUri, args.IsRedirectTo).ConfigureAwait(false);
-        }
-        else if (args.Kind is HutaoActivationKind.Launch)
-        {
-            ArgumentNullException.ThrowIfNull(args.LaunchActivatedArguments);
-            switch (args.LaunchActivatedArguments)
-            {
-                default:
+            case CategoryAchievement:
+                {
+                    await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
+                    if (currentWindowReference.Window is not MainWindow)
                     {
-                        await HandleNormalLaunchActionAsync(args.IsRedirectTo).ConfigureAwait(false);
-                        break;
+                        // TODO: Send notification to hint?
+                        return;
                     }
-            }
+
+                    switch (action)
+                    {
+                        case UrlActionImport:
+                            {
+                                await taskContext.SwitchToMainThreadAsync();
+
+                                INavigationAwaiter navigationAwaiter = new NavigationExtra(ImportUIAFFromClipboard);
+                                await serviceProvider
+                                    .GetRequiredService<INavigationService>()
+                                    .NavigateAsync<View.Page.AchievementPage>(navigationAwaiter, true)
+                                    .ConfigureAwait(false);
+                                break;
+                            }
+                    }
+
+                    break;
+                }
+
+            default:
+                {
+                    await HandleLaunchActivationAsync(isRedirectTo).ConfigureAwait(false);
+                    break;
+                }
         }
     }
 
-    private async ValueTask HandleNormalLaunchActionAsync(bool isRedirectTo)
+    private async ValueTask HandleLaunchActivationAsync(bool isRedirectTo)
     {
         if (!isRedirectTo)
         {
@@ -214,6 +261,22 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
     }
 
+    private async ValueTask HandleAppNotificationActivationAsync(IDictionary<string, string> arguments, bool isRedirectTo)
+    {
+        if (arguments.TryGetValue(Action, out string? action))
+        {
+            if (action == LaunchGame)
+            {
+                _ = arguments.TryGetValue(Uid, out string? uid);
+                await HandleLaunchGameActionAsync(uid).ConfigureAwait(false);
+            }
+        }
+        else
+        {
+            await HandleLaunchActivationAsync(isRedirectTo).ConfigureAwait(false);
+        }
+    }
+
     private async ValueTask WaitMainWindowOrCurrentAsync()
     {
         if (currentWindowReference.Window is { } window)
@@ -230,100 +293,5 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         mainWindow.SwitchTo();
         mainWindow.BringToForeground();
-
-        await taskContext.SwitchToBackgroundAsync();
-
-        if (serviceProvider.GetRequiredService<IMetadataService>() is IMetadataServiceInitialization metadataServiceInitialization)
-        {
-            metadataServiceInitialization.InitializeInternalAsync().SafeForget();
-        }
-
-        if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
-        {
-            hutaoUserServiceInitialization.InitializeInternalAsync().SafeForget();
-        }
-
-        serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget();
-    }
-
-    private async ValueTask HandleUrlActivationAsync(Uri uri, bool isRedirectTo)
-    {
-        UriBuilder builder = new(uri);
-
-        string category = builder.Host.ToUpperInvariant();
-        string action = builder.Path.ToUpperInvariant();
-        string parameter = builder.Query.ToUpperInvariant();
-
-        switch (category)
-        {
-            case CategoryAchievement:
-                {
-                    await WaitMainWindowOrCurrentAsync().ConfigureAwait(false);
-                    await HandleAchievementActionAsync(action, parameter, isRedirectTo).ConfigureAwait(false);
-                    break;
-                }
-
-            case CategoryDailyNote:
-                {
-                    await HandleDailyNoteActionAsync(action, parameter, isRedirectTo).ConfigureAwait(false);
-                    break;
-                }
-
-            default:
-                {
-                    await HandleNormalLaunchActionAsync(isRedirectTo).ConfigureAwait(false);
-                    break;
-                }
-        }
-    }
-
-    private async ValueTask HandleAchievementActionAsync(string action, string parameter, bool isRedirectTo)
-    {
-        _ = parameter;
-        _ = isRedirectTo;
-        switch (action)
-        {
-            case UrlActionImport:
-                {
-                    await taskContext.SwitchToMainThreadAsync();
-
-                    INavigationAwaiter navigationAwaiter = new NavigationExtra(ImportUIAFFromClipboard);
-                    await serviceProvider
-                        .GetRequiredService<INavigationService>()
-                        .NavigateAsync<View.Page.AchievementPage>(navigationAwaiter, true)
-                        .ConfigureAwait(false);
-                    break;
-                }
-        }
-    }
-
-    private async ValueTask HandleDailyNoteActionAsync(string action, string parameter, bool isRedirectTo)
-    {
-        _ = parameter;
-        switch (action)
-        {
-            case UrlActionRefresh:
-                {
-                    try
-                    {
-                        await serviceProvider
-                            .GetRequiredService<IDailyNoteService>()
-                            .RefreshDailyNotesAsync()
-                            .ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                    }
-
-                    // Check if it's redirected.
-                    if (!isRedirectTo)
-                    {
-                        // It's a direct open process, should exit immediately.
-                        Process.GetCurrentProcess().Kill();
-                    }
-
-                    break;
-                }
-        }
     }
 }

@@ -6,8 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     MinHeight="180"
     Padding="0"
@@ -18,11 +18,12 @@
     d:DataContext="{d:DesignInstance shvg:LaunchGameViewModelSlim}"
     Background="Transparent"
     BorderBrush="{x:Null}"
+    BorderThickness="0"
     Command="{Binding LaunchCommand}"
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
-        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Grid CornerRadius="{ThemeResource ControlCornerRadius}">
         <Grid Margin="12" ColumnSpacing="16">

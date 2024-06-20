@@ -160,6 +160,7 @@
     <None Remove="View\Control\LaunchGameResourceExpander.xaml" />
     <None Remove="View\Control\LoadingView.xaml" />
     <None Remove="View\Control\LoadingViewSlim.xaml" />
+    <None Remove="View\Control\RateDeltaTextBlockStyle.xaml" />
     <None Remove="View\Control\SkillPivot.xaml" />
     <None Remove="View\Control\SegmentedOverride.xaml" />
     <None Remove="View\Control\StatisticsCard.xaml" />
@@ -312,7 +313,6 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="Google.OrTools" Version="9.10.4067" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
@@ -362,6 +362,11 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\RateDeltaTextBlockStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml">

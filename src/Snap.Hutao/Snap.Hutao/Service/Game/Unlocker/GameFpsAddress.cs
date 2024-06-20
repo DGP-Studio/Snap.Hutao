@@ -27,7 +27,7 @@ internal static class GameFpsAddress
         nuint remoteVirtualAddress = remoteModule.UserAssembly.Address + (rip - localModule.UserAssembly.Address);
 
         nuint ptr = 0;
-        SpinWait.SpinUntil(() => UnsafeReadProcessMemory(context.GameProcess, remoteVirtualAddress, out ptr) && ptr != 0);
+        SpinWait.SpinUntil(() => UnsafeReadProcessMemory(context.AllAccess, remoteVirtualAddress, out ptr) && ptr != 0);
 
         nuint localVirtualAddress = ptr - remoteModule.UnityPlayer.Address + localModule.UnityPlayer.Address;
 
@@ -48,10 +48,11 @@ internal static class GameFpsAddress
         return memory.IndexOf(part);
     }
 
-    private static unsafe bool UnsafeReadProcessMemory(Process process, nuint baseAddress, out nuint value)
+    [SuppressMessage("", "SH002")]
+    private static unsafe bool UnsafeReadProcessMemory(HANDLE hProcess, nuint baseAddress, out nuint value)
     {
         value = 0;
-        bool result = ReadProcessMemory((HANDLE)process.Handle, (void*)baseAddress, ref value, out _);
+        bool result = ReadProcessMemory(hProcess, (void*)baseAddress, ref value, out _);
         HutaoException.ThrowIfNot(result, SH.ServiceGameUnlockerReadProcessMemoryPointerAddressFailed);
         return result;
     }

@@ -13,7 +13,6 @@ internal sealed class PackageConvertStatus
     public PackageConvertStatus(string name)
     {
         Name = name;
-        Description = name;
     }
 
     public PackageConvertStatus(string name, long bytesRead, long totalBytes)

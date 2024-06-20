@@ -21,19 +21,19 @@ internal sealed class Team : List<AvatarView>
         foreach (StringSegment item in new StringTokenizer(team.Item, [',']))
         {
             uint id = uint.Parse(item.AsSpan(), CultureInfo.InvariantCulture);
-            Add(new(idAvatarMap[id]));
+            Add(new(idAvatarMap[id], 0));
         }
 
         AddRange(new AvatarView[4 - Count]);
 
-        Rate = SH.FormatModelBindingHutaoTeamUpCountFormat(team.Rate);
+        UpCount = SH.FormatModelBindingHutaoTeamUpCountFormat(team.Rate);
         Rank = rank;
     }
 
     /// <summary>
     /// 上场次数
     /// </summary>
-    public string Rate { get; }
+    public string UpCount { get; }
 
     public int Rank { get; set; }
 }

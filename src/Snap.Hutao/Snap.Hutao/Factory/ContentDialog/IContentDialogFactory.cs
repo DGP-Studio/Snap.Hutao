@@ -11,6 +11,8 @@ namespace Snap.Hutao.Factory.ContentDialog;
 [HighQuality]
 internal interface IContentDialogFactory
 {
+    bool IsDialogShowing { get; }
+
     /// <summary>
     /// 异步确认
     /// </summary>

@@ -16,6 +16,7 @@ namespace Snap.Hutao.Service.User;
 internal sealed partial class UserInitializationService : IUserInitializationService
 {
     private readonly IUserFingerprintService userFingerprintService;
+    private readonly IProfilePictureService profilePictureService;
     private readonly IServiceProvider serviceProvider;
 
     public async ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default)
@@ -90,6 +91,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         }
 
         await userFingerprintService.TryInitializeAsync(user, token).ConfigureAwait(false);
+        await profilePictureService.TryInitializeAsync(user, token).ConfigureAwait(false);
 
         return user.IsInitialized = true;
     }

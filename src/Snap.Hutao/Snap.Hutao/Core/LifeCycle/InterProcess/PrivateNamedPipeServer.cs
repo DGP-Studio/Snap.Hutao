@@ -13,6 +13,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
 {
     private readonly PrivateNamedPipeMessageDispatcher messageDispatcher;
     private readonly RuntimeOptions runtimeOptions;
+    private readonly ILogger<PrivateNamedPipeServer> logger;
 
     private readonly CancellationTokenSource serverTokenSource = new();
     private readonly SemaphoreSlim serverSemaphore = new(1);
@@ -23,6 +24,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
     {
         messageDispatcher = serviceProvider.GetRequiredService<PrivateNamedPipeMessageDispatcher>();
         runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+        logger = serviceProvider.GetRequiredService<ILogger<PrivateNamedPipeServer>>();
 
         PipeSecurity? pipeSecurity = default;
 
@@ -64,6 +66,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                 try
                 {
                     await serverStream.WaitForConnectionAsync(serverTokenSource.Token).ConfigureAwait(false);
+                    logger.LogInformation("Pipe session created");
                     RunPacketSession(serverStream, serverTokenSource.Token);
                 }
                 catch (OperationCanceledException)
@@ -78,6 +81,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
         while (serverStream.IsConnected && !token.IsCancellationRequested)
         {
             serverStream.ReadPacket(out PipePacketHeader header);
+            logger.LogInformation("Pipe packet: [Type:{Type}] [Command:{Command}]", header.Type, header.Command);
             switch ((header.Type, header.Command))
             {
                 case (PipePacketType.Request, PipePacketCommand.RequestElevationStatus):
@@ -87,6 +91,11 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                     break;
                 case (PipePacketType.Request, PipePacketCommand.RedirectActivation):
                     HutaoActivationArguments? hutaoArgs = serverStream.ReadJsonContent<HutaoActivationArguments>(in header);
+                    if (hutaoArgs is not null)
+                    {
+                        logger.LogInformation("Redirect activation: [Kind:{Kind}] [Arguments:{Arguments}]", hutaoArgs.Kind, hutaoArgs.LaunchActivatedArguments);
+                    }
+
                     messageDispatcher.RedirectActivation(hutaoArgs);
                     break;
                 case (PipePacketType.SessionTermination, _):

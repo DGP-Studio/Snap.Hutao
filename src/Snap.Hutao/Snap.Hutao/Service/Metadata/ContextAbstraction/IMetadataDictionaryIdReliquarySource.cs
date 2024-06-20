@@ -8,5 +8,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataDictionaryIdReliquarySource
 {
-    public Dictionary<ReliquaryId, Reliquary> IdReliquaryMap { get; set; }
+    Dictionary<ReliquaryId, Reliquary> IdReliquaryMap { get; set; }
 }

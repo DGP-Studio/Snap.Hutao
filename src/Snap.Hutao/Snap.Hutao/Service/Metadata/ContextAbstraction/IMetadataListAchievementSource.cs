@@ -5,5 +5,5 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal interface IMetadataListAchievementSource
 {
-    public List<Model.Metadata.Achievement.Achievement> Achievements { get; set; }
+    List<Model.Metadata.Achievement.Achievement> Achievements { get; set; }
 }

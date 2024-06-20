@@ -13,4 +13,10 @@ internal sealed class ProfilePicture
 {
     [JsonPropertyName("id")]
     public ProfilePictureId Id { get; set; }
+
+    [JsonPropertyName("avatarId")]
+    public AvatarId AvatarId { get; set; }
+
+    [JsonPropertyName("costumeId")]
+    public CostumeId CostumeId { get; set; }
 }

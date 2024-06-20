@@ -10,9 +10,9 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvs="using:Snap.Hutao.ViewModel.Setting"
     d:DataContext="{d:DesignInstance shvs:SettingViewModel}"
@@ -20,7 +20,7 @@
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
-        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
     <Grid x:Name="SettingPageGrid">
@@ -50,6 +50,7 @@
                                     Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
                                 <cwc:UniformGrid
                                     Grid.Row="1"
+                                    Margin="16"
                                     VerticalAlignment="Bottom"
                                     ColumnSpacing="8"
                                     Columns="2"

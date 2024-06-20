@@ -26,7 +26,7 @@ internal sealed class XamlWindowSubclass : IDisposable
 
     // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC windowProc = default!;
-    private UnmanagedAccess<XamlWindowSubclass> unmanagedAccess = default!;
+    private GCHandle unmanagedAccess = default!;
 
     public XamlWindowSubclass(Window window)
     {
@@ -37,22 +37,22 @@ internal sealed class XamlWindowSubclass : IDisposable
     public unsafe bool Initialize()
     {
         windowProc = SUBCLASSPROC.Create(&OnSubclassProcedure);
-        unmanagedAccess = UnmanagedAccess.Create(this);
-        return SetWindowSubclass(hwnd, windowProc, WindowSubclassId, unmanagedAccess);
+        unmanagedAccess = GCHandle.Alloc(this);
+        return SetWindowSubclass(hwnd, windowProc, WindowSubclassId, (nuint)GCHandle.ToIntPtr(unmanagedAccess));
     }
 
     public void Dispose()
     {
         RemoveWindowSubclass(hwnd, windowProc, WindowSubclassId);
         windowProc = default!;
-        unmanagedAccess.Dispose();
+        unmanagedAccess.Free();
     }
 
     [SuppressMessage("", "SH002")]
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static unsafe LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
     {
-        XamlWindowSubclass? state = UnmanagedAccess.Get<XamlWindowSubclass>(dwRefData);
+        XamlWindowSubclass? state = GCHandle.FromIntPtr((nint)dwRefData).Target as XamlWindowSubclass;
         ArgumentNullException.ThrowIfNull(state);
 
         switch (uMsg)

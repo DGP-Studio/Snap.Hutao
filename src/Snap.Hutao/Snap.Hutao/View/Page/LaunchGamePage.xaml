@@ -8,11 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shccs="using:Snap.Hutao.Control.Collection.Selector"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     d:DataContext="{d:DesignInstance shvg:LaunchGameViewModel}"
@@ -20,7 +20,7 @@
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
-        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
@@ -366,38 +366,37 @@
                 </PivotItem>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceHeader}">
                     <Grid>
-                        <ScrollViewer Visibility="{Binding GameResource, Converter={StaticResource EmptyObjectToBoolConverter}}">
+                        <ScrollViewer Visibility="{Binding GamePackage, Converter={StaticResource EmptyObjectToBoolConverter}}">
                             <StackPanel>
                                 <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                                         <shvc:LaunchGameResourceExpander
                                             cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                            DataContext="{Binding GameResource.PreDownloadGame.Latest, Mode=OneWay}"
+                                            DataContext="{Binding GamePackage.PreDownload.Major, Mode=OneWay}"
                                             Header="{shcm:ResourceString Name=ViewPageLaunchGameResourcePreDownloadHeader}"
                                             IsEnabled="{Binding FallbackValue=False, Converter={StaticResource EmptyObjectToBoolConverter}}"
                                             IsExpanded="{Binding FallbackValue=False, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneTime}"/>
                                     </Border>
                                 </Border>
-
                                 <ItemsControl
                                     Margin="0,0,0,0"
                                     ItemTemplate="{StaticResource GameResourceTemplate}"
-                                    ItemsSource="{Binding GameResource.PreDownloadGame.Diffs, Mode=OneWay}"/>
+                                    ItemsSource="{Binding GamePackage.PreDownload.Patches, Mode=OneWay}"/>
                                 <Border Margin="16,16,16,0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                                     <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                                         <shvc:LaunchGameResourceExpander
                                             cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                            DataContext="{Binding GameResource.Game.Latest, Mode=OneWay}"
+                                            DataContext="{Binding GamePackage.Main.Major, Mode=OneWay}"
                                             Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceLatestHeader}"/>
                                     </Border>
                                 </Border>
                                 <ItemsControl
                                     Margin="0,0,0,16"
                                     ItemTemplate="{StaticResource GameResourceTemplate}"
-                                    ItemsSource="{Binding GameResource.Game.Diffs, Mode=OneWay}"/>
+                                    ItemsSource="{Binding GamePackage.Main.Patches, Mode=OneWay}"/>
                             </StackPanel>
                         </ScrollViewer>
-                        <shvc:LoadingView IsLoading="{Binding GameResource, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+                        <shvc:LoadingView IsLoading="{Binding GamePackage, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
                     </Grid>
                 </PivotItem>
             </Pivot>

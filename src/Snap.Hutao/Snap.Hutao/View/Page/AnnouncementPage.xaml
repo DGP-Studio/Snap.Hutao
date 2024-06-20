@@ -10,11 +10,12 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shca="using:Snap.Hutao.Control.Animation"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
+    xmlns:shuxma="using:Snap.Hutao.UI.Xaml.Media.Animation"
     xmlns:shvco="using:Snap.Hutao.View.Control"
     xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
@@ -22,7 +23,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
-        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <shc:ScopedPage.Resources>
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
@@ -55,10 +56,10 @@
                                     </cww:ConstrainedBox>
                                     <cwa:Explicit.Animations>
                                         <cwa:AnimationSet x:Name="ImageZoomInAnimation">
-                                            <shca:ImageZoomInAnimation/>
+                                            <shuxma:ImageZoomInAnimation/>
                                         </cwa:AnimationSet>
                                         <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
-                                            <shca:ImageZoomOutAnimation/>
+                                            <shuxma:ImageZoomOutAnimation/>
                                         </cwa:AnimationSet>
                                     </cwa:Explicit.Animations>
                                 </Border>
@@ -141,13 +142,13 @@
 
                     <mxi:Interaction.Behaviors>
                         <mxic:EventTriggerBehavior EventName="Tapped">
-                            <shcb:ShowAttachedFlyoutAction/>
+                            <shuxba:ShowAttachedFlyoutAction/>
                         </mxic:EventTriggerBehavior>
                         <mxic:EventTriggerBehavior EventName="PointerEntered">
-                            <shcb:StartAnimationActionNoThrow Animation="{Binding ElementName=ImageZoomInAnimation}" TargetObject="{Binding ElementName=ImageZoomBorder}"/>
+                            <shuxba:StartAnimationActionNoThrow Animation="{Binding ElementName=ImageZoomInAnimation}" TargetObject="{Binding ElementName=ImageZoomBorder}"/>
                         </mxic:EventTriggerBehavior>
                         <mxic:EventTriggerBehavior EventName="PointerExited">
-                            <shcb:StartAnimationActionNoThrow Animation="{Binding ElementName=ImageZoomOutAnimation}" TargetObject="{Binding ElementName=ImageZoomBorder}"/>
+                            <shuxba:StartAnimationActionNoThrow Animation="{Binding ElementName=ImageZoomOutAnimation}" TargetObject="{Binding ElementName=ImageZoomBorder}"/>
                         </mxic:EventTriggerBehavior>
                     </mxi:Interaction.Behaviors>
                 </Border>

@@ -6,9 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     Title="{shcm:ResourceString Name=ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle}"
-    CloseButtonText="{shcm:ResourceString Name=ViewDialogSpiralAbyssUploadRecordHomaNotLoginCloseButtonText}"
-    DefaultButton="Close"
+    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    DefaultButton="Primary"
     PrimaryButtonText="{shcm:ResourceString Name=ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText}"
+    SecondaryButtonText="{shcm:ResourceString Name=ViewDialogSpiralAbyssUploadRecordHomaNotLoginSecondaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 

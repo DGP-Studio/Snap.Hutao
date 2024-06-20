@@ -70,6 +70,11 @@ internal static class MetadataServiceListExtension
         return metadataService.FromCacheOrFileAsync<List<GrowCurve>>(FileNameMonsterCurve, token);
     }
 
+    public static ValueTask<List<ProfilePicture>> GetProfilePictureListAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheOrFileAsync<List<ProfilePicture>>(FileNameProfilePicture, token);
+    }
+
     public static ValueTask<List<Reliquary>> GetReliquaryListAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         return metadataService.FromCacheOrFileAsync<List<Reliquary>>(FileNameReliquary, token);

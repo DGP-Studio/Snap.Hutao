@@ -25,7 +25,7 @@ internal class AsyncBarrier
     /// <param name="participants">The number of participants.</param>
     public AsyncBarrier(int participants)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(participants, 1, "Participants of AsyncBarrier can not be less than 1");
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(participants, "Participants of AsyncBarrier must be greater than 0");
         participantCount = participants;
 
         // Allocate the stack so no resizing is necessary.

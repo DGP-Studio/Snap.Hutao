@@ -7,14 +7,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Guide"
     d:DataContext="{d:DesignInstance shvg:GuideViewModel}"
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
-        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
     <UserControl.Resources>
@@ -301,7 +301,7 @@
                     <ScrollViewer>
                         <ItemsControl
                             Margin="0,0,-4,0"
-                            HorizontalAlignment="Center"
+                            HorizontalAlignment="Left"
                             ItemContainerTransitions="{StaticResource ListViewLikeThemeTransitions}"
                             ItemTemplate="{StaticResource DownloadSummaryTemplate}"
                             ItemsPanel="{StaticResource WrapPanelSpacing0Template}"

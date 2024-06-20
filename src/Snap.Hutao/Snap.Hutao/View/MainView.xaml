@@ -5,9 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shv="using:Snap.Hutao.View"
     xmlns:shvcs="using:Snap.Hutao.View.Converter.Specialized"
     xmlns:shvh="using:Snap.Hutao.View.Helper"
@@ -17,7 +17,7 @@
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
-        <shcb:PeriodicInvokeCommandOrOnActualThemeChangedBehavior Command="{Binding UpdateBackgroundCommand}" Period="0:5:0"/>
+        <shuxb:PeriodicInvokeCommandOrOnActualThemeChangedBehavior Command="{Binding UpdateBackgroundCommand}" Period="0:5:0"/>
     </mxi:Interaction.Behaviors>
 
     <UserControl.Resources>
