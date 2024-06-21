@@ -2010,7 +2010,7 @@
     <value>Refresh</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
-    <value>Notification area incon is disabled, auto-refresh will be be executed after closing the window</value>
+    <value>Notification area icon is disabled, auto-refresh will not be executed after Snap Hutao is closed</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Do not disturb during Genshin gaming</value>
