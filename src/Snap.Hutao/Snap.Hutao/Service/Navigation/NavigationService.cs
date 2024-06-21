@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.View.Page;
 using Windows.Foundation;

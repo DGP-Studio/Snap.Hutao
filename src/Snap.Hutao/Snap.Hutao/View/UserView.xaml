@@ -7,16 +7,16 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
-    xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvu="using:Snap.Hutao.ViewModel.User"
     d:DataContext="{d:DesignInstance shvu:UserViewModel}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+        <shux:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
 
         <DataTemplate x:Key="UserGameRoleTemplate">
             <Grid Padding="0,12" Background="Transparent">
@@ -126,7 +126,7 @@
                         Content="{StaticResource FontIconContentCopy}"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         Style="{StaticResource ButtonRevealStyle}"
-                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewUserCopyCookieAction}"/>
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewUserCopyCookieAction}"/>
                     <Button
                         Margin="6,0,0,0"
                         HorizontalAlignment="Right"
@@ -137,7 +137,7 @@
                         Content="{StaticResource FontIconContentDelete}"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         Style="{StaticResource ButtonRevealStyle}"
-                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewUserRemoveAction}"/>
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewUserRemoveAction}"/>
                 </StackPanel>
 
                 <Grid.Resources>
@@ -238,7 +238,7 @@
                         Grid.Column="1"
                         Margin="1,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{Binding SelectedUser.UserInfo.Nickname, Mode=OneWay, FallbackValue={shcm:ResourceString Name=ViewUserNoUserHint}}"
+                        Text="{Binding SelectedUser.UserInfo.Nickname, Mode=OneWay, FallbackValue={shuxm:ResourceString Name=ViewUserNoUserHint}}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"/>
                     <FontIcon
@@ -272,64 +272,64 @@
                                 Margin="0,4,0,2"
                                 HorizontalAlignment="Center"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewUserCookieOperation}"/>
-                            <Grid Background="Transparent" ToolTipService.ToolTip="{shcm:ResourceString Name=ViewUserLoginMihoyoUserDisabledTooltip}">
+                                Text="{shuxm:ResourceString Name=ViewUserCookieOperation}"/>
+                            <Grid Background="Transparent" ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewUserLoginMihoyoUserDisabledTooltip}">
                                 <AppBarButton
                                     Width="{StaticResource LargeAppBarButtonWidth}"
                                     MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                     Margin="2,-4"
                                     Command="{Binding LoginMihoyoUserCommand}"
-                                    Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
+                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
                                     IsEnabled="False"
-                                    Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                                    Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
                             </Grid>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding LoginByQRCodeCommand}"
-                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentQRCode}}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginQRCodeAction}"/>
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentQRCode}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginQRCodeAction}"/>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding AddUserCommand}"
-                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
                             <MenuFlyoutSeparator Margin="4,0"/>
                             <TextBlock
                                 Margin="0,4,0,2"
                                 HorizontalAlignment="Center"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewUserCookieOperation2}"/>
+                                Text="{shuxm:ResourceString Name=ViewUserCookieOperation2}"/>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding LoginHoyoverseUserCommand}"
-                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding AddOverseaUserCommand}"
-                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
                             <MenuFlyoutSeparator Margin="4,0"/>
                             <TextBlock
                                 Margin="0,4,0,2"
                                 HorizontalAlignment="Center"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewUserCookieOperation3}"/>
+                                Text="{shuxm:ResourceString Name=ViewUserCookieOperation3}"/>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 AllowFocusOnInteraction="True"
-                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentHomeGroup}}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationGameRecordIndexAction}"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentHomeGroup}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationGameRecordIndexAction}"
                                 Style="{StaticResource DefaultAppBarButtonStyle}">
                                 <AppBarButton.Flyout>
                                     <Flyout
@@ -355,8 +355,8 @@
                                 AllowFocusOnInteraction="True"
                                 Command="{Binding ClaimSignInRewardCommand}"
                                 CommandParameter="{Binding ElementName=SignInRewardButton}"
-                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentGiftboxOpen}}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentGiftboxOpen}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
                                 Style="{StaticResource DefaultAppBarButtonStyle}">
                                 <FlyoutBase.AttachedFlyout>
                                     <Flyout
@@ -379,8 +379,8 @@
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding RefreshCookieTokenCommand}"
-                                Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentRefresh}}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationRefreshCookieAction}"/>
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentRefresh}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationRefreshCookieAction}"/>
                         </StackPanel>
 
                         <Grid Grid.Column="1" Width="280">
@@ -389,7 +389,7 @@
                                     <TextBlock
                                         Margin="10,6,0,6"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewUserRole}"/>
+                                        Text="{shuxm:ResourceString Name=ViewUserRole}"/>
                                     <ListView
                                         Grid.Row="1"
                                         Margin="4"
@@ -402,7 +402,7 @@
                                 <TextBlock
                                     Margin="10,6,0,6"
                                     Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewUserUser}"/>
+                                    Text="{shuxm:ResourceString Name=ViewUserUser}"/>
                                 <ListView
                                     Grid.Row="1"
                                     Margin="4"
@@ -414,7 +414,7 @@
                                     SelectionMode="Single">
                                     <ListView.Header>
                                         <InfoBar
-                                            Title="{shcm:ResourceString Name=ViewListViewDragElevatedHint}"
+                                            Title="{shuxm:ResourceString Name=ViewListViewDragElevatedHint}"
                                             Margin="4,0,4,2"
                                             IsClosable="True"
                                             IsOpen="True"
@@ -428,7 +428,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource SubtitleTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewUserDefaultDescription}"
+                                Text="{shuxm:ResourceString Name=ViewUserDefaultDescription}"
                                 Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
                         </Grid>
                     </Grid>

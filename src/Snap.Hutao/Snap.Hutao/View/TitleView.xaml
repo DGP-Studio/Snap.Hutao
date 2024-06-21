@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     Height="44"
     VerticalAlignment="Top"
@@ -53,7 +53,7 @@
                         <TextBlock
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            Text="{shcm:ResourceString Name=ViewTitleAutoClicking}"/>
+                            Text="{shuxm:ResourceString Name=ViewTitleAutoClicking}"/>
                         <TextBlock
                             Grid.Column="1"
                             VerticalAlignment="Center"

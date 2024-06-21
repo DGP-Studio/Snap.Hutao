@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shct="using:Snap.Hutao.Control.Text"
-    Title="{shcm:ResourceString Name=ViewDialogReconfirmTitle}"
-    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Title="{shuxm:ResourceString Name=ViewDialogReconfirmTitle}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Close"
     IsPrimaryButtonEnabled="False"
-    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -21,7 +21,7 @@
         Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         <TextBox.HeaderTemplate>
             <DataTemplate>
-                <shct:HtmlDescriptionTextBlock Description="{shcm:ResourceString Name=ViewDialogReconfirmTextHeader}"/>
+                <shuxct:HtmlDescriptionTextBlock Description="{shuxm:ResourceString Name=ViewDialogReconfirmTextHeader}"/>
             </DataTemplate>
         </TextBox.HeaderTemplate>
     </TextBox>

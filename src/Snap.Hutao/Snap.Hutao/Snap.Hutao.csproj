@@ -89,26 +89,26 @@
     <None Remove="CodeMetricsConfig.txt" />
     <None Remove="Control\Image\CachedImage.xaml" />
     <None Remove="Control\Loading.xaml" />
-    <None Remove="Control\Panel\PanelSelector.xaml" />
-    <None Remove="Control\Theme\Card.xaml" />
-    <None Remove="Control\Theme\Color.xaml" />
-    <None Remove="Control\Theme\ComboBox.xaml" />
-    <None Remove="Control\Theme\Converter.xaml" />
-    <None Remove="Control\Theme\CornerRadius.xaml" />
-    <None Remove="Control\Theme\FlyoutStyle.xaml" />
-    <None Remove="Control\Theme\FontStyle.xaml" />
-    <None Remove="Control\Theme\Glyph.xaml" />
-    <None Remove="Control\Theme\InfoBarOverride.xaml" />
-    <None Remove="Control\Theme\ItemsPanelTemplate.xaml" />
-    <None Remove="Control\Theme\NumericValue.xaml" />
-    <None Remove="Control\Theme\PageOverride.xaml" />
-    <None Remove="Control\Theme\PivotOverride.xaml" />
-    <None Remove="Control\Theme\ScrollViewer.xaml" />
-    <None Remove="Control\Theme\SettingsStyle.xaml" />
-    <None Remove="Control\Theme\Thickness.xaml" />
-    <None Remove="Control\Theme\TransitionCollection.xaml" />
-    <None Remove="Control\Theme\Uri.xaml" />
-    <None Remove="Control\Theme\WindowOverride.xaml" />
+    <None Remove="Control\Panel\LayoutSwitch.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\Card.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\Color.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\ComboBox.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\Converter.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\CornerRadius.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\FlyoutStyle.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\FontStyle.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\Glyph.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\InfoBarOverride.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\ItemsPanelTemplate.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\NumericValue.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\PageOverride.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\PivotOverride.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\ScrollViewer.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\SettingsStyle.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\Thickness.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\TransitionCollection.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\Uri.xaml" />
+    <None Remove="UI\Xaml\Control\Theme\WindowOverride.xaml" />
     <None Remove="Core\Windowing\NotifyIcon\NotifyIconContextMenu.xaml" />
     <None Remove="GuideWindow.xaml" />
     <None Remove="IdentifyMonitorWindow.xaml" />
@@ -394,16 +394,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Control\Theme\SegmentedOverride.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Control\Theme\Thickness.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\Page\FeedbackPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -420,23 +410,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Card\Primitive\HorizontalCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Control\Theme\ComboBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\ScrollViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\FlyoutStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -472,91 +445,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Control\Theme\NumericValue.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\CornerRadius.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\Color.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\Card.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="Control\Image\CachedImage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\ItemsPanelTemplate.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\Converter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\Glyph.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\Uri.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\TransitionCollection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\SettingsStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\PivotOverride.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\PageOverride.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\WindowOverride.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Control\Theme\InfoBarOverride.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -844,7 +733,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Control\Panel\PanelSelector.xaml">
+    <Page Update="Control\Panel\LayoutSwitch.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -877,5 +766,8 @@
     <Page Update="View\Guide\GuideView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Xaml\Control\Image\" />
   </ItemGroup>
 </Project>

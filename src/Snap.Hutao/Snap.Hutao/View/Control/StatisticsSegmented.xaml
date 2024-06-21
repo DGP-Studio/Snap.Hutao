@@ -5,10 +5,10 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     Style="{StaticResource DefaultSegmentedStyle}"
     mc:Ignorable="d">
-    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewControlStatisticsSegmentedItemContentStatistics}" Icon="{shcm:FontIcon Glyph=&#xE9D2;}"/>
-    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewControlStatisticsSegmentedItemContentProportion}" Icon="{shcm:FontIcon Glyph=&#xEB05;}"/>
+    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewControlStatisticsSegmentedItemContentStatistics}" Icon="{shuxm:FontIcon Glyph=&#xE9D2;}"/>
+    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewControlStatisticsSegmentedItemContentProportion}" Icon="{shuxm:FontIcon Glyph=&#xEB05;}"/>
 </cwc:Segmented>
 

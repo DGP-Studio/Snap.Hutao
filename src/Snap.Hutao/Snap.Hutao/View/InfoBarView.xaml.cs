@@ -10,17 +10,11 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.View;
 
-/// <summary>
-/// 信息条视图
-/// </summary>
 [DependencyProperty("InfoBars", typeof(ObservableCollection<InfoBarOptions>))]
 internal sealed partial class InfoBarView : UserControl
 {
     private readonly IInfoBarService infoBarService;
 
-    /// <summary>
-    /// 构造一个新的信息条视图
-    /// </summary>
     public InfoBarView()
     {
         InitializeComponent();

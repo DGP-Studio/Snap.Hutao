@@ -5,9 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     MinHeight="180"
     Padding="0"
@@ -50,7 +50,7 @@
                 VerticalAlignment="Center"
                 Foreground="{ThemeResource SystemAccentColorLight3}"
                 Style="{StaticResource SubtitleTextBlockStyle}"
-                Text="{shcm:ResourceString Name=ViewLaunchGameHeader}"/>
+                Text="{shuxm:ResourceString Name=ViewLaunchGameHeader}"/>
             <Button
                 Grid.Column="2"
                 MinHeight="37.2"
@@ -60,7 +60,7 @@
                 Command="{Binding NavigateCommand}"
                 Content="{StaticResource FontIconContentSetting}"
                 FontFamily="{StaticResource SymbolThemeFontFamily}"
-                ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
+                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
             <StackPanel
                 Grid.Row="2"
                 VerticalAlignment="Bottom"
@@ -69,13 +69,13 @@
                     Opacity="0.7"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{Binding LaunchStatusOptions.LaunchStatus.Description, Mode=OneWay}"/>
-                <shc:SizeRestrictedContentControl VerticalAlignment="Bottom">
+                <shuxc:SizeRestrictedContentControl VerticalAlignment="Bottom">
                     <ComboBox
                         DisplayMemberPath="Name"
                         ItemsSource="{Binding GameAccountsView}"
-                        PlaceholderText="{shcm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
+                        PlaceholderText="{shuxm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
                         SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
-                </shc:SizeRestrictedContentControl>
+                </shuxc:SizeRestrictedContentControl>
             </StackPanel>
         </Grid>
     </Grid>

@@ -5,11 +5,11 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    Title="{shcm:ResourceString Name=ViewDialogUserTitle}"
-    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Title="{shuxm:ResourceString Name=ViewDialogUserTitle}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -17,7 +17,7 @@
         <TextBox
             Margin="0,0,0,8"
             VerticalAlignment="Top"
-            PlaceholderText="{shcm:ResourceString Name=ViewDialogUserInputPlaceholder}"
+            PlaceholderText="{shuxm:ResourceString Name=ViewDialogUserInputPlaceholder}"
             Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <StackPanel Margin="0,0,0,0">
             <StackPanel.Resources>
@@ -27,13 +27,13 @@
             </StackPanel.Resources>
             <cwc:SettingsCard
                 HorizontalAlignment="Stretch"
-                Description="{shcm:ResourceString Name=ViewDialogUserDocumentDescription}"
-                Header="{shcm:ResourceString Name=ViewDialogUserDocumentHeader}"
-                HeaderIcon="{shcm:FontIcon Glyph=&#xEB41;}">
+                Description="{shuxm:ResourceString Name=ViewDialogUserDocumentDescription}"
+                Header="{shuxm:ResourceString Name=ViewDialogUserDocumentHeader}"
+                HeaderIcon="{shuxm:FontIcon Glyph=&#xEB41;}">
                 <HyperlinkButton
                     Margin="12,0,0,0"
                     Padding="6"
-                    Content="{shcm:ResourceString Name=ViewDialogUserDocumentAction}"
+                    Content="{shuxm:ResourceString Name=ViewDialogUserDocumentAction}"
                     NavigateUri="{StaticResource DocumentLink_MhyAccountSwitch}"/>
             </cwc:SettingsCard>
         </StackPanel>

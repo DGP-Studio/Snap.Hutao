@@ -5,7 +5,7 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shwhhpc="using:Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect"
     xmlns:shwhhpcp="using:Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package"
     HorizontalAlignment="Stretch"
@@ -29,7 +29,7 @@
         <DataTemplate x:DataType="shwhhpc:PackageSegment">
             <cwc:SettingsCard
                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                ActionIcon="{shcm:FontIcon Glyph={StaticResource FontIconContentCopy}}"
+                ActionIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentCopy}}"
                 Command="{Binding CopyPathCommand}"
                 Header="{Binding DisplayName}"
                 IsClickEnabled="True">

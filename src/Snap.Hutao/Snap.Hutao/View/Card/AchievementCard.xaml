@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shva="using:Snap.Hutao.ViewModel.Achievement"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     Padding="0"
@@ -48,7 +48,7 @@
                     <RowDefinition/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="{shcm:ResourceString Name=ViewCardAchievementStatisticsTitle}"/>
+                <TextBlock Grid.Row="0" Text="{shuxm:ResourceString Name=ViewCardAchievementStatisticsTitle}"/>
                 <TextBlock
                     Grid.Row="0"
                     HorizontalAlignment="Right"
@@ -96,7 +96,7 @@
                     Width="80"
                     Height="80"
                     Source="ms-appx:///Resource/Navigation/Achievement.png"/>
-                <TextBlock HorizontalAlignment="Center" Text="{shcm:ResourceString Name=ViewAchievementHeader}"/>
+                <TextBlock HorizontalAlignment="Center" Text="{shuxm:ResourceString Name=ViewAchievementHeader}"/>
             </StackPanel>
         </Grid>
 

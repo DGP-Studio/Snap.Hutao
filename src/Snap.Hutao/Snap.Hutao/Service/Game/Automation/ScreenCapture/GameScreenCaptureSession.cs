@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.UI;
 using Snap.Hutao.Win32.Graphics.Direct3D11;
 using Snap.Hutao.Win32.Graphics.Dxgi;
 using Snap.Hutao.Win32.Graphics.Dxgi.Common;

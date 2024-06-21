@@ -5,9 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shv="using:Snap.Hutao.View"
     xmlns:shvcs="using:Snap.Hutao.View.Converter.Specialized"
     xmlns:shvh="using:Snap.Hutao.View.Helper"
@@ -56,65 +56,65 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AnnouncementPage"
-                    Content="{shcm:ResourceString Name=ViewAnnouncementHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Announcement.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewAnnouncementHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Announcement.png}"/>
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:FeedbackPage"
-                    Content="{shcm:ResourceString Name=ViewFeedbackHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Feedback.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewFeedbackHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Feedback.png}"/>
 
-                <NavigationViewItemHeader Content="{shcm:ResourceString Name=ViewToolHeader}"/>
+                <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewToolHeader}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:LaunchGamePage"
-                    Content="{shcm:ResourceString Name=ViewLaunchGameHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/LaunchGame.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewLaunchGameHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/LaunchGame.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:GachaLogPage"
-                    Content="{shcm:ResourceString Name=ViewGachaLogHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/GachaLog.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewGachaLogHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/GachaLog.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AchievementPage"
-                    Content="{shcm:ResourceString Name=ViewAchievementHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Achievement.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewAchievementHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Achievement.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:DailyNotePage"
-                    Content="{shcm:ResourceString Name=ViewDailyNoteHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/DailyNote.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewDailyNoteHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/DailyNote.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AvatarPropertyPage"
-                    Content="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/AvatarProperty.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewAvatarPropertyHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/AvatarProperty.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:SpiralAbyssRecordPage"
-                    Content="{shcm:ResourceString Name=ViewSpiralAbyssHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/SpiralAbyss.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewSpiralAbyssHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/SpiralAbyss.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:CultivationPage"
-                    Content="{shcm:ResourceString Name=ViewCultivationHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewCultivationHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"/>
 
-                <NavigationViewItemHeader Content="{shcm:ResourceString Name=ViewDataHeader}"/>
+                <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewDataHeader}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
-                    Content="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewWikiAvatarHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:WikiWeaponPage"
-                    Content="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewWikiWeaponHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"/>
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:WikiMonsterPage"
-                    Content="{shcm:ResourceString Name=ViewWikiMonsterHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiMonster.png}"/>
+                    Content="{shuxm:ResourceString Name=ViewWikiMonsterHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiMonster.png}"/>
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>

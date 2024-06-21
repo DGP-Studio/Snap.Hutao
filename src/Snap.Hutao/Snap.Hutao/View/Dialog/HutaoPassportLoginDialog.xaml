@@ -4,11 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    Title="{shcm:ResourceString Name=ViewDialogHutaoPassportLoginTitle}"
-    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Title="{shuxm:ResourceString Name=ViewDialogHutaoPassportLoginTitle}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -16,13 +16,13 @@
         <TextBox
             InputScope="EmailSmtpAddress"
             IsSpellCheckEnabled="False"
-            PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
+            PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
             Text="{x:Bind UserName, Mode=TwoWay}"/>
         <PasswordBox
             Width="360"
             MaxWidth="360"
             Margin="0,16,0,0"
             Password="{x:Bind Password, Mode=TwoWay}"
-            PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
+            PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
     </StackPanel>
 </ContentDialog>

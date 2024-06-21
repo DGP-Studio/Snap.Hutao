@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
-using Snap.Hutao.Control;
+using Snap.Hutao.UI.Xaml.Control;
 
 namespace Snap.Hutao.View.Helper;
 

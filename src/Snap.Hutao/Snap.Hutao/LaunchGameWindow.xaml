@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     mc:Ignorable="d">
@@ -28,7 +28,7 @@
                 Margin="12,0,0,0"
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{shcm:ResourceString Name=LaunchGameTitle}"
+                Text="{shuxm:ResourceString Name=LaunchGameTitle}"
                 TextWrapping="NoWrap"/>
         </Grid>
 
@@ -44,7 +44,7 @@
                             <TextBlock
                                 Opacity="0.8"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{Binding AttachUid, TargetNullValue={shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidNull}}"/>
+                                Text="{Binding AttachUid, TargetNullValue={shuxm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidNull}}"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
@@ -56,6 +56,6 @@
             Margin="16"
             HorizontalAlignment="Stretch"
             Command="{Binding LaunchCommand}"
-            Content="{shcm:ResourceString Name=ViewPageLaunchGameAction}"/>
+            Content="{shuxm:ResourceString Name=ViewPageLaunchGameAction}"/>
     </Grid>
 </Window>

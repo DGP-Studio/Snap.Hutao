@@ -1,4 +1,4 @@
-﻿<shc:ScopedPage
+﻿<shuxc:ScopedPage
     x:Class="Snap.Hutao.View.Page.AvatarPropertyPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,12 +9,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shci="using:Snap.Hutao.Control.Image"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shcp="using:Snap.Hutao.Control.Panel"
-    xmlns:shct="using:Snap.Hutao.Control.Text"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shva="using:Snap.Hutao.ViewModel.AvatarProperty"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
@@ -52,8 +51,8 @@
                 </cwconv:BoolToObjectConverter.FalseValue>
             </cwconv:BoolToObjectConverter>
 
-            <shvconv:PanelSelectorModeConverter
-                x:Key="PanelSelectorModeConverter"
+            <shvconv:LayoutSwitchModeConverter
+                x:Key="LayoutSwitchModeConverter"
                 GridValue="{x:Bind GridImageExportPanel}"
                 ListValue="{x:Bind ListImageExportPanel}"/>
 
@@ -63,12 +62,12 @@
                     Grid.Column="0"
                     Margin="0"
                     Text="{Binding Level}">
-                    <shci:MonoChrome
+                    <shuxci:MonoChrome
                         Width="40"
                         Height="40"
                         Margin="12"
                         HorizontalAlignment="Center"
-                        EnableLazyLoading="False"
+                        EnableShowHideAnimation="False"
                         Source="{Binding Icon}"/>
                 </shvcont:BottomTextControl>
             </DataTemplate>
@@ -80,7 +79,7 @@
                         Grid.ColumnSpan="3"
                         Margin="-6"
                         CornerRadius="{ThemeResource ControlCornerRadius}">
-                        <shci:CachedImage
+                        <shuxci:CachedImage
                             MaxWidth="368"
                             MaxHeight="101"
                             Opacity="0.5"
@@ -153,7 +152,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <shci:CachedImage
+                    <shuxci:CachedImage
                         Grid.Column="0"
                         Width="48"
                         Height="48"
@@ -211,7 +210,7 @@
                     BorderBrush="{x:Null}">
                     <Button.Content>
                         <Grid>
-                            <shci:CachedImage
+                            <shuxci:CachedImage
                                 Width="36"
                                 Height="36"
                                 Opacity="{Binding IsActivated, Converter={StaticResource BoolToOpacityConverter}}"
@@ -225,13 +224,13 @@
                     </Button.Content>
                     <Button.Flyout>
                         <Flyout Placement="Bottom">
-                            <shct:DescriptionTextBlock MaxWidth="320" Description="{Binding Description}">
-                                <shct:DescriptionTextBlock.Resources>
+                            <shuxct:DescriptionTextBlock MaxWidth="320" Description="{Binding Description}">
+                                <shuxct:DescriptionTextBlock.Resources>
                                     <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
                                         <Setter Property="TextWrapping" Value="Wrap"/>
                                     </Style>
-                                </shct:DescriptionTextBlock.Resources>
-                            </shct:DescriptionTextBlock>
+                                </shuxct:DescriptionTextBlock.Resources>
+                            </shuxct:DescriptionTextBlock>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
@@ -249,7 +248,7 @@
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="48"/>
                             </Grid.ColumnDefinitions>
-                            <shci:CachedImage
+                            <shuxci:CachedImage
                                 Grid.Column="0"
                                 Width="36"
                                 Height="36"
@@ -273,13 +272,13 @@
                                     <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                                     <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
                                 </StackPanel.Resources>
-                                <shct:DescriptionTextBlock Description="{Binding Description}">
-                                    <shct:DescriptionTextBlock.Resources>
+                                <shuxct:DescriptionTextBlock Description="{Binding Description}">
+                                    <shuxct:DescriptionTextBlock.Resources>
                                         <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
                                             <Setter Property="TextWrapping" Value="Wrap"/>
                                         </Style>
-                                    </shct:DescriptionTextBlock.Resources>
-                                </shct:DescriptionTextBlock>
+                                    </shuxct:DescriptionTextBlock.Resources>
+                                </shuxct:DescriptionTextBlock>
                                 <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Info.Parameters}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -314,7 +313,7 @@
                         <RowDefinition/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <shci:MonoChrome
+                    <shuxci:MonoChrome
                         Width="16"
                         Height="16"
                         Source="{Binding Icon}"/>
@@ -442,7 +441,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
                                             Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewPageAvatarPropertyScore}"
+                                            Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyScore}"
                                             TextTrimming="CharacterEllipsis"
                                             TextWrapping="NoWrap"/>
                                         <TextBlock Grid.Column="1" Text="{Binding ScoreFormatted}"/>
@@ -467,7 +466,7 @@
                     </Expander.Header>
 
                     <StackPanel>
-                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyPrimaryProperties}"/>
+                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyPrimaryProperties}"/>
                         <ItemsControl
                             ItemTemplate="{StaticResource AvatarReliquarySparseSubPropertyTemplate}"
                             ItemsPanel="{StaticResource UniformGridColumns5Spacing8Template}"
@@ -475,7 +474,7 @@
                         <TextBlock
                             Margin="0,16,0,0"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{shcm:ResourceString Name=ViewPageAvatarPropertySecondaryProperties}"/>
+                            Text="{shuxm:ResourceString Name=ViewPageAvatarPropertySecondaryProperties}"/>
                         <ItemsControl
                             ItemTemplate="{StaticResource AvatarReliquarySparseSubPropertyTemplate}"
                             ItemsPanel="{StaticResource UniformGridColumns5Spacing8Template}"
@@ -499,39 +498,39 @@
                         <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
                             <CommandBar.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <shcp:PanelSelector
+                                    <shuxc:LayoutSwitch
                                         x:Name="ItemsPanelSelector"
                                         Margin="4,8,0,0"
                                         LocalSettingKeySuffixForCurrent="AvatarPropertyPage.Summary.Avatars"/>
                                     <ToggleButton
                                         x:Name="RefreshTimeToggle"
                                         Margin="8,8,0,0"
-                                        Content="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"/>
+                                        Content="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"/>
                                 </StackPanel>
                             </CommandBar.Content>
                             <AppBarButton
                                 Command="{Binding ExportAsImageCommand}"
-                                CommandParameter="{Binding ElementName=ItemsPanelSelector, Path=Current, Converter={StaticResource PanelSelectorModeConverter}}"
-                                Icon="{shcm:FontIcon Glyph=&#xE91B;}"
-                                Label="{shcm:ResourceString Name=ViewPageAvatarPropertyExportAsImage}"/>
-                            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8EF;}" Label="{shcm:ResourceString Name=ViewPageCultivateCalculate}">
+                                CommandParameter="{Binding ElementName=ItemsPanelSelector, Path=Current, Converter={StaticResource LayoutSwitchModeConverter}}"
+                                Icon="{shuxm:FontIcon Glyph=&#xE91B;}"
+                                Label="{shuxm:ResourceString Name=ViewPageAvatarPropertyExportAsImage}"/>
+                            <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE8EF;}" Label="{shuxm:ResourceString Name=ViewPageCultivateCalculate}">
                                 <AppBarButton.Flyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
                                             Command="{Binding CultivateCommand}"
                                             CommandParameter="{Binding SelectedAvatar}"
-                                            Text="{shcm:ResourceString Name=ViewPageAvatarPropertyCalculateCurrent}"/>
-                                        <MenuFlyoutItem Command="{Binding BatchCultivateCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyCalculateAll}"/>
+                                            Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculateCurrent}"/>
+                                        <MenuFlyoutItem Command="{Binding BatchCultivateCommand}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculateAll}"/>
                                     </MenuFlyout>
                                 </AppBarButton.Flyout>
                             </AppBarButton>
                             <AppBarSeparator/>
-                            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="{shcm:ResourceString Name=ViewAvatarPropertySyncDataButtonLabel}">
+                            <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE72C;}" Label="{shuxm:ResourceString Name=ViewAvatarPropertySyncDataButtonLabel}">
                                 <AppBarButton.Flyout>
                                     <MenuFlyout Placement="TopEdgeAlignedRight">
-                                        <MenuFlyoutItem Command="{Binding RefreshFromEnkaApiCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"/>
-                                        <MenuFlyoutItem Command="{Binding RefreshFromHoyolabGameRecordCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"/>
-                                        <MenuFlyoutItem Command="{Binding RefreshFromHoyolabCalculateCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"/>
+                                        <MenuFlyoutItem Command="{Binding RefreshFromEnkaApiCommand}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"/>
+                                        <MenuFlyoutItem Command="{Binding RefreshFromHoyolabGameRecordCommand}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"/>
+                                        <MenuFlyoutItem Command="{Binding RefreshFromHoyolabCalculateCommand}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"/>
                                     </MenuFlyout>
                                 </AppBarButton.Flyout>
                             </AppBarButton>
@@ -593,7 +592,7 @@
                                                             Grid.ColumnSpan="2"
                                                             AspectRatio="840:400"
                                                             CornerRadius="{ThemeResource ControlCornerRadius}">
-                                                            <shci:CachedImage
+                                                            <shuxci:CachedImage
                                                                 Grid.RowSpan="2"
                                                                 Grid.ColumnSpan="2"
                                                                 HorizontalAlignment="Center"
@@ -684,7 +683,7 @@
                                                                                     Header="{Binding SubProperty.Name}">
                                                                                     <TextBlock Text="{Binding SubProperty.Description}"/>
                                                                                 </cwcont:SettingsCard>
-                                                                                <shct:DescriptionTextBlock
+                                                                                <shuxct:DescriptionTextBlock
                                                                                     MaxWidth="320"
                                                                                     Margin="0,12,0,0"
                                                                                     Description="{Binding AffixDescription}"/>
@@ -729,7 +728,7 @@
                                                                 HorizontalAlignment="Right"
                                                                 Foreground="#FFFFFFFF"
                                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                                Text="{shcm:ResourceString Name=ViewPageAvatarPropertyArtifactScore}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyArtifactScore}"/>
 
                                                             <TextBlock
                                                                 Margin="0,8,0,0"
@@ -741,7 +740,7 @@
                                                                 HorizontalAlignment="Right"
                                                                 Foreground="#FFFFFFFF"
                                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                                Text="{shcm:ResourceString Name=ViewPageAvatarPropertyCritScore}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCritScore}"/>
                                                         </StackPanel>
 
                                                         <ItemsControl
@@ -762,7 +761,7 @@
                                                     HorizontalAlignment="Stretch"
                                                     HorizontalContentAlignment="Stretch"
                                                     Background="{x:Null}"
-                                                    Header="{shcm:ResourceString Name=ViewPageAvatarPropertyHeader}">
+                                                    Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyHeader}">
                                                     <Border Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" CornerRadius="{ThemeResource ControlCornerRadiusBottom}">
                                                         <ItemsControl
                                                             Margin="0,-1,0,0"
@@ -795,7 +794,7 @@
                     Padding="16"
                     Style="{ThemeResource AcrylicBorderCardStyle}">
                     <StackPanel>
-                        <shci:CachedImage
+                        <shuxci:CachedImage
                             Width="120"
                             Height="120"
                             Source="{StaticResource UI_EmotionIcon250}"/>
@@ -803,25 +802,25 @@
                             Margin="0,16,0,0"
                             HorizontalAlignment="Center"
                             Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="{shcm:ResourceString Name=ViewPageAvatarPropertyDefaultDescription}"/>
+                            Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyDefaultDescription}"/>
                         <StackPanel Margin="0,24,0,0" Spacing="{StaticResource SettingsCardSpacing}">
                             <cwcont:SettingsCard
-                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
+                                ActionIconToolTip="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
                                 Command="{Binding RefreshFromEnkaApiCommand}"
-                                Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApiDescription}"
-                                Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"
+                                Description="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApiDescription}"
+                                Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"
                                 IsClickEnabled="True"/>
                             <cwcont:SettingsCard
-                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
+                                ActionIconToolTip="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
                                 Command="{Binding RefreshFromHoyolabGameRecordCommand}"
-                                Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription}"
-                                Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"
+                                Description="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription}"
+                                Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"
                                 IsClickEnabled="True"/>
                             <cwcont:SettingsCard
-                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
+                                ActionIconToolTip="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
                                 Command="{Binding RefreshFromHoyolabCalculateCommand}"
-                                Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription}"
-                                Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"
+                                Description="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription}"
+                                Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"
                                 IsClickEnabled="True"/>
                         </StackPanel>
                     </StackPanel>
@@ -830,4 +829,4 @@
 
         </Grid>
     </Grid>
-</shc:ScopedPage>
+</shuxc:ScopedPage>

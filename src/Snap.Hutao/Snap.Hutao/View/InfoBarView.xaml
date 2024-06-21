@@ -5,10 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shcs="using:Snap.Hutao.Control.Selector"
     xmlns:shsn="using:Snap.Hutao.Service.Notification"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -91,7 +91,7 @@
                 </InfoBar>
             </DataTemplate>
 
-            <shcs:InfoBarTemplateSelector
+            <shuxc:InfoBarTemplateSelector
                 x:Key="InfoBarTemplateSelector"
                 ActionButtonDisabled="{StaticResource InfoBarTemplate}"
                 ActionButtonEnabled="{StaticResource InfoBarWithActionButtonTemplate}"/>
@@ -129,7 +129,7 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition MinWidth="32"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Margin="0,0,6,0" Text="{shcm:ResourceString Name=ViewInfoBarToggleTitle}"/>
+                        <TextBlock Margin="0,0,6,0" Text="{shuxm:ResourceString Name=ViewInfoBarToggleTitle}"/>
                         <InfoBadge
                             Grid.Column="1"
                             Padding="0,1,0,0"

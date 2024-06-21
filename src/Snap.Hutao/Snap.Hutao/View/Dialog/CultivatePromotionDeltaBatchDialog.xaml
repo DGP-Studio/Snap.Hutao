@@ -5,13 +5,13 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvd="using:Snap.Hutao.View.Dialog"
-    Title="{shcm:ResourceString Name=ViewDialogCultivatePromotionDeltaBatchTitle}"
+    Title="{shuxm:ResourceString Name=ViewDialogCultivatePromotionDeltaBatchTitle}"
     d:DataContext="{d:DesignInstance shvd:CultivatePromotionDeltaDialog}"
-    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <ContentDialog.Resources>
@@ -23,7 +23,7 @@
         <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
     </ContentDialog.Resources>
     <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
-        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewDialogCultivateBatchAvatarLevelTarget}">
+        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewDialogCultivateBatchAvatarLevelTarget}">
             <NumberBox
                 Grid.Column="2"
                 MinWidth="{StaticResource NumberBoxMinWidth}"
@@ -33,7 +33,7 @@
                 SpinButtonPlacementMode="Inline"
                 Value="{x:Bind PromotionDelta.AvatarLevelTarget, Mode=TwoWay}"/>
         </cwc:SettingsCard>
-        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewDialogCultivateBatchSkillATarget}">
+        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewDialogCultivateBatchSkillATarget}">
             <NumberBox
                 Grid.Column="2"
                 MinWidth="{StaticResource NumberBoxMinWidth}"
@@ -43,7 +43,7 @@
                 SpinButtonPlacementMode="Inline"
                 Value="{x:Bind PromotionDelta.SkillList[0].LevelTarget, Mode=TwoWay}"/>
         </cwc:SettingsCard>
-        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewDialogCultivateBatchSkillETarget}">
+        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewDialogCultivateBatchSkillETarget}">
             <NumberBox
                 Grid.Column="2"
                 MinWidth="{StaticResource NumberBoxMinWidth}"
@@ -53,7 +53,7 @@
                 SpinButtonPlacementMode="Inline"
                 Value="{x:Bind PromotionDelta.SkillList[1].LevelTarget, Mode=TwoWay}"/>
         </cwc:SettingsCard>
-        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewDialogCultivateBatchSkillQTarget}">
+        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewDialogCultivateBatchSkillQTarget}">
             <NumberBox
                 Grid.Column="2"
                 MinWidth="{StaticResource NumberBoxMinWidth}"
@@ -63,7 +63,7 @@
                 SpinButtonPlacementMode="Inline"
                 Value="{x:Bind PromotionDelta.SkillList[2].LevelTarget, Mode=TwoWay}"/>
         </cwc:SettingsCard>
-        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewDialogCultivateBatchWeaponLevelTarget}">
+        <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewDialogCultivateBatchWeaponLevelTarget}">
             <NumberBox
                 Grid.Column="2"
                 MinWidth="{StaticResource NumberBoxMinWidth}"

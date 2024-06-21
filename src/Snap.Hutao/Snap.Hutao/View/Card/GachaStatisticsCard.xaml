@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
@@ -42,7 +42,7 @@
                 <TextBlock
                     Grid.Row="0"
                     Grid.ColumnSpan="3"
-                    Text="{shcm:ResourceString Name=ViewCardGachaStatisticsTitle}"/>
+                    Text="{shuxm:ResourceString Name=ViewCardGachaStatisticsTitle}"/>
 
                 <TextBlock
                     Grid.Row="0"
@@ -67,7 +67,7 @@
                     <shvcp:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastOrangePull}"
-                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                         Maximum="{Binding GuaranteeOrangeThreshold}"
                         ProgressForeground="{StaticResource OrangeColorBrush}"
                         TextForeground="{StaticResource OrangeColorBrush}"
@@ -75,7 +75,7 @@
                     <shvcp:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastPurplePull}"
-                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                         Maximum="{Binding GuaranteePurpleThreshold}"
                         ProgressForeground="{StaticResource PurpleColorBrush}"
                         TextForeground="{StaticResource PurpleColorBrush}"
@@ -99,7 +99,7 @@
                     <shvcp:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastOrangePull}"
-                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                         Maximum="{Binding GuaranteeOrangeThreshold}"
                         ProgressForeground="{StaticResource OrangeColorBrush}"
                         TextForeground="{StaticResource OrangeColorBrush}"
@@ -107,7 +107,7 @@
                     <shvcp:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastPurplePull}"
-                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                         Maximum="{Binding GuaranteePurpleThreshold}"
                         ProgressForeground="{StaticResource PurpleColorBrush}"
                         TextForeground="{StaticResource PurpleColorBrush}"
@@ -130,7 +130,7 @@
                     <shvcp:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastOrangePull}"
-                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                         Maximum="{Binding GuaranteeOrangeThreshold}"
                         ProgressForeground="{StaticResource OrangeColorBrush}"
                         TextForeground="{StaticResource OrangeColorBrush}"
@@ -138,7 +138,7 @@
                     <shvcp:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastPurplePull}"
-                        Header="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                        Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                         Maximum="{Binding GuaranteePurpleThreshold}"
                         ProgressForeground="{StaticResource PurpleColorBrush}"
                         TextForeground="{StaticResource PurpleColorBrush}"
@@ -174,7 +174,7 @@
                 Width="80"
                 Height="80"
                 Source="ms-appx:///Resource/Navigation/GachaLog.png"/>
-            <TextBlock HorizontalAlignment="Center" Text="{shcm:ResourceString Name=ViewGachaLogHeader}"/>
+            <TextBlock HorizontalAlignment="Center" Text="{shuxm:ResourceString Name=ViewGachaLogHeader}"/>
         </StackPanel>
 
         <shvc:LoadingViewSlim IsLoading="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>

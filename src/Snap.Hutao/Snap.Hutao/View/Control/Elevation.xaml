@@ -5,12 +5,12 @@
     xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     VerticalAlignment="Center"
     Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-    Content="{shcm:ResourceString Name=ViewControlElevationText}"
+    Content="{shuxm:ResourceString Name=ViewControlElevationText}"
     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-    Icon="{shcm:FontIcon Glyph={StaticResource FontIconContentWarning}}"
+    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentWarning}}"
     mc:Ignorable="d">
     <clw:TokenItem.Resources>
         <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>

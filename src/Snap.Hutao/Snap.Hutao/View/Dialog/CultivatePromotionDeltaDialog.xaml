@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shci="using:Snap.Hutao.Control.Image"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    Title="{shcm:ResourceString Name=ViewDialogCultivatePromotionDeltaTitle}"
-    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    Title="{shuxm:ResourceString Name=ViewDialogCultivatePromotionDeltaTitle}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <ContentDialog.Resources>
@@ -27,7 +27,7 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <shci:MonoChrome
+                    <shuxci:MonoChrome
                         Grid.Column="0"
                         Width="36"
                         Height="36"

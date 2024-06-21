@@ -4,15 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    Title="{shcm:ResourceString Name=ViewDialogGachaLogUrlTitle}"
-    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Title="{shuxm:ResourceString Name=ViewDialogGachaLogUrlTitle}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <Grid>
-        <TextBox PlaceholderText="{shcm:ResourceString Name=ViewDialogGachaLogUrlInputPlaceholder}" Text="{x:Bind Text, Mode=TwoWay}"/>
+        <TextBox PlaceholderText="{shuxm:ResourceString Name=ViewDialogGachaLogUrlInputPlaceholder}" Text="{x:Bind Text, Mode=TwoWay}"/>
     </Grid>
 </ContentDialog>

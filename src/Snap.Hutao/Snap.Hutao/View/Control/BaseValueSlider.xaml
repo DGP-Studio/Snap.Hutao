@@ -5,7 +5,7 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -24,7 +24,7 @@
 
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
         <cwc:SettingsExpander
-            Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}"
+            Header="{shuxm:ResourceString Name=ViewControlBaseValueSliderLevel}"
             IsExpanded="True"
             ItemTemplate="{StaticResource BaseValueTemplate}"
             ItemsSource="{x:Bind BaseValueInfo.Values, Mode=OneWay}">
@@ -40,7 +40,7 @@
                     Padding="8,0,0,0"
                     VerticalAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Content="{shcm:ResourceString Name=ViewControlBaseValueSliderPromoted}"
+                    Content="{shuxm:ResourceString Name=ViewControlBaseValueSliderPromoted}"
                     IsChecked="{x:Bind BaseValueInfo.Promoted, Mode=TwoWay}"
                     Visibility="{x:Bind IsPromoteVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <Slider

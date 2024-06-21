@@ -15,7 +15,6 @@ internal sealed partial class RateDeltaTextBlock : ContentControl
     public RateDeltaTextBlock()
     {
         DefaultStyleKey = typeof(RateDeltaTextBlock);
-        DefaultStyleResourceUri = "ms-appx:///View/Control/RateDeltaTextBlockStyle.xaml".ToUri();
     }
 
     protected override void OnApplyTemplate()

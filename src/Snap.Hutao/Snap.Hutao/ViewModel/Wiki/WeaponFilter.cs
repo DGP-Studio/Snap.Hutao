@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Intrinsic.Frozen;
 using Snap.Hutao.Model.Metadata.Weapon;
-using Snap.Hutao.UI.Xaml.Control.Tokenizing;
+using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Wiki;
