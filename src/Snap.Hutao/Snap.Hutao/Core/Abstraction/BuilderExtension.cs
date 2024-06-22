@@ -3,7 +3,7 @@
 
 using System.Diagnostics;
 
-namespace Snap.Hutao.Core.Abstraction.Extension;
+namespace Snap.Hutao.Core.Abstraction;
 
 internal static class BuilderExtension
 {

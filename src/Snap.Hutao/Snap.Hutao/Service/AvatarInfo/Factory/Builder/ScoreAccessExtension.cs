@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Abstraction;
-using Snap.Hutao.Core.Abstraction.Extension;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 

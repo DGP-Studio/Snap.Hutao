@@ -12,17 +12,19 @@ internal static class ServiceProviderExtension
 {
     /// <inheritdoc cref="ActivatorUtilities.CreateInstance{T}(IServiceProvider, object[])"/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [Obsolete("Use ActivatorUtilities.CreateInstance<T>(IServiceProvider, params object[]) instead")]
     public static T CreateInstance<T>(this IServiceProvider serviceProvider, params object[] parameters)
     {
         return ActivatorUtilities.CreateInstance<T>(serviceProvider, parameters);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsDisposed(this IServiceProvider? serviceProvider)
+    [Obsolete]
+    public static bool IsDisposed(this IServiceProvider? serviceProvider, bool treatNullAsDisposed = true)
     {
         if (serviceProvider is null)
         {
-            return true;
+            return treatNullAsDisposed;
         }
 
         if (serviceProvider is ServiceProvider serviceProviderImpl)

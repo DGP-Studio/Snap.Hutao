@@ -9,6 +9,7 @@ namespace Snap.Hutao.Message;
 /// 养成计划切换消息
 /// </summary>
 [HighQuality]
+[Obsolete]
 internal sealed class CultivateProjectChangedMessage : ValueChangedMessage<CultivateProject>
 {
 }

@@ -38,11 +38,6 @@ internal static partial class IocHttpClientConfiguration
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static partial IServiceCollection AddHttpClients(this IServiceCollection services);
 
-    /// <summary>
-    /// 默认配置
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="client">配置后的客户端</param>
     private static void DefaultConfiguration(IServiceProvider serviceProvider, HttpClient client)
     {
         RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
@@ -51,10 +46,6 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.UserAgent.ParseAdd(runtimeOptions.UserAgent);
     }
 
-    /// <summary>
-    /// 对于需要添加动态密钥1的客户端使用此配置
-    /// </summary>
-    /// <param name="client">配置后的客户端</param>
     private static void XRpcConfiguration(HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
@@ -65,10 +56,6 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId36);
     }
 
-    /// <summary>
-    /// 对于需要添加动态密钥2的客户端使用此配置
-    /// </summary>
-    /// <param name="client">配置后的客户端</param>
     private static void XRpc2Configuration(HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
@@ -84,11 +71,6 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-sdk_version", "2.16.0");
     }
 
-    /// <summary>
-    /// 对于需要添加动态密钥1的客户端使用此配置
-    /// HoYoLAB app
-    /// </summary>
-    /// <param name="client">配置后的客户端</param>
     private static void XRpc3Configuration(HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
@@ -100,11 +82,6 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId36);
     }
 
-    /// <summary>
-    /// 对于需要添加动态密钥2的客户端使用此配置
-    /// HoYoLAB web
-    /// </summary>
-    /// <param name="client">配置后的客户端</param>
     [SuppressMessage("", "IDE0051")]
     private static void XRpc4Configuration(HttpClient client)
     {

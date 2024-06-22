@@ -68,7 +68,8 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await appDbContext.GachaArchives
-                .ExecuteDeleteWhereAsync(a => a.InnerId == archiveId)
+                .Where(a => a.InnerId == archiveId)
+                .ExecuteDeleteAsync()
                 .ConfigureAwait(false);
         }
     }

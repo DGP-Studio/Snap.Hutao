@@ -9,6 +9,9 @@ namespace Snap.Hutao.Core.IO.Hashing;
 /// <summary>
 /// XXH64 摘要
 /// </summary>
+#if NET9_0_OR_GREATER
+[Obsolete("Use CryptographicOperations.HashData()")]
+#endif
 internal static class XXH64
 {
     /// <summary>

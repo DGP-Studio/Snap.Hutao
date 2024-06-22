@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.IO.Http.Loopback;
 using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Factory.ContentDialog;

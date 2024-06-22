@@ -9,17 +9,8 @@ using WinRT;
 
 namespace Snap.Hutao.Core.Graphics.Imaging;
 
-/// <summary>
-/// 软件位图拓展
-/// </summary>
-[HighQuality]
 internal static class SoftwareBitmapExtension
 {
-    /// <summary>
-    /// 混合模式 正常
-    /// </summary>
-    /// <param name="softwareBitmap">软件位图</param>
-    /// <param name="tint">底色</param>
     public static unsafe void NormalBlend(this SoftwareBitmap softwareBitmap, Bgra32 tint)
     {
         using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.ReadWrite))

@@ -7,7 +7,7 @@ using System.Text;
 namespace Snap.Hutao.Core.IO.Hashing;
 
 #if NET9_0_OR_GREATER
-[Obsolete]
+[Obsolete("Use CryptographicOperations.HashData()")]
 #endif
 internal static class Hash
 {

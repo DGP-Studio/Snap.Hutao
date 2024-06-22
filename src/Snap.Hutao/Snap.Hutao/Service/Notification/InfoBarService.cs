@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction.Extension;
+using Snap.Hutao.Core.Abstraction;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Notification;

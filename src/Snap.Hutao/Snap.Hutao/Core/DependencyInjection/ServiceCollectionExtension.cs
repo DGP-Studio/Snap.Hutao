@@ -10,11 +10,6 @@ namespace Snap.Hutao.Core.DependencyInjection;
 [HighQuality]
 internal static partial class ServiceCollectionExtension
 {
-    /// <summary>
-    /// 向容器注册服务
-    /// 此方法将会自动生成
-    /// </summary>
-    /// <param name="services">容器</param>
-    /// <returns>可继续操作的服务集合</returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static partial IServiceCollection AddInjections(this IServiceCollection services);
 }

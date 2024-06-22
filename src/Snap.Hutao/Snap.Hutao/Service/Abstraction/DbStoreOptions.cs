@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Database;
 using System.Globalization;
@@ -115,7 +116,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
             appDbContext.Settings.AddAndSave(new(key, value));
         }
     }
@@ -131,7 +132,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
             appDbContext.Settings.AddAndSave(new(key, value.ToString()));
         }
 
@@ -148,7 +149,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
             appDbContext.Settings.AddAndSave(new(key, $"{value}"));
         }
     }
@@ -163,7 +164,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
             appDbContext.Settings.AddAndSave(new(key, serializer(value)));
         }
     }
