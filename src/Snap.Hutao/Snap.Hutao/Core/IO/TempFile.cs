@@ -12,15 +12,8 @@ namespace Snap.Hutao.Core.IO;
 [HighQuality]
 internal readonly struct TempFile : IDisposable
 {
-    /// <summary>
-    /// 路径
-    /// </summary>
     public readonly string Path;
 
-    /// <summary>
-    /// 构造一个新的临时文件
-    /// </summary>
-    /// <param name="delete">是否在创建时删除文件</param>
     private TempFile(bool delete)
     {
         try
@@ -38,11 +31,6 @@ internal readonly struct TempFile : IDisposable
         }
     }
 
-    /// <summary>
-    /// 创建临时文件并复制内容
-    /// </summary>
-    /// <param name="file">源文件</param>
-    /// <returns>临时文件</returns>
     public static TempFile? CopyFrom(string file)
     {
         TempFile temporaryFile = new(false);
@@ -57,9 +45,6 @@ internal readonly struct TempFile : IDisposable
         }
     }
 
-    /// <summary>
-    /// 删除临时文件
-    /// </summary>
     public void Dispose()
     {
         try

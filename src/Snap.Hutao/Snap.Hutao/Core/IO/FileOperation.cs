@@ -32,8 +32,15 @@ internal static class FileOperation
 
         if (overwrite)
         {
-            File.Move(sourceFileName, destFileName, true);
-            return true;
+            try
+            {
+                File.Move(sourceFileName, destFileName, true);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         if (File.Exists(destFileName))
@@ -41,8 +48,15 @@ internal static class FileOperation
             return false;
         }
 
-        File.Move(sourceFileName, destFileName, false);
-        return true;
+        try
+        {
+            File.Move(sourceFileName, destFileName, false);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public static bool Delete(string path)

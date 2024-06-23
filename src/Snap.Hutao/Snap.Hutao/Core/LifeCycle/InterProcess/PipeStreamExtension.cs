@@ -35,7 +35,6 @@ internal static class PipeStreamExtension
         }
     }
 
-    [SkipLocalsInit]
     public static unsafe void ReadPacket(this PipeStream stream, out PipePacketHeader header)
     {
         fixed (PipePacketHeader* pHeader = &header)

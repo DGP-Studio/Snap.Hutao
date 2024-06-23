@@ -6,14 +6,8 @@ using System.Text.Json.Serialization.Metadata;
 
 namespace Snap.Hutao.Core.Json;
 
-/// <summary>
-/// Json 选项
-/// </summary>
 internal static class JsonOptions
 {
-    /// <summary>
-    /// 默认的Json序列化选项
-    /// </summary>
     public static readonly JsonSerializerOptions Default = new()
     {
         AllowTrailingCommas = true,

@@ -84,16 +84,4 @@ internal sealed partial class AppOptions : DbStoreOptions
         get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl);
         set => SetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, value);
     }
-
-    private static T? EnumParse<T>(string input)
-        where T : struct, Enum
-    {
-        return Enum.Parse<T>(input);
-    }
-
-    private static string EnumToStringOrEmpty<T>(T? input)
-        where T : struct, Enum
-    {
-        return input.ToStringOrEmpty();
-    }
 }

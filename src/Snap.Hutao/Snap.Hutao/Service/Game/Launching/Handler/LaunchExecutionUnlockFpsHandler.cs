@@ -25,7 +25,12 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
                 return;
             }
 
-            IslandGameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process, new(gameFileSystem, 100, 20000, 2000), progress);
+            UnlockOptions unlockOptions = new(gameFileSystem, 100, 20000, 2000);
+            IGameFpsUnlocker unlocker = context.Options.UnlockerKind switch
+            {
+                GameFpsUnlockerKind.Island => new IslandGameFpsUnlocker(context.ServiceProvider, context.Process, unlockOptions, progress),
+                _ => new DefaultGameFpsUnlocker(context.ServiceProvider, context.Process, unlockOptions, progress),
+            };
 
             try
             {

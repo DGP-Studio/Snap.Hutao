@@ -18,12 +18,10 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.ViewModel.Guide;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
-/// <summary>
-/// 激活
-/// </summary>
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IAppActivation))]
@@ -44,7 +42,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private readonly SemaphoreSlim activateSemaphore = new(1);
 
-    /// <inheritdoc/>
     public void Activate(HutaoActivationArguments args)
     {
         HandleActivationExclusiveAsync(args).SafeForget();
@@ -90,7 +87,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         HandleAppNotificationActivationAsync(args.Arguments, false).SafeForget();
     }
 
-    /// <inheritdoc/>
     public void PostInitialization()
     {
         RunPostInitializationAsync().SafeForget();
@@ -210,10 +206,13 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                                 await taskContext.SwitchToMainThreadAsync();
 
                                 INavigationAwaiter navigationAwaiter = new NavigationExtra(ImportUIAFFromClipboard);
-                                await serviceProvider
+#pragma warning disable CA1849
+                                // We can't await here to navigate to Achievment Page, the Achievement
+                                // ViewModel requires the Metadata Service to be initialized.
+                                serviceProvider
                                     .GetRequiredService<INavigationService>()
-                                    .NavigateAsync<View.Page.AchievementPage>(navigationAwaiter, true)
-                                    .ConfigureAwait(false);
+                                    .Navigate<View.Page.AchievementPage>(navigationAwaiter, true);
+#pragma warning restore CA1849
                                 break;
                             }
                     }
