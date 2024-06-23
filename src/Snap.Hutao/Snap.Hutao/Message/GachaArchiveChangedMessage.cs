@@ -9,6 +9,7 @@ namespace Snap.Hutao.Message;
 /// 祈愿记录存档切换消息
 /// </summary>
 [HighQuality]
+[Obsolete]
 internal sealed class GachaArchiveChangedMessage : ValueChangedMessage<GachaArchive>
 {
 }

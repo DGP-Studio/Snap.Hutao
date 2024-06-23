@@ -28,7 +28,7 @@ internal sealed partial class HutaoLogUploadClient
     /// </summary>
     /// <param name="exception">异常</param>
     /// <returns>任务</returns>
-    public async ValueTask<string?> UploadLogAsync(Exception exception)
+    public async Task<string?> UploadLogAsync(Exception exception)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.HutaoLogUpload)

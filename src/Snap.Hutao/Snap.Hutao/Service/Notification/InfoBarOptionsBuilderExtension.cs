@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.Abstraction.Extension;
+using Snap.Hutao.Core.Abstraction;
 
 namespace Snap.Hutao.Service.Notification;
 

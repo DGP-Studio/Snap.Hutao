@@ -8,6 +8,9 @@ using static Snap.Hutao.Win32.Kernel32;
 
 namespace Snap.Hutao.Service.Game.Unlocker;
 
+/// <summary>
+/// Credit to https://github.com/34736384/genshin-fps-unlock
+/// </summary>
 internal static class GameFpsAddress
 {
 #pragma warning disable SA1310

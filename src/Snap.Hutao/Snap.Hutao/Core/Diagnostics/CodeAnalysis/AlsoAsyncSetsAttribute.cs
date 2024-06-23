@@ -6,6 +6,7 @@ namespace Snap.Hutao.Core.Diagnostics.CodeAnalysis;
 /// <summary>
 /// 指示此特性附加的属性会在属性改变后会异步地设置的其他属性
 /// </summary>
+[Obsolete]
 [AttributeUsage(AttributeTargets.Property, Inherited = false)]
 internal sealed class AlsoAsyncSetsAttribute : Attribute
 {

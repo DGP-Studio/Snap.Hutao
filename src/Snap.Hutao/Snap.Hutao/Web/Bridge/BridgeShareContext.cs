@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Service.Notification;
 using System.Net.Http;
 

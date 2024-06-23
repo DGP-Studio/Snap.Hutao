@@ -75,8 +75,8 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
 
     public void Dispose()
     {
-        (innerProxy as IDisposable)?.Dispose();
         watcher.Dispose();
+        (innerProxy as IDisposable)?.Dispose();
     }
 
     public void OnSystemProxySettingsChanged()

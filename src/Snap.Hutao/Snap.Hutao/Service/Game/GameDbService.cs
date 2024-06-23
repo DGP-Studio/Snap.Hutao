@@ -55,7 +55,7 @@ internal sealed partial class GameDbService : IGameDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.GameAccounts.ExecuteDeleteWhereAsync(a => a.InnerId == id).ConfigureAwait(false);
+            await appDbContext.GameAccounts.Where(a => a.InnerId == id).ExecuteDeleteAsync().ConfigureAwait(false);
         }
     }
 }

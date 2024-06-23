@@ -5,9 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shme="using:Snap.Hutao.Model.Entity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
@@ -131,7 +131,7 @@
                     Width="80"
                     Height="80"
                     Source="ms-appx:///Resource/Navigation/DailyNote.png"/>
-                <TextBlock HorizontalAlignment="Center" Text="{shcm:ResourceString Name=ViewDailyNoteHeader}"/>
+                <TextBlock HorizontalAlignment="Center" Text="{shuxm:ResourceString Name=ViewDailyNoteHeader}"/>
             </StackPanel>
         </Grid>
 

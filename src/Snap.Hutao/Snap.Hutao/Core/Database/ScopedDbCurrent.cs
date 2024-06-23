@@ -3,17 +3,12 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
 
 namespace Snap.Hutao.Core.Database;
 
-/// <summary>
-/// 范围化的数据库当前项
-/// 简化对数据库中选中项的管理
-/// </summary>
-/// <typeparam name="TEntity">实体的类型</typeparam>
-/// <typeparam name="TMessage">消息的类型</typeparam>
 [ConstructorGenerated]
 internal sealed partial class ScopedDbCurrent<TEntity, TMessage>
     where TEntity : class, ISelectable
@@ -24,9 +19,6 @@ internal sealed partial class ScopedDbCurrent<TEntity, TMessage>
 
     private TEntity? current;
 
-    /// <summary>
-    /// 当前选中的项
-    /// </summary>
     public TEntity? Current
     {
         get => current;
@@ -82,9 +74,6 @@ internal sealed partial class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
 
     private TEntityOnly? current;
 
-    /// <summary>
-    /// 当前选中的项
-    /// </summary>
     public TEntityOnly? Current
     {
         get => current;

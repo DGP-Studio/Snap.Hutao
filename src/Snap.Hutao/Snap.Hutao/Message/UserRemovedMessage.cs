@@ -9,6 +9,7 @@ namespace Snap.Hutao.Message;
 /// 用户删除消息
 /// </summary>
 [HighQuality]
+[Obsolete]
 internal sealed class UserRemovedMessage
 {
     /// <summary>

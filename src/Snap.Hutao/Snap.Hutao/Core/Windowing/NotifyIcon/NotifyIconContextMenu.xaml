@@ -5,8 +5,7 @@
     xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shch="using:Snap.Hutao.Control.Helper"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shcwb="using:Snap.Hutao.Core.Windowing.Backdrop"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     ShouldConstrainToRootBounds="False"
@@ -42,7 +41,7 @@
                 HorizontalAlignment="Right"
                 Orientation="Horizontal"
                 Spacing="2">
-                <AppBarButton Command="{Binding ShowWindowCommand}" Label="{shcm:ResourceString Name=CoreWindowingNotifyIconViewLabel}">
+                <AppBarButton Command="{Binding ShowWindowCommand}" Label="{shuxm:ResourceString Name=CoreWindowingNotifyIconViewLabel}">
                     <AppBarButton.Icon>
                         <FontIcon
                             Width="20"
@@ -50,7 +49,7 @@
                             Glyph="&#xE80F;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Command="{Binding LaunchGameCommand}" Label="{shcm:ResourceString Name=CoreWindowingNotifyIconLaunchGameLabel}">
+                <AppBarButton Command="{Binding LaunchGameCommand}" Label="{shuxm:ResourceString Name=CoreWindowingNotifyIconLaunchGameLabel}">
                     <AppBarButton.Icon>
                         <FontIcon
                             Width="20"
@@ -58,7 +57,7 @@
                             Glyph="&#xE7FC;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Command="{Binding ExitCommand}" Label="{shcm:ResourceString Name=CoreWindowingNotifyIconExitLabel}">
+                <AppBarButton Command="{Binding ExitCommand}" Label="{shuxm:ResourceString Name=CoreWindowingNotifyIconExitLabel}">
                     <AppBarButton.Icon>
                         <FontIcon
                             Width="20"

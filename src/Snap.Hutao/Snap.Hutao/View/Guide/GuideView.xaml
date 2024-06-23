@@ -7,8 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Guide"
     d:DataContext="{d:DesignInstance shvg:GuideViewModel}"
     mc:Ignorable="d">
@@ -51,7 +51,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <cwc:SwitchPresenter ContentTransitions="{ThemeResource EntranceThemeTransitions}" Value="{Binding State, Mode=OneWay}">
-            <cwc:Case Value="{shcm:UInt32 Value=0}">
+            <cwc:Case Value="{shuxm:UInt32 Value=0}">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <GridView
                         Grid.Row="0"
@@ -61,7 +61,7 @@
                         SelectionMode="Single"/>
                 </Grid>
             </cwc:Case>
-            <cwc:Case Value="{shcm:UInt32 Value=1}">
+            <cwc:Case Value="{shuxm:UInt32 Value=1}">
                 <Grid
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -81,9 +81,9 @@
                         <CheckBox IsChecked="{Binding IsTermOfServiceAgreed, Mode=TwoWay}">
                             <TextBlock>
                                 <TextBlock.Inlines>
-                                    <Run Text="{shcm:ResourceString Name=ViewGuideStepAgreementIHaveReadText}"/>
+                                    <Run Text="{shuxm:ResourceString Name=ViewGuideStepAgreementIHaveReadText}"/>
                                     <Hyperlink NavigateUri="https://hut.ao/statements/tos.html">
-                                        <Run Text="{shcm:ResourceString Name=ViewGuideStepAgreementTermOfService}"/>
+                                        <Run Text="{shuxm:ResourceString Name=ViewGuideStepAgreementTermOfService}"/>
                                     </Hyperlink>
                                 </TextBlock.Inlines>
                             </TextBlock>
@@ -91,9 +91,9 @@
                         <CheckBox IsChecked="{Binding IsPrivacyPolicyAgreed, Mode=TwoWay}">
                             <TextBlock>
                                 <TextBlock.Inlines>
-                                    <Run Text="{shcm:ResourceString Name=ViewGuideStepAgreementIHaveReadText}"/>
+                                    <Run Text="{shuxm:ResourceString Name=ViewGuideStepAgreementIHaveReadText}"/>
                                     <Hyperlink NavigateUri="https://hut.ao/statements/privacy-notice.html">
-                                        <Run Text="{shcm:ResourceString Name=ViewGuideStepAgreementPrivacyPolicy}"/>
+                                        <Run Text="{shuxm:ResourceString Name=ViewGuideStepAgreementPrivacyPolicy}"/>
                                     </Hyperlink>
                                 </TextBlock.Inlines>
                             </TextBlock>
@@ -101,9 +101,9 @@
                         <CheckBox IsChecked="{Binding IsIssueReportAgreed, Mode=TwoWay}">
                             <TextBlock>
                                 <TextBlock.Inlines>
-                                    <Run Text="{shcm:ResourceString Name=ViewGuideStepAgreementIHaveReadText}"/>
+                                    <Run Text="{shuxm:ResourceString Name=ViewGuideStepAgreementIHaveReadText}"/>
                                     <Hyperlink NavigateUri="https://hut.ao/statements/bug-report.html">
-                                        <Run Text="{shcm:ResourceString Name=ViewGuideStepAgreementIssueReport}"/>
+                                        <Run Text="{shuxm:ResourceString Name=ViewGuideStepAgreementIssueReport}"/>
                                     </Hyperlink>
                                 </TextBlock.Inlines>
                             </TextBlock>
@@ -111,9 +111,9 @@
                         <CheckBox IsChecked="{Binding IsOpenSourceLicenseAgreed, Mode=TwoWay}">
                             <TextBlock>
                                 <TextBlock.Inlines>
-                                    <Run Text="{shcm:ResourceString Name=ViewGuideStepAgreementIHaveReadText}"/>
+                                    <Run Text="{shuxm:ResourceString Name=ViewGuideStepAgreementIHaveReadText}"/>
                                     <Hyperlink NavigateUri="https://github.com/DGP-Studio/Snap.Hutao/blob/main/LICENSE">
-                                        <Run Text="{shcm:ResourceString Name=ViewGuideStepAgreementOpenSourceLicense}"/>
+                                        <Run Text="{shuxm:ResourceString Name=ViewGuideStepAgreementOpenSourceLicense}"/>
                                     </Hyperlink>
                                 </TextBlock.Inlines>
                             </TextBlock>
@@ -121,7 +121,7 @@
                     </StackPanel>
                 </Grid>
             </cwc:Case>
-            <cwc:Case Value="{shcm:UInt32 Value=2}">
+            <cwc:Case Value="{shuxm:UInt32 Value=2}">
                 <Grid>
                     <StackPanel
                         Margin="16"
@@ -150,30 +150,30 @@
                             <FontIcon FontSize="{StaticResource SubtitleTextBlockFontSize}" Glyph="&#xF6A9;"/>
                         </StackPanel>
                         <TextBlock>
-                            <Run Text="{shcm:ResourceString Name=ViewGuideStepEnvironmentFontDescription1}"/>
+                            <Run Text="{shuxm:ResourceString Name=ViewGuideStepEnvironmentFontDescription1}"/>
                             <Hyperlink NavigateUri="https://aka.ms/SegoeFluentIcons">
                                 <Run Text="Microsoft"/>
                             </Hyperlink>
-                            <Run Text="{shcm:ResourceString Name=ViewGuideStepEnvironmentFontDescription2}"/>
+                            <Run Text="{shuxm:ResourceString Name=ViewGuideStepEnvironmentFontDescription2}"/>
                         </TextBlock>
-                        <TextBlock Text="{shcm:ResourceString Name=ViewGuideStepEnvironmentAfterInstallDescription}"/>
+                        <TextBlock Text="{shuxm:ResourceString Name=ViewGuideStepEnvironmentAfterInstallDescription}"/>
                         <TextBlock
                             Margin="1,32,0,5"
                             Style="{StaticResource TitleTextBlockStyle}"
-                            Text="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"/>
+                            Text="{shuxm:ResourceString Name=ViewPageSettingWebview2Header}"/>
                         <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding RuntimeOptions.WebView2Version}"/>
                         <TextBlock>
-                            <Run Text="{shcm:ResourceString Name=ViewGuideStepEnvironmentWebView2Description1}"/>
+                            <Run Text="{shuxm:ResourceString Name=ViewGuideStepEnvironmentWebView2Description1}"/>
                             <Hyperlink NavigateUri="https://go.microsoft.com/fwlink/p/?LinkId=2124703">
                                 <Run Text="Microsoft"/>
                             </Hyperlink>
-                            <Run Text="{shcm:ResourceString Name=ViewGuideStepEnvironmentWebView2Description2}"/>
+                            <Run Text="{shuxm:ResourceString Name=ViewGuideStepEnvironmentWebView2Description2}"/>
                         </TextBlock>
-                        <TextBlock Text="{shcm:ResourceString Name=ViewGuideStepEnvironmentAfterInstallDescription}"/>
+                        <TextBlock Text="{shuxm:ResourceString Name=ViewGuideStepEnvironmentAfterInstallDescription}"/>
                     </StackPanel>
                 </Grid>
             </cwc:Case>
-            <cwc:Case Value="{shcm:UInt32 Value=3}">
+            <cwc:Case Value="{shuxm:UInt32 Value=3}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -184,7 +184,7 @@
                         Margin="16"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingHomeAnnouncementRegionHeader}"/>
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageSettingHomeAnnouncementRegionHeader}"/>
                         <ListView
                             MinWidth="320"
                             Margin="0,8,0,0"
@@ -201,10 +201,10 @@
                         HorizontalTextAlignment="Center"
                         Opacity="0.7"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{shcm:ResourceString Name=ViewGuideStepCommonSettingHint}"/>
+                        Text="{shuxm:ResourceString Name=ViewGuideStepCommonSettingHint}"/>
                 </Grid>
             </cwc:Case>
-            <cwc:Case Value="{shcm:UInt32 Value=4}">
+            <cwc:Case Value="{shuxm:UInt32 Value=4}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -251,11 +251,11 @@
                                         CornerRadius="{ThemeResource ControlCornerRadiusBottom}"
                                         Style="{ThemeResource GridCardStyle}">
                                         <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
-                                            <TextBlock Text="{shcm:ResourceString Name=ViewModelGuideStaticResourceQualityHigh}" TextAlignment="Left"/>
+                                            <TextBlock Text="{shuxm:ResourceString Name=ViewModelGuideStaticResourceQualityHigh}" TextAlignment="Left"/>
                                             <TextBlock Text="233 KB" TextAlignment="Left"/>
                                         </StackPanel>
                                         <StackPanel HorizontalAlignment="Right" Orientation="Vertical">
-                                            <TextBlock Text="{shcm:ResourceString Name=ViewModelGuideStaticResourceQualityRaw}" TextAlignment="Right"/>
+                                            <TextBlock Text="{shuxm:ResourceString Name=ViewModelGuideStaticResourceQualityRaw}" TextAlignment="Right"/>
                                             <TextBlock Text="1030 KB" TextAlignment="Right"/>
                                         </StackPanel>
                                     </Grid>
@@ -263,14 +263,14 @@
                             </Border>
                         </cwc:ConstrainedBox>
                         <StackPanel Grid.Column="1" VerticalAlignment="Top">
-                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingQualityHeader}"/>
+                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewGuideStepStaticResourceSettingQualityHeader}"/>
                             <ListView
                                 MinWidth="320"
                                 Margin="0,8,0,32"
                                 DisplayMemberPath="Name"
                                 ItemsSource="{Binding StaticResourceOptions.ImageQualities}"
                                 SelectedItem="{Binding StaticResourceOptions.ImageQuality, Mode=TwoWay}"/>
-                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingMinimumHeader}"/>
+                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewGuideStepStaticResourceSettingMinimumHeader}"/>
                             <ListView
                                 MinWidth="320"
                                 Margin="0,8,0,32"
@@ -289,15 +289,15 @@
                         Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{shcm:ResourceString Name=ViewGuideStepStaticResourceSettingHint}"/>
+                        Text="{shuxm:ResourceString Name=ViewGuideStepStaticResourceSettingHint}"/>
                 </Grid>
             </cwc:Case>
-            <cwc:Case Value="{shcm:UInt32 Value=5}">
+            <cwc:Case Value="{shuxm:UInt32 Value=5}">
                 <StackPanel Margin="32,0" HorizontalAlignment="Left">
                     <TextBlock
                         Margin="1,16,0,5"
                         Style="{StaticResource BaseTextBlockStyle}"
-                        Text="{shcm:ResourceString Name=ViewWelcomeBase}"/>
+                        Text="{shuxm:ResourceString Name=ViewWelcomeBase}"/>
                     <ScrollViewer>
                         <ItemsControl
                             Margin="0,0,-4,0"
@@ -318,19 +318,19 @@
                     IsHitTestVisible="False"
                     SelectedIndex="{Binding State, Mode=TwoWay}">
                     <!--
-                    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepLanguage}" Icon="{shcm:FontIcon Glyph=&#xF2B7;}"/>
-                    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepDocument}" Icon="{shcm:FontIcon Glyph=&#xF28B;}"/>
-                    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepEnvironment}" Icon="{shcm:FontIcon Glyph=&#xE81E;}"/>
-                    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepCommonSetting}" Icon="{shcm:FontIcon Glyph=&#xE713;}"/>
-                    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepStaticResourceSetting}" Icon="{shcm:FontIcon Glyph=&#xE8BA;}"/>
-                    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepStaticResource}" Icon="{shcm:FontIcon Glyph=&#xE8B9;}"/>
+                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepLanguage}" Icon="{shuxm:FontIcon Glyph=&#xF2B7;}"/>
+                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepDocument}" Icon="{shuxm:FontIcon Glyph=&#xF28B;}"/>
+                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepEnvironment}" Icon="{shuxm:FontIcon Glyph=&#xE81E;}"/>
+                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepCommonSetting}" Icon="{shuxm:FontIcon Glyph=&#xE713;}"/>
+                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepStaticResourceSetting}" Icon="{shuxm:FontIcon Glyph=&#xE8BA;}"/>
+                    <cwc:SegmentedItem Content="{shuxm:ResourceString Name=ViewGuideStepStaticResource}" Icon="{shuxm:FontIcon Glyph=&#xE8B9;}"/>
                     -->
-                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xF2B7;}"/>
-                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xF28B;}"/>
-                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE81E;}"/>
-                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE713;}"/>
-                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE8BA;}"/>
-                    <cwc:SegmentedItem Icon="{shcm:FontIcon Glyph=&#xE8B9;}"/>
+                    <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xF2B7;}"/>
+                    <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xF28B;}"/>
+                    <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE81E;}"/>
+                    <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE713;}"/>
+                    <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE8BA;}"/>
+                    <cwc:SegmentedItem Icon="{shuxm:FontIcon Glyph=&#xE8B9;}"/>
                 </cwc:Segmented>
                 <Button
                     Command="{Binding NextOrCompleteCommand}"

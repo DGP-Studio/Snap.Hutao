@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
 using System.Collections.ObjectModel;

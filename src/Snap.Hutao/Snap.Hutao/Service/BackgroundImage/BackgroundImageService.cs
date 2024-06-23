@@ -1,10 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Core.Graphics.Imaging;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.UI;
 using Snap.Hutao.Web.Hutao.Wallpaper;
 using Snap.Hutao.Web.Response;
 using Snap.Hutao.Win32.Foundation;
@@ -72,7 +73,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 Path = path,
                 ImageSource = new(path.ToUri()),
                 AccentColor = accentColor,
-                Luminance = accentColor.Luminance,
+                Luminance = accentColor.Brightness,
             };
 
             return new(true, background);

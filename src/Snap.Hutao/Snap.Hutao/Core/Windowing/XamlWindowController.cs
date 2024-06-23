@@ -14,6 +14,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing.Abstraction;
 using Snap.Hutao.Core.Windowing.NotifyIcon;
 using Snap.Hutao.Service;
+using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.Win32;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Dwm;
@@ -213,7 +214,7 @@ internal sealed class XamlWindowController
 
     private unsafe void UpdateImmersiveDarkMode(FrameworkElement titleBar, object discard)
     {
-        BOOL isDarkMode = Control.Theme.ThemeHelper.IsDarkMode(titleBar.ActualTheme);
+        BOOL isDarkMode = ThemeHelper.IsDarkMode(titleBar.ActualTheme);
         DwmSetWindowAttribute(window.GetWindowHandle(), DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref isDarkMode);
     }
     #endregion
@@ -296,12 +297,12 @@ internal sealed class XamlWindowController
         appTitleBar.ButtonBackgroundColor = Colors.Transparent;
         appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-        bool isDarkMode = Control.Theme.ThemeHelper.IsDarkMode(xamlWindow.TitleBarAccess.ActualTheme);
+        bool isDarkMode = ThemeHelper.IsDarkMode(xamlWindow.TitleBarAccess.ActualTheme);
 
-        Color systemBaseLowColor = Control.Theme.SystemColors.BaseLowColor(isDarkMode);
+        Color systemBaseLowColor = SystemColors.BaseLowColor(isDarkMode);
         appTitleBar.ButtonHoverBackgroundColor = systemBaseLowColor;
 
-        Color systemBaseMediumLowColor = Control.Theme.SystemColors.BaseMediumLowColor(isDarkMode);
+        Color systemBaseMediumLowColor = SystemColors.BaseMediumLowColor(isDarkMode);
         appTitleBar.ButtonPressedBackgroundColor = systemBaseMediumLowColor;
 
         // The Foreground doesn't accept Alpha channel. So we translate it to gray.
@@ -309,7 +310,7 @@ internal sealed class XamlWindowController
         byte result = (byte)((systemBaseMediumLowColor.A / 255.0) * light);
         appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, result, result, result);
 
-        Color systemBaseHighColor = Control.Theme.SystemColors.BaseHighColor(isDarkMode);
+        Color systemBaseHighColor = SystemColors.BaseHighColor(isDarkMode);
         appTitleBar.ButtonForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonHoverForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;

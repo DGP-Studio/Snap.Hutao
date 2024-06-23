@@ -6,9 +6,6 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Service.Game.Unlocker;
 
-/// <summary>
-/// 解锁状态
-/// </summary>
 internal sealed class GameFpsUnlockerContext
 {
     public string Description { get; set; } = default!;
@@ -26,6 +23,8 @@ internal sealed class GameFpsUnlockerContext
     public HANDLE AllAccess { get; set; }
 
     public IProgress<GameFpsUnlockerContext> Progress { get; set; } = default!;
+
+    public ILogger Logger { get; set; } = default!;
 
     public void Report()
     {

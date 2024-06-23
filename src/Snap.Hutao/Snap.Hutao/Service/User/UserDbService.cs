@@ -18,7 +18,7 @@ internal sealed partial class UserDbService : IUserDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.Users.ExecuteDeleteWhereAsync(u => u.InnerId == id).ConfigureAwait(false);
+            await appDbContext.Users.Where(u => u.InnerId == id).ExecuteDeleteAsync().ConfigureAwait(false);
         }
     }
 

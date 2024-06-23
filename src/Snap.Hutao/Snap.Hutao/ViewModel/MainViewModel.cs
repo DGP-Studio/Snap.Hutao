@@ -5,10 +5,10 @@ using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Animations;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Message;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
+using Snap.Hutao.UI.Xaml.Control.Theme;
 using Snap.Hutao.UI.Xaml.Media.Animation;
 using System.Globalization;
 

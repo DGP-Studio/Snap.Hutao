@@ -4,22 +4,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    Title="{shcm:ResourceString Name=ViewDialogCultivateProjectTitle}"
-    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Title="{shuxm:ResourceString Name=ViewDialogCultivateProjectTitle}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <StackPanel>
         <TextBox
             VerticalAlignment="Top"
-            PlaceholderText="{shcm:ResourceString Name=ViewDialogCultivateProjectInputPlaceholder}"
+            PlaceholderText="{shuxm:ResourceString Name=ViewDialogCultivateProjectInputPlaceholder}"
             Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <CheckBox
             Margin="0,8,0,0"
-            Content="{shcm:ResourceString Name=ViewDialogCultivateProjectAttachUid}"
+            Content="{shuxm:ResourceString Name=ViewDialogCultivateProjectAttachUid}"
             IsChecked="{x:Bind IsUidAttached, Mode=TwoWay}"
             Visibility="Collapsed"/>
     </StackPanel>

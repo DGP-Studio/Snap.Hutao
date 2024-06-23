@@ -182,6 +182,10 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL PostThreadMessageW(uint idThread, uint Msg, WPARAM wParam, LPARAM lParam);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
     public static unsafe extern ushort RegisterClassW(WNDCLASSW* lpWndClass);
 
     public static unsafe ushort RegisterClassW(ref readonly WNDCLASSW lpWndClass)
@@ -214,10 +218,10 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern Foundation.HANDLE RemovePropW(HWND hWnd, PCWSTR lpString);
+    public static extern HANDLE RemovePropW(HWND hWnd, PCWSTR lpString);
 
     [DebuggerStepThrough]
-    public static unsafe Foundation.HANDLE RemovePropW(HWND hWnd, string @string)
+    public static unsafe HANDLE RemovePropW(HWND hWnd, string @string)
     {
         fixed (char* lpString = @string)
         {
@@ -248,10 +252,10 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static extern BOOL SetPropW(HWND hWnd, PCWSTR lpString, [AllowNull] Foundation.HANDLE hData);
+    public static extern BOOL SetPropW(HWND hWnd, PCWSTR lpString, [AllowNull] HANDLE hData);
 
     [DebuggerStepThrough]
-    public static unsafe BOOL SetPropW(HWND hWnd, string @string, [AllowNull] Foundation.HANDLE hData)
+    public static unsafe BOOL SetPropW(HWND hWnd, string @string, [AllowNull] HANDLE hData)
     {
         fixed (char* lpString = @string)
         {
@@ -262,6 +266,10 @@ internal static class User32
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
     public static extern nint SetWindowLongPtrW(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex, nint dwNewLong);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
+    public static extern HHOOK SetWindowsHookExW(WINDOWS_HOOK_ID idHook, HOOKPROC lpfn, [AllowNull] HINSTANCE hmod, uint dwThreadId);
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]

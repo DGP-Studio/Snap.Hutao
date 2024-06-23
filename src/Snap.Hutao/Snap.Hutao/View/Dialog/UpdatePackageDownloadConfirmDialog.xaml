@@ -4,18 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{ThemeResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <StackPanel Spacing="16">
         <TextBlock Text="">
-            <Run Text="{shcm:ResourceString Name=ViewTitileUpdatePackageDownloadContent}"/>
+            <Run Text="{shuxm:ResourceString Name=ViewTitileUpdatePackageDownloadContent}"/>
             <Hyperlink NavigateUri="https://hut.ao/statements/update-log.html">
-                <Run Text="{shcm:ResourceString Name=ViewDialogUpdatePackageDownloadUpdatelogLinkContent}"/>
+                <Run Text="{shuxm:ResourceString Name=ViewDialogUpdatePackageDownloadUpdatelogLinkContent}"/>
             </Hyperlink>
             <!--  We leave a Run here to prevent the Hyperlink Stretch  -->
             <Run/>

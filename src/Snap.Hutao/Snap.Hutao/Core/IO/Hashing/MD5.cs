@@ -8,7 +8,9 @@ namespace Snap.Hutao.Core.IO.Hashing;
 /// <summary>
 /// 摘要
 /// </summary>
-[HighQuality]
+#if NET9_0_OR_GREATER
+[Obsolete("Use CryptographicOperations.HashData()")]
+#endif
 internal static class MD5
 {
     /// <summary>

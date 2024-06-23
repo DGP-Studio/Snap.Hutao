@@ -12,6 +12,7 @@ namespace Snap.Hutao.Message;
 /// </summary>
 [HighQuality]
 [DebuggerDisplay("{DebuggerDisplay(),nq}")]
+[Obsolete]
 internal sealed class UserChangedMessage : ValueChangedMessage<User>
 {
     // defaults to the UserAndRoleChanged when we raise this message in ScopedDbCurrent

@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -19,14 +19,14 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="12">
-                <TextBlock Text="{shcm:ResourceString Name=ViewPageLoginMihoyoUserTitle}"/>
-                <TextBlock Text="{shcm:ResourceString Name=ViewPageLoginMihoyoUserDescription}"/>
+                <TextBlock Text="{shuxm:ResourceString Name=ViewPageLoginMihoyoUserTitle}"/>
+                <TextBlock Text="{shuxm:ResourceString Name=ViewPageLoginMihoyoUserDescription}"/>
             </StackPanel>
             <Button
                 Grid.Column="1"
                 Margin="12"
                 Command="{x:Bind HandleCurrentCookieCommand}"
-                Content="{shcm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
+                Content="{shuxm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
         </Grid>
         <WebView2 x:Name="WebView" Grid.Row="2"/>
     </Grid>

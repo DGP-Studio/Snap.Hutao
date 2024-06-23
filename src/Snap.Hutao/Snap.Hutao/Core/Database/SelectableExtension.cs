@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database.Abstraction;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Database;
@@ -11,13 +12,6 @@ namespace Snap.Hutao.Core.Database;
 [HighQuality]
 internal static class SelectableExtension
 {
-    /// <summary>
-    /// 获取选中的值或默认值
-    /// </summary>
-    /// <typeparam name="TSource">源类型</typeparam>
-    /// <param name="source">源</param>
-    /// <returns>选中的值或默认值</returns>
-    /// <exception cref="InvalidOperationException">存在多个选中的值</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TSource? SelectedOrDefault<TSource>(this IEnumerable<TSource> source)
         where TSource : ISelectable

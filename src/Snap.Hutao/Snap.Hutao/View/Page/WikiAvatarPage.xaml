@@ -1,4 +1,4 @@
-﻿<shc:ScopedPage
+﻿<shuxc:ScopedPage
     x:Class="Snap.Hutao.View.Page.WikiAvatarPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,13 +7,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shci="using:Snap.Hutao.Control.Image"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shcp="using:Snap.Hutao.Control.Panel"
-    xmlns:shct="using:Snap.Hutao.Control.Text"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
-    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.Tokenizing"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
@@ -27,8 +26,8 @@
     <Page.Resources>
         <shvconv:VisibilityToObjectConverter
             x:Key="VisibilityToColumnSpanConverter"
-            CollapsedValue="{shcm:Int32 Value=2}"
-            VisibleValue="{shcm:Int32 Value=1}"/>
+            CollapsedValue="{shuxm:Int32 Value=2}"
+            VisibleValue="{shuxm:Int32 Value=1}"/>
 
         <DataTemplate x:Key="SkillDataTemplate">
             <Grid Margin="0,16,0,0" ColumnSpacing="16">
@@ -36,16 +35,16 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-                <shct:DescriptionTextBlock
+                <shuxct:DescriptionTextBlock
                     Grid.ColumnSpan="{Binding ElementName=ProudSelector, Path=Visibility, Converter={StaticResource VisibilityToColumnSpanConverter}}"
                     VerticalAlignment="Top"
                     Description="{Binding Description}">
-                    <shct:DescriptionTextBlock.Resources>
+                    <shuxct:DescriptionTextBlock.Resources>
                         <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
                             <Setter Property="TextWrapping" Value="Wrap"/>
                         </Style>
-                    </shct:DescriptionTextBlock.Resources>
-                </shct:DescriptionTextBlock>
+                    </shuxct:DescriptionTextBlock.Resources>
+                </shuxct:DescriptionTextBlock>
                 <shvcont:DescParamComboBox
                     x:Name="ProudSelector"
                     Grid.Column="1"
@@ -64,13 +63,13 @@
         </DataTemplate>
 
         <DataTemplate x:Key="TalentDataTemplate">
-            <shct:DescriptionTextBlock Margin="0,12,0,0" Description="{Binding Description}">
-                <shct:DescriptionTextBlock.Resources>
+            <shuxct:DescriptionTextBlock Margin="0,12,0,0" Description="{Binding Description}">
+                <shuxct:DescriptionTextBlock.Resources>
                     <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
                         <Setter Property="TextWrapping" Value="Wrap"/>
                     </Style>
-                </shct:DescriptionTextBlock.Resources>
-            </shct:DescriptionTextBlock>
+                </shuxct:DescriptionTextBlock.Resources>
+            </shuxct:DescriptionTextBlock>
         </DataTemplate>
 
         <DataTemplate x:Key="TokenTemplate">
@@ -91,14 +90,14 @@
                         <SolidColorBrush Color="{Binding Quality}"/>
                     </Ellipse.Fill>
                 </Ellipse>
-                <shci:MonoChrome
+                <shuxci:MonoChrome
                     Grid.Column="0"
                     Width="22"
                     Height="22"
                     Margin="-3,2,7,0"
                     Source="{Binding IconUri, Mode=OneWay}"
                     Visibility="{Binding IconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
-                <shci:CachedImage
+                <shuxci:CachedImage
                     Grid.Column="0"
                     Width="22"
                     Height="22"
@@ -118,7 +117,7 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <shci:CachedImage
+                <shuxci:CachedImage
                     Grid.Column="0"
                     Width="48"
                     Height="48"
@@ -214,13 +213,13 @@
                                     Width="48"
                                     Height="48"
                                     Quality="QUALITY_ORANGE"/>
-                                <shci:CachedImage
+                                <shuxci:CachedImage
                                     Width="32"
                                     Margin="2,2,0,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top"
                                     Source="{Binding Icons[0]}"/>
-                                <shci:CachedImage
+                                <shuxci:CachedImage
                                     Width="32"
                                     Margin="0,0,2,2"
                                     HorizontalAlignment="Right"
@@ -257,19 +256,19 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <shci:CachedImage
+                <shuxci:CachedImage
                     Width="80"
                     Height="80"
                     Margin="0,0,16,0"
                     Source="{StaticResource UI_AvatarIcon_Costume_Card}"/>
-                <shci:CachedImage
+                <shuxci:CachedImage
                     Width="80"
                     Height="80"
                     Margin="0,0,16,0"
                     Source="{Binding FrontIcon, Converter={StaticResource AvatarCardConverter}}"/>
                 <StackPanel Grid.Column="1" Margin="0,0,16,-4">
                     <TextBlock Text="{Binding Name}"/>
-                    <shct:DescriptionTextBlock
+                    <shuxct:DescriptionTextBlock
                         Margin="0,8,0,16"
                         Description="{Binding Description}"
                         TextStyle="{StaticResource CaptionTextBlockStyle}"/>
@@ -280,10 +279,10 @@
         <DataTemplate x:Key="FetterStoryTemplate">
             <cwc:SettingsCard Padding="16,8,8,8">
                 <cwc:SettingsCard.Header>
-                    <shct:DescriptionTextBlock Description="{Binding Title}" TextStyle="{StaticResource BaseTextBlockStyle}"/>
+                    <shuxct:DescriptionTextBlock Description="{Binding Title}" TextStyle="{StaticResource BaseTextBlockStyle}"/>
                 </cwc:SettingsCard.Header>
                 <cwc:SettingsCard.Description>
-                    <shct:DescriptionTextBlock Description="{Binding Context}" TextStyle="{StaticResource CaptionTextBlockStyle}"/>
+                    <shuxct:DescriptionTextBlock Description="{Binding Context}" TextStyle="{StaticResource CaptionTextBlockStyle}"/>
                 </cwc:SettingsCard.Description>
             </cwc:SettingsCard>
         </DataTemplate>
@@ -309,13 +308,13 @@
                         BorderThickness="0"
                         DefaultLabelPosition="Right">
                         <CommandBar.Content>
-                            <shcp:PanelSelector
+                            <shuxc:LayoutSwitch
                                 x:Name="ItemsPanelSelector"
                                 Margin="8,8,0,0"
                                 LocalSettingKeySuffixForCurrent="WikiAvatarPage.Avatars"/>
                         </CommandBar.Content>
                         <AppBarElementContainer>
-                            <shuxct:AutoSuggestTokenBox
+                            <shuxca:AutoSuggestTokenBox
                                 Width="600"
                                 Height="44"
                                 Margin="6,-2,6,6"
@@ -325,28 +324,28 @@
                                 FilterCommand="{Binding FilterCommand}"
                                 ItemsSource="{Binding FilterTokens, Mode=TwoWay}"
                                 MaximumTokens="5"
-                                PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
+                                PlaceholderText="{shuxm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
                                 QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
                                 Style="{StaticResource DefaultTokenizingTextBoxStyle}"
                                 SuggestedItemTemplate="{StaticResource TokenTemplate}"
                                 SuggestedItemsSource="{Binding AvailableTokens.Values}"
                                 Text="{Binding FilterToken, Mode=TwoWay}"
                                 TokenItemTemplate="{StaticResource TokenTemplate}">
-                                <shuxct:AutoSuggestTokenBox.ItemsPanel>
+                                <shuxca:AutoSuggestTokenBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <cwc:WrapPanel
-                                            cw:FrameworkElementExtensions.AncestorType="shuxct:AutoSuggestTokenBox"
+                                            cw:FrameworkElementExtensions.AncestorType="shuxca:AutoSuggestTokenBox"
                                             HorizontalSpacing="2"
                                             StretchChild="Last"/>
                                     </ItemsPanelTemplate>
-                                </shuxct:AutoSuggestTokenBox.ItemsPanel>
-                            </shuxct:AutoSuggestTokenBox>
+                                </shuxca:AutoSuggestTokenBox.ItemsPanel>
+                            </shuxca:AutoSuggestTokenBox>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"
                             CommandParameter="{Binding Selected}"
-                            Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
-                            Label="{shcm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
+                            Icon="{shuxm:FontIcon Glyph=&#xE8EF;}"
+                            Label="{shuxm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
                     </CommandBar>
                 </Border>
             </Border>
@@ -378,7 +377,7 @@
                                 <SplitView.Content>
                                     <Grid>
                                         <StackPanel VerticalAlignment="Center" Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
-                                            <shci:CachedImage
+                                            <shuxci:CachedImage
                                                 Height="120"
                                                 MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
                                                 Source="{StaticResource UI_EmotionIcon89}"/>
@@ -386,7 +385,7 @@
                                                 Margin="0,5,0,21"
                                                 HorizontalAlignment="Center"
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
-                                                Text="{shcm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
+                                                Text="{shuxm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
                                         </StackPanel>
                                         <ScrollViewer Padding="16,0" Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                                             <StackPanel
@@ -409,13 +408,13 @@
                                                                 <ColumnDefinition Width="auto"/>
                                                                 <ColumnDefinition Width="auto"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <shci:MonoChrome
+                                                            <shuxci:MonoChrome
                                                                 Grid.Column="0"
                                                                 Width="32"
                                                                 Height="32"
                                                                 HorizontalAlignment="Left"
                                                                 Source="{Binding Selected.FetterInfo.VisionBefore, Converter={StaticResource ElementNameIconConverter}}"/>
-                                                            <shci:MonoChrome
+                                                            <shuxci:MonoChrome
                                                                 Grid.Column="1"
                                                                 Width="32"
                                                                 Height="32"
@@ -454,7 +453,7 @@
                                                             ColumnSpacing="6"
                                                             Columns="4">
                                                             <StackPanel>
-                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarOccupationNameTitle}"/>
+                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarOccupationNameTitle}"/>
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -462,7 +461,7 @@
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
-                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarConstellationNameTitle}"/>
+                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarConstellationNameTitle}"/>
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -470,7 +469,7 @@
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
-                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarDateofBirthTitle}"/>
+                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarDateofBirthTitle}"/>
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -484,7 +483,7 @@
                                                             ColumnSpacing="6"
                                                             Columns="4">
                                                             <StackPanel>
-                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarChineseCVNameTitle}"/>
+                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarChineseCVNameTitle}"/>
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -492,7 +491,7 @@
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
-                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarJapaneseCVNameTitle}"/>
+                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarJapaneseCVNameTitle}"/>
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -500,7 +499,7 @@
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
-                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarEnglishCVNameTitle}"/>
+                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarEnglishCVNameTitle}"/>
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -508,7 +507,7 @@
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
-                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarKoreanCVNameTitle}"/>
+                                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarKoreanCVNameTitle}"/>
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -580,7 +579,7 @@
                                                             Grid.Row="0"
                                                             Grid.Column="0"
                                                             Style="{StaticResource BaseTextBlockStyle}"
-                                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
+                                                            Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
                                                         <ItemsControl
                                                             Grid.Row="1"
                                                             Grid.Column="0"
@@ -591,7 +590,7 @@
                                                             Grid.Row="0"
                                                             Grid.Column="1"
                                                             Style="{StaticResource BaseTextBlockStyle}"
-                                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarWeaponCombinationHeader}"/>
+                                                            Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarWeaponCombinationHeader}"/>
                                                         <ItemsControl
                                                             Grid.Row="1"
                                                             Grid.Column="1"
@@ -602,7 +601,7 @@
                                                             Grid.Row="0"
                                                             Grid.Column="2"
                                                             Style="{StaticResource BaseTextBlockStyle}"
-                                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarArtifactSetCombinationHeader}"/>
+                                                            Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarArtifactSetCombinationHeader}"/>
                                                         <ItemsControl
                                                             Grid.Row="1"
                                                             Grid.Column="2"
@@ -620,14 +619,14 @@
                                                             <ColumnDefinition/>
                                                         </Grid.ColumnDefinitions>
                                                         <!--  使其有较低的ZOrder  -->
-                                                        <shci:CachedImage Grid.ColumnSpan="2" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarImgConverter}}"/>
+                                                        <shuxci:CachedImage Grid.ColumnSpan="2" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarImgConverter}}"/>
 
                                                         <Border
                                                             Grid.Column="0"
                                                             Margin="16"
                                                             Style="{StaticResource BorderCardStyle}">
                                                             <cwc:ConstrainedBox AspectRatio="320:1024">
-                                                                <shci:CachedImage CornerRadius="{ThemeResource ControlCornerRadius}" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarIconConverter}}"/>
+                                                                <shuxci:CachedImage CornerRadius="{ThemeResource ControlCornerRadius}" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarIconConverter}}"/>
                                                             </cwc:ConstrainedBox>
                                                         </Border>
                                                     </Grid>
@@ -642,7 +641,7 @@
                                                     <Expander
                                                         HorizontalAlignment="Stretch"
                                                         HorizontalContentAlignment="Stretch"
-                                                        Header="{shcm:ResourceString Name=ViewPageWiKiAvatarFoodHeader}"
+                                                        Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarFoodHeader}"
                                                         IsExpanded="True">
                                                         <Grid DataContext="{Binding Selected.CookBonusView}">
                                                             <Grid.RowDefinitions>
@@ -659,7 +658,7 @@
                                                             <TextBlock
                                                                 Grid.Column="0"
                                                                 Style="{StaticResource BaseTextBlockStyle}"
-                                                                Text="{shcm:ResourceString Name=ViewPageWiKiAvatarSpecialFoodTitle}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarSpecialFoodTitle}"/>
                                                             <shvcont:BottomTextControl
                                                                 Grid.Row="1"
                                                                 Grid.Column="0"
@@ -671,7 +670,7 @@
                                                                 Grid.Column="1"
                                                                 Margin="16,0,0,0"
                                                                 Style="{StaticResource BaseTextBlockStyle}"
-                                                                Text="{shcm:ResourceString Name=ViewPageWiKiAvatarOriginalFoodTitle}"/>
+                                                                Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarOriginalFoodTitle}"/>
                                                             <shvcont:BottomTextControl
                                                                 Grid.Row="1"
                                                                 Grid.Column="1"
@@ -708,7 +707,7 @@
                                                     <Expander
                                                         HorizontalAlignment="Stretch"
                                                         HorizontalContentAlignment="Stretch"
-                                                        Header="{shcm:ResourceString Name=ViewPageWiKiAvatarCostumeHeader}"
+                                                        Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarCostumeHeader}"
                                                         IsExpanded="True">
                                                         <ItemsControl
                                                             Margin="0,0,0,-16"
@@ -729,7 +728,7 @@
                                                     </Border.Resources>
                                                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
                                                         <cwc:SettingsExpander
-                                                            Header="{shcm:ResourceString Name=ViewPageWiKiAvatarQuotesHeader}"
+                                                            Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarQuotesHeader}"
                                                             ItemTemplate="{StaticResource FetterStoryTemplate}"
                                                             ItemsSource="{Binding Selected.FetterInfo.Fetters}"/>
                                                     </ScrollViewer>
@@ -747,7 +746,7 @@
                                                     </Border.Resources>
                                                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
                                                         <cwc:SettingsExpander
-                                                            Header="{shcm:ResourceString Name=ViewPageWiKiAvatarStoriesHeader}"
+                                                            Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarStoriesHeader}"
                                                             ItemTemplate="{StaticResource FetterStoryTemplate}"
                                                             ItemsSource="{Binding Selected.FetterInfo.FetterStories}"/>
                                                     </ScrollViewer>
@@ -765,7 +764,7 @@
                         <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                             <Grid Padding="16,16,4,4">
                                 <StackPanel VerticalAlignment="Center" Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
-                                    <shci:CachedImage
+                                    <shuxci:CachedImage
                                         Height="120"
                                         MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
                                         Source="{StaticResource UI_EmotionIcon89}"/>
@@ -773,7 +772,7 @@
                                         Margin="0,5,0,21"
                                         HorizontalAlignment="Center"
                                         Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
+                                        Text="{shuxm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
                                 </StackPanel>
                                 <GridView
                                     HorizontalAlignment="Stretch"
@@ -796,4 +795,4 @@
         </Grid>
         <shvcont:LoadingView IsLoading="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>
-</shc:ScopedPage>
+</shuxc:ScopedPage>

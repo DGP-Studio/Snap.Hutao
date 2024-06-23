@@ -3,4 +3,5 @@
 
 namespace Snap.Hutao.Message;
 
+[Obsolete]
 internal sealed class BackgroundImageTypeChangedMessage;

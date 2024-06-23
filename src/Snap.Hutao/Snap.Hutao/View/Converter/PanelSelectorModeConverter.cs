@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Control;
-using Snap.Hutao.Control.Panel;
+using Snap.Hutao.UI.Xaml.Control;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.View.Converter;
 
@@ -12,15 +12,15 @@ namespace Snap.Hutao.View.Converter;
 /// </summary>
 [DependencyProperty("ListValue", typeof(object))]
 [DependencyProperty("GridValue", typeof(object))]
-internal sealed partial class PanelSelectorModeConverter : DependencyValueConverter<string, object>
+internal sealed partial class LayoutSwitchModeConverter : DependencyValueConverter<string, object>
 {
     /// <inheritdoc/>
     public override object Convert(string from)
     {
         return from switch
         {
-            PanelSelector.List => ListValue,
-            PanelSelector.Grid => GridValue,
+            LayoutSwitch.List => ListValue,
+            LayoutSwitch.Grid => GridValue,
             _ => default!,
         };
     }

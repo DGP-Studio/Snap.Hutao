@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Core.Threading;
 
+[Obsolete]
 internal readonly struct Delay
 {
     /// <summary>

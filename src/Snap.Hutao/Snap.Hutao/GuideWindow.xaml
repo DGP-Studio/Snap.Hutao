@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.View.Guide"
     mc:Ignorable="d">
 
@@ -21,7 +21,7 @@
                 Margin="12,0,0,0"
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{shcm:ResourceString Name=GuideWindowTitle}"
+                Text="{shuxm:ResourceString Name=GuideWindowTitle}"
                 TextWrapping="NoWrap"/>
         </Grid>
         <shvg:GuideView Grid.Row="1"/>

@@ -17,7 +17,7 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.UI.Xaml.Control.Tokenizing;
+using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.User;

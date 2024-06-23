@@ -5,12 +5,12 @@
     xmlns:clw="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shme="using:Snap.Hutao.Model.Entity"
-    Title="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationTitle}"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Title="{shuxm:ResourceString Name=ViewDialogDailyNoteNotificationTitle}"
     d:DataContext="{d:DesignInstance shme:DailyNoteEntry}"
     DefaultButton="Primary"
-    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogSavePrimaryButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogSavePrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <ScrollViewer>
@@ -27,7 +27,7 @@
             <clw:SettingsCard
                 Width="480"
                 Padding="16,8"
-                Header="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationResinNotifyThreshold}">
+                Header="{shuxm:ResourceString Name=ViewDialogDailyNoteNotificationResinNotifyThreshold}">
                 <Slider
                     MinWidth="160"
                     Margin="32,0,0,0"
@@ -35,20 +35,20 @@
                     Minimum="0"
                     Value="{Binding ResinNotifyThreshold, Mode=TwoWay}"/>
             </clw:SettingsCard>
-            <clw:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold}">
+            <clw:SettingsCard Padding="16,8" Header="{shuxm:ResourceString Name=ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold}">
                 <Slider
                     MinWidth="160"
                     Maximum="{Binding DailyNote.MaxHomeCoin}"
                     Minimum="0"
                     Value="{Binding HomeCoinNotifyThreshold, Mode=TwoWay}"/>
             </clw:SettingsCard>
-            <clw:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationTransformerNotify}">
+            <clw:SettingsCard Padding="16,8" Header="{shuxm:ResourceString Name=ViewDialogDailyNoteNotificationTransformerNotify}">
                 <ToggleSwitch IsOn="{Binding TransformerNotify, Mode=TwoWay}"/>
             </clw:SettingsCard>
-            <clw:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationDailyTaskNotify}">
+            <clw:SettingsCard Padding="16,8" Header="{shuxm:ResourceString Name=ViewDialogDailyNoteNotificationDailyTaskNotify}">
                 <ToggleSwitch IsOn="{Binding DailyTaskNotify, Mode=TwoWay}"/>
             </clw:SettingsCard>
-            <clw:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationExpeditionNotify}">
+            <clw:SettingsCard Padding="16,8" Header="{shuxm:ResourceString Name=ViewDialogDailyNoteNotificationExpeditionNotify}">
                 <ToggleSwitch IsOn="{Binding ExpeditionNotify, Mode=TwoWay}"/>
             </clw:SettingsCard>
         </StackPanel>

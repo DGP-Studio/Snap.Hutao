@@ -1,11 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;

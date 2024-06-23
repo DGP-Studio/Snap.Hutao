@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;

@@ -6,9 +6,9 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shci="using:Snap.Hutao.Control.Image"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
@@ -42,7 +42,7 @@
                 HorizontalAlignment="Center"
                 AspectRatio="1080:533"
                 CornerRadius="{ThemeResource ControlCornerRadiusTop}">
-                <shci:CachedImage Source="{Binding Event.Banner}" Stretch="UniformToFill"/>
+                <shuxci:CachedImage Source="{Binding Event.Banner}" Stretch="UniformToFill"/>
             </cwc:ConstrainedBox>
             <Border
                 Margin="-1"
@@ -56,7 +56,7 @@
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource UpPullColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"
+                    Text="{shuxm:ResourceString Name=ViewControlStatisticsCardUpText}"
                     Visibility="{Binding UpItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
@@ -68,7 +68,7 @@
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource OrangeColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
+                    Text="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                     Visibility="{Binding OrangeItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
@@ -80,7 +80,7 @@
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource PurpleColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
+                    Text="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                     Visibility="{Binding PurpleItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"
@@ -92,7 +92,7 @@
                     Margin="0,16,0,8"
                     Foreground="{ThemeResource BlueColorBrush}"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"
+                    Text="{shuxm:ResourceString Name=ViewControlStatisticsCardBlueText}"
                     Visibility="{Binding BlueItems.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                 <ItemsControl
                     ItemTemplate="{StaticResource GridTemplate}"

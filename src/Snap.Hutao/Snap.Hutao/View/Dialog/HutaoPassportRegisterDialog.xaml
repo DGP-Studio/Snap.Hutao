@@ -4,11 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    Title="{shcm:ResourceString Name=ViewDialogHutaoPassportRegisterTitle}"
-    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Title="{shuxm:ResourceString Name=ViewDialogHutaoPassportRegisterTitle}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -16,19 +16,19 @@
         <TextBox
             InputScope="EmailSmtpAddress"
             IsSpellCheckEnabled="False"
-            PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
+            PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportUserNameHint}"
             Text="{x:Bind UserName, Mode=TwoWay}"/>
         <Grid Margin="0,16,0,0" ColumnSpacing="16">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportVerifyCodeHint}" Text="{x:Bind VerifyCode, Mode=TwoWay}"/>
+            <TextBox PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportVerifyCodeHint}" Text="{x:Bind VerifyCode, Mode=TwoWay}"/>
             <Button
                 Grid.Column="1"
                 VerticalAlignment="Stretch"
                 Command="{x:Bind VerifyCommand}"
-                Content="{shcm:ResourceString Name=ViewPageHutaoPassportVerifyCodeAction}"/>
+                Content="{shuxm:ResourceString Name=ViewPageHutaoPassportVerifyCodeAction}"/>
         </Grid>
         <PasswordBox
             Width="360"
@@ -36,11 +36,11 @@
             Margin="0,16,0,0"
             IsEnabled="{x:Bind VerifyCode, Converter={StaticResource StringBoolConverter}, Mode=OneWay}"
             Password="{x:Bind Password, Mode=TwoWay}"
-            PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
+            PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
         <TextBlock
             Margin="0,4,0,0"
             Opacity="0.7"
             Style="{StaticResource CaptionTextBlockStyle}"
-            Text="{shcm:ResourceString Name=ViewPageHutaoPassportPasswordRequirementHint}"/>
+            Text="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordRequirementHint}"/>
     </StackPanel>
 </ContentDialog>

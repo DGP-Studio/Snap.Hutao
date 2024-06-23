@@ -7,10 +7,10 @@
     xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shci="using:Snap.Hutao.Control.Image"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
@@ -47,7 +47,7 @@
                 </ProgressBar>
 
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                    <shci:CachedImage
+                    <shuxci:CachedImage
                         shux:FrameworkElementHelper.SquareLength="40"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
                         Source="{Binding Icon}"/>
@@ -66,13 +66,13 @@
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
                         Foreground="{StaticResource GuaranteePullColorBrush}"
-                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardGuaranteeText}"
+                        Text="{shuxm:ResourceString Name=ViewControlStatisticsCardGuaranteeText}"
                         Visibility="{Binding IsGuarantee, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <TextBlock
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
                         Foreground="{StaticResource UpPullColorBrush}"
-                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"
+                        Text="{shuxm:ResourceString Name=ViewControlStatisticsCardUpText}"
                         Visibility="{Binding IsUp, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                     <TextBlock
@@ -153,7 +153,7 @@
                             FontSize="20"
                             Text="{Binding TotalCountFormatted}"
                             Visibility="{x:Bind DetailExpander.IsExpanded, Converter={StaticResource BoolToVisibilityRevertConverter}, Mode=OneWay}"/>
-                        <shcp:PanelSelector
+                        <shuxc:LayoutSwitch
                             x:Name="ItemsPanelSelector"
                             Margin="6,0,0,0"
                             Current="Grid"
@@ -175,7 +175,7 @@
                         <TextBlock
                             Margin="12,0,0,12"
                             VerticalAlignment="Bottom"
-                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardPullText}"/>
+                            Text="{shuxm:ResourceString Name=ViewControlStatisticsCardPullText}"/>
                     </StackPanel>
 
                     <Grid ColumnSpacing="4">
@@ -187,7 +187,7 @@
                             Grid.Column="0"
                             MinHeight="32"
                             Description="{Binding LastOrangePull}"
-                            Header="{shcm:ResourceString Name=ViewControlStatisticsCardToLastOrangeText}"
+                            Header="{shuxm:ResourceString Name=ViewControlStatisticsCardToLastOrangeText}"
                             Maximum="{Binding GuaranteeOrangeThreshold}"
                             ProgressForeground="{StaticResource OrangeColorBrush}"
                             TextForeground="{StaticResource OrangeColorBrush}"
@@ -196,7 +196,7 @@
                             Grid.Column="1"
                             MinHeight="32"
                             Description="{Binding LastPurplePull}"
-                            Header="{shcm:ResourceString Name=ViewControlStatisticsCardToLastPurpleText}"
+                            Header="{shuxm:ResourceString Name=ViewControlStatisticsCardToLastPurpleText}"
                             Maximum="{Binding GuaranteePurpleThreshold}"
                             ProgressForeground="{StaticResource PurpleColorBrush}"
                             TextForeground="{StaticResource PurpleColorBrush}"
@@ -230,7 +230,7 @@
                     Height="96"
                     Padding="0,12"
                     Value="{x:Bind StatisticsSegmented.SelectedIndex, Mode=OneWay}">
-                    <cwcont:Case Value="{shcm:Int32 Value=0}">
+                    <cwcont:Case Value="{shuxm:Int32 Value=0}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -245,7 +245,7 @@
                                         <TextBlock
                                             Opacity="0.8"
                                             Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeAveragePullText}"/>
+                                            Text="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeAveragePullText}"/>
                                         <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding AverageOrangePullFormatted}"/>
                                     </StackPanel>
                                 </Viewbox>
@@ -260,7 +260,7 @@
                                             <TextBlock
                                                 Opacity="0.8"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpAveragePullText}"/>
+                                                Text="{shuxm:ResourceString Name=ViewControlStatisticsCardUpAveragePullText}"/>
                                             <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding AverageUpOrangePullFormatted}"/>
                                         </StackPanel>
                                         <TextBlock
@@ -299,7 +299,7 @@
                             </Grid>
                         </Grid>
                     </cwcont:Case>
-                    <cwcont:Case Value="{shcm:Int32 Value=1}">
+                    <cwcont:Case Value="{shuxm:Int32 Value=1}">
                         <Grid ColumnSpacing="4">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -314,7 +314,7 @@
                                     <TextBlock
                                         Foreground="{StaticResource OrangeColorBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
+                                        Text="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                                     <Viewbox StretchDirection="DownOnly">
                                         <TextBlock Foreground="{StaticResource OrangeColorBrush}" Text="{Binding TotalOrangeFormatted}"/>
                                     </Viewbox>
@@ -328,7 +328,7 @@
                                     <TextBlock
                                         Foreground="{StaticResource PurpleColorBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
+                                        Text="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                                     <Viewbox StretchDirection="DownOnly">
                                         <TextBlock Foreground="{StaticResource PurpleColorBrush}" Text="{Binding TotalPurpleFormatted}"/>
                                     </Viewbox>
@@ -342,7 +342,7 @@
                                     <TextBlock
                                         Foreground="{StaticResource BlueColorBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
+                                        Text="{shuxm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
                                     <Viewbox StretchDirection="DownOnly">
                                         <TextBlock Foreground="{StaticResource BlueColorBrush}" Text="{Binding TotalBlueFormatted}"/>
                                     </Viewbox>
@@ -350,7 +350,7 @@
                             </Grid>
                         </Grid>
                     </cwcont:Case>
-                    <cwcont:Case Value="{shcm:Int32 Value=2}">
+                    <cwcont:Case Value="{shuxm:Int32 Value=2}">
                         <Grid RowSpacing="4">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>

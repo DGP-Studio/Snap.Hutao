@@ -10,29 +10,22 @@ using static Snap.Hutao.Win32.Kernel32;
 
 namespace Snap.Hutao.Service.Game.Unlocker;
 
-/// <summary>
-/// 游戏帧率解锁器
-/// Credit to https://github.com/34736384/genshin-fps-unlock
-/// </summary>
-[HighQuality]
-internal sealed class GameFpsUnlocker : IGameFpsUnlocker
+internal abstract class GameFpsUnlocker : IGameFpsUnlocker
 {
-    private readonly ILogger<GameFpsUnlocker> logger;
     private readonly LaunchOptions launchOptions;
     private readonly GameFpsUnlockerContext context = new();
 
     public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, in UnlockOptions options, IProgress<GameFpsUnlockerContext> progress)
     {
-        logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
 
         context.GameProcess = gameProcess;
         context.AllAccess = OpenProcess(PROCESS_ACCESS_RIGHTS.PROCESS_ALL_ACCESS, false, (uint)gameProcess.Id);
         context.Options = options;
         context.Progress = progress;
+        context.Logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
     }
 
-    /// <inheritdoc/>
     public async ValueTask<bool> UnlockAsync(CancellationToken token = default)
     {
         HutaoException.ThrowIfNot(context.IsUnlockerValid, "This Unlocker is invalid");
@@ -49,40 +42,12 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         return context.FpsAddress != 0U;
     }
 
-    public async ValueTask PostUnlockAsync(CancellationToken token = default)
+    public ValueTask PostUnlockAsync(CancellationToken token = default)
     {
-        using (PeriodicTimer timer = new(context.Options.AdjustFpsDelay))
-        {
-            while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
-            {
-                if (!context.GameProcess.HasExited && context.FpsAddress != 0U)
-                {
-                    UnsafeWriteProcessMemory(context.AllAccess, context.FpsAddress, launchOptions.TargetFps);
-                    WIN32_ERROR error = GetLastError();
-                    if (error is not WIN32_ERROR.NO_ERROR)
-                    {
-                        logger.LogError("Failed to WriteProcessMemory at FpsAddress, error code 0x{Code:X8}", error);
-                        context.Description = SH.FormatServiceGameUnlockerWriteProcessMemoryFpsAddressFailed(error);
-                    }
-
-                    context.Report();
-                }
-                else
-                {
-                    context.IsUnlockerValid = false;
-                    context.FpsAddress = 0;
-                    context.Report();
-                    return;
-                }
-            }
-        }
+        return PostUnlockOverrideAsync(context, launchOptions, context.Logger, token);
     }
 
-    [SuppressMessage("", "SH002")]
-    private static unsafe bool UnsafeWriteProcessMemory(HANDLE hProcess, nuint baseAddress, int value)
-    {
-        return WriteProcessMemory(hProcess, (void*)baseAddress, ref value, out _);
-    }
+    protected abstract ValueTask PostUnlockOverrideAsync(GameFpsUnlockerContext context, LaunchOptions launchOptions, ILogger logger, CancellationToken token = default);
 
     private static RequiredLocalModule LoadRequiredLocalModule(GameFileSystem gameFileSystem)
     {

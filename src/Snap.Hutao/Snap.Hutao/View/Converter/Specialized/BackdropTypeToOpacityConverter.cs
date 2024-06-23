@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control;
 using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.View.Converter.Specialized;
 
