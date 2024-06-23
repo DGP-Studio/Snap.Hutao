@@ -7,6 +7,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game.PathAbstraction;
+using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Win32.Graphics.Gdi;
 using System.Collections.Immutable;
 using System.Globalization;
@@ -38,6 +39,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private int? screenHeight;
     private bool? isScreenHeightEnabled;
     private bool? unlockFps;
+    private GameFpsUnlockerKind? unlockerKind;
     private int? targetFps;
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
@@ -165,6 +167,12 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref unlockFps, SettingEntry.LaunchUnlockFps);
         set => SetOption(ref unlockFps, SettingEntry.LaunchUnlockFps, value);
+    }
+
+    public GameFpsUnlockerKind UnlockerKind
+    {
+        get => GetOption(ref unlockerKind, SettingEntry.LaunchUnlockerKind, EnumParse<GameFpsUnlockerKind>, GameFpsUnlockerKind.Legacy).Value;
+        set => SetOption(ref unlockerKind, SettingEntry.LaunchUnlockerKind, value, EnumToStringOrEmpty);
     }
 
     public int TargetFps

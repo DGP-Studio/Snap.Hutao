@@ -6,12 +6,14 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics.CodeAnalysis;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
@@ -69,7 +71,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
-    [AlsoAsyncSets(nameof(GamePackage), nameof(GameAccountsView))]
     public LaunchScheme? SelectedScheme
     {
         get => selectedScheme;

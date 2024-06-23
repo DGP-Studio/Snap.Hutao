@@ -18,6 +18,18 @@ internal abstract partial class DbStoreOptions : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
 
+    protected static T? EnumParse<T>(string input)
+        where T : struct, Enum
+    {
+        return Enum.Parse<T>(input);
+    }
+
+    protected static string EnumToStringOrEmpty<T>(T? input)
+        where T : struct, Enum
+    {
+        return input.ToStringOrEmpty();
+    }
+
     protected string GetOption(ref string? storage, string key, string defaultValue = "")
     {
         return GetOption(ref storage, key, () => defaultValue);
