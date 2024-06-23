@@ -44,7 +44,7 @@ internal sealed partial class IdentifyMonitorWindow : Window
             window.Activate();
         }
 
-        await Delay.FromSeconds(secondsDelay).ConfigureAwait(true);
+        await Task.Delay(TimeSpan.FromSeconds(secondsDelay)).ConfigureAwait(true);
 
         foreach (IdentifyMonitorWindow window in windows)
         {

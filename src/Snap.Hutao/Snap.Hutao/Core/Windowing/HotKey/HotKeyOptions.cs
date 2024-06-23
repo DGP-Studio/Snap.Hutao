@@ -120,19 +120,19 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
     {
         lock (syncRoot)
         {
-            if (IsMouseClickRepeatForeverOn)
+            if (MouseClickRepeatForeverKeyCombination.IsOn)
             {
                 // Turn off
                 cancellationTokenSource?.Cancel();
                 cancellationTokenSource = default;
-                IsMouseClickRepeatForeverOn = false;
+                MouseClickRepeatForeverKeyCombination.IsOn = false;
             }
             else
             {
                 // Turn on
                 cancellationTokenSource = new();
                 ThreadPool.QueueUserWorkItem(RunMouseClickRepeatForever, cancellationTokenSource.Token);
-                IsMouseClickRepeatForeverOn = true;
+                MouseClickRepeatForeverKeyCombination.IsOn = true;
             }
         }
     }

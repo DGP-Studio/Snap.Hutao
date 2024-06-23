@@ -9,10 +9,10 @@ namespace Snap.Hutao.Win32.UI.Input.KeyboardAndMouse;
 internal struct INPUT
 {
     public INPUT_TYPE type;
-    public AnonymousUnion Anonymous;
+    public Union Anonymous;
 
     [StructLayout(LayoutKind.Explicit)]
-    internal struct AnonymousUnion
+    internal struct Union
     {
         [FieldOffset(0)]
         public MOUSEINPUT mi;

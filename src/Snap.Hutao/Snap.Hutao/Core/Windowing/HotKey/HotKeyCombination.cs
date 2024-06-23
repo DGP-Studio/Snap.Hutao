@@ -33,6 +33,7 @@ internal sealed class HotKeyCombination : ObservableObject
     private HOT_KEY_MODIFIERS modifiers;
     private VirtualKey key;
     private bool isEnabled;
+    private bool isOn;
 
     [SuppressMessage("", "SH002")]
     public HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VirtualKey defaultKey)
@@ -160,6 +161,12 @@ internal sealed class HotKeyCombination : ObservableObject
                 };
             }
         }
+    }
+
+    public bool IsOn
+    {
+        get => isOn;
+        set => SetProperty(ref isOn, value);
     }
 
     public string DisplayName { get => ToString(); }

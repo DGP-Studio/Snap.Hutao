@@ -18,7 +18,6 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.ViewModel.Guide;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Core.LifeCycle;
 

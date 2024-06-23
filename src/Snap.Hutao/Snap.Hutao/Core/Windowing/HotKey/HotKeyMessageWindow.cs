@@ -8,6 +8,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.User32;
+using static Snap.Hutao.Win32.Kernel32;
+using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Core.Windowing.HotKey;
 
@@ -39,7 +41,7 @@ internal sealed class HotKeyMessageWindow : IDisposable
 
         if (HWND == default)
         {
-            Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
         }
 
         WindowTable.TryAdd(HWND, this);

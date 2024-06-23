@@ -24,10 +24,6 @@ internal static class TaskExtension
         return new(task);
     }
 
-    /// <summary>
-    /// 安全的触发任务
-    /// </summary>
-    /// <param name="task">任务</param>
     public static async void SafeForget(this Task task)
     {
         try
@@ -54,11 +50,6 @@ internal static class TaskExtension
 #endif
     }
 
-    /// <summary>
-    /// 安全的触发任务
-    /// </summary>
-    /// <param name="task">任务</param>
-    /// <param name="logger">日志器</param>
     public static async void SafeForget(this Task task, ILogger logger)
     {
         try
@@ -71,16 +62,10 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), ExceptionFormat.Format(e.GetBaseException()));
+            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
         }
     }
 
-    /// <summary>
-    /// 安全的触发任务
-    /// </summary>
-    /// <param name="task">任务</param>
-    /// <param name="logger">日志器</param>
-    /// <param name="onException">发生异常时调用</param>
     public static async void SafeForget(this Task task, ILogger logger, Action<Exception> onException)
     {
         try
@@ -93,18 +78,11 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), ExceptionFormat.Format(e.GetBaseException()));
+            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
             onException?.Invoke(e);
         }
     }
 
-    /// <summary>
-    /// 安全的触发任务
-    /// </summary>
-    /// <param name="task">任务</param>
-    /// <param name="logger">日志器</param>
-    /// <param name="onCanceled">任务取消时调用</param>
-    /// <param name="onException">发生异常时调用</param>
     public static async void SafeForget(this Task task, ILogger logger, Action onCanceled, Action<Exception>? onException = null)
     {
         try
@@ -117,15 +95,11 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), ExceptionFormat.Format(e.GetBaseException()));
+            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
             onException?.Invoke(e);
         }
     }
 
-    /// <summary>
-    /// 安全的触发任务
-    /// </summary>
-    /// <param name="task">任务</param>
     public static async void SafeForget(this ValueTask task)
     {
         try
@@ -152,11 +126,6 @@ internal static class TaskExtension
 #endif
     }
 
-    /// <summary>
-    /// 安全的触发任务
-    /// </summary>
-    /// <param name="task">任务</param>
-    /// <param name="logger">日志器</param>
     public static async void SafeForget(this ValueTask task, ILogger logger)
     {
         try
@@ -169,16 +138,10 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), ExceptionFormat.Format(e.GetBaseException()));
+            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
         }
     }
 
-    /// <summary>
-    /// 安全的触发任务
-    /// </summary>
-    /// <param name="task">任务</param>
-    /// <param name="logger">日志器</param>
-    /// <param name="onException">发生异常时调用</param>
     public static async void SafeForget(this ValueTask task, ILogger logger, Action<Exception> onException)
     {
         try
@@ -191,18 +154,11 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), ExceptionFormat.Format(e.GetBaseException()));
+            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
             onException?.Invoke(e);
         }
     }
 
-    /// <summary>
-    /// 安全的触发任务
-    /// </summary>
-    /// <param name="task">任务</param>
-    /// <param name="logger">日志器</param>
-    /// <param name="onCanceled">任务取消时调用</param>
-    /// <param name="onException">发生异常时调用</param>
     public static async void SafeForget(this ValueTask task, ILogger logger, Action onCanceled, Action<Exception>? onException = null)
     {
         try
@@ -215,7 +171,7 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), ExceptionFormat.Format(e.GetBaseException()));
+            logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
             onException?.Invoke(e);
         }
     }

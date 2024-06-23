@@ -5,18 +5,12 @@ using Microsoft.UI.Dispatching;
 
 namespace Snap.Hutao.Core.Threading;
 
-/// <summary>
-/// 任务上下文
-/// </summary>
 [Injection(InjectAs.Singleton, typeof(ITaskContext))]
 internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
 {
     private readonly DispatcherQueueSynchronizationContext synchronizationContext;
     private readonly DispatcherQueue dispatcherQueue;
 
-    /// <summary>
-    /// 构造一个新的任务上下文
-    /// </summary>
     public TaskContext()
     {
         dispatcherQueue = DispatcherQueue.GetForCurrentThread();
@@ -26,25 +20,21 @@ internal sealed class TaskContext : ITaskContext, ITaskContextUnsafe
 
     public DispatcherQueue DispatcherQueue { get => dispatcherQueue; }
 
-    /// <inheritdoc/>
     public ThreadPoolSwitchOperation SwitchToBackgroundAsync()
     {
         return new(dispatcherQueue);
     }
 
-    /// <inheritdoc/>
     public DispatcherQueueSwitchOperation SwitchToMainThreadAsync()
     {
         return new(dispatcherQueue);
     }
 
-    /// <inheritdoc/>
     public void InvokeOnMainThread(Action action)
     {
         dispatcherQueue.Invoke(action);
     }
 
-    /// <inheritdoc/>
     public T InvokeOnMainThread<T>(Func<T> action)
     {
         return dispatcherQueue.Invoke(action);

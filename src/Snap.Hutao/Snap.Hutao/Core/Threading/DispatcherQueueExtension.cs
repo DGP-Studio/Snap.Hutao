@@ -6,17 +6,9 @@ using System.Runtime.ExceptionServices;
 
 namespace Snap.Hutao.Core.Threading;
 
-/// <summary>
-/// 调度器队列拓展
-/// </summary>
 [HighQuality]
 internal static class DispatcherQueueExtension
 {
-    /// <summary>
-    /// 在调度器队列同步调用，直到执行结束，会持续阻塞当前线程
-    /// </summary>
-    /// <param name="dispatcherQueue">调度器队列</param>
-    /// <param name="action">执行的回调</param>
     public static void Invoke(this DispatcherQueue dispatcherQueue, Action action)
     {
         if (dispatcherQueue.HasThreadAccess)
@@ -49,13 +41,6 @@ internal static class DispatcherQueueExtension
         }
     }
 
-    /// <summary>
-    /// 在调度器队列同步调用，直到执行结束，会持续阻塞当前线程
-    /// </summary>
-    /// <param name="dispatcherQueue">调度器队列</param>
-    /// <param name="action">执行的回调</param>
-    /// <typeparam name="T">返回类型</typeparam>
-    /// <returns>回调返回值</returns>
     public static T Invoke<T>(this DispatcherQueue dispatcherQueue, Func<T> action)
     {
         T result = default!;
