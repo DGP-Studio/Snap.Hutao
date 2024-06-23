@@ -26,7 +26,7 @@ internal sealed class DefaultGameFpsUnlocker : GameFpsUnlocker
                     WIN32_ERROR error = GetLastError();
                     if (error is not WIN32_ERROR.NO_ERROR)
                     {
-                        logger.LogError("Failed to WriteProcessMemory at FpsAddress, error code 0x{Code:X8}", error);
+                        logger.LogError("Failed to WriteProcessMemory at FpsAddress, error code 0x{Code:X8}", (uint)error);
                         context.Description = SH.FormatServiceGameUnlockerWriteProcessMemoryFpsAddressFailed(error);
                     }
 
