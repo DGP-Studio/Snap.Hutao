@@ -3054,7 +3054,7 @@
     <value>(?:(?:::= time for active participants|people for job open time).*?(?:(\d\.\d) update (?:complete|)|&amp;lt;t class="t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt; *?))</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓活动时间〓.*?(\d\.\d)版本期间持续开放</value>
+    <value>〓Event Duration〓.*?Available throughout the entirety of Version (\d\.\d)</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
     <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d)版本更新后.*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
