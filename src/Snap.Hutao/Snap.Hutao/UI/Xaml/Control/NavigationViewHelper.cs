@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.Control.Helper;
+namespace Snap.Hutao.UI.Xaml.Control;
 
 [SuppressMessage("", "SH001")]
 [DependencyProperty("PaneCornerRadius", typeof(CornerRadius), default, nameof(OnPaneCornerRadiusChanged), IsAttached = true, AttachedType = typeof(NavigationView))]
@@ -18,18 +18,23 @@ public sealed partial class NavigationViewHelper
 
         if (navigationView.IsLoaded)
         {
-            SetNavigationViewPaneCornerRadius(navigationView, newValue);
+            SetLoadedNavigationViewPaneCornerRadius(navigationView, newValue);
             return;
         }
 
-        navigationView.Loaded += (s, e) =>
-        {
-            NavigationView loadedNavigationView = (NavigationView)s;
-            SetNavigationViewPaneCornerRadius(loadedNavigationView, newValue);
-        };
+        navigationView.Loaded += SetNavigationViewPaneCornerRadius;
     }
 
-    private static void SetNavigationViewPaneCornerRadius(NavigationView navigationView, CornerRadius value)
+    private static void SetNavigationViewPaneCornerRadius(object sender, RoutedEventArgs args)
+    {
+        NavigationView navigationView = (NavigationView)sender;
+        CornerRadius value = GetPaneCornerRadius(navigationView);
+        SetLoadedNavigationViewPaneCornerRadius(navigationView, value);
+
+        navigationView.Loaded -= SetNavigationViewPaneCornerRadius;
+    }
+
+    private static void SetLoadedNavigationViewPaneCornerRadius(NavigationView navigationView, CornerRadius value)
     {
         if (navigationView.FindDescendant("RootSplitView") is SplitView splitView)
         {

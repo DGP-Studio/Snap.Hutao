@@ -1,11 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using System.Diagnostics;
 
-namespace Snap.Hutao.Control.Extension;
+namespace Snap.Hutao.Web.WebView2;
 
 /// <summary>
 /// Bridge 拓展
@@ -39,7 +38,7 @@ internal static class WebView2Extension
         }
     }
 
-    public static bool IsDisposed(this WebView2 webView2)
+    public static bool IsDisposed(this Microsoft.UI.Xaml.Controls.WebView2 webView2)
     {
         return WinRTExtension.IsDisposed(webView2);
     }

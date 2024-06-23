@@ -6,9 +6,9 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
@@ -19,7 +19,7 @@
         <DataTemplate x:Key="GridTemplate" d:DataType="shvg:StatisticsItem">
             <shvcont:BottomTextControl Text="{Binding Count}" TextStyle="{StaticResource CaptionTextBlockStyle}">
                 <shvcont:ItemIcon
-                    shch:FrameworkElementHelper.SquareLength="40"
+                    shux:FrameworkElementHelper.SquareLength="40"
                     Icon="{Binding Icon}"
                     Quality="{Binding Quality}"/>
             </shvcont:BottomTextControl>

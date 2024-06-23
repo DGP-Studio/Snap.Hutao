@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
@@ -14,6 +13,7 @@ using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
@@ -152,7 +152,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
             GachaLogRefreshProgressDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>().ConfigureAwait(false);
 
-            ContentDialogHideToken hideToken;
+            ContentDialogScope hideToken;
             try
             {
                 hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);

@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;

@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.View.Dialog;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 

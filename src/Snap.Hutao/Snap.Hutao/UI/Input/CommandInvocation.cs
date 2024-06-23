@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Control.Extension;
+namespace Snap.Hutao.UI.Input;
 
 internal static class CommandInvocation
 {

@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Data;
 using System.Collections;
 
-namespace Snap.Hutao.Control.Collection.AdvancedCollectionView;
+namespace Snap.Hutao.UI.Xaml.Data;
 
 internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
     where T : class

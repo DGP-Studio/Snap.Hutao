@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     Style="{ThemeResource GridCardStyle}"
     mc:Ignorable="d">
 
     <StackPanel VerticalAlignment="Center">
-        <shci:CachedImage shch:FrameworkElementHelper.SquareLength="{x:Bind IconSquareLength}" Source="{x:Bind ImageSource, Mode=OneWay}"/>
+        <shci:CachedImage shux:FrameworkElementHelper.SquareLength="{x:Bind IconSquareLength}" Source="{x:Bind ImageSource, Mode=OneWay}"/>
         <TextBlock
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -21,7 +21,7 @@
         Margin="8"
         HorizontalAlignment="Right"
         VerticalAlignment="Top"
-        shch:FrameworkElementHelper.SquareLength="8"
+        shux:FrameworkElementHelper.SquareLength="8"
         Style="{ThemeResource AttentionDotInfoBadgeStyle}"
         Visibility="{x:Bind IsDotVisible, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
 </Grid>

@@ -9,10 +9,10 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shva="using:Snap.Hutao.ViewModel.Achievement"
     d:DataContext="{d:DesignInstance shva:AchievementViewModel}"
@@ -159,7 +159,7 @@
                             Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         <shci:CachedImage
                             Grid.Column="2"
-                            shch:FrameworkElementHelper.SquareLength="32"
+                            shux:FrameworkElementHelper.SquareLength="32"
                             Source="{StaticResource UI_ItemIcon_201}"/>
                         <TextBlock
                             Grid.Column="3"

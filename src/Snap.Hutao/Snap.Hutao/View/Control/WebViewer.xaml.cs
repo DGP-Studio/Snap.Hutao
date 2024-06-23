@@ -5,12 +5,12 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Message;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
+using Snap.Hutao.Web.WebView2;
 using Windows.Foundation;
 
 namespace Snap.Hutao.View.Control;

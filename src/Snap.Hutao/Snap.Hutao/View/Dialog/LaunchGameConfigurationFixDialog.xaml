@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shccs="using:Snap.Hutao.Control.Collection.Selector"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shvd="using:Snap.Hutao.View.Dialog"
     Title="{shcm:ResourceString Name=ViewDialogLaunchGameConfigurationFixDialogTitle}"
     d:DataContext="{d:DesignInstance shvd:LaunchGameConfigurationFixDialog}"
@@ -14,7 +14,7 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <shccs:ComboBox2
+    <shuxc:ComboBox2
         HorizontalAlignment="Stretch"
         VerticalAlignment="Center"
         DisplayMemberPath="DisplayName"

@@ -13,7 +13,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using NotifyCollectionChangedAction = System.Collections.Specialized.NotifyCollectionChangedAction;
 
-namespace Snap.Hutao.Control.Collection.AdvancedCollectionView;
+namespace Snap.Hutao.UI.Xaml.Data;
 
 internal sealed class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<object>
     where T : class

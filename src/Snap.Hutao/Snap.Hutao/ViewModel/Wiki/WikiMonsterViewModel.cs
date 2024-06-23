@@ -1,12 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 

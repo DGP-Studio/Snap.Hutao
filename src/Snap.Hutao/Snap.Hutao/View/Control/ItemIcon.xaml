@@ -4,17 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
-    shch:FrameworkElementHelper.SquareLength="80"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    shux:FrameworkElementHelper.SquareLength="80"
     mc:Ignorable="d">
     <UserControl.Resources>
         <shmmc:QualityConverter x:Key="QualityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid CornerRadius="{StaticResource ControlCornerRadius}">
-            <!--  Disable some CachedImage's LazyLoading function here can increase response speed  -->
             <shci:CachedImage Source="{x:Bind Quality, Converter={StaticResource QualityConverter}, Mode=OneWay}"/>
             <shci:CachedImage Source="{StaticResource UI_ImgSign_ItemIcon}"/>
             <shci:CachedImage Source="{x:Bind Icon, Mode=OneWay}"/>
@@ -22,7 +21,7 @@
                 Margin="2"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                shch:FrameworkElementHelper.SquareLength="16"
+                shux:FrameworkElementHelper.SquareLength="16"
                 Source="{x:Bind Badge, Mode=OneWay}"/>
         </Grid>
     </Grid>

@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Snap.Hutao.Control.Helper;
+namespace Snap.Hutao.UI.Xaml;
 
 [SuppressMessage("", "SH001")]
 [DependencyProperty("VisibilityObject", typeof(object), null, nameof(OnVisibilityObjectChanged), IsAttached = true, AttachedType = typeof(UIElement))]

@@ -1,11 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Data;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Game;

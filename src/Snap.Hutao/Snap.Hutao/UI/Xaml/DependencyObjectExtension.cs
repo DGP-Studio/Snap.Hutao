@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using System.Runtime.CompilerServices;
 
-namespace Snap.Hutao.Control.Extension;
+namespace Snap.Hutao.UI.Xaml;
 
 internal static class DependencyObjectExtension
 {

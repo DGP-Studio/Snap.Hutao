@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
@@ -12,6 +11,7 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 

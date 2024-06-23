@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Snap.Hutao.Control.Extension;
+namespace Snap.Hutao.UI.Xaml;
 
 internal static class FrameworkElementExtension
 {
