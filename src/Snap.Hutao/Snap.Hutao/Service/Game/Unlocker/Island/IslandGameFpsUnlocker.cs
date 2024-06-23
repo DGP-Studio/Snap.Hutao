@@ -38,12 +38,10 @@ internal sealed class IslandGameFpsUnlocker : GameFpsUnlocker
                     while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
                     {
                         context.Logger.LogInformation("context.GameProcess.HasExited: {Value}", context.GameProcess.HasExited);
-                        context.Logger.LogInformation("context.FpsAddress: {Value}", context.FpsAddress);
                         if (!context.GameProcess.HasExited && context.FpsAddress != 0U)
                         {
                             IslandState state = UpdateIslandEnvironment(handle, context, launchOptions);
                             context.Logger.LogDebug("Island Environment State: {State}", state);
-
                             context.Report();
                         }
                         else
