@@ -548,10 +548,10 @@
     <value>Уровень совершенствования {0}</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>Нужно войти в систему MiYouShe / HoYoLAB и выбрать пользователя и роль</value>
+    <value>Необходимо войти в учетную запись miHoYo/HoYoLAB и выбрать пользователя с персонажем</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>Удалено {1} записей о молитвах UID {0}</value>
+    <value>Удален Uid: {0} из {1} записи пожеланий</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
     <value>Достигнуто максимально допустимое количество архивов истории желаний в облаке Snap Hutao</value>
@@ -566,7 +566,7 @@
     <value>Данные некорректны, не удается сохранить в облако. Пожалуйста, не загружайте через другие аккаунты или попробуйте удалить данные в облаке и повторите попытку</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>Загружено {1} записей о молитвах, {2} записей сохранено. UID: {0}</value>
+    <value>Загружено Uid: {0} из {1} записи желаний, Сохранено {2} записей</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>Пожалуйста, сначала войдите или зарегистрируйтесь Snap Hutao аккаунт</value>
@@ -617,7 +617,7 @@
     <value>Слишком частые запросы проверки, пожалуйста, повторите через 1 минуту</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>Не удалось загрузить записи истории прохождения бездны в облако, текущий UID заблокирован в базе данных Snap Hutao</value>
+    <value>Не удалось загрузить записи из Бездны, текущий Uid заблокирован в базе данных Walnut</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
     <value>Не удалось загрузить записи из Бездны, выполняется подсчет статистики</value>
@@ -632,13 +632,13 @@
     <value>Не удалось загрузить записи из Бездны, обнаружены недопустимые данные</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
-    <value>Invalid UID</value>
+    <value>Недопустимый Uid</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
     <value>Не удалось загрузить записи из Бездны, это не текущие данные</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>Не удалось загрузить записи истории прохождения бездны в облако, предыдущий запрос все ещё обрабатывается. Пожалуйста, подождите.</value>
+    <value>Не удалось загрузить записи из Бездны, записи для текущего Uid все еще обрабатываются. Пожалуйста, не повторяйте операцию</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
     <value>Загрузка записей из Бездны успешна, выдан срок обслуживания загрузки записей о желаниях</value>
@@ -1547,10 +1547,10 @@
     <value>养成计划添加失败</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>操作完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>操作完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>操作未全部完成：添加 / 更新：{0} 个，跳过 {1} 个</value>
+    <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功添加至当前养成计划</value>
@@ -2075,10 +2075,10 @@
     <value>前往爱发电购买相关服务</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>Покупка / продление облачных сервисов</value>
+    <value>购买/续费云服务</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>Удаление архива этого UID в облаке</value>
+    <value>删除此 Uid 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>开发者账号无视服务到期时间</value>
@@ -2087,7 +2087,7 @@
     <value>胡桃云服务时长不足</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>下载此 UID 的云端存档</value>
+    <value>下载此 Uid 的云端存档</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>每期深渊首次上传可免费获得 3 天时长</value>
@@ -2414,7 +2414,7 @@
     <value>Переименовать</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>Переключение сервера игры (CN / Bilibili / Global)</value>
+    <value>切换游戏服务器（国服/渠道服/国际服）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>Сервер</value>
@@ -2423,7 +2423,7 @@
     <value>版本更新前需要提前转换至与启动器匹配的服务器</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率</value>
+    <value>请在游戏内关闭垂直同步选项，需要高性能的显卡以支持更高的帧率</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>Разблокировать ограничение частоты кадров</value>
@@ -2441,7 +2441,7 @@
     <value>Windows HDR</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>Пожалуйста, введите ваш UID в HoYoLab</value>
+    <value>请输入你的 HoYoLab Uid</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
     <value>Вы используете встроенный браузер для захода в аккаунт MiHoYo. Когда Вы нажмёте "Я зашёл", Snap Hutao возьмёт информацию для логина из cookie браузера. Эта информация не передается на наши сервера и остается на вашем устройстве.</value>
@@ -2519,7 +2519,7 @@
     <value>除非开发人员明确要求你这么做，否则不应尝试执行下方的操作！</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>用户数据 / 元数据 在此处存放</value>
+    <value>用户数据/元数据 在此处存放</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
     <value>数据 文件夹</value>
@@ -2597,7 +2597,7 @@
     <value>选择想要获取公告的游戏服务器</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>游戏公告所属服务器</value>
+    <value>公告所属服务器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>管理主页仪表板中的卡片</value>
@@ -2654,7 +2654,7 @@
     <value>您可以无限制的使用任何测试功能</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃开发 / 运维</value>
+    <value>胡桃开发/运维</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>我们有时会向某些用户赠送胡桃云兑换码</value>
@@ -2711,7 +2711,7 @@
     <value>重置图片资源</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在「启动游戏-进程」选项卡加入「解锁帧率限制」选项</value>
+    <value>在启动游戏页面的进程部分加入解锁帧率限制选项</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>启动游戏-解锁帧率限制</value>
@@ -2759,7 +2759,7 @@
     <value>贡献翻译</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在「祈愿记录-角色」与「祈愿记录-武器」中显示未抽取到的祈愿物品</value>
+    <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽取到的祈愿物品</value>
