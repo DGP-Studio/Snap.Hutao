@@ -13,11 +13,11 @@
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxma="using:Snap.Hutao.UI.Xaml.Media.Animation"
     xmlns:shvco="using:Snap.Hutao.View.Control"
-    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
     d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -195,7 +195,7 @@
             </InfoBar>
         </DataTemplate>
 
-        <DataTemplate x:Key="CardTemplate" x:DataType="shvcp:CardReference">
+        <DataTemplate x:Key="CardTemplate" x:DataType="shuxcc:CardReference">
             <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <ItemContainer.Resources>
                     <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>

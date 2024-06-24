@@ -6,9 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     Padding="0"
     HorizontalAlignment="Stretch"
@@ -64,7 +64,7 @@
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"/>
 
-                    <shvcp:CardProgressBar
+                    <shuxcc:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastOrangePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
@@ -72,7 +72,7 @@
                         ProgressForeground="{StaticResource OrangeColorBrush}"
                         TextForeground="{StaticResource OrangeColorBrush}"
                         Value="{Binding LastOrangePull, Mode=OneWay}"/>
-                    <shvcp:CardProgressBar
+                    <shuxcc:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastPurplePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
@@ -96,7 +96,7 @@
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"/>
 
-                    <shvcp:CardProgressBar
+                    <shuxcc:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastOrangePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
@@ -104,7 +104,7 @@
                         ProgressForeground="{StaticResource OrangeColorBrush}"
                         TextForeground="{StaticResource OrangeColorBrush}"
                         Value="{Binding LastOrangePull}"/>
-                    <shvcp:CardProgressBar
+                    <shuxcc:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastPurplePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
@@ -127,7 +127,7 @@
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"/>
 
-                    <shvcp:CardProgressBar
+                    <shuxcc:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastOrangePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
@@ -135,7 +135,7 @@
                         ProgressForeground="{StaticResource OrangeColorBrush}"
                         TextForeground="{StaticResource OrangeColorBrush}"
                         Value="{Binding LastOrangePull}"/>
-                    <shvcp:CardProgressBar
+                    <shuxcc:CardProgressBar
                         Grid.Column="0"
                         Description="{Binding LastPurplePull}"
                         Header="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"

@@ -4,8 +4,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using System.Globalization;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Abstraction;
@@ -28,6 +30,18 @@ internal abstract partial class DbStoreOptions : ObservableObject
         where T : struct, Enum
     {
         return input.ToStringOrEmpty();
+    }
+
+    protected void InitializeOptions(string keyLike, Expression<Func<SettingEntry, bool>> entrySelector, Action<string, string?> entryAction)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            foreach (SettingEntry entry in appDbContext.Settings.Where(entrySelector))
+            {
+                entryAction(entry.Key, entry.Value);
+            }
+        }
     }
 
     protected string GetOption(ref string? storage, string key, string defaultValue = "")

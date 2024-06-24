@@ -9,24 +9,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
-    xmlns:shvconv="using:Snap.Hutao.View.Converter"
-    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
     d:DataContext="{d:DesignInstance shvg:TypedWishSummary}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <shvconv:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter"/>
-        <shvconv:BoolToGridLengthConverter
+        <shuxdcs:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter"/>
+        <shuxdcs:BoolToGridLengthConverter
             x:Key="BoolToGridLengthSpacingConverter"
             FalseValue="0"
             TrueValue="4"/>
 
-        <shvconv:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
+        <shuxdcs:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
 
         <DataTemplate x:Key="OrangeListTemplate" d:DataType="shvg:SummaryItem">
             <Grid Margin="0" Style="{ThemeResource GridCardStyle}">
@@ -183,7 +184,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <shvcp:CardProgressBar
+                        <shuxcc:CardProgressBar
                             Grid.Column="0"
                             MinHeight="32"
                             Description="{Binding LastOrangePull}"
@@ -192,7 +193,7 @@
                             ProgressForeground="{StaticResource OrangeColorBrush}"
                             TextForeground="{StaticResource OrangeColorBrush}"
                             Value="{Binding LastOrangePull}"/>
-                        <shvcp:CardProgressBar
+                        <shuxcc:CardProgressBar
                             Grid.Column="1"
                             MinHeight="32"
                             Description="{Binding LastPurplePull}"

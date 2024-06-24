@@ -12,10 +12,10 @@
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
     d:DataContext="{d:DesignInstance shvd:DailyNoteViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -282,7 +282,7 @@
                                         <ItemsControl Margin="0,-3,0,0" ItemsSource="{Binding DailyNote.DailyTask.AttendanceRewards}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <shvcp:CardProgressBar
+                                                    <shuxcc:CardProgressBar
                                                         MinWidth="120"
                                                         MinHeight="32"
                                                         Margin="0,3,0,0"

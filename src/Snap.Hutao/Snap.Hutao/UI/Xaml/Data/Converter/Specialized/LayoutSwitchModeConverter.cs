@@ -3,9 +3,9 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Control;
-using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.Data.Converter;
 
-namespace Snap.Hutao.View.Converter;
+namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 
 /// <summary>
 /// 条件转换器

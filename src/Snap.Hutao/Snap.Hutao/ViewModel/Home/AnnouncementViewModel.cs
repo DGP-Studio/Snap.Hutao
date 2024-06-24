@@ -5,8 +5,8 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Announcement;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.UI.Xaml.Control.Card;
 using Snap.Hutao.View.Card;
-using Snap.Hutao.View.Card.Primitive;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.ObjectModel;
 

@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.View.Card.Primitive;
+namespace Snap.Hutao.UI.Xaml.Control.Card;
 
 /// <summary>
 /// 保存对卡片的引用

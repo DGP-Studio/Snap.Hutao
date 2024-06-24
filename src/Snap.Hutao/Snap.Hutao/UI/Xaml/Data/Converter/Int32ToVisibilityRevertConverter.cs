@@ -5,18 +5,18 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Snap.Hutao.Core.ExceptionService;
 
-namespace Snap.Hutao.View.Converter;
+namespace Snap.Hutao.UI.Xaml.Data.Converter;
 
 /// <summary>
-/// Int32 转 Visibility
+/// Int32 反转 Visibility
 /// </summary>
 [HighQuality]
-internal sealed class Int32ToVisibilityConverter : IValueConverter
+internal sealed class Int32ToVisibilityRevertConverter : IValueConverter
 {
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        return value is not 0 ? Visibility.Visible : Visibility.Collapsed;
+        return value is null or 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     /// <inheritdoc/>

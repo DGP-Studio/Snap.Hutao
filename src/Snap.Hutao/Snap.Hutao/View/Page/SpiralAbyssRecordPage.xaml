@@ -11,13 +11,13 @@
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvcom="using:Snap.Hutao.ViewModel.Complex"
     xmlns:shvcon="using:Snap.Hutao.View.Control"
-    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvs="using:Snap.Hutao.ViewModel.SpiralAbyss"
     d:DataContext="{d:DesignInstance shvs:SpiralAbyssRecordViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -562,15 +562,15 @@
                         </DataTemplate>
 
                         <DataTemplate x:Key="RatedAvatarTemplate" x:DataType="shvcom:AvatarView">
-                            <shvcp:HorizontalCard>
-                                <shvcp:HorizontalCard.Left>
+                            <shuxcc:HorizontalCard>
+                                <shuxcc:HorizontalCard.Left>
                                     <shvcon:ItemIcon
                                         Width="56"
                                         Height="56"
                                         Icon="{Binding Icon}"
                                         Quality="{Binding Quality}"/>
-                                </shvcp:HorizontalCard.Left>
-                                <shvcp:HorizontalCard.Right>
+                                </shuxcc:HorizontalCard.Left>
+                                <shuxcc:HorizontalCard.Right>
                                     <StackPanel
                                         Width="64"
                                         Margin="8,8,8,8"
@@ -582,8 +582,8 @@
                                             Text="{Binding RateDelta}"
                                             TextStyle="{StaticResource CaptionTextBlockStyle}"/>
                                     </StackPanel>
-                                </shvcp:HorizontalCard.Right>
-                            </shvcp:HorizontalCard>
+                                </shuxcc:HorizontalCard.Right>
+                            </shuxcc:HorizontalCard>
                         </DataTemplate>
                     </Grid.Resources>
 

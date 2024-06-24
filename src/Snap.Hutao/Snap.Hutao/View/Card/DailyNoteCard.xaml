@@ -9,7 +9,7 @@
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
     Padding="0"
     HorizontalAlignment="Stretch"
@@ -57,7 +57,7 @@
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{Binding RefreshTimeFormatted}"/>
 
-                <shvcp:CardBlock
+                <shuxcc:CardBlock
                     Grid.Row="1"
                     Grid.Column="0"
                     IconSquareLength="64"
@@ -73,12 +73,12 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <shvcp:CardBlock
+                    <shuxcc:CardBlock
                         Grid.Row="0"
                         ImageSource="{StaticResource UI_ItemIcon_204}"
                         IsDotVisible="{Binding HomeCoinNotifySuppressed}"
                         Text="{Binding DailyNote.HomeCoinFormatted}"/>
-                    <shvcp:CardBlock
+                    <shuxcc:CardBlock
                         Grid.Row="1"
                         ImageSource="{StaticResource UI_MarkQuest_Events_Proce}"
                         IsDotVisible="{Binding DailyTaskNotifySuppressed}"
@@ -92,11 +92,11 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <shvcp:CardBlock
+                    <shuxcc:CardBlock
                         Grid.Row="0"
                         ImageSource="{StaticResource UI_MarkTower}"
                         Text="{Binding DailyNote.ResinDiscountFormatted}"/>
-                    <shvcp:CardBlock
+                    <shuxcc:CardBlock
                         Grid.Row="1"
                         ImageSource="{StaticResource UI_ItemIcon_220021}"
                         IsDotVisible="{Binding TransformerNotifySuppressed}"

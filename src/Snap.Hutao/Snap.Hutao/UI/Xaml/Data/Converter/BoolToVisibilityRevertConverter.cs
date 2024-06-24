@@ -4,7 +4,7 @@
 using CommunityToolkit.WinUI.Converters;
 using Microsoft.UI.Xaml;
 
-namespace Snap.Hutao.View.Converter;
+namespace Snap.Hutao.UI.Xaml.Data.Converter;
 
 /// <summary>
 /// This class converts a boolean value into a Visibility enumeration.

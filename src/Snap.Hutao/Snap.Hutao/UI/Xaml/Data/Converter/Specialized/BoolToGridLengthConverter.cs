@@ -4,7 +4,7 @@
 using CommunityToolkit.WinUI.Converters;
 using Microsoft.UI.Xaml;
 
-namespace Snap.Hutao.View.Converter;
+namespace Snap.Hutao.UI.Xaml.Data.Converter.Specialized;
 
 internal sealed class BoolToGridLengthConverter : BoolToObjectConverter
 {

@@ -11,11 +11,11 @@
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcl="using:Snap.Hutao.UI.Xaml.Control.Layout"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvco="using:Snap.Hutao.View.Control"
-    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvcu="using:Snap.Hutao.ViewModel.Cultivation"
     d:DataContext="{d:DesignInstance shvcu:CultivationViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -173,8 +173,8 @@
                         <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                         <SolidColorBrush x:Key="ItemContainerPressedBackground" Color="Transparent"/>
                     </ItemContainer.Resources>
-                    <shvcp:HorizontalCard>
-                        <shvcp:HorizontalCard.Left>
+                    <shuxcc:HorizontalCard>
+                        <shuxcc:HorizontalCard.Left>
                             <Grid Grid.Column="0">
                                 <shvco:ItemIcon
                                     Width="40"
@@ -189,8 +189,8 @@
                                     Glyph="&#xE73E;"
                                     Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             </Grid>
-                        </shvcp:HorizontalCard.Left>
-                        <shvcp:HorizontalCard.Right>
+                        </shuxcc:HorizontalCard.Left>
+                        <shuxcc:HorizontalCard.Right>
                             <Grid Margin="16,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -208,8 +208,8 @@
                                     VerticalAlignment="Center"
                                     Text="{Binding CountFormatted}"/>
                             </Grid>
-                        </shvcp:HorizontalCard.Right>
-                    </shvcp:HorizontalCard>
+                        </shuxcc:HorizontalCard.Right>
+                    </shuxcc:HorizontalCard>
                 </ItemContainer>
             </DataTemplate>
 

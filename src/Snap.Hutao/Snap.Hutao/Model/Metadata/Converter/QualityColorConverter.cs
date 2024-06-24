@@ -4,7 +4,7 @@
 using Microsoft.UI;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.UI.Xaml.Control.Theme;
-using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.Data.Converter;
 using System.Collections.Frozen;
 using Windows.UI;
 

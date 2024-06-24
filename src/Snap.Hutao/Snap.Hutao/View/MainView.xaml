@@ -7,9 +7,9 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shv="using:Snap.Hutao.View"
-    xmlns:shvcs="using:Snap.Hutao.View.Converter.Specialized"
     xmlns:shvh="using:Snap.Hutao.View.Helper"
     xmlns:shvm="using:Snap.Hutao.ViewModel"
     xmlns:shvp="using:Snap.Hutao.View.Page"
@@ -25,7 +25,7 @@
         <Thickness x:Key="NavigationViewContentGridBorderThickness">0,1,0,0</Thickness>
         <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">24</x:Double>
         <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
-        <shvcs:BackdropTypeToOpacityConverter x:Key="BackdropTypeToOpacityConverter"/>
+        <shuxdcs:BackdropTypeToOpacityConverter x:Key="BackdropTypeToOpacityConverter"/>
     </UserControl.Resources>
 
     <Grid>

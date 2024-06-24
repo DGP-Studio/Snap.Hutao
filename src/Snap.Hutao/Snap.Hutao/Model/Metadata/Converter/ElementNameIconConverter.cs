@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.Data.Converter;
 using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Metadata.Converter;

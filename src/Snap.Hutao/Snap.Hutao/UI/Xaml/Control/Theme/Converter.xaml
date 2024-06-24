@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cwc="using:CommunityToolkit.WinUI.Converters"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
-    xmlns:shvc="using:Snap.Hutao.View.Converter">
+    xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter">
     <cwc:BoolNegationConverter x:Key="BoolNegationConverter"/>
     <cwc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <cwc:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter"/>
@@ -25,12 +25,12 @@
     <shmmc:PropertiesParametersDescriptor x:Key="PropertyDescriptor"/>
     <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
     <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
-    <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
-    <shvc:EmptyObjectToBoolConverter x:Key="EmptyObjectToBoolConverter"/>
-    <shvc:EmptyObjectToBoolRevertConverter x:Key="EmptyObjectToBoolRevertConverter"/>
-    <shvc:EmptyObjectToVisibilityConverter x:Key="EmptyObjectToVisibilityConverter"/>
-    <shvc:EmptyObjectToVisibilityRevertConverter x:Key="EmptyObjectToVisibilityRevertConverter"/>
-    <shvc:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
-    <shvc:Int32ToVisibilityRevertConverter x:Key="Int32ToVisibilityRevertConverter"/>
-    <shvc:StringBoolConverter x:Key="StringBoolConverter"/>
+    <shuxdc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
+    <shuxdc:EmptyObjectToBoolConverter x:Key="EmptyObjectToBoolConverter"/>
+    <shuxdc:EmptyObjectToBoolRevertConverter x:Key="EmptyObjectToBoolRevertConverter"/>
+    <shuxdc:EmptyObjectToVisibilityConverter x:Key="EmptyObjectToVisibilityConverter"/>
+    <shuxdc:EmptyObjectToVisibilityRevertConverter x:Key="EmptyObjectToVisibilityRevertConverter"/>
+    <shuxdc:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
+    <shuxdc:Int32ToVisibilityRevertConverter x:Key="Int32ToVisibilityRevertConverter"/>
+    <shuxdc:StringBoolConverter x:Key="StringBoolConverter"/>
 </ResourceDictionary>

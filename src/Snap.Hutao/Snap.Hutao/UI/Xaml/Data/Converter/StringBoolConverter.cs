@@ -3,7 +3,7 @@
 
 using CommunityToolkit.WinUI.Converters;
 
-namespace Snap.Hutao.View.Converter;
+namespace Snap.Hutao.UI.Xaml.Data.Converter;
 
 /// <summary>
 /// 字符串空检查转换器

@@ -10,11 +10,11 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiMonsterViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -57,21 +57,21 @@
         </DataTemplate>
 
         <DataTemplate x:Key="MonsterDropTemplate">
-            <shvcp:HorizontalCard>
-                <shvcp:HorizontalCard.Left>
+            <shuxcc:HorizontalCard>
+                <shuxcc:HorizontalCard.Left>
                     <shvc:ItemIcon
                         Width="40"
                         Height="40"
                         Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}"
                         Quality="{Binding RankLevel}"/>
-                </shvcp:HorizontalCard.Left>
-                <shvcp:HorizontalCard.Right>
+                </shuxcc:HorizontalCard.Left>
+                <shuxcc:HorizontalCard.Right>
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Text="{Binding Name}"/>
-                </shvcp:HorizontalCard.Right>
-            </shvcp:HorizontalCard>
+                </shuxcc:HorizontalCard.Right>
+            </shuxcc:HorizontalCard>
         </DataTemplate>
 
         <DataTemplate x:Key="MonsterGridTemplate">

@@ -16,7 +16,8 @@
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shva="using:Snap.Hutao.ViewModel.AvatarProperty"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
-    xmlns:shvconv="using:Snap.Hutao.View.Converter"
+    xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     d:DataContext="{d:DesignInstance shva:AvatarPropertyViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -29,13 +30,13 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <shvconv:UInt32ToGradientColorConverter
+                    <shuxdcs:UInt32ToGradientColorConverter
                         x:Key="CountToGradientColorConverter"
                         Maximum="#FFFD0093"
                         Minimum="#FF4B00D9"/>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <shvconv:UInt32ToGradientColorConverter
+                    <shuxdcs:UInt32ToGradientColorConverter
                         x:Key="CountToGradientColorConverter"
                         Maximum="#FFFF69BF"
                         Minimum="#FF9F69FF"/>
@@ -51,7 +52,7 @@
                 </cwconv:BoolToObjectConverter.FalseValue>
             </cwconv:BoolToObjectConverter>
 
-            <shvconv:LayoutSwitchModeConverter
+            <shuxdcs:LayoutSwitchModeConverter
                 x:Key="LayoutSwitchModeConverter"
                 GridValue="{x:Bind GridImageExportPanel}"
                 ListValue="{x:Bind ListImageExportPanel}"/>

@@ -4,7 +4,7 @@
 using CommunityToolkit.WinUI.Converters;
 using Microsoft.UI.Xaml;
 
-namespace Snap.Hutao.View.Converter;
+namespace Snap.Hutao.UI.Xaml.Data.Converter;
 
 /// <summary>
 /// This class converts a object? value into a Visibility enumeration in reverse.

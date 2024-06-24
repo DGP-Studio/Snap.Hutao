@@ -10,11 +10,11 @@
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    xmlns:shvcp="using:Snap.Hutao.View.Card.Primitive"
     xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiWeaponViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -91,21 +91,21 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CultivateItemTemplate">
-            <shvcp:HorizontalCard>
-                <shvcp:HorizontalCard.Left>
+            <shuxcc:HorizontalCard>
+                <shuxcc:HorizontalCard.Left>
                     <shvc:ItemIcon
                         Width="40"
                         Height="40"
                         Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}"
                         Quality="{Binding RankLevel}"/>
-                </shvcp:HorizontalCard.Left>
-                <shvcp:HorizontalCard.Right>
+                </shuxcc:HorizontalCard.Left>
+                <shuxcc:HorizontalCard.Right>
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Text="{Binding Name}"/>
-                </shvcp:HorizontalCard.Right>
-            </shvcp:HorizontalCard>
+                </shuxcc:HorizontalCard.Right>
+            </shuxcc:HorizontalCard>
         </DataTemplate>
 
         <DataTemplate x:Key="AffixPivotHeaderTemplate">
@@ -123,15 +123,15 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CollocationTemplate">
-            <shvcp:HorizontalCard>
-                <shvcp:HorizontalCard.Left>
+            <shuxcc:HorizontalCard>
+                <shuxcc:HorizontalCard.Left>
                     <shvc:ItemIcon
                         Width="48"
                         Height="48"
                         Icon="{Binding Icon}"
                         Quality="{Binding Quality}"/>
-                </shvcp:HorizontalCard.Left>
-                <shvcp:HorizontalCard.Right>
+                </shuxcc:HorizontalCard.Left>
+                <shuxcc:HorizontalCard.Right>
                     <StackPanel Margin="8,0,0,0" HorizontalAlignment="Left">
                         <TextBlock Text="{Binding Name}"/>
                         <StackPanel Orientation="Horizontal" Spacing="4">
@@ -145,8 +145,8 @@
                                 TextStyle="{StaticResource CaptionTextBlockStyle}"/>
                         </StackPanel>
                     </StackPanel>
-                </shvcp:HorizontalCard.Right>
-            </shvcp:HorizontalCard>
+                </shuxcc:HorizontalCard.Right>
+            </shuxcc:HorizontalCard>
         </DataTemplate>
 
         <DataTemplate x:Key="WeaponGridTemplate">

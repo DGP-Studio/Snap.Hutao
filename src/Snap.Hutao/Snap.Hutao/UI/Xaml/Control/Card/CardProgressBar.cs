@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
-namespace Snap.Hutao.View.Card.Primitive;
+namespace Snap.Hutao.UI.Xaml.Control.Card;
 
 [DependencyProperty("ProgressForeground", typeof(Brush))]
 [DependencyProperty("TextForeground", typeof(Brush))]
@@ -13,9 +13,10 @@ namespace Snap.Hutao.View.Card.Primitive;
 [DependencyProperty("Value", typeof(double))]
 [DependencyProperty("Header", typeof(string))]
 [DependencyProperty("Description", typeof(string))]
-internal sealed partial class CardProgressBar : ContentControl
+internal sealed partial class CardProgressBar : Microsoft.UI.Xaml.Controls.Control
 {
     public CardProgressBar()
     {
+        DefaultStyleKey = typeof(CardProgressBar);
     }
 }
