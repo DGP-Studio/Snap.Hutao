@@ -446,10 +446,6 @@
     <value>Material de Talento do Personagem</value>
     <comment>Need EXACT same string in game</comment>
   </data>
-  <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
-    <value>^Especialidade de {2}$</value>
-    <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
-  </data>
   <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
     <value>Material de Ascensão de Armas</value>
     <comment>Need EXACT same string in game</comment>
@@ -3049,27 +3045,6 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>Wiki de armas</value>
-  </data>
-  <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:(?:〓活动时间〓|〓任务开放时间〓).*?(?:(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt; *?))后永久开放</value>
-  </data>
-  <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓活动时间〓.*?(\d\.\d)版本期间持续开放</value>
-  </data>
-  <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d)版本更新后.*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
-    <value>将于&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;进行版本更新维护</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
-    <value>\d\.\d版本更新维护预告</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
-    <value>〓Duração da manutenção da atualização.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>Versão \d\.\d Detalhes da atualização</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>Começa em {0} dias</value>
