@@ -98,7 +98,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
-    <value>\u4e00\u9fa5{2}地域特産品</value>
+    <value>^[\u3000-\u9fa5]{2,6}地域の特産$</value>
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
   <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
