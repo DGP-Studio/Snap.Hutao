@@ -548,7 +548,7 @@
     <value>精煉 {0} 階</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必須登入 米遊社 / HoYoLAB 並選擇一個用戶與角色</value>
+    <value>必須登入 米游社/ HoYoLAB 並選擇一個用戶與角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>刪除了 UID：{0} 的 {1} 筆祈願記錄</value>
@@ -581,10 +581,10 @@
     <value>新密碼設定成功</value>
   </data>
   <data name="ServerPassportServiceEmailHasNotRegistered" xml:space="preserve">
-    <value>當前電子郵件信箱尚未註冊</value>
+    <value>當前電子郵件地址尚未註冊</value>
   </data>
   <data name="ServerPassportServiceEmailHasRegistered" xml:space="preserve">
-    <value>當前電子郵件信箱已被註冊</value>
+    <value>當前電子郵件地址已被註冊</value>
   </data>
   <data name="ServerPassportServiceInternalException" xml:space="preserve">
     <value>註冊失敗，伺服器異常，請盡快聯繫開發者解決</value>
@@ -596,7 +596,7 @@
     <value>用戶刪除成功</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
-    <value>使用者不存在，獲取使用者信息失敗</value>
+    <value>用戶不存在，獲取用戶信息失敗</value>
   </data>
   <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
     <value>用戶名稱或密碼錯誤</value>
@@ -611,7 +611,7 @@
     <value>驗證碼已發送至信箱</value>
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
-    <value>驗證請求失敗，當前電子郵件信箱已被註冊</value>
+    <value>驗證請求失敗，當前電子郵件地址已被註冊</value>
   </data>
   <data name="ServerPassportVerifyTooFrequent" xml:space="preserve">
     <value>驗證請求過快，請 1 分鐘後再試</value>
@@ -1361,7 +1361,7 @@
     <value>正在轉換用戶端</value>
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
-    <value>使用米遊社掃描 QR 碼</value>
+    <value>使用米游社掃描 QR 碼</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>為防止你在無意間啟用，請輸入正在啟用的功能開關的&lt;b&gt;標題名稱&lt;/b&gt;</value>
@@ -1379,7 +1379,7 @@
     <value>當前未登入胡桃賬號，上傳深淵數據無法獲贈胡桃雲時長</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText" xml:space="preserve">
-    <value>前往登入</value>
+    <value>前往登入畫面</value>
   </data>
   <data name="ViewDialogSpiralAbyssUploadRecordHomaNotLoginSecondaryButtonText" xml:space="preserve">
     <value>繼續上傳</value>
@@ -1454,7 +1454,7 @@
     <value>若未檢測到 WebView2 Runtime 訊息，可以前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
-    <value>下載並自行安裝Runtime</value>
+    <value>下載並自行安裝運行時</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>語言</value>
@@ -1547,10 +1547,10 @@
     <value>養成計劃添加失敗</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>操作完成：添加 / 更新：{0} 個，跳過 {1} 個</value>
+    <value>操作完成：添加/更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>操作未全部完成：添加 / 更新：{0} 個，跳過 {1} 個</value>
+    <value>操作未全部完成：添加/更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功新增至目前養成計劃</value>
@@ -1685,7 +1685,7 @@
     <value>原圖</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
-    <value>請輸入正確的電子郵件信箱</value>
+    <value>請輸入正確的電子郵件地址</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>剪貼板中的文本格式不正塙</value>
@@ -2072,13 +2072,13 @@
     <value>胡桃雲</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseDescription" xml:space="preserve">
-    <value>前往愛發電購買相關服務</value>
+    <value>前往爱发电購買相關服務</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>購買 / 續費雲服務</value>
+    <value>購買/續費雲服務</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>刪除此 UID 的雲端存檔</value>
+    <value>刪除此UID的雲端存檔</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>開發者賬號無視服務到期時間</value>
@@ -2087,7 +2087,7 @@
     <value>胡桃雲服務時長不足</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>下載此 UID 的雲端存檔</value>
+    <value>下載此UID的雲端存檔</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>每期深淵首次上傳可免費獲得 3 天時長</value>
@@ -2261,7 +2261,7 @@
     <value>刪除帳號的數據將永遠丢失，無法恢復</value>
   </data>
   <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
-    <value>請輸入電子郵件信箱</value>
+    <value>請輸入電子郵件地址</value>
   </data>
   <data name="ViewPageHutaoPassportVerifyCodeAction" xml:space="preserve">
     <value>取得驗證碼</value>
@@ -2336,7 +2336,7 @@
     <value>一般</value>
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
-    <value>所有選項僅會在啟動遊戲成功後儲存</value>
+    <value>所有選項盡會在啟動遊戲成功後儲存</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
     <value>在我遊戲時設定 Discord Activity 狀態</value>
@@ -2414,7 +2414,7 @@
     <value>重新命名</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>切換遊戲伺服器（陸服 / 渠道服 / 國際服）</value>
+    <value>切換遊戲伺服器（大陸伺服器/渠道伺服器/國際伺服器）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>伺服器</value>
@@ -2444,13 +2444,13 @@
     <value>請輸入您的 HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通過由我們提供的內嵌網頁視圖登入 HoYoverse 通行證，我們會在你點擊 我已登入 按鈕後，讀取你的 Cookie 訊息，由此視圖發起的網絡通信只發生於你的電腦與 COGNOSPHERE 伺服器之間</value>
+    <value>你正在通過由我們提供的內嵌網頁視圖登錄 米哈游通行证，我們會在你點擊 我已登錄 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與米哈遊服務器之間</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>我已登入</value>
   </data>
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
-    <value>在下方登入 HoYoverse 通行證</value>
+    <value>在下方登入米哈游通行证</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
     <value>開啟截圖檔案夾</value>
@@ -2519,7 +2519,7 @@
     <value>除非開發人員明確要求你這樣做，否則不應嘗試執行下方的操作！</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
-    <value>用戶數據 / 元數據 存放在此</value>
+    <value>用戶數據/元數據 存放在此</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
     <value>數據 檔案夾</value>
@@ -2597,7 +2597,7 @@
     <value>選擇想要獲取公告的遊戲伺服器</value>
   </data>
   <data name="ViewPageSettingHomeAnnouncementRegionHeader" xml:space="preserve">
-    <value>遊戲公告所屬伺服器</value>
+    <value>公告所屬伺服器</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>管理主頁儀表板中的卡片</value>
@@ -2609,7 +2609,7 @@
     <value>成就管理</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>即時便箋</value>
+    <value>即時便籤</value>
   </data>
   <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>祈願紀錄</value>
@@ -2654,7 +2654,7 @@
     <value>您可以無限制地使用任何測試功能</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃開發 / 營運</value>
+    <value>胡桃開發/營運</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>我們有時會向某些用戶贈送胡桃雲兌換碼</value>
@@ -2711,10 +2711,10 @@
     <value>重設圖片資源</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在「啟動遊戲 - 進程」選項卡加入「解鎖 FPS 限制」選項</value>
+    <value>在啟動遊戲頁面的程序部分加入解鎖 FPS 限制選項</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
-    <value>啟動遊戲 - 解鎖 FPS 限制</value>
+    <value>啟動遊戲-解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>更改目錄后需要手動移動目錄内的數據，否則會重新創建用戶數據</value>
@@ -2759,7 +2759,7 @@
     <value>貢獻翻譯</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在「祈願記錄 - 角色」與「祈願記錄 - 武器」中顯示未抽到的祈願物品</value>
+    <value>在祈願記錄頁面角色與武器頁籤顯示未抽取到的祈願物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽取到的祈願物品</value>
@@ -2933,7 +2933,7 @@
     <value>出戰次數</value>
   </data>
   <data name="ViewSpiralAbyssStatistics" xml:space="preserve">
-    <value>統計數據</value>
+    <value>統計資料</value>
   </data>
   <data name="ViewSpiralAbyssTakeDamage" xml:space="preserve">
     <value>最多承傷</value>
