@@ -7,15 +7,15 @@ using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
-using Snap.Hutao.Core.Windowing;
-using Snap.Hutao.Core.Windowing.HotKey;
-using Snap.Hutao.Core.Windowing.NotifyIcon;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Job;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.UI.Input.HotKey;
+using Snap.Hutao.UI.Shell;
+using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.ViewModel.Guide;
 using System.Diagnostics;
 
@@ -115,7 +115,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
                 if (serviceProvider.GetRequiredService<AppOptions>().IsNotifyIconEnabled)
                 {
-                    XamlLifetime.ApplicationLaunchedWithNotifyIcon = true;
+                    XamlApplicationLifetime.LaunchedWithNotifyIcon = true;
 
                     await taskContext.SwitchToMainThreadAsync();
                     serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;

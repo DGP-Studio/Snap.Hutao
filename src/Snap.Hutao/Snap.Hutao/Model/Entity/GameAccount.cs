@@ -15,7 +15,9 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("game_accounts")]
-internal sealed class GameAccount : ObservableObject, IReorderable, IMappingFrom<GameAccount, string, string, SchemeType>
+internal sealed class GameAccount : ObservableObject,
+    IReorderable,
+    IMappingFrom<GameAccount, string, string, SchemeType>
 {
     /// <summary>
     /// 内部Id

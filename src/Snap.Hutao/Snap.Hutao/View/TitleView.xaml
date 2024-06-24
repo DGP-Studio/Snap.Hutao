@@ -42,7 +42,7 @@
                 Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}">
                 <ToggleButton
                     VerticalAlignment="Center"
-                    IsChecked="{Binding HotKeyOptions.IsMouseClickRepeatForeverOn, Mode=OneWay}"
+                    IsChecked="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsOn, Mode=OneWay}"
                     IsHitTestVisible="False"
                     Visibility="{Binding HotKeyOptions.MouseClickRepeatForeverKeyCombination.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                     <Grid ColumnSpacing="8">

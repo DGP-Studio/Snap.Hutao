@@ -14,7 +14,9 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("users")]
-internal sealed class User : ISelectable, IReorderable, IMappingFrom<User, Cookie, bool>
+internal sealed class User : ISelectable,
+    IReorderable,
+    IMappingFrom<User, Cookie, bool>
 {
     /// <summary>
     /// 内部Id

@@ -14,7 +14,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("cultivate_projects")]
-internal sealed class CultivateProject : ISelectable, IMappingFrom<CultivateProject, string, string>, IAppDbEntity
+internal sealed class CultivateProject : ISelectable, IMappingFrom<CultivateProject, string, string>
 {
     /// <summary>
     /// 内部Id

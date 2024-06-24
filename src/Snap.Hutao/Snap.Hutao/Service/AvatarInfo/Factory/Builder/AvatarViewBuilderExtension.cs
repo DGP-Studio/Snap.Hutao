@@ -209,7 +209,7 @@ internal static class AvatarViewBuilderExtension
             {
                 foreach ((SkillGroupId groupId, SkillLevel extraLevel) in proudSkillExtraLevelMap)
                 {
-                    skillExtraLeveledMap.IncreaseValue(proudSkills.Single(p => p.GroupId == groupId).Id, extraLevel);
+                    skillExtraLeveledMap.IncreaseByValue(proudSkills.Single(p => p.GroupId == groupId).Id, extraLevel);
                 }
             }
 

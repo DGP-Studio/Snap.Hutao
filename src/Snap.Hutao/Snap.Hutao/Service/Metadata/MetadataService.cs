@@ -205,7 +205,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
                 if (!readerWriter.Reader.EndOfStream)
                 {
-                    await readerWriter.WriteAsync(StringLiterals.CRLF).ConfigureAwait(false);
+                    await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
                 }
             }
         }

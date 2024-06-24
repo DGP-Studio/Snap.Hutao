@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// 技能图标转换器
 /// </summary>
 [HighQuality]
-internal sealed class SkillIconConverter : ValueConverter<string, Uri>
+internal sealed class SkillIconConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
 {
     /// <summary>
     /// 名称转Uri

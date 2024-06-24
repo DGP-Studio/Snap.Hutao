@@ -5,6 +5,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Format;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Enka.Model;
@@ -120,7 +121,7 @@ internal sealed class SummaryAvatarFactory
             .SetName(weapon.Name)
             .SetIcon(EquipIconConverter.IconNameToUri(weapon.Icon))
             .SetDescription(weapon.Description)
-            .SetLevel($"Lv.{equip.Weapon.Level.Value}")
+            .SetLevel(LevelFormat.Format(equip.Weapon.Level))
             .SetQuality(weapon.Quality)
             .SetMainProperty(mainStat)
             .SetId(weapon.Id)

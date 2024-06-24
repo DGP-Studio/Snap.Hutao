@@ -109,7 +109,6 @@
     <None Remove="UI\Xaml\Control\Theme\TransitionCollection.xaml" />
     <None Remove="UI\Xaml\Control\Theme\Uri.xaml" />
     <None Remove="UI\Xaml\Control\Theme\WindowOverride.xaml" />
-    <None Remove="Core\Windowing\NotifyIcon\NotifyIconContextMenu.xaml" />
     <None Remove="GuideWindow.xaml" />
     <None Remove="IdentifyMonitorWindow.xaml" />
     <None Remove="IdentityStructs.json" />
@@ -216,7 +215,16 @@
   <ItemGroup>
     <AdditionalFiles Include="CodeMetricsConfig.txt" />
     <AdditionalFiles Include="IdentityStructs.json" />
-    <AdditionalFiles Include="stylecop.json" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.en.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.fr.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.id.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.ja.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.ko.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.pt.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.ru.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.vi.resx" />
+    <AdditionalFiles Include="Resource\Localization\SHRegex.zh-Hant.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.en.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.fr.resx" />
@@ -227,6 +235,7 @@
     <AdditionalFiles Include="Resource\Localization\SH.ru.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.vi.resx" />
     <AdditionalFiles Include="Resource\Localization\SH.zh-Hant.resx" />
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
 
   <!-- Assets Files -->
@@ -346,7 +355,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.UnlockerIsland" Version="1.0.2">
+    <PackageReference Include="Snap.Hutao.UnlockerIsland" Version="1.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -374,11 +383,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Core\Windowing\NotifyIcon\NotifyIconContextMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -773,5 +777,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UI\Xaml\Control\Image\" />
+    <Folder Include="UI\Shell\" />
   </ItemGroup>
 </Project>

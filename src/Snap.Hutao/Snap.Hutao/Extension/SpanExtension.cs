@@ -5,17 +5,8 @@ using System.Numerics;
 
 namespace Snap.Hutao.Extension;
 
-/// <summary>
-/// Span 拓展
-/// </summary>
 internal static class SpanExtension
 {
-    /// <summary>
-    /// 获取最大值的下标
-    /// </summary>
-    /// <typeparam name="T">值的类型</typeparam>
-    /// <param name="span">Span</param>
-    /// <returns>最大值的下标</returns>
     public static int IndexOfMax<T>(this in ReadOnlySpan<T> span)
         where T : INumber<T>, IMinMaxValue<T>
     {
@@ -52,11 +43,6 @@ internal static class SpanExtension
         return false;
     }
 
-    /// <summary>
-    /// 求平均值
-    /// </summary>
-    /// <param name="span">跨度</param>
-    /// <returns>平均值</returns>
     public static byte Average(this in ReadOnlySpan<byte> span)
     {
         if (span.IsEmpty)

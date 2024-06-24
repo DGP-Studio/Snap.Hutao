@@ -90,7 +90,7 @@ internal static class ApiEndpoints
     /// <returns>发起验证码Url</returns>
     public static string CardCreateVerification(bool highRisk)
     {
-        return $"{ApiTakumiCardWApi}/createVerification?is_high={Core.StringLiterals.LowerBoolean(highRisk)}";
+        return $"{ApiTakumiCardWApi}/createVerification?is_high={(highRisk ? "true" : "false")}";
     }
 
     /// <summary>

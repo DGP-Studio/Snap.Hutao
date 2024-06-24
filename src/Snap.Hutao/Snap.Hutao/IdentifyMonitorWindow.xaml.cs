@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Win32;
 using Windows.Graphics;
 

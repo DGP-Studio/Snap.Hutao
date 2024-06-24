@@ -3,12 +3,12 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.Windowing.HotKey;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
+using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.View.Dialog;
 using System.Globalization;

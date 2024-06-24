@@ -144,11 +144,11 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
                         switch (avatar.Quality)
                         {
                             case QualityType.QUALITY_ORANGE:
-                                orangeAvatarCounter.IncreaseOne(avatar);
+                                orangeAvatarCounter.IncreaseByOne(avatar);
                                 isUp = targetHistoryWishBuilder?.IncreaseOrange(avatar) ?? false;
                                 break;
                             case QualityType.QUALITY_PURPLE:
-                                purpleAvatarCounter.IncreaseOne(avatar);
+                                purpleAvatarCounter.IncreaseByOne(avatar);
                                 targetHistoryWishBuilder?.IncreasePurple(avatar);
                                 break;
                             default:
@@ -171,15 +171,15 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
                         {
                             case QualityType.QUALITY_ORANGE:
                                 isUp = targetHistoryWishBuilder?.IncreaseOrange(weapon) ?? false;
-                                orangeWeaponCounter.IncreaseOne(weapon);
+                                orangeWeaponCounter.IncreaseByOne(weapon);
                                 break;
                             case QualityType.QUALITY_PURPLE:
                                 targetHistoryWishBuilder?.IncreasePurple(weapon);
-                                purpleWeaponCounter.IncreaseOne(weapon);
+                                purpleWeaponCounter.IncreaseByOne(weapon);
                                 break;
                             case QualityType.QUALITY_BLUE:
                                 targetHistoryWishBuilder?.IncreaseBlue(weapon);
-                                blueWeaponCounter.IncreaseOne(weapon);
+                                blueWeaponCounter.IncreaseByOne(weapon);
                                 break;
                             default:
                                 break;

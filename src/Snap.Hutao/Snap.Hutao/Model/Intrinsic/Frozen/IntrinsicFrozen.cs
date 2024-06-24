@@ -64,6 +64,8 @@ internal static class IntrinsicFrozen
         SH.ModelMetadataMaterialWeaponAscensionMaterial,
     ]);
 
+    // TODO: consider CollectionsNameValue
+
     private static FrozenSet<string> NamesFromEnum<TEnum>(Func<TEnum, string?> selector)
         where TEnum : struct, Enum
     {

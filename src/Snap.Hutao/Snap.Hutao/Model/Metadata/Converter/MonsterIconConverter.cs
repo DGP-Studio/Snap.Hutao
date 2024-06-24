@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 怪物图标转换器
 /// </summary>
-internal sealed class MonsterIconConverter : ValueConverter<string, Uri>
+internal sealed class MonsterIconConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
 {
     /// <summary>
     /// 名称转Uri

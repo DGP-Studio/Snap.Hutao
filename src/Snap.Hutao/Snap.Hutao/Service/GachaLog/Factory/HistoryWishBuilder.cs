@@ -76,10 +76,10 @@ internal sealed class HistoryWishBuilder
     /// <returns>是否为Up物品</returns>
     public bool IncreaseOrange(IStatisticsItemConvertible item)
     {
-        orangeCounter.IncreaseOne(item);
+        orangeCounter.IncreaseByOne(item);
         ++totalCountTracker;
 
-        return orangeUpCounter.TryIncreaseOne(item);
+        return orangeUpCounter.TryIncreaseByOne(item);
     }
 
     /// <summary>
@@ -88,8 +88,8 @@ internal sealed class HistoryWishBuilder
     /// <param name="item">物品</param>
     public void IncreasePurple(IStatisticsItemConvertible item)
     {
-        purpleUpCounter.TryIncreaseOne(item);
-        purpleCounter.IncreaseOne(item);
+        purpleUpCounter.TryIncreaseByOne(item);
+        purpleCounter.IncreaseByOne(item);
         ++totalCountTracker;
     }
 
@@ -99,7 +99,7 @@ internal sealed class HistoryWishBuilder
     /// <param name="item">武器</param>
     public void IncreaseBlue(IStatisticsItemConvertible item)
     {
-        blueCounter.IncreaseOne(item);
+        blueCounter.IncreaseByOne(item);
         ++totalCountTracker;
     }
 

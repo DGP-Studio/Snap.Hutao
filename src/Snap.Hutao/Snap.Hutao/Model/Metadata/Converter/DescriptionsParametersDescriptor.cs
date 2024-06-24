@@ -27,14 +27,14 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
     public static LevelParameters<string, ParameterDescription> Convert(DescriptionsParameters from, uint level)
     {
         LevelParameters<SkillLevel, float> param = from.Parameters.Single(param => param.Level == level);
-        return new LevelParameters<string, ParameterDescription>($"Lv.{param.Level.Value}", GetParameterDescription(from.Descriptions, param.Parameters));
+        return new LevelParameters<string, ParameterDescription>(LevelFormat.Format(param.Level), GetParameterDescription(from.Descriptions, param.Parameters));
     }
 
     /// <inheritdoc/>
     public override List<LevelParameters<string, ParameterDescription>> Convert(DescriptionsParameters from)
     {
         List<LevelParameters<string, ParameterDescription>> parameters = from.Parameters
-            .SelectList(param => new LevelParameters<string, ParameterDescription>($"Lv.{param.Level.Value}", GetParameterDescription(from.Descriptions, param.Parameters)));
+            .SelectList(param => new LevelParameters<string, ParameterDescription>(LevelFormat.Format(param.Level), GetParameterDescription(from.Descriptions, param.Parameters)));
 
         return parameters;
     }

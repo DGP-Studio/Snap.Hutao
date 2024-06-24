@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// 物品图片转换器
 /// </summary>
 [HighQuality]
-internal sealed class ItemIconConverter : ValueConverter<string, Uri>
+internal sealed class ItemIconConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
 {
     /// <summary>
     /// 名称转Uri
