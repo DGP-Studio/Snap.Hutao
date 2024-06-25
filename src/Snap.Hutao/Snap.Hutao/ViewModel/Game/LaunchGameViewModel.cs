@@ -17,6 +17,7 @@ using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using System.Collections.Immutable;

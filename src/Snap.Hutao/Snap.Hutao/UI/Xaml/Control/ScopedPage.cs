@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Service.Navigation;
-using Snap.Hutao.View.Helper;
 using Snap.Hutao.ViewModel.Abstraction;
 
 namespace Snap.Hutao.UI.Xaml.Control;
@@ -15,7 +14,6 @@ namespace Snap.Hutao.UI.Xaml.Control;
 [SuppressMessage("", "CA1001")]
 internal class ScopedPage : Page
 {
-    private readonly RoutedEventHandler unloadEventHandler;
     private readonly CancellationTokenSource viewCancellationTokenSource = new();
     private readonly IServiceScope pageScope;
 
@@ -23,8 +21,7 @@ internal class ScopedPage : Page
 
     protected ScopedPage()
     {
-        unloadEventHandler = OnUnloaded;
-        Unloaded += unloadEventHandler;
+        Unloaded += OnUnloaded;
         pageScope = Ioc.Default.GetRequiredService<IScopedPageScopeReferenceTracker>().CreateScope();
     }
 
@@ -98,7 +95,7 @@ internal class ScopedPage : Page
             return;
         }
 
-        Unloaded -= unloadEventHandler;
+        Unloaded -= OnUnloaded;
     }
 
     private void DisposeViewModel()

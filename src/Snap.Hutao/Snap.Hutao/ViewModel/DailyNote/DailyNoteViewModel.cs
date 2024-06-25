@@ -13,7 +13,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.View.Control;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using System.Collections.ObjectModel;
 

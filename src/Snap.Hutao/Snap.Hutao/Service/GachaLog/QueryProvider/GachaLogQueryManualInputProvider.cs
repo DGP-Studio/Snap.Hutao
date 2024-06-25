@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.Specialized;
 using System.Web;
 

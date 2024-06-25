@@ -6,6 +6,7 @@ using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Page;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Game;
@@ -15,7 +16,7 @@ namespace Snap.Hutao.ViewModel.Game;
 /// </summary>
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>, IViewModelSupportLaunchExecution
+internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<LaunchGamePage>, IViewModelSupportLaunchExecution
 {
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly LaunchGameShared launchGameShared;

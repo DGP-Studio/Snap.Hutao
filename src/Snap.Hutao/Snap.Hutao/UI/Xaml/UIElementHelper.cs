@@ -7,6 +7,7 @@ namespace Snap.Hutao.UI.Xaml;
 
 [SuppressMessage("", "SH001")]
 [DependencyProperty("VisibilityObject", typeof(object), null, nameof(OnVisibilityObjectChanged), IsAttached = true, AttachedType = typeof(UIElement))]
+[DependencyProperty("VisibilityBoolean", typeof(bool), null, nameof(OnVisibilityBooleanChanged), IsAttached = true, AttachedType = typeof(UIElement))]
 [DependencyProperty("OpacityObject", typeof(object), null, nameof(OnOpacityObjectChanged), IsAttached = true, AttachedType = typeof(UIElement))]
 public sealed partial class UIElementHelper
 {
@@ -20,5 +21,11 @@ public sealed partial class UIElementHelper
     {
         UIElement element = (UIElement)dp;
         element.Opacity = e.NewValue is null ? 0D : 1D;
+    }
+
+    private static void OnVisibilityBooleanChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
+    {
+        UIElement element = (UIElement)dp;
+        element.Visibility = e.NewValue is true ? Visibility.Visible : Visibility.Collapsed;
     }
 }

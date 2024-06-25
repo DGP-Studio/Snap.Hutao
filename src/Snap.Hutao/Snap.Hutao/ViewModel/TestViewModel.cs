@@ -11,6 +11,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Game.Automation.ScreenCapture;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Win32.Foundation;

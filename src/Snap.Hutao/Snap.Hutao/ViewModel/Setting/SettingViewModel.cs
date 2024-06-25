@@ -24,7 +24,8 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hoyolab;
 using System.Diagnostics;
@@ -288,7 +289,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private async Task OpenTestPageAsync()
     {
         await navigationService
-            .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
+            .NavigateAsync<TestPage>(INavigationAwaiter.Default)
             .ConfigureAwait(false);
     }
 

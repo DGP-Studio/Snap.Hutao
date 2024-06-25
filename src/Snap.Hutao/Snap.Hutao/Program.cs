@@ -42,6 +42,8 @@ public static partial class Program
     [STAThread]
     private static void Main(string[] args)
     {
+        // WebView2
+        Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
         System.Diagnostics.Debug.WriteLine($"[Arguments]:[{args.ToString(',')}]");
 
         XamlCheckProcessRequirements();

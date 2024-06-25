@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Data.Converter;
 
-namespace Snap.Hutao.View.Converter;
+namespace Snap.Hutao.UI.Xaml.Data.Converter;
 
 [DependencyProperty("VisibleValue", typeof(object))]
 [DependencyProperty("CollapsedValue", typeof(object))]

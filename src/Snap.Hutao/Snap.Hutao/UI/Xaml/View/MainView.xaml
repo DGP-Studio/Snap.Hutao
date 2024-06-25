@@ -1,0 +1,131 @@
+﻿<UserControl
+    x:Class="Snap.Hutao.UI.Xaml.View.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxv="using:Snap.Hutao.UI.Xaml.View"
+    xmlns:shuxvp="using:Snap.Hutao.UI.Xaml.View.Page"
+    xmlns:shvm="using:Snap.Hutao.ViewModel"
+    d:DataContext="{d:DesignInstance Type=shvm:MainViewModel}"
+    mc:Ignorable="d">
+
+    <mxi:Interaction.Behaviors>
+        <shuxb:PeriodicInvokeCommandOrOnActualThemeChangedBehavior Command="{Binding UpdateBackgroundCommand}" Period="0:5:0"/>
+    </mxi:Interaction.Behaviors>
+
+    <UserControl.Resources>
+        <Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>
+        <Thickness x:Key="NavigationViewContentGridBorderThickness">0,1,0,0</Thickness>
+        <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">24</x:Double>
+        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
+        <shuxdcs:BackdropTypeToOpacityConverter x:Key="BackdropTypeToOpacityConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Border Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" Opacity="{Binding AppOptions.BackdropType, Converter={StaticResource BackdropTypeToOpacityConverter}, Mode=OneWay}">
+            <Border.OpacityTransition>
+                <ScalarTransition Duration="0:0:1"/>
+            </Border.OpacityTransition>
+        </Border>
+
+        <Image
+            x:Name="BackgroundImagePresenter"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Opacity="0"
+            Stretch="UniformToFill"/>
+
+        <NavigationView
+            x:Name="NavView"
+            Margin="0,0,0,0"
+            shuxc:NavigationViewHelper.PaneCornerRadius="0"
+            CompactPaneLength="48"
+            IsBackEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
+            IsPaneOpen="True"
+            OpenPaneLength="192"
+            PaneDisplayMode="Left"
+            UseLayoutRounding="False">
+
+            <NavigationView.MenuItems>
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:AnnouncementPage"
+                    Content="{shuxm:ResourceString Name=ViewAnnouncementHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Announcement.png}"/>
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:FeedbackPage"
+                    Content="{shuxm:ResourceString Name=ViewFeedbackHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Feedback.png}"/>
+
+                <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewToolHeader}"/>
+
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:LaunchGamePage"
+                    Content="{shuxm:ResourceString Name=ViewLaunchGameHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/LaunchGame.png}"/>
+
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:GachaLogPage"
+                    Content="{shuxm:ResourceString Name=ViewGachaLogHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/GachaLog.png}"/>
+
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:AchievementPage"
+                    Content="{shuxm:ResourceString Name=ViewAchievementHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Achievement.png}"/>
+
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:DailyNotePage"
+                    Content="{shuxm:ResourceString Name=ViewDailyNoteHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/DailyNote.png}"/>
+
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:AvatarPropertyPage"
+                    Content="{shuxm:ResourceString Name=ViewAvatarPropertyHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/AvatarProperty.png}"/>
+
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:SpiralAbyssRecordPage"
+                    Content="{shuxm:ResourceString Name=ViewSpiralAbyssHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/SpiralAbyss.png}"/>
+
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:CultivationPage"
+                    Content="{shuxm:ResourceString Name=ViewCultivationHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"/>
+
+                <NavigationViewItemHeader Content="{shuxm:ResourceString Name=ViewDataHeader}"/>
+
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:WikiAvatarPage"
+                    Content="{shuxm:ResourceString Name=ViewWikiAvatarHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"/>
+
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:WikiWeaponPage"
+                    Content="{shuxm:ResourceString Name=ViewWikiWeaponHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"/>
+                <NavigationViewItem
+                    shuxc:NavigationViewItemHelper.NavigateTo="shuxvp:WikiMonsterPage"
+                    Content="{shuxm:ResourceString Name=ViewWikiMonsterHeader}"
+                    Icon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiMonster.png}"/>
+            </NavigationView.MenuItems>
+
+            <NavigationView.PaneFooter>
+                <shuxv:UserView/>
+            </NavigationView.PaneFooter>
+
+            <Frame
+                x:Name="ContentFrame"
+                ContentTransitions="{StaticResource NavigationThemeTransitions}"
+                UseLayoutRounding="True"/>
+        </NavigationView>
+
+        <shuxv:InfoBarView/>
+    </Grid>
+</UserControl>

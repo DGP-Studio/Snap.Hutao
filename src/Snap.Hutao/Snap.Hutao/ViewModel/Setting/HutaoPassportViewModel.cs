@@ -4,7 +4,7 @@
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;

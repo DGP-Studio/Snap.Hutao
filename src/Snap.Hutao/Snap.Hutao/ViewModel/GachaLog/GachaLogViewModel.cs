@@ -14,7 +14,7 @@ using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Control;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 

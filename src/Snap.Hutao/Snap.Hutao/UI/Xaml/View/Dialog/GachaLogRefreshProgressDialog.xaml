@@ -1,0 +1,34 @@
+﻿<ContentDialog
+    x:Class="Snap.Hutao.UI.Xaml.View.Dialog.GachaLogRefreshProgressDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
+    Title="{shuxm:ResourceString Name=ViewDialogGachaLogRefreshProgressTitle}"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <ContentDialog.Resources>
+        <DataTemplate x:Key="GachaItemDataTemplate">
+            <shvc:ItemIcon
+                shux:FrameworkElementHelper.SquareLength="60"
+                Badge="{Binding Badge}"
+                Icon="{Binding Icon}"
+                Quality="{Binding Quality}"/>
+        </DataTemplate>
+    </ContentDialog.Resources>
+
+    <StackPanel>
+        <TextBlock Text="{x:Bind Status.Header, Mode=OneWay}"/>
+        <cwc:HeaderedItemsControl
+            Padding="0,8,0,0"
+            ItemTemplate="{StaticResource GachaItemDataTemplate}"
+            ItemsPanel="{StaticResource UniformGridColumns5Spacing4Template}"
+            ItemsSource="{x:Bind Status.Items, Mode=OneWay}"/>
+    </StackPanel>
+
+</ContentDialog>

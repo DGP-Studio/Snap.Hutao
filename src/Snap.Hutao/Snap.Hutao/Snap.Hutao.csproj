@@ -145,6 +145,7 @@
     <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml" />
     <None Remove="stylecop.json" />
+    <None Remove="UI\Xaml\View\Window\WebView2Window.xaml" />
     <None Remove="View\Card\AchievementCard.xaml" />
     <None Remove="View\Card\CardBlock.xaml" />
     <None Remove="View\Card\DailyNoteCard.xaml" />
@@ -165,29 +166,29 @@
     <None Remove="View\Control\StatisticsCard.xaml" />
     <None Remove="View\Control\StatisticsSegmented.xaml" />
     <None Remove="View\Control\WebViewer.xaml" />
-    <None Remove="View\Dialog\AchievementArchiveCreateDialog.xaml" />
-    <None Remove="View\Dialog\AchievementImportDialog.xaml" />
-    <None Remove="View\Dialog\CultivateProjectDialog.xaml" />
-    <None Remove="View\Dialog\CultivatePromotionDeltaBatchDialog.xaml" />
-    <None Remove="View\Dialog\CultivatePromotionDeltaDialog.xaml" />
-    <None Remove="View\Dialog\DailyNoteNotificationDialog.xaml" />
-    <None Remove="View\Dialog\DailyNoteWebhookDialog.xaml" />
-    <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
-    <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
-    <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
-    <None Remove="View\Dialog\GeetestCustomUrlDialog.xaml" />
-    <None Remove="View\Dialog\HutaoPassportLoginDialog.xaml" />
-    <None Remove="View\Dialog\HutaoPassportRegisterDialog.xaml" />
-    <None Remove="View\Dialog\HutaoPassportResetPasswordDialog.xaml" />
-    <None Remove="View\Dialog\HutaoPassportUnregisterDialog.xaml" />
-    <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
-    <None Remove="View\Dialog\LaunchGameConfigurationFixDialog.xaml" />
-    <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
-    <None Remove="View\Dialog\ReconfirmDialog.xaml" />
-    <None Remove="View\Dialog\SpiralAbyssUploadRecordHomaNotLoginDialog.xaml" />
-    <None Remove="View\Dialog\UpdatePackageDownloadConfirmDialog.xaml" />
-    <None Remove="View\Dialog\UserDialog.xaml" />
-    <None Remove="View\Dialog\UserQRCodeDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\AchievementArchiveCreateDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\AchievementImportDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\CultivateProjectDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\CultivatePromotionDeltaBatchDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\CultivatePromotionDeltaDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\DailyNoteNotificationDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\DailyNoteWebhookDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\GachaLogImportDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\GachaLogRefreshProgressDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\GachaLogUrlDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\GeetestCustomUrlDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\HutaoPassportLoginDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\HutaoPassportRegisterDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\HutaoPassportResetPasswordDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\HutaoPassportUnregisterDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\LaunchGameAccountNameDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\LaunchGameConfigurationFixDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\LaunchGamePackageConvertDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\ReconfirmDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\SpiralAbyssUploadRecordHomaNotLoginDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\UpdatePackageDownloadConfirmDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\UserDialog.xaml" />
+    <None Remove="UI\Xaml\View\Dialog\UserQRCodeDialog.xaml" />
     <None Remove="View\Guide\GuideView.xaml" />
     <None Remove="View\InfoBarView.xaml" />
     <None Remove="View\MainView.xaml" />
@@ -387,62 +388,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Dialog\SpiralAbyssUploadRecordHomaNotLoginDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\UpdatePackageDownloadConfirmDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\LaunchGameConfigurationFixDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\Page\FeedbackPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\ReconfirmDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\UserQRCodeDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Dialog\HutaoPassportUnregisterDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Dialog\HutaoPassportResetPasswordDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Dialog\HutaoPassportRegisterDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Dialog\HutaoPassportLoginDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Dialog\DailyNoteWebhookDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -466,19 +412,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="View\Dialog\CultivatePromotionDeltaBatchDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="View\Control\StatisticsSegmented.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Dialog\GeetestCustomUrlDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -545,11 +479,6 @@
 
   <!-- Pages -->
   <ItemGroup>
-    <Page Update="View\Dialog\LaunchGamePackageConvertDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\Page\TestPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -565,16 +494,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Dialog\CultivatePromotionDeltaDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\CultivateProjectDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\Page\CultivationPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -585,22 +504,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Dialog\DailyNoteNotificationDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\Page\DailyNotePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Control\BottomTextControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\LaunchGameAccountNameDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -620,22 +529,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Dialog\GachaLogUrlDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\Page\AvatarPropertyPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\AchievementArchiveCreateDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\AchievementImportDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -700,27 +594,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Dialog\UserDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\Control\ItemIcon.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Dialog\GachaLogImportDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\Control\StatisticsCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\GachaLogRefreshProgressDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -765,17 +644,21 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UI\Xaml\Control\Image\" />
-    <Folder Include="UI\Shell\" />
-    <Folder Include="View\Converter\" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="UI\Xaml\Control\Card\HorizontalCard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\Control\Card\CardBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Xaml\View\Card\" />
+    <Folder Include="UI\Xaml\View\Page\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\View\Window\WebView2Window.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

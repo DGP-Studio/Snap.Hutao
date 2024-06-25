@@ -8,7 +8,7 @@ using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Control;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 
 namespace Snap.Hutao.ViewModel.Achievement;

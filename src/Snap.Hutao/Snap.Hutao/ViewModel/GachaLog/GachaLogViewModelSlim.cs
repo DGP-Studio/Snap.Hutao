@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.View.Page;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
@@ -11,7 +12,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 /// </summary>
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<View.Page.GachaLogPage>
+internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<GachaLogPage>
 {
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;

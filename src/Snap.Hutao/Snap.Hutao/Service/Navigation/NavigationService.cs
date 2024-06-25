@@ -6,8 +6,7 @@ using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Control;
-using Snap.Hutao.View.Helper;
-using Snap.Hutao.View.Page;
+using Snap.Hutao.UI.Xaml.View.Page;
 using Windows.Foundation;
 
 namespace Snap.Hutao.Service.Navigation;
@@ -200,7 +199,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         else
         {
             NavigationViewItem? target = EnumerateMenuItems(NavigationView.MenuItems)
-                .SingleOrDefault(menuItem => NavHelper.GetNavigateTo(menuItem) == pageType);
+                .SingleOrDefault(menuItem => NavigationViewItemHelper.GetNavigateTo(menuItem) == pageType);
 
             NavigationView.SelectedItem = target;
         }
@@ -214,12 +213,12 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
         selected = NavigationView?.SelectedItem as NavigationViewItem;
         Type? targetType = args.IsSettingsInvoked
             ? typeof(SettingPage)
-            : NavHelper.GetNavigateTo(selected);
+            : NavigationViewItemHelper.GetNavigateTo(selected);
 
         // ignore item that doesn't have nav type specified
         if (targetType is not null)
         {
-            INavigationAwaiter navigationAwaiter = new NavigationExtra(NavHelper.GetExtraData(selected));
+            INavigationAwaiter navigationAwaiter = new NavigationExtra(NavigationViewItemHelper.GetExtraData(selected));
             Navigate(targetType, navigationAwaiter, false);
         }
     }

@@ -16,6 +16,8 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Shell;
 using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Xaml.View.Page;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Guide;
 using System.Diagnostics;
 
@@ -164,7 +166,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             case MainWindow:
                 await serviceProvider
                     .GetRequiredService<INavigationService>()
-                    .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
+                    .NavigateAsync<LaunchGamePage>(INavigationAwaiter.Default, true)
                     .ConfigureAwait(false);
                 return;
 
@@ -210,7 +212,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                                 // ViewModel requires the Metadata Service to be initialized.
                                 serviceProvider
                                     .GetRequiredService<INavigationService>()
-                                    .Navigate<View.Page.AchievementPage>(navigationAwaiter, true);
+                                    .Navigate<AchievementPage>(navigationAwaiter, true);
 #pragma warning restore CA1849
                                 break;
                             }

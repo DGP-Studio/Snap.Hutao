@@ -1,4 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <TransitionCollection x:Key="AddDeleteThemeTransitions">
+        <AddDeleteThemeTransition/>
+    </TransitionCollection>
     <TransitionCollection x:Key="ContentThemeTransitions">
         <ContentThemeTransition/>
     </TransitionCollection>
@@ -11,13 +14,13 @@
         <ReorderThemeTransition/>
         <EntranceThemeTransition IsStaggeringEnabled="False"/>
     </TransitionCollection>
+    <TransitionCollection x:Key="NavigationThemeTransitions">
+        <NavigationThemeTransition/>
+    </TransitionCollection>
     <TransitionCollection x:Key="ReorderThemeTransitions">
         <ReorderThemeTransition/>
     </TransitionCollection>
     <TransitionCollection x:Key="RepositionThemeTransitions">
         <RepositionThemeTransition/>
-    </TransitionCollection>
-    <TransitionCollection x:Key="NavigationThemeTransitions">
-        <NavigationThemeTransition/>
     </TransitionCollection>
 </ResourceDictionary>

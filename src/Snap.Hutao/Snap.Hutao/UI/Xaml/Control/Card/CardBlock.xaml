@@ -1,6 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image">
@@ -12,7 +13,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="shuxcc:CardBlock">
-                    <Grid>
+                    <Grid Style="{ThemeResource GridCardStyle}">
                         <StackPanel VerticalAlignment="Center">
                             <shuxci:CachedImage shux:FrameworkElementHelper.SquareLength="{TemplateBinding IconSquareLength}" Source="{TemplateBinding ImageSource}"/>
                             <TextBlock
@@ -25,9 +26,10 @@
                             Margin="8"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
+                            cw:FrameworkElementExtensions.AncestorType="shuxcc:CardBlock"
                             shux:FrameworkElementHelper.SquareLength="8"
                             Style="{ThemeResource AttentionDotInfoBadgeStyle}"
-                            Visibility="{Binding IsDotVisible, Source={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            Visibility="{Binding (cw:FrameworkElementExtensions.Ancestor).IsDotVisible, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -40,8 +40,8 @@ internal sealed class IslandGameFpsUnlocker : GameFpsUnlocker
                         context.Logger.LogInformation("context.GameProcess.HasExited: {Value}", context.GameProcess.HasExited);
                         if (!context.GameProcess.HasExited && context.FpsAddress != 0U)
                         {
-                            IslandState state = UpdateIslandEnvironment(handle, context, launchOptions);
-                            context.Logger.LogDebug("Island Environment State: {State}", state);
+                            IslandEnvironmentView view = UpdateIslandEnvironment(handle, context, launchOptions);
+                            context.Logger.LogDebug("Island Environment|{State}|{Error}", view.State, view.LastError);
                             context.Report();
                         }
                         else
@@ -91,12 +91,12 @@ internal sealed class IslandGameFpsUnlocker : GameFpsUnlocker
         }
     }
 
-    private unsafe IslandState UpdateIslandEnvironment(nint handle, GameFpsUnlockerContext context, LaunchOptions launchOptions)
+    private unsafe IslandEnvironmentView UpdateIslandEnvironment(nint handle, GameFpsUnlockerContext context, LaunchOptions launchOptions)
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
         pIslandEnvironment->Address = context.FpsAddress;
         pIslandEnvironment->Value = launchOptions.TargetFps;
 
-        return pIslandEnvironment->State;
+        return *(IslandEnvironmentView*)&pIslandEnvironment;
     }
 }

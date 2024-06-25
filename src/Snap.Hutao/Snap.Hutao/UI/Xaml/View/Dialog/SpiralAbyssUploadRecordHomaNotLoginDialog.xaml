@@ -1,0 +1,17 @@
+<ContentDialog
+    x:Class="Snap.Hutao.UI.Xaml.View.Dialog.SpiralAbyssUploadRecordHomaNotLoginDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Title="{shuxm:ResourceString Name=ViewDialogSpiralAbyssUploadRecordHomaNotLoginTitle}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    DefaultButton="Primary"
+    PrimaryButtonText="{shuxm:ResourceString Name=ViewDialogSpiralAbyssUploadRecordHomaNotLoginPrimaryButtonText}"
+    SecondaryButtonText="{shuxm:ResourceString Name=ViewDialogSpiralAbyssUploadRecordHomaNotLoginSecondaryButtonText}"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <TextBlock Text="{shuxm:ResourceString Name=ViewDialogSpiralAbyssUploadRecordHomaNotLoginHint}"/>
+</ContentDialog>

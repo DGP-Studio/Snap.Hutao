@@ -10,7 +10,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
 using Snap.Hutao.UI.Input.HotKey;
 using Snap.Hutao.UI.Xaml.Control;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Globalization;
 using System.Text;
 

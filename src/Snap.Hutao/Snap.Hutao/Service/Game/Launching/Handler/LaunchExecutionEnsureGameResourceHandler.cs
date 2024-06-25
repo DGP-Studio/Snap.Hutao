@@ -9,7 +9,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.UI.Xaml.Control;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;

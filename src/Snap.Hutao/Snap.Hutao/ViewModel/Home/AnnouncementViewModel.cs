@@ -6,7 +6,7 @@ using Snap.Hutao.Service;
 using Snap.Hutao.Service.Announcement;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.UI.Xaml.Control.Card;
-using Snap.Hutao.View.Card;
+using Snap.Hutao.UI.Xaml.View.Card;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.ObjectModel;
 

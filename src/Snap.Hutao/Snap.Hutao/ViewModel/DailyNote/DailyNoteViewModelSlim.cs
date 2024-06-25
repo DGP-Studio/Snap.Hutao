@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.View.Page;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
@@ -15,7 +16,7 @@ namespace Snap.Hutao.ViewModel.DailyNote;
 /// </summary>
 [Injection(InjectAs.Transient)]
 [ConstructorGenerated(CallBaseConstructor = true)]
-internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<View.Page.DailyNotePage>
+internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<DailyNotePage>
 {
     private readonly ITaskContext taskContext;
     private readonly IInfoBarService infoBarService;
