@@ -97,6 +97,6 @@ internal sealed class IslandGameFpsUnlocker : GameFpsUnlocker
         pIslandEnvironment->Address = context.FpsAddress;
         pIslandEnvironment->Value = launchOptions.TargetFps;
 
-        return *(IslandEnvironmentView*)&pIslandEnvironment;
+        return *(IslandEnvironmentView*)pIslandEnvironment;
     }
 }
