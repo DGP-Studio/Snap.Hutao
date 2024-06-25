@@ -7,7 +7,6 @@
 
     <Style x:Key="DefaultRateDeltaTextBlockStyle" TargetType="shvc:RateDeltaTextBlock">
         <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}"/>
-        <Setter Property="TextStyle" Value="{StaticResource BodyTextBlockStyle}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="shvc:RateDeltaTextBlock">
@@ -35,5 +34,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="TextStyle" Value="{StaticResource BodyTextBlockStyle}"/>
     </Style>
 </ResourceDictionary>

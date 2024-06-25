@@ -92,6 +92,8 @@
     <None Remove="Control\Panel\LayoutSwitch.xaml" />
     <None Remove="UI\Xaml\Control\Card\CardBlock.xaml" />
     <None Remove="UI\Xaml\Control\Card\HorizontalCard.xaml" />
+    <None Remove="UI\Xaml\Control\Card\VerticalCard.xaml" />
+    <None Remove="UI\Xaml\Control\Elevation.xaml" />
     <None Remove="UI\Xaml\Control\Theme\Card.xaml" />
     <None Remove="UI\Xaml\Control\Theme\Color.xaml" />
     <None Remove="UI\Xaml\Control\Theme\ComboBox.xaml" />
@@ -152,9 +154,7 @@
     <None Remove="View\Card\GachaStatisticsCard.xaml" />
     <None Remove="View\Card\LaunchGameCard.xaml" />
     <None Remove="View\Control\BaseValueSlider.xaml" />
-    <None Remove="View\Control\BottomTextControl.xaml" />
     <None Remove="View\Control\DescParamComboBox.xaml" />
-    <None Remove="View\Control\Elevation.xaml" />
     <None Remove="View\Control\HutaoStatisticsCard.xaml" />
     <None Remove="View\Control\ItemIcon.xaml" />
     <None Remove="View\Control\LaunchGameResourceExpander.xaml" />
@@ -442,12 +442,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="View\Control\Elevation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="View\InfoBarView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -505,11 +499,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\DailyNotePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Control\BottomTextControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -656,6 +645,16 @@
   <ItemGroup>
     <Folder Include="UI\Xaml\View\Card\" />
     <Folder Include="UI\Xaml\View\Page\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\Control\Card\VerticalCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\Control\Elevation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\View\Window\WebView2Window.xaml">

@@ -8,10 +8,13 @@
                 <XamlControlsResources/>
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.SettingsControls/SettingsCard/SettingsCard.xaml"/>
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.TokenizingTextBox/TokenizingTextBox.xaml"/>
+                <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.TokenView/TokenItem/TokenItem.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Elevation.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Loading.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardBlock.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardProgressBar.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/HorizontalCard.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/VerticalCard.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Image/CachedImage.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Card.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Color.xaml"/>
@@ -47,15 +50,15 @@
                 x:Name="NoneSelectionListViewItemStyle"
                 BasedOn="{StaticResource DefaultListViewItemStyle}"
                 TargetType="ListViewItem">
-                <Setter Property="Padding" Value="0"/>
                 <Setter Property="Margin" Value="0,4,0,0"/>
+                <Setter Property="Padding" Value="0"/>
             </Style>
             <Style
                 x:Name="NoneSelectionGridViewItemStyle"
                 BasedOn="{StaticResource DefaultGridViewItemStyle}"
                 TargetType="GridViewItem">
-                <Setter Property="Padding" Value="0"/>
                 <Setter Property="Margin" Value="0,0,2,4"/>
+                <Setter Property="Padding" Value="0"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

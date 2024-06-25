@@ -169,7 +169,7 @@
                                                 </StackPanel>
                                             </cwc:SettingsCard.Description>
                                             <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
-                                                <shvc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                                 <shuxc:SizeRestrictedContentControl>
                                                     <shuxc:ComboBox2
                                                         DisplayMemberPath="DisplayName"
@@ -313,7 +313,7 @@
                                             IsEnabled="{Binding RuntimeOptions.IsElevated}"
                                             Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                                <shvc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                                 <NumberBox
                                                     MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
                                                     Padding="10,8,0,0"

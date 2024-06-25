@@ -151,9 +151,14 @@
         </DataTemplate>
 
         <DataTemplate x:Key="WeaponGridTemplate">
-            <shvc:BottomTextControl Text="{Binding Name}">
-                <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
-            </shvc:BottomTextControl>
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
+                    <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock Text="{Binding Name}"/>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
         </DataTemplate>
     </Page.Resources>
 
@@ -267,14 +272,23 @@
                                                                 Grid.Column="0"
                                                                 Margin="16"
                                                                 VerticalScrollBarVisibility="Hidden">
-                                                                <StackPanel>
-                                                                    <shvc:BottomTextControl MaxWidth="80" Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}">
-                                                                        <shvc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
-                                                                    </shvc:BottomTextControl>
-
-                                                                    <shvc:BottomTextControl Margin="0,16,0,0" Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}">
-                                                                        <shvc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
-                                                                    </shvc:BottomTextControl>
+                                                                <StackPanel Spacing="16">
+                                                                    <shuxcc:VerticalCard MaxWidth="80">
+                                                                        <shuxcc:VerticalCard.Top>
+                                                                            <shvc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                                        </shuxcc:VerticalCard.Top>
+                                                                        <shuxcc:VerticalCard.Bottom>
+                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"/>
+                                                                        </shuxcc:VerticalCard.Bottom>
+                                                                    </shuxcc:VerticalCard>
+                                                                    <shuxcc:VerticalCard MaxWidth="80">
+                                                                        <shuxcc:VerticalCard.Top>
+                                                                            <shvc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                                        </shuxcc:VerticalCard.Top>
+                                                                        <shuxcc:VerticalCard.Bottom>
+                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"/>
+                                                                        </shuxcc:VerticalCard.Bottom>
+                                                                    </shuxcc:VerticalCard>
                                                                 </StackPanel>
                                                             </ScrollViewer>
 

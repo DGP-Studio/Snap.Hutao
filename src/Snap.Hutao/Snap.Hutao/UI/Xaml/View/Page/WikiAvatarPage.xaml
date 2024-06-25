@@ -289,9 +289,14 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AvatarGridTemplate">
-            <shvcont:BottomTextControl Text="{Binding Name}">
-                <shvcont:ItemIcon Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
-            </shvcont:BottomTextControl>
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
+                    <shvcont:ItemIcon Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock Text="{Binding Name}"/>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
         </DataTemplate>
     </Page.Resources>
 
@@ -660,25 +665,33 @@
                                                                 Grid.Column="0"
                                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                                 Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarSpecialFoodTitle}"/>
-                                                            <shvcont:BottomTextControl
+                                                            <shuxcc:VerticalCard
                                                                 Grid.Row="1"
                                                                 Grid.Column="0"
-                                                                Margin="0,16,0,0"
-                                                                Text="{Binding Item.Name}">
-                                                                <shvcont:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
-                                                            </shvcont:BottomTextControl>
+                                                                Margin="0,16,0,0">
+                                                                <shuxcc:VerticalCard.Top>
+                                                                    <shvcont:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
+                                                                </shuxcc:VerticalCard.Top>
+                                                                <shuxcc:VerticalCard.Bottom>
+                                                                    <TextBlock Text="{Binding Item.Name}"/>
+                                                                </shuxcc:VerticalCard.Bottom>
+                                                            </shuxcc:VerticalCard>
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 Margin="16,0,0,0"
                                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                                 Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarOriginalFoodTitle}"/>
-                                                            <shvcont:BottomTextControl
+                                                            <shuxcc:VerticalCard
                                                                 Grid.Row="1"
                                                                 Grid.Column="1"
-                                                                Margin="16,16,0,0"
-                                                                Text="{Binding OriginItem.Name}">
-                                                                <shvcont:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
-                                                            </shvcont:BottomTextControl>
+                                                                Margin="16,16,0,0">
+                                                                <shuxcc:VerticalCard.Top>
+                                                                    <shvcont:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
+                                                                </shuxcc:VerticalCard.Top>
+                                                                <shuxcc:VerticalCard.Bottom>
+                                                                    <TextBlock Text="{Binding OriginItem.Name}"/>
+                                                                </shuxcc:VerticalCard.Bottom>
+                                                            </shuxcc:VerticalCard>
                                                             <StackPanel
                                                                 Grid.RowSpan="4"
                                                                 Grid.Column="2"

@@ -467,13 +467,18 @@
                                                                     </ItemsControl.ItemsPanel>
                                                                     <ItemsControl.ItemTemplate>
                                                                         <DataTemplate>
-                                                                            <shvcon:BottomTextControl Text="{Binding Value}">
-                                                                                <shvcon:ItemIcon
-                                                                                    Width="52"
-                                                                                    Height="52"
-                                                                                    Icon="{Binding Icon}"
-                                                                                    Quality="{Binding Quality}"/>
-                                                                            </shvcon:BottomTextControl>
+                                                                            <shuxcc:VerticalCard>
+                                                                                <shuxcc:VerticalCard.Top>
+                                                                                    <shvcon:ItemIcon
+                                                                                        Width="52"
+                                                                                        Height="52"
+                                                                                        Icon="{Binding Icon}"
+                                                                                        Quality="{Binding Quality}"/>
+                                                                                </shuxcc:VerticalCard.Top>
+                                                                                <shuxcc:VerticalCard.Bottom>
+                                                                                    <TextBlock Text="{Binding Value}"/>
+                                                                                </shuxcc:VerticalCard.Bottom>
+                                                                            </shuxcc:VerticalCard>
                                                                         </DataTemplate>
                                                                     </ItemsControl.ItemTemplate>
                                                                 </ItemsControl>

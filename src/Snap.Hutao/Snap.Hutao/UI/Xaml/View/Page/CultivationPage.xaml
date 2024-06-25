@@ -224,9 +224,14 @@
                         Background="Transparent"
                         BorderBrush="{x:Null}"
                         BorderThickness="0">
-                        <shvco:BottomTextControl Text="{Binding Count, Mode=OneWay}">
-                            <shvco:ItemIcon Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Inner.RankLevel}"/>
-                        </shvco:BottomTextControl>
+                        <shuxcc:VerticalCard>
+                            <shuxcc:VerticalCard.Top>
+                                <shvco:ItemIcon Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Inner.RankLevel}"/>
+                            </shuxcc:VerticalCard.Top>
+                            <shuxcc:VerticalCard.Bottom>
+                                <TextBlock Text="{Binding Count, Mode=OneWay}"/>
+                            </shuxcc:VerticalCard.Bottom>
+                        </shuxcc:VerticalCard>
                         <Button.Flyout>
                             <Flyout>
                                 <Grid>

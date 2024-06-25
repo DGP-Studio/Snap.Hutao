@@ -75,9 +75,14 @@
         </DataTemplate>
 
         <DataTemplate x:Key="MonsterGridTemplate">
-            <shvc:BottomTextControl Text="{Binding Name}">
-                <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}" Quality="QUALITY_NONE"/>
-            </shvc:BottomTextControl>
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
+                    <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}" Quality="QUALITY_NONE"/>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock Text="{Binding Name}"/>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
         </DataTemplate>
     </Page.Resources>
 

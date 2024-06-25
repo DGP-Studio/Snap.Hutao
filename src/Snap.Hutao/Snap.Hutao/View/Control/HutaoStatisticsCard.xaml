@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
@@ -17,12 +18,17 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="GridTemplate" d:DataType="shvg:StatisticsItem">
-            <shvcont:BottomTextControl Text="{Binding Count}" TextStyle="{StaticResource CaptionTextBlockStyle}">
-                <shvcont:ItemIcon
-                    shux:FrameworkElementHelper.SquareLength="40"
-                    Icon="{Binding Icon}"
-                    Quality="{Binding Quality}"/>
-            </shvcont:BottomTextControl>
+            <shuxcc:VerticalCard>
+                <shuxcc:VerticalCard.Top>
+                    <shvcont:ItemIcon
+                        shux:FrameworkElementHelper.SquareLength="40"
+                        Icon="{Binding Icon}"
+                        Quality="{Binding Quality}"/>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding Count}"/>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
         </DataTemplate>
     </UserControl.Resources>
 

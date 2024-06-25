@@ -3,20 +3,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control">
     <Style x:Key="TwoPanelScrollViewerStyle" TargetType="ScrollViewer">
-        <Setter Property="HorizontalScrollMode" Value="Auto"/>
-        <Setter Property="VerticalScrollMode" Value="Auto"/>
-        <Setter Property="IsHorizontalRailEnabled" Value="True"/>
-        <Setter Property="IsVerticalRailEnabled" Value="True"/>
-        <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="ZoomMode" Value="Disabled"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalContentAlignment" Value="Top"/>
-        <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalScrollMode" Value="Auto"/>
+        <Setter Property="IsHorizontalRailEnabled" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="IsVerticalRailEnabled" Value="True"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollViewer">
@@ -282,5 +277,10 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
+        <Setter Property="VerticalScrollMode" Value="Auto"/>
+        <Setter Property="ZoomMode" Value="Disabled"/>
     </Style>
 </ResourceDictionary>

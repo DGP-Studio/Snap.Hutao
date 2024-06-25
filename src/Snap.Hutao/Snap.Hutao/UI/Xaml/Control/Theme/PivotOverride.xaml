@@ -7,8 +7,6 @@
     <Thickness x:Key="PivotItemMargin">0</Thickness>
 
     <Style x:Key="CardPivotStyle" TargetType="Pivot">
-        <Setter Property="Margin" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
         <Setter Property="Background" Value="{ThemeResource PivotBackground}"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="ItemsPanel">
@@ -18,6 +16,8 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Pivot">
@@ -50,8 +50,8 @@
                                 BasedOn="{StaticResource BaseContentControlStyle}"
                                 TargetType="ContentControl">
                                 <Setter Property="FontFamily" Value="{ThemeResource PivotTitleFontFamily}"/>
-                                <Setter Property="FontWeight" Value="{ThemeResource PivotTitleThemeFontWeight}"/>
                                 <Setter Property="FontSize" Value="{ThemeResource PivotTitleFontSize}"/>
+                                <Setter Property="FontWeight" Value="{ThemeResource PivotTitleThemeFontWeight}"/>
                             </Style>
                         </Grid.Resources>
 
@@ -380,8 +380,6 @@
         </Setter>
     </Style>
     <Style x:Key="CardPivotStyle2" TargetType="Pivot">
-        <Setter Property="Margin" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
         <Setter Property="Background" Value="{ThemeResource PivotBackground}"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="ItemsPanel">
@@ -391,6 +389,8 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Pivot">
@@ -423,8 +423,8 @@
                                 BasedOn="{StaticResource BaseContentControlStyle}"
                                 TargetType="ContentControl">
                                 <Setter Property="FontFamily" Value="{ThemeResource PivotTitleFontFamily}"/>
-                                <Setter Property="FontWeight" Value="{ThemeResource PivotTitleThemeFontWeight}"/>
                                 <Setter Property="FontSize" Value="{ThemeResource PivotTitleFontSize}"/>
+                                <Setter Property="FontWeight" Value="{ThemeResource PivotTitleThemeFontWeight}"/>
                             </Style>
                         </Grid.Resources>
 

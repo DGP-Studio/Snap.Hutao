@@ -94,19 +94,24 @@
             TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
 
         <DataTemplate x:Key="OrangeGridTemplate" d:DataType="shvg:SummaryItem">
-            <shvcont:BottomTextControl
+            <shuxcc:VerticalCard
                 Background="{Binding IsUp, Converter={StaticResource BoolToBrushConverter}}"
-                Text="{Binding LastPull}"
-                TextStyle="{StaticResource CaptionTextBlockStyle}"
+                BottomPadding="0,1"
                 ToolTipService.ToolTip="{Binding TimeFormatted}">
-                <shvcont:BottomTextControl.Foreground>
-                    <SolidColorBrush Color="{Binding Color}"/>
-                </shvcont:BottomTextControl.Foreground>
-                <shvcont:ItemIcon
-                    shux:FrameworkElementHelper.SquareLength="40"
-                    Icon="{Binding Icon}"
-                    Quality="{Binding Quality}"/>
-            </shvcont:BottomTextControl>
+                <shuxcc:VerticalCard.Top>
+                    <shvcont:ItemIcon
+                        shux:FrameworkElementHelper.SquareLength="40"
+                        Icon="{Binding Icon}"
+                        Quality="{Binding Quality}"/>
+                </shuxcc:VerticalCard.Top>
+                <shuxcc:VerticalCard.Bottom>
+                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LastPull}">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{Binding Color}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </shuxcc:VerticalCard.Bottom>
+            </shuxcc:VerticalCard>
         </DataTemplate>
     </UserControl.Resources>
 

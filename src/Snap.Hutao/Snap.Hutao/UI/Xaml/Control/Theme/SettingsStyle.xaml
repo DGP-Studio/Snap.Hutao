@@ -41,9 +41,9 @@
         TargetType="Button">
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
-        <Setter Property="Padding" Value="16,6,16,6"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="MinWidth" Value="{ThemeResource SettingsCardContentControlMinWidth}"/>
+        <Setter Property="Padding" Value="16,6,16,6"/>
     </Style>
 </ResourceDictionary>

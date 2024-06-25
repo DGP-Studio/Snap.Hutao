@@ -61,16 +61,15 @@
 
     <!--  TODO: When will DefaultInfoBarStyle added  -->
     <Style TargetType="InfoBar">
-        <Setter Property="shuxc:InfoBarHelper.IsTextSelectionEnabled" Value="False"/>
-        <Setter Property="FontFamily" Value="{StaticResource MiSans}"/>
-        <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="CloseButtonStyle" Value="{StaticResource InfoBarCloseButtonStyle}"/>
+        <Setter Property="AutomationProperties.IsDialog" Value="True"/>
+        <Setter Property="AutomationProperties.LandmarkType" Value="Custom"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{ThemeResource InfoBarBorderBrush}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource InfoBarBorderThickness}"/>
-        <Setter Property="AutomationProperties.LandmarkType" Value="Custom"/>
-        <Setter Property="AutomationProperties.IsDialog" Value="True"/>
+        <Setter Property="CloseButtonStyle" Value="{StaticResource InfoBarCloseButtonStyle}"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+        <Setter Property="FontFamily" Value="{StaticResource MiSans}"/>
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="InfoBar">
@@ -324,5 +323,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="shuxc:InfoBarHelper.IsTextSelectionEnabled" Value="False"/>
     </Style>
 </ResourceDictionary>

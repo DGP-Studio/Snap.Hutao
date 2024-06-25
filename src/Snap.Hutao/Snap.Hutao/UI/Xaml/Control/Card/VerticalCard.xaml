@@ -1,0 +1,39 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card">
+
+    <Style BasedOn="{StaticResource DefaultVerticalCardStyle}" TargetType="shuxcc:VerticalCard"/>
+
+    <Style x:Key="DefaultVerticalCardStyle" TargetType="shuxcc:VerticalCard">
+        <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+        <Setter Property="BottomPadding" Value="0,2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="shuxcc:VerticalCard">
+                    <Border Background="{TemplateBinding Background}" Style="{StaticResource BorderCardStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border
+                                x:Name="ContentHost"
+                                cw:FrameworkElementExtensions.EnableActualSizeBinding="True"
+                                Child="{TemplateBinding Top}"/>
+                            <Border
+                                Grid.Row="1"
+                                MaxWidth="{Binding (cw:FrameworkElementExtensions.ActualWidth), ElementName=ElementName, Mode=OneWay}"
+                                Padding="{TemplateBinding BottomPadding}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                Child="{TemplateBinding Bottom}"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
