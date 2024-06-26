@@ -23,6 +23,7 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
         Content = new Border();
 
         this.SetLayered();
+        this.SetToolWindow();
 
         AppWindow.Title = "SnapHutaoNotifyIconXamlHost";
         AppWindow.IsShownInSwitchers = false;

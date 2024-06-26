@@ -97,6 +97,14 @@ internal static class WindowExtension
         }
     }
 
+    public static void SetToolWindow(this Window window)
+    {
+        HWND hwnd = (HWND)WindowNative.GetWindowHandle(window);
+        nint style = GetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+        style |= (nint)WINDOW_EX_STYLE.WS_EX_TOOLWINDOW;
+        SetWindowLongPtrW(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, style);
+    }
+
     public static unsafe void BringToForeground(this Window window)
     {
         HWND fgHwnd = GetForegroundWindow();
