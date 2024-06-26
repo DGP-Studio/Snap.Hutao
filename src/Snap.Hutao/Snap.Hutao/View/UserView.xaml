@@ -233,7 +233,7 @@
                         Height="36"
                         Margin="1,1,6,1"
                         HorizontalAlignment="Left"
-                        ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl, Mode=OneWay}"/>
+                        ProfilePicture="{Binding SelectedUser?.UserInfo?.AvatarUrl, Mode=OneWay}"/>
                     <TextBlock
                         Grid.Column="1"
                         Margin="1,0,0,0"
