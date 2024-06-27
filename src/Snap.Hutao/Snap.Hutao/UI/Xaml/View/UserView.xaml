@@ -9,6 +9,7 @@
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvu="using:Snap.Hutao.ViewModel.User"
@@ -24,13 +25,14 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <PersonPicture
+                <shuxci:CachedImage
                     Grid.Column="0"
                     Height="32"
                     Margin="2,0"
                     HorizontalAlignment="Left"
                     Background="#FFDAB79B"
-                    ProfilePicture="{Binding ProfilePictureIcon, Converter={StaticResource AvatarIconCircleConverter}}"/>
+                    CornerRadius="{ThemeResource CornerRadiusAll16}"
+                    Source="{Binding ProfilePictureIcon, Converter={StaticResource AvatarIconCircleConverter}}"/>
                 <Button
                     Grid.Column="0"
                     Width="32"
@@ -101,7 +103,7 @@
                     Height="32"
                     Margin="2,0"
                     HorizontalAlignment="Left"
-                    ProfilePicture="{Binding UserInfo.AvatarUrl, Mode=OneWay}"/>
+                    ProfilePicture="{Binding UserInfo.AvatarUri, Mode=OneWay}"/>
                 <TextBlock
                     Grid.Column="1"
                     Margin="12,0,0,0"
@@ -233,7 +235,7 @@
                         Height="36"
                         Margin="1,1,6,1"
                         HorizontalAlignment="Left"
-                        ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl, Mode=OneWay}"/>
+                        ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUri, Mode=OneWay}"/>
                     <TextBlock
                         Grid.Column="1"
                         Margin="1,0,0,0"
