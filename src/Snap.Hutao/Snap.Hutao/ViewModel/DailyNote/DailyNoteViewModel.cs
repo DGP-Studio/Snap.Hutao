@@ -12,10 +12,10 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control;
-using Snap.Hutao.View.Control;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using System.Collections.ObjectModel;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
 
@@ -46,7 +46,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public AppOptions AppOptions { get => appOptions; }
 
-    public IWebViewerSource VerifyUrlSource { get; } = new DailyNoteWebViewerSource();
+    public IJSBridgeUriSource VerifyUrlSource { get; } = new DailyNoteWebViewerSource();
 
     /// <summary>
     /// 用户与角色集合

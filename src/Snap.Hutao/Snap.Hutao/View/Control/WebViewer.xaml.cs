@@ -8,6 +8,7 @@ using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Message;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
 using Snap.Hutao.Web.WebView2;
@@ -15,7 +16,7 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.View.Control;
 
-[DependencyProperty("SourceProvider", typeof(IWebViewerSource))]
+[DependencyProperty("SourceProvider", typeof(IJSBridgeUriSource))]
 [DependencyProperty("DocumentTitle", typeof(string))]
 [DependencyProperty("CanGoBack", typeof(bool))]
 internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
@@ -26,7 +27,7 @@ internal partial class WebViewer : UserControl, IRecipient<UserChangedMessage>
     private readonly TypedEventHandler<CoreWebView2, object> documentTitleChangedEventHandler;
     private readonly TypedEventHandler<CoreWebView2, object> historyChangedEventHandler;
 
-    private MiHoYoJSBridge? jsBridge;
+    private MiHoYoJSBridgeFacade? jsBridge;
     private bool isInitializingOrInitialized;
 
     public WebViewer()

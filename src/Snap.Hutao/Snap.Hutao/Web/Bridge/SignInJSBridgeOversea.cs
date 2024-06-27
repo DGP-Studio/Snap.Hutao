@@ -10,7 +10,7 @@ namespace Snap.Hutao.Web.Bridge;
 /// HoYoLAB 签到页面JS桥
 /// </summary>
 [HighQuality]
-internal sealed class SignInJSBridgeOversea : MiHoYoJSBridge
+internal sealed class SignInJSBridgeOversea : MiHoYoJSBridgeFacade
 {
     // 移除 请旋转手机 提示所在的HTML元素
     private const string RemoveRotationWarningScript = """

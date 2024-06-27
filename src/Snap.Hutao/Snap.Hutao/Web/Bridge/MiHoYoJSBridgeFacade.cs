@@ -16,16 +16,12 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 using System.Text;
-using Windows.Foundation;
 
 namespace Snap.Hutao.Web.Bridge;
 
-/// <summary>
-/// 调用桥
-/// </summary>
 [HighQuality]
 [SuppressMessage("", "CA1001")]
-internal class MiHoYoJSBridge
+internal class MiHoYoJSBridgeFacade
 {
     private const string InitializeJsInterfaceScript = """
         window.MiHoYoJSInterface = {
@@ -86,40 +82,32 @@ internal class MiHoYoJSBridge
 
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-    private readonly ILogger<MiHoYoJSBridge> logger;
-
-    private readonly TypedEventHandler<CoreWebView2, CoreWebView2WebMessageReceivedEventArgs> webMessageReceivedEventHandler;
-    private readonly TypedEventHandler<CoreWebView2, CoreWebView2DOMContentLoadedEventArgs> domContentLoadedEventHandler;
-    private readonly TypedEventHandler<CoreWebView2, CoreWebView2NavigationStartingEventArgs> navigationStartingEventHandler;
+    private readonly ILogger<MiHoYoJSBridgeFacade> logger;
 
     private CoreWebView2 coreWebView2;
 
-    public MiHoYoJSBridge(CoreWebView2 coreWebView2, UserAndUid userAndUid)
+    public MiHoYoJSBridgeFacade(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
-        // 由于Webview2 的作用域特殊性，我们在此处直接使用根服务
-        serviceProvider = Ioc.Default;
+        this.serviceProvider = serviceProvider;
+
         this.coreWebView2 = coreWebView2;
         this.userAndUid = userAndUid;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSBridge>>();
+        logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSBridgeFacade>>();
 
-        webMessageReceivedEventHandler = OnWebMessageReceived;
-        domContentLoadedEventHandler = OnDOMContentLoaded;
-        navigationStartingEventHandler = OnNavigationStarting;
-
-        coreWebView2.WebMessageReceived += webMessageReceivedEventHandler;
-        coreWebView2.DOMContentLoaded += domContentLoadedEventHandler;
-        coreWebView2.NavigationStarting += navigationStartingEventHandler;
+        coreWebView2.WebMessageReceived += OnWebMessageReceived;
+        coreWebView2.DOMContentLoaded += OnDOMContentLoaded;
+        coreWebView2.NavigationStarting += OnNavigationStarting;
     }
 
     public event Action? ClosePageRequested;
 
     public void Detach()
     {
-        coreWebView2.WebMessageReceived -= webMessageReceivedEventHandler;
-        coreWebView2.DOMContentLoaded -= domContentLoadedEventHandler;
-        coreWebView2.NavigationStarting -= navigationStartingEventHandler;
+        coreWebView2.WebMessageReceived -= OnWebMessageReceived;
+        coreWebView2.DOMContentLoaded -= OnDOMContentLoaded;
+        coreWebView2.NavigationStarting -= OnNavigationStarting;
         coreWebView2 = default!;
     }
 

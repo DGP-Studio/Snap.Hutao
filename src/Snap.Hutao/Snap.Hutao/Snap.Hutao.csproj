@@ -340,13 +340,13 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
     <PackageReference Include="QRCoder" Version="1.5.1" />
-    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.9.0" />
+    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.10.0" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
-    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.1">
+    <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-	<PackageReference Include="Snap.Hutao.Elevated.Launcher.Runtime" Version="1.2.0">
+	<PackageReference Include="Snap.Hutao.Elevated.Launcher.Runtime" Version="1.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -623,10 +623,6 @@
     <Page Update="UI\Xaml\Control\Card\CardBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Xaml\View\Card\" />
-    <Folder Include="UI\Xaml\View\Page\" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\Control\ItemIcon.xaml">

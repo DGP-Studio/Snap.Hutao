@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.View.Control;
+namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
 [DependencyProperty("IsPredictPullAvailable", typeof(bool), false, nameof(OnIsPredictPullAvailableChanged))]
 internal sealed partial class StatisticsSegmented : Segmented

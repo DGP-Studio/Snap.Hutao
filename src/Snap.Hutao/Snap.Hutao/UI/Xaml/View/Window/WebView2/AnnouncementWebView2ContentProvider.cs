@@ -4,13 +4,15 @@
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.UI.Xaml.Control.Theme;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.Frozen;
 using System.Text;
 using System.Text.RegularExpressions;
+using Windows.Graphics;
 using Windows.System;
 
-namespace Snap.Hutao.UI.Xaml.View.Window;
+namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 [DependencyProperty("Announcement", typeof(Announcement))]
 internal sealed partial class AnnouncementWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
@@ -39,7 +41,7 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
 
     public CoreWebView2? CoreWebView2 { get; set; }
 
-    public async ValueTask LoadAsync(CancellationToken token)
+    public async ValueTask InitializeAsync(CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(CoreWebView2);
 
@@ -63,6 +65,18 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
         {
             CoreWebView2.WebMessageReceived -= OnWebMessageReceived;
         }
+    }
+
+    public RectInt32 InitializePosition(RectInt32 parentRect)
+    {
+        // Parent Window can never be so small
+        // if (parentRect.Width < 96 || parentRect.Height < 96)
+        // {
+        //     return parentRect;
+        // }
+
+        // Shrink 48 px on each side
+        return new RectInt32(parentRect.X + 48, parentRect.Y + 48, parentRect.Width - 96, parentRect.Height - 96);
     }
 
     [GeneratedRegex(" style=\"(?!\")*?vertical-align:middle;\"")]

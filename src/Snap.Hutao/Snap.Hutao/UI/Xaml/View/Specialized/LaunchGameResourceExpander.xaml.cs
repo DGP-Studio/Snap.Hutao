@@ -3,7 +3,7 @@
 
 using CommunityToolkit.WinUI.Controls;
 
-namespace Snap.Hutao.View.Control;
+namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
 /// <summary>
 /// 启动游戏资源 Expander

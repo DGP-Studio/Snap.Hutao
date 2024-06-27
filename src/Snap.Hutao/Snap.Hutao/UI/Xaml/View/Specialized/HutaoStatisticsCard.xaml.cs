@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.View.Control;
+namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
 /// <summary>
 /// 胡桃云祈愿统计卡片

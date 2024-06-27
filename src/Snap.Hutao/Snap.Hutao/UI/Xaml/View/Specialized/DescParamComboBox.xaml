@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Snap.Hutao.View.Control.DescParamComboBox"
+    x:Class="Snap.Hutao.UI.Xaml.View.Specialized.DescParamComboBox"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
@@ -34,9 +34,10 @@
             ItemsSource="{x:Bind SelectedItem.Parameters, Mode=OneWay}">
             <shuxc:SizeRestrictedContentControl Margin="0,-8">
                 <ComboBox
-                    x:Name="LevelSelectorComboBox"
+                    x:Name="LevelComboBox"
                     DisplayMemberPath="Level"
-                    SelectionChanged="OnLevelSelectorComboBoxSelectionChanged"
+                    ItemsSource="{x:Bind Source, Mode=OneWay}"
+                    SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
                     Style="{StaticResource SettingsContentComboBoxStyle}"/>
             </shuxc:SizeRestrictedContentControl>
         </cwc:SettingsExpander>

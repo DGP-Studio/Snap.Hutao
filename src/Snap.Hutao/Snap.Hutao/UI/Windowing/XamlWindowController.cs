@@ -132,7 +132,7 @@ internal sealed class XamlWindowController
         subclass?.Dispose();
         windowNonRudeHWND?.Dispose();
 
-        if (window is IXamlWindowClosed xamlWindowClosed)
+        if (window is IXamlWindowClosedHandler xamlWindowClosed)
         {
             xamlWindowClosed.OnWindowClosed();
         }

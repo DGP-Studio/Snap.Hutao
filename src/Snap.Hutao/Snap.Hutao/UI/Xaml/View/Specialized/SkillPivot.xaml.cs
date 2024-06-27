@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections;
@@ -31,15 +30,9 @@ internal sealed partial class SkillPivot : UserControl
         {
             if (args.OldValue != args.NewValue && args.NewValue as IList is [object target, ..] list)
             {
+                skillPivot.Bindings.Update();
                 skillPivot.Selected = target;
-                skillPivot.SkillSelectorSegmented.ItemsSource = list;
-                skillPivot.SkillSelectorSegmented.SelectedItem = target;
             }
         }
-    }
-
-    private void OnSkillSelectorSegmentedSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        Selected = ((Segmented)sender).SelectedItem;
     }
 }

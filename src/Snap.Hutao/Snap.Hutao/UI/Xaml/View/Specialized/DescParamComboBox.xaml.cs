@@ -5,20 +5,14 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Model.Metadata;
 
-namespace Snap.Hutao.View.Control;
+namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
-/// <summary>
-/// 描述参数组合框
-/// </summary>
 [HighQuality]
 [DependencyProperty("Source", typeof(List<LevelParameters<string, ParameterDescription>>), default!, nameof(OnSourceChanged))]
 [DependencyProperty("SelectedItem", typeof(LevelParameters<string, ParameterDescription>), default!)]
 [DependencyProperty("PreferredSelectedIndex", typeof(int), 0)]
 internal sealed partial class DescParamComboBox : UserControl
 {
-    /// <summary>
-    /// 构造一个新的描述参数组合框
-    /// </summary>
     public DescParamComboBox()
     {
         InitializeComponent();
@@ -30,16 +24,9 @@ internal sealed partial class DescParamComboBox : UserControl
         {
             if (args.NewValue != args.OldValue && args.NewValue is List<LevelParameters<string, ParameterDescription>> list)
             {
-                LevelParameters<string, ParameterDescription>? target = list.ElementAtOrDefault(descParamComboBox.PreferredSelectedIndex) ?? list.LastOrDefault();
-                descParamComboBox.SelectedItem = target;
-                descParamComboBox.LevelSelectorComboBox.ItemsSource = list;
-                descParamComboBox.LevelSelectorComboBox.SelectedItem = target;
+                descParamComboBox.Bindings.Update();
+                descParamComboBox.SelectedItem = list.ElementAtOrDefault(descParamComboBox.PreferredSelectedIndex) ?? list.LastOrDefault();
             }
         }
-    }
-
-    private void OnLevelSelectorComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        SelectedItem = (LevelParameters<string, ParameterDescription>)((ComboBox)sender).SelectedItem;
     }
 }

@@ -17,7 +17,7 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxma="using:Snap.Hutao.UI.Xaml.Media.Animation"
-    xmlns:shuxvw="using:Snap.Hutao.UI.Xaml.View.Window"
+    xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
     xmlns:shvco="using:Snap.Hutao.View.Control"
     xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
     d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
@@ -131,7 +131,7 @@
                         <mxic:EventTriggerBehavior EventName="Tapped">
                             <shuxba:ShowWebView2WindowAction>
                                 <shuxba:ShowWebView2WindowAction.ContentProvider>
-                                    <shuxvw:AnnouncementWebView2ContentProvider Announcement="{Binding}"/>
+                                    <shuxvww:AnnouncementWebView2ContentProvider Announcement="{Binding}"/>
                                 </shuxba:ShowWebView2WindowAction.ContentProvider>
                             </shuxba:ShowWebView2WindowAction>
                         </mxic:EventTriggerBehavior>

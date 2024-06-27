@@ -15,6 +15,7 @@
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiAvatarViewModel}"
@@ -45,7 +46,7 @@
                         </Style>
                     </shuxct:DescriptionTextBlock.Resources>
                 </shuxct:DescriptionTextBlock>
-                <shvcont:DescParamComboBox
+                <shuxvs:DescParamComboBox
                     x:Name="ProudSelector"
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
@@ -56,7 +57,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="PropertyDataTemplate">
-            <shvcont:DescParamComboBox
+            <shuxvs:DescParamComboBox
                 HorizontalAlignment="Stretch"
                 PreferredSelectedIndex="13"
                 Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
@@ -550,7 +551,7 @@
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
                                                         <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
                                                     </Border.Resources>
-                                                    <shvcont:BaseValueSlider
+                                                    <shuxvs:BaseValueSlider
                                                         HorizontalAlignment="Stretch"
                                                         HorizontalContentAlignment="Stretch"
                                                         BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>

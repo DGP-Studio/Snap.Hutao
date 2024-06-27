@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.View.Control;
+namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
 /// <summary>
 /// 统计卡片

@@ -3,14 +3,14 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.View.Control;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Bridge;
 
 namespace Snap.Hutao.ViewModel.User;
 
-internal sealed class SignInWebViewerSouce : DependencyObject, IWebViewerSource
+internal sealed class SignInWebViewerSouce : DependencyObject, IJSBridgeUriSource
 {
-    public MiHoYoJSBridge CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
+    public MiHoYoJSBridgeFacade CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
         return userAndUid.User.IsOversea
             ? serviceProvider.CreateInstance<SignInJSBridgeOversea>(coreWebView2, userAndUid)

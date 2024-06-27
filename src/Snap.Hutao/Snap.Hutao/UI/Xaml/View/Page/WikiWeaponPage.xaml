@@ -14,6 +14,7 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiWeaponViewModel}"
@@ -25,7 +26,7 @@
 
     <Page.Resources>
         <DataTemplate x:Key="PropertyDataTemplate">
-            <shvc:DescParamComboBox
+            <shuxvs:DescParamComboBox
                 HorizontalAlignment="Stretch"
                 PreferredSelectedIndex="13"
                 Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
@@ -315,7 +316,7 @@
                                                 </Border>
 
                                                 <TextBlock Text="{Binding Selected.Description}" TextWrapping="Wrap"/>
-                                                <shvc:BaseValueSlider
+                                                <shuxvs:BaseValueSlider
                                                     HorizontalAlignment="Stretch"
                                                     HorizontalContentAlignment="Stretch"
                                                     BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>

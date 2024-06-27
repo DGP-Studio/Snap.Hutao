@@ -12,37 +12,42 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using static Snap.Hutao.Win32.User32;
 
-namespace Snap.Hutao.UI.Xaml.View.Window;
+namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 [SuppressMessage("", "CA1001")]
-internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWindowExtendContentIntoTitleBar, IXamlWindowClosed
+internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWindowExtendContentIntoTitleBar, IXamlWindowClosedHandler
 {
     private readonly CancellationTokenSource loadCts = new();
+
+    private readonly IServiceScope windowScope;
     private readonly IWebView2ContentProvider contentProvider;
-    private readonly IServiceScope scope;
     private readonly AppWindow parentAppWindow;
     private readonly HWND parentHWND;
 
     public WebView2Window(WindowId parentWindowId, IWebView2ContentProvider contentProvider)
     {
-        scope = Ioc.Default.CreateScope();
+        windowScope = Ioc.Default.CreateScope();
 
         parentHWND = Win32Interop.GetWindowFromWindowId(parentWindowId);
         parentAppWindow = AppWindow.GetFromWindowId(parentWindowId);
 
+        // Make sure this window has a parent window before we make modal
         SetWindowLongPtrW(this.GetWindowHandle(), WINDOW_LONG_PTR_INDEX.GWLP_HWNDPARENT, parentHWND);
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsModal = true;
+            presenter.IsResizable = false;
+            presenter.IsMaximizable = false;
         }
 
         this.contentProvider = contentProvider;
+
         InitializeComponent();
 
         WebView.Loaded += OnWebViewLoaded;
         WebView.Unloaded += OnWebViewUnloaded;
 
-        this.InitializeController(scope.ServiceProvider);
+        this.InitializeController(windowScope.ServiceProvider);
     }
 
     public FrameworkElement TitleBarAccess { get => TitleArea; }
@@ -51,14 +56,16 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
     {
         EnableWindow(parentHWND, false);
         base.Activate();
-        AppWindow.MoveAndResize(parentAppWindow.GetRect());
+        AppWindow.MoveAndResize(contentProvider.InitializePosition(parentAppWindow.GetRect()));
     }
 
     public void OnWindowClosed()
     {
         EnableWindow(parentHWND, true);
+
+        // Reactive parent window
         SetForegroundWindow(parentHWND);
-        scope.Dispose();
+        windowScope.Dispose();
     }
 
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
@@ -71,7 +78,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
             WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
             WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
             contentProvider.CoreWebView2 = WebView.CoreWebView2;
-            await contentProvider.LoadAsync(loadCts.Token).ConfigureAwait(false);
+            await contentProvider.InitializeAsync(loadCts.Token).ConfigureAwait(false);
         }
     }
 

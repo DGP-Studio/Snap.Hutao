@@ -5,11 +5,11 @@ using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
 
-namespace Snap.Hutao.View.Control;
+namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
-internal interface IWebViewerSource
+internal interface IJSBridgeUriSource
 {
-    MiHoYoJSBridge CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid);
+    MiHoYoJSBridgeFacade CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid);
 
     string GetSource(UserAndUid userAndUid);
 }

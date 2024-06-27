@@ -1,5 +1,5 @@
 <cwc:SettingsExpander
-    x:Class="Snap.Hutao.View.Control.LaunchGameResourceExpander"
+    x:Class="Snap.Hutao.UI.Xaml.View.Specialized.LaunchGameResourceExpander"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"

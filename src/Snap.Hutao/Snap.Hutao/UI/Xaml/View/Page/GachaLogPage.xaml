@@ -16,6 +16,7 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     d:DataContext="{d:DesignInstance shvg:GachaLogViewModel}"
@@ -308,10 +309,10 @@
                             Margin="0,16"
                             MinItemWidth="302"
                             Spacing="16">
-                            <shvc:StatisticsCard DataContext="{Binding Statistics.AvatarWish}"/>
-                            <shvc:StatisticsCard DataContext="{Binding Statistics.WeaponWish}"/>
-                            <shvc:StatisticsCard DataContext="{Binding Statistics.StandardWish}" ShowUpPull="False"/>
-                            <shvc:StatisticsCard DataContext="{Binding Statistics.ChronicledWish}" ShowUpPull="False"/>
+                            <shuxvs:StatisticsCard DataContext="{Binding Statistics.AvatarWish}"/>
+                            <shuxvs:StatisticsCard DataContext="{Binding Statistics.WeaponWish}"/>
+                            <shuxvs:StatisticsCard DataContext="{Binding Statistics.StandardWish}" ShowUpPull="False"/>
+                            <shuxvs:StatisticsCard DataContext="{Binding Statistics.ChronicledWish}" ShowUpPull="False"/>
                         </shuxcp:HorizontalEqualPanel>
                     </ScrollViewer>
                 </PivotItem>
@@ -489,10 +490,10 @@
                             <mxi:Interaction.Behaviors>
                                 <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudStatisticsViewModel.OpenUICommand}"/>
                             </mxi:Interaction.Behaviors>
-                            <shvc:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent}"/>
-                            <shvc:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent2}"/>
-                            <shvc:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.WeaponEvent}"/>
-                            <shvc:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.Chronicled}" Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                            <shuxvs:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent}"/>
+                            <shuxvs:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent2}"/>
+                            <shuxvs:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.WeaponEvent}"/>
+                            <shuxvs:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.Chronicled}" Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}"/>
                         </shuxcp:HorizontalEqualPanel>
                     </Grid>
                 </PivotItem>

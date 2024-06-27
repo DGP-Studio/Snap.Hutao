@@ -3,8 +3,9 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
+using Windows.Graphics;
 
-namespace Snap.Hutao.UI.Xaml.View.Window;
+namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 internal interface IWebView2ContentProvider
 {
@@ -12,7 +13,9 @@ internal interface IWebView2ContentProvider
 
     CoreWebView2? CoreWebView2 { get; set; }
 
-    ValueTask LoadAsync(CancellationToken token);
+    ValueTask InitializeAsync(CancellationToken token);
+
+    RectInt32 InitializePosition(RectInt32 parentRect);
 
     void Unload();
 }

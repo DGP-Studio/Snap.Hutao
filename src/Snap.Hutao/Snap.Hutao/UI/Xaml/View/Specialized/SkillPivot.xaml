@@ -26,10 +26,10 @@
 
     <StackPanel>
         <cwc:Segmented
-            x:Name="SkillSelectorSegmented"
             HorizontalAlignment="Stretch"
             ItemTemplate="{StaticResource SkillHeaderTemplate}"
-            SelectionChanged="OnSkillSelectorSegmentedSelectionChanged"/>
+            ItemsSource="{x:Bind Skills, Mode=OneWay}"
+            SelectedItem="{x:Bind Selected, Mode=TwoWay}"/>
         <ContentPresenter Content="{x:Bind Selected, Mode=OneWay}" ContentTemplate="{x:Bind ItemTemplate}"/>
     </StackPanel>
 </UserControl>

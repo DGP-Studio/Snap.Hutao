@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
-using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 namespace Snap.Hutao.UI.Xaml.Behavior.Action;
 

@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.ViewModel.Wiki;
 
-namespace Snap.Hutao.View.Control;
+namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
 /// <summary>
 /// 基础数值滑动条
