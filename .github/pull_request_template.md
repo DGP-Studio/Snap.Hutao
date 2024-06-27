@@ -1,5 +1,5 @@
 <!--- Hi, thanks for considering make a PR contribution to Snap Hutao, we appreciate your work. -->
-<!--- Before you create this PR, please fill the following form and checklist -->
+<!--- Before you create this PR, please check our contribution guide (https://hut.ao/en/development/contribute.html) and fill out the following form and checklist -->
 
 ## Description
 

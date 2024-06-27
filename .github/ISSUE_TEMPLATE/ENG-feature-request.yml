@@ -2,8 +2,6 @@ name: Feature Request [English Form]
 description: Tell us about your thought
 title: "[Feat]: Place your title here"
 labels: ["feature request", "needs-triage", "priority:none"]
-assignees:
-  - Lightczx
 body:
   - type: markdown
     attributes:
