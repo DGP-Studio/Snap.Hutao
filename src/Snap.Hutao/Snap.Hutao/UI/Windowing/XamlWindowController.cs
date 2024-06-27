@@ -154,7 +154,7 @@ internal sealed class XamlWindowController
 
         if (UniversalApiContract.IsPresent(WindowsVersion.Windows11))
         {
-            RECT primaryRect = StructMarshal.RECT(DisplayArea.Primary.OuterBounds);
+            RECT primaryRect = DisplayArea.Primary.OuterBounds.ToRECT();
             return IntersectRect(out _, in primaryRect, in iconRect);
         }
 
@@ -246,7 +246,7 @@ internal sealed class XamlWindowController
     private void RecoverOrInitWindowSize(IXamlWindowHasInitSize xamlWindow)
     {
         double scale = window.GetRasterizationScale();
-        RectInt32 rect = StructMarshal.RectInt32(xamlWindow.InitSize.Scale(scale));
+        RectInt32 rect = xamlWindow.InitSize.Scale(scale).ToRectInt32();
 
         if (window is IXamlWindowRectPersisted rectPersisted)
         {
@@ -333,8 +333,7 @@ internal sealed class XamlWindowController
             return;
         }
 
-        // 48 is the navigation button leftInset
-        RectInt32 dragRect = StructMarshal.RectInt32(48, 0, xamlWindow.TitleBarAccess.ActualSize).Scale(window.GetRasterizationScale());
+        RectInt32 dragRect = RectInt32Convert.RectInt32(0, 0, xamlWindow.TitleBarAccess.ActualSize).Scale(window.GetRasterizationScale());
         window.GetInputNonClientPointerSource().SetRegionRects(NonClientRegionKind.Caption, [dragRect]);
     }
     #endregion

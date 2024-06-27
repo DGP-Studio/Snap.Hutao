@@ -16,4 +16,11 @@ internal static class SizeInt32Extension
     {
         return sizeInt32.Width * sizeInt32.Height;
     }
+
+    public static unsafe RectInt32 ToRectInt32(this SizeInt32 sizeInt32)
+    {
+        RectInt32View view = default;
+        view.Size = sizeInt32;
+        return *(RectInt32*)&view;
+    }
 }

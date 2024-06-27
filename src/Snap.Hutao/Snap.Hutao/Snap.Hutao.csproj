@@ -149,21 +149,6 @@
     <None Remove="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml" />
     <None Remove="stylecop.json" />
     <None Remove="UI\Xaml\View\Window\WebView2Window.xaml" />
-    <None Remove="View\Card\AchievementCard.xaml" />
-    <None Remove="View\Card\CardBlock.xaml" />
-    <None Remove="View\Card\DailyNoteCard.xaml" />
-    <None Remove="View\Card\GachaStatisticsCard.xaml" />
-    <None Remove="View\Card\LaunchGameCard.xaml" />
-    <None Remove="View\Control\BaseValueSlider.xaml" />
-    <None Remove="View\Control\DescParamComboBox.xaml" />
-    <None Remove="View\Control\HutaoStatisticsCard.xaml" />
-    <None Remove="View\Control\LaunchGameResourceExpander.xaml" />
-    <None Remove="View\Control\RateDeltaTextBlockStyle.xaml" />
-    <None Remove="View\Control\SkillPivot.xaml" />
-    <None Remove="View\Control\SegmentedOverride.xaml" />
-    <None Remove="View\Control\StatisticsCard.xaml" />
-    <None Remove="View\Control\StatisticsSegmented.xaml" />
-    <None Remove="View\Control\WebViewer.xaml" />
     <None Remove="UI\Xaml\View\Dialog\AchievementArchiveCreateDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\AchievementImportDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\CultivateProjectDialog.xaml" />
@@ -187,27 +172,6 @@
     <None Remove="UI\Xaml\View\Dialog\UpdatePackageDownloadConfirmDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\UserDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\UserQRCodeDialog.xaml" />
-    <None Remove="View\Guide\GuideView.xaml" />
-    <None Remove="View\InfoBarView.xaml" />
-    <None Remove="View\MainView.xaml" />
-    <None Remove="View\Page\AchievementPage.xaml" />
-    <None Remove="View\Page\AnnouncementContentPage.xaml" />
-    <None Remove="View\Page\AnnouncementPage.xaml" />
-    <None Remove="View\Page\AvatarPropertyPage.xaml" />
-    <None Remove="View\Page\CultivationPage.xaml" />
-    <None Remove="View\Page\DailyNotePage.xaml" />
-    <None Remove="View\Page\FeedbackPage.xaml" />
-    <None Remove="View\Page\GachaLogPage.xaml" />
-    <None Remove="View\Page\LaunchGamePage.xaml" />
-    <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
-    <None Remove="View\Page\SettingPage.xaml" />
-    <None Remove="View\Page\SpiralAbyssRecordPage.xaml" />
-    <None Remove="View\Page\TestPage.xaml" />
-    <None Remove="View\Page\WikiAvatarPage.xaml" />
-    <None Remove="View\Page\WikiMonsterPage.xaml" />
-    <None Remove="View\Page\WikiWeaponPage.xaml" />
-    <None Remove="View\TitleView.xaml" />
-    <None Remove="View\UserView.xaml" />
   </ItemGroup>
 
   <!-- Analyzer Files -->
@@ -376,17 +340,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Control\RateDeltaTextBlockStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\FeedbackPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -398,25 +352,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="View\Card\CardBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="Control\Loading.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Control\StatisticsSegmented.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Control\WebViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -433,149 +369,9 @@
     </Page>
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="View\Control\HutaoStatisticsCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\InfoBarView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Card\DailyNoteCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Card\AchievementCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="View\Card\GachaStatisticsCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
   <!-- Pages -->
   <ItemGroup>
-    <Page Update="View\Page\TestPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\SpiralAbyssRecordPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\CultivationPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\WikiWeaponPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\DailyNotePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\LoginMihoyoUserPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="LaunchGameWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\LaunchGamePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\AvatarPropertyPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Control\DescParamComboBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Control\SkillPivot.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\UserView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\TitleView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\AnnouncementContentPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\AnnouncementPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\AnnouncementContentPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\AnnouncementPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\SettingPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\MainView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\WikiAvatarPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\AchievementPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Control\StatisticsCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\GachaLogPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -586,31 +382,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Control\Style\FontStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Control\LaunchGameResourceExpander.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\WikiMonsterPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Control\BaseValueSlider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Card\LaunchGameCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Guide\GuideView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -20,8 +20,8 @@ internal sealed partial class UInt32ToGradientColorConverter : DependencyValueCo
 {
     public UInt32ToGradientColorConverter()
     {
-        Maximum = StructMarshal.Color(0xFFFD0093);
-        Minimum = StructMarshal.Color(0xFF4B00D9);
+        Maximum = ColorHelper.ToColor(0xFFFD0093);
+        Minimum = ColorHelper.ToColor(0xFF4B00D9);
     }
 
     public override Color Convert(uint from)

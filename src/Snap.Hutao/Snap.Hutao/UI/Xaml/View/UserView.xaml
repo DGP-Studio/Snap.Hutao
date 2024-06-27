@@ -9,8 +9,10 @@
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvu="using:Snap.Hutao.ViewModel.User"
     d:DataContext="{d:DesignInstance shvu:UserViewModel}"
@@ -333,21 +335,19 @@
                                 Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentHomeGroup}}"
                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperationGameRecordIndexAction}"
                                 Style="{StaticResource DefaultAppBarButtonStyle}">
-                                <AppBarButton.Flyout>
-                                    <Flyout
-                                        FlyoutPresenterStyle="{StaticResource WebViewerFlyoutPresenterStyle}"
-                                        LightDismissOverlayMode="On"
-                                        Placement="Full"
-                                        ShouldConstrainToRootBounds="False">
-                                        <Grid>
-                                            <shvc:WebViewer>
-                                                <shvc:WebViewer.SourceProvider>
-                                                    <shvc:StaticWebview2ViewerSource ChineseSource="https://webstatic.mihoyo.com/bbs/event/e20200511toolbox/index.html?game_biz=ys_cn"/>
-                                                </shvc:WebViewer.SourceProvider>
-                                            </shvc:WebViewer>
-                                        </Grid>
-                                    </Flyout>
-                                </AppBarButton.Flyout>
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="Click">
+                                        <shuxba:ShowWebView2WindowAction>
+                                            <shuxba:ShowWebView2WindowAction.ContentProvider>
+                                                <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                                                    <shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                                        <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="https://webstatic.mihoyo.com/bbs/event/e20200511toolbox/index.html?game_biz=ys_cn"/>
+                                                    </shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                                </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                                            </shuxba:ShowWebView2WindowAction.ContentProvider>
+                                        </shuxba:ShowWebView2WindowAction>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
                             </AppBarButton>
                             <AppBarButton
                                 x:Name="SignInRewardButton"
@@ -360,21 +360,19 @@
                                 Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentGiftboxOpen}}"
                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
                                 Style="{StaticResource DefaultAppBarButtonStyle}">
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout
-                                        FlyoutPresenterStyle="{StaticResource WebViewerFlyoutPresenterStyle}"
-                                        LightDismissOverlayMode="On"
-                                        Placement="Full"
-                                        ShouldConstrainToRootBounds="False">
-                                        <Grid>
-                                            <shvc:WebViewer>
-                                                <shvc:WebViewer.SourceProvider>
-                                                    <shvu:SignInWebViewerSouce/>
-                                                </shvc:WebViewer.SourceProvider>
-                                            </shvc:WebViewer>
-                                        </Grid>
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="Click">
+                                        <shuxba:ShowWebView2WindowAction>
+                                            <shuxba:ShowWebView2WindowAction.ContentProvider>
+                                                <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                                                    <shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                                        <shvu:SignInJSBridgeUriSourceProvider/>
+                                                    </shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                                </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                                            </shuxba:ShowWebView2WindowAction.ContentProvider>
+                                        </shuxba:ShowWebView2WindowAction>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
                             </AppBarButton>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
@@ -438,10 +436,10 @@
             </Button.Flyout>
             <Button.Style>
                 <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
-                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
                 </Style>
             </Button.Style>
         </Button>

@@ -1,20 +1,24 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.UI.Windowing;
 using Snap.Hutao.UI.Windowing.Abstraction;
 using Snap.Hutao.Web.WebView2;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using Windows.Graphics;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Xaml.View.Window.WebView2;
 
 [SuppressMessage("", "CA1001")]
+[INotifyPropertyChanged]
 internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWindowExtendContentIntoTitleBar, IXamlWindowClosedHandler
 {
     private readonly CancellationTokenSource loadCts = new();
@@ -56,7 +60,8 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
     {
         EnableWindow(parentHWND, false);
         base.Activate();
-        AppWindow.MoveAndResize(contentProvider.InitializePosition(parentAppWindow.GetRect()));
+
+        AppWindow.MoveThenResize(contentProvider.InitializePosition(parentAppWindow.GetRect()));
     }
 
     public void OnWindowClosed()
@@ -68,6 +73,21 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
         windowScope.Dispose();
     }
 
+    [Command("GoBackCommand")]
+    private void GoBack()
+    {
+        if (WebView.CoreWebView2.CanGoBack)
+        {
+            WebView.CoreWebView2.GoBack();
+        }
+    }
+
+    [Command("RefreshCommand")]
+    private void Refresh()
+    {
+        WebView.CoreWebView2.Reload();
+    }
+
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
     {
         OnWebViewLoadedAsync().SafeForget();
@@ -76,9 +96,10 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
         {
             await WebView.EnsureCoreWebView2Async();
             WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
+            WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
             WebView.CoreWebView2.DisableDevToolsForReleaseBuild();
             contentProvider.CoreWebView2 = WebView.CoreWebView2;
-            await contentProvider.InitializeAsync(loadCts.Token).ConfigureAwait(false);
+            await contentProvider.InitializeAsync(windowScope.ServiceProvider, loadCts.Token).ConfigureAwait(false);
         }
     }
 
@@ -88,6 +109,12 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
         loadCts.Dispose();
         contentProvider.Unload();
 
+        if (WebView.CoreWebView2 is not null)
+        {
+            WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
+            WebView.CoreWebView2.HistoryChanged += OnHistoryChanged;
+        }
+
         WebView.Loaded -= OnWebViewLoaded;
         WebView.Unloaded -= OnWebViewUnloaded;
     }
@@ -95,6 +122,11 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
     private void OnDocumentTitleChanged(CoreWebView2 sender, object args)
     {
         DocumentTitle.Text = sender.DocumentTitle;
+    }
+
+    private void OnHistoryChanged(CoreWebView2 sender, object args)
+    {
+        GoBackButton.IsEnabled = sender.CanGoBack;
     }
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)

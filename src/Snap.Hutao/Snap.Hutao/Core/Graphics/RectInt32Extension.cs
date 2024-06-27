@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Win32.Foundation;
 using Windows.Graphics;
 
 namespace Snap.Hutao.Core.Graphics;
@@ -15,5 +16,15 @@ internal static class RectInt32Extension
     public static int Size(this RectInt32 rectInt32)
     {
         return rectInt32.Width * rectInt32.Height;
+    }
+
+    public static unsafe SizeInt32 GetSizeInt32(this RectInt32 rectInt32)
+    {
+        return ((RectInt32View*)&rectInt32)->Size;
+    }
+
+    public static RECT ToRECT(this RectInt32 rect)
+    {
+        return new(rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
     }
 }

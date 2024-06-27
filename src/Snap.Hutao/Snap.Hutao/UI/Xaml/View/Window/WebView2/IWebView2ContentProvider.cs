@@ -13,7 +13,7 @@ internal interface IWebView2ContentProvider
 
     CoreWebView2? CoreWebView2 { get; set; }
 
-    ValueTask InitializeAsync(CancellationToken token);
+    ValueTask InitializeAsync(IServiceProvider serviceProvider, CancellationToken token);
 
     RectInt32 InitializePosition(RectInt32 parentRect);
 

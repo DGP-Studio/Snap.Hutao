@@ -18,8 +18,8 @@ internal sealed class SignInJSBridgeOversea : MiHoYoJSBridgeFacade
         landscape.remove();
         """;
 
-    public SignInJSBridgeOversea(CoreWebView2 webView, UserAndUid userAndUid)
-        : base(webView, userAndUid)
+    public SignInJSBridgeOversea(IServiceProvider serviceProvider, CoreWebView2 webView, UserAndUid userAndUid)
+        : base(serviceProvider, webView, userAndUid)
     {
     }
 

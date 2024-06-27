@@ -56,6 +56,51 @@ public sealed class UnsafeRuntimeBehaviorTest
         Console.WriteLine(System.Text.Encoding.UTF8.GetString(bytes));
     }
 
+    [TestMethod]
+    public unsafe void UnsafeSizeInt32ToRectInt32Test()
+    {
+        RectInt32 rectInt32 = ToRectInt32(new(100, 200));
+        Assert.AreEqual(rectInt32.X, 0);
+        Assert.AreEqual(rectInt32.Y, 0);
+        Assert.AreEqual(rectInt32.Width, 100);
+        Assert.AreEqual(rectInt32.Height, 200);
+
+        unsafe RectInt32 ToRectInt32(SizeInt32 sizeInt32)
+        {
+            byte* pBytes = stackalloc byte[sizeof(RectInt32)];
+            *(SizeInt32*)(pBytes + 8) = sizeInt32;
+            return *(RectInt32*)pBytes;
+        }
+    }
+
+    private struct RectInt32
+    {
+        public int X;
+        public int Y;
+        public int Width;
+        public int Height;
+
+        public RectInt32(int x, int y, int width, int height)
+        {
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
+        }
+    }
+
+    private struct SizeInt32
+    {
+        public int Width;
+        public int Height;
+
+        public SizeInt32(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
+    }
+
     private readonly struct TestStruct
     {
         public readonly int Value1;

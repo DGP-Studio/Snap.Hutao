@@ -46,7 +46,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public AppOptions AppOptions { get => appOptions; }
 
-    public IJSBridgeUriSource VerifyUrlSource { get; } = new DailyNoteWebViewerSource();
+    public IJSBridgeUriSourceProvider VerifyUrlSource { get; } = new DailyNoteWebViewerSource();
 
     /// <summary>
     /// 用户与角色集合

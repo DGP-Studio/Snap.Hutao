@@ -13,8 +13,28 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid x:Name="TitleArea">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="GoBackButton"
+                Grid.Column="0"
+                MinWidth="42"
+                Command="{x:Bind GoBackCommand}"
+                FontSize="12"
+                Style="{StaticResource NavigationBackButtonSmallStyle}"/>
+            <Button
+                Grid.Column="1"
+                MinWidth="42"
+                Command="{x:Bind RefreshCommand}"
+                Content="&#xE72C;"
+                FontSize="12"
+                Style="{StaticResource NavigationBackButtonSmallStyle}"/>
             <TextBlock
                 x:Name="DocumentTitle"
+                Grid.Column="2"
                 Margin="12,0,0,0"
                 VerticalAlignment="Center"/>
         </Grid>

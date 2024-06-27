@@ -8,13 +8,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shme="using:Snap.Hutao.Model.Entity"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
     d:DataContext="{d:DesignInstance shvd:DailyNoteViewModel}"
@@ -448,15 +451,15 @@
                         AllowFocusOnInteraction="True"
                         Icon="{shuxm:FontIcon Glyph=&#xE9D5;}"
                         Label="{shuxm:ResourceString Name=ViewPageDailyNoteVerify}">
-                        <AppBarButton.Flyout>
-                            <Flyout
-                                FlyoutPresenterStyle="{ThemeResource WebViewerFlyoutPresenterStyle}"
-                                LightDismissOverlayMode="On"
-                                Placement="Full"
-                                ShowMode="Standard">
-                                <shvc:WebViewer SourceProvider="{Binding VerifyUrlSource, Mode=OneWay}"/>
-                            </Flyout>
-                        </AppBarButton.Flyout>
+                        <mxi:Interaction.Behaviors>
+                            <mxic:EventTriggerBehavior EventName="Click">
+                                <shuxba:ShowWebView2WindowAction>
+                                    <shuxba:ShowWebView2WindowAction.ContentProvider>
+                                        <shuxvww:MiHoYoJSBridgeWebView2ContentProvider SourceProvider="{Binding VerifyUrlSource, Mode=OneWay}"/>
+                                    </shuxba:ShowWebView2WindowAction.ContentProvider>
+                                </shuxba:ShowWebView2WindowAction>
+                            </mxic:EventTriggerBehavior>
+                        </mxi:Interaction.Behaviors>
                     </AppBarButton>
                     <AppBarButton Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}" Label="{shuxm:ResourceString Name=ViewPageDailyNoteAddEntry}">
                         <AppBarButton.Flyout>

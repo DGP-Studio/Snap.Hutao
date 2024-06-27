@@ -10,6 +10,7 @@
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     d:DataContext="{d:DesignInstance shv:TestViewModel}"
@@ -20,61 +21,49 @@
             <cwc:SettingsCard Header="Adopt Calculator" IsClickEnabled="True">
                 <mxi:Interaction.Behaviors>
                     <mxic:EventTriggerBehavior EventName="Click">
-                        <shuxba:ShowAttachedFlyoutAction/>
+                        <shuxba:ShowWebView2WindowAction>
+                            <shuxba:ShowWebView2WindowAction.ContentProvider>
+                                <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                                    <shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                        <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="http://webstatic.mihoyo.com/ys/event/e20200923adopt_calculator/index.html?bbs_presentation_style=fullscreen&amp;bbs_auth_required=true&amp;utm_source=bbs&amp;utm_medium=mys&amp;utm_campaign=GameRecord"/>
+                                    </shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                            </shuxba:ShowWebView2WindowAction.ContentProvider>
+                        </shuxba:ShowWebView2WindowAction>
                     </mxic:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
-                <FlyoutBase.AttachedFlyout>
-                    <Flyout
-                        FlyoutPresenterStyle="{ThemeResource WebViewerFlyoutPresenterStyle}"
-                        LightDismissOverlayMode="On"
-                        Placement="Full">
-                        <shvc:WebViewer>
-                            <shvc:WebViewer.SourceProvider>
-                                <shvc:StaticWebview2ViewerSource ChineseSource="http://webstatic.mihoyo.com/ys/event/e20200923adopt_calculator/index.html?bbs_presentation_style=fullscreen&amp;bbs_auth_required=true&amp;utm_source=bbs&amp;utm_medium=mys&amp;utm_campaign=GameRecord"/>
-                            </shvc:WebViewer.SourceProvider>
-                        </shvc:WebViewer>
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>
             </cwc:SettingsCard>
 
             <cwc:SettingsCard Header="Community Game Record" IsClickEnabled="True">
                 <mxi:Interaction.Behaviors>
                     <mxic:EventTriggerBehavior EventName="Click">
-                        <shuxba:ShowAttachedFlyoutAction/>
+                        <shuxba:ShowWebView2WindowAction>
+                            <shuxba:ShowWebView2WindowAction.ContentProvider>
+                                <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                                    <shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                        <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
+                                    </shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                            </shuxba:ShowWebView2WindowAction.ContentProvider>
+                        </shuxba:ShowWebView2WindowAction>
                     </mxic:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
-                <FlyoutBase.AttachedFlyout>
-                    <Flyout
-                        FlyoutPresenterStyle="{ThemeResource WebViewerFlyoutPresenterStyle}"
-                        LightDismissOverlayMode="On"
-                        Placement="Full">
-                        <shvc:WebViewer>
-                            <shvc:WebViewer.SourceProvider>
-                                <shvc:StaticWebview2ViewerSource ChineseSource="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
-                            </shvc:WebViewer.SourceProvider>
-                        </shvc:WebViewer>
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>
             </cwc:SettingsCard>
 
             <cwc:SettingsCard Header="SignIn Reward" IsClickEnabled="True">
                 <mxi:Interaction.Behaviors>
                     <mxic:EventTriggerBehavior EventName="Click">
-                        <shuxba:ShowAttachedFlyoutAction/>
+                        <shuxba:ShowWebView2WindowAction>
+                            <shuxba:ShowWebView2WindowAction.ContentProvider>
+                                <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                                    <shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                        <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="https://act.mihoyo.com/bbs/event/signin/hk4e/index.html?act_id=e202311201442471"/>
+                                    </shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                            </shuxba:ShowWebView2WindowAction.ContentProvider>
+                        </shuxba:ShowWebView2WindowAction>
                     </mxic:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
-                <FlyoutBase.AttachedFlyout>
-                    <Flyout
-                        FlyoutPresenterStyle="{ThemeResource WebViewerFlyoutPresenterStyle}"
-                        LightDismissOverlayMode="On"
-                        Placement="Full">
-                        <shvc:WebViewer>
-                            <shvc:WebViewer.SourceProvider>
-                                <shvc:StaticWebview2ViewerSource ChineseSource="https://act.mihoyo.com/bbs/event/signin/hk4e/index.html?act_id=e202311201442471"/>
-                            </shvc:WebViewer.SourceProvider>
-                        </shvc:WebViewer>
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>
             </cwc:SettingsCard>
 
             <cwc:SettingsCard Header="Reset Guide State">

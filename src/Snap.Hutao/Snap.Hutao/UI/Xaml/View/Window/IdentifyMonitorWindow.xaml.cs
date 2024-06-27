@@ -23,8 +23,8 @@ internal sealed partial class IdentifyMonitorWindow : Microsoft.UI.Xaml.Window
         AppWindow.SetPresenter(presenter);
 
         PointInt32 point = new(40, 32);
-        SizeInt32 size = StructMarshal.SizeInt32(displayArea.WorkArea).Scale(0.1);
-        AppWindow.MoveAndResize(StructMarshal.RectInt32(point, size), displayArea);
+        SizeInt32 size = displayArea.WorkArea.GetSizeInt32().Scale(0.1);
+        AppWindow.MoveAndResize(RectInt32Convert.RectInt32(point, size), displayArea);
     }
 
     public string Monitor { get; private set; }

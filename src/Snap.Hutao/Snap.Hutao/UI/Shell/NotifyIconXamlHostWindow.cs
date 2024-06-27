@@ -5,6 +5,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32;
@@ -60,6 +61,6 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
 
     public void MoveAndResize(RECT icon)
     {
-        AppWindow.MoveAndResize(StructMarshal.RectInt32(icon));
+        AppWindow.MoveAndResize(RectInt32Convert.RectInt32(icon));
     }
 }

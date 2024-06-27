@@ -12,8 +12,8 @@ namespace Snap.Hutao.Web.Bridge;
 [HighQuality]
 internal sealed class SignInJSBridge : MiHoYoJSBridgeFacade
 {
-    public SignInJSBridge(CoreWebView2 webView, UserAndUid userAndUid)
-        : base(webView, userAndUid)
+    public SignInJSBridge(IServiceProvider serviceProvider, CoreWebView2 webView, UserAndUid userAndUid)
+        : base(serviceProvider, webView, userAndUid)
     {
     }
 

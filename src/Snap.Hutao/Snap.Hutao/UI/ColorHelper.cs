@@ -36,6 +36,12 @@ internal static class ColorHelper
         return *(Color*)&rgba;
     }
 
+    public static unsafe Color ToColor(uint value)
+    {
+        uint reversed = BinaryPrimitives.ReverseEndianness(value);
+        return *(Color*)&reversed;
+    }
+
     public static Hsla32 ToHsla32(Rgba32 rgba32)
     {
         const double toDouble = 1.0 / 255;
