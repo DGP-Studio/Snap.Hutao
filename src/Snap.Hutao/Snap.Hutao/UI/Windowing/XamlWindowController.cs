@@ -131,6 +131,12 @@ internal sealed class XamlWindowController
 
         subclass?.Dispose();
         windowNonRudeHWND?.Dispose();
+
+        if (window is IXamlWindowClosed xamlWindowClosed)
+        {
+            xamlWindowClosed.OnWindowClosed();
+        }
+
         window.UninitializeController();
     }
 
@@ -233,8 +239,8 @@ internal sealed class XamlWindowController
         rect.Width = Math.Min(workAreaRect.Width, rect.Width);
         rect.Height = Math.Min(workAreaRect.Height, rect.Height);
 
-        rect.X = workAreaRect.X + (workAreaRect.Width - rect.Width) / 2;
-        rect.Y = workAreaRect.Y + (workAreaRect.Height - rect.Height) / 2;
+        rect.X = workAreaRect.X + ((workAreaRect.Width - rect.Width) / 2);
+        rect.Y = workAreaRect.Y + ((workAreaRect.Height - rect.Height) / 2);
     }
 
     private void RecoverOrInitWindowSize(IXamlWindowHasInitSize xamlWindow)

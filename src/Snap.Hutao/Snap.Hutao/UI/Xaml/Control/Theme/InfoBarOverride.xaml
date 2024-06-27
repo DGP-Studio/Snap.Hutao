@@ -172,11 +172,6 @@
                                     </ContentPresenter.Resources>
                                 </ContentPresenter>
                             </InfoBarPanel>
-                            <ContentPresenter
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"/>
                             <Button
                                 Name="CloseButton"
                                 Grid.Column="2"
@@ -240,6 +235,11 @@
                                     <SymbolIcon Symbol="{StaticResource InfoBarCloseButtonSymbol}"/>
                                 </Viewbox>
                             </Button>
+                            <ContentPresenter
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"/>
                         </Grid>
 
                         <VisualStateManager.VisualStateGroups>

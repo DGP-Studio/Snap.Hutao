@@ -6,15 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
     Title="{shuxm:ResourceString Name=ViewDialogGachaLogRefreshProgressTitle}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <ContentDialog.Resources>
         <DataTemplate x:Key="GachaItemDataTemplate">
-            <shvc:ItemIcon
+            <shuxc:ItemIcon
                 shux:FrameworkElementHelper.SquareLength="60"
                 Badge="{Binding Badge}"
                 Icon="{Binding Icon}"

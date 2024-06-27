@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
@@ -20,7 +21,7 @@
         <DataTemplate x:Key="GridTemplate" d:DataType="shvg:StatisticsItem">
             <shuxcc:VerticalCard>
                 <shuxcc:VerticalCard.Top>
-                    <shvcont:ItemIcon
+                    <shuxc:ItemIcon
                         shux:FrameworkElementHelper.SquareLength="40"
                         Icon="{Binding Icon}"
                         Quality="{Binding Quality}"/>

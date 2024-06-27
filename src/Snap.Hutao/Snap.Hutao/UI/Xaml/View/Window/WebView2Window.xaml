@@ -8,6 +8,19 @@
     mc:Ignorable="d">
 
     <Grid ActualThemeChanged="OnActualThemeChanged">
-        <WebView2 x:Name="WebView" DefaultBackgroundColor="Transparent"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="TitleArea">
+            <TextBlock
+                x:Name="DocumentTitle"
+                Margin="12,0,0,0"
+                VerticalAlignment="Center"/>
+        </Grid>
+        <WebView2
+            x:Name="WebView"
+            Grid.Row="1"
+            DefaultBackgroundColor="Transparent"/>
     </Grid>
 </Window>

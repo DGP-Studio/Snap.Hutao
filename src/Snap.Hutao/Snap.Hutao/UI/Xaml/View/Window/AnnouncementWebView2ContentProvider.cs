@@ -12,7 +12,8 @@ using Windows.System;
 
 namespace Snap.Hutao.UI.Xaml.View.Window;
 
-internal sealed partial class AnnouncementWebView2ContentProvider : IWebView2ContentProvider
+[DependencyProperty("Announcement", typeof(Announcement))]
+internal sealed partial class AnnouncementWebView2ContentProvider : DependencyObject, IWebView2ContentProvider
 {
     // support click open browser.
     private const string MihoyoSDKDefinition = """
@@ -33,13 +34,6 @@ internal sealed partial class AnnouncementWebView2ContentProvider : IWebView2Con
         KeyValuePair.Create("background-color: rgb(254, 245, 231)", "background-color: rgb(1,40,70)"),
         KeyValuePair.Create("background-color:rgb(244, 244, 245)", "background-color:rgba(11, 11, 10)"),
     ]);
-
-    private readonly Announcement? announcement;
-
-    public AnnouncementWebView2ContentProvider(Announcement? announcement)
-    {
-        this.announcement = announcement;
-    }
 
     public ElementTheme ActualTheme { get; set; }
 
@@ -113,6 +107,7 @@ internal sealed partial class AnnouncementWebView2ContentProvider : IWebView2Con
             <html>
 
             <head>
+                <title>{{announcement.Subtitle}} - {{announcement.Title}}</title>
                 <style>
                     body::-webkit-scrollbar {
                         display: none;
@@ -141,7 +136,7 @@ internal sealed partial class AnnouncementWebView2ContentProvider : IWebView2Con
 
     private void LoadAnnouncement(CoreWebView2 coreWebView2)
     {
-        coreWebView2.NavigateToString(GenerateHtml(announcement, ActualTheme));
+        coreWebView2.NavigateToString(GenerateHtml(Announcement, ActualTheme));
     }
 
     private void OnWebMessageReceived(CoreWebView2 coreWebView2, CoreWebView2WebMessageReceivedEventArgs args)

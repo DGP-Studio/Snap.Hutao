@@ -94,7 +94,7 @@
         <DataTemplate x:Key="CultivateItemTemplate">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
-                    <shvc:ItemIcon
+                    <shuxc:ItemIcon
                         Width="40"
                         Height="40"
                         Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}"
@@ -126,7 +126,7 @@
         <DataTemplate x:Key="CollocationTemplate">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
-                    <shvc:ItemIcon
+                    <shuxc:ItemIcon
                         Width="48"
                         Height="48"
                         Icon="{Binding Icon}"
@@ -140,7 +140,7 @@
                                 Opacity="0.7"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding Rate}"/>
-                            <shvc:RateDeltaTextBlock
+                            <shuxct:RateDeltaTextBlock
                                 Opacity="0.7"
                                 Text="{Binding RateDelta}"
                                 TextStyle="{StaticResource CaptionTextBlockStyle}"/>
@@ -153,7 +153,7 @@
         <DataTemplate x:Key="WeaponGridTemplate">
             <shuxcc:VerticalCard>
                 <shuxcc:VerticalCard.Top>
-                    <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
+                    <shuxc:ItemIcon Icon="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
                 </shuxcc:VerticalCard.Top>
                 <shuxcc:VerticalCard.Bottom>
                     <TextBlock Text="{Binding Name}"/>
@@ -268,29 +268,6 @@
                                                                 <ColumnDefinition/>
                                                             </Grid.ColumnDefinitions>
                                                             <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
-                                                            <ScrollViewer
-                                                                Grid.Column="0"
-                                                                Margin="16"
-                                                                VerticalScrollBarVisibility="Hidden">
-                                                                <StackPanel Spacing="16">
-                                                                    <shuxcc:VerticalCard MaxWidth="80">
-                                                                        <shuxcc:VerticalCard.Top>
-                                                                            <shvc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
-                                                                        </shuxcc:VerticalCard.Top>
-                                                                        <shuxcc:VerticalCard.Bottom>
-                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"/>
-                                                                        </shuxcc:VerticalCard.Bottom>
-                                                                    </shuxcc:VerticalCard>
-                                                                    <shuxcc:VerticalCard MaxWidth="80">
-                                                                        <shuxcc:VerticalCard.Top>
-                                                                            <shvc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
-                                                                        </shuxcc:VerticalCard.Top>
-                                                                        <shuxcc:VerticalCard.Bottom>
-                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"/>
-                                                                        </shuxcc:VerticalCard.Bottom>
-                                                                    </shuxcc:VerticalCard>
-                                                                </StackPanel>
-                                                            </ScrollViewer>
 
                                                             <Grid Grid.ColumnSpan="2">
                                                                 <Grid.ColumnDefinitions>
@@ -303,6 +280,29 @@
                                                                     VerticalAlignment="Stretch"
                                                                     Source="{Binding Selected.Icon, Converter={StaticResource GachaEquipIconConverter}}"/>
                                                             </Grid>
+                                                            <ScrollViewer
+                                                                Grid.Column="0"
+                                                                Margin="16"
+                                                                VerticalScrollBarVisibility="Hidden">
+                                                                <StackPanel Spacing="16">
+                                                                    <shuxcc:VerticalCard MaxWidth="80">
+                                                                        <shuxcc:VerticalCard.Top>
+                                                                            <shuxc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                                        </shuxcc:VerticalCard.Top>
+                                                                        <shuxcc:VerticalCard.Bottom>
+                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"/>
+                                                                        </shuxcc:VerticalCard.Bottom>
+                                                                    </shuxcc:VerticalCard>
+                                                                    <shuxcc:VerticalCard MaxWidth="80">
+                                                                        <shuxcc:VerticalCard.Top>
+                                                                            <shuxc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                                        </shuxcc:VerticalCard.Top>
+                                                                        <shuxcc:VerticalCard.Bottom>
+                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"/>
+                                                                        </shuxcc:VerticalCard.Bottom>
+                                                                    </shuxcc:VerticalCard>
+                                                                </StackPanel>
+                                                            </ScrollViewer>
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 Margin="16"
@@ -414,6 +414,6 @@
             </cwc:SwitchPresenter>
 
         </Grid>
-        <shvc:LoadingView IsLoading="{Binding Weapons, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+        <shuxc:Loading IsLoading="{Binding Weapons, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
     </Grid>
 </shuxc:ScopedPage>

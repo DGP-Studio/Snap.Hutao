@@ -94,6 +94,7 @@
     <None Remove="UI\Xaml\Control\Card\HorizontalCard.xaml" />
     <None Remove="UI\Xaml\Control\Card\VerticalCard.xaml" />
     <None Remove="UI\Xaml\Control\Elevation.xaml" />
+    <None Remove="UI\Xaml\Control\ItemIcon.xaml" />
     <None Remove="UI\Xaml\Control\Theme\Card.xaml" />
     <None Remove="UI\Xaml\Control\Theme\Color.xaml" />
     <None Remove="UI\Xaml\Control\Theme\ComboBox.xaml" />
@@ -156,10 +157,7 @@
     <None Remove="View\Control\BaseValueSlider.xaml" />
     <None Remove="View\Control\DescParamComboBox.xaml" />
     <None Remove="View\Control\HutaoStatisticsCard.xaml" />
-    <None Remove="View\Control\ItemIcon.xaml" />
     <None Remove="View\Control\LaunchGameResourceExpander.xaml" />
-    <None Remove="View\Control\LoadingView.xaml" />
-    <None Remove="View\Control\LoadingViewSlim.xaml" />
     <None Remove="View\Control\RateDeltaTextBlockStyle.xaml" />
     <None Remove="View\Control\SkillPivot.xaml" />
     <None Remove="View\Control\SegmentedOverride.xaml" />
@@ -465,20 +463,9 @@
     </Page>
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="View\Control\LoadingViewSlim.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
   <!-- Pages -->
   <ItemGroup>
     <Page Update="View\Page\TestPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Control\LoadingView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -583,11 +570,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Control\ItemIcon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="View\Control\StatisticsCard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -645,6 +627,11 @@
   <ItemGroup>
     <Folder Include="UI\Xaml\View\Card\" />
     <Folder Include="UI\Xaml\View\Page\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\Control\ItemIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\Control\Card\VerticalCard.xaml">

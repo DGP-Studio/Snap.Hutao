@@ -17,6 +17,7 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxma="using:Snap.Hutao.UI.Xaml.Media.Animation"
+    xmlns:shuxvw="using:Snap.Hutao.UI.Xaml.View.Window"
     xmlns:shvco="using:Snap.Hutao.View.Control"
     xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
     d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
@@ -126,24 +127,14 @@
                         </Border>
                     </Grid>
 
-                    <!--  公告详情网页视图  -->
-                    <!--<FlyoutBase.AttachedFlyout>
-                        <Flyout LightDismissOverlayMode="On" Placement="Full">
-                            <Flyout.FlyoutPresenterStyle>
-                                <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="CornerRadius" Value="0"/>
-                                    <Setter Property="MaxWidth" Value="640"/>
-                                </Style>
-                            </Flyout.FlyoutPresenterStyle>
-                            <shvco:AnnouncementContentViewer Announcement="{Binding}"/>
-                        </Flyout>
-                    </FlyoutBase.AttachedFlyout>-->
-
                     <mxi:Interaction.Behaviors>
-                        <!--<mxic:EventTriggerBehavior EventName="Tapped">
-                            <shuxba:ShowAttachedFlyoutAction/>
-                        </mxic:EventTriggerBehavior>-->
+                        <mxic:EventTriggerBehavior EventName="Tapped">
+                            <shuxba:ShowWebView2WindowAction>
+                                <shuxba:ShowWebView2WindowAction.ContentProvider>
+                                    <shuxvw:AnnouncementWebView2ContentProvider Announcement="{Binding}"/>
+                                </shuxba:ShowWebView2WindowAction.ContentProvider>
+                            </shuxba:ShowWebView2WindowAction>
+                        </mxic:EventTriggerBehavior>
                         <mxic:EventTriggerBehavior EventName="PointerEntered">
                             <shuxba:StartAnimationActionNoThrow Animation="{Binding ElementName=ImageZoomInAnimation}" TargetObject="{Binding ElementName=ImageZoomBorder}"/>
                         </mxic:EventTriggerBehavior>

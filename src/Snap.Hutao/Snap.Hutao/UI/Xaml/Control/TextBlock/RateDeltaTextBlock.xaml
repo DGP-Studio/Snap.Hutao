@@ -1,15 +1,15 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:shvc="using:Snap.Hutao.View.Control">
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock">
 
-    <Style BasedOn="{StaticResource DefaultRateDeltaTextBlockStyle}" TargetType="shvc:RateDeltaTextBlock"/>
+    <Style BasedOn="{StaticResource DefaultRateDeltaTextBlockStyle}" TargetType="shuxct:RateDeltaTextBlock"/>
 
-    <Style x:Key="DefaultRateDeltaTextBlockStyle" TargetType="shvc:RateDeltaTextBlock">
+    <Style x:Key="DefaultRateDeltaTextBlockStyle" TargetType="shuxct:RateDeltaTextBlock">
         <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="shvc:RateDeltaTextBlock">
+                <ControlTemplate TargetType="shuxct:RateDeltaTextBlock">
                     <TextBlock
                         x:Name="RootTextBlock"
                         Foreground="{TemplateBinding Foreground}"

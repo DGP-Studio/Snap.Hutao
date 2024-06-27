@@ -395,7 +395,7 @@
                                     ItemsSource="{Binding GamePackage.Main.Patches, Mode=OneWay}"/>
                             </StackPanel>
                         </ScrollViewer>
-                        <shvc:LoadingView IsLoading="{Binding GamePackage, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+                        <shuxc:Loading IsLoading="{Binding GamePackage, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
                     </Grid>
                 </PivotItem>
             </Pivot>

@@ -57,6 +57,10 @@ internal static class User32
 
     [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
+    public static extern BOOL EnableWindow([In] HWND hWnd, [In] BOOL bEnable);
+
+    [DllImport("USER32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.0")]
     public static unsafe extern BOOL EqualRect(RECT* lprc1, RECT* lprc2);
 
     [DebuggerStepThrough]

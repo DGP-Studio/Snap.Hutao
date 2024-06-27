@@ -59,7 +59,7 @@
         <DataTemplate x:Key="MonsterDropTemplate">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
-                    <shvc:ItemIcon
+                    <shuxc:ItemIcon
                         Width="40"
                         Height="40"
                         Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}"
@@ -77,7 +77,7 @@
         <DataTemplate x:Key="MonsterGridTemplate">
             <shuxcc:VerticalCard>
                 <shuxcc:VerticalCard.Top>
-                    <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}" Quality="QUALITY_NONE"/>
+                    <shuxc:ItemIcon Icon="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}" Quality="QUALITY_NONE"/>
                 </shuxcc:VerticalCard.Top>
                 <shuxcc:VerticalCard.Bottom>
                     <TextBlock Text="{Binding Name}"/>
@@ -218,6 +218,6 @@
                 </cwc:Case>
             </cwc:SwitchPresenter>
         </Grid>
-        <shvc:LoadingView IsLoading="{Binding Monsters, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+        <shuxc:Loading Style="{ThemeResource DefaultLoadingViewStyle}" IsLoading="{Binding Monsters, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>
 </shuxc:ScopedPage>

@@ -7,9 +7,6 @@ using Microsoft.Xaml.Interactivity;
 
 namespace Snap.Hutao.UI.Xaml.Behavior.Action;
 
-/// <summary>
-/// 打开附着的浮出控件操作
-/// </summary>
 [HighQuality]
 internal sealed class ShowAttachedFlyoutAction : DependencyObject, IAction
 {

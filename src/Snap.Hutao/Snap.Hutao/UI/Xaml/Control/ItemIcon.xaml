@@ -1,0 +1,37 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image">
+
+    <shmmc:QualityConverter x:Key="QualityConverter"/>
+
+    <Style BasedOn="{StaticResource DefaultItemIconStyle}" TargetType="shuxc:ItemIcon"/>
+
+    <Style x:Key="DefaultItemIconStyle" TargetType="shuxc:ItemIcon">
+        <Setter Property="Height" Value="80"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="shuxc:ItemIcon">
+                    <Grid CornerRadius="{StaticResource ControlCornerRadius}">
+                        <shuxci:CachedImage cw:FrameworkElementExtensions.AncestorType="shuxc:ItemIcon" Source="{Binding (cw:FrameworkElementExtensions.Ancestor).Quality, RelativeSource={RelativeSource Self}, Converter={StaticResource QualityConverter}, Mode=OneWay}"/>
+                        <shuxci:CachedImage Source="{StaticResource UI_ImgSign_ItemIcon}"/>
+                        <shuxci:CachedImage Source="{TemplateBinding Icon}"/>
+                        <shuxci:CachedImage
+                            Margin="2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            cw:FrameworkElementExtensions.AncestorType="shuxc:ItemIcon"
+                            shux:FrameworkElementHelper.SquareLength="16"
+                            Source="{TemplateBinding Badge}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="80"/>
+    </Style>
+
+</ResourceDictionary>

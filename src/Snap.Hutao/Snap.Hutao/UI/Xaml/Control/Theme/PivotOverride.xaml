@@ -193,15 +193,6 @@
                                             <CompositeTransform x:Name="PivotLayoutElementTranslateTransform"/>
                                         </Grid.RenderTransform>
 
-                                        <ItemsPresenter x:Name="PivotItemPresenter" Grid.Row="1">
-                                            <ItemsPresenter.RenderTransform>
-                                                <TransformGroup>
-                                                    <TranslateTransform x:Name="ItemsPresenterTranslateTransform"/>
-                                                    <CompositeTransform x:Name="ItemsPresenterCompositeTransform"/>
-                                                </TransformGroup>
-                                            </ItemsPresenter.RenderTransform>
-                                        </ItemsPresenter>
-
                                         <Border
                                             Grid.Row="0"
                                             Margin="16,16,16,0"
@@ -287,6 +278,15 @@
                                                     ContentTemplate="{TemplateBinding RightHeaderTemplate}"/>
                                             </Grid>
                                         </Border>
+
+                                        <ItemsPresenter x:Name="PivotItemPresenter" Grid.Row="1">
+                                            <ItemsPresenter.RenderTransform>
+                                                <TransformGroup>
+                                                    <TranslateTransform x:Name="ItemsPresenterTranslateTransform"/>
+                                                    <CompositeTransform x:Name="ItemsPresenterCompositeTransform"/>
+                                                </TransformGroup>
+                                            </ItemsPresenter.RenderTransform>
+                                        </ItemsPresenter>
 
                                     </Grid>
                                 </PivotPanel>
@@ -566,17 +566,6 @@
                                             <CompositeTransform x:Name="PivotLayoutElementTranslateTransform"/>
                                         </Grid.RenderTransform>
 
-
-
-                                        <ItemsPresenter x:Name="PivotItemPresenter" Grid.Row="1">
-                                            <ItemsPresenter.RenderTransform>
-                                                <TransformGroup>
-                                                    <TranslateTransform x:Name="ItemsPresenterTranslateTransform"/>
-                                                    <CompositeTransform x:Name="ItemsPresenterCompositeTransform"/>
-                                                </TransformGroup>
-                                            </ItemsPresenter.RenderTransform>
-                                        </ItemsPresenter>
-
                                         <Border
                                             Grid.Row="0"
                                             Margin="16,16,16,0"
@@ -662,6 +651,17 @@
                                                     ContentTemplate="{TemplateBinding RightHeaderTemplate}"/>
                                             </Grid>
                                         </Border>
+
+
+
+                                        <ItemsPresenter x:Name="PivotItemPresenter" Grid.Row="1">
+                                            <ItemsPresenter.RenderTransform>
+                                                <TransformGroup>
+                                                    <TranslateTransform x:Name="ItemsPresenterTranslateTransform"/>
+                                                    <CompositeTransform x:Name="ItemsPresenterCompositeTransform"/>
+                                                </TransformGroup>
+                                            </ItemsPresenter.RenderTransform>
+                                        </ItemsPresenter>
 
                                     </Grid>
                                 </PivotPanel>

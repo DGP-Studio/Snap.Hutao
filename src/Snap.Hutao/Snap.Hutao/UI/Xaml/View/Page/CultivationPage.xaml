@@ -62,7 +62,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid>
-                        <shvco:ItemIcon
+                        <shuxc:ItemIcon
                             Width="32"
                             Height="32"
                             Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
@@ -126,7 +126,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <shvco:ItemIcon
+                            <shuxc:ItemIcon
                                 Width="48"
                                 Height="48"
                                 Icon="{Binding Icon}"
@@ -176,7 +176,7 @@
                     <shuxcc:HorizontalCard>
                         <shuxcc:HorizontalCard.Left>
                             <Grid Grid.Column="0">
-                                <shvco:ItemIcon
+                                <shuxc:ItemIcon
                                     Width="40"
                                     Height="40"
                                     Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
@@ -226,7 +226,7 @@
                         BorderThickness="0">
                         <shuxcc:VerticalCard>
                             <shuxcc:VerticalCard.Top>
-                                <shvco:ItemIcon Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Inner.RankLevel}"/>
+                                <shuxc:ItemIcon Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Inner.RankLevel}"/>
                             </shuxcc:VerticalCard.Top>
                             <shuxcc:VerticalCard.Bottom>
                                 <TextBlock Text="{Binding Count, Mode=OneWay}"/>

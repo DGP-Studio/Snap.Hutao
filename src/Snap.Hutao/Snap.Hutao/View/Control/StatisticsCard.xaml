@@ -99,7 +99,7 @@
                 BottomPadding="0,1"
                 ToolTipService.ToolTip="{Binding TimeFormatted}">
                 <shuxcc:VerticalCard.Top>
-                    <shvcont:ItemIcon
+                    <shuxc:ItemIcon
                         shux:FrameworkElementHelper.SquareLength="40"
                         Icon="{Binding Icon}"
                         Quality="{Binding Quality}"/>

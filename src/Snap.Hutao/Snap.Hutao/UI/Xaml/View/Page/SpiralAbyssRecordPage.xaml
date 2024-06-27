@@ -88,7 +88,7 @@
                     </StackPanel>
                 </ToolTipService.ToolTip>
                 <Grid Height="40" CornerRadius="20">
-                    <shvcon:ItemIcon
+                    <shuxc:ItemIcon
                         Width="40"
                         Height="40"
                         Icon="{Binding Icon}"/>
@@ -138,7 +138,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AvatarTemplate" x:DataType="shvs:AvatarView">
-            <shvcon:ItemIcon
+            <shuxc:ItemIcon
                 Width="60"
                 Height="60"
                 Margin="0,0,8,8"
@@ -469,7 +469,7 @@
                                                                         <DataTemplate>
                                                                             <shuxcc:VerticalCard>
                                                                                 <shuxcc:VerticalCard.Top>
-                                                                                    <shvcon:ItemIcon
+                                                                                    <shuxc:ItemIcon
                                                                                         Width="52"
                                                                                         Height="52"
                                                                                         Icon="{Binding Icon}"
@@ -511,7 +511,7 @@
 
                     <Grid.Resources>
                         <DataTemplate x:Key="AvatarViewInTeamTemplate" d:DataType="shvcom:AvatarView">
-                            <shvcon:ItemIcon
+                            <shuxc:ItemIcon
                                 Width="40"
                                 Height="40"
                                 shux:UIElementHelper.OpacityObject="{Binding Icon}"
@@ -569,7 +569,7 @@
                         <DataTemplate x:Key="RatedAvatarTemplate" x:DataType="shvcom:AvatarView">
                             <shuxcc:HorizontalCard>
                                 <shuxcc:HorizontalCard.Left>
-                                    <shvcon:ItemIcon
+                                    <shuxc:ItemIcon
                                         Width="56"
                                         Height="56"
                                         Icon="{Binding Icon}"
@@ -582,7 +582,7 @@
                                         HorizontalAlignment="Center"
                                         Spacing="2">
                                         <TextBlock HorizontalAlignment="Center" Text="{Binding Rate}"/>
-                                        <shvcon:RateDeltaTextBlock
+                                        <shuxct:RateDeltaTextBlock
                                             HorizontalAlignment="Center"
                                             Text="{Binding RateDelta}"
                                             TextStyle="{StaticResource CaptionTextBlockStyle}"/>
@@ -881,7 +881,7 @@
                                                             <ColumnDefinition/>
                                                         </Grid.ColumnDefinitions>
 
-                                                        <shvcon:ItemIcon
+                                                        <shuxc:ItemIcon
                                                             Width="48"
                                                             Height="48"
                                                             Icon="{Binding Icon}"
@@ -894,7 +894,7 @@
                                                             </Grid.ColumnDefinitions>
                                                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                 <TextBlock HorizontalAlignment="Center" Text="{Binding Rate}"/>
-                                                                <shvcon:RateDeltaTextBlock
+                                                                <shuxct:RateDeltaTextBlock
                                                                     HorizontalAlignment="Center"
                                                                     Text="{Binding RateDelta}"
                                                                     TextStyle="{StaticResource CaptionTextBlockStyle}"/>
@@ -910,7 +910,7 @@
                                                                     <DataTemplate>
                                                                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                             <TextBlock HorizontalAlignment="Center" Text="{Binding Rate}"/>
-                                                                            <shvcon:RateDeltaTextBlock
+                                                                            <shuxct:RateDeltaTextBlock
                                                                                 HorizontalAlignment="Center"
                                                                                 Text="{Binding RateDelta}"
                                                                                 TextStyle="{StaticResource CaptionTextBlockStyle}"/>
@@ -929,10 +929,11 @@
 
                         </PivotItem>
                     </Pivot>
-                    <shvcon:LoadingView
+                    <shuxc:Loading
                         Margin="16"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
-                        IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+                        IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"
+                        Style="{ThemeResource DefaultLoadingViewStyle}"/>
                 </Grid>
             </PivotItem>
         </Pivot>

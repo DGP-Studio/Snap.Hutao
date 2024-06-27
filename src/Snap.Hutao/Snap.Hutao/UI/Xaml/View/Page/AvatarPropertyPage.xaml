@@ -102,7 +102,7 @@
                         <shuxcc:VerticalCard Grid.Column="0">
                             <shuxcc:VerticalCard.Top>
                                 <Grid cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadius}">
-                                    <shvcont:ItemIcon
+                                    <shuxc:ItemIcon
                                         Width="64"
                                         Height="64"
                                         Icon="{Binding Icon}"
@@ -126,7 +126,7 @@
                         <shuxcc:VerticalCard Grid.Column="1">
                             <shuxcc:VerticalCard.Top>
                                 <Grid cw:UIElementExtensions.ClipToBounds="True" CornerRadius="{ThemeResource ControlCornerRadius}">
-                                    <shvcont:ItemIcon
+                                    <shuxc:ItemIcon
                                         Width="64"
                                         Height="64"
                                         Icon="{Binding Weapon.Icon}"
@@ -416,7 +416,7 @@
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <shvcont:ItemIcon
+                            <shuxc:ItemIcon
                                 Grid.Column="0"
                                 Width="32"
                                 Height="32"
@@ -626,7 +626,7 @@
                                                                     <ColumnDefinition/>
                                                                     <ColumnDefinition Width="auto"/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <shvcont:ItemIcon
+                                                                <shuxc:ItemIcon
                                                                     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
                                                                     Icon="{Binding SelectedAvatar.Icon}"
                                                                     Quality="{Binding SelectedAvatar.Quality}"/>
@@ -672,7 +672,7 @@
                                                                     BorderBrush="{x:Null}"
                                                                     BorderThickness="0">
                                                                     <Button.Content>
-                                                                        <shvcont:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
+                                                                        <shuxc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
                                                                     </Button.Content>
                                                                     <Button.Flyout>
                                                                         <Flyout Placement="BottomEdgeAlignedLeft">

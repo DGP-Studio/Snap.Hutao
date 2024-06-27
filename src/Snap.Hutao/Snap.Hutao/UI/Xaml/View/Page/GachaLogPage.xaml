@@ -140,17 +140,18 @@
                             IsClickEnabled="True"/>
                     </StackPanel>
                 </Grid>
-                <shvc:LoadingViewSlim
+                <shuxc:Loading
                     MinWidth="240"
                     Margin="-16"
-                    IsLoading="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
+                    IsLoading="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"
+                    Style="{ThemeResource DefaultLoadingCardStyle}"/>
             </Grid>
         </Flyout>
 
         <DataTemplate x:Key="HistoryWishItemTemplate">
             <Border Width="40" Style="{StaticResource BorderCardStyle}">
                 <StackPanel>
-                    <shvc:ItemIcon
+                    <shuxc:ItemIcon
                         Width="38"
                         Height="38"
                         Icon="{Binding Icon}"
@@ -215,7 +216,7 @@
 
         <DataTemplate x:Key="HistoryWishGridTemplate">
             <Grid>
-                <shvc:ItemIcon
+                <shuxc:ItemIcon
                     Badge="{Binding Badge}"
                     Icon="{Binding Icon}"
                     Opacity="{Binding Count, Converter={StaticResource DoubleToOpacityConverter}}"
@@ -476,10 +477,11 @@
                 </PivotItem>
                 <PivotItem Header="{shuxm:ResourceString Name=ViewPageGahcaLogPivotStatistics}">
                     <Grid>
-                        <shvc:LoadingView
+                        <shuxc:Loading
                             Margin="16"
                             CornerRadius="{ThemeResource ControlCornerRadius}"
-                            IsLoading="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
+                            IsLoading="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"
+                            Style="{ThemeResource DefaultLoadingViewStyle}"/>
                         <shuxcp:HorizontalEqualPanel
                             Margin="16"
                             Spacing="16"

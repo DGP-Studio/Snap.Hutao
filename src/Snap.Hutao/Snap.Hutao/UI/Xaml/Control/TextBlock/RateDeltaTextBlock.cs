@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.View.Control;
+namespace Snap.Hutao.UI.Xaml.Control.TextBlock;
 
 [TemplateVisualState(Name = "PositiveValue", GroupName = "CommonStates")]
 [TemplateVisualState(Name = "NegativeValue", GroupName = "CommonStates")]

@@ -135,7 +135,7 @@
         <DataTemplate x:Key="CultivationItemTemplate">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
-                    <shvcont:ItemIcon
+                    <shuxc:ItemIcon
                         Width="40"
                         Height="40"
                         Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}"
@@ -153,7 +153,7 @@
         <DataTemplate x:Key="CollocationTemplate">
             <shuxcc:HorizontalCard>
                 <shuxcc:HorizontalCard.Left>
-                    <shvcont:ItemIcon
+                    <shuxc:ItemIcon
                         Width="48"
                         Height="48"
                         Icon="{Binding Icon}"
@@ -167,7 +167,7 @@
                                 Opacity="0.7"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding Rate}"/>
-                            <shvcont:RateDeltaTextBlock
+                            <shuxct:RateDeltaTextBlock
                                 Opacity="0.7"
                                 Text="{Binding RateDelta}"
                                 TextStyle="{StaticResource CaptionTextBlockStyle}"/>
@@ -186,7 +186,7 @@
                                 <x:Int32>0</x:Int32>
                             </cwc:Case.Value>
                             <Grid>
-                                <shvcont:ItemIcon
+                                <shuxc:ItemIcon
                                     Width="48"
                                     Height="48"
                                     Icon="{StaticResource UI_ItemIcon_None}"
@@ -198,7 +198,7 @@
                                 <x:Int32>1</x:Int32>
                             </cwc:Case.Value>
                             <Grid>
-                                <shvcont:ItemIcon
+                                <shuxc:ItemIcon
                                     Width="48"
                                     Height="48"
                                     Icon="{Binding Icons[0]}"
@@ -210,7 +210,7 @@
                                 <x:Int32>2</x:Int32>
                             </cwc:Case.Value>
                             <Grid>
-                                <shvcont:ItemIcon
+                                <shuxc:ItemIcon
                                     Width="48"
                                     Height="48"
                                     Quality="QUALITY_ORANGE"/>
@@ -241,7 +241,7 @@
                                 Opacity="0.7"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding Rate}"/>
-                            <shvcont:RateDeltaTextBlock
+                            <shuxct:RateDeltaTextBlock
                                 Opacity="0.7"
                                 Text="{Binding RateDelta}"
                                 TextStyle="{StaticResource CaptionTextBlockStyle}"/>
@@ -291,7 +291,7 @@
         <DataTemplate x:Key="AvatarGridTemplate">
             <shuxcc:VerticalCard>
                 <shuxcc:VerticalCard.Top>
-                    <shvcont:ItemIcon Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
+                    <shuxc:ItemIcon Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
                 </shuxcc:VerticalCard.Top>
                 <shuxcc:VerticalCard.Bottom>
                     <TextBlock Text="{Binding Name}"/>
@@ -426,7 +426,7 @@
                                                                 Height="32"
                                                                 Source="{Binding Selected.Weapon, Converter={StaticResource WeaponTypeIconConverter}}"/>
                                                         </Grid>
-                                                        <shvcont:ItemIcon
+                                                        <shuxc:ItemIcon
                                                             Width="128"
                                                             Height="128"
                                                             Icon="{Binding Selected.Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}"
@@ -586,28 +586,28 @@
                                                             Grid.Column="0"
                                                             Style="{StaticResource BaseTextBlockStyle}"
                                                             Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
+                                                        <TextBlock
+                                                            Grid.Row="0"
+                                                            Grid.Column="1"
+                                                            Style="{StaticResource BaseTextBlockStyle}"
+                                                            Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarWeaponCombinationHeader}"/>
+                                                        <TextBlock
+                                                            Grid.Row="0"
+                                                            Grid.Column="2"
+                                                            Style="{StaticResource BaseTextBlockStyle}"
+                                                            Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarArtifactSetCombinationHeader}"/>
                                                         <ItemsControl
                                                             Grid.Row="1"
                                                             Grid.Column="0"
                                                             ItemTemplate="{StaticResource CollocationTemplate}"
                                                             ItemsPanel="{StaticResource StackPanelSpacing4Template}"
                                                             ItemsSource="{Binding Selected.CollocationView.Avatars}"/>
-                                                        <TextBlock
-                                                            Grid.Row="0"
-                                                            Grid.Column="1"
-                                                            Style="{StaticResource BaseTextBlockStyle}"
-                                                            Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarWeaponCombinationHeader}"/>
                                                         <ItemsControl
                                                             Grid.Row="1"
                                                             Grid.Column="1"
                                                             ItemTemplate="{StaticResource CollocationTemplate}"
                                                             ItemsPanel="{StaticResource StackPanelSpacing4Template}"
                                                             ItemsSource="{Binding Selected.CollocationView.Weapons}"/>
-                                                        <TextBlock
-                                                            Grid.Row="0"
-                                                            Grid.Column="2"
-                                                            Style="{StaticResource BaseTextBlockStyle}"
-                                                            Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarArtifactSetCombinationHeader}"/>
                                                         <ItemsControl
                                                             Grid.Row="1"
                                                             Grid.Column="2"
@@ -665,33 +665,11 @@
                                                                 Grid.Column="0"
                                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                                 Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarSpecialFoodTitle}"/>
-                                                            <shuxcc:VerticalCard
-                                                                Grid.Row="1"
-                                                                Grid.Column="0"
-                                                                Margin="0,16,0,0">
-                                                                <shuxcc:VerticalCard.Top>
-                                                                    <shvcont:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
-                                                                </shuxcc:VerticalCard.Top>
-                                                                <shuxcc:VerticalCard.Bottom>
-                                                                    <TextBlock Text="{Binding Item.Name}"/>
-                                                                </shuxcc:VerticalCard.Bottom>
-                                                            </shuxcc:VerticalCard>
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 Margin="16,0,0,0"
                                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                                 Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarOriginalFoodTitle}"/>
-                                                            <shuxcc:VerticalCard
-                                                                Grid.Row="1"
-                                                                Grid.Column="1"
-                                                                Margin="16,16,0,0">
-                                                                <shuxcc:VerticalCard.Top>
-                                                                    <shvcont:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
-                                                                </shuxcc:VerticalCard.Top>
-                                                                <shuxcc:VerticalCard.Bottom>
-                                                                    <TextBlock Text="{Binding OriginItem.Name}"/>
-                                                                </shuxcc:VerticalCard.Bottom>
-                                                            </shuxcc:VerticalCard>
                                                             <StackPanel
                                                                 Grid.RowSpan="4"
                                                                 Grid.Column="2"
@@ -708,6 +686,28 @@
                                                                     Text="{Binding Item.EffectDescription}"
                                                                     TextWrapping="Wrap"/>
                                                             </StackPanel>
+                                                            <shuxcc:VerticalCard
+                                                                Grid.Row="1"
+                                                                Grid.Column="0"
+                                                                Margin="0,16,0,0">
+                                                                <shuxcc:VerticalCard.Top>
+                                                                    <shuxc:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
+                                                                </shuxcc:VerticalCard.Top>
+                                                                <shuxcc:VerticalCard.Bottom>
+                                                                    <TextBlock Text="{Binding Item.Name}"/>
+                                                                </shuxcc:VerticalCard.Bottom>
+                                                            </shuxcc:VerticalCard>
+                                                            <shuxcc:VerticalCard
+                                                                Grid.Row="1"
+                                                                Grid.Column="1"
+                                                                Margin="16,16,0,0">
+                                                                <shuxcc:VerticalCard.Top>
+                                                                    <shuxc:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
+                                                                </shuxcc:VerticalCard.Top>
+                                                                <shuxcc:VerticalCard.Bottom>
+                                                                    <TextBlock Text="{Binding OriginItem.Name}"/>
+                                                                </shuxcc:VerticalCard.Bottom>
+                                                            </shuxcc:VerticalCard>
                                                         </Grid>
                                                     </Expander>
                                                 </Border>
@@ -807,6 +807,6 @@
                 </cwc:Case>
             </cwc:SwitchPresenter>
         </Grid>
-        <shvcont:LoadingView IsLoading="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+        <shuxc:Loading IsLoading="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
     </Grid>
 </shuxc:ScopedPage>
