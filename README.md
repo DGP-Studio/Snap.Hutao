@@ -97,3 +97,6 @@ Snap Hutao is currently using sponsored software from the following service prov
 ![Snap.Hutao](https://repobeats.axiom.co/api/embed/f029553fbe0c60689b1710476ec8512452163fc9.svg)
 
 [![Star History Chart](https://api.star-history.com/svg?repos=DGP-Studio/Snap.Hutao&type=Date)](https://star-history.com/#DGP-Studio/Snap.Hutao&Date)
+
+![](https://opengraph.snapgenshin.cn/gitcode?repo=DGP-Studio/Snap.Hutao)
+
