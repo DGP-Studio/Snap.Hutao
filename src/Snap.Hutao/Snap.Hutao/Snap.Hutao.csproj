@@ -115,6 +115,7 @@
     <None Remove="UI\Xaml\Control\Theme\TransitionCollection.xaml" />
     <None Remove="UI\Xaml\Control\Theme\Uri.xaml" />
     <None Remove="UI\Xaml\Control\Theme\WindowOverride.xaml" />
+    <None Remove="UI\Xaml\Control\TokenizingTextBox\TokenizingTextBox.xaml" />
     <None Remove="GuideWindow.xaml" />
     <None Remove="IdentifyMonitorWindow.xaml" />
     <None Remove="IdentityStructs.json" />
@@ -418,6 +419,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\View\Window\WebView2Window.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\Control\TokenizingTextBox\TokenizingTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

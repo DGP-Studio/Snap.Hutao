@@ -7,7 +7,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources/>
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.SettingsControls/SettingsCard/SettingsCard.xaml"/>
-                <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.TokenizingTextBox/TokenizingTextBox.xaml"/>
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.TokenView/TokenItem/TokenItem.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Elevation.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/ItemIcon.xaml"/>
@@ -39,6 +38,7 @@
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/TransitionCollection.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Uri.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/WindowOverride.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/TokenizingTextBox/TokenizingTextBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style

@@ -1,12 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.UI.Input;
+using Snap.Hutao.UI.Xaml.Control.TokenizingTextBox;
 using System.Collections;
 
 namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
@@ -14,47 +12,38 @@ namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 [DependencyProperty("FilterCommand", typeof(ICommand))]
 [DependencyProperty("FilterCommandParameter", typeof(object))]
 [DependencyProperty("AvailableTokens", typeof(IReadOnlyDictionary<string, SearchToken>))]
-internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
+internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox.TokenizingTextBox
 {
     public AutoSuggestTokenBox()
     {
-        DefaultStyleKey = typeof(TokenizingTextBox);
-        TextChanged += OnFilterSuggestionRequested;
-        QuerySubmitted += OnQuerySubmitted;
-        TokenItemAdding += OnTokenItemAdding;
-        TokenItemAdded += OnTokenItemCollectionChanged;
-        TokenItemRemoved += OnTokenItemCollectionChanged;
-        Loaded += OnLoaded;
+        DefaultStyleKey = typeof(TokenizingTextBox.TokenizingTextBox);
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
+    public IEnumerable<SearchToken> Tokens
     {
-        if (this.FindDescendant("SuggestionsPopup") is Popup { Child: Border { Child: ListView listView } border })
+        get => ((IList)ItemsSource).OfType<SearchToken>();
+    }
+
+    public override void OnTextChanged(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        if (IsTokenLimitReached())
         {
-            IAppResourceProvider appResourceProvider = this.ServiceProvider().GetRequiredService<IAppResourceProvider>();
-
-            listView.Background = null;
-            listView.Margin = appResourceProvider.GetResource<Thickness>("AutoSuggestListPadding");
-
-            border.Background = appResourceProvider.GetResource<Microsoft.UI.Xaml.Media.Brush>("AutoSuggestBoxSuggestionsListBackground");
-            CornerRadius overlayCornerRadius = appResourceProvider.GetResource<CornerRadius>("OverlayCornerRadius");
-            CornerRadiusFilterConverter cornerRadiusFilterConverter = new() { Filter = CornerRadiusFilterKind.Bottom };
-            border.CornerRadius = (CornerRadius)cornerRadiusFilterConverter.Convert(overlayCornerRadius, typeof(CornerRadius), default, default);
+            return;
         }
-    }
 
-    private void OnFilterSuggestionRequested(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-    {
         if (string.IsNullOrWhiteSpace(Text))
         {
             sender.ItemsSource = AvailableTokens
+                .ExceptBy(Tokens, kvp => kvp.Value)
                 .OrderBy(kvp => kvp.Value.Kind)
+                .ThenBy(kvp => kvp.Value.Order)
                 .Select(kvp => kvp.Value);
         }
 
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
             sender.ItemsSource = AvailableTokens
+                .ExceptBy(Tokens, kvp => kvp.Value)
                 .Where(kvp => kvp.Value.Value.Contains(Text, StringComparison.OrdinalIgnoreCase))
                 .OrderBy(kvp => kvp.Value.Kind)
                 .ThenBy(kvp => kvp.Value.Order)
@@ -63,7 +52,7 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
         }
     }
 
-    private void OnQuerySubmitted(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    public override void OnQuerySubmitted(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
         if (args.ChosenSuggestion is not null)
         {
@@ -73,7 +62,7 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
         CommandInvocation.TryExecute(FilterCommand, FilterCommandParameter);
     }
 
-    private void OnTokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
+    public override void OnTokenItemAdding(TokenizingTextBox.TokenizingTextBox sender, TokenItemAddingEventArgs args)
     {
         if (string.IsNullOrWhiteSpace(args.TokenText))
         {
@@ -90,13 +79,21 @@ internal sealed partial class AutoSuggestTokenBox : TokenizingTextBox
         }
     }
 
-    private void OnTokenItemCollectionChanged(TokenizingTextBox sender, object args)
+    public override void OnTokenItemAdded(TokenizingTextBox.TokenizingTextBox sender, object args)
     {
         if (args is SearchToken { Kind: SearchTokenKind.None } token)
         {
-            ((IList)sender.ItemsSource).Remove(token);
+            ((IList)ItemsSource).Remove(token);
         }
 
+        base.OnTokenItemAdded(sender, args);
+
+        FilterCommand.TryExecute(FilterCommandParameter);
+    }
+
+    public override void OnTokenItemRemoved(TokenizingTextBox.TokenizingTextBox sender, object args)
+    {
+        base.OnTokenItemRemoved(sender, args);
         FilterCommand.TryExecute(FilterCommandParameter);
     }
 }
