@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.UI.Xaml.Control.Theme;
-using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.Frozen;
 using System.Text;

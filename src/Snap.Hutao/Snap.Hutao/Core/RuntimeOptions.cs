@@ -10,7 +10,6 @@ using System.IO;
 using System.Security.Principal;
 using Windows.ApplicationModel;
 using Windows.Storage;
-using Windows.UI.Notifications;
 
 namespace Snap.Hutao.Core;
 

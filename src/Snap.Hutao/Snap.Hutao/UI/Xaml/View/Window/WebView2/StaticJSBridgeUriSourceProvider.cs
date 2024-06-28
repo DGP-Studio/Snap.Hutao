@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
 

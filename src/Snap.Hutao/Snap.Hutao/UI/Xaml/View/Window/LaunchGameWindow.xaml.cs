@@ -4,7 +4,6 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.UI.Windowing.Abstraction;
-using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using Windows.Graphics;

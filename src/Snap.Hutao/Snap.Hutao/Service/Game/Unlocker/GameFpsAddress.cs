@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Win32.Foundation;
-using System.Diagnostics;
 using static Snap.Hutao.Win32.Kernel32;
 
 namespace Snap.Hutao.Service.Game.Unlocker;

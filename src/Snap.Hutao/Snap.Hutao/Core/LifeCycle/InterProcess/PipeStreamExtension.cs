@@ -5,7 +5,6 @@ using Snap.Hutao.Core.ExceptionService;
 using System.Buffers;
 using System.IO.Hashing;
 using System.IO.Pipes;
-using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.LifeCycle.InterProcess;
 

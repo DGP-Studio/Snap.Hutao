@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.ViewModel;
 
 namespace Snap.Hutao.UI.Xaml.View;

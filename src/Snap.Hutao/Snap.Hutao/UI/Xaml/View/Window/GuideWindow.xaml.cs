@@ -5,7 +5,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.UI.Windowing.Abstraction;
-using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using Windows.Graphics;
 

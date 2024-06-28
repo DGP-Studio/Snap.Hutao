@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using System.Buffers.Binary;
-using System.Runtime.CompilerServices;
 using Windows.UI;
 
 namespace Snap.Hutao.UI;

@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.Hutao.UI.Xaml.Data.Converter;
-using Snap.Hutao.Win32;
 using System.Runtime.CompilerServices;
 using Windows.UI;
 
