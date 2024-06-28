@@ -41,28 +41,30 @@ internal sealed class IslandGameFpsUnlocker : GameFpsUnlocker
         {
             using (MemoryMappedFile file = MemoryMappedFile.CreateOrOpen(IslandEnvironmentName, 1024))
             {
-                MemoryMappedViewAccessor accessor = file.CreateViewAccessor();
-                nint handle = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
-                UpdateIslandEnvironment(handle, context, launchOptions);
-                InitializeIsland(context.GameProcess);
-
-                using (PeriodicTimer timer = new(context.Options.AdjustFpsDelay))
+                using (MemoryMappedViewAccessor accessor = file.CreateViewAccessor())
                 {
-                    while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
+                    nint handle = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
+                    UpdateIslandEnvironment(handle, context, launchOptions);
+                    InitializeIsland(context.GameProcess);
+
+                    using (PeriodicTimer timer = new(context.Options.AdjustFpsDelay))
                     {
-                        context.Logger.LogInformation("context.GameProcess.HasExited: {Value}", context.GameProcess.HasExited);
-                        if (!context.GameProcess.HasExited && context.FpsAddress != 0U)
+                        while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
                         {
-                            IslandEnvironmentView view = UpdateIslandEnvironment(handle, context, launchOptions);
-                            context.Logger.LogDebug("Island Environment|{State}|{Error}", view.State, view.LastError);
-                            context.Report();
-                        }
-                        else
-                        {
-                            context.IsUnlockerValid = false;
-                            context.FpsAddress = 0;
-                            context.Report();
-                            return;
+                            context.Logger.LogInformation("context.GameProcess.HasExited: {Value}", context.GameProcess.HasExited);
+                            if (!context.GameProcess.HasExited && context.FpsAddress != 0U)
+                            {
+                                IslandEnvironmentView view = UpdateIslandEnvironment(handle, context, launchOptions);
+                                context.Logger.LogDebug("Island Environment|{State}|{Error}", view.State, view.LastError);
+                                context.Report();
+                            }
+                            else
+                            {
+                                context.IsUnlockerValid = false;
+                                context.FpsAddress = 0;
+                                context.Report();
+                                return;
+                            }
                         }
                     }
                 }
