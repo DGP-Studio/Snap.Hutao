@@ -20,7 +20,7 @@ internal static class DbSetExtension
         return dbSet.SaveChangesAndClearChangeTracker();
     }
 
-    [Obsolete("Async operation over ssqlite is meaningless")]
+    [Obsolete("Async operation over sqlite is meaningless")]
     public static ValueTask<int> AddAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity, CancellationToken token = default)
         where TEntity : class
     {
@@ -35,7 +35,7 @@ internal static class DbSetExtension
         return dbSet.SaveChangesAndClearChangeTracker();
     }
 
-    [Obsolete("Async operation over ssqlite is meaningless")]
+    [Obsolete("Async operation over sqlite is meaningless")]
     public static ValueTask<int> AddRangeAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, IEnumerable<TEntity> entities, CancellationToken token = default)
         where TEntity : class
     {
@@ -50,7 +50,7 @@ internal static class DbSetExtension
         return dbSet.SaveChangesAndClearChangeTracker();
     }
 
-    [Obsolete("Async operation over ssqlite is meaningless")]
+    [Obsolete("Async operation over sqlite is meaningless")]
     public static ValueTask<int> RemoveAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity, CancellationToken token = default)
         where TEntity : class
     {
@@ -65,7 +65,7 @@ internal static class DbSetExtension
         return dbSet.SaveChangesAndClearChangeTracker();
     }
 
-    [Obsolete("Async operation over ssqlite is meaningless")]
+    [Obsolete("Async operation over sqlite is meaningless")]
     public static ValueTask<int> UpdateAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity, CancellationToken token = default)
         where TEntity : class
     {
@@ -83,7 +83,7 @@ internal static class DbSetExtension
         return count;
     }
 
-    [Obsolete("Async operation over ssqlite is meaningless")]
+    [Obsolete("Async operation over sqlite is meaningless")]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static async ValueTask<int> SaveChangesAndClearChangeTrackerAsync<TEntity>(this DbSet<TEntity> dbSet, CancellationToken token = default)
         where TEntity : class

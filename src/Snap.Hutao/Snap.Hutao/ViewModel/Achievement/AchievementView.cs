@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
@@ -11,20 +12,14 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// 用于视图绑定的成就
 /// </summary>
 [HighQuality]
-internal sealed class AchievementView : ObservableObject, IEntityAccessWithMetadata<Model.Entity.Achievement, Model.Metadata.Achievement.Achievement>
+internal sealed class AchievementView : ObservableObject,
+    IEntityAccessWithMetadata<Model.Entity.Achievement, Model.Metadata.Achievement.Achievement>,
+    IAdvancedCollectionViewItem
 {
-    /// <summary>
-    /// 满进度占位符
-    /// </summary>
     public const int FullProgressPlaceholder = int.MaxValue;
 
     private bool isChecked;
 
-    /// <summary>
-    /// 构造一个新的成就
-    /// </summary>
-    /// <param name="entity">实体部分</param>
-    /// <param name="inner">元数据部分</param>
     public AchievementView(Model.Entity.Achievement entity, Model.Metadata.Achievement.Achievement inner)
     {
         Entity = entity;
@@ -33,14 +28,8 @@ internal sealed class AchievementView : ObservableObject, IEntityAccessWithMetad
         isChecked = entity.Status >= AchievementStatus.STATUS_FINISHED;
     }
 
-    /// <summary>
-    /// 实体
-    /// </summary>
     public Model.Entity.Achievement Entity { get; }
 
-    /// <summary>
-    /// 元数据
-    /// </summary>
     public Model.Metadata.Achievement.Achievement Inner { get; }
 
     public uint Order
@@ -48,9 +37,6 @@ internal sealed class AchievementView : ObservableObject, IEntityAccessWithMetad
         get => Inner.Order;
     }
 
-    /// <summary>
-    /// 是否选中
-    /// </summary>
     public bool IsChecked
     {
         get => isChecked;
@@ -67,11 +53,19 @@ internal sealed class AchievementView : ObservableObject, IEntityAccessWithMetad
         }
     }
 
-    /// <summary>
-    /// 格式化的时间
-    /// </summary>
     public string Time
     {
         get => $"{Entity.Time.ToLocalTime():yyyy.MM.dd HH:mm:ss}";
+    }
+
+    public object? GetPropertyValue(string propertyName)
+    {
+        return propertyName switch
+        {
+            nameof(Order) => Order,
+            nameof(IsChecked) => IsChecked,
+            nameof(Time) => Time,
+            _ => default,
+        };
     }
 }

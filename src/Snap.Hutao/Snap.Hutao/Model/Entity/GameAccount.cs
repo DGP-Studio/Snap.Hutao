@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +18,7 @@ namespace Snap.Hutao.Model.Entity;
 [Table("game_accounts")]
 internal sealed class GameAccount : ObservableObject,
     IReorderable,
+    IAdvancedCollectionViewItem,
     IMappingFrom<GameAccount, string, string, SchemeType>
 {
     /// <summary>
@@ -77,5 +79,13 @@ internal sealed class GameAccount : ObservableObject,
     {
         Name = name;
         OnPropertyChanged($"{nameof(Name)}");
+    }
+
+    public object? GetPropertyValue(string propertyName)
+    {
+        return propertyName switch
+        {
+            _ => default,
+        };
     }
 }

@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Data;
 using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.UI.Xaml.Data;
 
@@ -23,9 +24,9 @@ internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
 
     Predicate<T>? Filter { get; set; }
 
-    IList<SortDescription> SortDescriptions { get; }
+    ObservableCollection<SortDescription> SortDescriptions { get; }
 
-    IEnumerable<T> SourceCollection { get; }
+    IList<T> SourceCollection { get; }
 
     object IList<object>.this[int index]
     {

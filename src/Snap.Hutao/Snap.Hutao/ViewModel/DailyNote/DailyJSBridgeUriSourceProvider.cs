@@ -9,11 +9,11 @@ using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
 
-internal sealed class DailyNoteWebViewerSource : IJSBridgeUriSourceProvider
+internal sealed class DailyJSBridgeUriSourceProvider : IJSBridgeUriSourceProvider
 {
     public MiHoYoJSBridgeFacade CreateJSBridge(IServiceProvider serviceProvider, CoreWebView2 coreWebView2, UserAndUid userAndUid)
     {
-        return serviceProvider.CreateInstance<MiHoYoJSBridgeFacade>(coreWebView2, userAndUid);
+        return ActivatorUtilities.CreateInstance<MiHoYoJSBridgeFacade>(serviceProvider, coreWebView2, userAndUid);
     }
 
     public string GetSource(UserAndUid userAndUid)

@@ -65,7 +65,6 @@ internal static class IntrinsicFrozen
     ]);
 
     // TODO: consider CollectionsNameValue
-
     private static FrozenSet<string> NamesFromEnum<TEnum>(Func<TEnum, string?> selector)
         where TEnum : struct, Enum
     {
