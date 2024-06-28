@@ -18,7 +18,6 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
     d:DataContext="{d:DesignInstance shvd:DailyNoteViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"

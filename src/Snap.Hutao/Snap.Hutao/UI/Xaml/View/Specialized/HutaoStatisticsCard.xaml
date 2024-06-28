@@ -11,7 +11,6 @@
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
-    xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
     d:DataContext="{d:DesignInstance shvg:HutaoWishSummary}"

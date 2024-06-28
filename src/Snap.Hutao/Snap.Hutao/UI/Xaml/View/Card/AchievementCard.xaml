@@ -9,7 +9,6 @@
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shva="using:Snap.Hutao.ViewModel.Achievement"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"

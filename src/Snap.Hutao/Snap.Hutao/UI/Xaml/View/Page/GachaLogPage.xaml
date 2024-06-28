@@ -17,7 +17,6 @@
     xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     d:DataContext="{d:DesignInstance shvg:GachaLogViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"

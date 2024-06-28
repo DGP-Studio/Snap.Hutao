@@ -16,7 +16,6 @@
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
-    xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiAvatarViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -559,12 +558,12 @@
 
                                                 <!--  天赋  -->
                                                 <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
-                                                    <shvcont:SkillPivot ItemTemplate="{StaticResource SkillDataTemplate}" Skills="{Binding Selected.SkillDepot.CompositeSkills}"/>
+                                                    <shuxvs:SkillPivot ItemTemplate="{StaticResource SkillDataTemplate}" Skills="{Binding Selected.SkillDepot.CompositeSkills}"/>
                                                 </Border>
 
                                                 <!--  命座  -->
                                                 <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
-                                                    <shvcont:SkillPivot ItemTemplate="{StaticResource TalentDataTemplate}" Skills="{Binding Selected.SkillDepot.Talents}"/>
+                                                    <shuxvs:SkillPivot ItemTemplate="{StaticResource TalentDataTemplate}" Skills="{Binding Selected.SkillDepot.Talents}"/>
                                                 </Border>
 
                                                 <!--  搭配  -->

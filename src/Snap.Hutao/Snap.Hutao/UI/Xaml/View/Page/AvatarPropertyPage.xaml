@@ -18,7 +18,6 @@
     xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shva="using:Snap.Hutao.ViewModel.AvatarProperty"
-    xmlns:shvcont="using:Snap.Hutao.View.Control"
     d:DataContext="{d:DesignInstance shva:AvatarPropertyViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">

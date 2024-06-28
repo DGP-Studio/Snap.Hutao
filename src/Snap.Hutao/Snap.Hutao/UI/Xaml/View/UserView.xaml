@@ -13,7 +13,6 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvu="using:Snap.Hutao.ViewModel.User"
     d:DataContext="{d:DesignInstance shvu:UserViewModel}"
     mc:Ignorable="d">

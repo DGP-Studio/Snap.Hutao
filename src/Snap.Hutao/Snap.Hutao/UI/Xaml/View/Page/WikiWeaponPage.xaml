@@ -15,7 +15,6 @@
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvw="using:Snap.Hutao.ViewModel.Wiki"
     d:DataContext="{d:DesignInstance Type=shvw:WikiWeaponViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"

@@ -12,7 +12,6 @@
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvs="using:Snap.Hutao.ViewModel.Setting"
     d:DataContext="{d:DesignInstance shvs:SettingViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"

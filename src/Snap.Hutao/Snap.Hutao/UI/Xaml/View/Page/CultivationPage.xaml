@@ -15,7 +15,6 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxcl="using:Snap.Hutao.UI.Xaml.Control.Layout"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
-    xmlns:shvco="using:Snap.Hutao.View.Control"
     xmlns:shvcu="using:Snap.Hutao.ViewModel.Cultivation"
     d:DataContext="{d:DesignInstance shvcu:CultivationViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"

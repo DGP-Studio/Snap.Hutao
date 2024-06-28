@@ -13,7 +13,6 @@
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     d:DataContext="{d:DesignInstance shvg:LaunchGameViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"

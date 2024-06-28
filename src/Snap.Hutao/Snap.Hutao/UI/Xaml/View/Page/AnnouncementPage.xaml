@@ -18,7 +18,6 @@
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxma="using:Snap.Hutao.UI.Xaml.Media.Animation"
     xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
-    xmlns:shvco="using:Snap.Hutao.View.Control"
     xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
     d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
