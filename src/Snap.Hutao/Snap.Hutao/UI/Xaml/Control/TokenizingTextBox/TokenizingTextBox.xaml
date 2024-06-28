@@ -1,0 +1,179 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TokenizingTextBox"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/TokenizingTextBox/TokenizingTextBoxItem.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--  Resources for TokenizingTextBox  -->
+    <Thickness x:Key="TokenizingTextBoxPadding">3,2,3,2</Thickness>
+    <Thickness x:Key="TokenizingTextBoxPresenterMargin">0,0,6,0</Thickness>
+    <x:Double x:Key="TokenizingTextBoxTokenSpacing">2</x:Double>
+
+    <shuxct:TokenizingTextBoxStyleSelector
+        x:Key="TokenizingTextBoxStyleSelector"
+        TextStyle="{StaticResource TokenizingTextBoxItemTextStyle}"
+        TokenStyle="{StaticResource TokenizingTextBoxItemTokenStyle}"/>
+
+    <!--  Default style for TokenizingTextBox  -->
+    <Style BasedOn="{StaticResource DefaultTokenizingTextBoxStyle}" TargetType="shuxct:TokenizingTextBox"/>
+
+    <Style x:Key="DefaultTokenizingTextBoxStyle" TargetType="shuxct:TokenizingTextBox">
+        <Setter Property="AutoSuggestBoxTextBoxStyle" Value="{StaticResource TokenizingTextBoxTextBoxStyle}"/>
+        <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
+        <Setter Property="Background" Value="{ThemeResource TextControlBackground}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="{StaticResource TextControlBorderThemeThickness}"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="TabNavigation" Value="Once"/>
+        <win:Setter Property="IsSwipeEnabled" Value="False"/>
+        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+        <Setter Property="Padding" Value="{StaticResource TokenizingTextBoxPadding}"/>
+        <Setter Property="SelectionMode" Value="Extended"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+        <win:Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True"/>
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+        <win:Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
+        <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+        <win:Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+        <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+        <Setter Property="TokenSpacing" Value="{StaticResource TokenizingTextBoxTokenSpacing}"/>
+        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+        <Setter Property="IsItemClickEnabled" Value="True"/>
+        <win:Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection/>
+            </Setter.Value>
+        </win:Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <cwc:WrapPanel
+                        cw:FrameworkElementExtensions.AncestorType="shuxct:TokenizingTextBox"
+                        HorizontalSpacing="{Binding (cw:FrameworkElementExtensions.Ancestor).TokenSpacing, RelativeSource={RelativeSource Self}}"
+                        StretchChild="Last"
+                        VerticalSpacing="{Binding (cw:FrameworkElementExtensions.Ancestor).TokenSpacing, RelativeSource={RelativeSource Self}}"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyleSelector" Value="{StaticResource TokenizingTextBoxStyleSelector}"/>
+        <Setter Property="Template" Value="{StaticResource TokenizingTextBoxTemplate}"/>
+    </Style>
+
+    <ControlTemplate x:Key="TokenizingTextBoxTemplate" TargetType="shuxct:TokenizingTextBox">
+        <Grid Name="RootPanel">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Command="{Binding SelectAllTokensAndTextCommand, RelativeSource={RelativeSource Mode=TemplatedParent}}" Text="{shuxm:ResourceString Name=ControlTokenizingTextBoxSelectAllMenuItem}"/>
+                </MenuFlyout>
+            </Grid.ContextFlyout>
+
+            <ContentPresenter
+                Margin="{ThemeResource TextBoxTopHeaderMargin}"
+                VerticalAlignment="Top"
+                Content="{TemplateBinding Header}"
+                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                FontWeight="Normal"
+                Foreground="{ThemeResource TextControlHeaderForeground}"
+                TextWrapping="Wrap"
+                Transitions="{TemplateBinding HeaderTransitions}"/>
+            <Border
+                x:Name="BackgroundVisual"
+                Grid.Row="1"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"/>
+
+            <Border
+                x:Name="FocusVisual"
+                Grid.Row="1"
+                Background="{ThemeResource TextControlBackgroundFocused}"
+                BorderBrush="{ThemeResource TextControlBorderBrushFocused}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Opacity="0"/>
+            <!--  Background in WinUI is TextControlBackgroundFocused, but that uses a different resource in WinUI than system  -->
+
+            <ScrollViewer
+                x:Name="ScrollViewer"
+                Grid.Row="1"
+                win:AutomationProperties.AccessibilityView="Raw"
+                win:IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                win:IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                win:IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                win:IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                win:IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                TabNavigation="{TemplateBinding TabNavigation}"
+                VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+
+                <ItemsPresenter Margin="{StaticResource TokenizingTextBoxPresenterMargin}" Padding="{TemplateBinding Padding}"/>
+            </ScrollViewer>
+
+            <ContentPresenter
+                Grid.Row="2"
+                VerticalAlignment="Top"
+                Content="{TemplateBinding Footer}"
+                ContentTemplate="{TemplateBinding FooterTemplate}"
+                FontWeight="Normal"
+                TextWrapping="Wrap"
+                Transitions="{TemplateBinding FooterTransitions}"/>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundVisual" Storyboard.TargetProperty="Background">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundDisabled}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundVisual" Storyboard.TargetProperty="BorderBrush">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushDisabled}"/>
+                            </ObjectAnimationUsingKeyFrames>
+
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Normal"/>
+                    <VisualState x:Name="PointerOver">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundVisual" Storyboard.TargetProperty="BorderBrush">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushPointerOver}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundVisual" Storyboard.TargetProperty="Background">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundPointerOver}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+
+                <VisualStateGroup x:Name="FocusStates">
+                    <VisualState x:Name="Focused">
+                        <VisualState.Setters>
+                            <Setter Target="BackgroundVisual.BorderBrush" Value="Transparent"/>
+                            <Setter Target="FocusVisual.BorderThickness" Value="{ThemeResource TextControlBorderThemeThicknessFocused}"/>
+                            <Setter Target="FocusVisual.Opacity" Value="1"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Unfocused"/>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>
