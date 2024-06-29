@@ -78,23 +78,6 @@ internal static class ListExtension
         return true;
     }
 
-    public static bool RemoveFirstWhere<T>(this List<T> list, Func<T, bool> shouldRemovePredicate)
-    {
-        Span<T> span = CollectionsMarshal.AsSpan(list);
-        ref T reference = ref MemoryMarshal.GetReference(span);
-
-        for (int i = 0; i < span.Length; i++)
-        {
-            if (shouldRemovePredicate.Invoke(Unsafe.Add(ref reference, i)))
-            {
-                list.RemoveAt(i);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public static void RemoveLast<T>(this IList<T> collection)
     {
         collection.RemoveAt(collection.Count - 1);

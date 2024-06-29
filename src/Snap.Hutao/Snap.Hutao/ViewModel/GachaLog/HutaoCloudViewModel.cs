@@ -65,7 +65,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
         }
     }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         await hutaoUserService.InitializeAsync().ConfigureAwait(false);
         await RefreshUidCollectionAsync().ConfigureAwait(false);

@@ -11,18 +11,21 @@ namespace Snap.Hutao.ViewModel.Achievement;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class AchievementViewModelDependencies
+internal sealed partial class AchievementViewModelScopeContext
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
+    private readonly ILogger<AchievementViewModelScopeContext> logger;
+    private readonly JsonSerializerOptions jsonSerializerOptions;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly AchievementImporter achievementImporter;
     private readonly IAchievementService achievementService;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
-    private readonly JsonSerializerOptions jsonSerializerOptions;
     private readonly ITaskContext taskContext;
 
     public IFileSystemPickerInteraction FileSystemPickerInteraction { get => fileSystemPickerInteraction; }
+
+    public ILogger<AchievementViewModelScopeContext> Logger { get => logger; }
 
     public JsonSerializerOptions JsonSerializerOptions { get => jsonSerializerOptions; }
 

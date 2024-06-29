@@ -90,7 +90,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -108,7 +108,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
                 await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
                     await taskContext.SwitchToMainThreadAsync();
                     Avatars = new(list, true);

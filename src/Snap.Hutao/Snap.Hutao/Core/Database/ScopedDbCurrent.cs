@@ -9,6 +9,7 @@ using Snap.Hutao.Model.Entity.Database;
 
 namespace Snap.Hutao.Core.Database;
 
+[Obsolete]
 [ConstructorGenerated]
 internal sealed partial class ScopedDbCurrent<TEntity, TMessage>
     where TEntity : class, ISelectable
@@ -63,6 +64,7 @@ internal sealed partial class ScopedDbCurrent<TEntity, TMessage>
     }
 }
 
+[Obsolete]
 [ConstructorGenerated]
 internal sealed partial class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
     where TEntityOnly : class, IEntityAccess<TEntity>

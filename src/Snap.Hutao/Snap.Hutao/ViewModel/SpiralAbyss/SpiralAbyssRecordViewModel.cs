@@ -67,7 +67,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         }
     }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await spiralAbyssRecordService.InitializeAsync().ConfigureAwait(false))
         {
@@ -90,7 +90,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         ObservableCollection<SpiralAbyssView>? collection = null;
         try
         {
-            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 collection = await spiralAbyssRecordService
                     .GetSpiralAbyssViewCollectionAsync(userAndUid)
@@ -115,7 +115,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             {
                 try
                 {
-                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                    using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                     {
                         await spiralAbyssRecordService
                             .RefreshSpiralAbyssAsync(userAndUid)

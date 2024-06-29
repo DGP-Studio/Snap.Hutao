@@ -24,6 +24,7 @@ internal static class TaskExtension
         return new(task);
     }
 
+    [Obsolete("SafeForget without logger is not recommended.")]
     public static async void SafeForget(this Task task)
     {
         try
@@ -100,6 +101,7 @@ internal static class TaskExtension
         }
     }
 
+    [Obsolete("SafeForget without logger is not recommended.")]
     public static async void SafeForget(this ValueTask task)
     {
         try

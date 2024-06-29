@@ -81,7 +81,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
     }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
@@ -124,7 +124,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         try
         {
             ValueResult<RefreshResultKind, Summary?> summaryResult;
-            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 ContentDialog dialog = await contentDialogFactory
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)

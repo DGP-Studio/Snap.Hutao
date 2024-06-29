@@ -62,7 +62,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -189,7 +189,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             return;
         }
 
-        using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+        using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
             ContentDialog dialog = await contentDialogFactory
                 .CreateForIndeterminateProgressAsync(SH.ViewModelCultivationRefreshInventoryProgress)

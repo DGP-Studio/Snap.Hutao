@@ -182,17 +182,17 @@
             x:Key="AchievementListViewItemStyle"
             BasedOn="{StaticResource DefaultListViewItemStyle}"
             TargetType="ListViewItem">
-            <Setter Property="Padding" Value="0"/>
             <Setter Property="Margin" Value="0,4,8,0"/>
+            <Setter Property="Padding" Value="0"/>
         </Style>
     </Page.Resources>
 
     <mxi:Interaction.Behaviors>
-        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
 
     <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-        <Grid Visibility="{Binding SelectedArchive, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+        <Grid Visibility="{Binding Archives.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
@@ -261,7 +261,7 @@
                                 <ComboBox
                                     DisplayMemberPath="Name"
                                     ItemsSource="{Binding Archives, Mode=OneWay}"
-                                    SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"
+                                    SelectedItem="{Binding Archives.CurrentItem, Mode=TwoWay}"
                                     Style="{ThemeResource CommandBarComboBoxStyle}"/>
                             </shuxc:SizeRestrictedContentControl>
                         </AppBarElementContainer>
@@ -294,7 +294,6 @@
                             Icon="{shuxm:FontIcon Glyph=&#xEDE1;}"
                             Label="{shuxm:ResourceString Name=ViewPageAchievementExportLabel}"/>
                         <AppBarSeparator/>
-
                         <AppBarToggleButton
                             Command="{Binding SortUncompletedSwitchCommand}"
                             Icon="{shuxm:FontIcon Glyph=&#xE8CB;}"
@@ -322,7 +321,7 @@
                                         ItemContainerStyle="{StaticResource AchievementGoalListViewItemStyle}"
                                         ItemTemplate="{StaticResource AchievementGoalListTemplate}"
                                         ItemsSource="{Binding AchievementGoals}"
-                                        SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
+                                        SelectedItem="{Binding AchievementGoals.CurrentItem, Mode=TwoWay}"
                                         SelectionMode="Single">
                                         <mxi:Interaction.Behaviors>
                                             <shuxb:SelectedItemInViewBehavior/>
@@ -347,7 +346,7 @@
                                 HorizontalContentAlignment="Stretch"
                                 ItemTemplate="{StaticResource AchievementGoalGridTemplate}"
                                 ItemsSource="{Binding AchievementGoals}"
-                                SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
+                                SelectedItem="{Binding AchievementGoals.CurrentItem, Mode=TwoWay}"
                                 SelectionMode="Single">
                                 <GridView.ItemContainerStyle>
                                     <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
@@ -372,7 +371,7 @@
             </Border>
         </Grid>
 
-        <Grid Visibility="{Binding SelectedArchive, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
+        <Grid Visibility="{Binding Archives.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
             <Border
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

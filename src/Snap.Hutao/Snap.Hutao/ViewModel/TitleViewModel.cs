@@ -56,7 +56,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     public UpdateStatus? UpdateStatus { get => updateStatus; set => SetProperty(ref updateStatus, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         await DoCheckUpdateAsync().ConfigureAwait(false);
         return true;

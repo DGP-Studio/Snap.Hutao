@@ -23,7 +23,7 @@
     Style="{ThemeResource DefaultButtonStyle}"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
-        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
     <Grid CornerRadius="{ThemeResource ControlCornerRadius}">
         <Grid Margin="12" ColumnSpacing="16">

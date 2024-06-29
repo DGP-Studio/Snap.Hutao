@@ -95,7 +95,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     /// </summary>
     public HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get => hutaoCloudStatisticsViewModel; }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         try
         {
@@ -104,7 +104,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 ArgumentNullException.ThrowIfNull(gachaLogService.ArchiveCollection);
                 ObservableCollection<GachaArchive> archives = gachaLogService.ArchiveCollection;
 
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
                     await taskContext.SwitchToMainThreadAsync();
                     Archives = archives;
@@ -173,7 +173,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
             try
             {
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
                     try
                     {
@@ -278,7 +278,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
             if (result == ContentDialogResult.Primary)
             {
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
                     await gachaLogService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
 

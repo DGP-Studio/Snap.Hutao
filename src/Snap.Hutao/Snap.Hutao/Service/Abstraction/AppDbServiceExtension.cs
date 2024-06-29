@@ -66,6 +66,7 @@ internal static class AppDbServiceExtension
         return service.Execute(dbset => dbset.AddAndSave(entity));
     }
 
+    [Obsolete]
     public static ValueTask<int> AddAsync<TEntity>(this IAppDbService<TEntity> service, TEntity entity, CancellationToken token = default)
         where TEntity : class
     {
@@ -78,6 +79,7 @@ internal static class AppDbServiceExtension
         return service.Execute(dbset => dbset.AddRangeAndSave(entities));
     }
 
+    [Obsolete]
     public static ValueTask<int> AddRangeAsync<TEntity>(this IAppDbService<TEntity> service, IEnumerable<TEntity> entities, CancellationToken token = default)
         where TEntity : class
     {
@@ -144,6 +146,7 @@ internal static class AppDbServiceExtension
         return service.Execute(dbset => dbset.UpdateAndSave(entity));
     }
 
+    [Obsolete]
     public static ValueTask<int> UpdateAsync<TEntity>(this IAppDbService<TEntity> service, TEntity entity, CancellationToken token = default)
         where TEntity : class
     {
@@ -162,6 +165,7 @@ internal static class AppDbServiceExtension
         return service.Execute(dbset => dbset.Where(predicate).ExecuteDelete());
     }
 
+    [Obsolete]
     public static ValueTask<int> DeleteAsync<TEntity>(this IAppDbService<TEntity> service, TEntity entity, CancellationToken token = default)
         where TEntity : class
     {

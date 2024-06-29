@@ -48,7 +48,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
         IPInformation info = resp.IsOk() ? resp.Data : IPInformation.Default;

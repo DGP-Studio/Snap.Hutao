@@ -27,15 +27,28 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
 
     public bool IsViewDisposed { get; set; }
 
-    protected TaskCompletionSource<bool> Initialization { get; } = new();
+    protected TaskCompletionSource<bool> Initialization { get; set; } = new();
 
-    [Command("OpenUICommand")]
-    protected virtual async Task OpenUIAsync()
+    public void Resurrect()
+    {
+        IsViewDisposed = false;
+        Initialization = new();
+    }
+
+    public void Uninitialize()
+    {
+        UninitializeOverride();
+        IsViewDisposed = true;
+        DeferContentLoader = default!;
+    }
+
+    [Command("LoadCommand")]
+    protected virtual async Task InitializeAsync()
     {
         try
         {
             // ConfigureAwait(true) sets value on UI thread
-            IsInitialized = await InitializeUIAsync().ConfigureAwait(true);
+            IsInitialized = await InitializeOverrideAsync().ConfigureAwait(true);
             Initialization.TrySetResult(IsInitialized);
         }
         catch (OperationCanceledException)
@@ -43,12 +56,16 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
         }
     }
 
-    protected virtual ValueTask<bool> InitializeUIAsync()
+    protected virtual ValueTask<bool> InitializeOverrideAsync()
     {
         return ValueTask.FromResult(true);
     }
 
-    protected async ValueTask<IDisposable> EnterCriticalExecutionAsync()
+    protected virtual void UninitializeOverride()
+    {
+    }
+
+    protected async ValueTask<IDisposable> EnterCriticalSectionAsync()
     {
         ThrowIfViewDisposed();
         IDisposable disposable = await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(false);
@@ -95,17 +112,6 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
         if (SetProperty(ref storage, value, propertyName))
         {
             changedCallback(value);
-            return true;
-        }
-
-        return false;
-    }
-
-    protected bool SetProperty<T>(ref T storage, T value, Func<T, ValueTask> changedAsyncCallback, [CallerMemberName] string? propertyName = null)
-    {
-        if (SetProperty(ref storage, value, propertyName))
-        {
-            changedAsyncCallback(value).SafeForget();
             return true;
         }
 

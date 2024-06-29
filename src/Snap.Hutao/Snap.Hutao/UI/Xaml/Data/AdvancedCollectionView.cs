@@ -689,9 +689,9 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
             return;
         }
 
+        OnCurrentChangedOverride();
         CurrentChanged?.Invoke(this, default!);
         OnPropertyChanged(nameof(CurrentItem));
-        OnCurrentChangedOverride();
     }
 
     private void OnVectorChanged(IVectorChangedEventArgs e)

@@ -216,7 +216,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
-    protected override ValueTask<bool> InitializeUIAsync()
+    protected override ValueTask<bool> InitializeOverrideAsync()
     {
         CacheFolderView = new(taskContext, runtimeOptions.LocalCache);
         DataFolderView = new(taskContext, runtimeOptions.DataFolder);

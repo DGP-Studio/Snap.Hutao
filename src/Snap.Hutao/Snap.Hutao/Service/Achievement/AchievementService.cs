@@ -8,7 +8,6 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.Achievement;
-using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
@@ -18,32 +17,17 @@ namespace Snap.Hutao.Service.Achievement;
 [Injection(InjectAs.Scoped, typeof(IAchievementService))]
 internal sealed partial class AchievementService : IAchievementService
 {
-    private readonly ScopedDbCurrent<AchievementArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
     private readonly AchievementDbBulkOperation achievementDbBulkOperation;
     private readonly IAchievementDbService achievementDbService;
+    private readonly IServiceProvider serviceProvider;
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
-    private ObservableCollection<AchievementArchive>? archiveCollection;
+    private AdvancedDbCollectionView<AchievementArchive>? archivesView;
 
-    public AchievementArchive? CurrentArchive
+    public AdvancedDbCollectionView<AchievementArchive> Archives
     {
-        get => dbCurrent.Current;
-        set => dbCurrent.Current = value;
-    }
-
-    public ObservableCollection<AchievementArchive> ArchiveCollection
-    {
-        get
-        {
-            if (archiveCollection is null)
-            {
-                archiveCollection = achievementDbService.GetAchievementArchiveCollection();
-                CurrentArchive = archiveCollection.SelectedOrDefault();
-            }
-
-            return archiveCollection;
-        }
+        get => archivesView ??= new(achievementDbService.GetAchievementArchiveCollection(), serviceProvider);
     }
 
     public List<AchievementView> GetAchievementViewList(AchievementArchive archive, AchievementServiceMetadataContext context)
@@ -69,31 +53,27 @@ internal sealed partial class AchievementService : IAchievementService
             return ArchiveAddResultKind.InvalidName;
         }
 
-        ArgumentNullException.ThrowIfNull(archiveCollection);
+        ArgumentNullException.ThrowIfNull(archivesView);
 
-        if (archiveCollection.Any(a => a.Name == newArchive.Name))
+        if (archivesView.SourceCollection.Any(a => a.Name == newArchive.Name))
         {
             return ArchiveAddResultKind.AlreadyExists;
         }
 
-        // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        archiveCollection.Add(newArchive);
-
-        // Sync database
-        await taskContext.SwitchToBackgroundAsync();
-        CurrentArchive = newArchive;
+        archivesView.Add(newArchive);
+        archivesView.MoveCurrentTo(newArchive);
 
         return ArchiveAddResultKind.Added;
     }
 
     public async ValueTask RemoveArchiveAsync(AchievementArchive archive)
     {
-        ArgumentNullException.ThrowIfNull(archiveCollection);
+        ArgumentNullException.ThrowIfNull(archivesView);
 
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        archiveCollection.Remove(archive);
+        archivesView.Remove(archive);
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();

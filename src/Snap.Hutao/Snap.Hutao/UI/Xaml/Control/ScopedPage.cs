@@ -53,7 +53,7 @@ internal class ScopedPage : Page
             TViewModel viewModel = pageScope.ServiceProvider.GetRequiredService<TViewModel>();
             using (viewModel.DisposeLock.Enter())
             {
-                viewModel.IsViewDisposed = false;
+                viewModel.Resurrect();
                 viewModel.CancellationToken = viewCancellationTokenSource.Token;
                 viewModel.DeferContentLoader = new DeferContentLoader(this);
             }
@@ -106,10 +106,10 @@ internal class ScopedPage : Page
             viewCancellationTokenSource.Cancel();
             IViewModel viewModel = (IViewModel)DataContext;
 
+            // Wait to ensure viewmodel operation is completed
             using (viewModel.DisposeLock.Enter())
             {
-                // Wait to ensure viewmodel operation is completed
-                viewModel.IsViewDisposed = true;
+                viewModel.Uninitialize();
 
                 // Dispose the scope
                 pageScope.Dispose();

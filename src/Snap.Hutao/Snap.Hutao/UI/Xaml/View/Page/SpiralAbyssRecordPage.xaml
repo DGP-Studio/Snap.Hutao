@@ -23,7 +23,7 @@
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
-        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
 
     <shuxc:ScopedPage.Resources>
@@ -505,7 +505,7 @@
             <PivotItem Header="{shuxm:ResourceString Name=ViewSpiralAbyssHutaoStatistics}">
                 <Grid DataContext="{Binding HutaoDatabaseViewModel}">
                     <mxi:Interaction.Behaviors>
-                        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+                        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
                     </mxi:Interaction.Behaviors>
 
                     <Grid.Resources>

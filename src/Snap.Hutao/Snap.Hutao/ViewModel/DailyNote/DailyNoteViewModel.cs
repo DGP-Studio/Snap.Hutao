@@ -58,7 +58,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     /// </summary>
     public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get => dailyNoteEntries; set => SetProperty(ref dailyNoteEntries, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -118,7 +118,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     {
         if (entry is not null)
         {
-            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 // ContentDialog must be created by main thread.
                 await taskContext.SwitchToMainThreadAsync();

@@ -58,5 +58,7 @@ internal sealed class TempFileStream : Stream
             stream.Dispose();
             File.Delete(path);
         }
+
+        base.Dispose(disposing);
     }
 }

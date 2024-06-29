@@ -95,7 +95,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             {
                 try
                 {
-                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                    using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                     {
                         LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
 
@@ -170,7 +170,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SelectedGamePathEntry = selectedEntry;
     }
 
-    protected override ValueTask<bool> InitializeUIAsync()
+    protected override ValueTask<bool> InitializeOverrideAsync()
     {
         ImmutableList<GamePathEntry> gamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
         SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, entry);

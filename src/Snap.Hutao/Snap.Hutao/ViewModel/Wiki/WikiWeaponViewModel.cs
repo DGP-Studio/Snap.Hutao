@@ -90,7 +90,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
     /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async Task InitializeAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -107,7 +107,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                 await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
                     await taskContext.SwitchToMainThreadAsync();
 
