@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace Snap.Hutao.UI.Xaml.Control.TokenizingTextBox;
+namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
 internal sealed class InterspersedObservableCollection : IList, IEnumerable<object>, INotifyCollectionChanged
 {

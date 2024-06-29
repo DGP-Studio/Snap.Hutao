@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/ItemIcon.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Loading.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/StandardView.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/AutoSuggestBox/AutoSuggestTokenBox.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardBlock.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardProgressBar.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/HorizontalCard.xaml"/>
@@ -38,7 +39,6 @@
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/TransitionCollection.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Uri.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/WindowOverride.xaml"/>
-                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/TokenizingTextBox/TokenizingTextBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style

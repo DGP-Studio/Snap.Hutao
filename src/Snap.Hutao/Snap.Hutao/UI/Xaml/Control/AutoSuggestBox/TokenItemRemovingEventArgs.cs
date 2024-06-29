@@ -3,11 +3,11 @@
 
 using CommunityToolkit.Common.Deferred;
 
-namespace Snap.Hutao.UI.Xaml.Control.TokenizingTextBox;
+namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
 internal sealed class TokenItemRemovingEventArgs : DeferredCancelEventArgs
 {
-    public TokenItemRemovingEventArgs(object item, TokenizingTextBoxItem token)
+    public TokenItemRemovingEventArgs(object item, AutoSuggestTokenBoxItem token)
     {
         Item = item;
         Token = token;
@@ -15,5 +15,5 @@ internal sealed class TokenItemRemovingEventArgs : DeferredCancelEventArgs
 
     public object Item { get; private set; }
 
-    public TokenizingTextBoxItem Token { get; private set; }
+    public AutoSuggestTokenBoxItem Token { get; private set; }
 }
