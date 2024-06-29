@@ -162,10 +162,10 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>列表</value>
   </data>
-  <data name="ControlTokenizingTextBoxRemoveMenuItem" xml:space="preserve">
+  <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="ControlTokenizingTextBoxSelectAllMenuItem" xml:space="preserve">
+  <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
     <value>选择全部</value>
   </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">

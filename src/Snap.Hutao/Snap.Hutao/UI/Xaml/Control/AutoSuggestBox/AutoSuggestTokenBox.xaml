@@ -3,28 +3,26 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
-    xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TokenizingTextBox"
+    xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/TokenizingTextBox/TokenizingTextBoxItem.xaml"/>
+        <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/AutoSuggestBox/AutoSuggestTokenBoxItem.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <!--  Resources for TokenizingTextBox  -->
-    <Thickness x:Key="TokenizingTextBoxPadding">3,2,3,2</Thickness>
-    <Thickness x:Key="TokenizingTextBoxPresenterMargin">0,0,6,0</Thickness>
-    <x:Double x:Key="TokenizingTextBoxTokenSpacing">2</x:Double>
+    <Thickness x:Key="AutoSuggestTokenBoxPadding">3,2,3,2</Thickness>
+    <Thickness x:Key="AutoSuggestTokenBoxPresenterMargin">0,0,6,0</Thickness>
+    <x:Double x:Key="AutoSuggestTokenBoxTokenSpacing">2</x:Double>
 
-    <shuxct:TokenizingTextBoxStyleSelector
-        x:Key="TokenizingTextBoxStyleSelector"
-        TextStyle="{StaticResource TokenizingTextBoxItemTextStyle}"
-        TokenStyle="{StaticResource TokenizingTextBoxItemTokenStyle}"/>
+    <shuxca:AutoSuggestTokenBoxStyleSelector
+        x:Key="AutoSuggestTokenBoxStyleSelector"
+        TextStyle="{StaticResource AutoSuggestTokenBoxItemTextStyle}"
+        TokenStyle="{StaticResource AutoSuggestTokenBoxItemTokenStyle}"/>
 
-    <!--  Default style for TokenizingTextBox  -->
-    <Style BasedOn="{StaticResource DefaultTokenizingTextBoxStyle}" TargetType="shuxct:TokenizingTextBox"/>
+    <Style BasedOn="{StaticResource DefaultAutoSuggestTokenBoxStyle}" TargetType="shuxca:AutoSuggestTokenBox"/>
 
-    <Style x:Key="DefaultTokenizingTextBoxStyle" TargetType="shuxct:TokenizingTextBox">
-        <Setter Property="AutoSuggestBoxTextBoxStyle" Value="{StaticResource TokenizingTextBoxTextBoxStyle}"/>
+    <Style x:Key="DefaultAutoSuggestTokenBoxStyle" TargetType="shuxca:AutoSuggestTokenBox">
+        <Setter Property="AutoSuggestBoxTextBoxStyle" Value="{StaticResource AutoSuggestTokenBoxTextBoxStyle}"/>
         <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
         <Setter Property="Background" Value="{ThemeResource TextControlBackground}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
@@ -33,7 +31,7 @@
         <Setter Property="TabNavigation" Value="Once"/>
         <win:Setter Property="IsSwipeEnabled" Value="False"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
-        <Setter Property="Padding" Value="{StaticResource TokenizingTextBoxPadding}"/>
+        <Setter Property="Padding" Value="{StaticResource AutoSuggestTokenBoxPadding}"/>
         <Setter Property="SelectionMode" Value="Extended"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
@@ -44,7 +42,7 @@
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
         <win:Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
-        <Setter Property="TokenSpacing" Value="{StaticResource TokenizingTextBoxTokenSpacing}"/>
+        <Setter Property="TokenSpacing" Value="{StaticResource AutoSuggestTokenBoxTokenSpacing}"/>
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
         <Setter Property="IsItemClickEnabled" Value="True"/>
         <win:Setter Property="ItemContainerTransitions">
@@ -56,18 +54,18 @@
             <Setter.Value>
                 <ItemsPanelTemplate>
                     <cwc:WrapPanel
-                        cw:FrameworkElementExtensions.AncestorType="shuxct:TokenizingTextBox"
+                        cw:FrameworkElementExtensions.AncestorType="shuxca:AutoSuggestTokenBox"
                         HorizontalSpacing="{Binding (cw:FrameworkElementExtensions.Ancestor).TokenSpacing, RelativeSource={RelativeSource Self}}"
                         StretchChild="Last"
                         VerticalSpacing="{Binding (cw:FrameworkElementExtensions.Ancestor).TokenSpacing, RelativeSource={RelativeSource Self}}"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="ItemContainerStyleSelector" Value="{StaticResource TokenizingTextBoxStyleSelector}"/>
-        <Setter Property="Template" Value="{StaticResource TokenizingTextBoxTemplate}"/>
+        <Setter Property="ItemContainerStyleSelector" Value="{StaticResource AutoSuggestTokenBoxStyleSelector}"/>
+        <Setter Property="Template" Value="{StaticResource AutoSuggestTokenBoxTemplate}"/>
     </Style>
 
-    <ControlTemplate x:Key="TokenizingTextBoxTemplate" TargetType="shuxct:TokenizingTextBox">
+    <ControlTemplate x:Key="AutoSuggestTokenBoxTemplate" TargetType="shuxca:AutoSuggestTokenBox">
         <Grid Name="RootPanel">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -77,7 +75,7 @@
 
             <Grid.ContextFlyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem Command="{Binding SelectAllTokensAndTextCommand, RelativeSource={RelativeSource Mode=TemplatedParent}}" Text="{shuxm:ResourceString Name=ControlTokenizingTextBoxSelectAllMenuItem}"/>
+                    <MenuFlyoutItem Command="{Binding SelectAllTokensAndTextCommand, RelativeSource={RelativeSource Mode=TemplatedParent}}" Text="{shuxm:ResourceString Name=ControlAutoSuggestTokenBoxSelectAllMenuItem}"/>
                 </MenuFlyout>
             </Grid.ContextFlyout>
 
@@ -125,7 +123,7 @@
                 VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
                 ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
 
-                <ItemsPresenter Margin="{StaticResource TokenizingTextBoxPresenterMargin}" Padding="{TemplateBinding Padding}"/>
+                <ItemsPresenter Margin="{StaticResource AutoSuggestTokenBoxPresenterMargin}" Padding="{TemplateBinding Padding}"/>
             </ScrollViewer>
 
             <ContentPresenter

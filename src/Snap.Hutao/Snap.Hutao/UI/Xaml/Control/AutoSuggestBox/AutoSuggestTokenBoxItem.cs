@@ -10,14 +10,14 @@ using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 using Windows.System;
 
-namespace Snap.Hutao.UI.Xaml.Control.TokenizingTextBox;
+namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
 [DependencyProperty("ClearButtonStyle", typeof(Style))]
-[DependencyProperty("Owner", typeof(TokenizingTextBox))]
+[DependencyProperty("Owner", typeof(AutoSuggestTokenBox))]
 [TemplatePart(Name = TokenRemoveButton, Type = typeof(ButtonBase))] //// Token case
 [TemplatePart(Name = TextAutoSuggestBox, Type = typeof(Microsoft.UI.Xaml.Controls.AutoSuggestBox))] //// String case
 [TemplatePart(Name = TextTokensCounter, Type = typeof(Microsoft.UI.Xaml.Controls.TextBlock))]
-internal partial class TokenizingTextBoxItem : ListViewItem
+internal partial class AutoSuggestTokenBoxItem : ListViewItem
 {
     private const string TokenRemoveButton = nameof(TokenRemoveButton);
     private const string TextAutoSuggestBox = nameof(TextAutoSuggestBox);
@@ -29,16 +29,16 @@ internal partial class TokenizingTextBoxItem : ListViewItem
     private bool isSelectedFocusOnFirstCharacter;
     private bool isSelectedFocusOnLastCharacter;
 
-    public TokenizingTextBoxItem()
+    public AutoSuggestTokenBoxItem()
     {
-        DefaultStyleKey = typeof(TokenizingTextBoxItem);
+        DefaultStyleKey = typeof(AutoSuggestTokenBoxItem);
 
         KeyDown += OnKeyDown;
     }
 
-    public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs>? AutoSuggestTextBoxLoaded;
+    public event TypedEventHandler<AutoSuggestTokenBoxItem, RoutedEventArgs>? AutoSuggestTextBoxLoaded;
 
-    public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs>? ClearAllAction;
+    public event TypedEventHandler<AutoSuggestTokenBoxItem, RoutedEventArgs>? ClearAllAction;
 
     public Microsoft.UI.Xaml.Controls.AutoSuggestBox? AutoSuggestBox
     {
@@ -146,7 +146,7 @@ internal partial class TokenizingTextBoxItem : ListViewItem
                     {
                         fis.FontSize = 16;
 
-                        if (Owner.TryFindResource("TokenizingTextBoxIconFontSize", out object? fontSizeObj) && fontSizeObj is double fontSize)
+                        if (Owner.TryFindResource("AutoSuggestTokenBoxIconFontSize", out object? fontSizeObj) && fontSizeObj is double fontSize)
                         {
                             fis.FontSize = fontSize;
                         }
@@ -173,14 +173,14 @@ internal partial class TokenizingTextBoxItem : ListViewItem
     private void OnASBGotFocus(object sender, RoutedEventArgs e)
     {
         // Verify if the usual behavior of clearing token selection is required
-        if (!Owner.PauseTokenClearOnFocus && !TokenizingTextBox.IsShiftPressed)
+        if (!Owner.PauseTokenClearOnFocus && !AutoSuggestTokenBox.IsShiftPressed)
         {
             Owner.DeselectAll();
         }
 
         Owner.PauseTokenClearOnFocus = false;
 
-        VisualStateManager.GoToState(Owner, TokenizingTextBox.FocusedState, true);
+        VisualStateManager.GoToState(Owner, AutoSuggestTokenBox.FocusedState, true);
     }
 
     private void OnASBLoaded(object sender, RoutedEventArgs e)
@@ -216,17 +216,17 @@ internal partial class TokenizingTextBoxItem : ListViewItem
 
     private void OnASBLostFocus(object sender, RoutedEventArgs e)
     {
-        VisualStateManager.GoToState(Owner, TokenizingTextBox.UnfocusedState, true);
+        VisualStateManager.GoToState(Owner, AutoSuggestTokenBox.UnfocusedState, true);
     }
 
     private void OnASBPointerEntered(object sender, PointerRoutedEventArgs e)
     {
-        VisualStateManager.GoToState(Owner, TokenizingTextBox.PointerOverState, true);
+        VisualStateManager.GoToState(Owner, AutoSuggestTokenBox.PointerOverState, true);
     }
 
     private void OnASBPointerExited(object sender, PointerRoutedEventArgs e)
     {
-        VisualStateManager.GoToState(Owner, TokenizingTextBox.NormalState, true);
+        VisualStateManager.GoToState(Owner, AutoSuggestTokenBox.NormalState, true);
     }
 
     private void OnASBQuerySubmitted(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -316,7 +316,7 @@ internal partial class TokenizingTextBoxItem : ListViewItem
             {
                 if (Owner.SelectPreviousItem(this))
                 {
-                    if (!TokenizingTextBox.IsShiftPressed)
+                    if (!AutoSuggestTokenBox.IsShiftPressed)
                     {
                         // Clear any text box selection
                         autoSuggestTextBox.SelectionLength = 0;
@@ -333,7 +333,7 @@ internal partial class TokenizingTextBoxItem : ListViewItem
             {
                 if (Owner.SelectNextItem(this))
                 {
-                    if (!TokenizingTextBox.IsShiftPressed)
+                    if (!AutoSuggestTokenBox.IsShiftPressed)
                     {
                         // Clear any text box selection
                         autoSuggestTextBox.SelectionLength = 0;
@@ -343,7 +343,7 @@ internal partial class TokenizingTextBoxItem : ListViewItem
                 }
             }
         }
-        else if (e.Key is VirtualKey.A && TokenizingTextBox.IsControlPressed)
+        else if (e.Key is VirtualKey.A && AutoSuggestTokenBox.IsControlPressed)
         {
             // Need to provide this shortcut from the textbox only, as ListViewBase will do it for us on token.
             Owner.SelectAllTokensAndText();
@@ -352,7 +352,7 @@ internal partial class TokenizingTextBoxItem : ListViewItem
 
     private void OnAutoSuggestTextBoxSelectionChanged(object sender, RoutedEventArgs args)
     {
-        if (!(IsAllSelected || TokenizingTextBox.IsShiftPressed || Owner.IsClearingForClick))
+        if (!(IsAllSelected || AutoSuggestTokenBox.IsShiftPressed || Owner.IsClearingForClick))
         {
             Owner.DeselectAllTokensAndText(this);
         }

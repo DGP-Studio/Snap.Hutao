@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Snap.Hutao.UI.Xaml.Control.TokenizingTextBox;
+namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
 [DependencyProperty("Text", typeof(string))]
 internal sealed partial class PretokenStringContainer : DependencyObject, ITokenStringContainer

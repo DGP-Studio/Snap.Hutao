@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Common.Deferred;
 
-namespace Snap.Hutao.UI.Xaml.Control.TokenizingTextBox;
+namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
 internal sealed class TokenItemAddingEventArgs : DeferredCancelEventArgs
 {

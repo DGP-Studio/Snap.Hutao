@@ -4,9 +4,9 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.UI.Xaml.Control.TokenizingTextBox;
+namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
-internal class TokenizingTextBoxStyleSelector : StyleSelector
+internal class AutoSuggestTokenBoxStyleSelector : StyleSelector
 {
     public Style TokenStyle { get; set; } = default!;
 

@@ -6,32 +6,32 @@ using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.UI.Xaml.Control.TokenizingTextBox;
+namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
-internal class TokenizingTextBoxAutomationPeer : ListViewBaseAutomationPeer, IValueProvider
+internal class AutoSuggestTokenBoxAutomationPeer : ListViewBaseAutomationPeer, IValueProvider
 {
-    public TokenizingTextBoxAutomationPeer(TokenizingTextBox owner)
+    public AutoSuggestTokenBoxAutomationPeer(AutoSuggestTokenBox owner)
         : base(owner)
     {
     }
 
-    public bool IsReadOnly => !OwningTokenizingTextBox.IsEnabled;
+    public bool IsReadOnly => !OwningAutoSuggestTokenBox.IsEnabled;
 
-    public string Value => OwningTokenizingTextBox.Text;
+    public string Value => OwningAutoSuggestTokenBox.Text;
 
-    private TokenizingTextBox OwningTokenizingTextBox
+    private AutoSuggestTokenBox OwningAutoSuggestTokenBox
     {
-        get => (TokenizingTextBox)Owner;
+        get => (AutoSuggestTokenBox)Owner;
     }
 
     public void SetValue(string value)
     {
         if (IsReadOnly)
         {
-            throw new ElementNotEnabledException($"Could not set the value of the {nameof(TokenizingTextBox)} ");
+            throw new ElementNotEnabledException($"Could not set the value of the {nameof(AutoSuggestTokenBox)} ");
         }
 
-        OwningTokenizingTextBox.Text = value;
+        OwningAutoSuggestTokenBox.Text = value;
     }
 
     protected override string GetClassNameCore()
@@ -41,13 +41,13 @@ internal class TokenizingTextBoxAutomationPeer : ListViewBaseAutomationPeer, IVa
 
     protected override string GetNameCore()
     {
-        string name = OwningTokenizingTextBox.Name;
+        string name = OwningAutoSuggestTokenBox.Name;
         if (!string.IsNullOrWhiteSpace(name))
         {
             return name;
         }
 
-        name = AutomationProperties.GetName(OwningTokenizingTextBox);
+        name = AutomationProperties.GetName(OwningAutoSuggestTokenBox);
         return !string.IsNullOrWhiteSpace(name) ? name : base.GetNameCore();
     }
 
@@ -62,7 +62,7 @@ internal class TokenizingTextBoxAutomationPeer : ListViewBaseAutomationPeer, IVa
 
     protected override IList<AutomationPeer> GetChildrenCore()
     {
-        TokenizingTextBox owner = OwningTokenizingTextBox;
+        AutoSuggestTokenBox owner = OwningAutoSuggestTokenBox;
 
         ItemCollection items = owner.Items;
         if (items.Count <= 0)
@@ -73,7 +73,7 @@ internal class TokenizingTextBoxAutomationPeer : ListViewBaseAutomationPeer, IVa
         List<AutomationPeer> peers = new(items.Count);
         for (int i = 0; i < items.Count; i++)
         {
-            if (owner.ContainerFromIndex(i) is TokenizingTextBoxItem element)
+            if (owner.ContainerFromIndex(i) is AutoSuggestTokenBoxItem element)
             {
                 peers.Add(FromElement(element) ?? CreatePeerForElement(element));
             }
