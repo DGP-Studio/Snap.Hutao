@@ -4,7 +4,7 @@
 namespace Snap.Hutao.Win32.System.Threading;
 
 [Flags]
-public enum PROCESS_ACCESS_RIGHTS : uint
+internal enum PROCESS_ACCESS_RIGHTS : uint
 {
     PROCESS_TERMINATE = 1U,
     PROCESS_CREATE_THREAD = 2U,

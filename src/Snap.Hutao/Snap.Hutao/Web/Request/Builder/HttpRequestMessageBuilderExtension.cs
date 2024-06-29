@@ -75,11 +75,11 @@ internal static class HttpRequestMessageBuilderExtension
         }
     }
 
-    internal static async ValueTask SendAsync(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)
+    internal static void Send(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger)
     {
         try
         {
-            using (HttpResponseMessage message = await httpClient.SendAsync(builder.HttpRequestMessage, token).ConfigureAwait(false))
+            using (HttpResponseMessage message = httpClient.Send(builder.HttpRequestMessage))
             {
             }
         }

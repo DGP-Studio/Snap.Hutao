@@ -18,7 +18,6 @@ internal readonly struct RequiredLocalModule : IDisposable
     private readonly HMODULE hModuleUnityPlayer;
     private readonly HMODULE hModuleUserAssembly;
 
-    [SuppressMessage("", "SH002")]
     public RequiredLocalModule(HMODULE unityPlayer, HMODULE userAssembly)
     {
         hModuleUnityPlayer = unityPlayer;

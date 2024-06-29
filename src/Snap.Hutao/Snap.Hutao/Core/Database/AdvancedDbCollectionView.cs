@@ -18,7 +18,7 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
     private bool detached;
 
     public AdvancedDbCollectionView(IList<TEntity> source, IServiceProvider serviceProvider)
-        : base(source)
+        : base(source, true)
     {
         this.serviceProvider = serviceProvider;
     }
@@ -66,7 +66,7 @@ internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : Advance
     private bool detached;
 
     public AdvancedDbCollectionView(IList<TEntityAccess> source, IServiceProvider serviceProvider)
-        : base(source)
+        : base(source, true)
     {
         this.serviceProvider = serviceProvider;
     }

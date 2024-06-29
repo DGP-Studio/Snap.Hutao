@@ -14,7 +14,6 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Input.HotKey;
 
-[SuppressMessage("", "SA1124")]
 internal sealed class HotKeyCombination : ObservableObject
 {
     private readonly IInfoBarService infoBarService;
@@ -36,7 +35,6 @@ internal sealed class HotKeyCombination : ObservableObject
     private bool isEnabled;
     private bool isOn;
 
-    [SuppressMessage("", "SH002")]
     public HotKeyCombination(IServiceProvider serviceProvider, HWND hwnd, string settingKey, int hotKeyId, HOT_KEY_MODIFIERS defaultModifiers, VirtualKey defaultKey)
     {
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();

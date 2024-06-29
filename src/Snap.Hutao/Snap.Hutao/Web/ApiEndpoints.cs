@@ -13,7 +13,6 @@ namespace Snap.Hutao.Web;
 [HighQuality]
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1202")]
-[SuppressMessage("", "SA1124")]
 internal static class ApiEndpoints
 {
     #region ApiTakumiAuthApi

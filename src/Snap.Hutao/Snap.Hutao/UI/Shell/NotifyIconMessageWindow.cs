@@ -82,7 +82,6 @@ internal sealed class NotifyIconMessageWindow : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    [SuppressMessage("", "SH002")]
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static unsafe LRESULT OnWindowProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam)
     {

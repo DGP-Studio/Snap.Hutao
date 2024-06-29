@@ -107,6 +107,14 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         HutaoException.Throw("Test Exception");
     }
 
+    [Command("FileOperationRenameCommand")]
+    private static void FileOperationRename()
+    {
+        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string source = Path.Combine(desktop, "TestFolder");
+        DirectoryOperation.UnsafeRename(source, "TestFolder1");
+    }
+
     [Command("ResetMainWindowSizeCommand")]
     private void ResetMainWindowSize()
     {
@@ -160,18 +168,10 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             {
                 while (true)
                 {
-                    await session.RequestFrameAsync();
-                    await Task.Delay(1000);
+                    await session.RequestFrameAsync().ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
                 }
             }
         }
-    }
-
-    [Command("FileOperationRenameCommand")]
-    private void FileOperationRename()
-    {
-        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        string source = Path.Combine(desktop, "TestFolder");
-        DirectoryOperation.UnsafeRename(source, "TestFolder1");
     }
 }

@@ -47,7 +47,6 @@ internal struct GameScreenCaptureContext : IDisposable
     private IDirect3DDevice? direct3DDevice;
     private unsafe IDXGISwapChain1* swapChain;
 
-    [SuppressMessage("", "SH002")]
     private unsafe GameScreenCaptureContext(HWND hwnd, bool preview)
     {
         this.hwnd = hwnd;
@@ -56,7 +55,6 @@ internal struct GameScreenCaptureContext : IDisposable
         PreviewEnabled = preview;
     }
 
-    [SuppressMessage("", "SH002")]
     public static unsafe GameScreenCaptureContextCreationResult Create(HWND hwnd, bool preview)
     {
         GameScreenCaptureContext context = new(hwnd, preview);
@@ -181,7 +179,6 @@ internal struct GameScreenCaptureContext : IDisposable
         IUnknownMarshal.Release(swapChain);
     }
 
-    [SuppressMessage("", "SH002")]
     private static (DirectXPixelFormat WinRTFormat, DXGI_FORMAT DXFormat) DeterminePixelFormat(HWND hwnd)
     {
         HDC hdc = GetDC(hwnd);

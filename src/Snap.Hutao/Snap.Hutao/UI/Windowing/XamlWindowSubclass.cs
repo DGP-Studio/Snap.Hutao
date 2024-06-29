@@ -48,7 +48,6 @@ internal sealed class XamlWindowSubclass : IDisposable
         unmanagedAccess.Free();
     }
 
-    [SuppressMessage("", "SH002")]
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static unsafe LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
     {

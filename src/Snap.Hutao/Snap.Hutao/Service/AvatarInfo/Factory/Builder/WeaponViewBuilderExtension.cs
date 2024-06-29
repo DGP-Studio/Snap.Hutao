@@ -43,7 +43,6 @@ internal static class WeaponViewBuilderExtension
         return builder.SetIcon<TBuilder, WeaponView>(icon);
     }
 
-    [SuppressMessage("", "SH002")]
     public static TBuilder SetId<TBuilder>(this TBuilder builder, WeaponId id)
         where TBuilder : IWeaponViewBuilder
     {

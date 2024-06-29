@@ -7,7 +7,6 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 /// 实时便笺
 /// </summary>
 [HighQuality]
-[SuppressMessage("", "SA1124")]
 internal sealed class DailyNote : DailyNoteCommon
 {
     #region Binding

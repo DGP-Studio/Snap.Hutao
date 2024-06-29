@@ -14,7 +14,6 @@ using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32;
 
-[SuppressMessage("", "SH002")]
 [SuppressMessage("", "SYSLIB1054")]
 internal static class Kernel32
 {
@@ -51,7 +50,6 @@ internal static class Kernel32
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static unsafe extern BOOL GetConsoleMode(HANDLE hConsoleHandle, CONSOLE_MODE* lpMode);
 
-    [SuppressMessage("", "SH002")]
     [DebuggerStepThrough]
     public static unsafe BOOL GetConsoleMode(HANDLE hConsoleHandle, out CONSOLE_MODE mode)
     {

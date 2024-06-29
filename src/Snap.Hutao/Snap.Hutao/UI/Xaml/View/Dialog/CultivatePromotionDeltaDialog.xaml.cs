@@ -23,7 +23,6 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="options">选项</param>
-    [SuppressMessage("", "SH002")]
     public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, CalculableOptions options)
     {
         InitializeComponent();

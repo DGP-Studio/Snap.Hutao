@@ -87,8 +87,7 @@ internal sealed partial class BridgeShareImplmentation
                 encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
                 await encoder.FlushAsync();
 
-                await context.TaskContext.SwitchToMainThreadAsync();
-                if (context.ClipboardProvider.SetBitmap(stream))
+                if (await context.ClipboardProvider.SetBitmapAsync(stream).ConfigureAwait(false))
                 {
                     context.InfoBarService.Success(SH.WebBridgeShareCopyToClipboardSuccess);
                 }

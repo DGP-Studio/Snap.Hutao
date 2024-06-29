@@ -21,33 +21,17 @@ namespace Snap.Hutao.Service.Cultivation;
 [Injection(InjectAs.Singleton, typeof(ICultivationService))]
 internal sealed partial class CultivationService : ICultivationService
 {
-    private readonly ScopedDbCurrent<CultivateProject, Message.CultivateProjectChangedMessage> dbCurrent;
     private readonly ICultivationDbService cultivationDbService;
     private readonly IInventoryDbService inventoryDbService;
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    private ObservableCollection<CultivateProject>? projects;
+    private AdvancedDbCollectionView<CultivateProject>? projects;
 
     /// <inheritdoc/>
-    public CultivateProject? Current
+    public AdvancedDbCollectionView<CultivateProject> Projects
     {
-        get => dbCurrent.Current;
-        set => dbCurrent.Current = value;
-    }
-
-    /// <inheritdoc/>
-    public ObservableCollection<CultivateProject> ProjectCollection
-    {
-        get
-        {
-            if (projects is null)
-            {
-                projects = cultivationDbService.GetCultivateProjectCollection();
-                Current ??= projects.SelectedOrDefault();
-            }
-
-            return projects;
-        }
+        get => projects ??= new(cultivationDbService.GetCultivateProjectCollection(), serviceProvider);
     }
 
     /// <inheritdoc/>
@@ -146,23 +130,24 @@ internal sealed partial class CultivationService : ICultivationService
 
         await taskContext.SwitchToBackgroundAsync();
 
-        if (Current is null)
+        if (Projects?.CurrentItem is null)
         {
-            _ = ProjectCollection;
+            // Initialize
+            _ = Projects;
         }
 
-        if (Current is null)
+        if (Projects?.CurrentItem is null)
         {
             return false;
         }
 
         CultivateEntry? entry = await cultivationDbService
-            .GetCultivateEntryByProjectIdAndItemIdAsync(Current.InnerId, itemId)
+            .GetCultivateEntryByProjectIdAndItemIdAsync(Projects.CurrentItem.InnerId, itemId)
             .ConfigureAwait(false);
 
         if (entry is null)
         {
-            entry = CultivateEntry.From(Current.InnerId, type, itemId);
+            entry = CultivateEntry.From(Projects.CurrentItem.InnerId, type, itemId);
             await cultivationDbService.AddCultivateEntryAsync(entry).ConfigureAwait(false);
         }
 
@@ -189,7 +174,7 @@ internal sealed partial class CultivationService : ICultivationService
 
         ArgumentNullException.ThrowIfNull(projects);
 
-        if (projects.Any(a => a.Name == project.Name))
+        if (projects.SourceCollection.Any(a => a.Name == project.Name))
         {
             return ProjectAddResultKind.AlreadyExists;
         }
@@ -197,10 +182,7 @@ internal sealed partial class CultivationService : ICultivationService
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
         projects.Add(project);
-
-        // Sync database
-        await taskContext.SwitchToBackgroundAsync();
-        await cultivationDbService.AddCultivateProjectAsync(project).ConfigureAwait(false);
+        projects.MoveCurrentTo(project);
 
         return ProjectAddResultKind.Added;
     }

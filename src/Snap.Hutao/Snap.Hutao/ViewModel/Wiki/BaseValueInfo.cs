@@ -89,7 +89,6 @@ internal sealed class BaseValueInfo : ObservableObject
         }
     }
 
-    [SuppressMessage("", "SH002")]
     private void UpdateValues(Level level, bool promoted)
     {
         Values = propValues.SelectList(propValue =>

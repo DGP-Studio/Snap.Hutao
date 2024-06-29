@@ -38,11 +38,9 @@ internal sealed partial class ExceptionRecorder
     {
         logger.LogError("未经处理的全局异常:\r\n{Detail}", ExceptionFormat.Format(e.Exception));
 
-        _ = serviceProvider
+        serviceProvider
             .GetRequiredService<Web.Hutao.Log.HutaoLogUploadClient>()
-            .UploadLogAsync(e.Exception)
-            .GetAwaiter()
-            .GetResult();
+            .UploadLog(e.Exception);
     }
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)

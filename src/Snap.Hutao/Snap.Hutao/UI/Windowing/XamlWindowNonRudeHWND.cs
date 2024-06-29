@@ -12,7 +12,6 @@ internal sealed class XamlWindowNonRudeHWND : IDisposable
     private const string NonRudeHWND = "NonRudeHWND";
     private readonly HWND hwnd;
 
-    [SuppressMessage("", "SH002")]
     public XamlWindowNonRudeHWND(HWND hwnd)
     {
         this.hwnd = hwnd;

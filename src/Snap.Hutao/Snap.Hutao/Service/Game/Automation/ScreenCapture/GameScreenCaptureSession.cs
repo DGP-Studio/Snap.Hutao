@@ -36,7 +36,6 @@ internal sealed class GameScreenCaptureSession : IDisposable
 
     private bool isDisposed;
 
-    [SuppressMessage("", "SH002")]
     public unsafe GameScreenCaptureSession(GameScreenCaptureContext captureContext, ILogger logger)
     {
         this.captureContext = captureContext;

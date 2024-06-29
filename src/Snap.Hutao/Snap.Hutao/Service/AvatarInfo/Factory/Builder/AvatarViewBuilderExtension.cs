@@ -32,7 +32,6 @@ internal static class AvatarViewBuilderExtension
         return builder;
     }
 
-    [SuppressMessage("", "SH002")]
     public static TBuilder SetCalculatorRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
         where TBuilder : IAvatarViewBuilder
     {
@@ -117,7 +116,6 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.FetterLevel = level);
     }
 
-    [SuppressMessage("", "SH002")]
     public static TBuilder SetGameRecordRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
         where TBuilder : IAvatarViewBuilder
     {
@@ -130,7 +128,6 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.GameRecordRefreshTimeFormat = gameRecordRefreshTimeFormat);
     }
 
-    [SuppressMessage("", "SH002")]
     public static TBuilder SetId<TBuilder>(this TBuilder builder, AvatarId id)
         where TBuilder : IAvatarViewBuilder
     {
@@ -178,7 +175,6 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.Reliquaries = reliquaries);
     }
 
-    [SuppressMessage("", "SH002")]
     public static TBuilder SetShowcaseRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
         where TBuilder : IAvatarViewBuilder
     {

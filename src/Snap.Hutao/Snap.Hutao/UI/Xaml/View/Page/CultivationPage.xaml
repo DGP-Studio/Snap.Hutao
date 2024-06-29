@@ -270,7 +270,7 @@
                                 <ComboBox
                                     DisplayMemberPath="Name"
                                     ItemsSource="{Binding Projects}"
-                                    SelectedItem="{Binding SelectedProject, Mode=TwoWay}"
+                                    SelectedItem="{Binding Projects.CurrentItem, Mode=TwoWay}"
                                     Style="{ThemeResource CommandBarComboBoxStyle}"/>
                             </shuxc:SizeRestrictedContentControl>
                         </AppBarElementContainer>
@@ -284,7 +284,7 @@
                             Label="{shuxm:ResourceString Name=ViewPageCultivationAddProject}"/>
                         <AppBarButton
                             Command="{Binding RemoveProjectCommand}"
-                            CommandParameter="{Binding SelectedProject, Mode=OneWay}"
+                            CommandParameter="{Binding Projects.CurrentItem, Mode=OneWay}"
                             Icon="{shuxm:FontIcon Glyph=&#xE74D;}"
                             Label="{shuxm:ResourceString Name=ViewPageCultivationRemoveProject}"/>
                     </CommandBar>

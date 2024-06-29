@@ -15,7 +15,6 @@ internal sealed class CharacterData
     /// </summary>
     /// <param name="uid">uid</param>
     /// <param name="characterIds">角色id</param>
-    [SuppressMessage("", "SH002")]
     public CharacterData(PlayerUid uid, IEnumerable<AvatarId> characterIds)
     {
         CharacterIds = characterIds;

@@ -385,7 +385,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
                         BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, memory);
                         encoder.SetSoftwareBitmap(softwareBitmap);
                         await encoder.FlushAsync();
-                        Ioc.Default.GetRequiredService<IClipboardProvider>().SetBitmap(memory);
+                        await Ioc.Default.GetRequiredService<IClipboardProvider>().SetBitmapAsync(memory).ConfigureAwait(false);
                     }
                 }
             }

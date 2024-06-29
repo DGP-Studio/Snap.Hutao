@@ -26,7 +26,6 @@ internal unsafe struct IShellLinkW
         }
     }
 
-    [SuppressMessage("", "SH002")]
     public HRESULT SetArguments(ReadOnlySpan<char> szArgs)
     {
         fixed (char* pszArgs = szArgs)
@@ -40,7 +39,6 @@ internal unsafe struct IShellLinkW
         return ThisPtr->SetShowCmd((IShellLinkW*)Unsafe.AsPointer(ref this), iShowCmd);
     }
 
-    [SuppressMessage("", "SH002")]
     public HRESULT SetIconLocation(ReadOnlySpan<char> szIconPath, int iIcon)
     {
         fixed (char* pszIconPath = szIconPath)
@@ -49,7 +47,6 @@ internal unsafe struct IShellLinkW
         }
     }
 
-    [SuppressMessage("", "SH002")]
     public HRESULT SetPath(ReadOnlySpan<char> szFile)
     {
         fixed (char* pszFile = szFile)

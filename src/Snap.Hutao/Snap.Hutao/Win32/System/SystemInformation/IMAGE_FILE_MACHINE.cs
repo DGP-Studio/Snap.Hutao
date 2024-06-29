@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.SystemInformation;
 
+[SuppressMessage("", "CA1069")]
 internal enum IMAGE_FILE_MACHINE : ushort
 {
     IMAGE_FILE_MACHINE_AXP64 = 644,

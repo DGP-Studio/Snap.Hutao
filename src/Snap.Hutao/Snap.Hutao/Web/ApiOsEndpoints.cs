@@ -13,7 +13,6 @@ namespace Snap.Hutao.Web;
 [HighQuality]
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1202")]
-[SuppressMessage("", "SA1124")]
 internal static class ApiOsEndpoints
 {
     #region ApiAccountOsApi
@@ -341,9 +340,6 @@ internal static class ApiOsEndpoints
     private const string Hk4eApiOs = "https://hk4e-api-os.hoyoverse.com";
     private const string Hk4eApiOsAnnouncementApi = $"{Hk4eApiOs}/common/hk4e_global/announcement/api";
     private const string Hk4eApiOsGachaInfoApi = $"{Hk4eApiOs}/gacha_info/api";
-
-    private const string SdkOsStatic = "https://sdk-os-static.mihoyo.com";
-    private const string SdkOsStaticLauncherApi = $"{SdkOsStatic}/hk4e_global/mdk/launcher/api";
 
     private const string SgPublicApi = "https://sg-public-api.hoyoverse.com";
     private const string SgHk4eApi = "https://sg-hk4e-api.hoyoverse.com";

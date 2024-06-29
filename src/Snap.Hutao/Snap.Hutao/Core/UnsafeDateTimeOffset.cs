@@ -9,7 +9,6 @@ namespace Snap.Hutao.Core;
 
 internal static class UnsafeDateTimeOffset
 {
-    [SuppressMessage("", "SH002")]
     public static DateTimeOffset ParseDateTime(ReadOnlySpan<char> span, TimeSpan offset)
     {
         DateTime dateTime = DateTime.Parse(span, CultureInfo.InvariantCulture);
@@ -17,7 +16,6 @@ internal static class UnsafeDateTimeOffset
     }
 
     [Pure]
-    [SuppressMessage("", "SH002")]
     public static unsafe DateTimeOffset AdjustOffsetOnly(DateTimeOffset dateTimeOffset, in TimeSpan offset)
     {
         return new(GetPrivateDateTime(ref dateTimeOffset), offset);

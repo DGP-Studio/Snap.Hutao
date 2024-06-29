@@ -10,7 +10,6 @@ namespace Snap.Hutao.Web;
 /// 胡桃 API 端点
 /// </summary>
 [HighQuality]
-[SuppressMessage("", "SA1124")]
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1203")]
 internal static class HutaoEndpoints

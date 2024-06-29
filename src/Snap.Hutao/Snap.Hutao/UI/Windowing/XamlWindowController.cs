@@ -31,7 +31,6 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.UI.Windowing;
 
 [SuppressMessage("", "CA1001")]
-[SuppressMessage("", "SA1124")]
 [SuppressMessage("", "SA1204")]
 internal sealed class XamlWindowController
 {

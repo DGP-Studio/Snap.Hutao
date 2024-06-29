@@ -335,7 +335,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     encoder.SetSoftwareBitmap(softwareBitmap);
                     await encoder.FlushAsync();
 
-                    clipboardOpened = clipboardInterop.SetBitmap(memory);
+                    clipboardOpened = await clipboardInterop.SetBitmapAsync(memory).ConfigureAwait(false);
                 }
             }
 

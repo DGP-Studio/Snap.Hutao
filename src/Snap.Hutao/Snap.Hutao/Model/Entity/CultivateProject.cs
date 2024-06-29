@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database.Abstraction;
+using Snap.Hutao.UI.Xaml.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +14,9 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("cultivate_projects")]
-internal sealed class CultivateProject : ISelectable, IMappingFrom<CultivateProject, string, string>
+internal sealed class CultivateProject : ISelectable,
+    IAdvancedCollectionViewItem,
+    IMappingFrom<CultivateProject, string, string>
 {
     /// <summary>
     /// 内部Id
@@ -46,5 +49,13 @@ internal sealed class CultivateProject : ISelectable, IMappingFrom<CultivateProj
     public static CultivateProject From(string name, string? attachedUid = null)
     {
         return new() { Name = name, AttachedUid = attachedUid };
+    }
+
+    public object? GetPropertyValue(string name)
+    {
+        return name switch
+        {
+            _ => default,
+        };
     }
 }

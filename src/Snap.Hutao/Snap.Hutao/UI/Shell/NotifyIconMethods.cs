@@ -16,7 +16,6 @@ internal sealed class NotifyIconMethods
         return Shell_NotifyIconW(NOTIFY_ICON_MESSAGE.NIM_ADD, in data);
     }
 
-    [SuppressMessage("", "SH002")]
     public static unsafe BOOL Add(Guid id, HWND hWnd, string tip, uint uCallbackMessage, HICON hIcon)
     {
         NOTIFYICONDATAW data = default;
@@ -57,7 +56,6 @@ internal sealed class NotifyIconMethods
         return Delete(in data);
     }
 
-    [SuppressMessage("", "SH002")]
     public static unsafe RECT GetRect(Guid id, HWND hWND)
     {
         NOTIFYICONIDENTIFIER identifier = new()

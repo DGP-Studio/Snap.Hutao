@@ -8,19 +8,22 @@ public sealed class HttpClientTest
     [TestMethod]
     public void RedirectionHeaderTest()
     {
-        HttpClient httpClient = new(new HttpClientHandler()
+        HttpClientHandler handler = new()
         {
             UseCookies = false,
             AllowAutoRedirect = false,
-        });
+        };
 
-        using (httpClient)
+        using (handler)
         {
-            using (HttpRequestMessage request = new(HttpMethod.Get, "https://api.snapgenshin.com/patch/hutao/download"))
+            using (HttpClient httpClient = new(handler))
             {
-                using (HttpResponseMessage response = httpClient.Send(request))
+                using (HttpRequestMessage request = new(HttpMethod.Get, "https://api.snapgenshin.com/patch/hutao/download"))
                 {
-                    _ = 1;
+                    using (HttpResponseMessage response = httpClient.Send(request))
+                    {
+                        _ = 1;
+                    }
                 }
             }
         }

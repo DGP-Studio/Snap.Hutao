@@ -43,7 +43,6 @@ internal sealed class DefaultGameFpsUnlocker : GameFpsUnlocker
         }
     }
 
-    [SuppressMessage("", "SH002")]
     private static unsafe bool UnsafeWriteProcessMemory(HANDLE hProcess, nuint baseAddress, int value)
     {
         return WriteProcessMemory(hProcess, (void*)baseAddress, ref value, out _);

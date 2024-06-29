@@ -100,7 +100,6 @@ internal sealed partial class HotKeyOptions : ObservableObject, IDisposable
         }
     }
 
-    [SuppressMessage("", "SH002")]
     private void OnHotKeyPressed(HotKeyParameter parameter)
     {
         if (parameter.Equals(MouseClickRepeatForeverKeyCombination))

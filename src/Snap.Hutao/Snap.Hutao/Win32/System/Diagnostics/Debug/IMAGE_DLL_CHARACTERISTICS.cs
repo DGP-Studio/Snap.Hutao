@@ -3,6 +3,7 @@
 
 namespace Snap.Hutao.Win32.System.Diagnostics.Debug;
 
+[SuppressMessage("", "CA1069")]
 [Flags]
 internal enum IMAGE_DLL_CHARACTERISTICS : ushort
 {

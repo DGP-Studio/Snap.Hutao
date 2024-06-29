@@ -50,7 +50,6 @@ internal static class GameFpsAddress
         return memory.IndexOf(part);
     }
 
-    [SuppressMessage("", "SH002")]
     private static unsafe bool UnsafeReadProcessMemory(HANDLE hProcess, nuint baseAddress, out nuint value)
     {
         value = 0;

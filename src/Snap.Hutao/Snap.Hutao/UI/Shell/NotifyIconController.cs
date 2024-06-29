@@ -86,7 +86,6 @@ internal sealed class NotifyIconController : IDisposable
         }
     }
 
-    [SuppressMessage("", "SH002")]
     private void OnContextMenuRequested(NotifyIconMessageWindow window, PointUInt16 point)
     {
         xamlHostWindow.ShowFlyoutAt(lazyMenu.Value, new Windows.Foundation.Point(point.X, point.Y), GetRect());
