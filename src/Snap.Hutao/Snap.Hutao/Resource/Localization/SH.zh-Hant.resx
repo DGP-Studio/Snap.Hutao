@@ -905,7 +905,7 @@
     <value>未正確提供原神路徑，或目前設定的路徑不正確</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>找不到原神内置浏览器缓存路径：
+    <value>找不到原神內置瀏覽器快取路徑：
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
