@@ -905,7 +905,7 @@
     <value>Путь к Genshin Impact не установлен или содержит ошибки</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>找不到原神内置浏览器缓存路径：
+    <value>Не удается найти путь к кэшу встроенного браузера Genshin Impact: 
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
