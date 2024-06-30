@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -193,16 +193,16 @@
     <value>Регистрация [{0}] горячей клавиши [{1}] не удалась</value>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
-    <value>退出</value>
+    <value>Выход</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
     <value>Game Launcher</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已进入后台运行</value>
+    <value>Snap Hutao работает в фоновом режиме</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>窗口</value>
+    <value>Окно</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>Тёмная</value>
@@ -268,7 +268,7 @@
     <value>Этаж {0}</value>
   </data>
   <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
-    <value>Level {0}</value>
+    <value>Уровень {0}</value>
   </data>
   <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
     <value>Appear {0} Times</value>
@@ -413,7 +413,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypePole" xml:space="preserve">
-    <value>Polearm</value>
+    <value>Древковое оружие</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeSwordOneHand" xml:space="preserve">
@@ -905,7 +905,8 @@
     <value>Путь к Genshin Impact не установлен или содержит ошибки</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>Не удается найти путь к кэшу встроенного браузера Genshin Impact: \n{0}</value>
+    <value>找不到原神内置浏览器缓存路径：
+{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>Can't find available URL</value>
@@ -1030,6 +1031,9 @@
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
     <value>Ошибка чтения памяти модулей процесса: не удалось прочитать действительное значение по заданному адресу</value>
   </data>
+  <data name="ServiceGameUnlockerWriteProcessMemoryFpsAddressFailed" xml:space="preserve">
+    <value>Не удалось разблокировать частоту кадров: Ошибка 0x{0:X8}</value>
+  </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
     <value>Запись молитв доступна до \n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
@@ -1086,6 +1090,9 @@
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>Предоставленные Cookie не позволяют получить информацию о пользователе.</value>
+  </data>
+  <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
+    <value>Скопировать изображение</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>Достижения</value>
@@ -1256,7 +1263,7 @@
     <value>是否解除 Loopback 限制</value>
   </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
-    <value>导入祈愿记录</value>
+    <value>Импорт истории молитв</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
     <value>祈愿记录 Url 已失效，请重新获取</value>
@@ -1400,7 +1407,7 @@
     <value>Установка cookie-файлов</value>
   </data>
   <data name="ViewFeedbackHeader" xml:space="preserve">
-    <value>Центр обратной связи</value>
+    <value>Обратная связь</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>История молитв</value>
@@ -1563,6 +1570,9 @@
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>不能添加名称无效的计划</value>
+  </data>
+  <data name="ViewModelCultivationRefreshInventoryProgress" xml:space="preserve">
+    <value>正在同步背包物品</value>
   </data>
   <data name="ViewModelCultivationRemoveProjectContent" xml:space="preserve">
     <value>此操作不可逆，此计划的养成物品与背包材料将会丢失</value>
@@ -1921,6 +1931,9 @@
   <data name="ViewPageCultivationNavigateAction" xml:space="preserve">
     <value>Перейти</value>
   </data>
+  <data name="ViewPageCultivationRefreshInventory" xml:space="preserve">
+    <value>Синхронизация предметов инвентаря</value>
+  </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
     <value>Удалить список</value>
   </data>
@@ -1928,10 +1941,10 @@
     <value>删除当前计划</value>
   </data>
   <data name="ViewPageCultivationWikiAvatarDescription" xml:space="preserve">
-    <value>添加任意角色到养成计划</value>
+    <value>Добавить любого персонажа в планировщик развития</value>
   </data>
   <data name="ViewPageCultivationWikiWeaponDescription" xml:space="preserve">
-    <value>添加任意武器到养成计划</value>
+    <value>Добавить любое оружие в планировщик развития</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
     <value>Добавить роль</value>
@@ -1973,40 +1986,40 @@
     <value>防止通知自动收入操作中心</value>
   </data>
   <data name="ViewPageDailyNoteReminderHeader" xml:space="preserve">
-    <value>提醒通知</value>
+    <value>Уведомления о напоминаниях</value>
   </data>
   <data name="ViewPageDailyNoteRemoveToolTip" xml:space="preserve">
     <value>Удалить роли</value>
   </data>
   <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
-    <value>本周已消耗减半次数</value>
+    <value>Использовано попыток сокращения смолы</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
     <value>Автообновление</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
-    <value>间隔选定的时间后刷新添加的实时便笺</value>
+    <value>Обновление добавленных заметок через выбранное время</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
-    <value>这些选项仅允许在非管理员模式下更改</value>
+    <value>Эти параметры нельзя менять в режиме администратора</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
     <value>Обновить</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
-    <value>未启用通知区域图标，关闭窗口后自动刷新将不会执行</value>
+    <value>Значок области уведомлений выключен, автообновление заметок не будет выполняться после закрытия окна</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
-    <value>在我游玩原神时不通知我</value>
+    <value>Не показывать уведомления Snap Hutao во время игры в Genshin Impact</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
-    <value>免打扰模式</value>
+    <value>Режим "Не беспокоить"</value>
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
-    <value>验证当前用户与角色</value>
+    <value>Подтвердить текущего пользователя и роль</value>
   </data>
   <data name="ViewPageFeedbackAutoSuggestBoxPlaceholder" xml:space="preserve">
-    <value>搜索问题与建议</value>
+    <value>Поиск вопросов и предложений</value>
   </data>
   <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
     <value>Основная информация</value>
@@ -2015,10 +2028,10 @@
     <value>Полезные ссылки</value>
   </data>
   <data name="ViewPageFeedbackCurrentProxyHeader" xml:space="preserve">
-    <value>当前代理</value>
+    <value>Текущее прокси</value>
   </data>
   <data name="ViewPageFeedbackCurrentProxyNoProxyDescription" xml:space="preserve">
-    <value>无代理</value>
+    <value>Нет прокси</value>
   </data>
   <data name="ViewPageFeedbackEnableLoopbackEnabledDescription" xml:space="preserve">
     <value>已解除</value>
@@ -2027,7 +2040,7 @@
     <value>解除 Loopback 限制</value>
   </data>
   <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
-    <value>与我们密切联系</value>
+    <value>Свяжитесь с нами</value>
   </data>
   <data name="ViewPageFeedbackFeatureGuideHeader" xml:space="preserve">
     <value>Гайд по функциям</value>
@@ -2036,25 +2049,25 @@
     <value>我们总是优先处理 GitHub 上的问题</value>
   </data>
   <data name="ViewPageFeedbackRoadmapDescription" xml:space="preserve">
-    <value>开发路线规划</value>
+    <value>Планы разработки</value>
   </data>
   <data name="ViewPageFeedbackSearchResultPlaceholderTitle" xml:space="preserve">
     <value>Не найдено</value>
   </data>
   <data name="ViewPageFeedbackServerStatusDescription" xml:space="preserve">
-    <value>胡桃服务可用性监控</value>
+    <value>Мониторинг доступности сервисов Snap Hutao</value>
   </data>
   <data name="ViewPageFeedbackServerStatusHeader" xml:space="preserve">
-    <value>胡桃服务</value>
+    <value>Сервисы Snap Hutao</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
-    <value>全量刷新</value>
+    <value>Полное обновление</value>
   </data>
   <data name="ViewPageGachaLogExportAction" xml:space="preserve">
     <value>Экспортировать</value>
   </data>
   <data name="ViewPageGachaLogHint" xml:space="preserve">
-    <value>尚未获取任何祈愿记录</value>
+    <value>Нет истории молитв</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloud" xml:space="preserve">
     <value>Snap Hutao Cloud</value>
@@ -2081,7 +2094,7 @@
     <value>每期深渊首次上传可免费获得 3 天时长</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
-    <value>上传深渊记录</value>
+    <value>Загрузить историю прохождения бездны</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudUpload" xml:space="preserve">
     <value>上传当前的祈愿存档</value>
@@ -2090,22 +2103,22 @@
     <value>Импорт</value>
   </data>
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
-    <value>导入来自其它 App 的数据</value>
+    <value>Импорт данных из других приложений</value>
   </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
-    <value>导入 UIGF Json</value>
+    <value>Импорт данных из UIGF Json файла</value>
   </data>
   <data name="ViewPageGachaLogInputAction" xml:space="preserve">
-    <value>输入</value>
+    <value>Ввод</value>
   </data>
   <data name="ViewPageGachaLogRecoverFromHutaoCloudDescription" xml:space="preserve">
-    <value>从胡桃云恢复祈愿记录</value>
+    <value>Восстановление истории молитв из Snap Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>Обновить</value>
   </data>
   <data name="ViewPageGachaLogRefreshAction" xml:space="preserve">
-    <value>获取</value>
+    <value>Обновить</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
     <value>手动输入 Url</value>
@@ -2120,22 +2133,22 @@
     <value>使用当前用户的 Cookie 信息刷新祈愿记录</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
-    <value>网页缓存刷新</value>
+    <value>Обновить при помощи веб-кэша</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCacheDescription" xml:space="preserve">
-    <value>使用游戏内浏览器的网页缓存刷新祈愿记录</value>
+    <value>Обновить историю молитв, используя веб-кэш внутриигрового браузера</value>
   </data>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
-    <value>删除当前存档</value>
+    <value>Удалить текущую историю молитв</value>
   </data>
   <data name="ViewPageGahcaLogPivotAvatar" xml:space="preserve">
     <value>Персонаж</value>
   </data>
   <data name="ViewPageGahcaLogPivotHistory" xml:space="preserve">
-    <value>历史</value>
+    <value>История</value>
   </data>
   <data name="ViewPageGahcaLogPivotOverview" xml:space="preserve">
-    <value>总览</value>
+    <value>Обзор</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
     <value>统计</value>
@@ -2144,10 +2157,10 @@
     <value>Оружие</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
-    <value>胡桃已经为你启动了 {0} 次游戏</value>
+    <value>Snap Hutao запустил игру {0} раз</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon2" xml:space="preserve">
-    <value>你已经启动了胡桃 {0} 次</value>
+    <value>Вы запустили Snap Hutao {0} раз</value>
   </data>
   <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
     <value>Добро пожаловать в Тейват, Путешественник!</value>
@@ -2156,7 +2169,7 @@
     <value>你说的对，但是《胡桃》是由 DGP Studio 自主研发的一款...</value>
   </data>
   <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
-    <value>呐，旅行者，这是你来到提瓦特大陆的第 {0} 天哦</value>
+    <value>Что ж, путешественник, это ваш {0} день в Тейвате.</value>
   </data>
   <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
     <value>Настройки</value>
@@ -2312,37 +2325,37 @@
     <value>在游戏启动时修改其默认行为</value>
   </data>
   <data name="ViewPageLaunchGameArgumentsHeader" xml:space="preserve">
-    <value>启动参数</value>
+    <value>Аргументы запуска</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIDescription" xml:space="preserve">
     <value>在游戏启动后尝试启动并使用 Better GI 进行自动化任务</value>
   </data>
   <data name="ViewPageLaunchGameBetterGIHeader" xml:space="preserve">
-    <value>自动化任务</value>
+    <value>Автоматизированные задачи</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
     <value>常规</value>
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
-    <value>所有选项仅会在启动游戏成功后保存</value>
+    <value>Опции будут сохранены только после успешного запуска игры.</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
-    <value>在我游戏时设置 Discord Activity 状态</value>
+    <value>Установка активности в Discord во время игры</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityHeader" xml:space="preserve">
-    <value>Discord Activity</value>
+    <value>Активность в Discord</value>
   </data>
   <data name="ViewPageLaunchGameFileHeader" xml:space="preserve">
-    <value>文件</value>
+    <value>Файлы</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
     <value>进程间</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
-    <value>在指定的显示器上运行</value>
+    <value>Запустить на указанном мониторе</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
-    <value>显示器</value>
+    <value>Монитор</value>
   </data>
   <data name="ViewPageLaunchGameMultipleInstancesDescription" xml:space="preserve">
     <value>同时运行多个游戏客户端</value>
@@ -2351,40 +2364,40 @@
     <value>多客户端</value>
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
-    <value>游戏选项</value>
+    <value>Параметры Игры</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
-    <value>在游戏启动后尝试启动并使用 Starward 进行游戏时长统计</value>
+    <value>Попытаться запустить Starward при запуске Genshin Impact для подсчета времени игры</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeHeader" xml:space="preserve">
-    <value>时长统计</value>
+    <value>Подсчет часов игры</value>
   </data>
   <data name="ViewPageLaunchGameProcessHeader" xml:space="preserve">
-    <value>进程</value>
+    <value>Процесс Игры</value>
   </data>
   <data name="ViewPageLaunchGameRegistryHeader" xml:space="preserve">
-    <value>注册表</value>
+    <value>Реестр Игры</value>
   </data>
   <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
-    <value>增量包</value>
+    <value>Пакет OTA</value>
   </data>
   <data name="ViewPageLaunchGameResourceHeader" xml:space="preserve">
-    <value>资源下载</value>
+    <value>Загрузка Ресурсов</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
     <value>客户端</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
-    <value>预下载</value>
+    <value>Предварительная загрузка</value>
   </data>
   <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
-    <value>选择游戏路径</value>
+    <value>Выберите путь к игре</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>该账号尚未绑定实时便笺通知 UID</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
-    <value>绑定当前用户的角色</value>
+    <value>Связать текущего пользователя и роль</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
     <value>在游戏内切换账号，网络环境发生变化后需要重新手动检测</value>
@@ -2393,19 +2406,19 @@
     <value>检测</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
-    <value>检测账号</value>
+    <value>Найти аккаунт</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRemoveToolTip" xml:space="preserve">
-    <value>删除</value>
+    <value>Удалить</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRenameToolTip" xml:space="preserve">
-    <value>重命名</value>
+    <value>Переименовать</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
     <value>切换游戏服务器（国服/渠道服/国际服）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
-    <value>服务器</value>
+    <value>Сервер</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
     <value>版本更新前需要提前转换至与启动器匹配的服务器</value>
@@ -2414,16 +2427,16 @@
     <value>请在游戏内关闭垂直同步选项，需要高性能的显卡以支持更高的帧率</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
-    <value>解锁帧率限制</value>
+    <value>Разблокировать ограничение частоты кадров</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
-    <value>禁用</value>
+    <value>Отключено</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
-    <value>启用</value>
+    <value>Включено</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRDescription" xml:space="preserve">
-    <value>充分利用支持高动态范围的显示器获得更亮、更生动、更精细的画面</value>
+    <value>Используйте преимущества мониторов с поддержкой HDR для получения более ярких, живых и детализированных изображений</value>
   </data>
   <data name="ViewPageLaunchGameWindowsHDRHeader" xml:space="preserve">
     <value>Windows HDR</value>
@@ -2432,43 +2445,43 @@
     <value>请输入你的 HoYoLab Uid</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通过由我们提供的内嵌网页视图登录 米哈游通行证，我们会在你点击 我已登录 按钮后，读取你的 Cookie 信息，由此视图发起的网络通信只发生于你的计算机与米哈游服务器之间</value>
+    <value>Вы используете встроенный браузер для захода в аккаунт MiHoYo. Когда Вы нажмёте "Я зашёл", Snap Hutao возьмёт информацию для логина из cookie браузера. Эта информация не передается на наши сервера и остается на вашем устройстве.</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
-    <value>我已登录</value>
+    <value>Я зашёл</value>
   </data>
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
     <value>在下方登录米哈游通行证</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
-    <value>打开截图文件夹</value>
+    <value>Открыть папку скриншотов</value>
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
-    <value>选择游戏路径</value>
+    <value>Выберите путь к игре</value>
   </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
-    <value>关于 胡桃</value>
+    <value>О Snap Hutao</value>
   </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
-    <value>外观</value>
+    <value>Внешний вид</value>
   </data>
   <data name="ViewPageSettingApperanceLanguageDescription" xml:space="preserve">
-    <value>设置呈现语言</value>
+    <value>Выбрать язык</value>
   </data>
   <data name="ViewPageSettingApperanceLanguageHeader" xml:space="preserve">
     <value>Язык</value>
   </data>
   <data name="ViewPageSettingBackdropMaterialDescription" xml:space="preserve">
-    <value>更改窗体的背景材质</value>
+    <value>Изменение материала фона окна</value>
   </data>
   <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
-    <value>背景材质</value>
+    <value>Материал фона</value>
   </data>
   <data name="ViewPageSettingBackgroundImageCopyrightHeader" xml:space="preserve">
-    <value>图片版权信息</value>
+    <value>Информация об авторских правах изображения</value>
   </data>
   <data name="ViewPageSettingBackgroundImageDescription" xml:space="preserve">
-    <value>更改窗体的背景图片来源，重启胡桃以尽快生效</value>
+    <value>Изменить источник обоев программы. Для вступления изменений в силу перезагрузите Snap Hutao</value>
   </data>
   <data name="ViewPageSettingBackgroundImageHeader" xml:space="preserve">
     <value>背景图片</value>
@@ -2609,7 +2622,7 @@
     <value>隐藏</value>
   </data>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
-    <value>显示</value>
+    <value>Показать</value>
   </data>
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>Главная</value>
@@ -2840,19 +2853,19 @@
     <value>筛选武器</value>
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
-    <value>突破前</value>
+    <value>До возвышения</value>
   </data>
   <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
-    <value>登录失败，请重新登录</value>
+    <value>Не удалось войти, попробуйте еще раз.</value>
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
-    <value>立即登录或注册</value>
+    <value>Войти или зарегистрироваться</value>
   </data>
   <data name="ViewSettingAllocConsoleDescription" xml:space="preserve">
-    <value>控制胡桃启动时是否开启控制台，重启后生效</value>
+    <value>Открыть консоль при запуске Snap Hutao. Действует после перезагрузки</value>
   </data>
   <data name="ViewSettingAllocConsoleHeader" xml:space="preserve">
-    <value>调试控制台</value>
+    <value>Консоль отладки</value>
   </data>
   <data name="ViewSettingDeleteServerCacheFolderDescription" xml:space="preserve">
     <value>在启动游戏中转换服务器后会产生对应的游戏客户端文件用作缓存</value>
@@ -3011,7 +3024,7 @@
     <value>Персонаж</value>
   </data>
   <data name="ViewUserUser" xml:space="preserve">
-    <value>用户</value>
+    <value>Пользователи</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>我们将为你下载最基本的图像资源</value>
@@ -3023,16 +3036,16 @@
     <value>请勿关闭应用程序</value>
   </data>
   <data name="ViewWelcomeTitle" xml:space="preserve">
-    <value>欢迎使用 胡桃</value>
+    <value>Добро пожаловать в Snap Hutao</value>
   </data>
   <data name="ViewWikiAvatarHeader" xml:space="preserve">
-    <value>角色资料</value>
+    <value>Вики: Персонажи</value>
   </data>
   <data name="ViewWikiMonsterHeader" xml:space="preserve">
-    <value>怪物资料</value>
+    <value>Вики: Монстры</value>
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
-    <value>武器资料</value>
+    <value>Вики: Оружие</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>Начало через {0} дней</value>
@@ -3137,13 +3150,13 @@
     <value>Не получен</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtainedDetail" xml:space="preserve">
-    <value>Transformer not obtained</value>
+    <value>Параметрический преобразователь не получен</value>
   </data>
   <data name="WebDailyNoteTransformerNotReached" xml:space="preserve">
-    <value>Перезарядка</value>
+    <value>Перезаряжается</value>
   </data>
   <data name="WebDailyNoteTransformerReached" xml:space="preserve">
-    <value>Разрешить</value>
+    <value>Доступно</value>
   </data>
   <data name="WebDailyNoteTransformerReady" xml:space="preserve">
     <value>Готов</value>
@@ -3215,10 +3228,10 @@
     <value>Oversea Server: TW/HK/MU server</value>
   </data>
   <data name="WebHoyolabRegionOSEURO" xml:space="preserve">
-    <value>Oversea Server: EU</value>
+    <value>Глобальный Сервер: Европа</value>
   </data>
   <data name="WebHoyolabRegionOSUSA" xml:space="preserve">
-    <value>Oversea Server: NA</value>
+    <value>Глобальный Сервер: Северная Америка</value>
   </data>
   <data name="WebHutaoServiceUnAvailable" xml:space="preserve">
     <value>Сервер Snap Hutao находится на техническом обслуживании</value>
