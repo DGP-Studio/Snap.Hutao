@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;
@@ -52,6 +53,10 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
                 dbContext.Set<TEntity>().UpdateAndSave(currentItem);
             }
         }
+
+        serviceProvider
+            .GetRequiredService<IMessenger>()
+            .Send(new AdvancedDbCollectionViewCurrentChangedMessage<TEntity>(currentItem));
     }
 }
 
@@ -100,5 +105,9 @@ internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : Advance
                 dbContext.Set<TEntity>().UpdateAndSave(currentItem.Entity);
             }
         }
+
+        serviceProvider
+            .GetRequiredService<IMessenger>()
+            .Send(new AdvancedDbCollectionViewCurrentChangedMessage<TEntityAccess>(currentItem));
     }
 }

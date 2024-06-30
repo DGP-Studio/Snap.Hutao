@@ -10,8 +10,6 @@ namespace Snap.Hutao.Service.Achievement;
 
 internal interface IAchievementDbService : IAppDbService<Model.Entity.AchievementArchive>, IAppDbService<EntityAchievement>
 {
-    ValueTask RemoveAchievementArchiveAsync(Model.Entity.AchievementArchive archive, CancellationToken token = default);
-
     ObservableCollection<Model.Entity.AchievementArchive> GetAchievementArchiveCollection();
 
     List<Model.Entity.AchievementArchive> GetAchievementArchiveList();
@@ -30,5 +28,5 @@ internal interface IAchievementDbService : IAppDbService<Model.Entity.Achievemen
 
     void OverwriteAchievement(EntityAchievement achievement);
 
-    ValueTask OverwriteAchievementAsync(EntityAchievement achievement, CancellationToken token = default);
+    void RemoveAchievementArchive(Model.Entity.AchievementArchive archive);
 }

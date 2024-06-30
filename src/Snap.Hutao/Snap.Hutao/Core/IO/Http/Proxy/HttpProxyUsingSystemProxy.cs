@@ -26,7 +26,7 @@ internal sealed partial class HttpProxyUsingSystemProxy : ObservableObject, IWeb
         UpdateInnerProxy();
 
         watcher = new(ProxySettingPath, OnSystemProxySettingsChanged);
-        watcher.Start();
+        watcher.Start(serviceProvider.GetRequiredService<ILogger<HttpProxyUsingSystemProxy>>());
     }
 
     public string CurrentProxyUri

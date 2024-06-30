@@ -1,9 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
-using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Metadata;
@@ -18,13 +16,9 @@ using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNot
 
 namespace Snap.Hutao.Service.DailyNote;
 
-/// <summary>
-/// 实时便笺服务
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IDailyNoteService))]
-internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
+internal sealed partial class DailyNoteService : IDailyNoteService
 {
     private readonly DailyNoteNotificationOperation dailyNoteNotificationOperation;
     private readonly IServiceProvider serviceProvider;

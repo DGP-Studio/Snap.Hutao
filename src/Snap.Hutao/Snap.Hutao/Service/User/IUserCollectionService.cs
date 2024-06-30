@@ -12,11 +12,9 @@ namespace Snap.Hutao.Service.User;
 
 internal interface IUserCollectionService
 {
-    BindingUser? CurrentUser { get; set; }
-
     ValueTask<ObservableCollection<UserAndUid>> GetUserAndUidCollectionAsync();
 
-    ValueTask<ObservableReorderableDbCollection<BindingUser, EntityUser>> GetUserCollectionAsync();
+    ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUserCollectionAsync();
 
     UserGameRole? GetUserGameRoleByUid(string uid);
 

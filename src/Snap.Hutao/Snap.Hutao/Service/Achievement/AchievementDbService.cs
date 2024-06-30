@@ -64,24 +64,15 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         }
     }
 
-    public async ValueTask OverwriteAchievementAsync(EntityAchievement achievement, CancellationToken token = default)
-    {
-        await this.DeleteByInnerIdAsync(achievement, token).ConfigureAwait(false);
-        if (achievement.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
-        {
-            await this.AddAsync(achievement, token).ConfigureAwait(false);
-        }
-    }
-
     public ObservableCollection<AchievementArchive> GetAchievementArchiveCollection()
     {
         return this.ObservableCollection<AchievementArchive>();
     }
 
-    public async ValueTask RemoveAchievementArchiveAsync(AchievementArchive archive, CancellationToken token = default)
+    public void RemoveAchievementArchive(AchievementArchive archive)
     {
         // It will cascade delete the achievements.
-        await this.DeleteAsync(archive, token).ConfigureAwait(false);
+        this.Delete(archive);
     }
 
     public List<EntityAchievement> GetAchievementListByArchiveId(Guid archiveId)

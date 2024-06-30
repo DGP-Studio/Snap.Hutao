@@ -24,7 +24,9 @@ internal static class TaskExtension
         return new(task);
     }
 
+#if NET9_0_OR_GREATER
     [Obsolete("SafeForget without logger is not recommended.")]
+#endif
     public static async void SafeForget(this Task task)
     {
         try
@@ -101,7 +103,9 @@ internal static class TaskExtension
         }
     }
 
+#if NET9_0_OR_GREATER
     [Obsolete("SafeForget without logger is not recommended.")]
+#endif
     public static async void SafeForget(this ValueTask task)
     {
         try

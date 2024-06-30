@@ -103,6 +103,8 @@ internal class MiHoYoJSBridgeFacade
 
     public event Action? ClosePageRequested;
 
+    protected ILogger Logger { get => logger; }
+
     public void Detach()
     {
         coreWebView2.WebMessageReceived -= OnWebMessageReceived;

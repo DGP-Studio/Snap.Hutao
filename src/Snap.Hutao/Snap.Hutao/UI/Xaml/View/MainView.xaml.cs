@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.UI.Xaml.View.Page;
@@ -27,6 +28,8 @@ internal sealed partial class MainView : UserControl
 
         InitializeComponent();
 
+        this.Unloaded += OnUnloaded;
+
         (DataContext as MainViewModel)?.Initialize(new BackgroundImagePresenterAccessor(BackgroundImagePresenter));
 
         navigationService = serviceProvider.GetRequiredService<INavigationService>();
@@ -36,6 +39,11 @@ internal sealed partial class MainView : UserControl
         }
 
         navigationService.Navigate<AnnouncementPage>(INavigationAwaiter.Default, true);
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        (DataContext as MainViewModel)?.Uninitialize();
     }
 
     private class NavigationViewAccessor : INavigationViewAccessor

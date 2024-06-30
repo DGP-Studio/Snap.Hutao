@@ -77,7 +77,7 @@ internal sealed partial class AchievementService : IAchievementService
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        await achievementDbService.RemoveAchievementArchiveAsync(archive).ConfigureAwait(false);
+        achievementDbService.RemoveAchievementArchive(archive);
     }
 
     public async ValueTask<ImportResult> ImportFromUIAFAsync(AchievementArchive archive, List<UIAFItem> list, ImportStrategyKind strategy)

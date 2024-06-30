@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Message;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
@@ -16,7 +15,6 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserCollectionService))]
 internal sealed partial class UserCollectionService : IUserCollectionService, IDisposable
 {
-    private readonly ScopedDbCurrent<BindingUser, EntityUser, UserChangedMessage> dbCurrent;
     private readonly IUserInitializationService userInitializationService;
     private readonly IServiceProvider serviceProvider;
     private readonly IUserDbService userDbService;
@@ -25,37 +23,21 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 
     private readonly SemaphoreSlim throttler = new(1);
 
-    private ObservableReorderableDbCollection<BindingUser, EntityUser>? userCollection;
-    private Dictionary<string, BindingUser>? midUserMap;
+    private AdvancedDbCollectionView<BindingUser, EntityUser>? users;
 
-    private ObservableCollection<UserAndUid>? userAndUidCollection;
-    private Dictionary<string, UserGameRole>? uidUserGameRoleMap;
-
-    public BindingUser? CurrentUser
-    {
-        get => dbCurrent.Current;
-        set => dbCurrent.Current = value;
-    }
-
-    public async ValueTask<ObservableReorderableDbCollection<BindingUser, EntityUser>> GetUserCollectionAsync()
+    public async ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUserCollectionAsync()
     {
         // Force run in background thread, otherwise will cause reentrance
         await taskContext.SwitchToBackgroundAsync();
         using (await throttler.EnterAsync().ConfigureAwait(false))
         {
-            if (userCollection is null)
+            if (users is null)
             {
                 List<EntityUser> entities = await userDbService.GetUserListAsync().ConfigureAwait(false);
                 List<BindingUser> users = await entities.SelectListAsync(userInitializationService.ResumeUserAsync).ConfigureAwait(false);
 
-                midUserMap = [];
                 foreach (BindingUser user in users)
                 {
-                    if (user.Entity.Mid is not null)
-                    {
-                        midUserMap[user.Entity.Mid] = user;
-                    }
-
                     if (user.NeedDbUpdateAfterResume)
                     {
                         await userDbService.UpdateUserAsync(user.Entity).ConfigureAwait(false);
@@ -63,25 +45,12 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
                     }
                 }
 
-                userCollection = users.ToObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider);
-
-                try
-                {
-                    CurrentUser = users.SelectedOrDefault();
-                }
-                catch (InvalidOperationException)
-                {
-                    foreach (BindingUser user in users)
-                    {
-                        user.IsSelected = false;
-                    }
-
-                    await userDbService.ClearUserSelectionAsync().ConfigureAwait(false);
-                }
+                await taskContext.SwitchToMainThreadAsync();
+                this.users = new(users.ToObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider), serviceProvider);
             }
         }
 
-        return userCollection;
+        return users;
     }
 
     public async ValueTask<ObservableCollection<UserAndUid>> GetUserAndUidCollectionAsync()
@@ -112,8 +81,8 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
     {
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        ArgumentNullException.ThrowIfNull(userCollection);
-        userCollection.Remove(user);
+        ArgumentNullException.ThrowIfNull(users);
+        users.Remove(user);
         userAndUidCollection?.RemoveWhere(r => r.User.Mid == user.Entity.Mid);
         if (user.Entity.Mid is not null)
         {
@@ -159,11 +128,11 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
         }
 
         await GetUserCollectionAsync().ConfigureAwait(false);
-        ArgumentNullException.ThrowIfNull(userCollection);
+        ArgumentNullException.ThrowIfNull(users);
 
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        userCollection.Add(newUser); // Database synced in the collection
+        users.Add(newUser); // Database synced in the collection
         if (newUser.Entity.Mid is not null)
         {
             midUserMap?.Add(newUser.Entity.Mid, newUser);

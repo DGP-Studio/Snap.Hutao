@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Game;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -64,6 +63,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
                 return new(false, GachaLogQuery.Invalid(SH.FormatServiceGachaLogUrlProviderCachePathNotFound(cacheFile)));
             }
 
+            // TODO: prevent allocation there
             using (FileStream fileStream = new(file.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 using (MemoryStream memoryStream = new())

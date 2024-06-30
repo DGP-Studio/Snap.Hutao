@@ -16,6 +16,7 @@
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
         <shuxb:PeriodicInvokeCommandOrOnActualThemeChangedBehavior Command="{Binding UpdateBackgroundCommand}" Period="0:5:0"/>
     </mxi:Interaction.Behaviors>
 

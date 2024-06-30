@@ -16,7 +16,7 @@ namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewModelInitialization, IRecipient<BackgroundImageTypeChangedMessage>
+internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewModelInitialization
 {
     private readonly IBackgroundImageService backgroundImageService;
     private readonly ILogger<MainViewModel> logger;
@@ -34,9 +34,23 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
         UpdateBackgroundAsync(true).SafeForget();
     }
 
-    public void Receive(BackgroundImageTypeChangedMessage message)
+    protected override ValueTask<bool> InitializeOverrideAsync()
     {
-        UpdateBackgroundAsync().SafeForget();
+        appOptions.PropertyChanged += OnAppOptionsPropertyChanged;
+        return ValueTask.FromResult(true);
+    }
+
+    protected override void UninitializeOverride()
+    {
+        appOptions.PropertyChanged -= OnAppOptionsPropertyChanged;
+    }
+
+    private void OnAppOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppOptions.BackgroundImageType))
+        {
+            UpdateBackgroundAsync().SafeForget();
+        }
     }
 
     [Command("UpdateBackgroundCommand")]

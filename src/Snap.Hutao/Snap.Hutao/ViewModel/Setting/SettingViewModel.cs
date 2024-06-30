@@ -120,7 +120,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             if (SetProperty(ref selectedBackgroundImageType, value) && value is not null)
             {
                 AppOptions.BackgroundImageType = value.Value;
-                messenger.Send(new Message.BackgroundImageTypeChangedMessage());
             }
         }
     }
@@ -347,7 +346,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
             if (result is ContentDialogResult.Primary)
             {
-                await @unsafe.UnsafeRemoveUsersAsync().ConfigureAwait(false);
+                await @unsafe.UnsafeRemoveAllUsersAsync().ConfigureAwait(false);
                 AppInstance.Restart(string.Empty);
             }
         }

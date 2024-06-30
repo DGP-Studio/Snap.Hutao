@@ -6,10 +6,6 @@ using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.Web.Bridge;
 
-/// <summary>
-/// HoYoLAB 签到页面JS桥
-/// </summary>
-[HighQuality]
 internal sealed class SignInJSBridgeOversea : MiHoYoJSBridgeFacade
 {
     // 移除 请旋转手机 提示所在的HTML元素
@@ -30,6 +26,6 @@ internal sealed class SignInJSBridgeOversea : MiHoYoJSBridgeFacade
 
     protected override void DOMContentLoaded(CoreWebView2 coreWebView2)
     {
-        coreWebView2.ExecuteScriptAsync(RemoveRotationWarningScript).AsTask().SafeForget();
+        coreWebView2.ExecuteScriptAsync(RemoveRotationWarningScript).AsTask().SafeForget(Logger);
     }
 }

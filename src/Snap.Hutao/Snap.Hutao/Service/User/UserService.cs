@@ -9,14 +9,12 @@ using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
+using Windows.Foundation;
 using BindingUser = Snap.Hutao.ViewModel.User.User;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Service.User;
 
-/// <summary>
-/// 用户服务
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IUserService))]
 internal sealed partial class UserService : IUserService, IUserServiceUnsafe
@@ -27,24 +25,18 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     private readonly IUserDbService userDbService;
     private readonly ITaskContext taskContext;
 
-    public BindingUser? Current
-    {
-        get => userCollectionService.CurrentUser;
-        set => userCollectionService.CurrentUser = value;
-    }
-
     public ValueTask RemoveUserAsync(BindingUser user)
     {
         return userCollectionService.RemoveUserAsync(user);
     }
 
-    public async ValueTask UnsafeRemoveUsersAsync()
+    public async ValueTask UnsafeRemoveAllUsersAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
         await userDbService.RemoveUsersAsync().ConfigureAwait(false);
     }
 
-    public ValueTask<ObservableReorderableDbCollection<BindingUser, EntityUser>> GetUserCollectionAsync()
+    public ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUserCollectionAsync()
     {
         return userCollectionService.GetUserCollectionAsync();
     }
