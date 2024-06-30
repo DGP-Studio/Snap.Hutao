@@ -905,7 +905,7 @@
     <value>Path game Genshin Impact tidak diatur atau diatur dengan tidak benar</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>找不到原神内置浏览器缓存路径：
+    <value>Tidak dapat menemukan jalur cache browser yang tersemat di Genshin Impact: 
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
