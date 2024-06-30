@@ -905,7 +905,7 @@
     <value>原神のパスの書き方に誤りがあるか、またはパスを正しく設定されていません。</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>找不到原神内置浏览器缓存路径：
+    <value>原神ゲーム内ブラウザのキャッシュの保存場所が見つかりません：
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
