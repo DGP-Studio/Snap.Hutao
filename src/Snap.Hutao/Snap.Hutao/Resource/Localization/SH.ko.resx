@@ -905,7 +905,7 @@
     <value>원신 경로가 올바르지 않거나, 현재 경로가 올바르지 않습니다</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>找不到原神内置浏览器缓存路径：
+    <value>원신 내 브라우저 캐시 경로를 찾을 수 없음：
 {0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
