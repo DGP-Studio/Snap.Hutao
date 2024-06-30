@@ -41,8 +41,8 @@ internal readonly struct GachaLogQuery
         Message = message;
     }
 
-    public static implicit operator GachaLogQuery(string message)
+    public static GachaLogQuery Invalid(string message)
     {
-        return new(default!, message);
+        return new(string.Empty, message);
     }
 }

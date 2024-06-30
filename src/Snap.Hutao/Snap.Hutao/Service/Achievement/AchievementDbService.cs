@@ -80,7 +80,7 @@ internal sealed partial class AchievementDbService : IAchievementDbService
 
     public async ValueTask RemoveAchievementArchiveAsync(AchievementArchive archive, CancellationToken token = default)
     {
-        // It will cascade deleted the achievements.
+        // It will cascade delete the achievements.
         await this.DeleteAsync(archive, token).ConfigureAwait(false);
     }
 

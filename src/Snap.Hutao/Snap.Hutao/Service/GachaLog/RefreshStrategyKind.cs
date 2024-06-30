@@ -7,7 +7,7 @@ namespace Snap.Hutao.Service.GachaLog;
 /// 刷新策略
 /// </summary>
 [HighQuality]
-internal enum RefreshStrategy
+internal enum RefreshStrategyKind
 {
     /// <summary>
     /// 无策略 用于切换存档时使用

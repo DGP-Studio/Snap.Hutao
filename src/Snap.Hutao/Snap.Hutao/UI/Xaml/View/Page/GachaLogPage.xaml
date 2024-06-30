@@ -35,7 +35,7 @@
         <Flyout x:Key="HutaoCloudFlyout">
             <Grid>
                 <mxi:Interaction.Behaviors>
-                    <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudViewModel.OpenUICommand}"/>
+                    <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudViewModel.LoadCommand}"/>
                 </mxi:Interaction.Behaviors>
                 <Grid Visibility="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Grid Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -112,7 +112,7 @@
                             Grid.Row="2"
                             HorizontalAlignment="Stretch"
                             Command="{Binding HutaoCloudViewModel.UploadCommand}"
-                            CommandParameter="{Binding SelectedArchive}"
+                            CommandParameter="{Binding Archives.CurrentItem}"
                             Content="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloudUpload}"/>
                     </Grid>
                     <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityRevertConverter}}">
@@ -243,7 +243,7 @@
                         <ComboBox
                             DisplayMemberPath="Uid"
                             ItemsSource="{Binding Archives}"
-                            SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"
+                            SelectedItem="{Binding Archives.CurrentItem, Mode=TwoWay}"
                             Style="{ThemeResource CommandBarComboBoxStyle}"/>
                     </shuxc:SizeRestrictedContentControl>
                 </Pivot.LeftHeader>
@@ -328,7 +328,7 @@
                                         Padding="{ThemeResource ListViewInSplitPanePadding}"
                                         ItemTemplate="{StaticResource HistoryWishListTemplate}"
                                         ItemsSource="{Binding Statistics.HistoryWishes}"
-                                        SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}"/>
+                                        SelectedItem="{Binding Statistics.HistoryWishes.CurrentItem, Mode=TwoWay}"/>
                                 </SplitView.Pane>
                                 <SplitView.Content>
                                     <ScrollViewer>
@@ -343,7 +343,7 @@
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
                                                             CornerRadius="{ThemeResource ControlCornerRadius}"
-                                                            Source="{Binding SelectedHistoryWish.BannerImage}"
+                                                            Source="{Binding Statistics.HistoryWishes.CurrentItem.BannerImage}"
                                                             Stretch="UniformToFill"/>
                                                     </cwcont:ConstrainedBox>
                                                     <Border
@@ -358,30 +358,30 @@
                                                     Margin="0,8,0,0"
                                                     Style="{StaticResource BaseTextBlockStyle}"
                                                     Text="{shuxm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
-                                                    Visibility="{Binding SelectedHistoryWish.OrangeList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                    Visibility="{Binding Statistics.HistoryWishes.CurrentItem.OrangeList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                                 <GridView
                                                     ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                                    ItemsSource="{Binding SelectedHistoryWish.OrangeList}"
+                                                    ItemsSource="{Binding Statistics.HistoryWishes.CurrentItem.OrangeList}"
                                                     SelectionMode="None"/>
 
                                                 <TextBlock
                                                     Margin="0,8,0,0"
                                                     Style="{StaticResource BaseTextBlockStyle}"
                                                     Text="{shuxm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
-                                                    Visibility="{Binding SelectedHistoryWish.PurpleList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                    Visibility="{Binding Statistics.HistoryWishes.CurrentItem.PurpleList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                                 <GridView
                                                     ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                                    ItemsSource="{Binding SelectedHistoryWish.PurpleList}"
+                                                    ItemsSource="{Binding Statistics.HistoryWishes.CurrentItem.PurpleList}"
                                                     SelectionMode="None"/>
 
                                                 <TextBlock
                                                     Margin="0,8,0,0"
                                                     Style="{StaticResource BaseTextBlockStyle}"
                                                     Text="{shuxm:ResourceString Name=ViewControlStatisticsCardBlueText}"
-                                                    Visibility="{Binding SelectedHistoryWish.BlueList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
+                                                    Visibility="{Binding Statistics.HistoryWishes.CurrentItem.BlueList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                                 <GridView
                                                     ItemTemplate="{StaticResource HistoryWishGridTemplate}"
-                                                    ItemsSource="{Binding SelectedHistoryWish.BlueList}"
+                                                    ItemsSource="{Binding Statistics.HistoryWishes.CurrentItem.BlueList}"
                                                     SelectionMode="None"/>
                                             </StackPanel>
 
@@ -487,7 +487,7 @@
                             Spacing="16"
                             Visibility="{Binding HutaoCloudStatisticsViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
                             <mxi:Interaction.Behaviors>
-                                <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudStatisticsViewModel.OpenUICommand}"/>
+                                <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudStatisticsViewModel.LoadCommand}"/>
                             </mxi:Interaction.Behaviors>
                             <shuxvs:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent}"/>
                             <shuxvs:HutaoStatisticsCard DataContext="{Binding HutaoCloudStatisticsViewModel.Statistics.AvatarEvent2}"/>

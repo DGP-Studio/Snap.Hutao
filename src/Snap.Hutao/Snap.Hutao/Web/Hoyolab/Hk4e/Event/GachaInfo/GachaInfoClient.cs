@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -27,7 +28,7 @@ internal sealed partial class GachaInfoClient
     /// <param name="options">查询</param>
     /// <param name="token">取消令牌</param>
     /// <returns>单个祈愿记录页面</returns>
-    public async ValueTask<Response<GachaLogPage>> GetGachaLogPageAsync(GachaLogQueryOptions options, CancellationToken token = default)
+    public async ValueTask<Response<GachaLogPage>> GetGachaLogPageAsync(GachaLogTypedQueryOptions options, CancellationToken token = default)
     {
         string query = options.ToQueryString();
 

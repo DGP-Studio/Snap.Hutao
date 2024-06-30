@@ -39,13 +39,14 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly IServiceProvider serviceProvider;
+    private readonly ILogger<AppActivation> logger;
     private readonly ITaskContext taskContext;
 
     private readonly SemaphoreSlim activateSemaphore = new(1);
 
     public void Activate(HutaoActivationArguments args)
     {
-        HandleActivationExclusiveAsync(args).SafeForget();
+        HandleActivationExclusiveAsync(args).SafeForget(logger);
 
         async ValueTask HandleActivationExclusiveAsync(HutaoActivationArguments args)
         {
@@ -85,12 +86,12 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     public void NotificationInvoked(AppNotificationManager manager, AppNotificationActivatedEventArgs args)
     {
-        HandleAppNotificationActivationAsync(args.Arguments, false).SafeForget();
+        HandleAppNotificationActivationAsync(args.Arguments, false).SafeForget(logger);
     }
 
     public void PostInitialization()
     {
-        RunPostInitializationAsync().SafeForget();
+        RunPostInitializationAsync().SafeForget(logger);
 
         async ValueTask RunPostInitializationAsync()
         {
@@ -100,7 +101,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
             {
                 // TODO: Introduced in 1.10.2, remove in later version
                 {
-                    serviceProvider.GetRequiredService<IJumpListInterop>().ClearAsync().SafeForget();
+                    serviceProvider.GetRequiredService<IJumpListInterop>().ClearAsync().SafeForget(logger);
                     serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
                 }
 
@@ -109,7 +110,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                     return;
                 }
 
-                serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget();
+                serviceProvider.GetRequiredService<PrivateNamedPipeServer>().RunAsync().SafeForget(logger);
 
                 // RegisterHotKey should be called from main thread
                 await taskContext.SwitchToMainThreadAsync();
@@ -124,17 +125,17 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                     _ = serviceProvider.GetRequiredService<NotifyIconController>();
                 }
 
-                serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget();
-                serviceProvider.GetRequiredService<IQuartzService>().StartAsync().SafeForget();
+                serviceProvider.GetRequiredService<IDiscordService>().SetNormalActivityAsync().SafeForget(logger);
+                serviceProvider.GetRequiredService<IQuartzService>().StartAsync().SafeForget(logger);
 
                 if (serviceProvider.GetRequiredService<IMetadataService>() is IMetadataServiceInitialization metadataServiceInitialization)
                 {
-                    metadataServiceInitialization.InitializeInternalAsync().SafeForget();
+                    metadataServiceInitialization.InitializeInternalAsync().SafeForget(logger);
                 }
 
                 if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
                 {
-                    hutaoUserServiceInitialization.InitializeInternalAsync().SafeForget();
+                    hutaoUserServiceInitialization.InitializeInternalAsync().SafeForget(logger);
                 }
             }
         }

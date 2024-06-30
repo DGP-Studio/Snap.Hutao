@@ -5,7 +5,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
-using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.Log;

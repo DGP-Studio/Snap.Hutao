@@ -905,7 +905,8 @@
     <value>未正确提供原神路径，或当前设置的路径不正确</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>找不到原神内置浏览器缓存路径：\n{0}</value>
+    <value>找不到原神内置浏览器缓存路径：
+{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>未找到可用的 Url</value>

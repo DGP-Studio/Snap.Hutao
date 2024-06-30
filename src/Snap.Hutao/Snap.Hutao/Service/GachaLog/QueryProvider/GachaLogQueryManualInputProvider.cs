@@ -8,10 +8,6 @@ using System.Web;
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
-/// <summary>
-/// 手动输入方法提供器
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Transient)]
 internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
@@ -25,31 +21,25 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
         GachaLogUrlDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogUrlDialog>().ConfigureAwait(false);
         (bool isOk, string queryString) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
-        if (isOk)
+        if (!isOk)
         {
-            NameValueCollection query = HttpUtility.ParseQueryString(queryString);
+            return new(false, default);
+        }
 
-            if (query.TryGetSingleValue("auth_appid", out string? appId) && appId is "webview_gacha")
-            {
-                string? queryLanguageCode = query["lang"];
-                if (cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
-                {
-                    return new(true, new(queryString));
-                }
-                else
-                {
-                    string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, cultureOptions.LanguageCode);
-                    return new(false, message);
-                }
-            }
-            else
-            {
-                return new(false, SH.ServiceGachaLogUrlProviderManualInputInvalid);
-            }
-        }
-        else
+        NameValueCollection query = HttpUtility.ParseQueryString(queryString);
+
+        if (!query.TryGetSingleValue("auth_appid", out string? appId) || appId is not "webview_gacha")
         {
-            return new(false, string.Empty);
+            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderManualInputInvalid));
         }
+
+        string? queryLanguageCode = query["lang"];
+        if (!cultureOptions.LanguageCodeFitsCurrentLocale(queryLanguageCode))
+        {
+            string message = SH.FormatServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale(queryLanguageCode, cultureOptions.LanguageCode);
+            return new(false, GachaLogQuery.Invalid(message));
+        }
+
+        return new(true, new(queryString));
     }
 }

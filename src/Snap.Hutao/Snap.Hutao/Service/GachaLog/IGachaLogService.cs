@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
@@ -15,15 +16,7 @@ namespace Snap.Hutao.Service.GachaLog;
 [HighQuality]
 internal interface IGachaLogService
 {
-    /// <summary>
-    /// 当前存档
-    /// </summary>
-    GachaArchive? CurrentArchive { get; set; }
-
-    /// <summary>
-    /// 获取可用于绑定的存档集合
-    /// </summary>
-    ObservableCollection<GachaArchive>? ArchiveCollection { get; }
+    AdvancedDbCollectionView<GachaArchive>? Archives { get; }
 
     ValueTask<GachaArchive> EnsureArchiveInCollectionAsync(Guid archiveId, CancellationToken token = default(CancellationToken));
 
@@ -39,7 +32,7 @@ internal interface IGachaLogService
     /// </summary>
     /// <param name="archive">存档</param>
     /// <returns>祈愿统计</returns>
-    ValueTask<GachaStatistics> GetStatisticsAsync(GachaArchive? archive);
+    ValueTask<GachaStatistics> GetStatisticsAsync(GachaArchive archive);
 
     /// <summary>
     /// 异步获取简化的祈愿统计列表
@@ -71,7 +64,7 @@ internal interface IGachaLogService
     /// <param name="progress">进度</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证密钥是否有效</returns>
-    ValueTask<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token);
+    ValueTask<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategyKind strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token);
 
     /// <summary>
     /// 删除存档

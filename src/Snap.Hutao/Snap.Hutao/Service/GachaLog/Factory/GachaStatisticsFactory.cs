@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao.GachaLog;
@@ -201,15 +202,17 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 
         AsyncBarrier barrier = new(4);
 
+        List<HistoryWish> historyWishes = historyWishBuilders
+            .Where(b => appOptions.IsEmptyHistoryWishVisible || (!b.IsEmpty))
+            .OrderByDescending(builder => builder.From)
+            .ThenBy(builder => builder.ConfigType, GachaTypeComparer.Shared)
+            .Select(builder => builder.ToHistoryWish())
+            .ToList();
+
         return new()
         {
             // history
-            HistoryWishes = historyWishBuilders
-                .Where(b => appOptions.IsEmptyHistoryWishVisible || (!b.IsEmpty))
-                .OrderByDescending(builder => builder.From)
-                .ThenBy(builder => builder.ConfigType, GachaTypeComparer.Shared)
-                .Select(builder => builder.ToHistoryWish())
-                .ToList(),
+            HistoryWishes = taskContext.InvokeOnMainThread(() => new AdvancedCollectionView<HistoryWish>(historyWishes, true)),
 
             // avatars
             OrangeAvatars = orangeAvatarCounter.ToStatisticsList(),

@@ -25,29 +25,25 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            if (userAndUid.User.IsOversea)
-            {
-                return new(false, SH.ServiceGachaLogUrlProviderStokenUnsupported);
-            }
-
-            GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);
-            Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
-
-            if (authkeyResponse.IsOk())
-            {
-                return new(true, new(ComposeQueryString(data, authkeyResponse.Data, cultureOptions.LanguageCode)));
-            }
-            else
-            {
-                return new(false, SH.ServiceGachaLogUrlProviderAuthkeyRequestFailed);
-            }
+            return new(false, GachaLogQuery.Invalid(SH.MustSelectUserAndUid));
         }
-        else
+
+        if (userAndUid.User.IsOversea)
         {
-            return new(false, SH.MustSelectUserAndUid);
+            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderStokenUnsupported));
         }
+
+        GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);
+        Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
+
+        if (!authkeyResponse.IsOk())
+        {
+            return new(false, GachaLogQuery.Invalid(SH.ServiceGachaLogUrlProviderAuthkeyRequestFailed));
+        }
+
+        return new(true, new(ComposeQueryString(data, authkeyResponse.Data, cultureOptions.LanguageCode)));
     }
 
     private static string ComposeQueryString(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)

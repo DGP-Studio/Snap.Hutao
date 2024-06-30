@@ -13,6 +13,7 @@ namespace Snap.Hutao.Factory.ContentDialog;
 internal sealed partial class ContentDialogFactory : IContentDialogFactory
 {
     private readonly ICurrentXamlWindowReference currentWindowReference;
+    private readonly ILogger<ContentDialogFactory> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
@@ -123,7 +124,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
             }
             finally
             {
-                ShowNextDialog().SafeForget();
+                ShowNextDialog().SafeForget(logger);
             }
         });
 
