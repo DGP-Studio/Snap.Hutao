@@ -1947,10 +1947,10 @@
     <value>Add any weapon to Development Plan</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>Add Role</value>
+    <value>Add Real-Time Note</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>Add role to DailyNote</value>
+    <value>Add Realtime Note to Refresh</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>Add</value>
