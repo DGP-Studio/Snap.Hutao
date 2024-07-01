@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.ViewModel.User.User;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
@@ -25,7 +24,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 
     private AdvancedDbCollectionView<BindingUser, EntityUser>? users;
 
-    public async ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUserCollectionAsync()
+    public async ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUsersAsync()
     {
         // Force run in background thread, otherwise will cause reentrance
         await taskContext.SwitchToBackgroundAsync();
@@ -33,88 +32,40 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
         {
             if (users is null)
             {
-                List<EntityUser> entities = await userDbService.GetUserListAsync().ConfigureAwait(false);
+                List<EntityUser> entities = userDbService.GetUserList();
                 List<BindingUser> users = await entities.SelectListAsync(userInitializationService.ResumeUserAsync).ConfigureAwait(false);
 
                 foreach (BindingUser user in users)
                 {
                     if (user.NeedDbUpdateAfterResume)
                     {
-                        await userDbService.UpdateUserAsync(user.Entity).ConfigureAwait(false);
+                        userDbService.UpdateUser(user.Entity);
                         user.NeedDbUpdateAfterResume = false;
                     }
                 }
 
                 await taskContext.SwitchToMainThreadAsync();
                 this.users = new(users.ToObservableReorderableDbCollection<BindingUser, EntityUser>(serviceProvider), serviceProvider);
+                this.users.CurrentChanged += OnCurrentUserChanged;
             }
         }
 
         return users;
     }
 
-    public async ValueTask<ObservableCollection<UserAndUid>> GetUserAndUidCollectionAsync()
-    {
-        if (userAndUidCollection is null)
-        {
-            await taskContext.SwitchToBackgroundAsync();
-            ObservableCollection<BindingUser> users = await GetUserCollectionAsync().ConfigureAwait(false);
-            List<UserAndUid> roles = [];
-            uidUserGameRoleMap = [];
-
-            foreach (BindingUser user in users)
-            {
-                foreach (UserGameRole role in user.UserGameRoles)
-                {
-                    roles.Add(UserAndUid.From(user.Entity, role));
-                    uidUserGameRoleMap[role.GameUid] = role;
-                }
-            }
-
-            userAndUidCollection = roles.ToObservableCollection();
-        }
-
-        return userAndUidCollection;
-    }
-
     public async ValueTask RemoveUserAsync(BindingUser user)
     {
-        // Sync cache
-        await taskContext.SwitchToMainThreadAsync();
         ArgumentNullException.ThrowIfNull(users);
-        users.Remove(user);
-        userAndUidCollection?.RemoveWhere(r => r.User.Mid == user.Entity.Mid);
-        if (user.Entity.Mid is not null)
-        {
-            midUserMap?.Remove(user.Entity.Mid);
-        }
-
-        foreach (UserGameRole role in user.UserGameRoles)
-        {
-            uidUserGameRoleMap?.Remove(role.GameUid);
-        }
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        await userDbService.DeleteUserByIdAsync(user.Entity.InnerId).ConfigureAwait(false);
+        userDbService.DeleteUserById(user.Entity.InnerId);
 
-        messenger.Send(new UserRemovedMessage(user.Entity));
-    }
+        // Sync cache
+        await taskContext.SwitchToMainThreadAsync();
+        users.Remove(user);
 
-    public UserGameRole? GetUserGameRoleByUid(string uid)
-    {
-        if (uidUserGameRoleMap is null)
-        {
-            return default;
-        }
-
-        return uidUserGameRoleMap.GetValueOrDefault(uid);
-    }
-
-    public bool TryGetUserByMid(string mid, [NotNullWhen(true)] out BindingUser? user)
-    {
-        ArgumentNullException.ThrowIfNull(midUserMap);
-        return midUserMap.TryGetValue(mid, out user);
+        messenger.Send(new UserRemovedMessage(user));
     }
 
     public async ValueTask<ValueResult<UserOptionResult, string>> TryCreateAndAddUserFromInputCookieAsync(InputCookie inputCookie)
@@ -127,25 +78,12 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
             return new(UserOptionResult.CookieInvalid, SH.ServiceUserProcessCookieRequestUserInfoFailed);
         }
 
-        await GetUserCollectionAsync().ConfigureAwait(false);
+        await GetUsersAsync().ConfigureAwait(false);
         ArgumentNullException.ThrowIfNull(users);
 
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
         users.Add(newUser); // Database synced in the collection
-        if (newUser.Entity.Mid is not null)
-        {
-            midUserMap?.Add(newUser.Entity.Mid, newUser);
-        }
-
-        if (userAndUidCollection is not null)
-        {
-            foreach (UserGameRole role in newUser.UserGameRoles)
-            {
-                userAndUidCollection.Add(new(newUser.Entity, role));
-                uidUserGameRoleMap?.Add(role.GameUid, role);
-            }
-        }
 
         ArgumentNullException.ThrowIfNull(newUser.UserInfo);
         return new(UserOptionResult.Added, newUser.UserInfo.Uid);
@@ -154,5 +92,42 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
     public void Dispose()
     {
         throttler.Dispose();
+    }
+
+    private void OnCurrentUserChanged(object? sender, object? args)
+    {
+        if (users is null)
+        {
+            messenger.Send(UserAndUidChangedMessage.Empty);
+            return;
+        }
+
+        if (users.CurrentItem is null)
+        {
+            messenger.Send(UserAndUidChangedMessage.Empty);
+            return;
+        }
+
+        // Suppress the BindingUser itself to raise the message
+        // This is to avoid the message being raised in the
+        // BindingUser.OnCurrentUserGameRoleChanged.
+        using (users.CurrentItem.SuppressCurrentUserGameRoleChangedMessage())
+        {
+            foreach (UserGameRole role in users.CurrentItem.UserGameRoles)
+            {
+                if (role.GameUid == users.CurrentItem.PreferredUid)
+                {
+                    users.CurrentItem.UserGameRoles.MoveCurrentTo(role);
+                    break;
+                }
+            }
+
+            if (users.CurrentItem.UserGameRoles.CurrentItem is null)
+            {
+                users.CurrentItem.UserGameRoles.MoveCurrentToFirst();
+            }
+        }
+
+        messenger.Send(new UserAndUidChangedMessage(users.CurrentItem));
     }
 }

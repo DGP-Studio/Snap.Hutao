@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Core.Database;
-using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.User;
 
@@ -13,48 +12,30 @@ internal sealed partial class UserDbService : IUserDbService
 {
     private readonly IServiceProvider serviceProvider;
 
-    public async ValueTask DeleteUserByIdAsync(Guid id)
+    public IServiceProvider ServiceProvider { get => serviceProvider; }
+
+    public void DeleteUserById(Guid id)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.Users.Where(u => u.InnerId == id).ExecuteDeleteAsync().ConfigureAwait(false);
-        }
+        this.DeleteByInnerId(id);
     }
 
-    public async ValueTask<List<Model.Entity.User>> GetUserListAsync()
+    public List<Model.Entity.User> GetUserList()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return await appDbContext.Users.AsNoTracking().ToListAsync().ConfigureAwait(false);
-        }
+        return this.List();
     }
 
-    public async ValueTask UpdateUserAsync(Model.Entity.User user)
+    public void UpdateUser(Model.Entity.User user)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.Users.UpdateAndSaveAsync(user).ConfigureAwait(false);
-        }
+        this.Update(user);
     }
 
-    public async ValueTask RemoveUsersAsync()
+    public void RemoveAllUsers()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
-        }
+        this.Delete();
     }
 
-    public async ValueTask ClearUserSelectionAsync()
+    public void ClearUserSelection()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.Users.ExecuteUpdateAsync(update => update.SetProperty(user => user.IsSelected, user => false)).ConfigureAwait(false);
-        }
+        this.Execute(dbset => dbset.ExecuteUpdate(update => update.SetProperty(user => user.IsSelected, user => false)));
     }
 }

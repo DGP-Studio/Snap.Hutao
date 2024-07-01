@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
-using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Notification;
 
 namespace Snap.Hutao.ViewModel.Achievement;

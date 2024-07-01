@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database.Abstraction;
+using Snap.Hutao.Model.Entity.Abstraction;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.UI.Xaml.Data;
 using System.ComponentModel.DataAnnotations;
@@ -17,6 +18,7 @@ namespace Snap.Hutao.Model.Entity;
 [HighQuality]
 [Table("game_accounts")]
 internal sealed class GameAccount : ObservableObject,
+    IAppDbEntity,
     IReorderable,
     IAdvancedCollectionViewItem,
     IMappingFrom<GameAccount, string, string, SchemeType>

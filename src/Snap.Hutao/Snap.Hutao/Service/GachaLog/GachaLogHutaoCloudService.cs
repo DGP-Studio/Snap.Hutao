@@ -39,10 +39,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
             List<Web.Hutao.GachaLog.GachaItem> items = [];
             foreach ((GachaType type, long endId) in endIds)
             {
-                List<Web.Hutao.GachaLog.GachaItem> part = await gachaLogDbService
-                    .GetHutaoGachaItemListAsync(gachaArchive.InnerId, type, endId)
-                    .ConfigureAwait(false);
-                items.AddRange(part);
+                items.AddRange(gachaLogDbService.GetHutaoGachaItemListByArchiveIdAndQueryTypeNewerThanEndId(gachaArchive.InnerId, type, endId));
             }
 
             return await homaGachaLogClient.UploadGachaItemsAsync(uid, items, token).ConfigureAwait(false);
@@ -54,11 +51,8 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, Guid>> RetrieveGachaArchiveIdAsync(string uid, CancellationToken token = default)
     {
-        GachaArchive? archive = await gachaLogDbService
-                .GetGachaArchiveByUidAsync(uid, token)
-                .ConfigureAwait(false);
-
-        EndIds endIds = await CreateEndIdsAsync(archive, token).ConfigureAwait(false);
+        GachaArchive? archive = gachaLogDbService.GetGachaArchiveByUid(uid);
+        EndIds endIds = CreateEndIds(archive);
         Response<List<Web.Hutao.GachaLog.GachaItem>> resp = await homaGachaLogClient
             .RetrieveGachaItemsAsync(uid, endIds, token)
             .ConfigureAwait(false);
@@ -71,12 +65,12 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         if (archive is null)
         {
             archive = GachaArchive.From(uid);
-            await gachaLogDbService.AddGachaArchiveAsync(archive).ConfigureAwait(false);
+            gachaLogDbService.AddGachaArchive(archive);
         }
 
         Guid archiveId = archive.InnerId;
         List<Model.Entity.GachaItem> gachaItems = resp.Data.SelectList(i => Model.Entity.GachaItem.From(archiveId, i));
-        await gachaLogDbService.AddGachaItemsAsync(gachaItems).ConfigureAwait(false);
+        gachaLogDbService.AddGachaItemRange(gachaItems);
         return new(true, archive.InnerId);
     }
 
@@ -122,16 +116,14 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         return resp.IsOk() ? resp.Data : default;
     }
 
-    private async ValueTask<EndIds> CreateEndIdsAsync(GachaArchive? archive, CancellationToken token)
+    private EndIds CreateEndIds(GachaArchive? archive)
     {
         EndIds endIds = new();
         foreach (GachaType type in GachaLog.QueryTypes)
         {
             if (archive is not null)
             {
-                endIds[type] = await gachaLogDbService
-                    .GetOldestGachaItemIdByArchiveIdAndQueryTypeAsync(archive.InnerId, type, token)
-                    .ConfigureAwait(false);
+                endIds[type] = gachaLogDbService.GetOldestGachaItemIdByArchiveIdAndQueryType(archive.InnerId, type);
             }
         }
 

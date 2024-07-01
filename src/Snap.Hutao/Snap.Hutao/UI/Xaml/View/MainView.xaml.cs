@@ -17,9 +17,6 @@ internal sealed partial class MainView : UserControl
 {
     private readonly INavigationService navigationService;
 
-    /// <summary>
-    /// 构造一个新的主视图
-    /// </summary>
     public MainView()
     {
         IServiceProvider serviceProvider = Ioc.Default;
@@ -28,7 +25,7 @@ internal sealed partial class MainView : UserControl
 
         InitializeComponent();
 
-        this.Unloaded += OnUnloaded;
+        Unloaded += OnUnloaded;
 
         (DataContext as MainViewModel)?.Initialize(new BackgroundImagePresenterAccessor(BackgroundImagePresenter));
 

@@ -38,9 +38,8 @@ internal interface ISupportLoginByWebView
 
         serviceProvider.GetRequiredService<INavigationService>().GoBack();
 
-        await serviceProvider
+        serviceProvider
             .GetRequiredService<ViewModel.User.UserViewModel>()
-            .HandleUserOptionResultAsync(result, nickname)
-            .ConfigureAwait(false);
+            .HandleUserOptionResult(result, nickname);
     }
 }

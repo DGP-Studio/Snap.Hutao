@@ -1,17 +1,19 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Abstraction;
+
 namespace Snap.Hutao.Service.User;
 
-internal interface IUserDbService
+internal interface IUserDbService : IAppDbService<Model.Entity.User>
 {
-    ValueTask DeleteUserByIdAsync(Guid id);
+    void DeleteUserById(Guid id);
 
-    ValueTask RemoveUsersAsync();
+    void RemoveAllUsers();
 
-    ValueTask<List<Model.Entity.User>> GetUserListAsync();
+    List<Model.Entity.User> GetUserList();
 
-    ValueTask UpdateUserAsync(Model.Entity.User user);
+    void UpdateUser(Model.Entity.User user);
 
-    ValueTask ClearUserSelectionAsync();
+    void ClearUserSelection();
 }

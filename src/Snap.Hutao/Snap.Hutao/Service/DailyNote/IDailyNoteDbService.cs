@@ -8,17 +8,13 @@ namespace Snap.Hutao.Service.DailyNote;
 
 internal interface IDailyNoteDbService : IAppDbService<DailyNoteEntry>
 {
-    ValueTask AddDailyNoteEntryAsync(DailyNoteEntry entry, CancellationToken token = default);
+    void AddDailyNoteEntry(DailyNoteEntry entry);
 
     bool ContainsUid(string uid);
 
-    ValueTask<bool> ContainsUidAsync(string uid, CancellationToken token = default);
-
-    ValueTask DeleteDailyNoteEntryByIdAsync(Guid entryId, CancellationToken token = default);
+    void DeleteDailyNoteEntryById(Guid entryId);
 
     List<DailyNoteEntry> GetDailyNoteEntryListIncludingUser();
 
-    ValueTask<List<DailyNoteEntry>> GetDailyNoteEntryListIncludingUserAsync(CancellationToken token = default);
-
-    ValueTask UpdateDailyNoteEntryAsync(DailyNoteEntry entry, CancellationToken token = default);
+    void UpdateDailyNoteEntry(DailyNoteEntry entry);
 }

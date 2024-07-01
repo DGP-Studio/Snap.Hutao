@@ -8,9 +8,9 @@ namespace Snap.Hutao.Service.User;
 
 internal interface IUidProfilePictureDbService : IAppDbService<UidProfilePicture>
 {
-    ValueTask<UidProfilePicture?> SingleUidProfilePictureOrDefaultByUidAsync(string uid, CancellationToken token = default);
+    UidProfilePicture? SingleUidProfilePictureOrDefaultByUid(string uid);
 
-    ValueTask UpdateUidProfilePictureAsync(UidProfilePicture profilePicture, CancellationToken token = default);
+    void UpdateUidProfilePicture(UidProfilePicture profilePicture);
 
-    ValueTask DeleteUidProfilePictureByUidAsync(string uid, CancellationToken token = default);
+    void DeleteUidProfilePictureByUid(string uid);
 }

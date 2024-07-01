@@ -64,7 +64,7 @@ internal sealed partial class GachaLogService : IGachaLogService
     {
         using (ValueStopwatch.MeasureExecution(logger))
         {
-            List<GachaItem> items = await gachaLogDbService.GetGachaItemListByArchiveIdAsync(archive.InnerId).ConfigureAwait(false);
+            List<GachaItem> items = gachaLogDbService.GetGachaItemListByArchiveId(archive.InnerId);
             return await gachaStatisticsFactory.CreateAsync(items, context).ConfigureAwait(false);
         }
     }
@@ -77,7 +77,7 @@ internal sealed partial class GachaLogService : IGachaLogService
         List<GachaStatisticsSlim> statistics = [];
         foreach (GachaArchive archive in Archives)
         {
-            List<GachaItem> items = await gachaLogDbService.GetGachaItemListByArchiveIdAsync(archive.InnerId).ConfigureAwait(false);
+            List<GachaItem> items = gachaLogDbService.GetGachaItemListByArchiveId(archive.InnerId);
             GachaStatisticsSlim slim = await gachaStatisticsSlimFactory.CreateAsync(context, items, archive.Uid).ConfigureAwait(false);
             statistics.Add(slim);
         }
@@ -121,7 +121,7 @@ internal sealed partial class GachaLogService : IGachaLogService
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        await gachaLogDbService.RemoveGachaArchiveByIdAsync(archive.InnerId).ConfigureAwait(false);
+        gachaLogDbService.RemoveGachaArchiveById(archive.InnerId);
 
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
@@ -138,7 +138,7 @@ internal sealed partial class GachaLogService : IGachaLogService
         }
         else
         {
-            GachaArchive? newArchive = await gachaLogDbService.GetGachaArchiveByIdAsync(archiveId, token).ConfigureAwait(false);
+            GachaArchive? newArchive = gachaLogDbService.GetGachaArchiveById(archiveId);
             ArgumentNullException.ThrowIfNull(newArchive);
 
             await taskContext.SwitchToMainThreadAsync();

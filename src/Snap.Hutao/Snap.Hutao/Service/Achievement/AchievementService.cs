@@ -116,9 +116,7 @@ internal sealed partial class AchievementService : IAchievementService
     public async ValueTask<UIAF> ExportToUIAFAsync(AchievementArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<EntityAchievement> entities = await achievementDbService
-            .GetAchievementListByArchiveIdAsync(archive.InnerId)
-            .ConfigureAwait(false);
+        List<EntityAchievement> entities = achievementDbService.GetAchievementListByArchiveId(archive.InnerId);
         List<UIAFItem> list = entities.SelectList(UIAFItem.From);
 
         return new()

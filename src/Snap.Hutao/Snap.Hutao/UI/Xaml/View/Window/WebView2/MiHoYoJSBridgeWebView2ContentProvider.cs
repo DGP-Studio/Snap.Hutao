@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
 using Windows.Graphics;
 
@@ -29,14 +28,8 @@ internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : Dependency
             return;
         }
 
-        User? user = serviceProvider.GetRequiredService<IUserService>().Current;
-        if (user is null || user.SelectedUserGameRole is null)
-        {
-            return;
-        }
-
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        if (!UserAndUid.TryFromUser(user, out UserAndUid? userAndUid))
+        if (await serviceProvider.GetRequiredService<IUserService>().GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
@@ -59,7 +52,7 @@ internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : Dependency
             }
 
             CoreWebView2
-                .SetCookie(user.CookieToken, user.LToken, userAndUid.IsOversea)
+                .SetCookie(userAndUid.User.CookieToken, userAndUid.User.LToken, userAndUid.IsOversea)
                 .SetMobileUserAgent(userAndUid.IsOversea);
             jsBridge = SourceProvider.CreateJSBridge(serviceProvider, CoreWebView2, userAndUid);
 

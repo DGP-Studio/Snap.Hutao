@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Service.User;
-using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request;
 using Snap.Hutao.Web.Response;
@@ -25,7 +24,7 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
-        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             return new(false, GachaLogQuery.Invalid(SH.MustSelectUserAndUid));
         }

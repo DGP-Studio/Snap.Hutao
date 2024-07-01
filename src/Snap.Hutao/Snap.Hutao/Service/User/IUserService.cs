@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.User;
 
 internal interface IUserService
 {
-    ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUserCollectionAsync();
+    ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUsersAsync();
 
     ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(InputCookie inputCookie);
 

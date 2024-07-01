@@ -87,7 +87,7 @@ internal struct GachaLogFetchContext
             // 全量刷新
             if (!isLazy)
             {
-                gachaLogDbService.RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(TargetArchive.InnerId, TypedQueryOptions.Type, TypedQueryOptions.EndId);
+                gachaLogDbService.RemoveGachaItemRangeByArchiveIdAndQueryTypeNewerThanEndId(TargetArchive.InnerId, TypedQueryOptions.Type, TypedQueryOptions.EndId);
             }
 
             gachaLogDbService.AddGachaItemRange(ItemsToAdd);

@@ -2,54 +2,35 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-internal interface IGachaLogDbService
+internal interface IGachaLogDbService : IAppDbService<GachaArchive>, IAppDbService<GachaItem>
 {
     void AddGachaArchive(GachaArchive archive);
 
-    ValueTask AddGachaArchiveAsync(GachaArchive archive);
-
     void AddGachaItemRange(List<GachaItem> items);
 
-    ValueTask AddGachaItemsAsync(List<GachaItem> items);
+    void RemoveGachaArchiveById(Guid archiveId);
 
-    ValueTask RemoveGachaArchiveByIdAsync(Guid archiveId);
+    void RemoveGachaItemRangeByArchiveIdAndQueryTypeNewerThanEndId(Guid archiveId, GachaType queryType, long endId);
 
-    void RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(Guid archiveId, GachaType queryType, long endId);
+    GachaArchive? GetGachaArchiveById(Guid archiveId);
 
-    ValueTask<GachaArchive?> GetGachaArchiveByIdAsync(Guid archiveId, CancellationToken token);
-
-    ValueTask<GachaArchive?> GetGachaArchiveByUidAsync(string uid, CancellationToken token);
+    GachaArchive? GetGachaArchiveByUid(string uid);
 
     ObservableCollection<GachaArchive> GetGachaArchiveCollection();
 
     List<GachaItem> GetGachaItemListByArchiveId(Guid archiveId);
 
-    ValueTask<List<GachaItem>> GetGachaItemListByArchiveIdAsync(Guid archiveId);
-
-    List<Web.Hutao.GachaLog.GachaItem> GetHutaoGachaItemList(Guid archiveId, GachaType queryType, long endId);
+    List<Web.Hutao.GachaLog.GachaItem> GetHutaoGachaItemListByArchiveIdAndQueryTypeNewerThanEndId(Guid archiveId, GachaType queryType, long endId);
 
     long GetNewestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaType queryType);
-
-    ValueTask<long> GetNewestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaType queryType, CancellationToken token);
 
     long GetOldestGachaItemIdByArchiveId(Guid archiveId);
 
     long GetOldestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaType queryType);
-
-    ValueTask<long> GetOldestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaType queryType, CancellationToken token);
-
-    ValueTask<long> GetNewestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaType queryType);
-
-    ValueTask<long> GetOldestGachaItemIdByArchiveIdAsync(Guid archiveId);
-
-    ValueTask<List<Web.Hutao.GachaLog.GachaItem>> GetHutaoGachaItemListAsync(Guid archiveId, GachaType queryType, long endId);
-
-    ValueTask AddGachaItemRangeAsync(List<GachaItem> items);
-
-    ValueTask RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndIdAsync(Guid archiveId, GachaType queryType, long endId);
 }

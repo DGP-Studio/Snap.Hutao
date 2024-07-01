@@ -15,6 +15,7 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("IsUidAttached", typeof(bool))]
 internal sealed partial class CultivateProjectDialog : ContentDialog
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
     /// <summary>
@@ -25,6 +26,7 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
     {
         InitializeComponent();
 
+        this.serviceProvider = serviceProvider;
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
@@ -39,7 +41,7 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
         if (result == ContentDialogResult.Primary)
         {
             string? uid = IsUidAttached
-                ? Ioc.Default.GetRequiredService<IUserService>().Current?.SelectedUserGameRole?.GameUid
+                ? await serviceProvider.GetRequiredService<IUserService>().GetCurrentUidAsync().ConfigureAwait(false)
                 : null;
 
             return new(true, CultivateProject.From(Text, uid));

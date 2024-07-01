@@ -27,12 +27,14 @@ namespace Snap.Hutao.Service.AvatarInfo;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AvatarInfoDbBulkOperation
 {
-    private readonly IServiceProvider serviceProvider;
     private readonly IAvatarInfoDbService avatarInfoDbService;
+    private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
 
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByShowcaseAsync(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
     {
-        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
+        await taskContext.SwitchToBackgroundAsync();
+        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
         EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -50,14 +52,15 @@ internal sealed partial class AvatarInfoDbBulkOperation
                 AddOrUpdateAvatarInfo(entity, uid, appDbContext, webInfo);
             }
 
-            return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
+            return avatarInfoDbService.GetAvatarInfoListByUid(uid);
         }
     }
 
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndUid userAndUid, CancellationToken token)
     {
+        await taskContext.SwitchToBackgroundAsync();
         string uid = userAndUid.Uid.Value;
-        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
+        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
         EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -103,14 +106,14 @@ internal sealed partial class AvatarInfoDbBulkOperation
         }
 
     Return:
-        return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
+        return avatarInfoDbService.GetAvatarInfoListByUid(uid);
     }
 
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid, CancellationToken token)
     {
-        token.ThrowIfCancellationRequested();
+        await taskContext.SwitchToBackgroundAsync();
         string uid = userAndUid.Uid.Value;
-        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
+        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
         EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -146,7 +149,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             }
         }
 
-        return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid, token).ConfigureAwait(false);
+        return avatarInfoDbService.GetAvatarInfoListByUid(uid);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

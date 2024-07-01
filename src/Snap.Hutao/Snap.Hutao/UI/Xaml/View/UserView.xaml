@@ -100,6 +100,37 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
+
+                <Grid.Resources>
+                    <Storyboard x:Name="ButtonPanelVisibleStoryboard">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Visible</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+
+                    <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </Grid.Resources>
+
+                <mxi:Interaction.Behaviors>
+                    <mxic:EventTriggerBehavior EventName="PointerEntered">
+                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
+                    </mxic:EventTriggerBehavior>
+                    <mxic:EventTriggerBehavior EventName="PointerExited">
+                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
+                    </mxic:EventTriggerBehavior>
+                </mxi:Interaction.Behaviors>
                 <PersonPicture
                     Height="32"
                     Margin="2,0"
@@ -142,37 +173,6 @@
                         Style="{StaticResource ButtonRevealStyle}"
                         ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewUserRemoveAction}"/>
                 </StackPanel>
-
-                <Grid.Resources>
-                    <Storyboard x:Name="ButtonPanelVisibleStoryboard">
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0">
-                                <DiscreteObjectKeyFrame.Value>
-                                    <Visibility>Visible</Visibility>
-                                </DiscreteObjectKeyFrame.Value>
-                            </DiscreteObjectKeyFrame>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-
-                    <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0">
-                                <DiscreteObjectKeyFrame.Value>
-                                    <Visibility>Collapsed</Visibility>
-                                </DiscreteObjectKeyFrame.Value>
-                            </DiscreteObjectKeyFrame>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
-                </Grid.Resources>
-
-                <mxi:Interaction.Behaviors>
-                    <mxic:EventTriggerBehavior EventName="PointerEntered">
-                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
-                    </mxic:EventTriggerBehavior>
-                    <mxic:EventTriggerBehavior EventName="PointerExited">
-                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
-                    </mxic:EventTriggerBehavior>
-                </mxi:Interaction.Behaviors>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
@@ -236,12 +236,12 @@
                         Height="36"
                         Margin="1,1,6,1"
                         HorizontalAlignment="Left"
-                        ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUri, Mode=OneWay}"/>
+                        ProfilePicture="{Binding Users.CurrentItem.UserInfo.AvatarUri, Mode=OneWay}"/>
                     <TextBlock
                         Grid.Column="1"
                         Margin="1,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{Binding SelectedUser.UserInfo.Nickname, Mode=OneWay, FallbackValue={shuxm:ResourceString Name=ViewUserNoUserHint}}"
+                        Text="{Binding Users.CurrentItem.UserInfo.Nickname, Mode=OneWay, FallbackValue={shuxm:ResourceString Name=ViewUserNoUserHint}}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"/>
                     <FontIcon
@@ -384,7 +384,7 @@
 
                         <Grid Grid.Column="1" Width="280">
                             <StackPanel Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-                                <StackPanel Visibility="{Binding SelectedUser, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}">
+                                <StackPanel Visibility="{Binding Users.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}">
                                     <TextBlock
                                         Margin="10,6,0,6"
                                         Style="{StaticResource BaseTextBlockStyle}"
@@ -393,8 +393,8 @@
                                         Grid.Row="1"
                                         Margin="4"
                                         ItemTemplate="{StaticResource UserGameRoleTemplate}"
-                                        ItemsSource="{Binding SelectedUser.UserGameRoles}"
-                                        SelectedItem="{Binding SelectedUser.SelectedUserGameRole, Mode=TwoWay}"
+                                        ItemsSource="{Binding Users.CurrentItem.UserGameRoles}"
+                                        SelectedItem="{Binding Users.CurrentItem.UserGameRoles.CurrentItem, Mode=TwoWay}"
                                         SelectionMode="Single"/>
                                 </StackPanel>
 
@@ -409,7 +409,7 @@
                                     CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
                                     ItemTemplate="{StaticResource UserTemplate}"
                                     ItemsSource="{Binding Users}"
-                                    SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+                                    SelectedItem="{Binding Users.CurrentItem, Mode=TwoWay}"
                                     SelectionMode="Single">
                                     <ListView.Header>
                                         <InfoBar

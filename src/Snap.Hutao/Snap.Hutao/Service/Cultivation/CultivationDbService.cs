@@ -16,24 +16,24 @@ internal sealed partial class CultivationDbService : ICultivationDbService
 
     public IServiceProvider ServiceProvider { get => serviceProvider; }
 
-    public ValueTask<List<CultivateEntry>> GetCultivateEntryListByProjectIdAsync(Guid projectId, CancellationToken token = default)
+    public List<CultivateEntry> GetCultivateEntryListByProjectId(Guid projectId)
     {
-        return this.ListAsync<CultivateEntry>(e => e.ProjectId == projectId, token);
+        return this.List<CultivateEntry>(e => e.ProjectId == projectId);
     }
 
-    public ValueTask<List<CultivateEntry>> GetCultivateEntryListIncludingLevelInformationByProjectIdAsync(Guid projectId, CancellationToken token = default)
+    public List<CultivateEntry> GetCultivateEntryListIncludingLevelInformationByProjectId(Guid projectId)
     {
-        return this.ListAsync<CultivateEntry, CultivateEntry>(query => query.Where(e => e.ProjectId == projectId).Include(e => e.LevelInformation), token);
+        return this.List<CultivateEntry, CultivateEntry>(query => query.Where(e => e.ProjectId == projectId).Include(e => e.LevelInformation));
     }
 
-    public ValueTask<List<CultivateItem>> GetCultivateItemListByEntryIdAsync(Guid entryId, CancellationToken token = default)
+    public List<CultivateItem> GetCultivateItemListByEntryId(Guid entryId)
     {
-        return this.ListAsync<CultivateItem, CultivateItem>(query => query.Where(i => i.EntryId == entryId).OrderBy(i => i.ItemId), token);
+        return this.List<CultivateItem, CultivateItem>(query => query.Where(i => i.EntryId == entryId).OrderBy(i => i.ItemId));
     }
 
-    public async ValueTask RemoveCultivateEntryByIdAsync(Guid entryId, CancellationToken token = default)
+    public void RemoveCultivateEntryById(Guid entryId)
     {
-        await this.DeleteByInnerIdAsync<CultivateEntry>(entryId, token).ConfigureAwait(false);
+        this.DeleteByInnerId<CultivateEntry>(entryId);
     }
 
     public void UpdateCultivateItem(CultivateItem item)
@@ -41,39 +41,34 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         this.Update(item);
     }
 
-    public async ValueTask UpdateCultivateItemAsync(CultivateItem item, CancellationToken token = default)
+    public CultivateEntry? GetCultivateEntryByProjectIdAndItemId(Guid projectId, uint itemId)
     {
-        await this.UpdateAsync(item, token).ConfigureAwait(false);
+        return this.SingleOrDefault<CultivateEntry>(e => e.ProjectId == projectId && e.Id == itemId);
     }
 
-    public async ValueTask<CultivateEntry?> GetCultivateEntryByProjectIdAndItemIdAsync(Guid projectId, uint itemId, CancellationToken token = default)
+    public void AddCultivateEntry(CultivateEntry entry)
     {
-        return await this.SingleOrDefaultAsync<CultivateEntry>(e => e.ProjectId == projectId && e.Id == itemId, token).ConfigureAwait(false);
+        this.Add(entry);
     }
 
-    public async ValueTask AddCultivateEntryAsync(CultivateEntry entry, CancellationToken token = default)
+    public void RemoveCultivateItemRangeByEntryId(Guid entryId)
     {
-        await this.AddAsync(entry, token).ConfigureAwait(false);
+        this.Delete<CultivateItem>(i => i.EntryId == entryId);
     }
 
-    public async ValueTask RemoveCultivateItemRangeByEntryIdAsync(Guid entryId, CancellationToken token = default)
+    public void AddCultivateItemRange(IEnumerable<CultivateItem> toAdd)
     {
-        await this.DeleteAsync<CultivateItem>(i => i.EntryId == entryId, token).ConfigureAwait(false);
+        this.AddRange(toAdd);
     }
 
-    public async ValueTask AddCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd, CancellationToken token = default)
+    public void AddCultivateProject(CultivateProject project)
     {
-        await this.AddRangeAsync(toAdd, token).ConfigureAwait(false);
+        this.Add(project);
     }
 
-    public async ValueTask AddCultivateProjectAsync(CultivateProject project, CancellationToken token = default)
+    public void RemoveCultivateProjectById(Guid projectId)
     {
-        await this.AddAsync(project, token).ConfigureAwait(false);
-    }
-
-    public async ValueTask RemoveCultivateProjectByIdAsync(Guid projectId, CancellationToken token = default)
-    {
-        await this.DeleteByInnerIdAsync<CultivateProject>(projectId, token).ConfigureAwait(false);
+        this.DeleteByInnerId<CultivateProject>(projectId);
     }
 
     public ObservableCollection<CultivateProject> GetCultivateProjectCollection()
@@ -81,13 +76,13 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         return this.ObservableCollection<CultivateProject>();
     }
 
-    public async ValueTask RemoveLevelInformationByEntryIdAsync(Guid entryId, CancellationToken token = default)
+    public void RemoveLevelInformationByEntryId(Guid entryId)
     {
-        await this.DeleteAsync<CultivateEntryLevelInformation>(l => l.EntryId == entryId, token).ConfigureAwait(false);
+        this.Delete<CultivateEntryLevelInformation>(l => l.EntryId == entryId);
     }
 
-    public async ValueTask AddLevelInformationAsync(CultivateEntryLevelInformation levelInformation, CancellationToken token = default)
+    public void AddLevelInformation(CultivateEntryLevelInformation levelInformation)
     {
-        await this.AddAsync(levelInformation, token).ConfigureAwait(false);
+        this.Add(levelInformation);
     }
 }

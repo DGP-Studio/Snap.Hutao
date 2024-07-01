@@ -38,17 +38,14 @@ internal sealed partial class CultivationService : ICultivationService
     public async ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject, ICultivationMetadataContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<CultivateEntry> entries = await cultivationDbService
-            .GetCultivateEntryListIncludingLevelInformationByProjectIdAsync(cultivateProject.InnerId)
-            .ConfigureAwait(false);
+        List<CultivateEntry> entries = cultivationDbService.GetCultivateEntryListIncludingLevelInformationByProjectId(cultivateProject.InnerId);
 
         List<CultivateEntryView> resultEntries = new(entries.Count);
         foreach (CultivateEntry entry in entries)
         {
             List<CultivateItemView> entryItems = [];
 
-            // Async operation here, thus we can't use the Span trick.
-            foreach (CultivateItem cultivateItem in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId).ConfigureAwait(false))
+            foreach (CultivateItem cultivateItem in cultivationDbService.GetCultivateItemListByEntryId(entry.InnerId))
             {
                 entryItems.Add(new(cultivateItem, context.GetMaterial(cultivateItem.ItemId)));
             }
@@ -77,9 +74,9 @@ internal sealed partial class CultivationService : ICultivationService
 
         Guid projectId = cultivateProject.InnerId;
 
-        foreach (CultivateEntry entry in await cultivationDbService.GetCultivateEntryListByProjectIdAsync(projectId, token).ConfigureAwait(false))
+        foreach (CultivateEntry entry in cultivationDbService.GetCultivateEntryListByProjectId(projectId))
         {
-            foreach (CultivateItem item in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId, token).ConfigureAwait(false))
+            foreach (CultivateItem item in cultivationDbService.GetCultivateItemListByEntryId(entry.InnerId))
             {
                 if (item.IsFinished)
                 {
@@ -97,7 +94,7 @@ internal sealed partial class CultivationService : ICultivationService
             }
         }
 
-        foreach (InventoryItem inventoryItem in await inventoryDbService.GetInventoryItemListByProjectIdAsync(projectId, token).ConfigureAwait(false))
+        foreach (InventoryItem inventoryItem in inventoryDbService.GetInventoryItemListByProjectId(projectId))
         {
             if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is { } existedItem)
             {
@@ -111,7 +108,8 @@ internal sealed partial class CultivationService : ICultivationService
     /// <inheritdoc/>
     public async ValueTask RemoveCultivateEntryAsync(Guid entryId)
     {
-        await cultivationDbService.RemoveCultivateEntryByIdAsync(entryId).ConfigureAwait(false);
+        await taskContext.SwitchToBackgroundAsync();
+        cultivationDbService.RemoveCultivateEntryById(entryId);
     }
 
     /// <inheritdoc/>
@@ -141,25 +139,23 @@ internal sealed partial class CultivationService : ICultivationService
             return false;
         }
 
-        CultivateEntry? entry = await cultivationDbService
-            .GetCultivateEntryByProjectIdAndItemIdAsync(Projects.CurrentItem.InnerId, itemId)
-            .ConfigureAwait(false);
+        CultivateEntry? entry = cultivationDbService.GetCultivateEntryByProjectIdAndItemId(Projects.CurrentItem.InnerId, itemId);
 
         if (entry is null)
         {
             entry = CultivateEntry.From(Projects.CurrentItem.InnerId, type, itemId);
-            await cultivationDbService.AddCultivateEntryAsync(entry).ConfigureAwait(false);
+            cultivationDbService.AddCultivateEntry(entry);
         }
 
         Guid entryId = entry.InnerId;
 
-        await cultivationDbService.RemoveLevelInformationByEntryIdAsync(entryId).ConfigureAwait(false);
+        cultivationDbService.RemoveLevelInformationByEntryId(entryId);
         CultivateEntryLevelInformation entryLevelInformation = CultivateEntryLevelInformation.From(entryId, type, levelInformation);
-        await cultivationDbService.AddLevelInformationAsync(entryLevelInformation).ConfigureAwait(false);
+        cultivationDbService.AddLevelInformation(entryLevelInformation);
 
-        await cultivationDbService.RemoveCultivateItemRangeByEntryIdAsync(entryId).ConfigureAwait(false);
+        cultivationDbService.RemoveCultivateItemRangeByEntryId(entryId);
         IEnumerable<CultivateItem> toAdd = items.Select(item => CultivateItem.From(entryId, item));
-        await cultivationDbService.AddCultivateItemRangeAsync(toAdd).ConfigureAwait(false);
+        cultivationDbService.AddCultivateItemRange(toAdd);
 
         return true;
     }
@@ -199,6 +195,6 @@ internal sealed partial class CultivationService : ICultivationService
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        await cultivationDbService.RemoveCultivateProjectByIdAsync(project.InnerId).ConfigureAwait(false);
+        cultivationDbService.RemoveCultivateProjectById(project.InnerId);
     }
 }

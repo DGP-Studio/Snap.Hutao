@@ -9,7 +9,6 @@ using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics.Imaging;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Message;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.AvatarInfo;
@@ -40,7 +39,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
+internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IAppResourceProvider appResourceProvider;
@@ -73,9 +72,9 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     public AvatarView? SelectedAvatar { get => selectedAvatar; set => SetProperty(ref selectedAvatar, value); }
 
     /// <inheritdoc/>
-    public void Receive(UserChangedMessage message)
+    public void Receive(UserAndUidChangedMessage message)
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (message.UserAndUid is { } userAndUid)
         {
             RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).SafeForget();
         }
@@ -83,7 +82,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).ConfigureAwait(false);
             return true;
@@ -95,7 +94,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("RefreshFromEnkaApiCommand")]
     private async Task RefreshByEnkaApiAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromEnkaAPI, CancellationToken).ConfigureAwait(false);
         }
@@ -104,7 +103,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("RefreshFromHoyolabGameRecordCommand")]
     private async Task RefreshByHoyolabGameRecordAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
         }
@@ -113,7 +112,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("RefreshFromHoyolabCalculateCommand")]
     private async Task RefreshByHoyolabCalculateAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabCalculate, CancellationToken).ConfigureAwait(false);
         }
@@ -177,7 +176,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
@@ -222,7 +221,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;

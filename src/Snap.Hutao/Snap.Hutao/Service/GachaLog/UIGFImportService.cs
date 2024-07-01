@@ -82,7 +82,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
             fullItems.AddRange(currentTypedList);
         }
 
-        await gachaLogDbService.AddGachaItemsAsync(fullItems).ConfigureAwait(false);
+        gachaLogDbService.AddGachaItemRange(fullItems);
         archives.MoveCurrentTo(archive);
     }
 

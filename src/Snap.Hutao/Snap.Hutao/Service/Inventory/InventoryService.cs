@@ -8,7 +8,6 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.Cultivation;
-using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
 
@@ -54,7 +53,7 @@ internal sealed partial class InventoryService : IInventoryService
         BatchConsumption? batchConsumption = default;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
-            if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
             {
                 infoBarService.Warning(SH.MustSelectUserAndUid);
                 return;
@@ -76,8 +75,8 @@ internal sealed partial class InventoryService : IInventoryService
 
         if (batchConsumption is { OverallConsume: { } items })
         {
-            await inventoryDbService.RemoveInventoryItemRangeByProjectIdAsync(project.InnerId).ConfigureAwait(false);
-            await inventoryDbService.AddInventoryItemRangeByProjectIdAsync(items.SelectList(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum)))).ConfigureAwait(false);
+            inventoryDbService.RemoveInventoryItemRangeByProjectId(project.InnerId);
+            inventoryDbService.AddInventoryItemRangeByProjectId(items.SelectList(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum))));
         }
     }
 }

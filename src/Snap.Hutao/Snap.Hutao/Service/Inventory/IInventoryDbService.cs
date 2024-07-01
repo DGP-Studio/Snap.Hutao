@@ -8,15 +8,11 @@ namespace Snap.Hutao.Service.Inventory;
 
 internal interface IInventoryDbService : IAppDbService<InventoryItem>
 {
-    ValueTask AddInventoryItemRangeByProjectIdAsync(List<InventoryItem> items, CancellationToken token = default);
+    void AddInventoryItemRangeByProjectId(List<InventoryItem> items);
 
-    ValueTask RemoveInventoryItemRangeByProjectIdAsync(Guid projectId, CancellationToken token = default);
+    void RemoveInventoryItemRangeByProjectId(Guid projectId);
 
     void UpdateInventoryItem(InventoryItem item);
 
-    ValueTask UpdateInventoryItemAsync(InventoryItem item, CancellationToken token = default);
-
     List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId);
-
-    ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId, CancellationToken token = default);
 }

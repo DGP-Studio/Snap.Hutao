@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
@@ -16,8 +15,7 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.ViewModel.User;
 
-internal sealed class User : ObservableObject,
-    IEntityAccess<EntityUser>,
+internal sealed class User : IEntityAccess<EntityUser>,
     IMappingFrom<User, EntityUser, IServiceProvider>,
     ISelectable,
     IAdvancedCollectionViewItem
@@ -25,7 +23,8 @@ internal sealed class User : ObservableObject,
     private readonly EntityUser inner;
     private readonly IServiceProvider serviceProvider;
 
-    private UserGameRole? selectedUserGameRole;
+    private AdvancedCollectionView<UserGameRole> userGameRoles = default!;
+    private bool isCurrentUserGameRoleChangedMessageSuppressed;
 
     private User(EntityUser user, IServiceProvider serviceProvider)
     {
@@ -37,12 +36,23 @@ internal sealed class User : ObservableObject,
 
     public UserInfo? UserInfo { get; set; }
 
-    public List<UserGameRole> UserGameRoles { get; set; } = default!;
-
-    public UserGameRole? SelectedUserGameRole
+    public AdvancedCollectionView<UserGameRole> UserGameRoles
     {
-        get => selectedUserGameRole;
-        set => SetSelectedUserGameRole(value);
+        get => userGameRoles;
+        set
+        {
+            if (userGameRoles is not null)
+            {
+                userGameRoles.CurrentChanged -= OnCurrentUserGameRoleChanged;
+            }
+
+            userGameRoles = value;
+
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentUserGameRoleChanged;
+            }
+        }
     }
 
     public string? Fingerprint { get => inner.Fingerprint; }
@@ -86,31 +96,49 @@ internal sealed class User : ObservableObject,
         return new(user, provider);
     }
 
-    public void SetSelectedUserGameRole(UserGameRole? value, bool raiseMessage = true)
-    {
-        if (SetProperty(ref selectedUserGameRole, value, nameof(SelectedUserGameRole)))
-        {
-            if (value is not null && inner.PreferredUid != value.GameUid)
-            {
-                inner.PreferredUid = value.GameUid;
-                using (IServiceScope scope = serviceProvider.CreateScope())
-                {
-                    scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(inner);
-                }
-            }
-
-            if (raiseMessage)
-            {
-                serviceProvider.GetRequiredService<IMessenger>().Send(Message.UserChangedMessage.CreateOnlyRoleChanged(this));
-            }
-        }
-    }
-
     public object? GetPropertyValue(string name)
     {
         return name switch
         {
             _ => default,
         };
+    }
+
+    public IDisposable SuppressCurrentUserGameRoleChangedMessage()
+    {
+        return new CurrentUserGameRoleChangedSuppression(this);
+    }
+
+    private void OnCurrentUserGameRoleChanged(object? sender, object? e)
+    {
+        if (userGameRoles.CurrentItem is { } item && inner.PreferredUid != item.GameUid)
+        {
+            inner.PreferredUid = item.GameUid;
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(inner);
+            }
+        }
+
+        if (!isCurrentUserGameRoleChangedMessageSuppressed)
+        {
+            serviceProvider.GetRequiredService<IMessenger>().Send(new UserAndUidChangedMessage(this));
+        }
+    }
+
+    private sealed class CurrentUserGameRoleChangedSuppression : IDisposable
+    {
+        private readonly User reference;
+
+        public CurrentUserGameRoleChangedSuppression(User reference)
+        {
+            this.reference = reference;
+            reference.isCurrentUserGameRoleChangedMessageSuppressed = true;
+        }
+
+        public void Dispose()
+        {
+            reference.isCurrentUserGameRoleChangedMessageSuppressed = false;
+        }
     }
 }

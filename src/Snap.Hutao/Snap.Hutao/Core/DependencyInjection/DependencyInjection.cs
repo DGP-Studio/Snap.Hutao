@@ -44,7 +44,7 @@ internal static class DependencyInjection
             .AddConfiguredHttpClients()
 
             // Discrete services
-            .AddSingleton<IMessenger, StrongReferenceMessenger>()
+            .AddSingleton<IMessenger, WeakReferenceMessenger>()
             .BuildServiceProvider(true);
 
         Ioc.Default.ConfigureServices(serviceProvider);

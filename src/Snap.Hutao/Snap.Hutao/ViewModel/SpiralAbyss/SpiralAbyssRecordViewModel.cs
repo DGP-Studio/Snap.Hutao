@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Message;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
@@ -27,7 +26,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
+internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
     private readonly IContentDialogFactory contentDialogFactory;
@@ -54,10 +53,9 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
 
     public HutaoDatabaseViewModel HutaoDatabaseViewModel { get => hutaoDatabaseViewModel; }
 
-    /// <inheritdoc/>
-    public void Receive(UserChangedMessage message)
+    public void Receive(UserAndUidChangedMessage message)
     {
-        if (UserAndUid.TryFromUser(message.NewValue, out UserAndUid? userAndUid))
+        if (message.UserAndUid is { } userAndUid)
         {
             UpdateSpiralAbyssCollectionAsync(userAndUid).SafeForget();
         }
@@ -71,7 +69,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     {
         if (await spiralAbyssRecordService.InitializeAsync().ConfigureAwait(false))
         {
-            if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
             {
                 await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
                 return true;
@@ -111,7 +109,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     {
         if (SpiralAbyssEntries is not null)
         {
-            if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+            if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
             {
                 try
                 {
@@ -135,7 +133,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     [Command("UploadSpiralAbyssRecordCommand")]
     private async Task UploadSpiralAbyssRecordAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             if (!hutaoUserOptions.IsLoggedIn)
             {

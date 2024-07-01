@@ -53,7 +53,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
                 // sync database
                 await taskContext.SwitchToBackgroundAsync();
-                await gameDbService.AddGameAccountAsync(account).ConfigureAwait(false);
+                gameDbService.AddGameAccount(account);
 
                 // sync cache
                 await taskContext.SwitchToMainThreadAsync();
@@ -106,7 +106,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
             // sync database
             await taskContext.SwitchToBackgroundAsync();
-            await gameDbService.UpdateGameAccountAsync(gameAccount).ConfigureAwait(false);
+            gameDbService.UpdateGameAccount(gameAccount);
         }
     }
 
@@ -118,7 +118,7 @@ internal sealed partial class GameAccountService : IGameAccountService
         gameAccounts.Remove(gameAccount);
 
         await taskContext.SwitchToBackgroundAsync();
-        await gameDbService.RemoveGameAccountByIdAsync(gameAccount.InnerId).ConfigureAwait(false);
+        gameDbService.RemoveGameAccountById(gameAccount.InnerId);
     }
 
     private static GameAccount? SingleGameAccountOrDefault(ObservableCollection<GameAccount> gameAccounts, string registrySdk)

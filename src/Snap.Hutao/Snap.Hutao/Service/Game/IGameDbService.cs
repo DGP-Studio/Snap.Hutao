@@ -3,18 +3,17 @@
 
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.Game;
 
-internal interface IGameDbService
+internal interface IGameDbService : IAppDbService<GameAccount>
 {
-    ValueTask AddGameAccountAsync(GameAccount gameAccount);
+    void AddGameAccount(GameAccount gameAccount);
 
-    ValueTask RemoveGameAccountByIdAsync(Guid id);
+    void RemoveGameAccountById(Guid id);
 
     ObservableReorderableDbCollection<GameAccount> GetGameAccountCollection();
 
     void UpdateGameAccount(GameAccount gameAccount);
-
-    ValueTask UpdateGameAccountAsync(GameAccount gameAccount);
 }

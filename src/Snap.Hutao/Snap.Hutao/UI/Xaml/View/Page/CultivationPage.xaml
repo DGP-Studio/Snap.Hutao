@@ -354,7 +354,7 @@
                                         <cwcont:SettingsCard
                                             ActionIconToolTip="{shuxm:ResourceString Name=ViewPageCultivationNavigateAction}"
                                             Command="{Binding NavigateToPageCommand}"
-                                            CommandParameter="Snap.Hutao.View.Page.WikiAvatarPage"
+                                            CommandParameter="Snap.Hutao.UI.Xaml.View.Page.WikiAvatarPage"
                                             Description="{shuxm:ResourceString Name=ViewPageCultivationWikiAvatarDescription}"
                                             Header="{shuxm:ResourceString Name=ViewWikiAvatarHeader}"
                                             HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"
@@ -362,7 +362,7 @@
                                         <cwcont:SettingsCard
                                             ActionIconToolTip="{shuxm:ResourceString Name=ViewPageCultivationNavigateAction}"
                                             Command="{Binding NavigateToPageCommand}"
-                                            CommandParameter="Snap.Hutao.View.Page.WikiWeaponPage"
+                                            CommandParameter="Snap.Hutao.UI.Xaml.View.Page.WikiWeaponPage"
                                             Description="{shuxm:ResourceString Name=ViewPageCultivationWikiWeaponDescription}"
                                             Header="{shuxm:ResourceString Name=ViewWikiWeaponHeader}"
                                             HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"
@@ -370,7 +370,7 @@
                                         <cwcont:SettingsCard
                                             ActionIconToolTip="{shuxm:ResourceString Name=ViewPageCultivationNavigateAction}"
                                             Command="{Binding NavigateToPageCommand}"
-                                            CommandParameter="Snap.Hutao.View.Page.AvatarPropertyPage"
+                                            CommandParameter="Snap.Hutao.UI.Xaml.View.Page.AvatarPropertyPage"
                                             Description="{shuxm:ResourceString Name=ViewPageCultivationAvatarPropertyDescription}"
                                             Header="{shuxm:ResourceString Name=ViewAvatarPropertyHeader}"
                                             HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"

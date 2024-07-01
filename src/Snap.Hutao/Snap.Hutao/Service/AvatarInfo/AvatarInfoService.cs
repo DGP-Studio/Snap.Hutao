@@ -74,7 +74,7 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
 
             default:
                 {
-                    List<EntityAvatarInfo> list = await avatarInfoDbService.GetAvatarInfoListByUidAsync(userAndUid.Uid.Value, token).ConfigureAwait(false);
+                    List<EntityAvatarInfo> list = avatarInfoDbService.GetAvatarInfoListByUid(userAndUid.Uid.Value);
                     Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                     return new(RefreshResultKind.Ok, summary.Avatars.Count == 0 ? null : summary);
                 }

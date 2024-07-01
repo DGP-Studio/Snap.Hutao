@@ -18,6 +18,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
     private readonly IUserFingerprintService userFingerprintService;
     private readonly IProfilePictureService profilePictureService;
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
 
     public async ValueTask<ViewModel.User.User> ResumeUserAsync(Model.Entity.User inner, CancellationToken token = default)
     {
@@ -210,7 +211,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
         if (userGameRolesResponse.IsOk())
         {
-            user.UserGameRoles = userGameRolesResponse.Data.List;
+            await taskContext.SwitchToMainThreadAsync();
+            user.UserGameRoles = new(userGameRolesResponse.Data.List, true);
             return user.UserGameRoles.Count > 0;
         }
         else

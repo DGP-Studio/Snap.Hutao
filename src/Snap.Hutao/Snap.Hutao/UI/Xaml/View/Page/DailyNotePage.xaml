@@ -40,23 +40,6 @@
             FalseValue="{StaticResource UI_MarkQuest_Main_Start}"
             TrueValue="{StaticResource UI_MarkQuest_Main_Proce}"/>
 
-        <DataTemplate x:Key="UserAndUidTemplate">
-            <Grid Padding="0,0,0,16">
-                <TextBlock VerticalAlignment="Center" Text="{Binding Uid}"/>
-                <Button
-                    Margin="16,0,0,0"
-                    Padding="6"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Command="{Binding DataContext.TrackRoleCommand, Source={StaticResource ViewModelBindingProxy}}"
-                    CommandParameter="{Binding}"
-                    Content="&#xE710;"
-                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                    Style="{StaticResource ButtonRevealStyle}"
-                    ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageDailyNoteAddEntryToolTip}"/>
-            </Grid>
-        </DataTemplate>
-
         <DataTemplate x:Key="DailyNoteEntryTemplate" x:DataType="shme:DailyNoteEntry">
             <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <ItemContainer.Resources>
@@ -460,24 +443,10 @@
                             </mxic:EventTriggerBehavior>
                         </mxi:Interaction.Behaviors>
                     </AppBarButton>
-                    <AppBarButton Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}" Label="{shuxm:ResourceString Name=ViewPageDailyNoteAddEntry}">
-                        <AppBarButton.Flyout>
-                            <Flyout
-                                FlyoutPresenterStyle="{StaticResource FlyoutPresenterPadding0And2Style}"
-                                LightDismissOverlayMode="On"
-                                Placement="Bottom">
-                                <StackPanel>
-                                    <TextBlock
-                                        Margin="16,12,16,16"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{shuxm:ResourceString Name=ViewPageDailyNoteAddEntryHint}"/>
-                                    <ScrollViewer MaxHeight="320" Padding="16,0">
-                                        <ItemsControl ItemTemplate="{StaticResource UserAndUidTemplate}" ItemsSource="{Binding UserAndUids}"/>
-                                    </ScrollViewer>
-                                </StackPanel>
-                            </Flyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
+                    <AppBarButton
+                        Command="{Binding TrackCurrentUserAndUidCommand}"
+                        Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
+                        Label="{shuxm:ResourceString Name=ViewPageDailyNoteAddEntry}"/>
                     <AppBarButton Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentSetting}}" Label="{shuxm:ResourceString Name=ViewPageDailyNoteNotificationSetting}">
                         <AppBarButton.Flyout>
                             <Flyout Placement="BottomEdgeAlignedRight">

@@ -240,16 +240,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     }
 
     [Command("AttachGameAccountCommand")]
-    private void AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)
+    private async Task AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)
     {
         if (gameAccount is null)
         {
             return;
         }
 
-        if (userService.Current?.SelectedUserGameRole is { } role)
+        if (await userService.GetCurrentUidAsync().ConfigureAwait(false) is { } uid)
         {
-            gameService.AttachGameAccountToUid(gameAccount, role.GameUid);
+            gameService.AttachGameAccountToUid(gameAccount, uid);
         }
         else
         {
