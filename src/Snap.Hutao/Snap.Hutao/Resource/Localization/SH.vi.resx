@@ -1947,10 +1947,10 @@
     <value>添加任意武器到养成计划</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>添加角色</value>
+    <value>添加实时便笺</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>添加角色以定时刷新</value>
+    <value>添加实时便笺以定时刷新</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>添加</value>
