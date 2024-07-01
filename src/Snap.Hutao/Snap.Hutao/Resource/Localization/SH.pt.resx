@@ -1947,10 +1947,10 @@
     <value>Adicionar qualquer arma ao planejamento</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>Adicionar personagem</value>
+    <value>添加实时便笺</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>Adc. personagem para to DailyNote</value>
+    <value>添加实时便笺以定时刷新</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>Adicionar</value>
