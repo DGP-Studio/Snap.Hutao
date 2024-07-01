@@ -50,7 +50,7 @@
             PanePlacement="Right">
             <SplitView.Pane>
                 <ScrollViewer>
-                    <StackPanel Margin="16" Spacing="3">
+                    <StackPanel Margin="16" Spacing="16">
                         <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Style="{ThemeResource AcrylicBorderCardStyle}">
                                 <cwcont:SettingsExpander

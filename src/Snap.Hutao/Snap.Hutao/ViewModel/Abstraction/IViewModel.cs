@@ -13,7 +13,7 @@ internal interface IViewModel : IPageScoped, IResurrectable
 
     SemaphoreSlim DisposeLock { get; set; }
 
-    IDeferContentLoader DeferContentLoader { get; set; }
+    IDeferContentLoader? DeferContentLoader { get; set; }
 
     bool IsViewDisposed { get; set; }
 

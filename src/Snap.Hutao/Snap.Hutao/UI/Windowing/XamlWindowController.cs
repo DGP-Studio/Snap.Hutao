@@ -22,7 +22,9 @@ using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Dwm;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Diagnostics;
 using System.IO;
+using Windows.Foundation;
 using Windows.Graphics;
 using Windows.UI;
 using static Snap.Hutao.Win32.DwmApi;
@@ -106,17 +108,17 @@ internal sealed class XamlWindowController
 
         if (XamlApplicationLifetime.LaunchedWithNotifyIcon && !XamlApplicationLifetime.Exiting)
         {
-            if (!IsNotifyIconVisible())
-            {
-                new AppNotificationBuilder()
-                    .AddText(SH.CoreWindowingNotifyIconPromotedHint)
-                    .Show();
-            }
-
             ICurrentXamlWindowReference currentXamlWindowReference = serviceProvider.GetRequiredService<ICurrentXamlWindowReference>();
             if (currentXamlWindowReference.Window == window)
             {
                 currentXamlWindowReference.Window = default!;
+
+                if (!IsNotifyIconVisible())
+                {
+                    new AppNotificationBuilder()
+                        .AddText(SH.CoreWindowingNotifyIconPromotedHint)
+                        .Show();
+                }
             }
 
             GC.Collect(GC.MaxGeneration);
@@ -150,7 +152,7 @@ internal sealed class XamlWindowController
 
         RECT iconRect = serviceProvider.GetRequiredService<NotifyIconController>().GetRect();
 
-        if (UniversalApiContract.IsPresent(WindowsVersion.Windows11))
+        if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11))
         {
             RECT primaryRect = DisplayArea.Primary.OuterBounds.ToRECT();
             return IntersectRect(out _, in primaryRect, in iconRect);
@@ -331,8 +333,13 @@ internal sealed class XamlWindowController
             return;
         }
 
-        RectInt32 dragRect = RectInt32Convert.RectInt32(0, 0, xamlWindow.TitleBarAccess.ActualSize).Scale(window.GetRasterizationScale());
-        window.GetInputNonClientPointerSource().SetRegionRects(NonClientRegionKind.Caption, [dragRect]);
+        // E_UNEXPECTED will be thrown if the Content is not loaded.
+        if (xamlWindow.TitleBarAccess.IsLoaded)
+        {
+            Point position = xamlWindow.TitleBarAccess.TransformToVisual(window.Content).TransformPoint(default);
+            RectInt32 dragRect = RectInt32Convert.RectInt32(position, xamlWindow.TitleBarAccess.ActualSize).Scale(window.GetRasterizationScale());
+            window.GetInputNonClientPointerSource().SetRegionRects(NonClientRegionKind.Caption, [dragRect]);
+        }
     }
     #endregion
 }

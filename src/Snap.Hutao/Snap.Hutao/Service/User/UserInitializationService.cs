@@ -27,6 +27,8 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         if (!await InitializeUserAsync(user, token).ConfigureAwait(false))
         {
             user.UserInfo = new() { Nickname = SH.ModelBindingUserInitializationFailed };
+
+            await taskContext.SwitchToMainThreadAsync();
             user.UserGameRoles = [];
         }
 

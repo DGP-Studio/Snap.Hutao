@@ -12,7 +12,7 @@
             <RowDefinition Height="44"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid x:Name="TitleArea">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
@@ -21,22 +21,28 @@
             <Button
                 x:Name="GoBackButton"
                 Grid.Column="0"
-                MinWidth="42"
+                Height="44"
+                MinWidth="44"
                 Command="{x:Bind GoBackCommand}"
                 FontSize="12"
                 Style="{StaticResource NavigationBackButtonSmallStyle}"/>
             <Button
                 Grid.Column="1"
-                MinWidth="42"
+                Height="44"
+                MinWidth="44"
                 Command="{x:Bind RefreshCommand}"
                 Content="&#xE72C;"
                 FontSize="12"
                 Style="{StaticResource NavigationBackButtonSmallStyle}"/>
-            <TextBlock
-                x:Name="DocumentTitle"
+            <Grid
+                x:Name="TitleArea"
                 Grid.Column="2"
-                Margin="12,0,0,0"
-                VerticalAlignment="Center"/>
+                IsHitTestVisible="False">
+                <TextBlock
+                    x:Name="DocumentTitle"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"/>
+            </Grid>
         </Grid>
         <WebView2
             x:Name="WebView"

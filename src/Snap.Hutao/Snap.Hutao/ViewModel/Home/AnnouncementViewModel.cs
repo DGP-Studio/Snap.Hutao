@@ -67,7 +67,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             AnnouncementWrapper announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(cultureOptions.LanguageCode, appOptions.Region, CancellationToken).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             Announcement = announcementWrapper;
-            DeferContentLoader.Load("GameAnnouncementPivot");
+            DeferContentLoader?.Load("GameAnnouncementPivot");
         }
         catch (OperationCanceledException)
         {
@@ -81,7 +81,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             ObservableCollection<Web.Hutao.HutaoAsAService.Announcement> hutaoAnnouncements = await hutaoAsAService.GetHutaoAnnouncementCollectionAsync().ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             HutaoAnnouncements = hutaoAnnouncements;
-            DeferContentLoader.Load("HutaoAnnouncementControl");
+            DeferContentLoader?.Load("HutaoAnnouncementControl");
         }
         catch (OperationCanceledException)
         {

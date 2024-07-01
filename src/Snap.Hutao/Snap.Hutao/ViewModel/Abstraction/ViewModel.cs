@@ -23,7 +23,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
 
     public SemaphoreSlim DisposeLock { get; set; } = new(1);
 
-    public IDeferContentLoader DeferContentLoader { get; set; } = default!;
+    public IDeferContentLoader? DeferContentLoader { get; set; }
 
     public bool IsViewDisposed { get; set; }
 
@@ -39,7 +39,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
     {
         UninitializeOverride();
         IsViewDisposed = true;
-        DeferContentLoader = default!;
+        DeferContentLoader = default;
     }
 
     [Command("LoadCommand")]
