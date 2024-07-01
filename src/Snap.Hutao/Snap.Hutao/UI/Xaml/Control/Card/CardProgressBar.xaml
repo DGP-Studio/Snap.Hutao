@@ -19,6 +19,8 @@
                             Grid.ColumnSpan="2"
                             MinHeight="{TemplateBinding MinHeight}"
                             Background="Transparent"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
                             CornerRadius="{StaticResource ControlCornerRadius}"
                             Foreground="{TemplateBinding ProgressForeground}"
                             Maximum="{TemplateBinding Maximum}"
