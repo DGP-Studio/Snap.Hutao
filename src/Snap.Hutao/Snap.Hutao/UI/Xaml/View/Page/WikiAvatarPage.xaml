@@ -426,11 +426,14 @@
                                                                 Height="32"
                                                                 Source="{Binding Selected.Weapon, Converter={StaticResource WeaponTypeIconConverter}}"/>
                                                         </Grid>
-                                                        <shuxc:ItemIcon
-                                                            Width="128"
-                                                            Height="128"
-                                                            Icon="{Binding Selected.Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}"
-                                                            Quality="{Binding Selected.Quality, Mode=OneWay}"/>
+                                                        <Border Style="{ThemeResource BorderCardStyle}">
+                                                            <shuxc:ItemIcon
+                                                                Width="128"
+                                                                Height="128"
+                                                                Icon="{Binding Selected.Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}"
+                                                                Quality="{Binding Selected.Quality, Mode=OneWay}"/>
+                                                        </Border>
+
                                                     </StackPanel>
 
                                                     <StackPanel Grid.Column="1" Margin="16">
@@ -524,19 +527,21 @@
                                                     </StackPanel>
 
                                                     <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
-                                                        <ItemsControl
-                                                            Margin="16,0,16,16"
-                                                            ItemTemplate="{StaticResource CultivationItemTemplate}"
-                                                            ItemsSource="{Binding Selected.CultivationItemsView}">
-                                                            <ItemsControl.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <cwc:UniformGrid
-                                                                        ColumnSpacing="8"
-                                                                        Columns="3"
-                                                                        RowSpacing="8"/>
-                                                                </ItemsPanelTemplate>
-                                                            </ItemsControl.ItemsPanel>
-                                                        </ItemsControl>
+                                                        <ScrollViewer>
+                                                            <ItemsRepeater
+                                                                Margin="16,0,16,16"
+                                                                ItemTemplate="{StaticResource CultivationItemTemplate}"
+                                                                ItemsSource="{Binding Selected.CultivationItemsView}">
+                                                                <ItemsRepeater.Layout>
+                                                                    <UniformGridLayout
+                                                                        ItemsJustification="Start"
+                                                                        ItemsStretch="Fill"
+                                                                        MaximumRowsOrColumns="3"
+                                                                        MinColumnSpacing="8"
+                                                                        MinRowSpacing="8"/>
+                                                                </ItemsRepeater.Layout>
+                                                            </ItemsRepeater>
+                                                        </ScrollViewer>
                                                     </StackPanel>
                                                 </Grid>
 

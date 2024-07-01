@@ -154,7 +154,7 @@
                     ItemsSource="{Binding List}">
                     <ItemsRepeater.Layout>
                         <UniformGridLayout
-                            ItemsJustification="SpaceBetween"
+                            ItemsJustification="Start"
                             ItemsStretch="Fill"
                             MinColumnSpacing="12"
                             MinItemWidth="300"

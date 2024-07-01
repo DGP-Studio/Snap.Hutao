@@ -484,7 +484,10 @@
                                                     ItemsSource="{Binding DailyNoteOptions.RefreshTimes}"
                                                     SelectedItem="{Binding DailyNoteOptions.SelectedRefreshTime, Mode=TwoWay}">
                                                     <RadioButtons.Header>
-                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageDailyNoteRefreshTime}"/>
+                                                        <TextBlock
+                                                            Margin="1,0,0,0"
+                                                            Style="{StaticResource BaseTextBlockStyle}"
+                                                            Text="{shuxm:ResourceString Name=ViewPageDailyNoteRefreshTime}"/>
                                                     </RadioButtons.Header>
                                                     <RadioButtons.ItemTemplate>
                                                         <DataTemplate>
@@ -547,7 +550,7 @@
                 ItemsSource="{Binding DailyNoteEntries}">
                 <ItemsRepeater.Layout>
                     <UniformGridLayout
-                        ItemsJustification="SpaceBetween"
+                        ItemsJustification="Start"
                         ItemsStretch="Fill"
                         MinColumnSpacing="12"
                         MinItemWidth="300"

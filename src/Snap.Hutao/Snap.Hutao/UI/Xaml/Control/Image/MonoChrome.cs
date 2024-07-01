@@ -12,26 +12,15 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Image;
 
-/// <summary>
-/// 支持单色的图像
-/// </summary>
-[HighQuality]
 internal sealed class MonoChrome : CompositionImage
 {
-    private readonly TypedEventHandler<FrameworkElement, object> actualThemeChangedEventHandler;
-
     private CompositionColorBrush? backgroundBrush;
 
-    /// <summary>
-    /// 构造一个新的单色图像
-    /// </summary>
     public MonoChrome()
     {
-        actualThemeChangedEventHandler = OnActualThemeChanged;
-        ActualThemeChanged += actualThemeChangedEventHandler;
+        ActualThemeChanged += OnActualThemeChanged;
     }
 
-    /// <inheritdoc/>
     protected override SpriteVisual CompositeSpriteVisual(Compositor compositor, LoadedImageSurface imageSurface)
     {
         CompositionColorBrush blackLayerBrush = compositor.CreateColorBrush(Colors.Black);

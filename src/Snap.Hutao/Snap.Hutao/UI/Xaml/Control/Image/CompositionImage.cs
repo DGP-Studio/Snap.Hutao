@@ -10,6 +10,7 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Media.Animation;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -17,11 +18,6 @@ using Windows.Foundation;
 
 namespace Snap.Hutao.UI.Xaml.Control.Image;
 
-/// <summary>
-/// 合成图像控件
-/// 为其他图像类控件提供基类
-/// </summary>
-[HighQuality]
 [DependencyProperty("EnableShowHideAnimation", typeof(bool), true)]
 [DependencyProperty("Source", typeof(Uri), default!, nameof(OnSourceChanged))]
 internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Control
@@ -30,46 +26,36 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
 
     private readonly IServiceProvider serviceProvider;
 
-    private readonly SizeChangedEventHandler sizeChangedEventHandler;
-    private readonly TypedEventHandler<LoadedImageSurface, LoadedImageSourceLoadCompletedEventArgs> loadedImageSourceLoadCompletedEventHandler;
-
     private TaskCompletionSource? surfaceLoadTaskCompletionSource;
     private SpriteVisual? spriteVisual;
     private bool isShow = true;
 
-    /// <summary>
-    /// 构造一个新的单色图像
-    /// </summary>
     protected CompositionImage()
     {
         serviceProvider = this.ServiceProvider();
         this.DisableInteraction();
 
-        sizeChangedEventHandler = OnSizeChanged;
-        SizeChanged += sizeChangedEventHandler;
-
-        loadedImageSourceLoadCompletedEventHandler = OnLoadImageSurfaceLoadCompleted;
+        SizeChanged += OnSizeChanged;
     }
 
-    /// <summary>
-    /// 合成组合视觉
-    /// </summary>
-    /// <param name="compositor">合成器</param>
-    /// <param name="imageSurface">图像表面</param>
-    /// <returns>拼合视觉</returns>
     protected abstract SpriteVisual CompositeSpriteVisual(Compositor compositor, LoadedImageSurface imageSurface);
 
     protected virtual void LoadImageSurfaceCompleted(LoadedImageSurface surface)
     {
     }
 
-    /// <summary>
-    /// 更新视觉对象
-    /// </summary>
-    /// <param name="spriteVisual">拼合视觉</param>
     protected virtual void UpdateVisual(SpriteVisual spriteVisual)
     {
         spriteVisual.Size = ActualSize;
+    }
+
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        if (!string.IsNullOrEmpty(Source.OriginalString))
+        {
+            OnSourceChangedCore(Source);
+        }
     }
 
     private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs arg)
@@ -87,9 +73,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
                 // value is different from old one
                 if (inner != (arg.OldValue as Uri))
                 {
-                    image
-                        .ApplyImageAsync(inner, token)
-                        .SafeForget(logger, ex => OnApplyImageFailed(serviceProvider, inner, ex));
+                    image.OnSourceChangedCore(inner);
                 }
             }
             else
@@ -101,6 +85,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
 
     private static void OnApplyImageFailed(IServiceProvider serviceProvider, Uri? uri, Exception exception)
     {
+        Debugger.Break();
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
         if (exception is HttpRequestException httpRequestException)
@@ -115,6 +100,13 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
                 infoBarService.Error(baseException, SH.ControlImageCompositionImageSystemException);
             }
         }
+    }
+
+    private void OnSourceChangedCore(Uri? uri)
+    {
+        CancellationToken token = loadingTokenSource.Register();
+        ILogger<CompositionImage> logger = serviceProvider.GetRequiredService<ILogger<CompositionImage>>();
+        ApplyImageAsync(uri, token).SafeForget(logger, ex => OnApplyImageFailed(serviceProvider, uri, ex));
     }
 
     private async ValueTask ApplyImageAsync(Uri? uri, CancellationToken token)
@@ -154,21 +146,28 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
                     await ShowAsync(token).ConfigureAwait(true);
                 }
             }
+            else
+            {
+                Debugger.Break();
+            }
         }
     }
 
     private async ValueTask<LoadedImageSurface> LoadImageSurfaceAsync(string file, CancellationToken token)
     {
+        token.ThrowIfCancellationRequested();
+        TaskCompletionSource cancelTcs = new();
+        CancellationTokenRegistration registration = token.Register(() => cancelTcs.TrySetResult(), false);
+
         surfaceLoadTaskCompletionSource = new();
         LoadedImageSurface? surface = default;
         try
         {
             surface = LoadedImageSurface.StartLoadFromUri(file.ToUri());
-            surface.LoadCompleted += loadedImageSourceLoadCompletedEventHandler;
+            surface.LoadCompleted += OnLoadImageSurfaceLoadCompleted;
             if (surface.DecodedPhysicalSize.Size() <= 0D)
             {
-                await Task.WhenAny(surfaceLoadTaskCompletionSource.Task, Task.Delay(5000, token)).ConfigureAwait(true);
-                await Task.Delay(50, token).ConfigureAwait(true);
+                await Task.WhenAny(surfaceLoadTaskCompletionSource.Task, cancelTcs.Task).ConfigureAwait(true);
             }
 
             LoadImageSurfaceCompleted(surface);
@@ -178,8 +177,10 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
         {
             if (surface is not null)
             {
-                surface.LoadCompleted -= loadedImageSourceLoadCompletedEventHandler;
+                surface.LoadCompleted -= OnLoadImageSurfaceLoadCompleted;
             }
+
+            registration.Dispose();
         }
     }
 

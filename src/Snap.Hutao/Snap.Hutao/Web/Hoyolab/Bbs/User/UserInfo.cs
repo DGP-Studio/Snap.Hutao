@@ -104,9 +104,10 @@ internal sealed class UserInfo
     {
         get
         {
-            string source = AvatarUrl.OriginalString;
+            string? source = AvatarUrl?.OriginalString;
             if (!string.IsNullOrEmpty(source))
             {
+                ArgumentNullException.ThrowIfNull(AvatarUrl);
                 return AvatarUrl;
             }
 

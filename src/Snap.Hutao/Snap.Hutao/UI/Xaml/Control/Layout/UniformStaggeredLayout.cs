@@ -188,6 +188,7 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
         }
 
         UniformStaggeredLayoutState state = (UniformStaggeredLayoutState)context.LayoutState;
+        int virtualColumnCount = (int)(finalSize.Width / state.ColumnWidth);
 
         // Cycle through each column and arrange the items that are within the realization bounds
         for (int columnIndex = 0; columnIndex < state.NumberOfColumns; columnIndex++)
@@ -204,9 +205,9 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
                 // Partial or fully in the view
                 if (item.Top <= context.RealizationRect.Bottom)
                 {
-                    double itemHorizontalOffset = (state.ColumnWidth * columnIndex) + (MinColumnSpacing * columnIndex);
+                    double itemHorizontalOffset = (state.ColumnWidth + MinColumnSpacing) * columnIndex;
 
-                    double width = columnIndex == state.NumberOfColumns - 1
+                    double width = columnIndex == virtualColumnCount - 1
                         ? finalSize.Width - itemHorizontalOffset
                         : state.ColumnWidth;
 
