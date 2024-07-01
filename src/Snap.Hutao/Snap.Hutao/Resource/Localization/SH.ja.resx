@@ -1947,10 +1947,10 @@
     <value>武器の育成計画を追加する</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>キャラクターを追加する</value>
+    <value>リアルタイムのメモを追加</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>利用するには通行証をログインが必要</value>
+    <value>私達が随時更新</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>追加</value>
