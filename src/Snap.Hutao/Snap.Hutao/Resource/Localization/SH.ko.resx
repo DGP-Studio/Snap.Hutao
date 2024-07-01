@@ -1947,10 +1947,10 @@
     <value>육성 계획에 무기 추가</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>캐릭터 추가</value>
+    <value>添加实时便笺</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>계속 동기화할 캐릭터 추가</value>
+    <value>添加实时便笺以定时刷新</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>추가</value>
