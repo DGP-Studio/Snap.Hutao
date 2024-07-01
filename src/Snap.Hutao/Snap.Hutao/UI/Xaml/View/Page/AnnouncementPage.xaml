@@ -154,7 +154,7 @@
                     ItemsSource="{Binding List}">
                     <ItemsRepeater.Layout>
                         <UniformGridLayout
-                            ItemsJustification="Start"
+                            ItemsJustification="SpaceBetween"
                             ItemsStretch="Fill"
                             MinColumnSpacing="12"
                             MinItemWidth="300"
@@ -227,7 +227,7 @@
                         ItemsSource="{Binding Cards, Mode=OneWay}">
                         <ItemsRepeater.Layout>
                             <UniformGridLayout
-                                ItemsJustification="Start"
+                                ItemsJustification="SpaceBetween"
                                 ItemsStretch="Fill"
                                 MinColumnSpacing="12"
                                 MinItemHeight="180"

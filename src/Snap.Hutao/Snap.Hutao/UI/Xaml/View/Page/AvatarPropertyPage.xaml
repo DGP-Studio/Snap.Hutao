@@ -589,7 +589,7 @@
                                                 HorizontalAlignment="Left">
                                                 <!--  卡片面板  -->
                                                 <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                                    <Grid cw:UIElementExtensions.ClipToBounds="True" Style="{ThemeResource GridCardStyle}">
+                                                    <Grid Style="{ThemeResource AcrylicGridCardStyle}">
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition/>
                                                             <RowDefinition Height="auto"/>
@@ -601,6 +601,9 @@
                                                         <cwcont:ConstrainedBox
                                                             Grid.RowSpan="2"
                                                             Grid.ColumnSpan="2"
+                                                            MinWidth="592"
+                                                            MinHeight="282"
+                                                            HorizontalAlignment="Center"
                                                             AspectRatio="840:400"
                                                             CornerRadius="{ThemeResource ControlCornerRadius}">
                                                             <shuxci:CachedImage
@@ -611,10 +614,11 @@
                                                                 Source="{Binding SelectedAvatar.NameCard}"
                                                                 Stretch="UniformToFill"/>
                                                         </cwcont:ConstrainedBox>
-                                                        <Rectangle
+                                                        <Border
                                                             Grid.RowSpan="2"
                                                             Grid.ColumnSpan="2"
-                                                            Fill="#33000000"
+                                                            Background="#33000000"
+                                                            CornerRadius="{ThemeResource ControlCornerRadius}"
                                                             IsHitTestVisible="False"/>
                                                         <StackPanel
                                                             Margin="16"

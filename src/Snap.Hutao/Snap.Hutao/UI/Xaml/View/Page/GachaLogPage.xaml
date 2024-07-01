@@ -337,7 +337,7 @@
                                                 Margin="16"
                                                 HorizontalAlignment="Left"
                                                 cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                                <Grid HorizontalAlignment="Center" Style="{StaticResource GridCardStyle}">
+                                                <Grid HorizontalAlignment="Center" Style="{StaticResource AcrylicGridCardStyle}">
                                                     <cwcont:ConstrainedBox AspectRatio="1080:533">
                                                         <shuxci:CachedImage
                                                             HorizontalAlignment="Center"

@@ -255,66 +255,71 @@
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                                 Text="{shuxm:ResourceString Name=ControlAutoSuggestBoxNotFoundValue}"/>
                                         </StackPanel>
-                                        <ScrollViewer Padding="16,0" Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-                                            <StackPanel Margin="0,16" Spacing="16">
-                                                <Border Style="{ThemeResource BorderCardStyle}">
-                                                    <Border.Background>
-                                                        <ImageBrush ImageSource="ms-appx:///Resource/Icon/UI_GachaShowPanel_Bg_Weapon.png"/>
-                                                    </Border.Background>
-                                                    <cwc:ConstrainedBox AspectRatio="2048:1024">
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="auto"/>
-                                                                <ColumnDefinition/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
-
-                                                            <Grid Grid.ColumnSpan="2">
+                                        <ScrollViewer Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                            <StackPanel Padding="16" Spacing="16">
+                                                <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                                    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                                                        <Border.Background>
+                                                            <ImageBrush ImageSource="ms-appx:///Resource/Icon/UI_GachaShowPanel_Bg_Weapon.png"/>
+                                                        </Border.Background>
+                                                        <cwc:ConstrainedBox AspectRatio="2048:1024">
+                                                            <Grid>
                                                                 <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="176*"/>
-                                                                    <ColumnDefinition Width="848*"/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                    <ColumnDefinition/>
                                                                 </Grid.ColumnDefinitions>
-                                                                <shuxci:CachedImage
+                                                                <Border Grid.ColumnSpan="2" Background="{ThemeResource DarkOnlyOverlayMaskColorBrush}"/>
+
+                                                                <Grid Grid.ColumnSpan="2">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="176*"/>
+                                                                        <ColumnDefinition Width="848*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <shuxci:CachedImage
+                                                                        Grid.Column="1"
+                                                                        HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Stretch"
+                                                                        Source="{Binding Selected.Icon, Converter={StaticResource GachaEquipIconConverter}}"/>
+                                                                </Grid>
+                                                                <ScrollViewer
+                                                                    Grid.Column="0"
+                                                                    Margin="16"
+                                                                    VerticalScrollBarVisibility="Hidden">
+                                                                    <StackPanel Spacing="16">
+                                                                        <shuxcc:VerticalCard MaxWidth="80">
+                                                                            <shuxcc:VerticalCard.Top>
+                                                                                <shuxc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                                            </shuxcc:VerticalCard.Top>
+                                                                            <shuxcc:VerticalCard.Bottom>
+                                                                                <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"/>
+                                                                            </shuxcc:VerticalCard.Bottom>
+                                                                        </shuxcc:VerticalCard>
+                                                                        <shuxcc:VerticalCard MaxWidth="80">
+                                                                            <shuxcc:VerticalCard.Top>
+                                                                                <shuxc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                                            </shuxcc:VerticalCard.Top>
+                                                                            <shuxcc:VerticalCard.Bottom>
+                                                                                <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"/>
+                                                                            </shuxcc:VerticalCard.Bottom>
+                                                                        </shuxcc:VerticalCard>
+                                                                    </StackPanel>
+                                                                </ScrollViewer>
+                                                                <TextBlock
                                                                     Grid.Column="1"
-                                                                    HorizontalAlignment="Center"
-                                                                    VerticalAlignment="Stretch"
-                                                                    Source="{Binding Selected.Icon, Converter={StaticResource GachaEquipIconConverter}}"/>
+                                                                    Margin="16"
+                                                                    HorizontalAlignment="Right"
+                                                                    VerticalAlignment="Bottom"
+                                                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                                                    Text="{Binding Selected.Name}"/>
                                                             </Grid>
-                                                            <ScrollViewer
-                                                                Grid.Column="0"
-                                                                Margin="16"
-                                                                VerticalScrollBarVisibility="Hidden">
-                                                                <StackPanel Spacing="16">
-                                                                    <shuxcc:VerticalCard MaxWidth="80">
-                                                                        <shuxcc:VerticalCard.Top>
-                                                                            <shuxc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
-                                                                        </shuxcc:VerticalCard.Top>
-                                                                        <shuxcc:VerticalCard.Bottom>
-                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"/>
-                                                                        </shuxcc:VerticalCard.Bottom>
-                                                                    </shuxcc:VerticalCard>
-                                                                    <shuxcc:VerticalCard MaxWidth="80">
-                                                                        <shuxcc:VerticalCard.Top>
-                                                                            <shuxc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
-                                                                        </shuxcc:VerticalCard.Top>
-                                                                        <shuxcc:VerticalCard.Bottom>
-                                                                            <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"/>
-                                                                        </shuxcc:VerticalCard.Bottom>
-                                                                    </shuxcc:VerticalCard>
-                                                                </StackPanel>
-                                                            </ScrollViewer>
-                                                            <TextBlock
-                                                                Grid.Column="1"
-                                                                Margin="16"
-                                                                HorizontalAlignment="Right"
-                                                                VerticalAlignment="Bottom"
-                                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                Text="{Binding Selected.Name}"/>
-                                                        </Grid>
-                                                    </cwc:ConstrainedBox>
+                                                        </cwc:ConstrainedBox>
+                                                    </Border>
                                                 </Border>
 
-                                                <TextBlock Text="{Binding Selected.Description}" TextWrapping="Wrap"/>
+                                                <TextBlock
+                                                    Margin="1,0,0,0"
+                                                    Text="{Binding Selected.Description}"
+                                                    TextWrapping="Wrap"/>
                                                 <shuxvs:BaseValueSlider
                                                     HorizontalAlignment="Stretch"
                                                     HorizontalContentAlignment="Stretch"

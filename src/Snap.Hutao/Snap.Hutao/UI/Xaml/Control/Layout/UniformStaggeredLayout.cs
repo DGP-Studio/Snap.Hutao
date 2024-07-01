@@ -206,7 +206,11 @@ internal sealed partial class UniformStaggeredLayout : VirtualizingLayout
                 {
                     double itemHorizontalOffset = (state.ColumnWidth * columnIndex) + (MinColumnSpacing * columnIndex);
 
-                    Rect bounds = new(itemHorizontalOffset, item.Top, state.ColumnWidth, item.Height);
+                    double width = columnIndex == state.NumberOfColumns - 1
+                        ? finalSize.Width - itemHorizontalOffset
+                        : state.ColumnWidth;
+
+                    Rect bounds = new(itemHorizontalOffset, item.Top, width, item.Height);
                     UIElement element = context.GetOrCreateElementAt(item.Index);
                     element.Arrange(bounds);
                 }

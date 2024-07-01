@@ -142,11 +142,13 @@
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Padding="16" Spacing="16">
                                                 <TextBlock
+                                                    Margin="1,0,0,0"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Center"
                                                     Style="{StaticResource SubtitleTextBlockStyle}"
                                                     Text="{Binding Selected.Title}"/>
                                                 <shuxct:DescriptionTextBlock
+                                                    Margin="1,0,0,0"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Center"
                                                     Description="{Binding Selected.Description}"

@@ -479,7 +479,7 @@
                                                     <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding DailyNoteOptions.IsAutoRefreshEnabled, Mode=TwoWay}"/>
                                                 </cwcont:SettingsCard>
                                                 <RadioButtons
-                                                    Margin="1,11,0,5"
+                                                    Margin="0,12,0,5"
                                                     IsEnabled="{Binding DailyNoteOptions.IsAutoRefreshEnabled}"
                                                     ItemsSource="{Binding DailyNoteOptions.RefreshTimes}"
                                                     SelectedItem="{Binding DailyNoteOptions.SelectedRefreshTime, Mode=TwoWay}">
@@ -540,27 +540,20 @@
             </Border>
         </Border>
 
-        <SplitView
-            x:Name="SettingPaneSplitView"
-            Grid.Row="1"
-            OpenPaneLength="480"
-            PaneBackground="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
-            PanePlacement="Right">
-            <ScrollView>
-                <ItemsRepeater
-                    Margin="16"
-                    ItemTemplate="{StaticResource DailyNoteEntryTemplate}"
-                    ItemsSource="{Binding DailyNoteEntries}">
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsJustification="Start"
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="12"
-                            MinItemWidth="300"
-                            MinRowSpacing="12"/>
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
-            </ScrollView>
-        </SplitView>
+        <ScrollView Grid.Row="1">
+            <ItemsRepeater
+                Margin="16"
+                ItemTemplate="{StaticResource DailyNoteEntryTemplate}"
+                ItemsSource="{Binding DailyNoteEntries}">
+                <ItemsRepeater.Layout>
+                    <UniformGridLayout
+                        ItemsJustification="SpaceBetween"
+                        ItemsStretch="Fill"
+                        MinColumnSpacing="12"
+                        MinItemWidth="300"
+                        MinRowSpacing="12"/>
+                </ItemsRepeater.Layout>
+            </ItemsRepeater>
+        </ScrollView>
     </Grid>
 </shuxc:ScopedPage>
