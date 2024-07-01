@@ -18,10 +18,11 @@
                         <ProgressBar
                             Grid.ColumnSpan="2"
                             MinHeight="{TemplateBinding MinHeight}"
+                            Margin="-1"
                             Background="Transparent"
                             BorderBrush="{x:Null}"
                             BorderThickness="0"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            CornerRadius="{ThemeResource ControlCornerRadius}"
                             Foreground="{TemplateBinding ProgressForeground}"
                             Maximum="{TemplateBinding Maximum}"
                             Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
