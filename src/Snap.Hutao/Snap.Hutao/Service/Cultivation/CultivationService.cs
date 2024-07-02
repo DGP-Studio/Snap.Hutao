@@ -13,10 +13,6 @@ using ModelItem = Snap.Hutao.Model.Item;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-/// <summary>
-/// 养成计算服务
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(ICultivationService))]
 internal sealed partial class CultivationService : ICultivationService
@@ -126,19 +122,17 @@ internal sealed partial class CultivationService : ICultivationService
             return true;
         }
 
+        await taskContext.SwitchToMainThreadAsync();
+        if (Projects.CurrentItem is null)
+        {
+            Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
+            if (Projects.CurrentItem is null)
+            {
+                return false;
+            }
+        }
+
         await taskContext.SwitchToBackgroundAsync();
-
-        if (Projects?.CurrentItem is null)
-        {
-            // Initialize
-            _ = Projects;
-        }
-
-        if (Projects?.CurrentItem is null)
-        {
-            return false;
-        }
-
         CultivateEntry? entry = cultivationDbService.GetCultivateEntryByProjectIdAndItemId(Projects.CurrentItem.InnerId, itemId);
 
         if (entry is null)

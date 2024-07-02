@@ -7,7 +7,9 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.Achievement;
+using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
@@ -23,11 +25,19 @@ internal sealed partial class AchievementService : IAchievementService
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
-    private AdvancedDbCollectionView<AchievementArchive>? archivesView;
+    private AdvancedDbCollectionView<AchievementArchive>? archives;
 
-    public AdvancedDbCollectionView<AchievementArchive> Archives
+    public async ValueTask<IAdvancedDbCollectionView<AchievementArchive>> GetArchivesAsync(CancellationToken token = default)
     {
-        get => archivesView ??= new(achievementDbService.GetAchievementArchiveCollection(), serviceProvider);
+        if (archives is null)
+        {
+            await taskContext.SwitchToBackgroundAsync();
+            ObservableCollection<AchievementArchive> source = achievementDbService.GetAchievementArchiveCollection();
+            await taskContext.SwitchToMainThreadAsync();
+            archives = new(source, serviceProvider);
+        }
+
+        return archives;
     }
 
     public List<AchievementView> GetAchievementViewList(AchievementArchive archive, AchievementServiceMetadataContext context)
@@ -53,27 +63,27 @@ internal sealed partial class AchievementService : IAchievementService
             return ArchiveAddResultKind.InvalidName;
         }
 
-        ArgumentNullException.ThrowIfNull(archivesView);
+        ArgumentNullException.ThrowIfNull(archives);
 
-        if (archivesView.SourceCollection.Any(a => a.Name == newArchive.Name))
+        if (archives.SourceCollection.Any(a => a.Name == newArchive.Name))
         {
             return ArchiveAddResultKind.AlreadyExists;
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        archivesView.Add(newArchive);
-        archivesView.MoveCurrentTo(newArchive);
+        archives.Add(newArchive);
+        archives.MoveCurrentTo(newArchive);
 
         return ArchiveAddResultKind.Added;
     }
 
     public async ValueTask RemoveArchiveAsync(AchievementArchive archive)
     {
-        ArgumentNullException.ThrowIfNull(archivesView);
+        ArgumentNullException.ThrowIfNull(archives);
 
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        archivesView.Remove(archive);
+        archives.Remove(archive);
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();

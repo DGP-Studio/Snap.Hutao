@@ -107,7 +107,11 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
         set => MoveCurrentTo(value);
     }
 
-    public int CurrentPosition { get; private set; }
+    public int CurrentPosition
+    {
+        get;
+        private set;
+    }
 
     public bool HasMoreItems
     {
@@ -633,6 +637,7 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
         if (itemIndex <= CurrentPosition)
         {
             CurrentPosition--;
+            OnPropertyChanged(nameof(CurrentItem));
         }
 
         OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, itemIndex, item));
@@ -650,13 +655,14 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
 
     private bool MoveCurrentToIndex(int i)
     {
-        if (i < -1 || i >= view.Count)
+        if (i == CurrentPosition)
         {
             return false;
         }
 
-        if (i == CurrentPosition)
+        if (i < -1 || i >= view.Count)
         {
+            OnPropertyChanged(nameof(CurrentItem));
             return false;
         }
 

@@ -16,7 +16,7 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Text.RegularExpressions;
-using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
+using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
 
 namespace Snap.Hutao.ViewModel.Achievement;
@@ -36,13 +36,13 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private AdvancedCollectionView<AchievementView>? achievements;
     private AdvancedCollectionView<AchievementGoalView>? achievementGoals;
-    private AdvancedDbCollectionView<EntityAchievementArchive>? archives;
+    private IAdvancedDbCollectionView<EntityArchive>? archives;
 
     private bool isUncompletedItemsFirst = true;
     private string searchText = string.Empty;
     private string? finishDescription;
 
-    public AdvancedDbCollectionView<EntityAchievementArchive>? Archives
+    public IAdvancedDbCollectionView<EntityArchive>? Archives
     {
         get => archives;
         set
@@ -137,10 +137,11 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             sortedGoals = goals.SortBy(goal => goal.Order).SelectList(AchievementGoalView.From);
         }
 
+        IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchivesAsync(CancellationToken).ConfigureAwait(false);
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
 
         AchievementGoals = new(sortedGoals, true);
-        Archives = scopeContext.AchievementService.Archives;
+        Archives = archives;
         Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrDefault());
         return true;
     }
@@ -183,7 +184,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        switch (await scopeContext.AchievementService.AddArchiveAsync(EntityAchievementArchive.From(name)).ConfigureAwait(false))
+        switch (await scopeContext.AchievementService.AddArchiveAsync(EntityArchive.From(name)).ConfigureAwait(false))
         {
             case ArchiveAddResultKind.Added:
                 await scopeContext.TaskContext.SwitchToMainThreadAsync();
@@ -225,9 +226,6 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             {
                 await scopeContext.AchievementService.RemoveArchiveAsync(current).ConfigureAwait(false);
             }
-
-            await scopeContext.TaskContext.SwitchToMainThreadAsync();
-            Archives.MoveCurrentToFirstOrDefault();
         }
         catch (OperationCanceledException)
         {
@@ -281,7 +279,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    private async ValueTask UpdateAchievementsAsync(EntityAchievementArchive? archive)
+    private async ValueTask UpdateAchievementsAsync(EntityArchive? archive)
     {
         // TODO: immediately clear values
         if (archive is null)
@@ -305,7 +303,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         UpdateAchievementsSort();
     }
 
-    private bool TryGetAchievements(EntityAchievementArchive archive, AchievementServiceMetadataContext context, [NotNullWhen(true)] out List<AchievementView>? combined)
+    private bool TryGetAchievements(EntityArchive archive, AchievementServiceMetadataContext context, [NotNullWhen(true)] out List<AchievementView>? combined)
     {
         try
         {

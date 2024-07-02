@@ -10,9 +10,9 @@ namespace Snap.Hutao.Service.Achievement;
 
 internal interface IAchievementService
 {
-    AdvancedDbCollectionView<EntityArchive> Archives { get; }
+    ValueTask<IAdvancedDbCollectionView<EntityArchive>> GetArchivesAsync(CancellationToken token = default);
 
-    ValueTask<UIAF> ExportToUIAFAsync(EntityArchive selectedArchive);
+    ValueTask<UIAF> ExportToUIAFAsync(EntityArchive archive);
 
     List<AchievementView> GetAchievementViewList(EntityArchive archive, AchievementServiceMetadataContext context);
 

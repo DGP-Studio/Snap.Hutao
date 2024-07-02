@@ -21,7 +21,7 @@ internal sealed partial class AchievementImporter
 
     public async ValueTask<bool> FromClipboardAsync(AchievementViewModelScopeContext context)
     {
-        if (context.AchievementService.Archives.CurrentItem is not { } archive)
+        if (await context.AchievementService.GetArchivesAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
         {
             scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
             return false;
@@ -38,7 +38,7 @@ internal sealed partial class AchievementImporter
 
     public async ValueTask<bool> FromFileAsync(AchievementViewModelScopeContext context)
     {
-        if (context.AchievementService.Archives.CurrentItem is not { } archive)
+        if (await context.AchievementService.GetArchivesAsync().ConfigureAwait(false) is not { CurrentItem: { } archive })
         {
             scopeContext.InfoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage2);
             return false;

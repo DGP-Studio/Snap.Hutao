@@ -419,7 +419,7 @@
                         HorizontalAlignment="Center"
                         Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="{shuxm:ResourceString Name=ViewPageLaunchGameSelectGamePath}"/>
-                    <Border Style="{ThemeResource BorderCardStyle}">
+                    <Border Style="{ThemeResource BorderCardStyle}" Visibility="{Binding GamePathEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                         <ListView
                             ItemTemplate="{StaticResource GamePathEntryListTemplate}"
                             ItemsSource="{Binding GamePathEntries}"

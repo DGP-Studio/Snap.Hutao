@@ -5,6 +5,7 @@
 
     <Visibility x:Key="VisibilityVisible">Visible</Visibility>
     <Visibility x:Key="VisibilityCollapsed">Collapsed</Visibility>
+    <Duration x:Key="StandardViewOpacityAnimationDuration">0:0:0.5</Duration>
     <CubicEase x:Key="CubicEaseFunction"/>
 
     <Style BasedOn="{StaticResource DefaultStandardViewStyle}" TargetType="shuxc:StandardView"/>
@@ -34,7 +35,7 @@
                                             Storyboard.TargetName="PartEmptyContent"
                                             Storyboard.TargetProperty="Opacity"
                                             To="0"
-                                            Duration="0:0:0.3"/>
+                                            Duration="{StaticResource StandardViewOpacityAnimationDuration}"/>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PartEmptyContent" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{StaticResource VisibilityCollapsed}"/>
                                         </ObjectAnimationUsingKeyFrames>
@@ -46,7 +47,7 @@
                                             Storyboard.TargetName="PartContent"
                                             Storyboard.TargetProperty="Opacity"
                                             To="1"
-                                            Duration="0:0:0.3"/>
+                                            Duration="{StaticResource StandardViewOpacityAnimationDuration}"/>
                                     </Storyboard>
                                 </VisualState>
 
@@ -57,7 +58,7 @@
                                             Storyboard.TargetName="PartContent"
                                             Storyboard.TargetProperty="Opacity"
                                             To="0"
-                                            Duration="0:0:0.3"/>
+                                            Duration="{StaticResource StandardViewOpacityAnimationDuration}"/>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PartContent" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{StaticResource VisibilityCollapsed}"/>
                                         </ObjectAnimationUsingKeyFrames>
@@ -69,7 +70,7 @@
                                             Storyboard.TargetName="PartEmptyContent"
                                             Storyboard.TargetProperty="Opacity"
                                             To="1"
-                                            Duration="0:0:0.3"/>
+                                            Duration="{StaticResource StandardViewOpacityAnimationDuration}"/>
                                     </Storyboard>
                                 </VisualState>
 
@@ -80,7 +81,7 @@
                                             Storyboard.TargetName="PartContent"
                                             Storyboard.TargetProperty="Opacity"
                                             To="0"
-                                            Duration="0:0:0.3"/>
+                                            Duration="{StaticResource StandardViewOpacityAnimationDuration}"/>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PartContent" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{StaticResource VisibilityCollapsed}"/>
                                         </ObjectAnimationUsingKeyFrames>
@@ -90,7 +91,7 @@
                                             Storyboard.TargetName="PartEmptyContent"
                                             Storyboard.TargetProperty="Opacity"
                                             To="0"
-                                            Duration="0:0:0.3"/>
+                                            Duration="{StaticResource StandardViewOpacityAnimationDuration}"/>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PartEmptyContent" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{StaticResource VisibilityCollapsed}"/>
                                         </ObjectAnimationUsingKeyFrames>

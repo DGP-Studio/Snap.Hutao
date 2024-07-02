@@ -28,7 +28,7 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         }
         catch (ArgumentException ex)
         {
-            throw HutaoException.UserdataCorrupted(SH.ServiceAchievementUserdataCorruptedAchievementIdNotUnique, ex);
+            throw HutaoException.Throw(SH.ServiceAchievementUserdataCorruptedAchievementIdNotUnique, ex);
         }
     }
 
@@ -65,7 +65,7 @@ internal sealed partial class AchievementDbService : IAchievementDbService
 
     public void RemoveAchievementArchive(AchievementArchive archive)
     {
-        // It will cascade delete the achievements.
+        // Cascade delete the achievements.
         this.Delete(archive);
     }
 

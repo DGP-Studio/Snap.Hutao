@@ -73,7 +73,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         {
             await taskContext.SwitchToMainThreadAsync();
             Projects = cultivationService.Projects;
-            Projects.CurrentItem = Projects.SourceCollection.SelectedOrDefault();
+            Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
             return true;
         }
 

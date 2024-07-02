@@ -10,7 +10,7 @@ using Snap.Hutao.UI.Xaml.Data;
 namespace Snap.Hutao.Core.Database;
 
 // The scope of the view follows the scope of the service provider.
-internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView<TEntity>
+internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView<TEntity>, IAdvancedDbCollectionView<TEntity>
     where TEntity : class, IAdvancedCollectionViewItem, ISelectable
 {
     private readonly IServiceProvider serviceProvider;
@@ -57,7 +57,7 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
 
 // The scope of the view follows the scope of the service provider.
 [SuppressMessage("", "SA1402")]
-internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : AdvancedCollectionView<TEntityAccess>
+internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : AdvancedCollectionView<TEntityAccess>, IAdvancedDbCollectionView<TEntityAccess>
     where TEntityAccess : class, IEntityAccess<TEntity>, IAdvancedCollectionViewItem
     where TEntity : class, ISelectable
 {
