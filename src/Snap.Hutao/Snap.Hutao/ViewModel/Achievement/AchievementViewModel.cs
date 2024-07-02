@@ -227,7 +227,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             }
 
             await scopeContext.TaskContext.SwitchToMainThreadAsync();
-            Archives.MoveCurrentToFirst();
+            Archives.MoveCurrentToFirstOrDefault();
         }
         catch (OperationCanceledException)
         {

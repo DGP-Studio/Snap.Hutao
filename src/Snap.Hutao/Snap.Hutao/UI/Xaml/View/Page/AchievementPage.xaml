@@ -191,8 +191,37 @@
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
 
-    <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-        <Grid Visibility="{Binding Archives.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+    <shuxc:StandardView HideCondition="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" ShowCondition="{Binding Achievements, Converter={StaticResource EmptyObjectToBoolConverter}, Mode=OneWay}">
+        <shuxc:StandardView.EmptyContent>
+            <Border
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Border
+                    MinWidth="480"
+                    Padding="16"
+                    Style="{ThemeResource AcrylicBorderCardStyle}">
+                    <StackPanel>
+                        <Image
+                            Width="120"
+                            Height="120"
+                            Source="ms-appx:///Resource/Navigation/Achievement.png"/>
+                        <TextBlock
+                            Margin="0,16,0,0"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource SubtitleTextBlockStyle}"
+                            Text="{shuxm:ResourceString Name=ViewPageAchievementAddArchiveHint}"/>
+                        <Button
+                            Margin="0,16,0,0"
+                            Padding="16,8"
+                            HorizontalAlignment="Stretch"
+                            Command="{Binding AddArchiveCommand}"
+                            Content="{shuxm:ResourceString Name=ViewPageAchievementAddArchive}"/>
+                    </StackPanel>
+                </Border>
+            </Border>
+        </shuxc:StandardView.EmptyContent>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
@@ -370,36 +399,6 @@
                 </Border>
             </Border>
         </Grid>
+    </shuxc:StandardView>
 
-        <Grid Visibility="{Binding Archives.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
-            <Border
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                <Border
-                    MinWidth="480"
-                    Padding="16"
-                    Style="{ThemeResource AcrylicBorderCardStyle}">
-                    <StackPanel>
-                        <Image
-                            Width="120"
-                            Height="120"
-                            Source="ms-appx:///Resource/Navigation/Achievement.png"/>
-                        <TextBlock
-                            Margin="0,16,0,0"
-                            HorizontalAlignment="Center"
-                            Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="{shuxm:ResourceString Name=ViewPageAchievementAddArchiveHint}"/>
-                        <Button
-                            Margin="0,16,0,0"
-                            Padding="16,8"
-                            HorizontalAlignment="Stretch"
-                            Command="{Binding AddArchiveCommand}"
-                            Content="{shuxm:ResourceString Name=ViewPageAchievementAddArchive}"/>
-                    </StackPanel>
-                </Border>
-            </Border>
-
-        </Grid>
-    </Grid>
 </shuxc:ScopedPage>

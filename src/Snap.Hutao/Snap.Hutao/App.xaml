@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Elevation.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/ItemIcon.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Loading.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/StandardView.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardBlock.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardProgressBar.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/HorizontalCard.xaml"/>

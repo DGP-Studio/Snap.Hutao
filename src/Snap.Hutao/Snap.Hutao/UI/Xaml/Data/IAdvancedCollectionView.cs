@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Collections;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -70,7 +71,18 @@ internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
 
     int IList<object>.IndexOf(object item)
     {
-        return IndexOf((T)item);
+        if (item is T dataItem1)
+        {
+            return IndexOf(dataItem1);
+        }
+
+        // WinUI somehow pass in a FrameworkElement with DataContext as actual item
+        if (item is FrameworkElement { DataContext: T dataItem2 })
+        {
+            return IndexOf(dataItem2);
+        }
+
+        return IndexOf(default!);
     }
 
     int IndexOf(T item);
@@ -87,7 +99,7 @@ internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
         return MoveCurrentTo((T)item);
     }
 
-    bool MoveCurrentTo(T item);
+    bool MoveCurrentTo(T? item);
 
     void ObserveFilterProperty(string propertyName);
 

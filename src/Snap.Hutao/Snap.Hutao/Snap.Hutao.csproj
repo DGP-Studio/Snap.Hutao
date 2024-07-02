@@ -95,6 +95,7 @@
     <None Remove="UI\Xaml\Control\Card\VerticalCard.xaml" />
     <None Remove="UI\Xaml\Control\Elevation.xaml" />
     <None Remove="UI\Xaml\Control\ItemIcon.xaml" />
+    <None Remove="UI\Xaml\Control\StandardView.xaml" />
     <None Remove="UI\Xaml\Control\Theme\Card.xaml" />
     <None Remove="UI\Xaml\Control\Theme\Color.xaml" />
     <None Remove="UI\Xaml\Control\Theme\ComboBox.xaml" />
@@ -338,6 +339,11 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\Control\StandardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml">
