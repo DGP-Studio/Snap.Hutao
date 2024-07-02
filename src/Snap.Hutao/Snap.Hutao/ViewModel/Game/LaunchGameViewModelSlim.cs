@@ -40,7 +40,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
     /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async Task LoadAsync()
     {
         LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
         ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;

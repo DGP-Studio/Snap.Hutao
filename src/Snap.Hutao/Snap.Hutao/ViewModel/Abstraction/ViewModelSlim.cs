@@ -18,7 +18,7 @@ internal abstract partial class ViewModelSlim : ObservableObject
     protected IServiceProvider ServiceProvider { get => serviceProvider; }
 
     [Command("LoadCommand")]
-    protected virtual Task OpenUIAsync()
+    protected virtual Task LoadAsync()
     {
         return Task.CompletedTask;
     }

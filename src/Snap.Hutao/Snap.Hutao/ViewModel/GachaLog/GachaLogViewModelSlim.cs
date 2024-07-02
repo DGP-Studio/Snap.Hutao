@@ -25,7 +25,7 @@ internal sealed partial class GachaLogViewModelSlim : Abstraction.ViewModelSlim<
     public List<GachaStatisticsSlim>? StatisticsList { get => statisticsList; set => SetProperty(ref statisticsList, value); }
 
     /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async Task LoadAsync()
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {

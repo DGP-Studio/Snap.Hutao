@@ -31,7 +31,7 @@ internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim
     public List<DailyNoteEntry>? DailyNoteEntries { get => dailyNoteEntries; set => SetProperty(ref dailyNoteEntries, value); }
 
     /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async Task LoadAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
