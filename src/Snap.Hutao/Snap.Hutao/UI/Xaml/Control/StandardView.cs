@@ -19,6 +19,12 @@ internal sealed partial class StandardView : ContentControl
         DefaultStyleKey = typeof(StandardView);
     }
 
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        UpdateState();
+    }
+
     private static void OnShowConditionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is StandardView view)
