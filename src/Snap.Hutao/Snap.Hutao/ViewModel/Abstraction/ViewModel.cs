@@ -37,6 +37,7 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
 
     public void Uninitialize()
     {
+        IsInitialized = false;
         UninitializeOverride();
         IsViewDisposed = true;
         DeferContentLoader = default;

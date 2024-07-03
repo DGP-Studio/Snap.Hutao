@@ -104,8 +104,10 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     protected override void UninitializeOverride()
     {
-        Archives?.Detach();
-        Archives = default;
+        using (Archives?.SuppressSavingToDatabase())
+        {
+            Archives = default;
+        }
     }
 
     private void OnCurrentArchiveChanged(object? sender, object? e)

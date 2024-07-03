@@ -82,8 +82,10 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     protected override void UninitializeOverride()
     {
-        Projects?.Detach();
-        Projects = default;
+        using (Projects?.SuppressSavingToDatabase())
+        {
+            Projects = default;
+        }
     }
 
     private void OnCurrentProjectChanged(object? sender, object? e)

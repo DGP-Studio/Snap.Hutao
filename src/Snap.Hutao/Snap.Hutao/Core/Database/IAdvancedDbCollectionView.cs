@@ -8,5 +8,5 @@ namespace Snap.Hutao.Core.Database;
 internal interface IAdvancedDbCollectionView<TEntity> : IAdvancedCollectionView<TEntity>
     where TEntity : class
 {
-    void Detach();
+    IDisposable SuppressSavingToDatabase();
 }

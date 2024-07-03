@@ -39,6 +39,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
         {
             presenter.IsModal = true;
             presenter.IsResizable = false;
+            presenter.IsMinimizable = false;
             presenter.IsMaximizable = false;
         }
 

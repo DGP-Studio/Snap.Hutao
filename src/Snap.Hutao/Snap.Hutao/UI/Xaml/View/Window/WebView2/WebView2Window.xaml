@@ -9,7 +9,7 @@
 
     <Grid ActualThemeChanged="OnActualThemeChanged">
         <Grid.RowDefinitions>
-            <RowDefinition Height="44"/>
+            <RowDefinition Height="32"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid>
@@ -21,14 +21,12 @@
             <Button
                 x:Name="GoBackButton"
                 Grid.Column="0"
-                Height="44"
                 MinWidth="44"
                 Command="{x:Bind GoBackCommand}"
                 FontSize="12"
                 Style="{StaticResource NavigationBackButtonSmallStyle}"/>
             <Button
                 Grid.Column="1"
-                Height="44"
                 MinWidth="44"
                 Command="{x:Bind RefreshCommand}"
                 Content="&#xE72C;"

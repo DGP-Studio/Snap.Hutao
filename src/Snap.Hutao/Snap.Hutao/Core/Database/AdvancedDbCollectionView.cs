@@ -15,7 +15,7 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
 {
     private readonly IServiceProvider serviceProvider;
 
-    private bool detached;
+    private bool savingToDatabase = true;
 
     public AdvancedDbCollectionView(IList<TEntity> source, IServiceProvider serviceProvider)
         : base(source, true)
@@ -23,14 +23,14 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
         this.serviceProvider = serviceProvider;
     }
 
-    public void Detach()
+    public IDisposable SuppressSavingToDatabase()
     {
-        detached = true;
+        return new SavingToDatabaseSuppression(this);
     }
 
     protected override void OnCurrentChangedOverride()
     {
-        if (serviceProvider is null || detached)
+        if (serviceProvider is null || !savingToDatabase)
         {
             return;
         }
@@ -53,6 +53,22 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
             }
         }
     }
+
+    private sealed class SavingToDatabaseSuppression : IDisposable
+    {
+        private readonly AdvancedDbCollectionView<TEntity> view;
+
+        public SavingToDatabaseSuppression(AdvancedDbCollectionView<TEntity> view)
+        {
+            this.view = view;
+            view.savingToDatabase = false;
+        }
+
+        public void Dispose()
+        {
+            view.savingToDatabase = true;
+        }
+    }
 }
 
 // The scope of the view follows the scope of the service provider.
@@ -63,7 +79,7 @@ internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : Advance
 {
     private readonly IServiceProvider serviceProvider;
 
-    private bool detached;
+    private bool savingToDatabase = true;
 
     public AdvancedDbCollectionView(IList<TEntityAccess> source, IServiceProvider serviceProvider)
         : base(source, true)
@@ -71,14 +87,14 @@ internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : Advance
         this.serviceProvider = serviceProvider;
     }
 
-    public void Detach()
+    public IDisposable SuppressSavingToDatabase()
     {
-        detached = true;
+        return new SavingToDatabaseSuppression(this);
     }
 
     protected override void OnCurrentChangedOverride()
     {
-        if (serviceProvider is null || detached)
+        if (serviceProvider is null || !savingToDatabase)
         {
             return;
         }
@@ -99,6 +115,22 @@ internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : Advance
             {
                 dbContext.Set<TEntity>().UpdateAndSave(currentItem.Entity);
             }
+        }
+    }
+
+    private sealed class SavingToDatabaseSuppression : IDisposable
+    {
+        private readonly AdvancedDbCollectionView<TEntityAccess, TEntity> view;
+
+        public SavingToDatabaseSuppression(AdvancedDbCollectionView<TEntityAccess, TEntity> view)
+        {
+            this.view = view;
+            view.savingToDatabase = false;
+        }
+
+        public void Dispose()
+        {
+            view.savingToDatabase = true;
         }
     }
 }

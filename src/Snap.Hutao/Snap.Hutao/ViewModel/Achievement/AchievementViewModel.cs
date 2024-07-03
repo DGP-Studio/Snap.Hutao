@@ -148,10 +148,12 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     protected override void UninitializeOverride()
     {
-        Archives?.Detach();
-        Archives = default;
+        using (Archives?.SuppressSavingToDatabase())
+        {
+            Archives = default;
+        }
+
         AchievementGoals = default;
-        Achievements = default;
     }
 
     [GeneratedRegex("\\d\\.\\d")]
