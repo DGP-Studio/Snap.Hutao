@@ -239,7 +239,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
         {
             // https://learn.microsoft.com/en-us/windows/uwp/debug-test-perf/optimize-animations-and-media#optimize-image-resources
             source.UriSource = uri;
-            VisualStateManager.GoToState(this, LoadedState, true);
+            VisualStateManager.GoToState(this, FailedState, true);
         }
     }
 

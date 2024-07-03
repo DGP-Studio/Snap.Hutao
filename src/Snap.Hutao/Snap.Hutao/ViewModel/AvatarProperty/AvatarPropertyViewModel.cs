@@ -313,39 +313,4 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
         return true;
     }
-
-    [Command("ExportAsImageCommand")]
-    private async Task ExportAsImageAsync(FrameworkElement? element)
-    {
-        if (element is { IsLoaded: true })
-        {
-            RenderTargetBitmap bitmap = new();
-            await bitmap.RenderAsync(element);
-
-            IBuffer buffer = await bitmap.GetPixelsAsync();
-            bool clipboardOpened = false;
-            using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
-            {
-                Bgra32 tint = appResourceProvider.GetResource<Color>("CompatBackgroundColor");
-                softwareBitmap.NormalBlend(tint);
-                using (InMemoryRandomAccessStream memory = new())
-                {
-                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memory);
-                    encoder.SetSoftwareBitmap(softwareBitmap);
-                    await encoder.FlushAsync();
-
-                    clipboardOpened = await clipboardInterop.SetBitmapAsync(memory).ConfigureAwait(false);
-                }
-            }
-
-            if (clipboardOpened)
-            {
-                infoBarService.Success(SH.ViewModelAvatarPropertyExportImageSuccess);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelAvatarPropertyOpenClipboardFail);
-            }
-        }
-    }
 }

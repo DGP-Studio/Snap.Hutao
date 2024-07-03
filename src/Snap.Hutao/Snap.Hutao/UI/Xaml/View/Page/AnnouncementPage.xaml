@@ -227,7 +227,7 @@
                         ItemsSource="{Binding Cards, Mode=OneWay}">
                         <ItemsRepeater.Layout>
                             <UniformGridLayout
-                                ItemsJustification="SpaceBetween"
+                                ItemsJustification="Start"
                                 ItemsStretch="Fill"
                                 MinColumnSpacing="12"
                                 MinItemHeight="180"

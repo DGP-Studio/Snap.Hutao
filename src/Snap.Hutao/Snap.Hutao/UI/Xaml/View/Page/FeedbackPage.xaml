@@ -117,7 +117,7 @@
                                 <cwcont:SettingsExpander
                                     Header="{shuxm:ResourceString Name=ViewPageFeedbackFeatureGuideHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xF8A5;}"
-                                    IsExpanded="True">
+                                    IsExpanded="False">
                                     <cwcont:SettingsExpander.Items>
                                         <cwcont:SettingsCard
                                             Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
@@ -220,76 +220,83 @@
             </SplitView.Pane>
             <Border Margin="16,16,0,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                 <Grid Style="{ThemeResource AcrylicGridCardStyle}">
-                    <Grid
-                        Padding="16"
-                        RowSpacing="8"
-                        Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <AutoSuggestBox
-                            Grid.Row="0"
-                            Height="36"
-                            Margin="0,0,0,8"
-                            HorizontalAlignment="Stretch"
-                            VerticalContentAlignment="Center"
-                            PlaceholderText="{shuxm:ResourceString Name=ViewPageFeedbackAutoSuggestBoxPlaceholder}"
-                            QueryIcon="{shuxm:FontIcon Glyph=&#xE721;}"
-                            Style="{StaticResource DefaultAutoSuggestBoxStyle}"
-                            Text="{Binding SearchText, Mode=TwoWay}">
-                            <mxi:Interaction.Behaviors>
-                                <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                                    <mxic:InvokeCommandAction Command="{Binding SearchDocumentCommand}" CommandParameter="{Binding SearchText}"/>
-                                </mxic:EventTriggerBehavior>
-                            </mxi:Interaction.Behaviors>
-                        </AutoSuggestBox>
-                        <StackPanel
-                            Grid.Row="1"
-                            VerticalAlignment="Center"
-                            Visibility="{Binding SearchResults.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
-                            <shuxci:CachedImage
-                                Height="120"
-                                MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
-                                Source="{StaticResource UI_EmotionIcon52}"/>
-                            <TextBlock
-                                Margin="0,5,0,21"
-                                HorizontalAlignment="Center"
-                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                Text="{shuxm:ResourceString Name=ViewPageFeedbackSearchResultPlaceholderTitle}"/>
-                        </StackPanel>
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
-                            <ItemsControl
-                                ItemContainerTransitions="{ThemeResource ListViewLikeThemeTransitions}"
-                                ItemsPanel="{ThemeResource StackPanelSpacing8Template}"
-                                ItemsSource="{Binding SearchResults}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Style="{ThemeResource BorderCardStyle}">
-                                            <HyperlinkButton
-                                                HorizontalAlignment="Stretch"
-                                                HorizontalContentAlignment="Stretch"
-                                                NavigateUri="{Binding Url}">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <BreadcrumbBar
-                                                        Grid.Column="0"
-                                                        Margin="4,8,8,4"
-                                                        IsHitTestVisible="False"
-                                                        ItemsSource="{Binding Hierarchy.DisplayLevels}"/>
-                                                </Grid>
-                                            </HyperlinkButton>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </Grid>
+                    <shuxc:StandardView ShowCondition="{Binding IsInitialized, Mode=OneWay}">
+                        <shuxc:StandardView.EmptyContent>
+                            <clw:Shimmer IsActive="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"/>
+                        </shuxc:StandardView.EmptyContent>
 
-                    <clw:Shimmer IsActive="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityRevertConverter}, Mode=OneWay}"/>
+                        <Grid Padding="16" RowSpacing="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <AutoSuggestBox
+                                Grid.Row="0"
+                                Height="36"
+                                Margin="0,0,0,8"
+                                HorizontalAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                PlaceholderText="{shuxm:ResourceString Name=ViewPageFeedbackAutoSuggestBoxPlaceholder}"
+                                QueryIcon="{shuxm:FontIcon Glyph=&#xE721;}"
+                                Style="{StaticResource DefaultAutoSuggestBoxStyle}"
+                                Text="{Binding SearchText, Mode=TwoWay}">
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="QuerySubmitted">
+                                        <mxic:InvokeCommandAction Command="{Binding SearchDocumentCommand}" CommandParameter="{Binding SearchText}"/>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </AutoSuggestBox>
+                            <shuxc:StandardView Grid.Row="1" ShowCondition="{Binding SearchResults.Count, Converter={StaticResource Int32ToBoolConverter}}">
+                                <shuxc:StandardView.EmptyContent>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <shuxci:CachedImage
+                                            Height="120"
+                                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                                            Source="{StaticResource UI_EmotionIcon52}"/>
+                                        <TextBlock
+                                            Margin="0,5,0,21"
+                                            HorizontalAlignment="Center"
+                                            Style="{StaticResource SubtitleTextBlockStyle}"
+                                            Text="{shuxm:ResourceString Name=ViewPageFeedbackSearchResultPlaceholderTitle}"/>
+                                    </StackPanel>
+                                </shuxc:StandardView.EmptyContent>
+                                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                                    <ItemsControl
+                                        ItemContainerTransitions="{ThemeResource ListViewLikeThemeTransitions}"
+                                        ItemsPanel="{ThemeResource StackPanelSpacing8Template}"
+                                        ItemsSource="{Binding SearchResults}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Style="{ThemeResource BorderCardStyle}">
+                                                    <HyperlinkButton
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        NavigateUri="{Binding Url}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <BreadcrumbBar
+                                                                Grid.Column="0"
+                                                                Margin="4,8,8,4"
+                                                                IsHitTestVisible="False"
+                                                                ItemsSource="{Binding Hierarchy.DisplayLevels}"/>
+                                                        </Grid>
+                                                    </HyperlinkButton>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </shuxc:StandardView>
+
+
+                        </Grid>
+                    </shuxc:StandardView>
+
+
+
                 </Grid>
             </Border>
         </SplitView>

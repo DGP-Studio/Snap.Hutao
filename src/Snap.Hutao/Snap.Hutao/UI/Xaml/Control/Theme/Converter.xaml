@@ -32,5 +32,7 @@
     <shuxdc:EmptyObjectToVisibilityRevertConverter x:Key="EmptyObjectToVisibilityRevertConverter"/>
     <shuxdc:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
     <shuxdc:Int32ToVisibilityRevertConverter x:Key="Int32ToVisibilityRevertConverter"/>
+    <shuxdc:Int32ToBoolConverter x:Key="Int32ToBoolConverter"/>
+    <shuxdc:Int32ToBoolRevertConverter x:Key="Int32ToBoolRevertConverter"/>
     <shuxdc:StringBoolConverter x:Key="StringBoolConverter"/>
 </ResourceDictionary>
