@@ -14,8 +14,8 @@ namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
 [DependencyProperty("ClearButtonStyle", typeof(Style))]
 [DependencyProperty("Owner", typeof(AutoSuggestTokenBox))]
-[TemplatePart(Name = TokenRemoveButton, Type = typeof(ButtonBase))] //// Token case
-[TemplatePart(Name = TextAutoSuggestBox, Type = typeof(Microsoft.UI.Xaml.Controls.AutoSuggestBox))] //// String case
+[TemplatePart(Name = TokenRemoveButton, Type = typeof(ButtonBase))]
+[TemplatePart(Name = TextAutoSuggestBox, Type = typeof(Microsoft.UI.Xaml.Controls.AutoSuggestBox))]
 [TemplatePart(Name = TextTokensCounter, Type = typeof(Microsoft.UI.Xaml.Controls.TextBlock))]
 internal partial class AutoSuggestTokenBoxItem : ListViewItem
 {
@@ -40,15 +40,9 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
 
     public event TypedEventHandler<AutoSuggestTokenBoxItem, RoutedEventArgs>? ClearAllAction;
 
-    public Microsoft.UI.Xaml.Controls.AutoSuggestBox? AutoSuggestBox
-    {
-        get => autoSuggestBox;
-    }
+    public Microsoft.UI.Xaml.Controls.AutoSuggestBox? AutoSuggestBox { get => autoSuggestBox; }
 
-    public TextBox? AutoSuggestTextBox
-    {
-        get => autoSuggestTextBox;
-    }
+    public TextBox? AutoSuggestTextBox { get => autoSuggestTextBox; }
 
     public bool UseCharacterAsUser { get; set; }
 
@@ -75,6 +69,8 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
             return;
         }
 
+        AutoSuggestTextBoxLoaded += WaitForLoad;
+
         void WaitForLoad(object s, RoutedEventArgs eargs)
         {
             if (autoSuggestTextBox is not null)
@@ -84,8 +80,6 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
 
             AutoSuggestTextBoxLoaded -= WaitForLoad;
         }
-
-        AutoSuggestTextBoxLoaded += WaitForLoad;
     }
 
     /// <inheritdoc/>
@@ -95,25 +89,26 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
 
         if (GetTemplateChild(TextAutoSuggestBox) is Microsoft.UI.Xaml.Controls.AutoSuggestBox suggestbox)
         {
-            OnASBApplyTemplate(suggestbox);
+            OnAutoSuggestBoxApplyTemplate(suggestbox);
         }
     }
 
-    private void OnASBApplyTemplate(Microsoft.UI.Xaml.Controls.AutoSuggestBox asb)
+    private void OnAutoSuggestBoxApplyTemplate(Microsoft.UI.Xaml.Controls.AutoSuggestBox asb)
     {
+        // Revoke previous events
         if (autoSuggestBox is not null)
         {
-            autoSuggestBox.Loaded -= OnASBLoaded;
+            autoSuggestBox.Loaded -= OnAutoSuggestBoxLoaded;
 
-            autoSuggestBox.QuerySubmitted -= OnASBQuerySubmitted;
-            autoSuggestBox.SuggestionChosen -= OnASBSuggestionChosen;
-            autoSuggestBox.TextChanged -= OnASBTextChanged;
-            autoSuggestBox.PointerEntered -= OnASBPointerEntered;
-            autoSuggestBox.PointerExited -= OnASBPointerExited;
-            autoSuggestBox.PointerCanceled -= OnASBPointerExited;
-            autoSuggestBox.PointerCaptureLost -= OnASBPointerExited;
-            autoSuggestBox.GotFocus -= OnASBGotFocus;
-            autoSuggestBox.LostFocus -= OnASBLostFocus;
+            autoSuggestBox.QuerySubmitted -= OnAutoSuggestBoxQuerySubmitted;
+            autoSuggestBox.SuggestionChosen -= OnAutoSuggestBoxSuggestionChosen;
+            autoSuggestBox.TextChanged -= OnAutoSuggestBoxTextChanged;
+            autoSuggestBox.PointerEntered -= OnAutoSuggestBoxPointerEntered;
+            autoSuggestBox.PointerExited -= OnAutoSuggestBoxPointerExited;
+            autoSuggestBox.PointerCanceled -= OnAutoSuggestBoxPointerExited;
+            autoSuggestBox.PointerCaptureLost -= OnAutoSuggestBoxPointerExited;
+            autoSuggestBox.GotFocus -= OnAutoSuggestBoxGotFocus;
+            autoSuggestBox.LostFocus -= OnAutoSuggestBoxLostFocus;
 
             // Remove any previous QueryIcon
             autoSuggestBox.QueryIcon = default;
@@ -123,17 +118,17 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
 
         if (autoSuggestBox is not null)
         {
-            autoSuggestBox.Loaded += OnASBLoaded;
+            autoSuggestBox.Loaded += OnAutoSuggestBoxLoaded;
 
-            autoSuggestBox.QuerySubmitted += OnASBQuerySubmitted;
-            autoSuggestBox.SuggestionChosen += OnASBSuggestionChosen;
-            autoSuggestBox.TextChanged += OnASBTextChanged;
-            autoSuggestBox.PointerEntered += OnASBPointerEntered;
-            autoSuggestBox.PointerExited += OnASBPointerExited;
-            autoSuggestBox.PointerCanceled += OnASBPointerExited;
-            autoSuggestBox.PointerCaptureLost += OnASBPointerExited;
-            autoSuggestBox.GotFocus += OnASBGotFocus;
-            autoSuggestBox.LostFocus += OnASBLostFocus;
+            autoSuggestBox.QuerySubmitted += OnAutoSuggestBoxQuerySubmitted;
+            autoSuggestBox.SuggestionChosen += OnAutoSuggestBoxSuggestionChosen;
+            autoSuggestBox.TextChanged += OnAutoSuggestBoxTextChanged;
+            autoSuggestBox.PointerEntered += OnAutoSuggestBoxPointerEntered;
+            autoSuggestBox.PointerExited += OnAutoSuggestBoxPointerExited;
+            autoSuggestBox.PointerCanceled += OnAutoSuggestBoxPointerExited;
+            autoSuggestBox.PointerCaptureLost += OnAutoSuggestBoxPointerExited;
+            autoSuggestBox.GotFocus += OnAutoSuggestBoxGotFocus;
+            autoSuggestBox.LostFocus += OnAutoSuggestBoxLostFocus;
 
             // Setup a binding to the QueryIcon of the Parent if we're the last box.
             if (Content is ITokenStringContainer str)
@@ -170,7 +165,7 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
         }
     }
 
-    private void OnASBGotFocus(object sender, RoutedEventArgs e)
+    private void OnAutoSuggestBoxGotFocus(object sender, RoutedEventArgs e)
     {
         // Verify if the usual behavior of clearing token selection is required
         if (!Owner.PauseTokenClearOnFocus && !AutoSuggestTokenBox.IsShiftPressed)
@@ -179,11 +174,10 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
         }
 
         Owner.PauseTokenClearOnFocus = false;
-
         VisualStateManager.GoToState(Owner, AutoSuggestTokenBox.FocusedState, true);
     }
 
-    private void OnASBLoaded(object sender, RoutedEventArgs e)
+    private void OnAutoSuggestBoxLoaded(object sender, RoutedEventArgs e)
     {
         ArgumentNullException.ThrowIfNull(autoSuggestBox);
         if (autoSuggestBox.FindDescendant(QueryButton) is Button queryButton)
@@ -214,22 +208,22 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
         Owner.RefreshTokenCounter();
     }
 
-    private void OnASBLostFocus(object sender, RoutedEventArgs e)
+    private void OnAutoSuggestBoxLostFocus(object sender, RoutedEventArgs e)
     {
         VisualStateManager.GoToState(Owner, AutoSuggestTokenBox.UnfocusedState, true);
     }
 
-    private void OnASBPointerEntered(object sender, PointerRoutedEventArgs e)
+    private void OnAutoSuggestBoxPointerEntered(object sender, PointerRoutedEventArgs e)
     {
         VisualStateManager.GoToState(Owner, AutoSuggestTokenBox.PointerOverState, true);
     }
 
-    private void OnASBPointerExited(object sender, PointerRoutedEventArgs e)
+    private void OnAutoSuggestBoxPointerExited(object sender, PointerRoutedEventArgs e)
     {
         VisualStateManager.GoToState(Owner, AutoSuggestTokenBox.NormalState, true);
     }
 
-    private void OnASBQuerySubmitted(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    private void OnAutoSuggestBoxQuerySubmitted(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
         Owner.OnQuerySubmitted(sender, args);
 
@@ -253,12 +247,12 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
         }
     }
 
-    private void OnASBSuggestionChosen(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    private void OnAutoSuggestBoxSuggestionChosen(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
     {
         Owner.OnSuggestionsChosen(sender, args);
     }
 
-    private void OnASBTextChanged(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    private void OnAutoSuggestBoxTextChanged(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
         if (sender.Text is null)
         {
@@ -274,7 +268,6 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
         if (UseCharacterAsUser)
         {
             UseCharacterAsUser = false;
-
             args.Reason = AutoSuggestionBoxTextChangeReason.UserInput;
         }
 
@@ -363,8 +356,8 @@ internal partial class AutoSuggestTokenBoxItem : ListViewItem
     private void OnAutoSuggestTextBoxSelectionChanging(TextBox sender, TextBoxSelectionChangingEventArgs args)
     {
         isSelectedFocusOnFirstCharacter = args.SelectionLength > 0 && args.SelectionStart is 0 && sender.SelectionStart > 0;
-        isSelectedFocusOnLastCharacter = (args.SelectionStart + args.SelectionLength == sender.Text.Length) &&
-            (sender.SelectionStart + sender.SelectionLength != sender.Text.Length);
+        isSelectedFocusOnLastCharacter = (args.SelectionStart + args.SelectionLength == sender.Text.Length)
+            && (sender.SelectionStart + sender.SelectionLength != sender.Text.Length);
     }
 
     private void OnAutoSuggestTextBoxTextChanging(TextBox sender, TextBoxTextChangingEventArgs args)

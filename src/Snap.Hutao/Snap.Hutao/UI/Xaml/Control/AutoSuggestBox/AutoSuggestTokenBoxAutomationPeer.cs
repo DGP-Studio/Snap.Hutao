@@ -15,14 +15,11 @@ internal class AutoSuggestTokenBoxAutomationPeer : ListViewBaseAutomationPeer, I
     {
     }
 
-    public bool IsReadOnly => !OwningAutoSuggestTokenBox.IsEnabled;
+    public bool IsReadOnly { get => !OwningAutoSuggestTokenBox.IsEnabled; }
 
-    public string Value => OwningAutoSuggestTokenBox.Text;
+    public string Value { get => OwningAutoSuggestTokenBox.Text; }
 
-    private AutoSuggestTokenBox OwningAutoSuggestTokenBox
-    {
-        get => (AutoSuggestTokenBox)Owner;
-    }
+    private AutoSuggestTokenBox OwningAutoSuggestTokenBox { get => (AutoSuggestTokenBox)Owner; }
 
     public void SetValue(string value)
     {

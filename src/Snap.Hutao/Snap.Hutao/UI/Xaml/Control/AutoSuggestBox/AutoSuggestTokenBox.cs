@@ -12,7 +12,6 @@ using Microsoft.UI.Xaml.Input;
 using Snap.Hutao.UI.Input;
 using System.Collections;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using VirtualKey = Windows.System.VirtualKey;
 
@@ -88,8 +87,6 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
         get => InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
     }
 
-    public static bool IsXamlRootAvailable { get; } = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
-
     public bool IsClearingForClick { get; set; }
 
     public bool PauseTokenClearOnFocus { get; set; }
@@ -113,17 +110,17 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
 
         if (data is string str)
         {
-            TokenItemAddingEventArgs tiaea = new(str);
-            OnTokenItemAdding(this, tiaea);
+            TokenItemAddingEventArgs args = new(str);
+            OnTokenItemAdding(this, args);
 
-            if (tiaea.Cancel)
+            if (args.Cancel)
             {
                 return;
             }
 
-            if (tiaea.Item is not null)
+            if (args.Item is not null)
             {
-                data = tiaea.Item;
+                data = args.Item;
             }
         }
 
@@ -518,14 +515,14 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
 
     private AutoSuggestTokenBoxItem? GetCurrentContainerItem()
     {
-        return IsXamlRootAvailable && XamlRoot is not null
+        return XamlRoot is not null
             ? FocusManager.GetFocusedElement(XamlRoot) as AutoSuggestTokenBoxItem
             : FocusManager.GetFocusedElement() as AutoSuggestTokenBoxItem;
     }
 
     private object GetFocusedElement()
     {
-        return IsXamlRootAvailable && XamlRoot is not null
+        return XamlRoot is not null
             ? FocusManager.GetFocusedElement(XamlRoot)
             : FocusManager.GetFocusedElement();
     }

@@ -82,7 +82,7 @@
     <HorizontalAlignment x:Key="AutoSuggestTokenBoxItemHorizontalContentAlignment">Center</HorizontalAlignment>
     <VerticalAlignment x:Key="AutoSuggestTokenBoxItemVerticalContentAlignment">Center</VerticalAlignment>
 
-    <CornerRadius x:Key="PopupOverlayCornerRadius">0,0,0,8</CornerRadius>
+    <CornerRadius x:Key="PopupOverlayCornerRadius">0,0,8,8</CornerRadius>
 
     <Style x:Key="AutoSuggestTokenBoxDeleteButtonStyle" TargetType="Button">
         <Setter Property="Template">
@@ -96,7 +96,6 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{ThemeResource ControlCornerRadius}">
                         <!--  FontSize is ignored here, see https://github.com/microsoft/microsoft-ui-xaml/issues/2568  -->
-                        <!--  Set in code-behind link:AutoSuggestTokenBoxItem.AutoSuggestBox.cs#L104  -->
                         <TextBlock
                             x:Name="GlyphElement"
                             HorizontalAlignment="Center"
@@ -234,23 +233,23 @@
         x:Key="AutoSuggestTokenBoxTextBoxStyle"
         BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}"
         TargetType="TextBox">
-        <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
-        <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <!--  Override  -->
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
+        <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
+        <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
+        <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
         <win:Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
-        <Setter Property="Padding" Value="8,5,6,6"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
         <Setter Property="MinHeight" Value="28"/>
+        <Setter Property="Padding" Value="8,5,6,6"/>
         <!--  Override  -->
         <win:Setter Property="SelectionHighlightColorWhenNotFocused" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
         <!--  Override  -->
@@ -268,13 +267,6 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Border
-                            x:Name="BorderElement"
-                            Grid.Row="1"
-                            Grid.RowSpan="1"
-                            Grid.ColumnSpan="3"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"/>
                         <ContentPresenter
                             x:Name="HeaderContentPresenter"
                             Grid.Row="0"
@@ -287,6 +279,13 @@
                             Foreground="{ThemeResource TextControlHeaderForeground}"
                             TextWrapping="Wrap"
                             Visibility="Collapsed"/>
+                        <Border
+                            x:Name="BorderElement"
+                            Grid.Row="1"
+                            Grid.RowSpan="1"
+                            Grid.ColumnSpan="3"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"/>
                         <ScrollViewer
                             x:Name="ContentElement"
                             Grid.Row="1"
@@ -435,7 +434,6 @@
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}"/>
         <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="UseSystemFocusVisuals" Value="False"/>
         <Setter Property="MinWidth" Value="128"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -454,14 +452,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="False"/>
     </Style>
 
     <!--  Copy of System Style from 18362 to try and workaround WinUI Styles  -->
     <Style x:Key="SystemAutoSuggestBoxStyle" TargetType="AutoSuggestBox">
-        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="TextBoxStyle" Value="{StaticResource AutoSuggestBoxTextBoxStyle}"/>
-        <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="AutoSuggestBox">
@@ -488,8 +484,12 @@
                             UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}"/>
 
                         <Popup x:Name="SuggestionsPopup">
+                            <Popup.RenderTransform>
+                                <CompositeTransform TranslateX="2"/>
+                            </Popup.RenderTransform>
                             <Border
                                 x:Name="SuggestionsContainer"
+                                Margin="-2,0"
                                 Background="{ThemeResource AutoSuggestBoxSuggestionsListBackground}"
                                 CornerRadius="{StaticResource PopupOverlayCornerRadius}">
                                 <ListView
@@ -520,30 +520,29 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="TextBoxStyle" Value="{StaticResource AutoSuggestBoxTextBoxStyle}"/>
+        <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
     </Style>
 
 
 
     <Style x:Key="AutoSuggestTokenBoxItemTokenStyle" TargetType="shuxca:AutoSuggestTokenBoxItem">
-        <Setter Property="ClearButtonStyle" Value="{StaticResource SubtleButtonStyle}"/>
-        <Setter Property="HorizontalContentAlignment" Value="{StaticResource AutoSuggestTokenBoxItemHorizontalContentAlignment}"/>
-        <Setter Property="VerticalContentAlignment" Value="{StaticResource AutoSuggestTokenBoxItemVerticalContentAlignment}"/>
-        <!--<Setter Property="HorizontalAlignment" Value="Center" />-->
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
         <Setter Property="Background" Value="{ThemeResource TokenItemBackground}"/>
+        <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
         <Setter Property="BorderBrush" Value="{ThemeResource TokenItemBorderBrush}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource TokenItemBorderThickness}"/>
+        <Setter Property="ClearButtonStyle" Value="{StaticResource SubtleButtonStyle}"/>
         <Setter Property="CornerRadius" Value="2"/>
-        <Setter Property="Padding" Value="{ThemeResource TokenItemPadding}"/>
-        <Setter Property="IsTabStop" Value="True"/>
-        <Setter Property="TabNavigation" Value="Local"/>
-        <Setter Property="Foreground" Value="{ThemeResource TokenItemForeground}"/>
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="UseSystemFocusVisuals" Value="True"/>
         <Setter Property="FocusVisualMargin" Value="-3"/>
-        <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{ThemeResource TokenItemForeground}"/>
+        <Setter Property="HorizontalContentAlignment" Value="{StaticResource AutoSuggestTokenBoxItemHorizontalContentAlignment}"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="Padding" Value="{ThemeResource TokenItemPadding}"/>
+        <Setter Property="TabNavigation" Value="Local"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="shuxca:AutoSuggestTokenBoxItem">
@@ -664,6 +663,10 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <!--<Setter Property="HorizontalAlignment" Value="Center" />-->
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="{StaticResource AutoSuggestTokenBoxItemVerticalContentAlignment}"/>
     </Style>
 
     <!--  Default style for AutoSuggestTokenBoxItem  -->
@@ -672,17 +675,15 @@
     <Style x:Key="SubtleButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{ThemeResource SubtleFillColorTransparent}"/>
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
-        <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimary}"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="{StaticResource ButtonPadding}"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
-        <Setter Property="FocusVisualMargin" Value="-3"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+        <Setter Property="FocusVisualMargin" Value="-3"/>
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimary}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="{StaticResource ButtonPadding}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -756,22 +757,22 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
     <Style x:Key="SubtleAccentButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{ThemeResource SubtleFillColorTransparent}"/>
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
-        <Setter Property="Foreground" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="{StaticResource ButtonPadding}"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
-        <Setter Property="FocusVisualMargin" Value="-3"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+        <Setter Property="FocusVisualMargin" Value="-3"/>
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="{StaticResource ButtonPadding}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -845,5 +846,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 </ResourceDictionary>

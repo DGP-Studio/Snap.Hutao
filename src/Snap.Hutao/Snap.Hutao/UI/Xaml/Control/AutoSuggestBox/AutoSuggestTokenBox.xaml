@@ -23,33 +23,34 @@
 
     <Style x:Key="DefaultAutoSuggestTokenBoxStyle" TargetType="shuxca:AutoSuggestTokenBox">
         <Setter Property="AutoSuggestBoxTextBoxStyle" Value="{StaticResource AutoSuggestTokenBoxTextBoxStyle}"/>
-        <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
         <Setter Property="Background" Value="{ThemeResource TextControlBackground}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
         <Setter Property="BorderThickness" Value="{StaticResource TextControlBorderThemeThickness}"/>
+        <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="TabNavigation" Value="Once"/>
         <win:Setter Property="IsSwipeEnabled" Value="False"/>
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
         <Setter Property="Padding" Value="{StaticResource AutoSuggestTokenBoxPadding}"/>
-        <Setter Property="SelectionMode" Value="Extended"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="SelectionMode" Value="Extended"/>
         <win:Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True"/>
         <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
         <win:Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
         <win:Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+        <Setter Property="IsItemClickEnabled" Value="True"/>
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
         <Setter Property="TokenSpacing" Value="{StaticResource AutoSuggestTokenBoxTokenSpacing}"/>
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
-        <Setter Property="IsItemClickEnabled" Value="True"/>
         <win:Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection/>
             </Setter.Value>
         </win:Setter>
+        <Setter Property="ItemContainerStyleSelector" Value="{StaticResource AutoSuggestTokenBoxStyleSelector}"/>
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -61,7 +62,6 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="ItemContainerStyleSelector" Value="{StaticResource AutoSuggestTokenBoxStyleSelector}"/>
         <Setter Property="Template" Value="{StaticResource AutoSuggestTokenBoxTemplate}"/>
     </Style>
 

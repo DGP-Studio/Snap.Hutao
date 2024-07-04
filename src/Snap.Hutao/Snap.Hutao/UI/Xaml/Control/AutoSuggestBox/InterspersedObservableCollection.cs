@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Helpers;
+using Snap.Hutao.Core.ExceptionService;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -22,20 +23,22 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
     {
         if (itemsSource is not IList list)
         {
-            throw new ArgumentException("The input items source must be assignable to the System.Collections.IList type.");
+            throw new ArgumentException("The input items source must implements System.Collections.IList");
         }
 
         ItemsSource = list;
 
-        if (ItemsSource is INotifyCollectionChanged notifier)
+        if (ItemsSource is not INotifyCollectionChanged incc)
         {
-            WeakEventListener<InterspersedObservableCollection, object?, NotifyCollectionChangedEventArgs> weakPropertyChangedListener = new(this)
-            {
-                OnEventAction = static (instance, source, eventArgs) => instance.OnCollectionChanged(source, eventArgs),
-                OnDetachAction = (weakEventListener) => notifier.CollectionChanged -= weakEventListener.OnEvent, // Use Local Reference Only
-            };
-            notifier.CollectionChanged += weakPropertyChangedListener.OnEvent;
+            throw new ArgumentException("The input items source must implements System.Collections.Specialized.INotifyCollectionChanged");
         }
+
+        WeakEventListener<InterspersedObservableCollection, object?, NotifyCollectionChangedEventArgs> weakPropertyChangedListener = new(this)
+        {
+            OnEventAction = static (instance, source, eventArgs) => instance.OnCollectionChanged(source, eventArgs),
+            OnDetachAction = (weakEventListener) => incc.CollectionChanged -= weakEventListener.OnEvent, // Use Local Reference Only
+        };
+        incc.CollectionChanged += weakPropertyChangedListener.OnEvent;
     }
 
     public event NotifyCollectionChangedEventHandler? CollectionChanged;
@@ -69,7 +72,8 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
 
     public void Insert(int index, object? obj)
     {
-        MoveKeysForward(index, 1); // Move existing keys at index over to make room for new item
+        // Move existing keys at index over to make room for new item
+        MoveKeysForward(index, 1);
 
         ArgumentNullException.ThrowIfNull(obj);
         interspersedObjects[index] = obj;
@@ -80,25 +84,27 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
     public void InsertAt(int outerIndex, object obj)
     {
         // Find out our closest index based on interspersed keys
-        int index = outerIndex - interspersedObjects.Keys.Count(key => key < outerIndex); // Note: we exclude the = from ToInnerIndex here
+        // Note: we exclude the = from ToInnerIndex here
+        int index = outerIndex - interspersedObjects.Keys.Count(key => key < outerIndex);
 
         // If we're inserting where we would normally, then just do that, otherwise we need extra room to not move other keys
         if (index != outerIndex)
         {
-            MoveKeysForward(outerIndex, 1); // Skip over until the current spot unlike normal
+            // Skip over until the current spot unlike normal
+            MoveKeysForward(outerIndex, 1);
 
-            isInsertingOriginal = true; // Prevent Collection callback from moving keys forward on insert
+            // Prevent Collection callback from moving keys forward on insert
+            isInsertingOriginal = true;
         }
 
         // Insert into original collection
         ItemsSource.Insert(index, obj);
-
-        // TODO: handle manipulation/notification if not observable
     }
 
     public IEnumerator<object> GetEnumerator()
     {
-        int i = 0; // Index of our current 'virtual' position
+        // Index of our current 'virtual' position
+        int i = 0;
         int count = 0;
         int realized = 0;
 
@@ -106,12 +112,14 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
         {
             while (interspersedObjects.TryGetValue(i++, out object? obj))
             {
-                realized++; // Track interspersed items used
+                // Track interspersed items used
+                realized++;
 
                 yield return obj;
             }
 
-            count++; // Track original items used
+            // Track original items used
+            count++;
 
             yield return element;
         }
@@ -130,7 +138,7 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
     public int Add(object? value)
     {
         ArgumentNullException.ThrowIfNull(value);
-        int index = ItemsSource.Add(value); //// TODO: If the collection isn't observable, we should do manipulations/notifications here...?
+        int index = ItemsSource.Add(value);
         return ToOuterIndex(index);
     }
 
@@ -167,7 +175,8 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
         {
             interspersedObjects.Remove(key);
 
-            MoveKeysBackward(key, 1); // Move other interspersed items back
+            // Move other interspersed items back
+            MoveKeysBackward(key, 1);
 
             CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, key));
 
@@ -179,12 +188,12 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
 
     public void RemoveAt(int index)
     {
-        throw new NotImplementedException();
+        HutaoException.NotSupported();
     }
 
     public void CopyTo(Array array, int index)
     {
-        throw new NotImplementedException();
+        HutaoException.NotSupported();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -244,7 +253,8 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
         // Sort in reverse order to work from highest to lowest
         foreach (int key in interspersedObjects.Keys.OrderByDescending(v => v))
         {
-            if (key < pivot) //// If it's the last item in the collection, we still want to move our last key, otherwise we'd use <=
+            // If it's the last item in the collection, we still want to move our last key, otherwise we'd use <=
+            if (key < pivot)
             {
                 break;
             }
@@ -260,7 +270,8 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
         foreach (int key in interspersedObjects.Keys.OrderBy(v => v))
         {
             // Skip elements before the pivot point
-            if (key <= pivot) //// Include pivot point as that's the point where we start modifying beyond
+            // Include pivot point as that's the point where we start modifying beyond
+            if (key <= pivot)
             {
                 continue;
             }
@@ -322,8 +333,7 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(innerIndexToProject, ItemsSource.Count + 1);
 
-        //// TODO: Deal with bounds (0 / Count)? Or is it the same?
-
+        // TODO: Deal with bounds (0 / Count)? Or is it the same?
         foreach ((int key, object _) in interspersedObjects.OrderBy(v => v.Key))
         {
             if (innerIndexToProject >= key)
