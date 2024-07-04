@@ -162,6 +162,12 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>リスト</value>
   </data>
+  <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
     <value>データベースが破損しています：{0}</value>
   </data>
