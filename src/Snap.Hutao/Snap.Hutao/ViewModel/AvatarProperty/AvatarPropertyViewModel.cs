@@ -122,6 +122,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         try
         {
+            await taskContext.SwitchToMainThreadAsync();
             IsInitialized = false;
             ValueResult<RefreshResultKind, Summary?> summaryResult;
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
@@ -169,6 +170,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
         finally
         {
+            await taskContext.SwitchToMainThreadAsync();
             IsInitialized = true;
         }
     }

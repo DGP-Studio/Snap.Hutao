@@ -133,7 +133,9 @@ internal sealed partial class CultivationService : ICultivationService
         }
 
         await taskContext.SwitchToBackgroundAsync();
-        CultivateEntry? entry = cultivationDbService.GetCultivateEntryByProjectIdAndItemId(Projects.CurrentItem.InnerId, itemId);
+        CultivateEntry? entry = type is CultivateType.AvatarAndSkill
+            ? cultivationDbService.GetCultivateEntryByProjectIdAndItemId(Projects.CurrentItem.InnerId, itemId)
+            : default;
 
         if (entry is null)
         {
