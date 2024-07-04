@@ -7,12 +7,12 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources/>
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.SettingsControls/SettingsCard/SettingsCard.xaml"/>
-                <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.TokenizingTextBox/TokenizingTextBox.xaml"/>
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.TokenView/TokenItem/TokenItem.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Elevation.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/ItemIcon.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Loading.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/StandardView.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/AutoSuggestBox/AutoSuggestTokenBox.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardBlock.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardProgressBar.xaml"/>
                 <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/HorizontalCard.xaml"/>

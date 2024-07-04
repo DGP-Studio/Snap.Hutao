@@ -335,20 +335,11 @@
                                 MaximumTokens="5"
                                 PlaceholderText="{shuxm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
                                 QueryIcon="{cw:FontIconSource Glyph=&#xE721;}"
-                                Style="{StaticResource DefaultTokenizingTextBoxStyle}"
+                                Style="{StaticResource DefaultAutoSuggestTokenBoxStyle}"
                                 SuggestedItemTemplate="{StaticResource TokenTemplate}"
                                 SuggestedItemsSource="{Binding AvailableTokens.Values}"
                                 Text="{Binding FilterToken, Mode=TwoWay}"
-                                TokenItemTemplate="{StaticResource TokenTemplate}">
-                                <shuxca:AutoSuggestTokenBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <cwc:WrapPanel
-                                            cw:FrameworkElementExtensions.AncestorType="shuxca:AutoSuggestTokenBox"
-                                            HorizontalSpacing="2"
-                                            StretchChild="Last"/>
-                                    </ItemsPanelTemplate>
-                                </shuxca:AutoSuggestTokenBox.ItemsPanel>
-                            </shuxca:AutoSuggestTokenBox>
+                                TokenItemTemplate="{StaticResource TokenTemplate}"/>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"
