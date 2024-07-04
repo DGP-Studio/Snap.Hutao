@@ -73,7 +73,7 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 Path = path,
                 ImageSource = new(path.ToUri()),
                 AccentColor = accentColor,
-                Luminance = accentColor.Brightness,
+                Luminance = accentColor.Luminance,
             };
 
             return new(true, background);
