@@ -167,7 +167,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     /// <inheritdoc/>
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
-        Uri dummyUri = Web.HutaoEndpoints.StaticRaw(category, fileName).ToUri();
+        Uri dummyUri = HutaoEndpoints.StaticRaw(category, fileName).ToUri();
         return Path.Combine(CacheFolder, GetCacheFileName(dummyUri));
     }
 
@@ -184,6 +184,50 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         }
 
         return new FileInfo(file).Length == 0;
+    }
+
+    private static async ValueTask ConvertAndSaveFileToMonoChromeAsync(string sourceFile, string themeFile, ElementTheme theme)
+    {
+        if (string.Equals(sourceFile, themeFile, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        using (FileStream sourceStream = File.OpenRead(sourceFile))
+        {
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(sourceStream.AsRandomAccessStream());
+
+            // Always premultiplied to prevent some channels have a non-zero value when the alpha channel is zero
+            using (SoftwareBitmap sourceBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Premultiplied))
+            {
+                using (BitmapBuffer sourceBuffer = sourceBitmap.LockBuffer(BitmapBufferAccessMode.ReadWrite))
+                {
+                    using (IMemoryBufferReference reference = sourceBuffer.CreateReference())
+                    {
+                        IMemoryBufferByteAccess byteAccess = reference.As<IMemoryBufferByteAccess>();
+                        byte value = theme is ElementTheme.Light ? (byte)0x00 : (byte)0xFF;
+                        ConvertToMonoChrome(byteAccess, value);
+                    }
+                }
+
+                using (FileStream themeStream = File.Create(themeFile))
+                {
+                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, themeStream.AsRandomAccessStream());
+                    encoder.SetSoftwareBitmap(sourceBitmap);
+                    await encoder.FlushAsync();
+                }
+            }
+        }
+
+        static void ConvertToMonoChrome(IMemoryBufferByteAccess byteAccess, byte background)
+        {
+            byteAccess.GetBuffer(out Span<Rgba32> span);
+            foreach (ref Rgba32 pixel in span)
+            {
+                pixel.A = (byte)(pixel.Luminance * 255);
+                pixel.R = pixel.G = pixel.B = background;
+            }
+        }
     }
 
     private void RemoveCore(IEnumerable<string> filePaths)
@@ -276,31 +320,6 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     {
         HashSet<string>? set = memoryCache.GetOrCreate(CacheFailedDownloadTasksName, entry => new HashSet<string>());
         set?.Add(uri.ToString());
-    }
-
-    private static async ValueTask ConvertAndSaveFileToMonoChromeAsync(string sourceFile, string themeFile, ElementTheme theme)
-    {
-        if (string.Equals(sourceFile, themeFile, StringComparison.OrdinalIgnoreCase))
-        {
-            return;
-        }
-
-        using (FileStream sourceStream = File.OpenRead(sourceFile))
-        {
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(sourceStream.AsRandomAccessStream());
-            using (SoftwareBitmap sourceBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Premultiplied))
-            {
-                using (BitmapBuffer sourceBuffer = sourceBitmap.LockBuffer(BitmapBufferAccessMode.ReadWrite))
-                {
-                    using (IMemoryBufferReference reference = sourceBuffer.CreateReference())
-                    {
-                        IMemoryBufferByteAccess byteAccess = reference.As<IMemoryBufferByteAccess>();
-                        // byteAccess.GetBuffer(out Span<Rgba32> span);
-                    }
-                }
-            }
-        }
-
     }
 
     private readonly struct ElementThemeValueFile

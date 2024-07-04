@@ -63,8 +63,8 @@ internal sealed partial class BackgroundImageService : IBackgroundImageService
                 return new(false, default!);
             }
 
-            SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight);
-            Bgra32 accentColor = softwareBitmap.GetAccentColor();
+            SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Straight);
+            Rgba32 accentColor = softwareBitmap.GetRgba32AccentColor();
 
             await taskContext.SwitchToMainThreadAsync();
 
