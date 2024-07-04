@@ -92,7 +92,14 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                     Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrDefault());
                 }
 
-                return true;
+                // When `Archives.CurrentItem` is not null, the `Initialization` actually completed in
+                // `UpdateStatisticsAsync`, so we return false to make the view hide until the actual
+                // initialization is complete. But we return true when no archives are available,
+                // so that the empty view can show up.
+                if (Archives.CurrentItem is null)
+                {
+                    return true;
+                }
             }
         }
         catch (OperationCanceledException)
@@ -104,7 +111,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     protected override void UninitializeOverride()
     {
-        using (Archives?.SuppressSavingToDatabase())
+        using (Archives?.SuppressChangeCurrentItem())
         {
             Archives = default;
         }
@@ -311,6 +318,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     {
         if (archive is null)
         {
+            IsInitialized = false;
             Statistics = default;
             return;
         }

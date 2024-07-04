@@ -491,7 +491,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <shuxc:StandardView ShowCondition="{Binding Summary, Converter={StaticResource EmptyObjectToBoolConverter}}">
+    <shuxc:StandardView HideCondition="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}" ShowCondition="{Binding Summary, Converter={StaticResource EmptyObjectToBoolConverter}}">
         <shuxc:StandardView.EmptyContent>
             <Border
                 HorizontalAlignment="Center"
@@ -753,14 +753,6 @@
                                                         </Grid>
                                                     </StackPanel>
 
-                                                    <ItemsControl
-                                                        Grid.Row="1"
-                                                        Grid.Column="0"
-                                                        Margin="16"
-                                                        ItemTemplate="{StaticResource AvatarConstellationTemplate}"
-                                                        ItemsPanel="{StaticResource HorizontalStackPanelSpacing0Template}"
-                                                        ItemsSource="{Binding SelectedAvatar.Constellations}"/>
-
                                                     <StackPanel Grid.Column="1" Margin="16">
                                                         <TextBlock
                                                             HorizontalAlignment="Right"
@@ -794,6 +786,14 @@
                                                         VerticalAlignment="Bottom"
                                                         ItemTemplate="{StaticResource AvatarSkillTemplate}"
                                                         ItemsSource="{Binding SelectedAvatar.Skills}"/>
+
+                                                    <ItemsControl
+                                                        Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Margin="16"
+                                                        ItemTemplate="{StaticResource AvatarConstellationTemplate}"
+                                                        ItemsPanel="{StaticResource HorizontalStackPanelSpacing0Template}"
+                                                        ItemsSource="{Binding SelectedAvatar.Constellations}"/>
                                                 </Grid>
                                             </Border>
 

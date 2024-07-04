@@ -86,8 +86,11 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid>
-        <Grid Visibility="{Binding Monsters, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+    <shuxc:StandardView ShowCondition="{Binding Monsters, Converter={StaticResource EmptyObjectToBoolConverter}}">
+        <shuxc:StandardView.EmptyContent>
+            <shuxc:Loading IsLoading="{Binding Monsters, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
+        </shuxc:StandardView.EmptyContent>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
@@ -220,6 +223,5 @@
                 </cwc:Case>
             </cwc:SwitchPresenter>
         </Grid>
-        <shuxc:Loading IsLoading="{Binding Monsters, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
-    </Grid>
+    </shuxc:StandardView>
 </shuxc:ScopedPage>

@@ -41,7 +41,7 @@ internal sealed class WrapLayoutState
 
     public void Clear()
     {
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < context.ItemCount; i++)
         {
             RecycleElementAt(i);
         }

@@ -117,12 +117,9 @@ internal sealed class UniformStaggeredLayoutState
 
     internal void RecycleElements()
     {
-        if (context.ItemCount > 0)
+        for (int i = 0; i < context.ItemCount; i++)
         {
-            for (int i = 0; i < items.Count; i++)
-            {
-                RecycleElementAt(i);
-            }
+            RecycleElementAt(i);
         }
     }
 

@@ -41,6 +41,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     private List<InventoryItemView>? inventoryItems;
     private ObservableCollection<CultivateEntryView>? cultivateEntries;
     private ObservableCollection<StatisticsCultivateItem>? statisticsItems;
+    private bool entriesUpdating;
 
     public AdvancedDbCollectionView<CultivateProject>? Projects
     {
@@ -65,6 +66,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     public ObservableCollection<CultivateEntryView>? CultivateEntries { get => cultivateEntries; set => SetProperty(ref cultivateEntries, value); }
 
+    public bool EntriesUpdating { get => entriesUpdating; set => SetProperty(ref entriesUpdating, value); }
+
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
@@ -74,6 +77,13 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
             Projects = cultivationService.Projects;
             Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
+
+            // Force update when re-entering the page
+            if (Projects.CurrentItem is not null && CultivateEntries is null)
+            {
+                await UpdateEntryCollectionAsync(Projects.CurrentItem).ConfigureAwait(false);
+            }
+
             return true;
         }
 
@@ -82,7 +92,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     protected override void UninitializeOverride()
     {
-        using (Projects?.SuppressSavingToDatabase())
+        using (Projects?.SuppressChangeCurrentItem())
         {
             Projects = default;
         }
@@ -146,22 +156,31 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     private async ValueTask UpdateEntryCollectionAsync(CultivateProject? project)
     {
-        if (project is null)
+        try
         {
-            return;
+            EntriesUpdating = true;
+            if (project is null)
+            {
+                return;
+            }
+
+            CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
+
+            ObservableCollection<CultivateEntryView> entries = await cultivationService
+                .GetCultivateEntriesAsync(project, context)
+                .ConfigureAwait(false);
+
+            await taskContext.SwitchToMainThreadAsync();
+            CultivateEntries = entries;
+
+            await UpdateInventoryItemsAsync().ConfigureAwait(false);
+            await UpdateStatisticsItemsAsync().ConfigureAwait(false);
         }
-
-        CultivationMetadataContext context = await metadataService.GetContextAsync<CultivationMetadataContext>().ConfigureAwait(false);
-
-        ObservableCollection<CultivateEntryView> entries = await cultivationService
-            .GetCultivateEntriesAsync(project, context)
-            .ConfigureAwait(false);
-
-        await taskContext.SwitchToMainThreadAsync();
-        CultivateEntries = entries;
-
-        await UpdateInventoryItemsAsync().ConfigureAwait(false);
-        await UpdateStatisticsItemsAsync().ConfigureAwait(false);
+        finally
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            EntriesUpdating = false;
+        }
     }
 
     [Command("RemoveEntryCommand")]

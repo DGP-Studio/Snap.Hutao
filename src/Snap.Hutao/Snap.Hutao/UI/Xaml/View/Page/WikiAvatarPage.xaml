@@ -300,8 +300,11 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid>
-        <Grid Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+    <shuxc:StandardView ShowCondition="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolConverter}}">
+        <shuxc:StandardView.EmptyContent>
+            <shuxc:Loading IsLoading="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
+        </shuxc:StandardView.EmptyContent>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
@@ -812,6 +815,6 @@
                 </cwc:Case>
             </cwc:SwitchPresenter>
         </Grid>
-        <shuxc:Loading IsLoading="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
-    </Grid>
+
+    </shuxc:StandardView>
 </shuxc:ScopedPage>

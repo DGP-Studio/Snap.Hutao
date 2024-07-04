@@ -162,8 +162,11 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid>
-        <Grid Visibility="{Binding Weapons, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+    <shuxc:StandardView ShowCondition="{Binding Weapons, Converter={StaticResource EmptyObjectToBoolConverter}}">
+        <shuxc:StandardView.EmptyContent>
+            <shuxc:Loading IsLoading="{Binding Weapons, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
+        </shuxc:StandardView.EmptyContent>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
@@ -419,6 +422,5 @@
             </cwc:SwitchPresenter>
 
         </Grid>
-        <shuxc:Loading IsLoading="{Binding Weapons, Converter={StaticResource EmptyObjectToBoolRevertConverter}}" Style="{ThemeResource DefaultLoadingViewStyle}"/>
-    </Grid>
+    </shuxc:StandardView>
 </shuxc:ScopedPage>

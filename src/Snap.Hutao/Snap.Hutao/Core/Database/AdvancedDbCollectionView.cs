@@ -23,9 +23,9 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
         this.serviceProvider = serviceProvider;
     }
 
-    public IDisposable SuppressSavingToDatabase()
+    public IDisposable SuppressChangeCurrentItem()
     {
-        return new SavingToDatabaseSuppression(this);
+        return new CurrentItemSuppression(this);
     }
 
     protected override void OnCurrentChangedOverride()
@@ -54,18 +54,21 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
         }
     }
 
-    private sealed class SavingToDatabaseSuppression : IDisposable
+    private sealed class CurrentItemSuppression : IDisposable
     {
         private readonly AdvancedDbCollectionView<TEntity> view;
+        private readonly TEntity? currentItem;
 
-        public SavingToDatabaseSuppression(AdvancedDbCollectionView<TEntity> view)
+        public CurrentItemSuppression(AdvancedDbCollectionView<TEntity> view)
         {
             this.view = view;
+            currentItem = view.CurrentItem;
             view.savingToDatabase = false;
         }
 
         public void Dispose()
         {
+            view.MoveCurrentTo(currentItem);
             view.savingToDatabase = true;
         }
     }
@@ -87,9 +90,9 @@ internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : Advance
         this.serviceProvider = serviceProvider;
     }
 
-    public IDisposable SuppressSavingToDatabase()
+    public IDisposable SuppressChangeCurrentItem()
     {
-        return new SavingToDatabaseSuppression(this);
+        return new CurrentItemSuppression(this);
     }
 
     protected override void OnCurrentChangedOverride()
@@ -118,18 +121,21 @@ internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : Advance
         }
     }
 
-    private sealed class SavingToDatabaseSuppression : IDisposable
+    private sealed class CurrentItemSuppression : IDisposable
     {
         private readonly AdvancedDbCollectionView<TEntityAccess, TEntity> view;
+        private readonly TEntityAccess? currentItem;
 
-        public SavingToDatabaseSuppression(AdvancedDbCollectionView<TEntityAccess, TEntity> view)
+        public CurrentItemSuppression(AdvancedDbCollectionView<TEntityAccess, TEntity> view)
         {
             this.view = view;
+            currentItem = view.CurrentItem;
             view.savingToDatabase = false;
         }
 
         public void Dispose()
         {
+            view.MoveCurrentTo(currentItem);
             view.savingToDatabase = true;
         }
     }

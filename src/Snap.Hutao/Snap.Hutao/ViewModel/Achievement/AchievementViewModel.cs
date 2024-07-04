@@ -148,7 +148,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     protected override void UninitializeOverride()
     {
-        using (Archives?.SuppressSavingToDatabase())
+        using (Archives?.SuppressChangeCurrentItem())
         {
             Archives = default;
         }

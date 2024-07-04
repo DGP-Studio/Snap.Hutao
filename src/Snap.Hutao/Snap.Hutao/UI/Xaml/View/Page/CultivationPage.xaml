@@ -260,150 +260,8 @@
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
     </mxi:Interaction.Behaviors>
 
-    <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-        <Grid Visibility="{Binding Projects.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-            <Pivot Style="{ThemeResource CardPivotStyle}">
-                <Pivot.RightHeader>
-                    <CommandBar DefaultLabelPosition="Right">
-                        <AppBarElementContainer>
-                            <shuxc:SizeRestrictedContentControl Margin="6,6,6,6">
-                                <ComboBox
-                                    DisplayMemberPath="Name"
-                                    ItemsSource="{Binding Projects}"
-                                    SelectedItem="{Binding Projects.CurrentItem, Mode=TwoWay}"
-                                    Style="{ThemeResource CommandBarComboBoxStyle}"/>
-                            </shuxc:SizeRestrictedContentControl>
-                        </AppBarElementContainer>
-                        <AppBarButton
-                            Command="{Binding RefreshInventoryCommand}"
-                            Icon="{shuxm:FontIcon Glyph=&#xE72C;}"
-                            Label="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventory}"/>
-                        <AppBarButton
-                            Command="{Binding AddProjectCommand}"
-                            Icon="{shuxm:FontIcon Glyph=&#xE710;}"
-                            Label="{shuxm:ResourceString Name=ViewPageCultivationAddProject}"/>
-                        <AppBarButton
-                            Command="{Binding RemoveProjectCommand}"
-                            CommandParameter="{Binding Projects.CurrentItem, Mode=OneWay}"
-                            Icon="{shuxm:FontIcon Glyph=&#xE74D;}"
-                            Label="{shuxm:ResourceString Name=ViewPageCultivationRemoveProject}"/>
-                    </CommandBar>
-                </Pivot.RightHeader>
-
-                <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationMaterialList}">
-                    <Grid>
-                        <Pivot Style="{ThemeResource CardPivotStyle}" Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-                            <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationCultivateEntry}">
-                                <ScrollViewer Padding="0,0">
-                                    <ItemsRepeater
-                                        Margin="16,16,16,0"
-                                        ItemTemplate="{StaticResource CultivateEntryTemplate}"
-                                        ItemsSource="{Binding CultivateEntries}">
-                                        <ItemsRepeater.Layout>
-                                            <shuxcl:UniformStaggeredLayout
-                                                MinColumnSpacing="12"
-                                                MinItemWidth="300"
-                                                MinRowSpacing="-4"/>
-                                        </ItemsRepeater.Layout>
-                                    </ItemsRepeater>
-                                </ScrollViewer>
-                            </PivotItem>
-                            <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationMaterialStatistics}">
-                                <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                                        <ScrollViewer Padding="16,0">
-                                            <ItemsRepeater
-                                                Margin="0,16,0,0"
-                                                ItemTemplate="{StaticResource StatisticsItemTemplate}"
-                                                ItemsSource="{Binding StatisticsItems}">
-                                                <ItemsRepeater.Layout>
-                                                    <UniformGridLayout
-                                                        ItemsJustification="Start"
-                                                        ItemsStretch="Fill"
-                                                        MinColumnSpacing="12"
-                                                        MinItemWidth="240"
-                                                        MinRowSpacing="-4"/>
-                                                </ItemsRepeater.Layout>
-                                            </ItemsRepeater>
-                                        </ScrollViewer>
-                                    </Border>
-                                </Border>
-
-                            </PivotItem>
-                        </Pivot>
-                        <Border Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
-                            <Border
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                                <Border
-                                    MinWidth="480"
-                                    Padding="16"
-                                    Style="{ThemeResource AcrylicBorderCardStyle}">
-                                    <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
-                                        <StackPanel.Resources>
-                                            <Thickness x:Key="SettingsCardPadding">16</Thickness>
-                                            <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
-                                            <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
-                                            <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
-                                        </StackPanel.Resources>
-                                        <shuxci:CachedImage
-                                            Height="120"
-                                            Margin="0,0,0,16"
-                                            Source="{StaticResource UI_EmotionIcon433}"/>
-                                        <cwcont:SettingsCard
-                                            ActionIconToolTip="{shuxm:ResourceString Name=ViewPageCultivationNavigateAction}"
-                                            Command="{Binding NavigateToPageCommand}"
-                                            CommandParameter="Snap.Hutao.UI.Xaml.View.Page.WikiAvatarPage"
-                                            Description="{shuxm:ResourceString Name=ViewPageCultivationWikiAvatarDescription}"
-                                            Header="{shuxm:ResourceString Name=ViewWikiAvatarHeader}"
-                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"
-                                            IsClickEnabled="True"/>
-                                        <cwcont:SettingsCard
-                                            ActionIconToolTip="{shuxm:ResourceString Name=ViewPageCultivationNavigateAction}"
-                                            Command="{Binding NavigateToPageCommand}"
-                                            CommandParameter="Snap.Hutao.UI.Xaml.View.Page.WikiWeaponPage"
-                                            Description="{shuxm:ResourceString Name=ViewPageCultivationWikiWeaponDescription}"
-                                            Header="{shuxm:ResourceString Name=ViewWikiWeaponHeader}"
-                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"
-                                            IsClickEnabled="True"/>
-                                        <cwcont:SettingsCard
-                                            ActionIconToolTip="{shuxm:ResourceString Name=ViewPageCultivationNavigateAction}"
-                                            Command="{Binding NavigateToPageCommand}"
-                                            CommandParameter="Snap.Hutao.UI.Xaml.View.Page.AvatarPropertyPage"
-                                            Description="{shuxm:ResourceString Name=ViewPageCultivationAvatarPropertyDescription}"
-                                            Header="{shuxm:ResourceString Name=ViewAvatarPropertyHeader}"
-                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"
-                                            IsClickEnabled="True"/>
-                                    </StackPanel>
-                                </Border>
-                            </Border>
-                        </Border>
-                    </Grid>
-                </PivotItem>
-                <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationInventoryItem}">
-                    <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                        <Border Style="{ThemeResource AcrylicBorderCardStyle}">
-                            <!--  Add a ScrollView for smooth scrolling  -->
-                            <ScrollView HorizontalScrollBarVisibility="Hidden">
-                                <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-                                    <ItemsRepeater
-                                        Margin="16"
-                                        ItemTemplate="{StaticResource InventoryItemTemplate}"
-                                        ItemsSource="{Binding InventoryItems}">
-                                        <ItemsRepeater.Layout>
-                                            <shuxcl:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
-                                        </ItemsRepeater.Layout>
-                                    </ItemsRepeater>
-                                </ScrollViewer>
-                            </ScrollView>
-                        </Border>
-                    </Border>
-                </PivotItem>
-            </Pivot>
-        </Grid>
-
-        <Grid Visibility="{Binding Projects.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+    <shuxc:StandardView HideCondition="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}" ShowCondition="{Binding Projects.Count, Converter={StaticResource Int32ToBoolConverter}}">
+        <shuxc:StandardView.EmptyContent>
             <Border
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -434,6 +292,145 @@
                     </StackPanel>
                 </Border>
             </Border>
-        </Grid>
-    </Grid>
+        </shuxc:StandardView.EmptyContent>
+        <Pivot Style="{ThemeResource CardPivotStyle}">
+            <Pivot.RightHeader>
+                <CommandBar DefaultLabelPosition="Right">
+                    <AppBarElementContainer>
+                        <shuxc:SizeRestrictedContentControl Margin="6,6,6,6">
+                            <ComboBox
+                                DisplayMemberPath="Name"
+                                ItemsSource="{Binding Projects}"
+                                SelectedItem="{Binding Projects.CurrentItem, Mode=TwoWay}"
+                                Style="{ThemeResource CommandBarComboBoxStyle}"/>
+                        </shuxc:SizeRestrictedContentControl>
+                    </AppBarElementContainer>
+                    <AppBarButton
+                        Command="{Binding RefreshInventoryCommand}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE72C;}"
+                        Label="{shuxm:ResourceString Name=ViewPageCultivationRefreshInventory}"/>
+                    <AppBarButton
+                        Command="{Binding AddProjectCommand}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE710;}"
+                        Label="{shuxm:ResourceString Name=ViewPageCultivationAddProject}"/>
+                    <AppBarButton
+                        Command="{Binding RemoveProjectCommand}"
+                        CommandParameter="{Binding Projects.CurrentItem, Mode=OneWay}"
+                        Icon="{shuxm:FontIcon Glyph=&#xE74D;}"
+                        Label="{shuxm:ResourceString Name=ViewPageCultivationRemoveProject}"/>
+                </CommandBar>
+            </Pivot.RightHeader>
+
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationMaterialList}">
+                <shuxc:StandardView HideCondition="{Binding EntriesUpdating}" ShowCondition="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToBoolConverter}}">
+                    <shuxc:StandardView.EmptyContent>
+                        <Border
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                            <Border
+                                MinWidth="480"
+                                Padding="16"
+                                Style="{ThemeResource AcrylicBorderCardStyle}">
+                                <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                                    <StackPanel.Resources>
+                                        <Thickness x:Key="SettingsCardPadding">16</Thickness>
+                                        <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                        <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                        <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                    </StackPanel.Resources>
+                                    <shuxci:CachedImage
+                                        Height="120"
+                                        Margin="0,0,0,16"
+                                        Source="{StaticResource UI_EmotionIcon433}"/>
+                                    <cwcont:SettingsCard
+                                        ActionIconToolTip="{shuxm:ResourceString Name=ViewPageCultivationNavigateAction}"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="Snap.Hutao.UI.Xaml.View.Page.WikiAvatarPage"
+                                        Description="{shuxm:ResourceString Name=ViewPageCultivationWikiAvatarDescription}"
+                                        Header="{shuxm:ResourceString Name=ViewWikiAvatarHeader}"
+                                        HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwcont:SettingsCard
+                                        ActionIconToolTip="{shuxm:ResourceString Name=ViewPageCultivationNavigateAction}"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="Snap.Hutao.UI.Xaml.View.Page.WikiWeaponPage"
+                                        Description="{shuxm:ResourceString Name=ViewPageCultivationWikiWeaponDescription}"
+                                        Header="{shuxm:ResourceString Name=ViewWikiWeaponHeader}"
+                                        HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"
+                                        IsClickEnabled="True"/>
+                                    <cwcont:SettingsCard
+                                        ActionIconToolTip="{shuxm:ResourceString Name=ViewPageCultivationNavigateAction}"
+                                        Command="{Binding NavigateToPageCommand}"
+                                        CommandParameter="Snap.Hutao.UI.Xaml.View.Page.AvatarPropertyPage"
+                                        Description="{shuxm:ResourceString Name=ViewPageCultivationAvatarPropertyDescription}"
+                                        Header="{shuxm:ResourceString Name=ViewAvatarPropertyHeader}"
+                                        HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"
+                                        IsClickEnabled="True"/>
+                                </StackPanel>
+                            </Border>
+                        </Border>
+                    </shuxc:StandardView.EmptyContent>
+                    <Pivot Style="{ThemeResource CardPivotStyle}">
+                        <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationCultivateEntry}">
+                            <ScrollViewer Padding="0,0">
+                                <ItemsRepeater
+                                    Margin="16,16,16,0"
+                                    ItemTemplate="{StaticResource CultivateEntryTemplate}"
+                                    ItemsSource="{Binding CultivateEntries}">
+                                    <ItemsRepeater.Layout>
+                                        <shuxcl:UniformStaggeredLayout
+                                            MinColumnSpacing="12"
+                                            MinItemWidth="300"
+                                            MinRowSpacing="-4"/>
+                                    </ItemsRepeater.Layout>
+                                </ItemsRepeater>
+                            </ScrollViewer>
+                        </PivotItem>
+                        <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationMaterialStatistics}">
+                            <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                                <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                                    <ScrollViewer Padding="16,0">
+                                        <ItemsRepeater
+                                            Margin="0,16,0,0"
+                                            ItemTemplate="{StaticResource StatisticsItemTemplate}"
+                                            ItemsSource="{Binding StatisticsItems}">
+                                            <ItemsRepeater.Layout>
+                                                <UniformGridLayout
+                                                    ItemsJustification="Start"
+                                                    ItemsStretch="Fill"
+                                                    MinColumnSpacing="12"
+                                                    MinItemWidth="240"
+                                                    MinRowSpacing="-4"/>
+                                            </ItemsRepeater.Layout>
+                                        </ItemsRepeater>
+                                    </ScrollViewer>
+                                </Border>
+                            </Border>
+
+                        </PivotItem>
+                    </Pivot>
+                </shuxc:StandardView>
+            </PivotItem>
+            <PivotItem Header="{shuxm:ResourceString Name=ViewPageCultivationInventoryItem}">
+                <Border Margin="16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                    <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                        <!--  Add a ScrollView for smooth scrolling  -->
+                        <ScrollView HorizontalScrollBarVisibility="Hidden">
+                            <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                                <ItemsRepeater
+                                    Margin="16"
+                                    ItemTemplate="{StaticResource InventoryItemTemplate}"
+                                    ItemsSource="{Binding InventoryItems}">
+                                    <ItemsRepeater.Layout>
+                                        <shuxcl:WrapLayout HorizontalSpacing="12" VerticalSpacing="12"/>
+                                    </ItemsRepeater.Layout>
+                                </ItemsRepeater>
+                            </ScrollViewer>
+                        </ScrollView>
+                    </Border>
+                </Border>
+            </PivotItem>
+        </Pivot>
+    </shuxc:StandardView>
 </shuxc:ScopedPage>
