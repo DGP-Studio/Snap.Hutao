@@ -175,12 +175,11 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
         SourceName = Path.GetFileName(imageUri.ToString());
         IImageCache imageCache = this.ServiceProvider().GetRequiredService<IImageCache>();
 
-        string file = default;
         try
         {
             HutaoException.ThrowIf(string.IsNullOrEmpty(imageUri.Host), SH.ControlImageCachedImageInvalidResourceUri);
             ElementTheme theme = ShowAsMonoChrome ? ThemeHelper.ApplicationToElement(ThemeHelper.ElementToApplication(ActualTheme)) : ElementTheme.Default;
-            file = await imageCache.GetFileFromCacheAsync(imageUri, theme).ConfigureAwait(true); // BitmapImage need to be created by main thread.
+            string file = await imageCache.GetFileFromCacheAsync(imageUri, theme).ConfigureAwait(true); // BitmapImage need to be created by main thread.
             CachedName = Path.GetFileName(file);
             token.ThrowIfCancellationRequested(); // check token state to determine whether the operation should be canceled.
             return file.ToUri();
@@ -193,7 +192,6 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(file);
             Debug.WriteLine(ex);
             return default;
         }

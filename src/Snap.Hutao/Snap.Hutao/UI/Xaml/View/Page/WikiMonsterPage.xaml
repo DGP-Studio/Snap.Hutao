@@ -48,6 +48,8 @@
             <cwc:SettingsCard MinHeight="40" Padding="0,0,16,0">
                 <cwc:SettingsCard.Resources>
                     <x:Double x:Key="SettingsCardLeftIndention">16</x:Double>
+                    <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                    <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                 </cwc:SettingsCard.Resources>
                 <cwc:SettingsCard.Header>
                     <TextBlock Text="{Binding Name}" TextWrapping="NoWrap"/>
