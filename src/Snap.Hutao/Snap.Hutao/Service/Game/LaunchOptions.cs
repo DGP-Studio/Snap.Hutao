@@ -171,8 +171,8 @@ internal sealed class LaunchOptions : DbStoreOptions
 
     public List<NameDescriptionValue<GameFpsUnlockerKind>> UnlockerKinds { get; } =
     [
-        new("经典", "经典的进程外内存操作，较为危险，但容易失败", GameFpsUnlockerKind.Legacy),
-        new("注入", "解锁模块注入游戏进程，非常危险，但容易成功", GameFpsUnlockerKind.Island),
+        new(SH.ServiceGameLaunchUnlockerKindLegacyName, SH.ServiceGameLaunchUnlockerKindLegacyDescription, GameFpsUnlockerKind.Legacy),
+        new(SH.ServiceGameLaunchUnlockerKindIslandName, SH.ServiceGameLaunchUnlockerKindIslandDescription, GameFpsUnlockerKind.Island),
     ];
 
     public NameDescriptionValue<GameFpsUnlockerKind> UnlockerKind
