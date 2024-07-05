@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using WinRT;
@@ -100,70 +101,73 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     public async ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri, ElementTheme theme)
     {
         string fileName = GetCacheFileName(uri);
+        string defaultFilePath = Path.Combine(CacheFolder, fileName);
+        string themeOrDefaultFilePath = theme is ElementTheme.Dark or ElementTheme.Light
+            ? Path.Combine(CacheFolder, $"{theme}", fileName)
+            : defaultFilePath;
 
-        using (ScopedTaskCompletionSource themeFileScope = new())
+        if (!IsFileInvalid(themeOrDefaultFilePath))
         {
-            ElementThemeValueFile key = new(fileName, theme);
-            string defaultFilePath = Path.Combine(CacheFolder, fileName);
-            string themeOrDefaultFilePath = theme is ElementTheme.Dark or ElementTheme.Light ? Path.Combine(CacheFolder, $"{theme}", fileName) : defaultFilePath;
-
-            if (themefileTasks.TryAdd(key, themeFileScope.Task))
-            {
-                try
-                {
-                    if (!IsFileInvalid(themeOrDefaultFilePath))
-                    {
-                        return themeOrDefaultFilePath;
-                    }
-
-                    if (!IsFileInvalid(defaultFilePath))
-                    {
-                        await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
-                        return themeOrDefaultFilePath;
-                    }
-
-                    using (ScopedTaskCompletionSource downloadScope = new())
-                    {
-                        if (downloadTasks.TryAdd(fileName, downloadScope.Task))
-                        {
-                            try
-                            {
-                                logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (defaultFilePath, ConsoleColor.Cyan));
-                                await DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
-                            }
-                            finally
-                            {
-                                downloadTasks.TryRemove(fileName, out _);
-                            }
-                        }
-                        else if (downloadTasks.TryGetValue(fileName, out Task? task))
-                        {
-                            logger.LogDebug("Waiting for a queued image download task to complete for '{Uri}'", (uri, ConsoleColor.Cyan));
-                            await task.ConfigureAwait(false);
-                        }
-                    }
-
-                    if (!IsFileInvalid(defaultFilePath))
-                    {
-                        await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
-                        return themeOrDefaultFilePath;
-                    }
-
-                    return themeOrDefaultFilePath;
-                }
-                finally
-                {
-                    themefileTasks.TryRemove(key, out _);
-                }
-            }
-            else if (themefileTasks.TryGetValue(key, out Task? task))
-            {
-                await task.ConfigureAwait(false);
-                return themeOrDefaultFilePath;
-            }
+            return themeOrDefaultFilePath;
         }
 
-        throw HutaoException.NotSupported("The task should not be null.");
+        ElementThemeValueFile key = new(fileName, theme);
+
+        // To prevent re-entrancy, always try add first, and if add failed, we try to get the task
+        TaskCompletionSource themeFileTcs = new();
+        if (themefileTasks.TryAdd(key, themeFileTcs.Task))
+        {
+            try
+            {
+                if (!IsFileInvalid(defaultFilePath))
+                {
+                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
+                    return themeOrDefaultFilePath;
+                }
+
+                TaskCompletionSource downloadTcs = new();
+                if (downloadTasks.TryAdd(fileName, downloadTcs.Task))
+                {
+                    try
+                    {
+                        logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (defaultFilePath, ConsoleColor.Cyan));
+                        await DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        downloadTcs.TrySetResult();
+                        downloadTasks.TryRemove(fileName, out _);
+                    }
+                }
+                else if (downloadTasks.TryGetValue(fileName, out Task? task))
+                {
+                    logger.LogDebug("Waiting for a queued image download task to complete for '{Uri}'", (uri, ConsoleColor.Cyan));
+                    await task.ConfigureAwait(false);
+                }
+
+                if (!IsFileInvalid(defaultFilePath))
+                {
+                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
+                    return themeOrDefaultFilePath;
+                }
+
+                return themeOrDefaultFilePath;
+            }
+            finally
+            {
+                themeFileTcs.TrySetResult();
+                themefileTasks.TryRemove(key, out _);
+            }
+        }
+        else if (themefileTasks.TryGetValue(key, out Task? themeTask))
+        {
+            await themeTask.ConfigureAwait(false);
+            return themeOrDefaultFilePath;
+        }
+        else
+        {
+            throw HutaoException.NotSupported("The task should not be null.");
+        }
     }
 
     /// <inheritdoc/>
