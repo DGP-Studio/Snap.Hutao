@@ -85,12 +85,12 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
                 .GetPlayerInfoAsync(userAndUid)
                 .ConfigureAwait(false);
 
-            await RefreshSpiralAbyssCoreAsync(userAndUid, SpiralAbyssSchedule.Last).ConfigureAwait(false);
-            await RefreshSpiralAbyssCoreAsync(userAndUid, SpiralAbyssSchedule.Current).ConfigureAwait(false);
+            await RefreshSpiralAbyssCoreAsync(userAndUid, ScheduleType.Last).ConfigureAwait(false);
+            await RefreshSpiralAbyssCoreAsync(userAndUid, ScheduleType.Current).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule)
+    private async ValueTask RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, ScheduleType schedule)
     {
         Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())

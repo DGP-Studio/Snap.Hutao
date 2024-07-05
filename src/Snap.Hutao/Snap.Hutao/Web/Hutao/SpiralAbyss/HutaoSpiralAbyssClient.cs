@@ -214,7 +214,7 @@ internal sealed partial class HutaoSpiralAbyssClient
             if (charactersResponse.IsOk())
             {
                 Response<Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> spiralAbyssResponse = await gameRecordClient
-                    .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current, token)
+                    .GetSpiralAbyssAsync(userAndUid, ScheduleType.Current, token)
                     .ConfigureAwait(false);
 
                 if (spiralAbyssResponse.IsOk())

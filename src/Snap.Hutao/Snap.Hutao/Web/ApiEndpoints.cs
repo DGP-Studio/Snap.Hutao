@@ -142,12 +142,19 @@ internal static class ApiEndpoints
     /// <param name="scheduleType">深渊类型</param>
     /// <param name="uid">Uid</param>
     /// <returns>深渊信息字符串</returns>
-    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.SpiralAbyssSchedule scheduleType, in PlayerUid uid)
+    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.ScheduleType scheduleType, in PlayerUid uid)
     {
         return $"{GameRecordSpiralAbyssPath}?schedule_type={(int)scheduleType}&role_id={uid.Value}&server={uid.Region}";
     }
 
     public const string GameRecordSpiralAbyssPath = $"{ApiTakumiRecordApi}/spiralAbyss";
+
+    public static string GameRecordRoleCombat(in PlayerUid uid)
+    {
+        return $"{GameRecordRoleCombatPath}?server={uid.Region}&role_id={uid.Value}&need_detail=true";
+    }
+
+    public const string GameRecordRoleCombatPath = $"{ApiTakumiRecordApi}/role_combat";
     #endregion
 
     #region ApiTakumiEventCalculate

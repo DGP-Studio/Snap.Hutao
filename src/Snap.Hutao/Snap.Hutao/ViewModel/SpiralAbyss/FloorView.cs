@@ -52,7 +52,7 @@ internal sealed class FloorView : IMappingFrom<FloorView, TowerFloor, SpiralAbys
         return new(floor, context);
     }
 
-    public void WithSpiralAbyssFloor(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Floor floor, SpiralAbyssMetadataContext context)
+    public void WithSpiralAbyssFloor(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssFloor floor, SpiralAbyssMetadataContext context)
     {
         SettleTime = $"{DateTimeOffset.FromUnixTimeSeconds(floor.SettleTime).ToLocalTime():yyyy.MM.dd HH:mm:ss}";
         Star = floor.Star;

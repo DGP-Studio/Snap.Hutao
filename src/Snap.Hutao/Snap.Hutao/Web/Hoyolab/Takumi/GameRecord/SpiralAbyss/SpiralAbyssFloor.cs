@@ -7,7 +7,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 /// 层
 /// </summary>
 [HighQuality]
-internal sealed class Floor
+internal sealed class SpiralAbyssFloor
 {
     /// <summary>
     /// 层号
@@ -50,10 +50,10 @@ internal sealed class Floor
     /// 层信息
     /// </summary>
     [JsonPropertyName("levels")]
-    public List<Level> Levels { get; set; } = default!;
+    public List<SpiralAbyssLevel> Levels { get; set; } = default!;
 
     [JsonPropertyName("settle_date_time")]
-    public SettleDateTime? SettleDateTime { get; set; }
+    public DateTime? SettleDateTime { get; set; }
 
     [JsonPropertyName("ley_line_disorder")]
     public List<string> LeyLineDisorder { get; set; } = default!;

@@ -31,6 +31,11 @@ internal sealed class CardVerifiationHeaders
         return Create(ApiEndpoints.GameRecordCharacter, $"{HoyolabOptions.ToolVersion}_#/ys/role/all");
     }
 
+    public static CardVerifiationHeaders CreateForRoleCombat()
+    {
+        return Create(ApiEndpoints.GameRecordRoleCombatPath);
+    }
+
     private static CardVerifiationHeaders Create(string path, string page = $"{HoyolabOptions.ToolVersion}_#/ys")
     {
         return new()

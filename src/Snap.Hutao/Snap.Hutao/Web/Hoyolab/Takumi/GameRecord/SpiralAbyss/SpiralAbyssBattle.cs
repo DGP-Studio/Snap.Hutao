@@ -7,7 +7,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 /// 表示一次战斗
 /// </summary>
 [HighQuality]
-internal sealed class Battle
+internal sealed class SpiralAbyssBattle
 {
     /// <summary>
     /// 索引
@@ -25,8 +25,8 @@ internal sealed class Battle
     /// 参战角色
     /// </summary>
     [JsonPropertyName("avatars")]
-    public List<Avatar> Avatars { get; set; } = default!;
+    public List<SpiralAbyssAvatar> Avatars { get; set; } = default!;
 
     [JsonPropertyName("settle_date_time")]
-    public SettleDateTime SettleDateTime { get; set; } = default!;
+    public DateTime SettleDateTime { get; set; } = default!;
 }

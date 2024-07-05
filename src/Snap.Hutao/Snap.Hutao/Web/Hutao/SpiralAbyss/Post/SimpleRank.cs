@@ -15,7 +15,7 @@ internal sealed class SimpleRank
     /// 构造一个新的数值
     /// </summary>
     /// <param name="rank">排行</param>
-    private SimpleRank(Rank rank)
+    private SimpleRank(SpiralAbyssRank rank)
     {
         AvatarId = rank.AvatarId;
         Value = rank.Value;
@@ -36,7 +36,7 @@ internal sealed class SimpleRank
     /// </summary>
     /// <param name="rank">排行</param>
     /// <returns>新的简单数值</returns>
-    public static SimpleRank? FromRank(Rank? rank)
+    public static SimpleRank? FromRank(SpiralAbyssRank? rank)
     {
         if (rank is null)
         {

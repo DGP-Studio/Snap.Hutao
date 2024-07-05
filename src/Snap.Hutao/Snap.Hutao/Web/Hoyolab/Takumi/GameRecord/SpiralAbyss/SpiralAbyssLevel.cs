@@ -7,7 +7,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 /// 间
 /// </summary>
 [HighQuality]
-internal sealed class Level
+internal sealed class SpiralAbyssLevel
 {
     /// <summary>
     /// 索引
@@ -31,11 +31,11 @@ internal sealed class Level
     /// 上下半
     /// </summary>
     [JsonPropertyName("battles")]
-    public List<Battle> Battles { get; set; } = default!;
+    public List<SpiralAbyssBattle> Battles { get; set; } = default!;
 
     [JsonPropertyName("top_half_floor_monster")]
-    public List<Monster> TopHalfFloorMonster { get; set; } = default!;
+    public List<SpiralAbyssMonster> TopHalfFloorMonster { get; set; } = default!;
 
     [JsonPropertyName("bottom_half_floor_monster")]
-    public List<Monster> BottomHalfFloorMonster { get; set; } = default!;
+    public List<SpiralAbyssMonster> BottomHalfFloorMonster { get; set; } = default!;
 }

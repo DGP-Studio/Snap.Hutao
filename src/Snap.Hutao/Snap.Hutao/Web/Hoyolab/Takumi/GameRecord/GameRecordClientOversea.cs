@@ -53,7 +53,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule, CancellationToken token = default)
+    public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, ScheduleType schedule, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiOsEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
@@ -83,5 +83,10 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
+    }
+
+    public ValueTask<Response<RoleCombat.RoleCombat>> GetRoleCombatAsync(UserAndUid userAndUid, CancellationToken token = default(CancellationToken))
+    {
+        return ValueTask.FromException<Response<RoleCombat.RoleCombat>>(new NotSupportedException());
     }
 }

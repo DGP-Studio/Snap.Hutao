@@ -15,7 +15,7 @@ internal sealed class SimpleLevel
     /// 构造一个新的间信息
     /// </summary>
     /// <param name="level">间信息</param>
-    public SimpleLevel(Level level)
+    public SimpleLevel(SpiralAbyssLevel level)
     {
         Index = level.Index;
         Star = level.Star;

@@ -3,11 +3,7 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
-/// <summary>
-/// 深渊期数类型
-/// </summary>
-[HighQuality]
-internal enum SpiralAbyssSchedule
+internal enum ScheduleType
 {
     /// <summary>
     /// 当期

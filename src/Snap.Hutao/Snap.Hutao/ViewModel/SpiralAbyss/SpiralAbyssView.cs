@@ -35,7 +35,7 @@ internal sealed class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>,
         EnergySkill = ToRankAvatar(spiralAbyss.EnergySkillRank, context);
         Engaged = true;
 
-        foreach (Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Floor webFloor in spiralAbyss.Floors)
+        foreach (Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssFloor webFloor in spiralAbyss.Floors)
         {
             // Ignoring floor 1 - 8 here
             if (Floors.SingleOrDefault(f => f.IndexValue == webFloor.Index) is { } floor)
@@ -139,12 +139,12 @@ internal sealed class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>,
         }
     }
 
-    private static List<RankAvatar> ToRankAvatars(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Rank> ranks, SpiralAbyssMetadataContext context)
+    private static List<RankAvatar> ToRankAvatars(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssRank> ranks, SpiralAbyssMetadataContext context)
     {
         return ranks.Where(r => r.AvatarId != 0U).Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).ToList();
     }
 
-    private static RankAvatar? ToRankAvatar(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Rank> ranks, SpiralAbyssMetadataContext context)
+    private static RankAvatar? ToRankAvatar(List<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssRank> ranks, SpiralAbyssMetadataContext context)
     {
         return ranks.Where(r => r.AvatarId != 0U).Select(r => new RankAvatar(r.Value, context.IdAvatarMap[r.AvatarId])).SingleOrDefault();
     }

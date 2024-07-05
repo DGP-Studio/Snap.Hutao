@@ -15,7 +15,7 @@ internal sealed class SimpleFloor
     /// 构造一个新的层信息
     /// </summary>
     /// <param name="floor">层信息</param>
-    public SimpleFloor(Floor floor)
+    public SimpleFloor(SpiralAbyssFloor floor)
     {
         Index = floor.Index;
         Star = floor.Star;

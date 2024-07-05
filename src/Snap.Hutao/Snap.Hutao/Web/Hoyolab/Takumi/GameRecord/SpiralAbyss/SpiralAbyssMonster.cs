@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
-internal sealed class Monster
+internal sealed class SpiralAbyssMonster
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = default!;

@@ -6,28 +6,28 @@ using Snap.Hutao.Model.Primitive;
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
 /// <summary>
-/// 仅包含头像的角色信息
+/// 角色数值排行信息
 /// </summary>
 [HighQuality]
-internal sealed class Avatar
+internal sealed class SpiralAbyssRank
 {
     /// <summary>
-    /// Id
+    /// 角色Id
     /// </summary>
-    [JsonPropertyName("id")]
-    public AvatarId Id { get; set; }
+    [JsonPropertyName("avatar_id")]
+    public AvatarId AvatarId { get; set; }
 
     /// <summary>
-    /// 图标
+    /// 角色图标
     /// </summary>
-    [JsonPropertyName("icon")]
-    public string Icon { get; set; } = default!;
+    [JsonPropertyName("avatar_icon")]
+    public string AvatarIcon { get; set; } = default!;
 
     /// <summary>
-    /// 等级
+    /// 值
     /// </summary>
-    [JsonPropertyName("level")]
-    public int Level { get; set; }
+    [JsonPropertyName("value")]
+    public int Value { get; set; }
 
     /// <summary>
     /// 稀有度

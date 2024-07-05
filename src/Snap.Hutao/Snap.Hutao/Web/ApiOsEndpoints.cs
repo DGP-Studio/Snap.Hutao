@@ -168,7 +168,7 @@ internal static class ApiOsEndpoints
     /// <param name="scheduleType">深渊类型</param>
     /// <param name="uid">Uid</param>
     /// <returns>深渊信息字符串</returns>
-    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.SpiralAbyssSchedule scheduleType, in PlayerUid uid)
+    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.ScheduleType scheduleType, in PlayerUid uid)
     {
         return $"{BbsApiOsGameRecordAppApi}/spiralAbyss?server={uid.Region}&role_id={uid.Value}&schedule_type={(int)scheduleType}";
     }
