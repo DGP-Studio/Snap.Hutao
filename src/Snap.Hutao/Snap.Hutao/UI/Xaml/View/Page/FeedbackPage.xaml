@@ -1,0 +1,304 @@
+<shuxc:ScopedPage
+    x:Class="Snap.Hutao.UI.Xaml.View.Page.FeedbackPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
+    xmlns:cw="using:CommunityToolkit.WinUI"
+    xmlns:cwcont="using:CommunityToolkit.WinUI.Controls"
+    xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shvf="using:Snap.Hutao.ViewModel.Feedback"
+    d:DataContext="{d:DesignInstance shvf:FeedbackViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+
+        <cwconv:BoolToObjectConverter x:Key="BoolToLoopbackDescriptionControlConverter">
+            <cwconv:BoolToObjectConverter.TrueValue>
+                <TextBlock Text="{shuxm:ResourceString Name=ViewPageFeedbackEnableLoopbackEnabledDescription}"/>
+            </cwconv:BoolToObjectConverter.TrueValue>
+            <cwconv:BoolToObjectConverter.FalseValue>
+                <HyperlinkButton Content="{shuxm:ResourceString Name=ViewPageAnnouncementViewDetails}" NavigateUri="{StaticResource DocumentLink_Loopback}"/>
+            </cwconv:BoolToObjectConverter.FalseValue>
+        </cwconv:BoolToObjectConverter>
+    </Page.Resources>
+
+    <Grid>
+        <SplitView
+            DisplayMode="Inline"
+            IsPaneOpen="True"
+            OpenPaneLength="400"
+            PaneBackground="{x:Null}"
+            PanePlacement="Right">
+            <SplitView.Pane>
+                <ScrollViewer>
+                    <StackPanel Margin="16" Spacing="16">
+                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                            <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                                <cwcont:SettingsExpander
+                                    Description="{Binding RuntimeOptions.Version}"
+                                    Header="{shuxm:ResourceString Name=AppName}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xECAA;}"
+                                    IsExpanded="True">
+                                    <cwcont:SettingsExpander.Items>
+                                        <cwcont:SettingsCard
+                                            ActionIcon="{shuxm:FontIcon Glyph=&#xE8C8;}"
+                                            ActionIconToolTip="{shuxm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"
+                                            Command="{Binding CopyDeviceIdCommand}"
+                                            Description="{Binding RuntimeOptions.DeviceId}"
+                                            Header="{shuxm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard Description="{Binding IPInformation}" Header="{shuxm:ResourceString Name=ViewPageSettingDeviceIpHeader}"/>
+                                        <cwcont:SettingsCard Description="{Binding DynamicHttpProxy.CurrentProxyUri}" Header="{shuxm:ResourceString Name=ViewPageFeedbackCurrentProxyHeader}"/>
+                                        <cwcont:SettingsCard
+                                            Command="{Binding EnableLoopbackCommand}"
+                                            Header="{shuxm:ResourceString Name=ViewPageFeedbackEnableLoopbackHeader}"
+                                            IsClickEnabled="True"
+                                            IsEnabled="{Binding LoopbackManager.IsLoopbackEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+                                            <cwcont:SettingsCard.Description>
+                                                <UserControl Content="{Binding LoopbackManager.IsLoopbackEnabled, Converter={StaticResource BoolToLoopbackDescriptionControlConverter}, Mode=OneWay}"/>
+                                            </cwcont:SettingsCard.Description>
+                                        </cwcont:SettingsCard>
+                                        <cwcont:SettingsCard Description="{Binding RuntimeOptions.WebView2Version}" Header="{shuxm:ResourceString Name=ViewPageSettingWebview2Header}"/>
+                                    </cwcont:SettingsExpander.Items>
+                                </cwcont:SettingsExpander>
+                            </Border>
+                        </Border>
+                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                            <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                                <cwcont:SettingsExpander
+                                    Description="{shuxm:ResourceString Name=ViewPageFeedbackEngageWithUsDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageFeedbackCommonLinksHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xE71B;}"
+                                    IsExpanded="True">
+                                    <cwcont:SettingsExpander.Items>
+                                        <cwcont:SettingsCard
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://github.com/DGP-Studio/Snap.Hutao/issues/new/choose"
+                                            Description="{shuxm:ResourceString Name=ViewPageFeedbackGithubIssuesDescription}"
+                                            Header="GitHub Issues"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://github.com/orgs/DGP-Studio/projects/2"
+                                            Description="{shuxm:ResourceString Name=ViewPageFeedbackRoadmapDescription}"
+                                            Header="GitHub Projects"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://status.snapgenshin.cn/status"
+                                            Description="{shuxm:ResourceString Name=ViewPageFeedbackServerStatusDescription}"
+                                            Header="{shuxm:ResourceString Name=ViewPageFeedbackServerStatusHeader}"
+                                            IsClickEnabled="True"/>
+                                    </cwcont:SettingsExpander.Items>
+                                </cwcont:SettingsExpander>
+                            </Border>
+                        </Border>
+                        <Border cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                            <Border Style="{ThemeResource AcrylicBorderCardStyle}">
+                                <cwcont:SettingsExpander
+                                    Header="{shuxm:ResourceString Name=ViewPageFeedbackFeatureGuideHeader}"
+                                    HeaderIcon="{shuxm:FontIcon Glyph=&#xF8A5;}"
+                                    IsExpanded="False">
+                                    <cwcont:SettingsExpander.Items>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/dashboard.html"
+                                            Header="{shuxm:ResourceString Name=ViewAnnouncementHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Announcement.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/game-launcher.html"
+                                            Header="{shuxm:ResourceString Name=ViewLaunchGameHeader}"
+                                            IsClickEnabled="True">
+                                            <cwcont:SettingsCard.HeaderIcon>
+                                                <!--  This icon is not a square  -->
+                                                <BitmapIcon
+                                                    Width="24"
+                                                    Height="24"
+                                                    ShowAsMonochrome="False"
+                                                    UriSource="ms-appx:///Resource/Navigation/LaunchGame.png"/>
+                                            </cwcont:SettingsCard.HeaderIcon>
+                                        </cwcont:SettingsCard>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/wish-export.html"
+                                            Header="{shuxm:ResourceString Name=ViewGachaLogHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/GachaLog.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/achievements.html"
+                                            Header="{shuxm:ResourceString Name=ViewAchievementHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Achievement.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/real-time-notes.html"
+                                            Header="{shuxm:ResourceString Name=ViewDailyNoteHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/DailyNote.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/character-data.html"
+                                            Header="{shuxm:ResourceString Name=ViewAvatarPropertyHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/AvatarProperty.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/hutao-API.html"
+                                            Header="{shuxm:ResourceString Name=ViewSpiralAbyssHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/SpiralAbyss.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/develop-plan.html"
+                                            Header="{shuxm:ResourceString Name=ViewCultivationHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/character-wiki.html"
+                                            Header="{shuxm:ResourceString Name=ViewWikiAvatarHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/weapon-wiki.html"
+                                            Header="{shuxm:ResourceString Name=ViewWikiWeaponHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/monster-wiki.html"
+                                            Header="{shuxm:ResourceString Name=ViewWikiMonsterHeader}"
+                                            HeaderIcon="{shuxm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiMonster.png}"
+                                            IsClickEnabled="True"/>
+                                        <cwcont:SettingsCard
+                                            Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                            Command="{Binding NavigateToUriCommand}"
+                                            CommandParameter="https://hut.ao/features/hutao-settings.html"
+                                            Header="{shuxm:ResourceString Name=ViewSettingHeader}"
+                                            HeaderIcon="{shuxm:FontIcon Glyph=&#xE713;}"
+                                            IsClickEnabled="True"/>
+                                    </cwcont:SettingsExpander.Items>
+                                </cwcont:SettingsExpander>
+                            </Border>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </SplitView.Pane>
+            <Border Margin="16,16,0,16" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
+                <Grid Style="{ThemeResource AcrylicGridCardStyle}">
+                    <shuxc:StandardView ShowCondition="{Binding IsInitialized, Mode=OneWay}">
+                        <shuxc:StandardView.EmptyContent>
+                            <clw:Shimmer IsActive="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"/>
+                        </shuxc:StandardView.EmptyContent>
+
+                        <Grid Padding="16" RowSpacing="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <AutoSuggestBox
+                                Grid.Row="0"
+                                Height="36"
+                                Margin="0,0,0,8"
+                                HorizontalAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                PlaceholderText="{shuxm:ResourceString Name=ViewPageFeedbackAutoSuggestBoxPlaceholder}"
+                                QueryIcon="{shuxm:FontIcon Glyph=&#xE721;}"
+                                Style="{StaticResource DefaultAutoSuggestBoxStyle}"
+                                Text="{Binding SearchText, Mode=TwoWay}">
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="QuerySubmitted">
+                                        <mxic:InvokeCommandAction Command="{Binding SearchDocumentCommand}" CommandParameter="{Binding SearchText}"/>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </AutoSuggestBox>
+                            <shuxc:StandardView Grid.Row="1" ShowCondition="{Binding SearchResults.Count, Converter={StaticResource Int32ToBoolConverter}}">
+                                <shuxc:StandardView.EmptyContent>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <shuxci:CachedImage
+                                            Height="120"
+                                            MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                                            Source="{StaticResource UI_EmotionIcon52}"/>
+                                        <TextBlock
+                                            Margin="0,5,0,21"
+                                            HorizontalAlignment="Center"
+                                            Style="{StaticResource SubtitleTextBlockStyle}"
+                                            Text="{shuxm:ResourceString Name=ViewPageFeedbackSearchResultPlaceholderTitle}"/>
+                                    </StackPanel>
+                                </shuxc:StandardView.EmptyContent>
+                                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                                    <ItemsControl
+                                        ItemContainerTransitions="{ThemeResource ListViewLikeThemeTransitions}"
+                                        ItemsPanel="{ThemeResource StackPanelSpacing8Template}"
+                                        ItemsSource="{Binding SearchResults}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Style="{ThemeResource BorderCardStyle}">
+                                                    <HyperlinkButton
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        NavigateUri="{Binding Url}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <BreadcrumbBar
+                                                                Grid.Column="0"
+                                                                Margin="4,8,8,4"
+                                                                IsHitTestVisible="False"
+                                                                ItemsSource="{Binding Hierarchy.DisplayLevels}"/>
+                                                        </Grid>
+                                                    </HyperlinkButton>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </shuxc:StandardView>
+
+
+                        </Grid>
+                    </shuxc:StandardView>
+
+
+
+                </Grid>
+            </Border>
+        </SplitView>
+    </Grid>
+</shuxc:ScopedPage>

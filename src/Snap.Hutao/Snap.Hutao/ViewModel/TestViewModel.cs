@@ -4,12 +4,14 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Service.Game.Automation.ScreenCapture;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Win32.Foundation;
@@ -105,6 +107,14 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         HutaoException.Throw("Test Exception");
     }
 
+    [Command("FileOperationRenameCommand")]
+    private static void FileOperationRename()
+    {
+        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string source = Path.Combine(desktop, "TestFolder");
+        DirectoryOperation.UnsafeRename(source, "TestFolder1");
+    }
+
     [Command("ResetMainWindowSizeCommand")]
     private void ResetMainWindowSize()
     {
@@ -158,18 +168,10 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             {
                 while (true)
                 {
-                    await session.RequestFrameAsync();
-                    await Task.Delay(1000);
+                    await session.RequestFrameAsync().ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
                 }
             }
         }
-    }
-
-    [Command("FileOperationRenameCommand")]
-    private void FileOperationRename()
-    {
-        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        string source = Path.Combine(desktop, "TestFolder");
-        DirectoryOperation.UnsafeRename(source, "TestFolder1");
     }
 }

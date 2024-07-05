@@ -11,5 +11,7 @@ internal readonly struct HANDLE
 
     public static unsafe implicit operator HANDLE(nint value) => *(HANDLE*)&value;
 
+    public static unsafe implicit operator nint(HANDLE handle) => *(nint*)&handle;
+
     public static unsafe implicit operator HANDLE(BOOL value) => *(int*)&value;
 }

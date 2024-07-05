@@ -5,19 +5,19 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Snap.Hutao.Control.Extension;
-using Snap.Hutao.Control.Media;
+using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Core.Graphics.Imaging;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Message;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI;
+using Snap.Hutao.UI.Xaml.Control;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
@@ -39,7 +39,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
+internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IAppResourceProvider appResourceProvider;
@@ -72,17 +72,17 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     public AvatarView? SelectedAvatar { get => selectedAvatar; set => SetProperty(ref selectedAvatar, value); }
 
     /// <inheritdoc/>
-    public void Receive(UserChangedMessage message)
+    public void Receive(UserAndUidChangedMessage message)
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (message.UserAndUid is { } userAndUid)
         {
             RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).SafeForget();
         }
     }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).ConfigureAwait(false);
             return true;
@@ -94,7 +94,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("RefreshFromEnkaApiCommand")]
     private async Task RefreshByEnkaApiAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromEnkaAPI, CancellationToken).ConfigureAwait(false);
         }
@@ -103,7 +103,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("RefreshFromHoyolabGameRecordCommand")]
     private async Task RefreshByHoyolabGameRecordAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
         }
@@ -112,7 +112,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("RefreshFromHoyolabCalculateCommand")]
     private async Task RefreshByHoyolabCalculateAsync()
     {
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabCalculate, CancellationToken).ConfigureAwait(false);
         }
@@ -122,8 +122,10 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         try
         {
+            await taskContext.SwitchToMainThreadAsync();
+            IsInitialized = false;
             ValueResult<RefreshResultKind, Summary?> summaryResult;
-            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 ContentDialog dialog = await contentDialogFactory
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)
@@ -166,6 +168,11 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         catch (OperationCanceledException)
         {
         }
+        finally
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            IsInitialized = true;
+        }
     }
 
     [Command("CultivateCommand")]
@@ -176,7 +183,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
@@ -221,7 +228,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             return;
         }
 
-        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
@@ -312,40 +319,5 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         return true;
-    }
-
-    [Command("ExportAsImageCommand")]
-    private async Task ExportAsImageAsync(FrameworkElement? element)
-    {
-        if (element is { IsLoaded: true })
-        {
-            RenderTargetBitmap bitmap = new();
-            await bitmap.RenderAsync(element);
-
-            IBuffer buffer = await bitmap.GetPixelsAsync();
-            bool clipboardOpened = false;
-            using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
-            {
-                Bgra32 tint = appResourceProvider.GetResource<Color>("CompatBackgroundColor");
-                softwareBitmap.NormalBlend(tint);
-                using (InMemoryRandomAccessStream memory = new())
-                {
-                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memory);
-                    encoder.SetSoftwareBitmap(softwareBitmap);
-                    await encoder.FlushAsync();
-
-                    clipboardOpened = clipboardInterop.SetBitmap(memory);
-                }
-            }
-
-            if (clipboardOpened)
-            {
-                infoBarService.Success(SH.ViewModelAvatarPropertyExportImageSuccess);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelAvatarPropertyOpenClipboardFail);
-            }
-        }
     }
 }

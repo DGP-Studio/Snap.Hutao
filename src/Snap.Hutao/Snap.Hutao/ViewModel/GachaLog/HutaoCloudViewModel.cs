@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.UI.Xaml.Control;
+using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
@@ -64,7 +65,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
         }
     }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         await hutaoUserService.InitializeAsync().ConfigureAwait(false);
         await RefreshUidCollectionAsync().ConfigureAwait(false);
@@ -128,7 +129,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     [Command("NavigateToSpiralAbyssRecordCommand")]
     private void NavigateToSpiralAbyssRecord()
     {
-        navigationService.Navigate<View.Page.SpiralAbyssRecordPage>(INavigationAwaiter.Default, true);
+        navigationService.Navigate<SpiralAbyssRecordPage>(INavigationAwaiter.Default, true);
     }
 
     private async ValueTask RefreshUidCollectionAsync()

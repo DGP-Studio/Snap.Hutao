@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.IO.Http.Loopback;
 using Snap.Hutao.Core.IO.Http.Proxy;
 using Snap.Hutao.Factory.ContentDialog;
@@ -48,7 +48,7 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     public IPInformation? IPInformation { get => ipInformation; private set => SetProperty(ref ipInformation, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
         IPInformation info = resp.IsOk() ? resp.Data : IPInformation.Default;

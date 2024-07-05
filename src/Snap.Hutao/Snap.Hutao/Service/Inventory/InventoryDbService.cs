@@ -14,14 +14,14 @@ internal sealed partial class InventoryDbService : IInventoryDbService
 
     public IServiceProvider ServiceProvider { get => serviceProvider; }
 
-    public async ValueTask RemoveInventoryItemRangeByProjectIdAsync(Guid projectId, CancellationToken token = default)
+    public void RemoveInventoryItemRangeByProjectId(Guid projectId)
     {
-        await this.DeleteAsync(i => i.ProjectId == projectId, token).ConfigureAwait(false);
+        this.Delete(i => i.ProjectId == projectId);
     }
 
-    public async ValueTask AddInventoryItemRangeByProjectIdAsync(List<InventoryItem> items, CancellationToken token = default)
+    public void AddInventoryItemRangeByProjectId(List<InventoryItem> items)
     {
-        await this.AddRangeAsync(items, token).ConfigureAwait(false);
+        this.AddRange(items);
     }
 
     public void UpdateInventoryItem(InventoryItem item)
@@ -29,18 +29,8 @@ internal sealed partial class InventoryDbService : IInventoryDbService
         this.Update(item);
     }
 
-    public async ValueTask UpdateInventoryItemAsync(InventoryItem item, CancellationToken token = default)
-    {
-        await this.UpdateAsync(item, token).ConfigureAwait(false);
-    }
-
     public List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId)
     {
         return this.List(i => i.ProjectId == projectId);
-    }
-
-    public ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId, CancellationToken token = default)
-    {
-        return this.ListAsync(i => i.ProjectId == projectId, token);
     }
 }

@@ -3,6 +3,9 @@
 
 namespace Snap.Hutao.Core.Threading;
 
+#if NET9_0_OR_GREATER
+[Obsolete]
+#endif
 internal readonly struct Delay
 {
     /// <summary>
@@ -14,15 +17,5 @@ internal readonly struct Delay
     public static ValueTask RandomMilliSeconds(int min, int max)
     {
         return Task.Delay((int)(System.Random.Shared.NextDouble() * (max - min)) + min).AsValueTask();
-    }
-
-    public static ValueTask FromSeconds(int seconds)
-    {
-        return Task.Delay(TimeSpan.FromSeconds(seconds)).AsValueTask();
-    }
-
-    public static ValueTask FromMilliSeconds(int seconds)
-    {
-        return Task.Delay(TimeSpan.FromMilliseconds(seconds)).AsValueTask();
     }
 }

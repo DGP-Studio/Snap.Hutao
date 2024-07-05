@@ -19,18 +19,8 @@ internal sealed partial class AvatarInfoDbService : IAvatarInfoDbService
         return this.List(i => i.Uid == uid);
     }
 
-    public ValueTask<List<EntityAvatarInfo>> GetAvatarInfoListByUidAsync(string uid, CancellationToken token = default)
-    {
-        return this.ListAsync(i => i.Uid == uid, token);
-    }
-
     public void RemoveAvatarInfoRangeByUid(string uid)
     {
         this.Delete(i => i.Uid == uid);
-    }
-
-    public async ValueTask RemoveAvatarInfoRangeByUidAsync(string uid, CancellationToken token = default)
-    {
-        await this.DeleteAsync(i => i.Uid == uid, token).ConfigureAwait(false);
     }
 }

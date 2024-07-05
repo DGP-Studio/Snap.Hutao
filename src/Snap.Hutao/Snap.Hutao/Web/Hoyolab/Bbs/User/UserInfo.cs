@@ -98,4 +98,24 @@ internal sealed class UserInfo
     /// </summary>
     [JsonPropertyName("ip_region")]
     public string IpRegion { get; set; } = default!;
+
+    [JsonIgnore]
+    public Uri AvatarUri
+    {
+        get
+        {
+            string? source = AvatarUrl?.OriginalString;
+            if (!string.IsNullOrEmpty(source))
+            {
+                ArgumentNullException.ThrowIfNull(AvatarUrl);
+                return AvatarUrl;
+            }
+
+            string target = string.IsNullOrEmpty(IpRegion)
+                    ? $"https://img-os-static.hoyolab.com/avatar/avatar{Avatar}.png"
+                    : $"https://bbs-static.miyoushe.com/avatar/avatar{Avatar}.png";
+
+            return target.ToUri();
+        }
+    }
 }

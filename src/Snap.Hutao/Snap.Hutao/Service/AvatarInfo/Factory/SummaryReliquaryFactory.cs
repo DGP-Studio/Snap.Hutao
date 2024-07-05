@@ -141,7 +141,6 @@ internal sealed class SummaryReliquaryFactory
         }
     }
 
-    [SuppressMessage("", "SH002")]
     private ReliquarySubProperty CreateSubProperty(ReliquarySubAffixId appendPropId)
     {
         ReliquarySubAffix affix = metadataContext.IdReliquarySubAffixMap[appendPropId];

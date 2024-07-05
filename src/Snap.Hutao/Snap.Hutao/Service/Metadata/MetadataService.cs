@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
@@ -205,7 +204,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
                 if (!readerWriter.Reader.EndOfStream)
                 {
-                    await readerWriter.WriteAsync(StringLiterals.CRLF).ConfigureAwait(false);
+                    await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
                 }
             }
         }

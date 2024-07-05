@@ -12,22 +12,24 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Singleton, typeof(IObjectCacheDbService))]
 internal sealed partial class ObjectCacheDbService : IObjectCacheDbService
 {
-    private readonly IServiceProvider serviceProvider;
     private readonly JsonSerializerOptions jsonSerializerOptions;
+    private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
 
     public async ValueTask AddObjectCacheAsync<T>(string key, TimeSpan expire, T data)
         where T : class
     {
+        await taskContext.SwitchToBackgroundAsync();
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            await appDbContext.ObjectCache.AddAndSaveAsync(new()
+            appDbContext.ObjectCache.AddAndSave(new()
             {
                 Key = key,
                 ExpireTime = DateTimeOffset.UtcNow.Add(expire),
                 Value = JsonSerializer.Serialize(data, jsonSerializerOptions),
-            }).ConfigureAwait(false);
+            });
         }
     }
 
@@ -36,6 +38,7 @@ internal sealed partial class ObjectCacheDbService : IObjectCacheDbService
     {
         try
         {
+            await taskContext.SwitchToBackgroundAsync();
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -49,7 +52,7 @@ internal sealed partial class ObjectCacheDbService : IObjectCacheDbService
                         return value;
                     }
 
-                    await appDbContext.ObjectCache.RemoveAndSaveAsync(entry).ConfigureAwait(false);
+                    appDbContext.ObjectCache.RemoveAndSave(entry);
                 }
             }
         }

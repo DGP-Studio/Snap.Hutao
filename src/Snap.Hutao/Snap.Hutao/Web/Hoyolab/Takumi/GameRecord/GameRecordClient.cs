@@ -110,7 +110,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule, CancellationToken token = default)
+    public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, ScheduleType schedule, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
@@ -206,6 +206,43 @@ internal sealed partial class GameRecordClient : IGameRecordClient
 
                 resp = await verifiedBuilder
                     .SendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<RoleCombat.RoleCombat>> GetRoleCombatAsync(UserAndUid userAndUid, CancellationToken token = default(CancellationToken))
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(ApiEndpoints.GameRecordRoleCombat(userAndUid.Uid))
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+            .Get();
+
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<RoleCombat.RoleCombat>? resp = await builder
+            .SendAsync<Response<RoleCombat.RoleCombat>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        // We have a verification procedure to handle
+        if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
+        {
+            // Replace message
+            resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
+
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForRoleCombat();
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
+            {
+                builder.Resurrect().SetXrpcChallenge(challenge);
+                await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+                resp = await builder
+                    .SendAsync<Response<RoleCombat.RoleCombat>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
         }

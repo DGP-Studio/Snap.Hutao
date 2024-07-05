@@ -1,13 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.UI.Xaml.Data;
+
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 /// <summary>
 /// 历史卡池概览
 /// </summary>
 [HighQuality]
-internal sealed class HistoryWish : Wish
+internal sealed class HistoryWish : Wish, IAdvancedCollectionViewItem
 {
     /// <summary>
     /// 版本
@@ -43,4 +45,12 @@ internal sealed class HistoryWish : Wish
     /// 三星Up
     /// </summary>
     public List<StatisticsItem> BlueList { get; set; } = default!;
+
+    public object? GetPropertyValue(string name)
+    {
+        return name switch
+        {
+            _ => default,
+        };
+    }
 }

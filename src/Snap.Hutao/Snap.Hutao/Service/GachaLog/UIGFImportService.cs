@@ -1,28 +1,24 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-/// <summary>
-/// 祈愿记录导入服务
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IUIGFImportService))]
 internal sealed partial class UIGFImportService : IUIGFImportService
 {
+    private readonly IGachaLogDbService gachaLogDbService;
     private readonly ILogger<UIGFImportService> logger;
     private readonly CultureOptions cultureOptions;
-    private readonly IGachaLogDbService gachaLogDbService;
     private readonly ITaskContext taskContext;
 
-    /// <inheritdoc/>
-    public async ValueTask<GachaArchive> ImportAsync(GachaLogServiceMetadataContext context, UIGF uigf, ObservableCollection<GachaArchive> archives)
+    public async ValueTask ImportAsync(GachaLogServiceMetadataContext context, UIGF uigf, AdvancedDbCollectionView<GachaArchive> archives)
     {
         await taskContext.SwitchToBackgroundAsync();
 
@@ -31,9 +27,9 @@ internal sealed partial class UIGFImportService : IUIGFImportService
             HutaoException.InvalidOperation(SH.ServiceUIGFImportUnsupportedVersion);
         }
 
-        // v2.3+ support any locale
-        // v2.2 only support matched locale
-        // v2.1 only support CHS
+        // v2.3+ supports any locale
+        // v2.2 only supports matched locale
+        // v2.1 only supports CHS
         if (version is UIGFVersion.Major2Minor2OrLower)
         {
             if (!cultureOptions.LanguageCodeFitsCurrentLocale(uigf.Info.Language))
@@ -70,14 +66,14 @@ internal sealed partial class UIGFImportService : IUIGFImportService
             List<GachaItem> currentTypedList = version switch
             {
                 UIGFVersion.Major2Minor3OrHigher => uigf.List
-                    .Where(i => i.UIGFGachaType == queryType && i.Id < trimId)
-                    .OrderByDescending(i => i.Id)
-                    .Select(i => GachaItem.From(archiveId, i))
+                    .Where(item => item.UIGFGachaType == queryType && item.Id < trimId)
+                    .OrderByDescending(item => item.Id)
+                    .Select(item => GachaItem.From(archiveId, item))
                     .ToList(),
                 UIGFVersion.Major2Minor2OrLower => uigf.List
-                    .Where(i => i.UIGFGachaType == queryType && i.Id < trimId)
-                    .OrderByDescending(i => i.Id)
-                    .Select(i => GachaItem.From(archiveId, i, context.GetItemId(i)))
+                    .Where(item => item.UIGFGachaType == queryType && item.Id < trimId)
+                    .OrderByDescending(item => item.Id)
+                    .Select(item => GachaItem.From(archiveId, item, context.GetItemId(item)))
                     .ToList(),
                 _ => throw HutaoException.NotSupported(),
             };
@@ -86,16 +82,16 @@ internal sealed partial class UIGFImportService : IUIGFImportService
             fullItems.AddRange(currentTypedList);
         }
 
-        await gachaLogDbService.AddGachaItemsAsync(fullItems).ConfigureAwait(false);
-        return archive;
+        gachaLogDbService.AddGachaItemRange(fullItems);
+        archives.MoveCurrentTo(archive);
     }
 
-    private static void ThrowIfContainsInvalidItem(List<GachaItem> currentTypeToAdd)
+    private static void ThrowIfContainsInvalidItem(List<GachaItem> list)
     {
         // 越早的记录手工导入的可能性越高
         // 错误率相对来说会更高
         // 因此从尾部开始查找
-        if (currentTypeToAdd.LastOrDefault(item => item.ItemId is 0U) is { } item)
+        if (list.LastOrDefault(item => item.ItemId is 0U) is { } item)
         {
             HutaoException.InvalidOperation(SH.FormatServiceGachaLogUIGFImportItemInvalidFormat(item.Id));
         }

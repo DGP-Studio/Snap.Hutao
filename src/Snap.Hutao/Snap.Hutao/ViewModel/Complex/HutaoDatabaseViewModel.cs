@@ -59,7 +59,7 @@ internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel
     public Overview? Overview { get => overview; set => SetProperty(ref overview, value); }
 
     /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async Task InitializeAsync()
     {
         if (await hutaoCache.InitializeForSpiralAbyssViewAsync().ConfigureAwait(false))
         {

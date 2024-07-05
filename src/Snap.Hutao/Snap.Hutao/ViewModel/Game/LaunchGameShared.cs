@@ -8,8 +8,8 @@ using Snap.Hutao.Service.Game.Configuration;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.View.Dialog;
-using Snap.Hutao.View.Page;
+using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Page;
 using System.IO;
 
 namespace Snap.Hutao.ViewModel.Game;

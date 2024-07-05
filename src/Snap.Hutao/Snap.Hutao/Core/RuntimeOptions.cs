@@ -3,13 +3,13 @@
 
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
+using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Setting;
 using System.IO;
 using System.Security.Principal;
 using Windows.ApplicationModel;
 using Windows.Storage;
-using Windows.UI.Notifications;
 
 namespace Snap.Hutao.Core;
 
@@ -88,7 +88,7 @@ internal sealed class RuntimeOptions
     private readonly LazySlim<bool> lazyToastAvailable = new(() =>
     {
         ITaskContext taskContext = Ioc.Default.GetRequiredService<ITaskContext>();
-        return taskContext.InvokeOnMainThread(() => ToastNotificationManager.CreateToastNotifier().Setting is NotificationSetting.Enabled);
+        return taskContext.InvokeOnMainThread(() => AppNotificationManager.Default.Setting is AppNotificationSetting.Enabled);
     });
 
     public RuntimeOptions()

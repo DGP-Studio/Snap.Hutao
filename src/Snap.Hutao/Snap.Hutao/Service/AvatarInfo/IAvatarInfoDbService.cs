@@ -11,8 +11,4 @@ internal interface IAvatarInfoDbService : IAppDbService<EntityAvatarInfo>
     void RemoveAvatarInfoRangeByUid(string uid);
 
     List<EntityAvatarInfo> GetAvatarInfoListByUid(string uid);
-
-    ValueTask<List<EntityAvatarInfo>> GetAvatarInfoListByUidAsync(string uid, CancellationToken token = default);
-
-    ValueTask RemoveAvatarInfoRangeByUidAsync(string uid, CancellationToken token = default);
 }

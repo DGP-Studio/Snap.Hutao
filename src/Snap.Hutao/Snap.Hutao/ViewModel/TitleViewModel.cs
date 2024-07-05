@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.Windowing.HotKey;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Input.HotKey;
+using Snap.Hutao.UI.Xaml.Control;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using System.Globalization;
 using System.Text;
 
@@ -56,7 +56,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     public UpdateStatus? UpdateStatus { get => updateStatus; set => SetProperty(ref updateStatus, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         await DoCheckUpdateAsync().ConfigureAwait(false);
         return true;

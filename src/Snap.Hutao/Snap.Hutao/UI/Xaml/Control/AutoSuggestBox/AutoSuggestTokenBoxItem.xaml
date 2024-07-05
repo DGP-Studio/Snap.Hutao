@@ -1,0 +1,852 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:shuxca="using:Snap.Hutao.UI.Xaml.Control.AutoSuggestBox"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <StaticResource x:Key="TokenItemBackground" ResourceKey="ControlFillColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPressed" ResourceKey="ControlFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundSelected" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPointerOverSelected" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPressedSelected" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrush" ResourceKey="ControlStrokeColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPointerOver" ResourceKey="ControlStrokeColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPressed" ResourceKey="ControlStrokeColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushSelected" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPointerOverSelected" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPressedSelected" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="TokenItemForeground" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundSelected" ResourceKey="TextOnAccentFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPointerOverSelected" ResourceKey="TextOnAccentFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPressedSelected" ResourceKey="TextOnAccentFillColorSecondaryBrush"/>
+            <Thickness x:Key="TokenItemBorderThickness">1</Thickness>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <StaticResource x:Key="TokenItemBackground" ResourceKey="ControlFillColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPressed" ResourceKey="ControlFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundSelected" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPointerOverSelected" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPressedSelected" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrush" ResourceKey="ControlStrokeColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPointerOver" ResourceKey="ControlStrokeColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPressed" ResourceKey="ControlStrokeColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushSelected" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPointerOverSelected" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPressedSelected" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="TokenItemForeground" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundSelected" ResourceKey="TextOnAccentFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPointerOverSelected" ResourceKey="TextOnAccentFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPressedSelected" ResourceKey="TextOnAccentFillColorSecondaryBrush"/>
+            <Thickness x:Key="TokenItemBorderThickness">1</Thickness>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="HighContrast">
+            <StaticResource x:Key="TokenItemBackground" ResourceKey="ControlFillColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPressed" ResourceKey="ControlFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundSelected" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPointerOverSelected" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBackgroundPressedSelected" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrush" ResourceKey="ControlStrokeColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPointerOver" ResourceKey="ControlStrokeColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPressed" ResourceKey="ControlStrokeColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushSelected" ResourceKey="AccentFillColorDefaultBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPointerOverSelected" ResourceKey="AccentFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemBorderBrushPressedSelected" ResourceKey="AccentFillColorTertiaryBrush"/>
+            <StaticResource x:Key="TokenItemForeground" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPressed" ResourceKey="TextFillColorSecondaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundSelected" ResourceKey="TextOnAccentFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPointerOverSelected" ResourceKey="TextOnAccentFillColorPrimaryBrush"/>
+            <StaticResource x:Key="TokenItemForegroundPressedSelected" ResourceKey="TextOnAccentFillColorSecondaryBrush"/>
+            <Thickness x:Key="TokenItemBorderThickness">1</Thickness>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <!--<Thickness x:Key="ButtonPadding">8,4,8,5</Thickness> Not sure if we'll also need this later-->
+    <Thickness x:Key="TextControlThemePadding">10,3,6,6</Thickness>
+    <!--  Need local copy of this, as including WinUI overrides this to something that adds too much padding for our inner box  -->
+    <x:Double x:Key="AutoSuggestTokenBoxIconFontSize">10</x:Double>
+
+    <Thickness x:Key="TokenItemPadding">8,4,4,4</Thickness>
+    <Thickness x:Key="AutoSuggestTokenBoxItemPresenterMargin">0,-2,0,1</Thickness>
+    <HorizontalAlignment x:Key="AutoSuggestTokenBoxItemHorizontalContentAlignment">Center</HorizontalAlignment>
+    <VerticalAlignment x:Key="AutoSuggestTokenBoxItemVerticalContentAlignment">Center</VerticalAlignment>
+
+    <CornerRadius x:Key="PopupOverlayCornerRadius">0,0,8,8</CornerRadius>
+
+    <Style x:Key="AutoSuggestTokenBoxDeleteButtonStyle" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid
+                        x:Name="ButtonLayoutGrid"
+                        Margin="{StaticResource AutoSuggestBoxDeleteButtonMargin}"
+                        Background="{ThemeResource TextControlButtonBackground}"
+                        BorderBrush="{ThemeResource TextControlButtonBorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}">
+                        <!--  FontSize is ignored here, see https://github.com/microsoft/microsoft-ui-xaml/issues/2568  -->
+                        <TextBlock
+                            x:Name="GlyphElement"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            win:AutomationProperties.AccessibilityView="Raw"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            FontSize="{ThemeResource AutoSuggestTokenBoxIconFontSize}"
+                            FontStyle="Normal"
+                            Foreground="{ThemeResource TextControlButtonForeground}"
+                            Text="&#xE894;"/>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBackgroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBorderBrushPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForegroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBackgroundPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBorderBrushPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForegroundPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ButtonLayoutGrid"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0"
+                                            Duration="0"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Name="AutoSuggestTokenBoxQueryButtonStyle" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentPresenter
+                        x:Name="ContentPresenter"
+                        Margin="{ThemeResource AutoSuggestBoxInnerButtonMargin}"
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        muxc:AnimatedIcon.State="Normal"
+                        win:AutomationProperties.AccessibilityView="Raw"
+                        Background="{ThemeResource TextControlButtonBackground}"
+                        BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                        BorderBrush="{ThemeResource TextControlButtonBorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        FontSize="{TemplateBinding FontSize}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBackgroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBorderBrushPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForegroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="PointerOver"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBackgroundPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBorderBrushPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForegroundPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Pressed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ContentPresenter"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0"
+                                            Duration="0"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ContentPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Inner TextBox Style with removed borders to look like part of the outer textbox facade we've setup  -->
+    <Style
+        x:Key="AutoSuggestTokenBoxTextBoxStyle"
+        BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}"
+        TargetType="TextBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <!--  Override  -->
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
+        <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
+        <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
+        <win:Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+        <Setter Property="MinHeight" Value="28"/>
+        <Setter Property="Padding" Value="8,5,6,6"/>
+        <!--  Override  -->
+        <win:Setter Property="SelectionHighlightColorWhenNotFocused" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
+        <!--  Override  -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid ColumnSpacing="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <ContentPresenter
+                            x:Name="HeaderContentPresenter"
+                            Grid.Row="0"
+                            Grid.ColumnSpan="3"
+                            Margin="{ThemeResource AutoSuggestBoxTopHeaderMargin}"
+                            x:DeferLoadStrategy="Lazy"
+                            Content="{TemplateBinding Header}"
+                            ContentTemplate="{TemplateBinding HeaderTemplate}"
+                            FontWeight="Normal"
+                            Foreground="{ThemeResource TextControlHeaderForeground}"
+                            TextWrapping="Wrap"
+                            Visibility="Collapsed"/>
+                        <Border
+                            x:Name="BorderElement"
+                            Grid.Row="1"
+                            Grid.RowSpan="1"
+                            Grid.ColumnSpan="3"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"/>
+                        <ScrollViewer
+                            x:Name="ContentElement"
+                            Grid.Row="1"
+                            Margin="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            win:AutomationProperties.AccessibilityView="Raw"
+                            win:IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                            win:IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                            win:IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                            IsTabStop="False"
+                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                            ZoomMode="Disabled"/>
+                        <ContentControl
+                            x:Name="PlaceholderTextContentPresenter"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Padding="{TemplateBinding Padding}"
+                            VerticalContentAlignment="Center"
+                            Content="{TemplateBinding PlaceholderText}"
+                            Foreground="{ThemeResource TextControlPlaceholderForeground}"
+                            IsHitTestVisible="False"
+                            IsTabStop="False"/>
+                        <Button
+                            x:Name="DeleteButton"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="32"
+                            Height="28"
+                            Padding="{ThemeResource HelperButtonThemePadding}"
+                            VerticalAlignment="Stretch"
+                            win:AutomationProperties.AccessibilityView="Raw"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            FontSize="{TemplateBinding FontSize}"
+                            IsTabStop="False"
+                            Style="{StaticResource AutoSuggestTokenBoxDeleteButtonStyle}"
+                            Visibility="Collapsed"/>
+
+                        <TextBlock
+                            Name="TextTokensCounter"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="2,0,0,2"
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"/>
+
+                        <Button
+                            x:Name="QueryButton"
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Width="32"
+                            Height="28"
+                            Margin="0,0,2,0"
+                            Padding="0"
+                            VerticalAlignment="Stretch"
+                            win:AutomationProperties.AccessibilityView="Raw"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            FontSize="{TemplateBinding FontSize}"
+                            IsTabStop="False"
+                            Style="{StaticResource AutoSuggestTokenBoxQueryButtonStyle}"/>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlHeaderForegroundDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlPlaceholderForegroundDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlPlaceholderForegroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlPlaceholderForegroundFocused}"/>
+                                            <!--  WinUI override  -->
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundFocused}"/>
+                                            <!--  WinUI override  -->
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
+                                                                   Storyboard.TargetProperty="RequestedTheme">
+                                        <DiscreteObjectKeyFrame KeyTime="0"
+                                                                Value="Light" />
+                                    </ObjectAnimationUsingKeyFrames>-->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="QueryButton" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForeground}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ButtonStates">
+                                <VisualState x:Name="ButtonVisible">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DeleteButton" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="ButtonCollapsed"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="TokensCounterStates">
+                                <VisualState x:Name="MaxReached">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextTokensCounter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemFillColorCriticalBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MaxUnreached"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AutoSuggestTokenBoxItemTextStyle" TargetType="shuxca:AutoSuggestTokenBoxItem">
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="MinWidth" Value="128"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="shuxca:AutoSuggestTokenBoxItem">
+                    <AutoSuggestBox
+                        Name="TextAutoSuggestBox"
+                        DisplayMemberPath="{Binding Path=Owner.DisplayMemberPath, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                        ItemTemplate="{Binding Path=Owner.SuggestedItemTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                        ItemsSource="{Binding Path=Owner.SuggestedItemsSource, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                        PlaceholderText="{Binding Path=Owner.PlaceholderText, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                        Style="{StaticResource SystemAutoSuggestBoxStyle}"
+                        Text="{Binding Text, Mode=TwoWay}"
+                        TextBoxStyle="{StaticResource AutoSuggestTokenBoxTextBoxStyle}"
+                        TextMemberPath="{Binding Path=Owner.TextMemberPath, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                        UpdateTextOnSelect="False"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="False"/>
+    </Style>
+
+    <!--  Copy of System Style from 18362 to try and workaround WinUI Styles  -->
+    <Style x:Key="SystemAutoSuggestBoxStyle" TargetType="AutoSuggestBox">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="AutoSuggestBox">
+                    <Grid x:Name="LayoutRoot">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBox
+                            x:Name="TextBox"
+                            Width="{TemplateBinding Width}"
+                            Margin="0"
+                            win:DesiredCandidateWindowAlignment="BottomEdge"
+                            Canvas.ZIndex="0"
+                            CornerRadius="4"
+                            Header="{TemplateBinding Header}"
+                            PlaceholderText="{TemplateBinding PlaceholderText}"
+                            ScrollViewer.BringIntoViewOnFocusChange="False"
+                            Style="{TemplateBinding TextBoxStyle}"
+                            UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}"/>
+
+                        <Popup x:Name="SuggestionsPopup">
+                            <Popup.RenderTransform>
+                                <CompositeTransform TranslateX="2"/>
+                            </Popup.RenderTransform>
+                            <Border
+                                x:Name="SuggestionsContainer"
+                                Margin="-2,0"
+                                Background="{ThemeResource AutoSuggestBoxSuggestionsListBackground}"
+                                CornerRadius="{StaticResource PopupOverlayCornerRadius}">
+                                <ListView
+                                    x:Name="SuggestionsList"
+                                    MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
+                                    Margin="{ThemeResource AutoSuggestListPadding}"
+                                    Padding="{ThemeResource AutoSuggestListPadding}"
+                                    BorderBrush="{ThemeResource AutoSuggestBoxSuggestionsListBorderBrush}"
+                                    BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
+                                    DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                    IsItemClickEnabled="True"
+                                    ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                    ItemTemplate="{TemplateBinding ItemTemplate}"
+                                    ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                            </Border>
+                        </Popup>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="Orientation">
+                                <VisualState x:Name="Landscape"/>
+                                <VisualState x:Name="Portrait"/>
+
+                            </VisualStateGroup>
+
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="TextBoxStyle" Value="{StaticResource AutoSuggestBoxTextBoxStyle}"/>
+        <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+    </Style>
+
+
+
+    <Style x:Key="AutoSuggestTokenBoxItemTokenStyle" TargetType="shuxca:AutoSuggestTokenBoxItem">
+        <Setter Property="Background" Value="{ThemeResource TokenItemBackground}"/>
+        <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource TokenItemBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="{ThemeResource TokenItemBorderThickness}"/>
+        <Setter Property="ClearButtonStyle" Value="{StaticResource SubtleButtonStyle}"/>
+        <Setter Property="CornerRadius" Value="2"/>
+        <Setter Property="FocusVisualMargin" Value="-3"/>
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{ThemeResource TokenItemForeground}"/>
+        <Setter Property="HorizontalContentAlignment" Value="{StaticResource AutoSuggestTokenBoxItemHorizontalContentAlignment}"/>
+        <Setter Property="IsTabStop" Value="True"/>
+        <Setter Property="Padding" Value="{ThemeResource TokenItemPadding}"/>
+        <Setter Property="TabNavigation" Value="Local"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="shuxca:AutoSuggestTokenBoxItem">
+                    <Grid
+                        x:Name="PART_RootGrid"
+                        Height="{TemplateBinding Height}"
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        Background="{TemplateBinding Background}"
+                        BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        ColumnSpacing="8"
+                        Control.IsTemplateFocusTarget="True"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                        <win:Grid.BackgroundTransition>
+                            <win:BrushTransition Duration="0:0:0.083"/>
+                        </win:Grid.BackgroundTransition>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    Command="{Binding Owner.RemoveItemCommand, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                    Text="{shuxm:ResourceString Name=ControlAutoSuggestTokenBoxRemoveMenuItem}"/>
+                                <MenuFlyoutItem Command="{Binding Owner.SelectAllTokensAndTextCommand, RelativeSource={RelativeSource Mode=TemplatedParent}}" Text="{shuxm:ResourceString Name=ControlAutoSuggestTokenBoxSelectAllMenuItem}"/>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
+                        <!--  Content  -->
+                        <ContentPresenter
+                            x:Name="PART_ContentPresenter"
+                            Margin="0,-1,0,0"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            win:OpticalMarginAlignment="TrimSideBearings"
+                            BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                            Content="{TemplateBinding Content}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            FontWeight="{TemplateBinding FontWeight}"
+                            Foreground="{TemplateBinding Foreground}"/>
+                        <Button
+                            x:Name="TokenRemoveButton"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="20"
+                            Height="20"
+                            MinWidth="0"
+                            MinHeight="0"
+                            Margin="0,0,0,-2"
+                            Padding="2"
+                            VerticalAlignment="Center"
+                            Command="{Binding Owner.RemoveItemCommand, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                            CornerRadius="99"
+                            IsTabStop="False"
+                            Style="{TemplateBinding ClearButtonStyle}">
+                            <FontIcon FontSize="12" Glyph="&#xE894;"/>
+                        </Button>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_RootGrid.Background" Value="{ThemeResource TokenItemBackgroundPointerOver}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_RootGrid.Background" Value="{ThemeResource TokenItemBackgroundPressed}"/>
+                                        <Setter Target="PART_RootGrid.BorderBrush" Value="{ThemeResource TokenItemBorderBrushPointerOver}"/>
+                                        <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource TokenItemForegroundPointerOver}"/>
+                                        <Setter Target="TokenRemoveButton.Foreground" Value="{ThemeResource TokenItemForegroundPointerOver}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_RootGrid.Background" Value="{ThemeResource TokenItemBackgroundSelected}"/>
+                                        <Setter Target="PART_RootGrid.BorderBrush" Value="{ThemeResource TokenItemBorderBrushSelected}"/>
+                                        <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource TokenItemForegroundSelected}"/>
+                                        <Setter Target="TokenRemoveButton.Style" Value="{ThemeResource SubtleAccentButtonStyle}"/>
+                                        <Setter Target="PART_RootGrid.BackgroundSizing" Value="OuterBorderEdge"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PointerOverSelected">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_RootGrid.Background" Value="{ThemeResource TokenItemBackgroundPointerOverSelected}"/>
+                                        <Setter Target="PART_RootGrid.BorderBrush" Value="{ThemeResource TokenItemBorderBrushPointerOverSelected}"/>
+                                        <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource TokenItemForegroundPointerOverSelected}"/>
+                                        <Setter Target="TokenRemoveButton.Style" Value="{ThemeResource SubtleAccentButtonStyle}"/>
+                                        <Setter Target="PART_RootGrid.BackgroundSizing" Value="OuterBorderEdge"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PressedSelected">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_RootGrid.Background" Value="{ThemeResource TokenItemBackgroundPressedSelected}"/>
+                                        <Setter Target="PART_RootGrid.BorderBrush" Value="{ThemeResource TokenItemBorderBrushPressedSelected}"/>
+                                        <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource TokenItemForegroundPressedSelected}"/>
+                                        <Setter Target="TokenRemoveButton.Style" Value="{ThemeResource SubtleAccentButtonStyle}"/>
+                                        <Setter Target="PART_RootGrid.BackgroundSizing" Value="OuterBorderEdge"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DisabledStates">
+                                <VisualState x:Name="Enabled"/>
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_ContentPresenter.Opacity" Value="{ThemeResource ListViewItemDisabledThemeOpacity}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <!--<Setter Property="HorizontalAlignment" Value="Center" />-->
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="{StaticResource AutoSuggestTokenBoxItemVerticalContentAlignment}"/>
+    </Style>
+
+    <!--  Default style for AutoSuggestTokenBoxItem  -->
+    <Style BasedOn="{StaticResource AutoSuggestTokenBoxItemTokenStyle}" TargetType="shuxca:AutoSuggestTokenBoxItem"/>
+
+    <Style x:Key="SubtleButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{ThemeResource SubtleFillColorTransparent}"/>
+        <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+        <Setter Property="FocusVisualMargin" Value="-3"/>
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimary}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="{StaticResource ButtonPadding}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentPresenter
+                        x:Name="ContentPresenter"
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        muxc:AnimatedIcon.State="Normal"
+                        win:AutomationProperties.AccessibilityView="Raw"
+                        Background="{TemplateBinding Background}"
+                        BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                        <win:ContentPresenter.BackgroundTransition>
+                            <win:BrushTransition Duration="0:0:0.083"/>
+                        </win:ContentPresenter.BackgroundTransition>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SubtleFillColorSecondary}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimary}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="PointerOver"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SubtleFillColorTertiary}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorSecondary}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Pressed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlFillColorDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <!--  DisabledVisual Should be handled by the control, not the animated icon.  -->
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Normal"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ContentPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="SubtleAccentButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{ThemeResource SubtleFillColorTransparent}"/>
+        <Setter Property="BackgroundSizing" Value="InnerBorderEdge"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+        <Setter Property="FocusVisualMargin" Value="-3"/>
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="{StaticResource ButtonPadding}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentPresenter
+                        x:Name="ContentPresenter"
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        muxc:AnimatedIcon.State="Normal"
+                        win:AutomationProperties.AccessibilityView="Raw"
+                        Background="{TemplateBinding Background}"
+                        BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                        <win:ContentPresenter.BackgroundTransition>
+                            <win:BrushTransition Duration="0:0:0.083"/>
+                        </win:ContentPresenter.BackgroundTransition>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SubtleFillColorSecondary}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="PointerOver"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SubtleFillColorTertiary}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextOnAccentFillColorSecondaryBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Pressed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlFillColorTransparentBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <!--  Should be TextOnAccentFillColorDisabledBrush, but doesn't seem to work? This is the same visual effect  -->
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlFillColorDefaultBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Normal"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ContentPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+</ResourceDictionary>

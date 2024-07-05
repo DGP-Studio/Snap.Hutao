@@ -24,7 +24,7 @@ internal sealed partial class HoyoPlayClient
     public async ValueTask<Response<GamePackagesWrapper>> GetPackagesAsync(LaunchScheme scheme, CancellationToken token = default)
     {
         string url = scheme.IsOversea
-            ? ApiOsEndpoints.SgHoyoPlayConnectGamePackages(scheme)
+            ? ApiOsEndpoints.HoyoPlayConnectGamePackages(scheme)
             : ApiEndpoints.HoyoPlayConnectGamePackages(scheme);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -41,7 +41,7 @@ internal sealed partial class HoyoPlayClient
     public async ValueTask<Response<GameChannelSDKsWrapper>> GetChannelSDKAsync(LaunchScheme scheme, CancellationToken token = default)
     {
         string url = scheme.IsOversea
-            ? ApiOsEndpoints.SgHoyoPlayConnectGameChannelSDKs(scheme)
+            ? ApiOsEndpoints.HoyoPlayConnectGameChannelSDKs(scheme)
             : ApiEndpoints.HoyoPlayConnectGameChannelSDKs(scheme);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
@@ -58,7 +58,7 @@ internal sealed partial class HoyoPlayClient
     public async ValueTask<Response<DeprecatedFileConfigurationsWrapper>> GetDeprecatedFileConfigurationsAsync(LaunchScheme scheme, CancellationToken token = default)
     {
         string url = scheme.IsOversea
-            ? ApiOsEndpoints.SgHoyoPlayConnectDeprecatedFileConfigs(scheme)
+            ? ApiOsEndpoints.HoyoPlayConnectDeprecatedFileConfigs(scheme)
             : ApiEndpoints.HoyoPlayConnectDeprecatedFileConfigs(scheme);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()

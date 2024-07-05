@@ -41,7 +41,7 @@ internal sealed class LevelView : IMappingFrom<LevelView, TowerLevel, SpiralAbys
         return new(towerLevel, context);
     }
 
-    public void WithSpiralAbyssLevel(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Level level, SpiralAbyssMetadataContext context)
+    public void WithSpiralAbyssLevel(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyssLevel level, SpiralAbyssMetadataContext context)
     {
         Star = level.Star;
 

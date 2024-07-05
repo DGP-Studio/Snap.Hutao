@@ -162,6 +162,12 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>List</value>
   </data>
+  <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
+    <value>Select All</value>
+  </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
     <value>Database is corrupted: {0}</value>
   </data>
@@ -445,10 +451,6 @@
   <data name="ModelMetadataMaterialCharacterTalentMaterial" xml:space="preserve">
     <value>Character Talent Materials</value>
     <comment>Need EXACT same string in game</comment>
-  </data>
-  <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
-    <value>^[\u4e00-\u9fa5]{2}Local Specialty$</value>
-    <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
     <value>Weapon Ascension Materials</value>
@@ -909,7 +911,8 @@
     <value>Genshin Impact game path is not set or set incorrectly</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>Can't find Genshin Impact embedded browser cache path: \n{0}</value>
+    <value>Can't find Genshin Impact embedded browser cache path: 
+{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>Can't find available URL</value>
@@ -1093,6 +1096,9 @@
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>Can't get user information with entered Cookie</value>
+  </data>
+  <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
+    <value>Copy Image</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>Achievements</value>
@@ -1878,7 +1884,7 @@
     <value>Sync data from in-game Character Showcase</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
-    <value>Sync from MiHoYo BBS Development Plan</value>
+    <value>Sync from Enhancement Progression Calculator</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription" xml:space="preserve">
     <value>Sync character talents data</value>
@@ -1947,10 +1953,10 @@
     <value>Add any weapon to Development Plan</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>Add Role</value>
+    <value>Add Real-Time Note</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>Add role to DailyNote</value>
+    <value>Add Realtime Note to Refresh</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>Add</value>
@@ -2007,7 +2013,7 @@
     <value>Refresh</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
-    <value>Notification area incon is disabled, auto-refresh will be be executed after closing the window</value>
+    <value>Notification area icon is disabled, auto-refresh will not be executed after Snap Hutao is closed</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>Do not disturb during Genshin gaming</value>
@@ -3046,27 +3052,6 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>Weapon WIKI</value>
-  </data>
-  <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
-    <value>(?:(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;)后永久开放</value>
-  </data>
-  <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓活动时间〓.*?(\d\.\d)版本期间持续开放</value>
-  </data>
-  <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】|〓折扣时间〓).*?(\d\.\d)版本更新后.*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdatePreviewTime" xml:space="preserve">
-    <value>将于&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;进行版本更新维护</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdatePreviewTitle" xml:space="preserve">
-    <value>\d\.\d版本更新维护预告</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
-    <value>〓Update Maintenance Duration〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
-  </data>
-  <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>Version \d\.\d Update Details</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>Start in {0} days</value>

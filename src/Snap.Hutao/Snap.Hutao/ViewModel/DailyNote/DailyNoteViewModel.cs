@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Entity;
@@ -12,17 +12,15 @@ using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Control;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Xaml.Control;
+using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
 
-/// <summary>
-/// 实时便笺视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
@@ -37,7 +35,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
     private readonly AppOptions appOptions;
 
-    private ObservableCollection<UserAndUid>? userAndUids;
+    private AdvancedDbCollectionView<ViewModel.User.User, Model.Entity.User>? users;
     private ObservableCollection<DailyNoteEntry>? dailyNoteEntries;
 
     public DailyNoteOptions DailyNoteOptions { get => dailyNoteOptions; }
@@ -46,30 +44,24 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
     public AppOptions AppOptions { get => appOptions; }
 
-    public IWebViewerSource VerifyUrlSource { get; } = new DailyNoteWebViewerSource();
+    public IJSBridgeUriSourceProvider VerifyUrlSource { get; } = new DailyJSBridgeUriSourceProvider();
 
-    /// <summary>
-    /// 用户与角色集合
-    /// </summary>
-    public ObservableCollection<UserAndUid>? UserAndUids { get => userAndUids; set => SetProperty(ref userAndUids, value); }
+    public AdvancedDbCollectionView<User.User, Model.Entity.User>? Users { get => users; set => SetProperty(ref users, value); }
 
-    /// <summary>
-    /// 实时便笺集合
-    /// </summary>
     public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get => dailyNoteEntries; set => SetProperty(ref dailyNoteEntries, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             try
             {
                 await taskContext.SwitchToBackgroundAsync();
-                ObservableCollection<UserAndUid> roles = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
+                AdvancedDbCollectionView<User.User, Model.Entity.User> users = await userService.GetUsersAsync().ConfigureAwait(false);
                 ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntryCollectionAsync().ConfigureAwait(false);
 
                 await taskContext.SwitchToMainThreadAsync();
-                UserAndUids = roles;
+                Users = users;
                 DailyNoteEntries = entries;
                 return true;
             }
@@ -82,19 +74,22 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         return false;
     }
 
-    [Command("TrackRoleCommand")]
-    private async Task TrackRoleAsync(UserAndUid? userAndUid)
+    [Command("TrackCurrentUserAndUidCommand")]
+    private async Task TrackCurrentUserAndUidAsync()
     {
-        if (userAndUid is not null)
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
-            ContentDialog dialog = await contentDialogFactory
-                .CreateForIndeterminateProgressAsync(SH.ViewModelDailyNoteRequestProgressTitle)
-                .ConfigureAwait(false);
+            infoBarService.Warning(SH.MustSelectUserAndUid);
+            return;
+        }
 
-            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
-            {
-                await dailyNoteService.AddDailyNoteAsync(userAndUid).ConfigureAwait(false);
-            }
+        ContentDialog dialog = await contentDialogFactory
+            .CreateForIndeterminateProgressAsync(SH.ViewModelDailyNoteRequestProgressTitle)
+            .ConfigureAwait(false);
+
+        using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+        {
+            await dailyNoteService.AddDailyNoteAsync(userAndUid).ConfigureAwait(false);
         }
     }
 
@@ -118,7 +113,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     {
         if (entry is not null)
         {
-            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
             {
                 // ContentDialog must be created by main thread.
                 await taskContext.SwitchToMainThreadAsync();

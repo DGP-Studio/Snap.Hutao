@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction.Extension;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -43,7 +43,6 @@ internal static class WeaponViewBuilderExtension
         return builder.SetIcon<TBuilder, WeaponView>(icon);
     }
 
-    [SuppressMessage("", "SH002")]
     public static TBuilder SetId<TBuilder>(this TBuilder builder, WeaponId id)
         where TBuilder : IWeaponViewBuilder
     {

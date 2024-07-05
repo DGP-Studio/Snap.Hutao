@@ -20,33 +20,23 @@ internal sealed partial class DailyNoteDbService : IDailyNoteDbService
         return this.Query(query => query.Any(n => n.Uid == uid));
     }
 
-    public ValueTask<bool> ContainsUidAsync(string uid, CancellationToken token = default)
+    public void AddDailyNoteEntry(DailyNoteEntry entry)
     {
-        return this.QueryAsync(query => query.AnyAsync(n => n.Uid == uid));
+        this.Add(entry);
     }
 
-    public async ValueTask AddDailyNoteEntryAsync(DailyNoteEntry entry, CancellationToken token = default)
+    public void DeleteDailyNoteEntryById(Guid entryId)
     {
-        await this.AddAsync(entry, token).ConfigureAwait(false);
+        this.DeleteByInnerId(entryId);
     }
 
-    public async ValueTask DeleteDailyNoteEntryByIdAsync(Guid entryId, CancellationToken token = default)
+    public void UpdateDailyNoteEntry(DailyNoteEntry entry)
     {
-        await this.DeleteByInnerIdAsync(entryId, token).ConfigureAwait(false);
-    }
-
-    public async ValueTask UpdateDailyNoteEntryAsync(DailyNoteEntry entry, CancellationToken token = default)
-    {
-        await this.UpdateAsync(entry, token).ConfigureAwait(false);
+        this.Update(entry);
     }
 
     public List<DailyNoteEntry> GetDailyNoteEntryListIncludingUser()
     {
         return this.List(query => query.Include(n => n.User));
-    }
-
-    public ValueTask<List<DailyNoteEntry>> GetDailyNoteEntryListIncludingUserAsync(CancellationToken token = default)
-    {
-        return this.ListAsync(query => query.Include(n => n.User), token);
     }
 }

@@ -21,11 +21,6 @@ internal static class AppInstanceExtension
     // Hold the reference here to prevent memory corruption.
     private static HANDLE redirectEventHandle;
 
-    /// <summary>
-    /// 同步非阻塞重定向
-    /// </summary>
-    /// <param name="appInstance">app实例</param>
-    /// <param name="args">参数</param>
     public static unsafe void RedirectActivationTo(this AppInstance appInstance, AppActivationArguments args)
     {
         try

@@ -1,12 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.Database.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
@@ -14,16 +15,16 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.ViewModel.User;
 
-/// <summary>
-/// 用于视图绑定的用户
-/// </summary>
-[HighQuality]
-internal sealed class User : ObservableObject, IEntityAccess<EntityUser>, IMappingFrom<User, EntityUser, IServiceProvider>, ISelectable
+internal sealed class User : IEntityAccess<EntityUser>,
+    IMappingFrom<User, EntityUser, IServiceProvider>,
+    ISelectable,
+    IAdvancedCollectionViewItem
 {
     private readonly EntityUser inner;
     private readonly IServiceProvider serviceProvider;
 
-    private UserGameRole? selectedUserGameRole;
+    private AdvancedCollectionView<UserGameRole> userGameRoles = default!;
+    private bool isCurrentUserGameRoleChangedMessageSuppressed;
 
     private User(EntityUser user, IServiceProvider serviceProvider)
     {
@@ -33,65 +34,57 @@ internal sealed class User : ObservableObject, IEntityAccess<EntityUser>, IMappi
 
     public bool IsInitialized { get; set; }
 
-    /// <summary>
-    /// 用户信息
-    /// </summary>
     public UserInfo? UserInfo { get; set; }
 
-    /// <summary>
-    /// 用户信息
-    /// </summary>
-    public List<UserGameRole> UserGameRoles { get; set; } = default!;
-
-    /// <summary>
-    /// 用户信息
-    /// </summary>
-    public UserGameRole? SelectedUserGameRole
+    public AdvancedCollectionView<UserGameRole> UserGameRoles
     {
-        get => selectedUserGameRole;
-        set => SetSelectedUserGameRole(value);
+        get => userGameRoles;
+        set
+        {
+            if (userGameRoles is not null)
+            {
+                userGameRoles.CurrentChanged -= OnCurrentUserGameRoleChanged;
+            }
+
+            userGameRoles = value;
+
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentUserGameRoleChanged;
+            }
+        }
     }
 
     public string? Fingerprint { get => inner.Fingerprint; }
 
     public Guid InnerId { get => inner.InnerId; }
 
-    /// <inheritdoc cref="EntityUser.IsSelected"/>
     public bool IsSelected
     {
         get => inner.IsSelected;
         set => inner.IsSelected = value;
     }
 
-    /// <inheritdoc cref="EntityUser.CookieToken"/>
     public Cookie? CookieToken
     {
         get => inner.CookieToken;
         set => inner.CookieToken = value;
     }
 
-    /// <inheritdoc cref="EntityUser.LToken"/>
     public Cookie? LToken
     {
         get => inner.LToken;
         set => inner.LToken = value;
     }
 
-    /// <inheritdoc cref="EntityUser.SToken"/>
     public Cookie? SToken
     {
         get => inner.SToken;
         set => inner.SToken = value;
     }
 
-    /// <summary>
-    /// 是否为国际服
-    /// </summary>
     public bool IsOversea { get => Entity.IsOversea; }
 
-    /// <summary>
-    /// 内部的用户实体
-    /// </summary>
     public EntityUser Entity { get => inner; }
 
     public bool NeedDbUpdateAfterResume { get; set; }
@@ -103,23 +96,49 @@ internal sealed class User : ObservableObject, IEntityAccess<EntityUser>, IMappi
         return new(user, provider);
     }
 
-    public void SetSelectedUserGameRole(UserGameRole? value, bool raiseMessage = true)
+    public object? GetPropertyValue(string name)
     {
-        if (SetProperty(ref selectedUserGameRole, value, nameof(SelectedUserGameRole)))
+        return name switch
         {
-            if (value is not null && inner.PreferredUid != value.GameUid)
-            {
-                inner.PreferredUid = value.GameUid;
-                using (IServiceScope scope = serviceProvider.CreateScope())
-                {
-                    scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(inner);
-                }
-            }
+            _ => default,
+        };
+    }
 
-            if (raiseMessage)
+    public IDisposable SuppressCurrentUserGameRoleChangedMessage()
+    {
+        return new CurrentUserGameRoleChangedSuppression(this);
+    }
+
+    private void OnCurrentUserGameRoleChanged(object? sender, object? e)
+    {
+        if (userGameRoles.CurrentItem is { } item && inner.PreferredUid != item.GameUid)
+        {
+            inner.PreferredUid = item.GameUid;
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                serviceProvider.GetRequiredService<IMessenger>().Send(Message.UserChangedMessage.CreateOnlyRoleChanged(this));
+                scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(inner);
             }
+        }
+
+        if (!isCurrentUserGameRoleChangedMessageSuppressed)
+        {
+            serviceProvider.GetRequiredService<IMessenger>().Send(new UserAndUidChangedMessage(this));
+        }
+    }
+
+    private sealed class CurrentUserGameRoleChangedSuppression : IDisposable
+    {
+        private readonly User reference;
+
+        public CurrentUserGameRoleChangedSuppression(User reference)
+        {
+            this.reference = reference;
+            reference.isCurrentUserGameRoleChangedMessageSuppressed = true;
+        }
+
+        public void Dispose()
+        {
+            reference.isCurrentUserGameRoleChangedMessageSuppressed = false;
         }
     }
 }

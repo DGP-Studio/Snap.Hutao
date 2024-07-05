@@ -13,7 +13,6 @@ internal sealed class SignInData
     /// </summary>
     /// <param name="uid">uid</param>
     /// <param name="isOversea">是否为国际服，用于选择ActivityId</param>
-    [SuppressMessage("", "SH002")]
     public SignInData(PlayerUid uid, bool isOversea)
     {
         ActivityId = isOversea ? ApiOsEndpoints.SignInRewardActivityId : ApiEndpoints.LunaActivityId;

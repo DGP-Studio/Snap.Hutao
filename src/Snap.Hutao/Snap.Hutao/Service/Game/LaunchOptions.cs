@@ -7,6 +7,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game.PathAbstraction;
+using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Win32.Graphics.Gdi;
 using System.Collections.Immutable;
 using System.Globalization;
@@ -38,6 +39,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private int? screenHeight;
     private bool? isScreenHeightEnabled;
     private bool? unlockFps;
+    private NameDescriptionValue<GameFpsUnlockerKind>? unlockerKind;
     private int? targetFps;
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
@@ -165,6 +167,34 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref unlockFps, SettingEntry.LaunchUnlockFps);
         set => SetOption(ref unlockFps, SettingEntry.LaunchUnlockFps, value);
+    }
+
+    public List<NameDescriptionValue<GameFpsUnlockerKind>> UnlockerKinds { get; } =
+    [
+        new(SH.ServiceGameLaunchUnlockerKindLegacyName, SH.ServiceGameLaunchUnlockerKindLegacyDescription, GameFpsUnlockerKind.Legacy),
+        new(SH.ServiceGameLaunchUnlockerKindIslandName, SH.ServiceGameLaunchUnlockerKindIslandDescription, GameFpsUnlockerKind.Island),
+    ];
+
+    public NameDescriptionValue<GameFpsUnlockerKind> UnlockerKind
+    {
+        get
+        {
+            return GetOption(ref unlockerKind, SettingEntry.LaunchUnlockerKind, name => GetKind(name, UnlockerKinds), UnlockerKinds[0]);
+
+            static NameDescriptionValue<GameFpsUnlockerKind> GetKind(string name, List<NameDescriptionValue<GameFpsUnlockerKind>> unlockerKinds)
+            {
+                GameFpsUnlockerKind kind = Enum.Parse<GameFpsUnlockerKind>(name);
+                return unlockerKinds.Single(entry => entry.Value == kind);
+            }
+        }
+
+        set
+        {
+            if (value is not null)
+            {
+                SetOption(ref unlockerKind, SettingEntry.LaunchUnlockerKind, value, selected => selected.Value.ToString());
+            }
+        }
     }
 
     public int TargetFps

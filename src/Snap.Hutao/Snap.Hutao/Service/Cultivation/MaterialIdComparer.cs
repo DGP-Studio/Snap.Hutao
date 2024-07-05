@@ -12,13 +12,11 @@ internal sealed class MaterialIdComparer : IComparer<MaterialId>
 
     public static MaterialIdComparer Shared { get => LazyInitializer.EnsureInitialized(ref shared, ref syncRoot, () => new()); }
 
-    [SuppressMessage("", "SH002")]
     public int Compare(MaterialId x, MaterialId y)
     {
         return Transform(x).CompareTo(Transform(y));
     }
 
-    [SuppressMessage("", "SH002")]
     private static uint Transform(MaterialId value)
     {
         return value.Value switch

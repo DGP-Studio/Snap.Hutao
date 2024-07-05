@@ -1,14 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control;
+using Snap.Hutao.UI.Xaml.Data.Converter;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
 /// <summary>
 /// 怪物图标转换器
 /// </summary>
-internal sealed class MonsterIconConverter : ValueConverter<string, Uri>
+internal sealed class MonsterIconConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
 {
     /// <summary>
     /// 名称转Uri

@@ -9,7 +9,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.UI.Xaml;
 using System.Diagnostics;
 
 namespace Snap.Hutao;
@@ -60,7 +60,7 @@ public sealed partial class App : Application
 
     public new void Exit()
     {
-        XamlLifetime.ApplicationExiting = true;
+        XamlApplicationLifetime.Exiting = true;
         base.Exit();
     }
 

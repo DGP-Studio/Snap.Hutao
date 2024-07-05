@@ -26,7 +26,6 @@ internal sealed class UidProfilePicture : IMappingFrom<UidProfilePicture, Player
 
     public DateTimeOffset RefreshTime { get; set; }
 
-    [SuppressMessage("", "SH002")]
     public static UidProfilePicture From(PlayerUid uid, ProfilePicture profilePicture)
     {
         return new()

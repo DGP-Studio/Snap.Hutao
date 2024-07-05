@@ -7,8 +7,3 @@ internal interface IEntityAccessWithMetadata<out TEntity, out TMetadata> : IEnti
 {
     TMetadata Inner { get; }
 }
-
-internal interface IEntityAccess<out TEntity>
-{
-    TEntity Entity { get; }
-}

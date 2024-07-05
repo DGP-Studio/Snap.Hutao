@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
@@ -14,16 +13,13 @@ using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.View.Dialog;
-using System.Collections.ObjectModel;
+using Snap.Hutao.UI.Xaml.Control;
+using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.Win32.Foundation;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.GachaLog;
 
-/// <summary>
-/// 祈愿记录视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
@@ -33,36 +29,36 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly HutaoCloudViewModel hutaoCloudViewModel;
+    private readonly ILogger<GachaLogViewModel> logger;
     private readonly IProgressFactory progressFactory;
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
     private readonly ITaskContext taskContext;
 
-    private ObservableCollection<GachaArchive>? archives;
-    private GachaArchive? selectedArchive;
+    private AdvancedDbCollectionView<GachaArchive>? archives;
     private GachaStatistics? statistics;
     private bool isAggressiveRefresh;
-    private HistoryWish? selectedHistoryWish;
 
-    /// <summary>
-    /// 存档集合
-    /// </summary>
-    public ObservableCollection<GachaArchive>? Archives { get => archives; set => SetProperty(ref archives, value); }
-
-    /// <summary>
-    /// 选中的存档
-    /// 切换存档时异步获取对应的统计
-    /// </summary>
-    public GachaArchive? SelectedArchive
+    public AdvancedDbCollectionView<GachaArchive>? Archives
     {
-        get => selectedArchive;
-        set => SetSelectedArchiveAndUpdateStatisticsAsync(value).SafeForget();
+        get => archives;
+        set
+        {
+            if (Archives is not null)
+            {
+                Archives.CurrentChanged -= OnCurrentArchiveChanged;
+            }
+
+            SetProperty(ref archives, value);
+
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentArchiveChanged;
+            }
+        }
     }
 
-    /// <summary>
-    /// 当前统计信息
-    /// </summary>
     public GachaStatistics? Statistics
     {
         get => statistics;
@@ -70,49 +66,40 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref statistics, value))
             {
-                SelectedHistoryWish = statistics?.HistoryWishes.FirstOrDefault();
+                statistics?.HistoryWishes.MoveCurrentToFirst();
             }
         }
     }
 
-    /// <summary>
-    /// 选中的历史祈愿
-    /// </summary>
-    public HistoryWish? SelectedHistoryWish { get => selectedHistoryWish; set => SetProperty(ref selectedHistoryWish, value); }
-
-    /// <summary>
-    /// 是否为贪婪刷新
-    /// </summary>
     public bool IsAggressiveRefresh { get => isAggressiveRefresh; set => SetProperty(ref isAggressiveRefresh, value); }
 
-    /// <summary>
-    /// 胡桃云服务视图
-    /// </summary>
     public HutaoCloudViewModel HutaoCloudViewModel { get => hutaoCloudViewModel; }
 
-    /// <summary>
-    /// 胡桃云祈愿统计试图
-    /// </summary>
     public HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get => hutaoCloudStatisticsViewModel; }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         try
         {
             if (await gachaLogService.InitializeAsync(CancellationToken).ConfigureAwait(false))
             {
-                ArgumentNullException.ThrowIfNull(gachaLogService.ArchiveCollection);
-                ObservableCollection<GachaArchive> archives = gachaLogService.ArchiveCollection;
-
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                ArgumentNullException.ThrowIfNull(gachaLogService.Archives);
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
                     await taskContext.SwitchToMainThreadAsync();
-                    Archives = archives;
+                    Archives = gachaLogService.Archives;
                     HutaoCloudViewModel.RetrieveCommand = RetrieveFromCloudCommand;
-                    await SetSelectedArchiveAndUpdateStatisticsAsync(Archives.SelectedOrDefault(), true).ConfigureAwait(false);
+                    Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrDefault());
                 }
 
-                return true;
+                // When `Archives.CurrentItem` is not null, the `Initialization` actually completed in
+                // `UpdateStatisticsAsync`, so we return false to make the view hide until the actual
+                // initialization is complete. But we return true when no archives are available,
+                // so that the empty view can show up.
+                if (Archives.CurrentItem is null)
+                {
+                    return true;
+                }
             }
         }
         catch (OperationCanceledException)
@@ -122,96 +109,108 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         return false;
     }
 
+    protected override void UninitializeOverride()
+    {
+        using (Archives?.SuppressChangeCurrentItem())
+        {
+            Archives = default;
+        }
+    }
+
+    private void OnCurrentArchiveChanged(object? sender, object? e)
+    {
+        UpdateStatisticsAsync(Archives?.CurrentItem).SafeForget(logger);
+    }
+
     [Command("RefreshByWebCacheCommand")]
     private Task RefreshByWebCacheAsync()
     {
-        return RefreshInternalAsync(RefreshOption.WebCache).AsTask();
+        return RefreshCoreAsync(RefreshOption.WebCache).AsTask();
     }
 
     [Command("RefreshBySTokenCommand")]
     private Task RefreshBySTokenAsync()
     {
-        return RefreshInternalAsync(RefreshOption.SToken).AsTask();
+        return RefreshCoreAsync(RefreshOption.SToken).AsTask();
     }
 
     [Command("RefreshByManualInputCommand")]
     private Task RefreshByManualInputAsync()
     {
-        return RefreshInternalAsync(RefreshOption.ManualInput).AsTask();
+        return RefreshCoreAsync(RefreshOption.ManualInput).AsTask();
     }
 
-    private async ValueTask RefreshInternalAsync(RefreshOption option)
+    private async ValueTask RefreshCoreAsync(RefreshOption option)
     {
         IGachaLogQueryProvider provider = gachaLogQueryProviderFactory.Create(option);
-
         (bool isOk, GachaLogQuery query) = await provider.GetQueryAsync().ConfigureAwait(false);
 
-        if (isOk)
-        {
-            RefreshStrategy strategy = IsAggressiveRefresh ? RefreshStrategy.AggressiveMerge : RefreshStrategy.LazyMerge;
-
-            GachaLogRefreshProgressDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>().ConfigureAwait(false);
-
-            ContentDialogHideToken hideToken;
-            try
-            {
-                hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
-            }
-            catch (COMException ex)
-            {
-                if (ex.HResult == unchecked((int)0x80000019))
-                {
-                    infoBarService.Error(ex);
-                    return;
-                }
-
-                throw;
-            }
-
-            IProgress<GachaLogFetchStatus> progress = progressFactory.CreateForMainThread<GachaLogFetchStatus>(dialog.OnReport);
-            bool authkeyValid;
-
-            try
-            {
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
-                {
-                    try
-                    {
-                        authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
-                    }
-                    catch (HutaoException ex)
-                    {
-                        authkeyValid = false;
-                        infoBarService.Error(ex);
-                    }
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                // We set true here in order to hide the dialog.
-                authkeyValid = true;
-                infoBarService.Warning(SH.ViewModelGachaLogRefreshOperationCancel);
-            }
-
-            await taskContext.SwitchToMainThreadAsync();
-            if (authkeyValid)
-            {
-                await SetSelectedArchiveAndUpdateStatisticsAsync(gachaLogService.CurrentArchive, true).ConfigureAwait(false);
-                await hideToken.DisposeAsync().ConfigureAwait(false);
-            }
-            else
-            {
-                dialog.Title = SH.ViewModelGachaLogRefreshFail;
-                dialog.PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText;
-                dialog.DefaultButton = ContentDialogButton.Primary;
-            }
-        }
-        else
+        if (!isOk)
         {
             if (!string.IsNullOrEmpty(query.Message))
             {
                 infoBarService.Warning(query.Message);
             }
+
+            return;
+        }
+
+        RefreshStrategyKind strategy = IsAggressiveRefresh ? RefreshStrategyKind.AggressiveMerge : RefreshStrategyKind.LazyMerge;
+
+        GachaLogRefreshProgressDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>().ConfigureAwait(false);
+
+        ContentDialogScope hideToken;
+        try
+        {
+            hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
+        }
+        catch (COMException ex)
+        {
+            if (ex.HResult == HRESULT.E_ASYNC_OPERATION_NOT_STARTED)
+            {
+                infoBarService.Error(ex);
+                return;
+            }
+
+            throw;
+        }
+
+        IProgress<GachaLogFetchStatus> progress = progressFactory.CreateForMainThread<GachaLogFetchStatus>(dialog.OnReport);
+        bool authkeyValid;
+
+        try
+        {
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+            {
+                try
+                {
+                    authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
+                }
+                catch (HutaoException ex)
+                {
+                    authkeyValid = false;
+                    infoBarService.Error(ex);
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // We set true here in order to hide the dialog.
+            authkeyValid = true;
+            infoBarService.Warning(SH.ViewModelGachaLogRefreshOperationCancel);
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        if (authkeyValid)
+        {
+            await hideToken.DisposeAsync().ConfigureAwait(false);
+        }
+        else
+        {
+            // User needs to manually close the dialog
+            dialog.Title = SH.ViewModelGachaLogRefreshFail;
+            dialog.PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText;
+            dialog.DefaultButton = ContentDialogButton.Primary;
         }
     }
 
@@ -241,14 +240,14 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("ExportToUIGFJsonCommand")]
     private async Task ExportToUIGFJsonAsync()
     {
-        if (SelectedArchive is null)
+        if (Archives?.CurrentItem is null)
         {
             return;
         }
 
         (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
             SH.ViewModelGachaLogUIGFExportPickerTitle,
-            $"{SelectedArchive.Uid}.json",
+            $"{Archives.CurrentItem.Uid}.json",
             [(SH.ViewModelGachaLogExportFileType, "*.json")]);
 
         if (!isOk)
@@ -256,7 +255,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        UIGF uigf = await gachaLogService.ExportToUIGFAsync(SelectedArchive).ConfigureAwait(false);
+        UIGF uigf = await gachaLogService.ExportToUIGFAsync(Archives.CurrentItem).ConfigureAwait(false);
         if (await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false))
         {
             infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
@@ -270,80 +269,63 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("RemoveArchiveCommand")]
     private async Task RemoveArchiveAsync()
     {
-        if (Archives is not null && SelectedArchive is not null)
+        if (Archives?.CurrentItem is null)
         {
-            ContentDialogResult result = await contentDialogFactory
-                .CreateForConfirmCancelAsync(SH.FormatViewModelGachaLogRemoveArchiveTitle(SelectedArchive.Uid), SH.ViewModelGachaLogRemoveArchiveDescription)
-                .ConfigureAwait(false);
+            return;
+        }
 
-            if (result == ContentDialogResult.Primary)
-            {
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
-                {
-                    await gachaLogService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
+        ContentDialogResult result = await contentDialogFactory
+            .CreateForConfirmCancelAsync(
+                SH.FormatViewModelGachaLogRemoveArchiveTitle(Archives.CurrentItem.Uid),
+                SH.ViewModelGachaLogRemoveArchiveDescription)
+            .ConfigureAwait(false);
 
-                    // reselect first archive
-                    await taskContext.SwitchToMainThreadAsync();
-                    await SetSelectedArchiveAndUpdateStatisticsAsync(Archives.FirstOrDefault(), false).ConfigureAwait(false);
-                }
-            }
+        if (result is not ContentDialogResult.Primary)
+        {
+            return;
+        }
+
+        using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+        {
+            await gachaLogService.RemoveArchiveAsync(Archives.CurrentItem).ConfigureAwait(false);
+
+            // reselect first archive
+            await taskContext.SwitchToMainThreadAsync();
+            Archives.MoveCurrentToFirst();
         }
     }
 
     [Command("RetrieveFromCloudCommand")]
     private async Task RetrieveAsync(string? uid)
     {
-        if (uid is not null)
-        {
-            ValueResult<bool, Guid> result = await HutaoCloudViewModel.RetrieveAsync(uid).ConfigureAwait(false);
-
-            if (result.TryGetValue(out Guid archiveId))
-            {
-                GachaArchive archive = await gachaLogService.EnsureArchiveInCollectionAsync(archiveId).ConfigureAwait(false);
-
-                await taskContext.SwitchToMainThreadAsync();
-                await SetSelectedArchiveAndUpdateStatisticsAsync(archive, true).ConfigureAwait(false);
-            }
-        }
-    }
-
-    private async ValueTask SetSelectedArchiveAndUpdateStatisticsAsync(GachaArchive? archive, bool forceUpdate = false)
-    {
-        if (IsViewDisposed)
+        if (uid is null)
         {
             return;
         }
 
-        bool changed = SetProperty(ref selectedArchive, archive, nameof(SelectedArchive));
+        ValueResult<bool, Guid> result = await HutaoCloudViewModel.RetrieveAsync(uid).ConfigureAwait(false);
 
-        if (changed)
+        if (result.TryGetValue(out Guid archiveId))
         {
-            gachaLogService.CurrentArchive = archive;
-        }
+            GachaArchive archive = await gachaLogService.EnsureArchiveInCollectionAsync(archiveId).ConfigureAwait(false);
 
-        if (forceUpdate || changed)
-        {
-            if (archive is not null)
-            {
-                await UpdateStatisticsAsync(archive).ConfigureAwait(false);
-            }
-            else
-            {
-                // 删光了存档或使用 Ctrl 取消了存档选择时触发
-                // 因此我们在这里额外判断一次是否删光了存档
-                if (Archives.IsNullOrEmpty())
-                {
-                    Statistics = null;
-                }
-            }
+            await taskContext.SwitchToMainThreadAsync();
+            Archives?.MoveCurrentTo(archive);
         }
     }
 
     private async ValueTask UpdateStatisticsAsync(GachaArchive? archive)
     {
+        if (archive is null)
+        {
+            IsInitialized = false;
+            Statistics = default;
+            return;
+        }
+
         try
         {
-            GachaStatistics? statistics = await gachaLogService.GetStatisticsAsync(archive).ConfigureAwait(false);
+            GachaStatistics statistics = await gachaLogService.GetStatisticsAsync(archive).ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
             Statistics = statistics;
@@ -391,8 +373,6 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
 
         infoBarService.Success(SH.ViewModelGachaLogImportComplete);
-        await taskContext.SwitchToMainThreadAsync();
-        await SetSelectedArchiveAndUpdateStatisticsAsync(gachaLogService.CurrentArchive, true).ConfigureAwait(false);
         return true;
     }
 }

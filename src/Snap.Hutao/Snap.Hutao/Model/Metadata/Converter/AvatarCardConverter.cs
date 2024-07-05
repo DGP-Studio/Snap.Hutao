@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control;
+using Snap.Hutao.UI.Xaml.Data.Converter;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// 角色卡片转换器
 /// </summary>
 [HighQuality]
-internal sealed class AvatarCardConverter : ValueConverter<string, Uri>
+internal sealed class AvatarCardConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
 {
     private const string CostumeCard = "UI_AvatarIcon_Costume_Card.png";
     private static readonly Uri UIAvatarIconCostumeCard = Web.HutaoEndpoints.StaticRaw("AvatarCard", CostumeCard).ToUri();

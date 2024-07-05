@@ -5,8 +5,8 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Announcement;
 using Snap.Hutao.Service.Hutao;
-using Snap.Hutao.View.Card;
-using Snap.Hutao.View.Card.Primitive;
+using Snap.Hutao.UI.Xaml.Control.Card;
+using Snap.Hutao.UI.Xaml.View.Card;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.ObjectModel;
 
@@ -51,7 +51,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 
     public List<CardReference>? Cards { get => cards; set => SetProperty(ref cards, value); }
 
-    protected override ValueTask<bool> InitializeUIAsync()
+    protected override ValueTask<bool> InitializeOverrideAsync()
     {
         InitializeDashboard();
         InitializeInGameAnnouncementAsync().SafeForget();
@@ -67,7 +67,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             AnnouncementWrapper announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(cultureOptions.LanguageCode, appOptions.Region, CancellationToken).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             Announcement = announcementWrapper;
-            DeferContentLoader.Load("GameAnnouncementPivot");
+            DeferContentLoader?.Load("GameAnnouncementPivot");
         }
         catch (OperationCanceledException)
         {
@@ -81,7 +81,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             ObservableCollection<Web.Hutao.HutaoAsAService.Announcement> hutaoAnnouncements = await hutaoAsAService.GetHutaoAnnouncementCollectionAsync().ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
             HutaoAnnouncements = hutaoAnnouncements;
-            DeferContentLoader.Load("HutaoAnnouncementControl");
+            DeferContentLoader?.Load("HutaoAnnouncementControl");
         }
         catch (OperationCanceledException)
         {

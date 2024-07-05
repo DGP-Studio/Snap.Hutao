@@ -9,7 +9,6 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProviderFactory))]
 internal sealed partial class GachaLogQueryProviderFactory : IGachaLogQueryProviderFactory
 {
-    [SuppressMessage("", "SH301")]
     private readonly IServiceProvider serviceProvider;
 
     public IGachaLogQueryProvider Create(RefreshOption option)

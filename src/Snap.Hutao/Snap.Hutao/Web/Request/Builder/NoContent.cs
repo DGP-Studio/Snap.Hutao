@@ -21,7 +21,6 @@ internal readonly struct NoContent : IEquatable<NoContent>
         return obj is NoContent;
     }
 
-    [SuppressMessage("", "SH002")]
     public bool Equals(NoContent other)
     {
         return true;

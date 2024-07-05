@@ -12,33 +12,31 @@ internal interface ICultivationDbService : IAppDbService<CultivateEntryLevelInfo
     IAppDbService<CultivateEntry>,
     IAppDbService<CultivateItem>
 {
-    ValueTask AddCultivateProjectAsync(CultivateProject project, CancellationToken token = default);
+    void AddCultivateProject(CultivateProject project);
 
-    ValueTask RemoveCultivateEntryByIdAsync(Guid entryId, CancellationToken token = default);
+    void RemoveCultivateEntryById(Guid entryId);
 
-    ValueTask RemoveCultivateItemRangeByEntryIdAsync(Guid entryId, CancellationToken token = default);
+    void RemoveCultivateItemRangeByEntryId(Guid entryId);
 
-    ValueTask RemoveCultivateProjectByIdAsync(Guid projectId, CancellationToken token = default);
+    void RemoveCultivateProjectById(Guid projectId);
 
-    ValueTask<CultivateEntry?> GetCultivateEntryByProjectIdAndItemIdAsync(Guid projectId, uint itemId, CancellationToken token = default);
+    CultivateEntry? GetCultivateEntryByProjectIdAndItemId(Guid projectId, uint itemId);
 
-    ValueTask<List<CultivateEntry>> GetCultivateEntryListByProjectIdAsync(Guid projectId, CancellationToken token = default);
+    List<CultivateEntry> GetCultivateEntryListByProjectId(Guid projectId);
 
-    ValueTask<List<CultivateItem>> GetCultivateItemListByEntryIdAsync(Guid entryId, CancellationToken token = default);
+    List<CultivateItem> GetCultivateItemListByEntryId(Guid entryId);
 
     ObservableCollection<CultivateProject> GetCultivateProjectCollection();
 
-    ValueTask AddCultivateEntryAsync(CultivateEntry entry, CancellationToken token = default);
+    void AddCultivateEntry(CultivateEntry entry);
 
-    ValueTask AddCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd, CancellationToken token = default);
+    void AddCultivateItemRange(IEnumerable<CultivateItem> toAdd);
 
     void UpdateCultivateItem(CultivateItem item);
 
-    ValueTask UpdateCultivateItemAsync(CultivateItem item, CancellationToken token = default);
+    void RemoveLevelInformationByEntryId(Guid entryId);
 
-    ValueTask RemoveLevelInformationByEntryIdAsync(Guid entryId, CancellationToken token = default);
+    void AddLevelInformation(CultivateEntryLevelInformation levelInformation);
 
-    ValueTask AddLevelInformationAsync(CultivateEntryLevelInformation levelInformation, CancellationToken token = default);
-
-    ValueTask<List<CultivateEntry>> GetCultivateEntryListIncludingLevelInformationByProjectIdAsync(Guid projectId, CancellationToken token = default);
+    List<CultivateEntry> GetCultivateEntryListIncludingLevelInformationByProjectId(Guid projectId);
 }

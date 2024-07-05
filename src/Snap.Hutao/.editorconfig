@@ -322,6 +322,7 @@ dotnet_diagnostic.CA2227.severity = suggestion
 dotnet_diagnostic.CA2251.severity = suggestion
 
 csharp_style_prefer_primary_constructors = false:none
+dotnet_diagnostic.SA1124.severity = none
 
 [*.vb]
 #### 命名样式 ####

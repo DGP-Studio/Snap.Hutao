@@ -29,7 +29,6 @@ internal unsafe struct IFileOperation
         return ThisPtr->SetOperationFlags((IFileOperation*)Unsafe.AsPointer(ref this), dwOperationFlags);
     }
 
-    [SuppressMessage("", "SH002")]
     public HRESULT RenameItem(IShellItem* psiItem, ReadOnlySpan<char> szNewName, IFileOperationProgressSink* pfopsItem)
     {
         fixed (char* pszNewName = szNewName)
@@ -38,7 +37,6 @@ internal unsafe struct IFileOperation
         }
     }
 
-    [SuppressMessage("", "SH002")]
     public HRESULT MoveItem(IShellItem* psiItem, IShellItem* psiDestinationFolder, [AllowNull] ReadOnlySpan<char> szNewName, IFileOperationProgressSink* pfopsItem)
     {
         fixed (char* pszNewName = szNewName)

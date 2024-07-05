@@ -1,12 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -49,7 +49,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     /// </summary>
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -66,7 +66,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
                 List<Monster> ordered = monsters.SortBy(m => m.RelationshipId.Value);
 
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
                     await taskContext.SwitchToMainThreadAsync();
                     Monsters = new(ordered, true);

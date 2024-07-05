@@ -8,7 +8,7 @@ using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 namespace Snap.Hutao.Service.Achievement;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IAchievementStatisticsService))]
+[Injection(InjectAs.Transient, typeof(IAchievementStatisticsService))]
 internal sealed partial class AchievementStatisticsService : IAchievementStatisticsService
 {
     private const int AchievementCardTakeCount = 2;
@@ -22,17 +22,11 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
         await taskContext.SwitchToBackgroundAsync();
 
         List<AchievementStatistics> results = [];
-        foreach (AchievementArchive archive in await achievementDbService.GetAchievementArchiveListAsync(token).ConfigureAwait(false))
+        foreach (AchievementArchive archive in achievementDbService.GetAchievementArchiveList())
         {
-            int finishedCount = await achievementDbService
-                .GetFinishedAchievementCountByArchiveIdAsync(archive.InnerId, token)
-                .ConfigureAwait(false);
-
+            int finishedCount = achievementDbService.GetFinishedAchievementCountByArchiveId(archive.InnerId);
             int totalCount = context.IdAchievementMap.Count;
-
-            List<EntityAchievement> achievements = await achievementDbService
-                .GetLatestFinishedAchievementListByArchiveIdAsync(archive.InnerId, AchievementCardTakeCount, token)
-                .ConfigureAwait(false);
+            List<EntityAchievement> achievements = achievementDbService.GetLatestFinishedAchievementListByArchiveId(archive.InnerId, AchievementCardTakeCount);
 
             results.Add(new()
             {

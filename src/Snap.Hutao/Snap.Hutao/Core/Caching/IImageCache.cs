@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.IO;
 
 namespace Snap.Hutao.Core.Caching;
@@ -11,27 +12,11 @@ namespace Snap.Hutao.Core.Caching;
 [HighQuality]
 internal interface IImageCache
 {
-    /// <summary>
-    /// Gets the file path containing cached item for given Uri
-    /// </summary>
-    /// <param name="uri">Uri of the item.</param>
-    /// <returns>a string path</returns>
     ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri);
 
-    /// <summary>
-    /// Removed items based on uri list passed
-    /// </summary>
-    /// <param name="uriForCachedItems">Enumerable uri list</param>
+    ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri, ElementTheme theme);
+
     void Remove(in ReadOnlySpan<Uri> uriForCachedItems);
 
-    /// <summary>
-    /// Removed item based on uri passed
-    /// </summary>
-    /// <param name="uriForCachedItem">uri</param>
     void Remove(Uri uriForCachedItem);
-
-    /// <summary>
-    /// Removes invalid cached files
-    /// </summary>
-    void RemoveInvalid();
 }

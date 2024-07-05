@@ -20,8 +20,8 @@ internal static class DateTimeOffsetExtension
 
         return value switch
         {
-            >= -62135596800 and <= 253402300799 => DateTimeOffset.FromUnixTimeSeconds(value),
-            >= -62135596800000 and <= 253402300799999 => DateTimeOffset.FromUnixTimeMilliseconds(value),
+            >= -62135596800L and <= 253402300799L => DateTimeOffset.FromUnixTimeSeconds(value),
+            >= -62135596800000L and <= 253402300799999L => DateTimeOffset.FromUnixTimeMilliseconds(value),
             _ => defaultValue,
         };
     }

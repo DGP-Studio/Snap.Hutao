@@ -1,0 +1,62 @@
+<cwc:SettingsExpander
+    x:Class="Snap.Hutao.UI.Xaml.View.Specialized.LaunchGameResourceExpander"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shwhhpc="using:Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect"
+    xmlns:shwhhpcp="using:Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package"
+    HorizontalAlignment="Stretch"
+    HorizontalContentAlignment="Stretch"
+    d:DataContext="{d:DesignInstance shwhhpcp:Package}"
+    BorderThickness="0"
+    IsExpanded="True"
+    ItemsSource="{Binding AllPackages}"
+    mc:Ignorable="d">
+
+    <cwc:SettingsExpander.Resources>
+        <SolidColorBrush x:Key="ToggleButtonBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackground" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundDisabled" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundPointerOver" Color="Transparent"/>
+        <SolidColorBrush x:Key="SettingsCardBackgroundPressed" Color="Transparent"/>
+    </cwc:SettingsExpander.Resources>
+
+    <cwc:SettingsExpander.ItemTemplate>
+        <DataTemplate x:DataType="shwhhpc:PackageSegment">
+            <cwc:SettingsCard
+                Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                ActionIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentCopy}}"
+                Command="{Binding CopyPathCommand}"
+                Header="{Binding DisplayName}"
+                IsClickEnabled="True">
+                <cwc:SettingsCard.Description>
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="0,4,0,0"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentZipFolder}"/>
+                        <TextBlock
+                            Width="80"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+                        <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentFolder}"/>
+                        <TextBlock
+                            Width="80"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding DecompressedSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+                        <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentAsteriskBadge12}"/>
+                        <TextBlock
+                            IsTextSelectionEnabled="True"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding MD5}"/>
+                    </StackPanel>
+                </cwc:SettingsCard.Description>
+            </cwc:SettingsCard>
+        </DataTemplate>
+    </cwc:SettingsExpander.ItemTemplate>
+</cwc:SettingsExpander>

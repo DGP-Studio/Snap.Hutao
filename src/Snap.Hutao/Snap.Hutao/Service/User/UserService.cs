@@ -8,15 +8,11 @@ using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
-using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.ViewModel.User.User;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Service.User;
 
-/// <summary>
-/// 用户服务
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IUserService))]
 internal sealed partial class UserService : IUserService, IUserServiceUnsafe
@@ -27,36 +23,20 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     private readonly IUserDbService userDbService;
     private readonly ITaskContext taskContext;
 
-    public BindingUser? Current
-    {
-        get => userCollectionService.CurrentUser;
-        set => userCollectionService.CurrentUser = value;
-    }
-
     public ValueTask RemoveUserAsync(BindingUser user)
     {
         return userCollectionService.RemoveUserAsync(user);
     }
 
-    public async ValueTask UnsafeRemoveUsersAsync()
+    public async ValueTask UnsafeRemoveAllUsersAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
-        await userDbService.RemoveUsersAsync().ConfigureAwait(false);
+        userDbService.RemoveAllUsers();
     }
 
-    public ValueTask<ObservableReorderableDbCollection<BindingUser, EntityUser>> GetUserCollectionAsync()
+    public ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUsersAsync()
     {
-        return userCollectionService.GetUserCollectionAsync();
-    }
-
-    public ValueTask<ObservableCollection<UserAndUid>> GetRoleCollectionAsync()
-    {
-        return userCollectionService.GetUserAndUidCollectionAsync();
-    }
-
-    public UserGameRole? GetUserGameRoleByUid(string uid)
-    {
-        return userCollectionService.GetUserGameRoleByUid(uid);
+        return userCollectionService.GetUsersAsync();
     }
 
     public async ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(InputCookie inputCookie)
@@ -72,7 +52,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         }
 
         // 检查 mid 对应用户是否存在
-        if (!userCollectionService.TryGetUserByMid(midOrAid, out BindingUser? user))
+        if (await this.GetUserByMidAsync(midOrAid).ConfigureAwait(false) is not { } user)
         {
             return await userCollectionService.TryCreateAndAddUserFromInputCookieAsync(inputCookie).ConfigureAwait(false);
         }
@@ -87,11 +67,11 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         user.CookieToken = cookie.TryGetCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
         user.TryUpdateFingerprint(deviceFp);
 
-        await userDbService.UpdateUserAsync(user.Entity).ConfigureAwait(false);
+        userDbService.UpdateUser(user.Entity);
         return new(UserOptionResult.CookieUpdated, midOrAid);
     }
 
-    public async ValueTask<bool> RefreshCookieTokenAsync(Model.Entity.User user)
+    public async ValueTask<bool> RefreshCookieTokenAsync(EntityUser user)
     {
         // TODO: 提醒其他组件此用户的Cookie已更改
         Response<UidCookieToken> cookieTokenResponse;
@@ -116,9 +96,8 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         // Check null and create a new one to avoid System.NullReferenceException
         user.CookieToken ??= new();
 
-        // Sync ui and database
         user.CookieToken[Cookie.COOKIE_TOKEN] = cookieToken;
-        await userDbService.UpdateUserAsync(user).ConfigureAwait(false);
+        userDbService.UpdateUser(user);
 
         return true;
     }

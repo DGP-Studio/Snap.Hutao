@@ -12,26 +12,12 @@ namespace Snap.Hutao.Extension;
 [HighQuality]
 internal static class StringBuilderExtension
 {
-    /// <summary>
-    /// 当条件符合时执行 <see cref="StringBuilder.Append(string?)"/>
-    /// </summary>
-    /// <param name="sb">字符串建造器</param>
-    /// <param name="condition">条件</param>
-    /// <param name="value">附加的字符</param>
-    /// <returns>同一个字符串建造器</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static StringBuilder AppendIf(this StringBuilder sb, bool condition, char? value)
     {
         return condition ? sb.Append(value) : sb;
     }
 
-    /// <summary>
-    /// 当条件符合时执行 <see cref="StringBuilder.Append(string?)"/>
-    /// </summary>
-    /// <param name="sb">字符串建造器</param>
-    /// <param name="condition">条件</param>
-    /// <param name="value">附加的字符串</param>
-    /// <returns>同一个字符串建造器</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static StringBuilder AppendIf(this StringBuilder sb, bool condition, string? value)
     {
@@ -40,32 +26,35 @@ internal static class StringBuilderExtension
 
     public static string ToStringTrimEnd(this StringBuilder builder)
     {
-        if (builder.Length > 1 && char.IsWhiteSpace(builder[^1]))
+        int index = builder.Length - 1;
+        while (index >= 0 && char.IsWhiteSpace(builder[index]))
         {
-            return builder.ToString(0, builder.Length - 1);
+            index--;
         }
 
-        return builder.ToString();
-    }
-
-    public static string ToStringTrimEndReturn(this StringBuilder builder)
-    {
-        if (builder.Length < 1)
+        if (index < 0)
         {
             return string.Empty;
         }
 
-        int remove = 0;
-        if (builder[^1] is '\n')
-        {
-            remove = 1;
+        return builder.ToString(0, index + 1);
+    }
 
-            if (builder.Length >= 2 && builder[^2] is '\r')
-            {
-                remove = 2;
-            }
+    public static string ToStringTrimEndNewLine(this StringBuilder builder)
+    {
+        int length = builder.Length;
+        int index = length - 1;
+
+        while (index >= 0 && (char.IsWhiteSpace(builder[index]) || builder[index] == '\n' || builder[index] == '\r'))
+        {
+            index--;
         }
 
-        return builder.ToString(0, builder.Length - remove);
+        if (index < 0)
+        {
+            return string.Empty;
+        }
+
+        return builder.ToString(0, index + 1);
     }
 }

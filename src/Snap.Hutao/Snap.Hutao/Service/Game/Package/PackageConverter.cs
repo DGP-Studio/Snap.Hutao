@@ -81,31 +81,21 @@ internal sealed partial class PackageConverter
 
     public async ValueTask EnsureDeprecatedFilesAndSdkAsync(GameChannelSDK? channelSDK, DeprecatedFilesWrapper? deprecatedFiles, string gameFolder)
     {
-        string sdkDllBackup = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll.backup");
-        string sdkDll = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll");
+        // Just try to delete these files, always download from server when needed
+        FileOperation.Delete(Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, GenshinImpactData, "Plugins\\PCGameSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, YuanShenData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, GenshinImpactData, "Plugins\\EOSSDK-Win64-Shipping.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, YuanShenData, "Plugins\\PluginEOSSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, GenshinImpactData, "Plugins\\PluginEOSSDK.dll"));
+        FileOperation.Delete(Path.Combine(gameFolder, "sdk_pkg_version"));
 
-        string sdkVersionBackup = Path.Combine(gameFolder, "sdk_pkg_version.backup");
-        string sdkVersion = Path.Combine(gameFolder, "sdk_pkg_version");
-
-        // Only bilibili's sdk is not null
         if (channelSDK is not null)
         {
             using (Stream sdkWebStream = await httpClient.GetStreamAsync(channelSDK.ChannelSdkPackage.Url).ConfigureAwait(false))
             {
                 ZipFile.ExtractToDirectory(sdkWebStream, gameFolder, true);
             }
-
-            if (File.Exists(sdkDllBackup) && File.Exists(sdkVersionBackup))
-            {
-                File.Delete(sdkDllBackup);
-                File.Delete(sdkVersionBackup);
-            }
-        }
-        else
-        {
-            // backup
-            FileOperation.Move(sdkDll, sdkDllBackup, true);
-            FileOperation.Move(sdkVersion, sdkVersionBackup, true);
         }
 
         if (deprecatedFiles is not null)
@@ -314,7 +304,7 @@ internal sealed partial class PackageConverter
         try
         {
             progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileRenameFormat(context.FromDataFolderName, context.ToDataFolderName)));
-            DirectoryOperation.Move(context.FromDataFolder, context.ToDataFolder);
+            DirectoryOperation.TryMove(context.FromDataFolder, context.ToDataFolder);
         }
         catch (IOException ex)
         {

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.ViewModel.Cultivation;
@@ -16,14 +17,9 @@ namespace Snap.Hutao.Service.Cultivation;
 internal interface ICultivationService
 {
     /// <summary>
-    /// 当前养成计划
-    /// </summary>
-    CultivateProject? Current { get; set; }
-
-    /// <summary>
     /// 获取用于绑定的项目集合
     /// </summary>
-    ObservableCollection<CultivateProject> ProjectCollection { get; }
+    AdvancedDbCollectionView<CultivateProject> Projects { get; }
 
     ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject, ICultivationMetadataContext context);
 

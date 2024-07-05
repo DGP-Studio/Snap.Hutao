@@ -5,14 +5,15 @@ using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Security;
 using Snap.Hutao.Win32.System.Console;
 using Snap.Hutao.Win32.System.LibraryLoader;
+using Snap.Hutao.Win32.System.Memory;
 using Snap.Hutao.Win32.System.ProcessStatus;
+using Snap.Hutao.Win32.System.Threading;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32;
 
-[SuppressMessage("", "SH002")]
 [SuppressMessage("", "SYSLIB1054")]
 internal static class Kernel32
 {
@@ -49,7 +50,6 @@ internal static class Kernel32
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static unsafe extern BOOL GetConsoleMode(HANDLE hConsoleHandle, CONSOLE_MODE* lpMode);
 
-    [SuppressMessage("", "SH002")]
     [DebuggerStepThrough]
     public static unsafe BOOL GetConsoleMode(HANDLE hConsoleHandle, out CONSOLE_MODE mode)
     {
@@ -64,7 +64,15 @@ internal static class Kernel32
     public static extern WIN32_ERROR GetLastError();
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static extern HANDLE GetProcessHeap();
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern HANDLE GetStdHandle(STD_HANDLE nStdHandle);
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static unsafe extern BOOL HeapFree(HANDLE hHeap, HEAP_FLAGS dwFlags, [AllowNull] void* lpMem);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static unsafe extern BOOL K32EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, uint cb, uint* lpcbNeeded);
@@ -117,6 +125,10 @@ internal static class Kernel32
             return LoadLibraryExW(lpLibFileName, hFile, dwFlags);
         }
     }
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static extern HANDLE OpenProcess(PROCESS_ACCESS_RIGHTS dwDesiredAccess, BOOL bInheritHandle, uint dwProcessId);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.1.2600")]

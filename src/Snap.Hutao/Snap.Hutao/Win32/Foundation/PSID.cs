@@ -10,4 +10,6 @@ internal struct PSID
     public unsafe void* Value;
 
     public static unsafe implicit operator PSID(SID* value) => *(PSID*)&value;
+
+    public static unsafe implicit operator void*(PSID value) => *(void**)&value;
 }

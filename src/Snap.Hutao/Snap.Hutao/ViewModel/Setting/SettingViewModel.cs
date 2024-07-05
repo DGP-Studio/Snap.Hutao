@@ -5,14 +5,11 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
-using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Shell;
-using Snap.Hutao.Core.Windowing;
-using Snap.Hutao.Core.Windowing.HotKey;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Model;
@@ -24,7 +21,11 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.UI.Input.HotKey;
+using Snap.Hutao.UI.Xaml.Control;
+using Snap.Hutao.UI.Xaml.Media.Backdrop;
+using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Page;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hoyolab;
 using System.Diagnostics;
@@ -119,7 +120,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             if (SetProperty(ref selectedBackgroundImageType, value) && value is not null)
             {
                 AppOptions.BackgroundImageType = value.Value;
-                messenger.Send(new Message.BackgroundImageTypeChangedMessage());
             }
         }
     }
@@ -215,7 +215,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
-    protected override ValueTask<bool> InitializeUIAsync()
+    protected override ValueTask<bool> InitializeOverrideAsync()
     {
         CacheFolderView = new(taskContext, runtimeOptions.LocalCache);
         DataFolderView = new(taskContext, runtimeOptions.DataFolder);
@@ -288,7 +288,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private async Task OpenTestPageAsync()
     {
         await navigationService
-            .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
+            .NavigateAsync<TestPage>(INavigationAwaiter.Default)
             .ConfigureAwait(false);
     }
 
@@ -346,7 +346,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 
             if (result is ContentDialogResult.Primary)
             {
-                await @unsafe.UnsafeRemoveUsersAsync().ConfigureAwait(false);
+                await @unsafe.UnsafeRemoveAllUsersAsync().ConfigureAwait(false);
                 AppInstance.Restart(string.Empty);
             }
         }

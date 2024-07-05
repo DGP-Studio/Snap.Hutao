@@ -12,20 +12,12 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Model.Calculable;
 
-/// <summary>
-/// 可计算角色
-/// </summary>
-[HighQuality]
 internal sealed class CalculableAvatar
     : ObservableObject,
     ICalculableAvatar,
     IMappingFrom<CalculableAvatar, Avatar>,
     IMappingFrom<CalculableAvatar, AvatarView>
 {
-    /// <summary>
-    /// 构造一个新的可计算角色
-    /// </summary>
-    /// <param name="avatar">角色</param>
     private CalculableAvatar(Avatar avatar)
     {
         AvatarId = avatar.Id;
@@ -37,10 +29,6 @@ internal sealed class CalculableAvatar
         Quality = avatar.Quality;
     }
 
-    /// <summary>
-    /// 构造一个新的可计算角色
-    /// </summary>
-    /// <param name="avatar">角色</param>
     private CalculableAvatar(AvatarView avatar)
     {
         AvatarId = avatar.Id;
@@ -52,28 +40,20 @@ internal sealed class CalculableAvatar
         Quality = avatar.Quality;
     }
 
-    /// <inheritdoc/>
     public AvatarId AvatarId { get; }
 
-    /// <inheritdoc/>
     public uint LevelMin { get; }
 
-    /// <inheritdoc/>
     public uint LevelMax { get; }
 
-    /// <inheritdoc/>
     public List<ICalculableSkill> Skills { get; }
 
-    /// <inheritdoc/>
     public string Name { get; }
 
-    /// <inheritdoc/>
     public Uri Icon { get; }
 
-    /// <inheritdoc/>
     public QualityType Quality { get; }
 
-    /// <inheritdoc/>
     public uint LevelCurrent
     {
         get => LocalSetting.Get(SettingKeys.CultivationAvatarLevelCurrent, LevelMin);

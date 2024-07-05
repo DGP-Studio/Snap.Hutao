@@ -1,22 +1,20 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Animations;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Snap.Hutao.Control.Animation;
-using Snap.Hutao.Control.Theme;
-using Snap.Hutao.Message;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.BackgroundImage;
+using Snap.Hutao.UI.Xaml.Control.Theme;
+using Snap.Hutao.UI.Xaml.Media.Animation;
 using System.Globalization;
 
 namespace Snap.Hutao.ViewModel;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewModelInitialization, IRecipient<BackgroundImageTypeChangedMessage>
+internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewModelInitialization
 {
     private readonly IBackgroundImageService backgroundImageService;
     private readonly ILogger<MainViewModel> logger;
@@ -34,9 +32,23 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
         UpdateBackgroundAsync(true).SafeForget();
     }
 
-    public void Receive(BackgroundImageTypeChangedMessage message)
+    protected override ValueTask<bool> InitializeOverrideAsync()
     {
-        UpdateBackgroundAsync().SafeForget();
+        appOptions.PropertyChanged += OnAppOptionsPropertyChanged;
+        return ValueTask.FromResult(true);
+    }
+
+    protected override void UninitializeOverride()
+    {
+        appOptions.PropertyChanged -= OnAppOptionsPropertyChanged;
+    }
+
+    private void OnAppOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppOptions.BackgroundImageType))
+        {
+            UpdateBackgroundAsync().SafeForget();
+        }
     }
 
     [Command("UpdateBackgroundCommand")]
@@ -58,7 +70,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
                 .Create()
                 .Opacity(
                     to: 0D,
-                    duration: ControlAnimationConstants.ImageOpacityFadeInOut,
+                    duration: Constants.ImageOpacityFadeInOut,
                     easingType: EasingType.Quartic,
                     easingMode: EasingMode.EaseInOut)
                 .StartAsync(backgroundImagePresenter)
@@ -81,7 +93,7 @@ internal sealed partial class MainViewModel : Abstraction.ViewModel, IMainViewMo
                 .Create()
                 .Opacity(
                     to: targetOpacity,
-                    duration: ControlAnimationConstants.ImageOpacityFadeInOut,
+                    duration: Constants.ImageOpacityFadeInOut,
                     easingType: EasingType.Quartic,
                     easingMode: EasingMode.EaseInOut)
                 .StartAsync(backgroundImagePresenter)

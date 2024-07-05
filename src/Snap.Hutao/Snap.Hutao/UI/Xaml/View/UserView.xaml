@@ -1,0 +1,434 @@
+﻿<UserControl
+    x:Class="Snap.Hutao.UI.Xaml.View.UserView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
+    xmlns:shux="using:Snap.Hutao.UI.Xaml"
+    xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxba="using:Snap.Hutao.UI.Xaml.Behavior.Action"
+    xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvww="using:Snap.Hutao.UI.Xaml.View.Window.WebView2"
+    xmlns:shvu="using:Snap.Hutao.ViewModel.User"
+    d:DataContext="{d:DesignInstance shvu:UserViewModel}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <shux:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+
+        <DataTemplate x:Key="UserGameRoleTemplate">
+            <Grid Padding="0,12" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <shuxci:CachedImage
+                    Grid.Column="0"
+                    Height="32"
+                    Margin="2,0"
+                    HorizontalAlignment="Left"
+                    Background="#FFDAB79B"
+                    CornerRadius="{ThemeResource CornerRadiusAll16}"
+                    Source="{Binding ProfilePictureIcon, Converter={StaticResource AvatarIconCircleConverter}}"/>
+                <Button
+                    Grid.Column="0"
+                    Width="32"
+                    Height="32"
+                    Margin="2,0"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding RefreshProfilePictureCommand}"
+                    CommandParameter="{Binding}"
+                    CornerRadius="{ThemeResource CornerRadiusAll16}">
+                    <Button.Resources>
+                        <Storyboard x:Key="ShowRefreshIcon">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RefreshIcon" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="HideRefreshIcon">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RefreshIcon" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </Button.Resources>
+                    <mxi:Interaction.Behaviors>
+                        <mxic:EventTriggerBehavior EventName="PointerEntered">
+                            <mxim:ControlStoryboardAction Storyboard="{StaticResource ShowRefreshIcon}"/>
+                        </mxic:EventTriggerBehavior>
+                        <mxic:EventTriggerBehavior EventName="PointerExited">
+                            <mxim:ControlStoryboardAction Storyboard="{StaticResource HideRefreshIcon}"/>
+                        </mxic:EventTriggerBehavior>
+                    </mxi:Interaction.Behaviors>
+                    <FontIcon
+                        x:Name="RefreshIcon"
+                        FontSize="12"
+                        Glyph="&#xE72C;"
+                        Visibility="Collapsed"/>
+                </Button>
+                <StackPanel Grid.Column="1" Margin="12,0">
+                    <TextBlock Text="{Binding Nickname}"/>
+                    <TextBlock
+                        Margin="0,2,0,0"
+                        Opacity="0.6"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding Description}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="UserTemplate">
+            <Grid Padding="0,12" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.Resources>
+                    <Storyboard x:Name="ButtonPanelVisibleStoryboard">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Visible</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+
+                    <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </Grid.Resources>
+
+                <mxi:Interaction.Behaviors>
+                    <mxic:EventTriggerBehavior EventName="PointerEntered">
+                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
+                    </mxic:EventTriggerBehavior>
+                    <mxic:EventTriggerBehavior EventName="PointerExited">
+                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
+                    </mxic:EventTriggerBehavior>
+                </mxi:Interaction.Behaviors>
+                <PersonPicture
+                    Height="32"
+                    Margin="2,0"
+                    HorizontalAlignment="Left"
+                    ProfilePicture="{Binding UserInfo.AvatarUri, Mode=OneWay}"/>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding UserInfo.Nickname}"/>
+                <TextBlock
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Text="HoYoLAB"
+                    Visibility="{Binding IsOversea}"/>
+                <StackPanel
+                    x:Name="ButtonPanel"
+                    Grid.Column="3"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
+                    <Button
+                        Margin="12,0,0,0"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        Command="{Binding DataContext.CopyCookieCommand, Source={StaticResource ViewModelBindingProxy}}"
+                        CommandParameter="{Binding}"
+                        Content="{StaticResource FontIconContentCopy}"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Style="{StaticResource ButtonRevealStyle}"
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewUserCopyCookieAction}"/>
+                    <Button
+                        Margin="6,0,0,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        Command="{Binding DataContext.RemoveUserCommand, Source={StaticResource ViewModelBindingProxy}}"
+                        CommandParameter="{Binding}"
+                        Content="{StaticResource FontIconContentDelete}"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Style="{StaticResource ButtonRevealStyle}"
+                        ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewUserRemoveAction}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <mxi:Interaction.Behaviors>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+    </mxi:Interaction.Behaviors>
+    <StackPanel
+        Margin="0,0,0,-2"
+        Padding="0,0,0,0"
+        Spacing="4">
+        <StackPanel.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.ThemeDictionaries>
+                    <ResourceDictionary x:Key="Light">
+                        <StaticResource x:Key="ButtonBackground" ResourceKey="NavigationViewItemBackground"/>
+                        <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="NavigationViewItemBackgroundDisabled"/>
+                        <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="NavigationViewItemBackgroundPointerOver"/>
+                        <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="NavigationViewItemBackgroundPressed"/>
+
+                        <StaticResource x:Key="ButtonBorderBrush" ResourceKey="NavigationViewItemBorderBrush"/>
+                        <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="NavigationViewItemBorderBrushDisabled"/>
+                        <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="NavigationViewItemBorderBrushPointerOver"/>
+                        <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="NavigationViewItemBorderBrushPressed"/>
+
+                        <StaticResource x:Key="ButtonForeground" ResourceKey="NavigationViewItemForeground"/>
+                        <StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="NavigationViewItemForegroundDisabled"/>
+                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="NavigationViewItemForegroundPointerOver"/>
+                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="NavigationViewItemForegroundPressed"/>
+                    </ResourceDictionary>
+                    <ResourceDictionary x:Key="Dark">
+                        <StaticResource x:Key="ButtonBackground" ResourceKey="NavigationViewItemBackground"/>
+                        <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="NavigationViewItemBackgroundDisabled"/>
+                        <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="NavigationViewItemBackgroundPointerOver"/>
+                        <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="NavigationViewItemBackgroundPressed"/>
+
+                        <StaticResource x:Key="ButtonBorderBrush" ResourceKey="NavigationViewItemBorderBrush"/>
+                        <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="NavigationViewItemBorderBrushDisabled"/>
+                        <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="NavigationViewItemBorderBrushPointerOver"/>
+                        <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="NavigationViewItemBorderBrushPressed"/>
+
+                        <StaticResource x:Key="ButtonForeground" ResourceKey="NavigationViewItemForeground"/>
+                        <StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="NavigationViewItemForegroundDisabled"/>
+                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="NavigationViewItemForegroundPointerOver"/>
+                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="NavigationViewItemForegroundPressed"/>
+                    </ResourceDictionary>
+                </ResourceDictionary.ThemeDictionaries>
+            </ResourceDictionary>
+        </StackPanel.Resources>
+
+        <Button MaxHeight="40" Margin="4,0">
+            <Button.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <PersonPicture
+                        Width="36"
+                        Height="36"
+                        Margin="1,1,6,1"
+                        HorizontalAlignment="Left"
+                        ProfilePicture="{Binding Users.CurrentItem.UserInfo.AvatarUri, Mode=OneWay}"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="1,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding Users.CurrentItem.UserInfo.Nickname, Mode=OneWay, FallbackValue={shuxm:ResourceString Name=ViewUserNoUserHint}}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"/>
+                    <FontIcon
+                        Grid.Column="2"
+                        Margin="0,0,8,0"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Glyph="{StaticResource FontIconContentChevronRight}"/>
+                </Grid>
+            </Button.Content>
+            <Button.Flyout>
+                <Flyout LightDismissOverlayMode="On" Placement="LeftEdgeAlignedBottom">
+                    <Flyout.FlyoutPresenterStyle>
+                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                            <Setter Property="Padding" Value="0"/>
+                        </Style>
+                    </Flyout.FlyoutPresenterStyle>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel
+                            Grid.Column="0"
+                            Margin="0,0"
+                            Padding="0,2"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="0,0,1,0">
+                            <TextBlock
+                                Margin="0,4,0,2"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{shuxm:ResourceString Name=ViewUserCookieOperation}"/>
+                            <Grid Background="Transparent" ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewUserLoginMihoyoUserDisabledTooltip}">
+                                <AppBarButton
+                                    Width="{StaticResource LargeAppBarButtonWidth}"
+                                    MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                    Margin="2,-4"
+                                    Command="{Binding LoginMihoyoUserCommand}"
+                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
+                                    IsEnabled="False"
+                                    Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                            </Grid>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding LoginByQRCodeCommand}"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentQRCode}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginQRCodeAction}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding AddUserCommand}"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                            <MenuFlyoutSeparator Margin="4,0"/>
+                            <TextBlock
+                                Margin="0,4,0,2"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{shuxm:ResourceString Name=ViewUserCookieOperation2}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding LoginHoyoverseUserCommand}"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentWebsite}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding AddOverseaUserCommand}"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentAdd}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                            <MenuFlyoutSeparator Margin="4,0"/>
+                            <TextBlock
+                                Margin="0,4,0,2"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{shuxm:ResourceString Name=ViewUserCookieOperation3}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                AllowFocusOnInteraction="True"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentHomeGroup}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationGameRecordIndexAction}"
+                                Style="{StaticResource DefaultAppBarButtonStyle}">
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="Click">
+                                        <shuxba:ShowWebView2WindowAction>
+                                            <shuxba:ShowWebView2WindowAction.ContentProvider>
+                                                <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                                                    <shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                                        <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="https://webstatic.mihoyo.com/bbs/event/e20200511toolbox/index.html?game_biz=ys_cn"/>
+                                                    </shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
+                                                </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
+                                            </shuxba:ShowWebView2WindowAction.ContentProvider>
+                                        </shuxba:ShowWebView2WindowAction>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </AppBarButton>
+                            <AppBarButton
+                                x:Name="SignInRewardButton"
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                AllowFocusOnInteraction="True"
+                                Command="{Binding ClaimSignInRewardCommand}"
+                                CommandParameter="{Binding ElementName=SignInRewardButton}"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentGiftboxOpen}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
+                                Style="{StaticResource DefaultAppBarButtonStyle}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding RefreshCookieTokenCommand}"
+                                Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentRefresh}}"
+                                Label="{shuxm:ResourceString Name=ViewUserCookieOperationRefreshCookieAction}"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="1" Width="280">
+                            <StackPanel Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                <StackPanel Visibility="{Binding Users.CurrentItem, Converter={StaticResource EmptyObjectToVisibilityConverter}, Mode=OneWay}">
+                                    <TextBlock
+                                        Margin="10,6,0,6"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="{shuxm:ResourceString Name=ViewUserRole}"/>
+                                    <ListView
+                                        Grid.Row="1"
+                                        Margin="4"
+                                        ItemTemplate="{StaticResource UserGameRoleTemplate}"
+                                        ItemsSource="{Binding Users.CurrentItem.UserGameRoles}"
+                                        SelectedItem="{Binding Users.CurrentItem.UserGameRoles.CurrentItem, Mode=TwoWay}"
+                                        SelectionMode="Single"/>
+                                </StackPanel>
+
+                                <TextBlock
+                                    Margin="10,6,0,6"
+                                    Style="{StaticResource BaseTextBlockStyle}"
+                                    Text="{shuxm:ResourceString Name=ViewUserUser}"/>
+                                <ListView
+                                    Grid.Row="1"
+                                    Margin="4"
+                                    AllowDrop="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                    CanReorderItems="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                    ItemTemplate="{StaticResource UserTemplate}"
+                                    ItemsSource="{Binding Users}"
+                                    SelectedItem="{Binding Users.CurrentItem, Mode=TwoWay}"
+                                    SelectionMode="Single">
+                                    <ListView.Header>
+                                        <InfoBar
+                                            Title="{shuxm:ResourceString Name=ViewListViewDragElevatedHint}"
+                                            Margin="4,0,4,2"
+                                            IsClosable="True"
+                                            IsOpen="True"
+                                            Severity="Warning"
+                                            Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    </ListView.Header>
+                                </ListView>
+                            </StackPanel>
+                            <TextBlock
+                                Margin="16"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                Text="{shuxm:ResourceString Name=ViewUserDefaultDescription}"
+                                Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
+                        </Grid>
+                    </Grid>
+                </Flyout>
+            </Button.Flyout>
+            <Button.Style>
+                <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <NavigationViewItemSeparator/>
+    </StackPanel>
+</UserControl>

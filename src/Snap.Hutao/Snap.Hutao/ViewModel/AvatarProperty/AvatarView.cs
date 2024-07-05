@@ -46,7 +46,7 @@ internal sealed class AvatarView : INameIconSide, ICalculableSource<ICalculableA
     /// <summary>
     /// 等级
     /// </summary>
-    public string Level { get => $"Lv.{LevelNumber}"; }
+    public string Level { get => LevelFormat.Format(LevelNumber); }
 
     /// <summary>
     /// 武器

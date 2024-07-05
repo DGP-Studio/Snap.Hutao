@@ -115,7 +115,6 @@ internal static class MetadataServiceContextExtension
         return context;
     }
 
-#pragma warning disable SH002
     public static IEnumerable<Material> EnumerateInventoryMaterial(this IMetadataListMaterialSource context)
     {
         return context.Materials.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id, MaterialIdComparer.Shared);
@@ -145,5 +144,4 @@ internal static class MetadataServiceContextExtension
     {
         return context.NameWeaponMap[name];
     }
-#pragma warning restore SH002
 }

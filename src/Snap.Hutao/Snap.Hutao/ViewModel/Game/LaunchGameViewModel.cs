@@ -2,10 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.Diagnostics.CodeAnalysis;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
@@ -15,6 +13,8 @@ using Snap.Hutao.Service.Game.PathAbstraction;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
 using System.Collections.Immutable;
@@ -69,7 +69,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
-    [AlsoAsyncSets(nameof(GamePackage), nameof(GameAccountsView))]
     public LaunchScheme? SelectedScheme
     {
         get => selectedScheme;
@@ -96,7 +95,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             {
                 try
                 {
-                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                    using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                     {
                         LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
 
@@ -171,7 +170,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         SelectedGamePathEntry = selectedEntry;
     }
 
-    protected override ValueTask<bool> InitializeUIAsync()
+    protected override ValueTask<bool> InitializeOverrideAsync()
     {
         ImmutableList<GamePathEntry> gamePathEntries = launchOptions.GetGamePathEntries(out GamePathEntry? entry);
         SetGamePathEntriesAndSelectedGamePathEntry(gamePathEntries, entry);
@@ -241,16 +240,16 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     }
 
     [Command("AttachGameAccountCommand")]
-    private void AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)
+    private async Task AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)
     {
         if (gameAccount is null)
         {
             return;
         }
 
-        if (userService.Current?.SelectedUserGameRole is { } role)
+        if (await userService.GetCurrentUidAsync().ConfigureAwait(false) is { } uid)
         {
-            gameService.AttachGameAccountToUid(gameAccount, role.GameUid);
+            gameService.AttachGameAccountToUid(gameAccount, uid);
         }
         else
         {

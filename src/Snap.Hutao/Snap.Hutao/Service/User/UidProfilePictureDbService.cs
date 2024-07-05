@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 
@@ -15,18 +14,18 @@ internal sealed partial class UidProfilePictureDbService : IUidProfilePictureDbS
 
     public IServiceProvider ServiceProvider { get => serviceProvider; }
 
-    public ValueTask<UidProfilePicture?> SingleUidProfilePictureOrDefaultByUidAsync(string uid, CancellationToken token = default)
+    public UidProfilePicture? SingleUidProfilePictureOrDefaultByUid(string uid)
     {
-        return this.QueryAsync(query => query.SingleOrDefaultAsync(n => n.Uid == uid));
+        return this.Query(query => query.SingleOrDefault(n => n.Uid == uid));
     }
 
-    public async ValueTask UpdateUidProfilePictureAsync(UidProfilePicture profilePicture, CancellationToken token = default)
+    public void UpdateUidProfilePicture(UidProfilePicture profilePicture)
     {
-        await this.UpdateAsync(profilePicture, token).ConfigureAwait(false);
+        this.Update(profilePicture);
     }
 
-    public async ValueTask DeleteUidProfilePictureByUidAsync(string uid, CancellationToken token = default)
+    public void DeleteUidProfilePictureByUid(string uid)
     {
-        await this.DeleteAsync(profilePicture => profilePicture.Uid == uid, token).ConfigureAwait(false);
+        this.Delete(profilePicture => profilePicture.Uid == uid);
     }
 }

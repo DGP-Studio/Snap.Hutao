@@ -24,7 +24,7 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
     {
         foreach (UserGameRole userGameRole in user.UserGameRoles)
         {
-            if (await uidProfilePictureDbService.SingleUidProfilePictureOrDefaultByUidAsync(userGameRole.GameUid, token).ConfigureAwait(false) is { } profilePicture)
+            if (uidProfilePictureDbService.SingleUidProfilePictureOrDefaultByUid(userGameRole.GameUid) is { } profilePicture)
             {
                 if (await TryUpdateUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false))
                 {
@@ -53,8 +53,8 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
         {
             UidProfilePicture profilePicture = UidProfilePicture.From(userGameRole, playerInfo.ProfilePicture);
 
-            await uidProfilePictureDbService.DeleteUidProfilePictureByUidAsync(userGameRole.GameUid, token).ConfigureAwait(false);
-            await uidProfilePictureDbService.UpdateUidProfilePictureAsync(profilePicture, token).ConfigureAwait(false);
+            uidProfilePictureDbService.DeleteUidProfilePictureByUid(userGameRole.GameUid);
+            uidProfilePictureDbService.UpdateUidProfilePicture(profilePicture);
 
             await TryUpdateUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false);
         }

@@ -13,47 +13,33 @@ using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Response;
-using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-/// <summary>
-/// 祈愿记录服务
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IGachaLogService))]
 internal sealed partial class GachaLogService : IGachaLogService
 {
-    private readonly ScopedDbCurrent<GachaArchive, Message.GachaArchiveChangedMessage> dbCurrent;
     private readonly IGachaStatisticsSlimFactory gachaStatisticsSlimFactory;
     private readonly IGachaStatisticsFactory gachaStatisticsFactory;
     private readonly IUIGFExportService gachaLogExportService;
     private readonly IUIGFImportService gachaLogImportService;
+    private readonly IGachaLogDbService gachaLogDbService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly ILogger<GachaLogService> logger;
     private readonly GachaInfoClient gachaInfoClient;
-    private readonly IGachaLogDbService gachaLogDbService;
     private readonly ITaskContext taskContext;
 
     private GachaLogServiceMetadataContext context;
-    private ObservableCollection<GachaArchive>? archiveCollection;
+    private AdvancedDbCollectionView<GachaArchive>? archives;
 
-    /// <inheritdoc/>
-    public GachaArchive? CurrentArchive
+    public AdvancedDbCollectionView<GachaArchive>? Archives
     {
-        get => dbCurrent.Current;
-        set => dbCurrent.Current = value;
+        get => archives;
+        private set => archives = value;
     }
 
-    /// <inheritdoc/>
-    public ObservableCollection<GachaArchive>? ArchiveCollection
-    {
-        get => archiveCollection;
-        private set => archiveCollection = value;
-    }
-
-    /// <inheritdoc/>
     public async ValueTask<bool> InitializeAsync(CancellationToken token = default)
     {
         if (context is { IsInitialized: true })
@@ -64,7 +50,8 @@ internal sealed partial class GachaLogService : IGachaLogService
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             context = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>(token).ConfigureAwait(false);
-            ArchiveCollection = gachaLogDbService.GetGachaArchiveCollection();
+            await taskContext.SwitchToMainThreadAsync();
+            Archives = new(gachaLogDbService.GetGachaArchiveCollection(), serviceProvider);
             return true;
         }
         else
@@ -73,31 +60,24 @@ internal sealed partial class GachaLogService : IGachaLogService
         }
     }
 
-    /// <inheritdoc/>
-    public async ValueTask<GachaStatistics> GetStatisticsAsync(GachaArchive? archive)
+    public async ValueTask<GachaStatistics> GetStatisticsAsync(GachaArchive archive)
     {
-        archive ??= CurrentArchive;
-        archive ??= ArchiveCollection?.FirstOrDefault();
-        ArgumentNullException.ThrowIfNull(archive);
-
-        // Return statistics
         using (ValueStopwatch.MeasureExecution(logger))
         {
-            List<GachaItem> items = await gachaLogDbService.GetGachaItemListByArchiveIdAsync(archive.InnerId).ConfigureAwait(false);
+            List<GachaItem> items = gachaLogDbService.GetGachaItemListByArchiveId(archive.InnerId);
             return await gachaStatisticsFactory.CreateAsync(items, context).ConfigureAwait(false);
         }
     }
 
-    /// <inheritdoc/>
     public async ValueTask<List<GachaStatisticsSlim>> GetStatisticsSlimListAsync(CancellationToken token = default)
     {
         await InitializeAsync(token).ConfigureAwait(false);
-        ArgumentNullException.ThrowIfNull(ArchiveCollection);
+        ArgumentNullException.ThrowIfNull(Archives);
 
         List<GachaStatisticsSlim> statistics = [];
-        foreach (GachaArchive archive in ArchiveCollection)
+        foreach (GachaArchive archive in Archives)
         {
-            List<GachaItem> items = await gachaLogDbService.GetGachaItemListByArchiveIdAsync(archive.InnerId).ConfigureAwait(false);
+            List<GachaItem> items = gachaLogDbService.GetGachaItemListByArchiveId(archive.InnerId);
             GachaStatisticsSlim slim = await gachaStatisticsSlimFactory.CreateAsync(context, items, archive.Uid).ConfigureAwait(false);
             statistics.Add(slim);
         }
@@ -105,76 +85,72 @@ internal sealed partial class GachaLogService : IGachaLogService
         return statistics;
     }
 
-    /// <inheritdoc/>
     public ValueTask<UIGF> ExportToUIGFAsync(GachaArchive archive)
     {
         return gachaLogExportService.ExportAsync(context, archive);
     }
 
-    /// <inheritdoc/>
     public async ValueTask ImportFromUIGFAsync(UIGF uigf)
     {
-        ArgumentNullException.ThrowIfNull(ArchiveCollection);
-        CurrentArchive = await gachaLogImportService.ImportAsync(context, uigf, ArchiveCollection).ConfigureAwait(false);
+        ArgumentNullException.ThrowIfNull(Archives);
+        await gachaLogImportService.ImportAsync(context, uigf, Archives).ConfigureAwait(false);
     }
 
-    /// <inheritdoc/>
-    public async ValueTask<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
+    public async ValueTask<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategyKind kind, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
     {
-        bool isLazy = strategy switch
+        bool isLazy = kind switch
         {
-            RefreshStrategy.AggressiveMerge => false,
-            RefreshStrategy.LazyMerge => true,
+            RefreshStrategyKind.AggressiveMerge => false,
+            RefreshStrategyKind.LazyMerge => true,
             _ => throw HutaoException.NotSupported(),
         };
 
-        (bool authkeyValid, GachaArchive? result) = await FetchGachaLogsAsync(query, isLazy, progress, token).ConfigureAwait(false);
+        (bool authkeyValid, GachaArchive? target) = await FetchGachaLogsAsync(query, isLazy, progress, token).ConfigureAwait(false);
 
-        if (result is not null)
+        if (target is not null && Archives is not null)
         {
-            CurrentArchive = result;
+            Archives.CurrentItem = target;
         }
 
         return authkeyValid;
     }
 
-    /// <inheritdoc/>
     public async ValueTask RemoveArchiveAsync(GachaArchive archive)
     {
-        ArgumentNullException.ThrowIfNull(archiveCollection);
+        ArgumentNullException.ThrowIfNull(archives);
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        await gachaLogDbService.RemoveGachaArchiveByIdAsync(archive.InnerId).ConfigureAwait(false);
+        gachaLogDbService.RemoveGachaArchiveById(archive.InnerId);
 
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        archiveCollection.Remove(archive);
+        archives.Remove(archive);
     }
 
     public async ValueTask<GachaArchive> EnsureArchiveInCollectionAsync(Guid archiveId, CancellationToken token = default)
     {
-        ArgumentNullException.ThrowIfNull(ArchiveCollection);
+        ArgumentNullException.ThrowIfNull(Archives);
 
-        if (ArchiveCollection.SingleOrDefault(a => a.InnerId == archiveId) is { } archive)
+        if (Archives.SourceCollection.SingleOrDefault(a => a.InnerId == archiveId) is { } archive)
         {
             return archive;
         }
         else
         {
-            // sync cache
-            GachaArchive? newArchive = await gachaLogDbService.GetGachaArchiveByIdAsync(archiveId, token).ConfigureAwait(false);
+            GachaArchive? newArchive = gachaLogDbService.GetGachaArchiveById(archiveId);
             ArgumentNullException.ThrowIfNull(newArchive);
 
             await taskContext.SwitchToMainThreadAsync();
-            ArchiveCollection.Add(newArchive);
+            Archives.Add(newArchive);
             return newArchive;
         }
     }
 
     private async ValueTask<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
     {
-        ArgumentNullException.ThrowIfNull(ArchiveCollection);
+        ArgumentNullException.ThrowIfNull(Archives);
+
         GachaLogFetchContext fetchContext = new(gachaLogDbService, taskContext, context, isLazy);
 
         foreach (GachaType configType in GachaLog.QueryTypes)
@@ -184,44 +160,42 @@ internal sealed partial class GachaLogService : IGachaLogService
             do
             {
                 Response<GachaLogPage> response = await gachaInfoClient
-                    .GetGachaLogPageAsync(fetchContext.QueryOptions, token)
+                    .GetGachaLogPageAsync(fetchContext.TypedQueryOptions, token)
                     .ConfigureAwait(false);
 
-                if (response.TryGetData(out GachaLogPage? page))
+                if (!response.TryGetData(out GachaLogPage? page))
                 {
-                    List<GachaLogItem> items = page.List;
-                    fetchContext.ResetForProcessingPage();
-
-                    foreach (GachaLogItem item in items)
-                    {
-                        fetchContext.EnsureArchiveAndEndId(item, ArchiveCollection, gachaLogDbService);
-
-                        if (fetchContext.ShouldAddItem(item))
-                        {
-                            fetchContext.AddItem(item);
-                        }
-                        else
-                        {
-                            fetchContext.CompleteAdding();
-                            break;
-                        }
-                    }
-
-                    fetchContext.Report(progress);
-
-                    if (fetchContext.ItemsHaveReachEnd(items))
-                    {
-                        // exit current type fetch loop
-                        break;
-                    }
-                }
-                else
-                {
-                    fetchContext.Report(progress, true);
+                    fetchContext.Report(progress, isAuthKeyTimeout: true);
                     break;
                 }
 
-                await Delay.RandomMilliSeconds(1000, 2000).ConfigureAwait(false);
+                List<GachaLogItem> items = page.List;
+                fetchContext.ResetForProcessingPage();
+
+                foreach (GachaLogItem item in items)
+                {
+                    fetchContext.EnsureArchiveAndEndId(item, Archives, gachaLogDbService);
+
+                    if (fetchContext.ShouldAddItem(item))
+                    {
+                        fetchContext.AddItem(item);
+                    }
+                    else
+                    {
+                        fetchContext.CompleteAdding();
+                        break;
+                    }
+                }
+
+                fetchContext.Report(progress);
+
+                if (fetchContext.ItemsHaveReachEnd(items))
+                {
+                    // exit current type fetch loop
+                    break;
+                }
+
+                await Task.Delay(Random.Shared.Next(1000, 2000), token).ConfigureAwait(false);
             }
             while (true);
 

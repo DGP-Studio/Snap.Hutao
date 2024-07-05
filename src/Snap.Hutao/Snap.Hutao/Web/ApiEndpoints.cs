@@ -13,7 +13,6 @@ namespace Snap.Hutao.Web;
 [HighQuality]
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1202")]
-[SuppressMessage("", "SA1124")]
 internal static class ApiEndpoints
 {
     #region ApiTakumiAuthApi
@@ -90,7 +89,7 @@ internal static class ApiEndpoints
     /// <returns>发起验证码Url</returns>
     public static string CardCreateVerification(bool highRisk)
     {
-        return $"{ApiTakumiCardWApi}/createVerification?is_high={Core.StringLiterals.LowerBoolean(highRisk)}";
+        return $"{ApiTakumiCardWApi}/createVerification?is_high={(highRisk ? "true" : "false")}";
     }
 
     /// <summary>
@@ -143,12 +142,19 @@ internal static class ApiEndpoints
     /// <param name="scheduleType">深渊类型</param>
     /// <param name="uid">Uid</param>
     /// <returns>深渊信息字符串</returns>
-    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.SpiralAbyssSchedule scheduleType, in PlayerUid uid)
+    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.ScheduleType scheduleType, in PlayerUid uid)
     {
         return $"{GameRecordSpiralAbyssPath}?schedule_type={(int)scheduleType}&role_id={uid.Value}&server={uid.Region}";
     }
 
     public const string GameRecordSpiralAbyssPath = $"{ApiTakumiRecordApi}/spiralAbyss";
+
+    public static string GameRecordRoleCombat(in PlayerUid uid)
+    {
+        return $"{GameRecordRoleCombatPath}?server={uid.Region}&role_id={uid.Value}&need_detail=true";
+    }
+
+    public const string GameRecordRoleCombatPath = $"{ApiTakumiRecordApi}/role_combat";
     #endregion
 
     #region ApiTakumiEventCalculate
@@ -406,9 +412,6 @@ internal static class ApiEndpoints
 
     private const string PublicOperationHk4e = "https://public-operation-hk4e.mihoyo.com";
     private const string PublicOperationHk4eGachaInfoApi = $"{PublicOperationHk4e}/gacha_info/api";
-
-    private const string SdkStatic = "https://sdk-static.mihoyo.com";
-    private const string SdkStaticLauncherApi = $"{SdkStatic}/hk4e_cn/mdk/launcher/api";
 
     /// <summary>
     /// Referer: https://webstatic.mihoyo.com

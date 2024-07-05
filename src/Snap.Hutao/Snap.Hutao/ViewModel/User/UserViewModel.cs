@@ -3,18 +3,19 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
-using Snap.Hutao.View.Page;
+using Snap.Hutao.UI.Xaml.Behavior.Action;
+using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Page;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
@@ -40,64 +41,21 @@ internal sealed partial class UserViewModel : ObservableObject
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
-    private User? selectedUser;
-    private ObservableReorderableDbCollection<User, EntityUser>? users;
+    private AdvancedDbCollectionView<User, EntityUser>? users;
 
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
-    /// <summary>
-    /// 当前选择的用户信息
-    /// </summary>
-    public User? SelectedUser
-    {
-        get => selectedUser ??= userService.Current;
-        set
-        {
-            if (value is not null)
-            {
-                // Should not raise propery changed event below
-                if (value.PreferredUid is not null)
-                {
-                    value.SetSelectedUserGameRole(value.UserGameRoles.FirstOrDefault(role => role.GameUid == value.PreferredUid), false);
-                }
+    public AdvancedDbCollectionView<User, EntityUser>? Users { get => users; set => SetProperty(ref users, value); }
 
-                if (value.SelectedUserGameRole is null)
-                {
-                    value.SetSelectedUserGameRole(value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen), false);
-                }
-            }
-
-            if (!ReferenceEquals(selectedUser, value))
-            {
-                selectedUser = value;
-                userService.Current = value;
-            }
-
-            OnPropertyChanged(nameof(SelectedUser));
-        }
-    }
-
-    /// <summary>
-    /// 用户信息集合
-    /// </summary>
-    public ObservableReorderableDbCollection<User, EntityUser>? Users { get => users; set => SetProperty(ref users, value); }
-
-    /// <summary>
-    /// 处理用户操作结果
-    /// </summary>
-    /// <param name="optionResult">操作结果</param>
-    /// <param name="uid">uid</param>
-    /// <returns>任务</returns>
-    internal async ValueTask HandleUserOptionResultAsync(UserOptionResult optionResult, string uid)
+    internal void HandleUserOptionResult(UserOptionResult optionResult, string uid)
     {
         switch (optionResult)
         {
             case UserOptionResult.Added:
                 ArgumentNullException.ThrowIfNull(Users);
-                if (Users.Count == 1)
+                if (Users.CurrentItem is null)
                 {
-                    await taskContext.SwitchToMainThreadAsync();
-                    SelectedUser = Users.Single();
+                    taskContext.InvokeOnMainThread(Users.MoveCurrentToFirst);
                 }
 
                 infoBarService.Success(SH.FormatViewModelUserAdded(uid));
@@ -116,13 +74,13 @@ internal sealed partial class UserViewModel : ObservableObject
         }
     }
 
-    [Command("OpenUICommand")]
-    private async Task OpenUIAsync()
+    [Command("LoadCommand")]
+    private async Task LoadAsync()
     {
         try
         {
-            Users = await userService.GetUserCollectionAsync().ConfigureAwait(true);
-            SelectedUser = userService.Current;
+            Users = await userService.GetUsersAsync().ConfigureAwait(true);
+            Users.MoveCurrentToFirst();
         }
         catch (HutaoException ex)
         {
@@ -156,7 +114,7 @@ internal sealed partial class UserViewModel : ObservableObject
         {
             Cookie cookie = Cookie.Parse(rawCookie);
             (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateWithDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
-            await HandleUserOptionResultAsync(optionResult, uid).ConfigureAwait(false);
+            HandleUserOptionResult(optionResult, uid);
         }
     }
 
@@ -205,7 +163,7 @@ internal sealed partial class UserViewModel : ObservableObject
         {
             Cookie stokenV2 = Cookie.FromLoginResult(sTokenResponse.Data);
             (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateWithDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
-            await HandleUserOptionResultAsync(optionResult, uid).ConfigureAwait(false);
+            HandleUserOptionResult(optionResult, uid);
         }
     }
 
@@ -219,9 +177,9 @@ internal sealed partial class UserViewModel : ObservableObject
 
         try
         {
-            if (user.IsSelected)
+            if (ReferenceEquals(users?.CurrentItem, user))
             {
-                SelectedUser = default;
+                users.MoveCurrentToFirst();
             }
 
             await userService.RemoveUserAsync(user).ConfigureAwait(false);
@@ -260,12 +218,12 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("RefreshCookieTokenCommand")]
     private async Task RefreshCookieTokenAsync()
     {
-        if (SelectedUser is null)
+        if (users?.CurrentItem is null)
         {
             return;
         }
 
-        if (await userService.RefreshCookieTokenAsync(SelectedUser).ConfigureAwait(false))
+        if (await userService.RefreshCookieTokenAsync(users.CurrentItem).ConfigureAwait(false))
         {
             infoBarService.Success(SH.ViewUserRefreshCookieTokenSuccess);
         }
@@ -278,7 +236,7 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("ClaimSignInRewardCommand")]
     private async Task ClaimSignInRewardAsync(AppBarButton? appBarButton)
     {
-        if (!UserAndUid.TryFromUser(SelectedUser, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;
@@ -292,9 +250,24 @@ internal sealed partial class UserViewModel : ObservableObject
             return;
         }
 
+        infoBarService.Warning(message);
+
+        if (appBarButton is null)
+        {
+            return;
+        }
+
         // Manual webview
         await taskContext.SwitchToMainThreadAsync();
-        FlyoutBase.ShowAttachedFlyout(appBarButton);
-        infoBarService.Warning(message);
+
+        ShowWebView2WindowAction action = new()
+        {
+            ContentProvider = new MiHoYoJSBridgeWebView2ContentProvider()
+            {
+                SourceProvider = new SignInJSBridgeUriSourceProvider(),
+            },
+        };
+
+        action.Execute(appBarButton, default!);
     }
 }

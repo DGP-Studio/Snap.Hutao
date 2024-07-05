@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Abstraction;
-using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.Database.Abstraction;
+using Snap.Hutao.UI.Xaml.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,7 +13,9 @@ namespace Snap.Hutao.Model.Entity;
 /// 成就存档
 /// </summary>
 [Table("achievement_archives")]
-internal sealed class AchievementArchive : ISelectable, IMappingFrom<AchievementArchive, string>
+internal sealed class AchievementArchive : ISelectable,
+    IAdvancedCollectionViewItem,
+    IMappingFrom<AchievementArchive, string>
 {
     /// <summary>
     /// 内部Id
@@ -39,5 +42,13 @@ internal sealed class AchievementArchive : ISelectable, IMappingFrom<Achievement
     public static AchievementArchive From(string name)
     {
         return new() { Name = name };
+    }
+
+    public object? GetPropertyValue(string name)
+    {
+        return name switch
+        {
+            _ => default!,
+        };
     }
 }

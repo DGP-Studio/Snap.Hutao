@@ -2,19 +2,27 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.UI;
 using Snap.Hutao.ViewModel.Guide;
+using Snap.Hutao.Web;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
+using Snap.Hutao.Win32.System.WinRT;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using Windows.Foundation;
+using Windows.Graphics.Imaging;
+using WinRT;
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -34,7 +42,8 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         KeyValuePair.Create(2, TimeSpan.FromSeconds(64)),
     ]);
 
-    private readonly ConcurrentDictionary<string, Task> concurrentTasks = new();
+    private readonly ConcurrentDictionary<ElementThemeValueFile, Task> themefileTasks = [];
+    private readonly ConcurrentDictionary<string, Task> downloadTasks = [];
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IHttpClientFactory httpClientFactory;
@@ -48,23 +57,18 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     {
         get => LazyInitializer.EnsureInitialized(ref cacheFolder, () =>
         {
-            return serviceProvider.GetRequiredService<RuntimeOptions>().GetLocalCacheImageCacheFolder();
+            string folder = serviceProvider.GetRequiredService<RuntimeOptions>().GetLocalCacheImageCacheFolder();
+            Directory.CreateDirectory(Path.Combine(folder, "Light"));
+            Directory.CreateDirectory(Path.Combine(folder, "Dark"));
+            return folder;
         });
     }
 
-    /// <inheritdoc/>
-    public void RemoveInvalid()
-    {
-        RemoveCore(Directory.GetFiles(CacheFolder).Where(file => IsFileInvalid(file, false)));
-    }
-
-    /// <inheritdoc/>
     public void Remove(Uri uriForCachedItem)
     {
         Remove([uriForCachedItem]);
     }
 
-    /// <inheritdoc/>
     public void Remove(in ReadOnlySpan<Uri> uriForCachedItems)
     {
         if (uriForCachedItems.Length <= 0)
@@ -88,45 +92,87 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         RemoveCore(filesToDelete);
     }
 
-    /// <inheritdoc/>
-    public async ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri)
+    public ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri)
+    {
+        return GetFileFromCacheAsync(uri, ElementTheme.Default);
+    }
+
+    public async ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri, ElementTheme theme)
     {
         string fileName = GetCacheFileName(uri);
-        string filePath = Path.Combine(CacheFolder, fileName);
+        string defaultFilePath = Path.Combine(CacheFolder, fileName);
+        string themeOrDefaultFilePath = theme is ElementTheme.Dark or ElementTheme.Light
+            ? Path.Combine(CacheFolder, $"{theme}", fileName)
+            : defaultFilePath;
 
-        if (!IsFileInvalid(filePath))
+        if (!IsFileInvalid(themeOrDefaultFilePath))
         {
-            return filePath;
+            return themeOrDefaultFilePath;
         }
 
-        TaskCompletionSource taskCompletionSource = new();
-        try
+        ElementThemeValueFile key = new(fileName, theme);
+
+        // To prevent re-entrancy, always try add first, and if add failed, we try to get the task
+        TaskCompletionSource themeFileTcs = new();
+        if (themefileTasks.TryAdd(key, themeFileTcs.Task))
         {
-            if (concurrentTasks.TryAdd(fileName, taskCompletionSource.Task))
+            try
             {
-                logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (filePath, ConsoleColor.Cyan));
-                await DownloadFileAsync(uri, filePath).ConfigureAwait(false);
+                if (!IsFileInvalid(defaultFilePath))
+                {
+                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
+                    return themeOrDefaultFilePath;
+                }
+
+                TaskCompletionSource downloadTcs = new();
+                if (downloadTasks.TryAdd(fileName, downloadTcs.Task))
+                {
+                    try
+                    {
+                        logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (defaultFilePath, ConsoleColor.Cyan));
+                        await DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        downloadTcs.TrySetResult();
+                        downloadTasks.TryRemove(fileName, out _);
+                    }
+                }
+                else if (downloadTasks.TryGetValue(fileName, out Task? task))
+                {
+                    logger.LogDebug("Waiting for a queued image download task to complete for '{Uri}'", (uri, ConsoleColor.Cyan));
+                    await task.ConfigureAwait(false);
+                }
+
+                if (!IsFileInvalid(defaultFilePath))
+                {
+                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
+                    return themeOrDefaultFilePath;
+                }
+
+                return themeOrDefaultFilePath;
             }
-            else if (concurrentTasks.TryGetValue(fileName, out Task? task))
+            finally
             {
-                logger.LogDebug("Waiting for a queued image download task to complete for '{Uri}'", (uri, ConsoleColor.Cyan));
-                await task.ConfigureAwait(false);
+                themeFileTcs.TrySetResult();
+                themefileTasks.TryRemove(key, out _);
             }
-
-            concurrentTasks.TryRemove(fileName, out _);
         }
-        finally
+        else if (themefileTasks.TryGetValue(key, out Task? themeTask))
         {
-            taskCompletionSource.TrySetResult();
+            await themeTask.ConfigureAwait(false);
+            return themeOrDefaultFilePath;
         }
-
-        return filePath;
+        else
+        {
+            throw HutaoException.NotSupported("The task should not be null.");
+        }
     }
 
     /// <inheritdoc/>
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
-        Uri dummyUri = Web.HutaoEndpoints.StaticRaw(category, fileName).ToUri();
+        Uri dummyUri = HutaoEndpoints.StaticRaw(category, fileName).ToUri();
         return Path.Combine(CacheFolder, GetCacheFileName(dummyUri));
     }
 
@@ -143,6 +189,50 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         }
 
         return new FileInfo(file).Length == 0;
+    }
+
+    private static async ValueTask ConvertAndSaveFileToMonoChromeAsync(string sourceFile, string themeFile, ElementTheme theme)
+    {
+        if (string.Equals(sourceFile, themeFile, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        using (FileStream sourceStream = File.OpenRead(sourceFile))
+        {
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(sourceStream.AsRandomAccessStream());
+
+            // Always premultiplied to prevent some channels have a non-zero value when the alpha channel is zero
+            using (SoftwareBitmap sourceBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Premultiplied))
+            {
+                using (BitmapBuffer sourceBuffer = sourceBitmap.LockBuffer(BitmapBufferAccessMode.ReadWrite))
+                {
+                    using (IMemoryBufferReference reference = sourceBuffer.CreateReference())
+                    {
+                        IMemoryBufferByteAccess byteAccess = reference.As<IMemoryBufferByteAccess>();
+                        byte value = theme is ElementTheme.Light ? (byte)0x00 : (byte)0xFF;
+                        ConvertToMonoChrome(byteAccess, value);
+                    }
+                }
+
+                using (FileStream themeStream = File.Create(themeFile))
+                {
+                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, themeStream.AsRandomAccessStream());
+                    encoder.SetSoftwareBitmap(sourceBitmap);
+                    await encoder.FlushAsync();
+                }
+            }
+        }
+
+        static void ConvertToMonoChrome(IMemoryBufferByteAccess byteAccess, byte background)
+        {
+            byteAccess.GetBuffer(out Span<Rgba32> span);
+            foreach (ref Rgba32 pixel in span)
+            {
+                pixel.A = (byte)pixel.Luminance255;
+                pixel.R = pixel.G = pixel.B = background;
+            }
+        }
     }
 
     private void RemoveCore(IEnumerable<string> filePaths)
@@ -235,5 +325,22 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     {
         HashSet<string>? set = memoryCache.GetOrCreate(CacheFailedDownloadTasksName, entry => new HashSet<string>());
         set?.Add(uri.ToString());
+    }
+
+    private readonly struct ElementThemeValueFile
+    {
+        public readonly ValueFile File;
+        public readonly ElementTheme Theme;
+
+        public ElementThemeValueFile(ValueFile file, ElementTheme theme)
+        {
+            File = file;
+            Theme = theme;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(File, Theme);
+        }
     }
 }

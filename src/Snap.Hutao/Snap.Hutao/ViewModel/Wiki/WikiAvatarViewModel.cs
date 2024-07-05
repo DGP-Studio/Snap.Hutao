@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control.AutoSuggestBox;
-using Snap.Hutao.Control.Collection.AdvancedCollectionView;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
@@ -19,8 +17,9 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
-using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
+using Snap.Hutao.UI.Xaml.Data;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.ObjectModel;
@@ -90,7 +89,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
-    protected override async ValueTask<bool> InitializeUIAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -108,7 +107,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
                 await CombineComplexDataAsync(list, idMaterialMap).ConfigureAwait(false);
 
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
                     await taskContext.SwitchToMainThreadAsync();
                     Avatars = new(list, true);
@@ -162,7 +161,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (!UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is not { } userAndUid)
         {
             infoBarService.Warning(SH.MustSelectUserAndUid);
             return;

@@ -9,7 +9,6 @@ namespace Snap.Hutao.Win32.System.WinRT.Graphics.Capture;
 
 internal static class IGraphicsCaptureItemInteropExtension
 {
-    [SuppressMessage("", "SH002")]
     public static unsafe HRESULT CreateForWindow(this IGraphicsCaptureItemInterop interop, HWND window, out GraphicsCaptureItem result)
     {
         void* resultPtr = default;
@@ -23,7 +22,6 @@ internal static class IGraphicsCaptureItemInteropExtension
         return retVal;
     }
 
-    [SuppressMessage("", "SH002")]
     public static unsafe HRESULT CreateForMonitor(this IGraphicsCaptureItemInterop interop, HMONITOR monitor, out GraphicsCaptureItem result)
     {
         void* resultPtr = default;

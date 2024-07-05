@@ -13,7 +13,6 @@ namespace Snap.Hutao.Web;
 [HighQuality]
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1202")]
-[SuppressMessage("", "SA1124")]
 internal static class ApiOsEndpoints
 {
     #region ApiAccountOsApi
@@ -169,7 +168,7 @@ internal static class ApiOsEndpoints
     /// <param name="scheduleType">深渊类型</param>
     /// <param name="uid">Uid</param>
     /// <returns>深渊信息字符串</returns>
-    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.SpiralAbyssSchedule scheduleType, in PlayerUid uid)
+    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.ScheduleType scheduleType, in PlayerUid uid)
     {
         return $"{BbsApiOsGameRecordAppApi}/spiralAbyss?server={uid.Region}&role_id={uid.Value}&schedule_type={(int)scheduleType}";
     }
@@ -300,17 +299,17 @@ internal static class ApiOsEndpoints
 
     #region SgHoyoPlayApi
 
-    public static string SgHoyoPlayConnectGamePackages(LaunchScheme scheme)
+    public static string HoyoPlayConnectGamePackages(LaunchScheme scheme)
     {
         return $"{SgHoyoPlayApiConnectApi}/getGamePackages?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}";
     }
 
-    public static string SgHoyoPlayConnectGameChannelSDKs(LaunchScheme scheme)
+    public static string HoyoPlayConnectGameChannelSDKs(LaunchScheme scheme)
     {
         return $"{SgHoyoPlayApiConnectApi}/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
 
-    public static string SgHoyoPlayConnectDeprecatedFileConfigs(LaunchScheme scheme)
+    public static string HoyoPlayConnectDeprecatedFileConfigs(LaunchScheme scheme)
     {
         return $"{SgHoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
@@ -341,9 +340,6 @@ internal static class ApiOsEndpoints
     private const string Hk4eApiOs = "https://hk4e-api-os.hoyoverse.com";
     private const string Hk4eApiOsAnnouncementApi = $"{Hk4eApiOs}/common/hk4e_global/announcement/api";
     private const string Hk4eApiOsGachaInfoApi = $"{Hk4eApiOs}/gacha_info/api";
-
-    private const string SdkOsStatic = "https://sdk-os-static.mihoyo.com";
-    private const string SdkOsStaticLauncherApi = $"{SdkOsStatic}/hk4e_global/mdk/launcher/api";
 
     private const string SgPublicApi = "https://sg-public-api.hoyoverse.com";
     private const string SgHk4eApi = "https://sg-hk4e-api.hoyoverse.com";

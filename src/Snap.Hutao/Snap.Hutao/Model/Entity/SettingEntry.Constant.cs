@@ -41,6 +41,7 @@ internal sealed partial class SettingEntry
     public const string LaunchScreenHeight = "Launch.ScreenHeight";
     public const string LaunchIsScreenHeightEnabled = "Launch.IsScreenHeightEnabled";
     public const string LaunchUnlockFps = "Launch.UnlockFps";
+    public const string LaunchUnlockerKind = "Launch.UnlockerKind";
     public const string LaunchTargetFps = "Launch.TargetFps";
     public const string LaunchMonitor = "Launch.Monitor";
     public const string LaunchIsMonitorEnabled = "Launch.IsMonitorEnabled";

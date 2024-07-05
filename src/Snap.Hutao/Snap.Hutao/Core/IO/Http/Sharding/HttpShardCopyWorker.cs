@@ -9,6 +9,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
+// TODO: refactor to use tree structure to calculate shards
 internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
 {
     private const int ShardSize = 4 * 1024 * 1024;

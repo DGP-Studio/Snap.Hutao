@@ -1,10 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -14,48 +13,25 @@ internal sealed partial class GameDbService : IGameDbService
 {
     private readonly IServiceProvider serviceProvider;
 
+    public IServiceProvider ServiceProvider { get => serviceProvider; }
+
     public ObservableReorderableDbCollection<GameAccount> GetGameAccountCollection()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.GameAccounts.AsNoTracking().ToObservableReorderableDbCollection(serviceProvider);
-        }
+        return this.Query(query => query.ToObservableReorderableDbCollection(serviceProvider));
     }
 
-    public async ValueTask AddGameAccountAsync(GameAccount gameAccount)
+    public void AddGameAccount(GameAccount gameAccount)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.GameAccounts.AddAndSaveAsync(gameAccount).ConfigureAwait(false);
-        }
+        this.Add(gameAccount);
     }
 
     public void UpdateGameAccount(GameAccount gameAccount)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.GameAccounts.UpdateAndSave(gameAccount);
-        }
+        this.Update(gameAccount);
     }
 
-    public async ValueTask UpdateGameAccountAsync(GameAccount gameAccount)
+    public void RemoveGameAccountById(Guid id)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.GameAccounts.UpdateAndSaveAsync(gameAccount).ConfigureAwait(false);
-        }
-    }
-
-    public async ValueTask RemoveGameAccountByIdAsync(Guid id)
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.GameAccounts.ExecuteDeleteWhereAsync(a => a.InnerId == id).ConfigureAwait(false);
-        }
+        this.DeleteByInnerId(id);
     }
 }

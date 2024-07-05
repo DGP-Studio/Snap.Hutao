@@ -7,31 +7,38 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources/>
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.SettingsControls/SettingsCard/SettingsCard.xaml"/>
-                <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.TokenizingTextBox/TokenizingTextBox.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Loading.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Image/CachedImage.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/Card.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/Color.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/ComboBox.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/Converter.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/CornerRadius.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/FlyoutStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/FontStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/Glyph.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/InfoBarOverride.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/ItemsPanelTemplate.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/NumericValue.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/PageOverride.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/PivotOverride.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/ScrollViewer.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/SegmentedOverride.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/SettingsStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/Thickness.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/TransitionCollection.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/Uri.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Control/Theme/WindowOverride.xaml"/>
-                <ResourceDictionary Source="ms-appx:///View/Card/Primitive/CardProgressBar.xaml"/>
-                <ResourceDictionary Source="ms-appx:///View/Control/RateDeltaTextBlockStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.TokenView/TokenItem/TokenItem.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Elevation.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/ItemIcon.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Loading.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/StandardView.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/AutoSuggestBox/AutoSuggestTokenBox.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardBlock.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/CardProgressBar.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/HorizontalCard.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Card/VerticalCard.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Image/CachedImage.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/TextBlock/RateDeltaTextBlock.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Card.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Color.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/ComboBox.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Converter.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/CornerRadius.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/FlyoutStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/FontStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Glyph.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/InfoBarOverride.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/ItemsPanelTemplate.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/NumericValue.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/PageOverride.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/PivotOverride.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/ScrollViewer.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/SegmentedOverride.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/SettingsStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Thickness.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/TransitionCollection.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/Uri.xaml"/>
+                <ResourceDictionary Source="ms-appx:///UI/Xaml/Control/Theme/WindowOverride.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style
@@ -45,15 +52,15 @@
                 x:Name="NoneSelectionListViewItemStyle"
                 BasedOn="{StaticResource DefaultListViewItemStyle}"
                 TargetType="ListViewItem">
-                <Setter Property="Padding" Value="0"/>
                 <Setter Property="Margin" Value="0,4,0,0"/>
+                <Setter Property="Padding" Value="0"/>
             </Style>
             <Style
                 x:Name="NoneSelectionGridViewItemStyle"
                 BasedOn="{StaticResource DefaultGridViewItemStyle}"
                 TargetType="GridViewItem">
-                <Setter Property="Padding" Value="0"/>
                 <Setter Property="Margin" Value="0,0,2,4"/>
+                <Setter Property="Padding" Value="0"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

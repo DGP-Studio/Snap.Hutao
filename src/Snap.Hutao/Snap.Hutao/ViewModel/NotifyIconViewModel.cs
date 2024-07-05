@@ -5,7 +5,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
-using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.UI.Xaml;
+using Snap.Hutao.UI.Xaml.View.Window;
 using System.Globalization;
 using System.Text;
 

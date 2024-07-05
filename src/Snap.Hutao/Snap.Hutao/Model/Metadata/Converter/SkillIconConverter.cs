@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Control;
+using Snap.Hutao.UI.Xaml.Data.Converter;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// 技能图标转换器
 /// </summary>
 [HighQuality]
-internal sealed class SkillIconConverter : ValueConverter<string, Uri>
+internal sealed class SkillIconConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
 {
     /// <summary>
     /// 名称转Uri

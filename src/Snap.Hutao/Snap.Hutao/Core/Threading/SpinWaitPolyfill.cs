@@ -16,7 +16,6 @@ internal static class SpinWaitPolyfill
         }
     }
 
-    [SuppressMessage("", "SH002")]
     public static unsafe bool SpinUntil<T>(ref readonly T state, delegate*<ref readonly T, bool> condition, TimeSpan timeout)
     {
         long startTime = Stopwatch.GetTimestamp();

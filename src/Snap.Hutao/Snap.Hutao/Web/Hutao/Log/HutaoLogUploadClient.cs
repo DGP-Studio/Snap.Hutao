@@ -5,7 +5,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
-using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.Log;
@@ -23,22 +22,13 @@ internal sealed partial class HutaoLogUploadClient
     private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 上传日志
-    /// </summary>
-    /// <param name="exception">异常</param>
-    /// <returns>任务</returns>
-    public async ValueTask<string?> UploadLogAsync(Exception exception)
+    public void UploadLog(Exception exception)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(HutaoEndpoints.HutaoLogUpload)
             .PostJson(BuildFromException(exception));
 
-        Response<string>? resp = await builder
-            .SendAsync<Response<string>>(httpClient, logger, default)
-            .ConfigureAwait(false);
-
-        return resp?.Data;
+        builder.Send(httpClient, logger);
     }
 
     private HutaoLog BuildFromException(Exception exception)

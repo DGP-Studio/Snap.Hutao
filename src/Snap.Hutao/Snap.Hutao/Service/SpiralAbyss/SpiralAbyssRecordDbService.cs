@@ -1,10 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
 
@@ -14,36 +12,23 @@ internal sealed partial class SpiralAbyssRecordDbService : ISpiralAbyssRecordDbS
 {
     private readonly IServiceProvider serviceProvider;
 
-    public async ValueTask<Dictionary<uint, SpiralAbyssEntry>> GetSpiralAbyssEntryListByUidAsync(string uid)
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            List<SpiralAbyssEntry> entries = await appDbContext.SpiralAbysses
-                    .Where(s => s.Uid == uid)
-                    .OrderByDescending(s => s.ScheduleId)
-                    .ToListAsync()
-                    .ConfigureAwait(false);
+    public IServiceProvider ServiceProvider { get => serviceProvider; }
 
-            return entries.ToDictionary(e => e.ScheduleId);
-        }
+    public Dictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryListByUid(string uid)
+    {
+        return this.Query(query => query
+            .Where(s => s.Uid == uid)
+            .OrderByDescending(s => s.ScheduleId)
+            .ToDictionary(e => e.ScheduleId));
     }
 
-    public async ValueTask UpdateSpiralAbyssEntryAsync(SpiralAbyssEntry entry)
+    public void UpdateSpiralAbyssEntry(SpiralAbyssEntry entry)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.SpiralAbysses.UpdateAndSaveAsync(entry).ConfigureAwait(false);
-        }
+        this.Update(entry);
     }
 
-    public async ValueTask AddSpiralAbyssEntryAsync(SpiralAbyssEntry entry)
+    public void AddSpiralAbyssEntry(SpiralAbyssEntry entry)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.SpiralAbysses.AddAndSaveAsync(entry).ConfigureAwait(false);
-        }
+        this.Add(entry);
     }
 }

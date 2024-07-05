@@ -89,6 +89,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
                     serverStream.WritePacketWithJsonContent(PrivateNamedPipe.Version, PipePacketType.Response, PipePacketCommand.ResponseElevationStatus, resp);
                     serverStream.Flush();
                     break;
+
                 case (PipePacketType.Request, PipePacketCommand.RedirectActivation):
                     HutaoActivationArguments? hutaoArgs = serverStream.ReadJsonContent<HutaoActivationArguments>(in header);
                     if (hutaoArgs is not null)
@@ -98,6 +99,7 @@ internal sealed partial class PrivateNamedPipeServer : IDisposable
 
                     messageDispatcher.RedirectActivation(hutaoArgs);
                     break;
+
                 case (PipePacketType.SessionTermination, _):
                     serverStream.Disconnect();
                     if (header.Command is PipePacketCommand.Exit)

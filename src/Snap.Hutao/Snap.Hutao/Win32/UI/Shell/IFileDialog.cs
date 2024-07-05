@@ -9,7 +9,6 @@ using System.Runtime.Versioning;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
-[SuppressMessage("", "SH002")]
 [SupportedOSPlatform("windows6.0.6000")]
 internal unsafe struct IFileDialog
 {

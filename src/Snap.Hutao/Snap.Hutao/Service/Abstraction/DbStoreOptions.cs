@@ -2,9 +2,12 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using System.Globalization;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Abstraction;
@@ -16,6 +19,30 @@ namespace Snap.Hutao.Service.Abstraction;
 internal abstract partial class DbStoreOptions : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
+
+    protected static T? EnumParse<T>(string input)
+        where T : struct, Enum
+    {
+        return Enum.Parse<T>(input);
+    }
+
+    protected static string EnumToStringOrEmpty<T>(T? input)
+        where T : struct, Enum
+    {
+        return input.ToStringOrEmpty();
+    }
+
+    protected void InitializeOptions(string keyLike, Expression<Func<SettingEntry, bool>> entrySelector, Action<string, string?> entryAction)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            foreach (SettingEntry entry in appDbContext.Settings.Where(entrySelector))
+            {
+                entryAction(entry.Key, entry.Value);
+            }
+        }
+    }
 
     protected string GetOption(ref string? storage, string key, string defaultValue = "")
     {
@@ -115,7 +142,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
             appDbContext.Settings.AddAndSave(new(key, value));
         }
     }
@@ -131,7 +158,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
             appDbContext.Settings.AddAndSave(new(key, value.ToString()));
         }
 
@@ -148,7 +175,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
             appDbContext.Settings.AddAndSave(new(key, $"{value}"));
         }
     }
@@ -163,7 +190,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.Where(e => e.Key == key).ExecuteDelete();
             appDbContext.Settings.AddAndSave(new(key, serializer(value)));
         }
     }

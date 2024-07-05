@@ -16,7 +16,7 @@ internal sealed class SimpleBattle
     /// 构造一个新的战斗
     /// </summary>
     /// <param name="battle">战斗</param>
-    public SimpleBattle(Battle battle)
+    public SimpleBattle(SpiralAbyssBattle battle)
     {
         Index = battle.Index;
         Avatars = battle.Avatars.Select(a => a.Id);

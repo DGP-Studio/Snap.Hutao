@@ -59,9 +59,8 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         uid = userAndUid.Uid.Value;
         if (spiralAbysses is null)
         {
-            Dictionary<uint, SpiralAbyssEntry> entryMap = await spiralAbyssRecordDbService
-                .GetSpiralAbyssEntryListByUidAsync(userAndUid.Uid.Value)
-                .ConfigureAwait(false);
+            await taskContext.SwitchToBackgroundAsync();
+            Dictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordDbService.GetSpiralAbyssEntryListByUid(userAndUid.Uid.Value);
 
             ArgumentNullException.ThrowIfNull(metadataContext);
             spiralAbysses = metadataContext.IdScheduleMap.Values
@@ -86,12 +85,12 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
                 .GetPlayerInfoAsync(userAndUid)
                 .ConfigureAwait(false);
 
-            await RefreshSpiralAbyssCoreAsync(userAndUid, SpiralAbyssSchedule.Last).ConfigureAwait(false);
-            await RefreshSpiralAbyssCoreAsync(userAndUid, SpiralAbyssSchedule.Current).ConfigureAwait(false);
+            await RefreshSpiralAbyssCoreAsync(userAndUid, ScheduleType.Last).ConfigureAwait(false);
+            await RefreshSpiralAbyssCoreAsync(userAndUid, ScheduleType.Current).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule)
+    private async ValueTask RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, ScheduleType schedule)
     {
         Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
@@ -127,13 +126,13 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         if (view.Entity is not null)
         {
             view.Entity.SpiralAbyss = webSpiralAbyss;
-            await spiralAbyssRecordDbService.UpdateSpiralAbyssEntryAsync(view.Entity).ConfigureAwait(false);
+            spiralAbyssRecordDbService.UpdateSpiralAbyssEntry(view.Entity);
             targetEntry = view.Entity;
         }
         else
         {
             SpiralAbyssEntry newEntry = SpiralAbyssEntry.From(userAndUid.Uid.Value, webSpiralAbyss);
-            await spiralAbyssRecordDbService.AddSpiralAbyssEntryAsync(newEntry).ConfigureAwait(false);
+            spiralAbyssRecordDbService.AddSpiralAbyssEntry(newEntry);
             targetEntry = newEntry;
         }
 

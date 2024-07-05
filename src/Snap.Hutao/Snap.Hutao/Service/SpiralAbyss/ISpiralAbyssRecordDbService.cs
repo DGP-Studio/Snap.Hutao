@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
 
-internal interface ISpiralAbyssRecordDbService
+internal interface ISpiralAbyssRecordDbService : IAppDbService<SpiralAbyssEntry>
 {
-    ValueTask AddSpiralAbyssEntryAsync(SpiralAbyssEntry entry);
+    void AddSpiralAbyssEntry(SpiralAbyssEntry entry);
 
-    ValueTask<Dictionary<uint, SpiralAbyssEntry>> GetSpiralAbyssEntryListByUidAsync(string uid);
+    Dictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryListByUid(string uid);
 
-    ValueTask UpdateSpiralAbyssEntryAsync(SpiralAbyssEntry entry);
+    void UpdateSpiralAbyssEntry(SpiralAbyssEntry entry);
 }

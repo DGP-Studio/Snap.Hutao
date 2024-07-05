@@ -43,5 +43,6 @@ internal interface IContentDialogFactory
     ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
         where TContentDialog : Microsoft.UI.Xaml.Controls.ContentDialog;
 
+    [SuppressMessage("", "SH003")]
     Task<ContentDialogResult> EnqueueAndShowAsync(Microsoft.UI.Xaml.Controls.ContentDialog contentDialog);
 }

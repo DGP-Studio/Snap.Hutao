@@ -6,4 +6,8 @@ namespace Snap.Hutao.Win32.Foundation;
 internal readonly struct PCSTR
 {
     public readonly unsafe byte* Value;
+
+    public static unsafe implicit operator PCSTR(byte* value) => *(PCSTR*)&value;
+
+    public static unsafe implicit operator byte*(PCSTR value) => *(byte**)&value;
 }

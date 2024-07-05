@@ -13,9 +13,10 @@ internal static class HttpRequestMessageBuilderExtension
 {
     private const string RequestErrorMessage = "请求异常已忽略: {Uri}";
 
-    internal static void Resurrect(this HttpRequestMessageBuilder builder)
+    internal static HttpRequestMessageBuilder Resurrect(this HttpRequestMessageBuilder builder)
     {
         builder.HttpRequestMessage.Resurrect();
+        return builder;
     }
 
     internal static async ValueTask<TResult?> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)
@@ -75,11 +76,11 @@ internal static class HttpRequestMessageBuilderExtension
         }
     }
 
-    internal static async ValueTask SendAsync(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)
+    internal static void Send(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger)
     {
         try
         {
-            using (HttpResponseMessage message = await httpClient.SendAsync(builder.HttpRequestMessage, token).ConfigureAwait(false))
+            using (HttpResponseMessage message = httpClient.Send(builder.HttpRequestMessage))
             {
             }
         }

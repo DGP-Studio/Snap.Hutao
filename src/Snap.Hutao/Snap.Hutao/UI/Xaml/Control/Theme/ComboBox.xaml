@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style
+        x:Key="CommandBarComboBoxStyle"
+        BasedOn="{StaticResource DefaultComboBoxStyle}"
+        TargetType="ComboBox">
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="Padding" Value="12,7,0,7"/>
+    </Style>
+    <!--  https://github.com/microsoft/microsoft-ui-xaml/issues/4811  -->
+    <x:Int32 x:Key="__DiscardPageOverride">0</x:Int32>
+</ResourceDictionary>
