@@ -181,7 +181,6 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
             ElementTheme theme = ShowAsMonoChrome ? ThemeHelper.ApplicationToElement(ThemeHelper.ElementToApplication(ActualTheme)) : ElementTheme.Default;
             string file = await imageCache.GetFileFromCacheAsync(imageUri, theme).ConfigureAwait(true); // BitmapImage need to be created by main thread.
             CachedName = Path.GetFileName(file);
-            token.ThrowIfCancellationRequested(); // check token state to determine whether the operation should be canceled.
             return file.ToUri();
         }
         catch (COMException)

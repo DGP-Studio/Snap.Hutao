@@ -343,12 +343,13 @@
                                             </cwc:SettingsCard>
                                         </cwc:SettingsExpander.Items>
                                     </cwc:SettingsExpander>
-                                    <cwc:SettingsCard
+                                    <cwc:SettingsExpander
                                         Padding="{ThemeResource SettingsCardAlignSettingsExpanderPadding}"
                                         Description="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE785;}"
                                         IsEnabled="{Binding RuntimeOptions.IsElevated}"
+                                        IsExpanded="True"
                                         Visibility="{Binding LaunchOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <StackPanel Orientation="Horizontal" Spacing="10">
                                             <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
@@ -365,7 +366,28 @@
                                                 OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
                                                 OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
                                         </StackPanel>
-                                    </cwc:SettingsCard>
+                                        <cwc:SettingsExpander.Items>
+                                            <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsKindDescription}" Header="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsKindHeader}">
+                                                <StackPanel VerticalAlignment="Center" Spacing="3">
+                                                    <TextBlock
+                                                        HorizontalAlignment="Right"
+                                                        Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}"
+                                                        Opacity="0.8"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding LaunchOptions.UnlockerKind.Description, Mode=OneWay}"/>
+                                                    <shuxc:SizeRestrictedContentControl HorizontalAlignment="Right">
+                                                        <ComboBox
+                                                            DisplayMemberPath="Name"
+                                                            ItemsSource="{Binding LaunchOptions.UnlockerKinds, Mode=OneWay}"
+                                                            SelectedItem="{Binding LaunchOptions.UnlockerKind, Mode=TwoWay}"/>
+                                                    </shuxc:SizeRestrictedContentControl>
+
+                                                </StackPanel>
+
+                                            </cwc:SettingsCard>
+                                        </cwc:SettingsExpander.Items>
+                                    </cwc:SettingsExpander>
+
                                 </StackPanel>
                             </Border>
                         </Border>

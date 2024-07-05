@@ -306,7 +306,6 @@
             <DataTemplate x:Key="AvatarPropertyTemplate">
                 <Grid
                     Padding="16,8"
-                    Background="{Binding Background, Mode=OneWay}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="0,1,0,0">
                     <Grid.ColumnDefinitions>

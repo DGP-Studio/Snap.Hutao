@@ -39,7 +39,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private int? screenHeight;
     private bool? isScreenHeightEnabled;
     private bool? unlockFps;
-    private GameFpsUnlockerKind? unlockerKind;
+    private NameDescriptionValue<GameFpsUnlockerKind>? unlockerKind;
     private int? targetFps;
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
@@ -169,10 +169,32 @@ internal sealed class LaunchOptions : DbStoreOptions
         set => SetOption(ref unlockFps, SettingEntry.LaunchUnlockFps, value);
     }
 
-    public GameFpsUnlockerKind UnlockerKind
+    public List<NameDescriptionValue<GameFpsUnlockerKind>> UnlockerKinds { get; } =
+    [
+        new("经典", "经典的进程外内存操作，较为危险，但容易失败", GameFpsUnlockerKind.Legacy),
+        new("注入", "解锁模块注入游戏进程，非常危险，但容易成功", GameFpsUnlockerKind.Island),
+    ];
+
+    public NameDescriptionValue<GameFpsUnlockerKind> UnlockerKind
     {
-        get => GetOption(ref unlockerKind, SettingEntry.LaunchUnlockerKind, EnumParse<GameFpsUnlockerKind>, GameFpsUnlockerKind.Legacy).Value;
-        set => SetOption(ref unlockerKind, SettingEntry.LaunchUnlockerKind, value, EnumToStringOrEmpty);
+        get
+        {
+            return GetOption(ref unlockerKind, SettingEntry.LaunchUnlockerKind, name => GetKind(name, UnlockerKinds), UnlockerKinds[0]);
+
+            static NameDescriptionValue<GameFpsUnlockerKind> GetKind(string name, List<NameDescriptionValue<GameFpsUnlockerKind>> unlockerKinds)
+            {
+                GameFpsUnlockerKind kind = Enum.Parse<GameFpsUnlockerKind>(name);
+                return unlockerKinds.Single(entry => entry.Value == kind);
+            }
+        }
+
+        set
+        {
+            if (value is not null)
+            {
+                SetOption(ref unlockerKind, SettingEntry.LaunchUnlockerKind, value, selected => selected.Value.ToString());
+            }
+        }
     }
 
     public int TargetFps

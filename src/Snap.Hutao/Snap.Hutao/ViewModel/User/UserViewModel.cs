@@ -53,6 +53,11 @@ internal sealed partial class UserViewModel : ObservableObject
         {
             case UserOptionResult.Added:
                 ArgumentNullException.ThrowIfNull(Users);
+                if (Users.CurrentItem is null)
+                {
+                    taskContext.InvokeOnMainThread(Users.MoveCurrentToFirst);
+                }
+
                 infoBarService.Success(SH.FormatViewModelUserAdded(uid));
                 break;
             case UserOptionResult.CookieIncomplete:
