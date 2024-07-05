@@ -20,7 +20,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using Windows.ApplicationModel.Appointments;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using WinRT;
@@ -58,7 +57,10 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     {
         get => LazyInitializer.EnsureInitialized(ref cacheFolder, () =>
         {
-            return serviceProvider.GetRequiredService<RuntimeOptions>().GetLocalCacheImageCacheFolder();
+            string folder = serviceProvider.GetRequiredService<RuntimeOptions>().GetLocalCacheImageCacheFolder();
+            Directory.CreateDirectory(Path.Combine(folder, "Light"));
+            Directory.CreateDirectory(Path.Combine(folder, "Dark"));
+            return folder;
         });
     }
 
@@ -102,13 +104,13 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         using (ScopedTaskCompletionSource themeFileScope = new())
         {
             ElementThemeValueFile key = new(fileName, theme);
+            string defaultFilePath = Path.Combine(CacheFolder, fileName);
+            string themeOrDefaultFilePath = theme is ElementTheme.Dark or ElementTheme.Light ? Path.Combine(CacheFolder, $"{theme}", fileName) : defaultFilePath;
+
             if (themefileTasks.TryAdd(key, themeFileScope.Task))
             {
                 try
                 {
-                    string defaultFilePath = Path.Combine(CacheFolder, fileName);
-                    string themeOrDefaultFilePath = theme is ElementTheme.Dark or ElementTheme.Light ? Path.Combine(CacheFolder, $"{theme}", fileName) : defaultFilePath;
-
                     if (!IsFileInvalid(themeOrDefaultFilePath))
                     {
                         return themeOrDefaultFilePath;
@@ -157,7 +159,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             else if (themefileTasks.TryGetValue(key, out Task? task))
             {
                 await task.ConfigureAwait(false);
-                return key.File;
+                return themeOrDefaultFilePath;
             }
         }
 
@@ -224,7 +226,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             byteAccess.GetBuffer(out Span<Rgba32> span);
             foreach (ref Rgba32 pixel in span)
             {
-                pixel.A = (byte)(pixel.Luminance * 255);
+                pixel.A = (byte)pixel.Luminance255;
                 pixel.R = pixel.G = pixel.B = background;
             }
         }

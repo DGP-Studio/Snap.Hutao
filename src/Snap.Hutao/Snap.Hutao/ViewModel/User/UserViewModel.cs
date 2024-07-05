@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DataTransfer;
@@ -13,8 +12,10 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
@@ -244,9 +245,24 @@ internal sealed partial class UserViewModel : ObservableObject
             return;
         }
 
+        infoBarService.Warning(message);
+
+        if (appBarButton is null)
+        {
+            return;
+        }
+
         // Manual webview
         await taskContext.SwitchToMainThreadAsync();
-        FlyoutBase.ShowAttachedFlyout(appBarButton);
-        infoBarService.Warning(message);
+
+        ShowWebView2WindowAction action = new()
+        {
+            ContentProvider = new MiHoYoJSBridgeWebView2ContentProvider()
+            {
+                SourceProvider = new SignInJSBridgeUriSourceProvider(),
+            },
+        };
+
+        action.Execute(appBarButton, default!);
     }
 }

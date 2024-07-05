@@ -9,6 +9,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.UI.Xaml.Control.Theme;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Graphics.Imaging;
@@ -32,7 +34,8 @@ namespace Snap.Hutao.UI.Xaml.Control.Image;
 [DependencyProperty("PlaceholderSource", typeof(object), default(object))]
 [DependencyProperty("PlaceholderStretch", typeof(Stretch), Stretch.Uniform)]
 [DependencyProperty("PlaceholderMargin", typeof(Thickness))]
-[DependencyProperty("Source", typeof(object), default(object), nameof(SourceChanged))]
+[DependencyProperty("Source", typeof(object), default(object), nameof(OnSourceChanged))]
+[DependencyProperty("ShowAsMonoChrome", typeof(bool), false)]
 internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, IAlphaMaskProvider
 {
     private const string PartImage = "Image";
@@ -48,6 +51,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
     public CachedImage()
     {
         DefaultStyleKey = typeof(CachedImage);
+        ActualThemeChanged += OnActualThemeChanged;
     }
 
     public bool IsInitialized { get; private set; }
@@ -146,7 +150,7 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
         }
     }
 
-    private static void SourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not CachedImage control)
         {
@@ -171,10 +175,12 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
         SourceName = Path.GetFileName(imageUri.ToString());
         IImageCache imageCache = this.ServiceProvider().GetRequiredService<IImageCache>();
 
+        string file = default;
         try
         {
             HutaoException.ThrowIf(string.IsNullOrEmpty(imageUri.Host), SH.ControlImageCachedImageInvalidResourceUri);
-            string file = await imageCache.GetFileFromCacheAsync(imageUri).ConfigureAwait(true); // BitmapImage need to be created by main thread.
+            ElementTheme theme = ShowAsMonoChrome ? ThemeHelper.ApplicationToElement(ThemeHelper.ElementToApplication(ActualTheme)) : ElementTheme.Default;
+            file = await imageCache.GetFileFromCacheAsync(imageUri, theme).ConfigureAwait(true); // BitmapImage need to be created by main thread.
             CachedName = Path.GetFileName(file);
             token.ThrowIfCancellationRequested(); // check token state to determine whether the operation should be canceled.
             return file.ToUri();
@@ -185,6 +191,17 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
             imageCache.Remove(imageUri);
             return default;
         }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(file);
+            Debug.WriteLine(ex);
+            return default;
+        }
+    }
+
+    private void OnActualThemeChanged(FrameworkElement sender, object args)
+    {
+        SetSource(Source);
     }
 
     private void OnImageOpened(object sender, RoutedEventArgs e)

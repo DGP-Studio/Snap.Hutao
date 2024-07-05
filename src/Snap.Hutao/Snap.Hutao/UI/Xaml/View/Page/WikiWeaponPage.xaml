@@ -49,11 +49,12 @@
                         <SolidColorBrush Color="{Binding Quality}"/>
                     </Ellipse.Fill>
                 </Ellipse>
-                <shuxci:MonoChrome
+                <shuxci:CachedImage
                     Grid.Column="0"
                     Width="20"
                     Height="20"
                     Margin="-5,2,9,0"
+                    ShowAsMonoChrome="True"
                     Source="{Binding IconUri, Mode=OneWay}"
                     Visibility="{Binding IconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
                 <shuxci:CachedImage

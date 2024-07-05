@@ -19,7 +19,10 @@
 
         <DataTemplate x:Key="SkillHeaderTemplate">
             <StackPanel Background="Transparent" ToolTipService.ToolTip="{Binding Name}">
-                <shuxci:MonoChrome shux:FrameworkElementHelper.SquareLength="36" Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
+                <shuxci:CachedImage
+                    shux:FrameworkElementHelper.SquareLength="36"
+                    ShowAsMonoChrome="True"
+                    Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>

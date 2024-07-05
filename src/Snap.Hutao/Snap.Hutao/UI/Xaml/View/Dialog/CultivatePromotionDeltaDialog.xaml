@@ -27,10 +27,11 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <shuxci:MonoChrome
+                    <shuxci:CachedImage
                         Grid.Column="0"
                         Width="36"
                         Height="36"
+                        ShowAsMonoChrome="True"
                         Source="{Binding Icon}"/>
                     <TextBlock
                         Grid.Column="1"

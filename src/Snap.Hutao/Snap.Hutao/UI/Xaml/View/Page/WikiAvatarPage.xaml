@@ -90,11 +90,12 @@
                         <SolidColorBrush Color="{Binding Quality}"/>
                     </Ellipse.Fill>
                 </Ellipse>
-                <shuxci:MonoChrome
+                <shuxci:CachedImage
                     Grid.Column="0"
                     Width="20"
                     Height="20"
                     Margin="-3,2,7,0"
+                    ShowAsMonoChrome="True"
                     Source="{Binding IconUri, Mode=OneWay}"
                     Visibility="{Binding IconUri, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
                 <shuxci:CachedImage
@@ -408,16 +409,18 @@
                                                                 <ColumnDefinition Width="auto"/>
                                                                 <ColumnDefinition Width="auto"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <shuxci:MonoChrome
+                                                            <shuxci:CachedImage
                                                                 Grid.Column="0"
                                                                 Width="32"
                                                                 Height="32"
                                                                 HorizontalAlignment="Left"
+                                                                ShowAsMonoChrome="True"
                                                                 Source="{Binding Selected.FetterInfo.VisionBefore, Converter={StaticResource ElementNameIconConverter}}"/>
-                                                            <shuxci:MonoChrome
+                                                            <shuxci:CachedImage
                                                                 Grid.Column="1"
                                                                 Width="32"
                                                                 Height="32"
+                                                                ShowAsMonoChrome="True"
                                                                 Source="{Binding Selected.Weapon, Converter={StaticResource WeaponTypeIconConverter}}"/>
                                                         </Grid>
                                                         <Border Style="{ThemeResource BorderCardStyle}">

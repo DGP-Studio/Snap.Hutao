@@ -358,21 +358,7 @@
                                 CommandParameter="{Binding ElementName=SignInRewardButton}"
                                 Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentGiftboxOpen}}"
                                 Label="{shuxm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
-                                Style="{StaticResource DefaultAppBarButtonStyle}">
-                                <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="Click">
-                                        <shuxba:ShowWebView2WindowAction>
-                                            <shuxba:ShowWebView2WindowAction.ContentProvider>
-                                                <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
-                                                    <shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
-                                                        <shvu:SignInJSBridgeUriSourceProvider/>
-                                                    </shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
-                                                </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
-                                            </shuxba:ShowWebView2WindowAction.ContentProvider>
-                                        </shuxba:ShowWebView2WindowAction>
-                                    </mxic:EventTriggerBehavior>
-                                </mxi:Interaction.Behaviors>
-                            </AppBarButton>
+                                Style="{StaticResource DefaultAppBarButtonStyle}"/>
                             <AppBarButton
                                 Width="{StaticResource LargeAppBarButtonWidth}"
                                 MaxWidth="{StaticResource LargeAppBarButtonWidth}"

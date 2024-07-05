@@ -55,12 +55,12 @@
             <DataTemplate x:Key="AvatarGridViewSkillTemplate">
                 <shuxcc:VerticalCard>
                     <shuxcc:VerticalCard.Top>
-                        <shuxci:MonoChrome
+                        <shuxci:CachedImage
                             Width="40"
                             Height="40"
                             Margin="12"
                             HorizontalAlignment="Center"
-                            EnableShowHideAnimation="False"
+                            ShowAsMonoChrome="True"
                             Source="{Binding Icon}"/>
                     </shuxcc:VerticalCard.Top>
                     <shuxcc:VerticalCard.Bottom>
@@ -319,9 +319,10 @@
                         <RowDefinition/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <shuxci:MonoChrome
+                    <shuxci:CachedImage
                         Width="16"
                         Height="16"
+                        ShowAsMonoChrome="True"
                         Source="{Binding Icon}"/>
                     <TextBlock
                         Grid.Row="0"
