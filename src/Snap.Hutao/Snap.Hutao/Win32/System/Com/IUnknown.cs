@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.System.Com;
 
-internal unsafe readonly struct IUnknown
+internal readonly unsafe struct IUnknown
 {
     public readonly Vftbl* ThisPtr;
 

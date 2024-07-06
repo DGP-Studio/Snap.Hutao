@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
 
-internal unsafe readonly struct IDXGIAdapter1
+internal readonly unsafe struct IDXGIAdapter1
 {
     public readonly Vftbl* ThisPtr;
 

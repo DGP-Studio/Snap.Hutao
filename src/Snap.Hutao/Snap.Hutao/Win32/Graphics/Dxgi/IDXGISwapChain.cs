@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.Graphics.Dxgi;
 
-internal unsafe readonly struct IDXGISwapChain
+internal readonly unsafe struct IDXGISwapChain
 {
     public readonly Vftbl* ThisPtr;
 

@@ -13,7 +13,7 @@ internal static class Dxgi
 {
     [DllImport("dxgi.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.1")]
-    public static unsafe extern HRESULT CreateDXGIFactory2(uint Flags, Guid* riid, void** ppFactory);
+    public static extern unsafe HRESULT CreateDXGIFactory2(uint Flags, Guid* riid, void** ppFactory);
 
     public static unsafe HRESULT CreateDXGIFactory2<T>(uint Flags, ref readonly Guid iid, out T* pFactory)
         where T : unmanaged

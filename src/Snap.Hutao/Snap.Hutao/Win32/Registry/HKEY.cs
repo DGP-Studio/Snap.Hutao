@@ -16,5 +16,8 @@ internal readonly struct HKEY
 
     public readonly nint Value;
 
-    public static unsafe implicit operator HKEY(int value) => *(HKEY*)&value;
+    public static unsafe implicit operator HKEY(int value)
+    {
+        return *(HKEY*)&value;
+    }
 }

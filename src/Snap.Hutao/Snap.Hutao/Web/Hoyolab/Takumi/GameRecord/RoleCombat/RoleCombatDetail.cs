@@ -1,9 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Primitive;
-
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.RoleCombat;
 
 internal sealed class RoleCombatDetail

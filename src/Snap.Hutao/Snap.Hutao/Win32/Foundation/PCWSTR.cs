@@ -7,7 +7,13 @@ internal readonly struct PCWSTR
 {
     public readonly unsafe char* Value;
 
-    public static unsafe implicit operator PCWSTR(char* value) => *(PCWSTR*)&value;
+    public static unsafe implicit operator PCWSTR(char* value)
+    {
+        return *(PCWSTR*)&value;
+    }
 
-    public static unsafe implicit operator char*(PCWSTR value) => *(char**)&value;
+    public static unsafe implicit operator char*(PCWSTR value)
+    {
+        return *(char**)&value;
+    }
 }

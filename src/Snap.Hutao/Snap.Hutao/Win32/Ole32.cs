@@ -15,7 +15,7 @@ internal static class Ole32
 {
     [DllImport("OLE32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern HRESULT CoCreateInstance(Guid* rclsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, Guid* riid, void** ppv);
+    public static extern unsafe HRESULT CoCreateInstance(Guid* rclsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, Guid* riid, void** ppv);
 
     [DebuggerStepThrough]
     public static unsafe HRESULT CoCreateInstance<T>(ref readonly Guid clsid, [AllowNull] IUnknown pUnkOuter, CLSCTX dwClsContext, ref readonly Guid iid, out T* pv)
@@ -35,10 +35,10 @@ internal static class Ole32
 
     [DllImport("OLE32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows5.0")]
-    public static unsafe extern void CoTaskMemFree([AllowNull] void* pv);
+    public static extern unsafe void CoTaskMemFree([AllowNull] void* pv);
 
     [DllImport("OLE32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    public static unsafe extern HRESULT CoWaitForMultipleObjects(uint dwFlags, uint dwTimeout, uint cHandles, HANDLE* pHandles, uint* lpdwindex);
+    public static extern unsafe HRESULT CoWaitForMultipleObjects(uint dwFlags, uint dwTimeout, uint cHandles, HANDLE* pHandles, uint* lpdwindex);
 
     [DebuggerStepThrough]
     public static unsafe HRESULT CoWaitForMultipleObjects(CWMO_FLAGS dwFlags, uint dwTimeout, ReadOnlySpan<HANDLE> handles, out uint dwindex)

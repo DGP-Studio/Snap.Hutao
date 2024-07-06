@@ -9,7 +9,13 @@ internal readonly struct HICON
 {
     public readonly nint Value;
 
-    public static unsafe implicit operator HICON(nint value) => *(HICON*)&value;
+    public static unsafe implicit operator HICON(nint value)
+    {
+        return *(HICON*)&value;
+    }
 
-    public static unsafe implicit operator nint(HICON value) => *(nint*)&value;
+    public static unsafe implicit operator nint(HICON value)
+    {
+        return *(nint*)&value;
+    }
 }

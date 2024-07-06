@@ -7,7 +7,13 @@ internal readonly struct PWSTR
 {
     public readonly unsafe char* Value;
 
-    public static unsafe implicit operator PWSTR(char* value) => *(PWSTR*)&value;
+    public static unsafe implicit operator PWSTR(char* value)
+    {
+        return *(PWSTR*)&value;
+    }
 
-    public static unsafe implicit operator char*(PWSTR value) => *(char**)&value;
+    public static unsafe implicit operator char*(PWSTR value)
+    {
+        return *(char**)&value;
+    }
 }

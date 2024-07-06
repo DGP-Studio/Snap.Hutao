@@ -7,7 +7,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.Achievement;
 using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;

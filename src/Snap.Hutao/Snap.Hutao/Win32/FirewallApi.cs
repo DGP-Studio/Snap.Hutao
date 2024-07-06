@@ -16,7 +16,7 @@ internal static class FirewallApi
 {
     [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.0")]
-    public static unsafe extern uint NetworkIsolationEnumAppContainers(uint Flags, uint* pdwNumPublicAppCs, INET_FIREWALL_APP_CONTAINER** ppPublicAppCs);
+    public static extern unsafe uint NetworkIsolationEnumAppContainers(uint Flags, uint* pdwNumPublicAppCs, INET_FIREWALL_APP_CONTAINER** ppPublicAppCs);
 
     [DebuggerStepThrough]
     public static unsafe WIN32_ERROR NetworkIsolationEnumAppContainers(NETISO_FLAG Flags, out uint dwNumPublicAppCs, out INET_FIREWALL_APP_CONTAINER* pPublicAppCs)
@@ -33,7 +33,7 @@ internal static class FirewallApi
 
     [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.0")]
-    public static unsafe extern uint NetworkIsolationFreeAppContainers(INET_FIREWALL_APP_CONTAINER* pPublicAppCs);
+    public static extern unsafe uint NetworkIsolationFreeAppContainers(INET_FIREWALL_APP_CONTAINER* pPublicAppCs);
 
     [DebuggerStepThrough]
     public static unsafe WIN32_ERROR NetworkIsolationFreeAppContainers(ref readonly INET_FIREWALL_APP_CONTAINER publicAppCs)
@@ -47,7 +47,7 @@ internal static class FirewallApi
 
     [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.0")]
-    public static unsafe extern uint NetworkIsolationGetAppContainerConfig(uint* pdwNumPublicAppCs, SID_AND_ATTRIBUTES** appContainerSids);
+    public static extern unsafe uint NetworkIsolationGetAppContainerConfig(uint* pdwNumPublicAppCs, SID_AND_ATTRIBUTES** appContainerSids);
 
     [DebuggerStepThrough]
     public static unsafe WIN32_ERROR NetworkIsolationGetAppContainerConfig(out uint dwNumPublicAppCs, out SID_AND_ATTRIBUTES* appContainerSids)
@@ -64,7 +64,7 @@ internal static class FirewallApi
 
     [DllImport("api-ms-win-net-isolation-l1-1-0.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows8.0")]
-    public static unsafe extern uint NetworkIsolationSetAppContainerConfig(uint dwNumPublicAppCs, SID_AND_ATTRIBUTES* appContainerSids);
+    public static extern unsafe uint NetworkIsolationSetAppContainerConfig(uint dwNumPublicAppCs, SID_AND_ATTRIBUTES* appContainerSids);
 
     [DebuggerStepThrough]
     public static unsafe WIN32_ERROR NetworkIsolationSetAppContainerConfig(ReadOnlySpan<SID_AND_ATTRIBUTES> appContainerSids)

@@ -1,10 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Graphics.Display;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Service.Notification;

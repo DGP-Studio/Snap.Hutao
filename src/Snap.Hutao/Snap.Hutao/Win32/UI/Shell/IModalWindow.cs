@@ -10,7 +10,7 @@ using System.Runtime.Versioning;
 namespace Snap.Hutao.Win32.UI.Shell;
 
 [SupportedOSPlatform("windows5.1.2600")]
-internal unsafe readonly struct IModalWindow
+internal readonly unsafe struct IModalWindow
 {
     public readonly Vftbl* ThisPtr;
 

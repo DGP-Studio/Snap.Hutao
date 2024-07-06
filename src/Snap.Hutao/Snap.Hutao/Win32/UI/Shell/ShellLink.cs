@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
-internal unsafe readonly struct ShellLink
+internal readonly unsafe struct ShellLink
 {
     internal static ref readonly Guid CLSID
     {

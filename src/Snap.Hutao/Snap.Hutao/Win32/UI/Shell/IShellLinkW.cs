@@ -55,7 +55,7 @@ internal unsafe struct IShellLinkW
         }
     }
 
-    internal unsafe readonly struct Vftbl
+    internal readonly unsafe struct Vftbl
     {
         internal readonly IUnknown.Vftbl IUnknownVftbl;
         internal readonly delegate* unmanaged[Stdcall]<IShellLinkW*, PWSTR, int, WIN32_FIND_DATAW*, uint, HRESULT> GetPath;
