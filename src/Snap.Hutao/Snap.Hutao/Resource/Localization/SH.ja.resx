@@ -1382,6 +1382,9 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>MiHoYo BBS を使用して QR コードをスキャンします</value>
   </data>
+  <data name="ViewDialogReconfirmHint" xml:space="preserve">
+    <value>为了确保功能的启用者有独立的判断能力，我们将不定期更新这些功能的启用条件，如果您是一位内容创造者，在创作胡桃相关的内容时请不要向你的受众介绍具体的启用方法。</value>
+  </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>謝って有効にしないようにするためには、有効にする機能の&lt;b&gt;タイトル名&lt;/b&gt;を入力してください</value>
   </data>
