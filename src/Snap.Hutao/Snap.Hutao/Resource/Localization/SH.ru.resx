@@ -1382,6 +1382,9 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>Отсканируйте QR-код с помощью Miyusha</value>
   </data>
+  <data name="ViewDialogReconfirmHint" xml:space="preserve">
+    <value>为了确保功能的启用者有独立的判断能力，我们将不定期更新这些功能的启用条件，如果您是一位内容创造者，在创作胡桃相关的内容时请不要向你的受众介绍具体的启用方法。</value>
+  </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>为防止你在无意间启用，请输入正在启用的功能开关的&lt;b&gt;标题名称&lt;/b&gt;</value>
   </data>
