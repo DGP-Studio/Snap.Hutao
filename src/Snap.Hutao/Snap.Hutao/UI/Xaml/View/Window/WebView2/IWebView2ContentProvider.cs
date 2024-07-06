@@ -15,7 +15,7 @@ internal interface IWebView2ContentProvider
 
     ValueTask InitializeAsync(IServiceProvider serviceProvider, CancellationToken token);
 
-    RectInt32 InitializePosition(RectInt32 parentRect);
+    RectInt32 InitializePosition(RectInt32 parentRect, double parentDpi);
 
     void Unload();
 }

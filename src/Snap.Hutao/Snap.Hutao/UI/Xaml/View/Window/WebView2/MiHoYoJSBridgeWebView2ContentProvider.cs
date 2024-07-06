@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Graphics.Display;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -70,11 +71,11 @@ internal sealed partial class MiHoYoJSBridgeWebView2ContentProvider : Dependency
         jsBridge?.Detach();
     }
 
-    public RectInt32 InitializePosition(RectInt32 parentRect)
+    public RectInt32 InitializePosition(RectInt32 parentRect, double parentDpi)
     {
         PointInt32 center = parentRect.GetPointInt32(PointInt32Kind.Center);
-        RectInt32 target = new(center.X - 240, center.Y - 400, 450, 800);
-
+        SizeInt32 size = new SizeInt32(480, 800).Scale(parentDpi);
+        RectInt32 target = RectInt32Convert.RectInt32(new(center.X - (size.Width / 2), center.Y - (size.Height / 2)), size);
         RectInt32 workArea = DisplayArea.GetFromRect(parentRect, DisplayAreaFallback.None).WorkArea;
         RectInt32 workAreaShrink = new(workArea.X + 48, workArea.Y + 48, workArea.Width - 96, workArea.Height - 96);
 
