@@ -109,6 +109,7 @@ internal sealed partial class GachaLogService : IGachaLogService
 
         if (target is not null && Archives is not null)
         {
+            await taskContext.SwitchToMainThreadAsync();
             Archives.CurrentItem = target;
         }
 

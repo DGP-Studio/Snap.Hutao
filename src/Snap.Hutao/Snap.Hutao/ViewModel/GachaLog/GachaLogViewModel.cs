@@ -39,6 +39,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     private AdvancedDbCollectionView<GachaArchive>? archives;
     private GachaStatistics? statistics;
     private bool isAggressiveRefresh;
+    private bool suppressCurrentItemChangedHandling;
 
     public AdvancedDbCollectionView<GachaArchive>? Archives
     {
@@ -119,25 +120,30 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     private void OnCurrentArchiveChanged(object? sender, object? e)
     {
+        if (suppressCurrentItemChangedHandling)
+        {
+            return;
+        }
+
         UpdateStatisticsAsync(Archives?.CurrentItem).SafeForget(logger);
     }
 
     [Command("RefreshByWebCacheCommand")]
-    private Task RefreshByWebCacheAsync()
+    private async Task RefreshByWebCacheAsync()
     {
-        return RefreshCoreAsync(RefreshOption.WebCache).AsTask();
+        await RefreshCoreAsync(RefreshOption.WebCache).ConfigureAwait(false);
     }
 
     [Command("RefreshBySTokenCommand")]
-    private Task RefreshBySTokenAsync()
+    private async Task RefreshBySTokenAsync()
     {
-        return RefreshCoreAsync(RefreshOption.SToken).AsTask();
+        await RefreshCoreAsync(RefreshOption.SToken).ConfigureAwait(false);
     }
 
     [Command("RefreshByManualInputCommand")]
-    private Task RefreshByManualInputAsync()
+    private async Task RefreshByManualInputAsync()
     {
-        return RefreshCoreAsync(RefreshOption.ManualInput).AsTask();
+        await RefreshCoreAsync(RefreshOption.ManualInput).ConfigureAwait(false);
     }
 
     private async ValueTask RefreshCoreAsync(RefreshOption option)
@@ -184,7 +190,16 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             {
                 try
                 {
-                    authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        suppressCurrentItemChangedHandling = true;
+                        authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        suppressCurrentItemChangedHandling = false;
+                        await UpdateStatisticsAsync(Archives?.CurrentItem).ConfigureAwait(false);
+                    }
                 }
                 catch (HutaoException ex)
                 {
@@ -339,7 +354,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     private async ValueTask<bool> TryImportUIGFInternalAsync(UIGF uigf)
     {
-        if (!uigf.IsCurrentVersionSupported(out UIGFVersion version))
+        if (!uigf.IsCurrentVersionSupported(out _))
         {
             infoBarService.Warning(SH.ViewModelGachaLogImportWarningTitle, SH.ViewModelGachaLogImportWarningMessage);
             return false;
@@ -357,7 +372,16 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
             {
-                await gachaLogService.ImportFromUIGFAsync(uigf).ConfigureAwait(false);
+                try
+                {
+                    suppressCurrentItemChangedHandling = true;
+                    await gachaLogService.ImportFromUIGFAsync(uigf).ConfigureAwait(false);
+                }
+                finally
+                {
+                    suppressCurrentItemChangedHandling = false;
+                    await UpdateStatisticsAsync(Archives?.CurrentItem).ConfigureAwait(false);
+                }
             }
         }
         catch (InvalidOperationException ex)

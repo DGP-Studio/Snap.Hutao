@@ -83,6 +83,8 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         }
 
         gachaLogDbService.AddGachaItemRange(fullItems);
+
+        await taskContext.SwitchToMainThreadAsync();
         archives.MoveCurrentTo(archive);
     }
 
