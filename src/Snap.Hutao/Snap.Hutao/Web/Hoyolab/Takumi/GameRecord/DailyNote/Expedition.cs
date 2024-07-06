@@ -80,9 +80,7 @@ internal sealed class Expedition
             }
 
             TimeSpan ts = new(0, 0, RemainedTime);
-            return ts.Hours > 0
-                ? SH.FormatWebDailyNoteExpeditionRemainHoursFormat(ts.Hours)
-                : SH.FormatWebDailyNoteExpeditionRemainMinutesFormat(ts.Minutes);
+            return SH.FormatWebDailyNoteExpeditionRemainTime(ts.Hours, ts.Minutes);
         }
     }
 }
