@@ -60,6 +60,7 @@
                 Command="{Binding NavigateCommand}"
                 Content="{StaticResource FontIconContentSetting}"
                 FontFamily="{StaticResource SymbolThemeFontFamily}"
+                Style="{ThemeResource ButtonRevealStyle}"
                 ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
             <StackPanel
                 Grid.Row="2"

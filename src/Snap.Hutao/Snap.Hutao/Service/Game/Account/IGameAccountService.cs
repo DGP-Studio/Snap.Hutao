@@ -11,7 +11,7 @@ internal interface IGameAccountService
 {
     ObservableReorderableDbCollection<GameAccount> GameAccountCollection { get; }
 
-    void AttachGameAccountToUid(GameAccount gameAccount, string uid);
+    ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid);
 
     GameAccount? DetectCurrentGameAccount(SchemeType schemeType);
 

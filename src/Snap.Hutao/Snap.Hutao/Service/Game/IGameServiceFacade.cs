@@ -25,7 +25,7 @@ internal interface IGameServiceFacade
     /// </summary>
     /// <param name="gameAccount">游戏内账号</param>
     /// <param name="uid">uid</param>
-    void AttachGameAccountToUid(GameAccount gameAccount, string uid);
+    ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid);
 
     ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme);
 

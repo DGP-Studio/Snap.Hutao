@@ -27,15 +27,19 @@ internal sealed partial class GameConfigurationFileService : IGameConfigurationF
         string serverCacheFolder = runtimeOptions.GetDataFolderServerCacheFolder();
         string source = Path.Combine(serverCacheFolder, ConfigurationFileName);
 
-        if (File.Exists(source))
+        if (!File.Exists(source))
         {
-            string? directory = Path.GetDirectoryName(destination);
-            if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
-            {
-                return;
-            }
-
-            File.Copy(source, destination, true);
+            return;
         }
+
+        // If target directory does not exist, do not copy the file
+        // This often means user has moved the game folder away.
+        string? directory = Path.GetDirectoryName(destination);
+        if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+        {
+            return;
+        }
+
+        File.Copy(source, destination, true);
     }
 }

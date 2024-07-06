@@ -249,7 +249,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
 
         if (await userService.GetCurrentUidAsync().ConfigureAwait(false) is { } uid)
         {
-            gameService.AttachGameAccountToUid(gameAccount, uid);
+            await gameService.AttachGameAccountToUidAsync(gameAccount, uid).ConfigureAwait(false);
         }
         else
         {

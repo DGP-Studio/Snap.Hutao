@@ -88,10 +88,13 @@ internal sealed partial class GameAccountService : IGameAccountService
         return RegistryInterop.Set(account);
     }
 
-    public void AttachGameAccountToUid(GameAccount gameAccount, string uid)
+    public async ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid)
     {
-        gameAccount.UpdateAttachUid(uid);
+        await taskContext.SwitchToBackgroundAsync();
         gameDbService.UpdateGameAccount(gameAccount);
+
+        await taskContext.SwitchToMainThreadAsync();
+        gameAccount.UpdateAttachUid(uid);
     }
 
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
