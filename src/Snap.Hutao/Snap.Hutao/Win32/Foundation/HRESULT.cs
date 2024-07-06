@@ -8,7 +8,7 @@ namespace Snap.Hutao.Win32.Foundation;
 [SuppressMessage("", "SA1310")]
 internal readonly partial struct HRESULT
 {
-    public static readonly HRESULT S_OK = unchecked((int)0x00000000);
+    public static readonly HRESULT S_OK = unchecked(0x00000000);
     public static readonly HRESULT E_ASYNC_OPERATION_NOT_STARTED = unchecked((int)0x80000019);
     public static readonly HRESULT E_FAIL = unchecked((int)0x80004005);
     public static readonly HRESULT DXGI_ERROR_NOT_FOUND = unchecked((int)0x887A0002);
@@ -17,9 +17,15 @@ internal readonly partial struct HRESULT
 
     public readonly int Value;
 
-    public static unsafe implicit operator int(HRESULT value) => *(int*)&value;
+    public static unsafe implicit operator int(HRESULT value)
+    {
+        return *(int*)&value;
+    }
 
-    public static unsafe implicit operator HRESULT(int value) => *(HRESULT*)&value;
+    public static unsafe implicit operator HRESULT(int value)
+    {
+        return *(HRESULT*)&value;
+    }
 
     public override string ToString()
     {

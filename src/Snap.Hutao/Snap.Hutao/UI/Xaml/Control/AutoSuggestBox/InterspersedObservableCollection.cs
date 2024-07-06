@@ -45,15 +45,30 @@ internal sealed class InterspersedObservableCollection : IList, IEnumerable<obje
 
     public IList ItemsSource { get; private set; }
 
-    public bool IsFixedSize => false;
+    public bool IsFixedSize
+    {
+        get => false;
+    }
 
-    public bool IsReadOnly => false;
+    public bool IsReadOnly
+    {
+        get => false;
+    }
 
-    public int Count => ItemsSource.Count + interspersedObjects.Count;
+    public int Count
+    {
+        get => ItemsSource.Count + interspersedObjects.Count;
+    }
 
-    public bool IsSynchronized => false;
+    public bool IsSynchronized
+    {
+        get => false;
+    }
 
-    public object SyncRoot => new();
+    public object SyncRoot
+    {
+        get => new();
+    }
 
     public object? this[int index]
     {

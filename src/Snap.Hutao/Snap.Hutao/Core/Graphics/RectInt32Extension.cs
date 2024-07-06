@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Snap.Hutao.Win32.Foundation;
 using Windows.Graphics;
 

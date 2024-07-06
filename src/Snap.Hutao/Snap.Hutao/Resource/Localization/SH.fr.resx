@@ -147,6 +147,12 @@
   <data name="ControlAutoSuggestBoxNotFoundValue" xml:space="preserve">
     <value>Aucun résultat trouvé</value>
   </data>
+  <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
+    <value>选择全部</value>
+  </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>Uri invalide</value>
   </data>
@@ -161,12 +167,6 @@
   </data>
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>Liste</value>
-  </data>
-  <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
-    <value>删除</value>
-  </data>
-  <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
-    <value>选择全部</value>
   </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
     <value>La base de donnée est corrompue : {0}</value>
@@ -976,6 +976,18 @@
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>等待游戏进程退出</value>
+  </data>
+  <data name="ServiceGameLaunchUnlockerKindIslandDescription" xml:space="preserve">
+    <value>解锁模块注入游戏进程，非常危险，但容易成功</value>
+  </data>
+  <data name="ServiceGameLaunchUnlockerKindIslandName" xml:space="preserve">
+    <value>注入</value>
+  </data>
+  <data name="ServiceGameLaunchUnlockerKindLegacyDescription" xml:space="preserve">
+    <value>经典的进程外内存操作，较为危险，但容易失败</value>
+  </data>
+  <data name="ServiceGameLaunchUnlockerKindLegacyName" xml:space="preserve">
+    <value>经典</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>选择游戏本体</value>
@@ -2435,6 +2447,12 @@
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>解锁帧率限制</value>
   </data>
+  <data name="ViewPageLaunchGameUnlockFpsKindDescription" xml:space="preserve">
+    <value>更改解锁帧率的工作方式</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
+    <value>解锁方式</value>
+  </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
     <value>禁用</value>
   </data>
@@ -3106,6 +3124,9 @@
   </data>
   <data name="WebDailyNoteExpeditionRemainMinutesFormat" xml:space="preserve">
     <value>{0} 分</value>
+  </data>
+  <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
+    <value>{0} 时 {1} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
     <value>今日完成委托数量不足</value>

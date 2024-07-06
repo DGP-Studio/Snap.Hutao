@@ -2,12 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.DataTransfer;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.Graphics.Imaging;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -15,15 +12,11 @@ using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.UI;
 using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
-using Windows.Graphics.Imaging;
-using Windows.Storage.Streams;
-using Windows.UI;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculatorClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;

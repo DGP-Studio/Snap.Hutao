@@ -9,5 +9,8 @@ internal readonly struct HINSTANCE
 {
     public readonly nint Value;
 
-    public static unsafe implicit operator HINSTANCE(HANDLE value) => *(HINSTANCE*)&value;
+    public static unsafe implicit operator HINSTANCE(HANDLE value)
+    {
+        return *(HINSTANCE*)&value;
+    }
 }

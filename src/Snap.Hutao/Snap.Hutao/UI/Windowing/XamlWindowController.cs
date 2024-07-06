@@ -22,7 +22,6 @@ using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Dwm;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using System.Diagnostics;
 using System.IO;
 using Windows.Foundation;
 using Windows.Graphics;

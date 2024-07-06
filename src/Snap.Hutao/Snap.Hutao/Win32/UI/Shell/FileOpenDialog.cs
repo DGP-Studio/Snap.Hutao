@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Win32.UI.Shell;
 
-internal unsafe readonly struct FileOpenDialog
+internal readonly unsafe struct FileOpenDialog
 {
     internal static ref readonly Guid CLSID
     {

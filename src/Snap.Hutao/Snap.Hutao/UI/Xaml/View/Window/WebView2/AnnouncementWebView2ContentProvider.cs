@@ -66,7 +66,7 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
         }
     }
 
-    public RectInt32 InitializePosition(RectInt32 parentRect)
+    public RectInt32 InitializePosition(RectInt32 parentRect, double parentDpi)
     {
         // Parent Window can never be so small
         // if (parentRect.Width < 96 || parentRect.Height < 96)

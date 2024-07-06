@@ -14,7 +14,7 @@ internal static class DwmApi
 {
     [DllImport("dwmapi.dll", ExactSpelling = true)]
     [SupportedOSPlatform("windows6.0.6000")]
-    public static unsafe extern HRESULT DwmGetWindowAttribute(HWND hwnd, uint dwAttribute, void* pvAttribute, uint cbAttribute);
+    public static extern unsafe HRESULT DwmGetWindowAttribute(HWND hwnd, uint dwAttribute, void* pvAttribute, uint cbAttribute);
 
     public static unsafe HRESULT DwmGetWindowAttribute<T>(HWND hwnd, DWMWINDOWATTRIBUTE dwAttribute, out T attribute)
         where T : unmanaged
@@ -27,7 +27,7 @@ internal static class DwmApi
 
     [DllImport("dwmapi.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     [SupportedOSPlatform("windows6.0.6000")]
-    public static unsafe extern HRESULT DwmSetWindowAttribute(HWND hwnd, uint dwAttribute, void* pvAttribute, uint cbAttribute);
+    public static extern unsafe HRESULT DwmSetWindowAttribute(HWND hwnd, uint dwAttribute, void* pvAttribute, uint cbAttribute);
 
     [DebuggerStepThrough]
     public static unsafe HRESULT DwmSetWindowAttribute<T>(HWND hwnd, DWMWINDOWATTRIBUTE dwAttribute, ref readonly T attribute)

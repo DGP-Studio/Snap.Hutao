@@ -16,7 +16,7 @@ namespace Snap.Hutao.Win32;
 internal static class D3d11
 {
     [DllImport("d3d11.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    public static unsafe extern HRESULT CreateDirect3D11DeviceFromDXGIDevice(IDXGIDevice* dxgiDevice, IInspectable** graphicsDevice);
+    public static extern unsafe HRESULT CreateDirect3D11DeviceFromDXGIDevice(IDXGIDevice* dxgiDevice, IInspectable** graphicsDevice);
 
     [DebuggerStepThrough]
     public static unsafe HRESULT CreateDirect3D11DeviceFromDXGIDevice(IDXGIDevice* dxgiDevice, out IInspectable* graphicsDevice)
@@ -28,7 +28,7 @@ internal static class D3d11
     }
 
     [DllImport("d3d11.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
-    public static unsafe extern HRESULT D3D11CreateDevice([AllowNull] IDXGIAdapter* pAdapter, D3D_DRIVER_TYPE DriverType, HMODULE Software, D3D11_CREATE_DEVICE_FLAG Flags, [AllowNull] D3D_FEATURE_LEVEL* pFeatureLevels, uint FeatureLevels, uint SDKVersion, [MaybeNull] ID3D11Device** ppDevice, [MaybeNull] D3D_FEATURE_LEVEL* pFeatureLevel, [MaybeNull] ID3D11DeviceContext** ppImmediateContext);
+    public static extern unsafe HRESULT D3D11CreateDevice([AllowNull] IDXGIAdapter* pAdapter, D3D_DRIVER_TYPE DriverType, HMODULE Software, D3D11_CREATE_DEVICE_FLAG Flags, [AllowNull] D3D_FEATURE_LEVEL* pFeatureLevels, uint FeatureLevels, uint SDKVersion, [MaybeNull] ID3D11Device** ppDevice, [MaybeNull] D3D_FEATURE_LEVEL* pFeatureLevel, [MaybeNull] ID3D11DeviceContext** ppImmediateContext);
 
     public static unsafe HRESULT D3D11CreateDevice([AllowNull] IDXGIAdapter* pAdapter, D3D_DRIVER_TYPE DriverType, HMODULE Software, D3D11_CREATE_DEVICE_FLAG Flags, [AllowNull] ReadOnlySpan<D3D_FEATURE_LEVEL> featureLevels, uint SDKVersion, out ID3D11Device* pDevice, out D3D_FEATURE_LEVEL featureLevel, out ID3D11DeviceContext* pImmediateContext)
     {

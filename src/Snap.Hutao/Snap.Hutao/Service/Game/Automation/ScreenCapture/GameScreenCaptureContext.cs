@@ -148,7 +148,7 @@ internal struct GameScreenCaptureContext : IDisposable
         return clientBox.right <= width && clientBox.bottom <= height;
     }
 
-    public unsafe readonly void AttachPreview(GameScreenCaptureDebugPreviewWindow? window)
+    public readonly unsafe void AttachPreview(GameScreenCaptureDebugPreviewWindow? window)
     {
         if (PreviewEnabled && window is not null)
         {
@@ -156,7 +156,7 @@ internal struct GameScreenCaptureContext : IDisposable
         }
     }
 
-    public unsafe readonly void UpdatePreview(GameScreenCaptureDebugPreviewWindow? window, IDirect3DSurface surface)
+    public readonly unsafe void UpdatePreview(GameScreenCaptureDebugPreviewWindow? window, IDirect3DSurface surface)
     {
         if (PreviewEnabled && window is not null)
         {
@@ -164,7 +164,7 @@ internal struct GameScreenCaptureContext : IDisposable
         }
     }
 
-    public unsafe readonly void DetachPreview(GameScreenCaptureDebugPreviewWindow? window)
+    public readonly unsafe void DetachPreview(GameScreenCaptureDebugPreviewWindow? window)
     {
         if (PreviewEnabled && window is not null)
         {
@@ -173,7 +173,7 @@ internal struct GameScreenCaptureContext : IDisposable
         }
     }
 
-    public unsafe readonly void Dispose()
+    public readonly unsafe void Dispose()
     {
         IUnknownMarshal.Release(factory);
         IUnknownMarshal.Release(swapChain);

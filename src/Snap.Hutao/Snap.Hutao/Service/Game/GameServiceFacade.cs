@@ -54,9 +54,9 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
     }
 
     /// <inheritdoc/>
-    public void AttachGameAccountToUid(GameAccount gameAccount, string uid)
+    public ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid)
     {
-        gameAccountService.AttachGameAccountToUid(gameAccount, uid);
+        return gameAccountService.AttachGameAccountToUidAsync(gameAccount, uid);
     }
 
     /// <inheritdoc/>
