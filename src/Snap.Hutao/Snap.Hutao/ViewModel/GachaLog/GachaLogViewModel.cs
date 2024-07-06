@@ -303,10 +303,6 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
             await gachaLogService.RemoveArchiveAsync(Archives.CurrentItem).ConfigureAwait(false);
-
-            // reselect first archive
-            await taskContext.SwitchToMainThreadAsync();
-            Archives.MoveCurrentToFirst();
         }
     }
 

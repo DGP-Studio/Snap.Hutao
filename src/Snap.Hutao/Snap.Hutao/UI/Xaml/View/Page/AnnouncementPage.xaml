@@ -30,7 +30,7 @@
 
         <DataTemplate x:Key="AnnouncementTemplate">
             <ItemContainer cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
-                <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" Style="{StaticResource BorderCardStyle}">
+                <Border Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}" Style="{StaticResource AcrylicBorderCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>

@@ -636,8 +636,10 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
         view.RemoveAt(itemIndex);
         if (itemIndex <= CurrentPosition)
         {
-            CurrentPosition--;
-            OnPropertyChanged(nameof(CurrentItem));
+            if (itemIndex == CurrentPosition--)
+            {
+                OnCurrentChanged();
+            }
         }
 
         OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, itemIndex, item));
