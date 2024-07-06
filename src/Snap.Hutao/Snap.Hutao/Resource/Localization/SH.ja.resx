@@ -3126,7 +3126,7 @@
     <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
-    <value>{0} 时 {1} 分</value>
+    <value>{0} 回の {1} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
     <value>すべての依頼を完了していません</value>
