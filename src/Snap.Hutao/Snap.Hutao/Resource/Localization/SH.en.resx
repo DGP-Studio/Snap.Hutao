@@ -1383,7 +1383,7 @@
     <value>Scan the QR code with MiHoYo BBS App</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
-    <value>In order to ensure that functionaries have independent judgement capability, we will periodically update the enabling conditions for these features. If you are a content creator, do not share specific activation methods with your audience.</value>
+    <value>In order to ensure that functionaries have independent judgement capability, we will irregularly update the enabling conditions for these features. If you are a content creator, do not share specific activation methods with your audience.</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>To avoid enabling unintentionally, please input the &lt;b&gt;title name&lt;/b&gt; of feature you are enabling</value>
@@ -3129,7 +3129,7 @@
     <value>{0} mins</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
-    <value>{0} 时 {1} 分</value>
+    <value>{0} hour(s) {1} minute(s)</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
     <value>Daily Commissions are not Completed</value>
