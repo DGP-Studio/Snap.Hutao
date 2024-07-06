@@ -1382,6 +1382,9 @@
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>Pindai kode QR dengan Aplikasi MiHoYo BBS</value>
   </data>
+  <data name="ViewDialogReconfirmHint" xml:space="preserve">
+    <value>为了确保功能的启用者有独立的判断能力，我们将不定期更新这些功能的启用条件，如果您是一位内容创造者，在创作胡桃相关的内容时请不要向你的受众介绍具体的启用方法。</value>
+  </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>Untuk menghindari mengaktifkan secara keliru, harap masukkan &lt;b&gt;nama judul&lt;/b&gt; dari fitur yang Anda aktifkan</value>
   </data>
