@@ -921,7 +921,7 @@
     <value>提供的 URL 無效</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
-    <value>HoYoLAB 賬號不支持使用 SToken 重新整理祈願記錄</value>
+    <value>HoYoLAB 帳號不支持使用 SToken 重新整理祈願記錄</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
     <value>URL 中的語言：{0} 與胡桃的語言：{1} 不對應，請切換到對應語言重試</value>
@@ -978,16 +978,16 @@
     <value>等待遊戲進程退出</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandDescription" xml:space="preserve">
-    <value>解锁模块注入游戏进程，非常危险，但容易成功</value>
+    <value>解鎖套件注入遊戲處理程序，非常危險，但容易成功</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandName" xml:space="preserve">
     <value>注入</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyDescription" xml:space="preserve">
-    <value>经典的进程外内存操作，较为危险，但容易失败</value>
+    <value>經典的處理程序外記憶體操作，較為危險，但容易失敗</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyName" xml:space="preserve">
-    <value>经典</value>
+    <value>經典</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>請選擇遊戲本體</value>
@@ -1383,7 +1383,7 @@
     <value>使用米游社掃描 QR 碼</value>
   </data>
   <data name="ViewDialogReconfirmHint" xml:space="preserve">
-    <value>为了确保功能的启用者有独立的判断能力，我们将不定期更新这些功能的启用条件，如果您是一位内容创造者，在创作胡桃相关的内容时请不要向你的受众介绍具体的启用方法。</value>
+    <value>為了確保功能的啟用者有獨立的判斷能力，我們將不定期更新這些功能的啟用條件，如果您是一位內容創造者，在創作胡桃相關的內容時請不要向你的受眾介紹具體的啟用方法。</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>為防止你在無意間啟用，請輸入正在啟用的功能開關的&lt;b&gt;標題名稱&lt;/b&gt;</value>
@@ -1968,10 +1968,10 @@
     <value>添加任意武器到養成計劃</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>添加实时便笺</value>
+    <value>添加即時便籤</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>添加实时便笺以定时刷新</value>
+    <value>添加即時便籤以定時刷新</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>新增</value>
@@ -2451,10 +2451,10 @@
     <value>解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindDescription" xml:space="preserve">
-    <value>更改解锁帧率的工作方式</value>
+    <value>更改解鎖幀率的工作方式</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
-    <value>解锁方式</value>
+    <value>解鎖方式</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
     <value>停用</value>
