@@ -589,7 +589,6 @@
                         <cwcont:Case Value="Grid">
                             <GridView
                                 Margin="16,16,4,-4"
-                                cwa:ItemsReorderAnimation.Duration="0:0:0.1"
                                 ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                 ItemTemplate="{StaticResource AvatarGridViewTemplate}"
                                 ItemsSource="{Binding Summary.Avatars}"
