@@ -1505,6 +1505,12 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>나선 비경 통계</value>
   </data>
+  <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
+    <value>清除所有通知</value>
+  </data>
+  <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
+    <value>收起</value>
+  </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
   </data>
