@@ -112,7 +112,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Name="VisibilityRoot">
+    <Grid Name="VisibilityRoot" Visibility="Collapsed">
         <Border
             x:Name="ShowButtonBorder"
             Margin="16"
