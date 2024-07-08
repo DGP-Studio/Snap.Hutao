@@ -11,6 +11,8 @@
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxv="using:Snap.Hutao.UI.Xaml.View"
+    d:DataContext="{d:DesignInstance Type=shuxv:InfoBarView}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -101,13 +103,16 @@
             <clw:TransitionHelper
                 x:Key="InfoBarPanelTransitionHelper"
                 x:Name="InfoBarPanelTransitionHelper"
+                DefaultEasingMode="EaseOut"
+                DefaultEasingType="Cubic"
                 Duration="0:0:0.3">
-                <clw:TransitionConfig Id="Body" ScaleMode="Scale"/>
+                <clw:TransitionConfig Id="Body" ScaleMode="ScaleX"/>
+                <clw:TransitionConfig Id="Header" ScaleMode="ScaleX"/>
             </clw:TransitionHelper>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Name="VisibilityRoot">
         <Border
             x:Name="ShowButtonBorder"
             Margin="16"
@@ -125,7 +130,7 @@
                             Transition="{StaticResource InfoBarPanelTransitionHelper}"/>
                     </mxic:EventTriggerBehavior>
                 </mxi:Interaction.Behaviors>
-                <Grid>
+                <Grid clw:TransitionHelper.Id="Header">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition MinWidth="32"/>
@@ -151,57 +156,69 @@
             Style="{ThemeResource AcrylicBorderCardStyle}"
             Visibility="Collapsed">
 
-            <Grid RowSpacing="8">
+            <Grid RowSpacing="16">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <StackPanel
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal"
-                    Spacing="8">
-                    <Button Click="OnClearAllButtonClick">
-                        <Grid ColumnSpacing="8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="19"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <FontIcon
-                                HorizontalAlignment="Center"
-                                FontSize="14"
-                                Glyph="&#xE74D;"/>
-                            <TextBlock Grid.Column="1" Text="{shuxm:ResourceString Name=ViewInfoBarPanelClearAllContent}"/>
-                        </Grid>
-                    </Button>
-                    <Button>
-                        <mxi:Interaction.Behaviors>
-                            <mxic:EventTriggerBehavior EventName="Click">
-                                <clw:StartTransitionAction
-                                    Source="{x:Bind InfoBarItemsBorder}"
-                                    Target="{x:Bind ShowButtonBorder}"
-                                    Transition="{StaticResource InfoBarPanelTransitionHelper}"/>
-                            </mxic:EventTriggerBehavior>
-                        </mxi:Interaction.Behaviors>
-                        <Grid ColumnSpacing="8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="19"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <FontIcon
-                                HorizontalAlignment="Center"
-                                FontSize="14"
-                                Glyph="&#xEE49;"/>
-                            <TextBlock Grid.Column="1" Text="{shuxm:ResourceString Name=ViewInfoBarPanelContractContent}"/>
-                        </Grid>
-                    </Button>
-                </StackPanel>
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        clw:TransitionHelper.Id="Header"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
+                        Text="所有通知"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <Button Click="OnClearAllButtonClick">
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="19"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    HorizontalAlignment="Center"
+                                    FontSize="14"
+                                    Glyph="&#xE74D;"/>
+                                <TextBlock Grid.Column="1" Text="{shuxm:ResourceString Name=ViewInfoBarPanelClearAllContent}"/>
+                            </Grid>
+                        </Button>
+                        <Button>
+                            <mxi:Interaction.Behaviors>
+                                <mxic:EventTriggerBehavior EventName="Click">
+                                    <clw:StartTransitionAction
+                                        Source="{x:Bind InfoBarItemsBorder}"
+                                        Target="{x:Bind ShowButtonBorder}"
+                                        Transition="{StaticResource InfoBarPanelTransitionHelper}"/>
+                                </mxic:EventTriggerBehavior>
+                            </mxi:Interaction.Behaviors>
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="19"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    HorizontalAlignment="Center"
+                                    FontSize="14"
+                                    Glyph="&#xEE49;"/>
+                                <TextBlock Grid.Column="1" Text="{shuxm:ResourceString Name=ViewInfoBarPanelContractContent}"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
                 <ScrollViewer Grid.Row="1">
                     <ItemsControl
                         MaxWidth="480"
                         ItemContainerTransitions="{StaticResource AddDeleteThemeTransitions}"
                         ItemTemplateSelector="{StaticResource InfoBarTemplateSelector}"
                         ItemsPanel="{StaticResource StackPanelSpacing8Template}"
-                        ItemsSource="{x:Bind InfoBars}"/>
+                        ItemsSource="{Binding InfoBars, Mode=OneWay}"/>
                 </ScrollViewer>
             </Grid>
         </Border>

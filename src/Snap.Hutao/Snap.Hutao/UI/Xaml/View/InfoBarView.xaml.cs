@@ -17,6 +17,7 @@ internal sealed partial class InfoBarView : UserControl
     public InfoBarView()
     {
         InitializeComponent();
+        DataContext = this;
 
         IServiceProvider serviceProvider = Ioc.Default;
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
@@ -32,27 +33,33 @@ internal sealed partial class InfoBarView : UserControl
 
     private void OnInfoBarsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
     {
-        switch (args.Action)
+        HandleInfoBarsCollectionChangedAsync(args).SafeForget();
+
+        async ValueTask HandleInfoBarsCollectionChangedAsync(NotifyCollectionChangedEventArgs args)
         {
-            case NotifyCollectionChangedAction.Add:
-                {
-                    InfoBarPanelTransitionHelper.Source = ShowButtonBorder;
-                    InfoBarPanelTransitionHelper.Target = InfoBarItemsBorder;
-                    InfoBarPanelTransitionHelper.StartAsync();
-                    break;
-                }
+            if (InfoBars.Count > 0)
+            {
+                VisibilityRoot.Visibility = Visibility.Visible;
+            }
 
-            case NotifyCollectionChangedAction.Remove:
-                {
-                    if (InfoBars.Count is 0)
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
                     {
-                        InfoBarPanelTransitionHelper.Source = InfoBarItemsBorder;
-                        InfoBarPanelTransitionHelper.Target = ShowButtonBorder;
-                        InfoBarPanelTransitionHelper.StartAsync();
+                        InfoBarPanelTransitionHelper.Source = ShowButtonBorder;
+                        InfoBarPanelTransitionHelper.Target = InfoBarItemsBorder;
+                        await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
+                        break;
                     }
+            }
 
-                    break;
-                }
+            if (InfoBars.Count is 0)
+            {
+                InfoBarPanelTransitionHelper.Source = InfoBarItemsBorder;
+                InfoBarPanelTransitionHelper.Target = ShowButtonBorder;
+                await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
+                VisibilityRoot.Visibility = Visibility.Collapsed;
+            }
         }
     }
 
