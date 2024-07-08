@@ -978,13 +978,13 @@
     <value>等待遊戲進程退出</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandDescription" xml:space="preserve">
-    <value>解鎖套件注入遊戲處理程序，非常危險，但容易成功</value>
+    <value>解鎖模組注入遊戲進程，非常危險，但容易成功</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandName" xml:space="preserve">
     <value>注入</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyDescription" xml:space="preserve">
-    <value>經典的處理程序外記憶體操作，較為危險，但容易失敗</value>
+    <value>經典的處進程外內存操作，較為危險，但容易失敗</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyName" xml:space="preserve">
     <value>經典</value>
@@ -1041,7 +1041,7 @@
     <value>在尋找必要的模組時遇到問題：尋找模組超時，請重試</value>
   </data>
   <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
-    <value>在比對內存時遇到問題：無法比對到期望的內容</value>
+    <value>在匹配內存時遇到問題：無法匹配到期望的內容</value>
   </data>
   <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
     <value>在讀取必要的模組內存時遇到問題：無法將模組內存複製到指定位置</value>
@@ -1504,6 +1504,12 @@
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深淵統計</value>
+  </data>
+  <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
+    <value>清除所有通知</value>
+  </data>
+  <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
+    <value>收起</value>
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
@@ -1971,7 +1977,7 @@
     <value>添加即時便籤</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>添加即時便籤以定時刷新</value>
+    <value>添加即時便籤以定時重新整理</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>新增</value>
@@ -2358,7 +2364,7 @@
     <value>一般</value>
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
-    <value>所有選項盡會在啟動遊戲成功後儲存</value>
+    <value>所有選項僅會在啟動遊戲成功後儲存</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
     <value>在我遊戲時設定 Discord Activity 狀態</value>
@@ -2451,7 +2457,7 @@
     <value>解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindDescription" xml:space="preserve">
-    <value>更改解鎖幀率的工作方式</value>
+    <value>更改解鎖 FPS 的工作方式</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
     <value>解鎖方式</value>
@@ -2739,7 +2745,7 @@
     <value>重設圖片資源</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在啟動遊戲頁面的程序部分加入解鎖 FPS 限制選項</value>
+    <value>在「啟動遊戲 - 進程」選項卡加入「解鎖 FPS 限制」選項</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>啟動遊戲-解鎖 FPS 限制</value>
