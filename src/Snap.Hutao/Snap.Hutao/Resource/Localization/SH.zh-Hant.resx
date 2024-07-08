@@ -151,7 +151,7 @@
     <value>刪除</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
-    <value>選取全部</value>
+    <value>選擇全部</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>無效的 URI</value>
@@ -3129,7 +3129,7 @@
     <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
-    <value>{0} 時, {1} 分</value>
+    <value>{0} 時 {1} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
     <value>今日完成委託數量不足</value>
