@@ -1505,6 +1505,12 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>Abyss Stats</value>
   </data>
+  <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
+    <value>清除所有通知</value>
+  </data>
+  <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
+    <value>收起</value>
+  </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>Notifikasi baru</value>
   </data>
