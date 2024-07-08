@@ -2,9 +2,11 @@
     x:Class="Snap.Hutao.UI.Xaml.View.InfoBarView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shsn="using:Snap.Hutao.Service.Notification"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
@@ -95,47 +97,113 @@
                 x:Key="InfoBarTemplateSelector"
                 ActionButtonDisabled="{StaticResource InfoBarTemplate}"
                 ActionButtonEnabled="{StaticResource InfoBarWithActionButtonTemplate}"/>
+
+            <clw:TransitionHelper
+                x:Key="InfoBarPanelTransitionHelper"
+                x:Name="InfoBarPanelTransitionHelper"
+                Duration="0:0:0.3">
+                <clw:TransitionConfig Id="Body" ScaleMode="Scale"/>
+            </clw:TransitionHelper>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
-        <ItemsControl
-            MaxWidth="640"
-            Margin="32,48,32,32"
-            VerticalAlignment="Bottom"
-            ItemContainerTransitions="{StaticResource RepositionThemeTransitions}"
-            ItemTemplateSelector="{StaticResource InfoBarTemplateSelector}"
-            ItemsSource="{x:Bind InfoBars}"
-            Transitions="{ThemeResource AddDeleteThemeTransitions}"
-            Visibility="{x:Bind VisibilityButton.IsChecked, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
-
         <Border
+            x:Name="ShowButtonBorder"
             Margin="16"
             HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
+            VerticalAlignment="Top"
+            clw:TransitionHelper.Id="Body"
             Background="{ThemeResource SystemControlAcrylicElementBrush}"
-            CornerRadius="{ThemeResource ControlCornerRadius}"
-            Visibility="{x:Bind InfoBars.Count, Mode=OneWay, Converter={StaticResource Int32ToVisibilityConverter}}">
-            <ToggleButton
-                Name="VisibilityButton"
-                Checked="OnVisibilityButtonCheckedChanged"
-                Unchecked="OnVisibilityButtonCheckedChanged">
-                <ToggleButton.Content>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition MinWidth="32"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Margin="0,0,6,0" Text="{shuxm:ResourceString Name=ViewInfoBarToggleTitle}"/>
-                        <InfoBadge
-                            Grid.Column="1"
-                            Padding="0,1,0,0"
-                            HorizontalAlignment="Right"
-                            Style="{ThemeResource CriticalValueInfoBadgeStyle}"
-                            Value="{x:Bind InfoBars.Count, Mode=OneWay}"/>
-                    </Grid>
-                </ToggleButton.Content>
-            </ToggleButton>
+            CornerRadius="{ThemeResource ControlCornerRadius}">
+            <Button>
+                <mxi:Interaction.Behaviors>
+                    <mxic:EventTriggerBehavior EventName="Click">
+                        <clw:StartTransitionAction
+                            Source="{x:Bind ShowButtonBorder}"
+                            Target="{x:Bind InfoBarItemsBorder}"
+                            Transition="{StaticResource InfoBarPanelTransitionHelper}"/>
+                    </mxic:EventTriggerBehavior>
+                </mxi:Interaction.Behaviors>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition MinWidth="32"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,6,0" Text="{shuxm:ResourceString Name=ViewInfoBarToggleTitle}"/>
+                    <InfoBadge
+                        Grid.Column="1"
+                        Padding="0,1,0,0"
+                        HorizontalAlignment="Right"
+                        Style="{ThemeResource CriticalValueInfoBadgeStyle}"
+                        Value="{x:Bind InfoBars.Count, Mode=OneWay}"/>
+                </Grid>
+            </Button>
+        </Border>
+
+        <Border
+            x:Name="InfoBarItemsBorder"
+            Margin="16"
+            Padding="16"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            clw:TransitionHelper.Id="Body"
+            Style="{ThemeResource AcrylicBorderCardStyle}"
+            Visibility="Collapsed">
+
+            <Grid RowSpacing="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Button Click="OnClearAllButtonClick">
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="19"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <FontIcon
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                Glyph="&#xE74D;"/>
+                            <TextBlock Grid.Column="1" Text="{shuxm:ResourceString Name=ViewInfoBarPanelClearAllContent}"/>
+                        </Grid>
+                    </Button>
+                    <Button>
+                        <mxi:Interaction.Behaviors>
+                            <mxic:EventTriggerBehavior EventName="Click">
+                                <clw:StartTransitionAction
+                                    Source="{x:Bind InfoBarItemsBorder}"
+                                    Target="{x:Bind ShowButtonBorder}"
+                                    Transition="{StaticResource InfoBarPanelTransitionHelper}"/>
+                            </mxic:EventTriggerBehavior>
+                        </mxi:Interaction.Behaviors>
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="19"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <FontIcon
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                Glyph="&#xEE49;"/>
+                            <TextBlock Grid.Column="1" Text="{shuxm:ResourceString Name=ViewInfoBarPanelContractContent}"/>
+                        </Grid>
+                    </Button>
+                </StackPanel>
+                <ScrollViewer Grid.Row="1">
+                    <ItemsControl
+                        MaxWidth="480"
+                        ItemContainerTransitions="{StaticResource AddDeleteThemeTransitions}"
+                        ItemTemplateSelector="{StaticResource InfoBarTemplateSelector}"
+                        ItemsPanel="{StaticResource StackPanelSpacing8Template}"
+                        ItemsSource="{x:Bind InfoBars}"/>
+                </ScrollViewer>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>

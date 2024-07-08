@@ -137,11 +137,20 @@
                     Header="Rename Desktop TestFolder"
                     IsClickEnabled="True"/>
 
-                <cwc:SettingsCard Header="Crash">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Command="{Binding ExceptionCommand}" Content="Activate"/>
-                    </StackPanel>
-                </cwc:SettingsCard>
+                <cwc:SettingsCard
+                    Command="{Binding FileOperationRenameCommand}"
+                    Header="Rename Desktop TestFolder"
+                    IsClickEnabled="True"/>
+
+                <cwc:SettingsCard
+                    Command="{Binding ExceptionCommand}"
+                    Header="Crash"
+                    IsClickEnabled="True"/>
+
+                <cwc:SettingsCard
+                    Command="{Binding SendRandomInfoBarNotificationCommand}"
+                    Header="Random InfoBar"
+                    IsClickEnabled="True"/>
 
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Announcement"/>
                 <Expander

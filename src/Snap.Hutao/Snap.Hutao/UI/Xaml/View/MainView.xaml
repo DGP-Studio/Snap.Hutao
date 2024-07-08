@@ -128,6 +128,6 @@
                 UseLayoutRounding="True"/>
         </NavigationView>
 
-        <shuxv:InfoBarView/>
+        <shuxv:InfoBarView Margin="0,44,0,0" VerticalAlignment="Stretch"/>
     </Grid>
 </UserControl>

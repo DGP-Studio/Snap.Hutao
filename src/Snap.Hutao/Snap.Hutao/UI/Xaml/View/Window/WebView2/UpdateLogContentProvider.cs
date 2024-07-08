@@ -5,7 +5,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.Graphics;
-using System.Diagnostics;
 using Windows.Graphics;
 using Windows.System;
 
