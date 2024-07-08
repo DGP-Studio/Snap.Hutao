@@ -984,7 +984,7 @@
     <value>注入</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyDescription" xml:space="preserve">
-    <value>經典的處進程外內存操作，較為危險，但容易失敗</value>
+    <value>經典的進程外內存操作，較為危險，但容易失敗</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyName" xml:space="preserve">
     <value>經典</value>
