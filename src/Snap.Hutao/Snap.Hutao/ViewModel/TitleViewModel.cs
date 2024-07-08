@@ -3,14 +3,18 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
 using Snap.Hutao.UI.Input.HotKey;
+using Snap.Hutao.UI.Xaml.Behavior.Action;
 using Snap.Hutao.UI.Xaml.Control;
 using Snap.Hutao.UI.Xaml.View.Dialog;
+using Snap.Hutao.UI.Xaml.View.Window.WebView2;
 using System.Globalization;
 using System.Text;
 
@@ -20,6 +24,7 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class TitleViewModel : Abstraction.ViewModel
 {
+    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IProgressFactory progressFactory;
     private readonly IInfoBarService infoBarService;
@@ -58,8 +63,20 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
+        ShowUpdateLogWindowAfterUpdate();
         await DoCheckUpdateAsync().ConfigureAwait(false);
         return true;
+    }
+
+    private void ShowUpdateLogWindowAfterUpdate()
+    {
+        if (LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false) || XamlApplicationLifetime.IsFirstRunAfterUpdate)
+        {
+            new ShowWebView2WindowAction()
+            {
+                ContentProvider = new UpdateLogContentProvider(),
+            }.ShowAt(currentXamlWindowReference.GetXamlRoot());
+        }
     }
 
     private async ValueTask DoCheckUpdateAsync()

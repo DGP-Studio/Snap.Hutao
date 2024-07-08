@@ -95,6 +95,20 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
+    public bool AlwaysIsFirstRunAfterUpdate
+    {
+        get => LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
+        }
+    }
+
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {

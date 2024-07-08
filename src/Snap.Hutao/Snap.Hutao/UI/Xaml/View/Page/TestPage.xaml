@@ -116,6 +116,10 @@
                     <ToggleSwitch IsOn="{Binding OverridePackageConvertDirectoryPermissionsRequirement, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
+                <cwc:SettingsCard Header="Always Treat As First Run After Update">
+                    <ToggleSwitch IsOn="{Binding AlwaysIsFirstRunAfterUpdate, Mode=TwoWay}"/>
+                </cwc:SettingsCard>
+
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Gacha Service"/>
                 <cwc:SettingsCard
                     Command="{Binding CompensationGachaLogServiceTimeCommand}"
