@@ -1505,6 +1505,12 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深境螺旋集計</value>
   </data>
+  <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
+    <value>すべての通知をクリア</value>
+  </data>
+  <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
+    <value>たたむ</value>
+  </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>新しい通知</value>
   </data>
