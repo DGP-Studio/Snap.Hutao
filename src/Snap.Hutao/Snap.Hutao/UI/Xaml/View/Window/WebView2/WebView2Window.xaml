@@ -36,6 +36,10 @@
                 x:Name="TitleArea"
                 Grid.Column="2"
                 IsHitTestVisible="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="46"/>
+                </Grid.ColumnDefinitions>
                 <TextBlock
                     x:Name="DocumentTitle"
                     Margin="12,0,0,0"
