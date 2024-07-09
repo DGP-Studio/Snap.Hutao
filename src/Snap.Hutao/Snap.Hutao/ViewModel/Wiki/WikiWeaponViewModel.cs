@@ -89,7 +89,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
     /// <inheritdoc/>
-    protected override async Task InitializeAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -123,11 +123,15 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
                     .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
                     .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
                 ]);
+
+                return true;
             }
             catch (OperationCanceledException)
             {
             }
         }
+
+        return false;
     }
 
     private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, Dictionary<MaterialId, Material> idMaterialMap)
