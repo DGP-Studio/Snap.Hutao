@@ -77,7 +77,7 @@ internal sealed partial class InfoBarView : UserControl
             while (InfoBars.Count > 0)
             {
                 InfoBars.RemoveAt(0);
-                await Task.Delay(150).ConfigureAwait(true);
+                await Task.Delay(100).ConfigureAwait(true);
             }
         }
     }

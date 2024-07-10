@@ -45,6 +45,6 @@ internal sealed class InfoBarService : IInfoBarService
         await taskContext.SwitchToMainThreadAsync();
 
         ArgumentNullException.ThrowIfNull(collection);
-        collection.Add(builder.Options);
+        collection.Insert(0, builder.Options);
     }
 }

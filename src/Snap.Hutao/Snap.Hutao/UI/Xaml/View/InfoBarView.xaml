@@ -18,53 +18,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
-                    <AcrylicBrush
-                        x:Key="InfoBarErrorSeverityBackgroundBrush"
-                        FallbackColor="#FDE7E9"
-                        TintColor="#FDE7E9"
-                        TintOpacity="0.6"/>
-                    <AcrylicBrush
-                        x:Key="InfoBarWarningSeverityBackgroundBrush"
-                        FallbackColor="#FFF4CE"
-                        TintColor="#FFF4CE"
-                        TintOpacity="0.6"/>
-                    <AcrylicBrush
-                        x:Key="InfoBarSuccessSeverityBackgroundBrush"
-                        FallbackColor="#DFF6DD"
-                        TintColor="#DFF6DD"
-                        TintOpacity="0.6"/>
-                    <AcrylicBrush
-                        x:Key="InfoBarInformationalSeverityBackgroundBrush"
-                        FallbackColor="#80F6F6F6"
-                        TintColor="#80F6F6F6"
-                        TintOpacity="0.6"/>
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <AcrylicBrush
-                        x:Key="InfoBarErrorSeverityBackgroundBrush"
-                        FallbackColor="#442726"
-                        TintColor="#442726"
-                        TintOpacity="0.6"/>
-                    <AcrylicBrush
-                        x:Key="InfoBarWarningSeverityBackgroundBrush"
-                        FallbackColor="#433519"
-                        TintColor="#433519"
-                        TintOpacity="0.6"/>
-                    <AcrylicBrush
-                        x:Key="InfoBarSuccessSeverityBackgroundBrush"
-                        FallbackColor="#393D1B"
-                        TintColor="#393D1B"
-                        TintOpacity="0.6"/>
-                    <AcrylicBrush
-                        x:Key="InfoBarInformationalSeverityBackgroundBrush"
-                        FallbackColor="#34424d"
-                        TintColor="#34424d"
-                        TintOpacity="0.6"/>
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-
             <DataTemplate x:Key="InfoBarTemplate" x:DataType="shsn:InfoBarOptions">
                 <InfoBar
                     Title="{Binding Title}"
@@ -212,14 +165,14 @@
                         </StackPanel>
                     </Grid>
 
-                    <ScrollViewer Grid.Row="1">
+                    <ScrollView Grid.Row="1">
                         <ItemsControl
                             MaxWidth="480"
                             ItemContainerTransitions="{StaticResource AddDeleteThemeTransitions}"
                             ItemTemplateSelector="{StaticResource InfoBarTemplateSelector}"
                             ItemsPanel="{StaticResource StackPanelSpacing8Template}"
                             ItemsSource="{Binding InfoBars, Mode=OneWay}"/>
-                    </ScrollViewer>
+                    </ScrollView>
                 </Grid>
             </Border>
         </Border>
