@@ -18,7 +18,6 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
-using System.Globalization;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculatorClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -33,7 +32,6 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IAppResourceProvider appResourceProvider;
     private readonly ICultivationService cultivationService;
     private readonly IAvatarInfoService avatarInfoService;
     private readonly IClipboardProvider clipboardProvider;
