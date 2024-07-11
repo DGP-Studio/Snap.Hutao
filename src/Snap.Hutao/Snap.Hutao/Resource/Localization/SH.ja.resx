@@ -1568,6 +1568,12 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>キャラクターラインナップが未配置か非表示です。ゲーム内のプロフィール編集で設定してください</value>
   </data>
+  <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
+    <value>キャラクター詳細をコピーできませんでした</value>
+  </data>
+  <data name="ViewModelAvatatPropertyExportTextSuccess" xml:space="preserve">
+    <value>ロール詳細をコピーしました</value>
+  </data>
   <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
     <value>聖遺物なし</value>
   </data>
@@ -1888,6 +1894,9 @@
   </data>
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
     <value>画像をエクスポート</value>
+  </data>
+  <data name="ViewPageAvatarPropertyExportToTextLabel" xml:space="preserve">
+    <value>テキストをクリップボードにコピー</value>
   </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>キャラクターの元素タイプ</value>
