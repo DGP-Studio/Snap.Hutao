@@ -1568,6 +1568,12 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>Pameran karakter dinonaktifkan. Silakan aktifkan di dalam permainan.</value>
   </data>
+  <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
+    <value>复制角色详情失败</value>
+  </data>
+  <data name="ViewModelAvatatPropertyExportTextSuccess" xml:space="preserve">
+    <value>复制角色详情成功</value>
+  </data>
   <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
     <value>Tidak ada set artefak</value>
   </data>
@@ -1888,6 +1894,9 @@
   </data>
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
     <value>Ekspor sebagai gambar</value>
+  </data>
+  <data name="ViewPageAvatarPropertyExportToTextLabel" xml:space="preserve">
+    <value>导出文本到剪贴板</value>
   </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>Atribut Karakter</value>
