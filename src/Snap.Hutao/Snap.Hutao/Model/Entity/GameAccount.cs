@@ -17,7 +17,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("game_accounts")]
-internal sealed class GameAccount : ObservableObject,
+internal sealed partial class GameAccount : ObservableObject,
     IAppDbEntity,
     IReorderable,
     IAdvancedCollectionViewItem,
@@ -81,13 +81,5 @@ internal sealed class GameAccount : ObservableObject,
     {
         Name = name;
         OnPropertyChanged($"{nameof(Name)}");
-    }
-
-    public object? GetPropertyValue(string propertyName)
-    {
-        return propertyName switch
-        {
-            _ => default,
-        };
     }
 }

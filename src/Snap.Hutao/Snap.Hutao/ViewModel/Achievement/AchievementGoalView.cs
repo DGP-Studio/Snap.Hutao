@@ -11,7 +11,7 @@ using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-internal sealed class AchievementGoalView : ObservableObject,
+internal sealed partial class AchievementGoalView : ObservableObject,
     INameIcon,
     IAdvancedCollectionViewItem,
     IMappingFrom<AchievementGoalView, AchievementGoal>
@@ -48,15 +48,5 @@ internal sealed class AchievementGoalView : ObservableObject,
     {
         FinishDescription = AchievementStatistics.Format(statistics.Finished, statistics.TotalCount, out double finishPercent);
         FinishPercent = finishPercent;
-    }
-
-    public object? GetPropertyValue(string propertyName)
-    {
-        return propertyName switch
-        {
-            nameof(Order) => Order,
-            nameof(FinishPercent) => FinishPercent,
-            _ => default,
-        };
     }
 }

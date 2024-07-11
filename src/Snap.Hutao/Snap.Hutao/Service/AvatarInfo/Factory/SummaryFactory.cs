@@ -17,6 +17,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 internal sealed partial class SummaryFactory : ISummaryFactory
 {
     private readonly IMetadataService metadataService;
+    private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
     public async ValueTask<Summary> CreateAsync(IEnumerable<Model.Entity.AvatarInfo> avatarInfos, CancellationToken token)
@@ -34,9 +35,13 @@ internal sealed partial class SummaryFactory : ISummaryFactory
             .ThenBy(a => a.Weapon?.WeaponType)
             .ThenByDescending(a => a.FetterLevel);
 
+        IList<AvatarView> views = [.. avatars];
+
+        await taskContext.SwitchToMainThreadAsync();
+
         return new()
         {
-            Avatars = [.. avatars],
+            Avatars = new(views, true),
         };
     }
 }

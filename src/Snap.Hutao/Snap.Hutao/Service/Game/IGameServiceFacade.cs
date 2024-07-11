@@ -18,13 +18,6 @@ internal interface IGameServiceFacade
     /// 游戏内账号集合
     /// </summary>
     ObservableReorderableDbCollection<GameAccount> GameAccountCollection { get; }
-
-    /// <summary>
-    /// 将账号绑定到对应的Uid
-    /// 清除老账号的绑定状态
-    /// </summary>
-    /// <param name="gameAccount">游戏内账号</param>
-    /// <param name="uid">uid</param>
     ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid);
 
     ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme);

@@ -86,6 +86,11 @@ internal static class MetadataServiceDictionaryExtension
         return metadataService.FromCacheAsDictionaryAsync<ReliquaryMainAffix, ReliquaryMainAffixId, FightProperty>(FileNameReliquaryMainAffix, r => r.Id, r => r.Type, token);
     }
 
+    public static ValueTask<Dictionary<ReliquarySetId, ReliquarySet>> GetIdToReliquarySetMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync<ReliquarySetId, ReliquarySet>(FileNameReliquarySet, r => r.SetId, token);
+    }
+
     public static ValueTask<Dictionary<ReliquarySubAffixId, ReliquarySubAffix>> GetIdToReliquarySubAffixMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         return metadataService.FromCacheAsDictionaryAsync<ReliquarySubAffixId, ReliquarySubAffix>(FileNameReliquarySubAffix, a => a.Id, token);

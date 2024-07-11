@@ -37,6 +37,12 @@ internal static class WeaponViewBuilderExtension
         return builder.SetDescription<TBuilder, WeaponView>(description);
     }
 
+    public static TBuilder SetEquipType<TBuilder>(this TBuilder builder, EquipType equipType)
+        where TBuilder : IWeaponViewBuilder
+    {
+        return builder.SetEquipType<TBuilder, WeaponView>(equipType);
+    }
+
     public static TBuilder SetIcon<TBuilder>(this TBuilder builder, Uri icon)
         where TBuilder : IWeaponViewBuilder
     {
@@ -85,7 +91,7 @@ internal static class WeaponViewBuilderExtension
         return builder.SetQuality<TBuilder, WeaponView>(quality);
     }
 
-    public static TBuilder SetSubProperty<TBuilder>(this TBuilder builder, NameDescription subProperty)
+    public static TBuilder SetSubProperty<TBuilder>(this TBuilder builder, NameValue<string> subProperty)
         where TBuilder : IWeaponViewBuilder
     {
         return builder.Configure(b => b.View.SubProperty = subProperty);

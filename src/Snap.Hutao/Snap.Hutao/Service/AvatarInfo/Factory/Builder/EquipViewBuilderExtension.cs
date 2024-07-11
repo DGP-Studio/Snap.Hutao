@@ -10,6 +10,13 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
 internal static class EquipViewBuilderExtension
 {
+    public static TBuilder SetEquipType<TBuilder, T>(this TBuilder builder, EquipType equipType)
+        where TBuilder : IEquipViewBuilder<T>
+        where T : EquipView
+    {
+        return builder.Configure(b => b.View.EquipType = equipType);
+    }
+
     public static TBuilder SetLevel<TBuilder, T>(this TBuilder builder, string level)
         where TBuilder : IEquipViewBuilder<T>
         where T : EquipView

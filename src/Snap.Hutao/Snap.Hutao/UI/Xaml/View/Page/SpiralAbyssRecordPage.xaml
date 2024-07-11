@@ -333,11 +333,11 @@
                                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                     ItemTemplate="{StaticResource SpiralAbyssListTemplate}"
                                     ItemsSource="{Binding SpiralAbyssEntries}"
-                                    SelectedItem="{Binding SelectedView, Mode=TwoWay}"/>
+                                    SelectedItem="{Binding SpiralAbyssEntries.CurrentItem, Mode=TwoWay}"/>
                             </SplitView.Pane>
                             <SplitView.Content>
                                 <ScrollViewer>
-                                    <StackPanel DataContext="{Binding SelectedView}">
+                                    <StackPanel DataContext="{Binding SpiralAbyssEntries.CurrentItem}">
                                         <Grid Margin="16,12,16,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition/>

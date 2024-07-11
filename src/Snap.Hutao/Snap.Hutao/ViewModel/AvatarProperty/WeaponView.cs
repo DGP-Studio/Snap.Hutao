@@ -17,7 +17,7 @@ internal sealed class WeaponView : EquipView, ICalculableSource<ICalculableWeapo
     /// <summary>
     /// 副属性
     /// </summary>
-    public NameDescription SubProperty { get; set; } = default!;
+    public NameValue<string> SubProperty { get; set; } = default!;
 
     /// <summary>
     /// 精炼等级

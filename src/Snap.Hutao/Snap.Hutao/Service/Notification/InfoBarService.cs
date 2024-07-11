@@ -8,19 +8,14 @@ namespace Snap.Hutao.Service.Notification;
 
 /// <inheritdoc/>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IInfoBarService))]
-internal sealed class InfoBarService : IInfoBarService
+internal sealed partial class InfoBarService : IInfoBarService
 {
     private readonly ILogger<InfoBarService> logger;
     private readonly ITaskContext taskContext;
 
     private ObservableCollection<InfoBarOptions>? collection;
-
-    public InfoBarService(IServiceProvider serviceProvider)
-    {
-        logger = serviceProvider.GetRequiredService<ILogger<InfoBarService>>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-    }
 
     /// <inheritdoc/>
     public ObservableCollection<InfoBarOptions> Collection

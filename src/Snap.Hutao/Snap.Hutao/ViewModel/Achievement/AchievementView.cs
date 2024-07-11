@@ -8,11 +8,7 @@ using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
-/// <summary>
-/// 用于视图绑定的成就
-/// </summary>
-[HighQuality]
-internal sealed class AchievementView : ObservableObject,
+internal sealed partial class AchievementView : ObservableObject,
     IEntityAccessWithMetadata<Model.Entity.Achievement, Model.Metadata.Achievement.Achievement>,
     IAdvancedCollectionViewItem
 {
@@ -56,16 +52,5 @@ internal sealed class AchievementView : ObservableObject,
     public string Time
     {
         get => $"{Entity.Time.ToLocalTime():yyyy.MM.dd HH:mm:ss}";
-    }
-
-    public object? GetPropertyValue(string propertyName)
-    {
-        return propertyName switch
-        {
-            nameof(Order) => Order,
-            nameof(IsChecked) => IsChecked,
-            nameof(Time) => Time,
-            _ => default,
-        };
     }
 }

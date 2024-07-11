@@ -13,10 +13,12 @@ using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.UI.Xaml.Control;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Response;
+using System.Globalization;
 using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculatorBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculatorClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -26,10 +28,6 @@ using CalculatorItemHelper = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.ItemH
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
-/// <summary>
-/// 角色属性视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserAndUidChangedMessage>
@@ -38,14 +36,13 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly IAppResourceProvider appResourceProvider;
     private readonly ICultivationService cultivationService;
     private readonly IAvatarInfoService avatarInfoService;
-    private readonly IClipboardProvider clipboardInterop;
+    private readonly IClipboardProvider clipboardProvider;
     private readonly CalculatorClient calculatorClient;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
     private Summary? summary;
-    private AvatarView? selectedAvatar;
 
     private enum CultivateCoreResult
     {
@@ -54,17 +51,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         SaveConsumptionFailed,
     }
 
-    /// <summary>
-    /// 简述对象
-    /// </summary>
     public Summary? Summary { get => summary; set => SetProperty(ref summary, value); }
 
-    /// <summary>
-    /// 选中的角色
-    /// </summary>
-    public AvatarView? SelectedAvatar { get => selectedAvatar; set => SetProperty(ref selectedAvatar, value); }
-
-    /// <inheritdoc/>
     public void Receive(UserAndUidChangedMessage message)
     {
         if (message.UserAndUid is { } userAndUid)
@@ -133,11 +121,11 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             }
 
             (RefreshResultKind result, Summary? summary) = summaryResult;
-            if (result == RefreshResultKind.Ok)
+            if (result is RefreshResultKind.Ok)
             {
                 await taskContext.SwitchToMainThreadAsync();
                 Summary = summary;
-                SelectedAvatar = Summary?.Avatars.FirstOrDefault();
+                Summary?.Avatars.MoveCurrentToFirstOrDefault();
             }
             else
             {
@@ -312,5 +300,23 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
 
         return true;
+    }
+
+    [Command("ExportToTextCommand")]
+    private void ExportToText()
+    {
+        if (Summary is not { Avatars.CurrentItem: { } avatar })
+        {
+            return;
+        }
+
+        if (clipboardProvider.SetText(AvatarViewTextTemplating.GetTemplatedText(avatar)))
+        {
+            infoBarService.Success(SH.ViewModelAvatatPropertyExportTextSuccess);
+        }
+        else
+        {
+            infoBarService.Warning(SH.ViewModelAvatatPropertyExportTextError);
+        }
     }
 }

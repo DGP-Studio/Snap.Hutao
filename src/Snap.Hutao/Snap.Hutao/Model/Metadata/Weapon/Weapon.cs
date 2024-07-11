@@ -106,12 +106,4 @@ internal sealed partial class Weapon : INameQualityAccess,
             IsUp = isUp,
         };
     }
-
-    public object? GetPropertyValue(string propertyName)
-    {
-        return propertyName switch
-        {
-            _ => default,
-        };
-    }
 }

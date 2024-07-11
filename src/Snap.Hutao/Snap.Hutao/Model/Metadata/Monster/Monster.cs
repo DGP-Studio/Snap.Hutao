@@ -11,7 +11,7 @@ namespace Snap.Hutao.Model.Metadata.Monster;
 /// <summary>
 /// 敌对生物
 /// </summary>
-internal sealed class Monster : IAdvancedCollectionViewItem
+internal sealed partial class Monster : IAdvancedCollectionViewItem
 {
     internal const uint MaxLevel = 100;
 
@@ -90,12 +90,4 @@ internal sealed class Monster : IAdvancedCollectionViewItem
     /// </summary>
     [JsonIgnore]
     public List<DisplayItem>? DropsView { get; set; }
-
-    public object? GetPropertyValue(string propertyName)
-    {
-        return propertyName switch
-        {
-            _ => default,
-        };
-    }
 }

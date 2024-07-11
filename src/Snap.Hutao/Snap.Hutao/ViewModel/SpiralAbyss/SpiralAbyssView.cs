@@ -5,14 +5,12 @@ using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata.Tower;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-/// <summary>
-/// 深渊视图
-/// </summary>
-[HighQuality]
-internal sealed class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>,
+internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>,
+    IAdvancedCollectionViewItem,
     IMappingFrom<SpiralAbyssView, SpiralAbyssEntry, SpiralAbyssMetadataContext>,
     IMappingFrom<SpiralAbyssView, SpiralAbyssEntry?, TowerSchedule, SpiralAbyssMetadataContext>
 {

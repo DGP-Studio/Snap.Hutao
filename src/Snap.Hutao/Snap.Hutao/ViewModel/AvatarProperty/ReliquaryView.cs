@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Intrinsic;
+
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
@@ -33,4 +35,6 @@ internal sealed class ReliquaryView : EquipView
     /// 评分
     /// </summary>
     internal float Score { get; set; }
+
+    internal string SetName { get; set; } = default!;
 }

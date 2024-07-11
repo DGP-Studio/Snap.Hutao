@@ -117,12 +117,4 @@ internal partial class Avatar : INameQualityAccess,
             IsUp = isUp,
         };
     }
-
-    public object? GetPropertyValue(string propertyName)
-    {
-        return propertyName switch
-        {
-            _ => default,
-        };
-    }
 }

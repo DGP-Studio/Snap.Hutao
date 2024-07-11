@@ -14,7 +14,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("cultivate_projects")]
-internal sealed class CultivateProject : ISelectable,
+internal sealed partial class CultivateProject : ISelectable,
     IAdvancedCollectionViewItem,
     IMappingFrom<CultivateProject, string, string>
 {
@@ -49,13 +49,5 @@ internal sealed class CultivateProject : ISelectable,
     public static CultivateProject From(string name, string? attachedUid = null)
     {
         return new() { Name = name, AttachedUid = attachedUid };
-    }
-
-    public object? GetPropertyValue(string name)
-    {
-        return name switch
-        {
-            _ => default,
-        };
     }
 }

@@ -9,7 +9,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 /// 历史卡池概览
 /// </summary>
 [HighQuality]
-internal sealed class HistoryWish : Wish, IAdvancedCollectionViewItem
+internal sealed partial class HistoryWish : Wish, IAdvancedCollectionViewItem
 {
     /// <summary>
     /// 版本
@@ -45,12 +45,4 @@ internal sealed class HistoryWish : Wish, IAdvancedCollectionViewItem
     /// 三星Up
     /// </summary>
     public List<StatisticsItem> BlueList { get; set; } = default!;
-
-    public object? GetPropertyValue(string name)
-    {
-        return name switch
-        {
-            _ => default,
-        };
-    }
 }
