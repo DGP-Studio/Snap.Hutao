@@ -241,8 +241,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        ValueResult<bool, UIGF?> result = await file.DeserializeFromJsonAsync<UIGF>(options).ConfigureAwait(false);
-        if (result.TryGetValue(out UIGF? uigf))
+        ValueResult<bool, LegacyUIGF?> result = await file.DeserializeFromJsonAsync<LegacyUIGF>(options).ConfigureAwait(false);
+        if (result.TryGetValue(out LegacyUIGF? uigf))
         {
             await TryImportUIGFInternalAsync(uigf).ConfigureAwait(false);
         }
@@ -270,7 +270,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        UIGF uigf = await gachaLogService.ExportToUIGFAsync(Archives.CurrentItem).ConfigureAwait(false);
+        LegacyUIGF uigf = await gachaLogService.ExportToUIGFAsync(Archives.CurrentItem).ConfigureAwait(false);
         if (await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false))
         {
             infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
@@ -348,7 +348,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
-    private async ValueTask<bool> TryImportUIGFInternalAsync(UIGF uigf)
+    private async ValueTask<bool> TryImportUIGFInternalAsync(LegacyUIGF uigf)
     {
         if (!uigf.IsCurrentVersionSupported(out _))
         {

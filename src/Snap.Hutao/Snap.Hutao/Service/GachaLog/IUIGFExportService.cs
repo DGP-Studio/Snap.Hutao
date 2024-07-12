@@ -17,5 +17,5 @@ internal interface IUIGFExportService
     /// <param name="context">元数据上下文</param>
     /// <param name="archive">存档</param>
     /// <returns>UIGF</returns>
-    ValueTask<UIGF> ExportAsync(GachaLogServiceMetadataContext context, GachaArchive archive);
+    ValueTask<LegacyUIGF> ExportAsync(GachaLogServiceMetadataContext context, GachaArchive archive);
 }

@@ -17,8 +17,8 @@ namespace Snap.Hutao.Model.Entity;
 [Table("gacha_items")]
 internal sealed partial class GachaItem
     : IDbMappingForeignKeyFrom<GachaItem, GachaLogItem, uint>,
-    IDbMappingForeignKeyFrom<GachaItem, UIGFItem, uint>,
-    IDbMappingForeignKeyFrom<GachaItem, UIGFItem>,
+    IDbMappingForeignKeyFrom<GachaItem, LegacyUIGFItem, uint>,
+    IDbMappingForeignKeyFrom<GachaItem, LegacyUIGFItem>,
     IDbMappingForeignKeyFrom<GachaItem, Web.Hutao.GachaLog.GachaItem>
 {
     /// <summary>
@@ -93,7 +93,7 @@ internal sealed partial class GachaItem
     /// <param name="item">祈愿物品</param>
     /// <param name="itemId">物品Id</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem From(in Guid archiveId, in UIGFItem item, in uint itemId)
+    public static GachaItem From(in Guid archiveId, in LegacyUIGFItem item, in uint itemId)
     {
         return new()
         {
@@ -112,7 +112,7 @@ internal sealed partial class GachaItem
     /// <param name="archiveId">存档Id</param>
     /// <param name="item">祈愿物品</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem From(in Guid archiveId, in UIGFItem item)
+    public static GachaItem From(in Guid archiveId, in LegacyUIGFItem item)
     {
         return new()
         {

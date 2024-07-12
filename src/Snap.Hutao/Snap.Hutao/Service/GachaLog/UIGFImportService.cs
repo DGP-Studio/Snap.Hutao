@@ -18,11 +18,11 @@ internal sealed partial class UIGFImportService : IUIGFImportService
     private readonly CultureOptions cultureOptions;
     private readonly ITaskContext taskContext;
 
-    public async ValueTask ImportAsync(GachaLogServiceMetadataContext context, UIGF uigf, AdvancedDbCollectionView<GachaArchive> archives)
+    public async ValueTask ImportAsync(GachaLogServiceMetadataContext context, LegacyUIGF uigf, AdvancedDbCollectionView<GachaArchive> archives)
     {
         await taskContext.SwitchToBackgroundAsync();
 
-        if (!uigf.IsCurrentVersionSupported(out UIGFVersion version))
+        if (!uigf.IsCurrentVersionSupported(out LegacyUIGFVersion version))
         {
             HutaoException.InvalidOperation(SH.ServiceUIGFImportUnsupportedVersion);
         }
@@ -30,7 +30,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         // v2.3+ supports any locale
         // v2.2 only supports matched locale
         // v2.1 only supports CHS
-        if (version is UIGFVersion.Major2Minor2OrLower)
+        if (version is LegacyUIGFVersion.Major2Minor2OrLower)
         {
             if (!cultureOptions.LanguageCodeFitsCurrentLocale(uigf.Info.Language))
             {
@@ -45,7 +45,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
             }
         }
 
-        if (version is UIGFVersion.Major2Minor3OrHigher)
+        if (version is LegacyUIGFVersion.Major2Minor3OrHigher)
         {
             if (!uigf.IsMajor2Minor3OrHigherListValid(out long id))
             {
@@ -65,12 +65,12 @@ internal sealed partial class UIGFImportService : IUIGFImportService
 
             List<GachaItem> currentTypedList = version switch
             {
-                UIGFVersion.Major2Minor3OrHigher => uigf.List
+                LegacyUIGFVersion.Major2Minor3OrHigher => uigf.List
                     .Where(item => item.UIGFGachaType == queryType && item.Id < trimId)
                     .OrderByDescending(item => item.Id)
                     .Select(item => GachaItem.From(archiveId, item))
                     .ToList(),
-                UIGFVersion.Major2Minor2OrLower => uigf.List
+                LegacyUIGFVersion.Major2Minor2OrLower => uigf.List
                     .Where(item => item.UIGFGachaType == queryType && item.Id < trimId)
                     .OrderByDescending(item => item.Id)
                     .Select(item => GachaItem.From(archiveId, item, context.GetItemId(item)))

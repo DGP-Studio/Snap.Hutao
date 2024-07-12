@@ -12,7 +12,8 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 /// https://uigf.org/standards/UIGF.html
 /// </summary>
 [HighQuality]
-internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
+[Obsolete]
+internal sealed class LegacyUIGF : IJsonOnSerializing, IJsonOnDeserialized
 {
     /// <summary>
     /// 当前版本
@@ -24,19 +25,19 @@ internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
     /// </summary>
     [JsonRequired]
     [JsonPropertyName("info")]
-    public UIGFInfo Info { get; set; } = default!;
+    public LegacyUIGFInfo Info { get; set; } = default!;
 
     /// <summary>
     /// 列表
     /// </summary>
     [JsonPropertyName("list")]
-    public List<UIGFItem> List { get; set; } = default!;
+    public List<LegacyUIGFItem> List { get; set; } = default!;
 
     public void OnSerializing()
     {
         TimeSpan offset = GetRegionTimeZoneUtcOffset();
 
-        foreach (UIGFItem item in List)
+        foreach (LegacyUIGFItem item in List)
         {
             item.Time = item.Time.ToOffset(offset);
         }
@@ -47,30 +48,30 @@ internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
         // Adjust items timezone
         TimeSpan offset = GetRegionTimeZoneUtcOffset();
 
-        foreach (UIGFItem item in List)
+        foreach (LegacyUIGFItem item in List)
         {
             item.Time = UnsafeDateTimeOffset.AdjustOffsetOnly(item.Time, offset);
         }
     }
 
-    public bool IsCurrentVersionSupported(out UIGFVersion version)
+    public bool IsCurrentVersionSupported(out LegacyUIGFVersion version)
     {
         version = Info.UIGFVersion switch
         {
-            "v2.1" => UIGFVersion.Major2Minor2OrLower,
-            "v2.2" => UIGFVersion.Major2Minor2OrLower,
-            "v2.3" => UIGFVersion.Major2Minor3OrHigher,
-            "v2.4" => UIGFVersion.Major2Minor3OrHigher,
-            "v3.0" => UIGFVersion.Major2Minor3OrHigher,
-            _ => UIGFVersion.NotSupported,
+            "v2.1" => LegacyUIGFVersion.Major2Minor2OrLower,
+            "v2.2" => LegacyUIGFVersion.Major2Minor2OrLower,
+            "v2.3" => LegacyUIGFVersion.Major2Minor3OrHigher,
+            "v2.4" => LegacyUIGFVersion.Major2Minor3OrHigher,
+            "v3.0" => LegacyUIGFVersion.Major2Minor3OrHigher,
+            _ => LegacyUIGFVersion.NotSupported,
         };
 
-        return version != UIGFVersion.NotSupported;
+        return version != LegacyUIGFVersion.NotSupported;
     }
 
     public bool IsMajor2Minor2OrLowerListValid([NotNullWhen(false)] out long id)
     {
-        foreach (ref readonly UIGFItem item in CollectionsMarshal.AsSpan(List))
+        foreach (ref readonly LegacyUIGFItem item in CollectionsMarshal.AsSpan(List))
         {
             if (item.ItemType != SH.ModelInterchangeUIGFItemTypeAvatar && item.ItemType != SH.ModelInterchangeUIGFItemTypeWeapon)
             {
@@ -85,7 +86,7 @@ internal sealed class UIGF : IJsonOnSerializing, IJsonOnDeserialized
 
     public bool IsMajor2Minor3OrHigherListValid([NotNullWhen(false)] out long id)
     {
-        foreach (ref readonly UIGFItem item in CollectionsMarshal.AsSpan(List))
+        foreach (ref readonly LegacyUIGFItem item in CollectionsMarshal.AsSpan(List))
         {
             if (string.IsNullOrEmpty(item.ItemId))
             {

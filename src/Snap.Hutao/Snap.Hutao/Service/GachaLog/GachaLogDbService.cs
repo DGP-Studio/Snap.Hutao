@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Model.InterChange;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections.ObjectModel;

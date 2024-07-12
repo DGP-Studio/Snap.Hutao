@@ -10,7 +10,9 @@ namespace Snap.Hutao.UI.Xaml.Markup;
 [MarkupExtensionReturnType(ReturnType = typeof(string))]
 internal sealed class ResourceStringExtension : MarkupExtension
 {
-    public string? Name { get; set; }
+    private string? name;
+
+    public string? Name { get => name; set => name = value is null ? null : string.Intern(value); }
 
     public string? CultureName { get; set; }
 

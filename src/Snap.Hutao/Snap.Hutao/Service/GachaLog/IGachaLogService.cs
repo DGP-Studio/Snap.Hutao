@@ -24,7 +24,7 @@ internal interface IGachaLogService
     /// </summary>
     /// <param name="archive">存档</param>
     /// <returns>UIGF对象</returns>
-    ValueTask<UIGF> ExportToUIGFAsync(GachaArchive archive);
+    ValueTask<LegacyUIGF> ExportToUIGFAsync(GachaArchive archive);
 
     /// <summary>
     /// 获得对应的祈愿统计
@@ -45,7 +45,7 @@ internal interface IGachaLogService
     /// </summary>
     /// <param name="uigf">信息</param>
     /// <returns>任务</returns>
-    ValueTask ImportFromUIGFAsync(UIGF uigf);
+    ValueTask ImportFromUIGFAsync(LegacyUIGF uigf);
 
     /// <summary>
     /// 异步初始化

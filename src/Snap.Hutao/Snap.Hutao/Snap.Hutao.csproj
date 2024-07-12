@@ -158,7 +158,6 @@
     <None Remove="UI\Xaml\View\Dialog\CultivatePromotionDeltaDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\DailyNoteNotificationDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\DailyNoteWebhookDialog.xaml" />
-    <None Remove="UI\Xaml\View\Dialog\GachaLogImportDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\GachaLogRefreshProgressDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\GachaLogUrlDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\GeetestCustomUrlDialog.xaml" />

@@ -12,7 +12,8 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 /// UIGF格式的信息
 /// </summary>
 [HighQuality]
-internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, CultureOptions, string>
+[Obsolete]
+internal sealed class LegacyUIGFInfo : IMappingFrom<LegacyUIGFInfo, RuntimeOptions, CultureOptions, string>
 {
     /// <summary>
     /// 用户Uid
@@ -65,7 +66,7 @@ internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, CultureO
     [JsonPropertyName("region_time_zone")]
     public int? RegionTimeZone { get; set; } = default!;
 
-    public static UIGFInfo From(RuntimeOptions runtimeOptions, CultureOptions cultureOptions, string uid)
+    public static LegacyUIGFInfo From(RuntimeOptions runtimeOptions, CultureOptions cultureOptions, string uid)
     {
         return new()
         {
@@ -74,7 +75,7 @@ internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, CultureO
             ExportTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
             ExportAppVersion = runtimeOptions.Version.ToString(),
-            UIGFVersion = UIGF.CurrentVersion,
+            UIGFVersion = LegacyUIGF.CurrentVersion,
             RegionTimeZone = PlayerUid.GetRegionTimeZoneUtcOffsetForUid(uid).Hours,
         };
     }

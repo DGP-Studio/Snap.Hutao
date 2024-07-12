@@ -85,12 +85,12 @@ internal sealed partial class GachaLogService : IGachaLogService
         return statistics;
     }
 
-    public ValueTask<UIGF> ExportToUIGFAsync(GachaArchive archive)
+    public ValueTask<LegacyUIGF> ExportToUIGFAsync(GachaArchive archive)
     {
         return gachaLogExportService.ExportAsync(context, archive);
     }
 
-    public async ValueTask ImportFromUIGFAsync(UIGF uigf)
+    public async ValueTask ImportFromUIGFAsync(LegacyUIGF uigf)
     {
         ArgumentNullException.ThrowIfNull(Archives);
         await gachaLogImportService.ImportAsync(context, uigf, Archives).ConfigureAwait(false);

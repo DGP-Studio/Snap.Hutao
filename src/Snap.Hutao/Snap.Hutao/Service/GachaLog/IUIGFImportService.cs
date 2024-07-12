@@ -12,5 +12,5 @@ namespace Snap.Hutao.Service.GachaLog;
 /// </summary>
 internal interface IUIGFImportService
 {
-    ValueTask ImportAsync(GachaLogServiceMetadataContext context, UIGF uigf, AdvancedDbCollectionView<GachaArchive> archives);
+    ValueTask ImportAsync(GachaLogServiceMetadataContext context, LegacyUIGF uigf, AdvancedDbCollectionView<GachaArchive> archives);
 }

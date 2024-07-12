@@ -18,7 +18,7 @@ internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitch
 
     public bool IsCompleted
     {
-        // 如果已经处于后台就不再切换新的线程
+        // Only yields when we are on the DispatcherQueue thread.
         get => !dispatherQueue.HasThreadAccess;
     }
 

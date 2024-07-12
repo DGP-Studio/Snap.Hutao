@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 /// <summary>
 /// UIGF版本
 /// </summary>
-internal enum UIGFVersion
+[Obsolete]
+internal enum LegacyUIGFVersion
 {
     /// <summary>
     /// 不支持的版本
