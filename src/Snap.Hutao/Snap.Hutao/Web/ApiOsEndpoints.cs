@@ -236,6 +236,8 @@ internal static class ApiOsEndpoints
     /// </summary>
     public const string CalculateCompute = $"{SgPublicApi}/event/calculateos/compute";
 
+    public const string CalculateBatchCompute = $"{SgPublicApi}/event/calculateos/batch_compute";
+
     /// <summary>
     /// 计算器同步角色详情 size 20
     /// </summary>

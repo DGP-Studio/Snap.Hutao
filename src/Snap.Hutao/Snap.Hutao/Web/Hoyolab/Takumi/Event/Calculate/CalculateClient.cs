@@ -50,7 +50,7 @@ internal sealed partial class CalculateClient
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.CalculateBatchCompute)
+            .SetRequestUri(userAndUid.IsOversea ? ApiOsEndpoints.CalculateBatchCompute : ApiEndpoints.CalculateBatchCompute)
             .SetUserCookieAndFpHeader(userAndUid.User, CookieType.Cookie)
             .SetReferer(userAndUid.IsOversea ? ApiOsEndpoints.ActHoyolabReferer : ApiEndpoints.WebStaticMihoyoReferer)
             .PostJson(data);
