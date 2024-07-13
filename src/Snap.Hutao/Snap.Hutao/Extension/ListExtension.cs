@@ -67,17 +67,6 @@ internal static class ListExtension
         return list.GetRange(start, length);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)][MaybeNullWhen(true)] this List<TSource>? source)
-    {
-        if (source is { Count: > 0 })
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     public static void RemoveLast<T>(this IList<T> collection)
     {
         collection.RemoveAt(collection.Count - 1);

@@ -11,11 +11,15 @@ namespace Snap.Hutao.Service.Achievement;
 
 internal interface IAchievementDbService : IAppDbService<EntityArchive>, IAppDbService<EntityAchievement>
 {
+    void AddAchievementArchive(EntityArchive archive);
+
     ObservableCollection<EntityArchive> GetAchievementArchiveCollection();
 
     List<EntityArchive> GetAchievementArchiveList();
 
     EntityArchive? GetAchievementArchiveById(Guid archiveId);
+
+    EntityArchive? GetAchievementArchiveByName(string name);
 
     void RemoveAchievementArchive(EntityArchive archive);
 

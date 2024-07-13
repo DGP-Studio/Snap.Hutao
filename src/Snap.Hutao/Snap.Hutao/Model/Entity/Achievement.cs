@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity.Abstraction;
+using Snap.Hutao.Model.InterChange;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
@@ -14,7 +15,8 @@ namespace Snap.Hutao.Model.Entity;
 internal sealed class Achievement : IAppDbEntityHasArchive,
     IEquatable<Achievement>,
     IDbMappingForeignKeyFrom<Achievement, AchievementId>,
-    IDbMappingForeignKeyFrom<Achievement, UIAFItem>
+    IDbMappingForeignKeyFrom<Achievement, UIAFItem>,
+    IDbMappingForeignKeyFrom<Achievement, HutaoReservedAchievement>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -33,7 +35,7 @@ internal sealed class Achievement : IAppDbEntityHasArchive,
 
     public AchievementStatus Status { get; set; }
 
-    public static Achievement From(in Guid archiveId, in AchievementId id)
+    public static Achievement From(Guid archiveId, AchievementId id)
     {
         return new()
         {
@@ -44,15 +46,27 @@ internal sealed class Achievement : IAppDbEntityHasArchive,
         };
     }
 
-    public static Achievement From(in Guid userId, in UIAFItem uiaf)
+    public static Achievement From(Guid archiveId, UIAFItem uiaf)
     {
         return new()
         {
-            ArchiveId = userId,
+            ArchiveId = archiveId,
             Id = uiaf.Id,
             Current = uiaf.Current,
             Status = uiaf.Status,
             Time = DateTimeOffset.FromUnixTimeSeconds(uiaf.Timestamp).ToLocalTime(),
+        };
+    }
+
+    public static Achievement From(Guid archiveId, HutaoReservedAchievement achievement)
+    {
+        return new()
+        {
+            ArchiveId = archiveId,
+            Id = achievement.Id,
+            Current = achievement.Current,
+            Status = achievement.Status,
+            Time = achievement.Time,
         };
     }
 

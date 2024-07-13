@@ -218,20 +218,3 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
         hutaoReserved.SpiralAbyss = results;
     }
 }
-
-[ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IUIGFImportService), Key = UIGFVersion.UIGF40)]
-internal sealed partial class UIGF40ImportService : IUIGFImportService
-{
-    public async ValueTask<bool> ImportAsync(UIGFImportOptions importOptions, CancellationToken token)
-    {
-        await Task.CompletedTask;
-
-        return true;
-    }
-}
-
-internal interface IUIGFImportService
-{
-
-}

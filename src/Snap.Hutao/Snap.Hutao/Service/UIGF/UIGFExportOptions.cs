@@ -9,20 +9,11 @@ internal sealed class UIGFExportOptions
 
     public required List<Guid> GachaArchiveIds { get; set; }
 
-    public required List<Guid> ReservedAchievementArchiveIds { get; set; } 
+    public required List<Guid> ReservedAchievementArchiveIds { get; set; }
 
     public required List<string> ReservedAvatarInfoUids { get; set; }
 
     public required List<Guid> ReservedCultivationProjectIds { get; set; }
 
     public required List<string> ReservedSpiralAbyssUids { get; set; }
-}
-
-internal sealed class UIGFImportOptions
-{
-    public Model.InterChange.UIGF UIGF { get; set; } = default!;
-
-    public HashSet<string> GachaArchiveUids { get; set; } = default!;
-
-    public HashSet<string> ReservedAchievementArchiveIdentities { get; set; } = default!;
 }

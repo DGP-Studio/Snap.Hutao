@@ -9,7 +9,7 @@ namespace Snap.Hutao.Extension;
 internal static class CollectionExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)][MaybeNullWhen(true)] this Collection<TSource>? source)
+    public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)][MaybeNullWhen(true)] this ICollection<TSource>? source)
     {
         if (source is { Count: > 0 })
         {
