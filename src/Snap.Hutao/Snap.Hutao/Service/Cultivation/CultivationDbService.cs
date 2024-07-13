@@ -85,4 +85,9 @@ internal sealed partial class CultivationDbService : ICultivationDbService
     {
         this.Add(levelInformation);
     }
+
+    public CultivateProject? GetCultivateProjectById(Guid projectId)
+    {
+        return this.SingleOrDefault<CultivateProject>(p => p.InnerId == projectId);
+    }
 }

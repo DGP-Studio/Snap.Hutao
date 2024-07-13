@@ -14,7 +14,7 @@ internal sealed partial class SpiralAbyssRecordDbService : ISpiralAbyssRecordDbS
 
     public IServiceProvider ServiceProvider { get => serviceProvider; }
 
-    public Dictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryListByUid(string uid)
+    public Dictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryMapByUid(string uid)
     {
         return this.Query(query => query
             .Where(s => s.Uid == uid)

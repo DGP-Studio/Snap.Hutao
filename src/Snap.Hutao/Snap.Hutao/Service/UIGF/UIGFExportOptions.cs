@@ -5,17 +5,24 @@ namespace Snap.Hutao.Service.UIGF;
 
 internal sealed class UIGFExportOptions
 {
-    public string FilePath { get; set; } = default!;
+    public required string FilePath { get; set; }
 
-    public List<Guid> GachaArchiveIds { get; set; } = [];
+    public required List<Guid> GachaArchiveIds { get; set; }
 
-    public List<Guid> ReservedAchievementArchiveIds { get; set; } = [];
+    public required List<Guid> ReservedAchievementArchiveIds { get; set; } 
 
-    public List<string> ReservedAvatarInfoUids { get; set; } = [];
+    public required List<string> ReservedAvatarInfoUids { get; set; }
 
-    public List<Guid> ReservedCultivationProjectIds { get; set; } = [];
+    public required List<Guid> ReservedCultivationProjectIds { get; set; }
 
-    public List<string> ReservedSpiralAbyssUids { get; set; } = [];
+    public required List<string> ReservedSpiralAbyssUids { get; set; }
+}
 
-    public List<Guid> ReservedUserIds { get; set; } = [];
+internal sealed class UIGFImportOptions
+{
+    public Model.InterChange.UIGF UIGF { get; set; } = default!;
+
+    public HashSet<string> GachaArchiveUids { get; set; } = default!;
+
+    public HashSet<string> ReservedAchievementArchiveIdentities { get; set; } = default!;
 }

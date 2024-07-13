@@ -5,14 +5,19 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
+using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 
 namespace Snap.Hutao.Service.Achievement;
 
-internal interface IAchievementDbService : IAppDbService<Model.Entity.AchievementArchive>, IAppDbService<EntityAchievement>
+internal interface IAchievementDbService : IAppDbService<EntityArchive>, IAppDbService<EntityAchievement>
 {
-    ObservableCollection<Model.Entity.AchievementArchive> GetAchievementArchiveCollection();
+    ObservableCollection<EntityArchive> GetAchievementArchiveCollection();
 
-    List<Model.Entity.AchievementArchive> GetAchievementArchiveList();
+    List<EntityArchive> GetAchievementArchiveList();
+
+    EntityArchive? GetAchievementArchiveById(Guid archiveId);
+
+    void RemoveAchievementArchive(EntityArchive archive);
 
     List<EntityAchievement> GetAchievementListByArchiveId(Guid archiveId);
 
@@ -23,6 +28,4 @@ internal interface IAchievementDbService : IAppDbService<Model.Entity.Achievemen
     List<EntityAchievement> GetLatestFinishedAchievementListByArchiveId(Guid archiveId, int take);
 
     void OverwriteAchievement(EntityAchievement achievement);
-
-    void RemoveAchievementArchive(Model.Entity.AchievementArchive archive);
 }

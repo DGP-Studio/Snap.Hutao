@@ -78,4 +78,9 @@ internal sealed partial class AchievementDbService : IAchievementDbService
     {
         return this.List<AchievementArchive>();
     }
+
+    public AchievementArchive? GetAchievementArchiveById(Guid archiveId)
+    {
+        return this.SingleOrDefault<AchievementArchive>(a => a.InnerId == archiveId);
+    }
 }
