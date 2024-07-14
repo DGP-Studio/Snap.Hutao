@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity.Abstraction;
-using Snap.Hutao.Model.InterChange;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;

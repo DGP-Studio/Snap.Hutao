@@ -4,12 +4,10 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Notification;
@@ -90,7 +88,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                     await taskContext.SwitchToMainThreadAsync();
                     Archives = gachaLogService.Archives;
                     HutaoCloudViewModel.RetrieveCommand = RetrieveFromCloudCommand;
-                    Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrDefault());
+                    Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrFirstOrDefault());
                 }
 
                 // When `Archives.CurrentItem` is not null, the `Initialization` actually completed in
@@ -277,7 +275,6 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     {
         if (archive is null)
         {
-            IsInitialized = false;
             Statistics = default;
             return;
         }

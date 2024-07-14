@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog;
@@ -59,7 +60,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
         }
 
         UIGFImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<UIGFImportDialog>(uigf).ConfigureAwait(false);
-        (bool isOk2, HashSet<string> uids) = await importDialog.GetSelectedUidsAsync().ConfigureAwait(false);
+        (bool isOk2, HashSet<uint> uids) = await importDialog.GetSelectedUidsAsync().ConfigureAwait(false);
         if (!isOk2)
         {
             return;
@@ -84,7 +85,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
         }
         catch (Exception ex)
         {
-            infoBarService.Error(ex, SH.ViewModelUIGFImportSuccess);
+            infoBarService.Error(ex, SH.ViewModelUIGFImportError);
         }
     }
 
@@ -101,16 +102,29 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
+        List<uint> allUids = gachaLogDbService.GetGachaArchiveUidList().SelectList(uint.Parse);
+        UIGFExportDialog exportDialog = await contentDialogFactory.CreateInstanceAsync<UIGFExportDialog>(allUids).ConfigureAwait(false);
 
-
-        LegacyUIGF uigf = await gachaLogService.ExportToUIGFAsync(Archives.CurrentItem).ConfigureAwait(false);
-        if (await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false))
+        (bool isOk2, List<uint> uids) = await exportDialog.GetSelectedUidsAsync().ConfigureAwait(false);
+        if (!isOk2)
         {
-            infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
+            return;
         }
-        else
+
+        UIGFExportOptions options = new()
         {
-            infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+            FilePath = file,
+            GachaArchiveUids = uids,
+        };
+
+        try
+        {
+            await uigfService.ExportAsync(options).ConfigureAwait(false);
+            infoBarService.Success(SH.ViewModelUIGFExportSuccess);
+        }
+        catch (Exception ex)
+        {
+            infoBarService.Error(ex, SH.ViewModelUIGFExportError);
         }
     }
 }

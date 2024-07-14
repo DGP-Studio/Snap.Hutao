@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
-using Snap.Hutao.Model.InterChange;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections.ObjectModel;
@@ -111,8 +110,8 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         this.Delete<GachaItem>(i => i.ArchiveId == archiveId && i.QueryType == queryType && i.Id >= endId);
     }
 
-    public List<GachaArchive> GetGachaArchiveList()
+    public List<string> GetGachaArchiveUidList()
     {
-        return this.List<GachaArchive>();
+        return this.List<GachaArchive, string>(query => query.Select(archive => archive.Uid));
     }
 }

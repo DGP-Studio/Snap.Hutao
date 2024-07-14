@@ -7,5 +7,5 @@ internal sealed class UIGFExportOptions
 {
     public required string FilePath { get; set; }
 
-    public required List<Guid> GachaArchiveIds { get; set; }
+    public required List<uint> GachaArchiveUids { get; set; }
 }

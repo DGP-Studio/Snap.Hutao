@@ -1,32 +1,30 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Model.InterChange.GachaLog;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-[DependencyProperty("UIGF", typeof(UIGF))]
 [DependencyProperty("Selections", typeof(List<UIGFUidSelection>))]
-internal sealed partial class UIGFImportDialog : ContentDialog
+internal sealed partial class UIGFExportDialog : ContentDialog
 {
     private readonly ITaskContext taskContext;
 
-    public UIGFImportDialog(IServiceProvider serviceProvider, UIGF uigf)
+    public UIGFExportDialog(IServiceProvider serviceProvider, List<uint> uids)
     {
         InitializeComponent();
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 
-        UIGF = uigf;
-        Selections = uigf.Hk4e?.SelectList(item => new UIGFUidSelection(item.Uid));
+        Selections = uids.SelectList(item => new UIGFUidSelection(item));
     }
 
-    public async ValueTask<ValueResult<bool, HashSet<uint>>> GetSelectedUidsAsync()
+    public async ValueTask<ValueResult<bool, List<uint>>> GetSelectedUidsAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         if (await ShowAsync() is ContentDialogResult.Primary)
         {
-            HashSet<uint> uids = Selections.Where(item => item.IsSelected).Select(item => item.Uid).ToHashSet();
+            List<uint> uids = Selections.Where(item => item.IsSelected).Select(item => item.Uid).ToList();
             return new(true, uids);
         }
 

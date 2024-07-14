@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 internal sealed class UIGFEntry<TItem>
 {
     [JsonPropertyName("uid")]
-    public required string Uid { get; set; }
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public required uint Uid { get; set; }
 
     [JsonPropertyName("timezone")]
     public required int TimeZone { get; set; }

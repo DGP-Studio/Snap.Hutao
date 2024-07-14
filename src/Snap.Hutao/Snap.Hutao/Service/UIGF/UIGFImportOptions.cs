@@ -7,5 +7,5 @@ internal sealed class UIGFImportOptions
 {
     public required Model.InterChange.GachaLog.UIGF UIGF { get; set; }
 
-    public required HashSet<string> GachaArchiveUids { get; set; }
+    public required HashSet<uint> GachaArchiveUids { get; set; }
 }

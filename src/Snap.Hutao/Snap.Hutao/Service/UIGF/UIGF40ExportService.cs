@@ -33,7 +33,7 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
             },
         };
 
-        ExportGachaArchives(uigf, exportOptions.GachaArchiveIds);
+        ExportGachaArchives(uigf, exportOptions.GachaArchiveUids);
 
         using (FileStream stream = File.Create(exportOptions.FilePath))
         {
@@ -41,9 +41,9 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
         }
     }
 
-    private void ExportGachaArchives(Model.InterChange.GachaLog.UIGF uigf, List<Guid> archiveIds)
+    private void ExportGachaArchives(Model.InterChange.GachaLog.UIGF uigf, List<uint> uids)
     {
-        if (archiveIds.Count <= 0)
+        if (uids.Count <= 0)
         {
             return;
         }
@@ -51,14 +51,14 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
         IGachaLogDbService gachaLogDbService = serviceProvider.GetRequiredService<IGachaLogDbService>();
 
         List<UIGFEntry<Hk4eItem>> results = [];
-        foreach (Guid archiveId in archiveIds)
+        foreach (uint uid in uids)
         {
-            GachaArchive? archive = gachaLogDbService.GetGachaArchiveById(archiveId);
+            GachaArchive? archive = gachaLogDbService.GetGachaArchiveByUid($"{uid}");
             ArgumentNullException.ThrowIfNull(archive);
-            List<GachaItem> dbItems = gachaLogDbService.GetGachaItemListByArchiveId(archiveId);
+            List<GachaItem> dbItems = gachaLogDbService.GetGachaItemListByArchiveId(archive.InnerId);
             UIGFEntry<Hk4eItem> entry = new()
             {
-                Uid = archive.Uid,
+                Uid = uid,
                 TimeZone = 0,
                 List = dbItems.SelectList(Hk4eItem.From),
             };

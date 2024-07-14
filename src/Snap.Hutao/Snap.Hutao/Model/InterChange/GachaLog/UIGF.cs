@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 internal sealed class UIGF
 {
     [JsonPropertyName("info")]
-    public required UIGFInfo Info { get; set; }
+    [JsonRequired]
+    public UIGFInfo Info { get; set; } = default!;
 
     [JsonPropertyName("hk4e")]
     public List<UIGFEntry<Hk4eItem>>? Hk4e { get; set; }

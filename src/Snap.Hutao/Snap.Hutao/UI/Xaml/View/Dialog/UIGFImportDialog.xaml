@@ -9,17 +9,23 @@
     xmlns:shmig="using:Snap.Hutao.Model.InterChange.GachaLog"
     xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    Title="{shuxm:ResourceString Name=ViewDialogImportUIGFTitle}"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    DefaultButton="Primary"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <ContentDialog.Resources>
         <shuxdcs:TimestampToLocalTimeStringConverter x:Key="TimestampToLocalTimeStringConverter"/>
     </ContentDialog.Resources>
 
-    <Grid>
+    <Grid RowSpacing="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+
         <cwc:UniformGrid
             Grid.Row="0"
             ColumnSpacing="16"
@@ -34,6 +40,7 @@
             </cwc:HeaderedContentControl>
             <cwc:HeaderedContentControl Header="{shuxm:ResourceString Name=ViewDialogImportExportTime}">
                 <TextBlock
+                    MinWidth="120"
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -54,13 +61,17 @@
                     Text="{x:Bind UIGF.Info.Version, Mode=OneWay}"/>
             </cwc:HeaderedContentControl>
 
-            <ItemsControl ItemsSource="{x:Bind Selections}">
+
+        </cwc:UniformGrid>
+
+        <cwc:HeaderedContentControl Grid.Row="1" Header="{shuxm:ResourceString Name=ViewDialogImportUIGFSubtitle}">
+            <ItemsControl Margin="0,4,0,0" ItemsSource="{x:Bind Selections}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Uid}" IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </cwc:UniformGrid>
+        </cwc:HeaderedContentControl>
     </Grid>
 </ContentDialog>

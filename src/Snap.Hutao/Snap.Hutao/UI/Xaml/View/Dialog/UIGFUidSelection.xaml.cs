@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Model.InterChange.GachaLog;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
@@ -11,12 +9,12 @@ internal sealed class UIGFUidSelection : ObservableObject
 {
     private bool isSelected = true;
 
-    public UIGFUidSelection(string uid)
+    public UIGFUidSelection(uint uid)
     {
         Uid = uid;
     }
 
     public bool IsSelected { get => isSelected; set => SetProperty(ref isSelected, value); }
 
-    public string Uid { get; set; }
+    public uint Uid { get; set; }
 }

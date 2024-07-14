@@ -275,13 +275,6 @@
                                 HeaderIcon="{shuxm:FontIcon Glyph=&#xE765;}"
                                 IsClickEnabled="True"/>
                             <cwcont:SettingsCard
-                                ActionIconToolTip="{shuxm:ResourceString Name=ViewPageGachaLogImportAction}"
-                                Command="{Binding ImportFromUIGFJsonCommand}"
-                                Description="{shuxm:ResourceString Name=ViewPageGachaLogImportDescription}"
-                                Header="{shuxm:ResourceString Name=ViewPageGachaLogImportHeader}"
-                                HeaderIcon="{shuxm:FontIcon Glyph=&#xE8B5;}"
-                                IsClickEnabled="True"/>
-                            <cwcont:SettingsCard
                                 Description="{shuxm:ResourceString Name=ViewPageGachaLogRecoverFromHutaoCloudDescription}"
                                 FlyoutBase.AttachedFlyout="{StaticResource HutaoCloudFlyout}"
                                 Header="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloud}"
@@ -342,14 +335,6 @@
                         Icon="{shuxm:FontIcon Glyph=&#xE753;}"
                         Label="{shuxm:ResourceString Name=ViewPageGachaLogHutaoCloud}"/>
                     <AppBarSeparator/>
-                    <AppBarButton
-                        Command="{Binding ImportFromUIGFJsonCommand}"
-                        Icon="{shuxm:FontIcon Glyph=&#xE8B5;}"
-                        Label="{shuxm:ResourceString Name=ViewPageGachaLogImportAction}"/>
-                    <AppBarButton
-                        Command="{Binding ExportToUIGFJsonCommand}"
-                        Icon="{shuxm:FontIcon Glyph=&#xEDE1;}"
-                        Label="{shuxm:ResourceString Name=ViewPageGachaLogExportAction}"/>
                     <CommandBar.SecondaryCommands>
                         <AppBarButton
                             Command="{Binding RemoveArchiveCommand}"

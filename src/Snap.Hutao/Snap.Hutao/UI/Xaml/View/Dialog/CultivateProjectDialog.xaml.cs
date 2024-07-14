@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service.User;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 

@@ -3,16 +3,11 @@
 
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.ViewModel.GachaLog;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-/// <summary>
-/// 祈愿记录服务
-/// </summary>
-[HighQuality]
 internal interface IGachaLogService
 {
     AdvancedDbCollectionView<GachaArchive>? Archives { get; }
