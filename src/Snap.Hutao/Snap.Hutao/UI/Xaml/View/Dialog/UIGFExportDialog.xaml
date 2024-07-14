@@ -15,14 +15,16 @@
     mc:Ignorable="d">
 
     <Grid>
-        <cwc:HeaderedContentControl Header="{shuxm:ResourceString Name=ViewDialogExportUIGFSubtitle}">
-            <ItemsControl Margin="0,4,0,0" ItemsSource="{x:Bind Selections}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox Content="{Binding Uid}" IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </cwc:HeaderedContentControl>
+        <ScrollViewer MaxHeight="480">
+            <cwc:HeaderedContentControl Header="{shuxm:ResourceString Name=ViewDialogExportUIGFSubtitle}">
+                <ItemsControl Margin="0,4,0,0" ItemsSource="{x:Bind Selections}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Uid}" IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </cwc:HeaderedContentControl>
+        </ScrollViewer>
     </Grid>
 </ContentDialog>
