@@ -1274,6 +1274,12 @@
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>リアルタイムノートのWebhook URL</value>
   </data>
+  <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
+    <value>レコードをエクスポートする UID を選択します。</value>
+  </data>
+  <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
+    <value>UIGFファイルをエクスポートします。</value>
+  </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>制限を解除した後にループバックを復元するには他のツールが必要です</value>
   </data>
@@ -1360,6 +1366,12 @@
   </data>
   <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
     <value>UIAFバージョン</value>
+  </data>
+  <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
+    <value>レコードをインポートする UID を選択してください</value>
+  </data>
+  <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
+    <value>UI GF ファイルのインポート</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>ここに名前を入力してください</value>
@@ -1802,8 +1814,17 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>ゲームパスの保存に失敗しました</value>
   </data>
+  <data name="ViewModelUIGFExportError" xml:space="preserve">
+    <value>エクスポート失敗</value>
+  </data>
+  <data name="ViewModelUIGFExportSuccess" xml:space="preserve">
+    <value>エクスポートに成功しました</value>
+  </data>
   <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
     <value>UID の重複を避けるために、インポートされたUIGFファイルには UID の重複送信</value>
+  </data>
+  <data name="ViewModelUIGFImportError" xml:space="preserve">
+    <value>インポート失敗</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>インポートされた UI GFファイルには、祈るデータが含まれていません。</value>
