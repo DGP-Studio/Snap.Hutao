@@ -1802,6 +1802,18 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Failed to save game path</value>
   </data>
+  <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
+    <value>Imported UIGF files contain UID duplicated prayers</value>
+  </data>
+  <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
+    <value>The imported UIGF file does not contain prayer data</value>
+  </data>
+  <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
+    <value>Please select at least one UID to import data</value>
+  </data>
+  <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
+    <value>Import succeeded</value>
+  </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>User [{0}] added successfully</value>
   </data>
