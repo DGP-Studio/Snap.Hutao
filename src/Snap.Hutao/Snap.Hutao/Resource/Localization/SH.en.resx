@@ -2834,6 +2834,18 @@
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>Contribute Translations</value>
   </data>
+  <data name="ViewPageSettingUIGFExportContent" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportImportDescription" xml:space="preserve">
+    <value>Export/Import UIGF 4 File</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
+    <value>Data Migration</value>
+  </data>
+  <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
+    <value>Import</value>
+  </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>在「祈愿记录-角色」与「祈愿记录-武器」中显示未抽取到的祈愿物品</value>
   </data>
