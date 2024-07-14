@@ -15,8 +15,7 @@ namespace Snap.Hutao.Model.Entity;
 internal sealed class Achievement : IAppDbEntityHasArchive,
     IEquatable<Achievement>,
     IDbMappingForeignKeyFrom<Achievement, AchievementId>,
-    IDbMappingForeignKeyFrom<Achievement, UIAFItem>,
-    IDbMappingForeignKeyFrom<Achievement, HutaoReservedAchievement>
+    IDbMappingForeignKeyFrom<Achievement, UIAFItem>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -55,18 +54,6 @@ internal sealed class Achievement : IAppDbEntityHasArchive,
             Current = uiaf.Current,
             Status = uiaf.Status,
             Time = DateTimeOffset.FromUnixTimeSeconds(uiaf.Timestamp).ToLocalTime(),
-        };
-    }
-
-    public static Achievement From(Guid archiveId, HutaoReservedAchievement achievement)
-    {
-        return new()
-        {
-            ArchiveId = archiveId,
-            Id = achievement.Id,
-            Current = achievement.Current,
-            Status = achievement.Status,
-            Time = achievement.Time,
         };
     }
 

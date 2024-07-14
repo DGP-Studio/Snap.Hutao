@@ -1,10 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.InterChange;
-using Snap.Hutao.Service.Achievement;
+using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
@@ -14,18 +12,13 @@ namespace Snap.Hutao.Service.UIGF;
 [Injection(InjectAs.Transient, typeof(IUIGFImportService), Key = UIGFVersion.UIGF40)]
 internal sealed partial class UIGF40ImportService : IUIGFImportService
 {
-    private readonly JsonSerializerOptions jsonOptions;
     private readonly IServiceProvider serviceProvider;
-    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
-    public async ValueTask<bool> ImportAsync(UIGFImportOptions importOptions, CancellationToken token)
+    public async ValueTask ImportAsync(UIGFImportOptions importOptions, CancellationToken token = default)
     {
         await taskContext.SwitchToBackgroundAsync();
         ImportGachaArchives(importOptions.UIGF.Hk4e, importOptions.GachaArchiveUids);
-        ImportAchievementArchives(importOptions.UIGF.HutaoReserved?.Achievement, importOptions.ReservedAchievementArchiveIdentities);
-
-        return true;
     }
 
     private void ImportGachaArchives(List<UIGFEntry<Hk4eItem>>? entries, HashSet<string> uids)
@@ -68,38 +61,6 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
             }
 
             gachaLogDbService.AddGachaItemRange(fullItems);
-        }
-    }
-
-    private void ImportAchievementArchives(List<HutaoReservedEntry<HutaoReservedAchievement>>? entries, HashSet<string> identities)
-    {
-        if (entries.IsNullOrEmpty() || identities.IsNullOrEmpty())
-        {
-            return;
-        }
-
-        IAchievementDbService achievementDbService = serviceProvider.GetRequiredService<IAchievementDbService>();
-        AchievementDbBulkOperation achievementDbBulkOperation = serviceProvider.GetRequiredService<AchievementDbBulkOperation>();
-
-        foreach (HutaoReservedEntry<HutaoReservedAchievement> entry in entries)
-        {
-            if (!identities.Contains(entry.Identity))
-            {
-                continue;
-            }
-
-            AchievementArchive? archive = achievementDbService.GetAchievementArchiveByName(entry.Identity);
-
-            if (archive is null)
-            {
-                archive = AchievementArchive.From(entry.Identity);
-                achievementDbService.AddAchievementArchive(archive);
-            }
-
-            Guid archiveId = archive.InnerId;
-
-            List<Model.Entity.Achievement> achievements = entry.List.SelectList(item => Model.Entity.Achievement.From(archiveId, item));
-            achievementDbBulkOperation.Overwrite(archiveId, achievements);
         }
     }
 }

@@ -18,9 +18,8 @@ internal static class ValueFileExtension
                 return new(true, t);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _ = ex;
             return new(false, null);
         }
     }

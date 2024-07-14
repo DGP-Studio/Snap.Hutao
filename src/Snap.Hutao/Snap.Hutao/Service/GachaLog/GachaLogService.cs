@@ -5,7 +5,6 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Metadata;
@@ -22,8 +21,6 @@ internal sealed partial class GachaLogService : IGachaLogService
 {
     private readonly IGachaStatisticsSlimFactory gachaStatisticsSlimFactory;
     private readonly IGachaStatisticsFactory gachaStatisticsFactory;
-    private readonly IUIGFExportService gachaLogExportService;
-    private readonly IUIGFImportService gachaLogImportService;
     private readonly IGachaLogDbService gachaLogDbService;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
@@ -83,17 +80,6 @@ internal sealed partial class GachaLogService : IGachaLogService
         }
 
         return statistics;
-    }
-
-    public ValueTask<LegacyUIGF> ExportToUIGFAsync(GachaArchive archive)
-    {
-        return gachaLogExportService.ExportAsync(context, archive);
-    }
-
-    public async ValueTask ImportFromUIGFAsync(LegacyUIGF uigf)
-    {
-        ArgumentNullException.ThrowIfNull(Archives);
-        await gachaLogImportService.ImportAsync(context, uigf, Archives).ConfigureAwait(false);
     }
 
     public async ValueTask<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategyKind kind, IProgress<GachaLogFetchStatus> progress, CancellationToken token)

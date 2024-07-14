@@ -8,13 +8,13 @@ using Windows.System;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
-internal sealed partial class FolderViewModel : ObservableObject
+internal sealed partial class SettingFolderViewModel : ObservableObject
 {
     private readonly ITaskContext taskContext;
     private readonly string folder;
     private string? size;
 
-    public FolderViewModel(ITaskContext taskContext, string folder)
+    public SettingFolderViewModel(ITaskContext taskContext, string folder)
     {
         this.taskContext = taskContext;
         this.folder = folder;

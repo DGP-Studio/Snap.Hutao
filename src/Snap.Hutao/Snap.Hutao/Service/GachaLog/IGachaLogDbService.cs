@@ -22,6 +22,8 @@ internal interface IGachaLogDbService : IAppDbService<GachaArchive>, IAppDbServi
 
     GachaArchive? GetGachaArchiveByUid(string uid);
 
+    List<GachaArchive> GetGachaArchiveList();
+
     ObservableCollection<GachaArchive> GetGachaArchiveCollection();
 
     List<GachaItem> GetGachaItemListByArchiveId(Guid archiveId);

@@ -25,7 +25,7 @@ internal sealed class CultivateItem : IDbMappingForeignKeyFrom<CultivateItem, We
 
     public bool IsFinished { get; set; }
 
-    public static CultivateItem From(in Guid entryId, in Web.Hoyolab.Takumi.Event.Calculate.Item item)
+    public static CultivateItem From(Guid entryId, Web.Hoyolab.Takumi.Event.Calculate.Item item)
     {
         return new()
         {

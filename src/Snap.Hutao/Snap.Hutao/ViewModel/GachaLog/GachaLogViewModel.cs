@@ -229,58 +229,6 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
-    [Command("ImportFromUIGFJsonCommand")]
-    private async Task ImportFromUIGFJsonAsync()
-    {
-        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(
-            SH.ViewModelGachaUIGFImportPickerTitile,
-            [(SH.ViewModelGachaLogExportFileType, "*.json")]);
-
-        if (!isOk)
-        {
-            return;
-        }
-
-        ValueResult<bool, LegacyUIGF?> result = await file.DeserializeFromJsonAsync<LegacyUIGF>(options).ConfigureAwait(false);
-        if (result.TryGetValue(out LegacyUIGF? uigf))
-        {
-            await TryImportUIGFInternalAsync(uigf).ConfigureAwait(false);
-        }
-        else
-        {
-            infoBarService.Error(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
-        }
-    }
-
-    [Command("ExportToUIGFJsonCommand")]
-    private async Task ExportToUIGFJsonAsync()
-    {
-        if (Archives?.CurrentItem is null)
-        {
-            return;
-        }
-
-        (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
-            SH.ViewModelGachaLogUIGFExportPickerTitle,
-            $"{Archives.CurrentItem.Uid}.json",
-            [(SH.ViewModelGachaLogExportFileType, "*.json")]);
-
-        if (!isOk)
-        {
-            return;
-        }
-
-        LegacyUIGF uigf = await gachaLogService.ExportToUIGFAsync(Archives.CurrentItem).ConfigureAwait(false);
-        if (await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false))
-        {
-            infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
-        }
-        else
-        {
-            infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
-        }
-    }
-
     [Command("RemoveArchiveCommand")]
     private async Task RemoveArchiveAsync()
     {
@@ -346,53 +294,5 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             infoBarService.Error(ex);
         }
-    }
-
-    private async ValueTask<bool> TryImportUIGFInternalAsync(LegacyUIGF uigf)
-    {
-        if (!uigf.IsCurrentVersionSupported(out _))
-        {
-            infoBarService.Warning(SH.ViewModelGachaLogImportWarningTitle, SH.ViewModelGachaLogImportWarningMessage);
-            return false;
-        }
-
-        GachaLogImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<GachaLogImportDialog>(uigf).ConfigureAwait(false);
-        if (!await importDialog.GetShouldImportAsync().ConfigureAwait(false))
-        {
-            return false;
-        }
-
-        await taskContext.SwitchToMainThreadAsync();
-        ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
-        try
-        {
-            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
-            {
-                try
-                {
-                    suppressCurrentItemChangedHandling = true;
-                    await gachaLogService.ImportFromUIGFAsync(uigf).ConfigureAwait(false);
-                }
-                finally
-                {
-                    suppressCurrentItemChangedHandling = false;
-                    await UpdateStatisticsAsync(Archives?.CurrentItem).ConfigureAwait(false);
-                }
-            }
-        }
-        catch (InvalidOperationException ex)
-        {
-            // 语言不匹配/导入物品中存在无效的项
-            infoBarService.Error(ex);
-            return false;
-        }
-        catch (FormatException ex)
-        {
-            infoBarService.Error(ex);
-            return false;
-        }
-
-        infoBarService.Success(SH.ViewModelGachaLogImportComplete);
-        return true;
     }
 }

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.InterChange;
+namespace Snap.Hutao.Model.InterChange.GachaLog;
 
 internal sealed class UIGF
 {
@@ -10,7 +10,4 @@ internal sealed class UIGF
 
     [JsonPropertyName("hk4e")]
     public List<UIGFEntry<Hk4eItem>>? Hk4e { get; set; }
-
-    [JsonPropertyName("snap_hutao_reserved")]
-    public HutaoReserved? HutaoReserved { get; set; }
 }

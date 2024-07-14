@@ -150,6 +150,7 @@
     <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="Service\Game\Automation\ScreenCapture\GameScreenCaptureDebugPreviewWindow.xaml" />
     <None Remove="stylecop.json" />
+    <None Remove="UI\Xaml\View\Dialog\UIGFImportDialog.xaml" />
     <None Remove="UI\Xaml\View\Window\WebView2Window.xaml" />
     <None Remove="UI\Xaml\View\Dialog\AchievementArchiveCreateDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\AchievementImportDialog.xaml" />
@@ -338,6 +339,11 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\View\Dialog\UIGFImportDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\Control\StandardView.xaml">

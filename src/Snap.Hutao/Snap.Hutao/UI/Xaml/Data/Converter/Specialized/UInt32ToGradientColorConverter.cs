@@ -39,3 +39,12 @@ internal sealed partial class UInt32ToGradientColorConverter : DependencyValueCo
         return color;
     }
 }
+
+internal sealed class TimestampToLocalTimeStringConverter : ValueConverter<long, string>
+{
+    public override string Convert(long from)
+    {
+        DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(from).ToLocalTime();
+        return $"{dto:yyyy-MM-dd HH:mm:ss}";
+    }
+}

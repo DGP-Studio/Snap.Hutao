@@ -1,0 +1,116 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using Snap.Hutao.Core.IO;
+using Snap.Hutao.Factory.ContentDialog;
+using Snap.Hutao.Factory.Picker;
+using Snap.Hutao.Model.InterChange.GachaLog;
+using Snap.Hutao.Service;
+using Snap.Hutao.Service.GachaLog;
+using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.UIGF;
+using Snap.Hutao.UI.Xaml.View.Dialog;
+
+namespace Snap.Hutao.ViewModel.Setting;
+
+[ConstructorGenerated]
+[Injection(InjectAs.Scoped)]
+internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
+{
+    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IGachaLogDbService gachaLogDbService;
+    private readonly JsonSerializerOptions jsonOptions;
+    private readonly IInfoBarService infoBarService;
+    private readonly IUIGFService uigfService;
+    private readonly AppOptions appOptions;
+
+    public AppOptions AppOptions { get => appOptions; }
+
+    [Command("ImportUIGFJsonCommand")]
+    private async Task ImportUIGFJsonAsync()
+    {
+        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile(
+            SH.ViewModelGachaUIGFImportPickerTitile,
+            [(SH.ViewModelGachaLogExportFileType, "*.json")]);
+
+        if (!isOk)
+        {
+            return;
+        }
+
+        ValueResult<bool, UIGF?> result = await file.DeserializeFromJsonAsync<UIGF>(jsonOptions).ConfigureAwait(false);
+        if (!result.TryGetValue(out UIGF? uigf))
+        {
+            infoBarService.Error(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
+            return;
+        }
+
+        if (uigf.Hk4e.IsNullOrEmpty())
+        {
+            infoBarService.Warning(SH.ViewModelUIGFImportNoHk4eEntry);
+            return;
+        }
+
+        if (uigf.Hk4e.Select(entry => entry.Uid).ToHashSet().Count != uigf.Hk4e.Count)
+        {
+            infoBarService.Warning(SH.ViewModelUIGFImportDuplicatedHk4eEntry);
+            return;
+        }
+
+        UIGFImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<UIGFImportDialog>(uigf).ConfigureAwait(false);
+        (bool isOk2, HashSet<string> uids) = await importDialog.GetSelectedUidsAsync().ConfigureAwait(false);
+        if (!isOk2)
+        {
+            return;
+        }
+
+        if (uids.IsNullOrEmpty())
+        {
+            infoBarService.Warning(SH.ViewModelUIGFImportNoSelectedEntry);
+            return;
+        }
+
+        UIGFImportOptions options = new()
+        {
+            UIGF = uigf,
+            GachaArchiveUids = uids,
+        };
+
+        try
+        {
+            await uigfService.ImportAsync(options).ConfigureAwait(false);
+            infoBarService.Success(SH.ViewModelUIGFImportSuccess);
+        }
+        catch (Exception ex)
+        {
+            infoBarService.Error(ex, SH.ViewModelUIGFImportSuccess);
+        }
+    }
+
+    [Command("ExportUIGFJsonCommand")]
+    private async Task ExportUIGFJsonAsync()
+    {
+        (bool isOk, ValueFile file) = fileSystemPickerInteraction.SaveFile(
+            SH.ViewModelGachaLogUIGFExportPickerTitle,
+            $"Snap Hutao UIGF.json",
+            [(SH.ViewModelGachaLogExportFileType, "*.json")]);
+
+        if (!isOk)
+        {
+            return;
+        }
+
+
+
+        LegacyUIGF uigf = await gachaLogService.ExportToUIGFAsync(Archives.CurrentItem).ConfigureAwait(false);
+        if (await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false))
+        {
+            infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
+        }
+        else
+        {
+            infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+        }
+    }
+}

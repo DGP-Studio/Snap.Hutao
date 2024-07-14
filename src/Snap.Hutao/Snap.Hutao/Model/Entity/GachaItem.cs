@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity.Abstraction;
-using Snap.Hutao.Model.InterChange;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.ComponentModel.DataAnnotations;
@@ -14,8 +13,6 @@ namespace Snap.Hutao.Model.Entity;
 [Table("gacha_items")]
 internal sealed partial class GachaItem
     : IDbMappingForeignKeyFrom<GachaItem, GachaLogItem, uint>,
-    IDbMappingForeignKeyFrom<GachaItem, LegacyUIGFItem, uint>,
-    IDbMappingForeignKeyFrom<GachaItem, LegacyUIGFItem>,
     IDbMappingForeignKeyFrom<GachaItem, Web.Hutao.GachaLog.GachaItem>,
     IDbMappingForeignKeyFrom<GachaItem, Hk4eItem, int>
 {
@@ -46,32 +43,6 @@ internal sealed partial class GachaItem
             GachaType = item.GachaType,
             QueryType = item.GachaType.ToQueryType(),
             ItemId = itemId,
-            Time = item.Time,
-            Id = item.Id,
-        };
-    }
-
-    public static GachaItem From(Guid archiveId, LegacyUIGFItem item, uint itemId)
-    {
-        return new()
-        {
-            ArchiveId = archiveId,
-            GachaType = item.GachaType,
-            QueryType = item.UIGFGachaType,
-            ItemId = itemId,
-            Time = item.Time,
-            Id = item.Id,
-        };
-    }
-
-    public static GachaItem From(Guid archiveId, LegacyUIGFItem item)
-    {
-        return new()
-        {
-            ArchiveId = archiveId,
-            GachaType = item.GachaType,
-            QueryType = item.UIGFGachaType,
-            ItemId = uint.Parse(item.ItemId, CultureInfo.CurrentCulture),
             Time = item.Time,
             Id = item.Id,
         };

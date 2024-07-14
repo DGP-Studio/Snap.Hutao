@@ -13,6 +13,7 @@ internal sealed partial class GachaLogQueryProviderFactory : IGachaLogQueryProvi
 
     public IGachaLogQueryProvider Create(RefreshOption option)
     {
+        // TODO: replace with keyed services
         return option switch
         {
             RefreshOption.SToken => serviceProvider.GetRequiredService<GachaLogQuerySTokenProvider>(),

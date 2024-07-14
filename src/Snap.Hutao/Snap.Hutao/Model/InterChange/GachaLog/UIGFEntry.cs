@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.InterChange;
+namespace Snap.Hutao.Model.InterChange.GachaLog;
 
 internal sealed class UIGFEntry<TItem>
 {
@@ -16,4 +16,7 @@ internal sealed class UIGFEntry<TItem>
 
     [JsonPropertyName("list")]
     public required List<TItem> List { get; set; }
+
+    [JsonIgnore]
+    public bool IsSelected { get; set; }
 }

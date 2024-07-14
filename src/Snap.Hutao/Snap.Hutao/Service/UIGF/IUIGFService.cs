@@ -5,5 +5,7 @@ namespace Snap.Hutao.Service.UIGF;
 
 internal interface IUIGFService
 {
-    ValueTask<bool> ExportAsync(UIGFExportOptions exportOptions, CancellationToken token);
+    ValueTask ExportAsync(UIGFExportOptions exportOptions, CancellationToken token = default);
+
+    ValueTask ImportAsync(UIGFImportOptions importOptions, CancellationToken token = default);
 }
