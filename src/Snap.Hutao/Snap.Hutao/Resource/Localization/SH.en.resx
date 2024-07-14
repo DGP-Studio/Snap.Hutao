@@ -1274,6 +1274,12 @@
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>Realtime Note Webhook URL</value>
   </data>
+  <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
+    <value>Select UID to export records</value>
+  </data>
+  <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
+    <value>Export UIGF file</value>
+  </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>You need other tools to restore the loopback after it is exempted</value>
   </data>
@@ -1360,6 +1366,12 @@
   </data>
   <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
     <value>UIGF Version</value>
+  </data>
+  <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
+    <value>Select UID to import records</value>
+  </data>
+  <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
+    <value>Import UIGF file</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>Input name here</value>
@@ -1802,8 +1814,17 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Failed to save game path</value>
   </data>
+  <data name="ViewModelUIGFExportError" xml:space="preserve">
+    <value>Export failed</value>
+  </data>
+  <data name="ViewModelUIGFExportSuccess" xml:space="preserve">
+    <value>Export successfully</value>
+  </data>
   <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
     <value>Imported UIGF files contain UID duplicated prayers</value>
+  </data>
+  <data name="ViewModelUIGFImportError" xml:space="preserve">
+    <value>Import failed</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>The imported UIGF file does not contain wish data</value>
