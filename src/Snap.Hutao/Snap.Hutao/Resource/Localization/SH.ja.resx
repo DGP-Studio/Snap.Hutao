@@ -1803,10 +1803,10 @@
     <value>ゲームパスの保存に失敗しました</value>
   </data>
   <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
-    <value>导入的 UIGF 文件中包含 UID 重复的祈愿记录项</value>
+    <value>UID の重複を避けるために、インポートされたUIGFファイルには UID の重複送信</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
-    <value>导入的 UIGF 文件中不包含祈愿数据</value>
+    <value>インポートされた UI GFファイルには、祈るデータが含まれていません。</value>
   </data>
   <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
     <value>データをインポートするには UID を指定する必要があります。</value>
