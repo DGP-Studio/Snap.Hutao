@@ -1806,13 +1806,13 @@
     <value>Imported UIGF files contain UID duplicated prayers</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
-    <value>The imported UIGF file does not contain prayer data</value>
+    <value>The imported UIGF file does not contain wish data</value>
   </data>
   <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
     <value>Please select at least one UID to import data</value>
   </data>
   <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
-    <value>Import succeeded</value>
+    <value>Imported successfully</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>User [{0}] added successfully</value>
