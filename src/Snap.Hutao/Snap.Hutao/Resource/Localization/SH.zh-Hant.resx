@@ -1274,6 +1274,12 @@
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>即時便箋 Webhook URL</value>
   </data>
+  <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
+    <value>选择要导出记录的 UID</value>
+  </data>
+  <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
+    <value>导出 UIGF 文件</value>
+  </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>解除限制後需使用其他工具恢復限制</value>
   </data>
@@ -1360,6 +1366,12 @@
   </data>
   <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
     <value>UIGF 版本</value>
+  </data>
+  <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
+    <value>选择要导入记录的 UID</value>
+  </data>
+  <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
+    <value>导入 UIGF 文件</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>在此處輸入名稱</value>
@@ -1802,8 +1814,17 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>儲存遊戲路徑失敗</value>
   </data>
+  <data name="ViewModelUIGFExportError" xml:space="preserve">
+    <value>匯出失敗</value>
+  </data>
+  <data name="ViewModelUIGFExportSuccess" xml:space="preserve">
+    <value>匯出成功</value>
+  </data>
   <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
     <value>导入的 UIGF 文件中包含 UID 重复的祈愿记录项</value>
+  </data>
+  <data name="ViewModelUIGFImportError" xml:space="preserve">
+    <value>匯入失敗</value>
   </data>
   <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
     <value>导入的 UIGF 文件中不包含祈愿数据</value>
