@@ -581,17 +581,17 @@
                                         OnContent="{shuxm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
                                 </cwc:SettingsCard>
                                 <cwc:SettingsCard
-                                    Description="导入/导出 UIGF 4 文件"
-                                    Header="数据迁移"
+                                    Description="{shuxm:ResourceString Name=ViewPageSettingUIGFExportImportDescription}"
+                                    Header="{shuxm:ResourceString Name=ViewPageSettingUIGFExportImportHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE8AF;}">
                                     <StackPanel Orientation="Horizontal" Spacing="3">
                                         <Button
                                             Command="{Binding ExportUIGFJsonCommand}"
-                                            Content="导出"
+                                            Content="{shuxm:ResourceString Name=ViewPageSettingUIGFExportContent}"
                                             Style="{ThemeResource SettingButtonStyle}"/>
                                         <Button
                                             Command="{Binding ImportUIGFJsonCommand}"
-                                            Content="导入"
+                                            Content="{shuxm:ResourceString Name=ViewPageSettingUIGFImportContent}"
                                             Style="{ThemeResource SettingButtonStyle}"/>
                                     </StackPanel>
                                 </cwc:SettingsCard>
