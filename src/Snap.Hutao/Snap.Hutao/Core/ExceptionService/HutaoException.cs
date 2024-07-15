@@ -73,6 +73,15 @@ internal sealed class HutaoException : Exception
         throw new NotSupportedException(message, innerException);
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void NotSupportedIf(bool condition, string? message = default, Exception? innerException = default)
+    {
+        if (condition)
+        {
+            throw new NotSupportedException(message, innerException);
+        }
+    }
+
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static OperationCanceledException OperationCanceled(string message, Exception? innerException = default)

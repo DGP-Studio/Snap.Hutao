@@ -30,14 +30,14 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
 
     protected override void OnCurrentChangedOverride()
     {
-        if (serviceProvider is null || !savingToDatabase)
+        if (!savingToDatabase)
         {
             return;
         }
 
         TEntity? currentItem = CurrentItem;
 
-        foreach (TEntity item in Source)
+        foreach (TEntity item in SourceCollection)
         {
             item.IsSelected = ReferenceEquals(item, currentItem);
         }
@@ -97,14 +97,14 @@ internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : Advance
 
     protected override void OnCurrentChangedOverride()
     {
-        if (serviceProvider is null || !savingToDatabase)
+        if (!savingToDatabase)
         {
             return;
         }
 
         TEntityAccess? currentItem = CurrentItem;
 
-        foreach (TEntityAccess item in Source)
+        foreach (TEntityAccess item in SourceCollection)
         {
             item.Entity.IsSelected = ReferenceEquals(item, currentItem);
         }

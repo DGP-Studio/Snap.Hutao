@@ -12,10 +12,6 @@ namespace Snap.Hutao.UI.Xaml.Data;
 internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
     where T : class
 {
-    bool CanFilter { get; }
-
-    bool CanSort { get; }
-
     object? ICollectionView.CurrentItem
     {
         get => CurrentItem;

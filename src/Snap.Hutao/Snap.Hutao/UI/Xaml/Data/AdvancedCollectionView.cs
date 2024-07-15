@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Collections;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Core.ExceptionService;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -21,7 +22,6 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
     private readonly bool created;
     private readonly List<T> view;
     private readonly ObservableCollection<SortDescription> sortDescriptions;
-    //private readonly HashSet<string?> observedFilterProperties = [];
 
     private IList<T> source;
     private Predicate<T>? filter;
@@ -56,7 +56,8 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
         get => view.Count;
     }
 
-    public bool IsReadOnly { get => source is null || source is not INotifyCollectionChanged || source.IsReadOnly; }
+    [Obsolete("IsReadOnly is not supported")]
+    public bool IsReadOnly { get => source is null; }
 
     public IObservableVector<object> CollectionGroups
     {
@@ -77,8 +78,6 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
 
     public bool IsCurrentBeforeFirst { get => CurrentPosition < 0; }
 
-    public bool CanFilter { get => true; }
-
     public Predicate<T>? Filter
     {
         get => filter;
@@ -92,11 +91,6 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
             filter = value;
             HandleFilterChanged();
         }
-    }
-
-    public bool CanSort
-    {
-        get => true;
     }
 
     public ObservableCollection<SortDescription> SortDescriptions { get => sortDescriptions; }
@@ -306,40 +300,38 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
         ArgumentNullException.ThrowIfNull(item);
         T typedItem = (T)item;
 
-        if ((filter?.Invoke(typedItem) ?? true) && SortDescriptions.Any(sd => sd.PropertyName == e.PropertyName))
+        if (!(filter?.Invoke(typedItem) ?? true) || !SortDescriptions.Any(sd => sd.PropertyName == e.PropertyName))
         {
-            int oldIndex = view.IndexOf(typedItem);
-
-            // Check if item is in view:
-            if (oldIndex < 0)
-            {
-                return;
-            }
-
-            view.RemoveAt(oldIndex);
-            int targetIndex = view.BinarySearch(typedItem, this);
-            if (targetIndex < 0)
-            {
-                targetIndex = ~targetIndex;
-            }
-
-            // Only trigger expensive UI updates if the index really changed:
-            if (targetIndex != oldIndex)
-            {
-                OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex, typedItem));
-
-                view.Insert(targetIndex, typedItem);
-
-                OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, typedItem));
-            }
-            else
-            {
-                view.Insert(targetIndex, typedItem);
-            }
+            return;
         }
-        else if (string.IsNullOrEmpty(e.PropertyName))
+
+        int oldIndex = view.IndexOf(typedItem);
+
+        // Check if item is in view
+        if (oldIndex < 0)
         {
-            HandleSourceChanged();
+            return;
+        }
+
+        view.RemoveAt(oldIndex);
+        int targetIndex = view.BinarySearch(typedItem, comparer: this);
+        if (targetIndex < 0)
+        {
+            targetIndex = ~targetIndex;
+        }
+
+        // Only trigger expensive UI updates if the index really changed
+        if (targetIndex != oldIndex)
+        {
+            OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex, typedItem));
+
+            view.Insert(targetIndex, typedItem);
+
+            OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, typedItem));
+        }
+        else
+        {
+            view.Insert(targetIndex, typedItem);
         }
     }
 
@@ -464,46 +456,52 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
             case NotifyCollectionChangedAction.Add:
                 ArgumentNullException.ThrowIfNull(e.NewItems);
                 AttachPropertyChangedHandler(e.NewItems);
-                if (deferCounter <= 0)
+                if (deferCounter > 0)
                 {
-                    if (e.NewItems?.Count == 1)
-                    {
-                        object? newItem = e.NewItems[0];
-                        ArgumentNullException.ThrowIfNull(newItem);
-                        HandleSourceItemAdded(e.NewStartingIndex, (T)newItem);
-                    }
-                    else
-                    {
-                        HandleSourceChanged();
-                    }
+                    break;
+                }
+
+                if (e.NewItems?.Count is 1)
+                {
+                    object? newItem = e.NewItems[0];
+                    ArgumentNullException.ThrowIfNull(newItem);
+                    HandleSourceItemAdded(e.NewStartingIndex, (T)newItem);
+                }
+                else
+                {
+                    HandleSourceChanged();
                 }
 
                 break;
             case NotifyCollectionChangedAction.Remove:
                 ArgumentNullException.ThrowIfNull(e.OldItems);
                 DetachPropertyChangedHandler(e.OldItems);
-                if (deferCounter <= 0)
+                if (deferCounter > 0)
                 {
-                    if (e.OldItems?.Count == 1)
-                    {
-                        object? oldItem = e.OldItems[0];
-                        ArgumentNullException.ThrowIfNull(oldItem);
-                        HandleSourceItemRemoved(e.OldStartingIndex, (T)oldItem);
-                    }
-                    else
-                    {
-                        HandleSourceChanged();
-                    }
+                    break;
+                }
+
+                if (e.OldItems?.Count == 1)
+                {
+                    object? oldItem = e.OldItems[0];
+                    ArgumentNullException.ThrowIfNull(oldItem);
+                    HandleSourceItemRemoved(e.OldStartingIndex, (T)oldItem);
+                }
+                else
+                {
+                    HandleSourceChanged();
                 }
 
                 break;
             case NotifyCollectionChangedAction.Move:
             case NotifyCollectionChangedAction.Replace:
             case NotifyCollectionChangedAction.Reset:
-                if (deferCounter <= 0)
+                if (deferCounter > 0)
                 {
-                    HandleSourceChanged();
+                    break;
                 }
+
+                HandleSourceChanged();
 
                 break;
         }
@@ -516,7 +514,7 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
             return false;
         }
 
-        int newViewIndex = view.Count;
+        int newViewIndex = newStartingIndex;
 
         if (sortDescriptions.Count > 0)
         {
@@ -599,7 +597,10 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
         view.RemoveAt(itemIndex);
         if (itemIndex <= CurrentPosition)
         {
-            if (itemIndex == CurrentPosition--)
+            CurrentPosition--;
+
+            // Removed item is last item
+            if (view.Count == itemIndex)
             {
                 OnCurrentChanged();
             }
