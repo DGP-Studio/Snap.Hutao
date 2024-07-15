@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 
 namespace Snap.Hutao.Web;
 
@@ -79,6 +80,15 @@ internal static class ApiEndpoints
     }
 
     public const string GameRecordRoleCombatPath = $"{ApiTakumiRecordApi}/role_combat";
+    #endregion
+
+    #region ApiTakumiDownloaderApi
+
+    public static string SophonChunkGetBuild(BranchWrapper branch)
+    {
+        return $"{ApiTakumiDownloaderApi}/sophon_chunk/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}";
+    }
+
     #endregion
 
     #region ApiTakumiEventCalculate
@@ -196,6 +206,12 @@ internal static class ApiEndpoints
     {
         return $"{HoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
+
+    public static string HoyoPlayConnectGameBranches(LaunchScheme scheme)
+    {
+        return $"{HoyoPlayApiConnectApi}/getGameBranches?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}";
+    }
+
     #endregion
 
     #region PassportApi | PassportApiV4
@@ -231,6 +247,8 @@ internal static class ApiEndpoints
 
     private const string ApiTakumiCardApi = $"{ApiTakumiRecord}/game_record/app/card/api";
     private const string ApiTakumiCardWApi = $"{ApiTakumiRecord}/game_record/app/card/wapi";
+
+    private const string ApiTakumiDownloaderApi = $"{ApiTakumi}/downloader";
 
     private const string ApiTakumiEvent = $"{ApiTakumi}/event";
     private const string ApiTakumiEventCalculate = $"{ApiTakumiEvent}/e20200928calculate";

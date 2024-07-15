@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Package;
@@ -67,6 +68,23 @@ internal sealed partial class HoyoPlayClient
 
         Response<DeprecatedFileConfigurationsWrapper>? resp = await builder
             .SendAsync<Response<DeprecatedFileConfigurationsWrapper>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<GameBranchesWrapper>> GetBranchesAsync(LaunchScheme scheme, CancellationToken token = default)
+    {
+        string url = scheme.IsOversea
+            ? ApiOsEndpoints.HoyoPlayConnectGameBranches(scheme)
+            : ApiEndpoints.HoyoPlayConnectGameBranches(scheme);
+
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(url)
+            .Get();
+
+        Response<GameBranchesWrapper>? resp = await builder
+            .SendAsync<Response<GameBranchesWrapper>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

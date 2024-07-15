@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 
 namespace Snap.Hutao.Web;
 
@@ -104,6 +105,12 @@ internal static class ApiOsEndpoints
     }
 
     public const string CalculateSyncAvatarList = $"{SgPublicApi}/event/calculateos/sync/avatar/list";
+
+    public static string SophonChunkGetBuild(BranchWrapper branch)
+    {
+        return $"{SgPublicApi}/sophon_chunk/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}";
+    }
+
     #endregion
 
     #region SgHk4eApi
@@ -138,6 +145,12 @@ internal static class ApiOsEndpoints
     {
         return $"{SgHoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
+
+    public static string HoyoPlayConnectGameBranches(LaunchScheme scheme)
+    {
+        return $"{SgHoyoPlayApiConnectApi}/getGameBranches?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}";
+    }
+
     #endregion
 
     #region WebApiOsAccountApi
