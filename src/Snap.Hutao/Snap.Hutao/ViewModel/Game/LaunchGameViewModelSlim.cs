@@ -61,7 +61,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         gameAccountFilter = new(scheme?.GetSchemeType());
 
         await taskContext.SwitchToMainThreadAsync();
-        GameAccountsView = new(accounts, true)
+        GameAccountsView = new(accounts)
         {
             Filter = gameAccountFilter.Filter,
         };

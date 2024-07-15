@@ -69,7 +69,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
                     await taskContext.SwitchToMainThreadAsync();
-                    Monsters = new(ordered, true);
+                    Monsters = new(ordered);
                     Selected = Monsters.View.ElementAtOrDefault(0);
                 }
 

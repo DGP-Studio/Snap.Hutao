@@ -86,7 +86,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             }
 
             await taskContext.SwitchToMainThreadAsync();
-            SpiralAbyssEntries = new(collection, true);
+            SpiralAbyssEntries = new(collection);
             SpiralAbyssEntries.MoveCurrentTo(SpiralAbyssEntries.SourceCollection.FirstOrDefault(s => s.Engaged));
         }
         catch (OperationCanceledException)

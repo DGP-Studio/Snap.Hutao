@@ -214,7 +214,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         if (userGameRolesResponse.IsOk())
         {
             await taskContext.SwitchToMainThreadAsync();
-            user.UserGameRoles = new(userGameRolesResponse.Data.List, true);
+            user.UserGameRoles = new(userGameRolesResponse.Data.List);
             return user.UserGameRoles.Count > 0;
         }
         else

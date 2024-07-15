@@ -44,8 +44,6 @@ internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
 
     void Add(T item);
 
-    void ClearObservedFilterProperties();
-
     bool ICollection<object>.Contains(object item)
     {
         return Contains((T)item);
@@ -100,8 +98,6 @@ internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
     }
 
     bool MoveCurrentTo(T? item);
-
-    void ObserveFilterProperty(string propertyName);
 
     void Refresh();
 

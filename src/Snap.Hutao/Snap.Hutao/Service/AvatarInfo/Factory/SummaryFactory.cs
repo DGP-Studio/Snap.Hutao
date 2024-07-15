@@ -41,7 +41,7 @@ internal sealed partial class SummaryFactory : ISummaryFactory
 
         return new()
         {
-            Avatars = new(views, true),
+            Avatars = new(views),
         };
     }
 }

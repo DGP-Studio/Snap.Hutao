@@ -18,7 +18,7 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
     private bool savingToDatabase = true;
 
     public AdvancedDbCollectionView(IList<TEntity> source, IServiceProvider serviceProvider)
-        : base(source, true)
+        : base(source)
     {
         this.serviceProvider = serviceProvider;
     }
@@ -85,7 +85,7 @@ internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : Advance
     private bool savingToDatabase = true;
 
     public AdvancedDbCollectionView(IList<TEntityAccess> source, IServiceProvider serviceProvider)
-        : base(source, true)
+        : base(source)
     {
         this.serviceProvider = serviceProvider;
     }

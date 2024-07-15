@@ -140,7 +140,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchivesAsync(CancellationToken).ConfigureAwait(false);
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
 
-        AchievementGoals = new(sortedGoals, true);
+        AchievementGoals = new(sortedGoals);
         Archives = archives;
         Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrDefault());
         return true;
@@ -299,7 +299,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
 
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
-        Achievements = new(combined, true);
+        Achievements = new(combined);
         AchievementFinishPercent.Update(this);
         UpdateAchievementsFilterByGoal(AchievementGoals?.CurrentItem);
         UpdateAchievementsSort();

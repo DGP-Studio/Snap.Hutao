@@ -110,7 +110,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
                 {
                     await taskContext.SwitchToMainThreadAsync();
 
-                    Weapons = new(list, true);
+                    Weapons = new(list);
                     Selected = Weapons.View.ElementAtOrDefault(0);
                 }
 
