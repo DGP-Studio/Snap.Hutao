@@ -1095,7 +1095,7 @@
     <value>發現新版本 {0}</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
-    <value>多個用戶記錄為選中狀態</value>
+    <value>多個用戶紀錄為選中狀態</value>
   </data>
   <data name="ServiceUserCurrentUpdateAndSaveFailed" xml:space="preserve">
     <value>用戶 {0} 狀態儲存失敗</value>
@@ -1275,10 +1275,10 @@
     <value>即時便箋 Webhook URL</value>
   </data>
   <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
-    <value>选择要导出记录的 UID</value>
+    <value>選擇要匯出紀錄的 UID</value>
   </data>
   <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
-    <value>导出 UIGF 文件</value>
+    <value>匯出 UIGF 文件</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>解除限制後需使用其他工具恢復限制</value>
@@ -1368,10 +1368,10 @@
     <value>UIGF 版本</value>
   </data>
   <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
-    <value>选择要导入记录的 UID</value>
+    <value>選擇要匯入紀錄的 UID</value>
   </data>
   <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
-    <value>导入 UIGF 文件</value>
+    <value>匯入 UIGF 檔案</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>在此處輸入名稱</value>
@@ -1821,7 +1821,7 @@
     <value>匯出成功</value>
   </data>
   <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
-    <value>导入的 UIGF 文件中包含 UID 重复的祈愿记录项</value>
+    <value>匯入的 UIGF 檔案中包含 UID 重複的祈願紀錄項</value>
   </data>
   <data name="ViewModelUIGFImportError" xml:space="preserve">
     <value>匯入失敗</value>
@@ -2838,7 +2838,7 @@
     <value>匯出</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportDescription" xml:space="preserve">
-    <value>导出/导入 UIGF 4 文件</value>
+    <value>匯出/匯入 UIGF 4 檔案</value>
   </data>
   <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
     <value>数据迁移</value>
