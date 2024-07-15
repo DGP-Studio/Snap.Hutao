@@ -28,11 +28,6 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
     private int deferCounter;
     private WeakEventListener<AdvancedCollectionView<T>, object?, NotifyCollectionChangedEventArgs>? sourceWeakEventListener;
 
-    public AdvancedCollectionView()
-        : this([])
-    {
-    }
-
     public AdvancedCollectionView(IList<T> source)
     {
         view = [];
@@ -633,9 +628,8 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
             return false;
         }
 
-        CurrentChangingEventArgs e = new();
-        OnCurrentChanging(e);
-        if (e.Cancel)
+        OnCurrentChanging(out bool cancel);
+        if (cancel)
         {
             return false;
         }
@@ -645,14 +639,17 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
         return true;
     }
 
-    private void OnCurrentChanging(CurrentChangingEventArgs e)
+    private void OnCurrentChanging(out bool cancel)
     {
         if (!created || deferCounter > 0)
         {
+            cancel = false;
             return;
         }
 
+        CurrentChangingEventArgs e = new();
         CurrentChanging?.Invoke(this, e);
+        cancel = e.Cancel;
     }
 
     private void OnCurrentChanged()

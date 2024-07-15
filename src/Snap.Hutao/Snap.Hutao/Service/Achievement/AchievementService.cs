@@ -31,9 +31,7 @@ internal sealed partial class AchievementService : IAchievementService
         if (archives is null)
         {
             await taskContext.SwitchToBackgroundAsync();
-            ObservableCollection<AchievementArchive> source = achievementDbService.GetAchievementArchiveCollection();
-            await taskContext.SwitchToMainThreadAsync();
-            archives = new(source, serviceProvider);
+            archives = new(achievementDbService.GetAchievementArchiveCollection(), serviceProvider);
         }
 
         return archives;

@@ -126,7 +126,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return false;
         }
 
-        List<AchievementGoalView> sortedGoals;
+        AdvancedCollectionView<AchievementGoalView> sortedGoals;
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
@@ -134,13 +134,13 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                 .GetAchievementGoalListAsync(CancellationToken)
                 .ConfigureAwait(false);
 
-            sortedGoals = goals.SortBy(goal => goal.Order).SelectList(AchievementGoalView.From);
+            sortedGoals = goals.SortBy(goal => goal.Order).SelectList(AchievementGoalView.From).ToAdvancedCollectionView();
         }
 
         IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchivesAsync(CancellationToken).ConfigureAwait(false);
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
 
-        AchievementGoals = new(sortedGoals);
+        AchievementGoals = sortedGoals;
         Archives = archives;
         Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrDefault());
         return true;
@@ -298,8 +298,10 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
+        AdvancedCollectionView<AchievementView> achievements = new(combined);
+
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
-        Achievements = new(combined);
+        Achievements = achievements;
         AchievementFinishPercent.Update(this);
         UpdateAchievementsFilterByGoal(AchievementGoals?.CurrentItem);
         UpdateAchievementsSort();

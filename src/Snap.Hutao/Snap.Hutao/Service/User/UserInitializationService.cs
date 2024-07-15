@@ -29,7 +29,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             user.UserInfo = new() { Nickname = SH.ModelBindingUserInitializationFailed };
 
             await taskContext.SwitchToMainThreadAsync();
-            user.UserGameRoles = [];
+            user.UserGameRoles = new([]);
         }
 
         return user;
@@ -213,7 +213,6 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
         if (userGameRolesResponse.IsOk())
         {
-            await taskContext.SwitchToMainThreadAsync();
             user.UserGameRoles = new(userGameRolesResponse.Data.List);
             return user.UserGameRoles.Count > 0;
         }

@@ -326,12 +326,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             gameAccountFilter = new(SelectedScheme?.GetSchemeType());
             ObservableReorderableDbCollection<GameAccount> accounts = gameService.GameAccountCollection;
+            AdvancedCollectionView<GameAccount> accountsView = new(accounts) { Filter = gameAccountFilter.Filter };
 
             await taskContext.SwitchToMainThreadAsync();
-            GameAccountsView = new(accounts)
-            {
-                Filter = gameAccountFilter.Filter,
-            };
+            GameAccountsView = accountsView;
         }
     }
 }

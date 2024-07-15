@@ -108,9 +108,13 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
+                    AdvancedCollectionView<Weapon> weaponsView = new(list);
+
                     await taskContext.SwitchToMainThreadAsync();
 
-                    Weapons = new(list);
+                    Weapons = weaponsView;
+
+                    // TODO: use CurrentItem
                     Selected = Weapons.View.ElementAtOrDefault(0);
                 }
 

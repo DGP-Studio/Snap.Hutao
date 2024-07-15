@@ -47,7 +47,6 @@ internal sealed partial class GachaLogService : IGachaLogService
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             context = await metadataService.GetContextAsync<GachaLogServiceMetadataContext>(token).ConfigureAwait(false);
-            await taskContext.SwitchToMainThreadAsync();
             Archives = new(gachaLogDbService.GetGachaArchiveCollection(), serviceProvider);
             return true;
         }

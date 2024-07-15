@@ -212,7 +212,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         return new()
         {
             // history
-            HistoryWishes = taskContext.InvokeOnMainThread(() => new AdvancedCollectionView<HistoryWish>(historyWishes)),
+            HistoryWishes = new(historyWishes),
 
             // avatars
             OrangeAvatars = orangeAvatarCounter.ToStatisticsList(),
