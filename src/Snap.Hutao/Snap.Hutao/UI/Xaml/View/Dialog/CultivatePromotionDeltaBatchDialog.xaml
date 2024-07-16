@@ -73,5 +73,14 @@
                 SpinButtonPlacementMode="Inline"
                 Value="{x:Bind PromotionDelta.Weapon.LevelTarget, Mode=TwoWay}"/>
         </cwc:SettingsCard>
+
+        <RadioButtons
+            x:Name="SaveModeSelector"
+            Header="{shuxm:ResourceString Name=ViewDialogCultivationConsumptionSaveStrategyHeader}"
+            SelectedIndex="0">
+            <RadioButton Content="{shuxm:ResourceString Name=ViewDialogCultivationConsumptionSaveStrategyPreserveExisting}"/>
+            <RadioButton Content="{shuxm:ResourceString Name=ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting}"/>
+            <RadioButton Content="{shuxm:ResourceString Name=ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry}"/>
+        </RadioButtons>
     </StackPanel>
 </ContentDialog>

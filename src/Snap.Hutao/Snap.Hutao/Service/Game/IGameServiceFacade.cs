@@ -10,8 +10,6 @@ namespace Snap.Hutao.Service.Game;
 
 internal interface IGameServiceFacade
 {
-    ObservableReorderableDbCollection<GameAccount> GameAccountCollection { get; }
-
     ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid);
 
     ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme);
@@ -27,4 +25,6 @@ internal interface IGameServiceFacade
     ValueTask RemoveGameAccountAsync(GameAccount gameAccount);
 
     GameAccount? DetectCurrentGameAccount(SchemeType scheme);
+
+    ValueTask<ObservableReorderableDbCollection<GameAccount>> GetGameAccountCollectionAsync();
 }

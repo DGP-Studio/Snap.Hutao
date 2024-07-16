@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.Collections;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Data;
-using Snap.Hutao.Core.ExceptionService;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;

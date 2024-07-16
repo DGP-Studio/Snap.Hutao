@@ -64,16 +64,14 @@
             </Border>
         </DataTemplate>
     </ContentDialog.Resources>
-    <Grid>
+    <Grid Margin="0,8,0,0" RowSpacing="6">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel
-            Grid.Row="0"
-            Margin="0,8,0,0"
-            Visibility="{x:Bind Avatar, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+        <StackPanel Grid.Row="0" Visibility="{x:Bind Avatar, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid
                 Padding="8"
                 DataContext="{x:Bind Avatar}"
@@ -123,10 +121,7 @@
             <ItemsControl ItemTemplate="{StaticResource SkillTemplate}" ItemsSource="{x:Bind Avatar.Skills}"/>
         </StackPanel>
 
-        <StackPanel
-            Grid.Row="1"
-            Margin="0,6,0,0"
-            Visibility="{x:Bind Weapon, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+        <StackPanel Grid.Row="1" Visibility="{x:Bind Weapon, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid
                 Padding="8"
                 DataContext="{x:Bind Weapon}"
@@ -174,5 +169,14 @@
             </Grid>
         </StackPanel>
 
+        <RadioButtons
+            x:Name="SaveModeSelector"
+            Grid.Row="2"
+            Header="{shuxm:ResourceString Name=ViewDialogCultivationConsumptionSaveStrategyHeader}"
+            SelectedIndex="0">
+            <RadioButton Content="{shuxm:ResourceString Name=ViewDialogCultivationConsumptionSaveStrategyPreserveExisting}"/>
+            <RadioButton Content="{shuxm:ResourceString Name=ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting}"/>
+            <RadioButton Content="{shuxm:ResourceString Name=ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry}"/>
+        </RadioButtons>
     </Grid>
 </ContentDialog>

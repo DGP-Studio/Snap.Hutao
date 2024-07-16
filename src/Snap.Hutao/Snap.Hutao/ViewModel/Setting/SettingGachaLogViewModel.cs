@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Picker;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog;

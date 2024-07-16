@@ -21,9 +21,15 @@ internal sealed partial class GameAccountService : IGameAccountService
 
     private ObservableReorderableDbCollection<GameAccount>? gameAccounts;
 
-    public ObservableReorderableDbCollection<GameAccount> GameAccountCollection
+    public async ValueTask<ObservableReorderableDbCollection<GameAccount>> GetGameAccountCollectionAsync()
     {
-        get => gameAccounts ??= gameDbService.GetGameAccountCollection();
+        if (gameAccounts is null)
+        {
+            await taskContext.SwitchToBackgroundAsync();
+            gameAccounts = gameDbService.GetGameAccountCollection();
+        }
+
+        return gameAccounts;
     }
 
     public async ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType schemeType)

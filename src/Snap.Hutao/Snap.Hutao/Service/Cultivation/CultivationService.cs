@@ -8,7 +8,6 @@ using Snap.Hutao.Service.Inventory;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.ObjectModel;
-using CalculateItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
 using ModelItem = Snap.Hutao.Model.Item;
 
 namespace Snap.Hutao.Service.Cultivation;
@@ -115,45 +114,54 @@ internal sealed partial class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> SaveConsumptionAsync(CultivateType type, uint itemId, List<CalculateItem> items, LevelInformation levelInformation)
+    public async ValueTask<ConsumptionSaveResultKind> SaveConsumptionAsync(InputConsumption inputConsumption)
     {
-        if (items.Count == 0)
+        if (inputConsumption.Items.Count == 0)
         {
-            return true;
+            return ConsumptionSaveResultKind.NoItem;
         }
 
-        await taskContext.SwitchToMainThreadAsync();
         if (Projects.CurrentItem is null)
         {
+            await taskContext.SwitchToMainThreadAsync();
             Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
             if (Projects.CurrentItem is null)
             {
-                return false;
+                return ConsumptionSaveResultKind.NoProject;
             }
         }
 
         await taskContext.SwitchToBackgroundAsync();
-        CultivateEntry? entry = type is CultivateType.AvatarAndSkill
-            ? cultivationDbService.GetCultivateEntryByProjectIdAndItemId(Projects.CurrentItem.InnerId, itemId)
-            : default;
+
+        CultivateEntry? entry = default;
+
+        if (inputConsumption.Strategy is ConsumptionSaveStrategyKind.PreserveExisting or ConsumptionSaveStrategyKind.OverwriteExisting)
+        {
+            entry = cultivationDbService.GetCultivateEntryByProjectIdAndItemId(Projects.CurrentItem.InnerId, inputConsumption.ItemId);
+
+            if (inputConsumption.Strategy is ConsumptionSaveStrategyKind.PreserveExisting && entry is not null)
+            {
+                return ConsumptionSaveResultKind.Skipped;
+            }
+        }
 
         if (entry is null)
         {
-            entry = CultivateEntry.From(Projects.CurrentItem.InnerId, type, itemId);
+            entry = CultivateEntry.From(Projects.CurrentItem.InnerId, inputConsumption.Type, inputConsumption.ItemId);
             cultivationDbService.AddCultivateEntry(entry);
         }
 
         Guid entryId = entry.InnerId;
 
         cultivationDbService.RemoveLevelInformationByEntryId(entryId);
-        CultivateEntryLevelInformation entryLevelInformation = CultivateEntryLevelInformation.From(entryId, type, levelInformation);
+        CultivateEntryLevelInformation entryLevelInformation = CultivateEntryLevelInformation.From(entryId, inputConsumption.Type, inputConsumption.LevelInformation);
         cultivationDbService.AddLevelInformation(entryLevelInformation);
 
         cultivationDbService.RemoveCultivateItemRangeByEntryId(entryId);
-        IEnumerable<CultivateItem> toAdd = items.Select(item => CultivateItem.From(entryId, item));
+        IEnumerable<CultivateItem> toAdd = inputConsumption.Items.Select(item => CultivateItem.From(entryId, item));
         cultivationDbService.AddCultivateItemRange(toAdd);
 
-        return true;
+        return ConsumptionSaveResultKind.Added;
     }
 
     /// <inheritdoc/>

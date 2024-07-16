@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity.Extension;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -213,7 +214,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
         if (userGameRolesResponse.IsOk())
         {
-            user.UserGameRoles = new(userGameRolesResponse.Data.List);
+            user.UserGameRoles = userGameRolesResponse.Data.List.ToAdvancedCollectionView();
             return user.UserGameRoles.Count > 0;
         }
         else

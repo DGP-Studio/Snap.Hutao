@@ -203,7 +203,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         AsyncBarrier barrier = new(4);
 
         List<HistoryWish> historyWishes = historyWishBuilders
-            .Where(b => appOptions.IsEmptyHistoryWishVisible || (!b.IsEmpty))
+            .Where(b => appOptions.IsEmptyHistoryWishVisible || !b.IsEmpty)
             .OrderByDescending(builder => builder.From)
             .ThenBy(builder => builder.ConfigType, GachaTypeComparer.Shared)
             .Select(builder => builder.ToHistoryWish())
@@ -212,7 +212,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         return new()
         {
             // history
-            HistoryWishes = new(historyWishes),
+            HistoryWishes = historyWishes.ToAdvancedCollectionView(),
 
             // avatars
             OrangeAvatars = orangeAvatarCounter.ToStatisticsList(),

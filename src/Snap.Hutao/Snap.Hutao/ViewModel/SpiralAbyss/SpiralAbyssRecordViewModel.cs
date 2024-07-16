@@ -85,7 +85,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                     .ConfigureAwait(false);
             }
 
-            AdvancedCollectionView<SpiralAbyssView> spiralAbyssEntries = new(collection);
+            AdvancedCollectionView<SpiralAbyssView> spiralAbyssEntries = collection.ToAdvancedCollectionView();
 
             await taskContext.SwitchToMainThreadAsync();
             SpiralAbyssEntries = spiralAbyssEntries;

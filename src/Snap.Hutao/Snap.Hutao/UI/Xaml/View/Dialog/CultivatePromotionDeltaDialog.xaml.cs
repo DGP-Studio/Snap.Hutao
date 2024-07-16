@@ -4,25 +4,17 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Model.Calculable;
+using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-/// <summary>
-/// 养成计算对话框
-/// </summary>
-[HighQuality]
 [DependencyProperty("Avatar", typeof(ICalculableAvatar))]
 [DependencyProperty("Weapon", typeof(ICalculableWeapon))]
 internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
 {
     private readonly ITaskContext taskContext;
 
-    /// <summary>
-    /// 构造一个新的养成计算对话框
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="options">选项</param>
     public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, CalculableOptions options)
     {
         InitializeComponent();
@@ -33,11 +25,7 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
         Weapon = options.Weapon;
     }
 
-    /// <summary>
-    /// 异步获取提升差异
-    /// </summary>
-    /// <returns>提升差异</returns>
-    public async ValueTask<ValueResult<bool, AvatarPromotionDelta>> GetPromotionDeltaAsync()
+    public async ValueTask<ValueResult<bool, CultivatePromotionDeltaOptions>> GetPromotionDeltaAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
@@ -66,6 +54,6 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
             },
         };
 
-        return new(true, delta);
+        return new(true, new(delta, (ConsumptionSaveStrategyKind)SaveModeSelector.SelectedIndex));
     }
 }
