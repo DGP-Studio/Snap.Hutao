@@ -1818,10 +1818,10 @@
     <value>Export failed</value>
   </data>
   <data name="ViewModelUIGFExportSuccess" xml:space="preserve">
-    <value>Export successfully</value>
+    <value>Exported successfully</value>
   </data>
   <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
-    <value>Imported UIGF files contain UID duplicated prayers</value>
+    <value>Imported UIGF files contain UID duplicated wish items</value>
   </data>
   <data name="ViewModelUIGFImportError" xml:space="preserve">
     <value>Import failed</value>
