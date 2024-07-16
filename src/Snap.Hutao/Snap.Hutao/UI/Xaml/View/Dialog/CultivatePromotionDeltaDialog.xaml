@@ -19,7 +19,7 @@
 
         <DataTemplate x:Key="SkillTemplate">
             <Border Margin="0,2,0,0" Style="{StaticResource BorderCardStyle}">
-                <Grid Margin="8">
+                <Grid Margin="8" ColumnSpacing="6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="160"/>
@@ -74,6 +74,7 @@
         <StackPanel Grid.Row="0" Visibility="{x:Bind Avatar, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid
                 Padding="8"
+                ColumnSpacing="6"
                 DataContext="{x:Bind Avatar}"
                 Style="{ThemeResource GridCardStyle}">
                 <Grid.ColumnDefinitions>
@@ -124,6 +125,7 @@
         <StackPanel Grid.Row="1" Visibility="{x:Bind Weapon, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid
                 Padding="8"
+                ColumnSpacing="6"
                 DataContext="{x:Bind Weapon}"
                 Style="{ThemeResource GridCardStyle}">
                 <Grid.ColumnDefinitions>
@@ -172,6 +174,7 @@
         <RadioButtons
             x:Name="SaveModeSelector"
             Grid.Row="2"
+            Margin="0,10,0,0"
             Header="{shuxm:ResourceString Name=ViewDialogCultivationConsumptionSaveStrategyHeader}"
             SelectedIndex="0">
             <RadioButton Content="{shuxm:ResourceString Name=ViewDialogCultivationConsumptionSaveStrategyPreserveExisting}"/>
