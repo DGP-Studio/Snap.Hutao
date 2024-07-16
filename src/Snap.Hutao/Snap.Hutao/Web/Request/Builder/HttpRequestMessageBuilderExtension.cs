@@ -37,7 +37,7 @@ internal static class HttpRequestMessageBuilderExtension
                 {
                     message.EnsureSuccessStatusCode();
                     showInfo = false;
-                    return result = await builder.HttpContentSerializer.DeserializeAsync<TResult>(message.Content, token).ConfigureAwait(false);
+                    return await builder.HttpContentSerializer.DeserializeAsync<TResult>(message.Content, token).ConfigureAwait(false);
                 }
             }
         }
