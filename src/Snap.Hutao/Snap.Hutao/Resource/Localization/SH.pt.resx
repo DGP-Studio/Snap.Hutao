@@ -1247,6 +1247,18 @@
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>Adicionar ou atualizar ao planejamento atual</value>
   </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
+    <value>总是创建新的养成目标物品</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
+    <value>保存方式</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
+    <value>覆盖存在的养成目标物品</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
+    <value>保留存在的养成目标物品</value>
+  </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>Notificação diária de disponibilidade de missão</value>
   </data>
@@ -1597,6 +1609,15 @@
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>Operação não totalmente concluída, adicionado/atualizado {0}, pulado {1}</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
+    <value>选定的等级不需要养成材料</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
+    <value>尚未创建并选择养成计划</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
+    <value>已存在该物品的养成项目</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Adicionado com sucesso ao planejamento</value>
