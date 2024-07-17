@@ -12,30 +12,24 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 internal readonly struct RequiredLocalModule : IDisposable
 {
     public readonly bool HasValue = false;
-    public readonly Module UnityPlayer;
-    public readonly Module UserAssembly;
+    public readonly Module Executable;
 
-    private readonly HMODULE hModuleUnityPlayer;
-    private readonly HMODULE hModuleUserAssembly;
+    private readonly HMODULE hModuleExecutable;
 
-    public RequiredLocalModule(HMODULE unityPlayer, HMODULE userAssembly)
+    public RequiredLocalModule(HMODULE executable)
     {
-        hModuleUnityPlayer = unityPlayer;
-        hModuleUserAssembly = userAssembly;
+        hModuleExecutable = executable;
 
         // Align the pointer
-        nint unityPlayerMappedView = (nint)(unityPlayer & ~0x3L);
-        nint userAssemblyMappedView = (nint)(userAssembly & ~0x3L);
+        nint executableMappedView = (nint)(executable & ~0x3L);
 
+        Executable = new((nuint)executableMappedView, GetImageSize(executableMappedView));
         HasValue = true;
-        UnityPlayer = new((nuint)unityPlayerMappedView, GetImageSize(unityPlayerMappedView));
-        UserAssembly = new((nuint)userAssemblyMappedView, GetImageSize(userAssemblyMappedView));
     }
 
     public void Dispose()
     {
-        FreeLibrary(hModuleUnityPlayer);
-        FreeLibrary(hModuleUserAssembly);
+        FreeLibrary(hModuleExecutable);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -51,12 +51,9 @@ internal abstract class GameFpsUnlocker : IGameFpsUnlocker
 
     private static RequiredLocalModule LoadRequiredLocalModule(GameFileSystem gameFileSystem)
     {
-        string gameFoler = gameFileSystem.GameDirectory;
-        string dataFoler = gameFileSystem.DataDirectory;
         LOAD_LIBRARY_FLAGS flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_AS_IMAGE_RESOURCE;
-        HMODULE unityPlayerAddress = LoadLibraryExW(System.IO.Path.Combine(gameFoler, "UnityPlayer.dll"), default, flags);
-        HMODULE userAssemblyAddress = LoadLibraryExW(System.IO.Path.Combine(dataFoler, "Native", "UserAssembly.dll"), default, flags);
+        HMODULE executaleAddress = LoadLibraryExW(gameFileSystem.GameFilePath, default, flags);
 
-        return new(unityPlayerAddress, userAssemblyAddress);
+        return new(executaleAddress);
     }
 }
