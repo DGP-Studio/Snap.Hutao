@@ -1247,6 +1247,18 @@
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>現在の育成計画に追加または更新する</value>
   </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
+    <value>アイテムは常に新しいドリルを作成</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
+    <value>次で保存</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
+    <value>既存の育成目的アイテム</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
+    <value>対象のアイテムを予約する</value>
+  </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>まだデイリー依頼を行っていません</value>
   </data>
@@ -1597,6 +1609,15 @@
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>操作の一部に失敗しました：追加／更新：{0}、スキップ{1}</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
+    <value>選択したLvでは育成材料は必要ありません</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
+    <value>まだ作成されておらず、養成計画を選択してください</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
+    <value>そのアイテムは既に適用されているアイテムがあります</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>選択中の育成計画に正常に追加されました</value>

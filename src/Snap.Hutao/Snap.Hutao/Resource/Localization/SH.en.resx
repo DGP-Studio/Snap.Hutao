@@ -1247,6 +1247,18 @@
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>Add or update to current Enhancement Progression Plan</value>
   </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
+    <value>Always create new adopted target items</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
+    <value>Save Method</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
+    <value>Overwrite existing adopted items</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
+    <value>Keep existing target items</value>
+  </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>Daily Commission Availability Notification</value>
   </data>
@@ -1598,6 +1610,15 @@
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>Operation not fully completed, added/updated {0}, skipped {1}</value>
   </data>
+  <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
+    <value>The selected level does not require ingredients</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
+    <value>No plan has been created and selected</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
+    <value>There is already a foster project for this item</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Successfully added to current plan</value>
   </data>
@@ -1818,10 +1839,10 @@
     <value>Export failed</value>
   </data>
   <data name="ViewModelUIGFExportSuccess" xml:space="preserve">
-    <value>Export successfully</value>
+    <value>Exported successfully</value>
   </data>
   <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
-    <value>Imported UIGF files contain UID duplicated prayers</value>
+    <value>Imported UIGF files contain UID duplicated wish items</value>
   </data>
   <data name="ViewModelUIGFImportError" xml:space="preserve">
     <value>Import failed</value>
