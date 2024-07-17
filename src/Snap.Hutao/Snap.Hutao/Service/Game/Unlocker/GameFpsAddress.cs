@@ -58,8 +58,8 @@ internal static class GameFpsAddress
 
     private static int IndexOfPattern(in ReadOnlySpan<byte> span)
     {
-        // B9 3C 00 00 00 FF 15
-        ReadOnlySpan<byte> part = [0xB9, 0x3C, 0x00, 0x00, 0x00, 0xFF, 0x15];
+        // B9 3C 00 00 00 E8
+        ReadOnlySpan<byte> part = [0xB9, 0x3C, 0x00, 0x00, 0x00, 0xE8];
         return span.IndexOf(part);
     }
 
