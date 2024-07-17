@@ -2868,7 +2868,7 @@
     <value>Import</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在「祈愿记录-角色」与「祈愿记录-武器」中显示未抽取到的祈愿物品</value>
+    <value>Display Undrawn Items in "Wish Export - Characters" and "Wish Export - Weapons"</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>Undrawn Wish Items</value>
