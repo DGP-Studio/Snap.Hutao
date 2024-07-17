@@ -19,19 +19,32 @@ internal static class GameFpsAddress
 
     public static unsafe void UnsafeFindFpsAddress(GameFpsUnlockerContext context, in RequiredRemoteModule remoteModule, in RequiredLocalModule localModule)
     {
-        int offsetToUserAssembly = IndexOfPattern(localModule.UserAssembly.AsSpan());
-        HutaoException.ThrowIfNot(offsetToUserAssembly >= 0, SH.ServiceGameUnlockerInterestedPatternNotFound);
+        Span<byte> executableSpan = localModule.Executable.AsSpan();
+        int offsetToExecutable = 0;
+        nuint localVirtualAddress = 0;
+        do
+        {
+            int index = IndexOfPattern(executableSpan[offsetToExecutable..]);
+            if (index < 0)
+            {
+                break;
+            }
 
-        nuint rip = localModule.UserAssembly.Address + (uint)offsetToUserAssembly;
-        rip += 5U;
-        rip += (nuint)(*(int*)(rip + 2U) + 6);
+            offsetToExecutable += index;
 
-        nuint remoteVirtualAddress = remoteModule.UserAssembly.Address + (rip - localModule.UserAssembly.Address);
+            nuint rip = localModule.Executable.Address + (uint)offsetToExecutable;
+            rip += 5U;
+            rip += (nuint)(*(int*)(rip + 1U) + 5);
 
-        nuint ptr = 0;
-        SpinWait.SpinUntil(() => UnsafeReadProcessMemory(context.AllAccess, remoteVirtualAddress, out ptr) && ptr != 0);
+            if (*(byte*)rip is ASM_JMP)
+            {
+                localVirtualAddress = rip;
+                break;
+            }
+        }
+        while (true);
 
-        nuint localVirtualAddress = ptr - remoteModule.UnityPlayer.Address + localModule.UnityPlayer.Address;
+        ArgumentOutOfRangeException.ThrowIfZero(localVirtualAddress);
 
         while (*(byte*)localVirtualAddress is ASM_CALL or ASM_JMP)
         {
@@ -39,15 +52,15 @@ internal static class GameFpsAddress
         }
 
         localVirtualAddress += *(uint*)(localVirtualAddress + 2) + 6;
-        nuint relativeVirtualAddress = localVirtualAddress - localModule.UnityPlayer.Address;
-        context.FpsAddress = remoteModule.UnityPlayer.Address + relativeVirtualAddress;
+        nuint relativeVirtualAddress = localVirtualAddress - localModule.Executable.Address;
+        context.FpsAddress = remoteModule.Executable.Address + relativeVirtualAddress;
     }
 
-    private static int IndexOfPattern(in ReadOnlySpan<byte> memory)
+    private static int IndexOfPattern(in ReadOnlySpan<byte> span)
     {
         // B9 3C 00 00 00 FF 15
         ReadOnlySpan<byte> part = [0xB9, 0x3C, 0x00, 0x00, 0x00, 0xFF, 0x15];
-        return memory.IndexOf(part);
+        return span.IndexOf(part);
     }
 
     private static unsafe bool UnsafeReadProcessMemory(HANDLE hProcess, nuint baseAddress, out nuint value)
