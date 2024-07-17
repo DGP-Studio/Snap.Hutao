@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao.Response;
-using Snap.Hutao.Web.Response;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -45,6 +45,7 @@ internal static class HttpRequestMessageBuilderExtension
         {
             if (TryHandleHttp502HutaoResponseSpecialCase(ex, out TResult? result))
             {
+                showInfo = false;
                 return result;
             }
 
@@ -67,6 +68,11 @@ internal static class HttpRequestMessageBuilderExtension
             logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
         catch (SocketException ex)
+        {
+            ProcessException(messageBuilder, ex);
+            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
+        }
+        catch (Exception ex)
         {
             ProcessException(messageBuilder, ex);
             logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
@@ -148,33 +154,35 @@ internal static class HttpRequestMessageBuilderExtension
                 .AppendLine($"{nameof(HttpRequestException)}: Status Code: {hre.StatusCode} Error: {hre.HttpRequestError}")
                 .AppendLine(hre.Message);
         }
-
-        if (exception is IOException ioe)
+        else if (exception is IOException ioe)
         {
             builder
                 .AppendLine($"{nameof(IOException)}: 0x{ioe.HResult:X8}")
                 .AppendLine(ioe.Message);
         }
-
-        if (exception is JsonException je)
+        else if (exception is JsonException je)
         {
             builder
                 .AppendLine($"{nameof(JsonException)}: Path: {je.Path} at Line: {je.LineNumber} Position: {je.BytePositionInLine}")
                 .AppendLine(je.Message);
         }
-
-        if (exception is HttpContentSerializationException hcse)
+        else if (exception is HttpContentSerializationException hcse)
         {
             builder
                 .AppendLine($"{nameof(HttpContentSerializationException)}:")
                 .AppendLine(hcse.Message);
         }
-
-        if (exception is SocketException se)
+        else if (exception is SocketException se)
         {
             builder
                 .AppendLine($"{nameof(SocketException)}: Error: {se.SocketErrorCode}")
                 .AppendLine(se.Message);
+        }
+        else
+        {
+            builder
+                .AppendLine($"{TypeNameHelper.GetTypeDisplayName(exception, false)}:")
+                .AppendLine(exception.Message);
         }
 
         if (exception.InnerException is { } inner)
