@@ -622,7 +622,7 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
 
         if (i < -1 || i >= view.Count)
         {
-            Debugger.Break(); // Figure out how this will hit.
+            // view is empty, i is 0, current pos is -1
             OnPropertyChanged(nameof(CurrentItem));
             return false;
         }
