@@ -20,7 +20,7 @@ internal static class GameFpsAddress
         nuint localVirtualAddress = 0;
         do
         {
-            int index = IndexOfPattern(executableSpan[offsetToExecutable..]);
+            int index = IndexOfPattern(executableSpan[offsetToExecutable..], out int patternLength);
             if (index < 0)
             {
                 break;
@@ -37,6 +37,8 @@ internal static class GameFpsAddress
                 localVirtualAddress = rip;
                 break;
             }
+
+            offsetToExecutable += patternLength;
         }
         while (true);
 
@@ -52,10 +54,11 @@ internal static class GameFpsAddress
         context.FpsAddress = remoteModule.Executable.Address + relativeVirtualAddress;
     }
 
-    private static int IndexOfPattern(in ReadOnlySpan<byte> span)
+    private static int IndexOfPattern(in ReadOnlySpan<byte> span, out int patternLength)
     {
         // B9 3C 00 00 00 E8
         ReadOnlySpan<byte> part = [0xB9, 0x3C, 0x00, 0x00, 0x00, 0xE8];
+        patternLength = part.Length;
         return span.IndexOf(part);
     }
 }
