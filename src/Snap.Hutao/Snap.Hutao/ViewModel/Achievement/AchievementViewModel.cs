@@ -107,13 +107,15 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     /// <inheritdoc/>
     public async ValueTask<bool> ReceiveAsync(INavigationData data)
     {
-        if (await Initialization.Task.ConfigureAwait(false))
+        if (!await Initialization.Task.ConfigureAwait(false))
         {
-            if (data.Data is AppActivation.ImportUIAFFromClipboard)
-            {
-                await ImportUIAFFromClipboardAsync().ConfigureAwait(false);
-                return true;
-            }
+            return false;
+        }
+
+        if (data.Data is AppActivation.ImportUIAFFromClipboard)
+        {
+            await ImportUIAFFromClipboardAsync().ConfigureAwait(false);
+            return true;
         }
 
         return false;
@@ -126,7 +128,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return false;
         }
 
-        List<AchievementGoalView> sortedGoals;
+        AdvancedCollectionView<AchievementGoalView> sortedGoals;
 
         using (await EnterCriticalSectionAsync().ConfigureAwait(false))
         {
@@ -134,13 +136,13 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                 .GetAchievementGoalListAsync(CancellationToken)
                 .ConfigureAwait(false);
 
-            sortedGoals = goals.SortBy(goal => goal.Order).SelectList(AchievementGoalView.From);
+            sortedGoals = goals.SortBy(goal => goal.Order).SelectList(AchievementGoalView.From).ToAdvancedCollectionView();
         }
 
         IAdvancedDbCollectionView<EntityArchive> archives = await scopeContext.AchievementService.GetArchivesAsync(CancellationToken).ConfigureAwait(false);
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
 
-        AchievementGoals = new(sortedGoals, true);
+        AchievementGoals = sortedGoals;
         Archives = archives;
         Archives.MoveCurrentTo(Archives.SourceCollection.SelectedOrDefault());
         return true;
@@ -206,7 +208,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("RemoveArchiveCommand")]
     private async Task RemoveArchiveAsync()
     {
-        if (Archives is null || !(Archives.CurrentItem is { } current))
+        if (Archives?.CurrentItem is not { } current)
         {
             return;
         }
@@ -283,7 +285,9 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
     private async ValueTask UpdateAchievementsAsync(EntityArchive? archive)
     {
-        // TODO: immediately clear values
+        await scopeContext.TaskContext.SwitchToMainThreadAsync();
+        Achievements = default;
+
         if (archive is null)
         {
             return;
@@ -293,29 +297,29 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             .GetContextAsync<AchievementServiceMetadataContext>(CancellationToken)
             .ConfigureAwait(false);
 
-        if (!TryGetAchievements(archive, context, out List<AchievementView>? combined))
+        if (!TryGetAchievements(archive, context, out AdvancedCollectionView<AchievementView>? combined))
         {
             return;
         }
 
         await scopeContext.TaskContext.SwitchToMainThreadAsync();
-        Achievements = new(combined, true);
+        Achievements = combined;
         AchievementFinishPercent.Update(this);
         UpdateAchievementsFilterByGoal(AchievementGoals?.CurrentItem);
         UpdateAchievementsSort();
     }
 
-    private bool TryGetAchievements(EntityArchive archive, AchievementServiceMetadataContext context, [NotNullWhen(true)] out List<AchievementView>? combined)
+    private bool TryGetAchievements(EntityArchive archive, AchievementServiceMetadataContext context, [NotNullWhen(true)] out AdvancedCollectionView<AchievementView>? view)
     {
         try
         {
-            combined = scopeContext.AchievementService.GetAchievementViewList(archive, context);
+            view = scopeContext.AchievementService.GetAchievementViewList(archive, context).ToAdvancedCollectionView();
             return true;
         }
         catch (HutaoException ex)
         {
             scopeContext.InfoBarService.Error(ex);
-            combined = default;
+            view = default;
             return false;
         }
     }
@@ -328,33 +332,41 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             return;
         }
 
-        Achievements.SortDescriptions.Clear();
-        AchievementGoals.SortDescriptions.Clear();
-
-        if (IsUncompletedItemsFirst)
+        using (Achievements.DeferRefresh())
         {
-            Achievements.SortDescriptions.Add(achievementUncompletedItemsFirstSortDescription);
-            Achievements.SortDescriptions.Add(achievementCompletionTimeSortDescription);
-            AchievementGoals.SortDescriptions.Add(achievementGoalUncompletedItemsFirstSortDescription);
-        }
+            using (AchievementGoals.DeferRefresh())
+            {
+                Achievements.SortDescriptions.Clear();
+                AchievementGoals.SortDescriptions.Clear();
 
-        Achievements.SortDescriptions.Add(achievementDefaultSortDescription);
-        AchievementGoals.SortDescriptions.Add(achievementGoalDefaultSortDescription);
+                if (IsUncompletedItemsFirst)
+                {
+                    Achievements.SortDescriptions.Add(achievementUncompletedItemsFirstSortDescription);
+                    Achievements.SortDescriptions.Add(achievementCompletionTimeSortDescription);
+                    AchievementGoals.SortDescriptions.Add(achievementGoalUncompletedItemsFirstSortDescription);
+                }
+
+                Achievements.SortDescriptions.Add(achievementDefaultSortDescription);
+                AchievementGoals.SortDescriptions.Add(achievementGoalDefaultSortDescription);
+            }
+        }
     }
 
     private void UpdateAchievementsFilterByGoal(AchievementGoalView? goal)
     {
-        if (Achievements is not null)
+        if (Achievements is null)
         {
-            if (goal is null)
-            {
-                Achievements.Filter = default!;
-            }
-            else
-            {
-                Model.Primitive.AchievementGoalId goalId = goal.Id;
-                Achievements.Filter = (AchievementView view) => view.Inner.Goal == goalId;
-            }
+            return;
+        }
+
+        if (goal is null)
+        {
+            Achievements.Filter = default!;
+        }
+        else
+        {
+            Model.Primitive.AchievementGoalId goalId = goal.Id;
+            Achievements.Filter = (AchievementView view) => view.Inner.Goal == goalId;
         }
     }
 
@@ -396,10 +408,12 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("SaveAchievementCommand")]
     private void SaveAchievement(AchievementView? achievement)
     {
-        if (achievement is not null)
+        if (achievement is null)
         {
-            scopeContext.AchievementService.SaveAchievement(achievement);
-            AchievementFinishPercent.Update(this);
+            return;
         }
+
+        scopeContext.AchievementService.SaveAchievement(achievement);
+        AchievementFinishPercent.Update(this);
     }
 }

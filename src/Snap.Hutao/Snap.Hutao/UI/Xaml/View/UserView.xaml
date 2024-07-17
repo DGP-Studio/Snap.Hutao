@@ -144,6 +144,7 @@
                 <TextBlock
                     Grid.Column="2"
                     VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
                     Text="HoYoLAB"
                     Visibility="{Binding IsOversea}"/>
                 <StackPanel

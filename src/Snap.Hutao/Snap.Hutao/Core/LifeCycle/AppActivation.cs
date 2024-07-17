@@ -39,6 +39,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
     private readonly ICurrentXamlWindowReference currentWindowReference;
     private readonly IServiceProvider serviceProvider;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly ILogger<AppActivation> logger;
     private readonly ITaskContext taskContext;
 
@@ -256,6 +257,12 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                 guideWindow.SwitchTo();
                 guideWindow.BringToForeground();
                 return;
+            }
+
+            if (Version.Parse(LocalSetting.Get(SettingKeys.LastVersion, "0.0.0.0")) < runtimeOptions.Version)
+            {
+                XamlApplicationLifetime.IsFirstRunAfterUpdate = true;
+                LocalSetting.Set(SettingKeys.LastVersion, $"{runtimeOptions.Version}");
             }
         }
 

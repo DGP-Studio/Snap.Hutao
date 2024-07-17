@@ -10,7 +10,7 @@ internal interface ISpiralAbyssRecordDbService : IAppDbService<SpiralAbyssEntry>
 {
     void AddSpiralAbyssEntry(SpiralAbyssEntry entry);
 
-    Dictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryListByUid(string uid);
+    Dictionary<uint, SpiralAbyssEntry> GetSpiralAbyssEntryMapByUid(string uid);
 
     void UpdateSpiralAbyssEntry(SpiralAbyssEntry entry);
 }

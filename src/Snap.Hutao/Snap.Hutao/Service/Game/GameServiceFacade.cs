@@ -11,10 +11,6 @@ using Snap.Hutao.Service.Game.PathAbstraction;
 
 namespace Snap.Hutao.Service.Game;
 
-/// <summary>
-/// 游戏服务
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IGameServiceFacade))]
 internal sealed partial class GameServiceFacade : IGameServiceFacade
@@ -23,55 +19,46 @@ internal sealed partial class GameServiceFacade : IGameServiceFacade
     private readonly IGameAccountService gameAccountService;
     private readonly IGamePathService gamePathService;
 
-    /// <inheritdoc/>
-    public ObservableReorderableDbCollection<GameAccount> GameAccountCollection
+    public ValueTask<ObservableReorderableDbCollection<GameAccount>> GetGameAccountCollectionAsync()
     {
-        get => gameAccountService.GameAccountCollection;
+        return gameAccountService.GetGameAccountCollectionAsync();
     }
 
-    /// <inheritdoc/>
     public ValueTask<ValueResult<bool, string>> GetGamePathAsync()
     {
         return gamePathService.SilentGetGamePathAsync();
     }
 
-    /// <inheritdoc/>
     public ChannelOptions GetChannelOptions()
     {
         return gameChannelOptionsService.GetChannelOptions();
     }
 
-    /// <inheritdoc/>
     public ValueTask<GameAccount?> DetectGameAccountAsync(SchemeType scheme)
     {
         return gameAccountService.DetectGameAccountAsync(scheme);
     }
 
-    /// <inheritdoc/>
     public GameAccount? DetectCurrentGameAccount(SchemeType scheme)
     {
         return gameAccountService.DetectCurrentGameAccount(scheme);
     }
 
-    /// <inheritdoc/>
     public ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid)
     {
         return gameAccountService.AttachGameAccountToUidAsync(gameAccount, uid);
     }
 
-    /// <inheritdoc/>
     public ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
         return gameAccountService.ModifyGameAccountAsync(gameAccount);
     }
 
-    /// <inheritdoc/>
     public ValueTask RemoveGameAccountAsync(GameAccount gameAccount)
     {
         return gameAccountService.RemoveGameAccountAsync(gameAccount);
     }
 
-    /// <inheritdoc/>
     public bool IsGameRunning()
     {
         return LaunchExecutionEnsureGameNotRunningHandler.IsGameRunning(out _);

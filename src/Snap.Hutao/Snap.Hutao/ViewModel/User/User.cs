@@ -15,7 +15,7 @@ using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.ViewModel.User;
 
-internal sealed class User : IEntityAccess<EntityUser>,
+internal sealed partial class User : IEntityAccess<EntityUser>,
     IMappingFrom<User, EntityUser, IServiceProvider>,
     ISelectable,
     IAdvancedCollectionViewItem
@@ -94,14 +94,6 @@ internal sealed class User : IEntityAccess<EntityUser>,
     public static User From(EntityUser user, IServiceProvider provider)
     {
         return new(user, provider);
-    }
-
-    public object? GetPropertyValue(string name)
-    {
-        return name switch
-        {
-            _ => default,
-        };
     }
 
     public IDisposable SuppressCurrentUserGameRoleChangedMessage()

@@ -18,6 +18,7 @@ internal readonly struct DispatcherQueueSwitchOperation : IAwaitable<DispatcherQ
 
     public bool IsCompleted
     {
+        // Only yields when we are not on the DispatcherQueue thread.
         get => dispatherQueue.HasThreadAccess;
     }
 

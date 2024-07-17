@@ -151,7 +151,7 @@
     <value>刪除</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
-    <value>选择全部</value>
+    <value>選擇全部</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>無效的 URI</value>
@@ -557,10 +557,10 @@
     <value>必須登入 米游社/ HoYoLAB 並選擇一個用戶與角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
-    <value>刪除了 UID：{0} 的 {1} 筆祈願記錄</value>
+    <value>刪除了 UID：{0} 的 {1} 筆祈願紀錄</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientRecordSlot" xml:space="preserve">
-    <value>胡桃雲儲存的祈願記錄存檔數已達當前帳號上限</value>
+    <value>胡桃雲儲存的祈願紀錄存檔數已達當前帳號上限</value>
   </data>
   <data name="ServerGachaLogServiceInsufficientTime" xml:space="preserve">
     <value>未開通祈願紀錄上傳服務或已到期</value>
@@ -572,7 +572,7 @@
     <value>數據異常，無法儲存至雲端，請勿跨帳號上傳或嘗試删除雲端數據後重試</value>
   </data>
   <data name="ServerGachaLogServiceUploadEntrySucceed" xml:space="preserve">
-    <value>上傳了 UID：{0} 的 {1} 筆祈願記錄，儲存了 {2} 筆</value>
+    <value>上傳了 UID：{0} 的 {1} 筆祈願紀錄，儲存了 {2} 筆</value>
   </data>
   <data name="ServerPassportLoginRequired" xml:space="preserve">
     <value>請先登入或註冊胡桃帳號</value>
@@ -623,40 +623,40 @@
     <value>驗證請求過快，請 1 分鐘後再試</value>
   </data>
   <data name="ServerRecordBannedUid" xml:space="preserve">
-    <value>上傳深淵記錄失敗，當前 UID 已被胡桃數據庫封禁</value>
+    <value>上傳深淵紀錄失敗，當前 UID 已被胡桃數據庫封禁</value>
   </data>
   <data name="ServerRecordComputingStatistics" xml:space="preserve">
-    <value>上傳深淵記錄失敗，正在計算統計數據</value>
+    <value>上傳深淵紀錄失敗，正在計算統計數據</value>
   </data>
   <data name="ServerRecordComputingStatistics2" xml:space="preserve">
     <value>獲取數據失敗，正在計算統計數據</value>
   </data>
   <data name="ServerRecordInternalException" xml:space="preserve">
-    <value>上傳深淵記錄失敗，伺服器異常，請盡快聯繫開發者解決</value>
+    <value>上傳深淵紀錄失敗，伺服器異常，請盡快聯繫開發者解決</value>
   </data>
   <data name="ServerRecordInvalidData" xml:space="preserve">
-    <value>上傳深淵記錄失敗，存在無效的數據</value>
+    <value>上傳深淵紀錄失敗，存在無效的數據</value>
   </data>
   <data name="ServerRecordInvalidUid" xml:space="preserve">
     <value>無效的 UID</value>
   </data>
   <data name="ServerRecordNotCurrentSchedule" xml:space="preserve">
-    <value>上傳深淵記錄失敗，不是本期數據</value>
+    <value>上傳深淵紀錄失敗，不是本期數據</value>
   </data>
   <data name="ServerRecordPreviousRequestNotCompleted" xml:space="preserve">
-    <value>上傳深淵記錄失敗，當前 UID 的紀錄仍在處理中，請勿重複操作</value>
+    <value>上傳深淵紀錄失敗，當前 UID 的紀錄仍在處理中，請勿重複操作</value>
   </data>
   <data name="ServerRecordUploadSuccessAndGachaLogServiceTimeExtended" xml:space="preserve">
-    <value>上傳深淵記錄成功，獲贈祈願記錄上傳服務時長</value>
+    <value>上傳深淵紀錄成功，獲贈祈願紀錄上傳服務時長</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoPassport" xml:space="preserve">
-    <value>上傳深淵記錄成功，但未登入胡桃通行證，無法獲贈祈願記錄上傳服務時長</value>
+    <value>上傳深淵紀錄成功，但未登入胡桃通行證，無法獲贈祈願紀錄上傳服務時長</value>
   </data>
   <data name="ServerRecordUploadSuccessButNoSuchUser" xml:space="preserve">
-    <value>上傳深淵記錄成功，但無法找到用戶，無法獲贈祈願記錄上傳服務時長</value>
+    <value>上傳深淵紀錄成功，但無法找到用戶，無法獲贈祈願紀錄上傳服務時長</value>
   </data>
   <data name="ServerRecordUploadSuccessButNotFirstTimeAtCurrentSchedule" xml:space="preserve">
-    <value>上傳深淵記錄成功，但不是本期首次提交，無法獲贈祈願記錄上傳服務時長</value>
+    <value>上傳深淵紀錄成功，但不是本期首次提交，無法獲贈祈願紀錄上傳服務時長</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
     <value>新增：{0} 個成就 | 更新：{1} 個成就 | 删除：{2} 個成就</value>
@@ -878,10 +878,10 @@
     <value>由 {0} 啟動</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
-    <value>無法獲取祈願記錄：{0}</value>
+    <value>無法獲取祈願紀錄：{0}</value>
   </data>
   <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
-    <value>無法獲取祈願記錄 End Id</value>
+    <value>無法獲取祈願紀錄 End Id</value>
   </data>
   <data name="ServiceGachaLogFactoryAvatarWishName" xml:space="preserve">
     <value>角色活動</value>
@@ -899,7 +899,7 @@
     <value>獲取雲端祈願紀錄失敗</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
-    <value>祈願記錄上傳服務不可用</value>
+    <value>祈願紀錄上傳服務不可用</value>
   </data>
   <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
     <value>數據包含異常物品, Id：{0}</value>
@@ -921,7 +921,7 @@
     <value>提供的 URL 無效</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
-    <value>HoYoLAB 賬號不支持使用 SToken 重新整理祈願記錄</value>
+    <value>HoYoLAB 帳號不支持使用 SToken 重新整理祈願紀錄</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
     <value>URL 中的語言：{0} 與胡桃的語言：{1} 不對應，請切換到對應語言重試</value>
@@ -978,16 +978,16 @@
     <value>等待遊戲進程退出</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandDescription" xml:space="preserve">
-    <value>解锁模块注入游戏进程，非常危险，但容易成功</value>
+    <value>解鎖模組注入遊戲進程，非常危險，但容易成功</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindIslandName" xml:space="preserve">
     <value>注入</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyDescription" xml:space="preserve">
-    <value>经典的进程外内存操作，较为危险，但容易失败</value>
+    <value>經典的進程外內存操作，較為危險，但容易失敗</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyName" xml:space="preserve">
-    <value>经典</value>
+    <value>經典</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>請選擇遊戲本體</value>
@@ -1041,7 +1041,7 @@
     <value>在尋找必要的模組時遇到問題：尋找模組超時，請重試</value>
   </data>
   <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
-    <value>在比對內存時遇到問題：無法比對到期望的內容</value>
+    <value>在匹配內存時遇到問題：無法匹配到期望的內容</value>
   </data>
   <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
     <value>在讀取必要的模組內存時遇到問題：無法將模組內存複製到指定位置</value>
@@ -1247,6 +1247,18 @@
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>添加或更新到當前養成計劃</value>
   </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
+    <value>总是创建新的养成目标物品</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
+    <value>保存方式</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
+    <value>覆盖存在的养成目标物品</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
+    <value>保留存在的养成目标物品</value>
+  </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>每日委託上線提醒</value>
   </data>
@@ -1274,6 +1286,12 @@
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>即時便箋 Webhook URL</value>
   </data>
+  <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
+    <value>選擇要匯出紀錄的 UID</value>
+  </data>
+  <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
+    <value>匯出 UIGF 文件</value>
+  </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>解除限制後需使用其他工具恢復限制</value>
   </data>
@@ -1281,10 +1299,10 @@
     <value>是否解除 Loopback 限制</value>
   </data>
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
-    <value>匯入祈願記錄</value>
+    <value>匯入祈願紀錄</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>祈願記錄 URL 已失效，請重新獲取</value>
+    <value>祈願紀錄 URL 已失效，請重新獲取</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>正在獲取 {0}</value>
@@ -1296,7 +1314,7 @@
     <value>請輸入 URL</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>手動輸入祈願記錄 URL</value>
+    <value>手動輸入祈願紀錄 URL</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
     <value>請輸入請求接口的 URL 複合模板</value>
@@ -1361,6 +1379,12 @@
   <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
     <value>UIGF 版本</value>
   </data>
+  <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
+    <value>選擇要匯入紀錄的 UID</value>
+  </data>
+  <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
+    <value>匯入 UIGF 檔案</value>
+  </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>在此處輸入名稱</value>
   </data>
@@ -1381,6 +1405,9 @@
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>使用米游社掃描 QR 碼</value>
+  </data>
+  <data name="ViewDialogReconfirmHint" xml:space="preserve">
+    <value>為了確保功能的啟用者有獨立的判斷能力，我們將不定期更新這些功能的啟用條件，如果您是一位內容創造者，在創作胡桃相關的內容時請不要向你的受眾介紹具體的啟用方法。</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>為防止你在無意間啟用，請輸入正在啟用的功能開關的&lt;b&gt;標題名稱&lt;/b&gt;</value>
@@ -1428,7 +1455,7 @@
     <value>回饋中心</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
-    <value>祈願記錄</value>
+    <value>祈願紀錄</value>
   </data>
   <data name="ViewGuideStaticResourceDownloadSize" xml:space="preserve">
     <value>預計下載大小：{0}</value>
@@ -1502,6 +1529,12 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深淵統計</value>
   </data>
+  <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
+    <value>清除所有通知</value>
+  </data>
+  <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
+    <value>收起</value>
+  </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
   </data>
@@ -1559,6 +1592,12 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>角色展櫃尚未開啟，請前往遊戲操作後重試</value>
   </data>
+  <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
+    <value>複製角色詳情失敗</value>
+  </data>
+  <data name="ViewModelAvatatPropertyExportTextSuccess" xml:space="preserve">
+    <value>複製角色詳情成功</value>
+  </data>
   <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
     <value>無聖遺物或散件</value>
   </data>
@@ -1570,6 +1609,15 @@
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>操作未全部完成：添加/更新：{0} 個，跳過 {1} 個</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
+    <value>选定的等级不需要养成材料</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
+    <value>尚未创建并选择养成计划</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
+    <value>已存在该物品的养成项目</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功新增至目前養成計劃</value>
@@ -1787,6 +1835,27 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>儲存遊戲路徑失敗</value>
   </data>
+  <data name="ViewModelUIGFExportError" xml:space="preserve">
+    <value>匯出失敗</value>
+  </data>
+  <data name="ViewModelUIGFExportSuccess" xml:space="preserve">
+    <value>匯出成功</value>
+  </data>
+  <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
+    <value>匯入的 UIGF 檔案中包含 UID 重複的祈願紀錄項</value>
+  </data>
+  <data name="ViewModelUIGFImportError" xml:space="preserve">
+    <value>匯入失敗</value>
+  </data>
+  <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
+    <value>匯入的 UIGF 檔案中不包含祈願數據</value>
+  </data>
+  <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
+    <value>請選擇至少一個 UID 以匯入數據</value>
+  </data>
+  <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
+    <value>匯入成功</value>
+  </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>用戶 [{0}] 新增成功</value>
   </data>
@@ -1880,6 +1949,9 @@
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
     <value>圖像輸出</value>
   </data>
+  <data name="ViewPageAvatarPropertyExportToTextLabel" xml:space="preserve">
+    <value>匯出文本到剪貼簿</value>
+  </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>角色屬性</value>
   </data>
@@ -1965,10 +2037,10 @@
     <value>添加任意武器到養成計劃</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>添加实时便笺</value>
+    <value>添加即時便籤</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>添加实时便笺以定时刷新</value>
+    <value>添加即時便籤以定時重新整理</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>新增</value>
@@ -2142,7 +2214,7 @@
     <value>手動輸入 URL</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 URL 重新整理祈願記錄</value>
+    <value>使用由你提供的 URL 重新整理祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken 重新整理</value>
@@ -2235,7 +2307,7 @@
     <value>數據收集統計</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewRecordTotal" xml:space="preserve">
-    <value>上傳記錄總數</value>
+    <value>上傳紀錄總數</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewRefreshTime" xml:space="preserve">
     <value>數據重新整理時間</value>
@@ -2247,16 +2319,16 @@
     <value>平均戰鬥次數</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssFullStar" xml:space="preserve">
-    <value>滿星深淵記錄</value>
+    <value>滿星深淵紀錄</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssPassed" xml:space="preserve">
-    <value>通關深淵記錄</value>
+    <value>通關深淵紀錄</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssStarAverage" xml:space="preserve">
     <value>平均獲取淵星</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssTotal" xml:space="preserve">
-    <value>總計深淵記錄</value>
+    <value>總計深淵紀錄</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>隊伍出場</value>
@@ -2355,7 +2427,7 @@
     <value>一般</value>
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
-    <value>所有選項盡會在啟動遊戲成功後儲存</value>
+    <value>所有選項僅會在啟動遊戲成功後儲存</value>
   </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
     <value>在我遊戲時設定 Discord Activity 狀態</value>
@@ -2448,10 +2520,10 @@
     <value>解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindDescription" xml:space="preserve">
-    <value>更改解锁帧率的工作方式</value>
+    <value>更改解鎖 FPS 的工作方式</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
-    <value>解锁方式</value>
+    <value>解鎖方式</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
     <value>停用</value>
@@ -2559,7 +2631,7 @@
     <value>刪除遊戲内網頁快取</value>
   </data>
   <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
-    <value>直接刪除用戶表的所有記錄，用於修復特定的賬號衝突問題</value>
+    <value>直接刪除用戶表的所有紀錄，用於修復特定的賬號衝突問題</value>
   </data>
   <data name="ViewPageSettingDeleteUserHeader" xml:space="preserve">
     <value>刪除所有用戶</value>
@@ -2601,7 +2673,7 @@
     <value>前往反饋</value>
   </data>
   <data name="ViewPageSettingGachaLogHeader" xml:space="preserve">
-    <value>祈願記錄</value>
+    <value>祈願紀錄</value>
   </data>
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>遊戲</value>
@@ -2736,7 +2808,7 @@
     <value>重設圖片資源</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsDescription" xml:space="preserve">
-    <value>在啟動遊戲頁面的程序部分加入解鎖 FPS 限制選項</value>
+    <value>在「啟動遊戲 - 進程」選項卡加入「解鎖 FPS 限制」選項</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
     <value>啟動遊戲-解鎖 FPS 限制</value>
@@ -2783,8 +2855,20 @@
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>貢獻翻譯</value>
   </data>
+  <data name="ViewPageSettingUIGFExportContent" xml:space="preserve">
+    <value>匯出</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportImportDescription" xml:space="preserve">
+    <value>匯出/匯入 UIGF 4 檔案</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
+    <value>數據遷移</value>
+  </data>
+  <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
+    <value>匯入</value>
+  </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
-    <value>在祈願記錄頁面角色與武器頁籤顯示未抽取到的祈願物品</value>
+    <value>在「祈願紀錄 - 角色」與「祈願紀錄 - 武器」中顯示未抽到的祈願物品</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleHeader" xml:space="preserve">
     <value>未抽取到的祈願物品</value>
@@ -3126,7 +3210,7 @@
     <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
-    <value>{0} 时 {1} 分</value>
+    <value>{0} 時 {1} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
     <value>今日完成委託數量不足</value>

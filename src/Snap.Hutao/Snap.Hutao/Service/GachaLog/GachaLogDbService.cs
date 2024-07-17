@@ -109,4 +109,9 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
     {
         this.Delete<GachaItem>(i => i.ArchiveId == archiveId && i.QueryType == queryType && i.Id >= endId);
     }
+
+    public List<string> GetGachaArchiveUidList()
+    {
+        return this.List<GachaArchive, string>(query => query.Select(archive => archive.Uid));
+    }
 }

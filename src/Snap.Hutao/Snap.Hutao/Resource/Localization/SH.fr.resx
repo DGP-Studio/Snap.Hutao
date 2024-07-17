@@ -1247,6 +1247,18 @@
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>添加或更新到当前养成计划</value>
   </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
+    <value>总是创建新的养成目标物品</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
+    <value>保存方式</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
+    <value>覆盖存在的养成目标物品</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
+    <value>保留存在的养成目标物品</value>
+  </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>每日委托上线提醒</value>
   </data>
@@ -1273,6 +1285,12 @@
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>实时便笺 Webhook Url</value>
+  </data>
+  <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
+    <value>选择要导出记录的 UID</value>
+  </data>
+  <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
+    <value>导出 UIGF 文件</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>解除限制后需要使用其他工具恢复限制</value>
@@ -1361,6 +1379,12 @@
   <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
     <value>UIGF 版本</value>
   </data>
+  <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
+    <value>选择要导入记录的 UID</value>
+  </data>
+  <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
+    <value>导入 UIGF 文件</value>
+  </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>在此处输入名称</value>
   </data>
@@ -1381,6 +1405,9 @@
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>使用米游社扫描二维码</value>
+  </data>
+  <data name="ViewDialogReconfirmHint" xml:space="preserve">
+    <value>为了确保功能的启用者有独立的判断能力，我们将不定期更新这些功能的启用条件，如果您是一位内容创造者，在创作胡桃相关的内容时请不要向你的受众介绍具体的启用方法。</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>为防止你在无意间启用，请输入正在启用的功能开关的&lt;b&gt;标题名称&lt;/b&gt;</value>
@@ -1502,6 +1529,12 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深渊统计</value>
   </data>
+  <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
+    <value>清除所有通知</value>
+  </data>
+  <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
+    <value>收起</value>
+  </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
   </data>
@@ -1559,6 +1592,12 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>角色展柜尚未开启，请前往游戏操作后重试</value>
   </data>
+  <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
+    <value>复制角色详情失败</value>
+  </data>
+  <data name="ViewModelAvatatPropertyExportTextSuccess" xml:space="preserve">
+    <value>复制角色详情成功</value>
+  </data>
   <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
     <value>无圣遗物或散件</value>
   </data>
@@ -1570,6 +1609,15 @@
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
+    <value>选定的等级不需要养成材料</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
+    <value>尚未创建并选择养成计划</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
+    <value>已存在该物品的养成项目</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功添加至当前养成计划</value>
@@ -1787,6 +1835,27 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>保存游戏路径失败</value>
   </data>
+  <data name="ViewModelUIGFExportError" xml:space="preserve">
+    <value>导出失败</value>
+  </data>
+  <data name="ViewModelUIGFExportSuccess" xml:space="preserve">
+    <value>导出成功</value>
+  </data>
+  <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
+    <value>导入的 UIGF 文件中包含 UID 重复的祈愿记录项</value>
+  </data>
+  <data name="ViewModelUIGFImportError" xml:space="preserve">
+    <value>导入失败</value>
+  </data>
+  <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
+    <value>导入的 UIGF 文件中不包含祈愿数据</value>
+  </data>
+  <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
+    <value>请选择至少一个 UID 以导入数据</value>
+  </data>
+  <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
+    <value>导入成功</value>
+  </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>用户 [{0}] 添加成功</value>
   </data>
@@ -1879,6 +1948,9 @@
   </data>
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
     <value>导出图片</value>
+  </data>
+  <data name="ViewPageAvatarPropertyExportToTextLabel" xml:space="preserve">
+    <value>导出文本到剪贴板</value>
   </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>角色属性</value>
@@ -2782,6 +2854,18 @@
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>贡献翻译</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportContent" xml:space="preserve">
+    <value>Exporter</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportImportDescription" xml:space="preserve">
+    <value>导出/导入 UIGF 4 文件</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
+    <value>数据迁移</value>
+  </data>
+  <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
+    <value>Importer</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>

@@ -12,10 +12,6 @@ namespace Snap.Hutao.UI.Xaml.Data;
 internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
     where T : class
 {
-    bool CanFilter { get; }
-
-    bool CanSort { get; }
-
     object? ICollectionView.CurrentItem
     {
         get => CurrentItem;
@@ -43,8 +39,6 @@ internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
     }
 
     void Add(T item);
-
-    void ClearObservedFilterProperties();
 
     bool ICollection<object>.Contains(object item)
     {
@@ -100,8 +94,6 @@ internal interface IAdvancedCollectionView<T> : ICollectionView, IEnumerable
     }
 
     bool MoveCurrentTo(T? item);
-
-    void ObserveFilterProperty(string propertyName);
 
     void Refresh();
 

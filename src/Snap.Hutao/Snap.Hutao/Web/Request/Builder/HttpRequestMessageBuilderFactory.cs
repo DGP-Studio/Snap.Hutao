@@ -10,9 +10,10 @@ namespace Snap.Hutao.Web.Request.Builder;
 internal sealed partial class HttpRequestMessageBuilderFactory : IHttpRequestMessageBuilderFactory
 {
     private readonly JsonHttpContentSerializer jsonHttpContentSerializer;
+    private readonly IServiceProvider serviceProvider;
 
     public HttpRequestMessageBuilder Create()
     {
-        return new(jsonHttpContentSerializer);
+        return new(serviceProvider, jsonHttpContentSerializer);
     }
 }

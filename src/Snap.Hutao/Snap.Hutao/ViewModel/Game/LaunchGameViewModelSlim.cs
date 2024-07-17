@@ -43,13 +43,14 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
     protected override async Task LoadAsync()
     {
         LaunchScheme? scheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
-        ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
+        ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
 
         try
         {
             if (scheme is not null)
             {
                 // Try set to the current account.
+                await taskContext.SwitchToMainThreadAsync();
                 SelectedGameAccount ??= gameService.DetectCurrentGameAccount(scheme);
             }
         }
@@ -59,12 +60,10 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
         }
 
         gameAccountFilter = new(scheme?.GetSchemeType());
+        AdvancedCollectionView<GameAccount> accountsView = new(accounts) { Filter = gameAccountFilter.Filter };
 
         await taskContext.SwitchToMainThreadAsync();
-        GameAccountsView = new(accounts, true)
-        {
-            Filter = gameAccountFilter.Filter,
-        };
+        GameAccountsView = accountsView;
     }
 
     [Command("LaunchCommand")]

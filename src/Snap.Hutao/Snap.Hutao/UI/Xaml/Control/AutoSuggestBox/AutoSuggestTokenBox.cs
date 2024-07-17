@@ -697,7 +697,8 @@ internal sealed partial class AutoSuggestTokenBox : ListViewBase
                 // This code is only fires during an edgecase where an item is in the process of being deleted and the user inputs a character before the focus has been redirected to a string container.
                 if (innerItemsSource[^1] is ITokenStringContainer textEdit)
                 {
-                    if (ContainerFromIndex(Items.Count - 1) is AutoSuggestTokenBoxItem last) // Should be our last text box
+                    // Should be our last text box
+                    if (ContainerFromIndex(Items.Count - 1) is AutoSuggestTokenBoxItem last)
                     {
                         ArgumentNullException.ThrowIfNull(last.AutoSuggestTextBox);
                         string text = last.AutoSuggestTextBox.Text;

@@ -3,10 +3,9 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace Snap.Hutao.UI.Xaml.View;
 
@@ -18,20 +17,68 @@ internal sealed partial class InfoBarView : UserControl
     public InfoBarView()
     {
         InitializeComponent();
+        DataContext = this;
 
         IServiceProvider serviceProvider = Ioc.Default;
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         InfoBars = infoBarService.Collection;
-        VisibilityButton.IsChecked = LocalSetting.Get(SettingKeys.IsInfoBarToggleChecked, true);
+        InfoBars.CollectionChanged += OnInfoBarsCollectionChanged;
+        Unloaded += OnUnloaded;
     }
 
-    private void OnVisibilityButtonCheckedChanged(object sender, RoutedEventArgs e)
+    private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        LocalSetting.Set(SettingKeys.IsInfoBarToggleChecked, ((ToggleButton)sender).IsChecked ?? false);
+        InfoBars.CollectionChanged -= OnInfoBarsCollectionChanged;
+    }
+
+    private void OnInfoBarsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs args)
+    {
+        HandleInfoBarsCollectionChangedAsync(args).SafeForget();
+
+        async ValueTask HandleInfoBarsCollectionChangedAsync(NotifyCollectionChangedEventArgs args)
+        {
+            if (InfoBars.Count > 0)
+            {
+                VisibilityRoot.Visibility = Visibility.Visible;
+            }
+
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    {
+                        InfoBarPanelTransitionHelper.Source = ShowButtonBorder;
+                        InfoBarPanelTransitionHelper.Target = InfoBarItemsBorder;
+                        await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
+                        break;
+                    }
+            }
+
+            if (InfoBars.Count is 0)
+            {
+                InfoBarPanelTransitionHelper.Source = InfoBarItemsBorder;
+                InfoBarPanelTransitionHelper.Target = ShowButtonBorder;
+                await InfoBarPanelTransitionHelper.StartAsync().ConfigureAwait(true);
+                VisibilityRoot.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 
     private void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)
     {
         InfoBars.Remove((InfoBarOptions)sender.DataContext);
+    }
+
+    private void OnClearAllButtonClick(object sender, RoutedEventArgs e)
+    {
+        RemoveInfoBarsAsync().SafeForget();
+
+        async ValueTask RemoveInfoBarsAsync()
+        {
+            while (InfoBars.Count > 0)
+            {
+                InfoBars.RemoveAt(0);
+                await Task.Delay(100).ConfigureAwait(true);
+            }
+        }
     }
 }

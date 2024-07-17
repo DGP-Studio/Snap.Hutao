@@ -556,12 +556,16 @@
                                     Content="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"/>
                             </StackPanel>
                         </CommandBar.Content>
+                        <AppBarButton
+                            Command="{Binding ExportToTextCommand}"
+                            Icon="{shuxm:FontIcon Glyph=&#xEDE1;}"
+                            Label="{shuxm:ResourceString Name=ViewPageAvatarPropertyExportToTextLabel}"/>
                         <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE8EF;}" Label="{shuxm:ResourceString Name=ViewPageCultivateCalculate}">
                             <AppBarButton.Flyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem
                                         Command="{Binding CultivateCommand}"
-                                        CommandParameter="{Binding SelectedAvatar}"
+                                        CommandParameter="{Binding Summary.Avatars.CurrentItem}"
                                         Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculateCurrent}"/>
                                     <MenuFlyoutItem Command="{Binding BatchCultivateCommand}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCalculateAll}"/>
                                 </MenuFlyout>
@@ -589,11 +593,10 @@
                         <cwcont:Case Value="Grid">
                             <GridView
                                 Margin="16,16,4,-4"
-                                cwa:ItemsReorderAnimation.Duration="0:0:0.1"
                                 ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                 ItemTemplate="{StaticResource AvatarGridViewTemplate}"
                                 ItemsSource="{Binding Summary.Avatars}"
-                                SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}"/>
+                                SelectedItem="{Binding Summary.Avatars.CurrentItem, Mode=TwoWay}"/>
                         </cwcont:Case>
                         <cwcont:Case Value="List">
                             <SplitView
@@ -607,7 +610,7 @@
                                         Padding="{ThemeResource ListViewInSplitPanePadding}"
                                         ItemTemplate="{StaticResource AvatarListViewTemplate}"
                                         ItemsSource="{Binding Summary.Avatars}"
-                                        SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}"/>
+                                        SelectedItem="{Binding Summary.Avatars.CurrentItem, Mode=TwoWay}"/>
                                 </SplitView.Pane>
                                 <SplitView.Content>
                                     <ScrollViewer>
@@ -639,7 +642,7 @@
                                                             Grid.ColumnSpan="2"
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
-                                                            Source="{Binding SelectedAvatar.NameCard}"
+                                                            Source="{Binding Summary.Avatars.CurrentItem.NameCard}"
                                                             Stretch="UniformToFill"/>
                                                     </cwcont:ConstrainedBox>
                                                     <Border
@@ -659,18 +662,18 @@
                                                             </Grid.ColumnDefinitions>
                                                             <shuxc:ItemIcon
                                                                 cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
-                                                                Icon="{Binding SelectedAvatar.Icon}"
-                                                                Quality="{Binding SelectedAvatar.Quality}"/>
+                                                                Icon="{Binding Summary.Avatars.CurrentItem.Icon}"
+                                                                Quality="{Binding Summary.Avatars.CurrentItem.Quality}"/>
                                                             <StackPanel Grid.Column="1" Margin="16,0,0,0">
                                                                 <TextBlock
                                                                     Foreground="#FFFFFFFF"
                                                                     Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                    Text="{Binding SelectedAvatar.Name}"/>
+                                                                    Text="{Binding Summary.Avatars.CurrentItem.Name}"/>
                                                                 <TextBlock
                                                                     Margin="0,4,0,0"
                                                                     Foreground="#FFFFFFFF"
                                                                     Style="{StaticResource BaseTextBlockStyle}"
-                                                                    Text="{Binding SelectedAvatar.Level}"/>
+                                                                    Text="{Binding Summary.Avatars.CurrentItem.Level}"/>
                                                                 <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
                                                                     <Image
                                                                         Width="16"
@@ -682,7 +685,7 @@
                                                                         Foreground="#FFFFFFFF"
                                                                         HorizontalTextAlignment="Center"
                                                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                                                        Text="{Binding SelectedAvatar.FetterLevel}"
+                                                                        Text="{Binding Summary.Avatars.CurrentItem.FetterLevel}"
                                                                         TextAlignment="Center"
                                                                         TextTrimming="None"
                                                                         TextWrapping="NoWrap"/>
@@ -692,7 +695,7 @@
                                                         <Grid
                                                             Margin="0,16,0,0"
                                                             HorizontalAlignment="Left"
-                                                            DataContext="{Binding SelectedAvatar.Weapon}">
+                                                            DataContext="{Binding Summary.Avatars.CurrentItem.Weapon}">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition/>
                                                                 <ColumnDefinition Width="auto"/>
@@ -724,7 +727,7 @@
                                                                                 Margin="0,2,0,0"
                                                                                 Padding="12"
                                                                                 Header="{Binding SubProperty.Name}">
-                                                                                <TextBlock Text="{Binding SubProperty.Description}"/>
+                                                                                <TextBlock Text="{Binding SubProperty.Value}"/>
                                                                             </cwcont:SettingsCard>
                                                                             <shuxct:DescriptionTextBlock
                                                                                 MaxWidth="320"
@@ -758,7 +761,7 @@
                                                             HorizontalAlignment="Right"
                                                             Foreground="#FFFFFFFF"
                                                             Style="{StaticResource TitleTextBlockStyle}"
-                                                            Text="{Binding SelectedAvatar.ScoreFormatted}"/>
+                                                            Text="{Binding Summary.Avatars.CurrentItem.ScoreFormatted}"/>
                                                         <TextBlock
                                                             HorizontalAlignment="Right"
                                                             Foreground="#FFFFFFFF"
@@ -770,7 +773,7 @@
                                                             HorizontalAlignment="Right"
                                                             Foreground="#FFFFFFFF"
                                                             Style="{StaticResource TitleTextBlockStyle}"
-                                                            Text="{Binding SelectedAvatar.CritScoreFormatted}"/>
+                                                            Text="{Binding Summary.Avatars.CurrentItem.CritScoreFormatted}"/>
                                                         <TextBlock
                                                             HorizontalAlignment="Right"
                                                             Foreground="#FFFFFFFF"
@@ -785,7 +788,7 @@
                                                         Margin="16"
                                                         VerticalAlignment="Bottom"
                                                         ItemTemplate="{StaticResource AvatarSkillTemplate}"
-                                                        ItemsSource="{Binding SelectedAvatar.Skills}"/>
+                                                        ItemsSource="{Binding Summary.Avatars.CurrentItem.Skills}"/>
 
                                                     <ItemsControl
                                                         Grid.Row="1"
@@ -793,7 +796,7 @@
                                                         Margin="16"
                                                         ItemTemplate="{StaticResource AvatarConstellationTemplate}"
                                                         ItemsPanel="{StaticResource HorizontalStackPanelSpacing0Template}"
-                                                        ItemsSource="{Binding SelectedAvatar.Constellations}"/>
+                                                        ItemsSource="{Binding Summary.Avatars.CurrentItem.Constellations}"/>
                                                 </Grid>
                                             </Border>
 
@@ -809,14 +812,14 @@
                                                     <ItemsControl
                                                         Margin="0,-1,0,0"
                                                         ItemTemplate="{StaticResource AvatarPropertyTemplate}"
-                                                        ItemsSource="{Binding SelectedAvatar.Properties}"/>
+                                                        ItemsSource="{Binding Summary.Avatars.CurrentItem.Properties}"/>
                                                 </Border>
                                             </Expander>
                                             <!--  圣遗物  -->
                                             <ItemsControl
                                                 Margin="16,16,16,0"
                                                 ItemTemplate="{StaticResource AvatarReliquaryTemplate}"
-                                                ItemsSource="{Binding SelectedAvatar.Reliquaries}"/>
+                                                ItemsSource="{Binding Summary.Avatars.CurrentItem.Reliquaries}"/>
                                         </StackPanel>
                                     </ScrollViewer>
                                 </SplitView.Content>

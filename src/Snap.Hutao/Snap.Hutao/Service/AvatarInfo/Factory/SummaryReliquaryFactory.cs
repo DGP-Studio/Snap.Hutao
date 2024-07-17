@@ -36,6 +36,7 @@ internal sealed class SummaryReliquaryFactory
     public ReliquaryView Create()
     {
         MetadataReliquary reliquary = metadataContext.IdReliquaryMap[equip.ItemId];
+        ReliquarySet reliquarySet = metadataContext.IdReliquarySetMap[reliquary.SetId];
 
         ArgumentNullException.ThrowIfNull(equip.Reliquary);
         List<ReliquarySubProperty> subProperties = equip.Reliquary.AppendPropIdList.EmptyIfNull().SelectList(CreateSubProperty);
@@ -45,7 +46,9 @@ internal sealed class SummaryReliquaryFactory
             .SetIcon(RelicIconConverter.IconNameToUri(reliquary.Icon))
             .SetDescription(reliquary.Description)
             .SetLevel($"+{equip.Reliquary.Level - 1U}")
-            .SetQuality(reliquary.RankLevel);
+            .SetQuality(reliquary.RankLevel)
+            .SetEquipType(reliquary.EquipType)
+            .SetSetName(reliquarySet.Name);
 
         int affixCount = GetSecondaryAffixCount(reliquary, equip.Reliquary);
 

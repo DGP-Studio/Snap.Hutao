@@ -59,14 +59,6 @@ internal sealed partial class UserGameRole : ObservableObject, IAdvancedCollecti
         return $"{Nickname} | {RegionName} | Lv.{Level}";
     }
 
-    public object? GetPropertyValue(string name)
-    {
-        return name switch
-        {
-            _ => default,
-        };
-    }
-
     [Command("RefreshProfilePictureCommand")]
     private async Task RefreshProfilePictureAsync()
     {

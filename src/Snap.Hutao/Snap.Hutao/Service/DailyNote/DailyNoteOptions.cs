@@ -37,7 +37,7 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
 
     public bool IsAutoRefreshEnabled
     {
-        get => GetOption(ref isAutoRefreshEnabled, SettingEntry.DailyNoteIsAutoRefreshEnabled, true);
+        get => GetOption(ref isAutoRefreshEnabled, SettingEntry.DailyNoteIsAutoRefreshEnabled, false);
         set
         {
             if (SetOption(ref isAutoRefreshEnabled, SettingEntry.DailyNoteIsAutoRefreshEnabled, value))

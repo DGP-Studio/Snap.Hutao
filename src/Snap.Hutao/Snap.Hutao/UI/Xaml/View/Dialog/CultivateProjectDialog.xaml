@@ -17,10 +17,5 @@
             VerticalAlignment="Top"
             PlaceholderText="{shuxm:ResourceString Name=ViewDialogCultivateProjectInputPlaceholder}"
             Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <CheckBox
-            Margin="0,8,0,0"
-            Content="{shuxm:ResourceString Name=ViewDialogCultivateProjectAttachUid}"
-            IsChecked="{x:Bind IsUidAttached, Mode=TwoWay}"
-            Visibility="Collapsed"/>
     </StackPanel>
 </ContentDialog>

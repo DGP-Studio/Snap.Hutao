@@ -11,6 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
+[PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class UserClientOversea : IUserClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;

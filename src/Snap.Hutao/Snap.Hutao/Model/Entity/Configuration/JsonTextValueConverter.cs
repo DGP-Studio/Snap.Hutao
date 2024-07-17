@@ -6,18 +6,13 @@ using Snap.Hutao.Core.Json;
 
 namespace Snap.Hutao.Model.Entity.Configuration;
 
-/// <summary>
-/// Json文本转换器
-/// </summary>
-/// <typeparam name="TProperty">实体类型</typeparam>
-[HighQuality]
-internal sealed class JsonTextValueConverter<TProperty> : ValueConverter<TProperty, string>
+internal sealed class JsonTextValueConverter<TPropertyType> : ValueConverter<TPropertyType, string>
 {
     [SuppressMessage("", "SH007")]
     public JsonTextValueConverter()
         : base(
             obj => JsonSerializer.Serialize(obj, JsonOptions.Default),
-            str => JsonSerializer.Deserialize<TProperty>(str, JsonOptions.Default)!)
+            str => JsonSerializer.Deserialize<TPropertyType>(str, JsonOptions.Default)!)
     {
     }
 }

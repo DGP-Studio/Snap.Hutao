@@ -260,14 +260,12 @@ internal sealed partial class UserViewModel : ObservableObject
         // Manual webview
         await taskContext.SwitchToMainThreadAsync();
 
-        ShowWebView2WindowAction action = new()
+        new ShowWebView2WindowAction()
         {
             ContentProvider = new MiHoYoJSBridgeWebView2ContentProvider()
             {
                 SourceProvider = new SignInJSBridgeUriSourceProvider(),
             },
-        };
-
-        action.Execute(appBarButton, default!);
+        }.ShowAt(appBarButton.XamlRoot);
     }
 }

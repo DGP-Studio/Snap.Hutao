@@ -20,6 +20,8 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
+    private readonly object syncRoot = new();
+
     public async ValueTask TryInitializeAsync(ViewModel.User.User user, CancellationToken token = default)
     {
         foreach (UserGameRole userGameRole in user.UserGameRoles)
@@ -53,8 +55,13 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
         {
             UidProfilePicture profilePicture = UidProfilePicture.From(userGameRole, playerInfo.ProfilePicture);
 
-            uidProfilePictureDbService.DeleteUidProfilePictureByUid(userGameRole.GameUid);
-            uidProfilePictureDbService.UpdateUidProfilePicture(profilePicture);
+            // We don't use DbTransaction here because it's rather complicated
+            // to handle transaction over multiple DbContext
+            lock (syncRoot)
+            {
+                uidProfilePictureDbService.DeleteUidProfilePictureByUid(userGameRole.GameUid);
+                uidProfilePictureDbService.UpdateUidProfilePicture(profilePicture);
+            }
 
             await TryUpdateUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false);
         }

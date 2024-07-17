@@ -7,16 +7,10 @@ using Snap.Hutao.ViewModel.Wiki;
 
 namespace Snap.Hutao.UI.Xaml.View.Specialized;
 
-/// <summary>
-/// 基础数值滑动条
-/// </summary>
 [DependencyProperty("BaseValueInfo", typeof(BaseValueInfo))]
 [DependencyProperty("IsPromoteVisible", typeof(bool), true)]
 internal sealed partial class BaseValueSlider : UserControl
 {
-    /// <summary>
-    /// 构造一个新的基础数值滑动条
-    /// </summary>
     public BaseValueSlider()
     {
         InitializeComponent();

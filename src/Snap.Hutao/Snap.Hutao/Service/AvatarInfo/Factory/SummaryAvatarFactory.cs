@@ -102,17 +102,17 @@ internal sealed class SummaryAvatarFactory
         WeaponStat? mainStat = equip.Flat.WeaponStats?.ElementAtOrDefault(0);
         WeaponStat? subStat = equip.Flat.WeaponStats?.ElementAtOrDefault(1);
 
-        NameDescription subProperty;
+        NameValue<string> subProperty;
         if (subStat is null)
         {
-            subProperty = NameDescription.Default;
+            subProperty = NameValueDefaults.String;
         }
         else
         {
             float statValue = subStat.AppendPropId.GetFormatMethod() is FormatMethod.Percent
                 ? subStat.StatValue / 100F
                 : subStat.StatValue;
-            subProperty = FightPropertyFormat.ToNameDescription(subStat.AppendPropId, statValue);
+            subProperty = FightPropertyFormat.ToNameValue(subStat.AppendPropId, statValue);
         }
 
         ArgumentNullException.ThrowIfNull(equip.Weapon);
@@ -123,6 +123,7 @@ internal sealed class SummaryAvatarFactory
             .SetDescription(weapon.Description)
             .SetLevel(LevelFormat.Format(equip.Weapon.Level))
             .SetQuality(weapon.Quality)
+            .SetEquipType(EquipType.EQUIP_WEAPON)
             .SetMainProperty(mainStat)
             .SetId(weapon.Id)
             .SetLevelNumber(equip.Weapon.Level)

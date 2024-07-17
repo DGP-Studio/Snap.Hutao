@@ -28,6 +28,8 @@ internal interface ICultivationDbService : IAppDbService<CultivateEntryLevelInfo
 
     ObservableCollection<CultivateProject> GetCultivateProjectCollection();
 
+    CultivateProject? GetCultivateProjectById(Guid projectId);
+
     void AddCultivateEntry(CultivateEntry entry);
 
     void AddCultivateItemRange(IEnumerable<CultivateItem> toAdd);

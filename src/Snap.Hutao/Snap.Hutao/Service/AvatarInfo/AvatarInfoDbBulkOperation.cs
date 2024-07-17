@@ -31,6 +31,28 @@ internal sealed partial class AvatarInfoDbBulkOperation
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
+    public void UnsafeUpdateDbAvatarInfos(string uid, IEnumerable<EnkaAvatarInfo> webInfos)
+    {
+        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            foreach (EnkaAvatarInfo webInfo in webInfos)
+            {
+                if (AvatarIds.IsPlayer(webInfo.AvatarId))
+                {
+                    continue;
+                }
+
+                EntityAvatarInfo? entity = dbInfoMap.GetValueOrDefault(webInfo.AvatarId);
+                AddOrUpdateAvatarInfo(entity, uid, appDbContext, webInfo);
+            }
+        }
+    }
+
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByShowcaseAsync(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();

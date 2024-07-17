@@ -1,10 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Win32.Foundation;
-using static Snap.Hutao.Win32.Kernel32;
-
 namespace Snap.Hutao.Service.Game.Unlocker;
 
 /// <summary>
@@ -19,19 +15,34 @@ internal static class GameFpsAddress
 
     public static unsafe void UnsafeFindFpsAddress(GameFpsUnlockerContext context, in RequiredRemoteModule remoteModule, in RequiredLocalModule localModule)
     {
-        int offsetToUserAssembly = IndexOfPattern(localModule.UserAssembly.AsSpan());
-        HutaoException.ThrowIfNot(offsetToUserAssembly >= 0, SH.ServiceGameUnlockerInterestedPatternNotFound);
+        Span<byte> executableSpan = localModule.Executable.AsSpan();
+        int offsetToExecutable = 0;
+        nuint localVirtualAddress = 0;
+        do
+        {
+            int index = IndexOfPattern(executableSpan[offsetToExecutable..], out int patternLength);
+            if (index < 0)
+            {
+                break;
+            }
 
-        nuint rip = localModule.UserAssembly.Address + (uint)offsetToUserAssembly;
-        rip += 5U;
-        rip += (nuint)(*(int*)(rip + 2U) + 6);
+            offsetToExecutable += index;
 
-        nuint remoteVirtualAddress = remoteModule.UserAssembly.Address + (rip - localModule.UserAssembly.Address);
+            nuint rip = localModule.Executable.Address + (uint)offsetToExecutable;
+            rip += 5U;
+            rip += (nuint)(*(int*)(rip + 1U) + 5);
 
-        nuint ptr = 0;
-        SpinWait.SpinUntil(() => UnsafeReadProcessMemory(context.AllAccess, remoteVirtualAddress, out ptr) && ptr != 0);
+            if (*(byte*)rip is ASM_JMP)
+            {
+                localVirtualAddress = rip;
+                break;
+            }
 
-        nuint localVirtualAddress = ptr - remoteModule.UnityPlayer.Address + localModule.UnityPlayer.Address;
+            offsetToExecutable += patternLength;
+        }
+        while (true);
+
+        ArgumentOutOfRangeException.ThrowIfZero(localVirtualAddress);
 
         while (*(byte*)localVirtualAddress is ASM_CALL or ASM_JMP)
         {
@@ -39,22 +50,15 @@ internal static class GameFpsAddress
         }
 
         localVirtualAddress += *(uint*)(localVirtualAddress + 2) + 6;
-        nuint relativeVirtualAddress = localVirtualAddress - localModule.UnityPlayer.Address;
-        context.FpsAddress = remoteModule.UnityPlayer.Address + relativeVirtualAddress;
+        nuint relativeVirtualAddress = localVirtualAddress - localModule.Executable.Address;
+        context.FpsAddress = remoteModule.Executable.Address + relativeVirtualAddress;
     }
 
-    private static int IndexOfPattern(in ReadOnlySpan<byte> memory)
+    private static int IndexOfPattern(in ReadOnlySpan<byte> span, out int patternLength)
     {
-        // B9 3C 00 00 00 FF 15
-        ReadOnlySpan<byte> part = [0xB9, 0x3C, 0x00, 0x00, 0x00, 0xFF, 0x15];
-        return memory.IndexOf(part);
-    }
-
-    private static unsafe bool UnsafeReadProcessMemory(HANDLE hProcess, nuint baseAddress, out nuint value)
-    {
-        value = 0;
-        bool result = ReadProcessMemory(hProcess, (void*)baseAddress, ref value, out _);
-        HutaoException.ThrowIfNot(result, SH.ServiceGameUnlockerReadProcessMemoryPointerAddressFailed);
-        return result;
+        // B9 3C 00 00 00 E8
+        ReadOnlySpan<byte> part = [0xB9, 0x3C, 0x00, 0x00, 0x00, 0xE8];
+        patternLength = part.Length;
+        return span.IndexOf(part);
     }
 }

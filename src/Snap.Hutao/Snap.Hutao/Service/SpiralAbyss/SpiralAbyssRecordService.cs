@@ -34,6 +34,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
+            // TODO replace to IMetadataContext
             metadataContext = new()
             {
                 IdScheduleMap = await metadataService.GetIdToTowerScheduleMapAsync().ConfigureAwait(false),
@@ -60,7 +61,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         if (spiralAbysses is null)
         {
             await taskContext.SwitchToBackgroundAsync();
-            Dictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordDbService.GetSpiralAbyssEntryListByUid(userAndUid.Uid.Value);
+            Dictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordDbService.GetSpiralAbyssEntryMapByUid(userAndUid.Uid.Value);
 
             ArgumentNullException.ThrowIfNull(metadataContext);
             spiralAbysses = metadataContext.IdScheduleMap.Values

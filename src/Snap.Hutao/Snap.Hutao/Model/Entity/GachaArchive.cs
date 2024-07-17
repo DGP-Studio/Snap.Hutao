@@ -42,12 +42,4 @@ internal sealed partial class GachaArchive : ISelectable,
     {
         return new() { Uid = uid };
     }
-
-    public object? GetPropertyValue(string name)
-    {
-        return name switch
-        {
-            _ => default,
-        };
-    }
 }

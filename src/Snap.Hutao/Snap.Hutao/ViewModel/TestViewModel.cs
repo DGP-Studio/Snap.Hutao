@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
@@ -95,6 +96,20 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
+    public bool AlwaysIsFirstRunAfterUpdate
+    {
+        get => LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
+        }
+    }
+
     [Command("ResetGuideStateCommand")]
     private static void ResetGuideState()
     {
@@ -173,5 +188,14 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 }
             }
         }
+    }
+
+    [Command("SendRandomInfoBarNotificationCommand")]
+    private void SendRandomInfoBarNotification()
+    {
+        infoBarService.PrepareInfoBarAndShow(builder => builder
+            .SetSeverity((InfoBarSeverity)Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
+            .SetTitle("Lorem ipsum dolor sit amet")
+            .SetMessage("Consectetur adipiscing elit. Nullam nec purus nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt."));
     }
 }

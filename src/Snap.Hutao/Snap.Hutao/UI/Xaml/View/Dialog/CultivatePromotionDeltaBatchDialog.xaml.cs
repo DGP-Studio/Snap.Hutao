@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
@@ -21,7 +22,7 @@ internal sealed partial class CultivatePromotionDeltaBatchDialog : ContentDialog
         PromotionDelta = AvatarPromotionDelta.CreateForBaseline();
     }
 
-    public async ValueTask<ValueResult<bool, AvatarPromotionDelta>> GetPromotionDeltaBaselineAsync()
+    public async ValueTask<ValueResult<bool, CultivatePromotionDeltaOptions>> GetPromotionDeltaBaselineAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
@@ -50,6 +51,6 @@ internal sealed partial class CultivatePromotionDeltaBatchDialog : ContentDialog
             LocalSetting.Set(SettingKeys.CultivationWeapon90LevelTarget, weapon.LevelTarget);
         }
 
-        return new(true, PromotionDelta);
+        return new(true, new(PromotionDelta, (ConsumptionSaveStrategyKind)SaveModeSelector.SelectedIndex));
     }
 }

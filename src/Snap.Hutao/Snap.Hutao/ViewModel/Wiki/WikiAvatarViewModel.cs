@@ -24,7 +24,6 @@ using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
-using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
@@ -43,8 +42,8 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
-    private readonly CalculateClient calculateClient;
     private readonly IUserService userService;
 
     private AdvancedCollectionView<Avatar>? avatars;
@@ -109,8 +108,12 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
+                    AdvancedCollectionView<Avatar> avatarsView = list.ToAdvancedCollectionView();
+
                     await taskContext.SwitchToMainThreadAsync();
-                    Avatars = new(list, true);
+                    Avatars = avatarsView;
+
+                    // TODO: use CurrentItem
                     Selected = Avatars.View.ElementAtOrDefault(0);
                 }
 
@@ -169,16 +172,19 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
         CalculableOptions options = new(avatar.ToCalculable(), null);
         CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
-        (bool isOk, CalculateAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+        (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
         if (!isOk)
         {
             return;
         }
 
-        Response<CalculateBatchConsumption> response = await calculateClient
-            .BatchComputeAsync(userAndUid, delta)
-            .ConfigureAwait(false);
+        Response<CalculateBatchConsumption> response;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+            response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
+        }
 
         if (!response.IsOk())
         {
@@ -186,20 +192,32 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
 
         CalculateBatchConsumption batchConsumption = response.Data;
-        LevelInformation levelInformation = LevelInformation.From(delta);
+        LevelInformation levelInformation = LevelInformation.From(deltaOptions.Delta);
         try
         {
-            bool saved = await cultivationService
-                .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, batchConsumption.OverallConsume, levelInformation)
-                .ConfigureAwait(false);
+            InputConsumption input = new()
+            {
+                Type = CultivateType.AvatarAndSkill,
+                ItemId = avatar.Id,
+                Items = batchConsumption.OverallConsume,
+                LevelInformation = levelInformation,
+                Strategy = deltaOptions.Strategy,
+            };
 
-            if (saved)
+            switch (await cultivationService.SaveConsumptionAsync(input).ConfigureAwait(false))
             {
-                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                case ConsumptionSaveResultKind.NoProject:
+                    infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                    break;
+                case ConsumptionSaveResultKind.Skipped:
+                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint);
+                    break;
+                case ConsumptionSaveResultKind.NoItem:
+                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint);
+                    break;
+                case ConsumptionSaveResultKind.Added:
+                    infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
+                    break;
             }
         }
         catch (HutaoException ex)

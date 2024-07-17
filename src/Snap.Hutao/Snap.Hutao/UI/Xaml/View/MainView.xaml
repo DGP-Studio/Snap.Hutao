@@ -48,6 +48,7 @@
             shuxc:NavigationViewHelper.PaneCornerRadius="0"
             CompactPaneLength="48"
             IsBackEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
+            IsEnabled="{Binding ElementName=ContentFrame, Path=Content.DataContext.IsInitialized, Mode=OneWay}"
             IsPaneOpen="True"
             OpenPaneLength="192"
             PaneDisplayMode="Left"
@@ -127,6 +128,6 @@
                 UseLayoutRounding="True"/>
         </NavigationView>
 
-        <shuxv:InfoBarView/>
+        <shuxv:InfoBarView Margin="0,44,0,0" VerticalAlignment="Stretch"/>
     </Grid>
 </UserControl>

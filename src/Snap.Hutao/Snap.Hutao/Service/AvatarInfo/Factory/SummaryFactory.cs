@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
@@ -34,9 +35,11 @@ internal sealed partial class SummaryFactory : ISummaryFactory
             .ThenBy(a => a.Weapon?.WeaponType)
             .ThenByDescending(a => a.FetterLevel);
 
+        IList<AvatarView> views = [.. avatars];
+
         return new()
         {
-            Avatars = [.. avatars],
+            Avatars = views.ToAdvancedCollectionView(),
         };
     }
 }

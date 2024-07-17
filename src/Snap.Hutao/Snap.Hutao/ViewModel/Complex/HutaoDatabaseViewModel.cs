@@ -7,10 +7,6 @@ using Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-/// <summary>
-/// 胡桃数据库视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel

@@ -42,16 +42,15 @@ internal static class GameProcessModule
 
     private static FindModuleResult UnsafeGetGameModuleInfo(in HANDLE hProcess, out RequiredRemoteModule info)
     {
-        FindModuleResult unityPlayerResult = UnsafeFindModule(hProcess, "UnityPlayer.dll", out Module unityPlayer);
-        FindModuleResult userAssemblyResult = UnsafeFindModule(hProcess, "UserAssembly.dll", out Module userAssembly);
+        FindModuleResult result = UnsafeFindModule(hProcess, GameConstants.YuanShenFileName, GameConstants.GenshinImpactFileName, out Module executable);
 
-        if (unityPlayerResult is FindModuleResult.Ok && userAssemblyResult is FindModuleResult.Ok)
+        if (result is FindModuleResult.Ok)
         {
-            info = new(unityPlayer, userAssembly);
+            info = new(executable);
             return FindModuleResult.Ok;
         }
 
-        if (unityPlayerResult is FindModuleResult.NoModuleFound && userAssemblyResult is FindModuleResult.NoModuleFound)
+        if (result is FindModuleResult.NoModuleFound)
         {
             info = default;
             return FindModuleResult.NoModuleFound;
@@ -61,7 +60,7 @@ internal static class GameProcessModule
         return FindModuleResult.ModuleNotLoaded;
     }
 
-    private static unsafe FindModuleResult UnsafeFindModule(in HANDLE hProcess, in ReadOnlySpan<char> moduleName, out Module module)
+    private static unsafe FindModuleResult UnsafeFindModule(in HANDLE hProcess, in ReadOnlySpan<char> moduleName1, in ReadOnlySpan<char> moduleName2, out Module module)
     {
         HMODULE[] buffer = new HMODULE[128];
         if (!K32EnumProcessModules(hProcess, buffer, out uint actualSize))
@@ -86,7 +85,8 @@ internal static class GameProcessModule
 
             fixed (char* lpBaseName = baseName)
             {
-                if (!moduleName.SequenceEqual(MemoryMarshal.CreateReadOnlySpanFromNullTerminated(lpBaseName)))
+                ReadOnlySpan<char> baseNameSpan = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(lpBaseName);
+                if (!(moduleName1.SequenceEqual(baseNameSpan) || moduleName2.SequenceEqual(baseNameSpan)))
                 {
                     continue;
                 }

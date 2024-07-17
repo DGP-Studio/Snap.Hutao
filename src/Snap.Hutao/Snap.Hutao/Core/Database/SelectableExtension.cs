@@ -18,4 +18,11 @@ internal static class SelectableExtension
     {
         return source.SingleOrDefault(i => i.IsSelected);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TSource? SelectedOrFirstOrDefault<TSource>(this IEnumerable<TSource> source)
+        where TSource : ISelectable
+    {
+        return source.SingleOrDefault(i => i.IsSelected) ?? source.FirstOrDefault();
+    }
 }

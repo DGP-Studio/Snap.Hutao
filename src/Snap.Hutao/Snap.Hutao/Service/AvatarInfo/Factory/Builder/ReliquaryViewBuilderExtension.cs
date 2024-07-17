@@ -22,6 +22,12 @@ internal static class ReliquaryViewBuilderExtension
         return builder.SetDescription<TBuilder, ReliquaryView>(description);
     }
 
+    public static TBuilder SetEquipType<TBuilder>(this TBuilder builder, EquipType equipType)
+        where TBuilder : IReliquaryViewBuilder
+    {
+        return builder.SetEquipType<TBuilder, ReliquaryView>(equipType);
+    }
+
     public static TBuilder SetIcon<TBuilder>(this TBuilder builder, Uri icon)
         where TBuilder : IReliquaryViewBuilder
     {
@@ -62,5 +68,11 @@ internal static class ReliquaryViewBuilderExtension
         where TBuilder : IReliquaryViewBuilder
     {
         return builder.Configure(b => b.View.SecondarySubProperties = secondarySubProperties);
+    }
+
+    public static TBuilder SetSetName<TBuilder>(this TBuilder builder, string setName)
+        where TBuilder : IReliquaryViewBuilder
+    {
+        return builder.Configure(b => b.View.SetName = setName);
     }
 }

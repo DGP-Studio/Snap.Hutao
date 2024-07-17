@@ -74,9 +74,12 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            await taskContext.SwitchToMainThreadAsync();
-            Projects = cultivationService.Projects;
-            Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
+            using (await EnterCriticalSectionAsync().ConfigureAwait(false))
+            {
+                await taskContext.SwitchToMainThreadAsync();
+                Projects = cultivationService.Projects;
+                Projects.MoveCurrentTo(Projects.SourceCollection.SelectedOrDefault());
+            }
 
             // Force update when re-entering the page
             if (Projects.CurrentItem is not null && CultivateEntries is null)

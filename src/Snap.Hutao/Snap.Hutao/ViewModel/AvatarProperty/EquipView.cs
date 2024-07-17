@@ -26,4 +26,6 @@ internal abstract class EquipView : NameIconDescription
     /// 主属性
     /// </summary>
     public NameValue<string> MainProperty { get; set; } = default!;
+
+    internal EquipType EquipType { get; set; }
 }

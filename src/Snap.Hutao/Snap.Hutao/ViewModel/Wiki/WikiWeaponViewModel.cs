@@ -24,7 +24,6 @@ using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
-using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
@@ -38,11 +37,11 @@ namespace Snap.Hutao.ViewModel.Wiki;
 internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly CalculateClient calculateClient;
     private readonly ICultivationService cultivationService;
     private readonly ITaskContext taskContext;
     private readonly IMetadataService metadataService;
     private readonly IHutaoSpiralAbyssStatisticsCache hutaoCache;
+    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
@@ -89,7 +88,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     public FrozenDictionary<string, SearchToken>? AvailableTokens { get => availableTokens; }
 
     /// <inheritdoc/>
-    protected override async Task InitializeAsync()
+    protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -108,9 +107,13 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
                 using (await EnterCriticalSectionAsync().ConfigureAwait(false))
                 {
+                    AdvancedCollectionView<Weapon> weaponsView = list.ToAdvancedCollectionView();
+
                     await taskContext.SwitchToMainThreadAsync();
 
-                    Weapons = new(list, true);
+                    Weapons = weaponsView;
+
+                    // TODO: use CurrentItem
                     Selected = Weapons.View.ElementAtOrDefault(0);
                 }
 
@@ -123,11 +126,15 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
                     .. IntrinsicFrozen.ItemQualityNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.ItemQuality, nv.Name, (int)nv.Value, quality: QualityColorConverter.QualityToColor(nv.Value)))),
                     .. IntrinsicFrozen.WeaponTypeNameValues.Select(nv => KeyValuePair.Create(nv.Name, new SearchToken(SearchTokenKind.WeaponType, nv.Name, (int)nv.Value, iconUri: WeaponTypeIconConverter.WeaponTypeToIconUri(nv.Value)))),
                 ]);
+
+                return true;
             }
             catch (OperationCanceledException)
             {
             }
         }
+
+        return false;
     }
 
     private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, Dictionary<MaterialId, Material> idMaterialMap)
@@ -160,16 +167,19 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
         CalculableOptions options = new(null, weapon.ToCalculable());
         CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
-        (bool isOk, CalculateAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+        (bool isOk, CultivatePromotionDeltaOptions deltaOptions) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
         if (!isOk)
         {
             return;
         }
 
-        Response<CalculateBatchConsumption> response = await calculateClient
-            .BatchComputeAsync(userAndUid, delta)
-            .ConfigureAwait(false);
+        Response<CalculateBatchConsumption> response;
+        using (IServiceScope scope = serviceScopeFactory.CreateScope())
+        {
+            CalculateClient calculateClient = scope.ServiceProvider.GetRequiredService<CalculateClient>();
+            response = await calculateClient.BatchComputeAsync(userAndUid, deltaOptions.Delta).ConfigureAwait(false);
+        }
 
         if (!response.IsOk())
         {
@@ -177,20 +187,32 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
 
         CalculateBatchConsumption batchConsumption = response.Data;
-        LevelInformation levelInformation = LevelInformation.From(delta);
+        LevelInformation levelInformation = LevelInformation.From(deltaOptions.Delta);
         try
         {
-            bool saved = await cultivationService
-                .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, batchConsumption.OverallConsume, levelInformation)
-                .ConfigureAwait(false);
+            InputConsumption input = new()
+            {
+                Type = CultivateType.Weapon,
+                ItemId = weapon.Id,
+                Items = batchConsumption.OverallConsume,
+                LevelInformation = levelInformation,
+                Strategy = deltaOptions.Strategy,
+            };
 
-            if (saved)
+            switch (await cultivationService.SaveConsumptionAsync(input).ConfigureAwait(false))
             {
-                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                case ConsumptionSaveResultKind.NoProject:
+                    infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                    break;
+                case ConsumptionSaveResultKind.Skipped:
+                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveSkippedHint);
+                    break;
+                case ConsumptionSaveResultKind.NoItem:
+                    infoBarService.Information(SH.ViewModelCultivationConsumptionSaveNoItemHint);
+                    break;
+                case ConsumptionSaveResultKind.Added:
+                    infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
+                    break;
             }
         }
         catch (HutaoException ex)

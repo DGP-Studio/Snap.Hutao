@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.CompilerServices;
+
 namespace Snap.Hutao.UI.Xaml.Data;
 
 internal static class AdvancedCollectionViewExtension
@@ -12,5 +14,12 @@ internal static class AdvancedCollectionViewExtension
         {
             view.MoveCurrentTo(default);
         }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static AdvancedCollectionView<T> ToAdvancedCollectionView<T>(this IList<T> source)
+        where T : class, IAdvancedCollectionViewItem
+    {
+        return new AdvancedCollectionView<T>(source);
     }
 }

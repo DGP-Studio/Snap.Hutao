@@ -5,13 +5,16 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
 /// 角色信息
 /// </summary>
-internal sealed class AvatarView : INameIconSide, ICalculableSource<ICalculableAvatar>
+internal sealed partial class AvatarView : INameIconSide,
+    ICalculableSource<ICalculableAvatar>,
+    IAdvancedCollectionViewItem
 {
     /// <summary>
     /// 名称

@@ -1247,6 +1247,18 @@
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>現在の育成計画に追加または更新する</value>
   </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
+    <value>アイテムは常に新しいドリルを作成</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
+    <value>次で保存</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
+    <value>既存の育成目的アイテム</value>
+  </data>
+  <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
+    <value>対象のアイテムを予約する</value>
+  </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>まだデイリー依頼を行っていません</value>
   </data>
@@ -1273,6 +1285,12 @@
   </data>
   <data name="ViewDialogDailyNoteWebhookUrlTitle" xml:space="preserve">
     <value>リアルタイムノートのWebhook URL</value>
+  </data>
+  <data name="ViewDialogExportUIGFSubtitle" xml:space="preserve">
+    <value>レコードをエクスポートする UID を選択します。</value>
+  </data>
+  <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
+    <value>UIGFファイルをエクスポートします。</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>制限を解除した後にループバックを復元するには他のツールが必要です</value>
@@ -1361,6 +1379,12 @@
   <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
     <value>UIAFバージョン</value>
   </data>
+  <data name="ViewDialogImportUIGFSubtitle" xml:space="preserve">
+    <value>レコードをインポートする UID を選択してください</value>
+  </data>
+  <data name="ViewDialogImportUIGFTitle" xml:space="preserve">
+    <value>UI GF ファイルのインポート</value>
+  </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>ここに名前を入力してください</value>
   </data>
@@ -1381,6 +1405,9 @@
   </data>
   <data name="ViewDialogQRCodeTitle" xml:space="preserve">
     <value>MiHoYo BBS を使用して QR コードをスキャンします</value>
+  </data>
+  <data name="ViewDialogReconfirmHint" xml:space="preserve">
+    <value>この機能の強化者には、独立した判断力の専門家が必要となります。これらの機能を定期的に更新したくない場合は、コンテンツ作成者であり、それは作成者のための明確な記述にしないでください。</value>
   </data>
   <data name="ViewDialogReconfirmTextHeader" xml:space="preserve">
     <value>謝って有効にしないようにするためには、有効にする機能の&lt;b&gt;タイトル名&lt;/b&gt;を入力してください</value>
@@ -1502,6 +1529,12 @@
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深境螺旋集計</value>
   </data>
+  <data name="ViewInfoBarPanelClearAllContent" xml:space="preserve">
+    <value>すべての通知をクリア</value>
+  </data>
+  <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
+    <value>たたむ</value>
+  </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>新しい通知</value>
   </data>
@@ -1559,6 +1592,12 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>キャラクターラインナップが未配置か非表示です。ゲーム内のプロフィール編集で設定してください</value>
   </data>
+  <data name="ViewModelAvatatPropertyExportTextError" xml:space="preserve">
+    <value>キャラクター詳細をコピーできませんでした</value>
+  </data>
+  <data name="ViewModelAvatatPropertyExportTextSuccess" xml:space="preserve">
+    <value>ロール詳細をコピーしました</value>
+  </data>
   <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
     <value>聖遺物なし</value>
   </data>
@@ -1570,6 +1609,15 @@
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
     <value>操作の一部に失敗しました：追加／更新：{0}、スキップ{1}</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
+    <value>選択したLvでは育成材料は必要ありません</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
+    <value>まだ作成されておらず、養成計画を選択してください</value>
+  </data>
+  <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
+    <value>そのアイテムは既に適用されているアイテムがあります</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>選択中の育成計画に正常に追加されました</value>
@@ -1787,6 +1835,27 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>ゲームパスの保存に失敗しました</value>
   </data>
+  <data name="ViewModelUIGFExportError" xml:space="preserve">
+    <value>エクスポート失敗</value>
+  </data>
+  <data name="ViewModelUIGFExportSuccess" xml:space="preserve">
+    <value>エクスポートに成功しました</value>
+  </data>
+  <data name="ViewModelUIGFImportDuplicatedHk4eEntry" xml:space="preserve">
+    <value>UID の重複を避けるために、インポートされたUIGFファイルには UID の重複送信</value>
+  </data>
+  <data name="ViewModelUIGFImportError" xml:space="preserve">
+    <value>インポート失敗</value>
+  </data>
+  <data name="ViewModelUIGFImportNoHk4eEntry" xml:space="preserve">
+    <value>インポートされた UI GFファイルには、祈るデータが含まれていません。</value>
+  </data>
+  <data name="ViewModelUIGFImportNoSelectedEntry" xml:space="preserve">
+    <value>データをインポートするには UID を指定する必要があります。</value>
+  </data>
+  <data name="ViewModelUIGFImportSuccess" xml:space="preserve">
+    <value>インポート成功</value>
+  </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>ユーザー [{0}] を正常に追加しました</value>
   </data>
@@ -1879,6 +1948,9 @@
   </data>
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
     <value>画像をエクスポート</value>
+  </data>
+  <data name="ViewPageAvatarPropertyExportToTextLabel" xml:space="preserve">
+    <value>テキストをクリップボードにコピー</value>
   </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>キャラクターの元素タイプ</value>
@@ -2783,6 +2855,18 @@
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>和訳を提供</value>
   </data>
+  <data name="ViewPageSettingUIGFExportContent" xml:space="preserve">
+    <value>エクスポート</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportImportDescription" xml:space="preserve">
+    <value>UI GF 4 ファイルのエクスポート/インポート</value>
+  </data>
+  <data name="ViewPageSettingUIGFExportImportHeader" xml:space="preserve">
+    <value>データ移行</value>
+  </data>
+  <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
+    <value>インポート</value>
+  </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
   </data>
@@ -3126,7 +3210,7 @@
     <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainTime" xml:space="preserve">
-    <value>{0} 时 {1} 分</value>
+    <value>{0} 回の {1} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
     <value>すべての依頼を完了していません</value>

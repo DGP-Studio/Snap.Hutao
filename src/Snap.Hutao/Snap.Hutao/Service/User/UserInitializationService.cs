@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity.Extension;
+using Snap.Hutao.UI.Xaml.Data;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -29,7 +30,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             user.UserInfo = new() { Nickname = SH.ModelBindingUserInitializationFailed };
 
             await taskContext.SwitchToMainThreadAsync();
-            user.UserGameRoles = [];
+            user.UserGameRoles = new([]);
         }
 
         return user;
@@ -213,8 +214,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
 
         if (userGameRolesResponse.IsOk())
         {
-            await taskContext.SwitchToMainThreadAsync();
-            user.UserGameRoles = new(userGameRolesResponse.Data.List, true);
+            user.UserGameRoles = userGameRolesResponse.Data.List.ToAdvancedCollectionView();
             return user.UserGameRoles.Count > 0;
         }
         else

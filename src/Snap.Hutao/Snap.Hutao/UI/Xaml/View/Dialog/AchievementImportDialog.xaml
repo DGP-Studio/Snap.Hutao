@@ -60,7 +60,7 @@
             </cwc:HeaderedContentControl>
         </cwc:UniformGrid>
         <RadioButtons
-            Name="ImportModeSelector"
+            x:Name="ImportModeSelector"
             Grid.Row="1"
             Margin="0,16,0,0"
             Header="{shuxm:ResourceString Name=ViewDialogAchievementArchiveImportStrategy}"

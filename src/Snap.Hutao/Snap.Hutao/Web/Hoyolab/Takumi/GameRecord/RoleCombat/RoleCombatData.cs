@@ -18,6 +18,5 @@ internal sealed class RoleCombatData
     public bool HasData { get; set; }
 
     [JsonPropertyName("has_detail_data")]
-    [MemberNotNullWhen(true, nameof(Detail))]
     public bool HasDetailData { get; set; }
 }
