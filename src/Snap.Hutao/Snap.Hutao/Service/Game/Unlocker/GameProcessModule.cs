@@ -86,7 +86,7 @@ internal static class GameProcessModule
             fixed (char* lpBaseName = baseName)
             {
                 ReadOnlySpan<char> baseNameSpan = MemoryMarshal.CreateReadOnlySpanFromNullTerminated(lpBaseName);
-                if (!moduleName1.SequenceEqual(baseNameSpan) || !moduleName2.SequenceEqual(baseNameSpan))
+                if (!(moduleName1.SequenceEqual(baseNameSpan) || moduleName2.SequenceEqual(baseNameSpan)))
                 {
                     continue;
                 }

@@ -1,10 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Win32.Foundation;
-using static Snap.Hutao.Win32.Kernel32;
-
 namespace Snap.Hutao.Service.Game.Unlocker;
 
 /// <summary>
@@ -61,13 +57,5 @@ internal static class GameFpsAddress
         // B9 3C 00 00 00 E8
         ReadOnlySpan<byte> part = [0xB9, 0x3C, 0x00, 0x00, 0x00, 0xE8];
         return span.IndexOf(part);
-    }
-
-    private static unsafe bool UnsafeReadProcessMemory(HANDLE hProcess, nuint baseAddress, out nuint value)
-    {
-        value = 0;
-        bool result = ReadProcessMemory(hProcess, (void*)baseAddress, ref value, out _);
-        HutaoException.ThrowIfNot(result, SH.ServiceGameUnlockerReadProcessMemoryPointerAddressFailed);
-        return result;
     }
 }
