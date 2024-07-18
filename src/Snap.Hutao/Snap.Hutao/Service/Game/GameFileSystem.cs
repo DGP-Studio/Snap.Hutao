@@ -41,4 +41,6 @@ internal sealed class GameFileSystem
     public string ScreenShotDirectory { get => Path.Combine(GameDirectory, "ScreenShot"); }
 
     public string DataDirectory { get => Path.Combine(GameDirectory, LaunchScheme.ExecutableIsOversea(GameFileName) ? GameConstants.GenshinImpactData : GameConstants.YuanShenData); }
+
+    public string ScriptVersionFilePath { get => Path.Combine(DataDirectory, "Persistent", "ScriptVersion"); }
 }

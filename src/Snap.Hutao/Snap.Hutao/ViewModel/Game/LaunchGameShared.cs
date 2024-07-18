@@ -66,9 +66,7 @@ internal sealed partial class LaunchGameShared
         }
 
         bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
-        string dataFolder = isOversea ? GameConstants.GenshinImpactData : GameConstants.YuanShenData;
-        string persistentScriptVersionFile = Path.Combine(gameFileSystem.GameDirectory, dataFolder, "Persistent", "ScriptVersion");
-        string version = await File.ReadAllTextAsync(persistentScriptVersionFile).ConfigureAwait(false);
+        string version = await File.ReadAllTextAsync(gameFileSystem.ScriptVersionFilePath).ConfigureAwait(false);
 
         LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
             .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()

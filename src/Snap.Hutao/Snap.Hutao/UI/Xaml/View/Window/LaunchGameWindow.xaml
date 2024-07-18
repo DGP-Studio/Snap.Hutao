@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shuxb="using:Snap.Hutao.UI.Xaml.Behavior"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     mc:Ignorable="d">
 

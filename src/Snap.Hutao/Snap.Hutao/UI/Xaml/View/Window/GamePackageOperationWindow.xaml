@@ -1,0 +1,91 @@
+<Window
+    x:Class="Snap.Hutao.UI.Xaml.View.Window.GamePackageOperationWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
+    mc:Ignorable="d">
+    <Grid x:Name="RootGrid" d:DataContext="{d:DesignInstance shvg:GamePackageOperationViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid
+            x:Name="DragableGrid"
+            Grid.Row="0"
+            Height="32"/>
+        <TextBlock
+            Grid.Row="1"
+            Margin="32,0,32,0"
+            IsHitTestVisible="False"
+            Style="{ThemeResource SubtitleTextBlockStyle}"
+            Text="{Binding Title}"/>
+        <Grid Grid.Row="2" Margin="32,0,32,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Grid.Column="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <FontIcon Glyph="{StaticResource FontIconContentDialShape1}"/>
+                <TextBlock Text="45698/66842"/>
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <FontIcon Glyph="{StaticResource FontIconContentSpeedHigh}"/>
+                <TextBlock Text="60.97 MB/s"/>
+            </StackPanel>
+            <StackPanel
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <FontIcon Glyph="{StaticResource FontIconContentRecent}"/>
+                <TextBlock Text="0:30:25"/>
+            </StackPanel>
+        </Grid>
+        <Grid
+            Grid.Row="3"
+            Margin="32,0,32,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            ColumnSpacing="{ThemeResource SettingsCardContentControlSpacing}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <ProgressBar
+                Grid.Column="0"
+                MinWidth="200"
+                HorizontalAlignment="Stretch"
+                IsIndeterminate="{Binding IsIndeterminate}"
+                Value="{Binding Progress}"/>
+            <TextBlock Grid.Column="1" Text="{Binding Progress}"/>
+        </Grid>
+        <Button
+            Grid.Row="4"
+            Margin="32,0,32,32"
+            HorizontalAlignment="Right"
+            Command="{Binding CancelCommand}"
+            Content="Cancel"
+            Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+        <Button
+            Grid.Row="4"
+            Margin="32,0,32,32"
+            HorizontalAlignment="Right"
+            Command="{x:Bind CloseCommand}"
+            Content="Close"
+            Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
+    </Grid>
+</Window>
