@@ -3246,7 +3246,7 @@
     <value>{0} {1:HH:mm} 後にすべて回復</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
-    <value>{0:c} 后重置</value>
+    <value>{0:c} はリセットさ</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>後に再び使用することができます</value>
