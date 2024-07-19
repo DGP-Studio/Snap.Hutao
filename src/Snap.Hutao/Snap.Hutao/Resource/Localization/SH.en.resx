@@ -3246,7 +3246,7 @@
     <value>Will be Replenished in {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
-    <value>{0:c} 后重置</value>
+    <value>Reset after {0:c}</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Ready for use again after</value>
