@@ -3245,6 +3245,9 @@
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
     <value>Será reabastecido em {0} {1:HH:mm}</value>
   </data>
+  <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
+    <value>{0:c} 后重置</value>
+  </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Pronto para ser usado novamente após</value>
   </data>
