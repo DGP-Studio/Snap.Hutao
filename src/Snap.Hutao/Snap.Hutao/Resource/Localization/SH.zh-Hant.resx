@@ -1248,16 +1248,16 @@
     <value>添加或更新到當前養成計劃</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyCreateNewEntry" xml:space="preserve">
-    <value>总是创建新的养成目标物品</value>
+    <value>總是創建新的養成目標物品</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyHeader" xml:space="preserve">
-    <value>保存方式</value>
+    <value>儲存方式</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyOverwriteExisting" xml:space="preserve">
-    <value>覆盖存在的养成目标物品</value>
+    <value>覆蓋存在的養成目標物品</value>
   </data>
   <data name="ViewDialogCultivationConsumptionSaveStrategyPreserveExisting" xml:space="preserve">
-    <value>保留存在的养成目标物品</value>
+    <value>保留存在的養成目標物品</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>每日委託上線提醒</value>
@@ -1611,13 +1611,13 @@
     <value>操作未全部完成：添加/更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoItemHint" xml:space="preserve">
-    <value>选定的等级不需要养成材料</value>
+    <value>選定的等級不需要養成材料</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveNoProjectHint" xml:space="preserve">
-    <value>尚未创建并选择养成计划</value>
+    <value>尚未創建並選擇養成計劃</value>
   </data>
   <data name="ViewModelCultivationConsumptionSaveSkippedHint" xml:space="preserve">
-    <value>已存在该物品的养成项目</value>
+    <value>已存在該物品的養成項目</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功新增至目前養成計劃</value>
@@ -3246,7 +3246,7 @@
     <value>將於 {0} {1:HH:mm} 後全部恢復</value>
   </data>
   <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
-    <value>{0:c} 后重置</value>
+    <value>{0:c} 後重設</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>後可再次使用</value>
