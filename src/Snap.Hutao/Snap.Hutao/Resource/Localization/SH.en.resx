@@ -1437,7 +1437,7 @@
     <value>Check Update Logs</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
-    <value>If automatic update is too slow, you can download and install it manually</value>
+    <value>If automatic update is too slow, you can download and install it manually here</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorHeader" xml:space="preserve">
     <value>Download link</value>
