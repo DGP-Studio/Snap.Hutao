@@ -75,6 +75,7 @@ internal static class HttpRequestMessageBuilderExtension
         catch (OperationCanceledException)
         {
             showInfo = false;
+            throw;
         }
         catch (Exception ex)
         {
@@ -191,8 +192,10 @@ internal static class HttpRequestMessageBuilderExtension
 
         if (exception.InnerException is { } inner)
         {
-            builder.AppendLine(new string('-', 40));
+            builder.AppendLine("------------------ Inner Exception ------------------");
             ProcessException(builder, inner);
         }
+
+        builder.AppendLine("------------------ End ------------------");
     }
 }
