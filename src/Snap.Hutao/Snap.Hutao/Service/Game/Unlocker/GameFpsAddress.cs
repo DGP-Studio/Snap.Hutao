@@ -29,7 +29,7 @@ internal static class GameFpsAddress
             offsetToExecutable += index;
 
             nuint rip = localModule.Executable.Address + (uint)offsetToExecutable;
-            rip += 5U;
+            rip += 5U; // advanced to [call jumpCall]
             rip += (nuint)(*(int*)(rip + 1U) + 5);
 
             if (*(byte*)rip is ASM_JMP)
@@ -57,6 +57,8 @@ internal static class GameFpsAddress
     private static int IndexOfPattern(in ReadOnlySpan<byte> span, out int patternLength)
     {
         // B9 3C 00 00 00 E8
+        // mov ecx, 60 : B9 3C 00 00 00
+        // call ...
         ReadOnlySpan<byte> part = [0xB9, 0x3C, 0x00, 0x00, 0x00, 0xE8];
         patternLength = part.Length;
         return span.IndexOf(part);

@@ -72,6 +72,10 @@ internal static class HttpRequestMessageBuilderExtension
             ProcessException(messageBuilder, ex);
             logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
+        catch (OperationCanceledException)
+        {
+            showInfo = false;
+        }
         catch (Exception ex)
         {
             ProcessException(messageBuilder, ex);
