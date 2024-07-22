@@ -6,10 +6,6 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Web.WebView2;
 
-/// <summary>
-/// Bridge 拓展
-/// </summary>
-[HighQuality]
 internal static class WebView2Extension
 {
     [Conditional("RELEASE")]

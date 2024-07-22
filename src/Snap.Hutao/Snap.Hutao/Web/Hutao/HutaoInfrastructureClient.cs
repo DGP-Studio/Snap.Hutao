@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+#define IS_ALPHA_BUILD
+
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Hutao.Response;
@@ -39,14 +41,21 @@ internal sealed partial class HutaoInfrastructureClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<HutaoResponse<HutaoVersionInformation>> GetHutaoVersionInfomationAsync(CancellationToken token = default)
+    public async ValueTask<HutaoResponse<HutaoPackageInformation>> GetHutaoVersionInfomationAsync(CancellationToken token = default)
     {
+        string url
+#if IS_ALPHA_BUILD
+            = HutaoEndpoints.PatchAlphaSnapHutao(Core.Setting.LocalSetting.Get(Core.Setting.SettingKeys.AlphaBuildUseCNPatchEndpoint, false));
+#else
+            = HutaoEndpoints.PatchSnapHutao;
+#endif
+
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.PatchSnapHutao)
+            .SetRequestUri(url)
             .SetHeader("x-hutao-device-id", runtimeOptions.DeviceId)
             .Get();
 
-        HutaoResponse<HutaoVersionInformation>? resp = await builder.SendAsync<HutaoResponse<HutaoVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);
+        HutaoResponse<HutaoPackageInformation>? resp = await builder.SendAsync<HutaoResponse<HutaoPackageInformation>>(httpClient, logger, token).ConfigureAwait(false);
         return Web.Response.Response.DefaultIfNull(resp);
     }
 

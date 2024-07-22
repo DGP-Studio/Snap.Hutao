@@ -94,6 +94,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
 
             dialog.Title = SH.FormatViewTitileUpdatePackageDownloadTitle(UpdateStatus?.Version);
+            dialog.Mirrors = checkUpdateResult.PackageInformation?.Mirrors;
 
             if (await dialog.ShowAsync() is ContentDialogResult.Primary)
             {

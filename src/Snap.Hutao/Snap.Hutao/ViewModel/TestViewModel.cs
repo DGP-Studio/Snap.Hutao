@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
@@ -107,6 +108,20 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             }
 
             LocalSetting.Set(SettingKeys.AlwaysIsFirstRunAfterUpdate, value);
+        }
+    }
+
+    public bool AlphaBuildUseCNPatchEndpoint
+    {
+        get => LocalSetting.Get(SettingKeys.AlphaBuildUseCNPatchEndpoint, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.AlphaBuildUseCNPatchEndpoint, value);
         }
     }
 

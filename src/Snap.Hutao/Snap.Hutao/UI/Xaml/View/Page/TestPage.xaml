@@ -120,6 +120,10 @@
                     <ToggleSwitch IsOn="{Binding AlwaysIsFirstRunAfterUpdate, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
+                <cwc:SettingsCard Header="Alpha Build Use CN Patch Endpoint">
+                    <ToggleSwitch IsOn="{Binding AlphaBuildUseCNPatchEndpoint, Mode=TwoWay}"/>
+                </cwc:SettingsCard>
+
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Gacha Service"/>
                 <cwc:SettingsCard
                     Command="{Binding CompensationGachaLogServiceTimeCommand}"

@@ -65,6 +65,7 @@ internal static class SettingKeys
     public const string OverrideUpdateVersionComparison = "OverrideUpdateVersionComparison";
     public const string OverridePackageConvertDirectoryPermissionsRequirement = "OverridePackageConvertDirectoryPermissionsRequirement";
     public const string AlwaysIsFirstRunAfterUpdate = "AlwaysIsFirstRunAfterUpdate";
+    public const string AlphaBuildUseCNPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
     #endregion
 
     #region Obsolete
