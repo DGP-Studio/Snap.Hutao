@@ -15,13 +15,13 @@ internal sealed partial class UpdatePackageDownloadConfirmDialog : ContentDialog
         InitializeComponent();
     }
 
-    public async ValueTask<ValueResult<bool, HutaoPackageMirror>> GetSelectedMirrorAsync()
+    public async ValueTask<ValueResult<bool, HutaoPackageMirror?>> GetSelectedMirrorAsync()
     {
         if (await ShowAsync() is ContentDialogResult.Primary)
         {
-            return new(true, SelectedItem);
+            return new(true, SelectedItem ?? Mirrors?.FirstOrDefault());
         }
 
-        return new(false, default!);
+        return new(false, default);
     }
 }

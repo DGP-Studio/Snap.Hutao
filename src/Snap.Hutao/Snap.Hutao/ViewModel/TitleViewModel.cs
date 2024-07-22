@@ -98,9 +98,9 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
             dialog.Mirrors = checkUpdateResult.PackageInformation?.Mirrors;
             dialog.SelectedItem = dialog.Mirrors?.FirstOrDefault();
 
-            (bool isOk, HutaoPackageMirror mirror) = await dialog.GetSelectedMirrorAsync().ConfigureAwait(false);
+            (bool isOk, HutaoPackageMirror? mirror) = await dialog.GetSelectedMirrorAsync().ConfigureAwait(false);
 
-            if (isOk)
+            if (isOk && mirror is not null)
             {
                 ArgumentNullException.ThrowIfNull(checkUpdateResult.PackageInformation);
                 HutaoSelectedMirrorInformation mirrorInformation = new()
