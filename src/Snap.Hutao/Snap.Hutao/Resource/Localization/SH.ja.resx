@@ -1437,13 +1437,13 @@
     <value>更新ログを表示</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
-    <value>如果自动更新下载过慢，可以手动下载并安装</value>
+    <value>ダウンロードが遅すぎる場合は手動でダウンロードしてインストールする</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorHeader" xml:space="preserve">
-    <value>下载链接</value>
+    <value>ダウンロード URL</value>
   </data>
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
-    <value>更新</value>
+    <value>アップデート</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>すぐに移動</value>
