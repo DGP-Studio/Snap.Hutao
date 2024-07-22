@@ -58,7 +58,7 @@ internal sealed class XamlWindowController
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
 
         window.AppWindow.Title = SH.FormatAppNameAndVersion(runtimeOptions.Version);
-        window.AppWindow.SetIcon(Path.Combine(runtimeOptions.InstalledLocation, "Assets/Logo.ico"));
+        window.AppWindow.SetIcon(InstalledLocation.GetAbsolutePath("Assets/Logo.ico"));
 
         // ExtendContentIntoTitleBar
         if (window is IXamlWindowExtendContentIntoTitleBar xamlWindow)

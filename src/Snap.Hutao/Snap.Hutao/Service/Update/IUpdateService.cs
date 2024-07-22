@@ -11,5 +11,5 @@ internal interface IUpdateService
 
     ValueTask<bool> DownloadUpdateAsync(CheckUpdateResult checkUpdateResult, IProgress<UpdateStatus> progress, CancellationToken token = default);
 
-    ValueTask<LaunchUpdaterResult> LaunchUpdaterAsync();
+    LaunchUpdaterResult LaunchUpdater();
 }

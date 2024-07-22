@@ -117,7 +117,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
 
             if (installUpdateUserConsentResult is ContentDialogResult.Primary)
             {
-                LaunchUpdaterResult launchUpdaterResult = await updateService.LaunchUpdaterAsync().ConfigureAwait(false);
+                LaunchUpdaterResult launchUpdaterResult = updateService.LaunchUpdater();
                 if (launchUpdaterResult.IsSuccess)
                 {
                     ContentDialog contentDialog = await contentDialogFactory

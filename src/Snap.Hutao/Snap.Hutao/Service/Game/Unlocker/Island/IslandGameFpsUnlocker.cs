@@ -31,7 +31,11 @@ internal sealed class IslandGameFpsUnlocker : GameFpsUnlocker
 
     protected override async ValueTask PostUnlockOverrideAsync(GameFpsUnlockerContext context, LaunchOptions launchOptions, ILogger logger, CancellationToken token = default(CancellationToken))
     {
-        if (!await InitializeIslandFileAsync().ConfigureAwait(false))
+        try
+        {
+            File.Copy(InstalledLocation.GetAbsolutePath("Snap.Hutao.UnlockerIsland.dll"), dataFolderIslandPath, true);
+        }
+        catch
         {
             context.Logger.LogError("Failed to copy island file.");
             return;
@@ -73,22 +77,6 @@ internal sealed class IslandGameFpsUnlocker : GameFpsUnlocker
         finally
         {
             context.Logger.LogInformation("Exit PostUnlockOverrideAsync");
-        }
-    }
-
-    private async ValueTask<bool> InitializeIslandFileAsync()
-    {
-        try
-        {
-            Uri islandUri = "ms-appx:///Snap.Hutao.UnlockerIsland.dll".ToUri();
-            StorageFile islandFile = await StorageFile.GetFileFromApplicationUriAsync(islandUri);
-            await islandFile.OverwriteCopyAsync(dataFolderIslandPath).ConfigureAwait(false);
-
-            return true;
-        }
-        catch
-        {
-            return false;
         }
     }
 

@@ -88,14 +88,12 @@ internal sealed partial class UpdateService : IUpdateService
         return DownloadUpdatePackageAsync(checkUpdateResult.HutaoVersionInformation, GetUpdatePackagePath(), progress, token);
     }
 
-    public async ValueTask<LaunchUpdaterResult> LaunchUpdaterAsync()
+    public LaunchUpdaterResult LaunchUpdater()
     {
         RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         string updaterTargetPath = runtimeOptions.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
 
-        Uri updaterSourceUri = $"ms-appx:///{UpdaterFilename}".ToUri();
-        StorageFile updaterFile = await StorageFile.GetFileFromApplicationUriAsync(updaterSourceUri);
-        await updaterFile.OverwriteCopyAsync(updaterTargetPath).ConfigureAwait(false);
+        File.Copy(InstalledLocation.GetAbsolutePath(UpdaterFilename), updaterTargetPath, true);
 
         string commandLine = new CommandLineBuilder()
             .Append("--package-path", GetUpdatePackagePath(runtimeOptions))
