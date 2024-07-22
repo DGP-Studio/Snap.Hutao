@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
-using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
@@ -12,7 +12,6 @@ using Snap.Hutao.Web.Hutao.Response;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
-using Windows.Storage;
 
 namespace Snap.Hutao.Service.Update;
 
@@ -138,27 +137,35 @@ internal sealed partial class UpdateService : IUpdateService
             using (HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>())
             {
                 string version = versionInformation.Version.ToString();
-                foreach (string url in versionInformation.Urls)
+                using (FileStream fileStream = File.Create(filePath))
                 {
-                    HttpShardCopyWorkerOptions<UpdateStatus> options = new()
+                    foreach (string url in versionInformation.Urls)
                     {
-                        HttpClient = httpClient,
-                        SourceUrl = url,
-                        DestinationFilePath = filePath,
-                        MaxDegreeOfParallelism = Math.Clamp(Environment.ProcessorCount, 2, 6),
-                        StatusFactory = (bytesRead, totalBytes) => new UpdateStatus(version, bytesRead, totalBytes),
-                    };
+                        fileStream.Seek(0, SeekOrigin.Begin);
 
-                    using (HttpShardCopyWorker<UpdateStatus> worker = await HttpShardCopyWorker<UpdateStatus>.CreateAsync(options).ConfigureAwait(false))
-                    {
-                        await worker.CopyAsync(progress, token).ConfigureAwait(false);
-                    }
+                        try
+                        {
+                            using (HttpResponseMessage responseMessage = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
+                            {
+                                long totalBytes = responseMessage.Content.Headers.ContentLength ?? 0;
+                                using (Stream webStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
+                                {
+                                    StreamCopyWorker<UpdateStatus> worker = new(webStream, fileStream, bytesRead => new UpdateStatus(version, bytesRead, totalBytes));
 
-                    string? remoteHash = versionInformation.Sha256;
-                    ArgumentNullException.ThrowIfNull(remoteHash);
-                    if (await CheckUpdateCacheSHA256Async(filePath, remoteHash, token).ConfigureAwait(false))
-                    {
-                        return true;
+                                    await worker.CopyAsync(progress).ConfigureAwait(false);
+
+                                    string? remoteHash = versionInformation.Sha256;
+                                    ArgumentNullException.ThrowIfNull(remoteHash);
+                                    if (await CheckUpdateCacheSHA256Async(filePath, remoteHash, token).ConfigureAwait(false))
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                        catch
+                        {
+                        }
                     }
                 }
             }
