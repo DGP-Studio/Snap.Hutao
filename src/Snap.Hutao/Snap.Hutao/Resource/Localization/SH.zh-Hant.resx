@@ -1440,7 +1440,7 @@
     <value>如果自動更新下載過慢，可以手動下載並安裝</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorHeader" xml:space="preserve">
-    <value>下載連結</value>
+    <value>下载源</value>
   </data>
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
     <value>更新</value>
