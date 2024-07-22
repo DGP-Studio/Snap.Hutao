@@ -1440,7 +1440,7 @@
     <value>ダウンロードが遅すぎる場合は手動でダウンロードしてインストールする</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorHeader" xml:space="preserve">
-    <value>ダウンロード URL</value>
+    <value>下载源</value>
   </data>
   <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
     <value>アップデート</value>
