@@ -153,6 +153,7 @@ internal sealed partial class UpdateService : IUpdateService
                                     StreamCopyWorker<UpdateStatus> worker = new(webStream, fileStream, bytesRead => new UpdateStatus(version, bytesRead, totalBytes));
 
                                     await worker.CopyAsync(progress).ConfigureAwait(false);
+                                    fileStream.SetLength(fileStream.Position);
 
                                     string? remoteHash = versionInformation.Sha256;
                                     ArgumentNullException.ThrowIfNull(remoteHash);
