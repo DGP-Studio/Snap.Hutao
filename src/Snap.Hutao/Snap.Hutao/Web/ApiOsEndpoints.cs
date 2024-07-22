@@ -97,6 +97,7 @@ internal static class ApiOsEndpoints
     public const string CalculateWeaponList = $"{SgPublicApi}/event/calculateos/weapon/list";
     public const string CalculateCompute = $"{SgPublicApi}/event/calculateos/compute";
     public const string CalculateBatchCompute = $"{SgPublicApi}/event/calculateos/batch_compute";
+
     public static string CalculateSyncAvatarDetail(in AvatarId avatarId, in PlayerUid uid)
     {
         return $"{SgPublicApi}/event/calculateos/sync/avatar/detail?avatar_id={avatarId.Value}&uid={uid.Value}&region={uid.Region}";

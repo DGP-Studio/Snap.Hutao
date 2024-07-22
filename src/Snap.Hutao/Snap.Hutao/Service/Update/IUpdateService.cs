@@ -9,7 +9,7 @@ internal interface IUpdateService
 {
     ValueTask<CheckUpdateResult> CheckUpdateAsync(IProgress<UpdateStatus> progress, CancellationToken token = default);
 
-    ValueTask<bool> DownloadUpdateAsync(CheckUpdateResult checkUpdateResult, IProgress<UpdateStatus> progress, CancellationToken token = default);
+    ValueTask<bool> DownloadUpdateAsync(HutaoSelectedMirrorInformation mirrorInformation, IProgress<UpdateStatus> progress, CancellationToken token = default);
 
     LaunchUpdaterResult LaunchUpdater();
 }

@@ -82,10 +82,9 @@ internal sealed partial class UpdateService : IUpdateService
         }
     }
 
-    public ValueTask<bool> DownloadUpdateAsync(CheckUpdateResult checkUpdateResult, IProgress<UpdateStatus> progress, CancellationToken token = default)
+    public ValueTask<bool> DownloadUpdateAsync(HutaoSelectedMirrorInformation mirrorInformation, IProgress<UpdateStatus> progress, CancellationToken token = default)
     {
-        ArgumentNullException.ThrowIfNull(checkUpdateResult.PackageInformation);
-        return DownloadUpdatePackageAsync(checkUpdateResult.PackageInformation, GetUpdatePackagePath(), progress, token);
+        return DownloadUpdatePackageAsync(mirrorInformation, GetUpdatePackagePath(), progress, token);
     }
 
     public LaunchUpdaterResult LaunchUpdater()
@@ -131,70 +130,68 @@ internal sealed partial class UpdateService : IUpdateService
         return runtimeOptions.GetDataFolderUpdateCacheFolderFile("Snap.Hutao.msix");
     }
 
-    private async ValueTask<bool> DownloadUpdatePackageAsync(HutaoPackageInformation versionInformation, string filePath, IProgress<UpdateStatus> progress, CancellationToken token = default)
+    private async ValueTask<bool> DownloadUpdatePackageAsync(HutaoSelectedMirrorInformation mirrorInformation, string filePath, IProgress<UpdateStatus> progress, CancellationToken token = default)
     {
-        string version = versionInformation.Version.ToString();
-
         using IServiceScope scope = serviceProvider.CreateScope();
         using HttpClient httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
 
-        foreach (HutaoPackageMirror mirror in versionInformation.Mirrors)
+        HutaoPackageMirror mirror = mirrorInformation.Mirror;
+        string version = mirrorInformation.Version.ToString();
+
+        try
         {
-            try
+            using HttpResponseMessage responseMessage = await httpClient.GetAsync(mirror.Url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+            long totalBytes = responseMessage.Content.Headers.ContentLength ?? 0;
+            using Stream webStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+
+            switch (mirror.MirrorType)
             {
-                using HttpResponseMessage responseMessage = await httpClient.GetAsync(mirror.Url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
-                long totalBytes = responseMessage.Content.Headers.ContentLength ?? 0;
-                using Stream webStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+                case HutaoPackageMirrorType.Direct:
+                    using (FileStream fileStream = File.Create(filePath))
+                    {
+                        StreamCopyWorker<UpdateStatus> worker = new(webStream, fileStream, bytesRead => new UpdateStatus(version, bytesRead, totalBytes));
+                        await worker.CopyAsync(progress).ConfigureAwait(false);
+                    }
 
-                switch (mirror.MirrorType)
-                {
-                    case HutaoPackageMirrorType.Direct:
-                        using (FileStream fileStream = File.Create(filePath))
+                    break;
+                case HutaoPackageMirrorType.Archive:
+                    using (TempFileStream tempFileStream = new(FileMode.Create, FileAccess.ReadWrite))
+                    {
+                        StreamCopyWorker<UpdateStatus> worker = new(webStream, tempFileStream, bytesRead => new UpdateStatus(version, bytesRead, totalBytes));
+                        await worker.CopyAsync(progress).ConfigureAwait(false);
+
+                        using ZipArchive archive = new(tempFileStream);
+                        foreach (ZipArchiveEntry entry in archive.Entries)
                         {
-                            StreamCopyWorker<UpdateStatus> worker = new(webStream, fileStream, bytesRead => new UpdateStatus(version, bytesRead, totalBytes));
-                            await worker.CopyAsync(progress).ConfigureAwait(false);
-                        }
-
-                        break;
-                    case HutaoPackageMirrorType.Archive:
-                        using (TempFileStream tempFileStream = new(FileMode.Create, FileAccess.ReadWrite))
-                        {
-                            StreamCopyWorker<UpdateStatus> worker = new(webStream, tempFileStream, bytesRead => new UpdateStatus(version, bytesRead, totalBytes));
-                            await worker.CopyAsync(progress).ConfigureAwait(false);
-
-                            using ZipArchive archive = new(tempFileStream);
-                            foreach (ZipArchiveEntry entry in archive.Entries)
+                            if (!entry.FullName.EndsWith(".msix", StringComparison.OrdinalIgnoreCase))
                             {
-                                if (!entry.FullName.EndsWith(".msix", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    continue;
-                                }
-
-                                using Stream entryStream = entry.Open();
-                                using FileStream fileStream = File.Create(filePath);
-                                await entryStream.CopyToAsync(fileStream, token).ConfigureAwait(false);
-                                break;
+                                continue;
                             }
+
+                            using Stream entryStream = entry.Open();
+                            using FileStream fileStream = File.Create(filePath);
+                            await entryStream.CopyToAsync(fileStream, token).ConfigureAwait(false);
+                            break;
                         }
+                    }
 
-                        break;
-                }
-
-                if (!File.Exists(filePath))
-                {
-                    return false;
-                }
-
-                string? remoteHash = versionInformation.Validation;
-                ArgumentNullException.ThrowIfNull(remoteHash);
-                if (await CheckUpdateCacheSHA256Async(filePath, remoteHash, token).ConfigureAwait(false))
-                {
-                    return true;
-                }
+                    break;
             }
-            catch
+
+            if (!File.Exists(filePath))
             {
+                return false;
             }
+
+            string? remoteHash = mirrorInformation.Validation;
+            ArgumentNullException.ThrowIfNull(remoteHash);
+            if (await CheckUpdateCacheSHA256Async(filePath, remoteHash, token).ConfigureAwait(false))
+            {
+                return true;
+            }
+        }
+        catch
+        {
         }
 
         return false;

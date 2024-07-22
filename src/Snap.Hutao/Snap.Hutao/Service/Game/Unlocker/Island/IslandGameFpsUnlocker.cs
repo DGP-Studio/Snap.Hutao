@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
-using Windows.Storage;
 using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.Kernel32;
 using static Snap.Hutao.Win32.Macros;

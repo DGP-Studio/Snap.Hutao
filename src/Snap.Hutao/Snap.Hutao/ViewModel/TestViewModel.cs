@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
@@ -21,10 +20,6 @@ using System.IO;
 
 namespace Snap.Hutao.ViewModel;
 
-/// <summary>
-/// 测试视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class TestViewModel : Abstraction.ViewModel

@@ -9,7 +9,7 @@ internal sealed class HutaoPackageInformation
     public Version Version { get; set; } = default!;
 
     [JsonPropertyName("validation")]
-    public string? Validation { get; set; } = default!;
+    public string Validation { get; set; } = default!;
 
     [JsonPropertyName("mirrors")]
     public List<HutaoPackageMirror> Mirrors { get; set; } = default!;

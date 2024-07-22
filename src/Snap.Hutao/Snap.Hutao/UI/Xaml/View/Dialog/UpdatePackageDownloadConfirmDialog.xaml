@@ -15,12 +15,6 @@
     Style="{ThemeResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <ContentDialog.Resources>
-        <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
-        <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
-        <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
-    </ContentDialog.Resources>
-
     <StackPanel Spacing="16">
         <TextBlock>
             <Run Text="{shuxm:ResourceString Name=ViewTitileUpdatePackageDownloadContent}"/>
@@ -31,28 +25,15 @@
             <Run/>
         </TextBlock>
 
-        <cwc:SettingsExpander
-            Description="{shuxm:ResourceString Name=ViewDialogUpdatePackageMirrorDescription}"
+        <ListView
             Header="{shuxm:ResourceString Name=ViewDialogUpdatePackageMirrorHeader}"
-            IsExpanded="True"
-            ItemsSource="{x:Bind Mirrors}">
-            <cwc:SettingsExpander.ItemTemplate>
+            ItemsSource="{x:Bind Mirrors}"
+            SelectedItem="{x:Bind SelectedItem}">
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <cwc:SettingsCard
-                        MinWidth="0"
-                        Padding="16"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Center"
-                        Header="{Binding MirrorName}"
-                        IsClickEnabled="True">
-                        <mxi:Interaction.Behaviors>
-                            <mxic:EventTriggerBehavior EventName="Click">
-                                <cwb:NavigateToUriAction NavigateUri="{Binding Url}"/>
-                            </mxic:EventTriggerBehavior>
-                        </mxi:Interaction.Behaviors>
-                    </cwc:SettingsCard>
+                    <TextBlock Text="{Binding MirrorName}"/>
                 </DataTemplate>
-            </cwc:SettingsExpander.ItemTemplate>
-        </cwc:SettingsExpander>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackPanel>
 </ContentDialog>
