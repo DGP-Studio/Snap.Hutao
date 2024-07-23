@@ -26,7 +26,7 @@ internal sealed class SkillView : NameIconDescription, ITypedCalculableSource<IC
     /// <summary>
     /// 不计算命座的技能等级字符串
     /// </summary>
-    public string Level { get => LevelFormat.Format(LevelNumber); }
+    public string Level { get; set; } = default!;
 
     /// <summary>
     /// 技能组Id

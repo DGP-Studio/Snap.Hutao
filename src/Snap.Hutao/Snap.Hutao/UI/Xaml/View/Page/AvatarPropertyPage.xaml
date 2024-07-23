@@ -64,7 +64,9 @@
                             Source="{Binding Icon}"/>
                     </shuxcc:VerticalCard.Top>
                     <shuxcc:VerticalCard.Bottom>
-                        <TextBlock Text="{Binding Level}"/>
+                        <Viewbox MaxWidth="52" StretchDirection="DownOnly">
+                            <TextBlock Text="{Binding Level}"/>
+                        </Viewbox>
                     </shuxcc:VerticalCard.Bottom>
                 </shuxcc:VerticalCard>
             </DataTemplate>
@@ -143,7 +145,7 @@
                         </shuxcc:VerticalCard>
                         <ItemsControl
                             Grid.Column="2"
-                            VerticalAlignment="Bottom"
+                            VerticalAlignment="Stretch"
                             ItemTemplate="{StaticResource AvatarGridViewSkillTemplate}"
                             ItemsPanel="{StaticResource HorizontalStackPanelSpacing6Template}"
                             ItemsSource="{Binding Skills}"/>
@@ -252,7 +254,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="100"/>
                             </Grid.ColumnDefinitions>
                             <shuxci:CachedImage
                                 Grid.Column="0"
@@ -266,7 +268,7 @@
                                 VerticalAlignment="Center"
                                 Foreground="#FFFFFFFF"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{Binding Info.Level}"/>
+                                Text="{Binding Level}"/>
                         </Grid>
                     </Button.Content>
                     <Button.Flyout>
