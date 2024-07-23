@@ -75,6 +75,7 @@
                 MinWidth="200"
                 HorizontalAlignment="Stretch"
                 IsIndeterminate="{Binding IsIndeterminate}"
+                Maximum="1"
                 Value="{Binding Progress}"/>
             <TextBlock
                 Grid.Column="1"

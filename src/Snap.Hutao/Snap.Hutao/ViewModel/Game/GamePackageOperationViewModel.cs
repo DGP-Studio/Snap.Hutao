@@ -44,9 +44,9 @@ internal sealed partial class GamePackageOperationViewModel : ObservableObject, 
         }
     }
 
-    public double Progress { get => totalBlocks <= 0 ? 100.0 : Math.Round(100.0 * finishedBlocks / totalBlocks, 2); }
+    public double Progress { get => totalBlocks <= 0 ? 1D : 1D * finishedBlocks / totalBlocks; }
 
-    public string ProgressPercent { get => $"{Progress:F2}%"; }
+    public string ProgressPercent { get => $"{Progress:P2}"; }
 
     public string BlockProgress { get => totalBlocks > -1 ? $"{finishedBlocks} / {totalBlocks}" : "正在加载清单文件"; }
 
