@@ -134,7 +134,7 @@
                             VerticalAlignment="Center"
                             clw:TransitionHelper.Id="Header"
                             Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="所有通知"/>
+                            Text="{shuxm:ResourceString Name=ViewInfoBarPanelTitle}"/>
                         <StackPanel
                             Grid.Column="1"
                             Orientation="Horizontal"
