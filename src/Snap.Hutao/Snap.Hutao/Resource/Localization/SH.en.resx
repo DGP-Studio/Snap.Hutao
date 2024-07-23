@@ -1545,7 +1545,7 @@
     <value>Collapse</value>
   </data>
   <data name="ViewInfoBarPanelTitle" xml:space="preserve">
-    <value>所有通知</value>
+    <value>All notifications</value>
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>New notification</value>
