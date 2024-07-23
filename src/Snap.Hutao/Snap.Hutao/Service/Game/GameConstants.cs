@@ -20,7 +20,7 @@ internal static class GameConstants
     public const string YuanShenProcessName = "YuanShen";
     public const string GenshinImpactProcessName = "GenshinImpact";
     public const string AudioChinesePkgVersion = "Audio_Chinese_pkg_version";
-    public const string AudioEnglishPkgVersion = "Audio_English_pkg_version";
+    public const string AudioEnglishPkgVersion = "Audio_English(US)_pkg_version";
     public const string AudioJapanesePkgVersion = "Audio_Japanese_pkg_version";
     public const string AudioKoreanPkgVersion = "Audio_Korean_pkg_version";
 }
