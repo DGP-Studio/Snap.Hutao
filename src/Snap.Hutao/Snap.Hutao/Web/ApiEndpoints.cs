@@ -86,7 +86,7 @@ internal static class ApiEndpoints
 
     public static string SophonChunkGetBuild(BranchWrapper branch)
     {
-        return $"{ApiTakumiDownloaderApi}/sophon_chunk/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}&tag={branch.Tag}";
+        return $"{ApiTakumiDownloaderApi}/sophon_chunk/api/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}&tag={branch.Tag}";
     }
 
     #endregion

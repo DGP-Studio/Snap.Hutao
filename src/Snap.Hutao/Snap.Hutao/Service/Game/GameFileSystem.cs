@@ -14,6 +14,7 @@ internal sealed class GameFileSystem
     private string? gameDirectory;
     private string? gameConfigFilePath;
     private string? pcGameSDKFilePath;
+    private GameAudioSystem? gameAudioSystem;
 
     public GameFileSystem(string gameFilePath)
     {
@@ -43,4 +44,6 @@ internal sealed class GameFileSystem
     public string DataDirectory { get => Path.Combine(GameDirectory, LaunchScheme.ExecutableIsOversea(GameFileName) ? GameConstants.GenshinImpactData : GameConstants.YuanShenData); }
 
     public string ScriptVersionFilePath { get => Path.Combine(DataDirectory, "Persistent", "ScriptVersion"); }
+
+    public GameAudioSystem GameAudioSystem { get => gameAudioSystem ??= new(GameFilePath); }
 }

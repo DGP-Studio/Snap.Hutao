@@ -70,6 +70,11 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         get => LocalVersion != RemoteVersion;
     }
 
+    public bool IsPredownloadButtonEnabled
+    {
+        get => PreVersion is not null && !launchOptions.IsPredownloadFinished;
+    }
+
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
         LaunchScheme? launchScheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
@@ -104,8 +109,34 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     [Command("StartCommand")]
     private async Task StartAsync(string state)
     {
-        GamePackageServiceState targetState = Enum.Parse<GamePackageServiceState>(state);
-        gamePackageService.State = targetState;
-        await gamePackageService.StartOperationAsync().ConfigureAwait(false);
+        if (!IsInitialized)
+        {
+            return;
+        }
+
+        GamePackageOperationState targetState = Enum.Parse<GamePackageOperationState>(state);
+
+        if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+        {
+            return;
+        }
+
+        ArgumentNullException.ThrowIfNull(GameBranch);
+        ArgumentNullException.ThrowIfNull(LocalVersion);
+
+        BranchWrapper remote = targetState switch
+        {
+            GamePackageOperationState.Predownload => GameBranch.PreDownload,
+            _ => GameBranch.Main,
+        };
+
+        GamePackageOperationContext context = new(
+            targetState,
+            LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName),
+            gameFileSystem.GameDirectory,
+            gameFileSystem.GameAudioSystem,
+            GameBranch.Main.CloneWithTag(LocalVersion.ToString()),
+            targetState is GamePackageOperationState.Predownload ? GameBranch.PreDownload : GameBranch.Main);
+        await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
     }
 }

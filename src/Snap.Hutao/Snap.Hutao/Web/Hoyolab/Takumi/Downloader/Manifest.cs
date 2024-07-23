@@ -12,8 +12,8 @@ internal sealed class Manifest
     public string Checksum { get; set; } = default!;
 
     [JsonPropertyName("compressed_size")]
-    public string CompressedSize { get; set; } = default!;
+    public long CompressedSize { get; set; }
 
     [JsonPropertyName("uncompressed_size")]
-    public string UncompressedSize { get; set; } = default!;
+    public long UncompressedSize { get; set; }
 }

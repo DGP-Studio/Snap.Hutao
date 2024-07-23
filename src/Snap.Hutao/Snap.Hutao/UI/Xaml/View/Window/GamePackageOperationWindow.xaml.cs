@@ -19,7 +19,7 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
         InitializeComponent();
 
         RectInt32 workArea = DisplayArea.Primary.WorkArea;
-        SizeInt32 size = new(workArea.Height, (int)(workArea.Height * 0.65));
+        SizeInt32 size = new(workArea.Height, (int)(workArea.Height * 0.5));
         AppWindow.Resize(size.Scale(0.5));
 
         if (AppWindow.Presenter is OverlappedPresenter presenter)

@@ -253,7 +253,21 @@
                                                 Header="预下载"
                                                 HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDownload}}"
                                                 IsClickEnabled="True"
-                                                IsEnabled="{Binding GamePackageViewModel.PreVersion, Converter={StaticResource EmptyObjectToBoolConverter}}"/>
+                                                IsEnabled="{Binding GamePackageViewModel.IsPredownloadButtonEnabled}">
+                                                <clw:TokenItem
+                                                    Margin="0,0,2,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+                                                    Content="已完成预下载"
+                                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentError}}"
+                                                    IsHitTestVisible="False"
+                                                    Visibility="{Binding LaunchOptions.IsPredownloadFinished, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                    <clw:TokenItem.Resources>
+                                                        <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
+                                                    </clw:TokenItem.Resources>
+                                                </clw:TokenItem>
+                                            </cwc:SettingsCard>
                                         </cwc:SettingsExpander.Items>
                                     </cwc:SettingsExpander>
 

@@ -108,7 +108,7 @@ internal static class ApiOsEndpoints
 
     public static string SophonChunkGetBuild(BranchWrapper branch)
     {
-        return $"{SgPublicApi}/sophon_chunk/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}";
+        return $"{SgPublicApi}/sophon_chunk/api/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}";
     }
 
     #endregion

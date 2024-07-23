@@ -3,9 +3,8 @@
 
 namespace Snap.Hutao.Service.Game.Package;
 
-internal enum GamePackageServiceState
+internal enum GamePackageOperationState
 {
-    Idle,
     Verify,
     Update,
     Predownload,

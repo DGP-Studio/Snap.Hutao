@@ -46,6 +46,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private bool? useStarwardPlayTimeStatistics;
     private bool? useBetterGenshinImpactAutomation;
     private bool? setDiscordActivityWhenPlaying;
+    private bool? isPredownloadFinished;
 
     public LaunchOptions(IServiceProvider serviceProvider)
         : base(serviceProvider)
@@ -322,5 +323,11 @@ internal sealed class LaunchOptions : DbStoreOptions
                 (ScreenWidth, ScreenHeight) = ((int)aspectRatio.Width, (int)aspectRatio.Height);
             }
         }
+    }
+
+    public bool IsPredownloadFinished
+    {
+        get => GetOption(ref isPredownloadFinished, SettingEntry.PackageIsPredownloadFinished, false);
+        set => SetOption(ref isPredownloadFinished, SettingEntry.PackageIsPredownloadFinished, value);
     }
 }

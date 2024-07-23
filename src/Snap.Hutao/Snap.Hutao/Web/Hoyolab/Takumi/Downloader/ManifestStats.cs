@@ -6,14 +6,14 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Downloader;
 internal sealed class ManifestStats
 {
     [JsonPropertyName("compressed_size")]
-    public string CompressedSize { get; set; } = default!;
+    public long CompressedSize { get; set; } = default!;
 
     [JsonPropertyName("uncompressed_size")]
-    public string UncompressedSize { get; set; } = default!;
+    public long UncompressedSize { get; set; } = default!;
 
     [JsonPropertyName("file_count")]
-    public string FileCount { get; set; } = default!;
+    public uint FileCount { get; set; } = default!;
 
     [JsonPropertyName("chunk_count")]
-    public string ChunkCount { get; set; } = default!;
+    public uint ChunkCount { get; set; } = default!;
 }
