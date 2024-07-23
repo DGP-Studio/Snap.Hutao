@@ -1544,6 +1544,9 @@
   <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
     <value>たたむ</value>
   </data>
+  <data name="ViewInfoBarPanelTitle" xml:space="preserve">
+    <value>所有通知</value>
+  </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>新しい通知</value>
   </data>
