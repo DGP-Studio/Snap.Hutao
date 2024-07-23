@@ -1544,6 +1544,9 @@
   <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
     <value>Collapse</value>
   </data>
+  <data name="ViewInfoBarPanelTitle" xml:space="preserve">
+    <value>所有通知</value>
+  </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>New notification</value>
   </data>
