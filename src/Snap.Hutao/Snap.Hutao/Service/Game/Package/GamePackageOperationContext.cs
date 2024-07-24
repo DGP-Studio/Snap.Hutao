@@ -9,26 +9,18 @@ namespace Snap.Hutao.Service.Game.Package;
 internal readonly struct GamePackageOperationContext
 {
     public readonly GamePackageOperationState State;
-    public readonly bool IsOversea;
-    public readonly string GameDirectory;
-    public readonly GameAudioSystem GameAudioSystem;
-    public readonly string ChunkDirectory;
+    public readonly GameFileSystem GameFileSystem;
     public readonly BranchWrapper LocalBranch;
     public readonly BranchWrapper RemoteBranch;
 
     public GamePackageOperationContext(
         GamePackageOperationState state,
-        bool isOversea,
-        string gameDirectory,
-        GameAudioSystem gameAudioSystem,
+        GameFileSystem gameFileSystem,
         BranchWrapper localBranch,
         BranchWrapper remoteBranch)
     {
         State = state;
-        IsOversea = isOversea;
-        GameDirectory = gameDirectory;
-        GameAudioSystem = gameAudioSystem;
-        ChunkDirectory = Path.Combine(GameDirectory, "chunks");
+        GameFileSystem = gameFileSystem;
         LocalBranch = localBranch;
         RemoteBranch = remoteBranch;
     }

@@ -15,11 +15,11 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 {
+    private readonly IGamePackageService gamePackageService;
     private readonly LaunchGameShared launchGameShared;
+    private readonly HoyoPlayClient hoyoPlayClient;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
-    private readonly IGamePackageService gamePackageService;
-    private readonly HoyoPlayClient hoyoPlayClient;
 
     private GameBranch? gameBranch;
     private Version? localVersion;
@@ -72,7 +72,47 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public bool IsPredownloadButtonEnabled
     {
-        get => PreVersion is not null && !launchOptions.IsPredownloadFinished;
+        get
+        {
+            if (PreVersion is null)
+            {
+                return false;
+            }
+
+            if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+            {
+                return false;
+            }
+
+            return !IsPredownloadFinished;
+        }
+    }
+
+    public bool IsPredownloadFinished
+    {
+        get
+        {
+            if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+            {
+                return false;
+            }
+
+            string predownloadStatusPath = Path.Combine(gameFileSystem.ChunksDirectory, "snap_hutao_predownload_status.json");
+
+            if (!File.Exists(predownloadStatusPath))
+            {
+                return false;
+            }
+
+            PredownloadStatus? predownloadStatus = JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(predownloadStatusPath));
+            if (predownloadStatus is { })
+            {
+                int fileCount = Directory.GetFiles(gameFileSystem.ChunksDirectory).Length - 1;
+                return predownloadStatus.Finished && fileCount == predownloadStatus.TotalBlocks;
+            }
+
+            return false;
+        }
     }
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
@@ -94,11 +134,23 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
             GameBranch = branch;
 
-            LocalVersion = launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem)
-                ? new(await File.ReadAllTextAsync(gameFileSystem.ScriptVersionFilePath).ConfigureAwait(true))
-                : default;
             RemoteVersion = new(branch.Main.Tag);
             PreVersion = branch.PreDownload is { Tag: { } tag } ? new(tag) : default;
+
+            if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+            {
+                return true;
+            }
+
+            if (File.Exists(gameFileSystem.ScriptVersionFilePath))
+            {
+                LocalVersion = new(await File.ReadAllTextAsync(gameFileSystem.ScriptVersionFilePath).ConfigureAwait(true));
+            }
+
+            if (!IsUpdateAvailable && PreVersion is null)
+            {
+                File.Delete(gameFileSystem.PredownloadStatusPath);
+            }
 
             return true;
         }
@@ -124,19 +176,29 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         ArgumentNullException.ThrowIfNull(GameBranch);
         ArgumentNullException.ThrowIfNull(LocalVersion);
 
-        BranchWrapper remote = targetState switch
-        {
-            GamePackageOperationState.Predownload => GameBranch.PreDownload,
-            _ => GameBranch.Main,
-        };
-
         GamePackageOperationContext context = new(
             targetState,
-            LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName),
-            gameFileSystem.GameDirectory,
-            gameFileSystem.GameAudioSystem,
+            gameFileSystem,
             GameBranch.Main.CloneWithTag(LocalVersion.ToString()),
             targetState is GamePackageOperationState.Predownload ? GameBranch.PreDownload : GameBranch.Main);
-        await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
+        bool success = await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
+
+        await taskContext.SwitchToMainThreadAsync();
+        if (success)
+        {
+            switch (targetState)
+            {
+                case GamePackageOperationState.Verify:
+                    break;
+                case GamePackageOperationState.Update:
+                    LocalVersion = RemoteVersion;
+                    OnPropertyChanged(nameof(IsUpdateAvailable));
+                    break;
+                case GamePackageOperationState.Predownload:
+                    OnPropertyChanged(nameof(IsPredownloadButtonEnabled));
+                    OnPropertyChanged(nameof(IsPredownloadFinished));
+                    break;
+            }
+        }
     }
 }

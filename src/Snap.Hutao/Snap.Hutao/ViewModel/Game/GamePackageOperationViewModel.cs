@@ -35,15 +35,6 @@ internal sealed partial class GamePackageOperationViewModel : ObservableObject, 
 
     public string Title { get => title; set => SetProperty(ref title, value); }
 
-    public int FinishedBlocks
-    {
-        get => finishedBlocks; set
-        {
-            SetProperty(ref finishedBlocks, value);
-            RefreshUI();
-        }
-    }
-
     public double Progress { get => totalBlocks <= 0 ? 1D : 1D * finishedBlocks / totalBlocks; }
 
     public string ProgressPercent { get => $"{Progress:P2}"; }

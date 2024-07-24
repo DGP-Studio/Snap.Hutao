@@ -5,7 +5,7 @@ namespace Snap.Hutao.Service.Game.Package;
 
 internal interface IGamePackageService
 {
-    ValueTask StartOperationAsync(GamePackageOperationContext context);
+    ValueTask<bool> StartOperationAsync(GamePackageOperationContext context);
 
     ValueTask CancelOperationAsync();
 }

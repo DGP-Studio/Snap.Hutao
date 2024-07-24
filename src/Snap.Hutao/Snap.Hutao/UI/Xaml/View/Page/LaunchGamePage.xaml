@@ -5,6 +5,7 @@
     xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -262,7 +263,7 @@
                                                     Content="已完成预下载"
                                                     Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentError}}"
                                                     IsHitTestVisible="False"
-                                                    Visibility="{Binding LaunchOptions.IsPredownloadFinished, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                    Visibility="{Binding GamePackageViewModel.IsPredownloadFinished, Converter={StaticResource BoolToVisibilityConverter}}">
                                                     <clw:TokenItem.Resources>
                                                         <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
                                                     </clw:TokenItem.Resources>

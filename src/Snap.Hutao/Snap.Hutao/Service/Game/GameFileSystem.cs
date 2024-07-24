@@ -45,5 +45,9 @@ internal sealed class GameFileSystem
 
     public string ScriptVersionFilePath { get => Path.Combine(DataDirectory, "Persistent", "ScriptVersion"); }
 
+    public string ChunksDirectory { get => Path.Combine(GameDirectory, "chunks"); }
+
+    public string PredownloadStatusPath { get => Path.Combine(ChunksDirectory, "snap_hutao_predownload_status.json"); }
+
     public GameAudioSystem GameAudioSystem { get => gameAudioSystem ??= new(GameFilePath); }
 }

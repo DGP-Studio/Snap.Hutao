@@ -121,7 +121,6 @@
     <None Remove="IdentifyMonitorWindow.xaml" />
     <None Remove="IdentityStructs.json" />
     <None Remove="LaunchGameWindow.xaml" />
-    <None Remove="UI\Xaml\View\Window\GamePackageViewModel.xaml" />
     <None Remove="Resource\BlurBackground.png" />
     <None Remove="Resource\Font\CascadiaMono.ttf" />
     <None Remove="Resource\Font\MiSans-Regular.ttf" />
@@ -346,11 +345,6 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="UI\Xaml\View\Window\GamePackageViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\View\Dialog\UIGFExportDialog.xaml">
