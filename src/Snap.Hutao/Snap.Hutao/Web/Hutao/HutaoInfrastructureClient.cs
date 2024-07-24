@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-#define IS_ALPHA_BUILD
-
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Hutao.Response;
@@ -24,7 +22,7 @@ internal sealed partial class HutaoInfrastructureClient
     public async ValueTask<HutaoResponse<StaticResourceSizeInformation>> GetStaticSizeAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.StaticSize)
+            .SetRequestUri(HutaoEndpoints.StaticSize())
             .Get();
 
         HutaoResponse<StaticResourceSizeInformation>? resp = await builder.SendAsync<HutaoResponse<StaticResourceSizeInformation>>(httpClient, logger, token).ConfigureAwait(false);
@@ -34,7 +32,7 @@ internal sealed partial class HutaoInfrastructureClient
     public async ValueTask<HutaoResponse<IPInformation>> GetIPInformationAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.Ip)
+            .SetRequestUri(HutaoEndpoints.Ip())
             .Get();
 
         HutaoResponse<IPInformation>? resp = await builder.SendAsync<HutaoResponse<IPInformation>>(httpClient, logger, token).ConfigureAwait(false);
@@ -43,12 +41,7 @@ internal sealed partial class HutaoInfrastructureClient
 
     public async ValueTask<HutaoResponse<HutaoPackageInformation>> GetHutaoVersionInfomationAsync(CancellationToken token = default)
     {
-        string url
-#if IS_ALPHA_BUILD
-            = HutaoEndpoints.PatchAlphaSnapHutao(Core.Setting.LocalSetting.Get(Core.Setting.SettingKeys.AlphaBuildUseCNPatchEndpoint, false));
-#else
-            = HutaoEndpoints.PatchSnapHutao;
-#endif
+        string url = HutaoEndpoints.PatchSnapHutao();
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(url)
@@ -62,7 +55,7 @@ internal sealed partial class HutaoInfrastructureClient
     public async ValueTask<HutaoResponse<YaeVersionInformation>> GetYaeVersionInformationAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.PatchYaeAchievement)
+            .SetRequestUri(HutaoEndpoints.PatchYaeAchievement())
             .Get();
 
         HutaoResponse<YaeVersionInformation>? resp = await builder.SendAsync<HutaoResponse<YaeVersionInformation>>(httpClient, logger, token).ConfigureAwait(false);

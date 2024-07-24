@@ -41,6 +41,8 @@ internal sealed class LaunchOptions : DbStoreOptions
     private bool? unlockFps;
     private NameDescriptionValue<GameFpsUnlockerKind>? unlockerKind;
     private int? targetFps;
+    private float? targetFov;
+    private bool? disableFog;
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
     private bool? isUseCloudThirdPartyMobile;
@@ -169,38 +171,15 @@ internal sealed class LaunchOptions : DbStoreOptions
         set => SetOption(ref unlockFps, SettingEntry.LaunchUnlockFps, value);
     }
 
-    public List<NameDescriptionValue<GameFpsUnlockerKind>> UnlockerKinds { get; } =
-    [
-        new(SH.ServiceGameLaunchUnlockerKindLegacyName, SH.ServiceGameLaunchUnlockerKindLegacyDescription, GameFpsUnlockerKind.Legacy),
-        new(SH.ServiceGameLaunchUnlockerKindIslandName, SH.ServiceGameLaunchUnlockerKindIslandDescription, GameFpsUnlockerKind.Island),
-    ];
-
-    public NameDescriptionValue<GameFpsUnlockerKind> UnlockerKind
-    {
-        get
-        {
-            return GetOption(ref unlockerKind, SettingEntry.LaunchUnlockerKind, name => GetKind(name, UnlockerKinds), UnlockerKinds[0]);
-
-            static NameDescriptionValue<GameFpsUnlockerKind> GetKind(string name, List<NameDescriptionValue<GameFpsUnlockerKind>> unlockerKinds)
-            {
-                GameFpsUnlockerKind kind = Enum.Parse<GameFpsUnlockerKind>(name);
-                return unlockerKinds.Single(entry => entry.Value == kind);
-            }
-        }
-
-        set
-        {
-            if (value is not null)
-            {
-                SetOption(ref unlockerKind, SettingEntry.LaunchUnlockerKind, value, selected => selected.Value.ToString());
-            }
-        }
-    }
-
     public int TargetFps
     {
         get => GetOption(ref targetFps, SettingEntry.LaunchTargetFps, primaryScreenFps);
         set => SetOption(ref targetFps, SettingEntry.LaunchTargetFps, value);
+    }
+
+    public float TargetFov
+    {
+        get=> GetOption(ref targetFov, SettingEntry.LaunchTargetFov, 45f);
     }
 
     public List<NameValue<int>> Monitors { get; } = [];
