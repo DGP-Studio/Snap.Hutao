@@ -27,28 +27,20 @@ internal sealed partial class HutaoSpiralAbyssStatisticsCache : IHutaoSpiralAbys
     private TaskCompletionSource<bool>? wikiAvatarViewModelTaskSource;
     private TaskCompletionSource<bool>? wikiWeaponViewModelTaskSource;
 
-    /// <inheritdoc/>
     public List<AvatarRankView>? AvatarUsageRanks { get; set; }
 
-    /// <inheritdoc/>
     public List<AvatarRankView>? AvatarAppearanceRanks { get; set; }
 
-    /// <inheritdoc/>
     public List<AvatarConstellationInfoView>? AvatarConstellationInfos { get; set; }
 
-    /// <inheritdoc/>
     public List<TeamAppearanceView>? TeamAppearances { get; set; }
 
-    /// <inheritdoc/>
     public Overview? Overview { get; set; }
 
-    /// <inheritdoc/>
     public Dictionary<AvatarId, AvatarCollocationView>? AvatarCollocations { get; set; }
 
-    /// <inheritdoc/>
     public Dictionary<WeaponId, WeaponCollocationView>? WeaponCollocations { get; set; }
 
-    /// <inheritdoc/>
     public async ValueTask<bool> InitializeForSpiralAbyssViewAsync()
     {
         if (databaseViewModelTaskSource is not null)

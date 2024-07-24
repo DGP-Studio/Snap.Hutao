@@ -5,17 +5,22 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
-// TODO: replace this
-internal sealed class SpiralAbyssMetadataContext
+internal sealed class SpiralAbyssMetadataContext : IMetadataContext,
+    IMetadataDictionaryIdTowerScheduleSource,
+    IMetadataDictionaryIdTowerFloorSource,
+    IMetadataDictionaryIdListTowerLevelSource,
+    IMetadataDictionaryIdMonsterSource,
+    IMetadataDictionaryIdAvatarWithPlayersSource
 {
-    public Dictionary<TowerScheduleId, TowerSchedule> IdScheduleMap { get; set; } = default!;
+    public Dictionary<TowerScheduleId, TowerSchedule> IdTowerScheduleMap { get; set; } = default!;
 
-    public Dictionary<TowerFloorId, TowerFloor> IdFloorMap { get; set; } = default!;
+    public Dictionary<TowerFloorId, TowerFloor> IdTowerFloorMap { get; set; } = default!;
 
-    public Dictionary<TowerLevelGroupId, List<TowerLevel>> IdLevelGroupMap { get; set; } = default!;
+    public Dictionary<TowerLevelGroupId, List<TowerLevel>> IdListTowerLevelMap { get; set; } = default!;
 
     public Dictionary<MonsterRelationshipId, Monster> IdMonsterMap { get; set; } = default!;
 

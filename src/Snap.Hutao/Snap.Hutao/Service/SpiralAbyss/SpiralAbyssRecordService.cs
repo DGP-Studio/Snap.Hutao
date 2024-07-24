@@ -3,8 +3,8 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Metadata.ContextAbstraction;
 using Snap.Hutao.ViewModel.SpiralAbyss;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -34,15 +34,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            // TODO replace to IMetadataContext
-            metadataContext = new()
-            {
-                IdScheduleMap = await metadataService.GetIdToTowerScheduleMapAsync().ConfigureAwait(false),
-                IdFloorMap = await metadataService.GetIdToTowerFloorMapAsync().ConfigureAwait(false),
-                IdLevelGroupMap = await metadataService.GetGroupIdToTowerLevelGroupMapAsync().ConfigureAwait(false),
-                IdMonsterMap = await metadataService.GetRelationshipIdToMonsterMapAsync().ConfigureAwait(false),
-                IdAvatarMap = AvatarIds.WithPlayers(await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false)),
-            };
+            metadataContext = await metadataService.GetContextAsync<SpiralAbyssMetadataContext>().ConfigureAwait(false);
             return true;
         }
 
@@ -64,7 +56,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
             Dictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordDbService.GetSpiralAbyssEntryMapByUid(userAndUid.Uid.Value);
 
             ArgumentNullException.ThrowIfNull(metadataContext);
-            spiralAbysses = metadataContext.IdScheduleMap.Values
+            spiralAbysses = metadataContext.IdTowerScheduleMap.Values
                 .Select(sch => SpiralAbyssView.From(entryMap.GetValueOrDefault(sch.Id), sch, metadataContext))
                 .OrderByDescending(e => e.ScheduleId)
                 .ToObservableCollection();

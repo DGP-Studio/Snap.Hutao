@@ -17,7 +17,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
     private readonly SpiralAbyssEntry? entity;
 
     private SpiralAbyssView(SpiralAbyssEntry entity, SpiralAbyssMetadataContext context)
-        : this(context.IdScheduleMap[entity.ScheduleId], context)
+        : this(context.IdTowerScheduleMap[entity.ScheduleId], context)
     {
         this.entity = entity;
 
@@ -50,7 +50,7 @@ internal sealed partial class SpiralAbyssView : IEntityAccess<SpiralAbyssEntry?>
 
         BlessingName = towerSchedule.BuffName;
         Blessings = towerSchedule.Descriptions;
-        Floors = towerSchedule.FloorIds.Select(id => FloorView.From(context.IdFloorMap[id], context)).Reverse().ToList();
+        Floors = towerSchedule.FloorIds.Select(id => FloorView.From(context.IdTowerFloorMap[id], context)).Reverse().ToList();
     }
 
     public uint ScheduleId { get; }
