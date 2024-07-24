@@ -419,7 +419,11 @@ internal sealed partial class GamePackageService : IGamePackageService
             // Deleted
             foreach (AssetProperty asset in deletedAssets)
             {
-                File.Delete(Path.Combine(context.GameFileSystem.GameDirectory, asset.AssetName));
+                string assetPath = Path.Combine(context.GameFileSystem.GameDirectory, asset.AssetName);
+                if (File.Exists(assetPath))
+                {
+                    File.Delete(assetPath);
+                }
             }
 
             // Verify

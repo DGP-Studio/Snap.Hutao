@@ -5,7 +5,6 @@
     xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
-    xmlns:cwconv="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -224,7 +223,7 @@
                                                     Content="{Binding GamePackageViewModel.PreDownloadTitle}"
                                                     Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentError}}"
                                                     IsHitTestVisible="False"
-                                                    Visibility="{Binding GamePackageViewModel.GameBranch.PreDownload, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                    Visibility="{Binding GamePackageViewModel.PreVersion, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                     <clw:TokenItem.Resources>
                                                         <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
                                                     </clw:TokenItem.Resources>

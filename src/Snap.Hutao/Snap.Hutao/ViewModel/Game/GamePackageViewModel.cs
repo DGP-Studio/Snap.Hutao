@@ -147,7 +147,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 LocalVersion = new(await File.ReadAllTextAsync(gameFileSystem.ScriptVersionFilePath).ConfigureAwait(true));
             }
 
-            if (!IsUpdateAvailable && PreVersion is null)
+            if (!IsUpdateAvailable && PreVersion is null && File.Exists(gameFileSystem.PredownloadStatusPath))
             {
                 File.Delete(gameFileSystem.PredownloadStatusPath);
             }

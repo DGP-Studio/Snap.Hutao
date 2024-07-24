@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
-using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package;
 
