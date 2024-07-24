@@ -167,7 +167,7 @@ internal static partial class HutaoEndpoints
         {
             ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/patch/yae",
             ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/patch/yae",
-            _ => $"{ApiAlphaSnapGenshin}/patch/yae",
+            _ => $"{ApiSnapGenshin}/patch/yae",
         };
     }
 
@@ -177,7 +177,7 @@ internal static partial class HutaoEndpoints
         {
             ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/patch/hutao",
             ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/patch/hutao",
-            _ => $"{ApiAlphaSnapGenshin}/patch/hutao",
+            _ => $"{ApiSnapGenshin}/patch/hutao",
         };
     }
     #endregion
@@ -271,7 +271,7 @@ internal static partial class HutaoEndpoints
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if IS_ALPHA_BUILD
+#if IS_ALPHA_BUILD || DEBUG
             return Core.Setting.LocalSetting.Get(Core.Setting.SettingKeys.AlphaBuildUseCNPatchEndpoint, false) ? ApiKind.AlphaCN : ApiKind.AlphaOS;
 #else
             return ApiKind.Formal;

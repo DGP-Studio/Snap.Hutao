@@ -13,7 +13,7 @@ internal struct IslandEnvironmentView
     public WIN32_ERROR LastError;
     public int Reserved3;
     public float FieldOfView;
-    public float TargetFrameRate;
+    public int TargetFrameRate;
     public bool DisableFog;
     public nuint FunctionOffsetFieldOfView;
     public nuint FunctionOffsetTargetFrameRate;

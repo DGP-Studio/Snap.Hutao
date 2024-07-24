@@ -3,12 +3,9 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.Service.Feature;
 using Snap.Hutao.Service.Game.Unlocker.Island;
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.System.LibraryLoader;
-using Snap.Hutao.Win32.System.Threading;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Diagnostics;
 using System.IO;
@@ -85,9 +82,21 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                 using (MemoryMappedViewAccessor accessor = file.CreateViewAccessor())
                 {
                     nint handle = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
-                    InitializeIslandEnvironment(handle, offsets);
+                    InitializeIslandEnvironment(handle, offsets, launchOptions);
                     InitializeIsland(context.GameProcess);
-                    await context.GameProcess.WaitForExitAsync().ConfigureAwait(false);
+                    using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
+                    {
+                        while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
+                        {
+                            if (context.GameProcess.HasExited)
+                            {
+                                break;
+                            }
+
+                            IslandEnvironmentView view = UpdateIslandEnvironment(handle, launchOptions);
+                            context.Logger.LogDebug("Island Environment|{State}|{Error}", view.State, view.LastError);
+                        }
+                    }
                 }
             }
         }
@@ -97,13 +106,24 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         }
     }
 
-    private unsafe void InitializeIslandEnvironment(nint handle, IslandFunctionOffsets offsets, LaunchOptions options)
+    private static unsafe void InitializeIslandEnvironment(nint handle, IslandFunctionOffsets offsets, LaunchOptions options)
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
         pIslandEnvironment->FunctionOffsetFieldOfView = offsets.FunctionOffsetFieldOfView;
         pIslandEnvironment->FunctionOffsetTargetFrameRate = offsets.FunctionOffsetTargetFrameRate;
         pIslandEnvironment->FunctionOffsetFog = offsets.FunctionOffsetFog;
-        pIslandEnvironment->TargetFrameRate = options.TargetFps;
+
+        UpdateIslandEnvironment(handle, options);
+    }
+
+    private static unsafe IslandEnvironmentView UpdateIslandEnvironment(nint handle, LaunchOptions options)
+    {
+        IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
+        pIslandEnvironment->FieldOfView = 55; // options.TargetFov;
+        pIslandEnvironment->TargetFrameRate = -1; // options.TargetFps;
+        pIslandEnvironment->DisableFog = true; // options.DisableFog;
+
+        return *(IslandEnvironmentView*)pIslandEnvironment;
     }
 
     private unsafe void InitializeIsland(Process gameProcess)

@@ -19,6 +19,7 @@ internal sealed class Hk4eItem : IMappingFrom<Hk4eItem, GachaItem>
     public required GachaType GachaType { get; set; }
 
     [JsonPropertyName("item_id")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public required uint ItemId { get; set; }
 
     [JsonPropertyName("time")]

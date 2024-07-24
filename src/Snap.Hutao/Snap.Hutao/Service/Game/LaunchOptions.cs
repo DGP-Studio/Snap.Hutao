@@ -7,7 +7,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game.PathAbstraction;
-using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Win32.Graphics.Gdi;
 using System.Collections.Immutable;
 using System.Globalization;
@@ -39,7 +38,6 @@ internal sealed class LaunchOptions : DbStoreOptions
     private int? screenHeight;
     private bool? isScreenHeightEnabled;
     private bool? unlockFps;
-    private NameDescriptionValue<GameFpsUnlockerKind>? unlockerKind;
     private int? targetFps;
     private float? targetFov;
     private bool? disableFog;
@@ -179,7 +177,14 @@ internal sealed class LaunchOptions : DbStoreOptions
 
     public float TargetFov
     {
-        get=> GetOption(ref targetFov, SettingEntry.LaunchTargetFov, 45f);
+        get => GetOption(ref targetFov, SettingEntry.LaunchTargetFov, 45f);
+        set => SetOption(ref targetFov, SettingEntry.LaunchTargetFov, value);
+    }
+
+    public bool DisableFog
+    {
+        get => GetOption(ref disableFog, SettingEntry.LaunchDisableFog, false);
+        set => SetOption(ref disableFog, SettingEntry.LaunchDisableFog, value);
     }
 
     public List<NameValue<int>> Monitors { get; } = [];
