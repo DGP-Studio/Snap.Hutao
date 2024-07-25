@@ -1010,6 +1010,9 @@
   <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
     <value>Replace: {0}</value>
   </data>
+  <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
+    <value>在读取本地 Package Version 时遇到问题，修复游戏可能会有所帮助</value>
+  </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>Failed to change data folder name</value>
   </data>
@@ -2448,7 +2451,7 @@
     <value>Remove Fog</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogOff" xml:space="preserve">
-    <value>Reservation</value>
+    <value>Keep</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogOn" xml:space="preserve">
     <value>Remove</value>
