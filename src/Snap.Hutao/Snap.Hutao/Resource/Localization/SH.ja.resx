@@ -2441,6 +2441,18 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>これらの設定はゲームが正常に起動した時のみ保存されます。</value>
   </data>
+  <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
+    <value>光の描画から霧を削除</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogHeader" xml:space="preserve">
+    <value>チームを削除</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogOff" xml:space="preserve">
+    <value>予約済み</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogOn" xml:space="preserve">
+    <value>削除</value>
+  </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
     <value>ゲームをプレイしている時に、Discord Activityのステータスを変更します。</value>
   </data>
@@ -2525,8 +2537,14 @@
   <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
     <value>アップデートをする前に、ランチャーと同じサーバーに変更する必要があります。</value>
   </data>
+  <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
+    <value>カメラビューを45まで調整する</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFovHeader" xml:space="preserve">
+    <value>視界を調整</value>
+  </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>ゲーム内のグラフィック設定で垂直同期を無効にしてください。フレームレートを上げるにはもっと高性能のグラフィックボードが必要となります。</value>
+    <value>FX同期を無効にするには、より高パフォーマンスなグラフィックカードをサポートするために、ゲーム内のFPSの設定と -1を設定すると、すべてのフレームレートは無制限に設定されます。</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>フレームレート上限解除</value>
