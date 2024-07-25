@@ -32,7 +32,7 @@ internal abstract partial class DbStoreOptions : ObservableObject
         return input.ToStringOrEmpty();
     }
 
-    protected void InitializeOptions(string keyLike, Expression<Func<SettingEntry, bool>> entrySelector, Action<string, string?> entryAction)
+    protected void InitializeOptions(Expression<Func<SettingEntry, bool>> entrySelector, Action<string, string?> entryAction)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

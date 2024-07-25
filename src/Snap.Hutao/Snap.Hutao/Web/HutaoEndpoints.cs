@@ -189,32 +189,17 @@ internal static partial class HutaoEndpoints
 
     public static string StaticRaw(string category, string fileName)
     {
-        return Kind switch
-        {
-            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/static/raw/{category}/{fileName}",
-            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/static/raw/{category}/{fileName}",
-            _ => $"{ApiSnapGenshin}/static/raw/{category}/{fileName}",
-        };
+        return $"{ApiSnapGenshin}/static/raw/{category}/{fileName}";
     }
 
     public static string StaticZip(string fileName)
     {
-        return Kind switch
-        {
-            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/static/zip/{fileName}.zip",
-            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/static/zip/{fileName}.zip",
-            _ => $"{ApiSnapGenshin}/static/zip/{fileName}.zip",
-        };
+        return $"{ApiSnapGenshin}/static/zip/{fileName}.zip";
     }
 
     public static string StaticSize()
     {
-        return Kind switch
-        {
-            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/static/size",
-            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/static/size",
-            _ => $"{ApiSnapGenshin}/static/size",
-        };
+        return $"{ApiSnapGenshin}/static/size";
     }
     #endregion
 
