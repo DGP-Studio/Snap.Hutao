@@ -2441,6 +2441,18 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>All options will be saved only after the game is launched successfully.</value>
   </data>
+  <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
+    <value>Remove Fog in Light Rendering</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogHeader" xml:space="preserve">
+    <value>Remove Fog</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogOff" xml:space="preserve">
+    <value>Reservation</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogOn" xml:space="preserve">
+    <value>Remove</value>
+  </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
     <value>Set My Discord Activity Status When I'm in the Game</value>
   </data>
@@ -2525,8 +2537,14 @@
   <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
     <value>You need to convert to a server that matches the launcher before updating the version</value>
   </data>
+  <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
+    <value>Adjust Camera Vision, Default 45</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFovHeader" xml:space="preserve">
+    <value>Adjust FOV</value>
+  </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>Please turn off [V-Sync] in your game graphic settings, need high performance GPU to support higher refresh rate gaming</value>
+    <value>Please close the "Vertical Sync" option inside the game, require a high-performance display card to support higher framers, and set the value to -1 for unlimited framers.</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>Unlock Frame Rate Limit</value>
