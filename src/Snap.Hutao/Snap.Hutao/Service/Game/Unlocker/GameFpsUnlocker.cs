@@ -119,9 +119,9 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private static unsafe IslandEnvironmentView UpdateIslandEnvironment(nint handle, LaunchOptions options)
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
-        pIslandEnvironment->FieldOfView = 55; // options.TargetFov;
-        pIslandEnvironment->TargetFrameRate = -1; // options.TargetFps;
-        pIslandEnvironment->DisableFog = true; // options.DisableFog;
+        pIslandEnvironment->FieldOfView = options.TargetFov;
+        pIslandEnvironment->TargetFrameRate = options.TargetFps;
+        pIslandEnvironment->DisableFog = options.DisableFog;
 
         return *(IslandEnvironmentView*)pIslandEnvironment;
     }
