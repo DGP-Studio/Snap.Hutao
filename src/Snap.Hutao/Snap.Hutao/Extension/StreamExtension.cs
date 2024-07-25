@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Factory.IO;
 using System.Buffers;
 using System.IO;
 
@@ -8,17 +9,17 @@ namespace Snap.Hutao.Extension;
 
 internal static class StreamExtension
 {
-    public static async ValueTask<Stream> CloneAsync(this Stream stream)
+    public static async ValueTask<Stream> CloneAsync(this Stream stream, IMemoryStreamFactory memoryStreamFactory)
     {
-        MemoryStream clonedStream = new();
+        MemoryStream clonedStream = memoryStreamFactory.GetStream();
         await stream.CopyToAsync(clonedStream).ConfigureAwait(false);
         clonedStream.Position = 0;
         return clonedStream;
     }
 
-    public static async ValueTask<Stream> CloneSegmentAsync(this Stream inputStream, long startPosition, long length)
+    public static async ValueTask<Stream> CloneSegmentAsync(this Stream inputStream, long startPosition, long length, IMemoryStreamFactory memoryStreamFactory)
     {
-        MemoryStream clonedStream = new();
+        MemoryStream clonedStream = memoryStreamFactory.GetStream();
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
         {
             Memory<byte> buffer = memoryOwner.Memory;

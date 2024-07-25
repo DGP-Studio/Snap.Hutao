@@ -9,7 +9,7 @@ internal sealed class SophonDecodedManifest
 {
     public SophonDecodedManifest(string urlPrefix, SophonManifestProto sophonManifestProto)
     {
-        UrlPrefix = urlPrefix;
+        UrlPrefix = string.Intern(urlPrefix);
         ManifestProto = sophonManifestProto;
     }
 

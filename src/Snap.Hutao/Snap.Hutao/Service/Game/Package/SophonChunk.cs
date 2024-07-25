@@ -9,7 +9,7 @@ internal sealed class SophonChunk
 {
     public SophonChunk(string urlPrefix, AssetChunk assetChunk)
     {
-        UrlPrefix = urlPrefix;
+        UrlPrefix = string.Intern(urlPrefix);
         AssetChunk = assetChunk;
     }
 

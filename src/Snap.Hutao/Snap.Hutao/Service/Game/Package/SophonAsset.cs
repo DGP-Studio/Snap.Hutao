@@ -9,13 +9,13 @@ internal sealed class SophonAsset
 {
     public SophonAsset(string urlPrefix, AssetProperty assetProperty)
     {
-        UrlPrefix = urlPrefix;
+        UrlPrefix = string.Intern(urlPrefix);
         AssetProperty = assetProperty;
     }
 
     public SophonAsset(string urlPrefix, AssetProperty assetProperty, List<SophonChunk> diffChunks)
     {
-        UrlPrefix = urlPrefix;
+        UrlPrefix = string.Intern(urlPrefix);
         AssetProperty = assetProperty;
         DiffChunks = diffChunks;
     }
