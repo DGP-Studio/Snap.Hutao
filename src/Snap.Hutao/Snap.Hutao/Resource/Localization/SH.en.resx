@@ -1011,7 +1011,7 @@
     <value>Replace: {0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
-    <value>在读取本地 Package Version 时遇到问题，修复游戏可能会有所帮助</value>
+    <value>There was a problem reading the local Package Version, fixing the game might help</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>Failed to change data folder name</value>
@@ -2547,7 +2547,7 @@
     <value>Adjust FOV</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>Please close the "Vertical Sync" option inside the game, require a high-performance display card to support higher framers, and set the value to -1 for unlimited framers.</value>
+    <value>Please disable the "Vertical Sync" option inside the game, which requires a high-performance GPU to support higher frame rate, and set the value to -1 for unlimited framers.</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>Unlock Frame Rate Limit</value>
