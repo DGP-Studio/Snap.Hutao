@@ -19,6 +19,14 @@ internal class DispatcherQueueProgress<T> : IProgress<T>
     public void Report(T value)
     {
         Action<T> handler = this.handler;
-        dispatcherQueue.TryEnqueue(() => handler(value));
+
+        if (dispatcherQueue.HasThreadAccess)
+        {
+            handler(value);
+        }
+        else
+        {
+            dispatcherQueue.TryEnqueue(() => handler(value));
+        }
     }
 }

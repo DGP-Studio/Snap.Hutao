@@ -145,7 +145,7 @@ internal sealed partial class UserQRCodeDialog : ContentDialog, IDisposable
                     ArgumentNullException.ThrowIfNull(uidGameToken);
                     return uidGameToken;
                 }
-                else if (query.ReturnCode == (int)KnownReturnCode.QrCodeExpired)
+                else if (query.ReturnCode is (int)KnownReturnCode.QrCodeExpired)
                 {
                     break;
                 }
