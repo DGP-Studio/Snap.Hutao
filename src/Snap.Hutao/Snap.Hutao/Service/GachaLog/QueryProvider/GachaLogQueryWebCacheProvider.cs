@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Service.Game;
 using System.Collections.Specialized;
 using System.IO;
@@ -15,6 +16,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 [Injection(InjectAs.Transient)]
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
+    private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly IGameServiceFacade gameService;
     private readonly CultureOptions cultureOptions;
 
@@ -66,7 +68,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
             // TODO: prevent allocation there
             using (FileStream fileStream = new(file.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                using (MemoryStream memoryStream = new())
+                using (MemoryStream memoryStream = memoryStreamFactory.GetStream())
                 {
                     await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
                     string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData, StringComparison.Ordinal));

@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
+using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.UI.Xaml.View.Window;
@@ -24,7 +25,9 @@ namespace Snap.Hutao.Service.Game.Package;
 internal sealed partial class GamePackageService : IGamePackageService
 {
     private readonly JsonSerializerOptions jsonSerializerOptions;
+    private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly IHttpClientFactory httpClientFactory;
     private readonly IProgressFactory progressFactory;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
@@ -37,16 +40,21 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         workingTokenSource = new();
         GamePackageOperationWindow window = Ioc.Default.GetRequiredService<GamePackageOperationWindow>();
+        ParallelOptions parallelOptions = new()
+        {
+            CancellationToken = workingTokenSource.Token,
+            MaxDegreeOfParallelism = Environment.ProcessorCount,
+        };
         switch (context.State)
         {
             case GamePackageOperationState.Verify:
-                await VerifyAsync(window, context, workingTokenSource.Token).ConfigureAwait(false);
+                await VerifyAsync(window, context, parallelOptions, workingTokenSource.Token).ConfigureAwait(false);
                 break;
             case GamePackageOperationState.Update:
-                await UpdateAsync(window, context, workingTokenSource.Token).ConfigureAwait(false);
+                await UpdateAsync(window, context, parallelOptions, workingTokenSource.Token).ConfigureAwait(false);
                 break;
             case GamePackageOperationState.Predownload:
-                await PredownloadAsync(window, context, workingTokenSource.Token).ConfigureAwait(false);
+                await PredownloadAsync(window, context, parallelOptions, workingTokenSource.Token).ConfigureAwait(false);
                 break;
             default:
                 break;
@@ -70,53 +78,6 @@ internal sealed partial class GamePackageService : IGamePackageService
         await workingTokenSource.CancelAsync().ConfigureAwait(false);
         workingTokenSource.Dispose();
         workingTokenSource = null;
-    }
-
-    private static async ValueTask<SophonDecodedBuild> DecodeManifestsAsync(SophonBuild sophonBuild, GamePackageOperationContext context, CancellationToken token = default)
-    {
-        long totalBytes = 0L;
-        List<SophonDecodedManifest> manifests = [];
-        foreach (SophonManifest sophonManifest in sophonBuild.Manifests)
-        {
-            bool exclude = sophonManifest.MatchingField switch
-            {
-                "game" => false,
-                "zh-cn" => !context.GameFileSystem.GameAudioSystem.Chinese,
-                "en-us" => !context.GameFileSystem.GameAudioSystem.English,
-                "ja-jp" => !context.GameFileSystem.GameAudioSystem.Japanese,
-                "ko-kr" => !context.GameFileSystem.GameAudioSystem.Korean,
-                _ => true,
-            };
-
-            if (exclude)
-            {
-                continue;
-            }
-
-            totalBytes += sophonManifest.Stats.UncompressedSize;
-            string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
-
-            using (HttpClient httpClient = new())
-            {
-                using (HttpResponseMessage resp = await httpClient.GetAsync(manifestDownloadUrl, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
-                {
-                    using (Stream manifestStream = await resp.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
-                    {
-                        using (ZstandardDecompressionStream decompressionStream = new(manifestStream))
-                        {
-                            //string manifestMd5 = await MD5.HashAsync(decompressionStream, token).ConfigureAwait(false);
-
-                            //if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
-                            //{
-                            manifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(decompressionStream)));
-                            //}
-                        }
-                    }
-                }
-            }
-        }
-
-        return new(totalBytes, manifests);
     }
 
     private static void ParseDiff(SophonDecodedBuild localDecodedBuild, SophonDecodedBuild remoteDecodedBuild, out List<SophonAsset> addedAssets, out Dictionary<AssetProperty, SophonAsset> modifiedAssets, out List<AssetProperty> deletedAssets)
@@ -179,21 +140,17 @@ internal sealed partial class GamePackageService : IGamePackageService
                 {
                     using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
                     {
-                        //string chunkMd5 = await MD5.HashAsync(chunkFile, token).ConfigureAwait(false);
-                        //if (chunkMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase))
-                        //{
                         file.Position = chunk.ChunkOnFileOffset;
                         await decompressionStream.CopyToAsync(file, token).ConfigureAwait(false);
-                        //}
                     }
                 }
             }
         }
     }
 
-    private static async ValueTask CombineDiffFileAsync(AssetProperty oldAsset, SophonAsset newAsset, GamePackageOperationContext context, CancellationToken token = default)
+    private async ValueTask CombineDiffFileAsync(AssetProperty oldAsset, SophonAsset newAsset, GamePackageOperationContext context, CancellationToken token = default)
     {
-        using (MemoryStream newAssetStream = new())
+        using (MemoryStream newAssetStream = memoryStreamFactory.GetStream())
         {
             using (FileStream oldAssetStream = File.OpenRead(Path.Combine(context.GameFileSystem.GameDirectory, oldAsset.AssetName)))
             {
@@ -208,11 +165,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                         {
                             using (ZstandardDecompressionStream decompressionStream = new(diffStream))
                             {
-                                //string chunkMd5 = await MD5.HashAsync(chunkFile, token).ConfigureAwait(false);
-                                //if (chunkMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase))
-                                //{
                                 await decompressionStream.CopyToAsync(newAssetStream, token).ConfigureAwait(false);
-                                //}
                                 continue;
                             }
                         }
@@ -246,7 +199,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private async ValueTask VerifyAsync(GamePackageOperationWindow window, GamePackageOperationContext context, CancellationToken token = default)
+    private async ValueTask VerifyAsync(GamePackageOperationWindow window, GamePackageOperationContext context, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         try
         {
@@ -281,12 +234,6 @@ internal sealed partial class GamePackageService : IGamePackageService
 
             List<SophonAsset> conflictAssets = [];
 
-            ParallelOptions parallelOptions = new()
-            {
-                CancellationToken = token,
-                MaxDegreeOfParallelism = Environment.ProcessorCount,
-            };
-
             foreach (SophonDecodedManifest sophonDecodedManifest in sophonDecodedBuild.Manifests)
             {
                 await Parallel.ForEachAsync(sophonDecodedManifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(sophonDecodedManifest.UrlPrefix, asset), conflictAssets, context, progress, token)).ConfigureAwait(false);
@@ -310,7 +257,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
             await Parallel.ForEachAsync(conflictAssets, parallelOptions, async (asset, token) =>
             {
-                await DownloadFileChunksAsync(asset, context, progress, token).ConfigureAwait(false);
+                await DownloadFileChunksAsync(asset, context, progress, parallelOptions, token).ConfigureAwait(false);
                 await CombineFileAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
             }).ConfigureAwait(false);
 
@@ -326,7 +273,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private async ValueTask UpdateAsync(GamePackageOperationWindow window, GamePackageOperationContext context, CancellationToken token = default)
+    private async ValueTask UpdateAsync(GamePackageOperationWindow window, GamePackageOperationContext context, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         try
         {
@@ -381,12 +328,6 @@ internal sealed partial class GamePackageService : IGamePackageService
             viewModel.ResetProgress(totalBlocks, totalBytes);
             await taskContext.SwitchToBackgroundAsync();
 
-            ParallelOptions parallelOptions = new()
-            {
-                CancellationToken = token,
-                MaxDegreeOfParallelism = Environment.ProcessorCount,
-            };
-
             // Added
             await Parallel.ForEachAsync(addedAssets, parallelOptions, async (asset, token) =>
             {
@@ -396,7 +337,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                     return;
                 }
 
-                await DownloadFileChunksAsync(asset, context, progress, token).ConfigureAwait(false);
+                await DownloadFileChunksAsync(asset, context, progress, parallelOptions, token).ConfigureAwait(false);
                 await CombineFileAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
             }).ConfigureAwait(false);
 
@@ -455,7 +396,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
             await Parallel.ForEachAsync(conflictAssets, parallelOptions, async (asset, token) =>
             {
-                await DownloadFileChunksAsync(asset, context, progress, token).ConfigureAwait(false);
+                await DownloadFileChunksAsync(asset, context, progress, parallelOptions, token).ConfigureAwait(false);
                 await CombineFileAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
             }).ConfigureAwait(false);
 
@@ -469,7 +410,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private async ValueTask PredownloadAsync(GamePackageOperationWindow window, GamePackageOperationContext context, CancellationToken token = default)
+    private async ValueTask PredownloadAsync(GamePackageOperationWindow window, GamePackageOperationContext context, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         try
         {
@@ -531,14 +472,8 @@ internal sealed partial class GamePackageService : IGamePackageService
                 await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonSerializerOptions, token).ConfigureAwait(false);
             }
 
-            ParallelOptions parallelOptions = new()
-            {
-                CancellationToken = token,
-                MaxDegreeOfParallelism = Environment.ProcessorCount,
-            };
-
             // Added
-            await Parallel.ForEachAsync(addedAssets, parallelOptions, (asset, token) => DownloadFileChunksAsync(asset, context, progress, token)).ConfigureAwait(false);
+            await Parallel.ForEachAsync(addedAssets, parallelOptions, (asset, token) => DownloadFileChunksAsync(asset, context, progress, parallelOptions, token)).ConfigureAwait(false);
 
             // Modified
             await Parallel.ForEachAsync(modifiedAssets, parallelOptions, async (asset, token) =>
@@ -565,6 +500,57 @@ internal sealed partial class GamePackageService : IGamePackageService
         catch (OperationCanceledException)
         {
         }
+    }
+
+    private async ValueTask<SophonDecodedBuild> DecodeManifestsAsync(SophonBuild sophonBuild, GamePackageOperationContext context, CancellationToken token = default)
+    {
+        long totalBytes = 0L;
+        List<SophonDecodedManifest> manifests = [];
+        foreach (SophonManifest sophonManifest in sophonBuild.Manifests)
+        {
+            bool exclude = sophonManifest.MatchingField switch
+            {
+                "game" => false,
+                "zh-cn" => !context.GameFileSystem.GameAudioSystem.Chinese,
+                "en-us" => !context.GameFileSystem.GameAudioSystem.English,
+                "ja-jp" => !context.GameFileSystem.GameAudioSystem.Japanese,
+                "ko-kr" => !context.GameFileSystem.GameAudioSystem.Korean,
+                _ => true,
+            };
+
+            if (exclude)
+            {
+                continue;
+            }
+
+            totalBytes += sophonManifest.Stats.UncompressedSize;
+            string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
+
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
+            {
+                using (HttpResponseMessage resp = await httpClient.GetAsync(manifestDownloadUrl, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
+                {
+                    using (Stream manifestStream = await resp.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
+                    {
+                        using (ZstandardDecompressionStream decompressionStream = new(manifestStream))
+                        {
+                            using (Stream decompressedStream = await decompressionStream.CloneAsync().ConfigureAwait(false))
+                            {
+                                string manifestMd5 = await MD5.HashAsync(decompressedStream, token).ConfigureAwait(false);
+
+                                if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    decompressedStream.Position = 0;
+                                    manifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(decompressedStream)));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return new(totalBytes, manifests);
     }
 
     private async ValueTask VerifyAssetAsync(SophonAsset sophonAsset, List<SophonAsset> conflictAssets, GamePackageOperationContext context, IProgress<SophonChunkDownloadStatus> progress, CancellationToken token = default)
@@ -618,14 +604,8 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private async ValueTask DownloadFileChunksAsync(SophonAsset sophonAsset, GamePackageOperationContext context, IProgress<SophonChunkDownloadStatus> progress, CancellationToken token = default)
+    private async ValueTask DownloadFileChunksAsync(SophonAsset sophonAsset, GamePackageOperationContext context, IProgress<SophonChunkDownloadStatus> progress, ParallelOptions parallelOptions, CancellationToken token = default)
     {
-        ParallelOptions parallelOptions = new()
-        {
-            CancellationToken = token,
-            MaxDegreeOfParallelism = Environment.ProcessorCount,
-        };
-
         await Parallel.ForEachAsync(sophonAsset.AssetProperty.AssetChunks, parallelOptions, (chunk, token) => DownloadChunkAsync(new(sophonAsset.UrlPrefix, chunk), context, progress, token)).ConfigureAwait(false);
     }
 
@@ -650,7 +630,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         {
             fileStream.Seek(0, SeekOrigin.Begin);
 
-            using (HttpClient httpClient = new())
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
             {
                 using (HttpResponseMessage responseMessage = await httpClient.GetAsync(sophonChunk.ChunkDownloadUrl, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
                 {
