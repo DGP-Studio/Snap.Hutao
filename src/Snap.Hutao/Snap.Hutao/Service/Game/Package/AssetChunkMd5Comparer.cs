@@ -21,7 +21,6 @@ internal sealed class AssetChunkMd5Comparer : IEqualityComparer<AssetChunk>
 
     public int GetHashCode([DisallowNull] AssetChunk obj)
     {
-        return obj.GetHashCode();
+        return HashCode.Combine(obj.ChunkDecompressedHashMd5);
     }
-
 }

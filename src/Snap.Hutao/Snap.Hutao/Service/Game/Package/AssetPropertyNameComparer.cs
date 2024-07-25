@@ -21,7 +21,6 @@ internal sealed class AssetPropertyNameComparer : IEqualityComparer<AssetPropert
 
     public int GetHashCode([DisallowNull] AssetProperty obj)
     {
-        return obj.GetHashCode();
+        return HashCode.Combine(obj.AssetName);
     }
-
 }
