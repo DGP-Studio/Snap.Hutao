@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Game.Scheme;
@@ -14,7 +15,6 @@ using Snap.Hutao.Web.Response;
 using System.Buffers;
 using System.IO;
 using System.Net.Http;
-using ZstdNet;
 
 namespace Snap.Hutao.Service.Game.Package;
 
@@ -102,9 +102,8 @@ internal sealed partial class GamePackageService : IGamePackageService
                 {
                     using (Stream manifestStream = await resp.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
                     {
-                        using (DecompressionStream decompressionStream = new(manifestStream))
+                        using (ZstandardDecompressionStream decompressionStream = new(manifestStream))
                         {
-                            // TODO: Migrate to Snap.ZStandard
                             //string manifestMd5 = await MD5.HashAsync(decompressionStream, token).ConfigureAwait(false);
 
                             //if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
@@ -178,9 +177,8 @@ internal sealed partial class GamePackageService : IGamePackageService
                 string chunkPath = Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName);
                 using (FileStream chunkFile = File.OpenRead(chunkPath))
                 {
-                    using (DecompressionStream decompressionStream = new(chunkFile))
+                    using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
                     {
-                        // TODO: Migrate to Snap.ZStandard
                         //string chunkMd5 = await MD5.HashAsync(chunkFile, token).ConfigureAwait(false);
                         //if (chunkMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase))
                         //{
@@ -208,9 +206,8 @@ internal sealed partial class GamePackageService : IGamePackageService
                     {
                         using (FileStream diffStream = File.OpenRead(Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName)))
                         {
-                            using (DecompressionStream decompressionStream = new(diffStream))
+                            using (ZstandardDecompressionStream decompressionStream = new(diffStream))
                             {
-                                // TODO: Migrate to Snap.ZStandard
                                 //string chunkMd5 = await MD5.HashAsync(chunkFile, token).ConfigureAwait(false);
                                 //if (chunkMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase))
                                 //{
