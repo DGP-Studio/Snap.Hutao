@@ -245,6 +245,7 @@ internal sealed class LaunchOptions : DbStoreOptions
         set => SetOption(ref disableFog, SettingEntry.LaunchDisableFog, value);
     }
 
+    [NotNull]
     public NameValue<int>? Monitor
     {
         get

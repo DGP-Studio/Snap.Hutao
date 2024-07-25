@@ -178,9 +178,16 @@ internal sealed partial class PackageConverter
 
     private async ValueTask<RelativePathVersionItemDictionary> GetLocalItemsAsync(string gameFolder)
     {
-        using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, PackageVersion)))
+        try
         {
-            return await GetVersionItemsAsync(localSteam).ConfigureAwait(false);
+            using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, PackageVersion)))
+            {
+                return await GetVersionItemsAsync(localSteam).ConfigureAwait(false);
+            }
+        }
+        catch (JsonException ex)
+        {
+            throw HutaoException.Throw(SH.ServiceGamePackageReadLocalPackageVerionFailed, ex);
         }
     }
 
