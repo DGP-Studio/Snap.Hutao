@@ -3,12 +3,13 @@
 
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hutao.GachaLog;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Web;
 
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1203")]
-internal static class HutaoEndpoints
+internal static partial class HutaoEndpoints
 {
     #region HomaAPI
 
@@ -107,32 +108,77 @@ internal static class HutaoEndpoints
     #region Infrasturcture
     public static string Enka(in PlayerUid uid)
     {
-        return $"{ApiSnapGenshinEnka}/{uid}";
+        return Kind switch
+        {
+            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/enka/{uid}",
+            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/enka/{uid}",
+            _ => $"{ApiSnapGenshin}/enka/{uid}",
+        };
     }
 
     public static string EnkaPlayerInfo(in PlayerUid uid)
     {
-        return $"{ApiSnapGenshinEnka}/{uid}/info";
+        return Kind switch
+        {
+            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/enka/{uid}/info",
+            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/enka/{uid}/info",
+            _ => $"{ApiSnapGenshin}/enka/{uid}/info",
+        };
     }
 
-    public const string Ip = $"{ApiSnapGenshin}/ip";
+    public static string Ip()
+    {
+        return Kind switch
+        {
+            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/ip",
+            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/ip",
+            _ => $"{ApiSnapGenshin}/ip",
+        };
+    }
+
+    #region Feature
+    public static string Feature(string name)
+    {
+        return Kind switch
+        {
+            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/client/{name}.json",
+            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/client/{name}.json",
+            _ => $"{ApiSnapGenshin}/client/{name}.json",
+        };
+    }
+    #endregion
 
     #region Metadata
     public static string Metadata(string locale, string fileName)
     {
-        return $"{ApiSnapGenshinMetadata}/Genshin/{locale}/{fileName}";
+        return Kind switch
+        {
+            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/metadata/Genshin/{locale}/{fileName}",
+            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/metadata/Genshin/{locale}/{fileName}",
+            _ => $"{ApiSnapGenshin}/metadata/Genshin/{locale}/{fileName}",
+        };
     }
     #endregion
 
     #region Patch
-    public const string PatchYaeAchievement = $"{ApiSnapGenshinPatch}/yae";
-    public const string PatchSnapHutao = $"{ApiSnapGenshinPatch}/hutao";
-
-    public static string PatchAlphaSnapHutao(bool isCN)
+    public static string PatchYaeAchievement()
     {
-       return isCN
-            ? $"{ApiAlphaSnapGenshin}/cn/patch/hutao"
-            : $"{ApiAlphaSnapGenshin}/global/patch/hutao";
+        return Kind switch
+        {
+            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/patch/yae",
+            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/patch/yae",
+            _ => $"{ApiSnapGenshin}/patch/yae",
+        };
+    }
+
+    public static string PatchSnapHutao()
+    {
+        return Kind switch
+        {
+            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/patch/hutao",
+            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/patch/hutao",
+            _ => $"{ApiSnapGenshin}/patch/hutao",
+        };
     }
     #endregion
 
@@ -143,34 +189,80 @@ internal static class HutaoEndpoints
 
     public static string StaticRaw(string category, string fileName)
     {
-        return $"{ApiSnapGenshinStaticRaw}/{category}/{fileName}";
+        return $"{ApiSnapGenshin}/static/raw/{category}/{fileName}";
     }
 
     public static string StaticZip(string fileName)
     {
-        return $"{ApiSnapGenshinStaticZip}/{fileName}.zip";
+        return $"{ApiSnapGenshin}/static/zip/{fileName}.zip";
     }
 
-    public const string StaticSize = $"{ApiSnapGenshin}/static/size";
+    public static string StaticSize()
+    {
+        return $"{ApiSnapGenshin}/static/size";
+    }
     #endregion
 
     #region Wallpaper
 
-    public const string WallpaperBing = $"{ApiSnapGenshin}/wallpaper/bing";
+    public static string WallpaperBing()
+    {
+        return Kind switch
+        {
+            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/wallpaper/bing",
+            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/wallpaper/bing",
+            _ => $"{ApiSnapGenshin}/wallpaper/bing",
+        };
+    }
 
-    public const string WallpaperGenshinLauncher = $"{ApiSnapGenshin}/wallpaper/hoyoplay";
+    public static string WallpaperGenshinLauncher()
+    {
+        return Kind switch
+        {
+            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/wallpaper/genshinlauncher",
+            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/wallpaper/genshinlauncher",
+            _ => $"{ApiSnapGenshin}/wallpaper/genshinlauncher",
+        };
+    }
 
-    public const string WallpaperToday = $"{ApiSnapGenshin}/wallpaper/today";
+    public static string WallpaperToday()
+    {
+        return Kind switch
+        {
+            ApiKind.AlphaCN => $"{ApiAlphaSnapGenshin}/cn/wallpaper/today",
+            ApiKind.AlphaOS => $"{ApiAlphaSnapGenshin}/global/wallpaper/today",
+            _ => $"{ApiSnapGenshin}/wallpaper/today",
+        };
+    }
     #endregion
 
     #endregion
+
+    private const string ApiSnapGenshin = "https://api.snapgenshin.com";
+    private const string HomaSnapGenshin = "https://homa.snapgenshin.com";
+}
+
+internal static partial class HutaoEndpoints
+{
+    private enum ApiKind
+    {
+        AlphaCN,
+        AlphaOS,
+        Formal,
+    }
+
+    private static ApiKind Kind
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {
+#if IS_ALPHA_BUILD || DEBUG
+            return Core.Setting.LocalSetting.Get(Core.Setting.SettingKeys.AlphaBuildUseCNPatchEndpoint, false) ? ApiKind.AlphaCN : ApiKind.AlphaOS;
+#else
+            return ApiKind.Formal;
+#endif
+        }
+    }
 
     private const string ApiAlphaSnapGenshin = "https://api-alpha.snapgenshin.cn";
-    private const string ApiSnapGenshin = "https://api.snapgenshin.com";
-    private const string ApiSnapGenshinMetadata = $"{ApiSnapGenshin}/metadata";
-    private const string ApiSnapGenshinPatch = $"{ApiSnapGenshin}/patch";
-    private const string ApiSnapGenshinStaticRaw = $"{ApiSnapGenshin}/static/raw";
-    private const string ApiSnapGenshinStaticZip = $"{ApiSnapGenshin}/static/zip";
-    private const string ApiSnapGenshinEnka = $"{ApiSnapGenshin}/enka";
-    private const string HomaSnapGenshin = "https://homa.snapgenshin.com";
 }

@@ -16,7 +16,7 @@ internal sealed class Int32ToVisibilityConverter : IValueConverter
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        return value is not 0 ? Visibility.Visible : Visibility.Collapsed;
+        return value is not null && value is not 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     /// <inheritdoc/>

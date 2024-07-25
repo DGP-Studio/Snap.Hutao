@@ -1,27 +1,43 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Service.Feature;
+using Snap.Hutao.Service.Game.Unlocker.Island;
 using Snap.Hutao.Win32.Foundation;
-using Snap.Hutao.Win32.System.LibraryLoader;
-using Snap.Hutao.Win32.System.Threading;
+using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.Diagnostics;
+using System.IO;
+using System.IO.MemoryMappedFiles;
+using System.Runtime.InteropServices;
+using static Snap.Hutao.Win32.ConstValues;
 using static Snap.Hutao.Win32.Kernel32;
+using static Snap.Hutao.Win32.Macros;
+using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game.Unlocker;
 
-internal abstract class GameFpsUnlocker : IGameFpsUnlocker
+internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 {
+    private const string IslandEnvironmentName = "4F3E8543-40F7-4808-82DC-21E48A6037A7";
     private readonly LaunchOptions launchOptions;
-    private readonly GameFpsUnlockerContext context = new();
+    private readonly IFeatureService featureService;
 
-    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, in UnlockOptions options, IProgress<GameFpsUnlockerContext> progress)
+    private readonly GameFpsUnlockerContext context = new();
+    private readonly string dataFolderIslandPath;
+
+    private IslandFunctionOffsets? offsets;
+
+    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, IProgress<GameFpsUnlockerContext> progress)
     {
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
+        featureService = serviceProvider.GetRequiredService<IFeatureService>();
+
+        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+        dataFolderIslandPath = Path.Combine(runtimeOptions.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
 
         context.GameProcess = gameProcess;
-        context.AllAccess = OpenProcess(PROCESS_ACCESS_RIGHTS.PROCESS_ALL_ACCESS, false, (uint)gameProcess.Id);
-        context.Options = options;
         context.Progress = progress;
         context.Logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
     }
@@ -29,31 +45,114 @@ internal abstract class GameFpsUnlocker : IGameFpsUnlocker
     public async ValueTask<bool> UnlockAsync(CancellationToken token = default)
     {
         HutaoException.ThrowIfNot(context.IsUnlockerValid, "This Unlocker is invalid");
-        (FindModuleResult result, RequiredRemoteModule remoteModule) = await GameProcessModule.FindModuleAsync(context).ConfigureAwait(false);
-        HutaoException.ThrowIfNot(result != FindModuleResult.TimeLimitExeeded, SH.ServiceGameUnlockerFindModuleTimeLimitExeeded);
-        HutaoException.ThrowIfNot(result != FindModuleResult.NoModuleFound, SH.ServiceGameUnlockerFindModuleNoModuleFound);
-
-        using (RequiredLocalModule localModule = LoadRequiredLocalModule(context.Options.GameFileSystem))
+        if (await featureService.GetIslandFeatureAsync().ConfigureAwait(false) is not { } feature)
         {
-            GameFpsAddress.UnsafeFindFpsAddress(context, remoteModule, localModule);
+            return false;
         }
 
+        offsets = string.Equals(GameConstants.GenshinImpactProcessName, context.GameProcess.ProcessName, StringComparison.OrdinalIgnoreCase)
+            ? feature.Oversea
+            : feature.Chinese;
+
         context.Report();
-        return context.FpsAddress != 0U;
+        return true;
     }
 
-    public ValueTask PostUnlockAsync(CancellationToken token = default)
+    public async ValueTask PostUnlockAsync(CancellationToken token = default)
     {
-        return PostUnlockOverrideAsync(context, launchOptions, context.Logger, token);
+        if (offsets is null)
+        {
+            return;
+        }
+
+        try
+        {
+            File.Copy(InstalledLocation.GetAbsolutePath("Snap.Hutao.UnlockerIsland.dll"), dataFolderIslandPath, true);
+        }
+        catch
+        {
+            context.Logger.LogError("Failed to copy island file.");
+            return;
+        }
+
+        try
+        {
+            using (MemoryMappedFile file = MemoryMappedFile.CreateOrOpen(IslandEnvironmentName, 1024))
+            {
+                using (MemoryMappedViewAccessor accessor = file.CreateViewAccessor())
+                {
+                    nint handle = accessor.SafeMemoryMappedViewHandle.DangerousGetHandle();
+                    InitializeIslandEnvironment(handle, offsets, launchOptions);
+                    InitializeIsland(context.GameProcess);
+                    using (PeriodicTimer timer = new(TimeSpan.FromMilliseconds(500)))
+                    {
+                        while (await timer.WaitForNextTickAsync(token).ConfigureAwait(false))
+                        {
+                            if (context.GameProcess.HasExited)
+                            {
+                                break;
+                            }
+
+                            IslandEnvironmentView view = UpdateIslandEnvironment(handle, launchOptions);
+                            context.Logger.LogDebug("Island Environment|{State}|{Error}", view.State, view.LastError);
+                        }
+                    }
+                }
+            }
+        }
+        finally
+        {
+            context.Logger.LogInformation("Exit PostUnlockAsync");
+        }
     }
 
-    protected abstract ValueTask PostUnlockOverrideAsync(GameFpsUnlockerContext context, LaunchOptions launchOptions, ILogger logger, CancellationToken token = default);
-
-    private static RequiredLocalModule LoadRequiredLocalModule(GameFileSystem gameFileSystem)
+    private static unsafe void InitializeIslandEnvironment(nint handle, IslandFunctionOffsets offsets, LaunchOptions options)
     {
-        LOAD_LIBRARY_FLAGS flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_AS_IMAGE_RESOURCE;
-        HMODULE executaleAddress = LoadLibraryExW(gameFileSystem.GameFilePath, default, flags);
+        IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
+        pIslandEnvironment->FunctionOffsetFieldOfView = offsets.FunctionOffsetFieldOfView;
+        pIslandEnvironment->FunctionOffsetTargetFrameRate = offsets.FunctionOffsetTargetFrameRate;
+        pIslandEnvironment->FunctionOffsetFog = offsets.FunctionOffsetFog;
 
-        return new(executaleAddress);
+        UpdateIslandEnvironment(handle, options);
+    }
+
+    private static unsafe IslandEnvironmentView UpdateIslandEnvironment(nint handle, LaunchOptions options)
+    {
+        IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
+        pIslandEnvironment->FieldOfView = 55; // options.TargetFov;
+        pIslandEnvironment->TargetFrameRate = -1; // options.TargetFps;
+        pIslandEnvironment->DisableFog = true; // options.DisableFog;
+
+        return *(IslandEnvironmentView*)pIslandEnvironment;
+    }
+
+    private unsafe void InitializeIsland(Process gameProcess)
+    {
+        HANDLE hModule = default;
+        try
+        {
+            hModule = NativeLibrary.Load(dataFolderIslandPath);
+            nint pIslandGetWindowHook = NativeLibrary.GetExport((nint)(hModule & ~0x3L), "IslandGetWindowHook");
+
+            HOOKPROC hookProc = default;
+            ((delegate* unmanaged[Stdcall]<HOOKPROC*, HRESULT>)pIslandGetWindowHook)(&hookProc);
+
+            SpinWait.SpinUntil(() => gameProcess.MainWindowHandle is not 0);
+            uint threadId = GetWindowThreadProcessId(gameProcess.MainWindowHandle, default);
+            HHOOK hHook = SetWindowsHookExW(WINDOWS_HOOK_ID.WH_GETMESSAGE, hookProc, (HINSTANCE)hModule, threadId);
+            if (hHook.Value is 0)
+            {
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+            }
+
+            if (!PostThreadMessageW(threadId, WM_NULL, default, default))
+            {
+                Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+            }
+        }
+        finally
+        {
+            NativeLibrary.Free(hModule);
+        }
     }
 }

@@ -357,7 +357,7 @@
                                                 MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
                                                 Padding="10,8,0,0"
                                                 Maximum="720"
-                                                Minimum="60"
+                                                Minimum="-1"
                                                 SpinButtonPlacementMode="Inline"
                                                 Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
                                             <ToggleSwitch
@@ -367,23 +367,22 @@
                                                 OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
                                         </StackPanel>
                                         <cwc:SettingsExpander.Items>
-                                            <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsKindDescription}" Header="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsKindHeader}">
-                                                <StackPanel VerticalAlignment="Center" Spacing="3">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Right"
-                                                        Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}"
-                                                        Opacity="0.8"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding LaunchOptions.UnlockerKind.Description, Mode=OneWay}"/>
-                                                    <shuxc:SizeRestrictedContentControl HorizontalAlignment="Right">
-                                                        <ComboBox
-                                                            DisplayMemberPath="Name"
-                                                            ItemsSource="{Binding LaunchOptions.UnlockerKinds, Mode=OneWay}"
-                                                            SelectedItem="{Binding LaunchOptions.UnlockerKind, Mode=TwoWay}"/>
-                                                    </shuxc:SizeRestrictedContentControl>
-
-                                                </StackPanel>
-
+                                            <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovDescription}" Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}">
+                                                <NumberBox
+                                                    MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
+                                                    Padding="10,8,0,0"
+                                                    Maximum="55"
+                                                    Minimum="45"
+                                                    SmallChange="1"
+                                                    SpinButtonPlacementMode="Inline"
+                                                    Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
+                                            </cwc:SettingsCard>
+                                            <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogDescription}" Header="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}">
+                                                <ToggleSwitch
+                                                    MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                                                    IsOn="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
+                                                    OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
+                                                    OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"/>
                                             </cwc:SettingsCard>
                                         </cwc:SettingsExpander.Items>
                                     </cwc:SettingsExpander>

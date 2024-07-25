@@ -19,17 +19,17 @@ internal sealed partial class HutaoWallpaperClient
 
     public ValueTask<Response<Wallpaper>> GetBingWallpaperAsync(CancellationToken token = default)
     {
-        return GetWallpaperAsync(HutaoEndpoints.WallpaperBing, token);
+        return GetWallpaperAsync(HutaoEndpoints.WallpaperBing(), token);
     }
 
     public ValueTask<Response<Wallpaper>> GetLauncherWallpaperAsync(CancellationToken token = default)
     {
-        return GetWallpaperAsync(HutaoEndpoints.WallpaperGenshinLauncher, token);
+        return GetWallpaperAsync(HutaoEndpoints.WallpaperGenshinLauncher(), token);
     }
 
     public ValueTask<Response<Wallpaper>> GetTodayWallpaperAsync(CancellationToken token = default)
     {
-        return GetWallpaperAsync(HutaoEndpoints.WallpaperToday, token);
+        return GetWallpaperAsync(HutaoEndpoints.WallpaperToday(), token);
     }
 
     private async ValueTask<Response<Wallpaper>> GetWallpaperAsync(string url, CancellationToken token = default)
