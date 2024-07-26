@@ -7,15 +7,14 @@ namespace Snap.Hutao.Service.Game.Unlocker.Island;
 
 internal struct IslandEnvironment
 {
-    public nuint Reserved1;
-    public int Reserved2;
     public IslandState State;
     public WIN32_ERROR LastError;
-    public int Reserved3;
+
     public float FieldOfView;
     public int TargetFrameRate;
     public bool DisableFog;
-    public nuint FunctionOffsetFieldOfView;
-    public nuint FunctionOffsetTargetFrameRate;
-    public nuint FunctionOffsetFog;
+
+    public uint FunctionOffsetFieldOfView;
+    public uint FunctionOffsetTargetFrameRate;
+    public uint FunctionOffsetFog;
 }

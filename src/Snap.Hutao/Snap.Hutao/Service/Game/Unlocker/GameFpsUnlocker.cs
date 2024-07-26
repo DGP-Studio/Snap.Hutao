@@ -94,7 +94,10 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                             }
 
                             IslandEnvironmentView view = UpdateIslandEnvironment(handle, launchOptions);
-                            context.Logger.LogDebug("Island Environment|{State}|{Error}", view.State, view.LastError);
+                            if (view.State is not IslandState.Started)
+                            {
+                                context.Logger.LogDebug("Island Environment|{State}|{Error}", view.State, view.LastError);
+                            }
                         }
                     }
                 }
