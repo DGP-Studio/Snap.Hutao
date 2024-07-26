@@ -11,6 +11,8 @@ namespace Snap.Hutao.ViewModel.Game;
 
 internal sealed partial class GamePackageOperationViewModel : ObservableObject, IProgress<SophonChunkDownloadStatus>
 {
+    private readonly IGamePackageService gamePackageService;
+
     private readonly object syncRoot = new();
     private ValueStopwatch stopwatch = ValueStopwatch.StartNew();
     private long totalBytesReadPerSecond;
@@ -19,18 +21,15 @@ internal sealed partial class GamePackageOperationViewModel : ObservableObject, 
 
     private string title;
     private int finishedBlocks;
-    private int totalBlocks;
-    private string speed;
+    private int totalBlocks = -1;
+    private string speed = "0 B/s";
     private bool forceFinished;
-    private string remainingTime;
+    private string remainingTime = "--:--:--";
 
-    public GamePackageOperationViewModel(string title)
+    public GamePackageOperationViewModel(IGamePackageService gamePackageService, string title)
     {
+        this.gamePackageService = gamePackageService;
         this.title = title;
-
-        totalBlocks = -1;
-        speed = "0 B/s";
-        remainingTime = "未知";
     }
 
     public string Title { get => title; set => SetProperty(ref title, value); }
@@ -102,7 +101,6 @@ internal sealed partial class GamePackageOperationViewModel : ObservableObject, 
     [Command("CancelCommand")]
     private void Cancel()
     {
-        IGamePackageService gamePackageService = Ioc.Default.GetRequiredService<IGamePackageService>();
         gamePackageService.CancelOperationAsync().SafeForget();
         Title = "已取消";
         forceFinished = true;

@@ -28,141 +28,142 @@ internal sealed partial class GamePackageService : IGamePackageService
 {
     private readonly JsonSerializerOptions jsonSerializerOptions;
     private readonly IMemoryStreamFactory memoryStreamFactory;
-    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IProgressFactory progressFactory;
+    private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
 
-    private CancellationTokenSource? workingTokenSource;
+    private CancellationTokenSource? operationCts;
+    private TaskCompletionSource? operationTcs;
 
     public async ValueTask<bool> StartOperationAsync(GamePackageOperationContext context)
     {
         await CancelOperationAsync().ConfigureAwait(false);
 
-        workingTokenSource = new();
-        GamePackageOperationWindow window = Ioc.Default.GetRequiredService<GamePackageOperationWindow>();
+        GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
+
+        operationCts = new();
+        operationTcs = new();
         ParallelOptions parallelOptions = new()
         {
-            CancellationToken = workingTokenSource.Token,
+            CancellationToken = operationCts.Token,
             MaxDegreeOfParallelism = Environment.ProcessorCount,
         };
-        switch (context.State)
-        {
-            case GamePackageOperationState.Verify:
-                await VerifyAsync(window, context, parallelOptions, workingTokenSource.Token).ConfigureAwait(false);
-                break;
-            case GamePackageOperationState.Update:
-                await UpdateAsync(window, context, parallelOptions, workingTokenSource.Token).ConfigureAwait(false);
-                break;
-            case GamePackageOperationState.Predownload:
-                await PredownloadAsync(window, context, parallelOptions, workingTokenSource.Token).ConfigureAwait(false);
-                break;
-            default:
-                break;
-        }
 
-        if (workingTokenSource is null || workingTokenSource.IsCancellationRequested)
+        ValueTask operation = context.State switch
+        {
+            GamePackageOperationState.Verify => VerifyAsync(window, context, parallelOptions, operationCts.Token),
+            GamePackageOperationState.Update => UpdateAsync(window, context, parallelOptions, operationCts.Token),
+            GamePackageOperationState.Predownload => PredownloadAsync(window, context, parallelOptions, operationCts.Token),
+            _ => ValueTask.CompletedTask,
+        };
+
+        try
+        {
+            await operation.ConfigureAwait(false);
+            return true;
+        }
+        catch (OperationCanceledException)
         {
             return false;
         }
-
-        return true;
+        finally
+        {
+            operationTcs.TrySetResult();
+        }
     }
 
     public async ValueTask CancelOperationAsync()
     {
-        if (workingTokenSource is null)
+        if (operationCts is null || operationTcs is null)
         {
             return;
         }
 
-        await workingTokenSource.CancelAsync().ConfigureAwait(false);
-        workingTokenSource.Dispose();
-        workingTokenSource = null;
+        await operationCts.CancelAsync().ConfigureAwait(false);
+        await operationTcs.Task.ConfigureAwait(false);
+        operationCts.Dispose();
+        operationCts = null;
+        operationTcs = null;
     }
 
     #region Operation
 
     private async ValueTask VerifyAsync(GamePackageOperationWindow window, GamePackageOperationContext context, ParallelOptions parallelOptions, CancellationToken token = default)
     {
-        try
+        GamePackageOperationViewModel viewModel = new(this, "正在验证游戏完整性");
+        window.InitializeDataContext(viewModel);
+
+        IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
+
+        Response<SophonBuild> sophonBuildResp;
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            GamePackageOperationViewModel viewModel = new("正在验证游戏完整性");
-            window.InitializeDataContext(viewModel);
+            ISophonClient client = scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
+                .Create(LaunchScheme.ExecutableIsOversea(context.GameFileSystem.GameFileName));
 
-            IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
-
-            Response<SophonBuild> sophonBuildResp;
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
-            {
-                ISophonClient client = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
-                    .Create(LaunchScheme.ExecutableIsOversea(context.GameFileSystem.GameFileName));
-
-                sophonBuildResp = await client.GetBuildAsync(context.LocalBranch, token).ConfigureAwait(false);
-            }
-
-            if (!sophonBuildResp.IsOk())
-            {
-                await taskContext.SwitchToMainThreadAsync();
-                viewModel.Title = "清单数据拉取失败";
-                viewModel.ResetProgress(0, 0);
-                viewModel.Report(new(0, true));
-                return;
-            }
-
-            SophonDecodedBuild sophonDecodedBuild = await DecodeManifestsAsync(sophonBuildResp.Data, context, token).ConfigureAwait(false);
-
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.ResetProgress(sophonDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), sophonDecodedBuild.TotalBytes);
-            await taskContext.SwitchToBackgroundAsync();
-
-            List<SophonAsset> conflictAssets = [];
-
-            foreach (SophonDecodedManifest sophonDecodedManifest in sophonDecodedBuild.Manifests)
-            {
-                await Parallel.ForEachAsync(sophonDecodedManifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(sophonDecodedManifest.UrlPrefix, asset), conflictAssets, context, progress, token)).ConfigureAwait(false);
-            }
-
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.RefreshUI();
-            await taskContext.SwitchToBackgroundAsync();
-
-            if (conflictAssets.IsNullOrEmpty())
-            {
-                await taskContext.SwitchToMainThreadAsync();
-                viewModel.Title = "游戏完整，无需修复";
-                return;
-            }
-
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.Title = "正在修复游戏完整性";
-            viewModel.ResetProgress(conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize));
-            await taskContext.SwitchToBackgroundAsync();
-
-            await Parallel.ForEachAsync(conflictAssets, parallelOptions, async (asset, token) =>
-            {
-                await DownloadAssetChunksAsync(asset, context, progress, parallelOptions, token).ConfigureAwait(false);
-                await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
-            }).ConfigureAwait(false);
-
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.Title = "修复完成";
-            viewModel.RefreshUI();
-            await taskContext.SwitchToBackgroundAsync();
-
-            Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
+            sophonBuildResp = await client.GetBuildAsync(context.LocalBranch, token).ConfigureAwait(false);
         }
-        catch (OperationCanceledException)
+
+        if (!sophonBuildResp.IsOk())
         {
+            await taskContext.SwitchToMainThreadAsync();
+            viewModel.Title = "获取清单数据失败";
+            viewModel.ResetProgress(0, 0);
+            viewModel.Report(new(0, true));
+            return;
         }
+
+        SophonDecodedBuild sophonDecodedBuild = await DecodeManifestsAsync(sophonBuildResp.Data, context, token).ConfigureAwait(false);
+
+        await taskContext.SwitchToMainThreadAsync();
+        viewModel.ResetProgress(sophonDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), sophonDecodedBuild.TotalBytes);
+        await taskContext.SwitchToBackgroundAsync();
+
+        List<SophonAsset> conflictAssets = [];
+
+        foreach (SophonDecodedManifest sophonDecodedManifest in sophonDecodedBuild.Manifests)
+        {
+            await Parallel.ForEachAsync(sophonDecodedManifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(sophonDecodedManifest.UrlPrefix, asset), conflictAssets, context, progress, token)).ConfigureAwait(false);
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        viewModel.RefreshUI();
+        await taskContext.SwitchToBackgroundAsync();
+
+        if (conflictAssets.IsNullOrEmpty())
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            viewModel.Title = "游戏完整，无需修复";
+            return;
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        viewModel.Title = "正在修复游戏完整性";
+        viewModel.ResetProgress(conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize));
+        await taskContext.SwitchToBackgroundAsync();
+
+        await Parallel.ForEachAsync(conflictAssets, parallelOptions, async (asset, token) =>
+        {
+            await DownloadAssetChunksAsync(asset, context, progress, parallelOptions, token).ConfigureAwait(false);
+            await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
+        }).ConfigureAwait(false);
+
+        await taskContext.SwitchToMainThreadAsync();
+        viewModel.Title = "修复完成";
+        viewModel.RefreshUI();
+        await taskContext.SwitchToBackgroundAsync();
+
+        Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
     }
 
     private async ValueTask UpdateAsync(GamePackageOperationWindow window, GamePackageOperationContext context, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         try
         {
-            GamePackageOperationViewModel viewModel = new("正在更新游戏");
+            GamePackageOperationViewModel viewModel = new(this, "正在更新游戏");
             window.InitializeDataContext(viewModel);
 
             IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
@@ -170,7 +171,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             SophonBuild localBuild;
             SophonBuild remoteBuild;
 
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 ISophonClient client = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
                     .Create(LaunchScheme.ExecutableIsOversea(context.GameFileSystem.GameFileName));
@@ -299,7 +300,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         try
         {
-            GamePackageOperationViewModel viewModel = new("正在预下载资源");
+            GamePackageOperationViewModel viewModel = new(this, "正在预下载资源");
             window.InitializeDataContext(viewModel);
 
             IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
@@ -307,7 +308,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             SophonBuild localBuild;
             SophonBuild remoteBuild;
 
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 ISophonClient client = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
                     .Create(LaunchScheme.ExecutableIsOversea(context.GameFileSystem.GameFileName));
