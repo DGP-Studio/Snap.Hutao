@@ -1,9 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Response;
@@ -15,6 +17,7 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGamePackageService gamePackageService;
     private readonly LaunchGameShared launchGameShared;
     private readonly HoyoPlayClient hoyoPlayClient;
@@ -176,11 +179,25 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         ArgumentNullException.ThrowIfNull(GameBranch);
         ArgumentNullException.ThrowIfNull(LocalVersion);
 
+        if (targetState is GamePackageOperationState.Install)
+        {
+            LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>().ConfigureAwait(false);
+            dialog.KnownSchemes = KnownLaunchSchemes.Get();
+            dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
+            (bool isOk, gameFileSystem) = await dialog.GetGameFileSystemAsync().ConfigureAwait(false);
+
+            if (!isOk)
+            {
+                return;
+            }
+        }
+
         GamePackageOperationContext context = new(
             targetState,
             gameFileSystem,
             GameBranch.Main.CloneWithTag(LocalVersion.ToString()),
             targetState is GamePackageOperationState.Predownload ? GameBranch.PreDownload : GameBranch.Main);
+
         bool success = await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
 
         await taskContext.SwitchToMainThreadAsync();

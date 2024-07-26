@@ -9,6 +9,11 @@ internal sealed class GameAudioSystem
 {
     private readonly string gameDirectory;
 
+    private bool? chinese;
+    private bool? english;
+    private bool? japanese;
+    private bool? korean;
+
     public GameAudioSystem(string gameFilePath)
     {
         string? directory = Path.GetDirectoryName(gameFilePath);
@@ -16,13 +21,23 @@ internal sealed class GameAudioSystem
         gameDirectory = directory;
     }
 
+    public GameAudioSystem(bool chinese, bool english, bool japanese, bool korean)
+    {
+        gameDirectory = default!;
+
+        this.chinese = chinese;
+        this.english = english;
+        this.japanese = japanese;
+        this.korean = korean;
+    }
+
     public string GameDirectory { get => gameDirectory; }
 
-    public bool Chinese { get => File.Exists(Path.Combine(GameDirectory, GameConstants.AudioChinesePkgVersion)); }
+    public bool Chinese { get => chinese ??= File.Exists(Path.Combine(GameDirectory, GameConstants.AudioChinesePkgVersion)); }
 
-    public bool English { get => File.Exists(Path.Combine(GameDirectory, GameConstants.AudioEnglishPkgVersion)); }
+    public bool English { get => english ??= File.Exists(Path.Combine(GameDirectory, GameConstants.AudioEnglishPkgVersion)); }
 
-    public bool Japanese { get => File.Exists(Path.Combine(GameDirectory, GameConstants.AudioJapanesePkgVersion)); }
+    public bool Japanese { get => japanese ??= File.Exists(Path.Combine(GameDirectory, GameConstants.AudioJapanesePkgVersion)); }
 
-    public bool Korean { get => File.Exists(Path.Combine(GameDirectory, GameConstants.AudioKoreanPkgVersion)); }
+    public bool Korean { get => korean ??= File.Exists(Path.Combine(GameDirectory, GameConstants.AudioKoreanPkgVersion)); }
 }

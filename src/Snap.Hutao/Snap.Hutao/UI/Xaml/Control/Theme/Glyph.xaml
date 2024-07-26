@@ -17,6 +17,7 @@
     <x:String x:Key="FontIconContentBulletedList">&#xE8FD;</x:String>
     <x:String x:Key="FontIconContentCheckList">&#xE9D5;</x:String>
     <x:String x:Key="FontIconContentWebsite">&#xEB41;</x:String>
+    <x:String x:Key="FontIconContentCloudDownload">&#xEBD3;</x:String>
     <x:String x:Key="FontIconContentQRCode">&#xED14;</x:String>
     <x:String x:Key="FontIconContentHomeGroup">&#xEC26;</x:String>
     <x:String x:Key="FontIconContentSpeedHigh">&#xEC4A;</x:String>

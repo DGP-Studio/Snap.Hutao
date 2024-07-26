@@ -234,6 +234,13 @@
                                             <cwc:SettingsCard
                                                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                                                 Command="{Binding GamePackageViewModel.StartCommand}"
+                                                CommandParameter="Install"
+                                                Header="安装游戏"
+                                                HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentCloudDownload}}"
+                                                IsClickEnabled="True"/>
+                                            <cwc:SettingsCard
+                                                Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                                Command="{Binding GamePackageViewModel.StartCommand}"
                                                 CommandParameter="Verify"
                                                 Header="修复游戏"
                                                 HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDeveloperTools}}"

@@ -5,6 +5,7 @@ namespace Snap.Hutao.Service.Game.Package;
 
 internal enum GamePackageOperationState
 {
+    Install,
     Verify,
     Update,
     Predownload,

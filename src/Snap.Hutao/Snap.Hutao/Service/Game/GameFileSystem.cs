@@ -21,6 +21,12 @@ internal sealed class GameFileSystem
         this.gameFilePath = gameFilePath;
     }
 
+    public GameFileSystem(string gameFilePath, GameAudioSystem gameAudioSystem)
+    {
+        this.gameFilePath = gameFilePath;
+        this.gameAudioSystem = gameAudioSystem;
+    }
+
     public string GameFilePath { get => gameFilePath; }
 
     public string GameFileName { get => gameFileName ??= Path.GetFileName(gameFilePath); }
