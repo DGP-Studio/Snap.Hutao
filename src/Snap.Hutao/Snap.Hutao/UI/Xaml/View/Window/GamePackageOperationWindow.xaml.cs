@@ -12,11 +12,16 @@ namespace Snap.Hutao.UI.Xaml.View.Window;
 
 [Injection(InjectAs.Transient)]
 internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Window,
+    IDisposable,
     IXamlWindowExtendContentIntoTitleBar
 {
+    private readonly IServiceScope scope;
+
     public GamePackageOperationWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+
+        scope = serviceProvider.CreateScope();
 
         RectInt32 workArea = DisplayArea.Primary.WorkArea;
         SizeInt32 size = new(workArea.Height, (int)(workArea.Height * 0.5));
@@ -29,13 +34,16 @@ internal sealed partial class GamePackageOperationWindow : Microsoft.UI.Xaml.Win
         }
 
         this.InitializeController(serviceProvider);
+        RootGrid.InitializeDataContext<GamePackageOperationViewModel>(scope.ServiceProvider);
     }
 
     public FrameworkElement TitleBarAccess { get => DragableGrid; }
 
-    public void InitializeDataContext(GamePackageOperationViewModel viewModel)
+    public object DataContext { get => RootGrid.DataContext; }
+
+    public void Dispose()
     {
-        RootGrid.DataContext = viewModel;
+        scope.Dispose();
     }
 
     [Command("CloseCommand")]
