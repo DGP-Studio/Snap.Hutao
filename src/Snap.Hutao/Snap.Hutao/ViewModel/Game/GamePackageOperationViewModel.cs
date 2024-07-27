@@ -4,6 +4,7 @@
 using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.Package;
 using System.Globalization;
 
@@ -27,15 +28,15 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     private int totalBlocks = -1;
     private bool forceFinished;
 
-    private string title = default!;
+    private string title = "正在拉取清单数据";
     private string speed = "0 B/s";
     private string remainingTime = UnknownRemainingTime;
 
-    public string Title { get => title; set => SetProperty(ref title, value); }
+    public string Title { get => title; private set => SetProperty(ref title, value); }
 
-    public string Speed { get => speed; set => SetProperty(ref speed, value); }
+    public string Speed { get => speed; private set => SetProperty(ref speed, value); }
 
-    public string RemainingTime { get => remainingTime; set => SetProperty(ref remainingTime, value); }
+    public string RemainingTime { get => remainingTime; private set => SetProperty(ref remainingTime, value); }
 
     public double Progress { get => totalBlocks <= 0 ? 0D : 1D * finishedBlocks / totalBlocks; }
 
@@ -47,12 +48,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     public bool IsFinished { get => forceFinished || (totalBlocks is not -1 && finishedBlocks >= totalBlocks); }
 
-    public void SetTitle(string title)
-    {
-        Title = title;
-    }
-
-    public void ResetProgress(int totalBlocks, long contentLength)
+    public void ResetProgress(string title, int totalBlocks, long contentLength)
     {
         finishedBlocks = 0;
         totalBytesRead = 0;
@@ -61,6 +57,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         this.contentLength = contentLength;
         stopwatch = ValueStopwatch.StartNew();
 
+        Title = title;
         RefreshUI();
     }
 
@@ -102,12 +99,25 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         OnPropertyChanged(nameof(IsFinished));
     }
 
+    public void Finish(GamePackageOperationState state, bool repaired = false)
+    {
+        Title = state switch
+        {
+            GamePackageOperationState.Install => "安装完成",
+            GamePackageOperationState.Verify => repaired ? "修复完成" : "游戏完整，无需修复",
+            GamePackageOperationState.Update => "更新完成",
+            GamePackageOperationState.Predownload => "预下载完成",
+            _ => throw HutaoException.NotSupported(),
+        };
+
+        RefreshUI();
+    }
+
     [Command("CancelCommand")]
     private void Cancel()
     {
         gamePackageService.CancelOperationAsync().SafeForget();
-        Title = "已取消";
         forceFinished = true;
-        ResetProgress(0, 0);
+        ResetProgress("已取消", 0, 0);
     }
 }

@@ -42,9 +42,8 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     public async ValueTask<bool> StartOperationAsync(GamePackageOperationContext context)
     {
-        await CancelOperationAsync().ConfigureAwait(false);
+        await CancelOperationAsync().ConfigureAwait(true);
 
-        await taskContext.SwitchToMainThreadAsync();
         GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
 
         operationCts = new();
@@ -98,7 +97,6 @@ internal sealed partial class GamePackageService : IGamePackageService
     private async ValueTask InstallAsync(GamePackageOperationWindow window, GamePackageOperationContext context, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
-        viewModel.SetTitle("正在安装游戏");
 
         IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
 
@@ -113,9 +111,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (!sophonBuildResp.IsOk())
         {
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.SetTitle("清单数据拉取失败");
-            viewModel.ResetProgress(0, 0);
+            window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("清单数据拉取失败", 0, 0));
             return;
         }
 
@@ -126,15 +122,11 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (totalBytes > availableBytes)
         {
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.SetTitle($"磁盘空间不足，需要{Converters.ToFileSizeString(totalBytes)}，剩余{Converters.ToFileSizeString(availableBytes)}");
-            viewModel.ResetProgress(0, 0);
+            window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress($"磁盘空间不足，需要 {Converters.ToFileSizeString(totalBytes)}，剩余 {Converters.ToFileSizeString(availableBytes)}", 0, 0));
             return;
         }
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.ResetProgress(sophonDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), sophonDecodedBuild.TotalBytes);
-        await taskContext.SwitchToBackgroundAsync();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("正在安装游戏", sophonDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), sophonDecodedBuild.TotalBytes));
 
         foreach (SophonDecodedManifest sophonDecodedManifest in sophonDecodedBuild.Manifests)
         {
@@ -146,10 +138,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
 
         // Verify
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.SetTitle("正在验证游戏完整性");
-        viewModel.ResetProgress(sophonDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), sophonDecodedBuild.TotalBytes);
-        await taskContext.SwitchToBackgroundAsync();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("正在验证游戏完整性", sophonDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), sophonDecodedBuild.TotalBytes));
 
         List<SophonAsset> conflictAssets = [];
 
@@ -158,22 +147,14 @@ internal sealed partial class GamePackageService : IGamePackageService
             await Parallel.ForEachAsync(sophonDecodedManifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(sophonDecodedManifest.UrlPrefix, asset), conflictAssets, context, progress, token)).ConfigureAwait(false);
         }
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.RefreshUI();
-        await taskContext.SwitchToBackgroundAsync();
-
         if (conflictAssets.IsNullOrEmpty())
         {
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.SetTitle("安装完成");
+            window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State));
             Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
             return;
         }
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.SetTitle("正在修复游戏完整性");
-        viewModel.ResetProgress(conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize));
-        await taskContext.SwitchToBackgroundAsync();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("正在修复游戏完整性", conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize)));
 
         await Parallel.ForEachAsync(conflictAssets, parallelOptions, async (asset, token) =>
         {
@@ -181,16 +162,13 @@ internal sealed partial class GamePackageService : IGamePackageService
             await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.SetTitle("安装完成");
-        viewModel.RefreshUI();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State));
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
     }
 
     private async ValueTask VerifyAsync(GamePackageOperationWindow window, GamePackageOperationContext context, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
-        viewModel.SetTitle("正在验证游戏完整性");
 
         IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
 
@@ -206,17 +184,13 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (!sophonBuildResp.IsOk())
         {
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.SetTitle("获取清单数据失败");
-            viewModel.ResetProgress(0, 0);
+            window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("清单数据拉取失败", 0, 0));
             return;
         }
 
         SophonDecodedBuild sophonDecodedBuild = await DecodeManifestsAsync(sophonBuildResp.Data, context, token).ConfigureAwait(false);
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.ResetProgress(sophonDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), sophonDecodedBuild.TotalBytes);
-        await taskContext.SwitchToBackgroundAsync();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("正在验证游戏完整性", sophonDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), sophonDecodedBuild.TotalBytes));
 
         List<SophonAsset> conflictAssets = [];
 
@@ -225,21 +199,13 @@ internal sealed partial class GamePackageService : IGamePackageService
             await Parallel.ForEachAsync(sophonDecodedManifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(sophonDecodedManifest.UrlPrefix, asset), conflictAssets, context, progress, token)).ConfigureAwait(false);
         }
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.RefreshUI();
-        await taskContext.SwitchToBackgroundAsync();
-
         if (conflictAssets.IsNullOrEmpty())
         {
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.SetTitle("游戏完整，无需修复");
+            window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State, false));
             return;
         }
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.SetTitle("正在修复游戏完整性");
-        viewModel.ResetProgress(conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize));
-        await taskContext.SwitchToBackgroundAsync();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("正在修复游戏完整性", conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize)));
 
         await Parallel.ForEachAsync(conflictAssets, parallelOptions, async (asset, token) =>
         {
@@ -247,18 +213,13 @@ internal sealed partial class GamePackageService : IGamePackageService
             await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.SetTitle("修复完成");
-        viewModel.RefreshUI();
-        await taskContext.SwitchToBackgroundAsync();
-
+        window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State, true));
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
     }
 
     private async ValueTask UpdateAsync(GamePackageOperationWindow window, GamePackageOperationContext context, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
-        viewModel.SetTitle("正在更新游戏");
 
         IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
 
@@ -273,9 +234,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             Response<SophonBuild> sophonBuildResp = await client.GetBuildAsync(context.LocalBranch, token).ConfigureAwait(false);
             if (!sophonBuildResp.IsOk())
             {
-                await taskContext.SwitchToMainThreadAsync();
-                viewModel.SetTitle("清单数据拉取失败");
-                viewModel.ResetProgress(0, 0);
+                window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("清单数据拉取失败", 0, 0));
                 return;
             }
 
@@ -284,9 +243,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             sophonBuildResp = await client.GetBuildAsync(context.RemoteBranch, token).ConfigureAwait(false);
             if (!sophonBuildResp.IsOk())
             {
-                await taskContext.SwitchToMainThreadAsync();
-                viewModel.SetTitle("清单数据拉取失败");
-                viewModel.ResetProgress(0, 0);
+                window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("清单数据拉取失败", 0, 0));
                 return;
             }
 
@@ -306,15 +263,11 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (totalBytes > availableBytes)
         {
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.SetTitle($"磁盘空间不足，需要{Converters.ToFileSizeString(totalBytes)}，剩余{Converters.ToFileSizeString(availableBytes)}");
-            viewModel.ResetProgress(0, 0);
+            window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress($"磁盘空间不足，需要 {Converters.ToFileSizeString(totalBytes)}，剩余 {Converters.ToFileSizeString(availableBytes)}", 0, 0));
             return;
         }
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.ResetProgress(totalBlocks, totalBytes);
-        await taskContext.SwitchToBackgroundAsync();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("正在更新游戏", totalBlocks, totalBytes));
 
         // Added
         await Parallel.ForEachAsync(addedAssets, parallelOptions, async (asset, token) =>
@@ -346,6 +299,12 @@ internal sealed partial class GamePackageService : IGamePackageService
         foreach (AssetProperty asset in deletedAssets)
         {
             string assetPath = Path.Combine(context.GameFileSystem.GameDirectory, asset.AssetName);
+
+            if (asset.AssetType is 64)
+            {
+                Directory.Delete(assetPath, true);
+            }
+
             if (File.Exists(assetPath))
             {
                 File.Delete(assetPath);
@@ -353,10 +312,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
 
         // Verify
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.SetTitle("正在验证游戏完整性");
-        viewModel.ResetProgress(remoteDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), remoteDecodedBuild.TotalBytes);
-        await taskContext.SwitchToBackgroundAsync();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("正在验证游戏完整性", remoteDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), remoteDecodedBuild.TotalBytes));
 
         List<SophonAsset> conflictAssets = [];
 
@@ -365,22 +321,14 @@ internal sealed partial class GamePackageService : IGamePackageService
             await Parallel.ForEachAsync(sophonDecodedManifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(sophonDecodedManifest.UrlPrefix, asset), conflictAssets, context, progress, token)).ConfigureAwait(false);
         }
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.RefreshUI();
-        await taskContext.SwitchToBackgroundAsync();
-
         if (conflictAssets.IsNullOrEmpty())
         {
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.SetTitle("更新完成");
+            window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State));
             Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
             return;
         }
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.SetTitle("正在修复游戏完整性");
-        viewModel.ResetProgress(conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize));
-        await taskContext.SwitchToBackgroundAsync();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("正在修复游戏完整性", conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize)));
 
         await Parallel.ForEachAsync(conflictAssets, parallelOptions, async (asset, token) =>
         {
@@ -388,16 +336,13 @@ internal sealed partial class GamePackageService : IGamePackageService
             await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.SetTitle("更新完成");
-        viewModel.RefreshUI();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State));
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
     }
 
     private async ValueTask PredownloadAsync(GamePackageOperationWindow window, GamePackageOperationContext context, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
-        viewModel.SetTitle("正在预下载资源");
 
         IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
 
@@ -412,9 +357,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             Response<SophonBuild> sophonBuildResp = await client.GetBuildAsync(context.LocalBranch, token).ConfigureAwait(false);
             if (!sophonBuildResp.IsOk())
             {
-                await taskContext.SwitchToMainThreadAsync();
-                viewModel.SetTitle("清单数据拉取失败");
-                viewModel.ResetProgress(0, 0);
+                window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("清单数据拉取失败", 0, 0));
                 return;
             }
 
@@ -423,9 +366,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             sophonBuildResp = await client.GetBuildAsync(context.RemoteBranch, token).ConfigureAwait(false);
             if (!sophonBuildResp.IsOk())
             {
-                await taskContext.SwitchToMainThreadAsync();
-                viewModel.SetTitle("清单数据拉取失败");
-                viewModel.ResetProgress(0, 0);
+                window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("清单数据拉取失败", 0, 0));
                 return;
             }
 
@@ -446,15 +387,11 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (totalBytes > availableBytes)
         {
-            await taskContext.SwitchToMainThreadAsync();
-            viewModel.SetTitle($"磁盘空间不足，需要{Converters.ToFileSizeString(totalBytes)}，剩余{Converters.ToFileSizeString(availableBytes)}");
-            viewModel.ResetProgress(0, 0);
+            window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress($"磁盘空间不足，需要 {Converters.ToFileSizeString(totalBytes)}，剩余 {Converters.ToFileSizeString(availableBytes)}", 0, 0));
             return;
         }
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.ResetProgress(totalBlocks, totalBytes);
-        await taskContext.SwitchToBackgroundAsync();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("正在预下载资源", totalBlocks, totalBytes));
 
         PredownloadStatus predownloadStatus = new(context.RemoteBranch.Tag, false, totalBlocks);
         using (FileStream predownloadStatusStream = File.Create(context.GameFileSystem.PredownloadStatusPath))
@@ -474,10 +411,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             }
         }).ConfigureAwait(false);
 
-        await taskContext.SwitchToMainThreadAsync();
-        viewModel.SetTitle("预下载完成");
-        viewModel.RefreshUI();
-        await taskContext.SwitchToBackgroundAsync();
+        window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State));
 
         using (FileStream predownloadStatusStream = File.Create(context.GameFileSystem.PredownloadStatusPath))
         {
