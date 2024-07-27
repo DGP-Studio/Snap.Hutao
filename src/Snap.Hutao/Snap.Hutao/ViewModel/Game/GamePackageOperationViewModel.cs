@@ -11,7 +11,7 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel, IProgress<GamePackageOperationDownloadStatus>
+internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel
 {
     private const string UnknownRemainingTime = "--:--:--";
 
@@ -47,20 +47,21 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     public bool IsFinished { get => forceFinished || (totalBlocks is not -1 && finishedBlocks >= totalBlocks); }
 
-    public void ResetProgress(string title, int totalBlocks, long contentLength)
+    public void FinishOperation(GamePackageOperationState state, bool repaired = false)
     {
-        finishedBlocks = 0;
-        totalBytesRead = 0;
-        totalBytesReadPerSecond = 0;
-        this.totalBlocks = totalBlocks;
-        this.contentLength = contentLength;
-        stopwatch = ValueStopwatch.StartNew();
+        Title = state switch
+        {
+            GamePackageOperationState.Install => "安装完成",
+            GamePackageOperationState.Verify => repaired ? "修复完成" : "游戏完整，无需修复",
+            GamePackageOperationState.Update => "更新完成",
+            GamePackageOperationState.Predownload => "预下载完成",
+            _ => throw HutaoException.NotSupported(),
+        };
 
-        Title = title;
         RefreshUI();
     }
 
-    public void Report(GamePackageOperationDownloadStatus status)
+    public void UpdateProgress(GamePackageOperationDownloadStatus status)
     {
         Interlocked.Add(ref totalBytesRead, status.BytesRead);
         Interlocked.Add(ref totalBytesReadPerSecond, status.BytesRead);
@@ -89,27 +90,26 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         }
     }
 
-    public void RefreshUI()
+    public void ResetProgress(string title, int totalBlocks, long contentLength)
+    {
+        finishedBlocks = 0;
+        totalBytesRead = 0;
+        totalBytesReadPerSecond = 0;
+        this.totalBlocks = totalBlocks;
+        this.contentLength = contentLength;
+        stopwatch = ValueStopwatch.StartNew();
+
+        Title = title;
+        RefreshUI();
+    }
+
+    private void RefreshUI()
     {
         OnPropertyChanged(nameof(Progress));
         OnPropertyChanged(nameof(ProgressPercent));
         OnPropertyChanged(nameof(BlockProgress));
         OnPropertyChanged(nameof(IsIndeterminate));
         OnPropertyChanged(nameof(IsFinished));
-    }
-
-    public void Finish(GamePackageOperationState state, bool repaired = false)
-    {
-        Title = state switch
-        {
-            GamePackageOperationState.Install => "安装完成",
-            GamePackageOperationState.Verify => repaired ? "修复完成" : "游戏完整，无需修复",
-            GamePackageOperationState.Update => "更新完成",
-            GamePackageOperationState.Predownload => "预下载完成",
-            _ => throw HutaoException.NotSupported(),
-        };
-
-        RefreshUI();
     }
 
     [Command("CancelCommand")]

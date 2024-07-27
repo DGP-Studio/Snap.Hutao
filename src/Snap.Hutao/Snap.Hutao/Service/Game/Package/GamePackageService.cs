@@ -98,7 +98,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
 
-        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.Report);
+        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.UpdateProgress);
 
         Response<SophonBuild> sophonBuildResp;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -149,7 +149,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (conflictAssets.IsNullOrEmpty())
         {
-            window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State));
+            window.DispatcherQueue.TryEnqueue(() => viewModel.FinishOperation(context.State));
             Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
             return;
         }
@@ -162,7 +162,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
 
-        window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State));
+        window.DispatcherQueue.TryEnqueue(() => viewModel.FinishOperation(context.State));
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
     }
 
@@ -170,7 +170,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
 
-        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.Report);
+        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.UpdateProgress);
 
         Response<SophonBuild> sophonBuildResp;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -201,7 +201,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (conflictAssets.IsNullOrEmpty())
         {
-            window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State, false));
+            window.DispatcherQueue.TryEnqueue(() => viewModel.FinishOperation(context.State, false));
             return;
         }
 
@@ -213,7 +213,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
 
-        window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State, true));
+        window.DispatcherQueue.TryEnqueue(() => viewModel.FinishOperation(context.State, true));
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
     }
 
@@ -221,7 +221,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
 
-        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.Report);
+        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.UpdateProgress);
 
         SophonBuild localBuild;
         SophonBuild remoteBuild;
@@ -323,7 +323,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (conflictAssets.IsNullOrEmpty())
         {
-            window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State));
+            window.DispatcherQueue.TryEnqueue(() => viewModel.FinishOperation(context.State));
             Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
             return;
         }
@@ -336,7 +336,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
 
-        window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State));
+        window.DispatcherQueue.TryEnqueue(() => viewModel.FinishOperation(context.State));
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
     }
 
@@ -344,7 +344,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
 
-        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.Report);
+        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.UpdateProgress);
 
         SophonBuild localBuild;
         SophonBuild remoteBuild;
@@ -411,7 +411,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             }
         }).ConfigureAwait(false);
 
-        window.DispatcherQueue.TryEnqueue(() => viewModel.Finish(context.State));
+        window.DispatcherQueue.TryEnqueue(() => viewModel.FinishOperation(context.State));
 
         using (FileStream predownloadStatusStream = File.Create(context.GameFileSystem.PredownloadStatusPath))
         {
