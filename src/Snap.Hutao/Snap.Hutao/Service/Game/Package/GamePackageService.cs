@@ -98,7 +98,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
 
-        IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
+        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.Report);
 
         Response<SophonBuild> sophonBuildResp;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -170,7 +170,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
 
-        IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
+        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.Report);
 
         Response<SophonBuild> sophonBuildResp;
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -221,7 +221,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
 
-        IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
+        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.Report);
 
         SophonBuild localBuild;
         SophonBuild remoteBuild;
@@ -344,7 +344,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         GamePackageOperationViewModel viewModel = (GamePackageOperationViewModel)window.DataContext;
 
-        IProgress<SophonChunkDownloadStatus> progress = progressFactory.CreateForMainThread<SophonChunkDownloadStatus>(viewModel.Report);
+        IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.Report);
 
         SophonBuild localBuild;
         SophonBuild remoteBuild;
@@ -526,7 +526,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     #region Asset Operation
 
-    private async ValueTask VerifyAssetAsync(SophonAsset sophonAsset, List<SophonAsset> conflictAssets, GamePackageOperationContext context, IProgress<SophonChunkDownloadStatus> progress, CancellationToken token = default)
+    private async ValueTask VerifyAssetAsync(SophonAsset sophonAsset, List<SophonAsset> conflictAssets, GamePackageOperationContext context, IProgress<GamePackageOperationDownloadStatus> progress, CancellationToken token = default)
     {
         string assetPath = Path.Combine(context.GameFileSystem.GameDirectory, sophonAsset.AssetProperty.AssetName);
 
@@ -572,12 +572,12 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private async ValueTask DownloadAssetChunksAsync(SophonAsset sophonAsset, GamePackageOperationContext context, IProgress<SophonChunkDownloadStatus> progress, ParallelOptions parallelOptions, CancellationToken token = default)
+    private async ValueTask DownloadAssetChunksAsync(SophonAsset sophonAsset, GamePackageOperationContext context, IProgress<GamePackageOperationDownloadStatus> progress, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         await Parallel.ForEachAsync(sophonAsset.AssetProperty.AssetChunks, parallelOptions, (chunk, token) => DownloadChunkAsync(new(sophonAsset.UrlPrefix, chunk), context, progress, token)).ConfigureAwait(false);
     }
 
-    private async ValueTask DownloadChunkAsync(SophonChunk sophonChunk, GamePackageOperationContext context, IProgress<SophonChunkDownloadStatus> progress, CancellationToken token = default)
+    private async ValueTask DownloadChunkAsync(SophonChunk sophonChunk, GamePackageOperationContext context, IProgress<GamePackageOperationDownloadStatus> progress, CancellationToken token = default)
     {
         Directory.CreateDirectory(context.GameFileSystem.ChunksDirectory);
         string chunkPath = Path.Combine(context.GameFileSystem.ChunksDirectory, sophonChunk.AssetChunk.ChunkName);
@@ -604,7 +604,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                     long totalBytes = responseMessage.Content.Headers.ContentLength ?? 0;
                     using (Stream webStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
                     {
-                        StreamCopyWorker<SophonChunkDownloadStatus> worker = new(webStream, fileStream, bytesRead => new(bytesRead, false));
+                        StreamCopyWorker<GamePackageOperationDownloadStatus> worker = new(webStream, fileStream, bytesRead => new(bytesRead, false));
 
                         await worker.CopyAsync(progress).ConfigureAwait(false);
 

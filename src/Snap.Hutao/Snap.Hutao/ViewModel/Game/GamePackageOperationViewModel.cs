@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.Package;
@@ -12,7 +11,7 @@ namespace Snap.Hutao.ViewModel.Game;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel, IProgress<SophonChunkDownloadStatus>
+internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewModel, IProgress<GamePackageOperationDownloadStatus>
 {
     private const string UnknownRemainingTime = "--:--:--";
 
@@ -61,7 +60,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         RefreshUI();
     }
 
-    public void Report(SophonChunkDownloadStatus status)
+    public void Report(GamePackageOperationDownloadStatus status)
     {
         Interlocked.Add(ref totalBytesRead, status.BytesRead);
         Interlocked.Add(ref totalBytesReadPerSecond, status.BytesRead);

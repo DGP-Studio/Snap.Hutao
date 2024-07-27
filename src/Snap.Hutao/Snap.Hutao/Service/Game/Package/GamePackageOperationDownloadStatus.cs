@@ -3,9 +3,9 @@
 
 namespace Snap.Hutao.Service.Game.Package;
 
-internal sealed class SophonChunkDownloadStatus
+internal sealed class GamePackageOperationDownloadStatus
 {
-    public SophonChunkDownloadStatus(long bytesRead, bool finished)
+    public GamePackageOperationDownloadStatus(long bytesRead, bool finished)
     {
         BytesRead = bytesRead;
         Finished = finished;

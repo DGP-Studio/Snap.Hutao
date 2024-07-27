@@ -197,7 +197,7 @@ internal sealed class ZstandardDecompressionStream : Stream
                 }
 
                 input.size = (nuint)bytesRead;
-                input.pos = nuint.Zero;
+                input.pos = 0;
             }
 
             Decompress(buffer.Span, ref output, ref input);
