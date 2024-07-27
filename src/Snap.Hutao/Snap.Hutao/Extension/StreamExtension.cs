@@ -9,14 +9,6 @@ namespace Snap.Hutao.Extension;
 
 internal static class StreamExtension
 {
-    public static async ValueTask<Stream> CloneAsync(this Stream stream, IMemoryStreamFactory memoryStreamFactory)
-    {
-        MemoryStream clonedStream = memoryStreamFactory.GetStream();
-        await stream.CopyToAsync(clonedStream).ConfigureAwait(false);
-        clonedStream.Position = 0;
-        return clonedStream;
-    }
-
     public static async ValueTask<Stream> CloneSegmentAsync(this Stream inputStream, long startPosition, long length, IMemoryStreamFactory memoryStreamFactory)
     {
         MemoryStream clonedStream = memoryStreamFactory.GetStream();

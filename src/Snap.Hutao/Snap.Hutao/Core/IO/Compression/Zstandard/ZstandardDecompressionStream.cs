@@ -10,6 +10,7 @@ namespace Snap.Hutao.Core.IO.Compression.Zstandard;
 
 internal sealed class ZstandardDecompressionStream : Stream
 {
+    [SuppressMessage("", "CA2213")]
     private readonly Stream inputStream;
     private readonly int inputBufferSize;
     private readonly IMemoryOwner<byte> inputBufferMemoryOwner;
@@ -129,7 +130,6 @@ internal sealed class ZstandardDecompressionStream : Stream
 
         decompressStreamContext = default;
 
-        inputStream.Dispose();
         base.Dispose(disposing);
     }
 

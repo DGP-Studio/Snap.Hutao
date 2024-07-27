@@ -100,22 +100,23 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         IProgress<GamePackageOperationDownloadStatus> progress = progressFactory.CreateForMainThread<GamePackageOperationDownloadStatus>(viewModel.UpdateProgress);
 
-        Response<SophonBuild> sophonBuildResp;
+        Response<SophonBuild> response;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            ISophonClient client = scope.ServiceProvider.GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
+            ISophonClient client = scope.ServiceProvider
+                .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
                 .Create(LaunchScheme.ExecutableIsOversea(context.GameFileSystem.GameFileName));
 
-            sophonBuildResp = await client.GetBuildAsync(context.RemoteBranch, token).ConfigureAwait(false);
+            response = await client.GetBuildAsync(context.RemoteBranch, token).ConfigureAwait(false);
         }
 
-        if (!sophonBuildResp.IsOk())
+        if (!response.IsOk())
         {
             window.DispatcherQueue.TryEnqueue(() => viewModel.ResetProgress("清单数据拉取失败", 0, 0));
             return;
         }
 
-        SophonDecodedBuild sophonDecodedBuild = await DecodeManifestsAsync(sophonBuildResp.Data, context, token).ConfigureAwait(false);
+        SophonDecodedBuild sophonDecodedBuild = await DecodeManifestsAsync(response.Data, context, token).ConfigureAwait(false);
 
         long totalBytes = sophonDecodedBuild.TotalBytes;
         long availableBytes = GetDiskAvailableFreeSpace(context.GameFileSystem);
@@ -429,7 +430,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     private async ValueTask<SophonDecodedBuild> DecodeManifestsAsync(SophonBuild sophonBuild, GamePackageOperationContext context, CancellationToken token = default)
     {
         long totalBytes = 0L;
-        List<SophonDecodedManifest> manifests = [];
+        List<SophonDecodedManifest> decodedManifests = [];
         foreach (SophonManifest sophonManifest in sophonBuild.Manifests)
         {
             bool exclude = sophonManifest.MatchingField switch
@@ -452,21 +453,17 @@ internal sealed partial class GamePackageService : IGamePackageService
 
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
             {
-                using (HttpResponseMessage resp = await httpClient.GetAsync(manifestDownloadUrl, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
+                using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
                 {
-                    using (Stream manifestStream = await resp.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
+                    using (ZstandardDecompressionStream decompressor = new(rawManifestStream))
                     {
-                        using (ZstandardDecompressionStream decompressionStream = new(manifestStream))
+                        using (MemoryStream inMemoryManifestStream = await memoryStreamFactory.GetStreamAsync(decompressor).ConfigureAwait(false))
                         {
-                            using (Stream decompressedStream = await decompressionStream.CloneAsync(memoryStreamFactory).ConfigureAwait(false))
+                            string manifestMd5 = await MD5.HashAsync(inMemoryManifestStream, token).ConfigureAwait(false);
+                            if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
                             {
-                                string manifestMd5 = await MD5.HashAsync(decompressedStream, token).ConfigureAwait(false);
-
-                                if (manifestMd5.Equals(sophonManifest.Manifest.Checksum, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    decompressedStream.Position = 0;
-                                    manifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(decompressedStream)));
-                                }
+                                inMemoryManifestStream.Position = 0;
+                                decodedManifests.Add(new(sophonManifest.ChunkDownload.UrlPrefix, SophonManifestProto.Parser.ParseFrom(inMemoryManifestStream)));
                             }
                         }
                     }
@@ -474,7 +471,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             }
         }
 
-        return new(totalBytes, manifests);
+        return new(totalBytes, decodedManifests);
     }
 
     private static void ParseDiff(SophonDecodedBuild localDecodedBuild, SophonDecodedBuild remoteDecodedBuild, out List<SophonAsset> addedAssets, out Dictionary<AssetProperty, SophonAsset> modifiedAssets, out List<AssetProperty> deletedAssets)
