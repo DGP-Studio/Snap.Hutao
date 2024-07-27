@@ -16,9 +16,6 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.Service.Game;
 
-/// <summary>
-/// 启动游戏选项
-/// </summary>
 [Injection(InjectAs.Singleton)]
 internal sealed class LaunchOptions : DbStoreOptions
 {

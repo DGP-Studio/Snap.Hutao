@@ -90,6 +90,7 @@
     <None Remove="Control\Image\CachedImage.xaml" />
     <None Remove="Control\Loading.xaml" />
     <None Remove="Control\Panel\LayoutSwitch.xaml" />
+    <None Remove="Resource\Icon\UI_IconSmall_EP.png" />
     <None Remove="UI\Xaml\Control\AutoSuggestBox\AutoSuggestTokenBox.xaml" />
     <None Remove="UI\Xaml\Control\Card\CardBlock.xaml" />
     <None Remove="UI\Xaml\Control\Card\HorizontalCard.xaml" />
@@ -249,6 +250,7 @@
     <Content Include="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
     <Content Include="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
+    <Content Include="Resource\Icon\UI_IconSmall_EP.png" />
     <Content Include="Resource\Icon\UI_Icon_Fetter.png" />
     <Content Include="Resource\Icon\UI_Icon_Gift.png" />
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
