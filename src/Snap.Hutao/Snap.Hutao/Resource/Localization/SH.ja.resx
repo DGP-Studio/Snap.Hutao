@@ -2120,6 +2120,9 @@
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>おやすみモード</value>
   </data>
+  <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
+    <value>长效历练点</value>
+  </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>現在のユーザーとUIDを確認する</value>
   </data>
