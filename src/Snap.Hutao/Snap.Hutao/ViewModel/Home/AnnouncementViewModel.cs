@@ -12,10 +12,6 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Home;
 
-/// <summary>
-/// 公告视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
@@ -32,21 +28,12 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     private ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? hutaoAnnouncements;
     private List<CardReference>? cards;
 
-    /// <summary>
-    /// 公告
-    /// </summary>
     public AnnouncementWrapper? Announcement { get => announcement; set => SetProperty(ref announcement, value); }
 
     public ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? HutaoAnnouncements { get => hutaoAnnouncements; set => SetProperty(ref hutaoAnnouncements, value); }
 
-    /// <summary>
-    /// 用户选项
-    /// </summary>
     public HutaoUserOptions HutaoUserOptions { get => hutaoUserOptions; }
 
-    /// <summary>
-    /// 欢迎语
-    /// </summary>
     public string GreetingText { get => greetingText; set => SetProperty(ref greetingText, value); }
 
     public List<CardReference>? Cards { get => cards; set => SetProperty(ref cards, value); }
