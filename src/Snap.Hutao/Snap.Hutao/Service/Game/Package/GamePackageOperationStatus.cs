@@ -3,9 +3,9 @@
 
 namespace Snap.Hutao.Service.Game.Package;
 
-internal sealed class GamePackageOperationDownloadStatus
+internal sealed class GamePackageOperationStatus
 {
-    public GamePackageOperationDownloadStatus(long bytesRead, bool finished)
+    public GamePackageOperationStatus(long bytesRead, bool finished)
     {
         BytesRead = bytesRead;
         Finished = finished;

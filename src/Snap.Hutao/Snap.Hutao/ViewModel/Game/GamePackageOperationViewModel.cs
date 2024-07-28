@@ -66,7 +66,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         });
     }
 
-    public void UpdateProgress(GamePackageOperationDownloadStatus status)
+    public void UpdateProgress(GamePackageOperationStatus status)
     {
         Interlocked.Add(ref totalBytesRead, status.BytesRead);
         Interlocked.Add(ref totalBytesReadPerSecond, status.BytesRead);
