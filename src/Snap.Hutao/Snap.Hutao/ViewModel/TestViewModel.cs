@@ -9,6 +9,7 @@ using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game.Automation.ScreenCapture;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml;
@@ -24,13 +25,14 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
+    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
+    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
+    private readonly IGameScreenCaptureService gameScreenCaptureService;
     private readonly HutaoAsAServiceClient homaAsAServiceClient;
     private readonly IInfoBarService infoBarService;
-    private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly ILogger<TestViewModel> logger;
     private readonly IMemoryCache memoryCache;
     private readonly ITaskContext taskContext;
-    private readonly IGameScreenCaptureService gameScreenCaptureService;
 
     private UploadAnnouncement announcement = new();
 
@@ -207,5 +209,16 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             .SetSeverity((InfoBarSeverity)Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
             .SetTitle("Lorem ipsum dolor sit amet")
             .SetMessage("Consectetur adipiscing elit. Nullam nec purus nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt."));
+    }
+
+    [Command("CheckPathBelongsToSSDCommand")]
+    private void CheckPathBelongsToSSD()
+    {
+        (bool isOk, ValueFile file) = fileSystemPickerInteraction.PickFile("Pick any file!", default);
+        if (isOk)
+        {
+            bool isSolidState = PhysicalDriver.DangerousGetIsSolidState(file);
+            infoBarService.Success($"The path '{file}' belongs to a {(isSolidState ? "solid state" : "hard disk")} drive.");
+        }
     }
 }

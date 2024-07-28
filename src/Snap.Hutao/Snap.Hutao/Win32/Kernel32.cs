@@ -3,7 +3,9 @@
 
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Security;
+using Snap.Hutao.Win32.Storage.FileSystem;
 using Snap.Hutao.Win32.System.Console;
+using Snap.Hutao.Win32.System.IO;
 using Snap.Hutao.Win32.System.LibraryLoader;
 using Snap.Hutao.Win32.System.Memory;
 using Snap.Hutao.Win32.System.ProcessStatus;
@@ -39,6 +41,14 @@ internal static class Kernel32
             }
         }
     }
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static unsafe extern HANDLE CreateFileW(PCWSTR lpFileName, uint dwDesiredAccess, FILE_SHARE_MODE dwShareMode, [AllowNull] SECURITY_ATTRIBUTES* lpSecurityAttributes, FILE_CREATION_DISPOSITION dwCreationDisposition, FILE_FLAGS_AND_ATTRIBUTES dwFlagsAndAttributes, [AllowNull] HANDLE hTemplateFile);
+
+    [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+    [SupportedOSPlatform("windows5.1.2600")]
+    public static unsafe extern BOOL DeviceIoControl(HANDLE hDevice, uint dwIoControlCode, [AllowNull] void* lpInBuffer, uint nInBufferSize, [MaybeNull] void* lpOutBuffer, uint nOutBufferSize, [MaybeNull] uint* lpBytesReturned, [AllowNull][MaybeNull] OVERLAPPED* lpOverlapped);
 
     [DllImport("KERNEL32.dll", CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
     public static extern BOOL FreeConsole();
