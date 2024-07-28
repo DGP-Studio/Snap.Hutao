@@ -18,6 +18,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using Snap.Hutao.Web.Response;
 using System.Buffers;
 using System.IO;
+using System.IO.Compression;
 using System.Net.Http;
 
 namespace Snap.Hutao.Service.Game.Package;
@@ -29,9 +30,9 @@ namespace Snap.Hutao.Service.Game.Package;
 internal sealed partial class GamePackageService : IGamePackageService
 {
     private readonly JsonSerializerOptions jsonSerializerOptions;
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly IHttpClientFactory httpClientFactory;
-    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IProgressFactory progressFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
@@ -138,30 +139,95 @@ internal sealed partial class GamePackageService : IGamePackageService
             }).ConfigureAwait(false);
         }
 
+        if (context.GameChannelSDK is not null)
+        {
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
+            {
+                using (Stream sdkStream = await httpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url, token).ConfigureAwait(false))
+                {
+                    ZipFile.ExtractToDirectory(sdkStream, context.GameFileSystem.GameDirectory, true);
+                }
+            }
+        }
+
         // Verify
         viewModel.ResetProgress("正在验证游戏完整性", sophonDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), sophonDecodedBuild.TotalBytes);
 
         List<SophonAsset> conflictAssets = [];
+        bool channelSdkConflict = false;
 
         foreach (SophonDecodedManifest sophonDecodedManifest in sophonDecodedBuild.Manifests)
         {
             await Parallel.ForEachAsync(sophonDecodedManifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(sophonDecodedManifest.UrlPrefix, asset), conflictAssets, context, progress, token)).ConfigureAwait(false);
         }
 
-        if (conflictAssets.IsNullOrEmpty())
+        if (context.GameChannelSDK is not null)
+        {
+            try
+            {
+                using (FileStream sdkManifestStream = File.OpenRead(Path.Combine(context.GameFileSystem.GameDirectory, context.GameChannelSDK.PackageVersionFileName)))
+                {
+                    using (StreamReader reader = new(sdkManifestStream))
+                    {
+                        while (await reader.ReadLineAsync(token).ConfigureAwait(false) is { Length: > 0 } row)
+                        {
+                            VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, jsonSerializerOptions);
+                            ArgumentNullException.ThrowIfNull(item);
+
+                            string path = Path.Combine(context.GameFileSystem.GameDirectory, item.RelativePath);
+                            string localMd5 = await MD5.HashFileAsync(path, token).ConfigureAwait(false);
+                            if (!localMd5.Equals(item.Md5, StringComparison.OrdinalIgnoreCase))
+                            {
+                                channelSdkConflict = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (JsonException)
+            {
+                channelSdkConflict = true;
+            }
+        }
+
+        if (conflictAssets.IsEmpty() && !channelSdkConflict)
         {
             viewModel.FinishOperation(context.State);
             Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
             return;
         }
 
-        viewModel.ResetProgress("正在修复游戏完整性", conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize));
+        int conflictBlocks = conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count);
+        long conflictBytes = conflictAssets.Sum(a => a.AssetProperty.AssetSize);
+
+        if (channelSdkConflict)
+        {
+            ArgumentNullException.ThrowIfNull(context.GameChannelSDK);
+            conflictBlocks++;
+            conflictBytes += context.GameChannelSDK.ChannelSdkPackage.Size;
+        }
+
+        viewModel.ResetProgress("正在修复游戏完整性", conflictBlocks, conflictBytes);
 
         await Parallel.ForEachAsync(conflictAssets, parallelOptions, async (asset, token) =>
         {
             await DownloadAssetChunksAsync(asset, context, progress, parallelOptions, token).ConfigureAwait(false);
             await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
+
+        if (channelSdkConflict)
+        {
+            ArgumentNullException.ThrowIfNull(context.GameChannelSDK);
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
+            {
+                using (Stream sdkStream = await httpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url, token).ConfigureAwait(false))
+                {
+                    ZipFile.ExtractToDirectory(sdkStream, context.GameFileSystem.GameDirectory, true);
+                    progress.Report(new(context.GameChannelSDK.ChannelSdkPackage.Size, true));
+                }
+            }
+        }
 
         viewModel.FinishOperation(context.State);
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
@@ -194,25 +260,79 @@ internal sealed partial class GamePackageService : IGamePackageService
         viewModel.ResetProgress("正在验证游戏完整性", sophonDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), sophonDecodedBuild.TotalBytes);
 
         List<SophonAsset> conflictAssets = [];
+        bool channelSdkConflict = false;
 
         foreach (SophonDecodedManifest sophonDecodedManifest in sophonDecodedBuild.Manifests)
         {
             await Parallel.ForEachAsync(sophonDecodedManifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(sophonDecodedManifest.UrlPrefix, asset), conflictAssets, context, progress, token)).ConfigureAwait(false);
         }
 
-        if (conflictAssets.IsNullOrEmpty())
+        if (context.GameChannelSDK is not null)
+        {
+            try
+            {
+                using (FileStream sdkManifestStream = File.OpenRead(Path.Combine(context.GameFileSystem.GameDirectory, context.GameChannelSDK.PackageVersionFileName)))
+                {
+                    using (StreamReader reader = new(sdkManifestStream))
+                    {
+                        while (await reader.ReadLineAsync(token).ConfigureAwait(false) is { Length: > 0 } row)
+                        {
+                            VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, jsonSerializerOptions);
+                            ArgumentNullException.ThrowIfNull(item);
+
+                            string path = Path.Combine(context.GameFileSystem.GameDirectory, item.RelativePath);
+                            string localMd5 = await MD5.HashFileAsync(path, token).ConfigureAwait(false);
+                            if (!localMd5.Equals(item.Md5, StringComparison.OrdinalIgnoreCase))
+                            {
+                                channelSdkConflict = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (JsonException)
+            {
+                channelSdkConflict = true;
+            }
+        }
+
+        if (conflictAssets.IsEmpty() && !channelSdkConflict)
         {
             viewModel.FinishOperation(context.State, false);
             return;
         }
 
-        viewModel.ResetProgress("正在修复游戏完整性", conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize));
+        int conflictBlocks = conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count);
+        long conflictBytes = conflictAssets.Sum(a => a.AssetProperty.AssetSize);
+
+        if (channelSdkConflict)
+        {
+            ArgumentNullException.ThrowIfNull(context.GameChannelSDK);
+            conflictBlocks++;
+            conflictBytes += context.GameChannelSDK.ChannelSdkPackage.Size;
+        }
+
+        viewModel.ResetProgress("正在修复游戏完整性", conflictBlocks, conflictBytes);
 
         await Parallel.ForEachAsync(conflictAssets, parallelOptions, async (asset, token) =>
         {
             await DownloadAssetChunksAsync(asset, context, progress, parallelOptions, token).ConfigureAwait(false);
             await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
+
+        if (channelSdkConflict)
+        {
+            ArgumentNullException.ThrowIfNull(context.GameChannelSDK);
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
+            {
+                using (Stream sdkStream = await httpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url, token).ConfigureAwait(false))
+                {
+                    ZipFile.ExtractToDirectory(sdkStream, context.GameFileSystem.GameDirectory, true);
+                    progress.Report(new(context.GameChannelSDK.ChannelSdkPackage.Size, true));
+                }
+            }
+        }
 
         viewModel.FinishOperation(context.State, true);
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
@@ -312,30 +432,95 @@ internal sealed partial class GamePackageService : IGamePackageService
             }
         }
 
+        if (context.GameChannelSDK is not null)
+        {
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
+            {
+                using (Stream sdkStream = await httpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url, token).ConfigureAwait(false))
+                {
+                    ZipFile.ExtractToDirectory(sdkStream, context.GameFileSystem.GameDirectory, true);
+                }
+            }
+        }
+
         // Verify
         viewModel.ResetProgress("正在验证游戏完整性", remoteDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), remoteDecodedBuild.TotalBytes);
 
         List<SophonAsset> conflictAssets = [];
+        bool channelSdkConflict = false;
 
         foreach (SophonDecodedManifest sophonDecodedManifest in remoteDecodedBuild.Manifests)
         {
             await Parallel.ForEachAsync(sophonDecodedManifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(sophonDecodedManifest.UrlPrefix, asset), conflictAssets, context, progress, token)).ConfigureAwait(false);
         }
 
-        if (conflictAssets.IsNullOrEmpty())
+        if (context.GameChannelSDK is not null)
+        {
+            try
+            {
+                using (FileStream sdkManifestStream = File.OpenRead(Path.Combine(context.GameFileSystem.GameDirectory, context.GameChannelSDK.PackageVersionFileName)))
+                {
+                    using (StreamReader reader = new(sdkManifestStream))
+                    {
+                        while (await reader.ReadLineAsync(token).ConfigureAwait(false) is { Length: > 0 } row)
+                        {
+                            VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, jsonSerializerOptions);
+                            ArgumentNullException.ThrowIfNull(item);
+
+                            string path = Path.Combine(context.GameFileSystem.GameDirectory, item.RelativePath);
+                            string localMd5 = await MD5.HashFileAsync(path, token).ConfigureAwait(false);
+                            if (!localMd5.Equals(item.Md5, StringComparison.OrdinalIgnoreCase))
+                            {
+                                channelSdkConflict = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (JsonException)
+            {
+                channelSdkConflict = true;
+            }
+        }
+
+        if (conflictAssets.IsEmpty() && !channelSdkConflict)
         {
             viewModel.FinishOperation(context.State);
             Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
             return;
         }
 
-        viewModel.ResetProgress("正在修复游戏完整性", conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count), conflictAssets.Sum(a => a.AssetProperty.AssetSize));
+        int conflictBlocks = conflictAssets.Sum(a => a.AssetProperty.AssetChunks.Count);
+        long conflictBytes = conflictAssets.Sum(a => a.AssetProperty.AssetSize);
+
+        if (channelSdkConflict)
+        {
+            ArgumentNullException.ThrowIfNull(context.GameChannelSDK);
+            conflictBlocks++;
+            conflictBytes += context.GameChannelSDK.ChannelSdkPackage.Size;
+        }
+
+        viewModel.ResetProgress("正在修复游戏完整性", conflictBlocks, conflictBytes);
 
         await Parallel.ForEachAsync(conflictAssets, parallelOptions, async (asset, token) =>
         {
             await DownloadAssetChunksAsync(asset, context, progress, parallelOptions, token).ConfigureAwait(false);
             await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
+
+        if (channelSdkConflict)
+        {
+            ArgumentNullException.ThrowIfNull(context.GameChannelSDK);
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
+            {
+                using (Stream sdkStream = await httpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url, token).ConfigureAwait(false))
+                {
+                    ZipFile.ExtractToDirectory(sdkStream, context.GameFileSystem.GameDirectory, true);
+                    progress.Report(new(context.GameChannelSDK.ChannelSdkPackage.Size, true));
+                }
+            }
+        }
 
         viewModel.FinishOperation(context.State);
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);

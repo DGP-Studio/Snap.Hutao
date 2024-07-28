@@ -4,9 +4,9 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.UI.Xaml.Control;
 using System.IO;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
@@ -33,7 +33,7 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
-    public async ValueTask<ValueResult<bool, GameFileSystem>> GetGameFileSystemAsync()
+    public async ValueTask<ValueResult<bool, GameInstallOptions>> GetGameFileSystemAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
@@ -62,7 +62,7 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 
         GameAudioSystem gameAudioSystem = new(Chinese, English, Japanese, Korean);
         string gamePath = Path.Combine(GameDirectory, SelectedScheme.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName);
-        return new(true, new(gamePath, gameAudioSystem));
+        return new(true, new(new(gamePath, gameAudioSystem), SelectedScheme));
     }
 
     [Command("PickGameDirectoryCommand")]

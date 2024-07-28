@@ -8,6 +8,7 @@ using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 using Snap.Hutao.Web.Response;
 using System.IO;
 
@@ -20,11 +21,12 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGamePackageService gamePackageService;
     private readonly LaunchGameShared launchGameShared;
-    private readonly HoyoPlayClient hoyoPlayClient;
+    private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
 
     private GameBranch? gameBranch;
+    private LaunchScheme? launchScheme;
     private Version? localVersion;
     private Version? remoteVersion;
     private Version? preVersion;
@@ -33,6 +35,12 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     {
         get => gameBranch;
         set => SetProperty(ref gameBranch, value);
+    }
+
+    public LaunchScheme? LaunchScheme
+    {
+        get => launchScheme;
+        set => SetProperty(ref launchScheme, value);
     }
 
     public Version? LocalVersion
@@ -126,16 +134,23 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             return false;
         }
 
-        Response<GameBranchesWrapper> branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
-        if (!branchResp.IsOk())
+        Response<GameBranchesWrapper> branchResp;
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            return false;
+            HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
+
+            branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+            if (!branchResp.IsOk())
+            {
+                return false;
+            }
         }
 
         if (branchResp.Data.GameBranches.FirstOrDefault(b => b.Game.Id == launchScheme.GameId) is { } branch)
         {
             await taskContext.SwitchToMainThreadAsync();
             GameBranch = branch;
+            LaunchScheme = launchScheme;
 
             RemoteVersion = new(branch.Main.Tag);
             PreVersion = branch.PreDownload is { Tag: { } tag } ? new(tag) : default;
@@ -177,26 +192,46 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         }
 
         ArgumentNullException.ThrowIfNull(GameBranch);
+        ArgumentNullException.ThrowIfNull(LaunchScheme);
         ArgumentNullException.ThrowIfNull(LocalVersion);
+
+        LaunchScheme targetLaunchScheme = LaunchScheme;
 
         if (targetState is GamePackageOperationState.Install)
         {
             LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>().ConfigureAwait(false);
             dialog.KnownSchemes = KnownLaunchSchemes.Get();
             dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
-            (bool isOk, gameFileSystem) = await dialog.GetGameFileSystemAsync().ConfigureAwait(false);
+            (bool isOk, GameInstallOptions gameInstallOptions) = await dialog.GetGameFileSystemAsync().ConfigureAwait(false);
 
             if (!isOk)
             {
                 return;
             }
+
+            (gameFileSystem, targetLaunchScheme) = gameInstallOptions;
         }
+
+        Response<GameChannelSDKsWrapper> sdkResp;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
+
+            sdkResp = await hoyoPlayClient.GetChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false);
+            if (!sdkResp.IsOk())
+            {
+                return;
+            }
+        }
+
+        GameChannelSDK? gameChannelSDK = sdkResp.Data.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
 
         GamePackageOperationContext context = new(
             targetState,
             gameFileSystem,
             GameBranch.Main.CloneWithTag(LocalVersion.ToString()),
-            targetState is GamePackageOperationState.Predownload ? GameBranch.PreDownload : GameBranch.Main);
+            targetState is GamePackageOperationState.Predownload ? GameBranch.PreDownload : GameBranch.Main,
+            gameChannelSDK);
 
         bool success = await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
 
