@@ -70,10 +70,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     {
         Interlocked.Add(ref totalBytesRead, update.BytesRead);
         Interlocked.Add(ref totalBytesReadPerSecond, update.BytesRead);
-        if (update.Finished)
-        {
-            Interlocked.Add(ref finishedBlocks, 1);
-        }
+        Interlocked.Add(ref finishedBlocks, update.Blocks);
 
         if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000)
         {

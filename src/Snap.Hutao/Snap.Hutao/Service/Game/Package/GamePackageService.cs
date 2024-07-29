@@ -98,7 +98,6 @@ internal sealed partial class GamePackageService : IGamePackageService
         operationTcs = null;
     }
 
-    // TODO: Check if the block count and byte count are correct
     #region Operation
 
     private async ValueTask InstallAsync(GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions options)
@@ -287,7 +286,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        progress.Report(new GamePackageOperationReport.Reset("正在预下载游戏", totalBlocks, totalBytes));
+        progress.Report(new GamePackageOperationReport.Reset("正在预下载资源", totalBlocks, totalBytes));
 
         PredownloadStatus predownloadStatus = new(context.RemoteBranch.Tag, false, totalBlocks);
         using (FileStream predownloadStatusStream = File.Create(context.GameFileSystem.PredownloadStatusPath))
@@ -473,7 +472,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             }
         }
 
-        return new IntegrityInfo()
+        return new()
         {
             ConflictedAssets = conflictedAssets,
             ChannelSdkConflicted = channelSdkConflict,
@@ -493,10 +492,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         if (!File.Exists(assetPath))
         {
             conflictAssets.Add(sophonAsset);
-            for (int i = 0; i < sophonAsset.AssetProperty.AssetChunks.Count; i++)
-            {
-                progress.Report(new GamePackageOperationReport.Update(0, true));
-            }
+            progress.Report(new GamePackageOperationReport.Update(0, sophonAsset.AssetProperty.AssetChunks.Count));
 
             return;
         }
@@ -512,15 +508,12 @@ internal sealed partial class GamePackageService : IGamePackageService
                     if (!chunkMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase))
                     {
                         conflictAssets.Add(sophonAsset);
-                        for (int j = i; j < sophonAsset.AssetProperty.AssetChunks.Count; j++)
-                        {
-                            progress.Report(new GamePackageOperationReport.Update(0, true));
-                        }
+                        progress.Report(new GamePackageOperationReport.Update(0, sophonAsset.AssetProperty.AssetChunks.Count - i));
 
                         return;
                     }
 
-                    progress.Report(new GamePackageOperationReport.Update(chunk.ChunkSizeDecompressed, true));
+                    progress.Report(new GamePackageOperationReport.Update(chunk.ChunkSizeDecompressed, 1));
                 }
             }
         }
@@ -539,7 +532,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             ArgumentNullException.ThrowIfNull(context.GameChannelSDK);
             await ExtractChannelSdkAsync(context, token).ConfigureAwait(false);
 
-            progress.Report(new GamePackageOperationReport.Update(context.GameChannelSDK.ChannelSdkPackage.Size, true));
+            progress.Report(new GamePackageOperationReport.Update(context.GameChannelSDK.ChannelSdkPackage.Size, 1));
         }
     }
 
@@ -570,7 +563,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             string chunkXxh64 = await XXH64.HashFileAsync(chunkPath, token).ConfigureAwait(false);
             if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
             {
-                progress.Report(new GamePackageOperationReport.Update(sophonChunk.AssetChunk.ChunkSize, true));
+                progress.Report(new GamePackageOperationReport.Update(sophonChunk.AssetChunk.ChunkSize, 1));
                 return;
             }
 
@@ -583,21 +576,17 @@ internal sealed partial class GamePackageService : IGamePackageService
 
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
             {
-                using (HttpResponseMessage responseMessage = await httpClient.GetAsync(sophonChunk.ChunkDownloadUrl, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false))
+                using (Stream webStream = await httpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl, token).ConfigureAwait(false))
                 {
-                    long totalBytes = responseMessage.Content.Headers.ContentLength ?? 0;
-                    using (Stream webStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
+                    StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, bytesRead => new GamePackageOperationReport.Update(bytesRead, 0));
+
+                    await worker.CopyAsync(progress).ConfigureAwait(false);
+
+                    fileStream.Position = 0;
+                    string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
+                    if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
                     {
-                        StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, bytesRead => new GamePackageOperationReport.Update(bytesRead, false));
-
-                        await worker.CopyAsync(progress).ConfigureAwait(false);
-
-                        fileStream.Position = 0;
-                        string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
-                        if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
-                        {
-                            progress.Report(new GamePackageOperationReport.Update(totalBytes, true));
-                        }
+                        progress.Report(new GamePackageOperationReport.Update(0, 1));
                     }
                 }
             }

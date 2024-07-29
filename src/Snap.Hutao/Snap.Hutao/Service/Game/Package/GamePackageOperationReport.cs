@@ -9,16 +9,16 @@ internal abstract class GamePackageOperationReport
 
     internal sealed class Update : GamePackageOperationReport
     {
-        public Update(long bytesRead, bool finished)
+        public Update(long bytesRead, int blocks)
         {
             ReportKind = GamePackageOperationReportKind.Update;
             BytesRead = bytesRead;
-            Finished = finished;
+            Blocks = blocks;
         }
 
         public long BytesRead { get; }
 
-        public bool Finished { get; }
+        public int Blocks { get; }
     }
 
     internal sealed class Reset : GamePackageOperationReport
