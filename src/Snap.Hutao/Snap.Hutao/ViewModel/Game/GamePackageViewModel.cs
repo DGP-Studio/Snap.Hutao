@@ -184,7 +184,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             return;
         }
 
-        GamePackageOperationState targetState = Enum.Parse<GamePackageOperationState>(state);
+        GamePackageOperationKind targetState = Enum.Parse<GamePackageOperationKind>(state);
 
         if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
         {
@@ -197,7 +197,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         LaunchScheme targetLaunchScheme = LaunchScheme;
 
-        if (targetState is GamePackageOperationState.Install)
+        if (targetState is GamePackageOperationKind.Install)
         {
             LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>().ConfigureAwait(false);
             dialog.KnownSchemes = KnownLaunchSchemes.Get();
@@ -230,7 +230,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             targetState,
             gameFileSystem,
             GameBranch.Main.CloneWithTag(LocalVersion.ToString()),
-            targetState is GamePackageOperationState.Predownload ? GameBranch.PreDownload : GameBranch.Main,
+            targetState is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main,
             gameChannelSDK);
 
         bool success = await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
@@ -240,13 +240,13 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         {
             switch (targetState)
             {
-                case GamePackageOperationState.Verify:
+                case GamePackageOperationKind.Verify:
                     break;
-                case GamePackageOperationState.Update:
+                case GamePackageOperationKind.Update:
                     LocalVersion = RemoteVersion;
                     OnPropertyChanged(nameof(IsUpdateAvailable));
                     break;
-                case GamePackageOperationState.Predownload:
+                case GamePackageOperationKind.Predownload:
                     OnPropertyChanged(nameof(IsPredownloadButtonEnabled));
                     OnPropertyChanged(nameof(IsPredownloadFinished));
                     break;

@@ -9,6 +9,7 @@ namespace Snap.Hutao.Extension;
 
 internal static class DictionaryExtension
 {
+    [Obsolete("Prefer using 'is null or []'")]
     public static bool IsNullOrEmpty<TKey, TValue>([NotNullWhen(false)] this Dictionary<TKey, TValue>? source)
         where TKey : notnull
     {

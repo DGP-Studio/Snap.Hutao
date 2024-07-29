@@ -8,20 +8,20 @@ namespace Snap.Hutao.Service.Game.Package;
 
 internal readonly struct GamePackageOperationContext
 {
-    public readonly GamePackageOperationState State;
+    public readonly GamePackageOperationKind OperationKind;
     public readonly GameFileSystem GameFileSystem;
     public readonly BranchWrapper LocalBranch;
     public readonly BranchWrapper RemoteBranch;
     public readonly GameChannelSDK? GameChannelSDK;
 
     public GamePackageOperationContext(
-        GamePackageOperationState state,
+        GamePackageOperationKind kind,
         GameFileSystem gameFileSystem,
         BranchWrapper localBranch,
         BranchWrapper remoteBranch,
         GameChannelSDK? gameChannelSDK)
     {
-        State = state;
+        OperationKind = kind;
         GameFileSystem = gameFileSystem;
         LocalBranch = localBranch;
         RemoteBranch = remoteBranch;

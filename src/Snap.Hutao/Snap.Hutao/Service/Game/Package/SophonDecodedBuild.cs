@@ -14,4 +14,6 @@ internal sealed class SophonDecodedBuild
     public long TotalBytes { get; }
 
     public List<SophonDecodedManifest> Manifests { get; }
+
+    public int TotalBlockCount { get => Manifests.Sum(manifest => manifest.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)); }
 }
