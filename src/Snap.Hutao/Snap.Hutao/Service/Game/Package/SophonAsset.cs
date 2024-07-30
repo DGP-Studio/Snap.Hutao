@@ -13,16 +13,7 @@ internal sealed class SophonAsset
         AssetProperty = assetProperty;
     }
 
-    public SophonAsset(string urlPrefix, AssetProperty assetProperty, List<SophonChunk> diffChunks)
-    {
-        UrlPrefix = string.Intern(urlPrefix);
-        AssetProperty = assetProperty;
-        DiffChunks = diffChunks;
-    }
-
     public string UrlPrefix { get; }
 
     public AssetProperty AssetProperty { get; }
-
-    public List<SophonChunk> DiffChunks { get; } = default!;
 }
