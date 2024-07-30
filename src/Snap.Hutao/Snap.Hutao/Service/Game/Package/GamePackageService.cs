@@ -11,7 +11,6 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
-using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Game;
@@ -511,7 +510,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         await Parallel.ForEachAsync(info.ConflictedAssets, parallelOptions, async (asset, token) =>
         {
             await DownloadChunksAsync(asset.AssetProperty.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)), context, progress, parallelOptions).ConfigureAwait(false);
-            await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
+            await MergeAssetAsync(asset.AssetProperty, context, parallelOptions).ConfigureAwait(false);
         }).ConfigureAwait(false);
 
         if (info.ChannelSdkConflicted)
@@ -533,7 +532,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
 
         await DownloadChunksAsync(asset.AssetProperty.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)), context, progress, options).ConfigureAwait(false);
-        await MergeAssetAsync(asset.AssetProperty, context).ConfigureAwait(false);
+        await MergeAssetAsync(asset.AssetProperty, context, options).ConfigureAwait(false);
     }
 
     private async ValueTask DownloadChunksAsync(IEnumerable<SophonChunk> sophonChunks, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
@@ -580,7 +579,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private static async ValueTask MergeAssetAsync(AssetProperty assetProperty, GamePackageOperationContext context, CancellationToken token = default)
+    private static async ValueTask MergeAssetAsync(AssetProperty assetProperty, GamePackageOperationContext context, ParallelOptions parallelOptions)
     {
         string path = Path.Combine(context.GameFileSystem.GameDirectory, assetProperty.AssetName);
         string? directory = Path.GetDirectoryName(path);
@@ -589,33 +588,34 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         using (SafeFileHandle fileHandle = File.OpenHandle(path, FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: 32 * 1024))
         {
-            using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
+            await Parallel.ForEachAsync(assetProperty.AssetChunks, parallelOptions, (chunk, token) => MergeChunkIntoAssetAsync(fileHandle, chunk, context, token)).ConfigureAwait(false);
+        }
+    }
+
+    private static async ValueTask MergeChunkIntoAssetAsync(SafeFileHandle fileHandle, AssetChunk chunk, GamePackageOperationContext context, CancellationToken token = default)
+    {
+        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
+        {
+            Memory<byte> buffer = memoryOwner.Memory;
+
+            string chunkPath = Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName);
+            using (FileStream chunkFile = File.OpenRead(chunkPath))
             {
-                Memory<byte> buffer = memoryOwner.Memory;
-
-                // TODO: use parallel copy
-                foreach (AssetChunk chunk in assetProperty.AssetChunks)
+                using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
                 {
-                    string chunkPath = Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName);
-                    using (FileStream chunkFile = File.OpenRead(chunkPath))
+                    long offset = chunk.ChunkOnFileOffset;
+                    do
                     {
-                        using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
+                        int bytesRead = await decompressionStream.ReadAsync(buffer, token).ConfigureAwait(false);
+                        if (bytesRead <= 0)
                         {
-                            long offset = chunk.ChunkOnFileOffset;
-                            do
-                            {
-                                int bytesRead = await decompressionStream.ReadAsync(buffer, token).ConfigureAwait(false);
-                                if (bytesRead <= 0)
-                                {
-                                    break;
-                                }
-
-                                await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, token).ConfigureAwait(false);
-                                offset += bytesRead;
-                            }
-                            while (true);
+                            break;
                         }
+
+                        await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, token).ConfigureAwait(false);
+                        offset += bytesRead;
                     }
+                    while (true);
                 }
             }
         }
