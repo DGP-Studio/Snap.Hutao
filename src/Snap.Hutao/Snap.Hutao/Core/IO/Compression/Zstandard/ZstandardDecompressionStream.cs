@@ -12,7 +12,6 @@ internal sealed class ZstandardDecompressionStream : Stream
 {
     [SuppressMessage("", "CA2213")]
     private readonly Stream inputStream;
-    private readonly int inputBufferSize;
     private readonly IMemoryOwner<byte> inputBufferMemoryOwner;
     private readonly Memory<byte> inputBuffer;
 
@@ -35,6 +34,8 @@ internal sealed class ZstandardDecompressionStream : Stream
 
         ZstandardException.ThrowIfNull(decompressStreamContext = ZSTD_createDStream(), "Failed to create decompression stream");
         ZstandardException.ThrowIfError(ZSTD_DCtx_reset(decompressStreamContext, ZSTD_ResetDirective.ZSTD_reset_session_only));
+
+        int inputBufferSize;
 
         if (bufferSize > 0)
         {

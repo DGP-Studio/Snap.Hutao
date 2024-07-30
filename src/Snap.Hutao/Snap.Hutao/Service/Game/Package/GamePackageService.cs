@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
+using Google.Protobuf.Collections;
 using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.IO;
@@ -21,7 +22,6 @@ using System.Buffers;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Game.Package;
 
@@ -473,7 +473,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         };
     }
 
-    private async ValueTask VerifyAssetAsync(SophonAsset asset, List<SophonAsset> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, CancellationToken token = default)
+    private static async ValueTask VerifyAssetAsync(SophonAsset asset, List<SophonAsset> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, CancellationToken token = default)
     {
         string assetPath = Path.Combine(context.GameFileSystem.GameDirectory, asset.AssetProperty.AssetName);
 
@@ -483,19 +483,21 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
+        RepeatedField<AssetChunk> chunks = asset.AssetProperty.AssetChunks;
+
         if (!File.Exists(assetPath))
         {
             conflictedAssets.Add(asset);
-            progress.Report(new GamePackageOperationReport.Update(0, asset.AssetProperty.AssetChunks.Count));
+            progress.Report(new GamePackageOperationReport.Update(0, chunks.Count));
 
             return;
         }
 
         using (SafeFileHandle fileHandle = File.OpenHandle(assetPath))
         {
-            for (int i = 0; i < asset.AssetProperty.AssetChunks.Count; i++)
+            for (int i = 0; i < chunks.Count; i++)
             {
-                AssetChunk chunk = asset.AssetProperty.AssetChunks[i];
+                AssetChunk chunk = chunks[i];
                 using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)chunk.ChunkSizeDecompressed))
                 {
                     Memory<byte> buffer = memoryOwner.Memory[..(int)chunk.ChunkSizeDecompressed];
@@ -503,7 +505,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                     if (!chunk.ChunkDecompressedHashMd5.Equals(MD5.Hash(buffer.Span), StringComparison.OrdinalIgnoreCase))
                     {
                         conflictedAssets.Add(asset);
-                        progress.Report(new GamePackageOperationReport.Update(0, asset.AssetProperty.AssetChunks.Count - i));
+                        progress.Report(new GamePackageOperationReport.Update(0, chunks.Count - i));
                         return;
                     }
                 }
@@ -593,27 +595,14 @@ internal sealed partial class GamePackageService : IGamePackageService
         string? directory = Path.GetDirectoryName(path);
         ArgumentNullException.ThrowIfNull(directory);
         Directory.CreateDirectory(directory);
-        //using (FileStream file = File.Create(path))
-        //{
-        //    foreach (AssetChunk chunk in assetProperty.AssetChunks)
-        //    {
-        //        string chunkPath = Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName);
-        //        using (FileStream chunkFile = File.OpenRead(chunkPath))
-        //        {
-        //            using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
-        //            {
-        //                file.Position = chunk.ChunkOnFileOffset;
-        //                await decompressionStream.CopyToAsync(file, token).ConfigureAwait(false);
-        //            }
-        //        }
-        //    }
-        //}
 
         using (SafeFileHandle fileHandle = File.OpenHandle(path, FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: 32 * 1024))
         {
             using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
             {
                 Memory<byte> buffer = memoryOwner.Memory;
+
+                // TODO: use parallel copy
                 foreach (AssetChunk chunk in assetProperty.AssetChunks)
                 {
                     string chunkPath = Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName);
@@ -645,51 +634,6 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         using (MemoryStream newAssetStream = memoryStreamFactory.GetStream())
         {
-            //using (FileStream oldAssetStream = File.OpenRead(Path.Combine(context.GameFileSystem.GameDirectory, oldAsset.AssetName)))
-            //{
-            //    foreach (AssetChunk chunk in newAsset.AssetProperty.AssetChunks)
-            //    {
-            //        newAssetStream.Position = chunk.ChunkOnFileOffset;
-
-            //        AssetChunk? oldChunk = oldAsset.AssetChunks.FirstOrDefault(c => c.ChunkDecompressedHashMd5 == chunk.ChunkDecompressedHashMd5);
-            //        if (oldChunk is null)
-            //        {
-            //            using (FileStream diffStream = File.OpenRead(Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName)))
-            //            {
-            //                using (ZstandardDecompressionStream decompressionStream = new(diffStream))
-            //                {
-            //                    await decompressionStream.CopyToAsync(newAssetStream, token).ConfigureAwait(false);
-            //                    continue;
-            //                }
-            //            }
-            //        }
-
-            //        oldAssetStream.Position = oldChunk.ChunkOnFileOffset;
-            //        using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
-            //        {
-            //            Memory<byte> buffer = memoryOwner.Memory;
-            //            long bytesToCopy = oldChunk.ChunkSizeDecompressed;
-            //            while (bytesToCopy > 0)
-            //            {
-            //                int bytesRead = await oldAssetStream.ReadAsync(buffer[..(int)Math.Min(buffer.Length, bytesToCopy)], token).ConfigureAwait(false);
-            //                if (bytesRead <= 0)
-            //                {
-            //                    break;
-            //                }
-
-            //                await newAssetStream.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(false);
-            //                bytesToCopy -= bytesRead;
-            //            }
-            //        }
-            //    }
-
-            //    using (FileStream newAssetFileStream = File.Create(Path.Combine(context.GameFileSystem.GameDirectory, newAsset.AssetProperty.AssetName)))
-            //    {
-            //        newAssetStream.Position = 0;
-            //        await newAssetStream.CopyToAsync(newAssetFileStream, token).ConfigureAwait(false);
-            //    }
-            //}
-
             using (SafeFileHandle oldAssetHandle = File.OpenHandle(Path.Combine(context.GameFileSystem.GameDirectory, oldAsset.AssetName), FileMode.Open, FileAccess.Read, FileShare.None))
             {
                 foreach (AssetChunk chunk in newAsset.AssetProperty.AssetChunks)
