@@ -11,6 +11,7 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Game;
@@ -121,11 +122,11 @@ internal sealed partial class GamePackageService : IGamePackageService
         int totalBlockCount = remoteBuild.TotalBlockCount;
         progress.Report(new GamePackageOperationReport.Reset("正在安装游戏", totalBlockCount, totalBytes));
 
-        foreach (SophonDecodedManifest manifest in remoteBuild.Manifests)
+        await Parallel.ForEachAsync(remoteBuild.Manifests, options, async (manifest, token) =>
         {
             IEnumerable<SophonAsset> assets = manifest.ManifestProto.Assets.Select(asset => new SophonAsset(manifest.UrlPrefix, asset));
             await Parallel.ForEachAsync(assets, options, (asset, token) => AddNewAssetAsync(asset, context, progress, options)).ConfigureAwait(false);
-        }
+        }).ConfigureAwait(false);
 
         await ExtractChannelSdkAsync(context, options.CancellationToken).ConfigureAwait(false);
 
@@ -209,11 +210,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         // 内容发生变化的块直接读取diff chunk写入新asset流
         await Parallel.ForEachAsync(modifiedAssets, parallelOptions, async (asset, token) =>
         {
-            foreach (SophonChunk sophonChunk in asset.Value.DiffChunks)
-            {
-                await DownloadChunkAsync(sophonChunk, context, progress, token).ConfigureAwait(false);
-            }
-
+            await DownloadChunksAsync(asset.Value.DiffChunks, context, progress, parallelOptions).ConfigureAwait(false);
             await MergeDiffAssetAsync(asset.Key, asset.Value, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
 
@@ -290,16 +287,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
 
         // Added
-        await Parallel.ForEachAsync(addedAssets, parallelOptions, (asset, token) => DownloadAssetChunksAsync(asset, context, progress, parallelOptions)).ConfigureAwait(false);
+        await Parallel.ForEachAsync(addedAssets, parallelOptions, (asset, token) => DownloadChunksAsync(asset.AssetProperty.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)), context, progress, parallelOptions)).ConfigureAwait(false);
 
         // Modified
-        await Parallel.ForEachAsync(modifiedAssets, parallelOptions, async (asset, token) =>
-        {
-            foreach (SophonChunk sophonChunk in asset.Value.DiffChunks)
-            {
-                await DownloadChunkAsync(sophonChunk, context, progress, token).ConfigureAwait(false);
-            }
-        }).ConfigureAwait(false);
+        await Parallel.ForEachAsync(modifiedAssets, parallelOptions, (asset, token) => DownloadChunksAsync(asset.Value.DiffChunks, context, progress, parallelOptions)).ConfigureAwait(false);
 
         progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
 
@@ -519,7 +510,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         await Parallel.ForEachAsync(info.ConflictedAssets, parallelOptions, async (asset, token) =>
         {
-            await DownloadAssetChunksAsync(asset, context, progress, parallelOptions).ConfigureAwait(false);
+            await DownloadChunksAsync(asset.AssetProperty.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)), context, progress, parallelOptions).ConfigureAwait(false);
             await MergeAssetAsync(asset.AssetProperty, context, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
 
@@ -541,13 +532,13 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        await DownloadAssetChunksAsync(asset, context, progress, options).ConfigureAwait(false);
+        await DownloadChunksAsync(asset.AssetProperty.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)), context, progress, options).ConfigureAwait(false);
         await MergeAssetAsync(asset.AssetProperty, context).ConfigureAwait(false);
     }
 
-    private async ValueTask DownloadAssetChunksAsync(SophonAsset sophonAsset, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
+    private async ValueTask DownloadChunksAsync(IEnumerable<SophonChunk> sophonChunks, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
     {
-        await Parallel.ForEachAsync(sophonAsset.AssetProperty.AssetChunks, parallelOptions, (chunk, token) => DownloadChunkAsync(new(sophonAsset.UrlPrefix, chunk), context, progress, token)).ConfigureAwait(false);
+        await Parallel.ForEachAsync(sophonChunks, parallelOptions, (chunk, token) => DownloadChunkAsync(chunk, context, progress, token)).ConfigureAwait(false);
     }
 
     private async ValueTask DownloadChunkAsync(SophonChunk sophonChunk, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, CancellationToken token = default)
