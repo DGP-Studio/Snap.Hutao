@@ -504,12 +504,11 @@ internal sealed partial class GamePackageService : IGamePackageService
                     {
                         conflictedAssets.Add(asset);
                         progress.Report(new GamePackageOperationReport.Update(0, asset.AssetProperty.AssetChunks.Count - i));
-
                         return;
                     }
-
-                    progress.Report(new GamePackageOperationReport.Update(chunk.ChunkSizeDecompressed, 1));
                 }
+
+                progress.Report(new GamePackageOperationReport.Update(chunk.ChunkSizeDecompressed, 1));
             }
         }
     }
