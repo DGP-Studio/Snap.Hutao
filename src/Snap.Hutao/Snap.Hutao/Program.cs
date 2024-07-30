@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Google.Protobuf.Collections;
 using Microsoft.UI.Xaml;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -39,10 +40,10 @@ public static partial class Program
     [STAThread]
     private static void Main(string[] args)
     {
-        // WebView2
         Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
-        System.Diagnostics.Debug.WriteLine($"[Arguments]:[{args.ToString(',')}]");
+        Environment.SetEnvironmentVariable("DOTNET_SYSTEM_BUFFERS_SHAREDARRAYPOOL_MAXARRAYSPERPARTITION", "128");
 
+        System.Diagnostics.Debug.WriteLine($"[Arguments]:[{args.ToString(',')}]");
         XamlCheckProcessRequirements();
         ComWrappersSupport.InitializeComWrappers();
 

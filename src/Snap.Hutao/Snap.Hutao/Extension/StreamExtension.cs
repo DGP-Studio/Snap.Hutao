@@ -33,4 +33,19 @@ internal static class StreamExtension
             return clonedStream;
         }
     }
+
+    public static async ValueTask ReadExactAsync(this Stream stream, Memory<byte> buffer)
+    {
+        int bytesRead = 0;
+        while (bytesRead < buffer.Length)
+        {
+            int read = await stream.ReadAsync(buffer[bytesRead..]).ConfigureAwait(false);
+            if (read == 0)
+            {
+                throw new EndOfStreamException();
+            }
+
+            bytesRead += read;
+        }
+    }
 }

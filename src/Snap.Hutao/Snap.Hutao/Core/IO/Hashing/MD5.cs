@@ -38,4 +38,10 @@ internal static class MD5
         byte[] bytes = await System.Security.Cryptography.MD5.HashDataAsync(stream, token).ConfigureAwait(false);
         return Convert.ToHexString(bytes);
     }
+
+    public static string Hash(ReadOnlySpan<byte> input)
+    {
+        byte[] bytes = System.Security.Cryptography.MD5.HashData(input);
+        return Convert.ToHexString(bytes);
+    }
 }

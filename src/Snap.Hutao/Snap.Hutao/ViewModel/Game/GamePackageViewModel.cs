@@ -233,24 +233,26 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             targetState is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main,
             gameChannelSDK);
 
-        bool success = await gamePackageService.StartOperationAsync(context).ConfigureAwait(false);
+        if (!await gamePackageService.StartOperationAsync(context).ConfigureAwait(false))
+        {
+            // Operation canceled
+            return;
+        }
 
         await taskContext.SwitchToMainThreadAsync();
-        if (success)
+
+        switch (targetState)
         {
-            switch (targetState)
-            {
-                case GamePackageOperationKind.Verify:
-                    break;
-                case GamePackageOperationKind.Update:
-                    LocalVersion = RemoteVersion;
-                    OnPropertyChanged(nameof(IsUpdateAvailable));
-                    break;
-                case GamePackageOperationKind.Predownload:
-                    OnPropertyChanged(nameof(IsPredownloadButtonEnabled));
-                    OnPropertyChanged(nameof(IsPredownloadFinished));
-                    break;
-            }
+            case GamePackageOperationKind.Verify:
+                break;
+            case GamePackageOperationKind.Update:
+                LocalVersion = RemoteVersion;
+                OnPropertyChanged(nameof(IsUpdateAvailable));
+                break;
+            case GamePackageOperationKind.Predownload:
+                OnPropertyChanged(nameof(IsPredownloadButtonEnabled));
+                OnPropertyChanged(nameof(IsPredownloadFinished));
+                break;
         }
     }
 }

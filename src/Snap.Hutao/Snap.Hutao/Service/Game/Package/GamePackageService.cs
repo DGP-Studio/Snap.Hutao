@@ -14,7 +14,6 @@ using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.UI.Xaml.View.Window;
 using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
-using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using Snap.Hutao.Web.Response;
@@ -22,6 +21,7 @@ using System.Buffers;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Game.Package;
 
@@ -49,7 +49,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         operationCts = new();
         operationTcs = new();
-        ParallelOptions parallelOptions = new()
+        ParallelOptions options = new()
         {
             CancellationToken = operationCts.Token,
             MaxDegreeOfParallelism = Environment.ProcessorCount,
@@ -62,10 +62,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         await taskContext.SwitchToBackgroundAsync();
         ValueTask operation = context.OperationKind switch
         {
-            GamePackageOperationKind.Install => InstallAsync(context, progress, parallelOptions),
-            GamePackageOperationKind.Verify => VerifyAndRepairAsync(context, progress, parallelOptions),
-            GamePackageOperationKind.Update => UpdateAsync(context, progress, parallelOptions),
-            GamePackageOperationKind.Predownload => PredownloadAsync(context, progress, parallelOptions),
+            GamePackageOperationKind.Install => InstallAsync(context, progress, options),
+            GamePackageOperationKind.Verify => VerifyAndRepairAsync(context, progress, options),
+            GamePackageOperationKind.Update => UpdateAsync(context, progress, options),
+            GamePackageOperationKind.Predownload => PredownloadAsync(context, progress, options),
             _ => ValueTask.CompletedTask,
         };
 
@@ -102,13 +102,13 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     private async ValueTask InstallAsync(GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions options)
     {
-        if (await DecodeManifestsAsync(context.RemoteBranch, context, options.CancellationToken).ConfigureAwait(false) is not { } decodedBuild)
+        if (await DecodeManifestsAsync(context.RemoteBranch, context, options.CancellationToken).ConfigureAwait(false) is not { } remoteBuild)
         {
             progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
             return;
         }
 
-        long totalBytes = decodedBuild.TotalBytes;
+        long totalBytes = remoteBuild.TotalBytes;
         long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.GameFileSystem.GameDirectory);
 
         if (totalBytes > availableBytes)
@@ -118,34 +118,32 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        int totalBlockCount = decodedBuild.TotalBlockCount;
+        int totalBlockCount = remoteBuild.TotalBlockCount;
         progress.Report(new GamePackageOperationReport.Reset("正在安装游戏", totalBlockCount, totalBytes));
 
-        foreach (SophonDecodedManifest manifest in decodedBuild.Manifests)
+        foreach (SophonDecodedManifest manifest in remoteBuild.Manifests)
         {
-            IEnumerable<SophonAsset> sophonAssets = manifest.ManifestProto.Assets
-                .Select(a => new SophonAsset(manifest.UrlPrefix, a));
-            await Parallel.ForEachAsync(sophonAssets, options, (asset, token) => AddNewAssetAsync(asset, context, progress, options)).ConfigureAwait(false);
+            IEnumerable<SophonAsset> assets = manifest.ManifestProto.Assets.Select(asset => new SophonAsset(manifest.UrlPrefix, asset));
+            await Parallel.ForEachAsync(assets, options, (asset, token) => AddNewAssetAsync(asset, context, progress, options)).ConfigureAwait(false);
         }
 
         await ExtractChannelSdkAsync(context, options.CancellationToken).ConfigureAwait(false);
 
         // Verify
         progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", totalBlockCount, totalBytes));
-
-        IntegrityInfo info = await VerifyCoreAsync(decodedBuild, context, progress, options).ConfigureAwait(false);
+        GamePackageIntegrityInfo info = await VerifyGamePackageIntegrityAsync(remoteBuild, context, progress, options).ConfigureAwait(false);
 
         if (info.NoConflict)
         {
-            progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
             Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
+            progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
             return;
         }
 
-        (int conflictBlocks, long conflictBytes) = info.GetConflictedBlockCountAndByteCount(context.GameChannelSDK);
-        progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictBlocks, conflictBytes));
+        (int conflictedBlocks, long conflictedBytes) = info.GetConflictedBlockCountAndByteCount(context.GameChannelSDK);
+        progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictedBlocks, conflictedBytes));
 
-        await RepairCoreAsync(info, context, progress, options, options.CancellationToken).ConfigureAwait(false);
+        await RepairGamePackageAsync(info, context, progress, options, options.CancellationToken).ConfigureAwait(false);
 
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
         progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
@@ -153,15 +151,15 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     private async ValueTask VerifyAndRepairAsync(GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
     {
-        if (await DecodeManifestsAsync(context.LocalBranch, context, token).ConfigureAwait(false) is not { } sophonDecodedBuild)
+        if (await DecodeManifestsAsync(context.LocalBranch, context, token).ConfigureAwait(false) is not { } localBuild)
         {
             progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
             return;
         }
 
-        progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", sophonDecodedBuild.TotalBlockCount, sophonDecodedBuild.TotalBytes));
+        progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", localBuild.TotalBlockCount, localBuild.TotalBytes));
 
-        IntegrityInfo info = await VerifyCoreAsync(sophonDecodedBuild, context, progress, parallelOptions, token).ConfigureAwait(false);
+        GamePackageIntegrityInfo info = await VerifyGamePackageIntegrityAsync(localBuild, context, progress, parallelOptions, token).ConfigureAwait(false);
 
         if (info.NoConflict)
         {
@@ -172,7 +170,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         (int conflictBlocks, long conflictBytes) = info.GetConflictedBlockCountAndByteCount(context.GameChannelSDK);
         progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictBlocks, conflictBytes));
 
-        await RepairCoreAsync(info, context, progress, parallelOptions, token).ConfigureAwait(false);
+        await RepairGamePackageAsync(info, context, progress, parallelOptions, token).ConfigureAwait(false);
 
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
         progress.Report(new GamePackageOperationReport.Finish(context.OperationKind, true));
@@ -180,16 +178,14 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     private async ValueTask UpdateAsync(GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
     {
-        SophonDecodedBuild? localDecodedBuild = await DecodeManifestsAsync(context.LocalBranch, context, token).ConfigureAwait(false);
-        SophonDecodedBuild? remoteDecodedBuild = await DecodeManifestsAsync(context.RemoteBranch, context, token).ConfigureAwait(false);
-
-        if (localDecodedBuild is null || remoteDecodedBuild is null)
+        if (await DecodeManifestsAsync(context.LocalBranch, context, token).ConfigureAwait(false) is not { } localBuild ||
+            await DecodeManifestsAsync(context.RemoteBranch, context, token).ConfigureAwait(false) is not { } remoteBuild)
         {
             progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
             return;
         }
 
-        ParseDiff(localDecodedBuild, remoteDecodedBuild, out List<SophonAsset> addedAssets, out Dictionary<AssetProperty, SophonAsset> modifiedAssets, out List<AssetProperty> deletedAssets);
+        ParseDiff(localBuild, remoteBuild, out List<SophonAsset> addedAssets, out Dictionary<AssetProperty, SophonAsset> modifiedAssets, out List<AssetProperty> deletedAssets);
 
         int totalBlocks = addedAssets.Sum(a => a.AssetProperty.AssetChunks.Count) + modifiedAssets.Sum(a => a.Value.DiffChunks.Count);
         long totalBytes = addedAssets.Sum(a => a.AssetProperty.AssetSize) + modifiedAssets.Sum(a => a.Value.DiffChunks.Sum(c => c.AssetChunk.ChunkSizeDecompressed));
@@ -240,9 +236,9 @@ internal sealed partial class GamePackageService : IGamePackageService
         await ExtractChannelSdkAsync(context, token).ConfigureAwait(false);
 
         // Verify
-        progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", remoteDecodedBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), remoteDecodedBuild.TotalBytes));
+        progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", remoteBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), remoteBuild.TotalBytes));
 
-        IntegrityInfo info = await VerifyCoreAsync(remoteDecodedBuild, context, progress, parallelOptions, token).ConfigureAwait(false);
+        GamePackageIntegrityInfo info = await VerifyGamePackageIntegrityAsync(remoteBuild, context, progress, parallelOptions, token).ConfigureAwait(false);
 
         if (info.NoConflict)
         {
@@ -254,7 +250,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         (int conflictBlocks, long conflictBytes) = info.GetConflictedBlockCountAndByteCount(context.GameChannelSDK);
         progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictBlocks, conflictBytes));
 
-        await RepairCoreAsync(info, context, progress, parallelOptions, token).ConfigureAwait(false);
+        await RepairGamePackageAsync(info, context, progress, parallelOptions, token).ConfigureAwait(false);
 
         Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
         progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
@@ -262,16 +258,15 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     private async ValueTask PredownloadAsync(GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
     {
-        SophonDecodedBuild? localDecodedBuild = await DecodeManifestsAsync(context.LocalBranch, context, token).ConfigureAwait(false);
-        SophonDecodedBuild? remoteDecodedBuild = await DecodeManifestsAsync(context.RemoteBranch, context, token).ConfigureAwait(false);
-        if (localDecodedBuild is null || remoteDecodedBuild is null)
+        if (await DecodeManifestsAsync(context.LocalBranch, context, token).ConfigureAwait(false) is not { } localBuild ||
+            await DecodeManifestsAsync(context.RemoteBranch, context, token).ConfigureAwait(false) is not { } remoteBuild)
         {
             progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
             return;
         }
 
         // 和Update相比不需要处理delete，不需要Combine
-        ParseDiff(localDecodedBuild, remoteDecodedBuild, out List<SophonAsset> addedAssets, out Dictionary<AssetProperty, SophonAsset> modifiedAssets, out _);
+        ParseDiff(localBuild, remoteBuild, out List<SophonAsset> addedAssets, out Dictionary<AssetProperty, SophonAsset> modifiedAssets, out _);
 
         // Download
         int totalBlocks = addedAssets.Sum(a => a.AssetProperty.AssetChunks.Count) + modifiedAssets.Sum(a => a.Value.DiffChunks.Count);
@@ -432,14 +427,14 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     #region Asset Operation
 
-    private async ValueTask<IntegrityInfo> VerifyCoreAsync(SophonDecodedBuild sophonDecodedBuild, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
+    private async ValueTask<GamePackageIntegrityInfo> VerifyGamePackageIntegrityAsync(SophonDecodedBuild build, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         List<SophonAsset> conflictedAssets = [];
         bool channelSdkConflict = false;
 
-        foreach (SophonDecodedManifest sophonDecodedManifest in sophonDecodedBuild.Manifests)
+        foreach (SophonDecodedManifest manifest in build.Manifests)
         {
-            await Parallel.ForEachAsync(sophonDecodedManifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(sophonDecodedManifest.UrlPrefix, asset), conflictedAssets, context, progress, token)).ConfigureAwait(false);
+            await Parallel.ForEachAsync(manifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(manifest.UrlPrefix, asset), conflictedAssets, context, progress, token)).ConfigureAwait(false);
         }
 
         if (context.GameChannelSDK is not null)
@@ -456,8 +451,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                             ArgumentNullException.ThrowIfNull(item);
 
                             string path = Path.Combine(context.GameFileSystem.GameDirectory, item.RelativePath);
-                            string localMd5 = await MD5.HashFileAsync(path, token).ConfigureAwait(false);
-                            if (!localMd5.Equals(item.Md5, StringComparison.OrdinalIgnoreCase))
+                            if (!item.Md5.Equals(await MD5.HashFileAsync(path, token).ConfigureAwait(false), StringComparison.OrdinalIgnoreCase))
                             {
                                 channelSdkConflict = true;
                                 break;
@@ -479,11 +473,11 @@ internal sealed partial class GamePackageService : IGamePackageService
         };
     }
 
-    private async ValueTask VerifyAssetAsync(SophonAsset sophonAsset, List<SophonAsset> conflictAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, CancellationToken token = default)
+    private async ValueTask VerifyAssetAsync(SophonAsset asset, List<SophonAsset> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, CancellationToken token = default)
     {
-        string assetPath = Path.Combine(context.GameFileSystem.GameDirectory, sophonAsset.AssetProperty.AssetName);
+        string assetPath = Path.Combine(context.GameFileSystem.GameDirectory, asset.AssetProperty.AssetName);
 
-        if (sophonAsset.AssetProperty.AssetType is 64)
+        if (asset.AssetProperty.AssetType is 64)
         {
             Directory.CreateDirectory(assetPath);
             return;
@@ -491,24 +485,25 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (!File.Exists(assetPath))
         {
-            conflictAssets.Add(sophonAsset);
-            progress.Report(new GamePackageOperationReport.Update(0, sophonAsset.AssetProperty.AssetChunks.Count));
+            conflictedAssets.Add(asset);
+            progress.Report(new GamePackageOperationReport.Update(0, asset.AssetProperty.AssetChunks.Count));
 
             return;
         }
 
-        using (FileStream fileStream = File.OpenRead(assetPath))
+        using (SafeFileHandle fileHandle = File.OpenHandle(assetPath))
         {
-            for (int i = 0; i < sophonAsset.AssetProperty.AssetChunks.Count; i++)
+            for (int i = 0; i < asset.AssetProperty.AssetChunks.Count; i++)
             {
-                AssetChunk chunk = sophonAsset.AssetProperty.AssetChunks[i];
-                using (Stream hashStream = await fileStream.CloneSegmentAsync(chunk.ChunkOnFileOffset, chunk.ChunkSizeDecompressed, memoryStreamFactory).ConfigureAwait(false))
+                AssetChunk chunk = asset.AssetProperty.AssetChunks[i];
+                using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)chunk.ChunkSizeDecompressed))
                 {
-                    string chunkMd5 = await MD5.HashAsync(hashStream, token).ConfigureAwait(false);
-                    if (!chunkMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase))
+                    Memory<byte> buffer = memoryOwner.Memory[..(int)chunk.ChunkSizeDecompressed];
+                    await RandomAccessRead.ExactlyAsync(fileHandle, buffer, chunk.ChunkOnFileOffset, token).ConfigureAwait(false);
+                    if (!chunk.ChunkDecompressedHashMd5.Equals(MD5.Hash(buffer.Span), StringComparison.OrdinalIgnoreCase))
                     {
-                        conflictAssets.Add(sophonAsset);
-                        progress.Report(new GamePackageOperationReport.Update(0, sophonAsset.AssetProperty.AssetChunks.Count - i));
+                        conflictedAssets.Add(asset);
+                        progress.Report(new GamePackageOperationReport.Update(0, asset.AssetProperty.AssetChunks.Count - i));
 
                         return;
                     }
@@ -519,7 +514,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private async ValueTask RepairCoreAsync(IntegrityInfo info, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
+    private async ValueTask RepairGamePackageAsync(GamePackageIntegrityInfo info, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
     {
         await Parallel.ForEachAsync(info.ConflictedAssets, parallelOptions, async (asset, token) =>
         {
@@ -746,41 +741,19 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     private async ValueTask ExtractChannelSdkAsync(GamePackageOperationContext context, CancellationToken token = default)
     {
-        if (context.GameChannelSDK is not null)
+        if (context.GameChannelSDK is null)
         {
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
+            return;
+        }
+
+        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
+        {
+            using (Stream sdkStream = await httpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url, token).ConfigureAwait(false))
             {
-                using (Stream sdkStream = await httpClient.GetStreamAsync(context.GameChannelSDK.ChannelSdkPackage.Url, token).ConfigureAwait(false))
-                {
-                    ZipFile.ExtractToDirectory(sdkStream, context.GameFileSystem.GameDirectory, true);
-                }
+                ZipFile.ExtractToDirectory(sdkStream, context.GameFileSystem.GameDirectory, true);
             }
         }
     }
 
     #endregion
-
-    private sealed class IntegrityInfo
-    {
-        public required List<SophonAsset> ConflictedAssets { get; init; }
-
-        public required bool ChannelSdkConflicted { get; init; }
-
-        public bool NoConflict { get => ConflictedAssets is [] && !ChannelSdkConflicted; }
-
-        public (int BlockCount, long ByteCount) GetConflictedBlockCountAndByteCount(GameChannelSDK? sdk)
-        {
-            int conflictBlocks = ConflictedAssets.Sum(a => a.AssetProperty.AssetChunks.Count);
-            long conflictBytes = ConflictedAssets.Sum(a => a.AssetProperty.AssetSize);
-
-            if (ChannelSdkConflicted)
-            {
-                ArgumentNullException.ThrowIfNull(sdk);
-                conflictBlocks++;
-                conflictBytes += sdk.ChannelSdkPackage.Size;
-            }
-
-            return (conflictBlocks, conflictBytes);
-        }
-    }
 }
