@@ -71,10 +71,10 @@ internal static class ApiOsEndpoints
     }
     #endregion
 
-    #region Hk4eApiOsGachaInfoApi
+    #region PublicOperationHk4eSgGachaInfoApi
     public static string GachaInfoGetGachaLog(string query)
     {
-        return $"{Hk4eApiOsGachaInfoApi}/getGachaLog?{query}";
+        return $"{PublicOperationHk4eSgGachaInfoApi}/getGachaLog?{query}";
     }
     #endregion
 
@@ -159,7 +159,9 @@ internal static class ApiOsEndpoints
 
     private const string Hk4eApiOs = "https://hk4e-api-os.hoyoverse.com";
     private const string Hk4eApiOsAnnouncementApi = $"{Hk4eApiOs}/common/hk4e_global/announcement/api";
-    private const string Hk4eApiOsGachaInfoApi = $"{Hk4eApiOs}/gacha_info/api";
+
+    private const string PublicOperationHk4eSg = "https://public-operation-hk4e-sg.hoyoverse.com";
+    private const string PublicOperationHk4eSgGachaInfoApi = $"{PublicOperationHk4eSg}/gacha_info/api";
 
     private const string SgPublicApi = "https://sg-public-api.hoyoverse.com";
     private const string SgHk4eApi = "https://sg-hk4e-api.hoyoverse.com";
