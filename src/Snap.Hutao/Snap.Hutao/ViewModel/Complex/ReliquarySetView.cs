@@ -20,7 +20,7 @@ internal sealed class ReliquarySetView : RateAndDelta
     {
         ReliquarySets sets = setRate.Item;
 
-        if (!sets.IsNullOrEmpty())
+        if (sets is [_, ..])
         {
             StringBuilder nameBuilder = new();
             List<Uri> icons = new(2);

@@ -4,6 +4,7 @@
 namespace Snap.Hutao.Win32.Storage.FileSystem;
 
 [Flags]
+[SuppressMessage("", "CA1069")]
 internal enum FILE_FLAGS_AND_ATTRIBUTES : uint
 {
     FILE_ATTRIBUTE_READONLY = 1U,
