@@ -9,6 +9,7 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
+using System.Collections.Concurrent;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -21,6 +22,8 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly JsonSerializerOptions jsonOptions;
+
+    private readonly ConcurrentDictionary<string, Task> downloadTasks = [];
 
     public abstract ValueTask InstallAssetsAsync(SophonDecodedBuild remoteBuild, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions options);
 
@@ -195,38 +198,55 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
     {
         Directory.CreateDirectory(context.GameFileSystem.ChunksDirectory);
         string chunkPath = Path.Combine(context.GameFileSystem.ChunksDirectory, sophonChunk.AssetChunk.ChunkName);
-        if (File.Exists(chunkPath))
+
+        TaskCompletionSource downloadTcs = new();
+        if (downloadTasks.TryAdd(sophonChunk.AssetChunk.ChunkName, downloadTcs.Task))
         {
-            string chunkXxh64 = await XXH64.HashFileAsync(chunkPath, token).ConfigureAwait(false);
-            if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
+            try
             {
-                progress.Report(new GamePackageOperationReport.Update(sophonChunk.AssetChunk.ChunkSize, 1));
-                return;
-            }
-
-            File.Delete(chunkPath);
-        }
-
-        using (FileStream fileStream = File.Create(chunkPath))
-        {
-            fileStream.Position = 0;
-
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GameAssetsOperationService)))
-            {
-                using (Stream webStream = await httpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl, token).ConfigureAwait(false))
+                if (File.Exists(chunkPath))
                 {
-                    StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, bytesRead => new GamePackageOperationReport.Update(bytesRead, 0));
-
-                    await worker.CopyAsync(progress).ConfigureAwait(false);
-
-                    fileStream.Position = 0;
-                    string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
+                    string chunkXxh64 = await XXH64.HashFileAsync(chunkPath, token).ConfigureAwait(false);
                     if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
                     {
-                        progress.Report(new GamePackageOperationReport.Update(0, 1));
+                        progress.Report(new GamePackageOperationReport.Update(sophonChunk.AssetChunk.ChunkSize, 1));
+                        return;
+                    }
+
+                    File.Delete(chunkPath);
+                }
+
+                using (FileStream fileStream = File.Create(chunkPath))
+                {
+                    fileStream.Position = 0;
+
+                    using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GameAssetsOperationService)))
+                    {
+                        using (Stream webStream = await httpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl, token).ConfigureAwait(false))
+                        {
+                            StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, bytesRead => new GamePackageOperationReport.Update(bytesRead, 0));
+
+                            await worker.CopyAsync(progress).ConfigureAwait(false);
+
+                            fileStream.Position = 0;
+                            string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
+                            if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
+                            {
+                                progress.Report(new GamePackageOperationReport.Update(0, 1));
+                            }
+                        }
                     }
                 }
             }
+            finally
+            {
+                downloadTcs.TrySetResult();
+                downloadTasks.TryRemove(sophonChunk.AssetChunk.ChunkName, out _);
+            }
+        }
+        else if (downloadTasks.TryGetValue(chunkPath, out Task? task))
+        {
+            await task.ConfigureAwait(false);
         }
     }
 
