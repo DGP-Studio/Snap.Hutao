@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -12,16 +13,16 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Downloader;
 
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed partial class SophonClient : ISophonClient
+internal sealed partial class SophonClientOversea : ISophonClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly ILogger<SophonClient> logger;
+    private readonly ILogger<SophonClientOversea> logger;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<SophonBuild>> GetBuildAsync(BranchWrapper branch, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.SophonChunkGetBuild(branch))
+            .SetRequestUri(ApiOsEndpoints.SophonChunkGetBuild(branch))
             .Get();
 
         Response<SophonBuild>? resp = await builder

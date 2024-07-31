@@ -4,7 +4,7 @@
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Response;
 
-namespace Snap.Hutao.Web.Hoyolab.Takumi.Downloader;
+namespace Snap.Hutao.Web.Hoyolab.Downloader;
 
 internal interface ISophonClient
 {

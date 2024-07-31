@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Web.Hoyolab.Downloader;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Downloader;
 

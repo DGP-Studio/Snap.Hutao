@@ -82,15 +82,6 @@ internal static class ApiEndpoints
     public const string GameRecordRoleCombatPath = $"{ApiTakumiRecordApi}/role_combat";
     #endregion
 
-    #region ApiTakumiDownloaderApi
-
-    public static string SophonChunkGetBuild(BranchWrapper branch)
-    {
-        return $"{ApiTakumiDownloaderApi}/sophon_chunk/api/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}&tag={branch.Tag}";
-    }
-
-    #endregion
-
     #region ApiTakumiEventCalculate
 
     #region V1
@@ -174,6 +165,15 @@ internal static class ApiEndpoints
     }
     #endregion
 
+    #region DownloaderApi
+
+    public static string SophonChunkGetBuild(BranchWrapper branch)
+    {
+        return $"{DownloaderSophonChunkApi}/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}&tag={branch.Tag}";
+    }
+
+    #endregion
+
     #region Hk4eApiAnnouncementApi
     public static string AnnList(string languageCode, in Region region)
     {
@@ -248,8 +248,6 @@ internal static class ApiEndpoints
     private const string ApiTakumiCardApi = $"{ApiTakumiRecord}/game_record/app/card/api";
     private const string ApiTakumiCardWApi = $"{ApiTakumiRecord}/game_record/app/card/wapi";
 
-    private const string ApiTakumiDownloaderApi = $"{ApiTakumi}/downloader";
-
     private const string ApiTakumiEvent = $"{ApiTakumi}/event";
     private const string ApiTakumiEventCalculate = $"{ApiTakumiEvent}/e20200928calculate";
     private const string ApiTakumiEventLuna = $"{ApiTakumiEvent}/luna";
@@ -263,6 +261,9 @@ internal static class ApiEndpoints
 
     private const string BbsApi = "https://bbs-api.mihoyo.com";
     private const string BbsApiUserApi = $"{BbsApi}/user/wapi";
+
+    private const string DownloaderApi = "https://downloader-api.mihoyo.com";
+    private const string DownloaderSophonChunkApi = $"{DownloaderApi}/downloader/sophon_chunk/api";
 
     private const string Hk4eApi = "https://hk4e-api.mihoyo.com";
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";
