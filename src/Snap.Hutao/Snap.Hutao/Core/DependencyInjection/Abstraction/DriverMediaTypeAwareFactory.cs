@@ -5,13 +5,13 @@ using Snap.Hutao.Core.IO;
 
 namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 
-internal abstract class SolidStateDriveServiceFactory<TService, TServiceSSD, TServiceHDD> : ISolidStateDriveServiceFactory<TService>
+internal abstract class DriverMediaTypeAwareFactory<TService, TServiceSSD, TServiceHDD> : IDriverMediaTypeAwareFactory<TService>
     where TServiceSSD : notnull, TService
     where TServiceHDD : notnull, TService
 {
     private readonly IServiceProvider serviceProvider;
 
-    public SolidStateDriveServiceFactory(IServiceProvider serviceProvider)
+    public DriverMediaTypeAwareFactory(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
     }

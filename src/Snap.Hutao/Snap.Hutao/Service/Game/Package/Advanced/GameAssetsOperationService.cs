@@ -22,10 +22,11 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
     private readonly IHttpClientFactory httpClientFactory;
     private readonly JsonSerializerOptions jsonOptions;
 
-    public virtual async ValueTask InstallAssetsAsync(SophonDecodedBuild remoteBuild, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions options)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
-    }
+    public abstract ValueTask InstallAssetsAsync(SophonDecodedBuild remoteBuild, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions options);
+
+    public abstract ValueTask UpdateDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
+
+    public abstract ValueTask PredownloadDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
 
     public async ValueTask<GamePackageIntegrityInfo> VerifyGamePackageIntegrityAsync(SophonDecodedBuild build, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
     {
@@ -81,16 +82,6 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
 
             progress.Report(new GamePackageOperationReport.Update(context.GameChannelSDK.ChannelSdkPackage.Size, 1));
         }
-    }
-
-    public virtual async ValueTask UpdateDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
-    }
-
-    public virtual async ValueTask PredownloadDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     public async ValueTask ExtractChannelSdkAsync(GamePackageOperationContext context, CancellationToken token = default)
@@ -171,20 +162,15 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
         await Task.CompletedTask.ConfigureAwait(false);
     }
 
-    protected virtual async ValueTask VerifyManifestsAsync(SophonDecodedBuild build, List<SophonAssetOperation> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
-    }
+    protected abstract ValueTask VerifyManifestsAsync(SophonDecodedBuild build, List<SophonAssetOperation> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
 
-    protected virtual async ValueTask VerifyManifestAsync(SophonDecodedManifest manifest, List<SophonAssetOperation> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
-    }
+    protected abstract ValueTask VerifyManifestAsync(SophonDecodedManifest manifest, List<SophonAssetOperation> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
 
-    protected virtual async ValueTask RepairAssetsAsync(GamePackageIntegrityInfo info, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
-    }
+    protected abstract ValueTask RepairAssetsAsync(GamePackageIntegrityInfo info, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
+
+    protected abstract ValueTask DownloadChunksAsync(IEnumerable<SophonChunk> sophonChunks, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
+
+    protected abstract ValueTask MergeNewAssetAsync(AssetProperty assetProperty, GamePackageOperationContext context, ParallelOptions parallelOptions);
 
     protected async ValueTask DownloadAndMergeAssetAsync(SophonAssetOperation sophonAsset, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
     {
@@ -203,11 +189,6 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
 
         await DownloadChunksAsync(sophonChunks, context, progress, parallelOptions).ConfigureAwait(false);
         await MergeAssetAsync(sophonAsset, context, parallelOptions).ConfigureAwait(false);
-    }
-
-    protected virtual async ValueTask DownloadChunksAsync(IEnumerable<SophonChunk> sophonChunks, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     protected async ValueTask DownloadChunkAsync(SophonChunk sophonChunk, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, CancellationToken token = default)
@@ -259,11 +240,6 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
         };
 
         await task.ConfigureAwait(false);
-    }
-
-    protected virtual async ValueTask MergeNewAssetAsync(AssetProperty assetProperty, GamePackageOperationContext context, ParallelOptions parallelOptions)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     protected async ValueTask MergeDiffAssetAsync(SophonAssetOperation modifiedAsset, GamePackageOperationContext context, CancellationToken token = default)

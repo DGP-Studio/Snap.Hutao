@@ -45,7 +45,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         operationCts = new();
         operationTcs = new();
         gamePackageOperationService = serviceProvider
-            .GetRequiredService<ISolidStateDriveServiceFactory<IGameAssetsOperationService>>()
+            .GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetsOperationService>>()
             .Create(context.GameFileSystem.GameDirectory);
 
         ParallelOptions options = new()
