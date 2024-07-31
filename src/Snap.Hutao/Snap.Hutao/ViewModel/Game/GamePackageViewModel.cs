@@ -184,7 +184,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             return;
         }
 
-        GamePackageOperationKind targetState = Enum.Parse<GamePackageOperationKind>(state);
+        GamePackageOperationKind operationKind = Enum.Parse<GamePackageOperationKind>(state);
 
         if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
         {
@@ -197,7 +197,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         LaunchScheme targetLaunchScheme = LaunchScheme;
 
-        if (targetState is GamePackageOperationKind.Install)
+        if (operationKind is GamePackageOperationKind.Install)
         {
             LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>().ConfigureAwait(false);
             dialog.KnownSchemes = KnownLaunchSchemes.Get();
@@ -227,10 +227,11 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         GameChannelSDK? gameChannelSDK = sdkResp.Data.GameChannelSDKs.FirstOrDefault(sdk => sdk.Game.Id == targetLaunchScheme.GameId);
 
         GamePackageOperationContext context = new(
-            targetState,
+            serviceProvider,
+            operationKind,
             gameFileSystem,
             GameBranch.Main.CloneWithTag(LocalVersion.ToString()),
-            targetState is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main,
+            operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main,
             gameChannelSDK);
 
         if (!await gamePackageService.StartOperationAsync(context).ConfigureAwait(false))
@@ -241,7 +242,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         await taskContext.SwitchToMainThreadAsync();
 
-        switch (targetState)
+        switch (operationKind)
         {
             case GamePackageOperationKind.Verify:
                 break;

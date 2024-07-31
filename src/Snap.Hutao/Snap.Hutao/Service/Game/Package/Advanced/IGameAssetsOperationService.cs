@@ -5,15 +5,15 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal interface IGameAssetsOperationService
 {
-    ValueTask InstallAssetsAsync(SophonDecodedBuild remoteBuild, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions options);
+    ValueTask InstallAssetsAsync(SophonDecodedBuild remoteBuild, GamePackageServiceContext context);
 
-    ValueTask<GamePackageIntegrityInfo> VerifyGamePackageIntegrityAsync(SophonDecodedBuild build, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default);
+    ValueTask<GamePackageIntegrityInfo> VerifyGamePackageIntegrityAsync(SophonDecodedBuild build, GamePackageServiceContext context);
 
-    ValueTask RepairGamePackageAsync(GamePackageIntegrityInfo info, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default);
+    ValueTask RepairGamePackageAsync(GamePackageIntegrityInfo info, GamePackageServiceContext context);
 
-    ValueTask UpdateDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
+    ValueTask UpdateDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageServiceContext context);
 
-    ValueTask PredownloadDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
+    ValueTask PredownloadDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageServiceContext context);
 
-    ValueTask ExtractChannelSdkAsync(GamePackageOperationContext context, CancellationToken token = default);
+    ValueTask EnsureChannelSdkAsync(GamePackageServiceContext context);
 }

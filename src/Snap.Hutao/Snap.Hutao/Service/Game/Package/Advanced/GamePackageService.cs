@@ -24,7 +24,6 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IGamePackageService))]
 [SuppressMessage("", "CA1001")]
-[SuppressMessage("", "SA1204")]
 internal sealed partial class GamePackageService : IGamePackageService
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
@@ -36,17 +35,13 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     private CancellationTokenSource? operationCts;
     private TaskCompletionSource? operationTcs;
-    private IGameAssetsOperationService? gamePackageOperationService;
 
-    public async ValueTask<bool> StartOperationAsync(GamePackageOperationContext context)
+    public async ValueTask<bool> StartOperationAsync(GamePackageOperationContext operationContext)
     {
         await CancelOperationAsync().ConfigureAwait(false);
 
         operationCts = new();
         operationTcs = new();
-        gamePackageOperationService = serviceProvider
-            .GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetsOperationService>>()
-            .Create(context.GameFileSystem.GameDirectory);
 
         ParallelOptions options = new()
         {
@@ -58,19 +53,21 @@ internal sealed partial class GamePackageService : IGamePackageService
         GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
         IProgress<GamePackageOperationReport> progress = progressFactory.CreateForMainThread<GamePackageOperationReport>(((GamePackageOperationViewModel)window.DataContext).HandleProgressUpdate);
 
+        GamePackageServiceContext serviceContext = new(operationContext, progress, options);
+
         await taskContext.SwitchToBackgroundAsync();
-        ValueTask operation = context.OperationKind switch
+        Func<GamePackageServiceContext, ValueTask> operation = operationContext.OperationKind switch
         {
-            GamePackageOperationKind.Install => InstallAsync(context, progress, options),
-            GamePackageOperationKind.Verify => VerifyAndRepairAsync(context, progress, options),
-            GamePackageOperationKind.Update => UpdateAsync(context, progress, options),
-            GamePackageOperationKind.Predownload => PredownloadAsync(context, progress, options),
-            _ => ValueTask.CompletedTask,
+            GamePackageOperationKind.Install => InstallAsync,
+            GamePackageOperationKind.Verify => VerifyAndRepairAsync,
+            GamePackageOperationKind.Update => UpdateAsync,
+            GamePackageOperationKind.Predownload => PredownloadAsync,
+            _ => context => ValueTask.CompletedTask,
         };
 
         try
         {
-            await operation.ConfigureAwait(false);
+            await operation(serviceContext).ConfigureAwait(false);
             return true;
         }
         catch (OperationCanceledException)
@@ -95,146 +92,118 @@ internal sealed partial class GamePackageService : IGamePackageService
         operationCts.Dispose();
         operationCts = null;
         operationTcs = null;
-        gamePackageOperationService = null;
     }
 
-    #region Operation
-
-    private async ValueTask InstallAsync(GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions options)
+    private async ValueTask InstallAsync(GamePackageServiceContext context)
     {
-        ArgumentNullException.ThrowIfNull(gamePackageOperationService);
-
-        if (await DecodeManifestsAsync(context.RemoteBranch, context, options.CancellationToken).ConfigureAwait(false) is not { } remoteBuild)
+        if (await DecodeManifestsAsync(context.Operation.RemoteBranch, context).ConfigureAwait(false) is not { } remoteBuild)
         {
-            progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
+            context.Progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
             return;
         }
 
         long totalBytes = remoteBuild.TotalBytes;
-        long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.GameFileSystem.GameDirectory);
+        long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.Operation.GameFileSystem.GameDirectory);
 
         if (totalBytes > availableBytes)
         {
             string title = $"磁盘空间不足，需要 {Converters.ToFileSizeString(totalBytes)}，剩余 {Converters.ToFileSizeString(availableBytes)}";
-            progress.Report(new GamePackageOperationReport.Reset(title));
+            context.Progress.Report(new GamePackageOperationReport.Reset(title));
             return;
         }
 
         int totalBlockCount = remoteBuild.TotalBlockCount;
-        progress.Report(new GamePackageOperationReport.Reset("正在安装游戏", totalBlockCount, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset("正在安装游戏", totalBlockCount, totalBytes));
 
-        await gamePackageOperationService.InstallAssetsAsync(remoteBuild, context, progress, options).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.InstallAssetsAsync(remoteBuild, context).ConfigureAwait(false);
 
-        await gamePackageOperationService.ExtractChannelSdkAsync(context, options.CancellationToken).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
-        // Verify
-        progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", totalBlockCount, totalBytes));
-        GamePackageIntegrityInfo info = await gamePackageOperationService.VerifyGamePackageIntegrityAsync(remoteBuild, context, progress, options).ConfigureAwait(false);
+        await VerifyAndRepairCoreAsync(context, remoteBuild, totalBytes, totalBlockCount).ConfigureAwait(false);
+    }
+
+    private async ValueTask VerifyAndRepairAsync(GamePackageServiceContext context)
+    {
+        if (await DecodeManifestsAsync(context.Operation.LocalBranch, context).ConfigureAwait(false) is not { } localBuild)
+        {
+            context.Progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
+            return;
+        }
+
+        context.Progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", localBuild.TotalBlockCount, localBuild.TotalBytes));
+
+        GamePackageIntegrityInfo info = await context.Operation.GameAssetsOperationService.VerifyGamePackageIntegrityAsync(localBuild, context).ConfigureAwait(false);
 
         if (info.NoConflict)
         {
-            Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
-            progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
+            context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind));
             return;
         }
 
-        (int conflictedBlocks, long conflictedBytes) = info.GetConflictedBlockCountAndByteCount(context.GameChannelSDK);
-        progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictedBlocks, conflictedBytes));
+        (int conflictBlocks, long conflictBytes) = info.GetConflictedBlockCountAndByteCount(context.Operation.GameChannelSDK);
+        context.Progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictBlocks, conflictBytes));
 
-        await gamePackageOperationService.RepairGamePackageAsync(info, context, progress, options, options.CancellationToken).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.RepairGamePackageAsync(info, context).ConfigureAwait(false);
 
-        Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
-        progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
+        Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
+        context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind, true));
     }
 
-    private async ValueTask VerifyAndRepairAsync(GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
+    private async ValueTask UpdateAsync(GamePackageServiceContext context)
     {
-        ArgumentNullException.ThrowIfNull(gamePackageOperationService);
-
-        if (await DecodeManifestsAsync(context.LocalBranch, context, token).ConfigureAwait(false) is not { } localBuild)
+        if (await DecodeManifestsAsync(context.Operation.LocalBranch, context).ConfigureAwait(false) is not { } localBuild ||
+            await DecodeManifestsAsync(context.Operation.RemoteBranch, context).ConfigureAwait(false) is not { } remoteBuild)
         {
-            progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
-            return;
-        }
-
-        progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", localBuild.TotalBlockCount, localBuild.TotalBytes));
-
-        GamePackageIntegrityInfo info = await gamePackageOperationService.VerifyGamePackageIntegrityAsync(localBuild, context, progress, parallelOptions, token).ConfigureAwait(false);
-
-        if (info.NoConflict)
-        {
-            progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
-            return;
-        }
-
-        (int conflictBlocks, long conflictBytes) = info.GetConflictedBlockCountAndByteCount(context.GameChannelSDK);
-        progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictBlocks, conflictBytes));
-
-        await gamePackageOperationService.RepairGamePackageAsync(info, context, progress, parallelOptions, token).ConfigureAwait(false);
-
-        Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
-        progress.Report(new GamePackageOperationReport.Finish(context.OperationKind, true));
-    }
-
-    private async ValueTask UpdateAsync(GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
-    {
-        ArgumentNullException.ThrowIfNull(gamePackageOperationService);
-
-        if (await DecodeManifestsAsync(context.LocalBranch, context, token).ConfigureAwait(false) is not { } localBuild ||
-            await DecodeManifestsAsync(context.RemoteBranch, context, token).ConfigureAwait(false) is not { } remoteBuild)
-        {
-            progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
+            context.Progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
             return;
         }
 
         List<SophonAssetOperation> diffAssets = GetSophonDiffAssets(localBuild, remoteBuild).ToList();
         diffAssets.SortBy(a => a.Type);
 
-        int totalBlocks = SumTotalBlocks(diffAssets);
-        long totalBytes = SumTotalBytes(diffAssets);
+        int totalBlocks = GetTotalBlocks(diffAssets);
+        long totalBytes = GetTotalBytes(diffAssets);
 
-        long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.GameFileSystem.GameDirectory);
+        long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.Operation.GameFileSystem.GameDirectory);
         if (totalBytes > availableBytes)
         {
             string title = $"磁盘空间不足，需要 {Converters.ToFileSizeString(totalBytes)}，剩余 {Converters.ToFileSizeString(availableBytes)}";
-            progress.Report(new GamePackageOperationReport.Reset(title));
+            context.Progress.Report(new GamePackageOperationReport.Reset(title));
             return;
         }
 
-        progress.Report(new GamePackageOperationReport.Reset("正在更新游戏", totalBlocks, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset("正在更新游戏", totalBlocks, totalBytes));
 
-        await gamePackageOperationService.UpdateDiffAssetsAsync(diffAssets, context, progress, parallelOptions).ConfigureAwait(false);
-        await gamePackageOperationService.ExtractChannelSdkAsync(context, token).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.UpdateDiffAssetsAsync(diffAssets, context).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
         // Verify
-        progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", remoteBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), remoteBuild.TotalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", remoteBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), remoteBuild.TotalBytes));
 
-        GamePackageIntegrityInfo info = await gamePackageOperationService.VerifyGamePackageIntegrityAsync(remoteBuild, context, progress, parallelOptions, token).ConfigureAwait(false);
+        GamePackageIntegrityInfo info = await context.Operation.GameAssetsOperationService.VerifyGamePackageIntegrityAsync(remoteBuild, context).ConfigureAwait(false);
 
         if (info.NoConflict)
         {
-            Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
-            progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
+            Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
+            context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind));
             return;
         }
 
-        (int conflictBlocks, long conflictBytes) = info.GetConflictedBlockCountAndByteCount(context.GameChannelSDK);
-        progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictBlocks, conflictBytes));
+        (int conflictBlocks, long conflictBytes) = info.GetConflictedBlockCountAndByteCount(context.Operation.GameChannelSDK);
+        context.Progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictBlocks, conflictBytes));
 
-        await gamePackageOperationService.RepairGamePackageAsync(info, context, progress, parallelOptions, token).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.RepairGamePackageAsync(info, context).ConfigureAwait(false);
 
-        Directory.Delete(context.GameFileSystem.ChunksDirectory, true);
-        progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
+        Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
+        context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind));
     }
 
-    private async ValueTask PredownloadAsync(GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default)
+    private async ValueTask PredownloadAsync(GamePackageServiceContext context)
     {
-        ArgumentNullException.ThrowIfNull(gamePackageOperationService);
-
-        if (await DecodeManifestsAsync(context.LocalBranch, context, token).ConfigureAwait(false) is not { } localBuild ||
-            await DecodeManifestsAsync(context.RemoteBranch, context, token).ConfigureAwait(false) is not { } remoteBuild)
+        if (await DecodeManifestsAsync(context.Operation.LocalBranch, context).ConfigureAwait(false) is not { } localBuild ||
+            await DecodeManifestsAsync(context.Operation.RemoteBranch, context).ConfigureAwait(false) is not { } remoteBuild)
         {
-            progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
+            context.Progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
             return;
         }
 
@@ -242,51 +211,47 @@ internal sealed partial class GamePackageService : IGamePackageService
         diffAssets.SortBy(a => a.Type);
 
         // Download
-        int totalBlocks = SumTotalBlocks(diffAssets);
-        long totalBytes = SumTotalBytes(diffAssets);
+        int totalBlocks = GetTotalBlocks(diffAssets);
+        long totalBytes = GetTotalBytes(diffAssets);
 
-        long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.GameFileSystem.GameDirectory);
+        long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.Operation.GameFileSystem.GameDirectory);
 
         if (totalBytes > availableBytes)
         {
             string title = $"磁盘空间不足，需要 {Converters.ToFileSizeString(totalBytes)}，剩余 {Converters.ToFileSizeString(availableBytes)}";
-            progress.Report(new GamePackageOperationReport.Reset(title));
+            context.Progress.Report(new GamePackageOperationReport.Reset(title));
             return;
         }
 
-        progress.Report(new GamePackageOperationReport.Reset("正在预下载资源", totalBlocks, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset("正在预下载资源", totalBlocks, totalBytes));
 
-        PredownloadStatus predownloadStatus = new(context.RemoteBranch.Tag, false, totalBlocks);
-        using (FileStream predownloadStatusStream = File.Create(context.GameFileSystem.PredownloadStatusPath))
+        PredownloadStatus predownloadStatus = new(context.Operation.RemoteBranch.Tag, false, totalBlocks);
+        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
         {
-            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, token).ConfigureAwait(false);
+            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, context.ParallelOptions.CancellationToken).ConfigureAwait(false);
         }
 
-        await gamePackageOperationService.PredownloadDiffAssetsAsync(diffAssets, context, progress, parallelOptions).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.PredownloadDiffAssetsAsync(diffAssets, context).ConfigureAwait(false);
 
-        progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
+        context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind));
 
-        using (FileStream predownloadStatusStream = File.Create(context.GameFileSystem.PredownloadStatusPath))
+        using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
         {
             predownloadStatus.Finished = true;
-            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, token).ConfigureAwait(false);
+            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, context.ParallelOptions.CancellationToken).ConfigureAwait(false);
         }
-
-        return;
     }
 
-    #endregion
-
-    #region Parse
-
-    private async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(BranchWrapper branch, GamePackageOperationContext context, CancellationToken token = default)
+    private async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(BranchWrapper branch, GamePackageServiceContext context)
     {
+        CancellationToken token = context.ParallelOptions.CancellationToken;
+
         Response<SophonBuild> response;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             ISophonClient client = scope.ServiceProvider
                 .GetRequiredService<IOverseaSupportFactory<ISophonClient>>()
-                .Create(LaunchScheme.ExecutableIsOversea(context.GameFileSystem.GameFileName));
+                .Create(LaunchScheme.ExecutableIsOversea(context.Operation.GameFileSystem.GameFileName));
 
             response = await client.GetBuildAsync(branch, token).ConfigureAwait(false);
         }
@@ -303,10 +268,10 @@ internal sealed partial class GamePackageService : IGamePackageService
             bool exclude = sophonManifest.MatchingField switch
             {
                 "game" => false,
-                "zh-cn" => !context.GameFileSystem.GameAudioSystem.Chinese,
-                "en-us" => !context.GameFileSystem.GameAudioSystem.English,
-                "ja-jp" => !context.GameFileSystem.GameAudioSystem.Japanese,
-                "ko-kr" => !context.GameFileSystem.GameAudioSystem.Korean,
+                "zh-cn" => !context.Operation.GameFileSystem.GameAudioSystem.Chinese,
+                "en-us" => !context.Operation.GameFileSystem.GameAudioSystem.English,
+                "ja-jp" => !context.Operation.GameFileSystem.GameAudioSystem.Japanese,
+                "ko-kr" => !context.Operation.GameFileSystem.GameAudioSystem.Korean,
                 _ => true,
             };
 
@@ -380,9 +345,29 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    #endregion
+    private static async ValueTask VerifyAndRepairCoreAsync(GamePackageServiceContext context, SophonDecodedBuild build, long totalBytes, int totalBlockCount)
+    {
+        // Verify
+        context.Progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", totalBlockCount, totalBytes));
+        GamePackageIntegrityInfo info = await context.Operation.GameAssetsOperationService.VerifyGamePackageIntegrityAsync(build, context).ConfigureAwait(false);
 
-    private static int SumTotalBlocks(List<SophonAssetOperation> diffAssets)
+        if (info.NoConflict)
+        {
+            Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
+            context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind));
+            return;
+        }
+
+        (int conflictedBlocks, long conflictedBytes) = info.GetConflictedBlockCountAndByteCount(context.Operation.GameChannelSDK);
+        context.Progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictedBlocks, conflictedBytes));
+
+        await context.Operation.GameAssetsOperationService.RepairGamePackageAsync(info, context).ConfigureAwait(false);
+
+        Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
+        context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind));
+    }
+
+    private static int GetTotalBlocks(List<SophonAssetOperation> diffAssets)
     {
         int totalBlocks = 0;
         foreach (ref readonly SophonAssetOperation diffAsset in CollectionsMarshal.AsSpan(diffAssets))
@@ -403,7 +388,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         return totalBlocks;
     }
 
-    private static long SumTotalBytes(List<SophonAssetOperation> diffAssets)
+    private static long GetTotalBytes(List<SophonAssetOperation> diffAssets)
     {
         long totalBytes = 0;
         foreach (ref readonly SophonAssetOperation diffAsset in CollectionsMarshal.AsSpan(diffAssets))
