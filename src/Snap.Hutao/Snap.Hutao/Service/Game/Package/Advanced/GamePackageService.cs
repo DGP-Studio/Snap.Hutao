@@ -19,7 +19,7 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 
-namespace Snap.Hutao.Service.Game.Package;
+namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IGamePackageService))]

@@ -4,7 +4,7 @@
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Service.Game.Scheme;
 
-namespace Snap.Hutao.Service.Game.Package;
+namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal readonly struct GameInstallOptions : IDeconstruct<GameFileSystem, LaunchScheme>
 {

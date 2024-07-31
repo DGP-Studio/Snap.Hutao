@@ -5,7 +5,7 @@ using CommunityToolkit.Common;
 using Microsoft.UI.Dispatching;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Service.Game.Package;
+using Snap.Hutao.Service.Game.Package.Advanced;
 using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Game;

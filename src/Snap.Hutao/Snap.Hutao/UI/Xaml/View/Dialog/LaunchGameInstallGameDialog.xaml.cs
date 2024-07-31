@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Package;
+using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Service.Notification;
 using System.IO;

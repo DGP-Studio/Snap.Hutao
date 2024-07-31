@@ -4,7 +4,7 @@
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 
-namespace Snap.Hutao.Service.Game.Package;
+namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal readonly struct GamePackageOperationContext
 {

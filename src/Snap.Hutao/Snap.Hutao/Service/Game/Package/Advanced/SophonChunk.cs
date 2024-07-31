@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 
-namespace Snap.Hutao.Service.Game.Package;
+namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal sealed class SophonChunk
 {

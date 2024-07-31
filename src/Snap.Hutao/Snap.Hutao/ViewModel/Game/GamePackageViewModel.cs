@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Package;
+using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;

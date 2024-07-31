@@ -13,7 +13,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 
-namespace Snap.Hutao.Service.Game.Package;
+namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 [ConstructorGenerated]
 internal abstract partial class GameAssetsOperationService : IGameAssetsOperationService
