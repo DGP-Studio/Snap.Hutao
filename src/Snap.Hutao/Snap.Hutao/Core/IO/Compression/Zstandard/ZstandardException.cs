@@ -20,6 +20,8 @@ internal sealed class ZstandardException : Exception
         ErrorCode = code;
     }
 
+    public nuint ErrorCode { get; set; }
+
     public static unsafe void ThrowIfNull(void* ptr, string message)
     {
         if (ptr is null)
@@ -35,6 +37,4 @@ internal sealed class ZstandardException : Exception
             throw new ZstandardException(code);
         }
     }
-
-    public nuint ErrorCode { get; set; }
 }

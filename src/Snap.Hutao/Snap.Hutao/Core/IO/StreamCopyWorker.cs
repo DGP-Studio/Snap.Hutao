@@ -7,10 +7,12 @@ using System.IO;
 
 namespace Snap.Hutao.Core.IO;
 
+internal delegate TStatus StreamCopyStatusFactory<TStatus>(long bytesReadSinceLastReport, long bytesReadSinceCopyStart);
+
 internal sealed class StreamCopyWorker : StreamCopyWorker<StreamCopyStatus>
 {
     public StreamCopyWorker(Stream source, Stream destination, long totalBytes, int bufferSize = 81920)
-        : base(source, destination, bytes => new StreamCopyStatus(bytes, totalBytes), bufferSize)
+        : base(source, destination, (lastReport, copyStart) => new StreamCopyStatus(lastReport, copyStart, totalBytes), bufferSize)
     {
     }
 }
@@ -21,16 +23,9 @@ internal class StreamCopyWorker<TStatus>
     private readonly Stream source;
     private readonly Stream destination;
     private readonly int bufferSize;
-    private readonly Func<long, TStatus> statusFactory;
+    private readonly StreamCopyStatusFactory<TStatus> statusFactory;
 
-    /// <summary>
-    /// 创建一个新的流复制器
-    /// </summary>
-    /// <param name="source">源</param>
-    /// <param name="destination">目标</param>
-    /// <param name="statusFactory">状态工厂</param>
-    /// <param name="bufferSize">字节尺寸</param>
-    public StreamCopyWorker(Stream source, Stream destination, Func<long, TStatus> statusFactory, int bufferSize = 81920)
+    public StreamCopyWorker(Stream source, Stream destination, StreamCopyStatusFactory<TStatus> statusFactory, int bufferSize = 81920)
     {
         Verify.Operation(source.CanRead, "Source Stream can't read");
         Verify.Operation(destination.CanWrite, "Destination Stream can't write");
@@ -41,16 +36,13 @@ internal class StreamCopyWorker<TStatus>
         this.bufferSize = bufferSize;
     }
 
-    /// <summary>
-    /// 异步复制
-    /// </summary>
-    /// <param name="progress">进度</param>
-    /// <returns>任务</returns>
     public async ValueTask CopyAsync(IProgress<TStatus> progress)
     {
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
 
-        long totalBytesRead = 0;
+        long bytesReadSinceCopyStart = 0;
+        long bytesReadSinceLastReport = 0;
+
         int bytesRead;
 
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(bufferSize))
@@ -62,16 +54,19 @@ internal class StreamCopyWorker<TStatus>
                 bytesRead = await source.ReadAsync(buffer).ConfigureAwait(false);
                 if (bytesRead is 0)
                 {
-                    progress.Report(statusFactory(totalBytesRead));
+                    progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
                     break;
                 }
 
                 await destination.WriteAsync(buffer[..bytesRead]).ConfigureAwait(false);
 
-                totalBytesRead += bytesRead;
+                bytesReadSinceCopyStart += bytesRead;
+                bytesReadSinceLastReport += bytesRead;
+
                 if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000)
                 {
-                    progress.Report(statusFactory(totalBytesRead));
+                    progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
+                    bytesReadSinceLastReport = 0;
                     stopwatch = ValueStopwatch.StartNew();
                 }
             }

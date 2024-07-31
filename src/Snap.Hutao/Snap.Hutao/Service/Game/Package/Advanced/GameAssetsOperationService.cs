@@ -224,7 +224,7 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
                     {
                         using (Stream webStream = await httpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl, token).ConfigureAwait(false))
                         {
-                            StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, bytesRead => new GamePackageOperationReport.Update(bytesRead, 0));
+                            StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Update(bytesRead, 0));
 
                             await worker.CopyAsync(progress).ConfigureAwait(false);
 
