@@ -11,13 +11,9 @@ internal interface IGameAssetsOperationService
 
     ValueTask RepairGamePackageAsync(GamePackageIntegrityInfo info, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, CancellationToken token = default);
 
-    ValueTask UpdateModifiedAssetsAsync(List<SophonModifiedAsset> modifiedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
+    ValueTask UpdateDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
 
-    ValueTask PredownloadAddedAssetsAsync(List<SophonAsset> addedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
-
-    ValueTask PredownloadModifiedAssetsAsync(List<SophonModifiedAsset> modifiedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
-
-    ValueTask AddAssetsAsync(IEnumerable<SophonAsset> newAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
+    ValueTask PredownloadDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions);
 
     ValueTask ExtractChannelSdkAsync(GamePackageOperationContext context, CancellationToken token = default);
 }

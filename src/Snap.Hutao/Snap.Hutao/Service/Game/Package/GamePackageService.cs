@@ -17,6 +17,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using Snap.Hutao.Web.Response;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game.Package;
 
@@ -186,13 +187,13 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        ParseDiff(localBuild, remoteBuild, out List<SophonAsset> addedAssets, out List<SophonModifiedAsset> modifiedAssets, out List<AssetProperty> deletedAssets);
+        List<SophonAssetOperation> diffAssets = GetSophonDiffAssets(localBuild, remoteBuild).ToList();
+        diffAssets.SortBy(a => a.Type);
 
-        int totalBlocks = addedAssets.Sum(a => a.AssetProperty.AssetChunks.Count) + modifiedAssets.Sum(a => a.DiffChunks.Count);
-        long totalBytes = addedAssets.Sum(a => a.AssetProperty.AssetSize) + modifiedAssets.Sum(a => a.DiffChunks.Sum(c => c.AssetChunk.ChunkSizeDecompressed));
+        int totalBlocks = SumTotalBlocks(diffAssets);
+        long totalBytes = SumTotalBytes(diffAssets);
 
         long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.GameFileSystem.GameDirectory);
-
         if (totalBytes > availableBytes)
         {
             string title = $"磁盘空间不足，需要 {Converters.ToFileSizeString(totalBytes)}，剩余 {Converters.ToFileSizeString(availableBytes)}";
@@ -202,30 +203,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         progress.Report(new GamePackageOperationReport.Reset("正在更新游戏", totalBlocks, totalBytes));
 
-        // Added
-        await gamePackageOperationService.AddAssetsAsync(addedAssets, context, progress, parallelOptions).ConfigureAwait(false);
-
-        // Modified
-        // 内容未发生变化但是偏移量发生变化的块，从旧asset读取并写入新asset流
-        // 内容发生变化的块直接读取diff chunk写入新asset流
-        await gamePackageOperationService.UpdateModifiedAssetsAsync(modifiedAssets, context, progress, parallelOptions).ConfigureAwait(false);
-
-        // Deleted
-        foreach (AssetProperty asset in deletedAssets)
-        {
-            string assetPath = Path.Combine(context.GameFileSystem.GameDirectory, asset.AssetName);
-
-            if (asset.AssetType is 64)
-            {
-                Directory.Delete(assetPath, true);
-            }
-
-            if (File.Exists(assetPath))
-            {
-                File.Delete(assetPath);
-            }
-        }
-
+        await gamePackageOperationService.UpdateDiffAssetsAsync(diffAssets, context, progress, parallelOptions).ConfigureAwait(false);
         await gamePackageOperationService.ExtractChannelSdkAsync(context, token).ConfigureAwait(false);
 
         // Verify
@@ -260,12 +238,12 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        // 和Update相比不需要处理delete，不需要Combine
-        ParseDiff(localBuild, remoteBuild, out List<SophonAsset> addedAssets, out List<SophonModifiedAsset> modifiedAssets, out _);
+        List<SophonAssetOperation> diffAssets = GetSophonDiffAssets(localBuild, remoteBuild).ToList();
+        diffAssets.SortBy(a => a.Type);
 
         // Download
-        int totalBlocks = addedAssets.Sum(a => a.AssetProperty.AssetChunks.Count) + modifiedAssets.Sum(a => a.DiffChunks.Count);
-        long totalBytes = addedAssets.Sum(a => a.AssetProperty.AssetSize) + modifiedAssets.Sum(a => a.DiffChunks.Sum(c => c.AssetChunk.ChunkSizeDecompressed));
+        int totalBlocks = SumTotalBlocks(diffAssets);
+        long totalBytes = SumTotalBytes(diffAssets);
 
         long availableBytes = LogicalDriver.GetAvailableFreeSpace(context.GameFileSystem.GameDirectory);
 
@@ -284,11 +262,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, token).ConfigureAwait(false);
         }
 
-        // Added
-        await gamePackageOperationService.PredownloadAddedAssetsAsync(addedAssets, context, progress, parallelOptions).ConfigureAwait(false);
-
-        // Modified
-        await gamePackageOperationService.PredownloadModifiedAssetsAsync(modifiedAssets, context, progress, parallelOptions).ConfigureAwait(false);
+        await gamePackageOperationService.PredownloadDiffAssetsAsync(diffAssets, context, progress, parallelOptions).ConfigureAwait(false);
 
         progress.Report(new GamePackageOperationReport.Finish(context.OperationKind));
 
@@ -344,7 +318,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             totalBytes += sophonManifest.Stats.UncompressedSize;
             string manifestDownloadUrl = $"{sophonManifest.ManifestDownload.UrlPrefix}/{sophonManifest.Manifest.Id}";
 
-            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GameAssetsOperationServiceSSD)))
+            using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GamePackageService)))
             {
                 using (Stream rawManifestStream = await httpClient.GetStreamAsync(manifestDownloadUrl, token).ConfigureAwait(false))
                 {
@@ -367,31 +341,15 @@ internal sealed partial class GamePackageService : IGamePackageService
         return new(totalBytes, decodedManifests);
     }
 
-    private static void ParseDiff(SophonDecodedBuild localDecodedBuild, SophonDecodedBuild remoteDecodedBuild, out List<SophonAsset> addedAssets, out List<SophonModifiedAsset> modifiedAssets, out List<AssetProperty> deletedAssets)
+    private static IEnumerable<SophonAssetOperation> GetSophonDiffAssets(SophonDecodedBuild localDecodedBuild, SophonDecodedBuild remoteDecodedBuild)
     {
-        addedAssets = [];
-        modifiedAssets = [];
-        deletedAssets = [];
-
-        // Add
-        // 本地没有，远端有
-        foreach ((SophonDecodedManifest localManifest, SophonDecodedManifest remoteManifest) in localDecodedBuild.Manifests.Zip(remoteDecodedBuild.Manifests))
-        {
-            foreach (SophonAsset sophonAsset in remoteManifest.ManifestProto.Assets.Except(localManifest.ManifestProto.Assets, AssetPropertyNameComparer.Shared).Select(ap => new SophonAsset(remoteManifest.UrlPrefix, ap)))
-            {
-                addedAssets.Add(sophonAsset);
-            }
-        }
-
-        // Modify
-        // 本地有，远端有，但是内容不一致
         foreach ((SophonDecodedManifest localManifest, SophonDecodedManifest remoteManifest) in localDecodedBuild.Manifests.Zip(remoteDecodedBuild.Manifests))
         {
             foreach (AssetProperty asset in remoteManifest.ManifestProto.Assets)
             {
-                AssetProperty? localAsset = localManifest.ManifestProto.Assets.FirstOrDefault(a => a.AssetName.Equals(asset.AssetName, StringComparison.OrdinalIgnoreCase));
-                if (localAsset is null)
+                if (localManifest.ManifestProto.Assets.FirstOrDefault(a => a.AssetName.Equals(asset.AssetName, StringComparison.OrdinalIgnoreCase)) is not { } localAsset)
                 {
+                    yield return SophonAssetOperation.AddOrRepair(remoteManifest.UrlPrefix, asset);
                     continue;
                 }
 
@@ -400,21 +358,69 @@ internal sealed partial class GamePackageService : IGamePackageService
                     continue;
                 }
 
-                modifiedAssets.Add(new(
-                    remoteManifest.UrlPrefix,
-                    localAsset,
-                    asset,
-                    asset.AssetChunks.Except(localAsset.AssetChunks, AssetChunkMd5Comparer.Shared).Select(ac => new SophonChunk(remoteManifest.UrlPrefix, ac)).ToList()));
-            }
-        }
+                List<SophonChunk> diffChunks = [];
+                foreach (AssetChunk chunk in asset.AssetChunks)
+                {
+                    if (localAsset.AssetChunks.SingleOrDefault(c => c.ChunkDecompressedHashMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase)) is null)
+                    {
+                        diffChunks.Add(new(remoteManifest.UrlPrefix, chunk));
+                    }
+                }
 
-        // Delete
-        // 本地有，远端没有
-        foreach ((SophonDecodedManifest localManifest, SophonDecodedManifest remoteManifest) in localDecodedBuild.Manifests.Zip(remoteDecodedBuild.Manifests))
-        {
-            localManifest.ManifestProto.Assets.Except(remoteManifest.ManifestProto.Assets, AssetPropertyNameComparer.Shared).ToList().ForEach(deletedAssets.Add);
+                yield return SophonAssetOperation.Modify(remoteManifest.UrlPrefix, localAsset, asset, diffChunks);
+            }
+
+            foreach (AssetProperty localAsset in localManifest.ManifestProto.Assets)
+            {
+                if (remoteManifest.ManifestProto.Assets.FirstOrDefault(a => a.AssetName.Equals(localAsset.AssetName, StringComparison.OrdinalIgnoreCase)) is null)
+                {
+                    yield return SophonAssetOperation.Delete(localAsset);
+                }
+            }
         }
     }
 
     #endregion
+
+    private static int SumTotalBlocks(List<SophonAssetOperation> diffAssets)
+    {
+        int totalBlocks = 0;
+        foreach (ref readonly SophonAssetOperation diffAsset in CollectionsMarshal.AsSpan(diffAssets))
+        {
+            switch (diffAsset.Type)
+            {
+                case SophonAssetOperationType.AddOrRepair:
+                    totalBlocks += diffAsset.NewAsset.AssetChunks.Count;
+                    break;
+                case SophonAssetOperationType.Modify:
+                    totalBlocks += diffAsset.DiffChunks.Count;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return totalBlocks;
+    }
+
+    private static long SumTotalBytes(List<SophonAssetOperation> diffAssets)
+    {
+        long totalBytes = 0;
+        foreach (ref readonly SophonAssetOperation diffAsset in CollectionsMarshal.AsSpan(diffAssets))
+        {
+            switch (diffAsset.Type)
+            {
+                case SophonAssetOperationType.AddOrRepair:
+                    totalBytes += diffAsset.NewAsset.AssetSize;
+                    break;
+                case SophonAssetOperationType.Modify:
+                    totalBytes += diffAsset.DiffChunks.Sum(c => c.AssetChunk.ChunkSizeDecompressed);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return totalBytes;
+    }
 }

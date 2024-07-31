@@ -17,52 +17,49 @@ internal sealed partial class GameAssetsOperationServiceSSD : GameAssetsOperatio
     {
         await Parallel.ForEachAsync(remoteBuild.Manifests, options, async (manifest, token) =>
         {
-            IEnumerable<SophonAsset> assets = manifest.ManifestProto.Assets.Select(asset => new SophonAsset(manifest.UrlPrefix, asset));
-            await AddAssetsAsync(assets, context, progress, options).ConfigureAwait(false);
+            IEnumerable<SophonAssetOperation> assets = manifest.ManifestProto.Assets.Select(asset => SophonAssetOperation.AddOrRepair(manifest.UrlPrefix, asset));
+            await Parallel.ForEachAsync(assets, options, (asset, token) => DownloadAndMergeAssetAsync(asset, context, progress, options)).ConfigureAwait(false);
         }).ConfigureAwait(false);
     }
 
-    public override async ValueTask UpdateModifiedAssetsAsync(List<SophonModifiedAsset> modifiedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
+    public override async ValueTask UpdateDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
     {
-        await Parallel.ForEachAsync(modifiedAssets, parallelOptions, async (asset, token) =>
+        await Parallel.ForEachAsync(diffAssets, parallelOptions, (asset, token) => asset.Type switch
         {
-            await DownloadChunksAsync(asset.DiffChunks, context, progress, parallelOptions).ConfigureAwait(false);
-            await MergeDiffAssetAsync(asset, context, token).ConfigureAwait(false);
+            SophonAssetOperationType.AddOrRepair or SophonAssetOperationType.Modify => DownloadAndMergeAssetAsync(asset, context, progress, parallelOptions),
+            SophonAssetOperationType.Delete => DeleteAssetsAsync(diffAssets.Select(a => a.OldAsset), context),
+            _ => ValueTask.CompletedTask,
         }).ConfigureAwait(false);
     }
 
-    public override async ValueTask PredownloadAddedAssetsAsync(List<SophonAsset> addedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
+    public override async ValueTask PredownloadDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
     {
-        await Parallel.ForEachAsync(addedAssets, parallelOptions, (asset, token) => DownloadChunksAsync(asset.AssetProperty.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)), context, progress, parallelOptions)).ConfigureAwait(false);
+        await Parallel.ForEachAsync(diffAssets, parallelOptions, (asset, token) =>
+        {
+            IEnumerable<SophonChunk> chunks = asset.Type switch
+            {
+                SophonAssetOperationType.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)),
+                SophonAssetOperationType.Modify => asset.DiffChunks,
+                _ => [],
+            };
+
+            return DownloadChunksAsync(chunks, context, progress, parallelOptions);
+        }).ConfigureAwait(false);
     }
 
-    public override async ValueTask PredownloadModifiedAssetsAsync(List<SophonModifiedAsset> modifiedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
-    {
-        await Parallel.ForEachAsync(modifiedAssets, parallelOptions, (asset, token) => DownloadChunksAsync(asset.DiffChunks, context, progress, parallelOptions)).ConfigureAwait(false);
-    }
-
-    public override async ValueTask AddAssetsAsync(IEnumerable<SophonAsset> newAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
-    {
-        await Parallel.ForEachAsync(newAssets, parallelOptions, (asset, token) => AddNewAssetAsync(asset, context, progress, parallelOptions)).ConfigureAwait(false);
-    }
-
-    protected override async ValueTask VerifyManifestsAsync(SophonDecodedBuild build, List<SophonAsset> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
+    protected override async ValueTask VerifyManifestsAsync(SophonDecodedBuild build, List<SophonAssetOperation> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
     {
         await Parallel.ForEachAsync(build.Manifests, parallelOptions, (manifest, token) => VerifyManifestAsync(manifest, conflictedAssets, context, progress, parallelOptions)).ConfigureAwait(false);
     }
 
-    protected override async ValueTask VerifyManifestAsync(SophonDecodedManifest manifest, List<SophonAsset> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
+    protected override async ValueTask VerifyManifestAsync(SophonDecodedManifest manifest, List<SophonAssetOperation> conflictedAssets, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
     {
         await Parallel.ForEachAsync(manifest.ManifestProto.Assets, parallelOptions, (asset, token) => VerifyAssetAsync(new(manifest.UrlPrefix, asset), conflictedAssets, context, progress, token)).ConfigureAwait(false);
     }
 
     protected override async ValueTask RepairAssetsAsync(GamePackageIntegrityInfo info, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
     {
-        await Parallel.ForEachAsync(info.ConflictedAssets, parallelOptions, async (asset, token) =>
-        {
-            await DownloadChunksAsync(asset.AssetProperty.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)), context, progress, parallelOptions).ConfigureAwait(false);
-            await MergeAssetAsync(asset.AssetProperty, context, parallelOptions).ConfigureAwait(false);
-        }).ConfigureAwait(false);
+        await Parallel.ForEachAsync(info.ConflictedAssets, parallelOptions, (asset, token) => DownloadAndMergeAssetAsync(asset, context, progress, parallelOptions)).ConfigureAwait(false);
     }
 
     protected override async ValueTask DownloadChunksAsync(IEnumerable<SophonChunk> sophonChunks, GamePackageOperationContext context, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
@@ -70,7 +67,7 @@ internal sealed partial class GameAssetsOperationServiceSSD : GameAssetsOperatio
         await Parallel.ForEachAsync(sophonChunks, parallelOptions, (chunk, token) => DownloadChunkAsync(chunk, context, progress, token)).ConfigureAwait(false);
     }
 
-    protected override async ValueTask MergeAssetAsync(AssetProperty assetProperty, GamePackageOperationContext context, ParallelOptions parallelOptions)
+    protected override async ValueTask MergeNewAssetAsync(AssetProperty assetProperty, GamePackageOperationContext context, ParallelOptions parallelOptions)
     {
         string path = Path.Combine(context.GameFileSystem.GameDirectory, assetProperty.AssetName);
         string? directory = Path.GetDirectoryName(path);
