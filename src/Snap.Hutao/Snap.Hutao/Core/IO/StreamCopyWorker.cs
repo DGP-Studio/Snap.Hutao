@@ -36,7 +36,7 @@ internal class StreamCopyWorker<TStatus>
         this.bufferSize = bufferSize;
     }
 
-    public async ValueTask CopyAsync(IProgress<TStatus> progress)
+    public async ValueTask CopyAsync(IProgress<TStatus> progress, CancellationToken token = default)
     {
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
 
@@ -51,14 +51,14 @@ internal class StreamCopyWorker<TStatus>
 
             do
             {
-                bytesRead = await source.ReadAsync(buffer).ConfigureAwait(false);
+                bytesRead = await source.ReadAsync(buffer, token).ConfigureAwait(false);
                 if (bytesRead is 0)
                 {
                     progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
                     break;
                 }
 
-                await destination.WriteAsync(buffer[..bytesRead]).ConfigureAwait(false);
+                await destination.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(false);
 
                 bytesReadSinceCopyStart += bytesRead;
                 bytesReadSinceLastReport += bytesRead;

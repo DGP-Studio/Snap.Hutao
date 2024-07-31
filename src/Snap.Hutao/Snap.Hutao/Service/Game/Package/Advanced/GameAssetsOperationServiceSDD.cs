@@ -80,13 +80,18 @@ internal sealed partial class GameAssetsOperationServiceSSD : GameAssetsOperatio
         }
     }
 
-    private static async ValueTask MergeChunkIntoAssetAsync(SafeFileHandle fileHandle, AssetChunk chunk, GamePackageOperationContext context, CancellationToken token = default)
+    private async ValueTask MergeChunkIntoAssetAsync(SafeFileHandle fileHandle, AssetChunk chunk, GamePackageOperationContext context, CancellationToken token = default)
     {
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
         {
             Memory<byte> buffer = memoryOwner.Memory;
 
             string chunkPath = Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName);
+            if (!File.Exists(chunkPath))
+            {
+                return;
+            }
+
             using (FileStream chunkFile = File.OpenRead(chunkPath))
             {
                 using (ZstandardDecompressionStream decompressionStream = new(chunkFile))

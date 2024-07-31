@@ -104,6 +104,11 @@ internal sealed partial class GameAssetsOperationServiceHDD : GameAssetsOperatio
                 foreach (AssetChunk chunk in assetProperty.AssetChunks)
                 {
                     string chunkPath = Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName);
+                    if (!File.Exists(chunkPath))
+                    {
+                        continue;
+                    }
+
                     using (FileStream chunkFile = File.OpenRead(chunkPath))
                     {
                         using (ZstandardDecompressionStream decompressionStream = new(chunkFile))

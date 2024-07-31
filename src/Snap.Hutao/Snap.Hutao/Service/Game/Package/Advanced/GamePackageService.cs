@@ -361,7 +361,7 @@ internal sealed partial class GamePackageService : IGamePackageService
                 List<SophonChunk> diffChunks = [];
                 foreach (AssetChunk chunk in asset.AssetChunks)
                 {
-                    if (localAsset.AssetChunks.SingleOrDefault(c => c.ChunkDecompressedHashMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase)) is null)
+                    if (localAsset.AssetChunks.FirstOrDefault(c => c.ChunkDecompressedHashMd5.Equals(chunk.ChunkDecompressedHashMd5, StringComparison.OrdinalIgnoreCase)) is null)
                     {
                         diffChunks.Add(new(remoteManifest.UrlPrefix, chunk));
                     }

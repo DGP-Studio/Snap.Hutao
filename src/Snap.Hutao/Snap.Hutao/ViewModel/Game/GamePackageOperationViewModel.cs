@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
-using Microsoft.UI.Dispatching;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.Game.Package.Advanced;
@@ -16,7 +15,6 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 {
     private const string UnknownRemainingTime = "--:--:--";
 
-    private readonly DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
     private readonly object syncRoot = new();
 
     private readonly IGamePackageService gamePackageService;
@@ -78,16 +76,13 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
             {
                 if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000)
                 {
-                    dispatcherQueue.TryEnqueue(() =>
-                    {
-                        Speed = $"{Converters.ToFileSizeString(totalBytesReadPerSecond),8}/s";
-                        RemainingTime = totalBytesReadPerSecond == 0
-                            ? UnknownRemainingTime
-                            : TimeSpan.FromSeconds((double)(contentLength - totalBytesRead) / totalBytesReadPerSecond).ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
+                    Speed = $"{Converters.ToFileSizeString(totalBytesReadPerSecond),8}/s";
+                    RemainingTime = totalBytesReadPerSecond == 0
+                        ? UnknownRemainingTime
+                        : TimeSpan.FromSeconds((double)(contentLength - totalBytesRead) / totalBytesReadPerSecond).ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
 
-                        totalBytesReadPerSecond = 0;
-                        RefreshUI();
-                    });
+                    totalBytesReadPerSecond = 0;
+                    RefreshUI();
 
                     stopwatch = ValueStopwatch.StartNew();
                 }
@@ -99,33 +94,27 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     {
         stopwatch = ValueStopwatch.StartNew();
 
-        dispatcherQueue.TryEnqueue(() =>
-        {
-            finishedBlocks = 0;
-            totalBytesRead = 0;
-            totalBytesReadPerSecond = 0;
-            totalBlocks = reset.TotalBlocks;
-            contentLength = reset.ContentLength;
-            Title = reset.Title;
-            RefreshUI();
-        });
+        finishedBlocks = 0;
+        totalBytesRead = 0;
+        totalBytesReadPerSecond = 0;
+        totalBlocks = reset.TotalBlocks;
+        contentLength = reset.ContentLength;
+        Title = reset.Title;
+        RefreshUI();
     }
 
     private void FinishProgress(GamePackageOperationReport.Finish finish)
     {
-        dispatcherQueue.TryEnqueue(() =>
+        Title = finish.OperationKind switch
         {
-            Title = finish.OperationKind switch
-            {
-                GamePackageOperationKind.Install => "安装完成",
-                GamePackageOperationKind.Verify => finish.Repaired ? "修复完成" : "游戏完整，无需修复",
-                GamePackageOperationKind.Update => "更新完成",
-                GamePackageOperationKind.Predownload => "预下载完成",
-                _ => throw HutaoException.NotSupported(),
-            };
+            GamePackageOperationKind.Install => "安装完成",
+            GamePackageOperationKind.Verify => finish.Repaired ? "修复完成" : "游戏完整，无需修复",
+            GamePackageOperationKind.Update => "更新完成",
+            GamePackageOperationKind.Predownload => "预下载完成",
+            _ => throw HutaoException.NotSupported(),
+        };
 
-            RefreshUI();
-        });
+        RefreshUI();
     }
 
     private void RefreshUI()
@@ -142,10 +131,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     {
         gamePackageService.CancelOperationAsync().SafeForget();
         forceFinished = true;
-        dispatcherQueue.TryEnqueue(() =>
-        {
-            Title = "已取消";
-            OnPropertyChanged(nameof(IsFinished));
-        });
+        Title = "已取消";
+        OnPropertyChanged(nameof(IsFinished));
     }
 }

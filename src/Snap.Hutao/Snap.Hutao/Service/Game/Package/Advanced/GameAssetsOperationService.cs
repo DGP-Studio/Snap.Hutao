@@ -226,7 +226,7 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
                         {
                             StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Update(bytesRead, 0));
 
-                            await worker.CopyAsync(progress).ConfigureAwait(false);
+                            await worker.CopyAsync(progress, token).ConfigureAwait(false);
 
                             fileStream.Position = 0;
                             string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
@@ -275,14 +275,21 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
                     AssetChunk? oldChunk = modifiedAsset.OldAsset.AssetChunks.FirstOrDefault(c => c.ChunkDecompressedHashMd5 == chunk.ChunkDecompressedHashMd5);
                     if (oldChunk is null)
                     {
-                        using (FileStream diffStream = File.OpenRead(Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName)))
+                        string chunkPath = Path.Combine(context.GameFileSystem.ChunksDirectory, chunk.ChunkName);
+                        if (!File.Exists(chunkPath))
+                        {
+                            continue;
+                        }
+
+                        using (FileStream diffStream = File.OpenRead(chunkPath))
                         {
                             using (ZstandardDecompressionStream decompressionStream = new(diffStream))
                             {
                                 await decompressionStream.CopyToAsync(newAssetStream, token).ConfigureAwait(false);
-                                continue;
                             }
                         }
+
+                        continue;
                     }
 
                     using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
