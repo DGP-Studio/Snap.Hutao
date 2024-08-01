@@ -74,13 +74,13 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         ArgumentNullException.ThrowIfNull(directory);
         Directory.CreateDirectory(directory);
 
-        using (SafeFileHandle fileHandle = File.OpenHandle(path, FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: 32 * 1024))
+        using (SafeFileHandle fileHandle = File.OpenHandle(path, FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: assetProperty.AssetSize))
         {
             await Parallel.ForEachAsync(assetProperty.AssetChunks, context.ParallelOptions, (chunk, token) => MergeChunkIntoAssetAsync(fileHandle, chunk, context)).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask MergeChunkIntoAssetAsync(SafeFileHandle fileHandle, AssetChunk chunk, GamePackageServiceContext context)
+    private static async ValueTask MergeChunkIntoAssetAsync(SafeFileHandle fileHandle, AssetChunk chunk, GamePackageServiceContext context)
     {
         CancellationToken token = context.ParallelOptions.CancellationToken;
 

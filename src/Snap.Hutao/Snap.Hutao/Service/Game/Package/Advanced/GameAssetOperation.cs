@@ -270,7 +270,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         using (MemoryStream newAssetStream = memoryStreamFactory.GetStream())
         {
             string oldAssetPath = Path.Combine(context.Operation.GameFileSystem.GameDirectory, asset.OldAsset.AssetName);
-            using (SafeFileHandle oldAssetHandle = File.OpenHandle(oldAssetPath, FileMode.Open, FileAccess.Read, FileShare.None))
+            using (SafeFileHandle oldAssetHandle = File.OpenHandle(oldAssetPath, options: FileOptions.RandomAccess))
             {
                 foreach (AssetChunk chunk in asset.NewAsset.AssetChunks)
                 {
