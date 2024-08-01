@@ -15,4 +15,6 @@ internal readonly struct GamePackageServiceContext
         Progress = progress;
         ParallelOptions = parallelOptions;
     }
+
+    public CancellationToken CancellationToken { get => ParallelOptions.CancellationToken; }
 }

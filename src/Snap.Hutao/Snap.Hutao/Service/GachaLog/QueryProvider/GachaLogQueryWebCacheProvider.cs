@@ -65,12 +65,10 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
                 return new(false, GachaLogQuery.Invalid(SH.FormatServiceGachaLogUrlProviderCachePathNotFound(cacheFile)));
             }
 
-            // TODO: prevent allocation there
             using (FileStream fileStream = new(file.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                using (MemoryStream memoryStream = memoryStreamFactory.GetStream())
+                using (MemoryStream memoryStream = await memoryStreamFactory.GetStreamAsync(fileStream).ConfigureAwait(false))
                 {
-                    await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
                     string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData, StringComparison.Ordinal));
 
                     if (string.IsNullOrEmpty(result))

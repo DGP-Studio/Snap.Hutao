@@ -5,15 +5,15 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal interface IGameAssetsOperationService
 {
-    ValueTask InstallAssetsAsync(SophonDecodedBuild remoteBuild, GamePackageServiceContext context);
+    ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild);
 
-    ValueTask<GamePackageIntegrityInfo> VerifyGamePackageIntegrityAsync(SophonDecodedBuild build, GamePackageServiceContext context);
+    ValueTask<GamePackageIntegrityInfo> VerifyGamePackageIntegrityAsync(GamePackageServiceContext context, SophonDecodedBuild build);
 
-    ValueTask RepairGamePackageAsync(GamePackageIntegrityInfo info, GamePackageServiceContext context);
+    ValueTask RepairGamePackageAsync(GamePackageServiceContext context, GamePackageIntegrityInfo info);
 
-    ValueTask UpdateDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageServiceContext context);
+    ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets);
 
-    ValueTask PredownloadDiffAssetsAsync(List<SophonAssetOperation> diffAssets, GamePackageServiceContext context);
+    ValueTask PredownloadDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets);
 
     ValueTask EnsureChannelSdkAsync(GamePackageServiceContext context);
 }

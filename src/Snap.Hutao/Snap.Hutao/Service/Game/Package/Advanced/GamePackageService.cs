@@ -115,7 +115,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         int totalBlockCount = remoteBuild.TotalBlockCount;
         context.Progress.Report(new GamePackageOperationReport.Reset("正在安装游戏", totalBlockCount, totalBytes));
 
-        await context.Operation.GameAssetsOperationService.InstallAssetsAsync(remoteBuild, context).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.InstallAssetsAsync(context, remoteBuild).ConfigureAwait(false);
 
         await context.Operation.GameAssetsOperationService.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
@@ -132,7 +132,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         context.Progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", localBuild.TotalBlockCount, localBuild.TotalBytes));
 
-        GamePackageIntegrityInfo info = await context.Operation.GameAssetsOperationService.VerifyGamePackageIntegrityAsync(localBuild, context).ConfigureAwait(false);
+        GamePackageIntegrityInfo info = await context.Operation.GameAssetsOperationService.VerifyGamePackageIntegrityAsync(context, localBuild).ConfigureAwait(false);
 
         if (info.NoConflict)
         {
@@ -143,7 +143,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         (int conflictBlocks, long conflictBytes) = info.GetConflictedBlockCountAndByteCount(context.Operation.GameChannelSDK);
         context.Progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictBlocks, conflictBytes));
 
-        await context.Operation.GameAssetsOperationService.RepairGamePackageAsync(info, context).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.RepairGamePackageAsync(context, info).ConfigureAwait(false);
 
         Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind, true));
@@ -174,13 +174,13 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         context.Progress.Report(new GamePackageOperationReport.Reset("正在更新游戏", totalBlocks, totalBytes));
 
-        await context.Operation.GameAssetsOperationService.UpdateDiffAssetsAsync(diffAssets, context).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
         await context.Operation.GameAssetsOperationService.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
         // Verify
         context.Progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", remoteBuild.Manifests.Sum(m => m.ManifestProto.Assets.Sum(a => a.AssetChunks.Count)), remoteBuild.TotalBytes));
 
-        GamePackageIntegrityInfo info = await context.Operation.GameAssetsOperationService.VerifyGamePackageIntegrityAsync(remoteBuild, context).ConfigureAwait(false);
+        GamePackageIntegrityInfo info = await context.Operation.GameAssetsOperationService.VerifyGamePackageIntegrityAsync(context, remoteBuild).ConfigureAwait(false);
 
         if (info.NoConflict)
         {
@@ -192,7 +192,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         (int conflictBlocks, long conflictBytes) = info.GetConflictedBlockCountAndByteCount(context.Operation.GameChannelSDK);
         context.Progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictBlocks, conflictBytes));
 
-        await context.Operation.GameAssetsOperationService.RepairGamePackageAsync(info, context).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.RepairGamePackageAsync(context, info).ConfigureAwait(false);
 
         Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind));
@@ -231,7 +231,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, context.ParallelOptions.CancellationToken).ConfigureAwait(false);
         }
 
-        await context.Operation.GameAssetsOperationService.PredownloadDiffAssetsAsync(diffAssets, context).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.PredownloadDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind));
 
@@ -349,7 +349,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         // Verify
         context.Progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", totalBlockCount, totalBytes));
-        GamePackageIntegrityInfo info = await context.Operation.GameAssetsOperationService.VerifyGamePackageIntegrityAsync(build, context).ConfigureAwait(false);
+        GamePackageIntegrityInfo info = await context.Operation.GameAssetsOperationService.VerifyGamePackageIntegrityAsync(context, build).ConfigureAwait(false);
 
         if (info.NoConflict)
         {
@@ -361,7 +361,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         (int conflictedBlocks, long conflictedBytes) = info.GetConflictedBlockCountAndByteCount(context.Operation.GameChannelSDK);
         context.Progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictedBlocks, conflictedBytes));
 
-        await context.Operation.GameAssetsOperationService.RepairGamePackageAsync(info, context).ConfigureAwait(false);
+        await context.Operation.GameAssetsOperationService.RepairGamePackageAsync(context, info).ConfigureAwait(false);
 
         Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.OperationKind));
@@ -388,10 +388,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         return totalBlocks;
     }
 
-    private static long GetTotalBytes(List<SophonAssetOperation> diffAssets)
+    private static long GetTotalBytes(List<SophonAssetOperation> assets)
     {
         long totalBytes = 0;
-        foreach (ref readonly SophonAssetOperation diffAsset in CollectionsMarshal.AsSpan(diffAssets))
+        foreach (ref readonly SophonAssetOperation diffAsset in CollectionsMarshal.AsSpan(assets))
         {
             switch (diffAsset.Type)
             {
@@ -400,8 +400,6 @@ internal sealed partial class GamePackageService : IGamePackageService
                     break;
                 case SophonAssetOperationType.Modify:
                     totalBytes += diffAsset.DiffChunks.Sum(c => c.AssetChunk.ChunkSizeDecompressed);
-                    break;
-                default:
                     break;
             }
         }
