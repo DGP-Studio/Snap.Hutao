@@ -31,55 +31,23 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
     private Version? remoteVersion;
     private Version? preVersion;
 
-    public GameBranch? GameBranch
-    {
-        get => gameBranch;
-        set => SetProperty(ref gameBranch, value);
-    }
+    public GameBranch? GameBranch { get => gameBranch; set => SetProperty(ref gameBranch, value); }
 
-    public LaunchScheme? LaunchScheme
-    {
-        get => launchScheme;
-        set => SetProperty(ref launchScheme, value);
-    }
+    public LaunchScheme? LaunchScheme { get => launchScheme; set => SetProperty(ref launchScheme, value); }
 
-    public Version? LocalVersion
-    {
-        get => localVersion;
-        set => SetProperty(ref localVersion, value, nameof(LocalVersionText));
-    }
+    public Version? LocalVersion { get => localVersion; set => SetProperty(ref localVersion, value, nameof(LocalVersionText)); }
 
-    public Version? RemoteVersion
-    {
-        get => remoteVersion;
-        set => SetProperty(ref remoteVersion, value, nameof(RemoteVersionText));
-    }
+    public Version? RemoteVersion { get => remoteVersion; set => SetProperty(ref remoteVersion, value, nameof(RemoteVersionText)); }
 
-    public Version? PreVersion
-    {
-        get => preVersion;
-        set => SetProperty(ref preVersion, value, nameof(PreDownloadTitle));
-    }
+    public Version? PreVersion { get => preVersion; set => SetProperty(ref preVersion, value, nameof(PreDownloadTitle)); }
 
-    public string LocalVersionText
-    {
-        get => LocalVersion is null ? "游戏未安装" : $"本地版本: {LocalVersion}";
-    }
+    public string LocalVersionText { get => LocalVersion is null ? "Unknown" : SH.FormatViewModelGamePackageLocalVersion(LocalVersion); }
 
-    public string RemoteVersionText
-    {
-        get => $"最新版本: {RemoteVersion}";
-    }
+    public string RemoteVersionText { get => SH.FormatViewModelGamePackageRemoteVersion(RemoteVersion); }
 
-    public string PreDownloadTitle
-    {
-        get => $"{PreVersion} 版本预下载已开启";
-    }
+    public string PreDownloadTitle { get => SH.FormatViewModelGamePackagePreVersion(PreVersion); }
 
-    public bool IsUpdateAvailable
-    {
-        get => LocalVersion != RemoteVersion;
-    }
+    public bool IsUpdateAvailable { get => LocalVersion != RemoteVersion; }
 
     public bool IsPredownloadButtonEnabled
     {
@@ -115,8 +83,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 return false;
             }
 
-            PredownloadStatus? predownloadStatus = JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(predownloadStatusPath));
-            if (predownloadStatus is { })
+            if (JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(predownloadStatusPath)) is { } predownloadStatus)
             {
                 int fileCount = Directory.GetFiles(gameFileSystem.ChunksDirectory).Length - 1;
                 return predownloadStatus.Finished && fileCount == predownloadStatus.TotalBlocks;
@@ -128,8 +95,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
-        LaunchScheme? launchScheme = launchGameShared.GetCurrentLaunchSchemeFromConfigFile();
-        if (launchScheme is null)
+        if (launchGameShared.GetCurrentLaunchSchemeFromConfigFile() is not { } launchScheme)
         {
             return false;
         }

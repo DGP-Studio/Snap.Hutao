@@ -27,7 +27,9 @@ internal readonly struct GamePackageServiceContext
 
         if (totalBytes > availableBytes)
         {
-            string title = $"磁盘空间不足，需要 {Converters.ToFileSizeString(totalBytes)}，剩余 {Converters.ToFileSizeString(availableBytes)}";
+            string totalBytesFormatted = Converters.ToFileSizeString(totalBytes);
+            string availableBytesFormatted = Converters.ToFileSizeString(availableBytes);
+            string title = SH.FormatServiceGamePackageAdvancedDriverNoAvailableFreeSpace(totalBytesFormatted, availableBytesFormatted);
             Progress.Report(new GamePackageOperationReport.Reset(title));
             return false;
         }

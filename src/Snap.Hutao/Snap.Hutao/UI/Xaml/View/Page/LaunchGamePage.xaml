@@ -181,12 +181,6 @@
             <PivotItem Header="{shuxm:ResourceString Name=ViewPageLaunchGameOptionsHeader}">
                 <ScrollViewer Grid.RowSpan="2">
                     <StackPanel Margin="16" Spacing="16">
-                        <!--<InfoBar
-                                    IsClosable="False"
-                                    IsOpen="True"
-                                    Message="{shuxm:ResourceString Name=ViewPageLaunchGameConfigurationSaveHint}"
-                                    Severity="Informational"/>-->
-
                         <!--  文件  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
@@ -235,21 +229,21 @@
                                                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                                                 Command="{Binding GamePackageViewModel.StartCommand}"
                                                 CommandParameter="Install"
-                                                Header="安装游戏"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationInstall}"
                                                 HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentCloudDownload}}"
                                                 IsClickEnabled="True"/>
                                             <cwc:SettingsCard
                                                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                                                 Command="{Binding GamePackageViewModel.StartCommand}"
                                                 CommandParameter="Verify"
-                                                Header="修复游戏"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationVerify}"
                                                 HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDeveloperTools}}"
                                                 IsClickEnabled="True"/>
                                             <cwc:SettingsCard
                                                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                                                 Command="{Binding GamePackageViewModel.StartCommand}"
                                                 CommandParameter="Update"
-                                                Header="更新游戏"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationUpdate}"
                                                 HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentUpArrowShiftKey}}"
                                                 IsClickEnabled="True"
                                                 IsEnabled="{Binding GamePackageViewModel.IsUpdateAvailable}"/>
@@ -257,7 +251,7 @@
                                                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                                                 Command="{Binding GamePackageViewModel.StartCommand}"
                                                 CommandParameter="Predownload"
-                                                Header="预下载"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationPredownload}"
                                                 HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDownload}}"
                                                 IsClickEnabled="True"
                                                 IsEnabled="{Binding GamePackageViewModel.IsPredownloadButtonEnabled}">
@@ -266,14 +260,10 @@
                                                     HorizontalAlignment="Right"
                                                     VerticalAlignment="Center"
                                                     Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
-                                                    Content="已完成预下载"
+                                                    Content="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent}"
                                                     Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentError}}"
                                                     IsHitTestVisible="False"
-                                                    Visibility="{Binding GamePackageViewModel.IsPredownloadFinished, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                    <clw:TokenItem.Resources>
-                                                        <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
-                                                    </clw:TokenItem.Resources>
-                                                </clw:TokenItem>
+                                                    Visibility="{Binding GamePackageViewModel.IsPredownloadFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                             </cwc:SettingsCard>
                                         </cwc:SettingsExpander.Items>
                                     </cwc:SettingsExpander>
@@ -350,6 +340,7 @@
                                 </StackPanel>
                             </Border>
                         </Border>
+                        
                         <!--  进程  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
@@ -475,6 +466,7 @@
                                 </StackPanel>
                             </Border>
                         </Border>
+                        
                         <!--  进程间  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">

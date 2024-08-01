@@ -135,7 +135,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     private static async ValueTask VerifyAndRepairCoreAsync(GamePackageServiceContext context, SophonDecodedBuild build, long totalBytes, int totalBlockCount)
     {
-        context.Progress.Report(new GamePackageOperationReport.Reset("正在验证游戏完整性", totalBlockCount, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedVerifyingIntegrity, totalBlockCount, totalBytes));
         GamePackageIntegrityInfo info = await context.Operation.Asset.VerifyGamePackageIntegrityAsync(context, build).ConfigureAwait(false);
 
         if (info.NoConflict)
@@ -146,7 +146,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
 
         (int conflictedBlocks, long conflictedBytes) = info.GetConflictedBlockCountAndByteCount(context.Operation.GameChannelSDK);
-        context.Progress.Report(new GamePackageOperationReport.Reset("正在修复游戏完整性", conflictedBlocks, conflictedBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedRepairing, conflictedBlocks, conflictedBytes));
 
         await context.Operation.Asset.RepairGamePackageAsync(context, info).ConfigureAwait(false);
 
@@ -198,7 +198,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         if (await DecodeManifestsAsync(context.Operation.LocalBranch, context).ConfigureAwait(false) is not { } localBuild)
         {
-            context.Progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
+            context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
             return;
         }
 
@@ -209,7 +209,7 @@ internal sealed partial class GamePackageService : IGamePackageService
     {
         if (await DecodeManifestsAsync(context.Operation.RemoteBranch, context).ConfigureAwait(false) is not { } remoteBuild)
         {
-            context.Progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
+            context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
             return;
         }
 
@@ -220,7 +220,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
 
         int totalBlockCount = remoteBuild.TotalChunks;
-        context.Progress.Report(new GamePackageOperationReport.Reset("正在安装游戏", totalBlockCount, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedInstalling, totalBlockCount, totalBytes));
 
         await context.Operation.Asset.InstallAssetsAsync(context, remoteBuild).ConfigureAwait(false);
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
@@ -233,7 +233,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         if (await DecodeManifestsAsync(context.Operation.LocalBranch, context).ConfigureAwait(false) is not { } localBuild ||
             await DecodeManifestsAsync(context.Operation.RemoteBranch, context).ConfigureAwait(false) is not { } remoteBuild)
         {
-            context.Progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
+            context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
             return;
         }
 
@@ -248,7 +248,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        context.Progress.Report(new GamePackageOperationReport.Reset("正在更新游戏", totalBlocks, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedUpdating, totalBlocks, totalBytes));
 
         await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
@@ -261,7 +261,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         if (await DecodeManifestsAsync(context.Operation.LocalBranch, context).ConfigureAwait(false) is not { } localBuild ||
             await DecodeManifestsAsync(context.Operation.RemoteBranch, context).ConfigureAwait(false) is not { } remoteBuild)
         {
-            context.Progress.Report(new GamePackageOperationReport.Reset("清单数据拉取失败"));
+            context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
             return;
         }
 
@@ -276,7 +276,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        context.Progress.Report(new GamePackageOperationReport.Reset("正在预下载资源", totalBlocks, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedPredownloading, totalBlocks, totalBytes));
 
         PredownloadStatus predownloadStatus = new(context.Operation.RemoteBranch.Tag, false, totalBlocks);
         using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
