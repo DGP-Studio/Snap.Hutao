@@ -66,9 +66,7 @@ internal sealed partial class LaunchGameShared
         }
 
         bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
-        string dataFolder = isOversea ? GameConstants.GenshinImpactData : GameConstants.YuanShenData;
-        string persistentScriptVersionFile = Path.Combine(gameFileSystem.GameDirectory, dataFolder, "Persistent", "ScriptVersion");
-        string version = await File.ReadAllTextAsync(persistentScriptVersionFile).ConfigureAwait(false);
+        string version = await File.ReadAllTextAsync(gameFileSystem.ScriptVersionFilePath).ConfigureAwait(false);
 
         LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
             .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()
@@ -82,14 +80,15 @@ internal sealed partial class LaunchGameShared
         if (isOk)
         {
             string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
-            string content = $"""
+            string content = $$$"""
                 [General]
-                channel={launchScheme.Channel:D}
+                channel={{{launchScheme.Channel:D}}}
                 cps=mihoyo
-                game_version={version}
-                sub_channel={launchScheme.SubChannel:D}
+                game_version={{{version}}}
+                sub_channel={{{launchScheme.SubChannel:D}}}
                 sdk_version=
-                game_biz={gameBiz}
+                game_biz={{{gameBiz}}}
+                uapc={"hk4e_cn":{"uapc":""},"hyp":{"uapc":""}}
                 """;
 
             await File.WriteAllTextAsync(gameFileSystem.GameConfigFilePath, content).ConfigureAwait(false);

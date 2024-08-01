@@ -46,7 +46,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (uigf.Hk4e.IsNullOrEmpty())
+        if (uigf.Hk4e is null or [])
         {
             infoBarService.Warning(SH.ViewModelUIGFImportNoHk4eEntry);
             return;
@@ -65,7 +65,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (uids.IsNullOrEmpty())
+        if (uids is null or { Count: 0 })
         {
             infoBarService.Warning(SH.ViewModelUIGFImportNoSelectedEntry);
             return;

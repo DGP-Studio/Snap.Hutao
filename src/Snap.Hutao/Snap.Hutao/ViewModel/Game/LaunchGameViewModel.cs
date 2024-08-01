@@ -35,6 +35,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     /// </summary>
     public const string DesiredUid = nameof(DesiredUid);
 
+    private readonly GamePackageViewModel gamePackageViewModel;
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly LaunchGameShared launchGameShared;
@@ -66,6 +67,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public AppOptions AppOptions { get => appOptions; }
+
+    public GamePackageViewModel GamePackageViewModel { get => gamePackageViewModel; }
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 

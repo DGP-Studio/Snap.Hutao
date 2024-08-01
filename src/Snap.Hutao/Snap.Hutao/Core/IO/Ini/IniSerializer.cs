@@ -13,51 +13,25 @@ internal static class IniSerializer
 {
     public static List<IniElement> DeserializeFromFile(string filePath)
     {
-        using (FileStream readStream = File.OpenRead(filePath))
+        using (StreamReader reader = File.OpenText(filePath))
         {
-            return Deserialize(readStream);
+            return DeserializeCore(reader);
         }
     }
 
-    public static List<IniElement> Deserialize(FileStream fileStream)
+    public static List<IniElement> Deserialize(Stream fileStream)
     {
-        List<IniElement> results = [];
         using (StreamReader reader = new(fileStream))
         {
-            while (reader.ReadLine() is { } line)
-            {
-                if (string.IsNullOrEmpty(line))
-                {
-                    continue;
-                }
-
-                ReadOnlySpan<char> lineSpan = line;
-
-                if (lineSpan[0] is '[')
-                {
-                    results.Add(new IniSection(lineSpan[1..^1].ToString()));
-                }
-
-                if (lineSpan[0] is ';')
-                {
-                    results.Add(new IniComment(lineSpan[1..].ToString()));
-                }
-
-                if (lineSpan.TrySplitIntoTwo('=', out ReadOnlySpan<char> left, out ReadOnlySpan<char> right))
-                {
-                    results.Add(new IniParameter(left.Trim().ToString(), right.Trim().ToString()));
-                }
-            }
+            return DeserializeCore(reader);
         }
-
-        return results;
     }
 
     public static void SerializeToFile(string filePath, IEnumerable<IniElement> elements)
     {
-        using (FileStream writeStream = File.Create(filePath))
+        using (StreamWriter writer = File.CreateText(filePath))
         {
-            Serialize(writeStream, elements);
+            SerializeCore(writer, elements);
         }
     }
 
@@ -65,10 +39,46 @@ internal static class IniSerializer
     {
         using (StreamWriter writer = new(fileStream))
         {
-            foreach (IniElement element in elements)
+            SerializeCore(writer, elements);
+        }
+    }
+
+    private static List<IniElement> DeserializeCore(StreamReader reader)
+    {
+        List<IniElement> results = [];
+        while (reader.ReadLine() is { } line)
+        {
+            if (string.IsNullOrEmpty(line))
             {
-                writer.WriteLine(element.ToString());
+                continue;
             }
+
+            ReadOnlySpan<char> lineSpan = line;
+
+            if (lineSpan[0] is '[')
+            {
+                results.Add(new IniSection(lineSpan[1..^1].ToString()));
+            }
+
+            if (lineSpan[0] is ';')
+            {
+                results.Add(new IniComment(lineSpan[1..].ToString()));
+            }
+
+            if (lineSpan.TrySplitIntoTwo('=', out ReadOnlySpan<char> left, out ReadOnlySpan<char> right))
+            {
+                results.Add(new IniParameter(left.Trim().ToString(), right.Trim().ToString()));
+            }
+        }
+
+        return results;
+    }
+
+    private static void SerializeCore(StreamWriter writer, IEnumerable<IniElement> elements)
+    {
+        foreach (IniElement element in elements)
+        {
+            writer.WriteLine(element.ToString());
         }
     }
 }

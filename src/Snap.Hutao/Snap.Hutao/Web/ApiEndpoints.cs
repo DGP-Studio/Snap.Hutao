@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 
 namespace Snap.Hutao.Web;
 
@@ -164,6 +165,15 @@ internal static class ApiEndpoints
     }
     #endregion
 
+    #region DownloaderApi
+
+    public static string SophonChunkGetBuild(BranchWrapper branch)
+    {
+        return $"{DownloaderSophonChunkApi}/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}&tag={branch.Tag}";
+    }
+
+    #endregion
+
     #region Hk4eApiAnnouncementApi
     public static string AnnList(string languageCode, in Region region)
     {
@@ -196,6 +206,12 @@ internal static class ApiEndpoints
     {
         return $"{HoyoPlayApiConnectApi}/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}";
     }
+
+    public static string HoyoPlayConnectGameBranches(LaunchScheme scheme)
+    {
+        return $"{HoyoPlayApiConnectApi}/getGameBranches?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}";
+    }
+
     #endregion
 
     #region PassportApi | PassportApiV4
@@ -245,6 +261,9 @@ internal static class ApiEndpoints
 
     private const string BbsApi = "https://bbs-api.mihoyo.com";
     private const string BbsApiUserApi = $"{BbsApi}/user/wapi";
+
+    private const string DownloaderApi = "https://downloader-api.mihoyo.com";
+    private const string DownloaderSophonChunkApi = $"{DownloaderApi}/downloader/sophon_chunk/api";
 
     private const string Hk4eApi = "https://hk4e-api.mihoyo.com";
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";

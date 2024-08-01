@@ -131,8 +131,8 @@ internal sealed class DownloadSummary : ObservableObject
 
     private void UpdateProgressStatus(StreamCopyStatus status)
     {
-        Description = $"{Converters.ToFileSizeString(status.BytesCopied)}/{Converters.ToFileSizeString(status.TotalBytes)}";
-        ProgressValue = status.TotalBytes is 0 ? 0 : (double)status.BytesCopied / status.TotalBytes;
+        Description = $"{Converters.ToFileSizeString(status.BytesReadSinceCopyStart)}/{Converters.ToFileSizeString(status.TotalBytes)}";
+        ProgressValue = status.TotalBytes is 0 ? 0 : (double)status.BytesReadSinceCopyStart / status.TotalBytes;
     }
 
     private void ExtractFiles(Stream stream)

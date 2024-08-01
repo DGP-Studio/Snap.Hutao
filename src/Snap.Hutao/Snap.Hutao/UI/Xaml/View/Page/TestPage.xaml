@@ -156,6 +156,11 @@
                     Header="Random InfoBar"
                     IsClickEnabled="True"/>
 
+                <cwc:SettingsCard
+                    Command="{Binding CheckPathBelongsToSSDCommand}"
+                    Header="Check path belongs to a SSD"
+                    IsClickEnabled="True"/>
+
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Announcement"/>
                 <Expander
                     HorizontalAlignment="Stretch"

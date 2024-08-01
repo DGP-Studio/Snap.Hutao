@@ -76,7 +76,7 @@ internal static class AvatarViewBuilderExtension
 
         static float ScoreCrit(Dictionary<FightProperty, float>? fightPropMap)
         {
-            if (fightPropMap.IsNullOrEmpty())
+            if (fightPropMap is null or { Count: 0 })
             {
                 return 0F;
             }
@@ -195,7 +195,7 @@ internal static class AvatarViewBuilderExtension
 
         static List<SkillView> CreateSkills(Dictionary<SkillId, SkillLevel>? skillLevelMap, Dictionary<SkillGroupId, SkillLevel>? proudSkillExtraLevelMap, List<ProudableSkill> proudSkills)
         {
-            if (skillLevelMap.IsNullOrEmpty())
+            if (skillLevelMap is null or { Count: 0 })
             {
                 return [];
             }

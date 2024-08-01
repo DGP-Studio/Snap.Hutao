@@ -259,7 +259,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (FilterTokens.IsNullOrEmpty())
+        if (FilterTokens is null or [])
         {
             Avatars.Filter = default!;
         }

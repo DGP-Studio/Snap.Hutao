@@ -27,4 +27,9 @@ internal readonly struct ValueFile
     {
         return value.GetHashCode();
     }
+
+    public override string ToString()
+    {
+        return value;
+    }
 }
