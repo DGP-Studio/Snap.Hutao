@@ -109,6 +109,9 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                         await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
                         TrySetGameAccountByDesiredUid();
 
+                        // TODO: refine calling
+                        await GamePackageViewModel.LoadCommand.ExecuteAsync(default).ConfigureAwait(false);
+
                         // Try set to the current account.
                         if (SelectedScheme is not null)
                         {

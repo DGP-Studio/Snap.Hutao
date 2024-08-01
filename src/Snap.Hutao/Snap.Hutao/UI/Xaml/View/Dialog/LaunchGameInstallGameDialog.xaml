@@ -15,6 +15,13 @@
     mc:Ignorable="d">
 
     <StackPanel Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+        <InfoBar
+            Title="当前选择目录为HDD，建议使用SSD"
+            IsClosable="False"
+            IsOpen="True"
+            Severity="Warning"
+            Visibility="{x:Bind IsParallelSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+
         <cwc:SettingsCard
             Width="480"
             Command="{x:Bind PickGameDirectoryCommand}"
