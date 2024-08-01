@@ -105,7 +105,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
 
                 foreach (AssetChunk chunk in assetProperty.AssetChunks)
                 {
-                    string chunkPath = Path.Combine(context.Operation.GameFileSystem.ChunksDirectory, chunk.ChunkName);
+                    string chunkPath = Path.Combine(context.Operation.ChunksDirectory, chunk.ChunkName);
                     if (!File.Exists(chunkPath))
                     {
                         continue;

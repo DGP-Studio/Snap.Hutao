@@ -140,11 +140,6 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (info.NoConflict)
         {
-            if (Directory.Exists(context.Operation.GameFileSystem.ChunksDirectory))
-            {
-                Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
-            }
-
             context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
             return;
         }
@@ -154,9 +149,9 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await context.Operation.Asset.RepairGamePackageAsync(context, info).ConfigureAwait(false);
 
-        if (Directory.Exists(context.Operation.GameFileSystem.ChunksDirectory))
+        if (Directory.Exists(context.Operation.ChunksDirectory))
         {
-            Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
+            Directory.Delete(context.Operation.ChunksDirectory, true);
         }
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
@@ -234,6 +229,11 @@ internal sealed partial class GamePackageService : IGamePackageService
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
         await VerifyAndRepairCoreAsync(context, remoteBuild, totalBytes, totalBlockCount).ConfigureAwait(false);
+
+        if (Directory.Exists(context.Operation.ChunksDirectory))
+        {
+            Directory.Delete(context.Operation.ChunksDirectory, true);
+        }
     }
 
     private async ValueTask UpdateAsync(GamePackageServiceContext context)
@@ -262,6 +262,11 @@ internal sealed partial class GamePackageService : IGamePackageService
         await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
 
         await VerifyAndRepairCoreAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
+
+        if (Directory.Exists(context.Operation.ChunksDirectory))
+        {
+            Directory.Delete(context.Operation.ChunksDirectory, true);
+        }
     }
 
     private async ValueTask PredownloadAsync(GamePackageServiceContext context)

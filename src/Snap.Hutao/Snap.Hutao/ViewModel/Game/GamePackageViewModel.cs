@@ -73,14 +73,12 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 return false;
             }
 
-            string predownloadStatusPath = Path.Combine(gameFileSystem.ChunksDirectory, "snap_hutao_predownload_status.json");
-
-            if (!File.Exists(predownloadStatusPath))
+            if (!File.Exists(gameFileSystem.PredownloadStatusPath))
             {
                 return false;
             }
 
-            if (JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(predownloadStatusPath)) is { } predownloadStatus)
+            if (JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(gameFileSystem.PredownloadStatusPath)) is { } predownloadStatus)
             {
                 int fileCount = Directory.GetFiles(gameFileSystem.ChunksDirectory).Length - 1;
                 return predownloadStatus.Finished && fileCount == predownloadStatus.TotalBlocks;

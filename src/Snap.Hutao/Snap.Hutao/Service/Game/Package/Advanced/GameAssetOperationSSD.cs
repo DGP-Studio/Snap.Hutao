@@ -88,7 +88,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         {
             Memory<byte> buffer = memoryOwner.Memory;
 
-            string chunkPath = Path.Combine(context.Operation.GameFileSystem.ChunksDirectory, chunk.ChunkName);
+            string chunkPath = Path.Combine(context.Operation.ChunksDirectory, chunk.ChunkName);
             if (!File.Exists(chunkPath))
             {
                 return;
