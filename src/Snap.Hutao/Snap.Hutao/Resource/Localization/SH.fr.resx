@@ -1001,6 +1001,27 @@
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>在 Unity 日志文件中找不到游戏路径</value>
   </data>
+  <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
+    <value>清单数据解析失败</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
+    <value>磁盘空间不足，需要 {0}，剩余 {1}</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
+    <value>正在安装游戏</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedPredownloading" xml:space="preserve">
+    <value>正在预下载资源</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedRepairing" xml:space="preserve">
+    <value>正在修复游戏</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedUpdating" xml:space="preserve">
+    <value>正在更新游戏</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
+    <value>正在验证游戏完整性</value>
+  </data>
   <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
     <value>备份：{0}</value>
   </data>
@@ -1748,6 +1769,15 @@
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>导入 UIGF Json 文件</value>
   </data>
+  <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
+    <value>本地版本: {0}</value>
+  </data>
+  <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
+    <value>{0} 版本预下载已开启</value>
+  </data>
+  <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
+    <value>最新版本: {0}</value>
+  </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
     <value>我已阅读并同意上方的条款</value>
   </data>
@@ -2485,6 +2515,21 @@
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>游戏选项</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
+    <value>安装游戏</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationPredownload" xml:space="preserve">
+    <value>预下载</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent" xml:space="preserve">
+    <value>已完成预下载</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationUpdate" xml:space="preserve">
+    <value>更新游戏</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationVerify" xml:space="preserve">
+    <value>修复游戏</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
     <value>在游戏启动后尝试启动并使用 Starward 进行游戏时长统计</value>
