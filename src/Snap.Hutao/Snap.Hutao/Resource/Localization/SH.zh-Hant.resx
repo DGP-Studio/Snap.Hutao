@@ -2451,7 +2451,7 @@
     <value>移除光照渲染中的迷雾</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogHeader" xml:space="preserve">
-    <value>移除迷雾</value>
+    <value>移除迷霧</value>
   </data>
   <data name="ViewPageLaunchGameDisableFogOff" xml:space="preserve">
     <value>保留</value>
