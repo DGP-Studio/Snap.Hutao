@@ -35,6 +35,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     /// </summary>
     public const string DesiredUid = nameof(DesiredUid);
 
+    private readonly GamePackageInstallViewModel gamePackageInstallViewModel;
     private readonly GamePackageViewModel gamePackageViewModel;
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
@@ -67,6 +68,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public AppOptions AppOptions { get => appOptions; }
+
+    public GamePackageInstallViewModel GamePackageInstallViewModel { get => gamePackageInstallViewModel; }
 
     public GamePackageViewModel GamePackageViewModel { get => gamePackageViewModel; }
 
