@@ -140,7 +140,11 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         if (info.NoConflict)
         {
-            Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
+            if (Directory.Exists(context.Operation.GameFileSystem.ChunksDirectory))
+            {
+                Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
+            }
+
             context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
             return;
         }
@@ -150,7 +154,11 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         await context.Operation.Asset.RepairGamePackageAsync(context, info).ConfigureAwait(false);
 
-        Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
+        if (Directory.Exists(context.Operation.GameFileSystem.ChunksDirectory))
+        {
+            Directory.Delete(context.Operation.GameFileSystem.ChunksDirectory, true);
+        }
+
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
     }
 

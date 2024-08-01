@@ -154,7 +154,10 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
             if (asset.AssetType is 64)
             {
-                Directory.Delete(assetPath, true);
+                if (Directory.Exists(assetPath))
+                {
+                    Directory.Delete(assetPath, true);
+                }
             }
 
             if (File.Exists(assetPath))
