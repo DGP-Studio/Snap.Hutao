@@ -9,8 +9,8 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal readonly struct GamePackageOperationContext
 {
-    public readonly GamePackageOperationKind OperationKind;
-    public readonly IGameAssetsOperationService GameAssetsOperationService;
+    public readonly GamePackageOperationKind Kind;
+    public readonly IGameAssetOperation Asset;
     public readonly GameFileSystem GameFileSystem;
     public readonly BranchWrapper LocalBranch;
     public readonly BranchWrapper RemoteBranch;
@@ -24,8 +24,8 @@ internal readonly struct GamePackageOperationContext
         BranchWrapper remoteBranch,
         GameChannelSDK? gameChannelSDK)
     {
-        OperationKind = kind;
-        GameAssetsOperationService = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetsOperationService>>().Create(gameFileSystem.GameDirectory);
+        Kind = kind;
+        Asset = serviceProvider.GetRequiredService<IDriverMediaTypeAwareFactory<IGameAssetOperation>>().Create(gameFileSystem.GameDirectory);
         GameFileSystem = gameFileSystem;
         LocalBranch = localBranch;
         RemoteBranch = remoteBranch;

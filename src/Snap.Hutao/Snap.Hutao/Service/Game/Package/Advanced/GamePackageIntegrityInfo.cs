@@ -13,18 +13,18 @@ internal sealed class GamePackageIntegrityInfo
 
     public bool NoConflict { get => ConflictedAssets is [] && !ChannelSdkConflicted; }
 
-    public (int BlockCount, long ByteCount) GetConflictedBlockCountAndByteCount(GameChannelSDK? sdk)
+    public (int ChunkCount, long ByteCount) GetConflictedBlockCountAndByteCount(GameChannelSDK? sdk)
     {
-        int conflictBlocks = ConflictedAssets.Sum(a => a.NewAsset.AssetChunks.Count);
+        int conflictChunks = ConflictedAssets.Sum(a => a.NewAsset.AssetChunks.Count);
         long conflictBytes = ConflictedAssets.Sum(a => a.NewAsset.AssetSize);
 
         if (ChannelSdkConflicted)
         {
             ArgumentNullException.ThrowIfNull(sdk);
-            conflictBlocks++;
+            conflictChunks++;
             conflictBytes += sdk.ChannelSdkPackage.Size;
         }
 
-        return (conflictBlocks, conflictBytes);
+        return (conflictChunks, conflictBytes);
     }
 }

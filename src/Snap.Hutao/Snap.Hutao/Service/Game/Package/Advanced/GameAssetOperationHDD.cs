@@ -12,7 +12,7 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient)]
 [SuppressMessage("", "CA2000")]
-internal sealed partial class GameAssetsOperationServiceHDD : GameAssetsOperationService
+internal sealed partial class GameAssetOperationHDD : GameAssetOperation
 {
     public override async ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild)
     {
@@ -30,10 +30,10 @@ internal sealed partial class GameAssetsOperationServiceHDD : GameAssetsOperatio
     {
         foreach (SophonAssetOperation asset in diffAssets)
         {
-            ValueTask task = asset.Type switch
+            ValueTask task = asset.Kind switch
             {
-                SophonAssetOperationType.AddOrRepair or SophonAssetOperationType.Modify => EnsureAssetAsync(context, asset),
-                SophonAssetOperationType.Delete => DeleteAssetsAsync(context, diffAssets.Select(a => a.OldAsset)),
+                SophonAssetOperationKind.AddOrRepair or SophonAssetOperationKind.Modify => EnsureAssetAsync(context, asset),
+                SophonAssetOperationKind.Delete => DeleteAssetsAsync(context, diffAssets.Select(a => a.OldAsset)),
                 _ => ValueTask.CompletedTask,
             };
 
@@ -45,10 +45,10 @@ internal sealed partial class GameAssetsOperationServiceHDD : GameAssetsOperatio
     {
         foreach (SophonAssetOperation asset in diffAssets)
         {
-            IEnumerable<SophonChunk> chunks = asset.Type switch
+            IEnumerable<SophonChunk> chunks = asset.Kind switch
             {
-                SophonAssetOperationType.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)),
-                SophonAssetOperationType.Modify => asset.DiffChunks,
+                SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)),
+                SophonAssetOperationKind.Modify => asset.DiffChunks,
                 _ => [],
             };
 

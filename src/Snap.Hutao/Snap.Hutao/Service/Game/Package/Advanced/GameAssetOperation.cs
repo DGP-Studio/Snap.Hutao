@@ -17,7 +17,7 @@ using System.Net.Http;
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 [ConstructorGenerated]
-internal abstract partial class GameAssetsOperationService : IGameAssetsOperationService
+internal abstract partial class GameAssetOperation : IGameAssetOperation
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;
     private readonly IHttpClientFactory httpClientFactory;
@@ -93,7 +93,7 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
             return;
         }
 
-        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GameAssetsOperationService)))
+        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GameAssetOperation)))
         {
             using (Stream sdkStream = await httpClient.GetStreamAsync(context.Operation.GameChannelSDK.ChannelSdkPackage.Url, context.ParallelOptions.CancellationToken).ConfigureAwait(false))
             {
@@ -182,10 +182,10 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
             return;
         }
 
-        IEnumerable<SophonChunk> chunks = asset.Type switch
+        IEnumerable<SophonChunk> chunks = asset.Kind switch
         {
-            SophonAssetOperationType.AddOrRepair => asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)),
-            SophonAssetOperationType.Modify => asset.DiffChunks,
+            SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(chunk => new SophonChunk(asset.UrlPrefix, chunk)),
+            SophonAssetOperationKind.Modify => asset.DiffChunks,
             _ => [],
         };
 
@@ -221,7 +221,7 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
                 {
                     fileStream.Position = 0;
 
-                    using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GameAssetsOperationService)))
+                    using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GameAssetOperation)))
                     {
                         using (Stream webStream = await httpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl, token).ConfigureAwait(false))
                         {
@@ -253,10 +253,10 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
 
     protected async ValueTask MergeAssetAsync(GamePackageServiceContext context, SophonAssetOperation asset)
     {
-        ValueTask task = asset.Type switch
+        ValueTask task = asset.Kind switch
         {
-            SophonAssetOperationType.AddOrRepair => MergeNewAssetAsync(context, asset.NewAsset),
-            SophonAssetOperationType.Modify => MergeDiffAssetAsync(context, asset),
+            SophonAssetOperationKind.AddOrRepair => MergeNewAssetAsync(context, asset.NewAsset),
+            SophonAssetOperationKind.Modify => MergeDiffAssetAsync(context, asset),
             _ => ValueTask.CompletedTask,
         };
 
@@ -287,7 +287,10 @@ internal abstract partial class GameAssetsOperationService : IGameAssetsOperatio
 
                         using (FileStream diffStream = File.OpenRead(chunkPath))
                         {
-                            await Zstandard.DecompressAsync(diffStream, newAssetStream, token).ConfigureAwait(false);
+                            using (ZstandardDecompressionStream decompressor = new(diffStream))
+                            {
+                                await decompressor.CopyToAsync(newAssetStream, token).ConfigureAwait(false);
+                            }
                         }
                     }
                     else

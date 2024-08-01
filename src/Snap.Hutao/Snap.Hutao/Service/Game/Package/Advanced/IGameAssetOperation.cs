@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
-internal interface IGameAssetsOperationService
+internal interface IGameAssetOperation
 {
     ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild);
 

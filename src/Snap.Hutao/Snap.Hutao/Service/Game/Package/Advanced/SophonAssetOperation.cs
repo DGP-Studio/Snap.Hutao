@@ -7,7 +7,7 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal sealed class SophonAssetOperation
 {
-    public SophonAssetOperationType Type { get; init; }
+    public SophonAssetOperationKind Kind { get; init; }
 
     public string UrlPrefix { get; init; } = default!;
 
@@ -21,7 +21,7 @@ internal sealed class SophonAssetOperation
     {
         return new()
         {
-            Type = SophonAssetOperationType.AddOrRepair,
+            Kind = SophonAssetOperationKind.AddOrRepair,
             UrlPrefix = string.Intern(urlPrefix),
             NewAsset = newAsset,
         };
@@ -31,7 +31,7 @@ internal sealed class SophonAssetOperation
     {
         return new()
         {
-            Type = SophonAssetOperationType.Modify,
+            Kind = SophonAssetOperationKind.Modify,
             UrlPrefix = string.Intern(urlPrefix),
             OldAsset = oldAsset,
             NewAsset = newAsset,
@@ -43,7 +43,7 @@ internal sealed class SophonAssetOperation
     {
         return new()
         {
-            Type = SophonAssetOperationType.Delete,
+            Kind = SophonAssetOperationKind.Delete,
             OldAsset = oldAsset,
         };
     }

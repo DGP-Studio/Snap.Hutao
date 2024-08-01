@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
-internal enum SophonAssetOperationType
+internal enum SophonAssetOperationKind
 {
     AddOrRepair,
     Modify,

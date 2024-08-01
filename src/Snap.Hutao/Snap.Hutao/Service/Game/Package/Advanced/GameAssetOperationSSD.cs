@@ -11,7 +11,7 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 [ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Transient)]
-internal sealed partial class GameAssetsOperationServiceSSD : GameAssetsOperationService
+internal sealed partial class GameAssetOperationSSD : GameAssetOperation
 {
     public override async ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild)
     {
@@ -24,10 +24,10 @@ internal sealed partial class GameAssetsOperationServiceSSD : GameAssetsOperatio
 
     public override async ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets)
     {
-        await Parallel.ForEachAsync(diffAssets, context.ParallelOptions, (asset, token) => asset.Type switch
+        await Parallel.ForEachAsync(diffAssets, context.ParallelOptions, (asset, token) => asset.Kind switch
         {
-            SophonAssetOperationType.AddOrRepair or SophonAssetOperationType.Modify => EnsureAssetAsync(context, asset),
-            SophonAssetOperationType.Delete => DeleteAssetsAsync(context, diffAssets.Select(a => a.OldAsset)),
+            SophonAssetOperationKind.AddOrRepair or SophonAssetOperationKind.Modify => EnsureAssetAsync(context, asset),
+            SophonAssetOperationKind.Delete => DeleteAssetsAsync(context, diffAssets.Select(a => a.OldAsset)),
             _ => ValueTask.CompletedTask,
         }).ConfigureAwait(false);
     }
@@ -36,10 +36,10 @@ internal sealed partial class GameAssetsOperationServiceSSD : GameAssetsOperatio
     {
         await Parallel.ForEachAsync(diffAssets, context.ParallelOptions, (asset, token) =>
         {
-            IEnumerable<SophonChunk> chunks = asset.Type switch
+            IEnumerable<SophonChunk> chunks = asset.Kind switch
             {
-                SophonAssetOperationType.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)),
-                SophonAssetOperationType.Modify => asset.DiffChunks,
+                SophonAssetOperationKind.AddOrRepair => asset.NewAsset.AssetChunks.Select(c => new SophonChunk(asset.UrlPrefix, c)),
+                SophonAssetOperationKind.Modify => asset.DiffChunks,
                 _ => [],
             };
 

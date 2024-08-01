@@ -5,13 +5,13 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal abstract class GamePackageOperationReport
 {
-    public GamePackageOperationReportKind ReportKind { get; private set; }
+    public GamePackageOperationReportKind Kind { get; private set; }
 
     internal sealed class Update : GamePackageOperationReport
     {
         public Update(long bytesRead, int blocks)
         {
-            ReportKind = GamePackageOperationReportKind.Update;
+            Kind = GamePackageOperationReportKind.Update;
             BytesRead = bytesRead;
             Blocks = blocks;
         }
@@ -25,13 +25,13 @@ internal abstract class GamePackageOperationReport
     {
         public Reset(string title)
         {
-            ReportKind = GamePackageOperationReportKind.Reset;
+            Kind = GamePackageOperationReportKind.Reset;
             Title = title;
         }
 
         public Reset(string title, int totalBlocks, long contentLength)
         {
-            ReportKind = GamePackageOperationReportKind.Reset;
+            Kind = GamePackageOperationReportKind.Reset;
             Title = title;
             TotalBlocks = totalBlocks;
             ContentLength = contentLength;
@@ -48,7 +48,7 @@ internal abstract class GamePackageOperationReport
     {
         public Finish(GamePackageOperationKind kind, bool repaired = false)
         {
-            ReportKind = GamePackageOperationReportKind.Finish;
+            Kind = GamePackageOperationReportKind.Finish;
             OperationKind = kind;
             Repaired = repaired;
         }
