@@ -28,6 +28,6 @@ internal static partial class AnnouncementRegex
     /// <inheritdoc cref="SHRegex.WebAnnouncementMatchPermanentActivityTime"/>
     public static readonly Regex PermanentActivityAfterUpdateTimeRegex = new(SHRegex.WebAnnouncementMatchPermanentActivityTime, RegexOptions.Compiled);
 
-    [GeneratedRegex("&lt;t class=\"t_(?:gl|lc)\".*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline)]
+    [GeneratedRegex("&lt;t class=\"t_(?:gl|lc)\".*?&gt;(?:<span .*?>)?(.*?)(?:</span>)?&lt;/t&gt;", RegexOptions.Multiline)]
     public static partial Regex XmlTimeTagRegex();
 }

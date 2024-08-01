@@ -164,6 +164,13 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                     announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
                     continue;
                 }
+                
+                if (versionStartTimes.TryGetValue(persistent.Groups[2].Value, out versionStartTime))
+                {
+                    announcement.StartTime = versionStartTime;
+                    announcement.EndTime = versionStartTime + TimeSpan.FromDays(42);
+                    continue;
+                }
             }
 
             if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
