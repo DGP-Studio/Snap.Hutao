@@ -22,6 +22,7 @@
     <x:String x:Key="FontIconContentHomeGroup">&#xEC26;</x:String>
     <x:String x:Key="FontIconContentSpeedHigh">&#xEC4A;</x:String>
     <x:String x:Key="FontIconContentDeveloperTools">&#xEC7A;</x:String>
+    <x:String x:Key="FontIconContentHardDrive">&#xEDA2;</x:String>
     <x:String x:Key="FontIconContentAsteriskBadge12">&#xEDAD;</x:String>
     <x:String x:Key="FontIconContentZipFolder">&#xF012;</x:String>
     <x:String x:Key="FontIconContentGridView">&#xF0E2;</x:String>

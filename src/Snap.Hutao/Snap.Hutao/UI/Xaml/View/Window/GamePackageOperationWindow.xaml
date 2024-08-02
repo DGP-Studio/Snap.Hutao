@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvs="using:Snap.Hutao.UI.Xaml.View.Specialized"
     xmlns:shvg="using:Snap.Hutao.ViewModel.Game"
     mc:Ignorable="d">
     <Grid x:Name="RootGrid" d:DataContext="{d:DesignInstance shvg:GamePackageOperationViewModel}">
@@ -25,65 +26,20 @@
             IsHitTestVisible="False"
             Style="{ThemeResource SubtitleTextBlockStyle}"
             Text="{Binding Title}"/>
-        <Grid Grid.Row="2" Margin="32">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel
-                Grid.Column="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="4">
-                <FontIcon Glyph="{StaticResource FontIconContentDialShape1}"/>
-                <TextBlock Text="{Binding BlockProgress}"/>
-            </StackPanel>
-            <StackPanel
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="4">
-                <FontIcon Glyph="{StaticResource FontIconContentSpeedHigh}"/>
-                <TextBlock Text="{Binding Speed}"/>
-            </StackPanel>
-            <StackPanel
-                Grid.Column="2"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="4">
-                <FontIcon Glyph="{StaticResource FontIconContentRecent}"/>
-                <TextBlock Text="{Binding RemainingTime}"/>
-            </StackPanel>
-        </Grid>
-        <Grid
+        <shuxvs:SophonProgressBar
+            Grid.Row="2"
+            FinishedChunks="{Binding DownloadedChunks}"
+            ProgressBarIconGlyph="{StaticResource FontIconContentDownload}"
+            RemainingTime="{Binding DownloadRemainingTime}"
+            Speed="{Binding DownloadSpeed}"
+            TotalChunks="{Binding DownloadTotalChunks}"/>
+        <shuxvs:SophonProgressBar
             Grid.Row="3"
-            Margin="32,0,32,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            ColumnSpacing="{ThemeResource SettingsCardContentControlSpacing}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <ProgressBar
-                Grid.Column="0"
-                Height="20"
-                MinWidth="200"
-                HorizontalAlignment="Stretch"
-                IsIndeterminate="{Binding IsIndeterminate}"
-                Maximum="1"
-                Value="{Binding Progress}"/>
-            <TextBlock
-                Grid.Column="1"
-                Width="58"
-                Text="{Binding ProgressPercent}"
-                TextAlignment="Right"
-                Visibility="{Binding IsIndeterminate, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-        </Grid>
+            FinishedChunks="{Binding InstalledChunks}"
+            ProgressBarIconGlyph="{StaticResource FontIconContentHardDrive}"
+            RemainingTime="{Binding InstallRemainingTime}"
+            Speed="{Binding InstallSpeed}"
+            TotalChunks="{Binding InstallTotalChunks}"/>
         <Button
             Grid.Row="4"
             Margin="32,16,32,16"

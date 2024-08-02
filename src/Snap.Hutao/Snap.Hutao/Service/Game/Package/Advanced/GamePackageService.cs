@@ -135,7 +135,7 @@ internal sealed partial class GamePackageService : IGamePackageService
 
     private static async ValueTask VerifyAndRepairCoreAsync(GamePackageServiceContext context, SophonDecodedBuild build, long totalBytes, int totalBlockCount)
     {
-        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedVerifyingIntegrity, totalBlockCount, totalBytes));
+        context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedVerifyingIntegrity, 0, totalBlockCount, totalBytes));
         GamePackageIntegrityInfo info = await context.Operation.Asset.VerifyGamePackageIntegrityAsync(context, build).ConfigureAwait(false);
 
         if (info.NoConflict)
@@ -154,7 +154,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             Directory.Delete(context.Operation.ChunksDirectory, true);
         }
 
-        context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
+        context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind, context.Operation.Kind is GamePackageOperationKind.Verify));
     }
 
     private static int GetTotalBlocks(List<SophonAssetOperation> assets)

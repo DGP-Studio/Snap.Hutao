@@ -7,18 +7,35 @@ internal abstract class GamePackageOperationReport
 {
     public GamePackageOperationReportKind Kind { get; private set; }
 
-    internal sealed class Update : GamePackageOperationReport
+    internal sealed class Download : Update
     {
-        public Update(long bytesRead, int blocks)
+        public Download(long bytesRead, int chunks)
+            : base(bytesRead, chunks)
         {
-            Kind = GamePackageOperationReportKind.Update;
+            Kind = GamePackageOperationReportKind.Download;
+        }
+    }
+
+    internal sealed class Install : Update
+    {
+        public Install(long bytesRead, int chunks)
+            : base(bytesRead, chunks)
+        {
+            Kind = GamePackageOperationReportKind.Install;
+        }
+    }
+
+    internal abstract class Update : GamePackageOperationReport
+    {
+        public Update(long bytesRead, int chunks)
+        {
             BytesRead = bytesRead;
-            Blocks = blocks;
+            Chunks = chunks;
         }
 
-        public long BytesRead { get; }
+        public long BytesRead { get; private set; }
 
-        public int Blocks { get; }
+        public int Chunks { get; private set; }
     }
 
     internal sealed class Reset : GamePackageOperationReport
@@ -29,17 +46,28 @@ internal abstract class GamePackageOperationReport
             Title = title;
         }
 
-        public Reset(string title, int totalBlocks, long contentLength)
+        public Reset(string title, int totalChunks, long contentLength)
         {
             Kind = GamePackageOperationReportKind.Reset;
             Title = title;
-            TotalBlocks = totalBlocks;
+            DownloadTotalChunks = InstallTotalChunks = totalChunks;
+            ContentLength = contentLength;
+        }
+
+        public Reset(string title, int downloadTotalChunks, int installTotalChunks, long contentLength)
+        {
+            Kind = GamePackageOperationReportKind.Reset;
+            Title = title;
+            DownloadTotalChunks = downloadTotalChunks;
+            InstallTotalChunks = installTotalChunks;
             ContentLength = contentLength;
         }
 
         public string Title { get; set; }
 
-        public int TotalBlocks { get; set; }
+        public int DownloadTotalChunks { get; set; }
+
+        public int InstallTotalChunks { get; set; }
 
         public long ContentLength { get; set; }
     }

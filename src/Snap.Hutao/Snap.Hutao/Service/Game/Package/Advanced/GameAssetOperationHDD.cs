@@ -90,8 +90,6 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
 
     protected override async ValueTask MergeNewAssetAsync(GamePackageServiceContext context, AssetProperty assetProperty)
     {
-        CancellationToken token = context.ParallelOptions.CancellationToken;
-
         string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, assetProperty.AssetName);
         string? directory = Path.GetDirectoryName(path);
         ArgumentNullException.ThrowIfNull(directory);
@@ -111,25 +109,45 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                         continue;
                     }
 
-                    using (FileStream chunkFile = File.OpenRead(chunkPath))
+                    TaskCompletionSource tcs = new();
+                    while (!ProcessingChunks.TryAdd(chunk.ChunkName, tcs.Task))
                     {
-                        using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
+                        if (ProcessingChunks.TryGetValue(chunk.ChunkName, out Task? task))
                         {
-                            long offset = chunk.ChunkOnFileOffset;
-                            do
-                            {
-                                int bytesRead = await decompressionStream.ReadAsync(buffer, token).ConfigureAwait(false);
-                                if (bytesRead <= 0)
-                                {
-                                    break;
-                                }
-
-                                await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, token).ConfigureAwait(false);
-                                offset += bytesRead;
-                            }
-                            while (true);
+                            await task.ConfigureAwait(false);
                         }
                     }
+
+                    try
+                    {
+                        using (FileStream chunkFile = File.OpenRead(chunkPath))
+                        {
+                            using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
+                            {
+                                long offset = chunk.ChunkOnFileOffset;
+                                do
+                                {
+                                    int bytesRead = await decompressionStream.ReadAsync(buffer, context.ParallelOptions.CancellationToken).ConfigureAwait(false);
+                                    if (bytesRead <= 0)
+                                    {
+                                        break;
+                                    }
+
+                                    await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, context.ParallelOptions.CancellationToken).ConfigureAwait(false);
+                                    context.Progress.Report(new GamePackageOperationReport.Install(bytesRead, 0));
+                                    offset += bytesRead;
+                                }
+                                while (true);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        tcs.TrySetResult();
+                        ProcessingChunks.TryRemove(chunk.ChunkName, out _);
+                    }
+
+                    context.Progress.Report(new GamePackageOperationReport.Install(0, 1));
                 }
             }
         }
