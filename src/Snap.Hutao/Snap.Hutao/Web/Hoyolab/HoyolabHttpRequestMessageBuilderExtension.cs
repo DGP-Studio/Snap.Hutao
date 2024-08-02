@@ -48,6 +48,11 @@ internal static class HoyolabHttpRequestMessageBuilderExtension
         return builder;
     }
 
+    internal static HttpRequestMessageBuilder SetXrpcAigis(this HttpRequestMessageBuilder builder, string aigis)
+    {
+        return builder.SetHeader("x-rpc-aigis", aigis);
+    }
+
     internal static HttpRequestMessageBuilder SetXrpcChallenge(this HttpRequestMessageBuilder builder, string challenge)
     {
         return builder.SetHeader("x-rpc-challenge", challenge);

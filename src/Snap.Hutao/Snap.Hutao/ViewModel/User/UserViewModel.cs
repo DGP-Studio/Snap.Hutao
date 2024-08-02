@@ -113,7 +113,7 @@ internal sealed partial class UserViewModel : ObservableObject
         if (result.TryGetValue(out string rawCookie))
         {
             Cookie cookie = Cookie.Parse(rawCookie);
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateWithDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(cookie, isOversea)).ConfigureAwait(false);
             HandleUserOptionResult(optionResult, uid);
         }
     }
@@ -144,7 +144,7 @@ internal sealed partial class UserViewModel : ObservableObject
     }
 
     [Command("LoginByQRCodeCommand")]
-    private async Task LoginByQRCode()
+    private async Task LoginByQRCodeAsync()
     {
         UserQRCodeDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserQRCodeDialog>().ConfigureAwait(false);
         (bool isOk, UidGameToken? token) = await dialog.GetUidGameTokenAsync().ConfigureAwait(false);
@@ -156,13 +156,41 @@ internal sealed partial class UserViewModel : ObservableObject
 
         Response<LoginResult> sTokenResponse = await serviceProvider
             .GetRequiredService<PassportClient2>()
-            .GetSTokenByGameTokenAsync(token)
+            .LoginByGameTokenAsync(token)
             .ConfigureAwait(false);
 
         if (sTokenResponse.IsOk())
         {
             Cookie stokenV2 = Cookie.FromLoginResult(sTokenResponse.Data);
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateWithDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
+            HandleUserOptionResult(optionResult, uid);
+        }
+    }
+
+    [Command("LoginByMobileCaptchaCommand")]
+    private async Task LoginByMobileCaptchaAsync()
+    {
+        UserMobileCaptchaDialog dialog = await contentDialogFactory.CreateInstanceAsync<UserMobileCaptchaDialog>().ConfigureAwait(false);
+        if (!await dialog.GetMobileCaptchaAsync().ConfigureAwait(false))
+        {
+            return;
+        }
+
+        ArgumentNullException.ThrowIfNull(dialog.ActionType);
+        ArgumentNullException.ThrowIfNull(dialog.Mobile);
+        ArgumentNullException.ThrowIfNull(dialog.Captcha);
+
+        Response<LoginResult> sTokenResponse;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            PassportClient2 passportClient2 = scope.ServiceProvider.GetRequiredService<PassportClient2>();
+            sTokenResponse = await passportClient2.LoginByMobileCaptchaAsync(dialog.ActionType, dialog.Mobile, dialog.Captcha).ConfigureAwait(false);
+        }
+
+        if (sTokenResponse.IsOk())
+        {
+            Cookie stokenV2 = Cookie.FromLoginResult(sTokenResponse.Data);
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(InputCookie.CreateForDeviceFpInference(stokenV2, false)).ConfigureAwait(false);
             HandleUserOptionResult(optionResult, uid);
         }
     }

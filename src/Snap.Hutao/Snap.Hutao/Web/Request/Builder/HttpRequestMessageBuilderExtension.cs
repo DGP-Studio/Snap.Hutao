@@ -3,11 +3,11 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.Web.Hutao.Response;
+using Snap.Hutao.Web.Response;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Runtime.ExceptionServices;
 using System.Text;
 
 namespace Snap.Hutao.Web.Request.Builder;
@@ -22,75 +22,67 @@ internal static class HttpRequestMessageBuilderExtension
         return builder;
     }
 
-    internal static async ValueTask<TResult?> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)
+    internal static async ValueTask<TypedHttpResponse<TResult>> SendAsync<TResult>(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger, CancellationToken token)
         where TResult : class
     {
-        StringBuilder messageBuilder = new();
-        messageBuilder.AppendLine(System.Globalization.CultureInfo.CurrentCulture, $"Host: {builder.RequestUri?.Host}");
-        bool showInfo = true;
-
-        try
+        HttpContext context = new()
         {
-            using (builder.HttpRequestMessage)
+            HttpClient = httpClient,
+            Logger = logger,
+            RequestAborted = token,
+        };
+
+        using (context)
+        {
+            await SendAsync(builder, context).ConfigureAwait(false);
+
+            StringBuilder messageBuilder = new();
+            messageBuilder.AppendLine(System.Globalization.CultureInfo.CurrentCulture, $"Host: {context.Request?.RequestUri?.Host ?? "Unknown"}");
+            bool showInfo = true;
+
+            try
             {
-                using (HttpResponseMessage message = await httpClient.SendAsync(builder.HttpRequestMessage, token).ConfigureAwait(false))
+                context.Exception?.Throw();
+                ArgumentNullException.ThrowIfNull(context.Response);
+
+                context.Response.EnsureSuccessStatusCode();
+                showInfo = false;
+                TResult? body = await builder.HttpContentSerializer.DeserializeAsync<TResult>(context.Response.Content, token).ConfigureAwait(false);
+                return new(context.Response.Headers, body);
+            }
+            catch (OperationCanceledException)
+            {
+                showInfo = false;
+                throw;
+            }
+            catch (Exception ex)
+            {
+                ProcessException(messageBuilder, ex);
+                logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
+                return new(context.Response?.Headers, default);
+            }
+            finally
+            {
+                if (showInfo)
                 {
-                    message.EnsureSuccessStatusCode();
-                    showInfo = false;
-                    return await builder.HttpContentSerializer.DeserializeAsync<TResult>(message.Content, token).ConfigureAwait(false);
+                    builder.ServiceProvider.GetRequiredService<IInfoBarService>().Error(messageBuilder.ToString());
                 }
             }
         }
-        catch (HttpRequestException ex)
-        {
-            if (TryHandleHttp502HutaoResponseSpecialCase(ex, out TResult? result))
-            {
-                showInfo = false;
-                return result;
-            }
+    }
 
-            ProcessException(messageBuilder, ex);
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
-        }
-        catch (IOException ex)
+    internal static async ValueTask SendAsync(this HttpRequestMessageBuilder builder, HttpContext context)
+    {
+        try
         {
-            ProcessException(messageBuilder, ex);
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
-        }
-        catch (JsonException ex)
-        {
-            ProcessException(messageBuilder, ex);
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
-        }
-        catch (HttpContentSerializationException ex)
-        {
-            ProcessException(messageBuilder, ex);
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
-        }
-        catch (SocketException ex)
-        {
-            ProcessException(messageBuilder, ex);
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
-        }
-        catch (OperationCanceledException)
-        {
-            showInfo = false;
-            throw;
+            context.Request = builder.HttpRequestMessage;
+            context.Response = await context.HttpClient.SendAsync(context.Request, context.RequestAborted).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            ProcessException(messageBuilder, ex);
-            logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
+            context.Exception = ExceptionDispatchInfo.Capture(ex);
+            context.Logger.LogWarning(ex, RequestErrorMessage, builder.RequestUri);
         }
-        finally
-        {
-            if (showInfo)
-            {
-                builder.ServiceProvider.GetRequiredService<IInfoBarService>().Error(messageBuilder.ToString());
-            }
-        }
-
-        return default;
     }
 
     internal static void Send(this HttpRequestMessageBuilder builder, HttpClient httpClient, ILogger logger)
@@ -123,35 +115,8 @@ internal static class HttpRequestMessageBuilderExtension
         }
     }
 
-    private static bool TryHandleHttp502HutaoResponseSpecialCase<TResult>(HttpRequestException ex, out TResult? result)
-        where TResult : class
-    {
-        result = default;
-
-        if (ex.StatusCode is HttpStatusCode.BadGateway)
-        {
-            Type resultType = typeof(TResult);
-
-            if (resultType == typeof(HutaoResponse))
-            {
-                // HutaoResponse(int returnCode, string message, string? localizationKey)
-                result = Activator.CreateInstance(resultType, 502, SH.WebHutaoServiceUnAvailable, default) as TResult;
-                return true;
-            }
-
-            if (resultType.IsConstructedGenericType && resultType.GetGenericTypeDefinition() == typeof(HutaoResponse<>))
-            {
-                // HutaoResponse<TData>(int returnCode, string message, TData? data, string? localizationKey)
-                result = Activator.CreateInstance(resultType, 502, SH.WebHutaoServiceUnAvailable, default, default) as TResult;
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     [SuppressMessage("", "CA1305")]
-    private static void ProcessException(StringBuilder builder, Exception exception)
+    private static void ProcessException(StringBuilder builder, Exception exception, int depth = 0)
     {
         if (exception is HttpRequestException hre)
         {
@@ -193,9 +158,12 @@ internal static class HttpRequestMessageBuilderExtension
         if (exception.InnerException is { } inner)
         {
             builder.AppendLine("------------------ Inner Exception ------------------");
-            ProcessException(builder, inner);
+            ProcessException(builder, inner, depth + 1);
         }
 
-        builder.AppendLine("------------------ End ------------------");
+        if (depth is 0)
+        {
+            builder.AppendLine("------------------ End ------------------");
+        }
     }
 }

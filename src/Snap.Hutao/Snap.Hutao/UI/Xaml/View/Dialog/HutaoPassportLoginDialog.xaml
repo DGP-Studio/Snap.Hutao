@@ -23,6 +23,7 @@
             MaxWidth="360"
             Margin="0,16,0,0"
             Password="{x:Bind Password, Mode=TwoWay}"
+            PasswordChar="*"
             PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
     </StackPanel>
 </ContentDialog>

@@ -222,6 +222,8 @@ internal static class ApiEndpoints
     public const string AccountLoginByPassword = $"{PassportApi}/account/ma-cn-passport/app/loginByPassword";
     public const string AccountVerifyLtoken = $"{PassportApiV4}/account/ma-cn-session/web/verifyLtoken";
     public const string AccountCreateActionTicket = $"{PassportApi}/account/ma-cn-verifier/app/createActionTicketByToken";
+    public const string AccountCreateLoginCaptcha = $"{PassportApi}/account/ma-cn-verifier/verifier/createLoginCaptcha";
+    public const string AccountLoginByMobileCaptcha = $"{PassportApi}/account/ma-cn-passport/app/loginByMobileCaptcha";
     #endregion
 
     #region PublicDataApi
