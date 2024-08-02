@@ -1481,6 +1481,18 @@
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
     <value>SToken이 포함된 Cookie를 입력하세요</value>
   </data>
+  <data name="ViewDialogUserMobileCaptchaCaptchaHint" xml:space="preserve">
+    <value>请输入收到的验证码</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaMobileHint" xml:space="preserve">
+    <value>请输入手机号码</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaSendCaptchaAction" xml:space="preserve">
+    <value>发送</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaTitle" xml:space="preserve">
+    <value>手机验证码登录</value>
+  </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>쿠키 설정</value>
   </data>
@@ -3172,6 +3184,9 @@
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>웹 로그인</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginMobileCaptchaAction" xml:space="preserve">
+    <value>手机验证码</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
     <value>扫码登录</value>
