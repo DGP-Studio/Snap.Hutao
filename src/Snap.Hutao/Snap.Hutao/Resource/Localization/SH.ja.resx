@@ -1481,6 +1481,18 @@
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
     <value>STokenが含まれたCookieを入力してください</value>
   </data>
+  <data name="ViewDialogUserMobileCaptchaCaptchaHint" xml:space="preserve">
+    <value>認証コードを入力して下さい</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaMobileHint" xml:space="preserve">
+    <value>電話番号が必要です</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaSendCaptchaAction" xml:space="preserve">
+    <value>送信</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaTitle" xml:space="preserve">
+    <value>携帯電話コードによるログイン</value>
+  </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>クッキーを設定</value>
   </data>
@@ -3172,6 +3184,9 @@
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>ウェブ上でログイン</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginMobileCaptchaAction" xml:space="preserve">
+    <value>携帯電話で認証コード</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
     <value>QRコードでログイン</value>
