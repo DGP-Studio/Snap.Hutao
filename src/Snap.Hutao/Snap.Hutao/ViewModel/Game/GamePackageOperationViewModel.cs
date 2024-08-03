@@ -158,8 +158,6 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         };
 
         IsFinished = true;
-
-        RefreshUI();
     }
 
     private void RefreshUI()

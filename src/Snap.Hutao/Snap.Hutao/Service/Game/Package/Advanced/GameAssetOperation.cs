@@ -207,53 +207,54 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         string chunkPath = Path.Combine(context.Operation.ChunksDirectory, sophonChunk.AssetChunk.ChunkName);
 
         TaskCompletionSource downloadTcs = new();
-        if (processingChunks.TryAdd(sophonChunk.AssetChunk.ChunkName, downloadTcs.Task))
+        while (!ProcessingChunks.TryAdd(sophonChunk.AssetChunk.ChunkName, downloadTcs.Task))
         {
-            try
+            if (ProcessingChunks.TryGetValue(sophonChunk.AssetChunk.ChunkName, out Task? task))
             {
-                if (File.Exists(chunkPath))
-                {
-                    string chunkXxh64 = await XXH64.HashFileAsync(chunkPath, token).ConfigureAwait(false);
-                    if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
-                    {
-                        context.Progress.Report(new GamePackageOperationReport.Download(sophonChunk.AssetChunk.ChunkSize, 1));
-                        return;
-                    }
+                await task.ConfigureAwait(false);
+            }
+        }
 
-                    File.Delete(chunkPath);
+        try
+        {
+            if (File.Exists(chunkPath))
+            {
+                string chunkXxh64 = await XXH64.HashFileAsync(chunkPath, token).ConfigureAwait(false);
+                if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
+                {
+                    context.Progress.Report(new GamePackageOperationReport.Download(sophonChunk.AssetChunk.ChunkSize, 1));
+                    return;
                 }
 
-                using (FileStream fileStream = File.Create(chunkPath))
+                File.Delete(chunkPath);
+            }
+
+            using (FileStream fileStream = File.Create(chunkPath))
+            {
+                fileStream.Position = 0;
+
+                using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GameAssetOperation)))
                 {
-                    fileStream.Position = 0;
-
-                    using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GameAssetOperation)))
+                    using (Stream webStream = await httpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl, token).ConfigureAwait(false))
                     {
-                        using (Stream webStream = await httpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl, token).ConfigureAwait(false))
+                        StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Download(bytesRead, 0));
+
+                        await worker.CopyAsync(context.Progress, token).ConfigureAwait(false);
+
+                        fileStream.Position = 0;
+                        string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
+                        if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
                         {
-                            StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Download(bytesRead, 0));
-
-                            await worker.CopyAsync(context.Progress, token).ConfigureAwait(false);
-
-                            fileStream.Position = 0;
-                            string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
-                            if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
-                            {
-                                context.Progress.Report(new GamePackageOperationReport.Download(0, 1));
-                            }
+                            context.Progress.Report(new GamePackageOperationReport.Download(0, 1));
                         }
                     }
                 }
             }
-            finally
-            {
-                downloadTcs.TrySetResult();
-                processingChunks.TryRemove(sophonChunk.AssetChunk.ChunkName, out _);
-            }
         }
-        else if (processingChunks.TryGetValue(chunkPath, out Task? task))
+        finally
         {
-            await task.ConfigureAwait(false);
+            downloadTcs.TrySetResult();
+            processingChunks.TryRemove(sophonChunk.AssetChunk.ChunkName, out _);
         }
     }
 
