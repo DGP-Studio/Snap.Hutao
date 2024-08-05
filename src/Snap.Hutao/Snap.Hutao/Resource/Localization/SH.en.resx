@@ -2618,6 +2618,12 @@
   <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
     <value>Unlock Method</value>
   </data>
+  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
+    <value>Enable this option when an error code 31-4302 occurs. When enabled, adjust view and fog will only be disabled before starting the game</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
+    <value>Compatibility mode</value>
+  </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
     <value>Disabled</value>
   </data>
