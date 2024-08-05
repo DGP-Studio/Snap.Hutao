@@ -2618,6 +2618,12 @@
   <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
     <value>解锁方式</value>
   </data>
+  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
+    <value>当出现错误代码 31-4302 时请启用此选项，启用后将禁止调整视野与迷雾，仅在启动游戏前切换此开关才会生效</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
+    <value>兼容模式</value>
+  </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
     <value>비활성화</value>
   </data>
