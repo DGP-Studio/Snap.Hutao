@@ -76,17 +76,17 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
 
         using (SafeFileHandle fileHandle = File.OpenHandle(path, FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: assetProperty.AssetSize))
         {
-            await Parallel.ForEachAsync(assetProperty.AssetChunks, context.ParallelOptions, (chunk, token) => MergeChunkIntoAssetAsync(fileHandle, chunk, context)).ConfigureAwait(false);
+            await Parallel.ForEachAsync(assetProperty.AssetChunks, context.ParallelOptions, (chunk, token) => MergeChunkIntoAssetAsync(context, fileHandle, chunk)).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask MergeChunkIntoAssetAsync(SafeFileHandle fileHandle, AssetChunk chunk, GamePackageServiceContext context)
+    private async ValueTask MergeChunkIntoAssetAsync(GamePackageServiceContext context, SafeFileHandle fileHandle, AssetChunk chunk)
     {
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
         {
             Memory<byte> buffer = memoryOwner.Memory;
 
-            string chunkPath = Path.Combine(context.Operation.ChunksDirectory, chunk.ChunkName);
+            string chunkPath = Path.Combine(context.Operation.ProxiedChunksDirectory, chunk.ChunkName);
             if (!File.Exists(chunkPath))
             {
                 return;
@@ -110,13 +110,13 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
                         long offset = chunk.ChunkOnFileOffset;
                         do
                         {
-                            int bytesRead = await decompressionStream.ReadAsync(buffer, context.ParallelOptions.CancellationToken).ConfigureAwait(false);
+                            int bytesRead = await decompressionStream.ReadAsync(buffer, context.CancellationToken).ConfigureAwait(false);
                             if (bytesRead <= 0)
                             {
                                 break;
                             }
 
-                            await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, context.ParallelOptions.CancellationToken).ConfigureAwait(false);
+                            await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, context.CancellationToken).ConfigureAwait(false);
                             context.Progress.Report(new GamePackageOperationReport.Install(bytesRead, 0));
                             offset += bytesRead;
                         }

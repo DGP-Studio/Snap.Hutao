@@ -99,8 +99,8 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-
             branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+
             if (!branchResp.IsOk())
             {
                 return false;
@@ -162,8 +162,8 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-
             sdkResp = await hoyoPlayClient.GetChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false);
+
             if (!sdkResp.IsOk())
             {
                 return;
@@ -176,7 +176,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             serviceProvider,
             operationKind,
             gameFileSystem,
-            GameBranch.Main.CloneWithTag(LocalVersion.ToString()),
+            GameBranch.Main.GetTaggedCopy(LocalVersion.ToString()),
             operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main,
             gameChannelSDK);
 

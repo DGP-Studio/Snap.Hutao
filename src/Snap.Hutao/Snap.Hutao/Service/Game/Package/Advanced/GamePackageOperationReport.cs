@@ -7,6 +7,19 @@ internal abstract class GamePackageOperationReport
 {
     public GamePackageOperationReportKind Kind { get; private set; }
 
+    internal abstract class Update : GamePackageOperationReport
+    {
+        public Update(long bytesRead, int chunks)
+        {
+            BytesRead = bytesRead;
+            Chunks = chunks;
+        }
+
+        public long BytesRead { get; private set; }
+
+        public int Chunks { get; private set; }
+    }
+
     internal sealed class Download : Update
     {
         public Download(long bytesRead, int chunks)
@@ -23,19 +36,6 @@ internal abstract class GamePackageOperationReport
         {
             Kind = GamePackageOperationReportKind.Install;
         }
-    }
-
-    internal abstract class Update : GamePackageOperationReport
-    {
-        public Update(long bytesRead, int chunks)
-        {
-            BytesRead = bytesRead;
-            Chunks = chunks;
-        }
-
-        public long BytesRead { get; private set; }
-
-        public int Chunks { get; private set; }
     }
 
     internal sealed class Reset : GamePackageOperationReport

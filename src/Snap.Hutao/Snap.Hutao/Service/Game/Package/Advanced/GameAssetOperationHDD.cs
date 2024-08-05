@@ -103,7 +103,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
 
                 foreach (AssetChunk chunk in assetProperty.AssetChunks)
                 {
-                    string chunkPath = Path.Combine(context.Operation.ChunksDirectory, chunk.ChunkName);
+                    string chunkPath = Path.Combine(context.Operation.ProxiedChunksDirectory, chunk.ChunkName);
                     if (!File.Exists(chunkPath))
                     {
                         continue;
@@ -122,18 +122,18 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                     {
                         using (FileStream chunkFile = File.OpenRead(chunkPath))
                         {
-                            using (ZstandardDecompressionStream decompressionStream = new(chunkFile))
+                            using (ZstandardDecompressionStream decompressor = new(chunkFile))
                             {
                                 long offset = chunk.ChunkOnFileOffset;
                                 do
                                 {
-                                    int bytesRead = await decompressionStream.ReadAsync(buffer, context.ParallelOptions.CancellationToken).ConfigureAwait(false);
+                                    int bytesRead = await decompressor.ReadAsync(buffer, context.CancellationToken).ConfigureAwait(false);
                                     if (bytesRead <= 0)
                                     {
                                         break;
                                     }
 
-                                    await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, context.ParallelOptions.CancellationToken).ConfigureAwait(false);
+                                    await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, context.CancellationToken).ConfigureAwait(false);
                                     context.Progress.Report(new GamePackageOperationReport.Install(bytesRead, 0));
                                     offset += bytesRead;
                                 }

@@ -5,7 +5,7 @@ namespace Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 
 internal static class BranchWrapperExtension
 {
-    public static BranchWrapper CloneWithTag(this BranchWrapper branchWrapper, string tag)
+    public static BranchWrapper GetTaggedCopy(this BranchWrapper branchWrapper, string tag)
     {
         return new()
         {
