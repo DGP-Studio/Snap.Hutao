@@ -1137,7 +1137,7 @@
     <value>画像をコピー</value>
   </data>
   <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
-    <value>请完成验证</value>
+    <value>認証を完了してください。</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>アチーブメント</value>
