@@ -2618,6 +2618,12 @@
   <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
     <value>ロック解除モード</value>
   </data>
+  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
+    <value>エラー コード31-4302。このオプションを有効にした場合、グラデーションと霧の調整が無効になり、ゲームの起動前に切り替わるようにできます。</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
+    <value>互換モード</value>
+  </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
     <value>無効</value>
   </data>
