@@ -111,6 +111,9 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog
         {
             ActionType = response.Data.ActionType;
         }
+
+        // Prevent re-enable too soon, and user might not receive the short message
+        await Task.Delay(TimeSpan.FromSeconds(10)).ConfigureAwait(false);
     }
 
     public async ValueTask<bool> GetMobileCaptchaAsync()

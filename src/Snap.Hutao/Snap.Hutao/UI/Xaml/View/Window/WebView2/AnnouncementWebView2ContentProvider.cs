@@ -41,6 +41,8 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
 
     public CoreWebView2? CoreWebView2 { get; set; }
 
+    public Action? CloseWindowAction { get; set; }
+
     public async ValueTask InitializeAsync(IServiceProvider serviceProvider, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(CoreWebView2);

@@ -27,6 +27,8 @@ internal sealed partial class GeetestWebView2ContentProvider : DependencyObject,
 
     public CoreWebView2? CoreWebView2 { get; set; }
 
+    public Action? CloseWindowAction { get; set; }
+
     public ValueTask InitializeAsync(IServiceProvider serviceProvider, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(CoreWebView2);
@@ -36,6 +38,7 @@ internal sealed partial class GeetestWebView2ContentProvider : DependencyObject,
         CoreWebView2.NavigateToString($$"""
             <html>
                 <head>
+                    <title>{{SH.UIXamlViewWindowWebView2GeetestHeader}}</title>
                     <style>
                         #geetest-div {
                             aligin-items:center
@@ -53,9 +56,12 @@ internal sealed partial class GeetestWebView2ContentProvider : DependencyObject,
                             gt: "{{gt}}",
                             challenge: "{{challenge}}",
                             new_captcha: true,
+                            product: 'bind',
                         },
                         function (captchaObj) {
-                            captchaObj.appendTo("#geetest-div");
+                            captchaObj.onReady(function () {
+                                captchaObj.verify();
+                            });
                             captchaObj.onSuccess(function () {
                                 var result = captchaObj.getValidate();
                                 chrome.webview.postMessage(result);
@@ -129,5 +135,6 @@ internal sealed partial class GeetestWebView2ContentProvider : DependencyObject,
     private void OnWebMessageReceived(CoreWebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
     {
         result = args.WebMessageAsJson;
+        CloseWindowAction?.Invoke();
     }
 }
