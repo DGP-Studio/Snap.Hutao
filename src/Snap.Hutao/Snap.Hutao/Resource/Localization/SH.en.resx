@@ -1137,7 +1137,7 @@
     <value>Copy Image</value>
   </data>
   <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
-    <value>请完成验证</value>
+    <value>Please complete authentication</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>Achievements</value>
