@@ -13,6 +13,7 @@ internal struct IslandEnvironmentView
     public float FieldOfView;
     public int TargetFrameRate;
     public bool DisableFog;
+    public bool LoopAdjustFpsOnly;
 
     public uint FunctionOffsetFieldOfView;
     public uint FunctionOffsetTargetFrameRate;

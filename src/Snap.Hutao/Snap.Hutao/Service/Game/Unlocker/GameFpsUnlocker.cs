@@ -116,6 +116,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         pIslandEnvironment->FunctionOffsetTargetFrameRate = offsets.FunctionOffsetTargetFrameRate;
         pIslandEnvironment->FunctionOffsetFog = offsets.FunctionOffsetFog;
 
+        pIslandEnvironment->LoopAdjustFpsOnly = options.LoopAdjustFpsOnly;
+
         UpdateIslandEnvironment(handle, options);
     }
 

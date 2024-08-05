@@ -38,6 +38,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     private int? targetFps;
     private float? targetFov;
     private bool? disableFog;
+    private bool? loopAdjustFpsOnly;
     private NameValue<int>? monitor;
     private bool? isMonitorEnabled;
     private bool? isUseCloudThirdPartyMobile;
@@ -80,6 +81,7 @@ internal sealed class LaunchOptions : DbStoreOptions
                 SettingEntry.LaunchUseStarwardPlayTimeStatistics => InitializeBooleanValue(ref useStarwardPlayTimeStatistics, value),
                 SettingEntry.LaunchUseBetterGenshinImpactAutomation => InitializeBooleanValue(ref useBetterGenshinImpactAutomation, value),
                 SettingEntry.LaunchSetDiscordActivityWhenPlaying => InitializeBooleanValue(ref setDiscordActivityWhenPlaying, value),
+                SettingEntry.LaunchLoopAdjustFpsOnly => InitializeBooleanValue(ref loopAdjustFpsOnly, value),
                 _ => default,
             };
         });
@@ -240,6 +242,12 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref disableFog, SettingEntry.LaunchDisableFog, false);
         set => SetOption(ref disableFog, SettingEntry.LaunchDisableFog, value);
+    }
+
+    public bool LoopAdjustFpsOnly
+    {
+        get => GetOption(ref loopAdjustFpsOnly, SettingEntry.LaunchLoopAdjustFpsOnly, true);
+        set => SetOption(ref loopAdjustFpsOnly, SettingEntry.LaunchLoopAdjustFpsOnly, value);
     }
 
     [NotNull]

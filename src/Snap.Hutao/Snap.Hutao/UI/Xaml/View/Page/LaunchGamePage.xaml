@@ -340,7 +340,7 @@
                                 </StackPanel>
                             </Border>
                         </Border>
-                        
+
                         <!--  进程  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
@@ -431,7 +431,7 @@
                                             <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                             <NumberBox
                                                 MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
-                                                Padding="10,8,0,0"
+                                                Padding="0,8,0,0"
                                                 Maximum="720"
                                                 Minimum="-1"
                                                 SpinButtonPlacementMode="Inline"
@@ -443,17 +443,29 @@
                                                 OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
                                         </StackPanel>
                                         <cwc:SettingsExpander.Items>
-                                            <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovDescription}" Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}">
+                                            <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader}">
+                                                <cwc:SettingsCard.Description>
+                                                    <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription}"/>
+                                                </cwc:SettingsCard.Description>
+                                                <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.LoopAdjustFpsOnly, Mode=TwoWay}"/>
+                                            </cwc:SettingsCard>
+                                            <cwc:SettingsCard
+                                                Description="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovDescription}"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}"
+                                                IsEnabled="{Binding LaunchOptions.LoopAdjustFpsOnly, Converter={StaticResource BoolNegationConverter}}">
                                                 <NumberBox
                                                     MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
-                                                    Padding="10,8,0,0"
+                                                    Padding="0,8,0,0"
                                                     Maximum="55"
                                                     Minimum="45"
                                                     SmallChange="1"
                                                     SpinButtonPlacementMode="Inline"
                                                     Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
                                             </cwc:SettingsCard>
-                                            <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogDescription}" Header="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}">
+                                            <cwc:SettingsCard
+                                                Description="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogDescription}"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}"
+                                                IsEnabled="{Binding LaunchOptions.LoopAdjustFpsOnly, Converter={StaticResource BoolNegationConverter}}">
                                                 <ToggleSwitch
                                                     MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
                                                     IsOn="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
@@ -466,7 +478,7 @@
                                 </StackPanel>
                             </Border>
                         </Border>
-                        
+
                         <!--  进程间  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">

@@ -292,7 +292,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
     <PackageReference Include="Google.OrTools" Version="9.10.4067" />
-    <PackageReference Include="Google.Protobuf" Version="3.27.2" />
+    <PackageReference Include="Google.Protobuf" Version="3.27.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
@@ -312,7 +312,7 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
-    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.11.0" />
+    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.12.0" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
     <PackageReference Include="Snap.Hutao.Deployment.Runtime" Version="1.16.3">
       <PrivateAssets>all</PrivateAssets>
@@ -326,7 +326,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.UnlockerIsland" Version="1.1.5">
+    <PackageReference Include="Snap.Hutao.UnlockerIsland" Version="1.1.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
