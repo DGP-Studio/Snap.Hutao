@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Game;
 
 internal static class GameFileSystemExtension
 {
-    public static async ValueTask ExtractConfigurationFileAsync(this GameFileSystem gameFileSystem, string version, LaunchScheme launchScheme)
+    public static void ExtractConfigurationFile(this GameFileSystem gameFileSystem, string version, LaunchScheme launchScheme)
     {
         string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
         string content = $$$"""
@@ -23,23 +23,26 @@ internal static class GameFileSystemExtension
             uapc={"hk4e_cn":{"uapc":""},"hyp":{"uapc":""}}
             """;
 
-        await File.WriteAllTextAsync(gameFileSystem.GameConfigFilePath, content).ConfigureAwait(false);
+        string? directory = Path.GetDirectoryName(gameFileSystem.GameConfigFilePath);
+        ArgumentNullException.ThrowIfNull(directory);
+        Directory.CreateDirectory(directory);
+        File.WriteAllText(gameFileSystem.GameConfigFilePath, content);
     }
 
-    public static async ValueTask<bool> TryFixConfigurationFileAsync(this GameFileSystem gameFileSystem, LaunchScheme launchScheme)
+    public static bool TryFixConfigurationFile(this GameFileSystem gameFileSystem, LaunchScheme launchScheme)
     {
         if (!File.Exists(gameFileSystem.ScriptVersionFilePath))
         {
             return false;
         }
 
-        string version = await File.ReadAllTextAsync(gameFileSystem.ScriptVersionFilePath).ConfigureAwait(false);
-        await ExtractConfigurationFileAsync(gameFileSystem, version, launchScheme).ConfigureAwait(false);
+        string version = File.ReadAllText(gameFileSystem.ScriptVersionFilePath);
+        ExtractConfigurationFile(gameFileSystem, version, launchScheme);
 
         return true;
     }
 
-    public static async ValueTask<bool> TryFixScriptVersionAsync(this GameFileSystem gameFileSystem)
+    public static bool TryFixScriptVersion(this GameFileSystem gameFileSystem)
     {
         if (!File.Exists(gameFileSystem.GameConfigFilePath))
         {
@@ -50,7 +53,7 @@ internal static class GameFileSystemExtension
 
         string? version = parameters.FirstOrDefault(p => p.Key == "game_version")?.Value;
 
-        await File.WriteAllTextAsync(gameFileSystem.ScriptVersionFilePath, version).ConfigureAwait(false);
+        File.WriteAllText(gameFileSystem.ScriptVersionFilePath, version);
         return true;
     }
 }

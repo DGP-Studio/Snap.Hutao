@@ -30,6 +30,17 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
             gameConfigurationFileService.Restore(gameFileSystem.GameConfigFilePath);
         }
 
+        if (!File.Exists(gameFileSystem.ScriptVersionFilePath))
+        {
+            // Try to fix ScriptVersion by reading game_version from the configuration file
+            // Will check the configuration file first
+            // If the configuration file and ScriptVersion file are both missing, the game content is corrupted
+            if (!gameFileSystem.TryFixScriptVersion())
+            {
+                return ChannelOptions.GameContentCorrupted(gameFileSystem.GameDirectory);
+            }
+        }
+
         if (!File.Exists(gameFileSystem.GameConfigFilePath))
         {
             return ChannelOptions.ConfigurationFileNotFound(gameFileSystem.GameConfigFilePath);
