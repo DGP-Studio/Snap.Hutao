@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Web.Endpoint;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Web.Response;
@@ -14,22 +15,23 @@ namespace Snap.Hutao.Web.Hutao.Wallpaper;
 internal sealed partial class HutaoWallpaperClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly ILogger<HutaoWallpaperClient> logger;
     private readonly HttpClient httpClient;
 
     public ValueTask<Response<Wallpaper>> GetBingWallpaperAsync(CancellationToken token = default)
     {
-        return GetWallpaperAsync(HutaoEndpoints.WallpaperBing(), token);
+        return GetWallpaperAsync(hutaoEndpointsFactory.Create().WallpaperBing(), token);
     }
 
     public ValueTask<Response<Wallpaper>> GetLauncherWallpaperAsync(CancellationToken token = default)
     {
-        return GetWallpaperAsync(HutaoEndpoints.WallpaperGenshinLauncher(), token);
+        return GetWallpaperAsync(hutaoEndpointsFactory.Create().WallpaperGenshinLauncher(), token);
     }
 
     public ValueTask<Response<Wallpaper>> GetTodayWallpaperAsync(CancellationToken token = default)
     {
-        return GetWallpaperAsync(HutaoEndpoints.WallpaperToday(), token);
+        return GetWallpaperAsync(hutaoEndpointsFactory.Create().WallpaperToday(), token);
     }
 
     private async ValueTask<Response<Wallpaper>> GetWallpaperAsync(string url, CancellationToken token = default)

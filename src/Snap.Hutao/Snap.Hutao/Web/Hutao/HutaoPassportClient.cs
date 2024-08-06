@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Web.Endpoint;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -12,18 +13,11 @@ using System.Text;
 
 namespace Snap.Hutao.Web.Hutao;
 
-/// <summary>
-/// 胡桃通行证客户端
-/// </summary>
-[HighQuality]
 [HttpClient(HttpClientConfiguration.Default)]
 [ConstructorGenerated(ResolveHttpClient = true)]
 internal sealed partial class HutaoPassportClient
 {
-    /// <summary>
-    /// 通行证请求公钥
-    /// </summary>
-    public const string PublicKey = """
+    private const string PublicKey = """
         -----BEGIN PUBLIC KEY-----
         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5W2SEyZSlP2zBI1Sn8Gd
         TwbZoXlUGNKyoVrY8SVYu9GMefdGZCrUQNkCG/Np8pWPmSSEFGd5oeug/oIMtCZQ
@@ -36,6 +30,7 @@ internal sealed partial class HutaoPassportClient
         """;
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly ILogger<HutaoPassportClient> logger;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
@@ -58,7 +53,7 @@ internal sealed partial class HutaoPassportClient
         }
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.PassportVerify)
+            .SetRequestUri(hutaoEndpointsFactory.Create().PassportVerify())
             .PostJson(data);
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
@@ -70,14 +65,6 @@ internal sealed partial class HutaoPassportClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步注册
-    /// </summary>
-    /// <param name="email">邮箱</param>
-    /// <param name="password">密码</param>
-    /// <param name="verifyCode">验证码</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>响应，包含登录令牌</returns>
     public async ValueTask<HutaoResponse<string>> RegisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
@@ -88,7 +75,7 @@ internal sealed partial class HutaoPassportClient
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.PassportRegister)
+            .SetRequestUri(hutaoEndpointsFactory.Create().PassportRegister())
             .PostJson(data);
 
         HutaoResponse<string>? resp = await builder
@@ -108,7 +95,7 @@ internal sealed partial class HutaoPassportClient
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.PassportCancel)
+            .SetRequestUri(hutaoEndpointsFactory.Create().PassportCancel())
             .PostJson(data);
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
@@ -120,14 +107,6 @@ internal sealed partial class HutaoPassportClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步重置密码
-    /// </summary>
-    /// <param name="email">邮箱</param>
-    /// <param name="password">密码</param>
-    /// <param name="verifyCode">验证码</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>响应，包含登录令牌</returns>
     public async ValueTask<HutaoResponse<string>> ResetPasswordAsync(string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
@@ -138,7 +117,7 @@ internal sealed partial class HutaoPassportClient
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.PassportResetPassword)
+            .SetRequestUri(hutaoEndpointsFactory.Create().PassportResetPassword())
             .PostJson(data);
 
         HutaoResponse<string>? resp = await builder
@@ -148,13 +127,6 @@ internal sealed partial class HutaoPassportClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步登录
-    /// </summary>
-    /// <param name="email">邮箱</param>
-    /// <param name="password">密码</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>响应，包含登录令牌</returns>
     public async ValueTask<HutaoResponse<string>> LoginAsync(string email, string password, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
@@ -164,7 +136,7 @@ internal sealed partial class HutaoPassportClient
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.PassportLogin)
+            .SetRequestUri(hutaoEndpointsFactory.Create().PassportLogin())
             .PostJson(data);
 
         HutaoResponse<string>? resp = await builder
@@ -174,15 +146,10 @@ internal sealed partial class HutaoPassportClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 获取用户信息
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>用户信息</returns>
     public async ValueTask<HutaoResponse<UserInfo>> GetUserInfoAsync(CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.PassportUserInfo)
+            .SetRequestUri(hutaoEndpointsFactory.Create().PassportUserInfo())
             .Get();
 
         await builder.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
@@ -196,11 +163,10 @@ internal sealed partial class HutaoPassportClient
 
     private static string Encrypt(string text)
     {
-        byte[] plaintextBytes = Encoding.UTF8.GetBytes(text);
         using (RSA rsa = RSA.Create(2048))
         {
             rsa.ImportFromPem(PublicKey);
-            byte[] encryptedBytes = rsa.Encrypt(plaintextBytes, RSAEncryptionPadding.OaepSHA1);
+            byte[] encryptedBytes = rsa.Encrypt(Encoding.UTF8.GetBytes(text), RSAEncryptionPadding.OaepSHA1);
             return Convert.ToBase64String(encryptedBytes);
         }
     }

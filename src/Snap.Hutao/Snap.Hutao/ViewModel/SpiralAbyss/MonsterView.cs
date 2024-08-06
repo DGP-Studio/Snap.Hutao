@@ -6,6 +6,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Web.Endpoint;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
@@ -14,7 +15,7 @@ internal sealed class MonsterView : INameIcon, IMappingFrom<MonsterView, TowerMo
     private MonsterView(in MonsterRelationshipId id)
     {
         Name = $"Unknown {id}";
-        Icon = Web.HutaoEndpoints.UIIconNone;
+        Icon = StaticResourcesEndpoints.UIIconNone;
         Count = 1;
     }
 

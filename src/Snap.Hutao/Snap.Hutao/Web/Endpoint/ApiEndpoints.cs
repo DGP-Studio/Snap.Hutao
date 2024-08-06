@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 
-namespace Snap.Hutao.Web;
+namespace Snap.Hutao.Web.Endpoint;
 
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1202")]

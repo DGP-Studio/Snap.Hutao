@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Endpoint;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
 internal sealed class CardVerifiationHeaders

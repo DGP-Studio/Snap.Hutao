@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game.Scheme;
+using Snap.Hutao.Web.Endpoint;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.DeprecatedFile;

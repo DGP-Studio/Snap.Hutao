@@ -11,6 +11,7 @@ using Snap.Hutao.Core.Logging;
 using Snap.Hutao.UI;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web;
+using Snap.Hutao.Web.Endpoint;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Win32.System.WinRT;
@@ -172,7 +173,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     /// <inheritdoc/>
     public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
-        Uri dummyUri = HutaoEndpoints.StaticRaw(category, fileName).ToUri();
+        Uri dummyUri = StaticResourcesEndpoints.StaticRaw(category, fileName).ToUri();
         return Path.Combine(CacheFolder, GetCacheFileName(dummyUri));
     }
 

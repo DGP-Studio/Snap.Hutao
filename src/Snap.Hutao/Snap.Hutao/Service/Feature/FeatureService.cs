@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game.Unlocker.Island;
 using Snap.Hutao.Web;
+using Snap.Hutao.Web.Endpoint;
 using System.Net.Http;
 using System.Net.Http.Json;
 
@@ -14,6 +15,7 @@ namespace Snap.Hutao.Service.Feature;
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class FeatureService : IFeatureService
 {
+    private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
 
     public async ValueTask<IslandFeature?> GetIslandFeatureAsync()
@@ -25,7 +27,8 @@ internal sealed partial class FeatureService : IFeatureService
             {
                 try
                 {
-                    return await httpClient.GetFromJsonAsync<IslandFeature>(HutaoEndpoints.Feature("UnlockerIsland")).ConfigureAwait(false);
+                    string url = hutaoEndpointsFactory.Create().Feature("UnlockerIsland");
+                    return await httpClient.GetFromJsonAsync<IslandFeature>(url).ConfigureAwait(false);
                 }
                 catch
                 {

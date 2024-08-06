@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.UI.Xaml.Data.Converter;
+using Snap.Hutao.Web.Endpoint;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
@@ -27,7 +28,7 @@ internal sealed class AssociationTypeIconConverter : ValueConverter<AssociationT
 
         return association is null
             ? default
-            : Web.HutaoEndpoints.StaticRaw("ChapterIcon", $"UI_ChapterIcon_{association}.png").ToUri();
+            : StaticResourcesEndpoints.StaticRaw("ChapterIcon", $"UI_ChapterIcon_{association}.png").ToUri();
     }
 
     public override Uri? Convert(AssociationType from)
