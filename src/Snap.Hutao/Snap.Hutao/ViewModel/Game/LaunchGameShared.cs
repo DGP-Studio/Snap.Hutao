@@ -10,7 +10,6 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
-using System.IO;
 
 namespace Snap.Hutao.ViewModel.Game;
 
@@ -66,7 +65,6 @@ internal sealed partial class LaunchGameShared
         }
 
         bool isOversea = LaunchScheme.ExecutableIsOversea(gameFileSystem.GameFileName);
-        string version = await File.ReadAllTextAsync(gameFileSystem.ScriptVersionFilePath).ConfigureAwait(false);
 
         LaunchGameConfigurationFixDialog dialog = await contentDialogFactory
             .CreateInstanceAsync<LaunchGameConfigurationFixDialog>()
@@ -77,23 +75,13 @@ internal sealed partial class LaunchGameShared
         dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
         (bool isOk, LaunchScheme launchScheme) = await dialog.GetLaunchSchemeAsync().ConfigureAwait(false);
 
-        if (isOk)
+        if (!isOk)
         {
-            string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
-            string content = $$$"""
-                [General]
-                channel={{{launchScheme.Channel:D}}}
-                cps=mihoyo
-                game_version={{{version}}}
-                sub_channel={{{launchScheme.SubChannel:D}}}
-                sdk_version=
-                game_biz={{{gameBiz}}}
-                uapc={"hk4e_cn":{"uapc":""},"hyp":{"uapc":""}}
-                """;
-
-            await File.WriteAllTextAsync(gameFileSystem.GameConfigFilePath, content).ConfigureAwait(false);
-            infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
+            return;
         }
+
+        await gameFileSystem.TryFixConfigurationFileAsync(launchScheme).ConfigureAwait(false);
+        infoBarService.Success(SH.ViewModelLaunchGameFixConfigurationFileSuccess);
     }
 
     [Command("HandleGamePathNullOrEmptyCommand")]
