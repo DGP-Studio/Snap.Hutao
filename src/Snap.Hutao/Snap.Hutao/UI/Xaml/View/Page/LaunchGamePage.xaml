@@ -21,7 +21,7 @@
 
     <mxi:Interaction.Behaviors>
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
-        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding GamePackageViewModel.LoadCommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding GamePackageInstallViewModel.LoadCommand}"/>
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
@@ -150,6 +150,16 @@
                             <TextBlock Foreground="{ThemeResource SystemErrorTextColor}" Text="{shuxm:ResourceString Name=ViewPageSettingSetGamePathHint}"/>
                         </cwc:SettingsCard.Description>
                     </cwc:SettingsCard>
+                    <cwc:SettingsCard
+                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                        Command="{Binding GamePackageInstallViewModel.StartCommand}"
+                        Description="{Binding GamePackageInstallViewModel.RemoteVersionText}"
+                        Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationInstall}"
+                        HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentCloudDownload}}"
+                        IsClickEnabled="True"
+                        IsEnabled="{Binding RuntimeOptions.IsElevated}">
+                        <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                    </cwc:SettingsCard>
                 </StackPanel>
             </Border>
         </shuxc:StandardView.EmptyContent>
@@ -190,7 +200,7 @@
                                         Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                                         Text="{shuxm:ResourceString Name=ViewPageLaunchGameFileHeader}"/>
 
-                                    <cwc:SettingsExpander IsExpanded="True">
+                                    <cwc:SettingsExpander IsEnabled="{Binding RuntimeOptions.IsElevated}" IsExpanded="True">
                                         <cwc:SettingsExpander.Header>
                                             <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
                                                 <shuxci:CachedImage
@@ -225,13 +235,6 @@
                                             </StackPanel>
                                         </cwc:SettingsExpander.Content>
                                         <cwc:SettingsExpander.Items>
-                                            <cwc:SettingsCard
-                                                Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
-                                                Command="{Binding GamePackageViewModel.StartCommand}"
-                                                CommandParameter="Install"
-                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationInstall}"
-                                                HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentCloudDownload}}"
-                                                IsClickEnabled="True"/>
                                             <cwc:SettingsCard
                                                 Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
                                                 Command="{Binding GamePackageViewModel.StartCommand}"

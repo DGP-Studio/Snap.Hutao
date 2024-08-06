@@ -1,11 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
 using Snap.Hutao.Service.Game.Scheme;
-using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
@@ -18,7 +16,6 @@ namespace Snap.Hutao.ViewModel.Game;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 {
-    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGamePackageService gamePackageService;
     private readonly LaunchGameShared launchGameShared;
     private readonly IServiceProvider serviceProvider;
@@ -58,7 +55,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 return false;
             }
 
-            if (!launchOptions.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+            if (!launchOptions.TryGetGameFileSystem(out _))
             {
                 return false;
             }
@@ -76,14 +73,12 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 return false;
             }
 
-            string predownloadStatusPath = Path.Combine(gameFileSystem.ChunksDirectory, "snap_hutao_predownload_status.json");
-
-            if (!File.Exists(predownloadStatusPath))
+            if (!File.Exists(gameFileSystem.PredownloadStatusPath))
             {
                 return false;
             }
 
-            if (JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(predownloadStatusPath)) is { } predownloadStatus)
+            if (JsonSerializer.Deserialize<PredownloadStatus>(File.ReadAllText(gameFileSystem.PredownloadStatusPath)) is { } predownloadStatus)
             {
                 int fileCount = Directory.GetFiles(gameFileSystem.ChunksDirectory).Length - 1;
                 return predownloadStatus.Finished && fileCount == predownloadStatus.TotalBlocks;
@@ -104,8 +99,8 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-
             branchResp = await hoyoPlayClient.GetBranchesAsync(launchScheme).ConfigureAwait(false);
+
             if (!branchResp.IsOk())
             {
                 return false;
@@ -163,27 +158,12 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
         LaunchScheme targetLaunchScheme = LaunchScheme;
 
-        if (operationKind is GamePackageOperationKind.Install)
-        {
-            LaunchGameInstallGameDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGameInstallGameDialog>().ConfigureAwait(false);
-            dialog.KnownSchemes = KnownLaunchSchemes.Get();
-            dialog.SelectedScheme = dialog.KnownSchemes.First(scheme => scheme.IsNotCompatOnly);
-            (bool isOk, GameInstallOptions gameInstallOptions) = await dialog.GetGameFileSystemAsync().ConfigureAwait(false);
-
-            if (!isOk)
-            {
-                return;
-            }
-
-            (gameFileSystem, targetLaunchScheme) = gameInstallOptions;
-        }
-
         Response<GameChannelSDKsWrapper> sdkResp;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
-
             sdkResp = await hoyoPlayClient.GetChannelSDKAsync(targetLaunchScheme).ConfigureAwait(false);
+
             if (!sdkResp.IsOk())
             {
                 return;
@@ -196,7 +176,7 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
             serviceProvider,
             operationKind,
             gameFileSystem,
-            GameBranch.Main.CloneWithTag(LocalVersion.ToString()),
+            GameBranch.Main.GetTaggedCopy(LocalVersion.ToString()),
             operationKind is GamePackageOperationKind.Predownload ? GameBranch.PreDownload : GameBranch.Main,
             gameChannelSDK);
 

@@ -1,7 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package.Advanced;
@@ -17,7 +19,8 @@ namespace Snap.Hutao.UI.Xaml.View.Dialog;
 [DependencyProperty("Korean", typeof(bool))]
 [DependencyProperty("KnownSchemes", typeof(IEnumerable<LaunchScheme>))]
 [DependencyProperty("SelectedScheme", typeof(LaunchScheme))]
-[DependencyProperty("GameDirectory", typeof(string))]
+[DependencyProperty("GameDirectory", typeof(string), default(string), nameof(OnGameDirectoryChanged))]
+[DependencyProperty("IsParallelSupported", typeof(bool), true)]
 internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
@@ -63,6 +66,13 @@ internal sealed partial class LaunchGameInstallGameDialog : ContentDialog
         GameAudioSystem gameAudioSystem = new(Chinese, English, Japanese, Korean);
         string gamePath = Path.Combine(GameDirectory, SelectedScheme.IsOversea ? GameConstants.GenshinImpactFileName : GameConstants.YuanShenFileName);
         return new(true, new(new(gamePath, gameAudioSystem), SelectedScheme));
+    }
+
+    private static void OnGameDirectoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+    {
+        // TODO: refine infobar title
+        LaunchGameInstallGameDialog dialog = (LaunchGameInstallGameDialog)sender;
+        dialog.IsParallelSupported = PhysicalDriver.DangerousGetIsSolidState((string)args.NewValue);
     }
 
     [Command("PickGameDirectoryCommand")]

@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.ChannelSDK;
+using System.IO;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
@@ -15,6 +16,7 @@ internal readonly struct GamePackageOperationContext
     public readonly BranchWrapper LocalBranch;
     public readonly BranchWrapper RemoteBranch;
     public readonly GameChannelSDK? GameChannelSDK;
+    public readonly string ProxiedChunksDirectory;
 
     public GamePackageOperationContext(
         IServiceProvider serviceProvider,
@@ -30,5 +32,9 @@ internal readonly struct GamePackageOperationContext
         LocalBranch = localBranch;
         RemoteBranch = remoteBranch;
         GameChannelSDK = gameChannelSDK;
+
+        ProxiedChunksDirectory = kind is GamePackageOperationKind.Verify
+            ? Path.Combine(gameFileSystem.ChunksDirectory, "repair")
+            : gameFileSystem.ChunksDirectory;
     }
 }
