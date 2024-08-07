@@ -11,6 +11,7 @@ internal sealed partial class HutaoEndpointsFactory : IHutaoEndpointsFactory
 
     public IHutaoEndpoints Create()
     {
+        return serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.Release);
 #if RELEASE
         return serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.Release);
 #else

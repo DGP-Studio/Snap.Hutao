@@ -4,11 +4,11 @@
 using System.Runtime.CompilerServices;
 using System.Threading.RateLimiting;
 
-namespace Snap.Hutao.Core.Threading;
+namespace Snap.Hutao.Core.Threading.RateLimiting;
 
 internal static class TokenBucketRateLimiterExtension
 {
-    // IMPORTANT: count can be none 0 values if false is returned
+    // IMPORTANT: acquired can be none 0 values if false is returned
     public static bool TryAcquire(this TokenBucketRateLimiter rateLimiter, int permits, out int acquired, out TimeSpan retryAfter)
     {
         acquired = Math.Min(permits, (int)Volatile.Read(ref PrivateGetTokenCount(rateLimiter)));
@@ -22,9 +22,8 @@ internal static class TokenBucketRateLimiterExtension
             return;
         }
 
-        ref readonly TokenBucketRateLimiterOptions options = ref PrivateGetOptions(rateLimiter);
         ref double tokenCount = ref PrivateGetTokenCount(rateLimiter);
-        Volatile.Write(ref tokenCount, Math.Min(options.TokenLimit, Volatile.Read(ref tokenCount) + permits));
+        Volatile.Write(ref tokenCount, Math.Min(PrivateGetOptions(rateLimiter).TokenLimit, Volatile.Read(ref tokenCount) + permits));
     }
 
     // private double _tokenCount;

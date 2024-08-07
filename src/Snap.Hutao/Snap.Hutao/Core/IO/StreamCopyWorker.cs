@@ -4,6 +4,7 @@
 using System.Buffers;
 using System.IO;
 using System.Threading.RateLimiting;
+using Snap.Hutao.Core.Threading.RateLimiting;
 
 namespace Snap.Hutao.Core.IO;
 

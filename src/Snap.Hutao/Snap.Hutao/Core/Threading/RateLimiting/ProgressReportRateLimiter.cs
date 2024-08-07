@@ -3,7 +3,7 @@
 
 using System.Threading.RateLimiting;
 
-namespace Snap.Hutao.Core.IO;
+namespace Snap.Hutao.Core.Threading.RateLimiting;
 
 internal static class ProgressReportRateLimiter
 {

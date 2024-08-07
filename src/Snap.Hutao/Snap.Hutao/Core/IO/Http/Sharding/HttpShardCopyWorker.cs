@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
+using Snap.Hutao.Core.Threading.RateLimiting;
 using System.Buffers;
 using System.IO;
 using System.Net.Http;
