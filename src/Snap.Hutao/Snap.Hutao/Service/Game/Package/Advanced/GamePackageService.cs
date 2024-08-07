@@ -54,18 +54,18 @@ internal sealed partial class GamePackageService : IGamePackageService
         await taskContext.SwitchToBackgroundAsync();
         GamePackageServiceContext serviceContext = new(operationContext, progress, options);
 
-        Func<GamePackageServiceContext, ValueTask> operation = operationContext.Kind switch
+        Func<GamePackageServiceContext, CancellationToken, ValueTask> operation = operationContext.Kind switch
         {
             GamePackageOperationKind.Install => InstallAsync,
             GamePackageOperationKind.Verify => VerifyAndRepairAsync,
             GamePackageOperationKind.Update => UpdateAsync,
             GamePackageOperationKind.Predownload => PredownloadAsync,
-            _ => context => ValueTask.CompletedTask,
+            _ => (context, token) => ValueTask.CompletedTask,
         };
 
         try
         {
-            await operation(serviceContext).ConfigureAwait(false);
+            await operation(serviceContext, operationCts.Token).ConfigureAwait(false);
             return true;
         }
         catch (OperationCanceledException)
@@ -86,6 +86,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
 
         await operationCts.CancelAsync().ConfigureAwait(false);
+        // TODO: Long delay for parallel tasks to cancel
         await operationTcs.Task.ConfigureAwait(false);
         operationCts.Dispose();
         operationCts = null;
@@ -131,10 +132,19 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private static async ValueTask VerifyAndRepairCoreAsync(GamePackageServiceContext context, SophonDecodedBuild build, long totalBytes, int totalBlockCount)
+    private static HashSet<string> FilterDuplicatingChunkNames(IEnumerable<AssetChunk> chunks)
+    {
+        return chunks
+            .GroupBy(chunk => chunk.ChunkName)
+            .Where(group => group.Count() > 1)
+            .Select(group => group.Key)
+            .ToHashSet();
+    }
+
+    private static async ValueTask VerifyAndRepairCoreAsync(GamePackageServiceContext context, SophonDecodedBuild build, long totalBytes, int totalBlockCount, CancellationToken token = default)
     {
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedVerifyingIntegrity, 0, totalBlockCount, totalBytes));
-        GamePackageIntegrityInfo info = await context.Operation.Asset.VerifyGamePackageIntegrityAsync(context, build).ConfigureAwait(false);
+        GamePackageIntegrityInfo info = await context.Operation.Asset.VerifyGamePackageIntegrityAsync(context, build, token).ConfigureAwait(false);
 
         if (info.NoConflict)
         {
@@ -145,7 +155,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         (int conflictedBlocks, long conflictedBytes) = info.GetConflictedBlockCountAndByteCount(context.Operation.GameChannelSDK);
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedRepairing, conflictedBlocks, conflictedBytes));
 
-        await context.Operation.Asset.RepairGamePackageAsync(context, info).ConfigureAwait(false);
+        await context.Operation.Asset.RepairGamePackageAsync(context, info, token).ConfigureAwait(false);
 
         if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
         {
@@ -195,24 +205,26 @@ internal sealed partial class GamePackageService : IGamePackageService
         return totalBytes;
     }
 
-    private async ValueTask VerifyAndRepairAsync(GamePackageServiceContext context)
+    private async ValueTask VerifyAndRepairAsync(GamePackageServiceContext context, CancellationToken token = default)
     {
-        if (await DecodeManifestsAsync(context, context.Operation.LocalBranch).ConfigureAwait(false) is not { } localBuild)
+        if (await DecodeManifestsAsync(context, context.Operation.LocalBranch, token).ConfigureAwait(false) is not { } localBuild)
         {
             context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
             return;
         }
 
-        await VerifyAndRepairCoreAsync(context, localBuild, localBuild.TotalBytes, localBuild.TotalChunks).ConfigureAwait(false);
+        await VerifyAndRepairCoreAsync(context, localBuild, localBuild.TotalBytes, localBuild.TotalChunks, token).ConfigureAwait(false);
     }
 
-    private async ValueTask InstallAsync(GamePackageServiceContext context)
+    private async ValueTask InstallAsync(GamePackageServiceContext context, CancellationToken token = default)
     {
-        if (await DecodeManifestsAsync(context, context.Operation.RemoteBranch).ConfigureAwait(false) is not { } remoteBuild)
+        if (await DecodeManifestsAsync(context, context.Operation.RemoteBranch, token).ConfigureAwait(false) is not { } remoteBuild)
         {
             context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
             return;
         }
+
+        context.Operation.Asset.DuplicatingChunkNames = FilterDuplicatingChunkNames(remoteBuild.Manifests.SelectMany(m => m.ManifestProto.Assets.SelectMany(a => a.AssetChunks)));
 
         long totalBytes = remoteBuild.TotalBytes;
         if (!context.EnsureAvailableFreeSpace(totalBytes))
@@ -223,10 +235,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         int totalBlockCount = remoteBuild.TotalChunks;
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedInstalling, totalBlockCount, totalBytes));
 
-        await context.Operation.Asset.InstallAssetsAsync(context, remoteBuild).ConfigureAwait(false);
-        await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
+        await context.Operation.Asset.InstallAssetsAsync(context, remoteBuild, token).ConfigureAwait(false);
+        await context.Operation.Asset.EnsureChannelSdkAsync(context, token).ConfigureAwait(false);
 
-        await VerifyAndRepairCoreAsync(context, remoteBuild, totalBytes, totalBlockCount).ConfigureAwait(false);
+        await VerifyAndRepairCoreAsync(context, remoteBuild, totalBytes, totalBlockCount, token).ConfigureAwait(false);
 
         if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
         {
@@ -234,10 +246,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private async ValueTask UpdateAsync(GamePackageServiceContext context)
+    private async ValueTask UpdateAsync(GamePackageServiceContext context, CancellationToken token = default)
     {
-        if (await DecodeManifestsAsync(context, context.Operation.LocalBranch).ConfigureAwait(false) is not { } localBuild ||
-            await DecodeManifestsAsync(context, context.Operation.RemoteBranch).ConfigureAwait(false) is not { } remoteBuild)
+        if (await DecodeManifestsAsync(context, context.Operation.LocalBranch, token).ConfigureAwait(false) is not { } localBuild ||
+            await DecodeManifestsAsync(context, context.Operation.RemoteBranch, token).ConfigureAwait(false) is not { } remoteBuild)
         {
             context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
             return;
@@ -245,6 +257,8 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList();
         diffAssets.SortBy(a => a.Kind);
+
+        context.Operation.Asset.DuplicatingChunkNames = FilterDuplicatingChunkNames(diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
 
         int totalBlocks = GetTotalBlocks(diffAssets);
         long totalBytes = GetTotalBytes(diffAssets);
@@ -256,10 +270,10 @@ internal sealed partial class GamePackageService : IGamePackageService
 
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedUpdating, totalBlocks, totalBytes));
 
-        await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
-        await context.Operation.Asset.EnsureChannelSdkAsync(context).ConfigureAwait(false);
+        await context.Operation.Asset.UpdateDiffAssetsAsync(context, diffAssets, token).ConfigureAwait(false);
+        await context.Operation.Asset.EnsureChannelSdkAsync(context, token).ConfigureAwait(false);
 
-        await VerifyAndRepairCoreAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks).ConfigureAwait(false);
+        await VerifyAndRepairCoreAsync(context, remoteBuild, remoteBuild.TotalBytes, remoteBuild.TotalChunks, token).ConfigureAwait(false);
 
         if (Directory.Exists(context.Operation.ProxiedChunksDirectory))
         {
@@ -267,10 +281,10 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private async ValueTask PredownloadAsync(GamePackageServiceContext context)
+    private async ValueTask PredownloadAsync(GamePackageServiceContext context, CancellationToken token = default)
     {
-        if (await DecodeManifestsAsync(context, context.Operation.LocalBranch).ConfigureAwait(false) is not { } localBuild ||
-            await DecodeManifestsAsync(context, context.Operation.RemoteBranch).ConfigureAwait(false) is not { } remoteBuild)
+        if (await DecodeManifestsAsync(context, context.Operation.LocalBranch, token).ConfigureAwait(false) is not { } localBuild ||
+            await DecodeManifestsAsync(context, context.Operation.RemoteBranch, token).ConfigureAwait(false) is not { } remoteBuild)
         {
             context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedDecodeManifestFailed));
             return;
@@ -292,24 +306,22 @@ internal sealed partial class GamePackageService : IGamePackageService
         PredownloadStatus predownloadStatus = new(context.Operation.RemoteBranch.Tag, false, totalBlocks);
         using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
         {
-            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, context.CancellationToken).ConfigureAwait(false);
+            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, token).ConfigureAwait(false);
         }
 
-        await context.Operation.Asset.PredownloadDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
+        await context.Operation.Asset.PredownloadDiffAssetsAsync(context, diffAssets, token).ConfigureAwait(false);
 
         context.Progress.Report(new GamePackageOperationReport.Finish(context.Operation.Kind));
 
         using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
         {
             predownloadStatus.Finished = true;
-            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, context.CancellationToken).ConfigureAwait(false);
+            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, token).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(GamePackageServiceContext context, BranchWrapper branch)
+    private async ValueTask<SophonDecodedBuild?> DecodeManifestsAsync(GamePackageServiceContext context, BranchWrapper branch, CancellationToken token = default)
     {
-        CancellationToken token = context.CancellationToken;
-
         Response<SophonBuild> response;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
