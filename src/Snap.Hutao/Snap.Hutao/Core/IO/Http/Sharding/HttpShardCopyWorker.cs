@@ -148,12 +148,12 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
     private sealed class ShardProgress : IProgress<ShardStatus>
     {
         private readonly IProgress<TStatus> workerProgress;
-        private readonly Func<long, long, TStatus> statusFactory;
+        private readonly StreamCopyStatusFactory<TStatus> statusFactory;
         private readonly long contentLength;
         private readonly TokenBucketRateLimiter progressReportRateLimiter = ProgressReportRateLimiter.Create(1000);
         private long totalBytesRead;
 
-        public ShardProgress(IProgress<TStatus> workerProgress, Func<long, long, TStatus> statusFactory, long contentLength)
+        public ShardProgress(IProgress<TStatus> workerProgress, StreamCopyStatusFactory<TStatus> statusFactory, long contentLength)
         {
             this.workerProgress = workerProgress;
             this.statusFactory = statusFactory;
