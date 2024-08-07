@@ -12,7 +12,10 @@ internal static class TokenBucketRateLimiterExtension
     public static bool TryAcquire(this TokenBucketRateLimiter rateLimiter, int permits, out int acquired, out TimeSpan retryAfter)
     {
         acquired = Math.Min(permits, (int)Volatile.Read(ref PrivateGetTokenCount(rateLimiter)));
-        return rateLimiter.AttemptAcquire(acquired).TryGetMetadata(MetadataName.RetryAfter, out retryAfter);
+        lock (PrivateGetLock(rateLimiter))
+        {
+            return rateLimiter.AttemptAcquire(acquired).TryGetMetadata(MetadataName.RetryAfter, out retryAfter);
+        }
     }
 
     public static void Replenish(this TokenBucketRateLimiter rateLimiter, int permits)
@@ -22,9 +25,16 @@ internal static class TokenBucketRateLimiterExtension
             return;
         }
 
-        ref double tokenCount = ref PrivateGetTokenCount(rateLimiter);
-        Volatile.Write(ref tokenCount, Math.Min(PrivateGetOptions(rateLimiter).TokenLimit, Volatile.Read(ref tokenCount) + permits));
+        lock (PrivateGetLock(rateLimiter))
+        {
+            ref double tokenCount = ref PrivateGetTokenCount(rateLimiter);
+            Volatile.Write(ref tokenCount, Math.Min(PrivateGetOptions(rateLimiter).TokenLimit, Volatile.Read(ref tokenCount) + permits));
+        }
     }
+
+    // private object Lock => _queue
+    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "get_Lock")]
+    private static extern object PrivateGetLock(TokenBucketRateLimiter rateLimiter);
 
     // private double _tokenCount;
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_tokenCount")]
