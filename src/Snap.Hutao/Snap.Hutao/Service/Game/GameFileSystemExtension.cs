@@ -53,6 +53,9 @@ internal static class GameFileSystemExtension
 
         string? version = parameters.FirstOrDefault(p => p.Key == "game_version")?.Value;
 
+        string? directory = Path.GetDirectoryName(gameFileSystem.ScriptVersionFilePath);
+        ArgumentNullException.ThrowIfNull(directory);
+        Directory.CreateDirectory(directory);
         File.WriteAllText(gameFileSystem.ScriptVersionFilePath, version);
         return true;
     }
