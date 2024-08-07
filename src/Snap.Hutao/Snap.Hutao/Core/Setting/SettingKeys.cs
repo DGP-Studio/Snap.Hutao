@@ -64,6 +64,8 @@ internal static class SettingKeys
     public const string OverrideElevationRequirement = "OverrideElevationRequirement";
     public const string OverrideUpdateVersionComparison = "OverrideUpdateVersionComparison";
     public const string OverridePackageConvertDirectoryPermissionsRequirement = "OverridePackageConvertDirectoryPermissionsRequirement";
+    public const string OverrideHardDriveType = "OverrideHardDriveType";
+    public const string OverrideHardDriveTypeIsSolidState = "OverrideHardDriveTypeIsSolidState";
     public const string AlwaysIsFirstRunAfterUpdate = "AlwaysIsFirstRunAfterUpdate";
     public const string AlphaBuildUseCNPatchEndpoint = "AlphaBuildUseCNPatchEndpoint";
     #endregion

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Storage.FileSystem;
 using Snap.Hutao.Win32.System.Ioctl;
@@ -19,6 +20,11 @@ internal static class PhysicalDriver
     // https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew#physical-disks-and-volumes
     public static unsafe bool DangerousGetIsSolidState(string path)
     {
+        if (LocalSetting.Get(SettingKeys.OverrideHardDriveType, false))
+        {
+            return LocalSetting.Get(SettingKeys.OverrideHardDriveTypeIsSolidState, false);
+        }
+
         string? root = Path.GetPathRoot(path);
         ArgumentException.ThrowIfNullOrWhiteSpace(root, "The path does not contain a root.");
 

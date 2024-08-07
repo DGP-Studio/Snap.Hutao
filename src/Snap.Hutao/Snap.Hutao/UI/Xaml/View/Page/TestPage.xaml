@@ -116,6 +116,17 @@
                     <ToggleSwitch IsOn="{Binding OverridePackageConvertDirectoryPermissionsRequirement, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
+                <cwc:SettingsCard Header="Override Hard Drive Type">
+                    <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                        <ToggleSwitch
+                            IsEnabled="{Binding OverrideHardDriveType}"
+                            IsOn="{Binding OverrideHardDriveTypeIsSolidState, Mode=TwoWay}"
+                            OffContent="HDD"
+                            OnContent="SSD"/>
+                        <ToggleSwitch IsOn="{Binding OverrideHardDriveType, Mode=TwoWay}"/>
+                    </StackPanel>
+                </cwc:SettingsCard>
+
                 <cwc:SettingsCard Header="Always Treat As First Run After Update">
                     <ToggleSwitch IsOn="{Binding AlwaysIsFirstRunAfterUpdate, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
