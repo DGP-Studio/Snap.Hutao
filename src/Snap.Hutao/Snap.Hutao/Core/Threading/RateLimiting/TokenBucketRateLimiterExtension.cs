@@ -32,7 +32,7 @@ internal static class TokenBucketRateLimiterExtension
         }
     }
 
-    // private object Lock => _queue
+    // private object Lock => _queue;
     [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "get_Lock")]
     private static extern object PrivateGetLock(TokenBucketRateLimiter rateLimiter);
 
