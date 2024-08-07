@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
-using Snap.Hutao.Core.Diagnostics;
 using System.Buffers;
 using System.IO;
 using System.Net.Http;
@@ -17,7 +16,7 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
 
     private readonly HttpClient httpClient;
     private readonly string sourceUrl;
-    private readonly Func<long, long, TStatus> statusFactory;
+    private readonly StreamCopyStatusFactory<TStatus> statusFactory;
     private readonly long contentLength;
     private readonly int bufferSize;
     private readonly SafeFileHandle destFileHandle;
@@ -120,6 +119,7 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
     public void Dispose()
     {
         destFileHandle.Dispose();
+        progressReportRateLimiter.Dispose();
     }
 
     private sealed class Shard
@@ -150,8 +150,7 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
         private readonly IProgress<TStatus> workerProgress;
         private readonly Func<long, long, TStatus> statusFactory;
         private readonly long contentLength;
-        private readonly object syncRoot = new();
-        private ValueStopwatch stopwatch = ValueStopwatch.StartNew();
+        private readonly TokenBucketRateLimiter progressReportRateLimiter = ProgressReportRateLimiter.Create(1000);
         private long totalBytesRead;
 
         public ShardProgress(IProgress<TStatus> workerProgress, Func<long, long, TStatus> statusFactory, long contentLength)
@@ -163,17 +162,9 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
 
         public void Report(ShardStatus value)
         {
-            Interlocked.Add(ref totalBytesRead, value.BytesRead);
-            if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000 || totalBytesRead == contentLength)
+            if (Interlocked.Add(ref totalBytesRead, value.BytesRead) == contentLength || progressReportRateLimiter.AttemptAcquire().IsAcquired)
             {
-                lock (syncRoot)
-                {
-                    if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000 || totalBytesRead == contentLength)
-                    {
-                        workerProgress.Report(statusFactory(totalBytesRead, contentLength));
-                        stopwatch = ValueStopwatch.StartNew();
-                    }
-                }
+                workerProgress.Report(statusFactory(totalBytesRead, contentLength));
             }
         }
     }

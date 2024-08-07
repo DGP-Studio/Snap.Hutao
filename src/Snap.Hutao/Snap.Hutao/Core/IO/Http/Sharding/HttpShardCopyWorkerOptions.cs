@@ -18,7 +18,7 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
 
     public long ContentLength { get; private set; }
 
-    public Func<long, long, TStatus> StatusFactory { get; set; } = default!;
+    public StreamCopyStatusFactory<TStatus> StatusFactory { get; set; } = default!;
 
     public int BufferSize { get; set; } = 80 * 1024;
 

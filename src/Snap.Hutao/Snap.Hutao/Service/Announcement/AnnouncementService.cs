@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using AngleSharp;
+using AngleSharp.Dom;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Announcement;
@@ -144,6 +146,11 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         foreach (ref readonly WebAnnouncement announcement in CollectionsMarshal.AsSpan(activities))
         {
             DateTimeOffset versionStartTime;
+
+            WebAnnouncement tempAnn = announcement;
+            IBrowsingContext context = BrowsingContext.New(Configuration.Default);
+            IDocument document = context.OpenAsync(rsp => rsp.Content(tempAnn.Content)).GetAwaiter().GetResult();
+            _ = 1;
 
             if (AnnouncementRegex.PermanentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } permanent)
             {
