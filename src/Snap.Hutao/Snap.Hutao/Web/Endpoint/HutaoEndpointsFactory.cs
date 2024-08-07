@@ -3,15 +3,11 @@
 
 namespace Snap.Hutao.Web.Endpoint;
 
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IHutaoEndpointsFactory))]
-internal sealed class HutaoEndpointsFactory : IHutaoEndpointsFactory
+internal sealed partial class HutaoEndpointsFactory : IHutaoEndpointsFactory
 {
     private readonly IServiceProvider serviceProvider;
-
-    public HutaoEndpointsFactory(IServiceProvider serviceProvider)
-    {
-        this.serviceProvider = serviceProvider;
-    }
 
     public IHutaoEndpoints Create()
     {

@@ -6,6 +6,7 @@ using Snap.Hutao.Core.Diagnostics;
 using System.Buffers;
 using System.IO;
 using System.Net.Http;
+using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
@@ -22,6 +23,7 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
     private readonly SafeFileHandle destFileHandle;
     private readonly int maxDegreeOfParallelism;
     private readonly List<Shard> shards;
+    private readonly TokenBucketRateLimiter progressReportRateLimiter;
 
     private HttpShardCopyWorker(HttpShardCopyWorkerOptions<TStatus> options)
     {
@@ -33,6 +35,8 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
         destFileHandle = options.GetFileHandle();
         maxDegreeOfParallelism = options.MaxDegreeOfParallelism;
         shards = CalculateShards(contentLength);
+
+        progressReportRateLimiter = ProgressReportRateLimiter.Create(500);
 
         static List<Shard> CalculateShards(long contentLength)
         {
@@ -68,7 +72,6 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
 
         async ValueTask CopyShardAsync(Shard shard, IProgress<ShardStatus> progress, CancellationToken token)
         {
-            ValueStopwatch stopwatch = ValueStopwatch.StartNew();
             HttpRequestMessage request = new(HttpMethod.Get, sourceUrl)
             {
                 Headers = { Range = new(shard.StartOffset, shard.EndOffset), },
@@ -85,26 +88,25 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
                         using (Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
                         {
                             int totalBytesRead = 0;
-                            int bytesReadAfterPreviousReport = 0;
+                            int bytesReadSinceLastReport = 0;
                             do
                             {
                                 int bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
                                 if (bytesRead <= 0)
                                 {
-                                    progress.Report(new(bytesReadAfterPreviousReport));
-                                    bytesReadAfterPreviousReport = 0;
+                                    progress.Report(new(bytesReadSinceLastReport));
+                                    bytesReadSinceLastReport = 0;
                                     break;
                                 }
 
                                 await RandomAccess.WriteAsync(destFileHandle, buffer[..bytesRead], shard.StartOffset + totalBytesRead, token).ConfigureAwait(false);
 
                                 totalBytesRead += bytesRead;
-                                bytesReadAfterPreviousReport += bytesRead;
-                                if (stopwatch.GetElapsedTime().TotalMilliseconds > 500)
+                                bytesReadSinceLastReport += bytesRead;
+                                if (progressReportRateLimiter.AttemptAcquire().IsAcquired)
                                 {
-                                    progress.Report(new(bytesReadAfterPreviousReport));
-                                    bytesReadAfterPreviousReport = 0;
-                                    stopwatch = ValueStopwatch.StartNew();
+                                    progress.Report(new(bytesReadSinceLastReport));
+                                    bytesReadSinceLastReport = 0;
                                 }
                             }
                             while (true);
