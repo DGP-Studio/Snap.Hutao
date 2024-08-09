@@ -817,6 +817,9 @@
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
     <value>선택된 육성 계획이 여러 개 있습니다</value>
   </data>
+  <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
+    <value>应用通知发送失败</value>
+  </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>게임 시작</value>
   </data>
