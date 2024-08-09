@@ -817,6 +817,9 @@
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
     <value>存在多个选中的养成计划</value>
   </data>
+  <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
+    <value>应用通知发送失败</value>
+  </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>开始游戏</value>
   </data>
