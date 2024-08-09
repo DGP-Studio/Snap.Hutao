@@ -818,7 +818,7 @@
     <value>Multiple development plan are selected</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
-    <value>应用通知发送失败</value>
+    <value>Failed to apply notification</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>Launch Game</value>
