@@ -817,6 +817,9 @@
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
     <value>Vários planos de equipe estão selecionados</value>
   </data>
+  <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
+    <value>应用通知发送失败</value>
+  </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>Iniciar jogo</value>
   </data>
