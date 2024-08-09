@@ -818,7 +818,7 @@
     <value>育成計画を複数選択しています</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
-    <value>应用通知发送失败</value>
+    <value>アプリ通知の送信に失敗しました</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>ゲームを起動</value>
