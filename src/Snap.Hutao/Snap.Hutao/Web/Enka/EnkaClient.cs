@@ -8,11 +8,9 @@ using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Globalization;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Net.Sockets;
 
 namespace Snap.Hutao.Web.Enka;
 
@@ -100,19 +98,7 @@ internal sealed partial class EnkaClient
                 }
             }
         }
-        catch (HttpRequestException)
-        {
-            return null;
-        }
-        catch (IOException)
-        {
-            return null;
-        }
-        catch (JsonException)
-        {
-            return null;
-        }
-        catch (SocketException)
+        catch (Exception)
         {
             return null;
         }

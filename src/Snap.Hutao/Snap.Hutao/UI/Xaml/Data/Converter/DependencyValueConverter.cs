@@ -11,12 +11,26 @@ internal abstract class DependencyValueConverter<TFrom, TTo> : DependencyObject,
 {
     public object? Convert(object value, Type targetType, object parameter, string language)
     {
-        return Convert((TFrom)value);
+        try
+        {
+            return Convert((TFrom)value);
+        }
+        catch
+        {
+            return DependencyProperty.UnsetValue;
+        }
     }
 
     public object? ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        return ConvertBack((TTo)value);
+        try
+        {
+            return ConvertBack((TTo)value);
+        }
+        catch
+        {
+            return DependencyProperty.UnsetValue;
+        }
     }
 
     public abstract TTo Convert(TFrom from);
