@@ -62,7 +62,6 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             if (await userService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
             {
                 await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
-                return true;
             }
             else
             {
@@ -70,7 +69,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             }
         }
 
-        return false;
+        return true;
     }
 
     private async ValueTask UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
