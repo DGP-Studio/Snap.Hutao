@@ -565,7 +565,7 @@
                                     x:Name="RefreshTimeToggle"
                                     Margin="8,8,0,0"
                                     Content="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"
-                                    Visibility="{x:Bind ItemsPanelSelector.Current, Converter={StaticResource LayoutSwitchModeVisibilityConverter}, Mode=OneWay}"/>
+                                    Visibility="{Binding ElementName=ItemsPanelSelector, Path=Current, Converter={StaticResource LayoutSwitchModeVisibilityConverter}, Mode=OneWay}"/>
                             </StackPanel>
                         </CommandBar.Content>
                         <AppBarButton
