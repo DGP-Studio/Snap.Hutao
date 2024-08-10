@@ -19,6 +19,8 @@ internal readonly struct GamePackageServiceContext
         ParallelOptions = parallelOptions;
     }
 
+    public CancellationToken CancellationToken { get => ParallelOptions.CancellationToken; }
+
     public bool EnsureAvailableFreeSpace(long totalBytes)
     {
         long availableBytes = LogicalDriver.GetAvailableFreeSpace(Operation.GameFileSystem.GameDirectory);

@@ -106,7 +106,7 @@ internal sealed partial class GamePackageInstallViewModel : Abstraction.ViewMode
             branch.Main,
             gameChannelSDK);
 
-        gameFileSystem.ExtractConfigurationFile(branch.Main.Tag, launchScheme);
+        gameFileSystem.GenerateConfigurationFile(branch.Main.Tag, launchScheme);
 
         if (!await gamePackageService.StartOperationAsync(context).ConfigureAwait(false))
         {

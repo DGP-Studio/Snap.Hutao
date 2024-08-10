@@ -3,13 +3,15 @@
 
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Scheme;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game;
 
 internal static class GameFileSystemExtension
 {
-    public static void ExtractConfigurationFile(this GameFileSystem gameFileSystem, string version, LaunchScheme launchScheme)
+    public static void GenerateConfigurationFile(this GameFileSystem gameFileSystem, string version, LaunchScheme launchScheme)
     {
         string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
         string content = $$$"""
@@ -37,7 +39,7 @@ internal static class GameFileSystemExtension
         }
 
         string version = File.ReadAllText(gameFileSystem.ScriptVersionFilePath);
-        ExtractConfigurationFile(gameFileSystem, version, launchScheme);
+        GenerateConfigurationFile(gameFileSystem, version, launchScheme);
 
         return true;
     }
@@ -49,12 +51,18 @@ internal static class GameFileSystemExtension
             return false;
         }
 
-        List<IniParameter> parameters = IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath).OfType<IniParameter>().ToList();
-
-        string? version = parameters.FirstOrDefault(p => p.Key == "game_version")?.Value;
+        string? version = default;
+        foreach (ref readonly IniElement element in CollectionsMarshal.AsSpan(IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath)))
+        {
+            if (element is IniParameter { Key: "game_version" } parameter)
+            {
+                version = parameter.Value;
+            }
+        }
 
         string? directory = Path.GetDirectoryName(gameFileSystem.ScriptVersionFilePath);
         ArgumentNullException.ThrowIfNull(directory);
+
         Directory.CreateDirectory(directory);
         File.WriteAllText(gameFileSystem.ScriptVersionFilePath, version);
         return true;
