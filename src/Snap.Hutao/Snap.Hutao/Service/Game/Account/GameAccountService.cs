@@ -96,11 +96,11 @@ internal sealed partial class GameAccountService : IGameAccountService
 
     public async ValueTask AttachGameAccountToUidAsync(GameAccount gameAccount, string uid)
     {
-        await taskContext.SwitchToBackgroundAsync();
-        gameDbService.UpdateGameAccount(gameAccount);
-
         await taskContext.SwitchToMainThreadAsync();
         gameAccount.UpdateAttachUid(uid);
+
+        await taskContext.SwitchToBackgroundAsync();
+        gameDbService.UpdateGameAccount(gameAccount);
     }
 
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
