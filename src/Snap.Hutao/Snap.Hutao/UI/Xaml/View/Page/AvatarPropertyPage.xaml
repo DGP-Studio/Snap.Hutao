@@ -52,6 +52,15 @@
                 </cwconv:BoolToObjectConverter.FalseValue>
             </cwconv:BoolToObjectConverter>
 
+            <shuxdcs:LayoutSwitchModeConverter x:Key="LayoutSwitchModeVisibilityConverter">
+                <shuxdcs:LayoutSwitchModeConverter.ListValue>
+                    <Visibility>Visible</Visibility>
+                </shuxdcs:LayoutSwitchModeConverter.ListValue>
+                <shuxdcs:LayoutSwitchModeConverter.GridValue>
+                    <Visibility>Collapsed</Visibility>
+                </shuxdcs:LayoutSwitchModeConverter.GridValue>
+            </shuxdcs:LayoutSwitchModeConverter>
+
             <DataTemplate x:Key="AvatarGridViewSkillTemplate">
                 <shuxcc:VerticalCard>
                     <shuxcc:VerticalCard.Top>
@@ -555,7 +564,8 @@
                                 <ToggleButton
                                     x:Name="RefreshTimeToggle"
                                     Margin="8,8,0,0"
-                                    Content="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"/>
+                                    Content="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"
+                                    Visibility="{x:Bind ItemsPanelSelector.Current, Converter={StaticResource LayoutSwitchModeVisibilityConverter}, Mode=OneWay}"/>
                             </StackPanel>
                         </CommandBar.Content>
                         <AppBarButton
