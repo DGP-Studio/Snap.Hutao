@@ -434,7 +434,7 @@
                                             <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                             <NumberBox
                                                 MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
-                                                Padding="0,8,0,0"
+                                                Padding="10,8,6,6"
                                                 Maximum="720"
                                                 Minimum="-1"
                                                 SpinButtonPlacementMode="Inline"
@@ -458,7 +458,7 @@
                                                 IsEnabled="{Binding LaunchOptions.LoopAdjustFpsOnly, Converter={StaticResource BoolNegationConverter}}">
                                                 <NumberBox
                                                     MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
-                                                    Padding="0,8,0,0"
+                                                    Padding="10,8,6,6"
                                                     Maximum="55"
                                                     Minimum="45"
                                                     SmallChange="1"
