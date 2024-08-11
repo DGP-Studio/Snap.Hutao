@@ -77,12 +77,14 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
 
         using (SafeFileHandle fileHandle = File.OpenHandle(path, FileMode.Create, FileAccess.Write, FileShare.None, preallocationSize: assetProperty.AssetSize))
         {
-            await Parallel.ForEachAsync(assetProperty.AssetChunks, context.ParallelOptions, (chunk, token) => MergeChunkIntoAssetAsync(context, fileHandle, chunk, token)).ConfigureAwait(false);
+            await Parallel.ForEachAsync(assetProperty.AssetChunks, context.ParallelOptions, (chunk, token) => MergeChunkIntoAssetAsync(context, fileHandle, chunk)).ConfigureAwait(false);
         }
     }
 
-    private async ValueTask MergeChunkIntoAssetAsync(GamePackageServiceContext context, SafeFileHandle fileHandle, AssetChunk chunk, CancellationToken token = default)
+    private async ValueTask MergeChunkIntoAssetAsync(GamePackageServiceContext context, SafeFileHandle fileHandle, AssetChunk chunk)
     {
+        CancellationToken token = context.CancellationToken;
+
         using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent(81920))
         {
             Memory<byte> buffer = memoryOwner.Memory;
