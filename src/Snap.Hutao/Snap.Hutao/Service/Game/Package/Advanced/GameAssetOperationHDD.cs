@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
@@ -90,6 +91,8 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
 
     protected override async ValueTask MergeNewAssetAsync(GamePackageServiceContext context, AssetProperty assetProperty)
     {
+        CancellationToken token = context.CancellationToken;
+
         string path = Path.Combine(context.Operation.GameFileSystem.GameDirectory, assetProperty.AssetName);
         string? directory = Path.GetDirectoryName(path);
         ArgumentNullException.ThrowIfNull(directory);
@@ -110,11 +113,12 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                     }
 
                     TaskCompletionSource tcs = new();
-                    while (!ProcessingChunks.TryAdd(chunk.ChunkName, tcs.Task))
+                    while (!context.ProcessingChunks.TryAdd(chunk.ChunkName, tcs.Task))
                     {
-                        if (ProcessingChunks.TryGetValue(chunk.ChunkName, out Task? task))
+                        if (context.ProcessingChunks.TryGetValue(chunk.ChunkName, out Task? task))
                         {
                             await task.ConfigureAwait(false);
+                            token.ThrowIfCancellationRequested();
                         }
                     }
 
@@ -127,13 +131,13 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                                 long offset = chunk.ChunkOnFileOffset;
                                 do
                                 {
-                                    int bytesRead = await decompressor.ReadAsync(buffer, context.CancellationToken).ConfigureAwait(false);
+                                    int bytesRead = await decompressor.ReadAsync(buffer, token).ConfigureAwait(false);
                                     if (bytesRead <= 0)
                                     {
                                         break;
                                     }
 
-                                    await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, context.CancellationToken).ConfigureAwait(false);
+                                    await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, token).ConfigureAwait(false);
                                     context.Progress.Report(new GamePackageOperationReport.Install(bytesRead, 0));
                                     offset += bytesRead;
                                 }
@@ -144,7 +148,11 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                     finally
                     {
                         tcs.TrySetResult();
-                        ProcessingChunks.TryRemove(chunk.ChunkName, out _);
+                        context.ProcessingChunks.TryRemove(chunk.ChunkName, out _);
+                        if (!context.DuplicatedChunkNames.Contains(chunk.ChunkName))
+                        {
+                            FileOperation.Delete(chunkPath);
+                        }
                     }
 
                     context.Progress.Report(new GamePackageOperationReport.Install(0, 1));

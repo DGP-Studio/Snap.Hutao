@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Common;
 using Snap.Hutao.Core.IO;
+using System.Collections.Concurrent;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
@@ -11,6 +12,8 @@ internal readonly struct GamePackageServiceContext
     public readonly GamePackageOperationContext Operation;
     public readonly IProgress<GamePackageOperationReport> Progress;
     public readonly ParallelOptions ParallelOptions;
+    public readonly HashSet<string> DuplicatedChunkNames = [];
+    public readonly ConcurrentDictionary<string, Task> ProcessingChunks = [];
 
     public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
     {

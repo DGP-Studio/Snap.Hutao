@@ -23,8 +23,6 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
     private readonly IHttpClientFactory httpClientFactory;
     private readonly JsonSerializerOptions jsonOptions;
 
-    protected ConcurrentDictionary<string, Task> ProcessingChunks { get; } = [];
-
     public abstract ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild);
 
     public abstract ValueTask UpdateDiffAssetsAsync(GamePackageServiceContext context, List<SophonAssetOperation> diffAssets);
@@ -89,6 +87,8 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
     public async ValueTask EnsureChannelSdkAsync(GamePackageServiceContext context)
     {
+        CancellationToken token = context.CancellationToken;
+
         if (context.Operation.GameChannelSDK is null)
         {
             return;
@@ -96,7 +96,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
         using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(GameAssetOperation)))
         {
-            using (Stream sdkStream = await httpClient.GetStreamAsync(context.Operation.GameChannelSDK.ChannelSdkPackage.Url, context.CancellationToken).ConfigureAwait(false))
+            using (Stream sdkStream = await httpClient.GetStreamAsync(context.Operation.GameChannelSDK.ChannelSdkPackage.Url, token).ConfigureAwait(false))
             {
                 ZipFile.ExtractToDirectory(sdkStream, context.Operation.GameFileSystem.GameDirectory, true);
             }
@@ -105,6 +105,8 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
 
     protected static async ValueTask VerifyAssetAsync(GamePackageServiceContext context, SophonAsset asset, Action<SophonAssetOperation> conflictHandler)
     {
+        CancellationToken token = context.CancellationToken;
+
         string assetPath = Path.Combine(context.Operation.GameFileSystem.GameDirectory, asset.AssetProperty.AssetName);
 
         if (asset.AssetProperty.AssetType is 64)
@@ -131,7 +133,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 using (IMemoryOwner<byte> memoryOwner = MemoryPool<byte>.Shared.Rent((int)chunk.ChunkSizeDecompressed))
                 {
                     Memory<byte> buffer = memoryOwner.Memory[..(int)chunk.ChunkSizeDecompressed];
-                    await RandomAccessRead.ExactlyAsync(fileHandle, buffer, chunk.ChunkOnFileOffset, context.CancellationToken).ConfigureAwait(false);
+                    await RandomAccessRead.ExactlyAsync(fileHandle, buffer, chunk.ChunkOnFileOffset, token).ConfigureAwait(false);
                     if (!chunk.ChunkDecompressedHashMd5.Equals(MD5.Hash(buffer.Span), StringComparison.OrdinalIgnoreCase))
                     {
                         conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
@@ -205,11 +207,12 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         string chunkPath = Path.Combine(context.Operation.ProxiedChunksDirectory, sophonChunk.AssetChunk.ChunkName);
 
         TaskCompletionSource downloadTcs = new();
-        while (!ProcessingChunks.TryAdd(sophonChunk.AssetChunk.ChunkName, downloadTcs.Task))
+        while (!context.ProcessingChunks.TryAdd(sophonChunk.AssetChunk.ChunkName, downloadTcs.Task))
         {
-            if (ProcessingChunks.TryGetValue(sophonChunk.AssetChunk.ChunkName, out Task? task))
+            if (context.ProcessingChunks.TryGetValue(sophonChunk.AssetChunk.ChunkName, out Task? task))
             {
                 await task.ConfigureAwait(false);
+                token.ThrowIfCancellationRequested();
             }
         }
 
@@ -235,15 +238,16 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 {
                     using (Stream webStream = await httpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl, token).ConfigureAwait(false))
                     {
-                        StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Download(bytesRead, 0));
-
-                        await worker.CopyAsync(context.Progress, token).ConfigureAwait(false);
-
-                        fileStream.Position = 0;
-                        string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
-                        if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
+                        using (StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Download(bytesRead, 0)))
                         {
-                            context.Progress.Report(new GamePackageOperationReport.Download(0, 1));
+                            await worker.CopyAsync(context.Progress, token).ConfigureAwait(false);
+
+                            fileStream.Position = 0;
+                            string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
+                            if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
+                            {
+                                context.Progress.Report(new GamePackageOperationReport.Download(0, 1));
+                            }
                         }
                     }
                 }
@@ -252,7 +256,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         finally
         {
             downloadTcs.TrySetResult();
-            ProcessingChunks.TryRemove(sophonChunk.AssetChunk.ChunkName, out _);
+            context.ProcessingChunks.TryRemove(sophonChunk.AssetChunk.ChunkName, out _);
         }
     }
 
@@ -291,11 +295,12 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                         }
 
                         TaskCompletionSource tcs = new();
-                        while (!ProcessingChunks.TryAdd(chunk.ChunkName, tcs.Task))
+                        while (!context.ProcessingChunks.TryAdd(chunk.ChunkName, tcs.Task))
                         {
-                            if (ProcessingChunks.TryGetValue(chunk.ChunkName, out Task? task))
+                            if (context.ProcessingChunks.TryGetValue(chunk.ChunkName, out Task? task))
                             {
                                 await task.ConfigureAwait(false);
+                                token.ThrowIfCancellationRequested();
                             }
                         }
 
@@ -313,7 +318,11 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                         finally
                         {
                             tcs.TrySetResult();
-                            ProcessingChunks.TryRemove(chunk.ChunkName, out _);
+                            context.ProcessingChunks.TryRemove(chunk.ChunkName, out _);
+                            if (!context.DuplicatedChunkNames.Contains(chunk.ChunkName))
+                            {
+                                FileOperation.Delete(chunkPath);
+                            }
                         }
                     }
                     else

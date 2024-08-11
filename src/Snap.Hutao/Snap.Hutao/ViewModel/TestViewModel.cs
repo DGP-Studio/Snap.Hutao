@@ -94,6 +94,35 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
     }
 
+    public bool OverrideHardDriveType
+    {
+        get => LocalSetting.Get(SettingKeys.OverridePhysicalDriverType, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.OverridePhysicalDriverType, value);
+            OnPropertyChanged();
+        }
+    }
+
+    public bool OverrideHardDriveTypeIsSolidState
+    {
+        get => LocalSetting.Get(SettingKeys.PhysicalDriverIsAlwaysSolidState, false);
+        set
+        {
+            if (IsViewDisposed)
+            {
+                return;
+            }
+
+            LocalSetting.Set(SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
+        }
+    }
+
     public bool AlwaysIsFirstRunAfterUpdate
     {
         get => LocalSetting.Get(SettingKeys.AlwaysIsFirstRunAfterUpdate, false);

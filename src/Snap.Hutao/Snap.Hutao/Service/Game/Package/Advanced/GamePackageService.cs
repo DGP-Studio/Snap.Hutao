@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
@@ -13,6 +14,7 @@ using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using Snap.Hutao.Web.Response;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -60,7 +62,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             GamePackageOperationKind.Verify => VerifyAndRepairAsync,
             GamePackageOperationKind.Update => UpdateAsync,
             GamePackageOperationKind.Predownload => PredownloadAsync,
-            _ => context => ValueTask.CompletedTask,
+            _ => context => ValueTask.FromException(HutaoException.NotSupported()),
         };
 
         try
@@ -128,6 +130,21 @@ internal sealed partial class GamePackageService : IGamePackageService
                     yield return SophonAssetOperation.Delete(localAsset);
                 }
             }
+        }
+    }
+
+    private static void InitializeDuplicatedChunkNames(GamePackageServiceContext context, IEnumerable<AssetChunk> chunks)
+    {
+        Debug.Assert(context.DuplicatedChunkNames.Count is 0);
+        IEnumerable<string> names = chunks
+            .GroupBy(chunk => chunk.ChunkName)
+            .Where(group => group.Skip(1).Any())
+            .Select(group => group.Key)
+            .Distinct();
+
+        foreach (string name in names)
+        {
+            context.DuplicatedChunkNames.Add(name);
         }
     }
 
@@ -220,6 +237,8 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
+        InitializeDuplicatedChunkNames(context, remoteBuild.Manifests.SelectMany(m => m.ManifestProto.Assets.SelectMany(a => a.AssetChunks)));
+
         int totalBlockCount = remoteBuild.TotalChunks;
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedInstalling, totalBlockCount, totalBytes));
 
@@ -253,6 +272,8 @@ internal sealed partial class GamePackageService : IGamePackageService
         {
             return;
         }
+
+        InitializeDuplicatedChunkNames(context, diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
 
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedUpdating, totalBlocks, totalBytes));
 
@@ -292,7 +313,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         PredownloadStatus predownloadStatus = new(context.Operation.RemoteBranch.Tag, false, totalBlocks);
         using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
         {
-            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, context.CancellationToken).ConfigureAwait(false);
+            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);
         }
 
         await context.Operation.Asset.PredownloadDiffAssetsAsync(context, diffAssets).ConfigureAwait(false);
@@ -302,7 +323,7 @@ internal sealed partial class GamePackageService : IGamePackageService
         using (FileStream predownloadStatusStream = File.Create(context.Operation.GameFileSystem.PredownloadStatusPath))
         {
             predownloadStatus.Finished = true;
-            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions, context.CancellationToken).ConfigureAwait(false);
+            await JsonSerializer.SerializeAsync(predownloadStatusStream, predownloadStatus, jsonOptions).ConfigureAwait(false);
         }
     }
 
