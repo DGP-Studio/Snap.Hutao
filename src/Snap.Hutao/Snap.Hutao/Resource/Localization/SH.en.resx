@@ -1830,7 +1830,7 @@
     <value>Import failed</value>
   </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
-    <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
+    <value>The currently selected game directory {0} is corrupted. Please manually delete the folder and reinstall the game</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Convert server failed</value>
