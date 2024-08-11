@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Compression.Zstandard;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
@@ -13,6 +14,7 @@ using Snap.Hutao.Web.Hoyolab.Downloader;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using Snap.Hutao.Web.Response;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -60,7 +62,7 @@ internal sealed partial class GamePackageService : IGamePackageService
             GamePackageOperationKind.Verify => VerifyAndRepairAsync,
             GamePackageOperationKind.Update => UpdateAsync,
             GamePackageOperationKind.Predownload => PredownloadAsync,
-            _ => (context) => ValueTask.CompletedTask,
+            _ => context => ValueTask.FromException(HutaoException.NotSupported()),
         };
 
         try
@@ -131,13 +133,19 @@ internal sealed partial class GamePackageService : IGamePackageService
         }
     }
 
-    private static HashSet<string> FilterDuplicatingChunkNames(IEnumerable<AssetChunk> chunks)
+    private static void InitializeDuplicatedChunkNames(GamePackageServiceContext context, IEnumerable<AssetChunk> chunks)
     {
-        return chunks
+        Debug.Assert(context.DuplicatedChunkNames.Count is 0);
+        IEnumerable<string> names = chunks
             .GroupBy(chunk => chunk.ChunkName)
-            .Where(group => group.Count() > 1)
+            .Where(group => group.Skip(1).Any())
             .Select(group => group.Key)
-            .ToHashSet();
+            .Distinct();
+
+        foreach (string name in names)
+        {
+            context.DuplicatedChunkNames.Add(name);
+        }
     }
 
     private static async ValueTask VerifyAndRepairCoreAsync(GamePackageServiceContext context, SophonDecodedBuild build, long totalBytes, int totalBlockCount)
@@ -223,13 +231,13 @@ internal sealed partial class GamePackageService : IGamePackageService
             return;
         }
 
-        context.Operation.Asset.DuplicatingChunkNames = FilterDuplicatingChunkNames(remoteBuild.Manifests.SelectMany(m => m.ManifestProto.Assets.SelectMany(a => a.AssetChunks)));
-
         long totalBytes = remoteBuild.TotalBytes;
         if (!context.EnsureAvailableFreeSpace(totalBytes))
         {
             return;
         }
+
+        InitializeDuplicatedChunkNames(context, remoteBuild.Manifests.SelectMany(m => m.ManifestProto.Assets.SelectMany(a => a.AssetChunks)));
 
         int totalBlockCount = remoteBuild.TotalChunks;
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedInstalling, totalBlockCount, totalBytes));
@@ -257,8 +265,6 @@ internal sealed partial class GamePackageService : IGamePackageService
         List<SophonAssetOperation> diffAssets = GetDiffOperations(localBuild, remoteBuild).ToList();
         diffAssets.SortBy(a => a.Kind);
 
-        context.Operation.Asset.DuplicatingChunkNames = FilterDuplicatingChunkNames(diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
-
         int totalBlocks = GetTotalBlocks(diffAssets);
         long totalBytes = GetTotalBytes(diffAssets);
 
@@ -266,6 +272,8 @@ internal sealed partial class GamePackageService : IGamePackageService
         {
             return;
         }
+
+        InitializeDuplicatedChunkNames(context, diffAssets.SelectMany(a => a.DiffChunks.Select(c => c.AssetChunk)));
 
         context.Progress.Report(new GamePackageOperationReport.Reset(SH.ServiceGamePackageAdvancedUpdating, totalBlocks, totalBytes));
 

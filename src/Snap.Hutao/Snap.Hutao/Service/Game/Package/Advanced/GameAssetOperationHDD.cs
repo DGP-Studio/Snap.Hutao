@@ -113,9 +113,9 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                     }
 
                     TaskCompletionSource tcs = new();
-                    while (!ProcessingChunks.TryAdd(chunk.ChunkName, tcs.Task))
+                    while (!context.ProcessingChunks.TryAdd(chunk.ChunkName, tcs.Task))
                     {
-                        if (ProcessingChunks.TryGetValue(chunk.ChunkName, out Task? task))
+                        if (context.ProcessingChunks.TryGetValue(chunk.ChunkName, out Task? task))
                         {
                             await task.ConfigureAwait(false);
                             token.ThrowIfCancellationRequested();
@@ -148,8 +148,8 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                     finally
                     {
                         tcs.TrySetResult();
-                        ProcessingChunks.TryRemove(chunk.ChunkName, out _);
-                        if (!DuplicatingChunkNames.Contains(chunk.ChunkName))
+                        context.ProcessingChunks.TryRemove(chunk.ChunkName, out _);
+                        if (!context.DuplicatedChunkNames.Contains(chunk.ChunkName))
                         {
                             FileOperation.Delete(chunkPath);
                         }

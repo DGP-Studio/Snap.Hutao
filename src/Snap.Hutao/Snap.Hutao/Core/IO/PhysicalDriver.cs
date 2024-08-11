@@ -20,9 +20,9 @@ internal static class PhysicalDriver
     // https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew#physical-disks-and-volumes
     public static unsafe bool DangerousGetIsSolidState(string path)
     {
-        if (LocalSetting.Get(SettingKeys.OverrideHardDriveType, false))
+        if (LocalSetting.Get(SettingKeys.OverridePhysicalDriverType, false))
         {
-            return LocalSetting.Get(SettingKeys.OverrideHardDriveTypeIsSolidState, false);
+            return LocalSetting.Get(SettingKeys.PhysicalDriverIsAlwaysSolidState, false);
         }
 
         string? root = Path.GetPathRoot(path);

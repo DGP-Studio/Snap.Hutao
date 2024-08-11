@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Service.Game.Scheme;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Runtime.InteropServices;
 

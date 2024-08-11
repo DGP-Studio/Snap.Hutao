@@ -47,8 +47,8 @@ internal sealed partial class GameChannelOptionsService : IGameChannelOptionsSer
         }
 
         List<IniParameter> parameters = IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath).OfType<IniParameter>().ToList();
-        string? channel = parameters.FirstOrDefault(p => p.Key == ChannelOptions.ChannelName)?.Value;
-        string? subChannel = parameters.FirstOrDefault(p => p.Key == ChannelOptions.SubChannelName)?.Value;
+        string? channel = parameters.FirstOrDefault(p => p.Key is ChannelOptions.ChannelName)?.Value;
+        string? subChannel = parameters.FirstOrDefault(p => p.Key is ChannelOptions.SubChannelName)?.Value;
 
         return new(channel, subChannel, isOversea);
     }

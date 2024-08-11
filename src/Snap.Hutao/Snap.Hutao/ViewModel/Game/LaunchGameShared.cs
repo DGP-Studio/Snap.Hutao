@@ -46,13 +46,23 @@ internal sealed partial class LaunchGameShared
 
                 break;
             case ChannelOptionsErrorKind.ConfigurationFileNotFound:
-                infoBarService.Warning($"{options.ErrorKind}", SH.FormatViewModelLaunchGameMultiChannelReadFail(options.FilePath), SH.ViewModelLaunchGameFixConfigurationFileButtonText, HandleConfigurationFileNotFoundCommand);
+                infoBarService.Warning(
+                    $"{options.ErrorKind}",
+                    SH.FormatViewModelLaunchGameMultiChannelReadFail(options.FilePath),
+                    SH.ViewModelLaunchGameFixConfigurationFileButtonText,
+                    HandleConfigurationFileNotFoundCommand);
                 break;
             case ChannelOptionsErrorKind.GamePathNullOrEmpty:
-                infoBarService.Warning($"{options.ErrorKind}", SH.FormatViewModelLaunchGameMultiChannelReadFail(options.FilePath), SH.ViewModelLaunchGameSetGamePathButtonText, HandleGamePathNullOrEmptyCommand);
+                infoBarService.Warning(
+                    $"{options.ErrorKind}",
+                    SH.FormatViewModelLaunchGameMultiChannelReadFail(options.FilePath),
+                    SH.ViewModelLaunchGameSetGamePathButtonText,
+                    HandleGamePathNullOrEmptyCommand);
                 break;
             case ChannelOptionsErrorKind.GameContentCorrupted:
-                infoBarService.Warning($"{options.ErrorKind}", string.Format(default, "当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏", options.FilePath));
+                infoBarService.Warning(
+                    $"{options.ErrorKind}",
+                    SH.FormatViewModelLaunchGameContentCorrupted(options.FilePath));
                 break;
         }
 

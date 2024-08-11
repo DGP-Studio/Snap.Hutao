@@ -5,8 +5,6 @@ namespace Snap.Hutao.Service.Game.Package.Advanced;
 
 internal interface IGameAssetOperation
 {
-    HashSet<string> DuplicatingChunkNames { get; set; }
-
     ValueTask InstallAssetsAsync(GamePackageServiceContext context, SophonDecodedBuild remoteBuild);
 
     ValueTask<GamePackageIntegrityInfo> VerifyGamePackageIntegrityAsync(GamePackageServiceContext context, SophonDecodedBuild build);

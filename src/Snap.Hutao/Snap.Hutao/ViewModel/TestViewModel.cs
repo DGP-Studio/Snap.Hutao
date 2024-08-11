@@ -96,7 +96,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
     public bool OverrideHardDriveType
     {
-        get => LocalSetting.Get(SettingKeys.OverrideHardDriveType, false);
+        get => LocalSetting.Get(SettingKeys.OverridePhysicalDriverType, false);
         set
         {
             if (IsViewDisposed)
@@ -104,14 +104,14 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 return;
             }
 
-            LocalSetting.Set(SettingKeys.OverrideHardDriveType, value);
+            LocalSetting.Set(SettingKeys.OverridePhysicalDriverType, value);
             OnPropertyChanged();
         }
     }
 
     public bool OverrideHardDriveTypeIsSolidState
     {
-        get => LocalSetting.Get(SettingKeys.OverrideHardDriveTypeIsSolidState, false);
+        get => LocalSetting.Get(SettingKeys.PhysicalDriverIsAlwaysSolidState, false);
         set
         {
             if (IsViewDisposed)
@@ -119,7 +119,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
                 return;
             }
 
-            LocalSetting.Set(SettingKeys.OverrideHardDriveTypeIsSolidState, value);
+            LocalSetting.Set(SettingKeys.PhysicalDriverIsAlwaysSolidState, value);
         }
     }
 

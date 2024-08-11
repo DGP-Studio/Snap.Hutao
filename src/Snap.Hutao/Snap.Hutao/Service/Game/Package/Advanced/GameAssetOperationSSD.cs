@@ -81,7 +81,7 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
         }
     }
 
-    private async ValueTask MergeChunkIntoAssetAsync(GamePackageServiceContext context, SafeFileHandle fileHandle, AssetChunk chunk)
+    private static async ValueTask MergeChunkIntoAssetAsync(GamePackageServiceContext context, SafeFileHandle fileHandle, AssetChunk chunk)
     {
         CancellationToken token = context.CancellationToken;
 
@@ -96,9 +96,9 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
             }
 
             TaskCompletionSource tcs = new();
-            while (!ProcessingChunks.TryAdd(chunk.ChunkName, tcs.Task))
+            while (!context.ProcessingChunks.TryAdd(chunk.ChunkName, tcs.Task))
             {
-                if (ProcessingChunks.TryGetValue(chunk.ChunkName, out Task? task))
+                if (context.ProcessingChunks.TryGetValue(chunk.ChunkName, out Task? task))
                 {
                     await task.ConfigureAwait(false);
                     token.ThrowIfCancellationRequested();
@@ -131,8 +131,8 @@ internal sealed partial class GameAssetOperationSSD : GameAssetOperation
             finally
             {
                 tcs.TrySetResult();
-                ProcessingChunks.TryRemove(chunk.ChunkName, out _);
-                if (!DuplicatingChunkNames.Contains(chunk.ChunkName))
+                context.ProcessingChunks.TryRemove(chunk.ChunkName, out _);
+                if (!context.DuplicatedChunkNames.Contains(chunk.ChunkName))
                 {
                     FileOperation.Delete(chunkPath);
                 }
