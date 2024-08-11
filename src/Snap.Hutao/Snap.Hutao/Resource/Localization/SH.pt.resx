@@ -1829,6 +1829,9 @@
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>Falha na importação</value>
   </data>
+  <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
+    <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
+  </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Falha ao converter o servidor</value>
   </data>
