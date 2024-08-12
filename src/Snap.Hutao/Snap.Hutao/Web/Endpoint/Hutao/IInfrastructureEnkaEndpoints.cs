@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Web.Hoyolab;
 
-namespace Snap.Hutao.Web.Endpoint;
+namespace Snap.Hutao.Web.Endpoint.Hutao;
 
 internal interface IInfrastructureEnkaEndpoints : IInfrastructureRootAccess
 {

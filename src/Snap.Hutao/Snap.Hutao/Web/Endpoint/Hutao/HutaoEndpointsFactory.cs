@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Web.Endpoint;
+namespace Snap.Hutao.Web.Endpoint.Hutao;
 
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IHutaoEndpointsFactory))]
@@ -11,7 +11,6 @@ internal sealed partial class HutaoEndpointsFactory : IHutaoEndpointsFactory
 
     public IHutaoEndpoints Create()
     {
-        return serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.Release);
 #if RELEASE
         return serviceProvider.GetRequiredKeyedService<IHutaoEndpoints>(HutaoEndpointsKind.Release);
 #else

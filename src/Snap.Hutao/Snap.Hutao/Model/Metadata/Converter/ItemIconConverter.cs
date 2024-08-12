@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.UI.Xaml.Data.Converter;
-using Snap.Hutao.Web.Endpoint;
+using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 

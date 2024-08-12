@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Web.Hutao.GachaLog;
 
-namespace Snap.Hutao.Web.Endpoint;
+namespace Snap.Hutao.Web.Endpoint.Hutao;
 
 internal interface IHomaGachaLogEndpoints : IHomaRootAccess
 {

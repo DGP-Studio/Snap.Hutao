@@ -9,7 +9,6 @@ using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Factory.IO;
 using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
-using System.Collections.Concurrent;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;

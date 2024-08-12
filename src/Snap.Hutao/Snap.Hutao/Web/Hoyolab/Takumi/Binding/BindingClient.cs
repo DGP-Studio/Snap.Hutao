@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Web.Endpoint;
+using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -18,6 +18,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 internal sealed partial class BindingClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<BindingClient> logger;
     private readonly HttpClient httpClient;
@@ -26,7 +27,7 @@ internal sealed partial class BindingClient
     {
         if (user.IsOversea)
         {
-            return await GetOverseaUserGameRolesByCookieAsync(user, token).ConfigureAwait(false);
+            return await GetUserGameRolesByCookieAsync(user, token).ConfigureAwait(false);
         }
         else
         {
@@ -48,7 +49,7 @@ internal sealed partial class BindingClient
     public async ValueTask<Response<ListWrapper<UserGameRole>>> GetUserGameRolesByActionTicketAsync(string actionTicket, User user, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.UserGameRolesByActionTicket(actionTicket))
+            .SetRequestUri(apiEndpointsFactory.Create(user.IsOversea).UserGameRolesByActionTicket(actionTicket))
             .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .Get();
 
@@ -59,10 +60,10 @@ internal sealed partial class BindingClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<ListWrapper<UserGameRole>>> GetOverseaUserGameRolesByCookieAsync(User user, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<UserGameRole>>> GetUserGameRolesByCookieAsync(User user, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.UserGameRolesByCookie)
+            .SetRequestUri(apiEndpointsFactory.Create(user.IsOversea).UserGameRolesByCookie())
             .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .Get();
 

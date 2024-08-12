@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog;

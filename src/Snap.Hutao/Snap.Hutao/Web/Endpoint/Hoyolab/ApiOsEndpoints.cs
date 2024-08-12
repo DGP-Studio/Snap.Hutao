@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 
-namespace Snap.Hutao.Web.Endpoint;
+namespace Snap.Hutao.Web.Endpoint.Hoyolab;
 
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1202")]
@@ -16,29 +16,6 @@ internal static class ApiOsEndpoints
     public const string WebLoginByPassword = $"{ApiAccountOsAuthApi}/webLoginByPassword";
     public const string AccountGetLTokenBySToken = $"{ApiAccountOsAuthApi}/getLTokenBySToken";
     public const string AccountGetCookieTokenBySToken = $"{ApiAccountOsAuthApi}/getCookieAccountInfoBySToken";
-    #endregion
-
-    #region ApiOsTakumiAuthApi
-    public static string AuthMultiToken(string loginTicket, string loginUid)
-    {
-        return $"{ApiAccountOsAuthApi}/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3";
-    }
-
-    public static string AuthActionTicket(string actionType, string stoken, string uid)
-    {
-        return $"{ApiAccountOsAuthApi}/getActionTicketBySToken?action_type={actionType}&stoken={Uri.EscapeDataString(stoken)}&uid={uid}";
-    }
-    #endregion
-
-    #region ApiOsTakumiBindingApi
-    public const string UserGameRolesByCookie = $"{ApiOsTakumiBindingApi}/getUserGameRolesByCookie?game_biz=hk4e_global";
-
-    public static string UserGameRolesByLtoken(in Region region)
-    {
-        return $"{ApiAccountOsBindingApi}/getUserGameRolesByLtoken?game_biz=hk4e_global&region={region}";
-    }
-
-    public const string BindingGenAuthKey = $"{ApiAccountOsBindingApi}/genAuthKey";
     #endregion
 
     #region BbsApiOsApi
@@ -66,7 +43,7 @@ internal static class ApiOsEndpoints
         return $"{BbsApiOsGameRecordAppApi}/index?server={uid.Region}&role_id={uid.Value}";
     }
 
-    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.ScheduleType scheduleType, in PlayerUid uid)
+    public static string GameRecordSpiralAbyss(Web.Hoyolab.Takumi.GameRecord.ScheduleType scheduleType, in PlayerUid uid)
     {
         return $"{BbsApiOsGameRecordAppApi}/spiralAbyss?server={uid.Region}&role_id={uid.Value}&schedule_type={(int)scheduleType}";
     }
@@ -158,13 +135,7 @@ internal static class ApiOsEndpoints
     #endregion
 
     #region Hosts | Queries
-    private const string ApiNaGeetest = "https://api-na.geetest.com";
-
-    private const string ApiOsTakumi = "https://api-os-takumi.hoyoverse.com";
-    private const string ApiOsTakumiBindingApi = $"{ApiOsTakumi}/binding/api";
-
     private const string ApiAccountOs = "https://api-account-os.hoyoverse.com";
-    private const string ApiAccountOsBindingApi = $"{ApiAccountOs}/binding/api";
     private const string ApiAccountOsAuthApi = $"{ApiAccountOs}/account/auth/api";
 
     private const string BbsApiOs = "https://bbs-api-os.hoyoverse.com";

@@ -6,7 +6,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Tower;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Web.Endpoint;
+using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
 

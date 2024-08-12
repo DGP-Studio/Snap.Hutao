@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Web.Endpoint;
+using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
@@ -19,6 +19,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 internal sealed partial class BindingClient2
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly ILogger<BindingClient2> logger;
     private readonly HttpClient httpClient;
 
@@ -42,7 +43,7 @@ internal sealed partial class BindingClient2
     public async ValueTask<Response<GameAuthKey>> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.BindingGenAuthKey)
+            .SetRequestUri(apiEndpointsFactory.Create(user.IsOversea).BindingGenAuthKey())
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .SetReferer(ApiEndpoints.AppMihoyoReferer)
             .PostJson(data);

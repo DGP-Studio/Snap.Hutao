@@ -6,35 +6,12 @@ using Snap.Hutao.Service.Game.Scheme;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.HoyoPlay.Connect.Branch;
 
-namespace Snap.Hutao.Web.Endpoint;
+namespace Snap.Hutao.Web.Endpoint.Hoyolab;
 
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1202")]
 internal static class ApiEndpoints
 {
-    #region ApiTakumiAuthApi
-    public static string AuthActionTicket(string actionType, string stoken, string uid)
-    {
-        return $"{ApiTakumiAuthApi}/getActionTicketBySToken?action_type={actionType}&stoken={Uri.EscapeDataString(stoken)}&uid={uid}";
-    }
-
-    public static string AuthMultiToken(string loginTicket, string loginUid)
-    {
-        return $"{ApiTakumiAuthApi}/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3";
-    }
-    #endregion
-
-    #region ApiTaKumiBindingApi
-    public static string UserGameRolesByActionTicket(string actionTicket)
-    {
-        return $"{ApiTaKumiBindingApi}/getUserGameRoles?action_ticket={actionTicket}&game_biz=hk4e_cn";
-    }
-
-    public const string UserGameRolesByCookie = $"{ApiTaKumiBindingApi}/getUserGameRolesByCookie?game_biz=hk4e_cn";
-    public const string UserGameRolesBySToken = $"{ApiTaKumiBindingApi}/getUserGameRolesByStoken";
-    public const string BindingGenAuthKey = $"{ApiTaKumiBindingApi}/genAuthKey";
-    #endregion
-
     #region ApiTakumiCardApi | ApiTakumiRecordApi
     public const string CardWidgetData = $"{ApiTakumiCardApi}/getWidgetData?game_id=2";
     public const string CardWidgetData2 = $"{ApiTakumiRecordAapi}/widget/v2?game_id=2";
@@ -67,7 +44,7 @@ internal static class ApiEndpoints
 
     public const string GameRecordIndexPath = $"{ApiTakumiRecordApi}/index";
 
-    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.ScheduleType scheduleType, in PlayerUid uid)
+    public static string GameRecordSpiralAbyss(Web.Hoyolab.Takumi.GameRecord.ScheduleType scheduleType, in PlayerUid uid)
     {
         return $"{GameRecordSpiralAbyssPath}?schedule_type={(int)scheduleType}&role_id={uid.Value}&server={uid.Region}";
     }
@@ -87,7 +64,7 @@ internal static class ApiEndpoints
     #region V1
     public const string CalculateAvatarList = $"{ApiTakumiEventCalculate}/v1/avatar/list";
 
-    public static string CalculateAvatarSkillList(Hoyolab.Takumi.Event.Calculate.Avatar avatar)
+    public static string CalculateAvatarSkillList(Web.Hoyolab.Takumi.Event.Calculate.Avatar avatar)
     {
         return $"{ApiTakumiEventCalculate}/v1/avatarSkill/list?avatar_id={avatar.Id}&element_attr_id={(int)avatar.ElementAttrId}";
     }
@@ -244,8 +221,6 @@ internal static class ApiEndpoints
 
     #region Hosts | Queries
     private const string ApiTakumi = "https://api-takumi.mihoyo.com";
-    private const string ApiTakumiAuthApi = $"{ApiTakumi}/auth/api";
-    private const string ApiTaKumiBindingApi = $"{ApiTakumi}/binding/api";
 
     private const string ApiTakumiCardApi = $"{ApiTakumiRecord}/game_record/app/card/api";
     private const string ApiTakumiCardWApi = $"{ApiTakumiRecord}/game_record/app/card/wapi";

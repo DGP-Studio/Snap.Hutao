@@ -3,8 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game.Unlocker.Island;
-using Snap.Hutao.Web;
-using Snap.Hutao.Web.Endpoint;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using System.Net.Http;
 using System.Net.Http.Json;
 

@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.UI.Xaml.Data.Converter;
-using Snap.Hutao.Web.Endpoint;
+using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 

@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Web.Endpoint;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using System.Collections.Frozen;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;

@@ -28,3 +28,6 @@ global using System.Text.Json.Serialization;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using System.Windows.Input;
+
+// Snap.Hutao
+global using FromKeyed = Snap.Hutao.Core.DependencyInjection.Annotation.FromKeyedServicesAttribute;

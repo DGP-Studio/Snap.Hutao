@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Web.Endpoint;
+using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request.Builder;
@@ -19,6 +19,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 internal sealed partial class AuthClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly ILogger<BindingClient> logger;
     private readonly HttpClient httpClient;
 
@@ -28,7 +29,7 @@ internal sealed partial class AuthClient
         string stoken = user.SToken?.GetValueOrDefault(Cookie.STOKEN) ?? string.Empty;
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AuthActionTicket(action, stoken, user.Aid))
+            .SetRequestUri(apiEndpointsFactory.Create(user.IsOversea).AuthActionTicket(action, stoken, user.Aid))
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .Get();
 
@@ -49,12 +50,8 @@ internal sealed partial class AuthClient
             string loginTicket = loginTicketCookie[Cookie.LOGIN_TICKET];
             string loginUid = loginTicketCookie[Cookie.LOGIN_UID];
 
-            string url = isOversea
-                ? ApiOsEndpoints.AuthMultiToken(loginTicket, loginUid)
-                : ApiEndpoints.AuthMultiToken(loginTicket, loginUid);
-
             HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-                .SetRequestUri(url)
+                .SetRequestUri(apiEndpointsFactory.Create(isOversea).AuthMultiToken(loginTicket, loginUid))
                 .Get();
 
             resp = await builder
