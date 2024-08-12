@@ -17,6 +17,8 @@ internal sealed partial class UserClient : IUserClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<UserClient> logger;
+    [FromKeyed(ApiEndpointsKind.Chinese)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
@@ -24,8 +26,8 @@ internal sealed partial class UserClient : IUserClient
         ArgumentException.ThrowIfNullOrEmpty(user.Aid);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.UserFullInfoQuery(user.Aid))
-            .SetReferer(ApiEndpoints.BbsReferer)
+            .SetRequestUri(apiEndpoints.UserFullInfoQuery(user.Aid))
+            .SetReferer(apiEndpoints.BbsReferer)
             .Get();
 
         Response<UserFullInfoWrapper>? resp = await builder

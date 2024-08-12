@@ -18,12 +18,14 @@ internal sealed partial class SophonClient : ISophonClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<SophonClient> logger;
+    [FromKeyed(ApiEndpointsKind.Oversea)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<SophonBuild>> GetBuildAsync(BranchWrapper branch, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.SophonChunkGetBuild(branch))
+            .SetRequestUri(apiEndpoints.SophonChunkGetBuild(branch))
             .Get();
 
         Response<SophonBuild>? resp = await builder

@@ -3,7 +3,9 @@
 
 namespace Snap.Hutao.Web.Endpoint.Hoyolab;
 
-internal interface IApiTakumiAuthApiRootAccess : IApiTakumiHostAccess
+internal interface IBbsApiEndpoints : IBbsApiHostAccess
 {
-    string ApiTakumiAuthApiRoot { get; }
+    string BbsReferer { get; }
+
+    string UserFullInfoQuery(string accountId);
 }

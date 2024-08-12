@@ -10,11 +10,12 @@ namespace Snap.Hutao.Web.Endpoint.Hoyolab;
 
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1202")]
+[Obsolete]
 internal static class ApiEndpoints
 {
     #region ApiTakumiCardApi | ApiTakumiRecordApi
     public const string CardWidgetData = $"{ApiTakumiCardApi}/getWidgetData?game_id=2";
-    public const string CardWidgetData2 = $"{ApiTakumiRecordAapi}/widget/v2?game_id=2";
+    public const string CardWidgetData2 = $"{ApiTakumiRecordAApi}/widget/v2?game_id=2";
 
     public static string CardCreateVerification(bool highRisk)
     {
@@ -134,12 +135,7 @@ internal static class ApiEndpoints
 
     #region BbsApiUserApi
     public const string BbsReferer = "https://bbs.mihoyo.com/";
-    public const string UserFullInfo = $"{BbsApiUserApi}/getUserFullInfo?gids=2";
-
-    public static string UserFullInfoQuery(string bbsUid)
-    {
-        return $"{BbsApiUserApi}/getUserFullInfo?uid={bbsUid}&gids=2";
-    }
+    public const string UserFullInfo = $"{BbsApiUserWApi}/getUserFullInfo?gids=2";
     #endregion
 
     #region DownloaderApi
@@ -231,13 +227,13 @@ internal static class ApiEndpoints
 
     private const string ApiTakumiRecord = "https://api-takumi-record.mihoyo.com";
     private const string ApiTakumiRecordApi = $"{ApiTakumiRecord}/game_record/app/genshin/api";
-    private const string ApiTakumiRecordAapi = $"{ApiTakumiRecord}/game_record/app/genshin/aapi";
+    private const string ApiTakumiRecordAApi = $"{ApiTakumiRecord}/game_record/app/genshin/aapi";
 
     private const string AppAuthApi = $"{AppMihoyoReferer}/account/auth/api";
     public const string AppMihoyoReferer = "https://app.mihoyo.com";
 
     private const string BbsApi = "https://bbs-api.mihoyo.com";
-    private const string BbsApiUserApi = $"{BbsApi}/user/wapi";
+    private const string BbsApiUserWApi = $"{BbsApi}/user/wapi";
 
     private const string DownloaderApi = "https://downloader-api.mihoyo.com";
     private const string DownloaderSophonChunkApi = $"{DownloaderApi}/downloader/sophon_chunk/api";

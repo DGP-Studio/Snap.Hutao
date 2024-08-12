@@ -10,6 +10,7 @@ namespace Snap.Hutao.Web.Endpoint.Hoyolab;
 
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1202")]
+[Obsolete]
 internal static class ApiOsEndpoints
 {
     #region ApiAccountOsApi
@@ -23,8 +24,6 @@ internal static class ApiOsEndpoints
     {
         return $"{BbsApiOs}/community/painter/wapi/user/full";
     }
-
-    public const string UserFullInfo = $"{BbsApiOs}/community/user/wapi/getUserFullInfo?gid=2";
 
     public static string GameRecordRoleBasicInfo(in PlayerUid uid)
     {

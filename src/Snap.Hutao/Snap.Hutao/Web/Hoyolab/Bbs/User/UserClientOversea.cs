@@ -17,6 +17,8 @@ internal sealed partial class UserClientOversea : IUserClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<UserClientOversea> logger;
+    [FromKeyed(ApiEndpointsKind.Oversea)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
@@ -24,7 +26,7 @@ internal sealed partial class UserClientOversea : IUserClient
         ArgumentException.ThrowIfNullOrEmpty(user.Aid);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.UserFullInfoQuery(user.Aid))
+            .SetRequestUri(apiEndpoints.UserFullInfoQuery(user.Aid))
             .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .Get();
 

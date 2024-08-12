@@ -5,6 +5,8 @@ namespace Snap.Hutao.Web.Endpoint.Hoyolab;
 
 internal interface IApiEndpoints :
     IAuthApiEndpoints,
-    IBindingApiEndpoints
+    IBindingApiEndpoints,
+    IBbsApiEndpoints,
+    IDownloaderApiEndpoints
 {
 }
