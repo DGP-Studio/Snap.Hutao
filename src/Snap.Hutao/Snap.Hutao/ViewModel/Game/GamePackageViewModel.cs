@@ -121,9 +121,9 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
                 return true;
             }
 
-            if (File.Exists(gameFileSystem.ScriptVersionFilePath))
+            if (gameFileSystem.TryGetGameVersion(out string? localVersion))
             {
-                LocalVersion = new(await File.ReadAllTextAsync(gameFileSystem.ScriptVersionFilePath).ConfigureAwait(true));
+                LocalVersion = new(localVersion);
             }
 
             if (!IsUpdateAvailable && PreVersion is null && File.Exists(gameFileSystem.PredownloadStatusPath))
