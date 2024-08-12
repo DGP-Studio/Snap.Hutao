@@ -27,7 +27,7 @@ internal sealed partial class UserClient : IUserClient
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.UserFullInfoQuery(user.Aid))
-            .SetReferer(apiEndpoints.BbsReferer)
+            .SetReferer(apiEndpoints.BbsReferer())
             .Get();
 
         Response<UserFullInfoWrapper>? resp = await builder

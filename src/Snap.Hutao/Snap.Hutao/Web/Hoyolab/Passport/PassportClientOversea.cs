@@ -17,6 +17,8 @@ internal sealed partial class PassportClientOversea : IPassportClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<PassportClientOversea> logger;
+    [FromKeyed(ApiEndpointsKind.Oversea)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default)
@@ -27,7 +29,7 @@ internal sealed partial class PassportClientOversea : IPassportClient
         STokenWrapper data = new(stoken, user.Aid);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.AccountGetCookieTokenBySToken)
+            .SetRequestUri(apiEndpoints.AccountGetCookieTokenBySToken())
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .PostJson(data);
 
@@ -46,7 +48,7 @@ internal sealed partial class PassportClientOversea : IPassportClient
         STokenWrapper data = new(stoken, user.Aid);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.AccountGetLTokenBySToken)
+            .SetRequestUri(apiEndpoints.AccountGetLTokenBySToken())
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .PostJson(data);
 

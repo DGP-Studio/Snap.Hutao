@@ -13,19 +13,20 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
-[HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
 internal sealed partial class CardClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    [FromKeyed(ApiEndpointsKind.Chinese)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly ILogger<CardClient> logger;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<VerificationRegistration>> CreateVerificationAsync(User user, CardVerifiationHeaders headers, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.CardCreateVerification(true))
+            .SetRequestUri(apiEndpoints.CardCreateVerification(true))
             .SetUserCookieAndFpHeader(user, CookieType.Cookie)
             .SetHeader("x-rpc-challenge_game", $"{headers.ChallengeGame}")
             .SetHeader("x-rpc-challenge_path", headers.ChallengePath)
@@ -43,7 +44,7 @@ internal sealed partial class CardClient
     public async ValueTask<Response<VerificationResult>> VerifyVerificationAsync(User user, CardVerifiationHeaders headers, string challenge, string validate, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.CardVerifyVerification)
+            .SetRequestUri(apiEndpoints.CardVerifyVerification())
             .SetUserCookieAndFpHeader(user, CookieType.Cookie)
             .SetHeader("x-rpc-challenge_game", $"{headers.ChallengeGame}")
             .SetHeader("x-rpc-challenge_path", headers.ChallengePath)
@@ -61,7 +62,7 @@ internal sealed partial class CardClient
     public async ValueTask<Response<DailyNote.WidgetDailyNote>> GetWidgetDataAsync(User user, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.CardWidgetData2)
+            .SetRequestUri(apiEndpoints.CardWidgetData2())
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
             .Get();
 

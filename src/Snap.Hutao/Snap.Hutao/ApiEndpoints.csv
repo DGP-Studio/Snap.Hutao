@@ -9,60 +9,60 @@ AccountLoginByMobileCaptcha(),https://passport-api.mihoyo.com/account/ma-cn-pass
 AccountLoginByPassword(),https://passport-api.mihoyo.com/account/ma-cn-passport/app/loginByPassword,
 AccountVerifyLtoken(),https://passport-api-v4.mihoyo.com/account/ma-cn-session/web/verifyLtoken,
 ActHoyolabReferer(),,https://act.hoyolab.com/
-AnnContent(),"https://hk4e-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}","https://hk4e-api-os.hoyoverse.com/common/hk4e_global/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}"
-AnnList(),"https://hk4e-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList?{AnnouncementQuery(languageCode, region)}","https://hk4e-api-os.hoyoverse.com/common/hk4e_global/announcement/api/getAnnList?{AnnouncementQuery(languageCode, region)}"
-AnnouncementQuery(),game=hk4e&game_biz=hk4e_cn&lang={languageCode}&bundle_id=hk4e_cn&platform=pc&region={region}&level=55&uid=100000000,game=hk4e&game_biz=hk4e_global&lang={languageCode}&bundle_id=hk4e_global&platform=pc&region={region}&level=55&uid=100000000
+"AnnContent(string languageCode, Region region)","https://hk4e-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}","https://hk4e-api-os.hoyoverse.com/common/hk4e_global/announcement/api/getAnnContent?{AnnouncementQuery(languageCode, region)}"
+"AnnList(string languageCode, Region region)","https://hk4e-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList?{AnnouncementQuery(languageCode, region)}","https://hk4e-api-os.hoyoverse.com/common/hk4e_global/announcement/api/getAnnList?{AnnouncementQuery(languageCode, region)}"
+"AnnouncementQuery(string languageCode, Region region)",game=hk4e&game_biz=hk4e_cn&lang={languageCode}&bundle_id=hk4e_cn&platform=pc&region={region}&level=55&uid=100000000,game=hk4e&game_biz=hk4e_global&lang={languageCode}&bundle_id=hk4e_global&platform=pc&region={region}&level=55&uid=100000000
 AppAuthGenAuthKey(),https://app.mihoyo.com/account/auth/api/genAuthKey,
 AppReferer(),https://app.mihoyo.com,https://app.hoyolab.com/
-AuthActionTicket(),https://api-takumi.mihoyo.com/auth/api/getActionTicketBySToken?action_type={actionType}&stoken={Uri.EscapeDataString(stoken)}&uid={uid},https://api-account-os.hoyoverse.com/account/auth/api/getActionTicketBySToken?action_type={actionType}&stoken={Uri.EscapeDataString(stoken)}&uid={uid}
-AuthMultiToken(),https://api-takumi.mihoyo.com/auth/api/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3,https://api-account-os.hoyoverse.com/account/auth/api/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3
+"AuthActionTicket(string actionType, string stoken, string uid)",https://api-takumi.mihoyo.com/auth/api/getActionTicketBySToken?action_type={actionType}&stoken={Uri.EscapeDataString(stoken)}&uid={uid},https://api-account-os.hoyoverse.com/account/auth/api/getActionTicketBySToken?action_type={actionType}&stoken={Uri.EscapeDataString(stoken)}&uid={uid}
+"AuthMultiToken(string loginTicket, string loginUid)",https://api-takumi.mihoyo.com/auth/api/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3,https://api-account-os.hoyoverse.com/account/auth/api/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3
 BbsReferer(),https://bbs.mihoyo.com/,
 BindingGenAuthKey(),https://api-takumi.mihoyo.com/binding/api/genAuthKey,https://api-account-os.hoyoverse.com/binding/api/genAuthKey
 CalculateAvatarList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatar/list,https://sg-public-api.hoyoverse.com/event/calculateos/avatar/list
-CalculateAvatarSkillList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatarSkill/list?avatar_id={avatar.Id}&element_attr_id={(int)avatar.ElementAttrId},
+"CalculateAvatarSkillList(Web.Hoyolab.Takumi.Event.Calculate.Avatar avatar)",https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatarSkill/list?avatar_id={avatar.Id}&element_attr_id={(int)avatar.ElementAttrId},
 CalculateBatchCompute(),https://api-takumi.mihoyo.com/event/e20200928calculate/v3/batch_compute,https://sg-public-api.hoyoverse.com/event/calculateos/batch_compute
 CalculateCompute(),https://api-takumi.mihoyo.com/event/e20200928calculate/v2/compute,https://sg-public-api.hoyoverse.com/event/calculateos/compute
-CalculateFurnitureBlueprint(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/furniture/blueprint?share_code={shareCode},
+CalculateFurnitureBlueprint(string shareCode),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/furniture/blueprint?share_code={shareCode},
 CalculateFurnitureCompute(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/furniture/compute,https://sg-public-api.hoyoverse.com/event/calculateos/furniture/list
 CalculateFurnitureList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/furniture/list,
-CalculateSyncAvatarDetail(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/sync/avatar/detail?avatar_id={avatarId.Value}&uid={uid.Value}&region={uid.Region},https://sg-public-api.hoyoverse.com/event/calculateos/sync/avatar/detail?avatar_id={avatarId.Value}&uid={uid.Value}&region={uid.Region}
+"CalculateSyncAvatarDetail(Model.Primitive.AvatarId avatarId, PlayerUid uid)",https://api-takumi.mihoyo.com/event/e20200928calculate/v1/sync/avatar/detail?avatar_id={avatarId.Value}&{uid.ToUidRegionQueryString()},https://sg-public-api.hoyoverse.com/event/calculateos/sync/avatar/detail?avatar_id={avatarId.Value}&{uid.ToUidRegionQueryString()}
 CalculateSyncAvatarList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/sync/avatar/list,https://sg-public-api.hoyoverse.com/event/calculateos/sync/avatar/list
 CalculateWeaponList(),https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list,https://sg-public-api.hoyoverse.com/event/calculateos/weapon/list
-CardCreateVerification(),https://api-takumi-record.mihoyo.com/game_record/app/card/wapi/createVerification?is_high={(highRisk ? true : false)},
+CardCreateVerification(bool highRisk),"https://api-takumi-record.mihoyo.com/game_record/app/card/wapi/createVerification?is_high={(highRisk ? ""true"" : ""false"")}",
 CardVerifyVerification(),https://api-takumi-record.mihoyo.com/game_record/app/card/wapi/verifyVerification,
 CardWidgetData(),https://api-takumi-record.mihoyo.com/game_record/app/card/api/getWidgetData?game_id=2,
 CardWidgetData2(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/aapi/widget/v2?game_id=2,
-DeviceFpGetExtList(),https://public-data-api.mihoyo.com/device-fp/api/getExtList?platform={platform:D},
+DeviceFpGetExtList(int platform),https://public-data-api.mihoyo.com/device-fp/api/getExtList?platform={platform:D},
 DeviceFpGetFp(),https://public-data-api.mihoyo.com/device-fp/api/getFp,
-GachaInfoGetGachaLog(),https://public-operation-hk4e.mihoyo.com/gacha_info/api/getGachaLog?{query},https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getGachaLog?{query}
+GachaInfoGetGachaLog(string query),https://public-operation-hk4e.mihoyo.com/gacha_info/api/getGachaLog?{query},https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getGachaLog?{query}
 GameRecordCharacter(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/character,https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/character
-GameRecordDailyNote(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/dailyNote?{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/dailyNote?{uid.ToRoleIdServerQueryString()}
+GameRecordDailyNote(Web.Hoyolab.PlayerUid uid),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/dailyNote?{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/dailyNote?{uid.ToRoleIdServerQueryString()}
 GameRecordDailyNotePath(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/dailyNote,
-GameRecordIndex(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/index?{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/index?{uid.ToRoleIdServerQueryString()}
+GameRecordIndex(Web.Hoyolab.PlayerUid uid),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/index?{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/index?{uid.ToRoleIdServerQueryString()}
 GameRecordIndexPath(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/index,
-GameRecordRoleBasicInfo(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/roleBasicInfo?{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/roleBasicInfo?{uid.ToRoleIdServerQueryString()}
-GameRecordRoleCombat(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/role_combat?{uid.ToRoleIdServerQueryString()}&need_detail=true,
+GameRecordRoleBasicInfo(Web.Hoyolab.PlayerUid uid),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/roleBasicInfo?{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/roleBasicInfo?{uid.ToRoleIdServerQueryString()}
+GameRecordRoleCombat(Web.Hoyolab.PlayerUid uid),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/role_combat?{uid.ToRoleIdServerQueryString()}&need_detail=true,
 GameRecordRoleCombatPath(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/role_combat,
-GameRecordSpiralAbyss(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/spiralAbyss?schedule_type={(int)scheduleType}&{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/spiralAbyss?{uid.ToRoleIdServerQueryString()}&schedule_type={(int)scheduleType}
+"GameRecordSpiralAbyss(Web.Hoyolab.Takumi.GameRecord.ScheduleType scheduleType, Web.Hoyolab.PlayerUid uid)",https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/spiralAbyss?schedule_type={(int)scheduleType}&{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/spiralAbyss?{uid.ToRoleIdServerQueryString()}&schedule_type={(int)scheduleType}
 GameRecordSpiralAbyssPath(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/spiralAbyss,
-HoyoPlayConnectDeprecatedFileConfigs(),https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D},https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}
-HoyoPlayConnectGameBranches(),https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGameBranches?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId},https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGameBranches?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}
-HoyoPlayConnectGameChannelSDKs(),https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D},https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}
-HoyoPlayConnectGamePackages(),https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId},https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}
+HoyoPlayConnectDeprecatedFileConfigs(Service.Game.Scheme.LaunchScheme scheme),https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D},https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGameDeprecatedFileConfigs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}
+HoyoPlayConnectGameBranches(Service.Game.Scheme.LaunchScheme scheme),https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGameBranches?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId},https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGameBranches?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}
+HoyoPlayConnectGameChannelSDKs(Service.Game.Scheme.LaunchScheme scheme),https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D},https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGameChannelSDKs?channel={scheme.Channel:D}&game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}&sub_channel={scheme.SubChannel:D}
+HoyoPlayConnectGamePackages(Service.Game.Scheme.LaunchScheme scheme),https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId},https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?game_ids[]={scheme.GameId}&launcher_id={scheme.LauncherId}
 LunaSolActivityId(),e202311201442471,e202102251931481
-LunaSolHome(),https://api-takumi.mihoyo.com/event/luna/home?lang={languageCode}&act_id={LunaActivityId},https://sg-hk4e-api.hoyoverse.com/event/sol/home?lang=zh-cn&act_id={SignInRewardActivityId}
-LunaSolInfo(),https://api-takumi.mihoyo.com/event/luna/info?lang={languageCode}&act_id={LunaActivityId}&{uid.ToUidRegionQueryString()},https://sg-hk4e-api.hoyoverse.com/event/sol/info?lang=zh-cn&act_id={SignInRewardActivityId}&region={uid.Region}&uid={uid.Value}
-LunaSolReSign(),https://api-takumi.mihoyo.com/event/luna/resign,https://sg-hk4e-api.hoyoverse.com/event/sol/resign?lang=zh-cn
-LunaSolResignInfo(),https://api-takumi.mihoyo.com/event/luna/resign_info?act_id={LunaActivityId}&{uid.ToUidRegionQueryString()},https://sg-hk4e-api.hoyoverse.com/event/sol/resign_info?lang=zh-cn&act_id={SignInRewardActivityId}&region={uid.Region}&uid={uid.Value}
+LunaSolHome(string languageCode),https://api-takumi.mihoyo.com/event/luna/home?lang={languageCode}&act_id={LunaSolActivityId()},https://sg-hk4e-api.hoyoverse.com/event/sol/home?lang={languageCode}&act_id={LunaSolActivityId()}
+"LunaSolInfo(PlayerUid uid, string languageCode)",https://api-takumi.mihoyo.com/event/luna/info?lang={languageCode}&act_id={LunaSolActivityId()}&{uid.ToUidRegionQueryString()},https://sg-hk4e-api.hoyoverse.com/event/sol/info?lang={languageCode}&act_id={LunaSolActivityId()}&{uid.ToUidRegionQueryString()}
+LunaSolReSign(string languageCode),https://api-takumi.mihoyo.com/event/luna/resign,https://sg-hk4e-api.hoyoverse.com/event/sol/resign?lang={languageCode}
+"LunaSolResignInfo(PlayerUid uid, string languageCode)",https://api-takumi.mihoyo.com/event/luna/resign_info?act_id={LunaSolActivityId()}&{uid.ToUidRegionQueryString()},https://sg-hk4e-api.hoyoverse.com/event/sol/resign_info?lang={languageCode}&act_id={LunaSolActivityId()}&{uid.ToUidRegionQueryString()}
 LunaSolSign(),https://api-takumi.mihoyo.com/event/luna/sign,https://sg-hk4e-api.hoyoverse.com/event/sol/sign?lang=zh-cn
 QrCodeFetch(),https://hk4e-sdk.mihoyo.com/hk4e_cn/combo/panda/qrcode/fetch,
 QrCodeQuery(),https://hk4e-sdk.mihoyo.com/hk4e_cn/combo/panda/qrcode/query,
-SophonChunkGetBuild(),https://downloader-api.mihoyo.com/downloader/sophon_chunk/api/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}&tag={branch.Tag},{SgPublicApi}/sophon_chunk/api/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}
+SophonChunkGetBuild(Web.Hoyolab.HoyoPlay.Connect.Branch.BranchWrapper branch),https://downloader-api.mihoyo.com/downloader/sophon_chunk/api/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}&tag={branch.Tag},https://sg-public-api.hoyoverse.com/sophon_chunk/api/getBuild?branch={branch.Branch}&package_id={branch.PackageId}&password={branch.Password}
 UserFullInfo(),https://bbs-api.mihoyo.com/user/wapi/getUserFullInfo?gids=2,https://bbs-api-os.hoyoverse.com/community/user/wapi/getUserFullInfo?gid=2
-UserFullInfoQuery(),https://bbs-api.mihoyo.com/user/wapi/getUserFullInfo?uid={bbsUid}&gids=2,https://bbs-api-os.hoyoverse.com/community/painter/wapi/user/full
-UserGameRolesByActionTicket(),https://api-takumi.mihoyo.com/binding/api/getUserGameRoles?action_ticket={actionTicket}&game_biz=hk4e_cn,
+UserFullInfoQuery(string accountId),https://bbs-api.mihoyo.com/user/wapi/getUserFullInfo?uid={accountId}&gids=2,https://bbs-api-os.hoyoverse.com/community/painter/wapi/user/full
+UserGameRolesByActionTicket(string actionTicket),https://api-takumi.mihoyo.com/binding/api/getUserGameRoles?action_ticket={actionTicket}&game_biz=hk4e_cn,
 UserGameRolesByCookie(),https://api-takumi.mihoyo.com/binding/api/getUserGameRolesByCookie?game_biz=hk4e_cn,https://api-os-takumi.hoyoverse.com/binding/api/getUserGameRolesByCookie?game_biz=hk4e_global
-UserGameRolesByLtoken(),,https://api-account-os.hoyoverse.com/binding/api/getUserGameRolesByLtoken?game_biz=hk4e_global&region={region}
+UserGameRolesByLtoken(Region region),,https://api-account-os.hoyoverse.com/binding/api/getUserGameRolesByLtoken?game_biz=hk4e_global&region={region}
 UserGameRolesBySToken(),https://api-takumi.mihoyo.com/binding/api/getUserGameRolesByStoken,
 WebApiOsAccountLoginByCookie(),,https://webapi-os.account.hoyoverse.com/Api/login_by_cookie
 WebLoginByPassword(),,https://api-account-os.hoyoverse.com/account/auth/api/webLoginByPassword

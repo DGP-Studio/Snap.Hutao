@@ -16,6 +16,8 @@ internal sealed partial class PandaClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<PandaClient> logger;
+    [FromKeyed(ApiEndpointsKind.Chinese)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<UrlWrapper>> QRCodeFetchAsync(CancellationToken token = default)
@@ -23,7 +25,7 @@ internal sealed partial class PandaClient
         GameLoginRequest options = GameLoginRequest.Create(8, HoyolabOptions.DeviceId40);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.QrCodeFetch)
+            .SetRequestUri(apiEndpoints.QrCodeFetch())
             .PostJson(options);
 
         Response<UrlWrapper>? resp = await builder
@@ -38,7 +40,7 @@ internal sealed partial class PandaClient
         GameLoginRequest options = GameLoginRequest.Create(8, HoyolabOptions.DeviceId40, ticket);
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.QrCodeQuery)
+            .SetRequestUri(apiEndpoints.QrCodeQuery())
             .SetHeader("x-rpc-device_id", HoyolabOptions.DeviceId40)
             .PostJson(options);
 

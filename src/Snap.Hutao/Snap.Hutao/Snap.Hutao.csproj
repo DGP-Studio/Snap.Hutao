@@ -55,7 +55,6 @@
 
   <!-- Included Files -->
   <ItemGroup>
-    <None Remove="ApiEndpoints.csv" />
     <None Remove="Assets\LargeTile.scale-100.png" />
     <None Remove="Assets\LargeTile.scale-200.png" />
     <None Remove="Assets\LargeTile.scale-400.png" />
@@ -325,7 +324,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.1.12">
+    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.1.14">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -343,8 +342,6 @@
     <PackageReference Include="TaskScheduler" Version="2.11.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
-
-  <!-- Projects -->
 
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
        Tools extension to be activated for this project even if the Windows App SDK Nuget

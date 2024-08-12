@@ -23,14 +23,16 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<GameRecordClient> logger;
+    [FromKeyed(ApiEndpointsKind.Chinese)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordDailyNote(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+            .SetReferer(apiEndpoints.WebStaticReferer())
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -46,14 +48,14 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebDailyNoteVerificationFailed;
 
             IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
-            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForDailyNote();
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForDailyNote(apiEndpoints);
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
-                    .SetRequestUri(ApiEndpoints.GameRecordDailyNote(userAndUid.Uid))
+                    .SetRequestUri(apiEndpoints.GameRecordDailyNote(userAndUid.Uid))
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-                    .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+                    .SetReferer(apiEndpoints.WebStaticReferer())
                     .SetXrpcChallenge(challenge)
                     .Get();
 
@@ -71,9 +73,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     public async ValueTask<Response<PlayerInfo>> GetPlayerInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.GameRecordIndex(userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordIndex(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+            .SetReferer(apiEndpoints.WebStaticReferer())
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -89,14 +91,14 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
 
             IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
-            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForIndex();
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForIndex(apiEndpoints);
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
-                    .SetRequestUri(ApiEndpoints.GameRecordIndex(userAndUid.Uid))
+                    .SetRequestUri(apiEndpoints.GameRecordIndex(userAndUid.Uid))
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-                    .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+                    .SetReferer(apiEndpoints.WebStaticReferer())
                     .SetXrpcChallenge(challenge)
                     .Get();
 
@@ -114,9 +116,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, ScheduleType schedule, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+            .SetReferer(apiEndpoints.WebStaticReferer())
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -132,14 +134,14 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
 
             IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
-            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForSpiralAbyss();
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForSpiralAbyss(apiEndpoints);
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedbuilder = httpRequestMessageBuilderFactory.Create()
-                    .SetRequestUri(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
+                    .SetRequestUri(apiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-                    .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+                    .SetReferer(apiEndpoints.WebStaticReferer())
                     .SetXrpcChallenge(challenge)
                     .Get();
 
@@ -157,9 +159,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     public async ValueTask<Response<BasicRoleInfo>> GetRoleBasicInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.GameRecordRoleBasicInfo(userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordRoleBasicInfo(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+            .SetReferer(apiEndpoints.WebStaticReferer())
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -174,9 +176,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     public async ValueTask<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.GameRecordCharacter)
+            .SetRequestUri(apiEndpoints.GameRecordCharacter())
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+            .SetReferer(apiEndpoints.WebStaticReferer())
             .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -192,14 +194,14 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
 
             IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
-            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForCharacter();
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForCharacter(apiEndpoints);
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
-                    .SetRequestUri(ApiEndpoints.GameRecordCharacter)
+                    .SetRequestUri(apiEndpoints.GameRecordCharacter())
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-                    .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+                    .SetReferer(apiEndpoints.WebStaticReferer())
                     .SetXrpcChallenge(challenge)
                     .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 
@@ -217,9 +219,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     public async ValueTask<Response<RoleCombat.RoleCombat>> GetRoleCombatAsync(UserAndUid userAndUid, CancellationToken token = default(CancellationToken))
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.GameRecordRoleCombat(userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordRoleCombat(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
+            .SetReferer(apiEndpoints.WebStaticReferer())
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -235,7 +237,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
 
             IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
-            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForRoleCombat();
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForRoleCombat(apiEndpoints);
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {

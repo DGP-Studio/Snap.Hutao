@@ -15,13 +15,15 @@ namespace Snap.Hutao.Web.Hoyolab.PublicData.DeviceFp;
 internal sealed partial class DeviceFpClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly HttpClient httpClient;
     private readonly ILogger<DeviceFpClient> logger;
+    [FromKeyed(ApiEndpointsKind.Chinese)]
+    private readonly IApiEndpoints apiEndpoints;
+    private readonly HttpClient httpClient;
 
     public async ValueTask<Response<DeviceFpWrapper>> GetFingerprintAsync(DeviceFpData data, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.DeviceFpGetFp)
+            .SetRequestUri(apiEndpoints.DeviceFpGetFp())
             .PostJson(data);
 
         Response<DeviceFpWrapper>? resp = await builder

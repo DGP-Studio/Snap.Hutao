@@ -10,32 +10,19 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
-/// <summary>
-/// 公告客户端
-/// </summary>
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class AnnouncementClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly ILogger<AnnouncementClient> logger;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 异步获取公告列表
-    /// </summary>
-    /// <param name="languageCode">语言代码</param>
-    /// <param name="region">服务器</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>公告列表</returns>
     public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(string languageCode, Region region, CancellationToken token = default)
     {
-        string annListUrl = region.IsOversea()
-            ? ApiOsEndpoints.AnnList(languageCode, region)
-            : ApiEndpoints.AnnList(languageCode, region);
-
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(annListUrl)
+            .SetRequestUri(apiEndpointsFactory.Create(region.IsOversea()).AnnList(languageCode, region))
             .Get();
 
         Response<AnnouncementWrapper>? resp = await builder
@@ -45,21 +32,10 @@ internal sealed partial class AnnouncementClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取公告内容列表
-    /// </summary>
-    /// <param name="languageCode">语言代码</param>
-    /// <param name="region">服务器</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>公告内容列表</returns>
     public async ValueTask<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(string languageCode, Region region, CancellationToken token = default)
     {
-        string annContentUrl = region.IsOversea()
-            ? ApiOsEndpoints.AnnContent(languageCode, region)
-            : ApiEndpoints.AnnContent(languageCode, region);
-
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(annContentUrl)
+            .SetRequestUri(apiEndpointsFactory.Create(region.IsOversea()).AnnContent(languageCode, region))
             .Get();
 
         Response<ListWrapper<AnnouncementContent>>? resp = await builder

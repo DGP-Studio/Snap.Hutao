@@ -13,29 +13,29 @@ internal sealed class CardVerifiationHeaders
 
     public string Page { get; private set; } = string.Empty;
 
-    public static CardVerifiationHeaders CreateForDailyNote()
+    public static CardVerifiationHeaders CreateForDailyNote(IApiEndpoints apiEndpoints)
     {
-        return Create(ApiEndpoints.GameRecordDailyNotePath);
+        return Create(apiEndpoints.GameRecordDailyNotePath());
     }
 
-    public static CardVerifiationHeaders CreateForIndex()
+    public static CardVerifiationHeaders CreateForIndex(IApiEndpoints apiEndpoints)
     {
-        return Create(ApiEndpoints.GameRecordIndexPath);
+        return Create(apiEndpoints.GameRecordIndexPath());
     }
 
-    public static CardVerifiationHeaders CreateForSpiralAbyss()
+    public static CardVerifiationHeaders CreateForSpiralAbyss(IApiEndpoints apiEndpoints)
     {
-        return Create(ApiEndpoints.GameRecordSpiralAbyssPath);
+        return Create(apiEndpoints.GameRecordSpiralAbyssPath());
     }
 
-    public static CardVerifiationHeaders CreateForCharacter()
+    public static CardVerifiationHeaders CreateForCharacter(IApiEndpoints apiEndpoints)
     {
-        return Create(ApiEndpoints.GameRecordCharacter, $"{HoyolabOptions.ToolVersion}_#/ys/role/all");
+        return Create(apiEndpoints.GameRecordCharacter(), $"{HoyolabOptions.ToolVersion}_#/ys/role/all");
     }
 
-    public static CardVerifiationHeaders CreateForRoleCombat()
+    public static CardVerifiationHeaders CreateForRoleCombat(IApiEndpoints apiEndpoints)
     {
-        return Create(ApiEndpoints.GameRecordRoleCombatPath);
+        return Create(apiEndpoints.GameRecordRoleCombatPath());
     }
 
     private static CardVerifiationHeaders Create(string path, string page = $"{HoyolabOptions.ToolVersion}_#/ys")

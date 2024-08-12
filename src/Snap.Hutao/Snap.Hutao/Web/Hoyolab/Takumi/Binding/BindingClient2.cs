@@ -19,16 +19,17 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 internal sealed partial class BindingClient2
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly IApiEndpointsFactory apiEndpointsFactory;
     private readonly ILogger<BindingClient2> logger;
+    [FromKeyed(ApiEndpointsKind.Chinese)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<ListWrapper<UserGameRole>>> GetUserGameRolesBySTokenAsync(User user, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AccountGetCookieTokenBySToken)
+            .SetRequestUri(apiEndpoints.AccountGetCookieTokenBySToken())
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
-            .SetReferer(ApiEndpoints.AppMihoyoReferer)
+            .SetReferer(apiEndpoints.AppReferer())
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);
@@ -43,9 +44,9 @@ internal sealed partial class BindingClient2
     public async ValueTask<Response<GameAuthKey>> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(apiEndpointsFactory.Create(user.IsOversea).BindingGenAuthKey())
+            .SetRequestUri(apiEndpoints.BindingGenAuthKey())
             .SetUserCookieAndFpHeader(user, CookieType.SToken)
-            .SetReferer(ApiEndpoints.AppMihoyoReferer)
+            .SetReferer(apiEndpoints.AppReferer())
             .PostJson(data);
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen1, SaltType.LK2, true).ConfigureAwait(false);

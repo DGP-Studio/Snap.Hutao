@@ -16,19 +16,20 @@ using System.Text;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
-[HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc2)]
 internal sealed partial class PassportClient2
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<PassportClient2> logger;
+    [FromKeyed(ApiEndpointsKind.Chinese)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<UserInfoWrapper>> VerifyLtokenAsync(User user, CancellationToken token)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AccountVerifyLtoken)
+            .SetRequestUri(apiEndpoints.AccountVerifyLtoken())
             .SetUserCookieAndFpHeader(user, CookieType.LToken)
             .PostJson(new Timestamp());
 
@@ -42,7 +43,7 @@ internal sealed partial class PassportClient2
     public async ValueTask<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AccountGetSTokenByOldToken)
+            .SetRequestUri(apiEndpoints.AccountGetSTokenByOldToken())
             .SetHeader("Cookie", stokenV1.ToString())
             .Post();
 
@@ -64,7 +65,7 @@ internal sealed partial class PassportClient2
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AccountGetSTokenByGameToken)
+            .SetRequestUri(apiEndpoints.AccountGetSTokenByGameToken())
             .PostJson(data);
 
         Response<LoginResult>? resp = await builder
@@ -83,7 +84,7 @@ internal sealed partial class PassportClient2
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AccountCreateLoginCaptcha)
+            .SetRequestUri(apiEndpoints.AccountCreateLoginCaptcha())
             .PostJson(data);
 
         if (!string.IsNullOrEmpty(aigis))
@@ -113,7 +114,7 @@ internal sealed partial class PassportClient2
         };
 
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiEndpoints.AccountLoginByMobileCaptcha)
+            .SetRequestUri(apiEndpoints.AccountLoginByMobileCaptcha())
             .PostJson(data);
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.PROD, true).ConfigureAwait(false);

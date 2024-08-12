@@ -20,12 +20,14 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<GameRecordClient> logger;
+    [FromKeyed(ApiEndpointsKind.Oversea)]
+    private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
     public async ValueTask<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.GameRecordDailyNote(userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordDailyNote(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
@@ -41,7 +43,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     public async ValueTask<Response<PlayerInfo>> GetPlayerInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.GameRecordIndex(userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordIndex(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
@@ -57,7 +59,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, ScheduleType schedule, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
+            .SetRequestUri(apiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .Get();
 
@@ -73,7 +75,7 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
     public async ValueTask<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.GameRecordCharacter)
+            .SetRequestUri(apiEndpoints.GameRecordCharacter())
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 
