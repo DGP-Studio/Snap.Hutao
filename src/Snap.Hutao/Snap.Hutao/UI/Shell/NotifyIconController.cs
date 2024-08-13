@@ -6,7 +6,6 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -28,8 +27,8 @@ internal sealed class NotifyIconController : IDisposable
     {
         lazyMenu = new(() => new(serviceProvider));
 
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        string iconPath = Path.Combine(runtimeOptions.InstalledLocation, "Assets/Logo.ico");
+        string iconPath = InstalledLocation.GetAbsolutePath("Assets/Logo.ico");
+
         icon = new(iconPath);
         id = Unsafe.As<byte, Guid>(ref MemoryMarshal.GetArrayDataReference(MD5.HashData(Encoding.UTF8.GetBytes(iconPath))));
 

@@ -265,35 +265,58 @@
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"/>
                             </StackPanel>
-                            <Button
+                            <StackPanel
                                 Grid.Column="2"
-                                Width="32"
-                                Height="32"
                                 Margin="0,0,8,0"
-                                Padding="6"
-                                ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageDailyNoteAttendanceStatusInfo}"
-                                Visibility="{Binding DailyNote.DailyTask.AttendanceVisible, Mode=OneWay}">
-                                <BitmapIcon ShowAsMonochrome="True" UriSource="ms-appx:///Resource/Icon/UI_Icon_Gift.png"/>
-                                <Button.Flyout>
-                                    <Flyout FlyoutPresenterStyle="{StaticResource FlyoutPresenterPadding6Style}" Placement="BottomEdgeAlignedRight">
-                                        <ItemsControl Margin="0,-3,0,0" ItemsSource="{Binding DailyNote.DailyTask.AttendanceRewards}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <shuxcc:CardProgressBar
-                                                        MinWidth="120"
-                                                        MinHeight="32"
-                                                        Margin="0,3,0,0"
-                                                        Description="{Binding Progress}"
-                                                        Header="{Binding StatusFormatted}"
-                                                        Maximum="2000"
-                                                        ProgressForeground="{ThemeResource HyperlinkButtonForeground}"
-                                                        Value="{Binding Progress}"/>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Flyout>
-                                </Button.Flyout>
-                            </Button>
+                                Orientation="Horizontal"
+                                Spacing="8">
+                                <Button
+                                    Width="32"
+                                    Height="32"
+                                    Padding="6"
+                                    ToolTipService.ToolTip="{shuxm:ResourceString Name=ViewPageDailyNoteAttendanceStatusInfo}"
+                                    Visibility="{Binding DailyNote.DailyTask.AttendanceVisible, Mode=OneWay}">
+                                    <BitmapIcon ShowAsMonochrome="True" UriSource="ms-appx:///Resource/Icon/UI_IconSmall_EP.png"/>
+                                    <Button.Flyout>
+                                        <Flyout FlyoutPresenterStyle="{StaticResource FlyoutPresenterPadding6Style}" Placement="BottomEdgeAlignedRight">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <Grid ColumnSpacing="6">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{shuxm:ResourceString Name=ViewPageDailyNoteStoredAttendance}"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding DailyNote.DailyTask.StoredAttendance}"/>
+                                                </Grid>
+                                                <MenuFlyoutSeparator Grid.Row="1" Margin="-3,4,-3,6"/>
+                                                <ItemsControl
+                                                    Grid.Row="2"
+                                                    ItemsPanel="{ThemeResource StackPanelSpacing3Template}"
+                                                    ItemsSource="{Binding DailyNote.DailyTask.AttendanceRewards}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <shuxcc:CardProgressBar
+                                                                MinWidth="120"
+                                                                MinHeight="32"
+                                                                Description="{Binding Progress}"
+                                                                Header="{Binding StatusFormatted}"
+                                                                Maximum="2000"
+                                                                ProgressForeground="{ThemeResource HyperlinkButtonForeground}"
+                                                                Value="{Binding Progress}"/>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
+
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
                         </Grid>
                         <Grid Style="{ThemeResource GridCardStyle}">
                             <Grid.ColumnDefinitions>

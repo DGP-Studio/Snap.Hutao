@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
+
+message SophonManifestProto
+{
+    repeated AssetProperty Assets = 1;
+}
+
+message AssetProperty
+{
+    string AssetName = 1;
+    repeated AssetChunk AssetChunks = 2;
+    int32 AssetType = 3;
+    int64 AssetSize = 4;
+    string AssetHashMd5 = 5;
+}
+
+message AssetChunk
+{
+    string ChunkName = 1;
+    string ChunkDecompressedHashMd5 = 2;
+    int64 ChunkOnFileOffset = 3;
+    int64 ChunkSize = 4;
+    int64 ChunkSizeDecompressed = 5;
+}

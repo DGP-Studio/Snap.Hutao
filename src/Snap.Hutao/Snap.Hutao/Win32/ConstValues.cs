@@ -28,5 +28,7 @@ internal static class ConstValues
     public const uint NIN_SELECT = 0x00000400U;
     public const uint NIN_POPUPOPEN = 0x00000406U;
     public const uint NIN_POPUPCLOSE = 0x00000407U;
+    public const uint IOCTL_STORAGE_GET_DEVICE_NUMBER = 0x002D1080U;
+    public const uint IOCTL_STORAGE_QUERY_PROPERTY = 0x002D1400U;
     public const uint INFINITE = 0xFFFFFFFFU;
 }

@@ -82,7 +82,6 @@ internal sealed class RuntimeOptions
     });
 
     private readonly LazySlim<string> lazyLocalCache = new(() => ApplicationData.Current.LocalCacheFolder.Path);
-    private readonly LazySlim<string> lazyInstalledLocation = new(() => Package.Current.InstalledLocation.Path);
     private readonly LazySlim<string> lazyFamilyName = new(() => Package.Current.Id.FamilyName);
 
     private readonly LazySlim<bool> lazyToastAvailable = new(() =>
@@ -99,8 +98,6 @@ internal sealed class RuntimeOptions
     public Version Version { get => lazyVersionAndUserAgent.Value.Version; }
 
     public string UserAgent { get => lazyVersionAndUserAgent.Value.UserAgent; }
-
-    public string InstalledLocation { get => lazyInstalledLocation.Value; }
 
     public string DataFolder { get => lazyDataFolder.Value; }
 

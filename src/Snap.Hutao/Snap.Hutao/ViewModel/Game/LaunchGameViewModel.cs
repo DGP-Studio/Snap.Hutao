@@ -35,6 +35,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     /// </summary>
     public const string DesiredUid = nameof(DesiredUid);
 
+    private readonly GamePackageInstallViewModel gamePackageInstallViewModel;
+    private readonly GamePackageViewModel gamePackageViewModel;
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly LaunchGameShared launchGameShared;
@@ -66,6 +68,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public AppOptions AppOptions { get => appOptions; }
+
+    public GamePackageInstallViewModel GamePackageInstallViewModel { get => gamePackageInstallViewModel; }
+
+    public GamePackageViewModel GamePackageViewModel { get => gamePackageViewModel; }
 
     public List<LaunchScheme> KnownSchemes { get; } = KnownLaunchSchemes.Get();
 
@@ -102,6 +108,9 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                         await taskContext.SwitchToMainThreadAsync();
                         await SetSelectedSchemeAsync(scheme).ConfigureAwait(true);
                         TrySetGameAccountByDesiredUid();
+
+                        // TODO: refine calling
+                        await GamePackageViewModel.LoadCommand.ExecuteAsync(default).ConfigureAwait(false);
 
                         // Try set to the current account.
                         if (SelectedScheme is not null)

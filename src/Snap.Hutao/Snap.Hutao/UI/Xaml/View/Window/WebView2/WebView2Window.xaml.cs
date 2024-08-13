@@ -44,6 +44,7 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
         }
 
         this.contentProvider = contentProvider;
+        contentProvider.CloseWindowAction = Close;
 
         InitializeComponent();
 

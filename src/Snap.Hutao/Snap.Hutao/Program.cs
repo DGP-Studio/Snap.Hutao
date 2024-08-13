@@ -12,9 +12,6 @@ using WinRT;
 
 namespace Snap.Hutao;
 
-/// <summary>
-/// Program class
-/// </summary>
 [SuppressMessage("", "SH001")]
 public static partial class Program
 {
@@ -42,10 +39,10 @@ public static partial class Program
     [STAThread]
     private static void Main(string[] args)
     {
-        // WebView2
         Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "00000000");
-        System.Diagnostics.Debug.WriteLine($"[Arguments]:[{args.ToString(',')}]");
+        Environment.SetEnvironmentVariable("DOTNET_SYSTEM_BUFFERS_SHAREDARRAYPOOL_MAXARRAYSPERPARTITION", "128");
 
+        System.Diagnostics.Debug.WriteLine($"[Arguments]:[{args.ToString(',')}]");
         XamlCheckProcessRequirements();
         ComWrappersSupport.InitializeComWrappers();
 

@@ -30,7 +30,7 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
 
         if (reader.GetString() is { } str)
         {
-            return Enum.Parse<TEnum>(str);
+            return Enum.Parse<TEnum>(str, ignoreCase: true);
         }
 
         throw new JsonException();

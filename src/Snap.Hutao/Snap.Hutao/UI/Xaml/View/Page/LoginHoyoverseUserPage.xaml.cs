@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.Web;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Request.Builder;
@@ -43,7 +42,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
     {
         IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory = serviceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(ApiOsEndpoints.WebApiOsAccountLoginByCookie)
+            .SetRequestUri("https://webapi-os.account.hoyoverse.com/Api/login_by_cookie")
             .SetHeader("Cookie", cookie.ToString());
 
         HttpClient httpClient = serviceProvider.GetRequiredService<HttpClient>();

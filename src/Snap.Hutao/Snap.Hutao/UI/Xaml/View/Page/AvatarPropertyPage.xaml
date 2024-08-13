@@ -52,6 +52,15 @@
                 </cwconv:BoolToObjectConverter.FalseValue>
             </cwconv:BoolToObjectConverter>
 
+            <shuxdcs:LayoutSwitchModeConverter x:Key="LayoutSwitchModeVisibilityConverter">
+                <shuxdcs:LayoutSwitchModeConverter.ListValue>
+                    <Visibility>Visible</Visibility>
+                </shuxdcs:LayoutSwitchModeConverter.ListValue>
+                <shuxdcs:LayoutSwitchModeConverter.GridValue>
+                    <Visibility>Collapsed</Visibility>
+                </shuxdcs:LayoutSwitchModeConverter.GridValue>
+            </shuxdcs:LayoutSwitchModeConverter>
+
             <DataTemplate x:Key="AvatarGridViewSkillTemplate">
                 <shuxcc:VerticalCard>
                     <shuxcc:VerticalCard.Top>
@@ -64,7 +73,9 @@
                             Source="{Binding Icon}"/>
                     </shuxcc:VerticalCard.Top>
                     <shuxcc:VerticalCard.Bottom>
-                        <TextBlock Text="{Binding Level}"/>
+                        <Viewbox MaxWidth="52" StretchDirection="DownOnly">
+                            <TextBlock Text="{Binding Level}"/>
+                        </Viewbox>
                     </shuxcc:VerticalCard.Bottom>
                 </shuxcc:VerticalCard>
             </DataTemplate>
@@ -143,7 +154,7 @@
                         </shuxcc:VerticalCard>
                         <ItemsControl
                             Grid.Column="2"
-                            VerticalAlignment="Bottom"
+                            VerticalAlignment="Stretch"
                             ItemTemplate="{StaticResource AvatarGridViewSkillTemplate}"
                             ItemsPanel="{StaticResource HorizontalStackPanelSpacing6Template}"
                             ItemsSource="{Binding Skills}"/>
@@ -252,7 +263,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="100"/>
                             </Grid.ColumnDefinitions>
                             <shuxci:CachedImage
                                 Grid.Column="0"
@@ -266,7 +277,7 @@
                                 VerticalAlignment="Center"
                                 Foreground="#FFFFFFFF"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{Binding Info.Level}"/>
+                                Text="{Binding Level}"/>
                         </Grid>
                     </Button.Content>
                     <Button.Flyout>
@@ -553,7 +564,8 @@
                                 <ToggleButton
                                     x:Name="RefreshTimeToggle"
                                     Margin="8,8,0,0"
-                                    Content="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"/>
+                                    Content="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"
+                                    Visibility="{Binding ElementName=ItemsPanelSelector, Path=Current, Converter={StaticResource LayoutSwitchModeVisibilityConverter}, Mode=OneWay}"/>
                             </StackPanel>
                         </CommandBar.Content>
                         <AppBarButton

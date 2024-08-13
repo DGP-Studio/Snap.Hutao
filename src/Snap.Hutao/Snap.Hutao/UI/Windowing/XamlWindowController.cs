@@ -22,7 +22,6 @@ using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Dwm;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
-using System.IO;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.UI;
@@ -58,7 +57,7 @@ internal sealed class XamlWindowController
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
 
         window.AppWindow.Title = SH.FormatAppNameAndVersion(runtimeOptions.Version);
-        window.AppWindow.SetIcon(Path.Combine(runtimeOptions.InstalledLocation, "Assets/Logo.ico"));
+        window.AppWindow.SetIcon(InstalledLocation.GetAbsolutePath("Assets/Logo.ico"));
 
         // ExtendContentIntoTitleBar
         if (window is IXamlWindowExtendContentIntoTitleBar xamlWindow)

@@ -7,7 +7,7 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.UI.Xaml.View.Page;
-using Snap.Hutao.Web;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Response;
 using Windows.System;
@@ -18,6 +18,7 @@ namespace Snap.Hutao.ViewModel.Setting;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 {
+    private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly INavigationService navigationService;
@@ -28,9 +29,9 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     public HutaoUserOptions User { get => hutaoUserOptions; }
 
     [Command("OpenRedeemWebsiteCommand")]
-    private static async Task OpenRedeemWebsiteAsync()
+    private async Task OpenRedeemWebsiteAsync()
     {
-        await Launcher.LaunchUriAsync(HutaoEndpoints.Website("redeem.html").ToUri());
+        await Launcher.LaunchUriAsync(hutaoEndpointsFactory.Create().HomaWebsite("redeem.html").ToUri());
     }
 
     [Command("OpenTestPageCommand")]

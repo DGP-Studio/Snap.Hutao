@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Factory.ContentDialog;
-using Snap.Hutao.Factory.Picker;
 using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.GachaLog;
@@ -24,14 +23,12 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
     private readonly HutaoCloudStatisticsViewModel hutaoCloudStatisticsViewModel;
     private readonly IGachaLogQueryProviderFactory gachaLogQueryProviderFactory;
-    private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly HutaoCloudViewModel hutaoCloudViewModel;
     private readonly ILogger<GachaLogViewModel> logger;
     private readonly IProgressFactory progressFactory;
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;
-    private readonly JsonSerializerOptions options;
     private readonly ITaskContext taskContext;
 
     private AdvancedDbCollectionView<GachaArchive>? archives;
@@ -260,14 +257,23 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        ValueResult<bool, Guid> result = await HutaoCloudViewModel.RetrieveAsync(uid).ConfigureAwait(false);
-
-        if (result.TryGetValue(out Guid archiveId))
+        try
         {
-            GachaArchive archive = await gachaLogService.EnsureArchiveInCollectionAsync(archiveId).ConfigureAwait(false);
+            suppressCurrentItemChangedHandling = true;
+            ValueResult<bool, Guid> result = await HutaoCloudViewModel.RetrieveAsync(uid).ConfigureAwait(false);
 
-            await taskContext.SwitchToMainThreadAsync();
-            Archives?.MoveCurrentTo(archive);
+            if (result.TryGetValue(out Guid archiveId))
+            {
+                GachaArchive archive = await gachaLogService.EnsureArchiveInCollectionAsync(archiveId).ConfigureAwait(false);
+
+                await taskContext.SwitchToMainThreadAsync();
+                Archives?.MoveCurrentTo(archive);
+            }
+        }
+        finally
+        {
+            suppressCurrentItemChangedHandling = false;
+            await UpdateStatisticsAsync(Archives?.CurrentItem).ConfigureAwait(false);
         }
     }
 

@@ -16,6 +16,8 @@ internal sealed class UpdateLogContentProvider : IWebView2ContentProvider
 
     public CoreWebView2? CoreWebView2 { get; set; }
 
+    public Action? CloseWindowAction { get; set; }
+
     public ValueTask InitializeAsync(IServiceProvider serviceProvider, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(CoreWebView2);

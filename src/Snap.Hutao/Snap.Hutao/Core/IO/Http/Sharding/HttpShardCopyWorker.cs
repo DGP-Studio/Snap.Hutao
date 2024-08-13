@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
-using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.Threading.RateLimiting;
 using System.Buffers;
 using System.IO;
 using System.Net.Http;
+using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
@@ -16,12 +17,13 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
 
     private readonly HttpClient httpClient;
     private readonly string sourceUrl;
-    private readonly Func<long, long, TStatus> statusFactory;
+    private readonly StreamCopyStatusFactory<TStatus> statusFactory;
     private readonly long contentLength;
     private readonly int bufferSize;
     private readonly SafeFileHandle destFileHandle;
     private readonly int maxDegreeOfParallelism;
     private readonly List<Shard> shards;
+    private readonly TokenBucketRateLimiter progressReportRateLimiter;
 
     private HttpShardCopyWorker(HttpShardCopyWorkerOptions<TStatus> options)
     {
@@ -33,6 +35,8 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
         destFileHandle = options.GetFileHandle();
         maxDegreeOfParallelism = options.MaxDegreeOfParallelism;
         shards = CalculateShards(contentLength);
+
+        progressReportRateLimiter = ProgressReportRateLimiter.Create(500);
 
         static List<Shard> CalculateShards(long contentLength)
         {
@@ -68,7 +72,6 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
 
         async ValueTask CopyShardAsync(Shard shard, IProgress<ShardStatus> progress, CancellationToken token)
         {
-            ValueStopwatch stopwatch = ValueStopwatch.StartNew();
             HttpRequestMessage request = new(HttpMethod.Get, sourceUrl)
             {
                 Headers = { Range = new(shard.StartOffset, shard.EndOffset), },
@@ -85,26 +88,25 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
                         using (Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
                         {
                             int totalBytesRead = 0;
-                            int bytesReadAfterPreviousReport = 0;
+                            int bytesReadSinceLastReport = 0;
                             do
                             {
                                 int bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
                                 if (bytesRead <= 0)
                                 {
-                                    progress.Report(new(bytesReadAfterPreviousReport));
-                                    bytesReadAfterPreviousReport = 0;
+                                    progress.Report(new(bytesReadSinceLastReport));
+                                    bytesReadSinceLastReport = 0;
                                     break;
                                 }
 
                                 await RandomAccess.WriteAsync(destFileHandle, buffer[..bytesRead], shard.StartOffset + totalBytesRead, token).ConfigureAwait(false);
 
                                 totalBytesRead += bytesRead;
-                                bytesReadAfterPreviousReport += bytesRead;
-                                if (stopwatch.GetElapsedTime().TotalMilliseconds > 500)
+                                bytesReadSinceLastReport += bytesRead;
+                                if (progressReportRateLimiter.AttemptAcquire().IsAcquired)
                                 {
-                                    progress.Report(new(bytesReadAfterPreviousReport));
-                                    bytesReadAfterPreviousReport = 0;
-                                    stopwatch = ValueStopwatch.StartNew();
+                                    progress.Report(new(bytesReadSinceLastReport));
+                                    bytesReadSinceLastReport = 0;
                                 }
                             }
                             while (true);
@@ -118,6 +120,7 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
     public void Dispose()
     {
         destFileHandle.Dispose();
+        progressReportRateLimiter.Dispose();
     }
 
     private sealed class Shard
@@ -146,13 +149,12 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
     private sealed class ShardProgress : IProgress<ShardStatus>
     {
         private readonly IProgress<TStatus> workerProgress;
-        private readonly Func<long, long, TStatus> statusFactory;
+        private readonly StreamCopyStatusFactory<TStatus> statusFactory;
         private readonly long contentLength;
-        private readonly object syncRoot = new();
-        private ValueStopwatch stopwatch = ValueStopwatch.StartNew();
+        private readonly TokenBucketRateLimiter progressReportRateLimiter = ProgressReportRateLimiter.Create(1000);
         private long totalBytesRead;
 
-        public ShardProgress(IProgress<TStatus> workerProgress, Func<long, long, TStatus> statusFactory, long contentLength)
+        public ShardProgress(IProgress<TStatus> workerProgress, StreamCopyStatusFactory<TStatus> statusFactory, long contentLength)
         {
             this.workerProgress = workerProgress;
             this.statusFactory = statusFactory;
@@ -161,17 +163,9 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
 
         public void Report(ShardStatus value)
         {
-            Interlocked.Add(ref totalBytesRead, value.BytesRead);
-            if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000 || totalBytesRead == contentLength)
+            if (Interlocked.Add(ref totalBytesRead, value.BytesRead) == contentLength || progressReportRateLimiter.AttemptAcquire().IsAcquired)
             {
-                lock (syncRoot)
-                {
-                    if (stopwatch.GetElapsedTime().TotalMilliseconds > 1000 || totalBytesRead == contentLength)
-                    {
-                        workerProgress.Report(statusFactory(totalBytesRead, contentLength));
-                        stopwatch = ValueStopwatch.StartNew();
-                    }
-                }
+                workerProgress.Report(statusFactory(totalBytesRead, contentLength));
             }
         }
     }

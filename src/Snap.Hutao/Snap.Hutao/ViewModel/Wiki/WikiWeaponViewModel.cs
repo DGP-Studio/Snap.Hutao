@@ -246,7 +246,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        if (FilterTokens.IsNullOrEmpty())
+        if (FilterTokens is null or [])
         {
             Weapons.Filter = default!;
         }

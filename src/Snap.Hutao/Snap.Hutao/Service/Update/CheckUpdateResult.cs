@@ -9,5 +9,5 @@ internal sealed class CheckUpdateResult
 {
     public CheckUpdateResultKind Kind { get; set; }
 
-    public HutaoVersionInformation? HutaoVersionInformation { get; set; }
+    public HutaoPackageInformation? PackageInformation { get; set; }
 }

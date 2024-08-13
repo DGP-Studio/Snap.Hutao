@@ -105,7 +105,7 @@
     <value>(?:(?:〓活动时间〓|〓任务开放时间〓).*?(\d\.\d)版本更新(?:完成|)|&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;)后永久开放</value>
   </data>
   <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
-    <value>〓Event Duration〓.*?Available throughout the entirety of Version (\d\.\d)</value>
+    <value>Persons with active time.*?(?:(\d\.\d) continue to open during version |(\d\.\d) after version update.*? to \d\.\d finish)</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
     <value>(?:Active time union|prayertime|= time for discounting).*?(\d\.\d) updated version .*?~.*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>

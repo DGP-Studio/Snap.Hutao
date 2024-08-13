@@ -7,6 +7,7 @@ using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote.NotifySuppression;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 
@@ -22,11 +23,12 @@ internal sealed partial class DailyNoteNotificationOperation
 {
     private const string ToastAttributionUnknown = "Unknown";
 
-    private readonly ITaskContext taskContext;
-    private readonly IGameServiceFacade gameService;
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly DailyNoteOptions options;
+    private readonly IGameServiceFacade gameService;
+    private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
+    private readonly ITaskContext taskContext;
+    private readonly DailyNoteOptions options;
 
     public async ValueTask SendAsync(DailyNoteEntry entry)
     {
@@ -101,7 +103,15 @@ internal sealed partial class DailyNoteNotificationOperation
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        AppNotificationManager.Default.Show(notification);
+        try
+        {
+            AppNotificationManager.Default.Show(notification);
+        }
+        catch (Exception ex)
+        {
+            ex.AddData("RawXml", rawXml);
+            infoBarService.Error(ex, SH.ServiceDailyNoteNotificationSendExceptionTitle);
+        }
     }
 
     private async ValueTask<string> GetUserUidAsync(DailyNoteEntry entry)

@@ -59,7 +59,7 @@
                 x:Name="InfoBarPanelTransitionHelper"
                 DefaultEasingMode="EaseOut"
                 DefaultEasingType="Cubic"
-                Duration="0:0:0.3">
+                Duration="0:0:0.2">
                 <clw:TransitionConfig Id="Body" ScaleMode="ScaleX"/>
                 <clw:TransitionConfig Id="Header" ScaleMode="ScaleX"/>
             </clw:TransitionHelper>
@@ -71,7 +71,7 @@
             x:Name="ShowButtonBorder"
             Margin="16"
             HorizontalAlignment="Right"
-            VerticalAlignment="Top"
+            VerticalAlignment="Bottom"
             clw:TransitionHelper.Id="Body"
             Background="{ThemeResource SystemControlAcrylicElementBrush}"
             CornerRadius="{ThemeResource ControlCornerRadius}">
@@ -104,17 +104,28 @@
             x:Name="InfoBarItemsBorder"
             Margin="16"
             HorizontalAlignment="Right"
-            VerticalAlignment="Top"
+            VerticalAlignment="Bottom"
             clw:TransitionHelper.Id="Body"
             cw:Effects.Shadow="{ThemeResource CompatCardShadow}"
             Visibility="Collapsed">
             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
                 <Grid RowSpacing="16">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
+
                         <RowDefinition/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <Grid ColumnSpacing="8">
+
+                    <ScrollView Grid.Row="0">
+                        <ItemsControl
+                            MaxWidth="480"
+                            ItemContainerTransitions="{StaticResource AddDeleteThemeTransitions}"
+                            ItemTemplateSelector="{StaticResource InfoBarTemplateSelector}"
+                            ItemsPanel="{StaticResource StackPanelSpacing8Template}"
+                            ItemsSource="{Binding InfoBars, Mode=OneWay}"/>
+                    </ScrollView>
+                    
+                    <Grid Grid.Row="1" ColumnSpacing="8">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
@@ -123,7 +134,7 @@
                             VerticalAlignment="Center"
                             clw:TransitionHelper.Id="Header"
                             Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="所有通知"/>
+                            Text="{shuxm:ResourceString Name=ViewInfoBarPanelTitle}"/>
                         <StackPanel
                             Grid.Column="1"
                             Orientation="Horizontal"
@@ -164,15 +175,6 @@
                             </Button>
                         </StackPanel>
                     </Grid>
-
-                    <ScrollView Grid.Row="1">
-                        <ItemsControl
-                            MaxWidth="480"
-                            ItemContainerTransitions="{StaticResource AddDeleteThemeTransitions}"
-                            ItemTemplateSelector="{StaticResource InfoBarTemplateSelector}"
-                            ItemsPanel="{StaticResource StackPanelSpacing8Template}"
-                            ItemsSource="{Binding InfoBars, Mode=OneWay}"/>
-                    </ScrollView>
                 </Grid>
             </Border>
         </Border>

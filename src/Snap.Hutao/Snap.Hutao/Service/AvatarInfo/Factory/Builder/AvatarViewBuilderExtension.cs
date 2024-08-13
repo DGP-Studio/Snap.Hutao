@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
+using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
@@ -75,7 +76,7 @@ internal static class AvatarViewBuilderExtension
 
         static float ScoreCrit(Dictionary<FightProperty, float>? fightPropMap)
         {
-            if (fightPropMap.IsNullOrEmpty())
+            if (fightPropMap is null or { Count: 0 })
             {
                 return 0F;
             }
@@ -194,35 +195,34 @@ internal static class AvatarViewBuilderExtension
 
         static List<SkillView> CreateSkills(Dictionary<SkillId, SkillLevel>? skillLevelMap, Dictionary<SkillGroupId, SkillLevel>? proudSkillExtraLevelMap, List<ProudableSkill> proudSkills)
         {
-            if (skillLevelMap.IsNullOrEmpty())
+            if (skillLevelMap is null or { Count: 0 })
             {
                 return [];
             }
 
+            IReadOnlyDictionary<SkillGroupId, SkillLevel> extraLevelMap = proudSkillExtraLevelMap as IReadOnlyDictionary<SkillGroupId, SkillLevel> ?? ImmutableDictionary<SkillGroupId, SkillLevel>.Empty;
             Dictionary<SkillId, SkillLevel> skillExtraLeveledMap = new(skillLevelMap);
 
-            if (proudSkillExtraLevelMap is not null)
+            foreach ((SkillGroupId groupId, SkillLevel extraLevel) in extraLevelMap)
             {
-                foreach ((SkillGroupId groupId, SkillLevel extraLevel) in proudSkillExtraLevelMap)
-                {
-                    skillExtraLeveledMap.IncreaseByValue(proudSkills.Single(p => p.GroupId == groupId).Id, extraLevel);
-                }
+                skillExtraLeveledMap.IncreaseByValue(proudSkills.Single(p => p.GroupId == groupId).Id, extraLevel);
             }
 
-            return proudSkills.SelectList(proudableSkill =>
+            return proudSkills.SelectList(proudSkill =>
             {
-                SkillId skillId = proudableSkill.Id;
+                SkillId skillId = proudSkill.Id;
 
                 // TODO: use builder here
                 return new SkillView()
                 {
-                    Name = proudableSkill.Name,
-                    Icon = SkillIconConverter.IconNameToUri(proudableSkill.Icon),
-                    Description = proudableSkill.Description,
+                    Name = proudSkill.Name,
+                    Icon = SkillIconConverter.IconNameToUri(proudSkill.Icon),
+                    Description = proudSkill.Description,
 
-                    GroupId = proudableSkill.GroupId,
+                    GroupId = proudSkill.GroupId,
+                    Level = LevelFormat.Format(skillLevelMap[skillId], extraLevelMap.GetValueOrDefault(proudSkill.GroupId)),
                     LevelNumber = skillLevelMap[skillId],
-                    Info = DescriptionsParametersDescriptor.Convert(proudableSkill.Proud, skillExtraLeveledMap[skillId]),
+                    Info = DescriptionsParametersDescriptor.Convert(proudSkill.Proud, skillExtraLeveledMap[skillId]),
                 };
             });
         }

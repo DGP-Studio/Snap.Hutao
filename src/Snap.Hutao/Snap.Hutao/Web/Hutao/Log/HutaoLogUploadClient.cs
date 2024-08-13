@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Net.Http;
@@ -18,6 +19,7 @@ namespace Snap.Hutao.Web.Hutao.Log;
 internal sealed partial class HutaoLogUploadClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly ILogger<HutaoLogUploadClient> logger;
     private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
@@ -25,7 +27,7 @@ internal sealed partial class HutaoLogUploadClient
     public void UploadLog(Exception exception)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.HutaoLogUpload)
+            .SetRequestUri(hutaoEndpointsFactory.Create().HutaoLogUpload())
             .PostJson(BuildFromException(exception));
 
         builder.Send(httpClient, logger);

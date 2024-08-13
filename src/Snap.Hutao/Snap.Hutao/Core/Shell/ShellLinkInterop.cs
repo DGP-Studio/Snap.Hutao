@@ -6,7 +6,6 @@ using Snap.Hutao.Win32.System.Com;
 using Snap.Hutao.Win32.UI.Shell;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
 using System.IO;
-using Windows.Storage;
 using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.Ole32;
 
@@ -18,27 +17,23 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 {
     private readonly RuntimeOptions runtimeOptions;
 
-    public async ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync()
+    public ValueTask<bool> TryCreateDesktopShoutcutForElevatedLaunchAsync()
     {
         string targetLogoPath = Path.Combine(runtimeOptions.DataFolder, "ShellLinkLogo.ico");
         string elevatedLauncherPath = Path.Combine(runtimeOptions.DataFolder, "Snap.Hutao.Elevated.Launcher.exe");
 
         try
         {
-            Uri sourceLogoUri = "ms-appx:///Assets/Logo.ico".ToUri();
-            StorageFile iconFile = await StorageFile.GetFileFromApplicationUriAsync(sourceLogoUri);
-            await iconFile.OverwriteCopyAsync(targetLogoPath).ConfigureAwait(false);
-
-            Uri elevatedLauncherUri = "ms-appx:///Snap.Hutao.Elevated.Launcher.exe".ToUri();
-            StorageFile launcherFile = await StorageFile.GetFileFromApplicationUriAsync(elevatedLauncherUri);
-            await launcherFile.OverwriteCopyAsync(elevatedLauncherPath).ConfigureAwait(false);
+            File.Copy(InstalledLocation.GetAbsolutePath("Assets/Logo.ico"), targetLogoPath, true);
+            File.Copy(InstalledLocation.GetAbsolutePath("Snap.Hutao.Elevated.Launcher.exe"), elevatedLauncherPath, true);
         }
         catch
         {
-            return false;
+            return ValueTask.FromResult(false);
         }
 
-        return UnsafeTryCreateDesktopShoutcutForElevatedLaunch(targetLogoPath, elevatedLauncherPath);
+        bool result = UnsafeTryCreateDesktopShoutcutForElevatedLaunch(targetLogoPath, elevatedLauncherPath);
+        return ValueTask.FromResult(result);
     }
 
     private unsafe bool UnsafeTryCreateDesktopShoutcutForElevatedLaunch(string targetLogoPath, string elevatedLauncherPath)

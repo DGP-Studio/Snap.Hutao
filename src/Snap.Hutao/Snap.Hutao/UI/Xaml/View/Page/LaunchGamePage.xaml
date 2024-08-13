@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.UI.Xaml.View.Page.LaunchGamePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -20,6 +21,7 @@
 
     <mxi:Interaction.Behaviors>
         <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding GamePackageInstallViewModel.LoadCommand}"/>
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
@@ -148,6 +150,16 @@
                             <TextBlock Foreground="{ThemeResource SystemErrorTextColor}" Text="{shuxm:ResourceString Name=ViewPageSettingSetGamePathHint}"/>
                         </cwc:SettingsCard.Description>
                     </cwc:SettingsCard>
+                    <cwc:SettingsCard
+                        Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                        Command="{Binding GamePackageInstallViewModel.StartCommand}"
+                        Description="{Binding GamePackageInstallViewModel.RemoteVersionText}"
+                        Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationInstall}"
+                        HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentCloudDownload}}"
+                        IsClickEnabled="True"
+                        IsEnabled="{Binding RuntimeOptions.IsElevated}">
+                        <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                    </cwc:SettingsCard>
                 </StackPanel>
             </Border>
         </shuxc:StandardView.EmptyContent>
@@ -179,12 +191,6 @@
             <PivotItem Header="{shuxm:ResourceString Name=ViewPageLaunchGameOptionsHeader}">
                 <ScrollViewer Grid.RowSpan="2">
                     <StackPanel Margin="16" Spacing="16">
-                        <!--<InfoBar
-                                    IsClosable="False"
-                                    IsOpen="True"
-                                    Message="{shuxm:ResourceString Name=ViewPageLaunchGameConfigurationSaveHint}"
-                                    Severity="Informational"/>-->
-
                         <!--  文件  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
@@ -193,6 +199,87 @@
                                         Margin="1,0,0,5"
                                         Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                                         Text="{shuxm:ResourceString Name=ViewPageLaunchGameFileHeader}"/>
+
+                                    <cwc:SettingsExpander IsEnabled="{Binding RuntimeOptions.IsElevated}" IsExpanded="True">
+                                        <cwc:SettingsExpander.Header>
+                                            <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                                                <shuxci:CachedImage
+                                                    Margin="-6,0,2,0"
+                                                    shux:FrameworkElementHelper.SquareLength="36"
+                                                    CornerRadius="{ThemeResource ControlCornerRadius}"
+                                                    Source="{StaticResource IconGame}"/>
+                                                <StackPanel
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Vertical"
+                                                    Spacing="{ThemeResource SettingsCardSpacing}">
+                                                    <TextBlock Text="{Binding GamePackageViewModel.LocalVersionText}"/>
+                                                    <TextBlock Text="{Binding GamePackageViewModel.RemoteVersionText}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </cwc:SettingsExpander.Header>
+                                        <cwc:SettingsExpander.Content>
+                                            <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                                                <clw:TokenItem
+                                                    VerticalAlignment="Center"
+                                                    Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+                                                    Content="BETA"
+                                                    Icon="{shuxm:FontIcon Glyph=&#xE7C1;}"
+                                                    IsHitTestVisible="False">
+                                                    <clw:TokenItem.Resources>
+                                                        <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
+                                                    </clw:TokenItem.Resources>
+                                                </clw:TokenItem>
+                                                <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                <clw:TokenItem
+                                                    VerticalAlignment="Center"
+                                                    Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+                                                    Content="{Binding GamePackageViewModel.PreDownloadTitle}"
+                                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentError}}"
+                                                    IsHitTestVisible="False"
+                                                    Visibility="{Binding GamePackageViewModel.PreVersion, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                    <clw:TokenItem.Resources>
+                                                        <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
+                                                    </clw:TokenItem.Resources>
+                                                </clw:TokenItem>
+                                            </StackPanel>
+                                        </cwc:SettingsExpander.Content>
+                                        <cwc:SettingsExpander.Items>
+                                            <cwc:SettingsCard
+                                                Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                                Command="{Binding GamePackageViewModel.StartCommand}"
+                                                CommandParameter="Verify"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationVerify}"
+                                                HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDeveloperTools}}"
+                                                IsClickEnabled="True"/>
+                                            <cwc:SettingsCard
+                                                Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                                Command="{Binding GamePackageViewModel.StartCommand}"
+                                                CommandParameter="Update"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationUpdate}"
+                                                HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentUpArrowShiftKey}}"
+                                                IsClickEnabled="True"
+                                                IsEnabled="{Binding GamePackageViewModel.IsUpdateAvailable}"/>
+                                            <cwc:SettingsCard
+                                                Padding="{ThemeResource SettingsExpanderItemHasIconPadding}"
+                                                Command="{Binding GamePackageViewModel.StartCommand}"
+                                                CommandParameter="Predownload"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationPredownload}"
+                                                HeaderIcon="{shuxm:FontIcon Glyph={StaticResource FontIconContentDownload}}"
+                                                IsClickEnabled="True"
+                                                IsEnabled="{Binding GamePackageViewModel.IsPredownloadButtonEnabled}">
+                                                <clw:TokenItem
+                                                    Margin="0,0,2,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+                                                    Content="{shuxm:ResourceString Name=ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent}"
+                                                    Icon="{shuxm:FontIcon Glyph={StaticResource FontIconContentError}}"
+                                                    IsHitTestVisible="False"
+                                                    Visibility="{Binding GamePackageViewModel.IsPredownloadFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                            </cwc:SettingsCard>
+                                        </cwc:SettingsExpander.Items>
+                                    </cwc:SettingsExpander>
+
                                     <cwc:SettingsCard
                                         Header="{shuxm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
                                         HeaderIcon="{shuxm:FontIcon Glyph=&#xE8AB;}"
@@ -265,6 +352,7 @@
                                 </StackPanel>
                             </Border>
                         </Border>
+
                         <!--  进程  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">
@@ -355,9 +443,9 @@
                                             <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                             <NumberBox
                                                 MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
-                                                Padding="10,8,0,0"
+                                                Padding="10,8,6,6"
                                                 Maximum="720"
-                                                Minimum="60"
+                                                Minimum="-1"
                                                 SpinButtonPlacementMode="Inline"
                                                 Value="{Binding LaunchOptions.TargetFps, Mode=TwoWay}"/>
                                             <ToggleSwitch
@@ -367,23 +455,34 @@
                                                 OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
                                         </StackPanel>
                                         <cwc:SettingsExpander.Items>
-                                            <cwc:SettingsCard Description="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsKindDescription}" Header="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsKindHeader}">
-                                                <StackPanel VerticalAlignment="Center" Spacing="3">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Right"
-                                                        Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}"
-                                                        Opacity="0.8"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding LaunchOptions.UnlockerKind.Description, Mode=OneWay}"/>
-                                                    <shuxc:SizeRestrictedContentControl HorizontalAlignment="Right">
-                                                        <ComboBox
-                                                            DisplayMemberPath="Name"
-                                                            ItemsSource="{Binding LaunchOptions.UnlockerKinds, Mode=OneWay}"
-                                                            SelectedItem="{Binding LaunchOptions.UnlockerKind, Mode=TwoWay}"/>
-                                                    </shuxc:SizeRestrictedContentControl>
-
-                                                </StackPanel>
-
+                                            <cwc:SettingsCard Header="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader}">
+                                                <cwc:SettingsCard.Description>
+                                                    <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{shuxm:ResourceString Name=ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription}"/>
+                                                </cwc:SettingsCard.Description>
+                                                <ToggleSwitch MinWidth="{ThemeResource SettingsCardContentControlMinWidth}" IsOn="{Binding LaunchOptions.LoopAdjustFpsOnly, Mode=TwoWay}"/>
+                                            </cwc:SettingsCard>
+                                            <cwc:SettingsCard
+                                                Description="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovDescription}"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameTargetFovHeader}"
+                                                IsEnabled="{Binding LaunchOptions.LoopAdjustFpsOnly, Converter={StaticResource BoolNegationConverter}}">
+                                                <NumberBox
+                                                    MinWidth="{ThemeResource SettingsCardContentControlMinWidth2}"
+                                                    Padding="10,8,6,6"
+                                                    Maximum="55"
+                                                    Minimum="45"
+                                                    SmallChange="1"
+                                                    SpinButtonPlacementMode="Inline"
+                                                    Value="{Binding LaunchOptions.TargetFov, Mode=TwoWay}"/>
+                                            </cwc:SettingsCard>
+                                            <cwc:SettingsCard
+                                                Description="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogDescription}"
+                                                Header="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogHeader}"
+                                                IsEnabled="{Binding LaunchOptions.LoopAdjustFpsOnly, Converter={StaticResource BoolNegationConverter}}">
+                                                <ToggleSwitch
+                                                    MinWidth="{ThemeResource SettingsCardContentControlMinWidth}"
+                                                    IsOn="{Binding LaunchOptions.DisableFog, Mode=TwoWay}"
+                                                    OffContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOff}"
+                                                    OnContent="{shuxm:ResourceString Name=ViewPageLaunchGameDisableFogOn}"/>
                                             </cwc:SettingsCard>
                                         </cwc:SettingsExpander.Items>
                                     </cwc:SettingsExpander>
@@ -391,6 +490,7 @@
                                 </StackPanel>
                             </Border>
                         </Border>
+
                         <!--  进程间  -->
                         <Border Padding="0" cw:Effects.Shadow="{ThemeResource CompatCardShadow}">
                             <Border Padding="16" Style="{ThemeResource AcrylicBorderCardStyle}">

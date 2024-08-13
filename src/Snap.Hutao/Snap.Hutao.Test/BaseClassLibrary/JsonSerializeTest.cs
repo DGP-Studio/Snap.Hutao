@@ -89,6 +89,19 @@ public sealed class JsonSerializeTest
         Assert.AreEqual(result, """{"A":1,"B":2}""");
     }
 
+    [TestMethod]
+    public void LowercaseStringCanDeserializeAsEnum()
+    {
+        string source = """
+            {
+              "Value": "a"
+            }
+            """;
+
+        SampleClassHoldEnum sample = JsonSerializer.Deserialize<SampleClassHoldEnum>(source)!;
+        Assert.AreEqual(sample.Value, SampleEnum.A);
+    }
+
     private sealed class SampleDelegatePropertyClass
     {
         public int A { get => B; set => B = value; }
@@ -116,6 +129,18 @@ public sealed class JsonSerializeTest
         public int A { get; set; }
 
         public int B { get; set; }
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    private enum SampleEnum
+    {
+        A,
+        B,
+    }
+
+    private sealed class SampleClassHoldEnum
+    {
+        public SampleEnum Value { get; set; }
     }
 
     [JsonDerivedType(typeof(SampleClassImplementedInterface))]

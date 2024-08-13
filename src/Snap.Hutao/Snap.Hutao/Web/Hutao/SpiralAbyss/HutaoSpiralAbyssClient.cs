@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
@@ -17,30 +18,20 @@ using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 
-/// <summary>
-/// 胡桃API客户端
-/// </summary>
-[HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class HutaoSpiralAbyssClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly ILogger<HutaoSpiralAbyssClient> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
 
-    /// <summary>
-    /// 异步检查对应的uid当前是否上传了数据
-    /// GET /Record/CheckRecord/{Uid}
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>当前是否上传了数据</returns>
     public async ValueTask<HutaoResponse<bool>> CheckRecordUploadedAsync(PlayerUid uid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.RecordCheck(uid.Value))
+            .SetRequestUri(hutaoEndpointsFactory.Create().RecordCheck(uid.Value))
             .Get();
 
         HutaoResponse<bool>? resp = await builder
@@ -50,17 +41,10 @@ internal sealed partial class HutaoSpiralAbyssClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取排行信息
-    /// GET /Record/Rank/{Uid}
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>排行信息</returns>
     public async ValueTask<HutaoResponse<RankInfo>> GetRankAsync(PlayerUid uid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.RecordRank(uid.Value))
+            .SetRequestUri(hutaoEndpointsFactory.Create().RecordRank(uid.Value))
             .Get();
 
         HutaoResponse<RankInfo>? resp = await builder
@@ -72,12 +56,8 @@ internal sealed partial class HutaoSpiralAbyssClient
 
     public async ValueTask<HutaoResponse<Overview>> GetOverviewAsync(bool last = false, CancellationToken token = default)
     {
-        string url = last
-            ? HutaoEndpoints.StatisticsOverviewLast
-            : HutaoEndpoints.StatisticsOverview;
-
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(url)
+            .SetRequestUri(hutaoEndpointsFactory.Create().StatisticsOverview(last))
             .Get();
 
         HutaoResponse<Overview>? resp = await builder
@@ -89,12 +69,8 @@ internal sealed partial class HutaoSpiralAbyssClient
 
     public async ValueTask<HutaoResponse<List<AvatarAppearanceRank>>> GetAvatarAttendanceRatesAsync(bool last = false, CancellationToken token = default)
     {
-        string url = last
-            ? HutaoEndpoints.StatisticsAvatarAttendanceRateLast
-            : HutaoEndpoints.StatisticsAvatarAttendanceRate;
-
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(url)
+            .SetRequestUri(hutaoEndpointsFactory.Create().StatisticsAvatarAttendanceRate(last))
             .Get();
 
         HutaoResponse<List<AvatarAppearanceRank>>? resp = await builder
@@ -106,12 +82,8 @@ internal sealed partial class HutaoSpiralAbyssClient
 
     public async ValueTask<HutaoResponse<List<AvatarUsageRank>>> GetAvatarUtilizationRatesAsync(bool last = false, CancellationToken token = default)
     {
-        string url = last
-            ? HutaoEndpoints.StatisticsAvatarUtilizationRateLast
-            : HutaoEndpoints.StatisticsAvatarUtilizationRate;
-
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(url)
+            .SetRequestUri(hutaoEndpointsFactory.Create().StatisticsAvatarUtilizationRate(last))
             .Get();
 
         HutaoResponse<List<AvatarUsageRank>>? resp = await builder
@@ -123,12 +95,8 @@ internal sealed partial class HutaoSpiralAbyssClient
 
     public async ValueTask<HutaoResponse<List<AvatarCollocation>>> GetAvatarCollocationsAsync(bool last = false, CancellationToken token = default)
     {
-        string url = last
-            ? HutaoEndpoints.StatisticsAvatarAvatarCollocationLast
-            : HutaoEndpoints.StatisticsAvatarAvatarCollocation;
-
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(url)
+            .SetRequestUri(hutaoEndpointsFactory.Create().StatisticsAvatarAvatarCollocation(last))
             .Get();
 
         HutaoResponse<List<AvatarCollocation>>? resp = await builder
@@ -140,12 +108,8 @@ internal sealed partial class HutaoSpiralAbyssClient
 
     public async ValueTask<HutaoResponse<List<WeaponCollocation>>> GetWeaponCollocationsAsync(bool last = false, CancellationToken token = default)
     {
-        string url = last
-            ? HutaoEndpoints.StatisticsWeaponWeaponCollocationLast
-            : HutaoEndpoints.StatisticsWeaponWeaponCollocation;
-
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(url)
+            .SetRequestUri(hutaoEndpointsFactory.Create().StatisticsWeaponWeaponCollocation(last))
             .Get();
 
         HutaoResponse<List<WeaponCollocation>>? resp = await builder
@@ -157,12 +121,8 @@ internal sealed partial class HutaoSpiralAbyssClient
 
     public async ValueTask<HutaoResponse<List<AvatarConstellationInfo>>> GetAvatarHoldingRatesAsync(bool last = false, CancellationToken token = default)
     {
-        string url = last
-            ? HutaoEndpoints.StatisticsAvatarHoldingRateLast
-            : HutaoEndpoints.StatisticsAvatarHoldingRate;
-
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(url)
+            .SetRequestUri(hutaoEndpointsFactory.Create().StatisticsAvatarHoldingRate(last))
             .Get();
 
         HutaoResponse<List<AvatarConstellationInfo>>? resp = await builder
@@ -174,12 +134,8 @@ internal sealed partial class HutaoSpiralAbyssClient
 
     public async ValueTask<HutaoResponse<List<TeamAppearance>>> GetTeamCombinationsAsync(bool last = false, CancellationToken token = default)
     {
-        string url = last
-            ? HutaoEndpoints.StatisticsTeamCombinationLast
-            : HutaoEndpoints.StatisticsTeamCombination;
-
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(url)
+            .SetRequestUri(hutaoEndpointsFactory.Create().StatisticsTeamCombination(last))
             .Get();
 
         HutaoResponse<List<TeamAppearance>>? resp = await builder
@@ -189,12 +145,6 @@ internal sealed partial class HutaoSpiralAbyssClient
         return Web.Response.Response.DefaultIfNull(resp);
     }
 
-    /// <summary>
-    /// 异步获取角色的深渊记录
-    /// </summary>
-    /// <param name="userAndUid">用户与角色</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>玩家记录</returns>
     public async ValueTask<SimpleRecord?> GetPlayerRecordAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         IGameRecordClient gameRecordClient = serviceProvider
@@ -228,17 +178,10 @@ internal sealed partial class HutaoSpiralAbyssClient
         return default;
     }
 
-    /// <summary>
-    /// 异步上传记录
-    /// POST /Record/Upload
-    /// </summary>
-    /// <param name="playerRecord">玩家记录</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>响应</returns>
     public async ValueTask<HutaoResponse> UploadRecordAsync(SimpleRecord playerRecord, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(HutaoEndpoints.RecordUpload)
+            .SetRequestUri(hutaoEndpointsFactory.Create().RecordUpload())
             .PostJson(playerRecord);
 
         HutaoResponse? resp = await builder

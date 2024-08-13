@@ -9,6 +9,7 @@
     <!--  Other  -->
     <x:String x:Key="HolographicHat_GetToken_Release">https://github.com/HolographicHat/GetToken/releases/latest</x:String>
     <x:String x:Key="Sponsor_Afadian">https://afdian.net/a/DismissedLight</x:String>
+    <x:String x:Key="IconGame">https://launcher-webstatic.mihoyo.com/launcher-public/2024/04/15/9ebf1bc5af2d83ca5fca21adb49cf341_2571779162329842818.png</x:String>
 
     <!--  AvatarCard  -->
     <x:String x:Key="UI_AvatarIcon_Costume_Card">https://api.snapgenshin.com/static/raw/AvatarCard/UI_AvatarIcon_Costume_Card.png</x:String>

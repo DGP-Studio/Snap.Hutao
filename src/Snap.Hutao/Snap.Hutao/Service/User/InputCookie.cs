@@ -34,7 +34,7 @@ internal sealed class InputCookie : IDeconstruct<Cookie, bool, string?>
         return new InputCookie(cookie, isOversea, deviceFp);
     }
 
-    public static InputCookie CreateWithDeviceFpInference(Cookie cookie, bool isOversea)
+    public static InputCookie CreateForDeviceFpInference(Cookie cookie, bool isOversea)
     {
         return new InputCookie(cookie, isOversea);
     }

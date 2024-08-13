@@ -26,6 +26,11 @@ internal enum KnownReturnCode
     AlreadySignedIn = -5003,
 
     /// <summary>
+    /// 请求失败，当前设备或网络环境存在风险
+    /// </summary>
+    CODEN3503 = -3503,
+
+    /// <summary>
     /// 需要风险验证(闪验)
     /// </summary>
     RET_NEED_RISK_VERIFY = -3235,

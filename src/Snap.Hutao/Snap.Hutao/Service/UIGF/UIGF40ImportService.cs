@@ -23,7 +23,7 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
 
     private void ImportGachaArchives(List<UIGFEntry<Hk4eItem>>? entries, HashSet<uint> uids)
     {
-        if (entries.IsNullOrEmpty() || uids.IsNullOrEmpty())
+        if (entries is null or [] || uids is null or { Count: 0 })
         {
             return;
         }

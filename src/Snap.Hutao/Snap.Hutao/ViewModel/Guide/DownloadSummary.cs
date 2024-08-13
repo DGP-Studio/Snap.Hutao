@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Progress;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Collections.Frozen;
@@ -49,7 +50,7 @@ internal sealed class DownloadSummary : ObservableObject
         this.serviceProvider = serviceProvider;
 
         this.fileName = fileName;
-        fileUrl = Web.HutaoEndpoints.StaticZip(fileName);
+        fileUrl = StaticResourcesEndpoints.StaticZip(fileName);
 
         progress = serviceProvider.GetRequiredService<IProgressFactory>().CreateForMainThread<StreamCopyStatus>(UpdateProgressStatus);
     }
@@ -131,8 +132,8 @@ internal sealed class DownloadSummary : ObservableObject
 
     private void UpdateProgressStatus(StreamCopyStatus status)
     {
-        Description = $"{Converters.ToFileSizeString(status.BytesCopied)}/{Converters.ToFileSizeString(status.TotalBytes)}";
-        ProgressValue = status.TotalBytes is 0 ? 0 : (double)status.BytesCopied / status.TotalBytes;
+        Description = $"{Converters.ToFileSizeString(status.BytesReadSinceCopyStart)}/{Converters.ToFileSizeString(status.TotalBytes)}";
+        ProgressValue = status.TotalBytes is 0 ? 0 : (double)status.BytesReadSinceCopyStart / status.TotalBytes;
     }
 
     private void ExtractFiles(Stream stream)

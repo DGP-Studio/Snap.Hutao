@@ -9,17 +9,6 @@ namespace Snap.Hutao.Extension;
 
 internal static class DictionaryExtension
 {
-    public static bool IsNullOrEmpty<TKey, TValue>([NotNullWhen(false)] this Dictionary<TKey, TValue>? source)
-        where TKey : notnull
-    {
-        if (source is { Count: > 0 })
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     public static void IncreaseByOne<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key)
         where TKey : notnull
         where TValue : struct, IIncrementOperators<TValue>

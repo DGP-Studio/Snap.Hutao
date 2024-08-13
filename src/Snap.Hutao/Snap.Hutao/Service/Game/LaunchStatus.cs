@@ -19,13 +19,6 @@ internal sealed class LaunchStatus
 
     public static LaunchStatus FromUnlockerContext(GameFpsUnlockerContext unlockerState)
     {
-        if (unlockerState.FindModuleResult == FindModuleResult.Ok)
-        {
-            return new(LaunchPhase.UnlockFpsSucceed, unlockerState.Description ?? SH.ServiceGameLaunchPhaseUnlockFpsSucceed);
-        }
-        else
-        {
-            return new(LaunchPhase.UnlockFpsFailed, unlockerState.Description ?? SH.ServiceGameLaunchPhaseUnlockFpsFailed);
-        }
+        return new(LaunchPhase.UnlockFpsSucceed, unlockerState.Description ?? SH.ServiceGameLaunchPhaseUnlockFpsSucceed);
     }
 }

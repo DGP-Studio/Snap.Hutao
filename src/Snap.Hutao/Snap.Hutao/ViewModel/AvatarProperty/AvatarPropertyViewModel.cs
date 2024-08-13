@@ -53,10 +53,9 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).ConfigureAwait(false);
-            return true;
         }
 
-        return false;
+        return true;
     }
 
     [Command("RefreshFromEnkaApiCommand")]
@@ -91,7 +90,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         try
         {
             await scopeContext.TaskContext.SwitchToMainThreadAsync();
-            IsInitialized = false;
+            Summary = default;
 
             ValueResult<RefreshResultKind, Summary?> summaryResult;
             using (await EnterCriticalSectionAsync().ConfigureAwait(false))
@@ -136,11 +135,6 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
         catch (OperationCanceledException)
         {
-        }
-        finally
-        {
-            await scopeContext.TaskContext.SwitchToMainThreadAsync();
-            IsInitialized = true;
         }
     }
 

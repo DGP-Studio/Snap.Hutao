@@ -116,8 +116,23 @@
                     <ToggleSwitch IsOn="{Binding OverridePackageConvertDirectoryPermissionsRequirement, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
+                <cwc:SettingsCard Header="Override Hard Drive Type">
+                    <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                        <ToggleSwitch
+                            IsEnabled="{Binding OverrideHardDriveType}"
+                            IsOn="{Binding OverrideHardDriveTypeIsSolidState, Mode=TwoWay}"
+                            OffContent="HDD"
+                            OnContent="SSD"/>
+                        <ToggleSwitch IsOn="{Binding OverrideHardDriveType, Mode=TwoWay}"/>
+                    </StackPanel>
+                </cwc:SettingsCard>
+
                 <cwc:SettingsCard Header="Always Treat As First Run After Update">
                     <ToggleSwitch IsOn="{Binding AlwaysIsFirstRunAfterUpdate, Mode=TwoWay}"/>
+                </cwc:SettingsCard>
+
+                <cwc:SettingsCard Header="Alpha Build Use CN Patch Endpoint">
+                    <ToggleSwitch IsOn="{Binding AlphaBuildUseCNPatchEndpoint, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Gacha Service"/>
@@ -150,6 +165,11 @@
                 <cwc:SettingsCard
                     Command="{Binding SendRandomInfoBarNotificationCommand}"
                     Header="Random InfoBar"
+                    IsClickEnabled="True"/>
+
+                <cwc:SettingsCard
+                    Command="{Binding CheckPathBelongsToSSDCommand}"
+                    Header="Check path belongs to a SSD"
                     IsClickEnabled="True"/>
 
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Announcement"/>

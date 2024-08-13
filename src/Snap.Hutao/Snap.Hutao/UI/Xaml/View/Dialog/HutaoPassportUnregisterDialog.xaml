@@ -42,6 +42,7 @@
             Margin="0,16,0,0"
             IsEnabled="{x:Bind VerifyCode, Converter={StaticResource StringBoolConverter}, Mode=OneWay}"
             Password="{x:Bind Password, Mode=TwoWay}"
+            PasswordChar="*"
             PlaceholderText="{shuxm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
     </StackPanel>
 </ContentDialog>

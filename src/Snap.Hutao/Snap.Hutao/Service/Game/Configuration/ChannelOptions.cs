@@ -63,6 +63,11 @@ internal readonly struct ChannelOptions
         return new(ChannelOptionsErrorKind.GamePathNullOrEmpty, string.Empty);
     }
 
+    public static ChannelOptions GameContentCorrupted(string directory)
+    {
+        return new(ChannelOptionsErrorKind.GameContentCorrupted, directory);
+    }
+
     /// <inheritdoc/>
     public override string ToString()
     {

@@ -22,8 +22,8 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
     {
         Content = new Border();
 
-        this.SetLayered();
-        this.SetToolWindow();
+        this.SetExStyleLayered();
+        this.SetExStyleToolWindow();
 
         AppWindow.Title = "SnapHutaoNotifyIconXamlHost";
         AppWindow.IsShownInSwitchers = false;
@@ -54,7 +54,7 @@ internal sealed class NotifyIconXamlHostWindow : Window, IWindowNeedEraseBackgro
         flyout.ShowAt(Content, new()
         {
             Placement = FlyoutPlacementMode.Auto,
-            ShowMode = FlyoutShowMode.Transient,
+            ShowMode = FlyoutShowMode.Standard,
         });
     }
 

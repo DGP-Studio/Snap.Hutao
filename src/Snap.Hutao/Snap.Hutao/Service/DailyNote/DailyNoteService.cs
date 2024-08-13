@@ -22,8 +22,9 @@ namespace Snap.Hutao.Service.DailyNote;
 internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
 {
     private readonly DailyNoteNotificationOperation dailyNoteNotificationOperation;
-    private readonly IServiceProvider serviceProvider;
     private readonly IDailyNoteDbService dailyNoteDbService;
+    private readonly DailyNoteOptions dailyNoteOptions;
+    private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
@@ -75,7 +76,6 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         entries?.Add(newEntry);
     }
 
-    /// <inheritdoc/>
     public async ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync(bool forceRefresh = false, CancellationToken token = default)
     {
         if (entries is null)
@@ -101,13 +101,11 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         return entries;
     }
 
-    /// <inheritdoc/>
     public ValueTask RefreshDailyNotesAsync(CancellationToken token = default)
     {
         return RefreshDailyNotesCoreAsync(true, token);
     }
 
-    /// <inheritdoc/>
     public async ValueTask RemoveDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default)
     {
         await taskContext.SwitchToMainThreadAsync();
@@ -127,20 +125,24 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     private async ValueTask RefreshDailyNotesCoreAsync(bool forceRefresh, CancellationToken token = default)
     {
         await taskContext.SwitchToBackgroundAsync();
+
+        bool autoRefresh = dailyNoteOptions.IsAutoRefreshEnabled;
+        TimeSpan threshold = TimeSpan.FromSeconds(dailyNoteOptions.SelectedRefreshTime?.Value ?? 60 * 60 * 4);
+
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             DailyNoteWebhookOperation dailyNoteWebhookOperation = serviceProvider.GetRequiredService<DailyNoteWebhookOperation>();
 
             foreach (DailyNoteEntry entry in dailyNoteDbService.GetDailyNoteEntryListIncludingUser())
             {
-                if (!forceRefresh && entry.DailyNote is not null)
+                if (!(forceRefresh || (autoRefresh && entry.RefreshTime < DateTimeOffset.Now - threshold)))
                 {
                     continue;
                 }
 
                 IGameRecordClient gameRecordClient = scope.ServiceProvider
-                        .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
-                        .Create(PlayerUid.IsOversea(entry.Uid));
+                    .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+                    .Create(PlayerUid.IsOversea(entry.Uid));
 
                 Web.Response.Response<WebDailyNote> dailyNoteResponse = await gameRecordClient
                     .GetDailyNoteAsync(new(entry.User, entry.Uid), token)
@@ -159,13 +161,10 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                         entry.CopyTo(cachedEntry);
                     }
 
-                    // Database
-                    {
-                        // 发送通知必须早于数据库更新，否则会导致通知重复
-                        await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
-                        dailyNoteDbService.UpdateDailyNoteEntry(entry);
-                        dailyNoteWebhookOperation.TryPostDailyNoteToWebhook(entry.Uid, dailyNote);
-                    }
+                    // 发送通知必须早于数据库更新，否则会导致通知重复
+                    await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
+                    dailyNoteDbService.UpdateDailyNoteEntry(entry);
+                    dailyNoteWebhookOperation.TryPostDailyNoteToWebhook(entry.Uid, dailyNote);
                 }
             }
         }

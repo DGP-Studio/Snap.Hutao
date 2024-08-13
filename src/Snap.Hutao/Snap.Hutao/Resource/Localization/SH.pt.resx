@@ -817,6 +817,9 @@
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
     <value>Vários planos de equipe estão selecionados</value>
   </data>
+  <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
+    <value>应用通知发送失败</value>
+  </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>Iniciar jogo</value>
   </data>
@@ -1001,6 +1004,27 @@
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>Caminho do jogo não encontrado no arquivo de log do Unity</value>
   </data>
+  <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
+    <value>清单数据解析失败</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
+    <value>磁盘空间不足，需要 {0}，剩余 {1}</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
+    <value>正在安装游戏</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedPredownloading" xml:space="preserve">
+    <value>正在预下载资源</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedRepairing" xml:space="preserve">
+    <value>正在修复游戏</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedUpdating" xml:space="preserve">
+    <value>正在更新游戏</value>
+  </data>
+  <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
+    <value>正在验证游戏完整性</value>
+  </data>
   <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
     <value>Backup：{0}</value>
   </data>
@@ -1009,6 +1033,9 @@
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
     <value>Substituir: {0}</value>
+  </data>
+  <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
+    <value>在读取本地 Package Version 时遇到问题，修复游戏可能会有所帮助</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>Falha ao alterar o nome da pasta de dados</value>
@@ -1111,6 +1138,9 @@
   </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
     <value>复制图像</value>
+  </data>
+  <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
+    <value>请完成验证</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>Conquistas</value>
@@ -1436,6 +1466,15 @@
   <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
     <value>查看更新日志</value>
   </data>
+  <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
+    <value>如果自动更新下载过慢，可以手动下载并安装</value>
+  </data>
+  <data name="ViewDialogUpdatePackageMirrorHeader" xml:space="preserve">
+    <value>下载源</value>
+  </data>
+  <data name="ViewDialogUpdatePackagePrimaryText" xml:space="preserve">
+    <value>更新</value>
+  </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Leve-me até lá</value>
   </data>
@@ -1447,6 +1486,18 @@
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
     <value>Os cookies inseridos contêm SToken</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaCaptchaHint" xml:space="preserve">
+    <value>请输入收到的验证码</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaMobileHint" xml:space="preserve">
+    <value>请输入手机号码</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaSendCaptchaAction" xml:space="preserve">
+    <value>发送</value>
+  </data>
+  <data name="ViewDialogUserMobileCaptchaTitle" xml:space="preserve">
+    <value>手机验证码登录</value>
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>Definir cookie</value>
@@ -1534,6 +1585,9 @@
   </data>
   <data name="ViewInfoBarPanelContractContent" xml:space="preserve">
     <value>收起</value>
+  </data>
+  <data name="ViewInfoBarPanelTitle" xml:space="preserve">
+    <value>所有通知</value>
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>Nova notificação</value>
@@ -1733,6 +1787,15 @@
   <data name="ViewModelGachaUIGFImportPickerTitile" xml:space="preserve">
     <value>Importar arquivo UIGF Json</value>
   </data>
+  <data name="ViewModelGamePackageLocalVersion" xml:space="preserve">
+    <value>本地版本: {0}</value>
+  </data>
+  <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
+    <value>{0} 版本预下载已开启</value>
+  </data>
+  <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
+    <value>最新版本: {0}</value>
+  </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
     <value>Eu li e concordo com as condições acima</value>
   </data>
@@ -1765,6 +1828,9 @@
   </data>
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>Falha na importação</value>
+  </data>
+  <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
+    <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>Falha ao converter o servidor</value>
@@ -2105,6 +2171,9 @@
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
     <value>Não perturbe</value>
   </data>
+  <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
+    <value>长效历练点</value>
+  </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Verificar o usuário e o personagem atuais</value>
   </data>
@@ -2429,6 +2498,18 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>Todas as opções serão salvas somente depois que o jogo for iniciado com êxito.</value>
   </data>
+  <data name="ViewPageLaunchGameDisableFogDescription" xml:space="preserve">
+    <value>移除光照渲染中的迷雾</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogHeader" xml:space="preserve">
+    <value>移除迷雾</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogOff" xml:space="preserve">
+    <value>保留</value>
+  </data>
+  <data name="ViewPageLaunchGameDisableFogOn" xml:space="preserve">
+    <value>移除</value>
+  </data>
   <data name="ViewPageLaunchGameDiscordActivityDescription" xml:space="preserve">
     <value>Definir meu status de atividade no Discord quando estou no jogo</value>
   </data>
@@ -2455,6 +2536,21 @@
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>Opções do jogo</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
+    <value>安装游戏</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationPredownload" xml:space="preserve">
+    <value>Pré-download</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent" xml:space="preserve">
+    <value>已完成预下载</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationUpdate" xml:space="preserve">
+    <value>更新游戏</value>
+  </data>
+  <data name="ViewPageLaunchGamePackageOperationVerify" xml:space="preserve">
+    <value>修复游戏</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
     <value>Tente iniciar o jogo depois que ele for iniciado e use o Starward para estatísticas de duração do jogo</value>
@@ -2513,8 +2609,14 @@
   <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
     <value>Você precisa converter para um servidor que corresponda ao inicializador antes de atualizar a versão</value>
   </data>
+  <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
+    <value>调整相机视野，默认 45</value>
+  </data>
+  <data name="ViewPageLaunchGameTargetFovHeader" xml:space="preserve">
+    <value>调整视野</value>
+  </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>Desative o V-Sync nas configurações do jogo. Talvez você precise de uma placa gráfica de alto desempenho para suportar um limite alto de taxa de quadros.</value>
+    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率，将值设置为 -1 以表示无限制帧率</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>Desbloquear limite de taxa de quadros</value>
@@ -2524,6 +2626,12 @@
   </data>
   <data name="ViewPageLaunchGameUnlockFpsKindHeader" xml:space="preserve">
     <value>解锁方式</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
+    <value>当出现错误代码 31-4302 时请启用此选项，启用后将禁止调整视野与迷雾，仅在启动游戏前切换此开关才会生效</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
+    <value>兼容模式</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
     <value>Desativado</value>
@@ -3092,6 +3200,9 @@
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Login na web</value>
   </data>
+  <data name="ViewUserCookieOperationLoginMobileCaptchaAction" xml:space="preserve">
+    <value>手机验证码</value>
+  </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
     <value>Login por leitura de código QR</value>
   </data>
@@ -3244,6 +3355,9 @@
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
     <value>Será reabastecido em {0} {1:HH:mm}</value>
+  </data>
+  <data name="WebDailyNoteStoredAttendanceRefreshCountdown" xml:space="preserve">
+    <value>{0:c} 后重置</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Pronto para ser usado novamente após</value>

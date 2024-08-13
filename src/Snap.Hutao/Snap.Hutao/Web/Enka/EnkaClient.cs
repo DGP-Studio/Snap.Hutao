@@ -2,16 +2,15 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Globalization;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Net.Sockets;
 
 namespace Snap.Hutao.Web.Enka;
 
@@ -24,12 +23,14 @@ internal sealed partial class EnkaClient
     private const string EnkaInfoAPI = "https://enka.network/api/uid/{0}?info";
 
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
+    private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
     public ValueTask<EnkaResponse?> GetForwardPlayerInfoAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(HutaoEndpoints.EnkaPlayerInfo(playerUid), true, token);
+        string url = hutaoEndpointsFactory.Create().EnkaPlayerInfo(playerUid);
+        return TryGetEnkaResponseCoreAsync(url, true, token);
     }
 
     public ValueTask<EnkaResponse?> GetPlayerInfoAsync(in PlayerUid playerUid, CancellationToken token = default)
@@ -39,7 +40,8 @@ internal sealed partial class EnkaClient
 
     public ValueTask<EnkaResponse?> GetForwardDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(HutaoEndpoints.Enka(playerUid), true, token);
+        string url = hutaoEndpointsFactory.Create().Enka(playerUid);
+        return TryGetEnkaResponseCoreAsync(url, true, token);
     }
 
     public ValueTask<EnkaResponse?> GetDataAsync(in PlayerUid playerUid, CancellationToken token = default)
@@ -96,19 +98,7 @@ internal sealed partial class EnkaClient
                 }
             }
         }
-        catch (HttpRequestException)
-        {
-            return null;
-        }
-        catch (IOException)
-        {
-            return null;
-        }
-        catch (JsonException)
-        {
-            return null;
-        }
-        catch (SocketException)
+        catch (Exception)
         {
             return null;
         }

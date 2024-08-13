@@ -1,0 +1,70 @@
+<ContentDialog
+    x:Class="Snap.Hutao.UI.Xaml.View.Dialog.LaunchGameInstallGameDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
+    xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
+    xmlns:shuxvd="using:Snap.Hutao.UI.Xaml.View.Dialog"
+    Title="安装游戏"
+    CloseButtonText="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
+    PrimaryButtonText="{shuxm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+        <InfoBar
+            Title="当前选择目录为HDD，建议使用SSD"
+            IsClosable="False"
+            IsOpen="True"
+            Severity="Warning"
+            Visibility="{x:Bind IsParallelSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+
+        <cwc:SettingsCard
+            Width="480"
+            Command="{x:Bind PickGameDirectoryCommand}"
+            Description="{x:Bind GameDirectory, Mode=OneWay}"
+            Header="设置游戏安装目录"
+            HeaderIcon="{shuxm:FontIcon Glyph=&#xED25;}"
+            IsClickEnabled="True"/>
+
+        <shuxc:ComboBox2
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            DisplayMemberPath="DisplayName"
+            EnableMemberPath="IsNotCompatOnly"
+            ItemsSource="{x:Bind KnownSchemes}"
+            PlaceholderText="游戏区服"
+            SelectedItem="{x:Bind SelectedScheme, Mode=TwoWay}"
+            Style="{StaticResource DefaultComboBoxStyle}"/>
+
+        <cwc:UniformGrid
+            ColumnSpacing="16"
+            Columns="2"
+            Orientation="Horizontal"
+            RowSpacing="16">
+            <CheckBox
+                MinWidth="64"
+                VerticalAlignment="Center"
+                Content="汉语"
+                IsChecked="{x:Bind Chinese, Mode=TwoWay}"/>
+            <CheckBox
+                MinWidth="64"
+                VerticalAlignment="Center"
+                Content="英语"
+                IsChecked="{x:Bind English, Mode=TwoWay}"/>
+            <CheckBox
+                MinWidth="64"
+                VerticalAlignment="Center"
+                Content="日语"
+                IsChecked="{x:Bind Japanese, Mode=TwoWay}"/>
+            <CheckBox
+                MinWidth="64"
+                VerticalAlignment="Center"
+                Content="韩语"
+                IsChecked="{x:Bind Korean, Mode=TwoWay}"/>
+        </cwc:UniformGrid>
+    </StackPanel>
+</ContentDialog>

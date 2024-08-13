@@ -2,23 +2,11 @@
 // Licensed under the MIT license.
 
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Extension;
 
 internal static class CollectionExtension
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)][MaybeNullWhen(true)] this ICollection<TSource>? source)
-    {
-        if (source is { Count: > 0 })
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     public static int RemoveWhere<T>(this Collection<T> collection, Func<T, bool> shouldRemovePredicate)
     {
         int count = 0;
