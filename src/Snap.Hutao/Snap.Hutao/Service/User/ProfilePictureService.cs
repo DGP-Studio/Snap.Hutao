@@ -15,7 +15,7 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IProfilePictureService))]
 internal sealed partial class ProfilePictureService : IProfilePictureService
 {
-    private readonly IUidProfilePictureDbService uidProfilePictureDbService;
+    private readonly IUidProfilePictureRepository uidProfilePictureRepository;
     private readonly IMetadataService metadataService;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
@@ -26,7 +26,7 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
     {
         foreach (UserGameRole userGameRole in user.UserGameRoles)
         {
-            if (uidProfilePictureDbService.SingleUidProfilePictureOrDefaultByUid(userGameRole.GameUid) is { } profilePicture)
+            if (uidProfilePictureRepository.SingleUidProfilePictureOrDefaultByUid(userGameRole.GameUid) is { } profilePicture)
             {
                 if (await TryUpdateUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false))
                 {
@@ -59,8 +59,8 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
             // to handle transaction over multiple DbContext
             lock (syncRoot)
             {
-                uidProfilePictureDbService.DeleteUidProfilePictureByUid(userGameRole.GameUid);
-                uidProfilePictureDbService.UpdateUidProfilePicture(profilePicture);
+                uidProfilePictureRepository.DeleteUidProfilePictureByUid(userGameRole.GameUid);
+                uidProfilePictureRepository.UpdateUidProfilePicture(profilePicture);
             }
 
             await TryUpdateUserGameRoleAsync(userGameRole, profilePicture, token).ConfigureAwait(false);

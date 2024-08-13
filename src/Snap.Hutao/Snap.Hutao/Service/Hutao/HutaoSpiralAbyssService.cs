@@ -14,7 +14,7 @@ internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
 {
     private readonly TimeSpan cacheExpireTime = TimeSpan.FromHours(1);
 
-    private readonly IObjectCacheRepository objectCacheDbService;
+    private readonly IObjectCacheRepository objectCacheRepository;
     private readonly IServiceProvider serviceProvider;
     private readonly JsonSerializerOptions options;
     private readonly IMemoryCache memoryCache;
@@ -94,7 +94,7 @@ internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
             return t;
         }
 
-        if (await objectCacheDbService.GetObjectOrDefaultAsync<T>(key).ConfigureAwait(false) is { } value)
+        if (await objectCacheRepository.GetObjectOrDefaultAsync<T>(key).ConfigureAwait(false) is { } value)
         {
             return memoryCache.Set(key, value, cacheExpireTime);
         }
@@ -104,7 +104,7 @@ internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
 
         if (data is not null)
         {
-            await objectCacheDbService.AddObjectCacheAsync(key, cacheExpireTime, data).ConfigureAwait(false);
+            await objectCacheRepository.AddObjectCacheAsync(key, cacheExpireTime, data).ConfigureAwait(false);
         }
 
         return memoryCache.Set(key, data ?? new(), cacheExpireTime);

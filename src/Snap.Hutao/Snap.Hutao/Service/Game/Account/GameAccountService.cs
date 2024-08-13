@@ -16,7 +16,7 @@ namespace Snap.Hutao.Service.Game.Account;
 internal sealed partial class GameAccountService : IGameAccountService
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IGameRepository gameDbService;
+    private readonly IGameRepository gameRepository;
     private readonly ITaskContext taskContext;
 
     private ObservableReorderableDbCollection<GameAccount>? gameAccounts;
@@ -26,7 +26,7 @@ internal sealed partial class GameAccountService : IGameAccountService
         if (gameAccounts is null)
         {
             await taskContext.SwitchToBackgroundAsync();
-            gameAccounts = gameDbService.GetGameAccountCollection();
+            gameAccounts = gameRepository.GetGameAccountCollection();
         }
 
         return gameAccounts;
@@ -59,7 +59,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
                 // sync database
                 await taskContext.SwitchToBackgroundAsync();
-                gameDbService.AddGameAccount(account);
+                gameRepository.AddGameAccount(account);
 
                 // sync cache
                 await taskContext.SwitchToMainThreadAsync();
@@ -100,7 +100,7 @@ internal sealed partial class GameAccountService : IGameAccountService
         gameAccount.UpdateAttachUid(uid);
 
         await taskContext.SwitchToBackgroundAsync();
-        gameDbService.UpdateGameAccount(gameAccount);
+        gameRepository.UpdateGameAccount(gameAccount);
     }
 
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
@@ -115,7 +115,7 @@ internal sealed partial class GameAccountService : IGameAccountService
 
             // sync database
             await taskContext.SwitchToBackgroundAsync();
-            gameDbService.UpdateGameAccount(gameAccount);
+            gameRepository.UpdateGameAccount(gameAccount);
         }
     }
 
@@ -127,7 +127,7 @@ internal sealed partial class GameAccountService : IGameAccountService
         gameAccounts.Remove(gameAccount);
 
         await taskContext.SwitchToBackgroundAsync();
-        gameDbService.RemoveGameAccountById(gameAccount.InnerId);
+        gameRepository.RemoveGameAccountById(gameAccount.InnerId);
     }
 
     private static GameAccount? SingleGameAccountOrDefault(ObservableCollection<GameAccount> gameAccounts, string registrySdk)

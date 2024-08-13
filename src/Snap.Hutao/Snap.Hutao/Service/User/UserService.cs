@@ -20,7 +20,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     private readonly IProfilePictureService profilePictureService;
     private readonly IUserCollectionService userCollectionService;
     private readonly IServiceProvider serviceProvider;
-    private readonly IUserRepository userDbService;
+    private readonly IUserRepository userRepository;
     private readonly ITaskContext taskContext;
 
     public ValueTask RemoveUserAsync(BindingUser user)
@@ -31,7 +31,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     public async ValueTask UnsafeRemoveAllUsersAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
-        userDbService.RemoveAllUsers();
+        userRepository.RemoveAllUsers();
     }
 
     public ValueTask<AdvancedDbCollectionView<BindingUser, EntityUser>> GetUsersAsync()
@@ -67,7 +67,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         user.CookieToken = cookie.TryGetCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
         user.TryUpdateFingerprint(deviceFp);
 
-        userDbService.UpdateUser(user.Entity);
+        userRepository.UpdateUser(user.Entity);
         return new(UserOptionResult.CookieUpdated, midOrAid);
     }
 
@@ -97,7 +97,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         user.CookieToken ??= new();
 
         user.CookieToken[Cookie.COOKIE_TOKEN] = cookieToken;
-        userDbService.UpdateUser(user);
+        userRepository.UpdateUser(user);
 
         return true;
     }
