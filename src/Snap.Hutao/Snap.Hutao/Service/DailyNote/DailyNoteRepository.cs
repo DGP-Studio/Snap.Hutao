@@ -8,8 +8,8 @@ using Snap.Hutao.Service.Abstraction;
 namespace Snap.Hutao.Service.DailyNote;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IDailyNoteDbService))]
-internal sealed partial class DailyNoteDbService : IDailyNoteDbService
+[Injection(InjectAs.Singleton, typeof(IDailyNoteRepository))]
+internal sealed partial class DailyNoteRepository : IDailyNoteRepository
 {
     private readonly IServiceProvider serviceProvider;
 

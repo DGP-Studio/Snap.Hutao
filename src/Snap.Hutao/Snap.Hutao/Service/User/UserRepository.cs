@@ -7,8 +7,8 @@ using Snap.Hutao.Service.Abstraction;
 namespace Snap.Hutao.Service.User;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IUserDbService))]
-internal sealed partial class UserDbService : IUserDbService
+[Injection(InjectAs.Singleton, typeof(IUserRepository))]
+internal sealed partial class UserRepository : IUserRepository
 {
     private readonly IServiceProvider serviceProvider;
 

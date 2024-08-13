@@ -5,7 +5,7 @@ using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.User;
 
-internal interface IUserDbService : IAppDbService<Model.Entity.User>
+internal interface IUserRepository : IRepository<Model.Entity.User>
 {
     void DeleteUserById(Guid id);
 

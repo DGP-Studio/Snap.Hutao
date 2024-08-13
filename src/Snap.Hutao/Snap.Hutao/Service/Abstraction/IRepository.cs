@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Service.Abstraction;
 
-internal interface IAppDbService<TEntity> : IAppInfrastructureService
+internal interface IRepository<TEntity> : IAppInfrastructureService
     where TEntity : class
 {
 }

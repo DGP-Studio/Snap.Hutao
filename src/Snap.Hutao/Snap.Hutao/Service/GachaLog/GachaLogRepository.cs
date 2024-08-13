@@ -11,8 +11,8 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.Service.GachaLog;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IGachaLogDbService))]
-internal sealed partial class GachaLogDbService : IGachaLogDbService
+[Injection(InjectAs.Singleton, typeof(IGachaLogRepository))]
+internal sealed partial class GachaLogRepository : IGachaLogRepository
 {
     private readonly IServiceProvider serviceProvider;
 

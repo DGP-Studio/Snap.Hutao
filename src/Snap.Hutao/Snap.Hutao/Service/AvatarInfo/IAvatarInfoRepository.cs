@@ -6,7 +6,7 @@ using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 
-internal interface IAvatarInfoDbService : IAppDbService<EntityAvatarInfo>
+internal interface IAvatarInfoRepository : IRepository<EntityAvatarInfo>
 {
     void RemoveAvatarInfoRangeByUid(string uid);
 

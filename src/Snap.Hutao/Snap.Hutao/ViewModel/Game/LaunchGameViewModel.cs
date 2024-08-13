@@ -40,10 +40,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly LaunchGameShared launchGameShared;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
     private readonly RuntimeOptions runtimeOptions;
-    private readonly HoyoPlayClient hoyoPlayClient;
     private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
@@ -320,9 +320,12 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             }
 
             await taskContext.SwitchToBackgroundAsync();
-            Web.Response.Response<GamePackagesWrapper> response = await hoyoPlayClient
-                .GetPackagesAsync(scheme)
-                .ConfigureAwait(false);
+            Web.Response.Response<GamePackagesWrapper> response;
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
+                response = await hoyoPlayClient.GetPackagesAsync(scheme).ConfigureAwait(false);
+            }
 
             if (response.IsOk())
             {

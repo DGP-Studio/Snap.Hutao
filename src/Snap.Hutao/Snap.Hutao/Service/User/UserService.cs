@@ -20,7 +20,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     private readonly IProfilePictureService profilePictureService;
     private readonly IUserCollectionService userCollectionService;
     private readonly IServiceProvider serviceProvider;
-    private readonly IUserDbService userDbService;
+    private readonly IUserRepository userDbService;
     private readonly ITaskContext taskContext;
 
     public ValueTask RemoveUserAsync(BindingUser user)

@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.Inventory;
 
-internal interface IInventoryDbService : IAppDbService<InventoryItem>
+internal interface IInventoryRepository : IRepository<InventoryItem>
 {
     void AddInventoryItemRangeByProjectId(List<InventoryItem> items);
 

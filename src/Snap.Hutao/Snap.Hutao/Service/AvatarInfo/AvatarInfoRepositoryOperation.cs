@@ -22,18 +22,17 @@ using RecordPlayerInfo = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.PlayerInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class AvatarInfoDbBulkOperation
+internal sealed partial class AvatarInfoRepositoryOperation
 {
-    private readonly IAvatarInfoDbService avatarInfoDbService;
+    private readonly IAvatarInfoRepository avatarInfoRepository;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
     public void UnsafeUpdateDbAvatarInfos(string uid, IEnumerable<EnkaAvatarInfo> webInfos)
     {
-        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        List<EntityAvatarInfo> dbInfos = avatarInfoRepository.GetAvatarInfoListByUid(uid);
         EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -56,7 +55,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByShowcaseAsync(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        List<EntityAvatarInfo> dbInfos = avatarInfoRepository.GetAvatarInfoListByUid(uid);
         EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -74,7 +73,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
                 AddOrUpdateAvatarInfo(entity, uid, appDbContext, webInfo);
             }
 
-            return avatarInfoDbService.GetAvatarInfoListByUid(uid);
+            return avatarInfoRepository.GetAvatarInfoListByUid(uid);
         }
     }
 
@@ -82,7 +81,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     {
         await taskContext.SwitchToBackgroundAsync();
         string uid = userAndUid.Uid.Value;
-        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        List<EntityAvatarInfo> dbInfos = avatarInfoRepository.GetAvatarInfoListByUid(uid);
         EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -128,14 +127,14 @@ internal sealed partial class AvatarInfoDbBulkOperation
         }
 
     Return:
-        return avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        return avatarInfoRepository.GetAvatarInfoListByUid(uid);
     }
 
     public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid, CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();
         string uid = userAndUid.Uid.Value;
-        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        List<EntityAvatarInfo> dbInfos = avatarInfoRepository.GetAvatarInfoListByUid(uid);
         EnsureItemsAvatarIdUnique(ref dbInfos, uid, out Dictionary<AvatarId, EntityAvatarInfo> dbInfoMap);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -171,7 +170,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             }
         }
 
-        return avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        return avatarInfoRepository.GetAvatarInfoListByUid(uid);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -237,7 +236,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
         {
             if (!dbInfoMap.TryAdd(info.Info.AvatarId, info))
             {
-                avatarInfoDbService.RemoveAvatarInfoRangeByUid(uid);
+                avatarInfoRepository.RemoveAvatarInfoRangeByUid(uid);
                 dbInfoMap.Clear();
                 dbInfos.Clear();
             }

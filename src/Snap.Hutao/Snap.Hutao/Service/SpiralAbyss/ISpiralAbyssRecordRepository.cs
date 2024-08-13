@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
 
-internal interface ISpiralAbyssRecordDbService : IAppDbService<SpiralAbyssEntry>
+internal interface ISpiralAbyssRecordRepository : IRepository<SpiralAbyssEntry>
 {
     void AddSpiralAbyssEntry(SpiralAbyssEntry entry);
 

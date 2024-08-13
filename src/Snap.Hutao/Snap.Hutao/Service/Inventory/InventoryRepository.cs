@@ -7,8 +7,8 @@ using Snap.Hutao.Service.Abstraction;
 namespace Snap.Hutao.Service.Inventory;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IInventoryDbService))]
-internal sealed partial class InventoryDbService : IInventoryDbService
+[Injection(InjectAs.Singleton, typeof(IInventoryRepository))]
+internal sealed partial class InventoryRepository : IInventoryRepository
 {
     private readonly IServiceProvider serviceProvider;
 

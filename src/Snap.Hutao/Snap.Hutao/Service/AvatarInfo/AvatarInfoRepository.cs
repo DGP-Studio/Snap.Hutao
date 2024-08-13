@@ -7,8 +7,8 @@ using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 namespace Snap.Hutao.Service.AvatarInfo;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IAvatarInfoDbService))]
-internal sealed partial class AvatarInfoDbService : IAvatarInfoDbService
+[Injection(InjectAs.Singleton, typeof(IAvatarInfoRepository))]
+internal sealed partial class AvatarInfoRepository : IAvatarInfoRepository
 {
     private readonly IServiceProvider serviceProvider;
 

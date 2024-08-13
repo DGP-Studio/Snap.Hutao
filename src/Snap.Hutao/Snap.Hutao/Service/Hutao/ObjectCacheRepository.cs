@@ -1,0 +1,47 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using Snap.Hutao.Service.Abstraction;
+
+namespace Snap.Hutao.Service.Hutao;
+
+[ConstructorGenerated]
+[Injection(InjectAs.Singleton, typeof(IObjectCacheRepository))]
+internal sealed partial class ObjectCacheRepository : IObjectCacheRepository
+{
+    private readonly JsonSerializerOptions jsonSerializerOptions;
+    private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
+
+    public IServiceProvider ServiceProvider { get => serviceProvider; }
+
+    public async ValueTask AddObjectCacheAsync<T>(string key, TimeSpan expire, T data)
+        where T : class
+    {
+        await taskContext.SwitchToBackgroundAsync();
+        this.Add(new()
+        {
+            Key = key,
+            ExpireTime = DateTimeOffset.UtcNow.Add(expire),
+            Value = JsonSerializer.Serialize(data, jsonSerializerOptions),
+        });
+    }
+
+    public async ValueTask<T?> GetObjectOrDefaultAsync<T>(string key)
+        where T : class
+    {
+        await taskContext.SwitchToBackgroundAsync();
+        if (this.SingleOrDefault(e => e.Key == key) is { } entry)
+        {
+            if (!entry.IsExpired)
+            {
+                ArgumentNullException.ThrowIfNull(entry.Value);
+                return JsonSerializer.Deserialize<T>(entry.Value, jsonSerializerOptions);
+            }
+
+            this.Delete(entry);
+        }
+
+        return default;
+    }
+}

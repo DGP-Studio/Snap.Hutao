@@ -7,7 +7,7 @@ using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.Game;
 
-internal interface IGameDbService : IAppDbService<GameAccount>
+internal interface IGameRepository : IRepository<GameAccount>
 {
     void AddGameAccount(GameAccount gameAccount);
 

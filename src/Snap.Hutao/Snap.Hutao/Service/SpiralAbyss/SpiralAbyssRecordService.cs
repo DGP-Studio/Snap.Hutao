@@ -21,7 +21,7 @@ namespace Snap.Hutao.Service.SpiralAbyss;
 [Injection(InjectAs.Scoped, typeof(ISpiralAbyssRecordService))]
 internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordService
 {
-    private readonly ISpiralAbyssRecordDbService spiralAbyssRecordDbService;
+    private readonly ISpiralAbyssRecordRepository spiralAbyssRecordDbService;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;

@@ -7,8 +7,8 @@ using Snap.Hutao.Service.Abstraction;
 namespace Snap.Hutao.Service.SpiralAbyss;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(ISpiralAbyssRecordDbService))]
-internal sealed partial class SpiralAbyssRecordDbService : ISpiralAbyssRecordDbService
+[Injection(InjectAs.Singleton, typeof(ISpiralAbyssRecordRepository))]
+internal sealed partial class SpiralAbyssRecordRepository : ISpiralAbyssRecordRepository
 {
     private readonly IServiceProvider serviceProvider;
 

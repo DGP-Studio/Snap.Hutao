@@ -16,7 +16,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 {
     private readonly IUserInitializationService userInitializationService;
     private readonly IServiceProvider serviceProvider;
-    private readonly IUserDbService userDbService;
+    private readonly IUserRepository userDbService;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 

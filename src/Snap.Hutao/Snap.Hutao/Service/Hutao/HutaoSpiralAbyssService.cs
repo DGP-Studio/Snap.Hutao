@@ -8,61 +8,78 @@ using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Hutao;
 
-/// <summary>
-/// 胡桃 API 服务
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IHutaoSpiralAbyssService))]
 internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
 {
     private readonly TimeSpan cacheExpireTime = TimeSpan.FromHours(1);
 
-    private readonly IObjectCacheDbService objectCacheDbService;
-    private readonly HutaoSpiralAbyssClient homaClient;
+    private readonly IObjectCacheRepository objectCacheDbService;
+    private readonly IServiceProvider serviceProvider;
     private readonly JsonSerializerOptions options;
     private readonly IMemoryCache memoryCache;
 
-    /// <inheritdoc/>
-    public ValueTask<Overview> GetOverviewAsync(bool last = false)
+    public async ValueTask<Overview> GetOverviewAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(Overview), last, homaClient.GetOverviewAsync);
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoSpiralAbyssClient homaClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
+            return await FromCacheOrWebAsync(nameof(Overview), last, homaClient.GetOverviewAsync).ConfigureAwait(false);
+        }
     }
 
-    /// <inheritdoc/>
-    public ValueTask<List<AvatarAppearanceRank>> GetAvatarAppearanceRanksAsync(bool last = false)
+    public async ValueTask<List<AvatarAppearanceRank>> GetAvatarAppearanceRanksAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(AvatarAppearanceRank), last, homaClient.GetAvatarAttendanceRatesAsync);
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoSpiralAbyssClient homaClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
+            return await FromCacheOrWebAsync(nameof(AvatarAppearanceRank), last, homaClient.GetAvatarAttendanceRatesAsync).ConfigureAwait(false);
+        }
     }
 
-    /// <inheritdoc/>
-    public ValueTask<List<AvatarUsageRank>> GetAvatarUsageRanksAsync(bool last = false)
+    public async ValueTask<List<AvatarUsageRank>> GetAvatarUsageRanksAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(AvatarUsageRank), last, homaClient.GetAvatarUtilizationRatesAsync);
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoSpiralAbyssClient homaClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
+            return await FromCacheOrWebAsync(nameof(AvatarUsageRank), last, homaClient.GetAvatarUtilizationRatesAsync).ConfigureAwait(false);
+        }
     }
 
-    /// <inheritdoc/>
-    public ValueTask<List<AvatarConstellationInfo>> GetAvatarConstellationInfosAsync(bool last = false)
+    public async ValueTask<List<AvatarConstellationInfo>> GetAvatarConstellationInfosAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(AvatarConstellationInfo), last, homaClient.GetAvatarHoldingRatesAsync);
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoSpiralAbyssClient homaClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
+            return await FromCacheOrWebAsync(nameof(AvatarConstellationInfo), last, homaClient.GetAvatarHoldingRatesAsync).ConfigureAwait(false);
+        }
     }
 
-    /// <inheritdoc/>
-    public ValueTask<List<AvatarCollocation>> GetAvatarCollocationsAsync(bool last = false)
+    public async ValueTask<List<AvatarCollocation>> GetAvatarCollocationsAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(AvatarCollocation), last, homaClient.GetAvatarCollocationsAsync);
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoSpiralAbyssClient homaClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
+            return await FromCacheOrWebAsync(nameof(AvatarCollocation), last, homaClient.GetAvatarCollocationsAsync).ConfigureAwait(false);
+        }
     }
 
-    /// <inheritdoc/>
-    public ValueTask<List<WeaponCollocation>> GetWeaponCollocationsAsync(bool last = false)
+    public async ValueTask<List<WeaponCollocation>> GetWeaponCollocationsAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(WeaponCollocation), last, homaClient.GetWeaponCollocationsAsync);
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoSpiralAbyssClient homaClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
+            return await FromCacheOrWebAsync(nameof(WeaponCollocation), last, homaClient.GetWeaponCollocationsAsync).ConfigureAwait(false);
+        }
     }
 
-    /// <inheritdoc/>
-    public ValueTask<List<TeamAppearance>> GetTeamAppearancesAsync(bool last = false)
+    public async ValueTask<List<TeamAppearance>> GetTeamAppearancesAsync(bool last = false)
     {
-        return FromCacheOrWebAsync(nameof(TeamAppearance), last, homaClient.GetTeamCombinationsAsync);
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoSpiralAbyssClient homaClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
+            return await FromCacheOrWebAsync(nameof(TeamAppearance), last, homaClient.GetTeamCombinationsAsync).ConfigureAwait(false);
+        }
     }
 
     private async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, bool last, Func<bool, CancellationToken, ValueTask<HutaoResponse<T>>> taskFunc)

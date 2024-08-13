@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
 
-internal interface IGachaLogDbService : IAppDbService<GachaArchive>, IAppDbService<GachaItem>
+internal interface IGachaLogRepository : IRepository<GachaArchive>, IRepository<GachaItem>
 {
     void AddGachaArchive(GachaArchive archive);
 

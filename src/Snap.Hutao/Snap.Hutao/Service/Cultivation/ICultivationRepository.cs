@@ -7,10 +7,10 @@ using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Cultivation;
 
-internal interface ICultivationDbService : IAppDbService<CultivateEntryLevelInformation>,
-    IAppDbService<CultivateProject>,
-    IAppDbService<CultivateEntry>,
-    IAppDbService<CultivateItem>
+internal interface ICultivationRepository : IRepository<CultivateEntryLevelInformation>,
+    IRepository<CultivateProject>,
+    IRepository<CultivateEntry>,
+    IRepository<CultivateItem>
 {
     void AddCultivateProject(CultivateProject project);
 

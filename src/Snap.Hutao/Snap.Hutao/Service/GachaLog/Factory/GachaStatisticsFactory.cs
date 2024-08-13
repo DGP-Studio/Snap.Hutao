@@ -42,7 +42,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         15401U, 15402U, 15403U, 15405U
     ]);
 
-    private readonly HomaGachaLogClient homaGachaLogClient;
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly AppOptions options;
 
@@ -52,7 +52,12 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         await taskContext.SwitchToBackgroundAsync();
 
         List<HistoryWishBuilder> historyWishBuilders = context.GachaEvents.SelectList(gachaEvent => new HistoryWishBuilder(gachaEvent, context));
-        return CreateCore(taskContext, homaGachaLogClient, items, historyWishBuilders, context, options);
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HomaGachaLogClient homaGachaLogClient = scope.ServiceProvider.GetRequiredService<HomaGachaLogClient>();
+            return CreateCore(taskContext, homaGachaLogClient, items, historyWishBuilders, context, options);
+        }
     }
 
     private static GachaStatistics CreateCore(
@@ -126,7 +131,6 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             .ToDictionary(g => g.Key, g => g.ToList().SortBy(b => b.From));
 
         // Items are ordered by precise time, first is oldest
-        // 'ref' is not allowed here because we have lambda below
         foreach (ref readonly Model.Entity.GachaItem item in CollectionsMarshal.AsSpan(items))
         {
             // Find target history wish to operate. // banner.From <= item.Time <= banner.To

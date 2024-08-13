@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.User;
 
-internal interface IUidProfilePictureDbService : IAppDbService<UidProfilePicture>
+internal interface IUidProfilePictureDbService : IRepository<UidProfilePicture>
 {
     UidProfilePicture? SingleUidProfilePictureOrDefaultByUid(string uid);
 

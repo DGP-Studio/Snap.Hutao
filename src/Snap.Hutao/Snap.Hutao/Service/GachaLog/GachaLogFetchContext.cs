@@ -19,13 +19,13 @@ internal struct GachaLogFetchContext
     public GachaType CurrentType;
 
     private readonly GachaLogServiceMetadataContext serviceContext;
-    private readonly IGachaLogDbService gachaLogDbService;
+    private readonly IGachaLogRepository repository;
     private readonly ITaskContext taskContext;
     private readonly bool isLazy;
 
-    public GachaLogFetchContext(IGachaLogDbService gachaLogDbService, ITaskContext taskContext, GachaLogServiceMetadataContext serviceContext, bool isLazy)
+    public GachaLogFetchContext(IGachaLogRepository repository, ITaskContext taskContext, GachaLogServiceMetadataContext serviceContext, bool isLazy)
     {
-        this.gachaLogDbService = gachaLogDbService;
+        this.repository = repository;
         this.taskContext = taskContext;
         this.serviceContext = serviceContext;
         this.isLazy = isLazy;
@@ -46,14 +46,14 @@ internal struct GachaLogFetchContext
         CurrentTypeAddingCompleted = false;
     }
 
-    public void EnsureArchiveAndEndId(GachaLogItem item, AdvancedDbCollectionView<GachaArchive> archives, IGachaLogDbService gachaLogDbService)
+    public void EnsureArchiveAndEndId(GachaLogItem item, AdvancedDbCollectionView<GachaArchive> archives, IGachaLogRepository repository)
     {
         if (TargetArchive is null)
         {
-            GachaArchiveOperation.GetOrAdd(gachaLogDbService, taskContext, item.Uid, archives, out TargetArchive);
+            GachaArchiveOperation.GetOrAdd(repository, taskContext, item.Uid, archives, out TargetArchive);
         }
 
-        DbEndId ??= gachaLogDbService.GetNewestGachaItemIdByArchiveIdAndQueryType(TargetArchive.InnerId, CurrentType);
+        DbEndId ??= repository.GetNewestGachaItemIdByArchiveIdAndQueryType(TargetArchive.InnerId, CurrentType);
     }
 
     public readonly bool ShouldAddItem(GachaLogItem item)
@@ -87,10 +87,10 @@ internal struct GachaLogFetchContext
             // 全量刷新
             if (!isLazy)
             {
-                gachaLogDbService.RemoveGachaItemRangeByArchiveIdAndQueryTypeNewerThanEndId(TargetArchive.InnerId, TypedQueryOptions.Type, TypedQueryOptions.EndId);
+                repository.RemoveGachaItemRangeByArchiveIdAndQueryTypeNewerThanEndId(TargetArchive.InnerId, TypedQueryOptions.Type, TypedQueryOptions.EndId);
             }
 
-            gachaLogDbService.AddGachaItemRange(ItemsToAdd);
+            repository.AddGachaItemRange(ItemsToAdd);
         }
     }
 

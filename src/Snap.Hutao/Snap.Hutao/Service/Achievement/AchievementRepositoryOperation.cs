@@ -11,17 +11,12 @@ using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
 
-/// <summary>
-/// 成就数据库操作
-/// 双指针操作
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class AchievementDbBulkOperation
+internal sealed partial class AchievementRepositoryOperation
 {
     private readonly IServiceProvider serviceProvider;
-    private readonly ILogger<AchievementDbBulkOperation> logger;
+    private readonly ILogger<AchievementRepositoryOperation> logger;
 
     public ImportResult Merge(Guid archiveId, IEnumerable<UIAFItem> items, bool aggressive)
     {

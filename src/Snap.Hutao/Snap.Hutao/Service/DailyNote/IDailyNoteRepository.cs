@@ -6,7 +6,7 @@ using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.DailyNote;
 
-internal interface IDailyNoteDbService : IAppDbService<DailyNoteEntry>
+internal interface IDailyNoteRepository : IRepository<DailyNoteEntry>
 {
     void AddDailyNoteEntry(DailyNoteEntry entry);
 

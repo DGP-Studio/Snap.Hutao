@@ -28,7 +28,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly ICurrentXamlWindowReference currentXamlWindowReference;
     private readonly IGameScreenCaptureService gameScreenCaptureService;
-    private readonly HutaoAsAServiceClient homaAsAServiceClient;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ILogger<TestViewModel> logger;
     private readonly IMemoryCache memoryCache;
@@ -184,24 +184,32 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     [Command("UploadAnnouncementCommand")]
     private async Task UploadAnnouncementAsync()
     {
-        Web.Response.Response response = await homaAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
-        if (response.IsOk())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            infoBarService.Success(response.Message);
-            await taskContext.SwitchToMainThreadAsync();
-            Announcement = new();
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            Web.Response.Response response = await hutaoAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
+            if (response.IsOk())
+            {
+                infoBarService.Success(response.Message);
+                await taskContext.SwitchToMainThreadAsync();
+                Announcement = new();
+            }
         }
     }
 
     [Command("CompensationGachaLogServiceTimeCommand")]
     private async Task CompensationGachaLogServiceTimeAsync()
     {
-        Web.Response.Response response = await homaAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
-        if (response.IsOk())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            infoBarService.Success(response.Message);
-            await taskContext.SwitchToMainThreadAsync();
-            Announcement = new();
+            HutaoAsAServiceClient hutaoAsAServiceClient = scope.ServiceProvider.GetRequiredService<HutaoAsAServiceClient>();
+            Web.Response.Response response = await hutaoAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
+            if (response.IsOk())
+            {
+                infoBarService.Success(response.Message);
+                await taskContext.SwitchToMainThreadAsync();
+                Announcement = new();
+            }
         }
     }
 

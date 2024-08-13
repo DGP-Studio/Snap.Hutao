@@ -8,7 +8,7 @@ namespace Snap.Hutao.Service.GachaLog;
 
 internal static class GachaArchiveOperation
 {
-    public static void GetOrAdd(IGachaLogDbService gachaLogDbService, ITaskContext taskContext, string uid, AdvancedDbCollectionView<GachaArchive> archives, [NotNull] out GachaArchive? archive)
+    public static void GetOrAdd(IGachaLogRepository repository, ITaskContext taskContext, string uid, AdvancedDbCollectionView<GachaArchive> archives, [NotNull] out GachaArchive? archive)
     {
         archive = archives.SourceCollection.SingleOrDefault(a => a.Uid == uid);
 
@@ -18,7 +18,7 @@ internal static class GachaArchiveOperation
         }
 
         GachaArchive created = GachaArchive.From(uid);
-        gachaLogDbService.AddGachaArchive(created);
+        repository.AddGachaArchive(created);
         taskContext.InvokeOnMainThread(() => archives.Add(created));
         archive = created;
     }

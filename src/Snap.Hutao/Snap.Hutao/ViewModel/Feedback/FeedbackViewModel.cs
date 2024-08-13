@@ -21,11 +21,10 @@ namespace Snap.Hutao.ViewModel.Feedback;
 [ConstructorGenerated]
 internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 {
-    private readonly HutaoInfrastructureClient hutaoInfrastructureClient;
-    private readonly HutaoDocumentationClient hutaoDocumentationClient;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IClipboardProvider clipboardProvider;
     private readonly HttpProxyUsingSystemProxy dynamicHttpProxy;
+    private readonly IServiceProvider serviceProvider;
     private readonly LoopbackManager loopbackManager;
     private readonly IInfoBarService infoBarService;
     private readonly CultureOptions cultureOptions;
@@ -50,7 +49,13 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
     {
-        Response<IPInformation> resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+        Response<IPInformation> resp;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoInfrastructureClient hutaoInfrastructureClient = scope.ServiceProvider.GetRequiredService<HutaoInfrastructureClient>();
+            resp = await hutaoInfrastructureClient.GetIPInformationAsync().ConfigureAwait(false);
+        }
+
         IPInformation info = resp.IsOk() ? resp.Data : IPInformation.Default;
         await taskContext.SwitchToMainThreadAsync();
         IPInformation = info;
@@ -82,7 +87,12 @@ internal sealed partial class FeedbackViewModel : Abstraction.ViewModel
         }
 
         string language = cultureOptions.GetLanguageCodeForDocumentationSearch();
-        AlgoliaResponse? response = await hutaoDocumentationClient.QueryAsync(searchText, language).ConfigureAwait(false);
+        AlgoliaResponse? response;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            HutaoDocumentationClient hutaoDocumentationClient = scope.ServiceProvider.GetRequiredService<HutaoDocumentationClient>();
+            response = await hutaoDocumentationClient.QueryAsync(searchText, language).ConfigureAwait(false);
+        }
 
         await taskContext.SwitchToMainThreadAsync();
         if (response is { Results: [AlgoliaResult { Hits: { Count: > 0 } hits }, ..] })

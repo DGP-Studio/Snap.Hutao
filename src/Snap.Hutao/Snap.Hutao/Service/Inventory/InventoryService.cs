@@ -19,7 +19,7 @@ internal sealed partial class InventoryService : IInventoryService
 {
     private readonly MinimalPromotionDelta minimalPromotionDelta;
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IInventoryDbService inventoryDbService;
+    private readonly IInventoryRepository inventoryDbService;
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 

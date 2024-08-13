@@ -18,8 +18,8 @@ namespace Snap.Hutao.Service.AvatarInfo;
 [Injection(InjectAs.Scoped, typeof(IAvatarInfoService))]
 internal sealed partial class AvatarInfoService : IAvatarInfoService
 {
-    private readonly AvatarInfoDbBulkOperation avatarInfoDbBulkOperation;
-    private readonly IAvatarInfoDbService avatarInfoDbService;
+    private readonly AvatarInfoRepositoryOperation avatarInfoDbBulkOperation;
+    private readonly IAvatarInfoRepository avatarInfoRepository;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<AvatarInfoService> logger;
     private readonly IMetadataService metadataService;
@@ -74,7 +74,7 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
 
             default:
                 {
-                    List<EntityAvatarInfo> list = avatarInfoDbService.GetAvatarInfoListByUid(userAndUid.Uid.Value);
+                    List<EntityAvatarInfo> list = avatarInfoRepository.GetAvatarInfoListByUid(userAndUid.Uid.Value);
                     Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                     return new(RefreshResultKind.Ok, summary.Avatars.Count == 0 ? null : summary);
                 }

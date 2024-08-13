@@ -28,7 +28,7 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
             return;
         }
 
-        IGachaLogDbService gachaLogDbService = serviceProvider.GetRequiredService<IGachaLogDbService>();
+        IGachaLogRepository gachaLogRepository = serviceProvider.GetRequiredService<IGachaLogRepository>();
 
         foreach (UIGFEntry<Hk4eItem> entry in entries)
         {
@@ -37,12 +37,12 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
                 continue;
             }
 
-            GachaArchive? archive = gachaLogDbService.GetGachaArchiveByUid($"{entry.Uid}");
+            GachaArchive? archive = gachaLogRepository.GetGachaArchiveByUid($"{entry.Uid}");
 
             if (archive is null)
             {
                 archive = GachaArchive.From($"{entry.Uid}");
-                gachaLogDbService.AddGachaArchive(archive);
+                gachaLogRepository.AddGachaArchive(archive);
             }
 
             Guid archiveId = archive.InnerId;
@@ -50,7 +50,7 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
             List<GachaItem> fullItems = [];
             foreach (GachaType queryType in GachaLog.GachaLog.QueryTypes)
             {
-                long trimId = gachaLogDbService.GetNewestGachaItemIdByArchiveIdAndQueryType(archiveId, queryType);
+                long trimId = gachaLogRepository.GetNewestGachaItemIdByArchiveIdAndQueryType(archiveId, queryType);
                 List<GachaItem> currentTypedList = entry.List
                     .Where(item => item.UIGFGachaType == queryType && item.Id > trimId)
                     .OrderByDescending(item => item.Id)
@@ -60,7 +60,7 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
                 fullItems.AddRange(currentTypedList);
             }
 
-            gachaLogDbService.AddGachaItemRange(fullItems);
+            gachaLogRepository.AddGachaItemRange(fullItems);
         }
     }
 }
