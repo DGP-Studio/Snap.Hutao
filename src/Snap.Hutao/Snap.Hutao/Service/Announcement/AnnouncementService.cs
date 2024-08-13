@@ -15,8 +15,6 @@ using WebAnnouncement = Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement.Announce
 
 namespace Snap.Hutao.Service;
 
-/// <inheritdoc/>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IAnnouncementService))]
 internal sealed partial class AnnouncementService : IAnnouncementService
@@ -73,7 +71,13 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         wrapper.List.Reverse();
 
         PreprocessAnnouncements(contentMap, wrapper.List);
-        await AdjustAnnouncementTimeAsync(wrapper.List, new(wrapper.TimeZone, 0, 0)).ConfigureAwait(false);
+        try
+        {
+            await AdjustAnnouncementTimeAsync(wrapper.List, new(wrapper.TimeZone, 0, 0)).ConfigureAwait(false);
+        }
+        catch
+        {
+        }
 
         return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
     }

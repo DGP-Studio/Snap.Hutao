@@ -219,9 +219,18 @@
                                         </cwc:SettingsExpander.Header>
                                         <cwc:SettingsExpander.Content>
                                             <StackPanel Orientation="Horizontal" Spacing="{ThemeResource SettingsCardContentControlSpacing}">
+                                                <clw:TokenItem
+                                                    VerticalAlignment="Center"
+                                                    Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+                                                    Content="BETA"
+                                                    Icon="{shuxm:FontIcon Glyph=&#xE7C1;}"
+                                                    IsHitTestVisible="False">
+                                                    <clw:TokenItem.Resources>
+                                                        <x:Double x:Key="ListViewItemDisabledThemeOpacity">1</x:Double>
+                                                    </clw:TokenItem.Resources>
+                                                </clw:TokenItem>
                                                 <shuxc:Elevation Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                                                 <clw:TokenItem
-                                                    HorizontalAlignment="Right"
                                                     VerticalAlignment="Center"
                                                     Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
                                                     Content="{Binding GamePackageViewModel.PreDownloadTitle}"
