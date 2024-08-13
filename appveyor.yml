@@ -2,7 +2,7 @@ version: 1.0.{build}
 branches:
   only:
     - "release"
-build_cloud: HUTAO-SERVER
+build_cloud: HUTAO-ACTIONS
 image: Visual Studio 2022
 clone_depth: 3
 clone_folder: D:\appveyor\project\Snap.Hutao.Project
