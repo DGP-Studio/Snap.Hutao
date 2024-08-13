@@ -10,6 +10,32 @@ namespace Snap.Hutao.Service.Game;
 
 internal static class GameFileSystemExtension
 {
+    public static bool TryGetGameVersion(this GameFileSystem gameFileSystem, [NotNullWhen(true)] out string? version)
+    {
+        version = default!;
+        if (File.Exists(gameFileSystem.GameConfigFilePath))
+        {
+            foreach (ref readonly IniElement element in CollectionsMarshal.AsSpan(IniSerializer.DeserializeFromFile(gameFileSystem.GameConfigFilePath)))
+            {
+                if (element is IniParameter { Key: "game_version" } parameter)
+                {
+                    version = parameter.Value;
+                    break;
+                }
+            }
+
+            return true;
+        }
+
+        if (File.Exists(gameFileSystem.ScriptVersionFilePath))
+        {
+            version = File.ReadAllText(gameFileSystem.ScriptVersionFilePath);
+            return true;
+        }
+
+        return false;
+    }
+
     public static void GenerateConfigurationFile(this GameFileSystem gameFileSystem, string version, LaunchScheme launchScheme)
     {
         string gameBiz = launchScheme.IsOversea ? "hk4e_global" : "hk4e_cn";
@@ -56,6 +82,7 @@ internal static class GameFileSystemExtension
             if (element is IniParameter { Key: "game_version" } parameter)
             {
                 version = parameter.Value;
+                break;
             }
         }
 
