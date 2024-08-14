@@ -37,6 +37,13 @@ internal sealed class HttpShards : IAsyncEnumerable<HttpShards.Shard>
             using (await readerWriterLock.WriterLockAsync().ConfigureAwait(false))
             {
                 long target = (current.Position + current.End) / 2;
+
+                if (target >= current.End)
+                {
+                    current = current.Next ?? head;
+                    continue;
+                }
+
                 next = new()
                 {
                     Start = target,
