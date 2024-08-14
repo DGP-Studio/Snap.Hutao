@@ -284,7 +284,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             }
         }
 
-        string result = await MD5.HashFileAsync("D://test.file").ConfigureAwait(false);
+        string result = await SHA256.HashFileAsync("D://test.file").ConfigureAwait(false);
         serviceProvider.GetRequiredService<ILogger<TestViewModel>>().LogInformation(result);
     }
 }

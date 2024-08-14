@@ -5,9 +5,11 @@ namespace Snap.Hutao.Core.IO.Http.Sharding;
 
 internal interface IHttpShard
 {
-    long Start { get; init; }
+    long Start { get; }
 
-    long End { get; set; }
+    long End { get; }
 
     long BytesRead { get; set; }
+
+    AsyncReaderWriterLock ReaderWriterLock { get; }
 }

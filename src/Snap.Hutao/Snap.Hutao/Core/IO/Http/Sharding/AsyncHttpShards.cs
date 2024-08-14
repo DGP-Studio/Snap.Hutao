@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
 [DebuggerTypeProxy(typeof(HttpShardsDebugView))]
-internal sealed class HttpShards : IAsyncEnumerable<HttpShards.Shard>
+internal sealed class AsyncHttpShards : IAsyncEnumerable<IHttpShard>
 {
     private readonly long length;
     private readonly long minimumLength;
@@ -14,13 +14,13 @@ internal sealed class HttpShards : IAsyncEnumerable<HttpShards.Shard>
 
     private Shard? head;
 
-    public HttpShards(long length, long mininumLength)
+    public AsyncHttpShards(long length, long minimumLength)
     {
         this.length = length;
-        this.minimumLength = mininumLength;
+        this.minimumLength = minimumLength;
     }
 
-    public async IAsyncEnumerator<Shard> GetAsyncEnumerator(CancellationToken token = default)
+    public async IAsyncEnumerator<IHttpShard> GetAsyncEnumerator(CancellationToken token = default)
     {
         head = new()
         {
@@ -31,9 +31,9 @@ internal sealed class HttpShards : IAsyncEnumerable<HttpShards.Shard>
         yield return head;
 
         Shard? current = head;
-        Shard next;
         while (true)
         {
+            Shard next;
             using (await readerWriterLock.WriterLockAsync().ConfigureAwait(false))
             {
                 long target = (current.Position + current.End) / 2;
@@ -59,9 +59,12 @@ internal sealed class HttpShards : IAsyncEnumerable<HttpShards.Shard>
             yield return next;
             current = next.Next ?? head;
 
-            if (!UnSyncronizedCanSplit(head))
+            using (await readerWriterLock.WriterLockAsync().ConfigureAwait(false))
             {
-                yield break;
+                if (!UnSyncronizedCanSplit(head))
+                {
+                    yield break;
+                }
             }
         }
     }
@@ -82,7 +85,7 @@ internal sealed class HttpShards : IAsyncEnumerable<HttpShards.Shard>
     }
 
     [DebuggerDisplay("[{Start} - {Position} - {End}]")]
-    internal sealed class Shard
+    internal sealed class Shard : IHttpShard
     {
         public Shard? Next { get; set; }
 
@@ -101,7 +104,7 @@ internal sealed class HttpShards : IAsyncEnumerable<HttpShards.Shard>
     {
         private readonly List<Shard> shards = [];
 
-        public HttpShardsDebugView(HttpShards tree)
+        public HttpShardsDebugView(AsyncHttpShards tree)
         {
             Shard? current = tree.head;
             while (current is not null)

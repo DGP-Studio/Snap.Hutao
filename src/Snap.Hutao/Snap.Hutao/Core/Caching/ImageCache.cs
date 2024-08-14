@@ -24,7 +24,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
     private readonly ConcurrentDictionary<ElementThemeValueFile, Task> themefileTasks = [];
     private readonly ConcurrentDictionary<string, Task> downloadTasks = [];
 
-    private readonly ImageCacheDownloadOperation downloadOperation;
+    private readonly IImageCacheDownloadOperation downloadOperation;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<ImageCache> logger;
 

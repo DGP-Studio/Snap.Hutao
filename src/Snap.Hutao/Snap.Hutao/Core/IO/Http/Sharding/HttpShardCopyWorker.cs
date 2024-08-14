@@ -48,14 +48,16 @@ file sealed class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorker<TStatus>
     [SuppressMessage("", "SH003")]
     public Task CopyAsync(IProgress<TStatus> progress, CancellationToken token = default)
     {
-        ShardProgress shardProgress = new(progress, statusFactory, contentLength);
+        PrivateShardProgress shardProgress = new(progress, statusFactory, contentLength);
         ParallelOptions parallelOptions = new()
         {
             MaxDegreeOfParallelism = maxDegreeOfParallelism,
         };
-        return Parallel.ForEachAsync(new HttpShards(contentLength, bufferSize * maxDegreeOfParallelism), parallelOptions, (shard, token) => CopyShardAsync(shard, shardProgress, token));
 
-        async ValueTask CopyShardAsync(HttpShards.Shard shard, IProgress<ShardStatus> progress, CancellationToken token)
+        long minimumLength = Math.Max(bufferSize * maxDegreeOfParallelism, contentLength / (maxDegreeOfParallelism * 4));
+        return Parallel.ForEachAsync(new AsyncHttpShards(contentLength, minimumLength), parallelOptions, (shard, token) => CopyShardAsync(shard, shardProgress, token));
+
+        async ValueTask CopyShardAsync(IHttpShard shard, IProgress<PrivateShardStatus> progress, CancellationToken token)
         {
             HttpRequestMessage request = new(HttpMethod.Get, sourceUrl)
             {
@@ -124,9 +126,9 @@ file sealed class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorker<TStatus>
         progressReportRateLimiter.Dispose();
     }
 
-    private sealed class ShardStatus
+    private sealed class PrivateShardStatus
     {
-        public ShardStatus(int bytesRead)
+        public PrivateShardStatus(int bytesRead)
         {
             BytesRead = bytesRead;
         }
@@ -134,7 +136,7 @@ file sealed class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorker<TStatus>
         public int BytesRead { get; }
     }
 
-    private sealed class ShardProgress : IProgress<ShardStatus>
+    private sealed class PrivateShardProgress : IProgress<PrivateShardStatus>
     {
         private readonly IProgress<TStatus> workerProgress;
         private readonly StreamCopyStatusFactory<TStatus> statusFactory;
@@ -142,14 +144,14 @@ file sealed class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorker<TStatus>
         private readonly TokenBucketRateLimiter progressReportRateLimiter = ProgressReportRateLimiter.Create(1000);
         private long totalBytesRead;
 
-        public ShardProgress(IProgress<TStatus> workerProgress, StreamCopyStatusFactory<TStatus> statusFactory, long contentLength)
+        public PrivateShardProgress(IProgress<TStatus> workerProgress, StreamCopyStatusFactory<TStatus> statusFactory, long contentLength)
         {
             this.workerProgress = workerProgress;
             this.statusFactory = statusFactory;
             this.contentLength = contentLength;
         }
 
-        public void Report(ShardStatus value)
+        public void Report(PrivateShardStatus value)
         {
             if (Interlocked.Add(ref totalBytesRead, value.BytesRead) == contentLength || progressReportRateLimiter.AttemptAcquire().IsAcquired)
             {

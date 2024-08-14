@@ -16,10 +16,10 @@ using System.Net.Http;
 namespace Snap.Hutao.Core.Caching;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton)]
+[Injection(InjectAs.Singleton, typeof(IImageCacheDownloadOperation))]
 [HttpClient(HttpClientConfiguration.Default)]
 [PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
-internal sealed partial class ImageCacheDownloadOperation
+internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadOperation
 {
     private static readonly FrozenDictionary<int, TimeSpan> DelayFromRetryCount = FrozenDictionary.ToFrozenDictionary(
     [
