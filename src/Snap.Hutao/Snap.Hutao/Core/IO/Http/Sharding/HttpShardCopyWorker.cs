@@ -57,6 +57,11 @@ file sealed class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorker<TStatus>
 
         async ValueTask CopyShardAsync(HttpShards.Shard shard, IProgress<ShardStatus> progress, CancellationToken token)
         {
+            if (shard.Start >= shard.End)
+            {
+                return;
+            }
+
             HttpRequestMessage request = new(HttpMethod.Get, sourceUrl)
             {
                 Headers = { Range = new(shard.Start, shard.End), },

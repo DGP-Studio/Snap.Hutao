@@ -31,12 +31,13 @@ internal sealed class HttpShards : IAsyncEnumerable<HttpShards.Shard>
         yield return head;
 
         Shard? current = head;
+        Shard next;
         while (true)
         {
             using (await readerWriterLock.WriterLockAsync().ConfigureAwait(false))
             {
                 long target = (current.Position + current.End) / 2;
-                Shard next = new()
+                next = new()
                 {
                     Start = target,
                     End = current.End,
@@ -46,14 +47,14 @@ internal sealed class HttpShards : IAsyncEnumerable<HttpShards.Shard>
 
                 current.End = target;
                 current.Next = next;
+            }
 
-                yield return next;
-                current = next.Next ?? head;
+            yield return next;
+            current = next.Next ?? head;
 
-                if (!UnSyncronizedCanSplit(head))
-                {
-                    yield break;
-                }
+            if (!UnSyncronizedCanSplit(head))
+            {
+                yield break;
             }
         }
     }
