@@ -18,7 +18,7 @@ internal sealed partial class SophonClient : ISophonClient
 {
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<SophonClient> logger;
-    [FromKeyed(ApiEndpointsKind.Oversea)]
+    [FromKeyed(ApiEndpointsKind.Chinese)]
     private readonly IApiEndpoints apiEndpoints;
     private readonly HttpClient httpClient;
 
