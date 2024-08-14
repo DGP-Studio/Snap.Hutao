@@ -179,7 +179,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
                 surface.LoadCompleted -= OnLoadImageSurfaceLoadCompleted;
             }
 
-            registration.Dispose();
+            await registration.DisposeAsync().ConfigureAwait(false);
         }
     }
 

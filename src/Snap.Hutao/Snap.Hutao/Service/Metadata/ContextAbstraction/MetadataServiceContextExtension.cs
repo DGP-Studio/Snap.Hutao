@@ -12,6 +12,7 @@ namespace Snap.Hutao.Service.Metadata.ContextAbstraction;
 
 internal static class MetadataServiceContextExtension
 {
+    [SuppressMessage("", "CA1506")]
     public static async ValueTask<TContext> GetContextAsync<TContext>(this IMetadataService metadataService, CancellationToken token = default)
         where TContext : IMetadataContext, new()
     {

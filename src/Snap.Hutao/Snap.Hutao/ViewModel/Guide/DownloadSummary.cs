@@ -96,7 +96,11 @@ internal sealed class DownloadSummary : ObservableObject
                             {
                                 using (TempFileStream temp = new(FileMode.OpenOrCreate, FileAccess.ReadWrite))
                                 {
-                                    await new StreamCopyWorker(content, temp, contentLength).CopyAsync(progress).ConfigureAwait(false);
+                                    using (StreamCopyWorker worker = new(content, temp, contentLength))
+                                    {
+                                        await worker.CopyAsync(progress).ConfigureAwait(false);
+                                    }
+
                                     ExtractFiles(temp);
                                     await taskContext.SwitchToMainThreadAsync();
                                     ProgressValue = 1;
