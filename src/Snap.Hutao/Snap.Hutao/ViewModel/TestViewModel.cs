@@ -7,6 +7,8 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Graphics;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.IO.Hashing;
+using Snap.Hutao.Core.IO.Http.Sharding;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.Picker;
@@ -18,6 +20,7 @@ using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Win32.Foundation;
 using System.IO;
+using System.Net.Http;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -243,7 +246,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private void SendRandomInfoBarNotification()
     {
         infoBarService.PrepareInfoBarAndShow(builder => builder
-            .SetSeverity((InfoBarSeverity)Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
+            .SetSeverity((InfoBarSeverity)System.Random.Shared.Next((int)InfoBarSeverity.Error) + 1)
             .SetTitle("Lorem ipsum dolor sit amet")
             .SetMessage("Consectetur adipiscing elit. Nullam nec purus nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt. Donec nec sapien nec elit ultricies tincidunt."));
     }
@@ -257,5 +260,31 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
             bool isSolidState = PhysicalDriver.DangerousGetIsSolidState(file);
             infoBarService.Success($"The path '{file}' belongs to a {(isSolidState ? "solid state" : "hard disk")} drive.");
         }
+    }
+
+    [Command("TestHttpShardDownload")]
+
+    private async Task TestHttpShardDownloadAsync()
+    {
+        using (HttpClient httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
+        {
+            HttpShardCopyWorkerOptions<Core.Void> options = new()
+            {
+                HttpClient = httpClient,
+                SourceUrl = "https://ghproxy.qhy04.cc/https://github.com/DGP-Studio/Snap.Hutao/releases/download/1.11.0/Snap.Hutao.1.11.0.msix",
+                DestinationFilePath = "D://test.file",
+                StatusFactory = (bytesRead, totalBytes) => default,
+            };
+
+            Progress<Core.Void> progress = new();
+
+            using (IHttpShardCopyWorker<Core.Void> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
+            {
+                await worker.CopyAsync(progress).ConfigureAwait(false);
+            }
+        }
+
+        string result = await MD5.HashFileAsync("D://test.file").ConfigureAwait(false);
+        serviceProvider.GetRequiredService<ILogger<TestViewModel>>().LogInformation(result);
     }
 }

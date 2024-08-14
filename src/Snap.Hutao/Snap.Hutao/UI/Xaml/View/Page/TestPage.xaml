@@ -172,6 +172,11 @@
                     Header="Check path belongs to a SSD"
                     IsClickEnabled="True"/>
 
+                <cwc:SettingsCard
+                    Command="{Binding TestHttpShardDownload}"
+                    Header="Http Shard Test"
+                    IsClickEnabled="True"/>
+
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Announcement"/>
                 <Expander
                     HorizontalAlignment="Stretch"
