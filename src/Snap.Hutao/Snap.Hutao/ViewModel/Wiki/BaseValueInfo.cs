@@ -10,9 +10,6 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 基础数值信息
-/// </summary>
 internal sealed class BaseValueInfo : ObservableObject
 {
     private readonly List<PropertyCurveValue> propValues;
@@ -23,13 +20,6 @@ internal sealed class BaseValueInfo : ObservableObject
     private List<NameValue<string>> values = default!;
     private bool promoted = true;
 
-    /// <summary>
-    /// 构造一个新的基础数值信息
-    /// </summary>
-    /// <param name="maxLevel">最大等级</param>
-    /// <param name="propValues">属性与初始值</param>
-    /// <param name="growCurveMap">生长曲线</param>
-    /// <param name="promoteMap">突破加成</param>
     public BaseValueInfo(uint maxLevel, List<PropertyCurveValue> propValues, Dictionary<Level, Dictionary<GrowCurveType, float>> growCurveMap, Dictionary<PromoteLevel, Promote>? promoteMap = null)
     {
         this.propValues = propValues;
@@ -40,19 +30,10 @@ internal sealed class BaseValueInfo : ObservableObject
         CurrentLevel = maxLevel;
     }
 
-    /// <summary>
-    /// 最大等级
-    /// </summary>
     public uint MaxLevel { get; }
 
-    /// <summary>
-    /// 对应的基础值
-    /// </summary>
     public List<NameValue<string>> Values { get => values; set => SetProperty(ref values, value); }
 
-    /// <summary>
-    /// 当前等级
-    /// </summary>
     public uint CurrentLevel
     {
         get => currentLevel;
@@ -66,17 +47,11 @@ internal sealed class BaseValueInfo : ObservableObject
         }
     }
 
-    /// <summary>
-    /// 格式化当前等级
-    /// </summary>
     public string CurrentLevelFormatted
     {
         get => LevelFormat.Format(CurrentLevel);
     }
 
-    /// <summary>
-    /// 是否突破
-    /// </summary>
     public bool Promoted
     {
         get => promoted;

@@ -206,7 +206,7 @@
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"
-                            CommandParameter="{Binding Selected}"
+                            CommandParameter="{Binding Weapons.CurrentItem}"
                             Icon="{shuxm:FontIcon Glyph=&#xE8EF;}"
                             Label="{shuxm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
                     </CommandBar>
@@ -231,7 +231,7 @@
                                         Padding="{ThemeResource ListViewInSplitPanePadding}"
                                         ItemTemplate="{StaticResource WeaponListTemplate}"
                                         ItemsSource="{Binding Weapons}"
-                                        SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                        SelectedItem="{Binding Weapons.CurrentItem, Mode=TwoWay}"
                                         SelectionMode="Single">
                                         <mxi:Interaction.Behaviors>
                                             <shuxb:SelectedItemInViewBehavior/>
@@ -274,7 +274,7 @@
                                                                     Grid.Column="1"
                                                                     HorizontalAlignment="Center"
                                                                     VerticalAlignment="Stretch"
-                                                                    Source="{Binding Selected.Icon, Converter={StaticResource GachaEquipIconConverter}}"/>
+                                                                    Source="{Binding Weapons.CurrentItem.Icon, Converter={StaticResource GachaEquipIconConverter}}"/>
                                                             </Grid>
                                                             <ScrollViewer
                                                                 Grid.Column="0"
@@ -283,7 +283,7 @@
                                                                 <StackPanel Spacing="16">
                                                                     <shuxcc:VerticalCard MaxWidth="80">
                                                                         <shuxcc:VerticalCard.Top>
-                                                                            <shuxc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                                            <shuxc:ItemIcon Icon="{Binding Weapons.CurrentItem.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Weapons.CurrentItem.RankLevel}"/>
                                                                         </shuxcc:VerticalCard.Top>
                                                                         <shuxcc:VerticalCard.Bottom>
                                                                             <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}"/>
@@ -291,7 +291,7 @@
                                                                     </shuxcc:VerticalCard>
                                                                     <shuxcc:VerticalCard MaxWidth="80">
                                                                         <shuxcc:VerticalCard.Top>
-                                                                            <shuxc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                                            <shuxc:ItemIcon Icon="{Binding Weapons.CurrentItem.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Weapons.CurrentItem.RankLevel}"/>
                                                                         </shuxcc:VerticalCard.Top>
                                                                         <shuxcc:VerticalCard.Bottom>
                                                                             <TextBlock Text="{shuxm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}"/>
@@ -305,14 +305,14 @@
                                                                 HorizontalAlignment="Right"
                                                                 VerticalAlignment="Bottom"
                                                                 Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                Text="{Binding Selected.Name}"/>
+                                                                Text="{Binding Weapons.CurrentItem.Name}"/>
                                                         </Grid>
                                                     </cwc:ConstrainedBox>
                                                 </Border>
 
                                                 <TextBlock
                                                     Margin="1,0,0,0"
-                                                    Text="{Binding Selected.Description}"
+                                                    Text="{Binding Weapons.CurrentItem.Description}"
                                                     TextWrapping="Wrap"/>
                                                 <shuxvs:BaseValueSlider
                                                     HorizontalAlignment="Stretch"
@@ -327,7 +327,7 @@
                                                             Style="{StaticResource BaseTextBlockStyle}"
                                                             Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
                                                         <ScrollViewer>
-                                                            <ItemsRepeater ItemTemplate="{StaticResource CultivationItemTemplate}" ItemsSource="{Binding Selected.CultivationItemsView}">
+                                                            <ItemsRepeater ItemTemplate="{StaticResource CultivationItemTemplate}" ItemsSource="{Binding Weapons.CurrentItem.CultivationItemsView}">
                                                                 <ItemsRepeater.Layout>
                                                                     <UniformGridLayout
                                                                         ItemsJustification="Start"
@@ -342,13 +342,13 @@
                                                 </Border>
 
                                                 <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
-                                                    <StackPanel Spacing="16" Visibility="{Binding Selected.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Selected.Affix.Name}"/>
+                                                    <StackPanel Spacing="16" Visibility="{Binding Weapons.CurrentItem.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Weapons.CurrentItem.Affix.Name}"/>
                                                         <Pivot
                                                             Margin="-16,-16,0,0"
                                                             HeaderTemplate="{StaticResource AffixPivotHeaderTemplate}"
                                                             ItemTemplate="{StaticResource AffixPivotItemTemplate}"
-                                                            ItemsSource="{Binding Selected.Affix.Descriptions}"/>
+                                                            ItemsSource="{Binding Weapons.CurrentItem.Affix.Descriptions}"/>
                                                     </StackPanel>
                                                 </Border>
 
@@ -356,10 +356,10 @@
                                                 <Border
                                                     Padding="16"
                                                     Style="{ThemeResource BorderCardStyle}"
-                                                    Visibility="{Binding Selected.CollocationView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                    Visibility="{Binding Weapons.CurrentItem.CollocationView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                     <StackPanel Spacing="16">
                                                         <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
-                                                        <ItemsControl ItemTemplate="{StaticResource CollocationTemplate}" ItemsSource="{Binding Selected.CollocationView.Avatars}">
+                                                        <ItemsControl ItemTemplate="{StaticResource CollocationTemplate}" ItemsSource="{Binding Weapons.CurrentItem.CollocationView.Avatars}">
                                                             <ItemsControl.ItemsPanel>
                                                                 <ItemsPanelTemplate>
                                                                     <cwc:UniformGrid
@@ -401,7 +401,7 @@
                                     ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                     ItemTemplate="{StaticResource WeaponGridTemplate}"
                                     ItemsSource="{Binding Weapons}"
-                                    SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                    SelectedItem="{Binding Weapons.CurrentItem, Mode=TwoWay}"
                                     SelectionMode="Single"
                                     Visibility="{Binding Weapons.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                                     <mxi:Interaction.Behaviors>

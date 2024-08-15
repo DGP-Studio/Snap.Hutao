@@ -53,7 +53,7 @@ internal static class AvatarViewBuilderExtension
         static List<ConstellationView> CreateConstellations(List<Skill> talents, List<SkillId> talentIds)
         {
             // TODO: use builder here
-            return talents.SelectList(talent => new ViewModel.AvatarProperty.ConstellationView()
+            return talents.SelectList(talent => new ConstellationView()
             {
                 Name = talent.Name,
                 Icon = SkillIconConverter.IconNameToUri(talent.Icon),

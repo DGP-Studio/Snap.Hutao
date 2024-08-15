@@ -29,9 +29,6 @@ using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateC
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 武器资料视图模型
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
@@ -54,33 +51,27 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private List<Promote>? promotes;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
-    /// <summary>
-    /// 角色列表
-    /// </summary>
-    public AdvancedCollectionView<Weapon>? Weapons { get => weapons; set => SetProperty(ref weapons, value); }
-
-    /// <summary>
-    /// 选中的角色
-    /// </summary>
-    public Weapon? Selected
+    public AdvancedCollectionView<Weapon>? Weapons
     {
-        get => selected; set
+        get => weapons;
+        set
         {
-            if (SetProperty(ref selected, value))
+            if (weapons is not null)
             {
-                UpdateBaseValueInfo(value);
+                weapons.CurrentChanged -= OnCurrentWeaponChanged;
+            }
+
+            SetProperty(ref weapons, value);
+
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentWeaponChanged;
             }
         }
     }
 
-    /// <summary>
-    /// 基础数值信息
-    /// </summary>
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
-    /// <summary>
-    /// 保存的筛选标志
-    /// </summary>
     public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
 
     public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
@@ -110,11 +101,8 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
                     AdvancedCollectionView<Weapon> weaponsView = list.ToAdvancedCollectionView();
 
                     await taskContext.SwitchToMainThreadAsync();
-
                     Weapons = weaponsView;
-
-                    // TODO: use CurrentItem
-                    Selected = Weapons.View.ElementAtOrDefault(0);
+                    Weapons.MoveCurrentToFirstOrDefault();
                 }
 
                 FilterTokens = [];
@@ -135,6 +123,11 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
 
         return false;
+    }
+
+    private void OnCurrentWeaponChanged(object? sender, object? e)
+    {
+        UpdateBaseValueInfo(Weapons?.CurrentItem);
     }
 
     private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, Dictionary<MaterialId, Material> idMaterialMap)
@@ -253,19 +246,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         else
         {
             Weapons.Filter = WeaponFilter.Compile(FilterTokens);
-        }
-
-        if (Selected is not null && Weapons.Contains(Selected))
-        {
-            return;
-        }
-
-        try
-        {
-            Weapons.MoveCurrentToFirst();
-        }
-        catch (COMException)
-        {
         }
     }
 }

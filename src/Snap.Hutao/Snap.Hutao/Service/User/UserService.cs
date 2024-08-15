@@ -73,7 +73,6 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
     public async ValueTask<bool> RefreshCookieTokenAsync(EntityUser user)
     {
-        // TODO: 提醒其他组件此用户的Cookie已更改
         Response<UidCookieToken> cookieTokenResponse;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

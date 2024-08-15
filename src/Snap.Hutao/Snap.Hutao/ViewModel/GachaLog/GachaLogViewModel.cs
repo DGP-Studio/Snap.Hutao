@@ -22,10 +22,10 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
     private readonly HutaoCloudStatisticsViewModel hutaoCloudStatisticsViewModel;
-    private readonly IGachaLogQueryProviderFactory gachaLogQueryProviderFactory;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly HutaoCloudViewModel hutaoCloudViewModel;
     private readonly ILogger<GachaLogViewModel> logger;
+    private readonly IServiceProvider serviceProvider;
     private readonly IProgressFactory progressFactory;
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;
@@ -143,7 +143,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     private async ValueTask RefreshCoreAsync(RefreshOption option)
     {
-        IGachaLogQueryProvider provider = gachaLogQueryProviderFactory.Create(option);
+        IGachaLogQueryProvider provider = serviceProvider.GetRequiredKeyedService<IGachaLogQueryProvider>(option);
         (bool isOk, GachaLogQuery query) = await provider.GetQueryAsync().ConfigureAwait(false);
 
         if (!isOk)
