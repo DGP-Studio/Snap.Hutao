@@ -18,7 +18,7 @@
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
-        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}"/>
+        <shuxb:InvokeCommandOnLoadedBehavior Command="{Binding LoadCommand}" />
     </mxi:Interaction.Behaviors>
 
     <Border Margin="16" Style="{ThemeResource AcrylicBorderCardStyle}">
@@ -27,7 +27,7 @@
                 <TextBlock
                     Margin="1,0,0,5"
                     Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}"
-                    Text="WebView"/>
+                    Text="WebView" />
                 <cwc:SettingsCard Header="Adopt Calculator" IsClickEnabled="True">
                     <mxi:Interaction.Behaviors>
                         <mxic:EventTriggerBehavior EventName="Click">
@@ -35,7 +35,7 @@
                                 <shuxba:ShowWebView2WindowAction.ContentProvider>
                                     <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
                                         <shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
-                                            <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="http://webstatic.mihoyo.com/ys/event/e20200923adopt_calculator/index.html?bbs_presentation_style=fullscreen&amp;bbs_auth_required=true&amp;utm_source=bbs&amp;utm_medium=mys&amp;utm_campaign=GameRecord"/>
+                                            <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="http://webstatic.mihoyo.com/ys/event/e20200923adopt_calculator/index.html?bbs_presentation_style=fullscreen&amp;bbs_auth_required=true&amp;utm_source=bbs&amp;utm_medium=mys&amp;utm_campaign=GameRecord" />
                                         </shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
                                     </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
                                 </shuxba:ShowWebView2WindowAction.ContentProvider>
@@ -51,7 +51,7 @@
                                 <shuxba:ShowWebView2WindowAction.ContentProvider>
                                     <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
                                         <shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
-                                            <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
+                                            <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="https://webstatic.mihoyo.com/app/community-game-records/index.html" />
                                         </shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
                                     </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
                                 </shuxba:ShowWebView2WindowAction.ContentProvider>
@@ -67,7 +67,7 @@
                                 <shuxba:ShowWebView2WindowAction.ContentProvider>
                                     <shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
                                         <shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
-                                            <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="https://act.mihoyo.com/bbs/event/signin/hk4e/index.html?act_id=e202311201442471"/>
+                                            <shuxvww:StaticJSBridgeUriSourceProvider ChineseSource="https://act.mihoyo.com/bbs/event/signin/hk4e/index.html?act_id=e202311201442471" />
                                         </shuxvww:MiHoYoJSBridgeWebView2ContentProvider.SourceProvider>
                                     </shuxvww:MiHoYoJSBridgeWebView2ContentProvider>
                                 </shuxba:ShowWebView2WindowAction.ContentProvider>
@@ -76,44 +76,44 @@
                     </mxi:Interaction.Behaviors>
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="State"/>
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="State" />
                 <cwc:SettingsCard Header="Reset Guide State">
                     <Button
                         Command="{Binding ResetGuideStateCommand}"
                         Content="Reset (No restart)"
-                        Style="{ThemeResource SettingButtonStyle}"/>
+                        Style="{ThemeResource SettingButtonStyle}" />
                 </cwc:SettingsCard>
 
                 <cwc:SettingsCard Header="Resize MainWindow">
                     <Button
                         Command="{Binding ResetMainWindowSizeCommand}"
                         Content="Reset"
-                        Style="{ThemeResource SettingButtonStyle}"/>
+                        Style="{ThemeResource SettingButtonStyle}" />
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Debug Information"/>
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Debug Information" />
                 <cwc:SettingsCard Header="[Debug Only] Print ImageCache Failed Download Tasks">
                     <Button
                         Command="{Binding DebugPrintImageCacheFailedDownloadTasksCommand}"
                         Content="Log"
-                        Style="{ThemeResource SettingButtonStyle}"/>
+                        Style="{ThemeResource SettingButtonStyle}" />
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Condition Override"/>
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Condition Override" />
                 <cwc:SettingsCard Header="Suppress Metadata Initialization">
-                    <ToggleSwitch IsOn="{Binding SuppressMetadataInitialization, Mode=TwoWay}"/>
+                    <ToggleSwitch IsOn="{Binding SuppressMetadataInitialization, Mode=TwoWay}" />
                 </cwc:SettingsCard>
 
                 <cwc:SettingsCard Header="Override Elevation Requirement">
-                    <ToggleSwitch IsOn="{Binding OverrideElevationRequirement, Mode=TwoWay}"/>
+                    <ToggleSwitch IsOn="{Binding OverrideElevationRequirement, Mode=TwoWay}" />
                 </cwc:SettingsCard>
 
                 <cwc:SettingsCard Header="Override Update Version Comparison">
-                    <ToggleSwitch IsOn="{Binding OverrideUpdateVersionComparison, Mode=TwoWay}"/>
+                    <ToggleSwitch IsOn="{Binding OverrideUpdateVersionComparison, Mode=TwoWay}" />
                 </cwc:SettingsCard>
 
                 <cwc:SettingsCard Header="Override Package Convert Directory Permission Requirement">
-                    <ToggleSwitch IsOn="{Binding OverridePackageConvertDirectoryPermissionsRequirement, Mode=TwoWay}"/>
+                    <ToggleSwitch IsOn="{Binding OverridePackageConvertDirectoryPermissionsRequirement, Mode=TwoWay}" />
                 </cwc:SettingsCard>
 
                 <cwc:SettingsCard Header="Override Hard Drive Type">
@@ -122,67 +122,72 @@
                             IsEnabled="{Binding OverrideHardDriveType}"
                             IsOn="{Binding OverrideHardDriveTypeIsSolidState, Mode=TwoWay}"
                             OffContent="HDD"
-                            OnContent="SSD"/>
-                        <ToggleSwitch IsOn="{Binding OverrideHardDriveType, Mode=TwoWay}"/>
+                            OnContent="SSD" />
+                        <ToggleSwitch IsOn="{Binding OverrideHardDriveType, Mode=TwoWay}" />
                     </StackPanel>
                 </cwc:SettingsCard>
 
                 <cwc:SettingsCard Header="Always Treat As First Run After Update">
-                    <ToggleSwitch IsOn="{Binding AlwaysIsFirstRunAfterUpdate, Mode=TwoWay}"/>
+                    <ToggleSwitch IsOn="{Binding AlwaysIsFirstRunAfterUpdate, Mode=TwoWay}" />
                 </cwc:SettingsCard>
 
                 <cwc:SettingsCard Header="Alpha Build Use CN Patch Endpoint">
-                    <ToggleSwitch IsOn="{Binding AlphaBuildUseCNPatchEndpoint, Mode=TwoWay}"/>
+                    <ToggleSwitch IsOn="{Binding AlphaBuildUseCNPatchEndpoint, Mode=TwoWay}" />
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Gacha Service"/>
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Gacha Service" />
                 <cwc:SettingsCard
                     Command="{Binding CompensationGachaLogServiceTimeCommand}"
                     Header="Compensation GachaLog Service Time For 15 Days"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
-                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Testing"/>
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Testing" />
                 <cwc:SettingsCard
                     Command="{Binding ScreenCaptureCommand}"
                     Header="Screen Capture Test"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
                 <cwc:SettingsCard
                     Command="{Binding FileOperationRenameCommand}"
                     Header="Rename Desktop TestFolder"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
                 <cwc:SettingsCard
                     Command="{Binding FileOperationRenameCommand}"
                     Header="Rename Desktop TestFolder"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
                 <cwc:SettingsCard
                     Command="{Binding ExceptionCommand}"
                     Header="Crash"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
                 <cwc:SettingsCard
                     Command="{Binding SendRandomInfoBarNotificationCommand}"
                     Header="Random InfoBar"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
                 <cwc:SettingsCard
                     Command="{Binding CheckPathBelongsToSSDCommand}"
                     Header="Check path belongs to a SSD"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
                 <cwc:SettingsCard
                     Command="{Binding TestHttpShardDownload}"
                     Header="Http Shard Test"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
                 <cwc:SettingsCard
                     Command="{Binding RunCodeCommand}"
                     Header="Run Script Code"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True" />
 
-                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Announcement"/>
+                <cwc:SettingsCard
+                    Command="{Binding GPOWindowTestCommand}"
+                    Header="Test GamePackageOperationWindow"
+                    IsClickEnabled="True" />
+
+                <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Announcement" />
                 <Expander
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -192,27 +197,27 @@
                         <TextBox
                             Header="Title"
                             PlaceholderText="Please input title"
-                            Text="{Binding Announcement.Title, Mode=TwoWay}"/>
+                            Text="{Binding Announcement.Title, Mode=TwoWay}" />
                         <TextBox
                             Header="Link"
                             PlaceholderText="Please input link"
-                            Text="{Binding Announcement.Link, Mode=TwoWay}"/>
+                            Text="{Binding Announcement.Link, Mode=TwoWay}" />
                         <TextBox
                             Header="Version Threshold"
                             PlaceholderText="Max present version(leave empty to present in all version)"
-                            Text="{Binding Announcement.MaxPresentVersion, Mode=TwoWay}"/>
+                            Text="{Binding Announcement.MaxPresentVersion, Mode=TwoWay}" />
                         <TextBox
                             AcceptsReturn="True"
                             Header="Content"
                             PlaceholderText="Please input content"
-                            Text="{Binding Announcement.Content, Mode=TwoWay}"/>
+                            Text="{Binding Announcement.Content, Mode=TwoWay}" />
                         <shuxc:SizeRestrictedContentControl>
                             <ComboBox
                                 Header="Severity"
                                 ItemsSource="{cwh:EnumValues Type=InfoBarSeverity}"
-                                SelectedItem="{Binding Announcement.Severity, Mode=TwoWay}"/>
+                                SelectedItem="{Binding Announcement.Severity, Mode=TwoWay}" />
                         </shuxc:SizeRestrictedContentControl>
-                        <Button Command="{Binding UploadAnnouncementCommand}" Content="Upload"/>
+                        <Button Command="{Binding UploadAnnouncementCommand}" Content="Upload" />
                     </StackPanel>
                 </Expander>
             </StackPanel>

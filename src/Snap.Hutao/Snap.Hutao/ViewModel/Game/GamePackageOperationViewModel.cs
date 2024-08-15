@@ -77,6 +77,20 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         }
     }
 
+    public void TestProgress()
+    {
+        Title = "HOMO";
+        downloadedChunks = 114514;
+        DownloadSpeed = "11.45 MB/s";
+        DownloadRemainingTime = "11:45:14";
+        DownloadTotalChunks = 1919810;
+        installedChunks = 114514;
+        InstallSpeed = "19.19 MB/s";
+        InstallRemainingTime = "19:19:810";
+        InstallTotalChunks = 191981;
+        RefreshUI();
+    }
+
     private void UpdateProgress(GamePackageOperationReport.Update update)
     {
         _ = update switch

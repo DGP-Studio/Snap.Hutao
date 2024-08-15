@@ -18,6 +18,7 @@ using Snap.Hutao.Service.Game.Automation.ScreenCapture;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
+using Snap.Hutao.ViewModel.Game;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Hutao.HutaoAsAService;
 using Snap.Hutao.Win32.Foundation;
@@ -304,5 +305,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         {
             logger.LogCritical(ex, "Compilation Error");
         }
+    }
+
+    [Command("GPOWindowTestCommand")]
+    private void GPOWindowTest()
+    {
+        GamePackageOperationWindow window = serviceProvider.GetRequiredService<GamePackageOperationWindow>();
+        GamePackageOperationViewModel dataContext = (GamePackageOperationViewModel)window.DataContext;
+        dataContext.TestProgress();
     }
 }
