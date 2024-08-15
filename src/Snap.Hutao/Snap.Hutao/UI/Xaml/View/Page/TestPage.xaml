@@ -177,6 +177,11 @@
                     Header="Http Shard Test"
                     IsClickEnabled="True"/>
 
+                <cwc:SettingsCard
+                    Command="{Binding RunCodeCommand}"
+                    Header="Run Script Code"
+                    IsClickEnabled="True"/>
+
                 <TextBlock Style="{ThemeResource SettingsSectionHeaderTextBlockStyle}" Text="Announcement"/>
                 <Expander
                     HorizontalAlignment="Stretch"

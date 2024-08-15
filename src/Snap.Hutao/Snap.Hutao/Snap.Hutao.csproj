@@ -295,6 +295,9 @@
     <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
     <PackageReference Include="Google.OrTools" Version="9.10.4067" />
     <PackageReference Include="Google.Protobuf" Version="3.27.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.10.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.10.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.10.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>

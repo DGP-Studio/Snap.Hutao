@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Caching;
@@ -263,7 +265,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     }
 
     [Command("TestHttpShardDownload")]
-
     private async Task TestHttpShardDownloadAsync()
     {
         using (HttpClient httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
@@ -285,6 +286,23 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         }
 
         string result = await SHA256.HashFileAsync("D://test.file").ConfigureAwait(false);
-        serviceProvider.GetRequiredService<ILogger<TestViewModel>>().LogInformation(result);
+        logger.LogInformation("File SHA256: {SHA256}", result);
+    }
+
+    [Command("RunCodeCommand")]
+    private async Task RunCodeAsync()
+    {
+        try
+        {
+            string script = """
+                return 1 + 1;
+                """;
+            object? result = await CSharpScript.EvaluateAsync(script, ScriptOptions.Default).ConfigureAwait(false);
+            logger.LogInformation("Run Code Result: '{Result}'", result);
+        }
+        catch (CompilationErrorException ex)
+        {
+            logger.LogCritical(ex, "Compilation Error");
+        }
     }
 }

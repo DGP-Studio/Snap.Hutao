@@ -8,10 +8,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
 
-/// <summary>
-/// 视图模型抽象类
-/// </summary>
-[HighQuality]
 [SuppressMessage("", "SA1124")]
 internal abstract partial class ViewModel : ObservableObject, IViewModel
 {

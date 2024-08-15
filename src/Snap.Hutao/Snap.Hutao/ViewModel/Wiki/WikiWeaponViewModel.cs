@@ -43,7 +43,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
 
     private AdvancedCollectionView<Weapon>? weapons;
-    private Weapon? selected;
     private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
