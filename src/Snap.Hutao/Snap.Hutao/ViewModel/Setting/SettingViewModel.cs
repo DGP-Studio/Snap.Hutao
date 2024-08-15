@@ -4,7 +4,6 @@
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Service.Notification;
-using System.Diagnostics;
 
 namespace Snap.Hutao.ViewModel.Setting;
 
@@ -76,18 +75,5 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         {
             infoBarService.Warning(SH.ViewModelSettingCreateDesktopShortcutFailed);
         }
-    }
-
-    [Command("RestartAsElevatedCommand")]
-    private void RestartAsElevated()
-    {
-        Process.Start(new ProcessStartInfo()
-        {
-            FileName = $"shell:AppsFolder\\{runtimeOptions.FamilyName}!App",
-            UseShellExecute = true,
-            Verb = "runas",
-        });
-
-        Process.GetCurrentProcess().Kill();
     }
 }

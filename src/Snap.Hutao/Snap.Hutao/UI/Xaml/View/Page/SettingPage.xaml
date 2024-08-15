@@ -90,12 +90,6 @@
                                 IsExpanded="True">
                                 <cwc:SettingsExpander.Items>
                                     <cwc:SettingsCard
-                                        Command="{Binding RestartAsElevatedCommand}"
-                                        Description="{shuxm:ResourceString Name=ViewPageSettingElevatedModeDescription}"
-                                        Header="{shuxm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"
-                                        IsClickEnabled="True"
-                                        IsEnabled="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"/>
-                                    <cwc:SettingsCard
                                         ActionIconToolTip="{shuxm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
                                         Command="{Binding CreateDesktopShortcutCommand}"
                                         Description="{shuxm:ResourceString Name=ViewPageSettingCreateDesktopShortcutDescription}"
@@ -176,12 +170,6 @@
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE7EF;}"
                                     IsExpanded="True">
                                     <cwc:SettingsExpander.Items>
-                                        <cwc:SettingsCard
-                                            Command="{Binding RestartAsElevatedCommand}"
-                                            Description="{shuxm:ResourceString Name=ViewPageSettingElevatedModeDescription}"
-                                            Header="{shuxm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"
-                                            IsClickEnabled="True"
-                                            IsEnabled="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"/>
                                         <cwc:SettingsCard
                                             ActionIconToolTip="{shuxm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
                                             Command="{Binding CreateDesktopShortcutCommand}"

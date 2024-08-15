@@ -42,6 +42,8 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
         }
     }
 
+    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+
     [Command("ShowWindowCommand")]
     private void ShowWindow()
     {

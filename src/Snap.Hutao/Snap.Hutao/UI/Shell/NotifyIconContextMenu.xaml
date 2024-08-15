@@ -196,6 +196,7 @@
             <MenuFlyoutItem
                 Command="{Binding RestartAsElevatedCommand}"
                 Icon="{shuxm:FontIcon Glyph=&#xE7EF;}"
+                IsEnabled="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}"
                 Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
                 Text="{shuxm:ResourceString Name=ViewPageSettingElevatedModeRestartAction}"/>
         </StackPanel>
