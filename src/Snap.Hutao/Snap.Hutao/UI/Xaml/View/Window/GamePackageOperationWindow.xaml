@@ -11,46 +11,63 @@
     <Grid x:Name="RootGrid" d:DataContext="{d:DesignInstance shvg:GamePackageOperationViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid
             x:Name="DragableGrid"
             Grid.Row="0"
             Height="32"/>
-        <TextBlock
-            Grid.Row="1"
-            Margin="32,0,32,0"
-            IsHitTestVisible="False"
-            Style="{ThemeResource SubtitleTextBlockStyle}"
-            Text="{Binding Title}"/>
-        <shuxvs:SophonProgressBar
-            Grid.Row="2"
-            FinishedChunks="{Binding DownloadedChunks}"
-            ProgressBarIconGlyph="{StaticResource FontIconContentDownload}"
-            RemainingTime="{Binding DownloadRemainingTime}"
-            Speed="{Binding DownloadSpeed}"
-            TotalChunks="{Binding DownloadTotalChunks}"/>
-        <shuxvs:SophonProgressBar
-            Grid.Row="3"
-            FinishedChunks="{Binding InstalledChunks}"
-            ProgressBarIconGlyph="{StaticResource FontIconContentHardDrive}"
-            RemainingTime="{Binding InstallRemainingTime}"
-            Speed="{Binding InstallSpeed}"
-            TotalChunks="{Binding InstallTotalChunks}"/>
+
+        <ScrollViewer Grid.Row="1">
+            <Grid
+                Padding="16"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                RowSpacing="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="1,0,0,0"
+                    IsHitTestVisible="False"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Text="{Binding Title}"/>
+                <shuxvs:SophonProgressBar
+                    Grid.Row="1"
+                    FinishedChunks="{Binding DownloadedChunks}"
+                    ProgressBarIconGlyph="{StaticResource FontIconContentDownload}"
+                    RemainingTime="{Binding DownloadRemainingTime}"
+                    Speed="{Binding DownloadSpeed}"
+                    TotalChunks="{Binding DownloadTotalChunks}"/>
+                <shuxvs:SophonProgressBar
+                    Grid.Row="2"
+                    FinishedChunks="{Binding InstalledChunks}"
+                    ProgressBarIconGlyph="{StaticResource FontIconContentHardDrive}"
+                    RemainingTime="{Binding InstallRemainingTime}"
+                    Speed="{Binding InstallSpeed}"
+                    TotalChunks="{Binding InstallTotalChunks}"/>
+            </Grid>
+        </ScrollViewer>
+
         <Button
-            Grid.Row="4"
-            Margin="32,16,32,16"
+            Grid.Row="2"
+            MinWidth="120"
+            Margin="16"
             HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
             Command="{Binding CancelCommand}"
             Content="{shuxm:ResourceString Name=ContentDialogCancelCloseButtonText}"
             Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
         <Button
-            Grid.Row="4"
-            Margin="32,16,32,16"
+            Grid.Row="2"
+            MinWidth="120"
+            Margin="16"
             HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
             Command="{x:Bind CloseCommand}"
             Content="{shuxm:ResourceString Name=ContentDialogCompletePrimaryButtonText}"
             Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>

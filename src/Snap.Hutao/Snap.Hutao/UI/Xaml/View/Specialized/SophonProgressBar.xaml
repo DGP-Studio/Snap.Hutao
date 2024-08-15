@@ -9,75 +9,75 @@
     xmlns:shuxm="using:Snap.Hutao.UI.Xaml.Markup"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid
+        Padding="12"
+        RowSpacing="4"
+        Style="{ThemeResource GridCardStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="32">
+        <Grid Grid.Row="0" ColumnSpacing="16">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <StackPanel
                 Grid.Column="0"
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
-                Spacing="4">
-                <FontIcon Glyph="{StaticResource FontIconContentDialShape1}"/>
+                Spacing="8">
+                <FontIcon FontSize="12" Glyph="{StaticResource FontIconContentDialShape1}"/>
                 <TextBlock Text="{x:Bind ProgressString, Mode=OneWay}"/>
             </StackPanel>
             <StackPanel
                 Grid.Column="1"
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
-                Spacing="4">
-                <FontIcon Glyph="{StaticResource FontIconContentSpeedHigh}"/>
+                Spacing="8">
+                <FontIcon FontSize="12" Glyph="{StaticResource FontIconContentSpeedHigh}"/>
                 <TextBlock Text="{x:Bind Speed, Mode=OneWay}"/>
             </StackPanel>
             <StackPanel
                 Grid.Column="2"
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
-                Spacing="4">
-                <FontIcon Glyph="{StaticResource FontIconContentRecent}"/>
+                Spacing="8">
+                <FontIcon FontSize="12" Glyph="{StaticResource FontIconContentRecent}"/>
                 <TextBlock Text="{x:Bind RemainingTime, Mode=OneWay}"/>
             </StackPanel>
         </Grid>
         <Grid
             Grid.Row="1"
-            Margin="32,0,32,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             ColumnSpacing="{ThemeResource SettingsCardContentControlSpacing}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <FontIcon
                 Grid.Column="0"
-                FontSize="16"
+                FontSize="12"
                 Glyph="{x:Bind ProgressBarIconGlyph}"/>
             <ProgressBar
                 Grid.Column="1"
                 Height="20"
-                MinWidth="200"
                 HorizontalAlignment="Stretch"
                 IsIndeterminate="{x:Bind IsIndeterminate, Mode=OneWay}"
                 Maximum="1"
                 Value="{x:Bind Progress, Mode=OneWay}"/>
-            <TextBlock
-                Grid.Column="2"
-                Width="58"
-                Text="{x:Bind ProgressPercent, Mode=OneWay}"
-                TextAlignment="Right"
-                Visibility="{x:Bind IsIndeterminate, Mode=OneWay, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
         </Grid>
+        <TextBlock
+            Grid.Row="3"
+            Text="{x:Bind ProgressPercent, Mode=OneWay}"
+            TextAlignment="Left"
+            Visibility="{x:Bind IsIndeterminate, Mode=OneWay, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
     </Grid>
 
 </UserControl>
