@@ -1011,16 +1011,16 @@
     <value>磁盘空间不足，需要 {0}，剩余 {1}</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
-    <value>正在安装游戏</value>
+    <value>正在安裝遊戲</value>
   </data>
   <data name="ServiceGamePackageAdvancedPredownloading" xml:space="preserve">
-    <value>正在预下载资源</value>
+    <value>正在預先下載資源</value>
   </data>
   <data name="ServiceGamePackageAdvancedRepairing" xml:space="preserve">
-    <value>正在修复游戏</value>
+    <value>正在修復遊戲</value>
   </data>
   <data name="ServiceGamePackageAdvancedUpdating" xml:space="preserve">
-    <value>正在更新游戏</value>
+    <value>正在更新遊戲</value>
   </data>
   <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
     <value>正在验证游戏完整性</value>
@@ -1488,7 +1488,7 @@
     <value>在此處輸入包含 SToken 字段的 Cookie</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaCaptchaHint" xml:space="preserve">
-    <value>请输入收到的验证码</value>
+    <value>請輸入收到的驗證碼</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaMobileHint" xml:space="preserve">
     <value>请输入手机号码</value>
@@ -1497,7 +1497,7 @@
     <value>发送</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaTitle" xml:space="preserve">
-    <value>手机验证码登录</value>
+    <value>手機驗證碼登入</value>
   </data>
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>設定 Cookie</value>
@@ -1791,7 +1791,7 @@
     <value>本地版本: {0}</value>
   </data>
   <data name="ViewModelGamePackagePreVersion" xml:space="preserve">
-    <value>{0} 版本预下载已开启</value>
+    <value>{0} 版本預先下載已開啟</value>
   </data>
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>最新版本: {0}</value>
@@ -2172,7 +2172,7 @@
     <value>免打擾模式</value>
   </data>
   <data name="ViewPageDailyNoteStoredAttendance" xml:space="preserve">
-    <value>长效历练点</value>
+    <value>長效歷練點</value>
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>驗證當前用戶與角色</value>
@@ -2538,19 +2538,19 @@
     <value>遊戲選項</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationInstall" xml:space="preserve">
-    <value>安装游戏</value>
+    <value>安裝遊戲</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationPredownload" xml:space="preserve">
     <value>預下載</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent" xml:space="preserve">
-    <value>已完成预下载</value>
+    <value>已完成預先下載</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationUpdate" xml:space="preserve">
-    <value>更新游戏</value>
+    <value>更新遊戲</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationVerify" xml:space="preserve">
-    <value>修复游戏</value>
+    <value>修復遊戲</value>
   </data>
   <data name="ViewPageLaunchGamePlayTimeDescription" xml:space="preserve">
     <value>在遊戲啟動後嘗試啟動並使用 Starward 進行遊戲時長統計</value>
@@ -2631,7 +2631,7 @@
     <value>当出现错误代码 31-4302 时请启用此选项，启用后将禁止调整视野与迷雾，仅在启动游戏前切换此开关才会生效</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
-    <value>兼容模式</value>
+    <value>相容模式</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
     <value>停用</value>
@@ -3201,7 +3201,7 @@
     <value>網頁登入</value>
   </data>
   <data name="ViewUserCookieOperationLoginMobileCaptchaAction" xml:space="preserve">
-    <value>手机验证码</value>
+    <value>手機驗證碼</value>
   </data>
   <data name="ViewUserCookieOperationLoginQRCodeAction" xml:space="preserve">
     <value>掃描 QR 碼以登入</value>
