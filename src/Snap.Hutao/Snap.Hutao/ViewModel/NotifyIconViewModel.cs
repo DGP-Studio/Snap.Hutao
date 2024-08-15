@@ -7,6 +7,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.UI.Xaml;
 using Snap.Hutao.UI.Xaml.View.Window;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
@@ -90,5 +91,18 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
     private void Exit()
     {
         app.Exit();
+    }
+
+    [Command("RestartAsElevatedCommand")]
+    private void RestartAsElevated()
+    {
+        Process.Start(new ProcessStartInfo()
+        {
+            FileName = $"shell:AppsFolder\\{runtimeOptions.FamilyName}!App",
+            UseShellExecute = true,
+            Verb = "runas",
+        });
+
+        // Current process will exit in PrivatePipeServer
     }
 }
