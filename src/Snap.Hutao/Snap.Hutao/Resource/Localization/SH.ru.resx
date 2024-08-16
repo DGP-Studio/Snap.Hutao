@@ -3266,6 +3266,12 @@
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>Вики: Оружие</value>
   </data>
+  <data name="ViewWindowScriptingExecute" xml:space="preserve">
+    <value>执行</value>
+  </data>
+  <data name="ViewWindowScriptingTitle" xml:space="preserve">
+    <value>执行调试脚本</value>
+  </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>Начало через {0} дней</value>
   </data>
