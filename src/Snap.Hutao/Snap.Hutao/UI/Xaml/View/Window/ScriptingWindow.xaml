@@ -24,6 +24,7 @@
             <TextBlock
                 Margin="12,0,0,0"
                 VerticalAlignment="Center"
+                Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{shuxm:ResourceString Name=ViewWindowScriptingTitle}"/>
         </Grid>
         <Grid
@@ -45,15 +46,105 @@
                 AcceptsReturn="True"
                 IsSpellCheckEnabled="False"
                 Text="{Binding InputScript, Mode=TwoWay}"/>
-            <Button
-                Grid.Row="1"
-                HorizontalAlignment="Stretch"
-                Command="{Binding ExecuteScriptCommand}"
-                Content="{shuxm:ResourceString Name=ViewWindowScriptingExecute}"/>
-            <TextBlock
-                Grid.Row="2"
-                IsTextSelectionEnabled="True"
-                Text="{Binding OutputResult, Mode=OneWay}"/>
+            <Grid Grid.Row="1" ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button
+                    VerticalAlignment="Stretch"
+                    Content="&#xE946;"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}">
+                    <Button.Flyout>
+                        <Flyout Placement="BottomEdgeAlignedLeft" ShouldConstrainToRootBounds="False">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                    <Setter Property="MaxWidth" Value="1920"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <StackPanel>
+                                <TextBlock
+                                    Margin="1,0,0,0"
+                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                    Text="Context Public Members"/>
+                                <Border
+                                    Margin="0,16,0,0"
+                                    Padding="8"
+                                    Style="{ThemeResource BorderCardStyle}">
+                                    <TextBlock
+                                        x:Name="TextBlock_ServiceProvider"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"/>
+                                </Border>
+                                <TextBlock
+                                    Margin="1,2,0,0"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="Get Snap Hutao's root ServiceProvider."/>
+                                <Border
+                                    Margin="0,16,0,0"
+                                    Padding="8"
+                                    Style="{ThemeResource BorderCardStyle}">
+                                    <TextBlock
+                                        x:Name="TextBlock_FormatJson"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"/>
+                                </Border>
+                                <TextBlock
+                                    Margin="1,2,0,0"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="Get a new prettified string base on the input JSON string."/>
+                                <Border
+                                    Margin="0,16,0,0"
+                                    Padding="8"
+                                    Style="{ThemeResource BorderCardStyle}">
+                                    <TextBlock
+                                        x:Name="TextBlock_RequestWithCurrentUserAndUidAsync"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"/>
+                                </Border>
+                                <TextBlock
+                                    Margin="1,2,0,0"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="Asynchronously send a HTTP request with specified URL, headers and body using current selected user and uid as Cookies, get the response content as string."/>
+                                <TextBlock
+                                    Margin="1,0,0,0"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="method: HTTP Method like &quot;GET&quot;, &quot;POST&quot;."/>
+                                <TextBlock
+                                    Margin="1,0,0,0"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="url: URL to send the request to."/>
+                                <TextBlock
+                                    Margin="1,0,0,0"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="headers: String array of headers, every header can have value or not, for example: [&quot;x-my-header&quot;, &quot;x-my-header: value&quot;]"/>
+                                <TextBlock
+                                    Margin="1,0,0,0"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="body: HTTP request body to send"/>
+                                <TextBlock
+                                    Margin="1,0,0,0"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="ds: Data signing handler hint, pattern: 'GEN|SALT|CHAR' , for example: &quot;Gen2|X4|false&quot;"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding ExecuteScriptCommand}"
+                    Content="{shuxm:ResourceString Name=ViewWindowScriptingExecute}"/>
+            </Grid>
+
+            <Border Grid.Row="2" Style="{ThemeResource BorderCardStyle}">
+                <ScrollViewer>
+                    <TextBlock
+                        Margin="8"
+                        IsTextSelectionEnabled="True"
+                        Text="{Binding OutputResult, Mode=OneWay}"/>
+                </ScrollViewer>
+            </Border>
         </Grid>
     </Grid>
 </Window>
