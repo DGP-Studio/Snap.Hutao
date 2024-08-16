@@ -29,10 +29,10 @@ internal sealed partial class ScriptingWindow : Microsoft.UI.Xaml.Window, IXamlW
     {
         InitializeComponent();
 
+        // Write XAML is not fesible, so we use code
         {
             InlineCollection inlines;
 
-            // Write XAML is not fesible, so we use code
             // System.IServiceProvider ServiceProvider { get; }
             inlines = TextBlock_ServiceProvider.Inlines;
             inlines.Add(new Run() { Text = "System." });

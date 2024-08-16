@@ -155,6 +155,7 @@
                     <TextBlock
                         Margin="8"
                         IsTextSelectionEnabled="True"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         Text="{Binding OutputResult, Mode=OneWay}"/>
                 </ScrollViewer>
             </Border>
