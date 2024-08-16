@@ -53,6 +53,29 @@ internal sealed partial class ScriptingWindow : Microsoft.UI.Xaml.Window, IXamlW
             inlines.Add(new Run() { Text = ")", Foreground = Brush_Bracket });
             inlines.Add(new Run() { Text = ";" });
 
+            // System.Threading.Tasks.ValueTask<string> RequestAsync(string method, string url, string[] headers, string? body)
+            inlines = TextBlock_RequestAsync.Inlines;
+            inlines.Add(new Run() { Text = "System.Threading.Tasks." });
+            inlines.Add(new Run() { Text = "ValueTask", Foreground = Brush_Struct });
+            inlines.Add(new Run() { Text = "<", Foreground = Brush_Bracket });
+            inlines.Add(new Run() { Text = "string", Foreground = Brush_Keyword });
+            inlines.Add(new Run() { Text = "> ", Foreground = Brush_Bracket });
+            inlines.Add(new Run() { Text = "RequestAsync", Foreground = Brush_Method });
+            inlines.Add(new Run() { Text = "(", Foreground = Brush_Bracket });
+            inlines.Add(new Run() { Text = "string ", Foreground = Brush_Keyword });
+            inlines.Add(new Run() { Text = "method, ", Foreground = Brush_Argument });
+            inlines.Add(new Run() { Text = "string ", Foreground = Brush_Keyword });
+            inlines.Add(new Run() { Text = "url, ", Foreground = Brush_Argument });
+            inlines.Add(new Run() { Text = "string", Foreground = Brush_Keyword });
+            inlines.Add(new Run() { Text = "[] ", Foreground = Brush_Bracket });
+            inlines.Add(new Run() { Text = "headers, ", Foreground = Brush_Argument });
+            inlines.Add(new Run() { Text = "string", Foreground = Brush_Keyword });
+            inlines.Add(new Run() { Text = "? ", });
+            inlines.Add(new Run() { Text = "body ", Foreground = Brush_Argument });
+            inlines.Add(new Run() { Text = "= " });
+            inlines.Add(new Run() { Text = "default", Foreground = Brush_Keyword });
+            inlines.Add(new Run() { Text = ")", Foreground = Brush_Bracket });
+
             // System.Threading.Tasks.ValueTask<string> RequestWithCurrentUserAndUidAsync(string method, string url, string[] headers, string? body, string? ds = default)
             inlines = TextBlock_RequestWithCurrentUserAndUidAsync.Inlines;
             inlines.Add(new Run() { Text = "System.Threading.Tasks." });
@@ -71,7 +94,9 @@ internal sealed partial class ScriptingWindow : Microsoft.UI.Xaml.Window, IXamlW
             inlines.Add(new Run() { Text = "headers, ", Foreground = Brush_Argument });
             inlines.Add(new Run() { Text = "string", Foreground = Brush_Keyword });
             inlines.Add(new Run() { Text = "? ", });
-            inlines.Add(new Run() { Text = "body, ", Foreground = Brush_Argument });
+            inlines.Add(new Run() { Text = "body ", Foreground = Brush_Argument });
+            inlines.Add(new Run() { Text = "= " });
+            inlines.Add(new Run() { Text = "default, ", Foreground = Brush_Keyword });
             inlines.Add(new Run() { Text = "string", Foreground = Brush_Keyword });
             inlines.Add(new Run() { Text = "? ", });
             inlines.Add(new Run() { Text = "ds ", Foreground = Brush_Argument });

@@ -21,7 +21,43 @@ public sealed class ScriptContext
         return JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(input), Core.Json.JsonOptions.Default);
     }
 
-    public async ValueTask<string> RequestWithCurrentUserAndUidAsync(string method, string url, string[] headers, string? body, string? ds = default)
+    public async ValueTask<string> RequestAsync(string method, string url, string[] headers, string? body = default)
+    {
+        using (IServiceScope scope = ServiceProvider.CreateScope())
+        {
+            IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory = scope.ServiceProvider.GetRequiredService<IHttpRequestMessageBuilderFactory>();
+            HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+                .SetMethod(method)
+                .SetRequestUri(url);
+
+            foreach (string header in headers)
+            {
+                int indexOfColon = header.IndexOf(':', StringComparison.Ordinal);
+                if (indexOfColon > 0)
+                {
+                    builder.AddHeader(header.AsSpan()[..indexOfColon].Trim().ToString(), header.AsSpan()[(indexOfColon + 1)..].Trim().ToString());
+                }
+                else
+                {
+                    builder.AddHeader(header);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(body))
+            {
+                builder.SetStringContent(body);
+            }
+
+            ILogger<ScriptContext> logger = scope.ServiceProvider.GetRequiredService<ILogger<ScriptContext>>();
+
+            using (HttpClient httpClient = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>().CreateClient())
+            {
+                return await SendAsync(builder, httpClient, logger, default).ConfigureAwait(false);
+            }
+        }
+    }
+
+    public async ValueTask<string> RequestWithCurrentUserAndUidAsync(string method, string url, string[] headers, string? body = default, string? ds = default)
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {

@@ -98,14 +98,14 @@
                                     Padding="8"
                                     Style="{ThemeResource BorderCardStyle}">
                                     <TextBlock
-                                        x:Name="TextBlock_RequestWithCurrentUserAndUidAsync"
+                                        x:Name="TextBlock_RequestAsync"
                                         FontFamily="Consolas"
                                         IsTextSelectionEnabled="True"/>
                                 </Border>
                                 <TextBlock
                                     Margin="1,2,0,0"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="Asynchronously send a HTTP request with specified URL, headers and body using current selected user and uid as Cookies, get the response content as string."/>
+                                    Text="Asynchronously send a HTTP request with specified URL, headers and body, get the response content as string."/>
                                 <TextBlock
                                     Margin="1,0,0,0"
                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -122,6 +122,19 @@
                                     Margin="1,0,0,0"
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="body: HTTP request body to send"/>
+                                <Border
+                                    Margin="0,16,0,0"
+                                    Padding="8"
+                                    Style="{ThemeResource BorderCardStyle}">
+                                    <TextBlock
+                                        x:Name="TextBlock_RequestWithCurrentUserAndUidAsync"
+                                        FontFamily="Consolas"
+                                        IsTextSelectionEnabled="True"/>
+                                </Border>
+                                <TextBlock
+                                    Margin="1,2,0,0"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="Similar to RequestAsync, but add current selected user and uid as Cookies."/>
                                 <TextBlock
                                     Margin="1,0,0,0"
                                     Style="{StaticResource CaptionTextBlockStyle}"
