@@ -107,4 +107,10 @@ internal sealed partial class NotifyIconViewModel : ObservableObject
 
         // Current process will exit in PrivatePipeServer
     }
+
+    [Command("OpenScriptingWindowCommand")]
+    private void OpenScriptingWindow()
+    {
+        _ = serviceProvider.GetRequiredService<ScriptingWindow>();
+    }
 }

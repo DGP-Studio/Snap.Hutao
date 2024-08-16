@@ -192,7 +192,12 @@
                 Text="{Binding Title}"/>
         </Grid>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1" Padding="0,2">
+            <MenuFlyoutItem
+                Command="{Binding OpenScriptingWindowCommand}"
+                Icon="{shuxm:FontIcon Glyph=&#xE768;}"
+                Style="{ThemeResource NotifyIconContextMenuFlyoutItemStyle}"
+                Text="{shuxm:ResourceString Name=ViewWindowScriptingTitle}"/>
             <MenuFlyoutItem
                 Command="{Binding RestartAsElevatedCommand}"
                 Icon="{shuxm:FontIcon Glyph=&#xE7EF;}"
