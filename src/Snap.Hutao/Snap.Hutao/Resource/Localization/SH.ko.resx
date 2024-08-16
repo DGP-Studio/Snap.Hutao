@@ -3266,6 +3266,12 @@
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>무기 자료</value>
   </data>
+  <data name="ViewWindowScriptingExecute" xml:space="preserve">
+    <value>실행</value>
+  </data>
+  <data name="ViewWindowScriptingTitle" xml:space="preserve">
+    <value>执行调试脚本</value>
+  </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>{0}일 후 시작</value>
   </data>
