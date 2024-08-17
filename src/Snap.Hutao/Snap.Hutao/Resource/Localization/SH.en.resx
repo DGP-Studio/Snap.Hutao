@@ -1806,10 +1806,10 @@
     <value>Installation completed</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
-    <value>Predownload complete</value>
+    <value>Predownload completed</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
-    <value>Fix Complete</value>
+    <value>Fix Completed</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
     <value>Update completed</value>
