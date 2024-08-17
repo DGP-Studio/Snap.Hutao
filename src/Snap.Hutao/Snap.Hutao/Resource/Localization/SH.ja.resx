@@ -1140,7 +1140,7 @@
     <value>画像をコピー</value>
   </data>
   <data name="UIXamlViewSpecializedSophonProgressDefault" xml:space="preserve">
-    <value>正在获取清单数据</value>
+    <value>マニフェストデータを取得中</value>
   </data>
   <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
     <value>認証を完了してください。</value>
@@ -1800,13 +1800,13 @@
     <value>最新バージョン: {0}</value>
   </data>
   <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
-    <value>已取消</value>
+    <value>キャンセルされました</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
     <value>インストール完了</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
-    <value>预下载完成</value>
+    <value>ダウンロードが完了</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
     <value>修復完了</value>
