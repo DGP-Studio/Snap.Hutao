@@ -12,7 +12,6 @@ namespace Snap.Hutao.Core.IO.Http.Sharding;
 
 internal static class HttpShardCopyWorker
 {
-    [SuppressMessage("", "CA2000")]
     public static async ValueTask<IHttpShardCopyWorker<TStatus>> CreateAsync<TStatus>(HttpShardCopyWorkerOptions<TStatus> options)
     {
         await options.DetectContentLengthAsync().ConfigureAwait(false);

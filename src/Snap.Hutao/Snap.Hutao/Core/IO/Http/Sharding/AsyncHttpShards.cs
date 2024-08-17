@@ -61,7 +61,7 @@ internal sealed class AsyncHttpShards : IAsyncEnumerable<IHttpShard>
 
             using (await readerWriterLock.WriterLockAsync().ConfigureAwait(false))
             {
-                if (!UnSyncronizedCanSplit(head))
+                if (!UnsyncronizedCanSplit(head))
                 {
                     yield break;
                 }
@@ -69,7 +69,7 @@ internal sealed class AsyncHttpShards : IAsyncEnumerable<IHttpShard>
         }
     }
 
-    private bool UnSyncronizedCanSplit(Shard test)
+    private bool UnsyncronizedCanSplit(Shard test)
     {
         while (test.Next is not null)
         {
