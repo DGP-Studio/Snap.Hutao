@@ -11,6 +11,7 @@ namespace Snap.Hutao.UI.Xaml.View.Specialized;
 [DependencyProperty("RemainingTime", typeof(string))]
 [DependencyProperty("FinishedChunks", typeof(int), 0, nameof(OnChunksChanged))]
 [DependencyProperty("TotalChunks", typeof(int), -1, nameof(OnChunksChanged))]
+[DependencyProperty("CurrentChunkName", typeof(string))]
 [DependencyProperty("ProgressBarIconGlyph", typeof(string))]
 [INotifyPropertyChanged]
 internal sealed partial class SophonProgressBar : UserControl

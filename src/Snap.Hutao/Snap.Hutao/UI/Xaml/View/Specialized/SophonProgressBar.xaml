@@ -74,9 +74,14 @@
                 Value="{x:Bind Progress, Mode=OneWay}"/>
         </Grid>
         <TextBlock
-            Grid.Row="3"
-            Text="{x:Bind ProgressPercent, Mode=OneWay}"
+            Grid.Row="2"
+            Text="{x:Bind CurrentChunkName, Mode=OneWay}"
             TextAlignment="Left"
+            Visibility="{x:Bind IsIndeterminate, Mode=OneWay, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+        <TextBlock
+            Grid.Row="2"
+            Text="{x:Bind ProgressPercent, Mode=OneWay}"
+            TextAlignment="Right"
             Visibility="{x:Bind IsIndeterminate, Mode=OneWay, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
     </Grid>
 

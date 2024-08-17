@@ -38,6 +38,7 @@
                     Text="{Binding Title}"/>
                 <shuxvs:SophonProgressBar
                     Grid.Row="1"
+                    CurrentChunkName="{Binding DownloadCurrentChunkName}"
                     FinishedChunks="{Binding DownloadedChunks}"
                     ProgressBarIconGlyph="{StaticResource FontIconContentDownload}"
                     RemainingTime="{Binding DownloadRemainingTime}"
@@ -45,6 +46,7 @@
                     TotalChunks="{Binding DownloadTotalChunks}"/>
                 <shuxvs:SophonProgressBar
                     Grid.Row="2"
+                    CurrentChunkName="{Binding InstallCurrentChunkName}"
                     FinishedChunks="{Binding InstalledChunks}"
                     ProgressBarIconGlyph="{StaticResource FontIconContentHardDrive}"
                     RemainingTime="{Binding InstallRemainingTime}"

@@ -138,7 +138,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                                     }
 
                                     await RandomAccess.WriteAsync(fileHandle, buffer[..bytesRead], offset, token).ConfigureAwait(false);
-                                    context.Progress.Report(new GamePackageOperationReport.Install(bytesRead, 0));
+                                    context.Progress.Report(new GamePackageOperationReport.Install(bytesRead, 0, chunk.ChunkName));
                                     offset += bytesRead;
                                 }
                                 while (true);
@@ -155,7 +155,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                         }
                     }
 
-                    context.Progress.Report(new GamePackageOperationReport.Install(0, 1));
+                    context.Progress.Report(new GamePackageOperationReport.Install(0, 1, chunk.ChunkName));
                 }
             }
         }

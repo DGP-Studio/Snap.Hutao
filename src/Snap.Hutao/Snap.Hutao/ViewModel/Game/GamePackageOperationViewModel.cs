@@ -45,11 +45,15 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
 
     public int DownloadedChunks { get => downloadedChunks; }
 
+    public string DownloadCurrentChunkName { get; private set; } = default!;
+
     public string DownloadSpeed { get => downloadSpeed; private set => SetProperty(ref downloadSpeed, value); }
 
     public string DownloadRemainingTime { get => downloadRemainingTime; private set => SetProperty(ref downloadRemainingTime, value); }
 
     public int InstalledChunks { get => installedChunks; }
+
+    public string InstallCurrentChunkName { get; private set; } = default!;
 
     public string InstallSpeed { get => installSpeed; private set => SetProperty(ref installSpeed, value); }
 
@@ -82,9 +86,11 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         Title = "HOMO";
         downloadedChunks = 114514;
         DownloadSpeed = "11.45 MB/s";
+        DownloadCurrentChunkName = "Hill";
         DownloadRemainingTime = "11:45:14";
         DownloadTotalChunks = 1919810;
         installedChunks = 114514;
+        InstallCurrentChunkName = "HomoHat";
         InstallSpeed = "19.19 MB/s";
         InstallRemainingTime = "19:19:810";
         InstallTotalChunks = 191981;
@@ -132,6 +138,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         Interlocked.Add(ref totalBytesDownloaded, download.BytesRead);
         Interlocked.Add(ref totalBytesDownloadedPerSecond, download.BytesRead);
         Interlocked.Add(ref downloadedChunks, download.Chunks);
+        DownloadCurrentChunkName = download.CurrentChunkName;
         return default;
     }
 
@@ -140,6 +147,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         Interlocked.Add(ref totalBytesInstalled, install.BytesRead);
         Interlocked.Add(ref totalBytesInstalledPerSecond, install.BytesRead);
         Interlocked.Add(ref installedChunks, install.Chunks);
+        InstallCurrentChunkName = install.CurrentChunkName;
         return default;
     }
 
@@ -155,7 +163,9 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
         totalBytesInstalledPerSecond = 0;
         contentLength = reset.ContentLength;
         DownloadTotalChunks = reset.DownloadTotalChunks;
+        DownloadCurrentChunkName = default!;
         InstallTotalChunks = reset.InstallTotalChunks;
+        InstallCurrentChunkName = default!;
         Title = reset.Title;
         RefreshUI();
     }
@@ -178,6 +188,8 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     {
         OnPropertyChanged(nameof(DownloadedChunks));
         OnPropertyChanged(nameof(InstalledChunks));
+        OnPropertyChanged(nameof(DownloadCurrentChunkName));
+        OnPropertyChanged(nameof(InstallCurrentChunkName));
     }
 
     [Command("CancelCommand")]
