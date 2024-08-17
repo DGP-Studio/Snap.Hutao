@@ -38,18 +38,20 @@
                     Text="{Binding Title}"/>
                 <shuxvs:SophonProgressBar
                     Grid.Row="1"
-                    FinishedChunks="{Binding DownloadedChunks}"
-                    ProgressBarIconGlyph="{StaticResource FontIconContentDownload}"
+                    Description="{Binding DownloadFileName}"
+                    IconGlyph="{StaticResource FontIconContentDownload}"
+                    Maximum="{Binding DownloadTotalChunks}"
                     RemainingTime="{Binding DownloadRemainingTime}"
                     Speed="{Binding DownloadSpeed}"
-                    TotalChunks="{Binding DownloadTotalChunks}"/>
+                    Value="{Binding DownloadedChunks}"/>
                 <shuxvs:SophonProgressBar
                     Grid.Row="2"
-                    FinishedChunks="{Binding InstalledChunks}"
-                    ProgressBarIconGlyph="{StaticResource FontIconContentHardDrive}"
+                    Description="{Binding InstallFileName}"
+                    IconGlyph="{StaticResource FontIconContentHardDrive}"
+                    Maximum="{Binding InstallTotalChunks}"
                     RemainingTime="{Binding InstallRemainingTime}"
                     Speed="{Binding InstallSpeed}"
-                    TotalChunks="{Binding InstallTotalChunks}"/>
+                    Value="{Binding InstalledChunks}"/>
             </Grid>
         </ScrollViewer>
 

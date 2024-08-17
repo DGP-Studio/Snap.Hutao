@@ -24,7 +24,7 @@ internal static partial class AnnouncementHtmlVisitor
                 continue;
             }
 
-            if (paragraph.TextContent is not "〓活动时间〓" and not "〓祈愿介绍〓" and not "〓任务开放时间〓" and not "〓折扣时间〓")
+            if (paragraph.TextContent is not ("〓活动时间〓" or "〓祈愿介绍〓" or "〓任务开放时间〓" or "〓折扣时间〓" or "〓重置时间〓"))
             {
                 continue;
             }
