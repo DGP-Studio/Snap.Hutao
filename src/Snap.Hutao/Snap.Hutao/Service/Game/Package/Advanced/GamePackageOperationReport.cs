@@ -9,24 +9,24 @@ internal abstract class GamePackageOperationReport
 
     internal abstract class Update : GamePackageOperationReport
     {
-        public Update(long bytesRead, int chunks, string currentChunkName)
+        public Update(long bytesRead, int chunks, string fileName)
         {
             BytesRead = bytesRead;
             Chunks = chunks;
-            CurrentChunkName = currentChunkName;
+            FileName = fileName;
         }
 
         public long BytesRead { get; private set; }
 
         public int Chunks { get; private set; }
 
-        public string CurrentChunkName { get; set; }
+        public string FileName { get; set; }
     }
 
     internal sealed class Download : Update
     {
-        public Download(long bytesRead, int chunks, string currentChunkName = default!)
-            : base(bytesRead, chunks, currentChunkName)
+        public Download(long bytesRead, int chunks, string fileName = default!)
+            : base(bytesRead, chunks, fileName)
         {
             Kind = GamePackageOperationReportKind.Download;
         }
@@ -34,8 +34,8 @@ internal abstract class GamePackageOperationReport
 
     internal sealed class Install : Update
     {
-        public Install(long bytesRead, int chunks, string currentChunkName = default!)
-            : base(bytesRead, chunks, currentChunkName)
+        public Install(long bytesRead, int chunks, string fileName = default!)
+            : base(bytesRead, chunks, fileName)
         {
             Kind = GamePackageOperationReportKind.Install;
         }

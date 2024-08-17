@@ -31,7 +31,7 @@
                 Orientation="Horizontal"
                 Spacing="8">
                 <FontIcon FontSize="12" Glyph="{StaticResource FontIconContentDialShape1}"/>
-                <TextBlock Text="{x:Bind ProgressString, Mode=OneWay}"/>
+                <TextBlock Text="{x:Bind ProgressFormatted, Mode=OneWay}"/>
             </StackPanel>
             <StackPanel
                 Grid.Column="1"
@@ -64,25 +64,31 @@
             <FontIcon
                 Grid.Column="0"
                 FontSize="12"
-                Glyph="{x:Bind ProgressBarIconGlyph}"/>
+                Glyph="{x:Bind IconGlyph}"/>
             <ProgressBar
                 Grid.Column="1"
                 Height="20"
                 HorizontalAlignment="Stretch"
                 IsIndeterminate="{x:Bind IsIndeterminate, Mode=OneWay}"
                 Maximum="1"
-                Value="{x:Bind Progress, Mode=OneWay}"/>
+                Value="{x:Bind ProgressValue, Mode=OneWay}"/>
         </Grid>
-        <TextBlock
-            Grid.Row="2"
-            Text="{x:Bind CurrentChunkName, Mode=OneWay}"
-            TextAlignment="Left"
-            Visibility="{x:Bind IsIndeterminate, Mode=OneWay, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-        <TextBlock
-            Grid.Row="2"
-            Text="{x:Bind ProgressPercent, Mode=OneWay}"
-            TextAlignment="Right"
-            Visibility="{x:Bind IsIndeterminate, Mode=OneWay, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                Text="{x:Bind Description, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap"
+                Visibility="{x:Bind IsIndeterminate, Mode=OneWay, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+            <TextBlock
+                Grid.Column="1"
+                Text="{x:Bind ProgressPercentFormatted, Mode=OneWay}"
+                Visibility="{x:Bind IsIndeterminate, Mode=OneWay, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+        </Grid>
     </Grid>
 
 </UserControl>
