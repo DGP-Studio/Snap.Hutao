@@ -1491,7 +1491,7 @@
     <value>請輸入收到的驗證碼</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaMobileHint" xml:space="preserve">
-    <value>请输入手机号码</value>
+    <value>請輸入手機號碼</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaSendCaptchaAction" xml:space="preserve">
     <value>发送</value>
@@ -2616,7 +2616,7 @@
     <value>调整视野</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>请在游戏内关闭「垂直同步」选项，需要高性能的显卡以支持更高的帧率，将值设置为 -1 以表示无限制帧率</value>
+    <value>請在遊戲內關閉「垂直同步」選項，需要高性能的顯示卡以支持更高的 FPS ，將值設定為 -1 以表示無限制 FPS</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>解鎖 FPS 限制</value>
