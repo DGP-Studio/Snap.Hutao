@@ -72,7 +72,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         catch
         {
             context.Logger.LogError("Failed to copy island file.");
-            return;
+            throw;
         }
 
         try
