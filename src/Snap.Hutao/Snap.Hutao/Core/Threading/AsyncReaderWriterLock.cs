@@ -5,7 +5,7 @@ namespace Snap.Hutao.Core.Threading;
 
 // https://devblogs.microsoft.com/pfxteam/building-async-coordination-primitives-part-7-asyncreaderwriterlock/
 [SuppressMessage("", "SH003")]
-internal class AsyncReaderWriterLock
+internal sealed class AsyncReaderWriterLock
 {
     private readonly Task<Releaser> readerReleaser;
     private readonly Task<Releaser> writerReleaser;
@@ -34,6 +34,8 @@ internal class AsyncReaderWriterLock
             else
             {
                 ++readersWaiting;
+
+                // Cannot await in the body of a lock statement
                 return waitingReader.Task.ContinueWith(t => t.Result);
             }
         }

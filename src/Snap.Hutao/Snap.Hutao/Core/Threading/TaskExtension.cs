@@ -31,7 +31,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -57,7 +57,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -73,7 +73,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -90,7 +90,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -110,7 +110,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -136,7 +136,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -152,7 +152,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -169,7 +169,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -180,5 +180,21 @@ internal static class TaskExtension
             logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
             onException?.Invoke(e);
         }
+    }
+
+    [SuppressMessage("", "SH003")]
+    [SuppressMessage("", "SH007")]
+    public static async Task<T> WithCancellation<T>(this Task<T> task, CancellationToken cancellationToken)
+    {
+        TaskCompletionSource tcs = new();
+        using (cancellationToken.Register(s => ((TaskCompletionSource)s!).TrySetResult(), tcs))
+        {
+            if (task != await Task.WhenAny(task, tcs.Task).ConfigureAwait(true))
+            {
+                throw new OperationCanceledException(cancellationToken);
+            }
+        }
+
+        return await task.ConfigureAwait(true);
     }
 }
