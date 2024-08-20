@@ -54,17 +54,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             ? feature.Oversea
             : feature.Chinese;
 
-        context.Report();
-        return true;
-    }
-
-    public async ValueTask PostUnlockAsync(CancellationToken token = default)
-    {
-        if (offsets is null)
-        {
-            return;
-        }
-
         try
         {
             File.Copy(InstalledLocation.GetAbsolutePath("Snap.Hutao.UnlockerIsland.dll"), dataFolderIslandPath, true);
@@ -74,6 +63,15 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             context.Logger.LogError("Failed to copy island file.");
             throw;
         }
+
+        context.Report();
+
+        return true;
+    }
+
+    public async ValueTask PostUnlockAsync(CancellationToken token = default)
+    {
+        ArgumentNullException.ThrowIfNull(offsets);
 
         try
         {
