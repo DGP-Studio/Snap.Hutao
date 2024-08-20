@@ -16,6 +16,8 @@ public sealed class ScriptContext
 {
     public IServiceProvider ServiceProvider { get; } = Ioc.Default;
 
+    public ISnapHutaoDiagnostics Diagnostics { get => ServiceProvider.GetRequiredService<ISnapHutaoDiagnostics>(); }
+
     public static string FormatJson(string input)
     {
         return JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(input), Core.Json.JsonOptions.Default);

@@ -3,6 +3,7 @@
 
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.CodeAnalysis.Scripting.Hosting;
 using Snap.Hutao.Core.Scripting;
 
 namespace Snap.Hutao.ViewModel.Scripting;
@@ -26,9 +27,14 @@ internal sealed partial class ScriptingViewModel : Abstraction.ViewModel
         string? resultOrError;
         try
         {
-            ScriptContext context = new();
-            object? result = await CSharpScript.EvaluateAsync(InputScript, ScriptOptions.Default, context).ConfigureAwait(false);
-            resultOrError = result?.ToString();
+            using (InteractiveAssemblyLoader loader = new())
+            {
+                ScriptOptions options = ScriptOptions.Default.WithAllowUnsafe(true);
+                Script<object> script = CSharpScript.Create(InputScript, options, typeof(ScriptContext), assemblyLoader: loader);
+                ScriptState<object> state = await script.RunAsync(globals: new ScriptContext()).ConfigureAwait(false);
+                object? result = state.ReturnValue;
+                resultOrError = result?.ToString();
+            }
         }
         catch (Exception ex)
         {
