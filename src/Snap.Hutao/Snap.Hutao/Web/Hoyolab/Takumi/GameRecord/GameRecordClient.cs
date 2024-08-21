@@ -173,18 +173,18 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<Character>>> GetCharacterListAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(apiEndpoints.GameRecordCharacter())
+            .SetRequestUri(apiEndpoints.GameRecordCharacterList())
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .SetReferer(apiEndpoints.WebStaticReferer())
             .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
-        Response<CharacterWrapper>? resp = await builder
-            .SendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
+        Response<ListWrapper<Character>>? resp = await builder
+            .SendAsync<Response<ListWrapper<Character>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         // We have a verification procedure to handle
@@ -199,7 +199,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
                 HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
-                    .SetRequestUri(apiEndpoints.GameRecordCharacter())
+                    .SetRequestUri(apiEndpoints.GameRecordCharacterList())
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
                     .SetReferer(apiEndpoints.WebStaticReferer())
                     .SetXrpcChallenge(challenge)
@@ -208,7 +208,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                 await verifiedBuilder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
                 resp = await verifiedBuilder
-                    .SendAsync<Response<CharacterWrapper>>(httpClient, logger, token)
+                    .SendAsync<Response<ListWrapper<Character>>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
         }

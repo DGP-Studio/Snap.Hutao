@@ -8,7 +8,6 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Endpoint.Hutao;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Hutao.Response;
 using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 using Snap.Hutao.Web.Request.Builder;
@@ -158,7 +157,7 @@ internal sealed partial class HutaoSpiralAbyssClient
         if (playerInfoResponse.IsOk())
         {
             Response<CharacterWrapper> charactersResponse = await gameRecordClient
-                .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
+                .GetCharacterListAsync(userAndUid, playerInfoResponse.Data, token)
                 .ConfigureAwait(false);
 
             if (charactersResponse.IsOk())
@@ -170,7 +169,7 @@ internal sealed partial class HutaoSpiralAbyssClient
                 if (spiralAbyssResponse.IsOk())
                 {
                     HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
-                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data, options.GetActualUserName());
+                    return new(userAndUid.Uid.Value, charactersResponse.Data.List, spiralAbyssResponse.Data, options.GetActualUserName());
                 }
             }
         }

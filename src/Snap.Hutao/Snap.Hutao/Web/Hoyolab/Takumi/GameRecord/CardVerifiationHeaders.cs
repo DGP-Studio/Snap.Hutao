@@ -30,7 +30,7 @@ internal sealed class CardVerifiationHeaders
 
     public static CardVerifiationHeaders CreateForCharacter(IApiEndpoints apiEndpoints)
     {
-        return Create(apiEndpoints.GameRecordCharacter(), $"{HoyolabOptions.ToolVersion}_#/ys/role/all");
+        return Create(apiEndpoints.GameRecordCharacterList(), $"{HoyolabOptions.ToolVersion}_#/ys/role/all");
     }
 
     public static CardVerifiationHeaders CreateForRoleCombat(IApiEndpoints apiEndpoints)

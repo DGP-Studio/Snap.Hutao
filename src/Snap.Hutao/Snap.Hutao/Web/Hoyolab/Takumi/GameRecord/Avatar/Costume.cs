@@ -21,10 +21,5 @@ internal sealed class Costume
     [JsonPropertyName("name")]
     public string Name { get; set; } = default!;
 
-    /// <summary>
-    /// 图标
-    /// </summary>
-    [Obsolete("不应使用此处的图标")]
-    [JsonPropertyName("icon")]
-    public string Icon { get; set; } = default!;
+    // Ignored field string icon
 }

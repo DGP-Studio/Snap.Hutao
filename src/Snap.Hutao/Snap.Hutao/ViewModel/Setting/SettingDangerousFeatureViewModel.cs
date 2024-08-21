@@ -70,7 +70,8 @@ internal sealed partial class SettingDangerousFeatureViewModel : Abstraction.Vie
 
             _ = ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(value);
 
-            async ValueTask ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(bool isEnabled)
+            [SuppressMessage("", "SH003")]
+            async Task ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(bool isEnabled)
             {
                 if (isEnabled)
                 {

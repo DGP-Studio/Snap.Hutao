@@ -12,7 +12,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// </summary>
 internal interface IGameRecordClient
 {
-    ValueTask<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default);
+    ValueTask<Response<ListWrapper<Character>>> GetCharacterListAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default);
 
     ValueTask<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default);
 

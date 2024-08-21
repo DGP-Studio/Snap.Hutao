@@ -778,6 +778,9 @@
     <value>风元素抗性</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
+    <value>冷却缩减</value>
+  </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
     <value>养成计算：尚未刷新</value>
   </data>

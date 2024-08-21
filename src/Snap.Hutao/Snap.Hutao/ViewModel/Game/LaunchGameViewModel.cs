@@ -97,7 +97,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
                 _ = RefreshUIAsync();
             }
 
-            async ValueTask RefreshUIAsync()
+            [SuppressMessage("", "SH003")]
+            async Task RefreshUIAsync()
             {
                 try
                 {

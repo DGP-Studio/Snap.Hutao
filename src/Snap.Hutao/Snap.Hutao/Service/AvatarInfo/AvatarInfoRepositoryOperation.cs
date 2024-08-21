@@ -100,8 +100,8 @@ internal sealed partial class AvatarInfoRepositoryOperation
                 goto Return;
             }
 
-            Response<CharacterWrapper> charactersResponse = await gameRecordClient
-                .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
+            Response<ListWrapper<Character>> charactersResponse = await gameRecordClient
+                .GetCharacterListAsync(userAndUid, playerInfoResponse.Data, token)
                 .ConfigureAwait(false);
 
             if (!charactersResponse.IsOk())
@@ -109,7 +109,7 @@ internal sealed partial class AvatarInfoRepositoryOperation
                 goto Return;
             }
 
-            List<RecordCharacter> characters = charactersResponse.Data.Avatars;
+            List<RecordCharacter> characters = charactersResponse.Data.List;
 
             GameRecordCharacterAvatarInfoTransformer transformer = serviceProvider
                 .GetRequiredService<GameRecordCharacterAvatarInfoTransformer>();
