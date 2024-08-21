@@ -12,7 +12,8 @@ namespace Snap.Hutao.UI.Xaml.View.Page;
 
 internal interface ISupportLoginByWebView
 {
-    static async ValueTask InitialzeAsync(WebView2 webView2, IInfoBarService infoBarService, string cookie, string navigate)
+    [SuppressMessage("", "SH003")]
+    static async Task InitialzeAsync(WebView2 webView2, IInfoBarService infoBarService, string cookie, string navigate)
     {
         try
         {

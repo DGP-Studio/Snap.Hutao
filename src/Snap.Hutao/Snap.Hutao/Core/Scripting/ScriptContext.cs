@@ -20,7 +20,7 @@ public sealed class ScriptContext
 
     public static string FormatJson(string input)
     {
-        return JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(input), Core.Json.JsonOptions.Default);
+        return JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(input), Json.JsonOptions.Default);
     }
 
     public async ValueTask<string> RequestAsync(string method, string url, string[] headers, string? body = default)
@@ -135,7 +135,7 @@ public sealed class ScriptContext
         {
             await builder.SendAsync(context).ConfigureAwait(false);
             ArgumentNullException.ThrowIfNull(context.Response);
-            return await context.Response.Content.ReadAsStringAsync();
+            return await context.Response.Content.ReadAsStringAsync(token).ConfigureAwait(false);
         }
     }
 }

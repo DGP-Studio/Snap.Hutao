@@ -78,7 +78,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public LaunchScheme? SelectedScheme
     {
         get => selectedScheme;
-        set => SetSelectedSchemeAsync(value).SafeForget();
+        set => _ = SetSelectedSchemeAsync(value);
     }
 
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
@@ -94,7 +94,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             if (SetProperty(ref gamePathSelectedAndValid, value) && value)
             {
-                RefreshUIAsync().SafeForget();
+                _ = RefreshUIAsync();
             }
 
             async ValueTask RefreshUIAsync()
@@ -133,7 +133,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             void TrySetGameAccountByDesiredUid()
             {
                 // Sync uid, almost never hit, so we are not so care about performance
-                if (memoryCache.TryRemove(DesiredUid, out object? value) && value is string uid)
+                if (memoryCache.TryRemove(DesiredUid, out object? uidObj) && uidObj is string uid)
                 {
                     ArgumentNullException.ThrowIfNull(GameAccountsView);
 
@@ -300,7 +300,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.ScreenShotDirectory);
     }
 
-    private async ValueTask SetSelectedSchemeAsync(LaunchScheme? value)
+    [SuppressMessage("", "SH003")]
+    private async Task SetSelectedSchemeAsync(LaunchScheme? value)
     {
         if (SetProperty(ref selectedScheme, value, nameof(SelectedScheme)))
         {
@@ -309,7 +310,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             SelectedGameAccount = default;
 
             await UpdateGameAccountsViewAsync().ConfigureAwait(false);
-            UpdateGamePackageAsync(value).SafeForget();
+            _ = UpdateGamePackageAsync(value);
         }
 
         async ValueTask UpdateGamePackageAsync(LaunchScheme? scheme)

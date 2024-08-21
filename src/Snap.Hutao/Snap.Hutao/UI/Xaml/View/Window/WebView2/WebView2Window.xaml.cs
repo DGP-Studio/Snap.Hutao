@@ -91,9 +91,10 @@ internal sealed partial class WebView2Window : Microsoft.UI.Xaml.Window, IXamlWi
 
     private void OnWebViewLoaded(object sender, RoutedEventArgs e)
     {
-        OnWebViewLoadedAsync().SafeForget();
+        _ = OnWebViewLoadedAsync();
 
-        async ValueTask OnWebViewLoadedAsync()
+        [SuppressMessage("", "SH003")]
+        async Task OnWebViewLoadedAsync()
         {
             await WebView.EnsureCoreWebView2Async();
             WebView.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;

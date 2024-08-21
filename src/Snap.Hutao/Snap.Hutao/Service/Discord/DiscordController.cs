@@ -152,7 +152,7 @@ internal static class DiscordController
             return;
         }
 
-        DiscordRunCallbacksAsync(StopTokenSource.Token).SafeForget();
+        _ = DiscordRunCallbacksAsync(StopTokenSource.Token);
         isCallbackInitialized = true;
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
@@ -164,7 +164,8 @@ internal static class DiscordController
         }
     }
 
-    private static async ValueTask DiscordRunCallbacksAsync(CancellationToken cancellationToken)
+    [SuppressMessage("", "SH003")]
+    private static async Task DiscordRunCallbacksAsync(CancellationToken cancellationToken)
     {
         int notRunningCounter = 0;
 

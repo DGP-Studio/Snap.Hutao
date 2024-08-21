@@ -44,7 +44,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     {
         if (message.UserAndUid is { } userAndUid)
         {
-            RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).SafeForget();
+            _ = RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken);
         }
     }
 
@@ -85,7 +85,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
     }
 
-    private async ValueTask RefreshCoreAsync(UserAndUid userAndUid, RefreshOption option, CancellationToken token)
+    [SuppressMessage("", "SH003")]
+    private async Task RefreshCoreAsync(UserAndUid userAndUid, RefreshOption option, CancellationToken token)
     {
         try
         {

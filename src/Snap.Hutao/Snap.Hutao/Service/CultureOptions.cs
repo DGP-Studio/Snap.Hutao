@@ -21,7 +21,7 @@ internal sealed partial class CultureOptions : DbStoreOptions
     public CultureInfo CurrentCulture
     {
         get => GetOption(ref currentCulture, SettingEntry.Culture, CultureInfo.GetCultureInfo, CultureInfo.CurrentCulture);
-        set => SetOption(ref currentCulture, SettingEntry.Culture, value, value => value.Name);
+        set => SetOption(ref currentCulture, SettingEntry.Culture, value, v => v.Name);
     }
 
     public CultureInfo SystemCulture { get; set; } = default!;

@@ -47,7 +47,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     {
         if (message.UserAndUid is { } userAndUid)
         {
-            UpdateSpiralAbyssCollectionAsync(userAndUid).SafeForget();
+            _ = UpdateSpiralAbyssCollectionAsync(userAndUid);
         }
         else
         {
@@ -72,7 +72,8 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         return true;
     }
 
-    private async ValueTask UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
+    [SuppressMessage("", "SH003")]
+    private async Task UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
     {
         ObservableCollection<SpiralAbyssView> collection;
         try

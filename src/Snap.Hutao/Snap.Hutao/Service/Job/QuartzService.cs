@@ -7,6 +7,7 @@ namespace Snap.Hutao.Service.Job;
 
 [Injection(InjectAs.Singleton, typeof(IQuartzService))]
 [ConstructorGenerated]
+[SuppressMessage("", "SH003")]
 internal sealed partial class QuartzService : IQuartzService, IDisposable
 {
     private readonly TaskCompletionSource startupCompleted = new();
@@ -16,7 +17,7 @@ internal sealed partial class QuartzService : IQuartzService, IDisposable
 
     private IScheduler? scheduler;
 
-    public async ValueTask StartAsync(CancellationToken token = default)
+    public async Task StartAsync(CancellationToken token = default)
     {
         scheduler = await schedulerFactory.GetScheduler(token).ConfigureAwait(false);
         await scheduler.Start(token).ConfigureAwait(false);
@@ -29,7 +30,7 @@ internal sealed partial class QuartzService : IQuartzService, IDisposable
         startupCompleted.SetResult();
     }
 
-    public async ValueTask UpdateJobAsync(string group, string triggerName, Func<TriggerBuilder, TriggerBuilder> configure, CancellationToken token = default)
+    public async Task UpdateJobAsync(string group, string triggerName, Func<TriggerBuilder, TriggerBuilder> configure, CancellationToken token = default)
     {
         if (scheduler is null)
         {
@@ -46,7 +47,7 @@ internal sealed partial class QuartzService : IQuartzService, IDisposable
         }
     }
 
-    public async ValueTask StopJobAsync(string group, string triggerName, CancellationToken token = default)
+    public async Task StopJobAsync(string group, string triggerName, CancellationToken token = default)
     {
         if (scheduler is null)
         {
