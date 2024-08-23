@@ -1005,10 +1005,10 @@
     <value>在 Unity 日誌檔案中無法找到遊戲路徑</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
-    <value>清单数据解析失败</value>
+    <value>清單數據解析失敗</value>
   </data>
   <data name="ServiceGamePackageAdvancedDriverNoAvailableFreeSpace" xml:space="preserve">
-    <value>磁盘空间不足，需要 {0}，剩余 {1}</value>
+    <value>磁碟機空間不足，需要 {0}，剩餘 {1}</value>
   </data>
   <data name="ServiceGamePackageAdvancedInstalling" xml:space="preserve">
     <value>正在安裝遊戲</value>
@@ -1035,10 +1035,10 @@
     <value>替換：{0}</value>
   </data>
   <data name="ServiceGamePackageReadLocalPackageVerionFailed" xml:space="preserve">
-    <value>在读取本地 Package Version 时遇到问题，修复游戏可能会有所帮助</value>
+    <value>在讀取本地 Package Version 時遇到問題，修復遊戲可能會有所幫助</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
-    <value>重新命名資料檔案夾名稱失敗</value>
+    <value>重新命名數據資料夾名稱失敗</value>
   </data>
   <data name="ServiceGamePackageRequestPackageVerion" xml:space="preserve">
     <value>正在獲取 Package Version</value>
@@ -1140,10 +1140,10 @@
     <value>複製圖像</value>
   </data>
   <data name="UIXamlViewSpecializedSophonProgressDefault" xml:space="preserve">
-    <value>正在获取清单数据</value>
+    <value>正在獲取清單數據</value>
   </data>
   <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
-    <value>请完成验证</value>
+    <value>請完成驗證</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
     <value>成就管理</value>
@@ -1851,7 +1851,7 @@
     <value>匯入失敗</value>
   </data>
   <data name="ViewModelLaunchGameContentCorrupted" xml:space="preserve">
-    <value>当前选中的游戏目录 {0} 已损坏，请手动删除文件夹后重新安装游戏</value>
+    <value>當前選中的遊戲目錄 {0} 已損壞，請手動刪除資料夾後重新安裝遊戲</value>
   </data>
   <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
     <value>切換伺服器失敗</value>
@@ -2679,7 +2679,7 @@
     <value>在下方登入米哈游通行证</value>
   </data>
   <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
-    <value>開啟截圖檔案夾</value>
+    <value>開啟截圖資料夾</value>
   </data>
   <data name="ViewPageResetGamePathAction" xml:space="preserve">
     <value>選定遊戲路徑</value>
@@ -2718,7 +2718,7 @@
     <value>圖片快取 存放在此</value>
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
-    <value>快取 檔案夾</value>
+    <value>快取 資料夾</value>
   </data>
   <data name="ViewPageSettingCardHutaoPassportHeader" xml:space="preserve">
     <value>胡桃通行證</value>
@@ -2748,7 +2748,7 @@
     <value>用戶數據/元數據 存放在此</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>數據 檔案夾</value>
+    <value>數據 資料夾</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
     <value>刪除</value>
@@ -2925,7 +2925,7 @@
     <value>自定義背景圖片，支援 bmp / gif / ico / jpg / jpeg / png / tiff / webp 格式</value>
   </data>
   <data name="ViewPageSettingOpenBackgroundImageFolderHeader" xml:space="preserve">
-    <value>打開背景圖片檔案夾</value>
+    <value>打開背景圖片資料夾</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>重設</value>
@@ -3111,7 +3111,7 @@
     <value>刪除轉換伺服器快取</value>
   </data>
   <data name="ViewSettingFolderViewOpenFolderAction" xml:space="preserve">
-    <value>打開檔案夾</value>
+    <value>打開資料夾</value>
   </data>
   <data name="ViewSettingHeader" xml:space="preserve">
     <value>設定</value>
