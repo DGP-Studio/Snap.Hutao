@@ -7,42 +7,38 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
 namespace Snap.Hutao.Service.AvatarInfo.Transformer;
 
-/// <summary>
-/// 游戏记录角色转角色详情转换器
-/// </summary>
-[HighQuality]
 [Injection(InjectAs.Transient)]
-internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTransformer<Character>
+internal sealed class AvatarInfoDetailedCharacterTransformer : IDetailedCharacterTransformer<Web.Enka.Model.AvatarInfo>
 {
     /// <inheritdoc/>
-    public void Transform(ref readonly Web.Enka.Model.AvatarInfo avatarInfo, Character source)
+    public void Transform(ref readonly DetailedCharacter detailedCharacter, Web.Enka.Model.AvatarInfo source)
     {
         // update fetter
-        avatarInfo.FetterInfo ??= new();
-        avatarInfo.FetterInfo.ExpLevel = source.Fetter;
+        detailedCharacter.FetterInfo ??= new();
+        detailedCharacter.FetterInfo.ExpLevel = source.Fetter;
 
         // update level
-        avatarInfo.PropMap ??= [];
-        avatarInfo.PropMap[PlayerProperty.PROP_LEVEL] = new(PlayerProperty.PROP_LEVEL, source.Level);
+        detailedCharacter.PropMap ??= [];
+        detailedCharacter.PropMap[PlayerProperty.PROP_LEVEL] = new(PlayerProperty.PROP_LEVEL, source.Level);
 
         // update constellations
-        avatarInfo.TalentIdList = source.Constellations.Where(t => t.IsActived).Select(t => t.Id).ToList();
+        detailedCharacter.TalentIdList = source.Constellations.Where(t => t.IsActived).Select(t => t.Id).ToList();
 
         // update relic
-        avatarInfo.EquipList ??= source.Reliquaries.SelectList(r => new Equip()
+        detailedCharacter.EquipList ??= source.Reliquaries.SelectList(r => new Equip()
         {
             ItemId = r.Id,
             Reliquary = new() { Level = r.Level + 1, },
             Flat = new() { ItemType = ItemType.ITEM_RELIQUARY, EquipType = r.Position, },
         });
 
-        if (avatarInfo.EquipList.LastOrDefault() is null or { Weapon: null })
+        if (detailedCharacter.EquipList.LastOrDefault() is null or { Weapon: null })
         {
             // 不存在武器则添加
-            avatarInfo.EquipList.Add(new());
+            detailedCharacter.EquipList.Add(new());
         }
 
-        Equip equip = avatarInfo.EquipList.Last();
+        Equip equip = detailedCharacter.EquipList.Last();
 
         // 切换了武器
         equip.ItemId = source.Weapon.Id;

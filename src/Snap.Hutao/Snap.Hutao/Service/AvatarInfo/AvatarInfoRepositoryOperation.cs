@@ -111,8 +111,8 @@ internal sealed partial class AvatarInfoRepositoryOperation
 
             List<RecordCharacter> characters = charactersResponse.Data.List;
 
-            GameRecordCharacterAvatarInfoTransformer transformer = serviceProvider
-                .GetRequiredService<GameRecordCharacterAvatarInfoTransformer>();
+            AvatarInfoDetailedCharacterTransformer transformer = serviceProvider
+                .GetRequiredService<AvatarInfoDetailedCharacterTransformer>();
 
             foreach (RecordCharacter character in characters)
             {
@@ -210,7 +210,7 @@ internal sealed partial class AvatarInfoRepositoryOperation
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void AddOrUpdateAvatarInfo(EntityAvatarInfo? entity, in AvatarId avatarId, string uid, AppDbContext appDbContext, GameRecordCharacterAvatarInfoTransformer transformer, Character source)
+    private static void AddOrUpdateAvatarInfo(EntityAvatarInfo? entity, in AvatarId avatarId, string uid, AppDbContext appDbContext, AvatarInfoDetailedCharacterTransformer transformer, Character source)
     {
         if (entity is null)
         {
@@ -234,7 +234,7 @@ internal sealed partial class AvatarInfoRepositoryOperation
         dbInfoMap = [];
         foreach (ref readonly EntityAvatarInfo info in CollectionsMarshal.AsSpan(dbInfos))
         {
-            if (!dbInfoMap.TryAdd(info.Info.AvatarId, info))
+            if (!dbInfoMap.TryAdd(info.Info2.Base.Id, info))
             {
                 avatarInfoRepository.RemoveAvatarInfoRangeByUid(uid);
                 dbInfoMap.Clear();
