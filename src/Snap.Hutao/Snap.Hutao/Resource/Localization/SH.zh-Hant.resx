@@ -614,7 +614,7 @@
     <value>驗證請求失敗，不是當前登入的帳號</value>
   </data>
   <data name="ServerPassportVerifyRequestSuccess" xml:space="preserve">
-    <value>驗證碼已發送至信箱</value>
+    <value>驗證碼已傳送至信箱</value>
   </data>
   <data name="ServerPassportVerifyRequestUserAlreadyExisted" xml:space="preserve">
     <value>驗證請求失敗，當前電子郵件地址已被註冊</value>
@@ -818,7 +818,7 @@
     <value>存在多個選中的養成計劃</value>
   </data>
   <data name="ServiceDailyNoteNotificationSendExceptionTitle" xml:space="preserve">
-    <value>应用通知发送失败</value>
+    <value>應用通知傳送失敗</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>開始遊戲</value>
@@ -1368,7 +1368,7 @@
     <value>{1} 將在實際請求時替換為 challenge</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
-    <value>將會通過 GET 方式對接口發送請求</value>
+    <value>將會通過 GET 方式對接口傳送請求</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleHeader" xml:space="preserve">
     <value>範例</value>
@@ -1497,7 +1497,7 @@
     <value>請輸入手機號碼</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaSendCaptchaAction" xml:space="preserve">
-    <value>发送</value>
+    <value>傳送</value>
   </data>
   <data name="ViewDialogUserMobileCaptchaTitle" xml:space="preserve">
     <value>手機驗證碼登入</value>
@@ -1803,10 +1803,10 @@
     <value>已取消</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
-    <value>安装完成</value>
+    <value>安裝完成</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
-    <value>预下载完成</value>
+    <value>預先下載完成</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
     <value>修複完成</value>
@@ -1815,7 +1815,7 @@
     <value>更新完成</value>
   </data>
   <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
-    <value>游戏完整，无需修复</value>
+    <value>遊戲完整，無需修復</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
     <value>我已閱讀並同意上方的條款</value>
@@ -2562,7 +2562,7 @@
     <value>安裝遊戲</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationPredownload" xml:space="preserve">
-    <value>預下載</value>
+    <value>預先下載</value>
   </data>
   <data name="ViewPageLaunchGamePackageOperationPredownloadCompleteBadgeContent" xml:space="preserve">
     <value>已完成預先下載</value>
@@ -2595,7 +2595,7 @@
     <value>完整包</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
-    <value>預下載</value>
+    <value>預先下載</value>
   </data>
   <data name="ViewPageLaunchGameSelectGamePath" xml:space="preserve">
     <value>選擇遊戲路徑</value>
@@ -2670,7 +2670,7 @@
     <value>請輸入您的 HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通過由我們提供的內嵌網頁視圖登錄 米哈游通行证，我們會在你點擊 我已登錄 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與米哈遊服務器之間</value>
+    <value>你正在通過由我們提供的內嵌網頁視圖登錄 米哈游通行证，我們會在你點擊 我已登入 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網絡通信只發生於你的計算機與米哈遊服務器之間</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>我已登入</value>
@@ -3291,7 +3291,7 @@
     <value>執行</value>
   </data>
   <data name="ViewWindowScriptingTitle" xml:space="preserve">
-    <value>执行调试脚本</value>
+    <value>執行偵錯指令碼</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>{0} 天後開始</value>
