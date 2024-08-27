@@ -102,6 +102,9 @@ internal static class AvatarIds
     public static readonly AvatarId Arlecchino = 10000096;
     public static readonly AvatarId Sethos = 10000097;
     public static readonly AvatarId Clorinde = 10000098;
+    public static readonly AvatarId Emilie = 10000099;
+    public static readonly AvatarId Kachina = 10000100;
+    public static readonly AvatarId Kinich = 10000101;
 
     /// <summary>
     /// 检查该角色是否为主角
