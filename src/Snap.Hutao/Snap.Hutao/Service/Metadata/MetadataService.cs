@@ -183,28 +183,32 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
     private async ValueTask DownloadMetadataSourceFilesAsync(string fileFullName, CancellationToken token)
     {
-        Stream sourceStream;
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
             IHttpClientFactory httpClientFactory = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(MetadataService)))
             {
-                sourceStream = await httpClient
-                    .GetStreamAsync(metadataOptions.GetLocalizedRemoteFile(fileFullName), token)
-                    .ConfigureAwait(false);
-            }
-        }
-
-        // Write stream while convert LF to CRLF
-        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(metadataOptions.GetLocalizedLocalFile(fileFullName))))
-        {
-            while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
-            {
-                await readerWriter.WriteAsync(line).ConfigureAwait(false);
-
-                if (!readerWriter.Reader.EndOfStream)
+                using (HttpRequestMessage message = new(HttpMethod.Get, metadataOptions.GetLocalizedRemoteFile(fileFullName)))
                 {
-                    await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
+                    // We have too much line endings now, should cache the response.
+                    using (HttpResponseMessage responseMessage = await httpClient.SendAsync(message, HttpCompletionOption.ResponseContentRead, token).ConfigureAwait(false))
+                    {
+                        Stream sourceStream = await responseMessage.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+
+                        // Write stream while convert LF to CRLF
+                        using (StreamReaderWriter readerWriter = new(new(sourceStream), File.CreateText(metadataOptions.GetLocalizedLocalFile(fileFullName))))
+                        {
+                            while (await readerWriter.ReadLineAsync(token).ConfigureAwait(false) is { } line)
+                            {
+                                await readerWriter.WriteAsync(line).ConfigureAwait(false);
+
+                                if (!readerWriter.Reader.EndOfStream)
+                                {
+                                    await readerWriter.WriteAsync("\r\n").ConfigureAwait(false);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

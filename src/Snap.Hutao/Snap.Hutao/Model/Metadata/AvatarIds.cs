@@ -105,6 +105,7 @@ internal static class AvatarIds
     public static readonly AvatarId Emilie = 10000099;
     public static readonly AvatarId Kachina = 10000100;
     public static readonly AvatarId Kinich = 10000101;
+    public static readonly AvatarId Mualani = 10000102;
 
     /// <summary>
     /// 检查该角色是否为主角
