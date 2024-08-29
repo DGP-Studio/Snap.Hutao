@@ -14,19 +14,23 @@ public class UnlockerIslandFunctionOffsetTest
     [TestMethod]
     public void GenerateJson()
     {
+        // public void set_fieldOfView(float value)
+        // public static void set_targetFrameRate(int value)
+        // public static void set_enableFogRendering(bool value)
+
         UnlockerIslandConfigurationWrapper wrapper = new()
         {
             Oversea = new()
             {
-                FunctionOffsetFieldOfView = 0x00000000_01688E60,
-                FunctionOffsetTargetFrameRate = 0x00000000_018834D0,
-                FunctionOffsetFog = 0x00000000_00FB2AD0,
+                FunctionOffsetFieldOfView = 0x00000000_01B0A690,
+                FunctionOffsetTargetFrameRate = 0x00000000_10FF7800,
+                FunctionOffsetFog = 0x00000000_10F3ACE0,
             },
             Chinese = new()
             {
-                FunctionOffsetFieldOfView = 0x00000000_01684560,
-                FunctionOffsetTargetFrameRate = 0x00000000_0187EBD0,
-                FunctionOffsetFog = 0x00000000_00FAE1D0,
+                FunctionOffsetFieldOfView = 0x00000000_01B0F690,
+                FunctionOffsetTargetFrameRate = 0x00000000_10FF7D20,
+                FunctionOffsetFog = 0x00000000_10F31FA0,
             },
         };
 
