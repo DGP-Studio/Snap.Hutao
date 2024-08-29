@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
@@ -173,13 +174,13 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<ListWrapper<Character>>> GetCharacterListAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<Character>>> GetCharacterListAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.GameRecordCharacterList())
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .SetReferer(apiEndpoints.WebStaticReferer())
-            .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
+            .PostJson(new CharacterData(userAndUid.Uid));
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
@@ -194,7 +195,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
 
             IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
-            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForCharacter(apiEndpoints);
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForCharacterAll(apiEndpoints);
 
             if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
             {
@@ -203,12 +204,55 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
                     .SetReferer(apiEndpoints.WebStaticReferer())
                     .SetXrpcChallenge(challenge)
-                    .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
+                    .PostJson(new CharacterData(userAndUid.Uid));
 
                 await verifiedBuilder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
 
                 resp = await verifiedBuilder
                     .SendAsync<Response<ListWrapper<Character>>>(httpClient, logger, token)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<ListWrapper<DetailedCharacter>>> GetCharacterDetailAsync(UserAndUid userAndUid, List<AvatarId> characterIds, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.GameRecordCharacterDetail())
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .SetReferer(apiEndpoints.WebStaticReferer())
+            .PostJson(new CharacterData(userAndUid.Uid, characterIds));
+
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+        Response<ListWrapper<DetailedCharacter>>? resp = await builder
+            .SendAsync<Response<ListWrapper<DetailedCharacter>>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        // We have a verification procedure to handle
+        if (resp?.ReturnCode is (int)KnownReturnCode.CODE1034)
+        {
+            // Replace message
+            resp.Message = SH.WebIndexOrSpiralAbyssVerificationFailed;
+
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredKeyedService<IGeetestCardVerifier>(GeetestCardVerifierType.Custom);
+            CardVerifiationHeaders headers = CardVerifiationHeaders.CreateForCharacterDetail(apiEndpoints);
+
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, headers, token).ConfigureAwait(false) is { } challenge)
+            {
+                HttpRequestMessageBuilder verifiedBuilder = httpRequestMessageBuilderFactory.Create()
+                    .SetRequestUri(apiEndpoints.GameRecordCharacterDetail())
+                    .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+                    .SetReferer(apiEndpoints.WebStaticReferer())
+                    .SetXrpcChallenge(challenge)
+                    .PostJson(new CharacterData(userAndUid.Uid, characterIds));
+
+                await verifiedBuilder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
+
+                resp = await verifiedBuilder
+                    .SendAsync<Response<ListWrapper<DetailedCharacter>>>(httpClient, logger, token)
                     .ConfigureAwait(false);
             }
         }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Endpoint.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.DataSigning;
@@ -72,17 +73,33 @@ internal sealed partial class GameRecordClientOversea : IGameRecordClient
         return Response.Response.DefaultIfNull(resp);
     }
 
-    public async ValueTask<Response<ListWrapper<Character>>> GetCharacterListAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<Character>>> GetCharacterListAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
             .SetRequestUri(apiEndpoints.GameRecordCharacterList())
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
-            .PostJson(new CharacterData(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id)));
+            .PostJson(new CharacterData(userAndUid.Uid));
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
 
         Response<ListWrapper<Character>>? resp = await builder
             .SendAsync<Response<ListWrapper<Character>>>(httpClient, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    public async ValueTask<Response<ListWrapper<DetailedCharacter>>> GetCharacterDetailAsync(UserAndUid userAndUid, List<AvatarId> characterIds, CancellationToken token = default)
+    {
+        HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
+            .SetRequestUri(apiEndpoints.GameRecordCharacterDetail())
+            .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
+            .PostJson(new CharacterData(userAndUid.Uid, characterIds));
+
+        await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.OSX4, false).ConfigureAwait(false);
+
+        Response<ListWrapper<DetailedCharacter>>? resp = await builder
+            .SendAsync<Response<ListWrapper<DetailedCharacter>>>(httpClient, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

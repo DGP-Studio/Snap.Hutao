@@ -66,19 +66,7 @@ internal sealed class BaseValueInfo : ObservableObject
 
     private void UpdateValues(Level level, bool promoted)
     {
-        Values = propValues.SelectList(propValue =>
-        {
-            float value = propValue.Value * growCurveMap[level].GetValueOrDefault(propValue.Type);
-            if (promoteMap is not null)
-            {
-                PromoteLevel promoteLevel = GetPromoteLevel(level, promoted);
-                float addValue = promoteMap[promoteLevel].GetValue(propValue.Property);
-
-                value += addValue;
-            }
-
-            return FightPropertyFormat.ToNameValue(propValue.Property, value);
-        });
+        Values = propValues.SelectList(propValue => BaseValueInfoFormat.ToNameValue(propValue, level, GetPromoteLevel(level, promoted), growCurveMap, promoteMap));
     }
 
     private PromoteLevel GetPromoteLevel(in Level level, bool promoted)

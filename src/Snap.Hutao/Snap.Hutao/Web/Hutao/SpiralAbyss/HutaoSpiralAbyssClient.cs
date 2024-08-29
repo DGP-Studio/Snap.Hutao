@@ -158,7 +158,7 @@ internal sealed partial class HutaoSpiralAbyssClient
         if (playerInfoResponse.IsOk())
         {
             Response<ListWrapper<Character>> charactersResponse = await gameRecordClient
-                .GetCharacterListAsync(userAndUid, playerInfoResponse.Data, token)
+                .GetCharacterListAsync(userAndUid, token)
                 .ConfigureAwait(false);
 
             if (charactersResponse.IsOk())

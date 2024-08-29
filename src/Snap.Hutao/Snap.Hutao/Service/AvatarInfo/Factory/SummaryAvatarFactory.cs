@@ -9,31 +9,27 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Enka.Model;
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.Runtime.InteropServices;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
-using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
 [HighQuality]
 internal sealed class SummaryAvatarFactory
 {
-    private readonly ModelAvatarInfo avatarInfo;
-    private readonly DateTimeOffset showcaseRefreshTime;
-    private readonly DateTimeOffset gameRecordRefreshTime;
-    private readonly DateTimeOffset calculatorRefreshTime;
+    private readonly DetailedCharacter character;
+    private readonly DateTimeOffset refreshTime;
     private readonly SummaryFactoryMetadataContext context;
 
     public SummaryAvatarFactory(SummaryFactoryMetadataContext context, EntityAvatarInfo avatarInfo)
     {
         this.context = context;
-        this.avatarInfo = avatarInfo.Info;
+        character = avatarInfo.Info2;
 
-        showcaseRefreshTime = avatarInfo.ShowcaseRefreshTime;
-        gameRecordRefreshTime = avatarInfo.GameRecordRefreshTime;
-        calculatorRefreshTime = avatarInfo.CalculatorRefreshTime;
+        refreshTime = avatarInfo.RefreshTime;
     }
 
     public static AvatarView Create(SummaryFactoryMetadataContext context, EntityAvatarInfo avatarInfo)
@@ -43,8 +39,8 @@ internal sealed class SummaryAvatarFactory
 
     public AvatarView Create()
     {
-        ReliquaryAndWeapon reliquaryAndWeapon = ProcessEquip(avatarInfo.EquipList.EmptyIfNull());
-        MetadataAvatar avatar = context.IdAvatarMap[avatarInfo.AvatarId];
+        ReliquaryAndWeapon reliquaryAndWeapon = ProcessEquip(character.EquipList.EmptyIfNull());
+        MetadataAvatar avatar = context.IdAvatarMap[character.AvatarId];
 
         AvatarView propertyAvatar = new AvatarViewBuilder()
             .SetId(avatar.Id)
@@ -52,19 +48,19 @@ internal sealed class SummaryAvatarFactory
             .SetQuality(avatar.Quality)
             .SetNameCard(AvatarNameCardPicConverter.AvatarToUri(avatar))
             .SetElement(ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore))
-            .SetConstellations(avatar.SkillDepot.Talents, avatarInfo.TalentIdList)
-            .SetSkills(avatarInfo.SkillLevelMap, avatarInfo.ProudSkillExtraLevelMap, avatar.SkillDepot.CompositeSkillsNoInherents())
-            .SetFetterLevel(avatarInfo.FetterInfo?.ExpLevel)
-            .SetProperties(SummaryAvatarProperties.Create(avatarInfo.FightPropMap))
-            .SetCritScore(avatarInfo.FightPropMap)
-            .SetLevelNumber(avatarInfo.PropMap?[PlayerProperty.PROP_LEVEL].Value)
+            .SetConstellations(avatar.SkillDepot.Talents, character.TalentIdList)
+            .SetSkills(character.SkillLevelMap, character.ProudSkillExtraLevelMap, avatar.SkillDepot.CompositeSkillsNoInherents())
+            .SetFetterLevel(character.FetterInfo?.ExpLevel)
+            .SetProperties(SummaryAvatarProperties.Create(character.FightPropMap))
+            .SetCritScore(character.FightPropMap)
+            .SetLevelNumber(character.PropMap?[PlayerProperty.PROP_LEVEL].Value)
             .SetWeapon(reliquaryAndWeapon.Weapon)
             .SetReliquaries(reliquaryAndWeapon.Reliquaries)
             .SetScore(reliquaryAndWeapon.Reliquaries.Sum(r => r.Score))
             .SetShowcaseRefreshTimeFormat(showcaseRefreshTime, SH.FormatServiceAvatarInfoSummaryShowcaseRefreshTimeFormat, SH.ServiceAvatarInfoSummaryShowcaseNotRefreshed)
             .SetGameRecordRefreshTimeFormat(gameRecordRefreshTime, SH.FormatServiceAvatarInfoSummaryGameRecordRefreshTimeFormat, SH.ServiceAvatarInfoSummaryGameRecordNotRefreshed)
             .SetCalculatorRefreshTimeFormat(calculatorRefreshTime, SH.FormatServiceAvatarInfoSummaryCalculatorRefreshTimeFormat, SH.ServiceAvatarInfoSummaryCalculatorNotRefreshed)
-            .SetCostumeIconOrDefault(avatarInfo, avatar)
+            .SetCostumeIconOrDefault(character, avatar)
             .View;
 
         return propertyAvatar;
@@ -80,7 +76,7 @@ internal sealed class SummaryAvatarFactory
             switch (equip.Flat.ItemType)
             {
                 case ItemType.ITEM_RELIQUARY:
-                    reliquaryList.Add(SummaryReliquaryFactory.Create(context, avatarInfo, equip));
+                    reliquaryList.Add(SummaryReliquaryFactory.Create(context, character, equip));
                     break;
                 case ItemType.ITEM_WEAPON:
                     weapon = CreateWeapon(equip);
@@ -91,19 +87,12 @@ internal sealed class SummaryAvatarFactory
         return new(reliquaryList, weapon);
     }
 
-    private WeaponView CreateWeapon(Equip equip)
+    private WeaponView CreateWeapon(DetailedWeapon detailedWeapon)
     {
-        MetadataWeapon weapon = context.IdWeaponMap[equip.ItemId];
-
-        // AffixMap can be null when it's a white weapon.
-        ArgumentNullException.ThrowIfNull(equip.Weapon);
-        uint affixLevel = equip.Weapon.AffixMap?.SingleOrDefault().Value ?? 0U;
-
-        WeaponStat? mainStat = equip.Flat.WeaponStats?.ElementAtOrDefault(0);
-        WeaponStat? subStat = equip.Flat.WeaponStats?.ElementAtOrDefault(1);
+        MetadataWeapon metadataWeapon = context.IdWeaponMap[detailedWeapon.Id];
 
         NameValue<string> subProperty;
-        if (subStat is null)
+        if (detailedWeapon.sub is null)
         {
             subProperty = NameValueDefaults.String;
         }
@@ -118,20 +107,20 @@ internal sealed class SummaryAvatarFactory
         ArgumentNullException.ThrowIfNull(equip.Weapon);
 
         return new WeaponViewBuilder()
-            .SetName(weapon.Name)
-            .SetIcon(EquipIconConverter.IconNameToUri(weapon.Icon))
-            .SetDescription(weapon.Description)
+            .SetName(metadataWeapon.Name)
+            .SetIcon(EquipIconConverter.IconNameToUri(metadataWeapon.Icon))
+            .SetDescription(metadataWeapon.Description)
             .SetLevel(LevelFormat.Format(equip.Weapon.Level))
-            .SetQuality(weapon.Quality)
+            .SetQuality(metadataWeapon.Quality)
             .SetEquipType(EquipType.EQUIP_WEAPON)
             .SetMainProperty(mainStat)
-            .SetId(weapon.Id)
+            .SetId(metadataWeapon.Id)
             .SetLevelNumber(equip.Weapon.Level)
             .SetSubProperty(subProperty)
-            .SetAffixLevelNumber(affixLevel + 1)
-            .SetAffixName(weapon.Affix?.Name)
-            .SetAffixDescription(weapon.Affix?.Descriptions.Single(a => a.Level == affixLevel).Description)
-            .SetWeaponType(weapon.WeaponType)
+            .SetAffixLevelNumber(detailedWeapon.AffixLevel)
+            .SetAffixName(metadataWeapon.Affix?.Name)
+            .SetAffixDescription(metadataWeapon.Affix?.Descriptions.Single(a => a.Level == affixLevel).Description)
+            .SetWeaponType(metadataWeapon.WeaponType)
             .View;
     }
 

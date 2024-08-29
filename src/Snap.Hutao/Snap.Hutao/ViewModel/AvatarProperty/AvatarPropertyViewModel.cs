@@ -58,30 +58,12 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         return true;
     }
 
-    [Command("RefreshFromEnkaApiCommand")]
-    private async Task RefreshByEnkaApiAsync()
-    {
-        if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
-        {
-            await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromEnkaAPI, CancellationToken).ConfigureAwait(false);
-        }
-    }
-
     [Command("RefreshFromHoyolabGameRecordCommand")]
     private async Task RefreshByHoyolabGameRecordAsync()
     {
         if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
         {
             await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
-        }
-    }
-
-    [Command("RefreshFromHoyolabCalculateCommand")]
-    private async Task RefreshByHoyolabCalculateAsync()
-    {
-        if (await scopeContext.UserService.GetCurrentUserAndUidAsync().ConfigureAwait(false) is { } userAndUid)
-        {
-            await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabCalculate, CancellationToken).ConfigureAwait(false);
         }
     }
 

@@ -17,16 +17,9 @@ internal sealed class AvatarInfo : IMappingFrom<AvatarInfo, string, DetailedChar
 
     public string Uid { get; set; } = default!;
 
-    [Obsolete("Info is replaced by Info2")]
-    public Web.Enka.Model.AvatarInfo Info { get; set; } = default!;
-
     public DetailedCharacter Info2 { get; set; } = default!;
 
-    public DateTimeOffset ShowcaseRefreshTime { get; set; }
-
-    public DateTimeOffset GameRecordRefreshTime { get; set; }
-
-    public DateTimeOffset CalculatorRefreshTime { get; set; }
+    public DateTimeOffset RefreshTime { get; set; }
 
     public static AvatarInfo From(string uid, DetailedCharacter info)
     {
