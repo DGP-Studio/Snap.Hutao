@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -9,6 +10,7 @@ namespace Snap.Hutao.Extension;
 
 internal static class ListExtension
 {
+    [Pure]
     public static double Average(this List<int> source)
     {
         Span<int> span = CollectionsMarshal.AsSpan(source);
@@ -26,6 +28,7 @@ internal static class ListExtension
         return (double)sum / span.Length;
     }
 
+    [Pure]
     public static T? BinarySearch<T>(this List<T> list, Func<T, int> comparer)
         where T : class
     {
@@ -55,12 +58,14 @@ internal static class ListExtension
         return default;
     }
 
+    [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static List<TSource> EmptyIfNull<TSource>(this List<TSource>? source)
     {
         return source ?? [];
     }
 
+    [Pure]
     public static List<T> GetRange<T>(this List<T> list, in Range range)
     {
         (int start, int length) = range.GetOffsetAndLength(list.Count);
@@ -101,6 +106,7 @@ internal static class ListExtension
         return results;
     }
 
+    [Pure]
     public static async ValueTask<List<TResult>> SelectListAsync<TSource, TResult>(this List<TSource> list, Func<TSource, ValueTask<TResult>> selector)
     {
         List<TResult> results = new(list.Count);
@@ -113,6 +119,7 @@ internal static class ListExtension
         return results;
     }
 
+    [Pure]
     public static async ValueTask<List<TResult>> SelectListAsync<TSource, TResult>(this List<TSource> list, Func<TSource, CancellationToken, ValueTask<TResult>> selector, CancellationToken token = default)
     {
         List<TResult> results = new(list.Count);
@@ -125,6 +132,7 @@ internal static class ListExtension
         return results;
     }
 
+    [Pure]
     public static TSource SingleOrAdd<TSource>(this List<TSource> list, Func<TSource, bool> predicate, Func<TSource> valueFactory)
         where TSource : class
     {
@@ -180,5 +188,11 @@ internal static class ListExtension
     {
         list.Sort((left, right) => comparison(keySelector(right), keySelector(left)));
         return list;
+    }
+
+    public static ZipSpan<TFirst, TSecond> ZipList<TFirst, TSecond>(this List<TFirst> first, List<TSecond> second)
+    {
+        HutaoException.ThrowIfNot(first.Count == second.Count, "The number of elements in the two lists is not equal.");
+        return new ZipSpan<TFirst, TSecond>(CollectionsMarshal.AsSpan(first), CollectionsMarshal.AsSpan(second));
     }
 }

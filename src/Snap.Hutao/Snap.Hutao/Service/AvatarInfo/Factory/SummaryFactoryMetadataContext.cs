@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata.ContextAbstraction;
@@ -20,7 +21,9 @@ internal sealed class SummaryFactoryMetadataContext : IMetadataContext,
     IMetadataDictionaryIdReliquarySetSource,
     IMetadataDictionaryIdReliquarySubAffixSource,
     IMetadataDictionaryIdReliquarySource,
-    IMetadataListReliquaryMainAffixLevelSource
+    IMetadataListReliquaryMainAffixLevelSource,
+    IMetadataDictionaryLevelWeaponGrowCurveSource,
+    IMetadataDictionaryIdDictionaryLevelWeaponPromoteSource
 {
     public Dictionary<AvatarId, MetadataAvatar> IdAvatarMap { get; set; } = default!;
 
@@ -37,4 +40,8 @@ internal sealed class SummaryFactoryMetadataContext : IMetadataContext,
     public List<ReliquaryMainAffixLevel> ReliquaryMainAffixLevels { get; set; } = default!;
 
     public Dictionary<ReliquaryId, MetadataReliquary> IdReliquaryMap { get; set; } = default!;
+
+    public Dictionary<Level, Dictionary<GrowCurveType, float>> LevelDictionaryWeaponGrowCurveMap { get; set; } = default!;
+
+    public Dictionary<PromoteId, Dictionary<PromoteLevel, Promote>> IdDictionaryWeaponLevelPromoteMap { get; set; } = default!;
 }

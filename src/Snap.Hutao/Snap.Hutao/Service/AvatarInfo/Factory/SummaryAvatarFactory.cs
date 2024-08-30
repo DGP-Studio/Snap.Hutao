@@ -1,15 +1,18 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Intrinsic.Format;
+using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.ViewModel.AvatarProperty;
+using Snap.Hutao.ViewModel.Wiki;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
@@ -28,7 +31,6 @@ internal sealed class SummaryAvatarFactory
     {
         this.context = context;
         character = avatarInfo.Info2;
-
         refreshTime = avatarInfo.RefreshTime;
     }
 
@@ -39,8 +41,8 @@ internal sealed class SummaryAvatarFactory
 
     public AvatarView Create()
     {
-        ReliquaryAndWeapon reliquaryAndWeapon = ProcessEquip(character.EquipList.EmptyIfNull());
-        MetadataAvatar avatar = context.IdAvatarMap[character.AvatarId];
+        MetadataAvatar avatar = context.IdAvatarMap[character.Base.Id];
+        ProcessConstellations(avatar.SkillDepot, character.Constellations, out List<SkillId> activatedConstellations, out Dictionary<SkillId, SkillLevel> extraLevels);
 
         AvatarView propertyAvatar = new AvatarViewBuilder()
             .SetId(avatar.Id)
@@ -48,22 +50,53 @@ internal sealed class SummaryAvatarFactory
             .SetQuality(avatar.Quality)
             .SetNameCard(AvatarNameCardPicConverter.AvatarToUri(avatar))
             .SetElement(ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore))
-            .SetConstellations(avatar.SkillDepot.Talents, character.TalentIdList)
-            .SetSkills(character.SkillLevelMap, character.ProudSkillExtraLevelMap, avatar.SkillDepot.CompositeSkillsNoInherents())
-            .SetFetterLevel(character.FetterInfo?.ExpLevel)
+            .SetConstellations(avatar.SkillDepot.Talents, character.Constellations.Where(c => c.IsActived).Select(c => c.Id).ToList())
+            .SetSkills(avatar.SkillDepot.CompositeSkillsNoInherents(), character.Skills.ToDictionary(s => s.SkillId, s => s.Level), extraLevels)
+            .SetFetterLevel(character.Base.Fetter)
             .SetProperties(SummaryAvatarProperties.Create(character.FightPropMap))
             .SetCritScore(character.FightPropMap)
-            .SetLevelNumber(character.PropMap?[PlayerProperty.PROP_LEVEL].Value)
-            .SetWeapon(reliquaryAndWeapon.Weapon)
+            .SetLevelNumber(character.Base.Level)
+            .SetWeapon(CreateWeapon(character.Weapon))
             .SetReliquaries(reliquaryAndWeapon.Reliquaries)
             .SetScore(reliquaryAndWeapon.Reliquaries.Sum(r => r.Score))
-            .SetShowcaseRefreshTimeFormat(showcaseRefreshTime, SH.FormatServiceAvatarInfoSummaryShowcaseRefreshTimeFormat, SH.ServiceAvatarInfoSummaryShowcaseNotRefreshed)
-            .SetGameRecordRefreshTimeFormat(gameRecordRefreshTime, SH.FormatServiceAvatarInfoSummaryGameRecordRefreshTimeFormat, SH.ServiceAvatarInfoSummaryGameRecordNotRefreshed)
-            .SetCalculatorRefreshTimeFormat(calculatorRefreshTime, SH.FormatServiceAvatarInfoSummaryCalculatorRefreshTimeFormat, SH.ServiceAvatarInfoSummaryCalculatorNotRefreshed)
+            .SetRefreshTimeFormat(refreshTime, obj => string.Format(CultureInfo.CurrentCulture, "{0:MM-dd HH:mm}", obj), SH.ServiceAvatarInfoSummaryNotRefreshed)
             .SetCostumeIconOrDefault(character, avatar)
             .View;
 
         return propertyAvatar;
+    }
+
+    private static void ProcessConstellations(SkillDepot depot, List<Constellation> constellations, out List<SkillId> activatedConstellationIds, out Dictionary<SkillId, SkillLevel> extraLevels)
+    {
+        activatedConstellationIds = [];
+        extraLevels = [];
+
+        foreach (RefTuple<Model.Metadata.Avatar.Skill, Constellation> tuple in depot.Talents.ZipList(constellations))
+        {
+            ref readonly Constellation dataConstellation = ref tuple.Item2;
+
+            // Constellations are activated in order
+            if (!dataConstellation.IsActived)
+            {
+                break;
+            }
+
+            activatedConstellationIds.Add(dataConstellation.Id);
+
+            ref readonly Model.Metadata.Avatar.Skill metaConstellation = ref tuple.Item1;
+            if (metaConstellation.ExtraLevel is { } extraLevel)
+            {
+                int index = extraLevel.Index switch
+                {
+                    ExtraLevelIndexKind.NormalAttack => 0,
+                    ExtraLevelIndexKind.ElementalSkill => 1,
+                    ExtraLevelIndexKind.ElementalBurst => 2,
+                    _ => throw HutaoException.NotSupported(),
+                };
+
+                extraLevels.Add(depot.CompositeSkillsNoInherents()[index].Id, extraLevel.Level);
+            }
+        }
     }
 
     private ReliquaryAndWeapon ProcessEquip(List<Equip> equipments)
@@ -78,9 +111,6 @@ internal sealed class SummaryAvatarFactory
                 case ItemType.ITEM_RELIQUARY:
                     reliquaryList.Add(SummaryReliquaryFactory.Create(context, character, equip));
                     break;
-                case ItemType.ITEM_WEAPON:
-                    weapon = CreateWeapon(equip);
-                    break;
             }
         }
 
@@ -91,48 +121,28 @@ internal sealed class SummaryAvatarFactory
     {
         MetadataWeapon metadataWeapon = context.IdWeaponMap[detailedWeapon.Id];
 
-        NameValue<string> subProperty;
-        if (detailedWeapon.sub is null)
-        {
-            subProperty = NameValueDefaults.String;
-        }
-        else
-        {
-            float statValue = subStat.AppendPropId.GetFormatMethod() is FormatMethod.Percent
-                ? subStat.StatValue / 100F
-                : subStat.StatValue;
-            subProperty = FightPropertyFormat.ToNameValue(subStat.AppendPropId, statValue);
-        }
-
-        ArgumentNullException.ThrowIfNull(equip.Weapon);
+        List<NameValue<string>> baseValues = metadataWeapon.GrowCurves.SelectList(growCurve => BaseValueInfoFormat.ToNameValue(
+            PropertyCurveValue.From(growCurve),
+            detailedWeapon.Level,
+            detailedWeapon.PromoteLevel,
+            context.LevelDictionaryWeaponGrowCurveMap,
+            context.IdDictionaryWeaponLevelPromoteMap[metadataWeapon.PromoteId]));
 
         return new WeaponViewBuilder()
             .SetName(metadataWeapon.Name)
             .SetIcon(EquipIconConverter.IconNameToUri(metadataWeapon.Icon))
             .SetDescription(metadataWeapon.Description)
-            .SetLevel(LevelFormat.Format(equip.Weapon.Level))
+            .SetLevel(LevelFormat.Format(detailedWeapon.Level))
             .SetQuality(metadataWeapon.Quality)
             .SetEquipType(EquipType.EQUIP_WEAPON)
-            .SetMainProperty(mainStat)
             .SetId(metadataWeapon.Id)
-            .SetLevelNumber(equip.Weapon.Level)
-            .SetSubProperty(subProperty)
+            .SetLevelNumber(detailedWeapon.Level)
+            .SetMainProperty(baseValues.ElementAtOrDefault(0))
+            .SetSubProperty(baseValues.ElementAtOrDefault(1))
             .SetAffixLevelNumber(detailedWeapon.AffixLevel)
             .SetAffixName(metadataWeapon.Affix?.Name)
-            .SetAffixDescription(metadataWeapon.Affix?.Descriptions.Single(a => a.Level == affixLevel).Description)
+            .SetAffixDescription(metadataWeapon.Affix?.Descriptions.Single(a => a.Level == detailedWeapon.AffixLevel).Description)
             .SetWeaponType(metadataWeapon.WeaponType)
             .View;
-    }
-
-    private readonly struct ReliquaryAndWeapon
-    {
-        public readonly List<ReliquaryView> Reliquaries;
-        public readonly WeaponView? Weapon;
-
-        public ReliquaryAndWeapon(List<ReliquaryView> reliquaries, WeaponView? weapon)
-        {
-            Reliquaries = reliquaries;
-            Weapon = weapon;
-        }
     }
 }

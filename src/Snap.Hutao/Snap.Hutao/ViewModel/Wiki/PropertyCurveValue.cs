@@ -1,12 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Metadata.Weapon;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-internal sealed class PropertyCurveValue
+internal sealed class PropertyCurveValue : IMappingFrom<PropertyCurveValue, WeaponTypeValue>
 {
     public PropertyCurveValue(FightProperty property, GrowCurveType type, float value)
     {
@@ -25,4 +27,9 @@ internal sealed class PropertyCurveValue
     public GrowCurveType Type { get; }
 
     public float Value { get; }
+
+    public static PropertyCurveValue From(WeaponTypeValue curveInfo)
+    {
+        return new(curveInfo.Type, curveInfo.Value, curveInfo.InitValue);
+    }
 }

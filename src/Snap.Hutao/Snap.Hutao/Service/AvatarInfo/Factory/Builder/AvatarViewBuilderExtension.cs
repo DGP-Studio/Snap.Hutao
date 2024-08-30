@@ -33,19 +33,7 @@ internal static class AvatarViewBuilderExtension
         return builder;
     }
 
-    public static TBuilder SetCalculatorRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.SetCalculatorRefreshTimeFormat(refreshTime == DateTimeOffsetExtension.DatebaseDefaultTime ? defaultValue : format(refreshTime.ToLocalTime()));
-    }
-
-    public static TBuilder SetCalculatorRefreshTimeFormat<TBuilder>(this TBuilder builder, string calculatorRefreshTimeFormat)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.Configure(b => b.View.CalculatorRefreshTimeFormat = calculatorRefreshTimeFormat);
-    }
-
-    public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, List<Skill> talents, List<SkillId>? talentIds)
+    public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, List<Skill> talents, List<SkillId> talentIds)
         where TBuilder : IAvatarViewBuilder
     {
         return builder.SetConstellations(CreateConstellations(talents, talentIds.EmptyIfNull()));
@@ -117,18 +105,6 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.FetterLevel = level);
     }
 
-    public static TBuilder SetGameRecordRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.SetGameRecordRefreshTimeFormat(refreshTime == DateTimeOffsetExtension.DatebaseDefaultTime ? defaultValue : format(refreshTime.ToLocalTime()));
-    }
-
-    public static TBuilder SetGameRecordRefreshTimeFormat<TBuilder>(this TBuilder builder, string gameRecordRefreshTimeFormat)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.Configure(b => b.View.GameRecordRefreshTimeFormat = gameRecordRefreshTimeFormat);
-    }
-
     public static TBuilder SetId<TBuilder>(this TBuilder builder, AvatarId id)
         where TBuilder : IAvatarViewBuilder
     {
@@ -179,50 +155,46 @@ internal static class AvatarViewBuilderExtension
     public static TBuilder SetShowcaseRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.SetShowcaseRefreshTimeFormat(refreshTime == DateTimeOffsetExtension.DatebaseDefaultTime ? defaultValue : format(refreshTime.ToLocalTime()));
+        return builder.SetRefreshTimeFormat(refreshTime == DateTimeOffsetExtension.DatebaseDefaultTime ? defaultValue : format(refreshTime.ToLocalTime()));
     }
 
-    public static TBuilder SetShowcaseRefreshTimeFormat<TBuilder>(this TBuilder builder, string showcaseRefreshTimeFormat)
+    public static TBuilder SetRefreshTimeFormat<TBuilder>(this TBuilder builder, string refreshTimeFormat)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.Configure(b => b.View.ShowcaseRefreshTimeFormat = showcaseRefreshTimeFormat);
+        return builder.Configure(b => b.View.RefreshTimeFormat = refreshTimeFormat);
     }
 
-    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, Dictionary<SkillId, SkillLevel>? skillLevelMap, Dictionary<SkillGroupId, SkillLevel>? proudSkillExtraLevelMap, List<ProudableSkill> proudSkills)
+    public static TBuilder SetSkills<TBuilder>(this TBuilder builder, List<ProudableSkill> proudSkills, Dictionary<SkillId, SkillLevel> skillLevels, Dictionary<SkillId, SkillLevel> extraLevels)
         where TBuilder : IAvatarViewBuilder
     {
-        return builder.SetSkills(CreateSkills(skillLevelMap, proudSkillExtraLevelMap, proudSkills));
+        return builder.SetSkills(CreateSkills(proudSkills, skillLevels, extraLevels));
 
-        static List<SkillView> CreateSkills(Dictionary<SkillId, SkillLevel>? skillLevelMap, Dictionary<SkillGroupId, SkillLevel>? proudSkillExtraLevelMap, List<ProudableSkill> proudSkills)
+        static List<SkillView> CreateSkills(List<ProudableSkill> proudSkills, Dictionary<SkillId, SkillLevel> skillLevels, Dictionary<SkillId, SkillLevel> extraLevels)
         {
-            if (skillLevelMap is null or { Count: 0 })
+            if (skillLevels is { Count: 0 })
             {
                 return [];
             }
 
-            IReadOnlyDictionary<SkillGroupId, SkillLevel> extraLevelMap = proudSkillExtraLevelMap as IReadOnlyDictionary<SkillGroupId, SkillLevel> ?? ImmutableDictionary<SkillGroupId, SkillLevel>.Empty;
-            Dictionary<SkillId, SkillLevel> skillExtraLeveledMap = new(skillLevelMap);
+            Dictionary<SkillId, SkillLevel> skillNoExtraLeveledMap = new(skillLevels);
 
-            foreach ((SkillGroupId groupId, SkillLevel extraLevel) in extraLevelMap)
+            foreach ((SkillId skillId, SkillLevel extraLevel) in extraLevels)
             {
-                skillExtraLeveledMap.IncreaseByValue(proudSkills.Single(p => p.GroupId == groupId).Id, extraLevel);
+                skillNoExtraLeveledMap.DecreaseByValue(skillId, extraLevel);
             }
 
             return proudSkills.SelectList(proudSkill =>
             {
-                SkillId skillId = proudSkill.Id;
-
                 // TODO: use builder here
                 return new SkillView()
                 {
                     Name = proudSkill.Name,
                     Icon = SkillIconConverter.IconNameToUri(proudSkill.Icon),
                     Description = proudSkill.Description,
-
                     GroupId = proudSkill.GroupId,
-                    Level = LevelFormat.Format(skillLevelMap[skillId], extraLevelMap.GetValueOrDefault(proudSkill.GroupId)),
-                    LevelNumber = skillLevelMap[skillId],
-                    Info = DescriptionsParametersDescriptor.Convert(proudSkill.Proud, skillExtraLeveledMap[skillId]),
+                    Level = LevelFormat.Format(skillLevels[proudSkill.Id], extraLevels.GetValueOrDefault(proudSkill.Id)),
+                    LevelNumber = skillLevels[proudSkill.Id],
+                    Info = DescriptionsParametersDescriptor.Convert(proudSkill.Proud, skillNoExtraLeveledMap[proudSkill.Id]),
                 };
             });
         }
