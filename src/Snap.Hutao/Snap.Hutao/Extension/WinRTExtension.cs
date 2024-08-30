@@ -23,6 +23,6 @@ internal static class WinRTExtension
     private static extern ref bool GetProtectedDisposed(IObjectReference objRef);
 
     // private object _disposedLock
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_disposedLock")]
-    private static extern ref object GetPrivateDisposedLock(IObjectReference objRef);
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_disposedFlags")]
+    private static extern ref int GetPrivateDisposedFlags(IObjectReference objRef);
 }
