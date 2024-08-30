@@ -17,6 +17,7 @@ internal sealed class AvatarInfo : IMappingFrom<AvatarInfo, string, DetailedChar
 
     public string Uid { get; set; } = default!;
 
+    [MaybeNull]
     public DetailedCharacter Info2 { get; set; } = default!;
 
     public DateTimeOffset RefreshTime { get; set; }

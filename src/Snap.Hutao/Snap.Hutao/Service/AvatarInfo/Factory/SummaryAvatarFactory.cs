@@ -27,6 +27,8 @@ internal sealed class SummaryAvatarFactory
 
     public SummaryAvatarFactory(SummaryFactoryMetadataContext context, EntityAvatarInfo avatarInfo)
     {
+        ArgumentNullException.ThrowIfNull(avatarInfo);
+
         this.context = context;
         character = avatarInfo.Info2;
         refreshTime = avatarInfo.RefreshTime;
@@ -119,7 +121,7 @@ internal sealed class SummaryAvatarFactory
             .SetSubProperty(baseValues.ElementAtOrDefault(1))
             .SetAffixLevelNumber(detailedWeapon.AffixLevel)
             .SetAffixName(metadataWeapon.Affix?.Name)
-            .SetAffixDescription(metadataWeapon.Affix?.Descriptions.Single(a => a.Level == detailedWeapon.AffixLevel).Description)
+            .SetAffixDescription(metadataWeapon.Affix?.Descriptions.Single(a => a.Level == (detailedWeapon.AffixLevel - 1)).Description)
             .SetWeaponType(metadataWeapon.WeaponType)
             .View;
     }

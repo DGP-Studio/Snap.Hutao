@@ -94,11 +94,12 @@ internal sealed partial class AvatarInfoRepositoryOperation
         dbInfoMap = [];
         foreach (ref readonly EntityAvatarInfo info in CollectionsMarshal.AsSpan(dbInfos))
         {
-            if (!dbInfoMap.TryAdd(info.Info2.Base.Id, info))
+            if (info.Info2 is null || !dbInfoMap.TryAdd(info.Info2.Base.Id, info))
             {
                 avatarInfoRepository.RemoveAvatarInfoRangeByUid(uid);
                 dbInfoMap.Clear();
                 dbInfos.Clear();
+                return;
             }
         }
     }

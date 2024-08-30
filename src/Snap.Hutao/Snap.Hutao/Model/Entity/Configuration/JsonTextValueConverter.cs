@@ -12,7 +12,7 @@ internal sealed class JsonTextValueConverter<TPropertyType> : ValueConverter<TPr
     public JsonTextValueConverter()
         : base(
             obj => JsonSerializer.Serialize(obj, JsonOptions.Default),
-            str => JsonSerializer.Deserialize<TPropertyType>(str, JsonOptions.Default)!)
+            str => string.IsNullOrEmpty(str) ? default! : JsonSerializer.Deserialize<TPropertyType>(str, JsonOptions.Default)!)
     {
     }
 }

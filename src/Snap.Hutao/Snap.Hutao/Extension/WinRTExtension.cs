@@ -10,19 +10,10 @@ internal static class WinRTExtension
 {
     public static bool IsDisposed(this IWinRTObject obj)
     {
-        IObjectReference objectReference = obj.NativeObject;
-
-        lock (GetPrivateDisposedLock(objectReference))
-        {
-            return GetProtectedDisposed(objectReference);
-        }
+        return Volatile.Read(ref GetPrivateDisposedFlags(obj.NativeObject)) is not 0;
     }
 
-    // protected bool disposed;
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "disposed")]
-    private static extern ref bool GetProtectedDisposed(IObjectReference objRef);
-
-    // private object _disposedLock
+    // private int _disposedFlags
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_disposedFlags")]
     private static extern ref int GetPrivateDisposedFlags(IObjectReference objRef);
 }

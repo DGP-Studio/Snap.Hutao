@@ -22,7 +22,7 @@ internal sealed partial class SummaryFactory : ISummaryFactory
             .ConfigureAwait(false);
 
         IOrderedEnumerable<AvatarView> avatars = avatarInfos
-            .Where(a => !AvatarIds.IsPlayer(a.Info2.Base.Id))
+            .Where(a => a.Info2 is not null && !AvatarIds.IsPlayer(a.Info2.Base.Id))
             .Select(a => SummaryAvatarFactory.Create(context, a))
             .OrderByDescending(a => a.Quality)
             .ThenByDescending(a => a.LevelNumber)
