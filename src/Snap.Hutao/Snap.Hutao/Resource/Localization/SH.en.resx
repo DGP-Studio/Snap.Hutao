@@ -778,6 +778,9 @@
     <value>Anemo RES</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
+    <value>Cooldown reduction</value>
+  </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
     <value>Enhancement Progression Calculator: N/A</value>
   </data>
@@ -789,6 +792,9 @@
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
     <value>Battle Chronicle: {0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryNotRefreshed" xml:space="preserve">
+    <value>Not refreshed</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
     <value>Enka: N/A</value>
