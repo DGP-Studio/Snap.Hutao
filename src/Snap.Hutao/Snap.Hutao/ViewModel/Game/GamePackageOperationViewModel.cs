@@ -115,7 +115,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
             }
 
             {
-                long bytesDownloadedPerSecond = (long)(totalBytesDownloaded / elapsedTime.TotalSeconds);
+                long bytesDownloadedPerSecond = (long)(bytesDownloadedSinceLastUpdate / elapsedTime.TotalSeconds);
                 DownloadSpeed = $"{Converters.ToFileSizeString(bytesDownloadedPerSecond),8}/s";
                 DownloadRemainingTime = bytesDownloadedPerSecond is 0
                     ? UnknownRemainingTime
@@ -125,7 +125,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
             }
 
             {
-                long bytesInstalledPerSecond = (long)(totalBytesInstalled / elapsedTime.TotalSeconds);
+                long bytesInstalledPerSecond = (long)(bytesInstalledSinceLastUpdate / elapsedTime.TotalSeconds);
                 InstallSpeed = $"{Converters.ToFileSizeString(bytesInstalledPerSecond),8}/s";
                 InstallRemainingTime = bytesInstalledPerSecond is 0
                     ? UnknownRemainingTime
