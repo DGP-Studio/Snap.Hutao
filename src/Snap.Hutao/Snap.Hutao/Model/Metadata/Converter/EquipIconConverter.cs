@@ -6,7 +6,7 @@ using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-internal sealed class EquipIconConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
+internal sealed partial class EquipIconConverter : ValueConverter<string, Uri>, IIconNameToUriConverter
 {
     public static Uri IconNameToUri(string name)
     {

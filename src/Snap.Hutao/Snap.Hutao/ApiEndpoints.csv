@@ -35,7 +35,8 @@ CardWidgetData2(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/a
 DeviceFpGetExtList(int platform),https://public-data-api.mihoyo.com/device-fp/api/getExtList?platform={platform:D},
 DeviceFpGetFp(),https://public-data-api.mihoyo.com/device-fp/api/getFp,
 GachaInfoGetGachaLog(string query),https://public-operation-hk4e.mihoyo.com/gacha_info/api/getGachaLog?{query},https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getGachaLog?{query}
-GameRecordCharacter(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/character,https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/character
+GameRecordCharacterList(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/character/list,https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/character/list
+GameRecordCharacterDetail(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/character/detail,https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/character/detail
 GameRecordDailyNote(Web.Hoyolab.PlayerUid uid),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/dailyNote?{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/dailyNote?{uid.ToRoleIdServerQueryString()}
 GameRecordDailyNotePath(),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/dailyNote,
 GameRecordIndex(Web.Hoyolab.PlayerUid uid),https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/index?{uid.ToRoleIdServerQueryString()},https://bbs-api-os.hoyoverse.com/game_record/app/genshin/api/index?{uid.ToRoleIdServerQueryString()}

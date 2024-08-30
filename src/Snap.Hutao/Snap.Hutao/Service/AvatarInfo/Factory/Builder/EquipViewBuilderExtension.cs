@@ -31,7 +31,7 @@ internal static class EquipViewBuilderExtension
         return builder.Configure(b => b.View.Quality = quality);
     }
 
-    public static TBuilder SetMainProperty<TBuilder, T>(this TBuilder builder, NameValue<string> mainProperty)
+    public static TBuilder SetMainProperty<TBuilder, T>(this TBuilder builder, NameValue<string>? mainProperty)
         where TBuilder : IEquipViewBuilder<T>
         where T : EquipView
     {

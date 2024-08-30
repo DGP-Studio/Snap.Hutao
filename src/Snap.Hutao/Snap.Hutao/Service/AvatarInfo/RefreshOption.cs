@@ -15,17 +15,7 @@ internal enum RefreshOption
     None,
 
     /// <summary>
-    /// 从 Enka API 获取
-    /// </summary>
-    RequestFromEnkaAPI,
-
-    /// <summary>
     /// 从 米游社 我的角色 获取
     /// </summary>
     RequestFromHoyolabGameRecord,
-
-    /// <summary>
-    /// 从 米游社 养成计算 获取
-    /// </summary>
-    RequestFromHoyolabCalculate,
 }

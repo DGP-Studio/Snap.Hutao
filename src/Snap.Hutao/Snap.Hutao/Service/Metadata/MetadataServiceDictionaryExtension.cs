@@ -43,6 +43,11 @@ internal static class MetadataServiceDictionaryExtension
         return metadataService.FromCacheAsDictionaryAsync<AvatarId, Avatar>(FileNameAvatar, a => a.Id, token);
     }
 
+    public static ValueTask<Dictionary<PromoteId, Dictionary<PromoteLevel, Promote>>> GetIdToAvatarPromoteGroupMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync(FileNameAvatarPromote, (List<Promote> list) => list.GroupBy(p => p.Id), g => g.Key, g => g.ToDictionary(p => p.Level), token);
+    }
+
     public static async ValueTask<Dictionary<MaterialId, DisplayItem>> GetIdToDisplayItemAndMaterialMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         string cacheKey = $"{nameof(MetadataService)}.Cache.{FileNameDisplayItem}+{FileNameMaterial}.Map.{typeof(MaterialId).Name}.{nameof(DisplayItem)}+{nameof(Material)}";
@@ -111,6 +116,11 @@ internal static class MetadataServiceDictionaryExtension
         return metadataService.FromCacheAsDictionaryAsync<WeaponId, Weapon>(FileNameWeapon, w => w.Id, token);
     }
 
+    public static ValueTask<Dictionary<PromoteId, Dictionary<PromoteLevel, Promote>>> GetIdToWeaponPromoteGroupMapAsync(this IMetadataService metadataService, CancellationToken token = default)
+    {
+        return metadataService.FromCacheAsDictionaryAsync(FileNameWeaponPromote, (List<Promote> list) => list.GroupBy(p => p.Id), g => g.Key, g => g.ToDictionary(p => p.Level), token);
+    }
+
     public static ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToAvatarCurveMapAsync(this IMetadataService metadataService, CancellationToken token = default)
     {
         return metadataService.FromCacheAsDictionaryAsync<GrowCurve, Level, Dictionary<GrowCurveType, float>>(FileNameAvatarCurve, a => a.Level, a => a.Map, token);
@@ -165,7 +175,6 @@ internal static class MetadataServiceDictionaryExtension
         string keyName = TypeNameHelper.GetTypeDisplayName(typeof(TKey));
         string valueName = TypeNameHelper.GetTypeDisplayName(typeof(TValue));
         string cacheKey = $"{nameof(MetadataService)}.Cache.{fileName}.Map.{keyName}.{valueName}";
-
         if (metadataService.MemoryCache.TryGetValue(cacheKey, out object? value))
         {
             ArgumentNullException.ThrowIfNull(value);

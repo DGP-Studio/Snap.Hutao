@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
-internal class AutoSuggestTokenBoxStyleSelector : StyleSelector
+internal sealed partial class AutoSuggestTokenBoxStyleSelector : StyleSelector
 {
     public Style TokenStyle { get; set; } = default!;
 

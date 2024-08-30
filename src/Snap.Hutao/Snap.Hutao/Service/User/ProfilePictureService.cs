@@ -51,9 +51,9 @@ internal sealed partial class ProfilePictureService : IProfilePictureService
                 ?? await enkaClient.GetPlayerInfoAsync(userGameRole, token).ConfigureAwait(false);
         }
 
-        if (enkaResponse is { PlayerInfo: { } playerInfo })
+        if (enkaResponse is { PlayerInfo.ProfilePicture: { } innerProfilePicture })
         {
-            UidProfilePicture profilePicture = UidProfilePicture.From(userGameRole, playerInfo.ProfilePicture);
+            UidProfilePicture profilePicture = UidProfilePicture.From(userGameRole, innerProfilePicture);
 
             // We don't use DbTransaction here because it's rather complicated
             // to handle transaction over multiple DbContext

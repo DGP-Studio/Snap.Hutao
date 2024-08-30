@@ -9,7 +9,7 @@ using Windows.UI;
 
 namespace Snap.Hutao.UI.Xaml.Media.Backdrop;
 
-internal sealed class TransparentBackdrop : SystemBackdrop, IBackdropNeedEraseBackground
+internal sealed partial class TransparentBackdrop : SystemBackdrop, IBackdropNeedEraseBackground
 {
     private object? compositorLock;
 

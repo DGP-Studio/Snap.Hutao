@@ -8,7 +8,7 @@ namespace Snap.Hutao.UI.Xaml.Markup;
 
 [HighQuality]
 [MarkupExtensionReturnType(ReturnType = typeof(string))]
-internal sealed class ResourceStringExtension : MarkupExtension
+internal sealed partial class ResourceStringExtension : MarkupExtension
 {
     private string? name;
 

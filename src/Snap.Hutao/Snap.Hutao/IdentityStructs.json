@@ -179,7 +179,9 @@
     "Equatable": true,
     "EqualityOperators": true,
     "AdditionOperators": true,
-    "IncrementOperators": true
+    "IncrementOperators": true,
+    "SubtractionOperators": true,
+    "DecrementOperators": true
   },
   {
     "Name": "TowerLevelId",

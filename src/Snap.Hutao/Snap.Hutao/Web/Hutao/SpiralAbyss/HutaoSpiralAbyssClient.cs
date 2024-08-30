@@ -155,24 +155,37 @@ internal sealed partial class HutaoSpiralAbyssClient
             .GetPlayerInfoAsync(userAndUid, token)
             .ConfigureAwait(false);
 
-        if (playerInfoResponse.IsOk())
+        if (!playerInfoResponse.IsOk())
         {
-            Response<CharacterWrapper> charactersResponse = await gameRecordClient
-                .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
-                .ConfigureAwait(false);
+            return default;
+        }
 
-            if (charactersResponse.IsOk())
-            {
-                Response<Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> spiralAbyssResponse = await gameRecordClient
-                    .GetSpiralAbyssAsync(userAndUid, ScheduleType.Current, token)
-                    .ConfigureAwait(false);
+        Response<ListWrapper<Character>> listResponse = await gameRecordClient
+            .GetCharacterListAsync(userAndUid, token)
+            .ConfigureAwait(false);
 
-                if (spiralAbyssResponse.IsOk())
-                {
-                    HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
-                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data, options.GetActualUserName());
-                }
-            }
+        if (!listResponse.IsOk())
+        {
+            return default;
+        }
+
+        Response<ListWrapper<DetailedCharacter>> detailResponse = await gameRecordClient
+            .GetCharacterDetailAsync(userAndUid, listResponse.Data.List.SelectList(c => c.Id), token)
+            .ConfigureAwait(false);
+
+        if (!detailResponse.IsOk())
+        {
+            return default;
+        }
+
+        Response<Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> spiralAbyssResponse = await gameRecordClient
+            .GetSpiralAbyssAsync(userAndUid, ScheduleType.Current, token)
+            .ConfigureAwait(false);
+
+        if (spiralAbyssResponse.IsOk())
+        {
+            HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
+            return new(userAndUid.Uid.Value, detailResponse.Data.List, spiralAbyssResponse.Data, options.GetActualUserName());
         }
 
         return default;

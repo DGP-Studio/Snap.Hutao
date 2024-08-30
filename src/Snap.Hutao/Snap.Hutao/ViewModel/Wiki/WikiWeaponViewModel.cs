@@ -222,8 +222,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
         ArgumentNullException.ThrowIfNull(promotes);
         Dictionary<PromoteLevel, Promote> weaponPromoteMap = promotes.Where(p => p.Id == weapon.PromoteId).ToDictionary(p => p.Level);
-        List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves
-            .SelectList(curveInfo => new PropertyCurveValue(curveInfo.Type, curveInfo.Value, curveInfo.InitValue));
+        List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves.SelectList(PropertyCurveValue.From);
 
         ArgumentNullException.ThrowIfNull(levelWeaponCurveMap);
         BaseValueInfo = new(weapon.MaxLevel, propertyCurveValues, levelWeaponCurveMap, weaponPromoteMap);

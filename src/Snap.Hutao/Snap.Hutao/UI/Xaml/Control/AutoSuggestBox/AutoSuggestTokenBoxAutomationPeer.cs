@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.UI.Xaml.Control.AutoSuggestBox;
 
-internal class AutoSuggestTokenBoxAutomationPeer : ListViewBaseAutomationPeer, IValueProvider
+internal sealed partial class AutoSuggestTokenBoxAutomationPeer : ListViewBaseAutomationPeer, IValueProvider
 {
     public AutoSuggestTokenBoxAutomationPeer(AutoSuggestTokenBox owner)
         : base(owner)

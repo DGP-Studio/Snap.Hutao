@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 
 namespace Snap.Hutao.Extension;
 
@@ -22,6 +23,7 @@ internal static class CollectionExtension
         return count;
     }
 
+    [Pure]
     public static int FirstIndexOf<T>(this Collection<T> collection, Func<T, bool> predicate)
     {
         for (int index = 0; index < collection.Count; index++)

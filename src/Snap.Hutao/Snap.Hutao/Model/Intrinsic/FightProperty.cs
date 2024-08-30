@@ -221,7 +221,7 @@ internal enum FightProperty
     FIGHT_PROP_ELEC_SUB_HURT = 51,
 
     /// <summary>
-    /// 雷元素抗性提升
+    /// 水元素抗性提升
     /// </summary>
     [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyRESWater))]
     FIGHT_PROP_WATER_SUB_HURT = 52,
@@ -328,6 +328,7 @@ internal enum FightProperty
     /// <summary>
     /// 技能冷却缩减
     /// </summary>
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertySkillCDReduce))]
     FIGHT_PROP_SKILL_CD_MINUS_RATIO = 80,
 
     /// <summary>
@@ -522,4 +523,6 @@ internal enum FightProperty
     /// 总物理伤害加成
     /// </summary>
     FIGHT_PROP_NONEXTRA_PHYSICAL_ADD_HURT = 3024,
+
+    STAMINA = 999999,
 }

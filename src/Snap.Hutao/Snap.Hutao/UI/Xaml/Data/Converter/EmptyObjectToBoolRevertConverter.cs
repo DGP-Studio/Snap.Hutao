@@ -9,7 +9,7 @@ namespace Snap.Hutao.UI.Xaml.Data.Converter;
 /// This class converts a object? value into a boolean in reverse.
 /// </summary>
 [HighQuality]
-internal sealed class EmptyObjectToBoolRevertConverter : EmptyObjectToObjectConverter
+internal sealed partial class EmptyObjectToBoolRevertConverter : EmptyObjectToObjectConverter
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="EmptyObjectToVisibilityRevertConverter"/> class.
