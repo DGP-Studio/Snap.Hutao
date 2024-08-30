@@ -778,6 +778,9 @@
     <value>Kháng nguyên tố phong</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
+    <value>冷却缩减</value>
+  </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
     <value>养成计算：尚未刷新</value>
   </data>
@@ -789,6 +792,9 @@
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
     <value>原神战绩：{0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryNotRefreshed" xml:space="preserve">
+    <value>尚未刷新</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
     <value>Enka: N/A</value>
