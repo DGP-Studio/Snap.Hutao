@@ -11,7 +11,7 @@ namespace Snap.Hutao.UI.Xaml.Markup;
 /// </summary>
 [HighQuality]
 [MarkupExtensionReturnType(ReturnType = typeof(BitmapIcon))]
-internal sealed class BitmapIconExtension : MarkupExtension
+internal sealed partial class BitmapIconExtension : MarkupExtension
 {
     /// <summary>
     /// Gets or sets the <see cref="Uri"/> representing the image to display.

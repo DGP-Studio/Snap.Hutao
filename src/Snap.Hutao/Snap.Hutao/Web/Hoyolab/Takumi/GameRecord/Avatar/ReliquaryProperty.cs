@@ -14,5 +14,5 @@ internal sealed class ReliquaryProperty
     public string Value { get; set; } = default!;
 
     [JsonPropertyName("times")]
-    public int Times { get; set; }
+    public uint Times { get; set; }
 }

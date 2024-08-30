@@ -8,7 +8,7 @@ namespace Snap.Hutao.UI.Xaml.Data.Converter;
 /// <summary>
 /// 字符串空检查转换器
 /// </summary>
-internal sealed class StringBoolConverter : EmptyStringToObjectConverter
+internal sealed partial class StringBoolConverter : EmptyStringToObjectConverter
 {
     /// <summary>
     /// 构造一个新的字符串空检查转换器

@@ -7,7 +7,7 @@ using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-internal sealed class QualityConverter : ValueConverter<QualityType, Uri>
+internal sealed partial class QualityConverter : ValueConverter<QualityType, Uri>
 {
     public override Uri Convert(QualityType from)
     {

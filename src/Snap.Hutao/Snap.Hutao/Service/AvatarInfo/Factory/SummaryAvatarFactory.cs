@@ -10,10 +10,8 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.ViewModel.Wiki;
-using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.Globalization;
-using System.Runtime.InteropServices;
 using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
@@ -50,15 +48,13 @@ internal sealed class SummaryAvatarFactory
             .SetQuality(avatar.Quality)
             .SetNameCard(AvatarNameCardPicConverter.AvatarToUri(avatar))
             .SetElement(ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore))
-            .SetConstellations(avatar.SkillDepot.Talents, character.Constellations.Where(c => c.IsActived).Select(c => c.Id).ToList())
+            .SetConstellations(avatar.SkillDepot.Talents, activatedConstellations)
             .SetSkills(avatar.SkillDepot.CompositeSkillsNoInherents(), character.Skills.ToDictionary(s => s.SkillId, s => s.Level), extraLevels)
             .SetFetterLevel(character.Base.Fetter)
-            .SetProperties(SummaryAvatarProperties.Create(character.FightPropMap))
-            .SetCritScore(character.FightPropMap)
+            .SetProperties(character.SelectedProperties.SelectList(FightPropertyFormat.ToAvatarProperty))
             .SetLevelNumber(character.Base.Level)
             .SetWeapon(CreateWeapon(character.Weapon))
-            .SetReliquaries(reliquaryAndWeapon.Reliquaries)
-            .SetScore(reliquaryAndWeapon.Reliquaries.Sum(r => r.Score))
+            .SetReliquaries(character.Relics.SelectList(relic => SummaryReliquaryFactory.Create(context, relic)))
             .SetRefreshTimeFormat(refreshTime, obj => string.Format(CultureInfo.CurrentCulture, "{0:MM-dd HH:mm}", obj), SH.ServiceAvatarInfoSummaryNotRefreshed)
             .SetCostumeIconOrDefault(character, avatar)
             .View;
@@ -97,24 +93,6 @@ internal sealed class SummaryAvatarFactory
                 extraLevels.Add(depot.CompositeSkillsNoInherents()[index].Id, extraLevel.Level);
             }
         }
-    }
-
-    private ReliquaryAndWeapon ProcessEquip(List<Equip> equipments)
-    {
-        List<ReliquaryView> reliquaryList = [];
-        WeaponView? weapon = null;
-
-        foreach (ref readonly Equip equip in CollectionsMarshal.AsSpan(equipments))
-        {
-            switch (equip.Flat.ItemType)
-            {
-                case ItemType.ITEM_RELIQUARY:
-                    reliquaryList.Add(SummaryReliquaryFactory.Create(context, character, equip));
-                    break;
-            }
-        }
-
-        return new(reliquaryList, weapon);
     }
 
     private WeaponView CreateWeapon(DetailedWeapon detailedWeapon)

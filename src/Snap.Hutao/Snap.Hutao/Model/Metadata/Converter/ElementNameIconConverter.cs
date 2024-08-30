@@ -8,7 +8,7 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-internal sealed class ElementNameIconConverter : ValueConverter<string, Uri>
+internal sealed partial class ElementNameIconConverter : ValueConverter<string, Uri>
 {
     private static readonly FrozenDictionary<string, string> LocalizedNameToElementIconName = FrozenDictionary.ToFrozenDictionary(
     [

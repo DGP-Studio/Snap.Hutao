@@ -17,8 +17,8 @@ internal sealed class DetailedCharacter
     [JsonPropertyName("constellations")]
     public List<Constellation> Constellations { get; set; } = default!;
 
-    [JsonPropertyName("costume")]
-    public Costume? Costume { get; set; }
+    [JsonPropertyName("costumes")]
+    public List<Costume>? Costumes { get; set; }
 
     // HP ATK DEF EM
     [JsonPropertyName("selected_properties")]

@@ -7,18 +7,22 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.Collections.Immutable;
+using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
+using MetadataCostume = Snap.Hutao.Model.Metadata.Avatar.Costume;
+using MetadataSkill = Snap.Hutao.Model.Metadata.Avatar.Skill;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 
 internal static class AvatarViewBuilderExtension
 {
-    public static TBuilder SetCostumeIconOrDefault<TBuilder>(this TBuilder builder, Web.Enka.Model.AvatarInfo avatarInfo, Avatar avatar)
+    public static TBuilder SetCostumeIconOrDefault<TBuilder>(this TBuilder builder, DetailedCharacter detailedCharacter, MetadataAvatar avatar)
         where TBuilder : IAvatarViewBuilder
     {
-        if (avatarInfo.CostumeId.TryGetValue(out CostumeId id))
+        if (detailedCharacter.Costumes is [{ Id: { } id }, ..])
         {
-            Costume costume = avatar.Costumes.Single(c => c.Id == id);
+            MetadataCostume costume = avatar.Costumes.Single(c => c.Id == id);
 
             // Set to costume icon
             builder.View.Icon = AvatarIconConverter.IconNameToUri(costume.FrontIcon);
@@ -33,12 +37,12 @@ internal static class AvatarViewBuilderExtension
         return builder;
     }
 
-    public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, List<Skill> talents, List<SkillId> talentIds)
+    public static TBuilder SetConstellations<TBuilder>(this TBuilder builder, List<MetadataSkill> talents, List<SkillId> talentIds)
         where TBuilder : IAvatarViewBuilder
     {
         return builder.SetConstellations(CreateConstellations(talents, talentIds.EmptyIfNull()));
 
-        static List<ConstellationView> CreateConstellations(List<Skill> talents, List<SkillId> talentIds)
+        static List<ConstellationView> CreateConstellations(List<MetadataSkill> talents, List<SkillId> talentIds)
         {
             // TODO: use builder here
             return talents.SelectList(talent => new ConstellationView()
@@ -55,31 +59,6 @@ internal static class AvatarViewBuilderExtension
         where TBuilder : IAvatarViewBuilder
     {
         return builder.Configure(b => b.View.Constellations = constellations);
-    }
-
-    public static TBuilder SetCritScore<TBuilder>(this TBuilder builder, Dictionary<FightProperty, float>? fightPropMap)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.SetCritScore(ScoreCrit(fightPropMap));
-
-        static float ScoreCrit(Dictionary<FightProperty, float>? fightPropMap)
-        {
-            if (fightPropMap is null or { Count: 0 })
-            {
-                return 0F;
-            }
-
-            float cr = fightPropMap[FightProperty.FIGHT_PROP_CRITICAL];
-            float cd = fightPropMap[FightProperty.FIGHT_PROP_CRITICAL_HURT];
-
-            return 100 * ((cr * 2) + cd);
-        }
-    }
-
-    public static TBuilder SetCritScore<TBuilder>(this TBuilder builder, float critScore)
-        where TBuilder : IAvatarViewBuilder
-    {
-        return builder.Configure(b => b.View.CritScore = critScore);
     }
 
     public static TBuilder SetElement<TBuilder>(this TBuilder builder, ElementType element)
@@ -152,7 +131,7 @@ internal static class AvatarViewBuilderExtension
         return builder.Configure(b => b.View.Reliquaries = reliquaries);
     }
 
-    public static TBuilder SetShowcaseRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
+    public static TBuilder SetRefreshTimeFormat<TBuilder>(this TBuilder builder, DateTimeOffset refreshTime, Func<object?, string> format, string defaultValue)
         where TBuilder : IAvatarViewBuilder
     {
         return builder.SetRefreshTimeFormat(refreshTime == DateTimeOffsetExtension.DatebaseDefaultTime ? defaultValue : format(refreshTime.ToLocalTime()));
@@ -176,11 +155,12 @@ internal static class AvatarViewBuilderExtension
                 return [];
             }
 
-            Dictionary<SkillId, SkillLevel> skillNoExtraLeveledMap = new(skillLevels);
+            Dictionary<SkillId, SkillLevel> nonExtraLeveledSkills = new(skillLevels);
 
+            // TODO: Test 达达利亚技能的影响
             foreach ((SkillId skillId, SkillLevel extraLevel) in extraLevels)
             {
-                skillNoExtraLeveledMap.DecreaseByValue(skillId, extraLevel);
+                nonExtraLeveledSkills.DecreaseByValue(skillId, extraLevel);
             }
 
             return proudSkills.SelectList(proudSkill =>
@@ -194,7 +174,7 @@ internal static class AvatarViewBuilderExtension
                     GroupId = proudSkill.GroupId,
                     Level = LevelFormat.Format(skillLevels[proudSkill.Id], extraLevels.GetValueOrDefault(proudSkill.Id)),
                     LevelNumber = skillLevels[proudSkill.Id],
-                    Info = DescriptionsParametersDescriptor.Convert(proudSkill.Proud, skillNoExtraLeveledMap[proudSkill.Id]),
+                    Info = DescriptionsParametersDescriptor.Convert(proudSkill.Proud, skillLevels[proudSkill.Id]),
                 };
             });
         }

@@ -12,7 +12,7 @@ namespace Snap.Hutao.UI.Xaml.Control;
 
 [HighQuality]
 [SuppressMessage("", "CA1001")]
-internal class ScopedPage : Page
+internal partial class ScopedPage : Page
 {
     private readonly CancellationTokenSource viewCancellationTokenSource = new();
     private readonly IServiceScope pageScope;

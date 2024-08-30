@@ -16,11 +16,12 @@ internal static class AvatarViewTextTemplating
             // {avatar.Name} [{avatar.Level}, ☆{avatar.Quality:D}, C{avatar.Constellations.Where(c => c.IsActivated).Count()}] [{FormatSkills(avatar.Skills)}]
             
             """;
+
         string weaponTemplate = avatar.Weapon is { } weapon
             ? $"""
                 // ---------------------
                 // {weapon.Name} [{weapon.Level}, ☆{weapon.Quality:D}, R{weapon.AffixLevelNumber}]
-                // [{weapon.MainProperty.Name}: {weapon.MainProperty.Value}] [{weapon.SubProperty.Name}: {weapon.SubProperty.Value}]
+                // {(weapon.MainProperty is null ? string.Empty : $"[{weapon.MainProperty.Name}: {weapon.MainProperty.Value}]")} {(weapon.SubProperty is null ? string.Empty : $"[{weapon.SubProperty.Name}: {weapon.SubProperty.Value}]")}
                 
                 """
             : string.Empty;

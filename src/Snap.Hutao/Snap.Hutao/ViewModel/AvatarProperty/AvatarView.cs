@@ -39,10 +39,6 @@ internal sealed partial class AvatarView : INameIconSide,
 
     public List<AvatarProperty> Properties { get; set; } = default!;
 
-    public string ScoreFormatted { get => $"{Score:F2}"; }
-
-    public string CritScoreFormatted { get => $"{CritScore:F2}"; }
-
     public uint FetterLevel { get; set; }
 
     public string RefreshTimeFormat { get; set; } = default!;
@@ -50,10 +46,6 @@ internal sealed partial class AvatarView : INameIconSide,
     internal AvatarId Id { get; set; }
 
     internal uint LevelNumber { get; set; }
-
-    internal float Score { get; set; }
-
-    internal float CritScore { get; set; }
 
     public ICalculableAvatar ToCalculable()
     {

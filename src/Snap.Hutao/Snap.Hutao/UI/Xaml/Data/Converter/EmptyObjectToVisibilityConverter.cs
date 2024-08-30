@@ -10,7 +10,7 @@ namespace Snap.Hutao.UI.Xaml.Data.Converter;
 /// This class converts a object? value into a Visibility enumeration.
 /// </summary>
 [HighQuality]
-internal sealed class EmptyObjectToVisibilityConverter : EmptyObjectToObjectConverter
+internal sealed partial class EmptyObjectToVisibilityConverter : EmptyObjectToObjectConverter
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="EmptyObjectToVisibilityConverter"/> class.

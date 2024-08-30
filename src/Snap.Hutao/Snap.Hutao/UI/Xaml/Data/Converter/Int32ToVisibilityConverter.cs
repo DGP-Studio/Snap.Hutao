@@ -10,7 +10,7 @@ namespace Snap.Hutao.UI.Xaml.Data.Converter;
 /// Int32 转 Visibility
 /// </summary>
 [HighQuality]
-internal sealed class Int32ToVisibilityConverter : IValueConverter
+internal sealed partial class Int32ToVisibilityConverter : IValueConverter
 {
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)

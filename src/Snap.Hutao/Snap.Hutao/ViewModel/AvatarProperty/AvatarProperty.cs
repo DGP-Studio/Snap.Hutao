@@ -9,10 +9,6 @@ using System.Collections.Frozen;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
-/// <summary>
-/// 角色属性值
-/// </summary>
-[HighQuality]
 internal sealed class AvatarProperty : ObservableObject, INameIcon
 {
     private static readonly FrozenDictionary<FightProperty, Uri> PropertyIcons = FrozenDictionary.ToFrozenDictionary(
@@ -37,39 +33,23 @@ internal sealed class AvatarProperty : ObservableObject, INameIcon
         KeyValuePair.Create(FightProperty.FIGHT_PROP_SHIELD_COST_MINUS_RATIO, StaticResourcesEndpoints.StaticRaw("Property", "UI_Icon_ShieldCostMinus.png").ToUri()),
     ]);
 
-    /// <summary>
-    /// 构造一个新的角色属性值
-    /// </summary>
-    /// <param name="property">战斗属性</param>
-    /// <param name="name">名称</param>
-    /// <param name="value">白字</param>
-    /// <param name="addValue">绿字</param>
     public AvatarProperty(FightProperty property, string name, string value, string? addValue = null)
     {
         Name = name;
         Value = value;
         Icon = PropertyIcons.GetValueOrDefault(property);
-        AddValue = addValue;
+        if (!string.IsNullOrEmpty(addValue))
+        {
+            AddValue = addValue;
+        }
     }
 
-    /// <summary>
-    /// 名称
-    /// </summary>
     public string Name { get; }
 
-    /// <summary>
-    /// 图标
-    /// </summary>
     [AllowNull]
     public Uri Icon { get; }
 
-    /// <summary>
-    /// 白字
-    /// </summary>
     public string Value { get; }
 
-    /// <summary>
-    /// 绿字
-    /// </summary>
     public string? AddValue { get; }
 }
