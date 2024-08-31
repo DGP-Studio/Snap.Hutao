@@ -160,7 +160,7 @@
     <value>HTTP GET {0}</value>
   </data>
   <data name="ControlImageCompositionImageSystemException" xml:space="preserve">
-    <value>應用 CompositionImage 的源時發生異常</value>
+    <value>應用 CompositionImage 的來源時發生異常</value>
   </data>
   <data name="ControlPanelPanelSelectorDropdownGridName" xml:space="preserve">
     <value>網格</value>
@@ -554,7 +554,7 @@
     <value>精煉 {0} 階</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
-    <value>必須登入 米遊社/ HoYoLAB 並選擇一個使用者與角色</value>
+    <value>必須登入 米遊社 / HoYoLAB 並選擇一個使用者與角色</value>
   </data>
   <data name="ServerGachaLogServiceDeleteEntrySucceed" xml:space="preserve">
     <value>刪除了 UID：{0} 的 {1} 筆祈願紀錄</value>
@@ -596,16 +596,16 @@
     <value>註冊失敗，伺服器異常，請盡快聯繫開發者解決</value>
   </data>
   <data name="ServerPassportServiceUnregisterFailed" xml:space="preserve">
-    <value>用戶不存在，刪除帳號失敗</value>
+    <value>使用者不存在，刪除帳號失敗</value>
   </data>
   <data name="ServerPassportUnregisterSucceed" xml:space="preserve">
-    <value>用戶刪除成功</value>
+    <value>使用者刪除成功</value>
   </data>
   <data name="ServerPassportUserInfoNotExist" xml:space="preserve">
     <value>使用者不存在，獲取使用者資訊失敗</value>
   </data>
   <data name="ServerPassportUserNameOrPasswordIncorrect" xml:space="preserve">
-    <value>用戶名稱或密碼錯誤</value>
+    <value>使用者名稱或密碼錯誤</value>
   </data>
   <data name="ServerPassportVerifyFailed" xml:space="preserve">
     <value>驗證失敗</value>
@@ -942,7 +942,7 @@
     <value>UIGF 檔案的語言：{0} 與胡桃的語言：{1} 不對應，請切換到對應語言重試</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
-    <value>存在多個匹配帳號，請刪除重複的帳號</value>
+    <value>存在多個對應帳號，請刪除重複的帳號</value>
   </data>
   <data name="ServiceGameEnsureGameResourceInsufficientDirectoryPermissions" xml:space="preserve">
     <value>檔案系統權限不足，無法轉換伺服器</value>
@@ -993,7 +993,7 @@
     <value>注入</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyDescription" xml:space="preserve">
-    <value>經典的進程外內存操作，較為危險，但容易失敗</value>
+    <value>經典的處理程序外記憶體操作，較為危險，但容易失敗</value>
   </data>
   <data name="ServiceGameLaunchUnlockerKindLegacyName" xml:space="preserve">
     <value>經典</value>
@@ -1029,7 +1029,7 @@
     <value>正在更新遊戲</value>
   </data>
   <data name="ServiceGamePackageAdvancedVerifyingIntegrity" xml:space="preserve">
-    <value>正在檢查遊戲完整性</value>
+    <value>正在驗證遊戲完整性</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
     <value>備份：{0}</value>
@@ -1074,7 +1074,7 @@
     <value>在尋找必要的模組時遇到問題：尋找模組超時，請重試</value>
   </data>
   <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
-    <value>在匹配記憶體時遇到問題：無法匹配到期望的內容</value>
+    <value>在對應記憶體時遇到問題：無法對應到期望的內容</value>
   </data>
   <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
     <value>在讀取必要的模組記憶體時遇到問題：無法將模組記憶體複製到指定位置</value>
@@ -1092,7 +1092,7 @@
     <value>無法找到快取的後設資料檔案</value>
   </data>
   <data name="ServiceMetadataHttpRequestFailed" xml:space="preserve">
-    <value>HTTP {0} | Error:{1}：元資料校驗檔案下載失敗</value>
+    <value>HTTP {0} | Error:{1}：後設資料校驗檔案下載失敗</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>後設資料服務未初始化或初始化失敗</value>
@@ -1224,7 +1224,7 @@
     <value>統計</value>
   </data>
   <data name="ViewControlWebViewerCoreWebView2ProfileQueryInterfaceFailed" xml:space="preserve">
-    <value>目前 WebView2 版本不支援管理設定，繼續使用可能會導致異常，請儘快升級</value>
+    <value>目前 WebView2 版本不支援管理設定，繼續使用可能會導致異常，請盡快升級</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>養成計劃</value>
@@ -2547,7 +2547,7 @@
     <value>檔案</value>
   </data>
   <data name="ViewPageLaunchGameInterProcessHeader" xml:space="preserve">
-    <value>進程聯動</value>
+    <value>處理程序聯動</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>在指定的顯示器上運行</value>
@@ -2634,7 +2634,7 @@
     <value>伺服器</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeWarning" xml:space="preserve">
-    <value>版本更新前需要提前轉換至與其啟動器對應的伺服器</value>
+    <value>版本更新前需要提前轉換至與啟動器對應的伺服器</value>
   </data>
   <data name="ViewPageLaunchGameTargetFovDescription" xml:space="preserve">
     <value>調整相機視野，預設 45</value>
@@ -2655,7 +2655,7 @@
     <value>解鎖方式</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyDescription" xml:space="preserve">
-    <value>當出現錯誤代碼 31-4302 時請啟用此選項，啟用後將無法調整視野與迷霧，僅在啟動遊戲前切換此開關才會生效</value>
+    <value>當出現錯誤代碼 31-4302 時請啟用此選項，啟用後將禁止調整視野與迷霧，僅在啟動遊戲前切換此開關才會生效</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsLoopAdjustFpsOnlyHeader" xml:space="preserve">
     <value>相容模式</value>
@@ -2904,7 +2904,7 @@
     <value>刪除帳號</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
-    <value>在完整閱讀原神和胡桃工具箱用戶協定後，我選擇啟用「啟動遊戲 - 進階功能」</value>
+    <value>在完整閱讀原神和胡桃工具箱使用者協定後，我選擇啟用「啟動遊戲 - 進階功能」</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
     <value>進階功能</value>
