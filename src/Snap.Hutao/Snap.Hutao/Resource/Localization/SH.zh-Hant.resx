@@ -779,7 +779,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
-    <value>冷却缩减</value>
+    <value>冷卻縮減</value>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
     <value>養成計算：尚未重新整理</value>
@@ -1062,10 +1062,10 @@
     <value>未開啟長路徑功能，無法設定登錄檔鍵值</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
-    <value>無法讀取遊戲設定檔 {0}，可能是檔案不存在</value>
+    <value>無法讀取遊戲設定檔案 {0}，可能是檔案不存在</value>
   </data>
   <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
-    <value>無法讀取或儲存設定檔，請用系統管理員模式重試</value>
+    <value>無法讀取或儲存設定檔案，請用系統管理員模式重試</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
     <value>在尋找必要的模組時遇到問題：無法讀取任何模組，可能是保護驅動已經載入完成，請重試</value>
@@ -1161,7 +1161,7 @@
     <value>我的角色</value>
   </data>
   <data name="ViewAvatarPropertySyncDataButtonLabel" xml:space="preserve">
-    <value>同步角色訊息</value>
+    <value>同步角色資訊</value>
   </data>
   <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
     <value>成就統計</value>
@@ -1638,7 +1638,7 @@
     <value>獲取培養材料中，請稍後...</value>
   </data>
   <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
-    <value>目前角色無法計算，請同步資料後再試</value>
+    <value>目前角色無法計算，請同步資訊後再試</value>
   </data>
   <data name="ViewModelAvatarPropertyEnkaApiUnavailable" xml:space="preserve">
     <value>角色資訊服務 [Enka API] 目前不可用</value>
@@ -1710,7 +1710,7 @@
     <value>確定要刪除目前計劃嗎？</value>
   </data>
   <data name="ViewModelDailyNoteConfigWebhookUrlComplete" xml:space="preserve">
-    <value>即時便箋 Webhook URL 配置成功</value>
+    <value>即時便箋 Webhook URL 設定成功</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
     <value>HoYoLAB 帳號不支援驗證即時便箋</value>
@@ -1845,7 +1845,7 @@
     <value>請輸入正確的電子郵件地址</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
-    <value>剪貼簿中的文本格式不正塙</value>
+    <value>剪貼簿中的文本格式不正確</value>
   </data>
   <data name="ViewModelImportWarningMessage" xml:space="preserve">
     <value>數據格式不正確</value>
@@ -2190,7 +2190,7 @@
     <value>重新整理</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
-    <value>為啟用通知區域圖示，關閉窗口後自動重新整理將不會執行</value>
+    <value>未啟用通知區域圖示，關閉窗口後自動重新整理將不會執行</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>在我遊玩原神時不通知我</value>
@@ -2208,7 +2208,7 @@
     <value>搜尋問題與建議</value>
   </data>
   <data name="ViewPageFeedBackBasicInformation" xml:space="preserve">
-    <value>基本訊息</value>
+    <value>基本資訊</value>
   </data>
   <data name="ViewPageFeedbackCommonLinksHeader" xml:space="preserve">
     <value>常用連結</value>
