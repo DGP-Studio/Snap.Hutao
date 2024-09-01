@@ -50,9 +50,9 @@ internal sealed partial class UIGF40ImportService : IUIGFImportService
             List<GachaItem> fullItems = [];
             foreach (GachaType queryType in GachaLog.GachaLog.QueryTypes)
             {
-                long trimId = gachaLogRepository.GetNewestGachaItemIdByArchiveIdAndQueryType(archiveId, queryType);
+                long trimId = gachaLogRepository.GetOldestGachaItemIdByArchiveIdAndQueryType(archiveId, queryType);
                 List<GachaItem> currentTypedList = entry.List
-                    .Where(item => item.UIGFGachaType == queryType && item.Id > trimId)
+                    .Where(item => item.UIGFGachaType == queryType && item.Id < trimId)
                     .OrderByDescending(item => item.Id)
                     .Select(item => GachaItem.From(archiveId, item, entry.TimeZone))
                     .ToList();
