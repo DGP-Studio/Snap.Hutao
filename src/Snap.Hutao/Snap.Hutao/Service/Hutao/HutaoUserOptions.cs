@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace Snap.Hutao.Service.Hutao;
 
 [Injection(InjectAs.Singleton)]
-internal sealed class HutaoUserOptions : ObservableObject
+internal sealed partial class HutaoUserOptions : ObservableObject
 {
     private readonly TaskCompletionSource initialization = new();
 

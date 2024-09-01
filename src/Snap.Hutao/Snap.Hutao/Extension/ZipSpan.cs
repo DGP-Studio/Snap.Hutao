@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Extension;
 
-internal ref struct ZipSpan<TFirst, TSecond>
+internal readonly ref struct ZipSpan<TFirst, TSecond>
 {
     private readonly Span<TFirst> first;
     private readonly Span<TSecond> second;
@@ -36,7 +36,7 @@ internal ref struct ZipSpan<TFirst, TSecond>
         public RefTuple<TFirst, TSecond> Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new(ref first[index], ref second[index]);
+            readonly get => new(ref first[index], ref second[index]);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

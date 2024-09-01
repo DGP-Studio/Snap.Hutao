@@ -33,6 +33,15 @@ internal sealed partial class UniformPanel : Microsoft.UI.Xaml.Controls.Panel
 
     protected override Size ArrangeOverride(Size finalSize)
     {
+        double maxItemHeight = 0;
+        foreach (UIElement child in Children)
+        {
+            if (child.DesiredSize.Height > maxItemHeight)
+            {
+                maxItemHeight = child.DesiredSize.Height;
+            }
+        }
+
         double itemWidth = ((finalSize.Width + ColumnSpacing) / columns) - ColumnSpacing;
 
         for (int index = 0; index < Children.Count; index++)
@@ -43,7 +52,7 @@ internal sealed partial class UniformPanel : Microsoft.UI.Xaml.Controls.Panel
             int column = index % columns;
 
             double x = column * (itemWidth + ColumnSpacing);
-            double y = row * (child.DesiredSize.Height + RowSpacing);
+            double y = row * (maxItemHeight + RowSpacing);
 
             child.Arrange(new Rect(x, y, itemWidth, child.DesiredSize.Height));
         }

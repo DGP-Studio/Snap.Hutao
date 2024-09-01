@@ -10,7 +10,7 @@ namespace Snap.Hutao.Core.IO;
 
 internal delegate TStatus StreamCopyStatusFactory<TStatus>(long bytesReadSinceLastReport, long bytesReadSinceCopyStart);
 
-internal sealed class StreamCopyWorker : StreamCopyWorker<StreamCopyStatus>
+internal sealed partial class StreamCopyWorker : StreamCopyWorker<StreamCopyStatus>
 {
     public StreamCopyWorker(Stream source, Stream destination, long totalBytes, int bufferSize = 81920)
         : base(source, destination, (lastReport, copyStart) => new StreamCopyStatus(lastReport, copyStart, totalBytes), bufferSize)
@@ -19,7 +19,7 @@ internal sealed class StreamCopyWorker : StreamCopyWorker<StreamCopyStatus>
 }
 
 [SuppressMessage("", "SA1402")]
-internal class StreamCopyWorker<TStatus> : IDisposable
+internal partial class StreamCopyWorker<TStatus> : IDisposable
 {
 #pragma warning disable CA2213
     private readonly Stream source;

@@ -131,6 +131,7 @@ internal enum FightProperty
     /// <summary>
     /// 受治疗提升
     /// </summary>
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyHDB))]
     FIGHT_PROP_HEALED_ADD = 27,
 
     /// <summary>

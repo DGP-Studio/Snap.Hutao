@@ -18,7 +18,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
-internal sealed class DownloadSummary : ObservableObject
+internal sealed partial class DownloadSummary : ObservableObject
 {
     private static readonly FrozenSet<string?> AllowedMediaTypes = FrozenSet.ToFrozenSet<string?>(
     [

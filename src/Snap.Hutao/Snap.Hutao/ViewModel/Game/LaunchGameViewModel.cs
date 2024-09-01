@@ -314,7 +314,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             _ = UpdateGamePackageAsync(value);
         }
 
-        async ValueTask UpdateGamePackageAsync(LaunchScheme? scheme)
+        [SuppressMessage("", "SH003")]
+        async Task UpdateGamePackageAsync(LaunchScheme? scheme)
         {
             if (scheme is null)
             {

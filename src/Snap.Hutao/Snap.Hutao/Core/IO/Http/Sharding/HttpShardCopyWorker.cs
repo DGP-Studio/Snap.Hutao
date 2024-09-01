@@ -20,7 +20,7 @@ internal static class HttpShardCopyWorker
 }
 
 [SuppressMessage("", "SA1402")]
-file sealed class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorker<TStatus>
+internal sealed partial class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorker<TStatus>
 {
     private readonly HttpClient httpClient;
     private readonly string sourceUrl;

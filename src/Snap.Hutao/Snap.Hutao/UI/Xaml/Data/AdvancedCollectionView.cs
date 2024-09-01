@@ -673,7 +673,7 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
         OnPropertyChanged(nameof(Count));
     }
 
-    internal sealed class NotificationDeferrer : IDisposable
+    internal sealed partial class NotificationDeferrer : IDisposable
     {
         private readonly AdvancedCollectionView<T> advancedCollectionView;
         private readonly T? currentItem;

@@ -12,7 +12,7 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Model.Calculable;
 
-internal sealed class CalculableAvatar
+internal sealed partial class CalculableAvatar
     : ObservableObject,
     ICalculableAvatar,
     IMappingFrom<CalculableAvatar, Avatar>,

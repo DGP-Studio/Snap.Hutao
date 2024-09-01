@@ -172,8 +172,8 @@ internal static class AvatarViewBuilderExtension
                     Icon = SkillIconConverter.IconNameToUri(proudSkill.Icon),
                     Description = proudSkill.Description,
                     GroupId = proudSkill.GroupId,
-                    Level = LevelFormat.Format(skillLevels[proudSkill.Id], extraLevels.GetValueOrDefault(proudSkill.Id)),
-                    LevelNumber = skillLevels[proudSkill.Id],
+                    Level = LevelFormat.Format(nonExtraLeveledSkills[proudSkill.Id], extraLevels.GetValueOrDefault(proudSkill.Id)),
+                    LevelNumber = nonExtraLeveledSkills[proudSkill.Id],
                     Info = DescriptionsParametersDescriptor.Convert(proudSkill.Proud, skillLevels[proudSkill.Id]),
                 };
             });

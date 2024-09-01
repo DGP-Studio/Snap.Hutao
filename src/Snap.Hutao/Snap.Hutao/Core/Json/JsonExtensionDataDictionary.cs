@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Core.Json;
 
-internal sealed class JsonExtensionDataDictionary : IDictionary<string, JsonElement>
+internal sealed partial class JsonExtensionDataDictionary : IDictionary<string, JsonElement>
 {
     private readonly Dictionary<string, JsonElement> inner = [];
     private readonly FrozenSet<string> ignoredKeys;

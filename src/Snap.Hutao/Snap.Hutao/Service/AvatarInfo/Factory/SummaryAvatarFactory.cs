@@ -27,7 +27,7 @@ internal sealed class SummaryAvatarFactory
 
     public SummaryAvatarFactory(SummaryFactoryMetadataContext context, EntityAvatarInfo avatarInfo)
     {
-        ArgumentNullException.ThrowIfNull(avatarInfo);
+        ArgumentNullException.ThrowIfNull(avatarInfo.Info2);
 
         this.context = context;
         character = avatarInfo.Info2;
@@ -53,7 +53,7 @@ internal sealed class SummaryAvatarFactory
             .SetConstellations(avatar.SkillDepot.Talents, activatedConstellations)
             .SetSkills(avatar.SkillDepot.CompositeSkillsNoInherents(), character.Skills.ToDictionary(s => s.SkillId, s => s.Level), extraLevels)
             .SetFetterLevel(character.Base.Fetter)
-            .SetProperties(character.SelectedProperties.SelectList(FightPropertyFormat.ToAvatarProperty))
+            .SetProperties(character.SelectedProperties.SortBy(p => p.PropertyType, InGameFightPropertyComparer.Shared).SelectList(FightPropertyFormat.ToAvatarProperty))
             .SetLevelNumber(character.Base.Level)
             .SetWeapon(CreateWeapon(character.Weapon))
             .SetReliquaries(character.Relics.SelectList(relic => SummaryReliquaryFactory.Create(context, relic)))

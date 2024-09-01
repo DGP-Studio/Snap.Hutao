@@ -54,7 +54,7 @@ internal sealed partial class AdvancedDbCollectionView<TEntity> : AdvancedCollec
         }
     }
 
-    private sealed class CurrentItemSuppression : IDisposable
+    private sealed partial class CurrentItemSuppression : IDisposable
     {
         private readonly AdvancedDbCollectionView<TEntity> view;
         private readonly TEntity? currentItem;
@@ -121,7 +121,7 @@ internal sealed partial class AdvancedDbCollectionView<TEntityAccess, TEntity> :
         }
     }
 
-    private sealed class CurrentItemSuppression : IDisposable
+    private sealed partial class CurrentItemSuppression : IDisposable
     {
         private readonly AdvancedDbCollectionView<TEntityAccess, TEntity> view;
         private readonly TEntityAccess? currentItem;

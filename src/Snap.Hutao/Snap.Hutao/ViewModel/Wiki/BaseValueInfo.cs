@@ -10,7 +10,7 @@ using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-internal sealed class BaseValueInfo : ObservableObject
+internal sealed partial class BaseValueInfo : ObservableObject
 {
     private readonly List<PropertyCurveValue> propValues;
     private readonly Dictionary<Level, Dictionary<GrowCurveType, float>> growCurveMap;

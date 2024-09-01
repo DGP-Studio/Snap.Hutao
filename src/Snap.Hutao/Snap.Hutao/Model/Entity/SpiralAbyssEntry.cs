@@ -13,7 +13,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("spiral_abysses")]
-internal sealed class SpiralAbyssEntry : ObservableObject,
+internal sealed partial class SpiralAbyssEntry : ObservableObject,
     IMappingFrom<SpiralAbyssEntry, string, Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss>
 {
     /// <summary>

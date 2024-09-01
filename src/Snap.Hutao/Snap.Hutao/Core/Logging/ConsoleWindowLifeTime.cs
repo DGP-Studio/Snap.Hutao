@@ -8,7 +8,7 @@ using static Snap.Hutao.Win32.Kernel32;
 
 namespace Snap.Hutao.Core.Logging;
 
-internal sealed class ConsoleWindowLifeTime : IDisposable
+internal sealed partial class ConsoleWindowLifeTime : IDisposable
 {
     public const bool DebugModeEnabled =
 #if IS_ALPHA_BUILD

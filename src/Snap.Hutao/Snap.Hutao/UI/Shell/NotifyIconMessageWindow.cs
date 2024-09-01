@@ -13,7 +13,7 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.UI.Shell;
 
 [SuppressMessage("", "SA1310")]
-internal sealed class NotifyIconMessageWindow : IDisposable
+internal sealed partial class NotifyIconMessageWindow : IDisposable
 {
     public const uint WM_NOTIFYICON_CALLBACK = 0x444U;
     private const string WindowClassName = "SnapHutaoNotifyIconMessageWindowClass";

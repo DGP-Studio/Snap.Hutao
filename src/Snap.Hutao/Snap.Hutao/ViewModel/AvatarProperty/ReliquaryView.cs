@@ -7,5 +7,5 @@ internal sealed class ReliquaryView : EquipView
 {
     public List<ReliquaryComposedSubProperty> ComposedSubProperties { get; set; } = default!;
 
-    internal string SetName { get; set; } = default!;
+    public string SetName { get; set; } = default!;
 }

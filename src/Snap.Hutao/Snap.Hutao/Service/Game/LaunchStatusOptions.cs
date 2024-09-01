@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace Snap.Hutao.Service.Game;
 
 [Injection(InjectAs.Singleton)]
-internal sealed class LaunchStatusOptions : ObservableObject
+internal sealed partial class LaunchStatusOptions : ObservableObject
 {
     private LaunchStatus? launchStatus;
 

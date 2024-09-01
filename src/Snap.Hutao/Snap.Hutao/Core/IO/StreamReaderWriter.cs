@@ -5,6 +5,7 @@ using System.IO;
 
 namespace Snap.Hutao.Core.IO;
 
+[SuppressMessage("", "CsWinRT1028")]
 internal sealed class StreamReaderWriter : IDisposable
 {
     private readonly StreamReader reader;

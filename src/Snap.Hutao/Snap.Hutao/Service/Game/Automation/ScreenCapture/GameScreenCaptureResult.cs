@@ -5,7 +5,7 @@ using System.Buffers;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
-internal sealed class GameScreenCaptureResult : IDisposable
+internal sealed partial class GameScreenCaptureResult : IDisposable
 {
     private readonly IMemoryOwner<byte> rawPixelData;
     private readonly int pixelWidth;

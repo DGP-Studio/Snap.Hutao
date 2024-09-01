@@ -742,6 +742,9 @@
     <value>治疗加成</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ServiceAvatarInfoPropertyHDB" xml:space="preserve">
+    <value>受治疗加成</value>
+  </data>
   <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
     <value>生命值</value>
     <comment>Need EXACT same string in game</comment>

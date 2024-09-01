@@ -17,7 +17,7 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.Service.Game;
 
 [Injection(InjectAs.Singleton)]
-internal sealed class LaunchOptions : DbStoreOptions
+internal sealed partial class LaunchOptions : DbStoreOptions
 {
     private readonly int primaryScreenWidth;
     private readonly int primaryScreenHeight;

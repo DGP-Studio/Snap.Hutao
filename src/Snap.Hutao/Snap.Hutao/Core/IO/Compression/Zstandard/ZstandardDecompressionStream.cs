@@ -8,7 +8,7 @@ using static Snap.ZStandard.Methods;
 
 namespace Snap.Hutao.Core.IO.Compression.Zstandard;
 
-internal sealed class ZstandardDecompressionStream : Stream
+internal sealed partial class ZstandardDecompressionStream : Stream
 {
     [SuppressMessage("", "CA2213")]
     private readonly Stream inputStream;
