@@ -29,7 +29,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     private IslandFunctionOffsets? offsets;
 
-    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, IProgress<GameFpsUnlockerContext> progress)
+    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess)
     {
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
         featureService = serviceProvider.GetRequiredService<IFeatureService>();
@@ -38,7 +38,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         dataFolderIslandPath = Path.Combine(runtimeOptions.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
 
         context.GameProcess = gameProcess;
-        context.Progress = progress;
         context.Logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
     }
 
@@ -63,8 +62,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             context.Logger.LogError("Failed to copy island file.");
             throw;
         }
-
-        context.Report();
 
         return true;
     }
@@ -110,9 +107,9 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private static unsafe void InitializeIslandEnvironment(nint handle, IslandFunctionOffsets offsets, LaunchOptions options)
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
-        pIslandEnvironment->FunctionOffsetFieldOfView = offsets.FunctionOffsetFieldOfView;
-        pIslandEnvironment->FunctionOffsetTargetFrameRate = offsets.FunctionOffsetTargetFrameRate;
-        pIslandEnvironment->FunctionOffsetFog = offsets.FunctionOffsetFog;
+        pIslandEnvironment->FunctionOffsetFieldOfView = offsets.FunctionOffsetSetFieldOfView;
+        pIslandEnvironment->FunctionOffsetTargetFrameRate = offsets.FunctionOffsetSetTargetFrameRate;
+        pIslandEnvironment->FunctionOffsetFog = offsets.FunctionOffsetSetEnableFogRendering;
 
         pIslandEnvironment->LoopAdjustFpsOnly = options.LoopAdjustFpsOnly;
 

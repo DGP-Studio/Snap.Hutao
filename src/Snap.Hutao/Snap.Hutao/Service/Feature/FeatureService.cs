@@ -17,7 +17,7 @@ internal sealed partial class FeatureService : IFeatureService
     private readonly IHutaoEndpointsFactory hutaoEndpointsFactory;
     private readonly IServiceScopeFactory serviceScopeFactory;
 
-    public async ValueTask<IslandFeature?> GetIslandFeatureAsync()
+    public async ValueTask<IslandFeature?> GetIslandFeatureAsync(string tag)
     {
         using (IServiceScope scope = serviceScopeFactory.CreateScope())
         {
@@ -26,7 +26,7 @@ internal sealed partial class FeatureService : IFeatureService
             {
                 try
                 {
-                    string url = hutaoEndpointsFactory.Create().Feature("UnlockerIsland");
+                    string url = hutaoEndpointsFactory.Create().Feature($"UnlockerIsland_{tag}");
                     return await httpClient.GetFromJsonAsync<IslandFeature>(url).ConfigureAwait(false);
                 }
                 catch

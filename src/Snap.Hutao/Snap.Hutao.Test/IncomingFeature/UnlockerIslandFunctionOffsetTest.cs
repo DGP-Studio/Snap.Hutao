@@ -14,7 +14,7 @@ public class UnlockerIslandFunctionOffsetTest
     [TestMethod]
     public void GenerateJson()
     {
-        // public void set_fieldOfView(float value)
+        // public void set_fieldOfView(float value) -> jmp xxxxxxxx
         // public static void set_targetFrameRate(int value)
         // public static void set_enableFogRendering(bool value)
 
@@ -22,15 +22,15 @@ public class UnlockerIslandFunctionOffsetTest
         {
             Oversea = new()
             {
-                FunctionOffsetFieldOfView = 0x00000000_01B0A690,
-                FunctionOffsetTargetFrameRate = 0x00000000_10FF7800,
-                FunctionOffsetFog = 0x00000000_10F3ACE0,
+                FunctionOffsetSetFieldOfView = 0x00000000_0165A1D0,
+                FunctionOffsetSetTargetFrameRate = 0x00000000_10FF7800,
+                FunctionOffsetSetEnableFogRendering = 0x00000000_10F3ACE0,
             },
             Chinese = new()
             {
-                FunctionOffsetFieldOfView = 0x00000000_01B0F690,
-                FunctionOffsetTargetFrameRate = 0x00000000_10FF7D20,
-                FunctionOffsetFog = 0x00000000_10F31FA0,
+                FunctionOffsetSetFieldOfView = 0x00000000_0165F1D0,
+                FunctionOffsetSetTargetFrameRate = 0x00000000_10FF7D20,
+                FunctionOffsetSetEnableFogRendering = 0x00000000_10F31FA0,
             },
         };
 
@@ -46,10 +46,10 @@ public class UnlockerIslandFunctionOffsetTest
 
     private sealed class UnlockerIslandConfiguration
     {
-        public required uint FunctionOffsetFieldOfView { get; set; }
+        public required uint FunctionOffsetSetFieldOfView { get; set; }
 
-        public required uint FunctionOffsetTargetFrameRate { get; set; }
+        public required uint FunctionOffsetSetTargetFrameRate { get; set; }
 
-        public required uint FunctionOffsetFog { get; set; }
+        public required uint FunctionOffsetSetEnableFogRendering { get; set; }
     }
 }
