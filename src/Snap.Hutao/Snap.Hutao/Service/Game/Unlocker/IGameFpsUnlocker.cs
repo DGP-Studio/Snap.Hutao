@@ -3,13 +3,9 @@
 
 namespace Snap.Hutao.Service.Game.Unlocker;
 
-/// <summary>
-/// 游戏帧率解锁器
-/// </summary>
-[HighQuality]
 internal interface IGameFpsUnlocker
 {
     ValueTask PostUnlockAsync(CancellationToken token = default);
 
-    ValueTask<bool> UnlockAsync(IProgress<string> progress, CancellationToken token = default);
+    ValueTask<bool> UnlockAsync(CancellationToken token = default);
 }

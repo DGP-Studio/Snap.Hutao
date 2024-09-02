@@ -26,16 +26,19 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     private readonly GameFpsUnlockerContext context = new();
     private readonly string dataFolderIslandPath;
+    private readonly string gameVersion
 
     private IslandFunctionOffsets? offsets;
 
-    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess)
+    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, string gameVersion)
     {
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
         featureService = serviceProvider.GetRequiredService<IFeatureService>();
 
         RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         dataFolderIslandPath = Path.Combine(runtimeOptions.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
+
+        this.gameVersion = gameVersion;
 
         context.GameProcess = gameProcess;
         context.Logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
@@ -44,7 +47,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     public async ValueTask<bool> UnlockAsync(CancellationToken token = default)
     {
         HutaoException.ThrowIfNot(context.IsUnlockerValid, "This Unlocker is invalid");
-        if (await featureService.GetIslandFeatureAsync().ConfigureAwait(false) is not { } feature)
+
+        if (await featureService.GetIslandFeatureAsync(gameVersion).ConfigureAwait(false) is not { } feature)
         {
             return false;
         }
@@ -107,9 +111,9 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private static unsafe void InitializeIslandEnvironment(nint handle, IslandFunctionOffsets offsets, LaunchOptions options)
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
-        pIslandEnvironment->FunctionOffsetFieldOfView = offsets.FunctionOffsetSetFieldOfView;
-        pIslandEnvironment->FunctionOffsetTargetFrameRate = offsets.FunctionOffsetSetTargetFrameRate;
-        pIslandEnvironment->FunctionOffsetFog = offsets.FunctionOffsetSetEnableFogRendering;
+        pIslandEnvironment->FunctionOffsetSetFieldOfView = offsets.FunctionOffsetSetFieldOfView;
+        pIslandEnvironment->FunctionOffsetSetTargetFrameRate = offsets.FunctionOffsetSetTargetFrameRate;
+        pIslandEnvironment->FunctionOffsetSetEnableFogRendering = offsets.FunctionOffsetSetEnableFogRendering;
 
         pIslandEnvironment->LoopAdjustFpsOnly = options.LoopAdjustFpsOnly;
 

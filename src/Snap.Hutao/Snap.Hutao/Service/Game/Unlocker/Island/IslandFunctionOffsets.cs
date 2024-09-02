@@ -7,7 +7,7 @@ internal sealed class IslandFunctionOffsets
 {
     public required uint FunctionOffsetSetFieldOfView { get; set; }
 
-    public required uint FunctionOffsetSetTargetFrameRate { get; set; }
-
     public required uint FunctionOffsetSetEnableFogRendering { get; set; }
+
+    public required uint FunctionOffsetSetTargetFrameRate { get; set; }
 }

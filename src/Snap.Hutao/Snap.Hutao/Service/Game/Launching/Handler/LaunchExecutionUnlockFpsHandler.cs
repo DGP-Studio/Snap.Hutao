@@ -17,7 +17,17 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
             context.Logger.LogInformation("Unlocking FPS");
             context.Progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
 
-            GameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process);
+            if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
+            {
+                return;
+            }
+
+            if (!gameFileSystem.TryGetGameVersion(out string? gameVerison))
+            {
+                return;
+            }
+
+            GameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process, gameVerison);
 
             try
             {
