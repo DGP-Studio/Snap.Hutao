@@ -26,7 +26,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     private readonly GameFpsUnlockerContext context = new();
     private readonly string dataFolderIslandPath;
-    private readonly string gameVersion
+    private readonly string gameVersion;
 
     private IslandFunctionOffsets? offsets;
 
@@ -95,7 +95,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                             IslandEnvironmentView view = UpdateIslandEnvironment(handle, launchOptions);
                             if (view.State is not IslandState.Started)
                             {
-                                context.Logger.LogDebug("Island Environment|{State}|{Error}", view.State, view.LastError);
+                                context.Logger.LogDebug("Island Environment|{State}|{Error}|{Value}", view.State, view.LastError, view.DebugOriginalFieldOfView);
                             }
                         }
                     }
