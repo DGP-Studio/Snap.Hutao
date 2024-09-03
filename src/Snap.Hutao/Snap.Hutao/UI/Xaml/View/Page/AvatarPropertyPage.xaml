@@ -484,7 +484,6 @@
                             <cwcont:SettingsCard
                                 ActionIconToolTip="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
                                 Command="{Binding RefreshFromHoyolabGameRecordCommand}"
-                                Description="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription}"
                                 Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"
                                 IsClickEnabled="True"/>
                         </StackPanel>

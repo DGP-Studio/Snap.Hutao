@@ -316,11 +316,15 @@ internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, I
         // Only trigger expensive UI updates if the index really changed
         if (targetIndex != oldIndex)
         {
+            bool itemWasCurrent = oldIndex == CurrentPosition;
             OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex, typedItem));
 
             view.Insert(targetIndex, typedItem);
 
             OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, typedItem));
+
+            // Restore current position if it was the CurrentItem that changed
+            _ = !itemWasCurrent || MoveCurrentToIndex(targetIndex);
         }
         else
         {
