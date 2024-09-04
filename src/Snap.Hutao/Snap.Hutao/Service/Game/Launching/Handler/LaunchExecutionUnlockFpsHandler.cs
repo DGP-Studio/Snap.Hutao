@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
-using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Game.Unlocker;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
