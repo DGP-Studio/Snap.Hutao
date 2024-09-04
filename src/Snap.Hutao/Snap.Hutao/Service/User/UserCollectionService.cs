@@ -16,7 +16,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 {
     private readonly IUserInitializationService userInitializationService;
     private readonly IServiceProvider serviceProvider;
-    private readonly IUserDbService userDbService;
+    private readonly IUserRepository userRepository;
     private readonly ITaskContext taskContext;
     private readonly IMessenger messenger;
 
@@ -32,14 +32,14 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
         {
             if (users is null)
             {
-                List<EntityUser> entities = userDbService.GetUserList();
+                List<EntityUser> entities = userRepository.GetUserList();
                 List<BindingUser> users = await entities.SelectListAsync(userInitializationService.ResumeUserAsync).ConfigureAwait(false);
 
                 foreach (BindingUser user in users)
                 {
                     if (user.NeedDbUpdateAfterResume)
                     {
-                        userDbService.UpdateUser(user.Entity);
+                        userRepository.UpdateUser(user.Entity);
                         user.NeedDbUpdateAfterResume = false;
                     }
                 }
@@ -59,7 +59,7 @@ internal sealed partial class UserCollectionService : IUserCollectionService, ID
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        userDbService.DeleteUserById(user.Entity.InnerId);
+        userRepository.DeleteUserById(user.Entity.InnerId);
 
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();

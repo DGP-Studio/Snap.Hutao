@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -9,6 +10,15 @@ namespace Snap.Hutao.Extension;
 
 internal static class DictionaryExtension
 {
+    public static void DecreaseByValue<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
+    where TKey : notnull
+    where TValue : struct, ISubtractionOperators<TValue, TValue, TValue>
+    {
+        // ref the value, so that we can manipulate it outside the dict.
+        ref TValue current = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
+        current -= value;
+    }
+
     public static void IncreaseByOne<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key)
         where TKey : notnull
         where TValue : struct, IIncrementOperators<TValue>
@@ -39,6 +49,7 @@ internal static class DictionaryExtension
         return false;
     }
 
+    [Pure]
     public static Dictionary<TKey, TSource> ToDictionaryIgnoringDuplicateKeys<TKey, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         where TKey : notnull
     {
@@ -52,6 +63,7 @@ internal static class DictionaryExtension
         return dictionary;
     }
 
+    [Pure]
     public static Dictionary<TKey, TValue> ToDictionaryIgnoringDuplicateKeys<TKey, TValue, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> elementSelector)
         where TKey : notnull
     {

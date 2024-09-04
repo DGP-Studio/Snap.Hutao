@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Snap.Hutao.Model.Entity;
 
 [Table("avatar_infos")]
-internal sealed class AvatarInfo : IMappingFrom<AvatarInfo, string, Web.Enka.Model.AvatarInfo>
+internal sealed class AvatarInfo : IMappingFrom<AvatarInfo, string, DetailedCharacter>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,16 +17,13 @@ internal sealed class AvatarInfo : IMappingFrom<AvatarInfo, string, Web.Enka.Mod
 
     public string Uid { get; set; } = default!;
 
-    public Web.Enka.Model.AvatarInfo Info { get; set; } = default!;
+    [MaybeNull]
+    public DetailedCharacter Info2 { get; set; } = default!;
 
-    public DateTimeOffset ShowcaseRefreshTime { get; set; }
+    public DateTimeOffset RefreshTime { get; set; }
 
-    public DateTimeOffset GameRecordRefreshTime { get; set; }
-
-    public DateTimeOffset CalculatorRefreshTime { get; set; }
-
-    public static AvatarInfo From(string uid, Web.Enka.Model.AvatarInfo info)
+    public static AvatarInfo From(string uid, DetailedCharacter info)
     {
-        return new() { Uid = uid, Info = info };
+        return new() { Uid = uid, Info2 = info };
     }
 }

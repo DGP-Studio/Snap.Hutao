@@ -32,11 +32,44 @@ internal sealed partial class GamePackageViewModel : Abstraction.ViewModel
 
     public LaunchScheme? LaunchScheme { get => launchScheme; set => SetProperty(ref launchScheme, value); }
 
-    public Version? LocalVersion { get => localVersion; set => SetProperty(ref localVersion, value, nameof(LocalVersionText)); }
+    public Version? LocalVersion
+    {
+        get => localVersion;
+        set
+        {
+            if (SetProperty(ref localVersion, value))
+            {
+                OnPropertyChanged(nameof(LocalVersionText));
+                OnPropertyChanged(nameof(IsUpdateAvailable));
+            }
+        }
+    }
 
-    public Version? RemoteVersion { get => remoteVersion; set => SetProperty(ref remoteVersion, value, nameof(RemoteVersionText)); }
+    public Version? RemoteVersion
+    {
+        get => remoteVersion;
+        set
+        {
+            if (SetProperty(ref remoteVersion, value))
+            {
+                OnPropertyChanged(nameof(RemoteVersionText));
+                OnPropertyChanged(nameof(IsUpdateAvailable));
+            }
+        }
+    }
 
-    public Version? PreVersion { get => preVersion; set => SetProperty(ref preVersion, value, nameof(PreDownloadTitle)); }
+    public Version? PreVersion
+    {
+        get => preVersion;
+        set
+        {
+            if (SetProperty(ref preVersion, value))
+            {
+                OnPropertyChanged(nameof(PreDownloadTitle));
+                OnPropertyChanged(nameof(IsPredownloadButtonEnabled));
+            }
+        }
+    }
 
     public string LocalVersionText { get => LocalVersion is null ? "Unknown" : SH.FormatViewModelGamePackageLocalVersion(LocalVersion); }
 

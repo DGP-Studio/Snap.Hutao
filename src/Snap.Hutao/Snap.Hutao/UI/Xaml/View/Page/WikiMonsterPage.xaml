@@ -131,7 +131,7 @@
                                         Padding="{ThemeResource ListViewInSplitPanePadding}"
                                         ItemTemplate="{StaticResource MonsterListTemplate}"
                                         ItemsSource="{Binding Monsters}"
-                                        SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                        SelectedItem="{Binding Monsters.CurrentItem, Mode=TwoWay}"
                                         SelectionMode="Single">
                                         <mxi:Interaction.Behaviors>
                                             <shuxb:SelectedItemInViewBehavior/>
@@ -151,15 +151,15 @@
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Center"
                                                     Style="{StaticResource SubtitleTextBlockStyle}"
-                                                    Text="{Binding Selected.Title}"/>
+                                                    Text="{Binding Monsters.CurrentItem.Title}"/>
                                                 <shuxct:DescriptionTextBlock
                                                     Margin="1,0,0,0"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Center"
-                                                    Description="{Binding Selected.Description}"
+                                                    Description="{Binding Monsters.CurrentItem.Description}"
                                                     Opacity="0.7"
                                                     TextStyle="{StaticResource CaptionTextBlockStyle}"/>
-                                                <clw:TokenView ItemsSource="{Binding Selected.Affixes}" SelectionMode="None"/>
+                                                <clw:TokenView ItemsSource="{Binding Monsters.CurrentItem.Affixes}" SelectionMode="None"/>
                                                 <shuxvs:BaseValueSlider
                                                     HorizontalAlignment="Stretch"
                                                     HorizontalContentAlignment="Stretch"
@@ -168,7 +168,7 @@
                                                 <ItemsControl
                                                     ItemTemplate="{StaticResource MonsterBaseValueTemplate}"
                                                     ItemsPanel="{StaticResource UniformGridColumns2Spacing2Template}"
-                                                    ItemsSource="{Binding Selected.BaseValue.SubHurts}">
+                                                    ItemsSource="{Binding Monsters.CurrentItem.BaseValue.SubHurts}">
                                                     <ItemsControl.Resources>
                                                         <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
                                                         <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
@@ -180,11 +180,11 @@
                                                         <TextBlock
                                                             Style="{StaticResource BaseTextBlockStyle}"
                                                             Text="{shuxm:ResourceString Name=ViewPageWikiMonsterDropItems}"
-                                                            Visibility="{Binding Selected.DropsView, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                                                            Visibility="{Binding Monsters.CurrentItem.DropsView, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
                                                         <ItemsControl
                                                             ItemTemplate="{StaticResource MonsterDropTemplate}"
-                                                            ItemsSource="{Binding Selected.DropsView}"
-                                                            Visibility="{Binding Selected.DropsView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                            ItemsSource="{Binding Monsters.CurrentItem.DropsView}"
+                                                            Visibility="{Binding Monsters.CurrentItem.DropsView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                             <ItemsControl.ItemsPanel>
                                                                 <ItemsPanelTemplate>
                                                                     <cwc:UniformGrid
@@ -214,7 +214,7 @@
                                 ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                 ItemTemplate="{StaticResource MonsterGridTemplate}"
                                 ItemsSource="{Binding Monsters}"
-                                SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                SelectedItem="{Binding Monsters.CurrentItem, Mode=TwoWay}"
                                 SelectionMode="Single">
                                 <mxi:Interaction.Behaviors>
                                     <shuxb:SelectedItemInViewBehavior/>

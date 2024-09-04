@@ -64,8 +64,8 @@
 
         </cwc:UniformGrid>
 
-        <ScrollViewer MaxHeight="480">
-            <cwc:HeaderedContentControl Grid.Row="1" Header="{shuxm:ResourceString Name=ViewDialogImportUIGFSubtitle}">
+        <ScrollViewer Grid.Row="1" MaxHeight="480">
+            <cwc:HeaderedContentControl Header="{shuxm:ResourceString Name=ViewDialogImportUIGFSubtitle}">
                 <ItemsControl Margin="0,4,0,0" ItemsSource="{x:Bind Selections}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

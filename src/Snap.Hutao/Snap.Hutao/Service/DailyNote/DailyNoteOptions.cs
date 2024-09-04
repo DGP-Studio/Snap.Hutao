@@ -49,12 +49,12 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
                         quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
                         {
                             return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(SelectedRefreshTime.Value).RepeatForever());
-                        }).SafeForget();
+                        }).GetAwaiter().GetResult();
                     }
                 }
                 else
                 {
-                    quartzService.StopJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName).SafeForget();
+                    quartzService.StopJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName).GetAwaiter().GetResult();
                 }
             }
         }
@@ -67,11 +67,11 @@ internal sealed partial class DailyNoteOptions : DbStoreOptions
         {
             if (value is not null)
             {
-                SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, value, value => $"{value.Value}");
+                SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, value, v => $"{v.Value}");
                 quartzService.UpdateJobAsync(JobIdentity.DailyNoteGroupName, JobIdentity.DailyNoteRefreshTriggerName, builder =>
                 {
                     return builder.WithSimpleSchedule(sb => sb.WithIntervalInSeconds(value.Value).RepeatForever());
-                }).SafeForget();
+                }).GetAwaiter().GetResult();
             }
         }
     }

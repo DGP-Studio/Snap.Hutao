@@ -26,10 +26,11 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     private readonly GameFpsUnlockerContext context = new();
     private readonly string dataFolderIslandPath;
+    private readonly string gameVersion;
 
     private IslandFunctionOffsets? offsets;
 
-    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, IProgress<GameFpsUnlockerContext> progress)
+    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess, string gameVersion)
     {
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
         featureService = serviceProvider.GetRequiredService<IFeatureService>();
@@ -37,15 +38,17 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         dataFolderIslandPath = Path.Combine(runtimeOptions.DataFolder, "Snap.Hutao.UnlockerIsland.dll");
 
+        this.gameVersion = gameVersion;
+
         context.GameProcess = gameProcess;
-        context.Progress = progress;
         context.Logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
     }
 
     public async ValueTask<bool> UnlockAsync(CancellationToken token = default)
     {
         HutaoException.ThrowIfNot(context.IsUnlockerValid, "This Unlocker is invalid");
-        if (await featureService.GetIslandFeatureAsync().ConfigureAwait(false) is not { } feature)
+
+        if (await featureService.GetIslandFeatureAsync(gameVersion).ConfigureAwait(false) is not { } feature)
         {
             return false;
         }
@@ -54,17 +57,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             ? feature.Oversea
             : feature.Chinese;
 
-        context.Report();
-        return true;
-    }
-
-    public async ValueTask PostUnlockAsync(CancellationToken token = default)
-    {
-        if (offsets is null)
-        {
-            return;
-        }
-
         try
         {
             File.Copy(InstalledLocation.GetAbsolutePath("Snap.Hutao.UnlockerIsland.dll"), dataFolderIslandPath, true);
@@ -72,8 +64,15 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         catch
         {
             context.Logger.LogError("Failed to copy island file.");
-            return;
+            throw;
         }
+
+        return true;
+    }
+
+    public async ValueTask PostUnlockAsync(CancellationToken token = default)
+    {
+        ArgumentNullException.ThrowIfNull(offsets);
 
         try
         {
@@ -96,7 +95,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
                             IslandEnvironmentView view = UpdateIslandEnvironment(handle, launchOptions);
                             if (view.State is not IslandState.Started)
                             {
-                                context.Logger.LogDebug("Island Environment|{State}|{Error}", view.State, view.LastError);
+                                context.Logger.LogDebug("Island Environment|{State}|{Error}|{Value}", view.State, view.LastError, view.DebugOriginalFieldOfView);
                             }
                         }
                     }
@@ -112,9 +111,9 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private static unsafe void InitializeIslandEnvironment(nint handle, IslandFunctionOffsets offsets, LaunchOptions options)
     {
         IslandEnvironment* pIslandEnvironment = (IslandEnvironment*)handle;
-        pIslandEnvironment->FunctionOffsetFieldOfView = offsets.FunctionOffsetFieldOfView;
-        pIslandEnvironment->FunctionOffsetTargetFrameRate = offsets.FunctionOffsetTargetFrameRate;
-        pIslandEnvironment->FunctionOffsetFog = offsets.FunctionOffsetFog;
+        pIslandEnvironment->FunctionOffsetSetFieldOfView = offsets.FunctionOffsetSetFieldOfView;
+        pIslandEnvironment->FunctionOffsetSetTargetFrameRate = offsets.FunctionOffsetSetTargetFrameRate;
+        pIslandEnvironment->FunctionOffsetSetEnableFogRendering = offsets.FunctionOffsetSetEnableFogRendering;
 
         pIslandEnvironment->LoopAdjustFpsOnly = options.LoopAdjustFpsOnly;
 

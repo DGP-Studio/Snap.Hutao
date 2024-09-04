@@ -241,7 +241,7 @@ internal sealed partial class PackageConverter
             StatusFactory = (bytesRead, totalBytes) => new(remoteName, bytesRead, totalBytes),
         };
 
-        using (HttpShardCopyWorker<PackageConvertStatus> worker = await HttpShardCopyWorker<PackageConvertStatus>.CreateAsync(options).ConfigureAwait(false))
+        using (IHttpShardCopyWorker<PackageConvertStatus> worker = await HttpShardCopyWorker.CreateAsync(options).ConfigureAwait(false))
         {
             try
             {

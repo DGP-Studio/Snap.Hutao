@@ -16,8 +16,7 @@ using static Snap.Hutao.Win32.ConstValues;
 
 namespace Snap.Hutao.UI.Windowing;
 
-[HighQuality]
-internal sealed class XamlWindowSubclass : IDisposable
+internal sealed partial class XamlWindowSubclass : IDisposable
 {
     private const int WindowSubclassId = 101;
 

@@ -118,7 +118,7 @@ internal sealed partial class User : IEntityAccess<EntityUser>,
         }
     }
 
-    private sealed class CurrentUserGameRoleChangedSuppression : IDisposable
+    private sealed partial class CurrentUserGameRoleChangedSuppression : IDisposable
     {
         private readonly User reference;
 

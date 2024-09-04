@@ -6,7 +6,7 @@ using Snap.Hutao.Web.Endpoint.Hutao;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-internal sealed class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?, Uri>
+internal sealed partial class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?, Uri>
 {
     public static Uri AvatarToUri(Avatar.Avatar? avatar)
     {

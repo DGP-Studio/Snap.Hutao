@@ -46,6 +46,7 @@
     <WindowsAppSdkUndockedRegFreeWinRTInitialize>false</WindowsAppSdkUndockedRegFreeWinRTInitialize>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode>
+    <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -155,6 +156,7 @@
     <None Remove="UI\Xaml\View\Dialog\UIGFExportDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\UIGFImportDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\UserMobileCaptchaDialog.xaml" />
+    <None Remove="UI\Xaml\View\Window\ScriptingWindow.xaml" />
     <None Remove="UI\Xaml\View\Window\WebView2Window.xaml" />
     <None Remove="UI\Xaml\View\Dialog\AchievementArchiveCreateDialog.xaml" />
     <None Remove="UI\Xaml\View\Dialog\AchievementImportDialog.xaml" />
@@ -285,18 +287,21 @@
     <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230830" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230830" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230830" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
-    <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.0" />
+    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.1.240821" />
     <PackageReference Include="Google.OrTools" Version="9.10.4067" />
-    <PackageReference Include="Google.Protobuf" Version="3.27.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
+    <PackageReference Include="Google.Protobuf" Version="3.28.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -311,8 +316,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.1.1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240821007-preview2" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.13.0" />
     <PackageReference Include="Snap.Discord.GameSDK" Version="1.6.0" />
@@ -324,11 +330,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.1.14">
+    <PackageReference Include="Snap.Hutao.SourceGeneration" Version="1.1.15">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Snap.Hutao.UnlockerIsland" Version="1.1.7">
+    <PackageReference Include="Snap.Hutao.UnlockerIsland" Version="1.1.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -348,6 +354,11 @@
        package has not yet been restored -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="UI\Xaml\View\Window\ScriptingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="UI\Xaml\View\Dialog\UserMobileCaptchaDialog.xaml">

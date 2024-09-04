@@ -10,11 +10,18 @@ using System.Threading.RateLimiting;
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
 
-// TODO: refactor to use tree structure to calculate shards
-internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
+internal static class HttpShardCopyWorker
 {
-    private const int ShardSize = 4 * 1024 * 1024;
+    public static async ValueTask<IHttpShardCopyWorker<TStatus>> CreateAsync<TStatus>(HttpShardCopyWorkerOptions<TStatus> options)
+    {
+        await options.DetectContentLengthAsync().ConfigureAwait(false);
+        return new HttpShardCopyWorker<TStatus>(options);
+    }
+}
 
+[SuppressMessage("", "SA1402")]
+internal sealed partial class HttpShardCopyWorker<TStatus> : IHttpShardCopyWorker<TStatus>
+{
     private readonly HttpClient httpClient;
     private readonly string sourceUrl;
     private readonly StreamCopyStatusFactory<TStatus> statusFactory;
@@ -22,10 +29,9 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
     private readonly int bufferSize;
     private readonly SafeFileHandle destFileHandle;
     private readonly int maxDegreeOfParallelism;
-    private readonly List<Shard> shards;
     private readonly TokenBucketRateLimiter progressReportRateLimiter;
 
-    private HttpShardCopyWorker(HttpShardCopyWorkerOptions<TStatus> options)
+    public HttpShardCopyWorker(HttpShardCopyWorkerOptions<TStatus> options)
     {
         httpClient = options.HttpClient;
         sourceUrl = options.SourceUrl;
@@ -34,47 +40,27 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
         bufferSize = options.BufferSize;
         destFileHandle = options.GetFileHandle();
         maxDegreeOfParallelism = options.MaxDegreeOfParallelism;
-        shards = CalculateShards(contentLength);
 
         progressReportRateLimiter = ProgressReportRateLimiter.Create(500);
-
-        static List<Shard> CalculateShards(long contentLength)
-        {
-            List<Shard> shards = [];
-            long currentOffset = 0;
-
-            while (currentOffset < contentLength)
-            {
-                long end = Math.Min(currentOffset + ShardSize, contentLength) - 1;
-                shards.Add(new Shard(currentOffset, end));
-                currentOffset = end + 1;
-            }
-
-            return shards;
-        }
-    }
-
-    public static async ValueTask<HttpShardCopyWorker<TStatus>> CreateAsync(HttpShardCopyWorkerOptions<TStatus> options)
-    {
-        await options.DetectContentLengthAsync().ConfigureAwait(false);
-        return new(options);
     }
 
     [SuppressMessage("", "SH003")]
     public Task CopyAsync(IProgress<TStatus> progress, CancellationToken token = default)
     {
-        ShardProgress shardProgress = new(progress, statusFactory, contentLength);
+        PrivateShardProgress shardProgress = new(progress, statusFactory, contentLength);
         ParallelOptions parallelOptions = new()
         {
             MaxDegreeOfParallelism = maxDegreeOfParallelism,
         };
-        return Parallel.ForEachAsync(shards, parallelOptions, (shard, token) => CopyShardAsync(shard, shardProgress, token));
 
-        async ValueTask CopyShardAsync(Shard shard, IProgress<ShardStatus> progress, CancellationToken token)
+        long minimumLength = Math.Max(bufferSize * maxDegreeOfParallelism, contentLength / (maxDegreeOfParallelism * 4));
+        return Parallel.ForEachAsync(new AsyncHttpShards(contentLength, minimumLength), parallelOptions, (shard, token) => CopyShardAsync(shard, shardProgress, token));
+
+        async ValueTask CopyShardAsync(IHttpShard shard, IProgress<PrivateShardStatus> progress, CancellationToken token)
         {
             HttpRequestMessage request = new(HttpMethod.Get, sourceUrl)
             {
-                Headers = { Range = new(shard.StartOffset, shard.EndOffset), },
+                Headers = { Range = new(shard.Start, shard.End), },
             };
 
             using (request)
@@ -87,26 +73,42 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
                         Memory<byte> buffer = memoryOwner.Memory;
                         using (Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
                         {
-                            int totalBytesRead = 0;
                             int bytesReadSinceLastReport = 0;
                             do
                             {
-                                int bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
-                                if (bytesRead <= 0)
+                                using (await shard.ReaderWriterLock.ReaderLockAsync().ConfigureAwait(false))
                                 {
-                                    progress.Report(new(bytesReadSinceLastReport));
-                                    bytesReadSinceLastReport = 0;
-                                    break;
-                                }
+                                    if (shard.BytesRead >= shard.End - shard.Start)
+                                    {
+                                        break;
+                                    }
 
-                                await RandomAccess.WriteAsync(destFileHandle, buffer[..bytesRead], shard.StartOffset + totalBytesRead, token).ConfigureAwait(false);
+                                    bool report = true;
+                                    try
+                                    {
+                                        int bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
+                                        if (bytesRead <= 0)
+                                        {
+                                            break;
+                                        }
 
-                                totalBytesRead += bytesRead;
-                                bytesReadSinceLastReport += bytesRead;
-                                if (progressReportRateLimiter.AttemptAcquire().IsAcquired)
-                                {
-                                    progress.Report(new(bytesReadSinceLastReport));
-                                    bytesReadSinceLastReport = 0;
+                                        await RandomAccess.WriteAsync(destFileHandle, buffer[..bytesRead], shard.Start + shard.BytesRead, token).ConfigureAwait(false);
+
+                                        shard.BytesRead += bytesRead;
+                                        bytesReadSinceLastReport += bytesRead;
+                                        if (!progressReportRateLimiter.AttemptAcquire().IsAcquired)
+                                        {
+                                            report = false;
+                                        }
+                                    }
+                                    finally
+                                    {
+                                        if (report)
+                                        {
+                                            progress.Report(new(bytesReadSinceLastReport));
+                                            bytesReadSinceLastReport = 0;
+                                        }
+                                    }
                                 }
                             }
                             while (true);
@@ -123,22 +125,9 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
         progressReportRateLimiter.Dispose();
     }
 
-    private sealed class Shard
+    private sealed class PrivateShardStatus
     {
-        public Shard(long startOffset, long endOffset)
-        {
-            StartOffset = startOffset;
-            EndOffset = endOffset;
-        }
-
-        public long StartOffset { get; }
-
-        public long EndOffset { get; }
-    }
-
-    private sealed class ShardStatus
-    {
-        public ShardStatus(int bytesRead)
+        public PrivateShardStatus(int bytesRead)
         {
             BytesRead = bytesRead;
         }
@@ -146,7 +135,7 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
         public int BytesRead { get; }
     }
 
-    private sealed class ShardProgress : IProgress<ShardStatus>
+    private sealed class PrivateShardProgress : IProgress<PrivateShardStatus>
     {
         private readonly IProgress<TStatus> workerProgress;
         private readonly StreamCopyStatusFactory<TStatus> statusFactory;
@@ -154,14 +143,14 @@ internal sealed class HttpShardCopyWorker<TStatus> : IDisposable
         private readonly TokenBucketRateLimiter progressReportRateLimiter = ProgressReportRateLimiter.Create(1000);
         private long totalBytesRead;
 
-        public ShardProgress(IProgress<TStatus> workerProgress, StreamCopyStatusFactory<TStatus> statusFactory, long contentLength)
+        public PrivateShardProgress(IProgress<TStatus> workerProgress, StreamCopyStatusFactory<TStatus> statusFactory, long contentLength)
         {
             this.workerProgress = workerProgress;
             this.statusFactory = statusFactory;
             this.contentLength = contentLength;
         }
 
-        public void Report(ShardStatus value)
+        public void Report(PrivateShardStatus value)
         {
             if (Interlocked.Add(ref totalBytesRead, value.BytesRead) == contentLength || progressReportRateLimiter.AttemptAcquire().IsAcquired)
             {

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Markup;
 namespace Snap.Hutao.UI.Xaml.Markup;
 
 [MarkupExtensionReturnType(ReturnType = typeof(int))]
-internal sealed class Int32Extension : MarkupExtension
+internal sealed partial class Int32Extension : MarkupExtension
 {
     public string Value { get; set; } = default!;
 

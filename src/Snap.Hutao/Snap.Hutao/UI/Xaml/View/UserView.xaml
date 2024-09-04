@@ -110,6 +110,13 @@
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoYoLABLabel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
 
                     <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
@@ -117,6 +124,13 @@
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
                                     <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoYoLABLabel" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Visible</Visibility>
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
@@ -141,12 +155,17 @@
                     Margin="12,0,0,0"
                     VerticalAlignment="Center"
                     Text="{Binding UserInfo.Nickname}"/>
-                <TextBlock
+                <Border
+                    x:Name="HoYoLABLabel"
                     Grid.Column="2"
                     VerticalAlignment="Center"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="HoYoLAB"
-                    Visibility="{Binding IsOversea}"/>
+                    Visibility="Visible">
+                    <TextBlock
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="HoYoLAB"
+                        Visibility="{Binding IsOversea}"/>
+                </Border>
+
                 <StackPanel
                     x:Name="ButtonPanel"
                     Grid.Column="3"

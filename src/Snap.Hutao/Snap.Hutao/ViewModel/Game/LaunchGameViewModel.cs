@@ -40,10 +40,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     private readonly LaunchStatusOptions launchStatusOptions;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly LaunchGameShared launchGameShared;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly IGameServiceFacade gameService;
     private readonly RuntimeOptions runtimeOptions;
-    private readonly HoyoPlayClient hoyoPlayClient;
     private readonly LaunchOptions launchOptions;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
@@ -78,7 +78,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
     public LaunchScheme? SelectedScheme
     {
         get => selectedScheme;
-        set => SetSelectedSchemeAsync(value).SafeForget();
+        set => _ = SetSelectedSchemeAsync(value);
     }
 
     public AdvancedCollectionView<GameAccount>? GameAccountsView { get => gameAccountsView; set => SetProperty(ref gameAccountsView, value); }
@@ -94,10 +94,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         {
             if (SetProperty(ref gamePathSelectedAndValid, value) && value)
             {
-                RefreshUIAsync().SafeForget();
+                _ = RefreshUIAsync();
             }
 
-            async ValueTask RefreshUIAsync()
+            [SuppressMessage("", "SH003")]
+            async Task RefreshUIAsync()
             {
                 try
                 {
@@ -133,7 +134,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             void TrySetGameAccountByDesiredUid()
             {
                 // Sync uid, almost never hit, so we are not so care about performance
-                if (memoryCache.TryRemove(DesiredUid, out object? value) && value is string uid)
+                if (memoryCache.TryRemove(DesiredUid, out object? uidObj) && uidObj is string uid)
                 {
                     ArgumentNullException.ThrowIfNull(GameAccountsView);
 
@@ -300,7 +301,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
         await Windows.System.Launcher.LaunchFolderPathAsync(gameFileSystem.ScreenShotDirectory);
     }
 
-    private async ValueTask SetSelectedSchemeAsync(LaunchScheme? value)
+    [SuppressMessage("", "SH003")]
+    private async Task SetSelectedSchemeAsync(LaunchScheme? value)
     {
         if (SetProperty(ref selectedScheme, value, nameof(SelectedScheme)))
         {
@@ -309,10 +311,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             SelectedGameAccount = default;
 
             await UpdateGameAccountsViewAsync().ConfigureAwait(false);
-            UpdateGamePackageAsync(value).SafeForget();
+            _ = UpdateGamePackageAsync(value);
         }
 
-        async ValueTask UpdateGamePackageAsync(LaunchScheme? scheme)
+        [SuppressMessage("", "SH003")]
+        async Task UpdateGamePackageAsync(LaunchScheme? scheme)
         {
             if (scheme is null)
             {
@@ -320,9 +323,12 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel, IView
             }
 
             await taskContext.SwitchToBackgroundAsync();
-            Web.Response.Response<GamePackagesWrapper> response = await hoyoPlayClient
-                .GetPackagesAsync(scheme)
-                .ConfigureAwait(false);
+            Web.Response.Response<GamePackagesWrapper> response;
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                HoyoPlayClient hoyoPlayClient = scope.ServiceProvider.GetRequiredService<HoyoPlayClient>();
+                response = await hoyoPlayClient.GetPackagesAsync(scheme).ConfigureAwait(false);
+            }
 
             if (response.IsOk())
             {

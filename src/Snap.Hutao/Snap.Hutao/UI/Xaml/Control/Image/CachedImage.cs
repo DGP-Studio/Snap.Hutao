@@ -173,7 +173,17 @@ internal sealed partial class CachedImage : Microsoft.UI.Xaml.Controls.Control, 
     private async Task<Uri?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
         SourceName = Path.GetFileName(imageUri.ToString());
-        IImageCache imageCache = this.ServiceProvider().GetRequiredService<IImageCache>();
+        IImageCache imageCache;
+        try
+        {
+            imageCache = this.ServiceProvider().GetRequiredService<IImageCache>();
+        }
+        catch (Exception ex)
+        {
+            _ = ex;
+            Debugger.Break();
+            throw;
+        }
 
         try
         {

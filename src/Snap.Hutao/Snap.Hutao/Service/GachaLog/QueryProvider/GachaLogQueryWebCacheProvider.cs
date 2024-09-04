@@ -13,7 +13,7 @@ using System.Web;
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOption.WebCache)]
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
     private readonly IMemoryStreamFactory memoryStreamFactory;

@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Snap.Hutao.Factory.QrCode;
+using Snap.Hutao.Factory.QuickResponse;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Sdk.Combo;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;

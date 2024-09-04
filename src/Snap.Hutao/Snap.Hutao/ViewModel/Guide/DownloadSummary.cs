@@ -18,7 +18,7 @@ using System.Net.Http;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
-internal sealed class DownloadSummary : ObservableObject
+internal sealed partial class DownloadSummary : ObservableObject
 {
     private static readonly FrozenSet<string?> AllowedMediaTypes = FrozenSet.ToFrozenSet<string?>(
     [
@@ -96,7 +96,11 @@ internal sealed class DownloadSummary : ObservableObject
                             {
                                 using (TempFileStream temp = new(FileMode.OpenOrCreate, FileAccess.ReadWrite))
                                 {
-                                    await new StreamCopyWorker(content, temp, contentLength).CopyAsync(progress).ConfigureAwait(false);
+                                    using (StreamCopyWorker worker = new(content, temp, contentLength))
+                                    {
+                                        await worker.CopyAsync(progress).ConfigureAwait(false);
+                                    }
+
                                     ExtractFiles(temp);
                                     await taskContext.SwitchToMainThreadAsync();
                                     ProgressValue = 1;

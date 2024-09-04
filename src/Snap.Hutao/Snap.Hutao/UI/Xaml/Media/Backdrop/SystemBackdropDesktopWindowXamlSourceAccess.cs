@@ -10,7 +10,7 @@ using WinRT;
 
 namespace Snap.Hutao.UI.Xaml.Media.Backdrop;
 
-internal sealed class SystemBackdropDesktopWindowXamlSourceAccess : SystemBackdrop
+internal sealed partial class SystemBackdropDesktopWindowXamlSourceAccess : SystemBackdrop
 {
     private readonly SystemBackdrop? innerBackdrop;
 

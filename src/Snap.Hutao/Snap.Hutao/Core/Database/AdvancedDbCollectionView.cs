@@ -10,7 +10,7 @@ using Snap.Hutao.UI.Xaml.Data;
 namespace Snap.Hutao.Core.Database;
 
 // The scope of the view follows the scope of the service provider.
-internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView<TEntity>, IAdvancedDbCollectionView<TEntity>
+internal sealed partial class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView<TEntity>, IAdvancedDbCollectionView<TEntity>
     where TEntity : class, IAdvancedCollectionViewItem, ISelectable
 {
     private readonly IServiceProvider serviceProvider;
@@ -54,7 +54,7 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
         }
     }
 
-    private sealed class CurrentItemSuppression : IDisposable
+    private sealed partial class CurrentItemSuppression : IDisposable
     {
         private readonly AdvancedDbCollectionView<TEntity> view;
         private readonly TEntity? currentItem;
@@ -76,7 +76,7 @@ internal sealed class AdvancedDbCollectionView<TEntity> : AdvancedCollectionView
 
 // The scope of the view follows the scope of the service provider.
 [SuppressMessage("", "SA1402")]
-internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : AdvancedCollectionView<TEntityAccess>, IAdvancedDbCollectionView<TEntityAccess>
+internal sealed partial class AdvancedDbCollectionView<TEntityAccess, TEntity> : AdvancedCollectionView<TEntityAccess>, IAdvancedDbCollectionView<TEntityAccess>
     where TEntityAccess : class, IEntityAccess<TEntity>, IAdvancedCollectionViewItem
     where TEntity : class, ISelectable
 {
@@ -121,7 +121,7 @@ internal sealed class AdvancedDbCollectionView<TEntityAccess, TEntity> : Advance
         }
     }
 
-    private sealed class CurrentItemSuppression : IDisposable
+    private sealed partial class CurrentItemSuppression : IDisposable
     {
         private readonly AdvancedDbCollectionView<TEntityAccess, TEntity> view;
         private readonly TEntityAccess? currentItem;

@@ -18,8 +18,8 @@ namespace Snap.Hutao.Service.AvatarInfo;
 [Injection(InjectAs.Scoped, typeof(IAvatarInfoService))]
 internal sealed partial class AvatarInfoService : IAvatarInfoService
 {
-    private readonly AvatarInfoDbBulkOperation avatarInfoDbBulkOperation;
-    private readonly IAvatarInfoDbService avatarInfoDbService;
+    private readonly AvatarInfoRepositoryOperation avatarInfoDbBulkOperation;
+    private readonly IAvatarInfoRepository avatarInfoRepository;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly ILogger<AvatarInfoService> logger;
     private readonly IMetadataService metadataService;
@@ -34,47 +34,16 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
 
         switch (refreshOption)
         {
-            case RefreshOption.RequestFromEnkaAPI:
-                {
-                    EnkaResponse? resp = await GetEnkaResponseAsync(userAndUid.Uid, token).ConfigureAwait(false);
-
-                    if (resp is null)
-                    {
-                        return new(RefreshResultKind.APIUnavailable, default);
-                    }
-
-                    if (!string.IsNullOrEmpty(resp.Message))
-                    {
-                        return new(RefreshResultKind.StatusCodeNotSucceed, new Summary { Message = resp.Message });
-                    }
-
-                    if (!resp.IsValid)
-                    {
-                        return new(RefreshResultKind.ShowcaseNotOpen, default);
-                    }
-
-                    List<EntityAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosByShowcaseAsync(userAndUid.Uid.Value, resp.AvatarInfoList, token).ConfigureAwait(false);
-                    Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
-                    return new(RefreshResultKind.Ok, summary);
-                }
-
             case RefreshOption.RequestFromHoyolabGameRecord:
                 {
-                    List<EntityAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosByGameRecordCharacterAsync(userAndUid, token).ConfigureAwait(false);
-                    Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
-                    return new(RefreshResultKind.Ok, summary);
-                }
-
-            case RefreshOption.RequestFromHoyolabCalculate:
-                {
-                    List<EntityAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosByCalculateAvatarDetailAsync(userAndUid, token).ConfigureAwait(false);
+                    List<EntityAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosAsync(userAndUid, token).ConfigureAwait(false);
                     Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                     return new(RefreshResultKind.Ok, summary);
                 }
 
             default:
                 {
-                    List<EntityAvatarInfo> list = avatarInfoDbService.GetAvatarInfoListByUid(userAndUid.Uid.Value);
+                    List<EntityAvatarInfo> list = avatarInfoRepository.GetAvatarInfoListByUid(userAndUid.Uid.Value);
                     Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                     return new(RefreshResultKind.Ok, summary.Avatars.Count == 0 ? null : summary);
                 }

@@ -7,15 +7,12 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 internal class ReliquaryComposedSubProperty : ReliquarySubProperty
 {
-    public ReliquaryComposedSubProperty(FightProperty type, string value, float score)
-        : base(type, value, score)
+    public ReliquaryComposedSubProperty(FightProperty type, string value)
+        : base(type, value)
     {
         Type = type;
     }
 
-    /// <summary>
-    /// 强化次数
-    /// </summary>
     public uint EnhancedCount { get; set; }
 
     internal FightProperty Type { get; }

@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Snap.Hutao.UI.Xaml.View.Dialog;
 
-internal sealed class UIGFUidSelection : ObservableObject
+internal sealed partial class UIGFUidSelection : ObservableObject
 {
     private bool isSelected = true;
 

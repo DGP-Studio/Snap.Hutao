@@ -19,14 +19,15 @@ internal sealed partial class SettingFolderViewModel : ObservableObject
         this.taskContext = taskContext;
         this.folder = folder;
 
-        SetFolderSizeAsync().SafeForget();
+        _ = SetFolderSizeAsync();
     }
 
     public string Folder { get => folder; }
 
     public string? Size { get => size; set => SetProperty(ref size, value); }
 
-    public async ValueTask SetFolderSizeAsync()
+    [SuppressMessage("", "SH003")]
+    public async Task SetFolderSizeAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
         long totalSize = 0;

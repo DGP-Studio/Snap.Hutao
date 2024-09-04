@@ -23,15 +23,11 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 武器资料视图模型
-/// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
@@ -46,7 +42,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
 
     private AdvancedCollectionView<Weapon>? weapons;
-    private Weapon? selected;
     private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
@@ -54,33 +49,27 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private List<Promote>? promotes;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
-    /// <summary>
-    /// 角色列表
-    /// </summary>
-    public AdvancedCollectionView<Weapon>? Weapons { get => weapons; set => SetProperty(ref weapons, value); }
-
-    /// <summary>
-    /// 选中的角色
-    /// </summary>
-    public Weapon? Selected
+    public AdvancedCollectionView<Weapon>? Weapons
     {
-        get => selected; set
+        get => weapons;
+        set
         {
-            if (SetProperty(ref selected, value))
+            if (weapons is not null)
             {
-                UpdateBaseValueInfo(value);
+                weapons.CurrentChanged -= OnCurrentWeaponChanged;
+            }
+
+            SetProperty(ref weapons, value);
+
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentWeaponChanged;
             }
         }
     }
 
-    /// <summary>
-    /// 基础数值信息
-    /// </summary>
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
-    /// <summary>
-    /// 保存的筛选标志
-    /// </summary>
     public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
 
     public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
@@ -110,11 +99,8 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
                     AdvancedCollectionView<Weapon> weaponsView = list.ToAdvancedCollectionView();
 
                     await taskContext.SwitchToMainThreadAsync();
-
                     Weapons = weaponsView;
-
-                    // TODO: use CurrentItem
-                    Selected = Weapons.View.ElementAtOrDefault(0);
+                    Weapons.MoveCurrentToFirstOrDefault();
                 }
 
                 FilterTokens = [];
@@ -135,6 +121,11 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
 
         return false;
+    }
+
+    private void OnCurrentWeaponChanged(object? sender, object? e)
+    {
+        UpdateBaseValueInfo(Weapons?.CurrentItem);
     }
 
     private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, Dictionary<MaterialId, Material> idMaterialMap)
@@ -231,8 +222,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
         ArgumentNullException.ThrowIfNull(promotes);
         Dictionary<PromoteLevel, Promote> weaponPromoteMap = promotes.Where(p => p.Id == weapon.PromoteId).ToDictionary(p => p.Level);
-        List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves
-            .SelectList(curveInfo => new PropertyCurveValue(curveInfo.Type, curveInfo.Value, curveInfo.InitValue));
+        List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves.SelectList(PropertyCurveValue.From);
 
         ArgumentNullException.ThrowIfNull(levelWeaponCurveMap);
         BaseValueInfo = new(weapon.MaxLevel, propertyCurveValues, levelWeaponCurveMap, weaponPromoteMap);
@@ -253,19 +243,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         else
         {
             Weapons.Filter = WeaponFilter.Compile(FilterTokens);
-        }
-
-        if (Selected is not null && Weapons.Contains(Selected))
-        {
-            return;
-        }
-
-        try
-        {
-            Weapons.MoveCurrentToFirst();
-        }
-        catch (COMException)
-        {
         }
     }
 }

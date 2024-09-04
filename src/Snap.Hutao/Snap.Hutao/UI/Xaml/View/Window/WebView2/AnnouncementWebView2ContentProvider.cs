@@ -161,7 +161,7 @@ internal sealed partial class AnnouncementWebView2ContentProvider : DependencyOb
 
         if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out Uri? uri))
         {
-            Launcher.LaunchUriAsync(uri).AsTask().SafeForget();
+            _ = Launcher.LaunchUriAsync(uri);
         }
     }
 }

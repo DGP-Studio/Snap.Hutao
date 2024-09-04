@@ -46,7 +46,7 @@ internal sealed partial class MetadataOptions
         }
     }
 
-    public string GetLocalizedLocalFile(string fileNameWithExtension)
+    public string GetLocalizedLocalPath(string fileNameWithExtension)
     {
         return Path.Combine(LocalizedDataFolder, fileNameWithExtension);
     }

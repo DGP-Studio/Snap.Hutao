@@ -16,8 +16,8 @@ namespace Snap.Hutao.Service.Achievement;
 [Injection(InjectAs.Scoped, typeof(IAchievementService))]
 internal sealed partial class AchievementService : IAchievementService
 {
-    private readonly AchievementDbBulkOperation achievementDbBulkOperation;
-    private readonly IAchievementDbService achievementDbService;
+    private readonly AchievementRepositoryOperation achievementDbBulkOperation;
+    private readonly IAchievementRepository achievementRepository;
     private readonly IServiceProvider serviceProvider;
     private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
@@ -29,7 +29,7 @@ internal sealed partial class AchievementService : IAchievementService
         if (archives is null)
         {
             await taskContext.SwitchToBackgroundAsync();
-            archives = new(achievementDbService.GetAchievementArchiveCollection(), serviceProvider);
+            archives = new(achievementRepository.GetAchievementArchiveCollection(), serviceProvider);
         }
 
         return archives;
@@ -37,7 +37,7 @@ internal sealed partial class AchievementService : IAchievementService
 
     public List<AchievementView> GetAchievementViewList(AchievementArchive archive, AchievementServiceMetadataContext context)
     {
-        Dictionary<AchievementId, EntityAchievement> entities = achievementDbService.GetAchievementMapByArchiveId(archive.InnerId);
+        Dictionary<AchievementId, EntityAchievement> entities = achievementRepository.GetAchievementMapByArchiveId(archive.InnerId);
 
         return context.Achievements.SelectList(meta =>
         {
@@ -48,7 +48,7 @@ internal sealed partial class AchievementService : IAchievementService
 
     public void SaveAchievement(AchievementView achievement)
     {
-        achievementDbService.OverwriteAchievement(achievement.Entity);
+        achievementRepository.OverwriteAchievement(achievement.Entity);
     }
 
     public async ValueTask<ArchiveAddResultKind> AddArchiveAsync(AchievementArchive newArchive)
@@ -82,7 +82,7 @@ internal sealed partial class AchievementService : IAchievementService
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        achievementDbService.RemoveAchievementArchive(archive);
+        achievementRepository.RemoveAchievementArchive(archive);
     }
 
     public async ValueTask<ImportResult> ImportFromUIAFAsync(AchievementArchive archive, List<UIAFItem> list, ImportStrategyKind strategy)
@@ -121,7 +121,7 @@ internal sealed partial class AchievementService : IAchievementService
     public async ValueTask<UIAF> ExportToUIAFAsync(AchievementArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<EntityAchievement> entities = achievementDbService.GetAchievementListByArchiveId(archive.InnerId);
+        List<EntityAchievement> entities = achievementRepository.GetAchievementListByArchiveId(archive.InnerId);
         List<UIAFItem> list = entities.SelectList(UIAFItem.From);
 
         return new()

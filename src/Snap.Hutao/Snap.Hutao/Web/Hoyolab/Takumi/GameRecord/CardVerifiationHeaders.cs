@@ -28,9 +28,14 @@ internal sealed class CardVerifiationHeaders
         return Create(apiEndpoints.GameRecordSpiralAbyssPath());
     }
 
-    public static CardVerifiationHeaders CreateForCharacter(IApiEndpoints apiEndpoints)
+    public static CardVerifiationHeaders CreateForCharacterAll(IApiEndpoints apiEndpoints)
     {
-        return Create(apiEndpoints.GameRecordCharacter(), $"{HoyolabOptions.ToolVersion}_#/ys/role/all");
+        return Create(apiEndpoints.GameRecordCharacterList(), $"{HoyolabOptions.ToolVersion}_#/ys/role/all");
+    }
+
+    public static CardVerifiationHeaders CreateForCharacterDetail(IApiEndpoints apiEndpoints)
+    {
+        return Create(apiEndpoints.GameRecordCharacterList(), $"{HoyolabOptions.ToolVersion}_#/ys/role/detail");
     }
 
     public static CardVerifiationHeaders CreateForRoleCombat(IApiEndpoints apiEndpoints)

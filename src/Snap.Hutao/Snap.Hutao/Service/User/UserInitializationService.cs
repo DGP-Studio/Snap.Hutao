@@ -60,64 +60,20 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         }
     }
 
-    private async ValueTask<bool> InitializeUserAsync(ViewModel.User.User user, CancellationToken token = default)
-    {
-        if (user.IsInitialized)
-        {
-            // Prevent multiple initialization.
-            return true;
-        }
-
-        if (user.SToken is null)
-        {
-            return false;
-        }
-
-        // TODO: sharing scope
-        if (!await TrySetUserLTokenAsync(user, token).ConfigureAwait(false))
-        {
-            return false;
-        }
-
-        if (!await TrySetUserCookieTokenAsync(user, token).ConfigureAwait(false))
-        {
-            return false;
-        }
-
-        if (!await TrySetUserUserInfoAsync(user, token).ConfigureAwait(false))
-        {
-            return false;
-        }
-
-        if (!await TrySetUserUserGameRolesAsync(user, token).ConfigureAwait(false))
-        {
-            return false;
-        }
-
-        await userFingerprintService.TryInitializeAsync(user, token).ConfigureAwait(false);
-        await profilePictureService.TryInitializeAsync(user, token).ConfigureAwait(false);
-
-        return user.IsInitialized = true;
-    }
-
-    private async ValueTask<bool> TrySetUserLTokenAsync(ViewModel.User.User user, CancellationToken token)
+    private static async ValueTask<bool> TrySetUserLTokenAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
     {
         if (user.LToken is not null)
         {
             return true;
         }
 
-        Response<LTokenWrapper> lTokenResponse;
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            IPassportClient passportClient = scope.ServiceProvider
-                .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
-                .Create(user.IsOversea);
+        IPassportClient passportClient = serviceProvider
+            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+            .Create(user.IsOversea);
 
-            lTokenResponse = await passportClient
-                .GetLTokenBySTokenAsync(user.Entity, token)
-                .ConfigureAwait(false);
-        }
+        Response<LTokenWrapper> lTokenResponse = await passportClient
+            .GetLTokenBySTokenAsync(user.Entity, token)
+            .ConfigureAwait(false);
 
         if (lTokenResponse.IsOk())
         {
@@ -134,7 +90,7 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         }
     }
 
-    private async ValueTask<bool> TrySetUserCookieTokenAsync(ViewModel.User.User user, CancellationToken token)
+    private static async ValueTask<bool> TrySetUserCookieTokenAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
     {
         if (user.Entity.CookieTokenLastUpdateTime > DateTimeOffset.UtcNow - TimeSpan.FromDays(1))
         {
@@ -144,17 +100,13 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
             }
         }
 
-        Response<UidCookieToken> cookieTokenResponse;
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            IPassportClient passportClient = scope.ServiceProvider
-                .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
-                .Create(user.IsOversea);
+        IPassportClient passportClient = serviceProvider
+            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+            .Create(user.IsOversea);
 
-            cookieTokenResponse = await passportClient
-                .GetCookieAccountInfoBySTokenAsync(user.Entity, token)
-                .ConfigureAwait(false);
-        }
+        Response<UidCookieToken> cookieTokenResponse = await passportClient
+            .GetCookieAccountInfoBySTokenAsync(user.Entity, token)
+            .ConfigureAwait(false);
 
         if (cookieTokenResponse.IsOk())
         {
@@ -174,19 +126,15 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         }
     }
 
-    private async ValueTask<bool> TrySetUserUserInfoAsync(ViewModel.User.User user, CancellationToken token)
+    private static async ValueTask<bool> TrySetUserUserInfoAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
     {
-        Response<UserFullInfoWrapper> response;
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            IUserClient userClient = scope.ServiceProvider
-                .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
-                .Create(user.IsOversea);
+        IUserClient userClient = serviceProvider
+            .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
+            .Create(user.IsOversea);
 
-            response = await userClient
-                .GetUserFullInfoAsync(user.Entity, token)
-                .ConfigureAwait(false);
-        }
+        Response<UserFullInfoWrapper> response = await userClient
+            .GetUserFullInfoAsync(user.Entity, token)
+            .ConfigureAwait(false);
 
         if (response.IsOk())
         {
@@ -199,18 +147,13 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         }
     }
 
-    private async ValueTask<bool> TrySetUserUserGameRolesAsync(ViewModel.User.User user, CancellationToken token)
+    private static async ValueTask<bool> TrySetUserUserGameRolesAsync(IServiceProvider serviceProvider, ViewModel.User.User user, CancellationToken token)
     {
-        Response<ListWrapper<UserGameRole>> userGameRolesResponse;
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            BindingClient bindingClient = scope.ServiceProvider
-                .GetRequiredService<BindingClient>();
+        BindingClient bindingClient = serviceProvider.GetRequiredService<BindingClient>();
 
-            userGameRolesResponse = await bindingClient
-                .GetUserGameRolesOverseaAwareAsync(user.Entity, token)
-                .ConfigureAwait(false);
-        }
+        Response<ListWrapper<UserGameRole>> userGameRolesResponse = await bindingClient
+            .GetUserGameRolesOverseaAwareAsync(user.Entity, token)
+            .ConfigureAwait(false);
 
         if (userGameRolesResponse.IsOk())
         {
@@ -221,5 +164,49 @@ internal sealed partial class UserInitializationService : IUserInitializationSer
         {
             return false;
         }
+    }
+
+    private async ValueTask<bool> InitializeUserAsync(ViewModel.User.User user, CancellationToken token = default)
+    {
+        if (user.IsInitialized)
+        {
+            // Prevent multiple initialization.
+            return true;
+        }
+
+        if (user.SToken is null)
+        {
+            return false;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            IServiceProvider serviceProvider = scope.ServiceProvider;
+
+            if (!await TrySetUserLTokenAsync(serviceProvider, user, token).ConfigureAwait(false))
+            {
+                return false;
+            }
+
+            if (!await TrySetUserCookieTokenAsync(serviceProvider, user, token).ConfigureAwait(false))
+            {
+                return false;
+            }
+
+            if (!await TrySetUserUserInfoAsync(serviceProvider, user, token).ConfigureAwait(false))
+            {
+                return false;
+            }
+
+            if (!await TrySetUserUserGameRolesAsync(serviceProvider, user, token).ConfigureAwait(false))
+            {
+                return false;
+            }
+        }
+
+        await userFingerprintService.TryInitializeAsync(user, token).ConfigureAwait(false);
+        await profilePictureService.TryInitializeAsync(user, token).ConfigureAwait(false);
+
+        return user.IsInitialized = true;
     }
 }

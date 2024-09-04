@@ -34,4 +34,6 @@ internal enum CookieType
     /// 需要 SToken
     /// </summary>
     SToken = 0B0100,
+
+    All = 0B0111,
 }

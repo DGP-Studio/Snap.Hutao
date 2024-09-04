@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Core.Threading;
 
-internal sealed class ScopedTaskCompletionSource : IDisposable
+internal sealed partial class ScopedTaskCompletionSource : IDisposable
 {
     private readonly TaskCompletionSource tcs = new();
 

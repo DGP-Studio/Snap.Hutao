@@ -36,7 +36,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
 
     private void OnRootLoaded(object sender, RoutedEventArgs e)
     {
-        ISupportLoginByWebView.InitialzeAsync(WebView, infoBarService, CookieHost, NavigateUrl).SafeForget();
+        _ = ISupportLoginByWebView.InitialzeAsync(WebView, infoBarService, CookieHost, NavigateUrl);
     }
 
     [Command("HandleCurrentCookieCommand")]

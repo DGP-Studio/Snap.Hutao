@@ -18,7 +18,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("daily_notes")]
-internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteEntry, UserAndUid>, IAppDbEntity
+internal sealed partial class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteEntry, UserAndUid>, IAppDbEntity
 {
     /// <summary>
     /// 内部Id

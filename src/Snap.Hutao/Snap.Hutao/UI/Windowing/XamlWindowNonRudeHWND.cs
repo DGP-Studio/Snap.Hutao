@@ -6,7 +6,7 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Windowing;
 
-internal sealed class XamlWindowNonRudeHWND : IDisposable
+internal sealed partial class XamlWindowNonRudeHWND : IDisposable
 {
     // https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-itaskbarlist2-markfullscreenwindow#remarks
     private const string NonRudeHWND = "NonRudeHWND";

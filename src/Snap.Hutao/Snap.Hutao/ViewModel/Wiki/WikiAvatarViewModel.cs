@@ -23,16 +23,11 @@ using Snap.Hutao.UI.Xaml.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Frozen;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
 using CalculateBatchConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.BatchConsumption;
 using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 角色资料视图模型
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
@@ -47,7 +42,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
 
     private AdvancedCollectionView<Avatar>? avatars;
-    private Avatar? selected;
     private ObservableCollection<SearchToken>? filterTokens;
     private string? filterToken;
     private BaseValueInfo? baseValueInfo;
@@ -55,33 +49,27 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private List<Promote>? promotes;
     private FrozenDictionary<string, SearchToken> availableTokens;
 
-    /// <summary>
-    /// 角色列表
-    /// </summary>
-    public AdvancedCollectionView<Avatar>? Avatars { get => avatars; set => SetProperty(ref avatars, value); }
-
-    /// <summary>
-    /// 选中的角色
-    /// </summary>
-    public Avatar? Selected
+    public AdvancedCollectionView<Avatar>? Avatars
     {
-        get => selected; set
+        get => avatars;
+        set
         {
-            if (SetProperty(ref selected, value))
+            if (Avatars is not null)
             {
-                UpdateBaseValueInfo(value);
+                Avatars.CurrentChanged -= OnCurrentAvatarChanged;
+            }
+
+            SetProperty(ref avatars, value);
+
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentAvatarChanged;
             }
         }
     }
 
-    /// <summary>
-    /// 基础数值信息
-    /// </summary>
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
-    /// <summary>
-    /// 保存的筛选标志
-    /// </summary>
     public ObservableCollection<SearchToken>? FilterTokens { get => filterTokens; set => SetProperty(ref filterTokens, value); }
 
     public string? FilterToken { get => filterToken; set => SetProperty(ref filterToken, value); }
@@ -112,9 +100,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 
                     await taskContext.SwitchToMainThreadAsync();
                     Avatars = avatarsView;
-
-                    // TODO: use CurrentItem
-                    Selected = Avatars.View.ElementAtOrDefault(0);
+                    Avatars.MoveCurrentToFirstOrDefault();
                 }
 
                 FilterTokens = [];
@@ -137,6 +123,11 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
 
         return false;
+    }
+
+    private void OnCurrentAvatarChanged(object? sender, object? e)
+    {
+        UpdateBaseValueInfo(Avatars?.CurrentItem);
     }
 
     private async ValueTask CombineComplexDataAsync(List<Avatar> avatars, Dictionary<MaterialId, Material> idMaterialMap)
@@ -266,19 +257,6 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         else
         {
             Avatars.Filter = AvatarFilter.Compile(FilterTokens);
-        }
-
-        if (Selected is not null && Avatars.Contains(Selected))
-        {
-            return;
-        }
-
-        try
-        {
-            Avatars.MoveCurrentToFirst();
-        }
-        catch (COMException)
-        {
         }
     }
 }

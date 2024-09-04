@@ -15,7 +15,7 @@ using static Snap.Hutao.Win32.ConstValues;
 namespace Snap.Hutao.UI.Shell;
 
 [Injection(InjectAs.Singleton)]
-internal sealed class NotifyIconController : IDisposable
+internal sealed partial class NotifyIconController : IDisposable
 {
     private readonly LazySlim<NotifyIconContextMenu> lazyMenu;
     private readonly NotifyIconXamlHostWindow xamlHostWindow;

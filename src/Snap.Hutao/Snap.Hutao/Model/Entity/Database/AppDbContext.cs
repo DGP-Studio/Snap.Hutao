@@ -9,24 +9,22 @@ using System.Diagnostics;
 
 namespace Snap.Hutao.Model.Entity.Database;
 
-/// <summary>
-/// 应用程序数据库上下文
-/// </summary>
-[HighQuality]
 [DebuggerDisplay("Id = {ContextId}")]
-internal sealed class AppDbContext : DbContext
+internal sealed partial class AppDbContext : DbContext
 {
     private readonly ILogger<AppDbContext>? logger;
 
-    /// <summary>
-    /// 构造一个新的应用程序数据库上下文
-    /// </summary>
-    /// <param name="options">选项</param>
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
-        logger = this.GetService<ILogger<AppDbContext>>();
-        logger?.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("created", ConsoleColor.Green));
+        try
+        {
+            logger = this.GetService<ILogger<AppDbContext>>();
+            logger?.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("created", ConsoleColor.Green));
+        }
+        catch
+        {
+        }
     }
 
     public DbSet<SettingEntry> Settings { get; set; } = default!;
@@ -77,14 +75,12 @@ internal sealed class AppDbContext : DbContext
         return new(options);
     }
 
-    /// <inheritdoc/>
     public override void Dispose()
     {
         base.Dispose();
         logger?.LogColorizedInformation("{Name}[{Id}] {Action}", nameof(AppDbContext), (ContextId, ConsoleColor.DarkCyan), ("disposed", ConsoleColor.Red));
     }
 
-    /// <inheritdoc/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder

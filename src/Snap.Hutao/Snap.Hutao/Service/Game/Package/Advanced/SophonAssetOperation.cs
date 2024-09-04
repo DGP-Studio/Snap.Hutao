@@ -15,7 +15,7 @@ internal sealed class SophonAssetOperation
 
     public AssetProperty NewAsset { get; init; } = default!;
 
-    public List<SophonChunk> DiffChunks { get; init; } = default!;
+    public List<SophonChunk> DiffChunks { get; init; } = [];
 
     public static SophonAssetOperation AddOrRepair(string urlPrefix, AssetProperty newAsset)
     {

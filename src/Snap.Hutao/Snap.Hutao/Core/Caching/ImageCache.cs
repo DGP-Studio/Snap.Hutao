@@ -1,55 +1,32 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.UI;
-using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Endpoint.Hutao;
-using Snap.Hutao.Web.Request.Builder;
-using Snap.Hutao.Web.Request.Builder.Abstraction;
 using Snap.Hutao.Win32.System.WinRT;
 using System.Collections.Concurrent;
-using System.Collections.Frozen;
-using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Net.Http;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using WinRT;
 
 namespace Snap.Hutao.Core.Caching;
 
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
-[HttpClient(HttpClientConfiguration.Default)]
-[PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
 internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
-    private const string CacheFailedDownloadTasksName = $"{nameof(ImageCache)}.FailedDownloadTasks";
-
-    private static readonly FrozenDictionary<int, TimeSpan> DelayFromRetryCount = FrozenDictionary.ToFrozenDictionary(
-    [
-        KeyValuePair.Create(0, TimeSpan.FromSeconds(4)),
-        KeyValuePair.Create(1, TimeSpan.FromSeconds(16)),
-        KeyValuePair.Create(2, TimeSpan.FromSeconds(64)),
-    ]);
-
     private readonly ConcurrentDictionary<ElementThemeValueFile, Task> themefileTasks = [];
     private readonly ConcurrentDictionary<string, Task> downloadTasks = [];
 
-    private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
-    private readonly IHttpClientFactory httpClientFactory;
+    private readonly IImageCacheDownloadOperation downloadOperation;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<ImageCache> logger;
-    private readonly IMemoryCache memoryCache;
 
     private string? cacheFolder;
 
@@ -130,7 +107,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                     try
                     {
                         logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (defaultFilePath, ConsoleColor.Cyan));
-                        await DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
+                        await downloadOperation.DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
                     }
                     finally
                     {
@@ -165,7 +142,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         }
         else
         {
-            throw HutaoException.NotSupported("The task should not be null.");
+            throw HutaoException.InvalidOperation("The task should not be null.");
         }
     }
 
@@ -248,99 +225,6 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             {
                 logger.LogWarning(ex, "Remove cached image failed:{File}", filePath);
             }
-        }
-    }
-
-    [SuppressMessage("", "SH003")]
-    private async Task DownloadFileAsync(Uri uri, string baseFile)
-    {
-        using (HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCache)))
-        {
-            int retryCount = 0;
-
-            HttpRequestMessageBuilder requestMessageBuilder = httpRequestMessageBuilderFactory
-                .Create()
-                .SetRequestUri(uri)
-                .SetStaticResourceControlHeadersIf(uri.Host.Contains("api.snapgenshin.com", StringComparison.OrdinalIgnoreCase)) // These headers are only available for our own api
-                .Get();
-
-            while (retryCount < 3)
-            {
-                requestMessageBuilder.Resurrect();
-
-                using (HttpRequestMessage requestMessage = requestMessageBuilder.HttpRequestMessage)
-                {
-                    using (HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
-                    {
-                        // Redirect detection
-                        if (responseMessage.RequestMessage is { RequestUri: { } target } && target != uri)
-                        {
-                            logger.LogDebug("The Request '{Source}' has been redirected to '{Target}'", uri, target);
-                        }
-
-                        if (responseMessage.IsSuccessStatusCode)
-                        {
-                            if (responseMessage.Content.Headers.ContentType?.MediaType is "application/json")
-                            {
-                                DebugTrackFailedUri(uri);
-                                string raw = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-                                logger.LogColorizedCritical("Failed to download '{Uri}' with unexpected body '{Raw}'", (uri, ConsoleColor.Red), (raw, ConsoleColor.DarkYellow));
-                                return;
-                            }
-
-                            using (Stream httpStream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                            {
-                                using (FileStream fileStream = File.Create(baseFile))
-                                {
-                                    await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
-                                    return;
-                                }
-                            }
-                        }
-
-                        switch (responseMessage.StatusCode)
-                        {
-                            case HttpStatusCode.TooManyRequests:
-                                {
-                                    retryCount++;
-                                    TimeSpan delay = responseMessage.Headers.RetryAfter?.Delta ?? DelayFromRetryCount[retryCount];
-                                    logger.LogInformation("Retry download '{Uri}' after {Delay}.", uri, delay);
-                                    await Task.Delay(delay).ConfigureAwait(false);
-                                    break;
-                                }
-
-                            default:
-                                DebugTrackFailedUri(uri);
-                                logger.LogColorizedCritical("Failed to download '{Uri}' with status code '{StatusCode}'", (uri, ConsoleColor.Red), (responseMessage.StatusCode, ConsoleColor.DarkYellow));
-                                return;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    [Conditional("DEBUG")]
-    private void DebugTrackFailedUri(Uri uri)
-    {
-        HashSet<string>? set = memoryCache.GetOrCreate(CacheFailedDownloadTasksName, entry => new HashSet<string>());
-        set?.Add(uri.ToString());
-    }
-
-    private readonly struct ElementThemeValueFile
-    {
-        public readonly ValueFile File;
-        public readonly ElementTheme Theme;
-
-        public ElementThemeValueFile(ValueFile file, ElementTheme theme)
-        {
-            File = file;
-            Theme = theme;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(File, Theme);
         }
     }
 }

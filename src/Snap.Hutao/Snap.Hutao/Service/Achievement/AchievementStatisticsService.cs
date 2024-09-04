@@ -13,7 +13,7 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
 {
     private const int AchievementCardTakeCount = 2;
 
-    private readonly IAchievementDbService achievementDbService;
+    private readonly IAchievementRepository achievementRepository;
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
@@ -22,11 +22,11 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
         await taskContext.SwitchToBackgroundAsync();
 
         List<AchievementStatistics> results = [];
-        foreach (AchievementArchive archive in achievementDbService.GetAchievementArchiveList())
+        foreach (AchievementArchive archive in achievementRepository.GetAchievementArchiveList())
         {
-            int finishedCount = achievementDbService.GetFinishedAchievementCountByArchiveId(archive.InnerId);
+            int finishedCount = achievementRepository.GetFinishedAchievementCountByArchiveId(archive.InnerId);
             int totalCount = context.IdAchievementMap.Count;
-            List<EntityAchievement> achievements = achievementDbService.GetLatestFinishedAchievementListByArchiveId(archive.InnerId, AchievementCardTakeCount);
+            List<EntityAchievement> achievements = achievementRepository.GetLatestFinishedAchievementListByArchiveId(archive.InnerId, AchievementCardTakeCount);
 
             results.Add(new()
             {

@@ -25,7 +25,7 @@ internal sealed partial class SophonClientOversea : ISophonClient
     public async ValueTask<Response<SophonBuild>> GetBuildAsync(BranchWrapper branch, CancellationToken token = default)
     {
         HttpRequestMessageBuilder builder = httpRequestMessageBuilderFactory.Create()
-            .SetRequestUri(apiEndpoints.SophonChunkGetBuild(branch))
+            .SetRequestUri(apiEndpoints.SophonChunkGetBuildByBranch(branch))
             .Get();
 
         Response<SophonBuild>? resp = await builder

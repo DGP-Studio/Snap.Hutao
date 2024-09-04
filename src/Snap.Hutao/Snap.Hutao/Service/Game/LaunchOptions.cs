@@ -17,7 +17,7 @@ using static Snap.Hutao.Win32.User32;
 namespace Snap.Hutao.Service.Game;
 
 [Injection(InjectAs.Singleton)]
-internal sealed class LaunchOptions : DbStoreOptions
+internal sealed partial class LaunchOptions : DbStoreOptions
 {
     private readonly int primaryScreenWidth;
     private readonly int primaryScreenHeight;
@@ -162,7 +162,7 @@ internal sealed class LaunchOptions : DbStoreOptions
         // Because DbStoreOptions can't detect collection change, We use
         // ImmutableList to imply that the whole list needs to be replaced
         get => GetOption(ref gamePathEntries, SettingEntry.GamePathEntries, raw => JsonSerializer.Deserialize<ImmutableList<GamePathEntry>>(raw), []);
-        set => SetOption(ref gamePathEntries, SettingEntry.GamePathEntries, value, value => JsonSerializer.Serialize(value));
+        set => SetOption(ref gamePathEntries, SettingEntry.GamePathEntries, value, v => JsonSerializer.Serialize(v));
     }
 
     public bool IsAdvancedLaunchOptionsEnabled

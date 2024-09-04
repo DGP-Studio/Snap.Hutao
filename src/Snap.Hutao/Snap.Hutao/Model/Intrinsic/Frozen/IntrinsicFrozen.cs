@@ -64,7 +64,6 @@ internal static class IntrinsicFrozen
         SH.ModelMetadataMaterialWeaponAscensionMaterial,
     ]);
 
-    // TODO: consider CollectionsNameValue
     private static FrozenSet<string> NamesFromEnum<TEnum>(Func<TEnum, string?> selector)
         where TEnum : struct, Enum
     {
@@ -73,19 +72,7 @@ internal static class IntrinsicFrozen
 
     private static FrozenSet<string> NamesFromEnumValues<TEnum>(TEnum[] values, Func<TEnum, string?> selector)
     {
-        return NotNull(values, selector).ToFrozenSet();
-
-        static IEnumerable<string> NotNull(TEnum[] values, Func<TEnum, string?> selector)
-        {
-            foreach (TEnum value in values)
-            {
-                string? name = selector(value);
-                if (!string.IsNullOrEmpty(name))
-                {
-                    yield return name;
-                }
-            }
-        }
+        return FromEnumValues(values, selector, (name, _) => name).ToFrozenSet();
     }
 
     private static FrozenSet<NameValue<TEnum>> NameValuesFromEnum<TEnum>(Func<TEnum, string?> selector)
@@ -96,16 +83,21 @@ internal static class IntrinsicFrozen
 
     private static FrozenSet<NameValue<TEnum>> NameValuesFromEnumValues<TEnum>(TEnum[] values, Func<TEnum, string?> selector)
     {
-        return NotNull(values, selector).ToFrozenSet();
+        return FromEnumValues(values, selector, (name, value) => new NameValue<TEnum>(name, value)).ToFrozenSet();
+    }
 
-        static IEnumerable<NameValue<TEnum>> NotNull(TEnum[] values, Func<TEnum, string?> selector)
+    private static FrozenSet<T> FromEnumValues<TEnum, T>(TEnum[] values,  Func<TEnum, string?> nameSelector, Func<string, TEnum, T> selector)
+    {
+        return NotNull(values, nameSelector, selector).ToFrozenSet();
+
+        static IEnumerable<T> NotNull(TEnum[] values, Func<TEnum, string?> nameSelector, Func<string, TEnum, T> selector)
         {
             foreach (TEnum value in values)
             {
-                string? name = selector(value);
+                string? name = nameSelector(value);
                 if (!string.IsNullOrEmpty(name))
                 {
-                    yield return new(name, value);
+                    yield return selector(name, value);
                 }
             }
         }

@@ -14,7 +14,7 @@ using NotifyCollectionChangedAction = System.Collections.Specialized.NotifyColle
 
 namespace Snap.Hutao.UI.Xaml.Data;
 
-internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<T>
+internal partial class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<T>
     where T : class, IAdvancedCollectionViewItem
 {
     private readonly bool created;
@@ -316,11 +316,15 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
         // Only trigger expensive UI updates if the index really changed
         if (targetIndex != oldIndex)
         {
+            bool itemWasCurrent = oldIndex == CurrentPosition;
             OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex, typedItem));
 
             view.Insert(targetIndex, typedItem);
 
             OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, typedItem));
+
+            // Restore current position if it was the CurrentItem that changed
+            _ = !itemWasCurrent || MoveCurrentToIndex(targetIndex);
         }
         else
         {
@@ -673,7 +677,7 @@ internal class AdvancedCollectionView<T> : IAdvancedCollectionView<T>, INotifyPr
         OnPropertyChanged(nameof(Count));
     }
 
-    internal sealed class NotificationDeferrer : IDisposable
+    internal sealed partial class NotificationDeferrer : IDisposable
     {
         private readonly AdvancedCollectionView<T> advancedCollectionView;
         private readonly T? currentItem;

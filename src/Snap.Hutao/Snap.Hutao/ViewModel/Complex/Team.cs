@@ -9,11 +9,7 @@ using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
-/// <summary>
-/// 队伍
-/// </summary>
-[HighQuality]
-internal sealed class Team : List<AvatarView>
+internal sealed partial class Team : List<AvatarView>
 {
     public Team(ItemRate<string, int> team, Dictionary<AvatarId, Avatar> idAvatarMap, int rank)
         : base(4)

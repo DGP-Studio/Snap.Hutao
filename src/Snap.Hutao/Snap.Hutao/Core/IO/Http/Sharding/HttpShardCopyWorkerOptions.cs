@@ -20,7 +20,7 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
 
     public StreamCopyStatusFactory<TStatus> StatusFactory { get; set; } = default!;
 
-    public int BufferSize { get; set; } = 80 * 1024;
+    public int BufferSize { get; set; } = 80 * 1024; // 80 KB
 
     public int MaxDegreeOfParallelism { get; set; } = Environment.ProcessorCount;
 

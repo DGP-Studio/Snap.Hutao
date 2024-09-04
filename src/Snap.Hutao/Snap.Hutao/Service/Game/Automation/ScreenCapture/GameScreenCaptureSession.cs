@@ -20,7 +20,7 @@ using static Snap.Hutao.Win32.Macros;
 
 namespace Snap.Hutao.Service.Game.Automation.ScreenCapture;
 
-internal sealed class GameScreenCaptureSession : IDisposable
+internal sealed partial class GameScreenCaptureSession : IDisposable
 {
     private static readonly Half ByteMaxValue = 255;
 

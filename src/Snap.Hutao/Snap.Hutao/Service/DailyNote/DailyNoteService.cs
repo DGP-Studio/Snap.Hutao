@@ -22,7 +22,7 @@ namespace Snap.Hutao.Service.DailyNote;
 internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
 {
     private readonly DailyNoteNotificationOperation dailyNoteNotificationOperation;
-    private readonly IDailyNoteDbService dailyNoteDbService;
+    private readonly IDailyNoteRepository dailyNoteRepository;
     private readonly DailyNoteOptions dailyNoteOptions;
     private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;
@@ -40,7 +40,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     {
         string roleUid = userAndUid.Uid.Value;
 
-        if (dailyNoteDbService.ContainsUid(roleUid))
+        if (dailyNoteRepository.ContainsUid(roleUid))
         {
             return;
         }
@@ -69,7 +69,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
         newEntry.UserGameRole = await userService.GetUserGameRoleByUidAsync(roleUid).ConfigureAwait(false);
         newEntry.ArchonQuestView = DailyNoteArchonQuestView.Create(newEntry.DailyNote, context.Chapters);
-        dailyNoteDbService.AddDailyNoteEntry(newEntry);
+        dailyNoteRepository.AddDailyNoteEntry(newEntry);
 
         newEntry.User = userAndUid.User;
         await taskContext.SwitchToMainThreadAsync();
@@ -86,7 +86,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             {
                 DailyNoteMetadataContext context = await scope.GetRequiredService<IMetadataService>().GetContextAsync<DailyNoteMetadataContext>(token).ConfigureAwait(false);
 
-                List<DailyNoteEntry> entryList = dailyNoteDbService.GetDailyNoteEntryListIncludingUser();
+                List<DailyNoteEntry> entryList = dailyNoteRepository.GetDailyNoteEntryListIncludingUser();
 
                 foreach (DailyNoteEntry entry in entryList)
                 {
@@ -113,13 +113,13 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         entries.Remove(entry);
 
         await taskContext.SwitchToBackgroundAsync();
-        dailyNoteDbService.DeleteDailyNoteEntryById(entry.InnerId);
+        dailyNoteRepository.DeleteDailyNoteEntryById(entry.InnerId);
     }
 
     public async ValueTask UpdateDailyNoteAsync(DailyNoteEntry entry, CancellationToken token = default)
     {
         await taskContext.SwitchToBackgroundAsync();
-        dailyNoteDbService.UpdateDailyNoteEntry(entry);
+        dailyNoteRepository.UpdateDailyNoteEntry(entry);
     }
 
     private async ValueTask RefreshDailyNotesCoreAsync(bool forceRefresh, CancellationToken token = default)
@@ -133,7 +133,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         {
             DailyNoteWebhookOperation dailyNoteWebhookOperation = serviceProvider.GetRequiredService<DailyNoteWebhookOperation>();
 
-            foreach (DailyNoteEntry entry in dailyNoteDbService.GetDailyNoteEntryListIncludingUser())
+            foreach (DailyNoteEntry entry in dailyNoteRepository.GetDailyNoteEntryListIncludingUser())
             {
                 if (!(forceRefresh || (autoRefresh && entry.RefreshTime < DateTimeOffset.Now - threshold)))
                 {
@@ -163,7 +163,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
                     // 发送通知必须早于数据库更新，否则会导致通知重复
                     await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
-                    dailyNoteDbService.UpdateDailyNoteEntry(entry);
+                    dailyNoteRepository.UpdateDailyNoteEntry(entry);
                     dailyNoteWebhookOperation.TryPostDailyNoteToWebhook(entry.Uid, dailyNote);
                 }
             }

@@ -10,11 +10,7 @@ using Windows.UI;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
-/// <summary>
-/// 品质颜色转换器
-/// </summary>
-[HighQuality]
-internal sealed class QualityColorConverter : ValueConverter<QualityType, Color>
+internal sealed partial class QualityColorConverter : ValueConverter<QualityType, Color>
 {
     private static readonly FrozenDictionary<string, QualityType> LocalizedNameToQualityType = FrozenDictionary.ToFrozenDictionary(
     [
@@ -46,7 +42,6 @@ internal sealed class QualityColorConverter : ValueConverter<QualityType, Color>
         return QualityTypeToColor.GetValueOrDefault(quality, Colors.Transparent);
     }
 
-    /// <inheritdoc/>
     public override Color Convert(QualityType from)
     {
         return QualityToColor(from);

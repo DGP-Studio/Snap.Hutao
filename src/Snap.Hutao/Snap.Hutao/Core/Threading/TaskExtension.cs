@@ -6,10 +6,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Threading;
 
-/// <summary>
-/// 任务扩展
-/// </summary>
-[HighQuality]
 internal static class TaskExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -24,40 +20,11 @@ internal static class TaskExtension
         return new(task);
     }
 
-#if NET9_0_OR_GREATER
-    [Obsolete("SafeForget without logger is not recommended.")]
-#endif
-    public static async void SafeForget(this Task task)
-    {
-        try
-        {
-            await task.ConfigureAwait(false);
-        }
-        catch (OperationCanceledException)
-        {
-            // Do nothing
-        }
-#if DEBUG
-        catch (Exception ex)
-        {
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                System.Diagnostics.Debug.WriteLine(ExceptionFormat.Format(ex));
-                System.Diagnostics.Debugger.Break();
-            }
-        }
-#else
-        catch
-        {
-        }
-#endif
-    }
-
     public static async void SafeForget(this Task task, ILogger logger)
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -73,7 +40,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -90,7 +57,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -103,40 +70,11 @@ internal static class TaskExtension
         }
     }
 
-#if NET9_0_OR_GREATER
-    [Obsolete("SafeForget without logger is not recommended.")]
-#endif
-    public static async void SafeForget(this ValueTask task)
-    {
-        try
-        {
-            await task.ConfigureAwait(false);
-        }
-        catch (OperationCanceledException)
-        {
-            // Do nothing
-        }
-#if DEBUG
-        catch (Exception ex)
-        {
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                System.Diagnostics.Debug.WriteLine(ExceptionFormat.Format(ex));
-                System.Diagnostics.Debugger.Break();
-            }
-        }
-#else
-        catch
-        {
-        }
-#endif
-    }
-
     public static async void SafeForget(this ValueTask task, ILogger logger)
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -152,7 +90,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -169,7 +107,7 @@ internal static class TaskExtension
     {
         try
         {
-            await task.ConfigureAwait(false);
+            await task.ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -180,5 +118,50 @@ internal static class TaskExtension
             logger?.LogError(e, "SafeForget:\r\n{Exception}", ExceptionFormat.Format(e.GetBaseException()));
             onException?.Invoke(e);
         }
+    }
+
+    /// <summary>
+    /// Immediately stop waiting the <paramref name="task"/> when the <paramref name="token"/> is triggered.
+    /// </summary>
+    /// <param name="task">The task to cancel waiting with</param>
+    /// <param name="token">The cancellation token to trigger</param>
+    /// <returns>A new task that will complete when <paramref name="task"/> is completed or <paramref name="token"/> is triggered</returns>
+    /// <exception cref="OperationCanceledException">The <paramref name="token"/> is triggered</exception>
+    [SuppressMessage("", "SH003")]
+    [SuppressMessage("", "SH007")]
+    public static async Task WithCancellation(this Task task, CancellationToken token)
+    {
+        TaskCompletionSource tcs = new();
+        using (token.UnsafeRegister(s => ((TaskCompletionSource)s!).TrySetResult(), tcs))
+        {
+            if (task != await Task.WhenAny(task, tcs.Task).ConfigureAwait(true))
+            {
+                throw new OperationCanceledException(token);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Immediately stop waiting the <paramref name="task"/> when the <paramref name="token"/> is triggered.
+    /// </summary>
+    /// <typeparam name="T">Task return value's type</typeparam>
+    /// <param name="task">The task to cancel waiting with</param>
+    /// <param name="token">The cancellation token to trigger</param>
+    /// <returns>A new task that will complete when <paramref name="task"/> is completed or <paramref name="token"/> is triggered</returns>
+    /// <exception cref="OperationCanceledException">The <paramref name="token"/> is triggered</exception>
+    [SuppressMessage("", "SH003")]
+    [SuppressMessage("", "SH007")]
+    public static async Task<T> WithCancellation<T>(this Task<T> task, CancellationToken token)
+    {
+        TaskCompletionSource tcs = new();
+        using (token.UnsafeRegister(s => ((TaskCompletionSource)s!).TrySetResult(), tcs))
+        {
+            if (task != await Task.WhenAny(task, tcs.Task).ConfigureAwait(true))
+            {
+                throw new OperationCanceledException(token);
+            }
+        }
+
+        return await task.ConfigureAwait(true);
     }
 }

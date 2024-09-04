@@ -161,7 +161,7 @@ internal sealed partial class UpdateService : IUpdateService
                     {
                         using (StreamCopyWorker<UpdateStatus> worker = new(webStream, tempFileStream, (_, bytesRead) => new UpdateStatus(version, bytesRead, totalBytes)))
                         {
-                            await worker.CopyAsync(progress).ConfigureAwait(false);
+                            await worker.CopyAsync(progress, token).ConfigureAwait(false);
                         }
 
                         using ZipArchive archive = new(tempFileStream);

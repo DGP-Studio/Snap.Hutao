@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Snap.Hutao.UI.Xaml.Data.Converter;
 
-internal sealed class Int32ToBoolRevertConverter : IValueConverter
+internal sealed partial class Int32ToBoolRevertConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

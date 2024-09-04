@@ -8,6 +8,4 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory.Builder;
 internal sealed class ReliquaryViewBuilder : IReliquaryViewBuilder
 {
     public ReliquaryView View { get; } = new();
-
-    public float Score { get => View.Score; set => View.Score = value; }
 }

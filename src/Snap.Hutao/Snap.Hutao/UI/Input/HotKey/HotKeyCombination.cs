@@ -14,7 +14,7 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Input.HotKey;
 
-internal sealed class HotKeyCombination : ObservableObject
+internal sealed partial class HotKeyCombination : ObservableObject
 {
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;

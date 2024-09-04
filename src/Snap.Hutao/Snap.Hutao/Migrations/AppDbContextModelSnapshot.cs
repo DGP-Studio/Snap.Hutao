@@ -15,7 +15,7 @@ namespace Snap.Hutao.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
                 {
@@ -69,17 +69,11 @@ namespace Snap.Hutao.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("CalculatorRefreshTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset>("GameRecordRefreshTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Info")
+                    b.Property<string>("Info2")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("ShowcaseRefreshTime")
+                    b.Property<DateTimeOffset>("RefreshTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Uid")
@@ -189,9 +183,6 @@ namespace Snap.Hutao.Migrations
                 {
                     b.Property<Guid>("InnerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("AttachedUid")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsSelected")

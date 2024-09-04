@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Core.Collection;
 
-internal sealed class TwoEnumerbleEnumerator<TFirst, TSecond> : IDisposable
+internal sealed partial class TwoEnumerbleEnumerator<TFirst, TSecond> : IDisposable
 {
     private readonly IEnumerator<TFirst> firstEnumerator;
     private readonly IEnumerator<TSecond> secondEnumerator;

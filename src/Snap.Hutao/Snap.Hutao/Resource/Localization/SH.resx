@@ -742,6 +742,9 @@
     <value>治疗加成</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ServiceAvatarInfoPropertyHDB" xml:space="preserve">
+    <value>受治疗加成</value>
+  </data>
   <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
     <value>生命值</value>
     <comment>Need EXACT same string in game</comment>
@@ -778,6 +781,9 @@
     <value>风元素抗性</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ServiceAvatarInfoPropertySkillCDReduce" xml:space="preserve">
+    <value>冷却缩减</value>
+  </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
     <value>养成计算：尚未刷新</value>
   </data>
@@ -789,6 +795,9 @@
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
     <value>原神战绩：{0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryNotRefreshed" xml:space="preserve">
+    <value>尚未刷新</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
     <value>角色橱窗：尚未刷新</value>
@@ -1138,6 +1147,9 @@
   </data>
   <data name="UIXamlControlCachedImageCopyImage" xml:space="preserve">
     <value>复制图像</value>
+  </data>
+  <data name="UIXamlViewSpecializedSophonProgressDefault" xml:space="preserve">
+    <value>正在获取清单数据</value>
   </data>
   <data name="UIXamlViewWindowWebView2GeetestHeader" xml:space="preserve">
     <value>请完成验证</value>
@@ -1795,6 +1807,24 @@
   </data>
   <data name="ViewModelGamePackageRemoteVersion" xml:space="preserve">
     <value>最新版本: {0}</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
+    <value>安装完成</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCompletePredownload" xml:space="preserve">
+    <value>预下载完成</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCompleteRepair" xml:space="preserve">
+    <value>修复完成</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationCompleteUpdate" xml:space="preserve">
+    <value>更新完成</value>
+  </data>
+  <data name="ViewModelGamePakcageOperationSkipRepair" xml:space="preserve">
+    <value>游戏完整，无需修复</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
     <value>我已阅读并同意上方的条款</value>
@@ -3265,6 +3295,12 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器资料</value>
+  </data>
+  <data name="ViewWindowScriptingExecute" xml:space="preserve">
+    <value>执行</value>
+  </data>
+  <data name="ViewWindowScriptingTitle" xml:space="preserve">
+    <value>执行调试脚本</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>{0} 天后开始</value>

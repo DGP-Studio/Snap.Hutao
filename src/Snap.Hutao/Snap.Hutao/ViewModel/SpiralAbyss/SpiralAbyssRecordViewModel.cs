@@ -26,8 +26,8 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
 {
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly HutaoSpiralAbyssClient spiralAbyssClient;
     private readonly INavigationService navigationService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
@@ -47,7 +47,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     {
         if (message.UserAndUid is { } userAndUid)
         {
-            UpdateSpiralAbyssCollectionAsync(userAndUid).SafeForget();
+            _ = UpdateSpiralAbyssCollectionAsync(userAndUid);
         }
         else
         {
@@ -72,7 +72,8 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         return true;
     }
 
-    private async ValueTask UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
+    [SuppressMessage("", "SH003")]
+    private async Task UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
     {
         ObservableCollection<SpiralAbyssView> collection;
         try
@@ -150,18 +151,22 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
                 }
             }
 
-            if (await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
-
-                if (response is ILocalizableResponse localizableResponse)
+                HutaoSpiralAbyssClient spiralAbyssClient = scope.ServiceProvider.GetRequiredService<HutaoSpiralAbyssClient>();
+                if (await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false) is { } record)
                 {
-                    infoBarService.PrepareInfoBarAndShow(builder =>
+                    Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
+
+                    if (response is ILocalizableResponse localizableResponse)
                     {
-                        builder
-                        .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
-                        .SetMessage(localizableResponse.GetLocalizationMessage());
-                    });
+                        infoBarService.PrepareInfoBarAndShow(builder =>
+                        {
+                            builder
+                            .SetSeverity(response is { ReturnCode: 0 } ? InfoBarSeverity.Success : InfoBarSeverity.Warning)
+                            .SetMessage(localizableResponse.GetLocalizationMessage());
+                        });
+                    }
                 }
             }
         }

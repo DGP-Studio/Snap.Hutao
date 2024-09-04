@@ -10,9 +10,6 @@ using Snap.Hutao.UI.Xaml.Data;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
-/// <summary>
-/// 怪物资料视图模型
-/// </summary>
 [Injection(InjectAs.Scoped)]
 [ConstructorGenerated]
 internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
@@ -21,32 +18,28 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
 
     private AdvancedCollectionView<Monster>? monsters;
-    private Monster? selected;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelMonsterCurveMap;
 
-    /// <summary>
-    /// 角色列表
-    /// </summary>
-    public AdvancedCollectionView<Monster>? Monsters { get => monsters; set => SetProperty(ref monsters, value); }
-
-    /// <summary>
-    /// 选中的角色
-    /// </summary>
-    public Monster? Selected
+    public AdvancedCollectionView<Monster>? Monsters
     {
-        get => selected; set
+        get => monsters;
+        set
         {
-            if (SetProperty(ref selected, value))
+            if (monsters is not null)
             {
-                UpdateBaseValueInfo(value);
+                monsters.CurrentChanged -= OnCurrentMonsterChanged;
+            }
+
+            SetProperty(ref monsters, value);
+
+            if (value is not null)
+            {
+                value.CurrentChanged += OnCurrentMonsterChanged;
             }
         }
     }
 
-    /// <summary>
-    /// 基础数值信息
-    /// </summary>
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
     protected override async ValueTask<bool> InitializeOverrideAsync()
@@ -72,9 +65,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 
                     await taskContext.SwitchToMainThreadAsync();
                     Monsters = monstersView;
-
-                    // TODO: use CurrentItem
-                    Selected = Monsters.View.ElementAtOrDefault(0);
+                    Monsters.MoveCurrentToFirstOrDefault();
                 }
 
                 return true;
@@ -85,6 +76,11 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
         }
 
         return false;
+    }
+
+    private void OnCurrentMonsterChanged(object? sender, object? e)
+    {
+        UpdateBaseValueInfo(Monsters?.CurrentItem);
     }
 
     private void UpdateBaseValueInfo(Monster? monster)

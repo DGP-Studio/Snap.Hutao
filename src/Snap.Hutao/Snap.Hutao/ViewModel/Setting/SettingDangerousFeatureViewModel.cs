@@ -36,11 +36,12 @@ internal sealed partial class SettingDangerousFeatureViewModel : Abstraction.Vie
                 return;
             }
 
-            ConfirmSetIsAllocConsoleDebugModeEnabledAsync(value).SafeForget();
+            _ = ConfirmSetIsAllocConsoleDebugModeEnabledAsync(value);
 
-            async ValueTask ConfirmSetIsAllocConsoleDebugModeEnabledAsync(bool value)
+            [SuppressMessage("", "SH003")]
+            async Task ConfirmSetIsAllocConsoleDebugModeEnabledAsync(bool isEnabled)
             {
-                if (value)
+                if (isEnabled)
                 {
                     ReconfirmDialog dialog = await contentDialogFactory.CreateInstanceAsync<ReconfirmDialog>().ConfigureAwait(false);
                     if (await dialog.ConfirmAsync(SH.ViewSettingAllocConsoleHeader).ConfigureAwait(true))
@@ -67,11 +68,12 @@ internal sealed partial class SettingDangerousFeatureViewModel : Abstraction.Vie
                 return;
             }
 
-            ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(value).SafeForget();
+            _ = ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(value);
 
-            async ValueTask ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(bool value)
+            [SuppressMessage("", "SH003")]
+            async Task ConfirmSetIsAdvancedLaunchOptionsEnabledAsync(bool isEnabled)
             {
-                if (value)
+                if (isEnabled)
                 {
                     ReconfirmDialog dialog = await contentDialogFactory.CreateInstanceAsync<ReconfirmDialog>().ConfigureAwait(false);
                     if (await dialog.ConfirmAsync(SH.ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader).ConfigureAwait(true))

@@ -9,7 +9,7 @@ using System.Web;
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider), Key = RefreshOption.ManualInput)]
 internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
 {
     private readonly IContentDialogFactory contentDialogFactory;

@@ -12,7 +12,7 @@ namespace Snap.Hutao.UI.Xaml.Control;
 
 [HighQuality]
 [SuppressMessage("", "CA1001")]
-internal class ScopedPage : Page
+internal partial class ScopedPage : Page
 {
     private readonly CancellationTokenSource viewCancellationTokenSource = new();
     private readonly IServiceScope pageScope;
@@ -25,7 +25,8 @@ internal class ScopedPage : Page
         pageScope = Ioc.Default.GetRequiredService<IScopedPageScopeReferenceTracker>().CreateScope();
     }
 
-    public async ValueTask NotifyRecipientAsync(INavigationData extra)
+    [SuppressMessage("", "SH003")]
+    public async Task NotifyRecipientAsync(INavigationData extra)
     {
         if (extra.Data is not null && DataContext is INavigationRecipient recipient)
         {
@@ -79,7 +80,7 @@ internal class ScopedPage : Page
     {
         if (e.Parameter is INavigationData extra)
         {
-            NotifyRecipientAsync(extra).SafeForget();
+            _ = NotifyRecipientAsync(extra);
         }
     }
 

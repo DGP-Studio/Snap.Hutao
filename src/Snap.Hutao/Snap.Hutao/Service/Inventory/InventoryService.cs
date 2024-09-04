@@ -19,7 +19,7 @@ internal sealed partial class InventoryService : IInventoryService
 {
     private readonly MinimalPromotionDelta minimalPromotionDelta;
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IInventoryDbService inventoryDbService;
+    private readonly IInventoryRepository inventoryRepository;
     private readonly IInfoBarService infoBarService;
     private readonly IUserService userService;
 
@@ -27,7 +27,7 @@ internal sealed partial class InventoryService : IInventoryService
     public List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, ICultivationMetadataContext context, ICommand saveCommand)
     {
         Guid projectId = cultivateProject.InnerId;
-        List<InventoryItem> entities = inventoryDbService.GetInventoryItemListByProjectId(projectId);
+        List<InventoryItem> entities = inventoryRepository.GetInventoryItemListByProjectId(projectId);
 
         List<InventoryItemView> results = [];
         foreach (Material meta in context.EnumerateInventoryMaterial())
@@ -42,7 +42,7 @@ internal sealed partial class InventoryService : IInventoryService
     /// <inheritdoc/>
     public void SaveInventoryItem(InventoryItemView item)
     {
-        inventoryDbService.UpdateInventoryItem(item.Entity);
+        inventoryRepository.UpdateInventoryItem(item.Entity);
     }
 
     /// <inheritdoc/>
@@ -75,8 +75,8 @@ internal sealed partial class InventoryService : IInventoryService
 
         if (batchConsumption is { OverallConsume: { } items })
         {
-            inventoryDbService.RemoveInventoryItemRangeByProjectId(project.InnerId);
-            inventoryDbService.AddInventoryItemRangeByProjectId(items.SelectList(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum))));
+            inventoryRepository.RemoveInventoryItemRangeByProjectId(project.InnerId);
+            inventoryRepository.AddInventoryItemRangeByProjectId(items.SelectList(item => InventoryItem.From(project.InnerId, item.Id, (uint)((int)item.Num - item.LackNum))));
         }
     }
 }

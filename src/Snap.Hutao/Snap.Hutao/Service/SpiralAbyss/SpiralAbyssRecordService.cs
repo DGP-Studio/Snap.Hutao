@@ -21,7 +21,7 @@ namespace Snap.Hutao.Service.SpiralAbyss;
 [Injection(InjectAs.Scoped, typeof(ISpiralAbyssRecordService))]
 internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordService
 {
-    private readonly ISpiralAbyssRecordDbService spiralAbyssRecordDbService;
+    private readonly ISpiralAbyssRecordRepository spiralAbyssRecordRepository;
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
@@ -53,7 +53,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         if (spiralAbysses is null)
         {
             await taskContext.SwitchToBackgroundAsync();
-            Dictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordDbService.GetSpiralAbyssEntryMapByUid(userAndUid.Uid.Value);
+            Dictionary<uint, SpiralAbyssEntry> entryMap = spiralAbyssRecordRepository.GetSpiralAbyssEntryMapByUid(userAndUid.Uid.Value);
 
             ArgumentNullException.ThrowIfNull(metadataContext);
             spiralAbysses = metadataContext.IdTowerScheduleMap.Values
@@ -119,13 +119,13 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         if (view.Entity is not null)
         {
             view.Entity.SpiralAbyss = webSpiralAbyss;
-            spiralAbyssRecordDbService.UpdateSpiralAbyssEntry(view.Entity);
+            spiralAbyssRecordRepository.UpdateSpiralAbyssEntry(view.Entity);
             targetEntry = view.Entity;
         }
         else
         {
             SpiralAbyssEntry newEntry = SpiralAbyssEntry.From(userAndUid.Uid.Value, webSpiralAbyss);
-            spiralAbyssRecordDbService.AddSpiralAbyssEntry(newEntry);
+            spiralAbyssRecordRepository.AddSpiralAbyssEntry(newEntry);
             targetEntry = newEntry;
         }
 

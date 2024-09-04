@@ -344,7 +344,7 @@
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding CultivateCommand}"
-                            CommandParameter="{Binding Selected}"
+                            CommandParameter="{Binding Avatars.CurrentItem}"
                             Icon="{shuxm:FontIcon Glyph=&#xE8EF;}"
                             Label="{shuxm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
                     </CommandBar>
@@ -368,7 +368,7 @@
                                         Padding="{ThemeResource ListViewInSplitPanePadding}"
                                         ItemTemplate="{StaticResource AvatarListTemplate}"
                                         ItemsSource="{Binding Avatars}"
-                                        SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                        SelectedItem="{Binding Avatars.CurrentItem, Mode=TwoWay}"
                                         SelectionMode="Single">
                                         <mxi:Interaction.Behaviors>
                                             <shuxb:SelectedItemInViewBehavior/>
@@ -415,20 +415,20 @@
                                                                 Height="32"
                                                                 HorizontalAlignment="Left"
                                                                 ShowAsMonoChrome="True"
-                                                                Source="{Binding Selected.FetterInfo.VisionBefore, Converter={StaticResource ElementNameIconConverter}}"/>
+                                                                Source="{Binding Avatars.CurrentItem.FetterInfo.VisionBefore, Converter={StaticResource ElementNameIconConverter}}"/>
                                                             <shuxci:CachedImage
                                                                 Grid.Column="1"
                                                                 Width="32"
                                                                 Height="32"
                                                                 ShowAsMonoChrome="True"
-                                                                Source="{Binding Selected.Weapon, Converter={StaticResource WeaponTypeIconConverter}}"/>
+                                                                Source="{Binding Avatars.CurrentItem.Weapon, Converter={StaticResource WeaponTypeIconConverter}}"/>
                                                         </Grid>
                                                         <Border Style="{ThemeResource BorderCardStyle}">
                                                             <shuxc:ItemIcon
                                                                 Width="128"
                                                                 Height="128"
-                                                                Icon="{Binding Selected.Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}"
-                                                                Quality="{Binding Selected.Quality, Mode=OneWay}"/>
+                                                                Icon="{Binding Avatars.CurrentItem.Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}"
+                                                                Quality="{Binding Avatars.CurrentItem.Quality, Mode=OneWay}"/>
                                                         </Border>
 
                                                     </StackPanel>
@@ -438,20 +438,20 @@
                                                             <TextBlock
                                                                 VerticalAlignment="Center"
                                                                 Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                Text="{Binding Selected.Name}"
+                                                                Text="{Binding Avatars.CurrentItem.Name}"
                                                                 TextWrapping="NoWrap"/>
                                                             <TextBlock
                                                                 Margin="24,0,0,0"
                                                                 VerticalAlignment="Center"
                                                                 Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                Text="{Binding Selected.FetterInfo.Title}"
+                                                                Text="{Binding Avatars.CurrentItem.FetterInfo.Title}"
                                                                 TextWrapping="NoWrap"/>
                                                         </StackPanel>
 
                                                         <TextBlock
                                                             Opacity="0.7"
                                                             Style="{StaticResource CaptionTextBlockStyle}"
-                                                            Text="{Binding Selected.FetterInfo.Detail}"
+                                                            Text="{Binding Avatars.CurrentItem.FetterInfo.Detail}"
                                                             TextWrapping="NoWrap"/>
 
                                                         <cwc:UniformGrid
@@ -463,7 +463,7 @@
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Selected.FetterInfo.Native}"
+                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.Native}"
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
@@ -471,7 +471,7 @@
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Selected.FetterInfo.ConstellationBefore}"
+                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.ConstellationBefore}"
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
@@ -479,7 +479,7 @@
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Selected.FetterInfo.BirthFormatted}"
+                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.BirthFormatted}"
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                         </cwc:UniformGrid>
@@ -493,7 +493,7 @@
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Selected.FetterInfo.CvChinese}"
+                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.CvChinese}"
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
@@ -501,7 +501,7 @@
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Selected.FetterInfo.CvJapanese}"
+                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.CvJapanese}"
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
@@ -509,7 +509,7 @@
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Selected.FetterInfo.CvEnglish}"
+                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.CvEnglish}"
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                             <StackPanel>
@@ -517,7 +517,7 @@
                                                                 <TextBlock
                                                                     Margin="0,6,0,0"
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding Selected.FetterInfo.CvKorean}"
+                                                                    Text="{Binding Avatars.CurrentItem.FetterInfo.CvKorean}"
                                                                     TextWrapping="NoWrap"/>
                                                             </StackPanel>
                                                         </cwc:UniformGrid>
@@ -528,7 +528,7 @@
                                                             <ItemsRepeater
                                                                 Margin="16,0,16,16"
                                                                 ItemTemplate="{StaticResource CultivationItemTemplate}"
-                                                                ItemsSource="{Binding Selected.CultivationItemsView}">
+                                                                ItemsSource="{Binding Avatars.CurrentItem.CultivationItemsView}">
                                                                 <ItemsRepeater.Layout>
                                                                     <UniformGridLayout
                                                                         ItemsJustification="Start"
@@ -560,19 +560,19 @@
 
                                                 <!--  天赋  -->
                                                 <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
-                                                    <shuxvs:SkillPivot ItemTemplate="{StaticResource SkillDataTemplate}" Skills="{Binding Selected.SkillDepot.CompositeSkills}"/>
+                                                    <shuxvs:SkillPivot ItemTemplate="{StaticResource SkillDataTemplate}" Skills="{Binding Avatars.CurrentItem.SkillDepot.CompositeSkills}"/>
                                                 </Border>
 
                                                 <!--  命座  -->
                                                 <Border Padding="16" Style="{ThemeResource BorderCardStyle}">
-                                                    <shuxvs:SkillPivot ItemTemplate="{StaticResource TalentDataTemplate}" Skills="{Binding Selected.SkillDepot.Talents}"/>
+                                                    <shuxvs:SkillPivot ItemTemplate="{StaticResource TalentDataTemplate}" Skills="{Binding Avatars.CurrentItem.SkillDepot.Talents}"/>
                                                 </Border>
 
                                                 <!--  搭配  -->
                                                 <Border
                                                     Padding="16"
                                                     Style="{ThemeResource BorderCardStyle}"
-                                                    Visibility="{Binding Selected.CollocationView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                                    Visibility="{Binding Avatars.CurrentItem.CollocationView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                                     <Grid ColumnSpacing="8" RowSpacing="8">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition/>
@@ -603,19 +603,19 @@
                                                             Grid.Column="0"
                                                             ItemTemplate="{StaticResource CollocationTemplate}"
                                                             ItemsPanel="{StaticResource StackPanelSpacing4Template}"
-                                                            ItemsSource="{Binding Selected.CollocationView.Avatars}"/>
+                                                            ItemsSource="{Binding Avatars.CurrentItem.CollocationView.Avatars}"/>
                                                         <ItemsControl
                                                             Grid.Row="1"
                                                             Grid.Column="1"
                                                             ItemTemplate="{StaticResource CollocationTemplate}"
                                                             ItemsPanel="{StaticResource StackPanelSpacing4Template}"
-                                                            ItemsSource="{Binding Selected.CollocationView.Weapons}"/>
+                                                            ItemsSource="{Binding Avatars.CurrentItem.CollocationView.Weapons}"/>
                                                         <ItemsControl
                                                             Grid.Row="1"
                                                             Grid.Column="2"
                                                             ItemTemplate="{StaticResource CollocationReliquaryTemplate}"
                                                             ItemsPanel="{StaticResource StackPanelSpacing4Template}"
-                                                            ItemsSource="{Binding Selected.CollocationView.ReliquarySets}"/>
+                                                            ItemsSource="{Binding Avatars.CurrentItem.CollocationView.ReliquarySets}"/>
                                                     </Grid>
                                                 </Border>
 
@@ -627,14 +627,14 @@
                                                             <ColumnDefinition/>
                                                         </Grid.ColumnDefinitions>
                                                         <!--  使其有较低的ZOrder  -->
-                                                        <shuxci:CachedImage Grid.ColumnSpan="2" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarImgConverter}}"/>
+                                                        <shuxci:CachedImage Grid.ColumnSpan="2" Source="{Binding Avatars.CurrentItem.Icon, Converter={StaticResource GachaAvatarImgConverter}}"/>
 
                                                         <Border
                                                             Grid.Column="0"
                                                             Margin="16"
                                                             Style="{StaticResource BorderCardStyle}">
                                                             <cwc:ConstrainedBox AspectRatio="320:1024">
-                                                                <shuxci:CachedImage CornerRadius="{ThemeResource ControlCornerRadius}" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarIconConverter}}"/>
+                                                                <shuxci:CachedImage CornerRadius="{ThemeResource ControlCornerRadius}" Source="{Binding Avatars.CurrentItem.Icon, Converter={StaticResource GachaAvatarIconConverter}}"/>
                                                             </cwc:ConstrainedBox>
                                                         </Border>
                                                     </Grid>
@@ -651,7 +651,7 @@
                                                         HorizontalContentAlignment="Stretch"
                                                         Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarFoodHeader}"
                                                         IsExpanded="True">
-                                                        <Grid DataContext="{Binding Selected.CookBonusView}">
+                                                        <Grid DataContext="{Binding Avatars.CurrentItem.CookBonusView}">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="auto"/>
                                                                 <RowDefinition Height="auto"/>
@@ -728,7 +728,7 @@
                                                         <ItemsControl
                                                             Margin="0,0,0,-16"
                                                             ItemTemplate="{StaticResource CostumeTemplate}"
-                                                            ItemsSource="{Binding Selected.Costumes}"/>
+                                                            ItemsSource="{Binding Avatars.CurrentItem.Costumes}"/>
                                                     </Expander>
                                                 </Border>
 
@@ -746,7 +746,7 @@
                                                         <cwc:SettingsExpander
                                                             Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarQuotesHeader}"
                                                             ItemTemplate="{StaticResource FetterStoryTemplate}"
-                                                            ItemsSource="{Binding Selected.FetterInfo.Fetters}"/>
+                                                            ItemsSource="{Binding Avatars.CurrentItem.FetterInfo.Fetters}"/>
                                                     </ScrollViewer>
                                                 </Border>
 
@@ -764,7 +764,7 @@
                                                         <cwc:SettingsExpander
                                                             Header="{shuxm:ResourceString Name=ViewPageWiKiAvatarStoriesHeader}"
                                                             ItemTemplate="{StaticResource FetterStoryTemplate}"
-                                                            ItemsSource="{Binding Selected.FetterInfo.FetterStories}"/>
+                                                            ItemsSource="{Binding Avatars.CurrentItem.FetterInfo.FetterStories}"/>
                                                     </ScrollViewer>
                                                 </Border>
                                             </StackPanel>
@@ -796,7 +796,7 @@
                                     ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                     ItemTemplate="{StaticResource AvatarGridTemplate}"
                                     ItemsSource="{Binding Avatars}"
-                                    SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                    SelectedItem="{Binding Avatars.CurrentItem, Mode=TwoWay}"
                                     SelectionMode="Single"
                                     Visibility="{Binding Avatars.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                                     <mxi:Interaction.Behaviors>

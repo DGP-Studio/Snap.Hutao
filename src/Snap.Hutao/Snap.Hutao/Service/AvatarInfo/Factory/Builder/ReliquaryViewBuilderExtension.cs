@@ -52,22 +52,10 @@ internal static class ReliquaryViewBuilderExtension
         return builder.SetName<TBuilder, ReliquaryView>(name);
     }
 
-    public static TBuilder SetPrimarySubProperties<TBuilder>(this TBuilder builder, List<ReliquarySubProperty> primarySubProperties)
-        where TBuilder : IReliquaryViewBuilder
-    {
-        return builder.Configure(b => b.View.PrimarySubProperties = primarySubProperties);
-    }
-
     public static TBuilder SetQuality<TBuilder>(this TBuilder builder, QualityType quality)
         where TBuilder : IReliquaryViewBuilder
     {
         return builder.SetQuality<TBuilder, ReliquaryView>(quality);
-    }
-
-    public static TBuilder SetSecondarySubProperties<TBuilder>(this TBuilder builder, List<ReliquarySubProperty> secondarySubProperties)
-        where TBuilder : IReliquaryViewBuilder
-    {
-        return builder.Configure(b => b.View.SecondarySubProperties = secondarySubProperties);
     }
 
     public static TBuilder SetSetName<TBuilder>(this TBuilder builder, string setName)

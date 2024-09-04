@@ -41,13 +41,14 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     protected override ValueTask<bool> InitializeOverrideAsync()
     {
         InitializeDashboard();
-        InitializeInGameAnnouncementAsync().SafeForget();
-        InitializeHutaoAnnouncementAsync().SafeForget();
+        _ = InitializeInGameAnnouncementAsync();
+        _ = InitializeHutaoAnnouncementAsync();
         UpdateGreetingText();
         return ValueTask.FromResult(true);
     }
 
-    private async ValueTask InitializeInGameAnnouncementAsync()
+    [SuppressMessage("", "SH003")]
+    private async Task InitializeInGameAnnouncementAsync()
     {
         try
         {
@@ -61,7 +62,8 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
         }
     }
 
-    private async ValueTask InitializeHutaoAnnouncementAsync()
+    [SuppressMessage("", "SH003")]
+    private async Task InitializeHutaoAnnouncementAsync()
     {
         try
         {

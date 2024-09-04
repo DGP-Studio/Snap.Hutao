@@ -7,7 +7,6 @@ using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Factory.ContentDialog;
 using Snap.Hutao.Factory.Progress;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.Update;
 using Snap.Hutao.UI.Input.HotKey;

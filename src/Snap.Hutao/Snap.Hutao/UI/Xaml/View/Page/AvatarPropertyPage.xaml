@@ -13,6 +13,7 @@
     xmlns:shuxc="using:Snap.Hutao.UI.Xaml.Control"
     xmlns:shuxcc="using:Snap.Hutao.UI.Xaml.Control.Card"
     xmlns:shuxci="using:Snap.Hutao.UI.Xaml.Control.Image"
+    xmlns:shuxcp="using:Snap.Hutao.UI.Xaml.Control.Panel"
     xmlns:shuxct="using:Snap.Hutao.UI.Xaml.Control.TextBlock"
     xmlns:shuxdc="using:Snap.Hutao.UI.Xaml.Data.Converter"
     xmlns:shuxdcs="using:Snap.Hutao.UI.Xaml.Data.Converter.Specialized"
@@ -198,21 +199,7 @@
                             HorizontalAlignment="Right"
                             FontSize="11"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding ShowcaseRefreshTimeFormat}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap"/>
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            FontSize="11"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding GameRecordRefreshTimeFormat}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap"/>
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            FontSize="11"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding CalculatorRefreshTimeFormat}"
+                            Text="{Binding RefreshTimeFormat}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap"/>
                     </StackPanel>
@@ -381,7 +368,6 @@
                         </Ellipse>
                         <TextBlock
                             Grid.Column="2"
-                            Margin="0,0,0,1"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontSize="{ThemeResource InfoBadgeValueFontSize}"
@@ -410,94 +396,66 @@
             </DataTemplate>
 
             <DataTemplate x:Key="AvatarReliquaryTemplate">
-                <Expander
-                    Margin="0,0,0,16"
-                    Padding="16"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch">
-                    <Expander.Header>
-                        <Grid Margin="0,8,8,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <shuxc:ItemIcon
-                                Grid.Column="0"
-                                Width="32"
-                                Height="32"
-                                Icon="{Binding Icon}"
-                                Quality="{Binding Quality}"/>
-                            <Grid
-                                Grid.Column="1"
-                                Margin="16,0,0,0"
-                                ColumnSpacing="8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="2*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel Grid.Column="0">
-                                    <!--  主属性  -->
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{Binding MainProperty.Name}"
-                                            TextTrimming="CharacterEllipsis"/>
-                                        <TextBlock Grid.Column="1" Text="{Binding MainProperty.Value}"/>
-                                    </Grid>
-                                    <!--  评分  -->
-                                    <Grid Margin="0,8,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyScore}"
-                                            TextTrimming="CharacterEllipsis"
-                                            TextWrapping="NoWrap"/>
-                                        <TextBlock Grid.Column="1" Text="{Binding ScoreFormatted}"/>
-                                    </Grid>
-                                </StackPanel>
-                                <AppBarSeparator Grid.Column="1"/>
-                                <ItemsControl
-                                    Grid.Column="2"
-                                    ItemTemplate="{StaticResource AvatarReliquarySubPropertyTemplate}"
-                                    ItemsSource="{Binding ComposedSubProperties}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <cwcont:UniformGrid
-                                                ColumnSpacing="16"
-                                                Columns="2"
-                                                RowSpacing="8"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                            </Grid>
+                <Grid Style="{ThemeResource GridCardStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <shuxc:ItemIcon
+                            Grid.Column="0"
+                            Width="48"
+                            Height="48"
+                            Margin="8"
+                            Icon="{Binding Icon}"
+                            Quality="{Binding Quality}"/>
+                        <Grid Grid.Column="1">
+                            <StackPanel VerticalAlignment="Center" Spacing="2">
+                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock
+                                    Opacity="0.7"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding SetName}"/>
+                            </StackPanel>
                         </Grid>
-                    </Expander.Header>
+                    </Grid>
+                    <Rectangle
+                        Grid.Row="1"
+                        Height="1"
+                        Fill="{ThemeResource ControlElevationBorderBrush}"/>
+                    <Grid
+                        Grid.Row="2"
+                        Margin="8"
+                        RowSpacing="12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                    <StackPanel>
-                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyPrimaryProperties}"/>
+                        <!--  主属性  -->
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{Binding MainProperty.Name}"
+                                TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Grid.Column="1" Text="{Binding MainProperty.Value}"/>
+                        </Grid>
                         <ItemsControl
-                            ItemTemplate="{StaticResource AvatarReliquarySparseSubPropertyTemplate}"
-                            ItemsPanel="{StaticResource UniformGridColumns5Spacing8Template}"
-                            ItemsSource="{Binding PrimarySubProperties}"/>
-                        <TextBlock
-                            Margin="0,16,0,0"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{shuxm:ResourceString Name=ViewPageAvatarPropertySecondaryProperties}"/>
-                        <ItemsControl
-                            ItemTemplate="{StaticResource AvatarReliquarySparseSubPropertyTemplate}"
-                            ItemsPanel="{StaticResource UniformGridColumns5Spacing8Template}"
-                            ItemsSource="{Binding SecondarySubProperties}"/>
-                    </StackPanel>
-                </Expander>
+                            Grid.Row="1"
+                            ItemTemplate="{StaticResource AvatarReliquarySubPropertyTemplate}"
+                            ItemsPanel="{ThemeResource StackPanelSpacing8Template}"
+                            ItemsSource="{Binding ComposedSubProperties}"/>
+                    </Grid>
+                </Grid>
             </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
@@ -525,21 +483,8 @@
                         <StackPanel Margin="0,24,0,0" Spacing="{StaticResource SettingsCardSpacing}">
                             <cwcont:SettingsCard
                                 ActionIconToolTip="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
-                                Command="{Binding RefreshFromEnkaApiCommand}"
-                                Description="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApiDescription}"
-                                Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"
-                                IsClickEnabled="True"/>
-                            <cwcont:SettingsCard
-                                ActionIconToolTip="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
                                 Command="{Binding RefreshFromHoyolabGameRecordCommand}"
-                                Description="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription}"
                                 Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"
-                                IsClickEnabled="True"/>
-                            <cwcont:SettingsCard
-                                ActionIconToolTip="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
-                                Command="{Binding RefreshFromHoyolabCalculateCommand}"
-                                Description="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription}"
-                                Header="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"
                                 IsClickEnabled="True"/>
                         </StackPanel>
                     </StackPanel>
@@ -584,15 +529,10 @@
                             </AppBarButton.Flyout>
                         </AppBarButton>
                         <AppBarSeparator/>
-                        <AppBarButton Icon="{shuxm:FontIcon Glyph=&#xE72C;}" Label="{shuxm:ResourceString Name=ViewAvatarPropertySyncDataButtonLabel}">
-                            <AppBarButton.Flyout>
-                                <MenuFlyout Placement="TopEdgeAlignedRight">
-                                    <MenuFlyoutItem Command="{Binding RefreshFromEnkaApiCommand}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"/>
-                                    <MenuFlyoutItem Command="{Binding RefreshFromHoyolabGameRecordCommand}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"/>
-                                    <MenuFlyoutItem Command="{Binding RefreshFromHoyolabCalculateCommand}" Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"/>
-                                </MenuFlyout>
-                            </AppBarButton.Flyout>
-                        </AppBarButton>
+                        <AppBarButton
+                            Command="{Binding RefreshFromHoyolabGameRecordCommand}"
+                            Icon="{shuxm:FontIcon Glyph=&#xE72C;}"
+                            Label="{shuxm:ResourceString Name=ViewAvatarPropertySyncDataButtonLabel}"/>
                     </CommandBar>
                 </Border>
             </Border>
@@ -768,31 +708,6 @@
                                                         </Grid>
                                                     </StackPanel>
 
-                                                    <StackPanel Grid.Column="1" Margin="16">
-                                                        <TextBlock
-                                                            HorizontalAlignment="Right"
-                                                            Foreground="#FFFFFFFF"
-                                                            Style="{StaticResource TitleTextBlockStyle}"
-                                                            Text="{Binding Summary.Avatars.CurrentItem.ScoreFormatted}"/>
-                                                        <TextBlock
-                                                            HorizontalAlignment="Right"
-                                                            Foreground="#FFFFFFFF"
-                                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                                            Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyArtifactScore}"/>
-
-                                                        <TextBlock
-                                                            Margin="0,8,0,0"
-                                                            HorizontalAlignment="Right"
-                                                            Foreground="#FFFFFFFF"
-                                                            Style="{StaticResource TitleTextBlockStyle}"
-                                                            Text="{Binding Summary.Avatars.CurrentItem.CritScoreFormatted}"/>
-                                                        <TextBlock
-                                                            HorizontalAlignment="Right"
-                                                            Foreground="#FFFFFFFF"
-                                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                                            Text="{shuxm:ResourceString Name=ViewPageAvatarPropertyCritScore}"/>
-                                                    </StackPanel>
-
                                                     <ItemsControl
                                                         Grid.Row="0"
                                                         Grid.RowSpan="2"
@@ -829,9 +744,18 @@
                                             </Expander>
                                             <!--  圣遗物  -->
                                             <ItemsControl
-                                                Margin="16,16,16,0"
+                                                Margin="16,16,16,16"
                                                 ItemTemplate="{StaticResource AvatarReliquaryTemplate}"
-                                                ItemsSource="{Binding Summary.Avatars.CurrentItem.Reliquaries}"/>
+                                                ItemsSource="{Binding Summary.Avatars.CurrentItem.Reliquaries}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <shuxcp:UniformPanel
+                                                            ColumnSpacing="12"
+                                                            MinItemWidth="240"
+                                                            RowSpacing="12"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
                                         </StackPanel>
                                     </ScrollViewer>
                                 </SplitView.Content>

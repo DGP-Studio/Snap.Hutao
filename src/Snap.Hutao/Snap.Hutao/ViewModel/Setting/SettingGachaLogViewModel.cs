@@ -19,7 +19,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
 {
     private readonly IFileSystemPickerInteraction fileSystemPickerInteraction;
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IGachaLogDbService gachaLogDbService;
+    private readonly IGachaLogRepository gachaLogRepository;
     private readonly JsonSerializerOptions jsonOptions;
     private readonly IInfoBarService infoBarService;
     private readonly IUIGFService uigfService;
@@ -101,7 +101,7 @@ internal sealed partial class SettingGachaLogViewModel : Abstraction.ViewModel
             return;
         }
 
-        List<uint> allUids = gachaLogDbService.GetGachaArchiveUidList().SelectList(uint.Parse);
+        List<uint> allUids = gachaLogRepository.GetGachaArchiveUidList().SelectList(uint.Parse);
         UIGFExportDialog exportDialog = await contentDialogFactory.CreateInstanceAsync<UIGFExportDialog>(allUids).ConfigureAwait(false);
 
         (bool isOk2, List<uint> uids) = await exportDialog.GetSelectedUidsAsync().ConfigureAwait(false);

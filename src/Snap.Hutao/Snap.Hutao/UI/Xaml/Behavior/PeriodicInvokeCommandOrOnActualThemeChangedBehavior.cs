@@ -35,7 +35,7 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
 
     protected override void OnAssociatedObjectLoaded()
     {
-        RunCoreAsync().SafeForget();
+        _ = RunCoreAsync();
     }
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
@@ -53,7 +53,8 @@ internal sealed partial class PeriodicInvokeCommandOrOnActualThemeChangedBehavio
         Command.TryExecute(CommandParameter);
     }
 
-    private async ValueTask RunCoreAsync()
+    [SuppressMessage("", "SH003")]
+    private async Task RunCoreAsync()
     {
         using (PeriodicTimer timer = new(Period))
         {

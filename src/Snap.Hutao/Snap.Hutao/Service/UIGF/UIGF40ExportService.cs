@@ -48,14 +48,14 @@ internal sealed partial class UIGF40ExportService : IUIGFExportService
             return;
         }
 
-        IGachaLogDbService gachaLogDbService = serviceProvider.GetRequiredService<IGachaLogDbService>();
+        IGachaLogRepository gachaLogRepository = serviceProvider.GetRequiredService<IGachaLogRepository>();
 
         List<UIGFEntry<Hk4eItem>> results = [];
         foreach (uint uid in uids)
         {
-            GachaArchive? archive = gachaLogDbService.GetGachaArchiveByUid($"{uid}");
+            GachaArchive? archive = gachaLogRepository.GetGachaArchiveByUid($"{uid}");
             ArgumentNullException.ThrowIfNull(archive);
-            List<GachaItem> dbItems = gachaLogDbService.GetGachaItemListByArchiveId(archive.InnerId);
+            List<GachaItem> dbItems = gachaLogRepository.GetGachaItemListByArchiveId(archive.InnerId);
             UIGFEntry<Hk4eItem> entry = new()
             {
                 Uid = uid,

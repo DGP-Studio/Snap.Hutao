@@ -13,7 +13,7 @@ using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Input.HotKey;
 
-internal sealed class HotKeyMessageWindow : IDisposable
+internal sealed partial class HotKeyMessageWindow : IDisposable
 {
     private const string WindowClassName = "SnapHutaoHotKeyMessageWindowClass";
 

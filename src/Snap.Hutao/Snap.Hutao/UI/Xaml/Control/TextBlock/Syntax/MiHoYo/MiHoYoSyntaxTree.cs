@@ -5,7 +5,6 @@ using Snap.Hutao.Core.ExceptionService;
 
 namespace Snap.Hutao.UI.Xaml.Control.TextBlock.Syntax.MiHoYo;
 
-// TODO: Pooling syntax nodes to reduce memory allocation
 internal sealed class MiHoYoSyntaxTree
 {
     public MiHoYoSyntaxNode Root { get; set; } = default!;

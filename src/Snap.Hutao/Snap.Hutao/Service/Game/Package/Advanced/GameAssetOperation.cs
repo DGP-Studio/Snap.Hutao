@@ -119,7 +119,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         if (!File.Exists(assetPath))
         {
             conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
-            context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count));
+            context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count, asset.AssetProperty.AssetName));
 
             return;
         }
@@ -136,12 +136,12 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                     if (!chunk.ChunkDecompressedHashMd5.Equals(MD5.Hash(buffer.Span), StringComparison.OrdinalIgnoreCase))
                     {
                         conflictHandler(SophonAssetOperation.AddOrRepair(asset.UrlPrefix, asset.AssetProperty));
-                        context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count - i));
+                        context.Progress.Report(new GamePackageOperationReport.Install(0, chunks.Count - i, asset.AssetProperty.AssetName));
                         return;
                     }
                 }
 
-                context.Progress.Report(new GamePackageOperationReport.Install(chunk.ChunkSizeDecompressed, 1));
+                context.Progress.Report(new GamePackageOperationReport.Install(chunk.ChunkSizeDecompressed, 1, chunk.ChunkName));
             }
         }
     }
@@ -222,7 +222,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 string chunkXxh64 = await XXH64.HashFileAsync(chunkPath, token).ConfigureAwait(false);
                 if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
                 {
-                    context.Progress.Report(new GamePackageOperationReport.Download(sophonChunk.AssetChunk.ChunkSize, 1));
+                    context.Progress.Report(new GamePackageOperationReport.Download(sophonChunk.AssetChunk.ChunkSize, 1, sophonChunk.AssetChunk.ChunkName));
                     return;
                 }
 
@@ -237,7 +237,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                 {
                     using (Stream webStream = await httpClient.GetStreamAsync(sophonChunk.ChunkDownloadUrl, token).ConfigureAwait(false))
                     {
-                        using (StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Download(bytesRead, 0)))
+                        using (StreamCopyWorker<GamePackageOperationReport> worker = new(webStream, fileStream, (bytesRead, _) => new GamePackageOperationReport.Download(bytesRead, 0, sophonChunk.AssetChunk.ChunkName)))
                         {
                             await worker.CopyAsync(context.Progress, token).ConfigureAwait(false);
 
@@ -245,7 +245,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                             string chunkXxh64 = await XXH64.HashAsync(fileStream, token).ConfigureAwait(false);
                             if (chunkXxh64.Equals(sophonChunk.AssetChunk.ChunkName.Split("_")[0], StringComparison.OrdinalIgnoreCase))
                             {
-                                context.Progress.Report(new GamePackageOperationReport.Download(0, 1));
+                                context.Progress.Report(new GamePackageOperationReport.Download(0, 1, sophonChunk.AssetChunk.ChunkName));
                             }
                         }
                     }
@@ -310,7 +310,7 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                                 using (ZstandardDecompressionStream decompressor = new(diffStream))
                                 {
                                     await decompressor.CopyToAsync(newAssetStream, token).ConfigureAwait(false);
-                                    context.Progress.Report(new GamePackageOperationReport.Install(chunk.ChunkSizeDecompressed, 0));
+                                    context.Progress.Report(new GamePackageOperationReport.Install(chunk.ChunkSizeDecompressed, 0, chunk.ChunkName));
                                 }
                             }
                         }
@@ -340,14 +340,14 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
                                 }
 
                                 await newAssetStream.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(false);
-                                context.Progress.Report(new GamePackageOperationReport.Install(bytesRead, 0));
+                                context.Progress.Report(new GamePackageOperationReport.Install(bytesRead, 0, chunk.ChunkName));
                                 offset += bytesRead;
                                 bytesToCopy -= bytesRead;
                             }
                         }
                     }
 
-                    context.Progress.Report(new GamePackageOperationReport.Install(0, 1));
+                    context.Progress.Report(new GamePackageOperationReport.Install(0, 1, chunk.ChunkName));
                 }
             }
 

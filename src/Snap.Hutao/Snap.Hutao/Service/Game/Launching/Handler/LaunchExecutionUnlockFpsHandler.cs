@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
-using Snap.Hutao.Factory.Progress;
 using Snap.Hutao.Service.Game.Unlocker;
 
 namespace Snap.Hutao.Service.Game.Launching.Handler;
@@ -17,14 +16,17 @@ internal sealed class LaunchExecutionUnlockFpsHandler : ILaunchExecutionDelegate
             context.Logger.LogInformation("Unlocking FPS");
             context.Progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
 
-            IProgressFactory progressFactory = context.ServiceProvider.GetRequiredService<IProgressFactory>();
-            IProgress<GameFpsUnlockerContext> progress = progressFactory.CreateForMainThread<GameFpsUnlockerContext>(c => context.Progress.Report(LaunchStatus.FromUnlockerContext(c)));
             if (!context.TryGetGameFileSystem(out GameFileSystem? gameFileSystem))
             {
                 return;
             }
 
-            GameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process, progress);
+            if (!gameFileSystem.TryGetGameVersion(out string? gameVerison))
+            {
+                return;
+            }
+
+            GameFpsUnlocker unlocker = new(context.ServiceProvider, context.Process, gameVerison);
 
             try
             {

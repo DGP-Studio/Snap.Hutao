@@ -12,7 +12,7 @@ internal interface IInfrastructureWallpaperEndpoints : IInfrastructureRootAccess
 
     public string WallpaperGenshinLauncher()
     {
-        return $"{Root}/wallpaper/genshinlauncher";
+        return $"{Root}/wallpaper/hoyoplay";
     }
 
     public string WallpaperToday()
