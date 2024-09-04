@@ -148,10 +148,10 @@
     <value>Aucun résultat trouvé</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxRemoveMenuItem" xml:space="preserve">
-    <value>删除</value>
+    <value>Supprimer</value>
   </data>
   <data name="ControlAutoSuggestTokenBoxSelectAllMenuItem" xml:space="preserve">
-    <value>选择全部</value>
+    <value>Tout sélectionner</value>
   </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>Uri invalide</value>
@@ -199,16 +199,16 @@
     <value>Échec de l'enregistrement de [{0}] en touche de raccourci [{1}]</value>
   </data>
   <data name="CoreWindowingNotifyIconExitLabel" xml:space="preserve">
-    <value>退出</value>
+    <value>Quitter</value>
   </data>
   <data name="CoreWindowingNotifyIconLaunchGameLabel" xml:space="preserve">
     <value>Lanceur de jeu</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已进入后台运行</value>
+    <value>Snap Hutao fonctionne en arrière-plan.</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>窗口</value>
+    <value>Fenêtré</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>Sombre</value>
