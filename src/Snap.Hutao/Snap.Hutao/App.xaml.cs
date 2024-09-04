@@ -48,9 +48,9 @@ public sealed partial class App : Application
         InitializeComponent();
         activation = serviceProvider.GetRequiredService<IAppActivation>();
         logger = serviceProvider.GetRequiredService<ILogger<App>>();
-        serviceProvider.GetRequiredService<ExceptionRecorder>().Record(this);
-
         this.serviceProvider = serviceProvider;
+
+        serviceProvider.GetRequiredService<ExceptionRecorder>().Record(this);
     }
 
     public new void Exit()

@@ -8,10 +8,10 @@ namespace Snap.Hutao.Core.Caching;
 
 internal readonly struct ElementThemeValueFile
 {
-    public readonly ValueFile File;
     public readonly ElementTheme Theme;
+    public readonly ValueFile File;
 
-    public ElementThemeValueFile(ValueFile file, ElementTheme theme)
+    public ElementThemeValueFile(ElementTheme theme, ValueFile file)
     {
         File = file;
         Theme = theme;
@@ -19,6 +19,6 @@ internal readonly struct ElementThemeValueFile
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(File, Theme);
+        return HashCode.Combine(Theme, File);
     }
 }

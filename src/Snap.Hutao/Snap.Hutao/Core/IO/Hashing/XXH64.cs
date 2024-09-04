@@ -25,7 +25,7 @@ internal static class XXH64
         XxHash64 xxHash64 = new();
         await xxHash64.AppendAsync(stream, token).ConfigureAwait(false);
         byte[] bytes = xxHash64.GetHashAndReset();
-        return System.Convert.ToHexString(bytes);
+        return Convert.ToHexString(bytes);
     }
 
     /// <summary>

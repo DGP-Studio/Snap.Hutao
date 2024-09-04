@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core.Graphics.Imaging;
 
 internal static class SoftwareBitmapExtension
 {
-    public static unsafe void NormalBlend(this SoftwareBitmap softwareBitmap, Bgra32 tint)
+    public static void NormalBlend(this SoftwareBitmap softwareBitmap, Bgra32 tint)
     {
         using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.ReadWrite))
         {
@@ -31,7 +31,7 @@ internal static class SoftwareBitmapExtension
         }
     }
 
-    public static unsafe Bgra32 GetBgra32AccentColor(this SoftwareBitmap softwareBitmap)
+    public static Bgra32 GetBgra32AccentColor(this SoftwareBitmap softwareBitmap)
     {
         using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.Read))
         {
@@ -52,7 +52,7 @@ internal static class SoftwareBitmapExtension
         }
     }
 
-    public static unsafe Rgba32 GetRgba32AccentColor(this SoftwareBitmap softwareBitmap)
+    public static Rgba32 GetRgba32AccentColor(this SoftwareBitmap softwareBitmap)
     {
         using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.Read))
         {

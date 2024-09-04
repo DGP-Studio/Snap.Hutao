@@ -1,14 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.ViewModel.Guide;
 using Snap.Hutao.Web.Request.Builder;
 using Snap.Hutao.Web.Request.Builder.Abstraction;
 using System.Collections.Frozen;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -31,7 +29,6 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
     private readonly IHttpRequestMessageBuilderFactory httpRequestMessageBuilderFactory;
     private readonly ILogger<ImageCacheDownloadOperation> logger;
     private readonly IHttpClientFactory httpClientFactory;
-    private readonly HashSet<string> failedUris = [];
 
     public async ValueTask DownloadFileAsync(Uri uri, string baseFile)
     {
@@ -69,7 +66,6 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                         {
                             if (responseMessage.Content.Headers.ContentType?.MediaType is "application/json")
                             {
-                                DebugTrackFailedUri(uri);
                                 string raw = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                                 logger.LogColorizedCritical("Failed to download '{Uri}' with unexpected body '{Raw}'", (uri, ConsoleColor.Red), (raw, ConsoleColor.DarkYellow));
                                 return;
@@ -97,7 +93,6 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                                 }
 
                             default:
-                                DebugTrackFailedUri(uri);
                                 logger.LogColorizedCritical("Failed to download '{Uri}' with status code '{StatusCode}'", (uri, ConsoleColor.Red), (responseMessage.StatusCode, ConsoleColor.DarkYellow));
                                 return;
                         }
@@ -105,11 +100,5 @@ internal sealed partial class ImageCacheDownloadOperation : IImageCacheDownloadO
                 }
             }
         }
-    }
-
-    [Conditional("DEBUG")]
-    private void DebugTrackFailedUri(Uri uri)
-    {
-        failedUris.Add(uri.ToString());
     }
 }

@@ -16,10 +16,6 @@ using System.Net.Http.Json;
 
 namespace Snap.Hutao.Service.Metadata;
 
-/// <summary>
-/// 元数据服务
-/// </summary>
-[HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfiguration.Default)]
@@ -189,11 +185,11 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         }
     }
 
-    private ValueTask CheckMetadataSourceFilesAsync(Dictionary<string, string> metaMd5Map, CancellationToken token)
+    private ValueTask CheckMetadataSourceFilesAsync(Dictionary<string, string> metaHashMap, CancellationToken token)
     {
-        return Parallel.ForEachAsync(metaMd5Map, token, async (pair, token) =>
+        return Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
         {
-            (string fileName, string md5) = pair;
+            (string fileName, string hash) = pair;
             string fileFullName = $"{fileName}.json";
             string fileFullPath = metadataOptions.GetLocalizedLocalPath(fileFullName);
             if (Path.GetDirectoryName(fileFullPath) is { } directory && !Directory.Exists(directory))
@@ -204,7 +200,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             bool skip = false;
             if (File.Exists(fileFullPath))
             {
-                skip = md5 == await XXH64.HashFileAsync(fileFullPath, token).ConfigureAwait(false);
+                skip = hash == await XXH64.HashFileAsync(fileFullPath, token).ConfigureAwait(false);
             }
 
             if (!skip)

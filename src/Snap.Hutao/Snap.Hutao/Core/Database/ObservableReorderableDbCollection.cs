@@ -38,7 +38,7 @@ internal sealed class ObservableReorderableDbCollection<TEntity> : ObservableCol
     private static List<TEntity> AdjustIndex(List<TEntity> list)
     {
         Span<TEntity> span = CollectionsMarshal.AsSpan(list);
-        for (int i = 0; i < list.Count; i++)
+        for (int i = 0; i < span.Length; i++)
         {
             ref readonly TEntity item = ref span[i];
             item.Index = i;
@@ -92,7 +92,7 @@ internal sealed class ObservableReorderableDbCollection<TEntityAccess, TEntity> 
     private static List<TEntityAccess> AdjustIndex(List<TEntityAccess> list)
     {
         Span<TEntityAccess> span = CollectionsMarshal.AsSpan(list);
-        for (int i = 0; i < list.Count; i++)
+        for (int i = 0; i < span.Length; i++)
         {
             ref readonly TEntityAccess item = ref span[i];
             item.Entity.Index = i;

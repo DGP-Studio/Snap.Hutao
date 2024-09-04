@@ -21,7 +21,7 @@ namespace Snap.Hutao.Core.Caching;
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
 internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
-    private readonly ConcurrentDictionary<ElementThemeValueFile, Task> themefileTasks = [];
+    private readonly ConcurrentDictionary<ElementThemeValueFile, Task> themeFileTasks = [];
     private readonly ConcurrentDictionary<string, Task> downloadTasks = [];
 
     private readonly IImageCacheDownloadOperation downloadOperation;
@@ -46,7 +46,7 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
         Remove([uriForCachedItem]);
     }
 
-    public void Remove(in ReadOnlySpan<Uri> uriForCachedItems)
+    public void Remove(ReadOnlySpan<Uri> uriForCachedItems)
     {
         if (uriForCachedItems.Length <= 0)
         {
@@ -87,11 +87,11 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             return themeOrDefaultFilePath;
         }
 
-        ElementThemeValueFile key = new(fileName, theme);
+        ElementThemeValueFile key = new(theme, fileName);
 
-        // To prevent re-entrancy, always try add first, and if add failed, we try to get the task
+        // To prevent reentrancy, always try to add first, and if add failed, we try to get the task
         TaskCompletionSource themeFileTcs = new();
-        if (themefileTasks.TryAdd(key, themeFileTcs.Task))
+        if (themeFileTasks.TryAdd(key, themeFileTcs.Task))
         {
             try
             {
@@ -132,10 +132,10 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             finally
             {
                 themeFileTcs.TrySetResult();
-                themefileTasks.TryRemove(key, out _);
+                themeFileTasks.TryRemove(key, out _);
             }
         }
-        else if (themefileTasks.TryGetValue(key, out Task? themeTask))
+        else if (themeFileTasks.TryGetValue(key, out Task? themeTask))
         {
             await themeTask.ConfigureAwait(false);
             return themeOrDefaultFilePath;
@@ -200,6 +200,8 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
                 }
             }
         }
+
+        return;
 
         static void ConvertToMonoChrome(IMemoryBufferByteAccess byteAccess, byte background)
         {
