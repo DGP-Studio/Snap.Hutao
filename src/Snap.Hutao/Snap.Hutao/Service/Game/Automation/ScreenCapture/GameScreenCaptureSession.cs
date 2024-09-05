@@ -215,7 +215,7 @@ internal sealed partial class GameScreenCaptureSession : IDisposable
         // │     Actual data    │ Stride  │
         // │                    │         │
         // └────────────────────┴─────────┘
-        ReadOnlySpan2D<byte> subresource = new(d3d11MappedSubresource.pData, (int)textureHeight, (int)d3d11MappedSubresource.RowPitch);
+        ReadOnlySpan2D<byte> subresource = new(d3d11MappedSubresource.pData, (int)d3d11MappedSubresource.RowPitch);
 
         ArgumentNullException.ThrowIfNull(frameRawPixelDataTaskCompletionSource);
         switch (dxgiSurfaceDesc.Format)
