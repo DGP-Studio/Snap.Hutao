@@ -190,7 +190,7 @@
     <value>胡桃即時便箋重新整理任務 | 請勿編輯或刪除。</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
-    <value>信號量已經被釋放，操作取消</value>
+    <value>訊號量已經被釋放，操作取消</value>
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>未檢測到 WebView2 運行時</value>
@@ -205,10 +205,10 @@
     <value>啟動遊戲</value>
   </data>
   <data name="CoreWindowingNotifyIconPromotedHint" xml:space="preserve">
-    <value>胡桃已進入後臺運行</value>
+    <value>胡桃已進入後台運行</value>
   </data>
   <data name="CoreWindowingNotifyIconViewLabel" xml:space="preserve">
-    <value>窗口</value>
+    <value>視窗</value>
   </data>
   <data name="CoreWindowThemeDark" xml:space="preserve">
     <value>深色</value>
@@ -917,7 +917,7 @@
     <value>數據包含異常物品, Id：{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
-    <value>請求驗證密鑰失敗</value>
+    <value>請求驗證金鑰失敗</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
     <value>未正確提供原神路徑，或目前設定的路徑不正確</value>
@@ -1008,10 +1008,10 @@
     <value>遊戲本體</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
-    <value>找不到 Unity 日誌檔案</value>
+    <value>找不到 Unity 記錄檔</value>
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
-    <value>在 Unity 日誌檔案中無法找到遊戲路徑</value>
+    <value>在 Unity 記錄檔中無法找到遊戲路徑</value>
   </data>
   <data name="ServiceGamePackageAdvancedDecodeManifestFailed" xml:space="preserve">
     <value>清單數據解析失敗</value>
@@ -1098,7 +1098,7 @@
     <value>HTTP {0} | Error:{1}：後設資料校驗檔案下載失敗</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
-    <value>後設資料服務未初始化或初始化失敗</value>
+    <value>後設資料服務尚未初始化，或初始化失敗</value>
   </data>
   <data name="ServiceMetadataParseFailed" xml:space="preserve">
     <value>後設資料校驗檔案解析失敗</value>
@@ -1476,7 +1476,7 @@
     <value>上傳深淵數據</value>
   </data>
   <data name="ViewDialogUpdatePackageDownloadUpdatelogLinkContent" xml:space="preserve">
-    <value>查看更新日誌</value>
+    <value>查看更新記錄檔</value>
   </data>
   <data name="ViewDialogUpdatePackageMirrorDescription" xml:space="preserve">
     <value>如果自動更新下載過慢，可以手動下載並安裝</value>
@@ -1881,7 +1881,7 @@
     <value>遊戲程式路徑不正確，前往設定更改遊戲路徑</value>
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
-    <value>還未選擇任何伺服器</value>
+    <value>尚未選擇任何伺服器</value>
   </data>
   <data name="ViewModelLaunchGameSetGamePathButtonText" xml:space="preserve">
     <value>設置遊戲目錄</value>
@@ -1914,7 +1914,7 @@
     <value>後續轉換會重新下載所需檔案，確定要刪除嗎？</value>
   </data>
   <data name="ViewModelSettingDeleteServerCacheFolderTitle" xml:space="preserve">
-    <value>刪除轉換伺服器遊戲使用者端快取</value>
+    <value>刪除轉換伺服器遊戲用戶端快取</value>
   </data>
   <data name="ViewModelSettingFolderSizeDescription" xml:space="preserve">
     <value>已使用磁碟空間：{0}</value>
@@ -2493,7 +2493,7 @@
     <value>獨占全屏</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
-    <value>覆蓋默認的全屏狀態</value>
+    <value>覆蓋預設的全屏狀態</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceFullscreenHeader" xml:space="preserve">
     <value>全螢幕</value>
@@ -2502,13 +2502,13 @@
     <value>外觀</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
-    <value>覆蓋默認熒幕高度</value>
+    <value>覆蓋預設畫面高度</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightHeader" xml:space="preserve">
     <value>高度</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenWidthDescription" xml:space="preserve">
-    <value>覆蓋默認熒幕寬度</value>
+    <value>覆蓋預設畫面寬度</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenWidthHeader" xml:space="preserve">
     <value>寬度</value>
@@ -2682,7 +2682,7 @@
     <value>請輸入您的 HoYoLAB UID</value>
   </data>
   <data name="ViewPageLoginMihoyoUserDescription" xml:space="preserve">
-    <value>你正在通過由我們提供的內嵌網頁視圖登入 米哈遊通行證，我們會在你點擊 我已登入 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網路通訊只發生於你的計算機與米哈遊服務器之間</value>
+    <value>你正在通過由我們提供的內嵌網頁視圖登入 米哈遊通行證，我們會在你點擊 我已登入 按鈕後，讀取你的 Cookie 信息，由此視圖發起的網路通訊只發生於你的電腦與米哈遊伺服器之間</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
     <value>我已登入</value>
@@ -2745,7 +2745,7 @@
     <value>在桌面上創建預設以系統管理員方式啟動的捷徑</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
-    <value>創建快捷方式</value>
+    <value>創建捷徑</value>
   </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
     <value>執行</value>
@@ -2766,7 +2766,7 @@
     <value>刪除</value>
   </data>
   <data name="ViewPageSettingDeleteCacheDescription" xml:space="preserve">
-    <value>若祈願紀錄快取重新整理頻繁提示驗證密鑰過期，可以嘗試此操作</value>
+    <value>若祈願紀錄快取重新整理頻繁提示驗證金鑰過期，可以嘗試此操作</value>
   </data>
   <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
     <value>刪除遊戲内網頁快取</value>
@@ -2925,7 +2925,7 @@
     <value>快速鍵</value>
   </data>
   <data name="ViewPageSettingNotifyIconDescription" xml:space="preserve">
-    <value>在通知區域顯示圖示，以允許執行後臺任務，重新啟動後生效</value>
+    <value>在通知區域顯示圖示，以允許執行後台任務，重新啟動後生效</value>
   </data>
   <data name="ViewPageSettingNotifyIconHeader" xml:space="preserve">
     <value>通知區域圖示</value>
