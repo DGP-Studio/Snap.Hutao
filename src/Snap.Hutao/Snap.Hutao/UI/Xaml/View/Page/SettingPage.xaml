@@ -573,6 +573,7 @@
                                     Header="{shuxm:ResourceString Name=ViewPageSettingUIGFExportImportHeader}"
                                     HeaderIcon="{shuxm:FontIcon Glyph=&#xE8AF;}">
                                     <StackPanel Orientation="Horizontal" Spacing="3">
+                                        <HyperlinkButton Content="{shuxm:ResourceString Name=ViewPageSettingUIGFUpgradeLegacyVersionContent}" NavigateUri="https://upgrader.uigf.org/"/>
                                         <Button
                                             Command="{Binding ExportUIGFJsonCommand}"
                                             Content="{shuxm:ResourceString Name=ViewPageSettingUIGFExportContent}"
