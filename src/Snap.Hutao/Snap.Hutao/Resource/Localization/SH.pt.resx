@@ -1931,6 +1931,9 @@
   <data name="ViewModelSettingSetGamePathDatabaseFailedTitle" xml:space="preserve">
     <value>Falha ao salvar o caminho do jogo</value>
   </data>
+  <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
+    <value>当前数据目录 '{0}' 包含了一个或多个重新分析点（Reparse points），可能会导致部分依赖数据文件夹的功能无法正常工作，请前往设置更改路径</value>
+  </data>
   <data name="ViewModelUIGFExportError" xml:space="preserve">
     <value>Falha na exportação</value>
   </data>
@@ -3004,6 +3007,9 @@
   </data>
   <data name="ViewPageSettingUIGFImportContent" xml:space="preserve">
     <value>Importar</value>
+  </data>
+  <data name="ViewPageSettingUIGFUpgradeLegacyVersionContent" xml:space="preserve">
+    <value>升级较早版本的 UIGF 文件</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>在祈愿记录页面角色与武器页签显示未抽取到的祈愿物品</value>
