@@ -27,6 +27,7 @@ internal sealed partial class UniformPanel : Microsoft.UI.Xaml.Controls.Panel
 
         int desiredRows = (int)Math.Ceiling(Children.Count / (double)columns);
         double desiredHeight = ((maxDesiredHeight + RowSpacing) * desiredRows) - RowSpacing;
+        desiredHeight = Math.Max(0, desiredHeight);
 
         return new Size(availableSize.Width, desiredHeight);
     }
