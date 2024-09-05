@@ -1332,7 +1332,7 @@
     <value>選擇要匯出紀錄的 UID</value>
   </data>
   <data name="ViewDialogExportUIGFTitle" xml:space="preserve">
-    <value>匯出 UIGF 文件</value>
+    <value>匯出 UIGF 檔案</value>
   </data>
   <data name="ViewDialogFeedbackEnableLoopbackContent" xml:space="preserve">
     <value>解除限制後需使用其他工具恢復限制</value>
@@ -1437,7 +1437,7 @@
     <value>請選擇目前遊戲路徑對應的遊戲伺服器</value>
   </data>
   <data name="ViewDialogLaunchGameConfigurationFixDialogTitle" xml:space="preserve">
-    <value>正在修複設定檔</value>
+    <value>正在修複設定檔案</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
     <value>轉換可能需要花費一段時間，請勿關閉胡桃</value>
@@ -1932,7 +1932,7 @@
     <value>儲存遊戲路徑失敗</value>
   </data>
   <data name="ViewModelTitleDataFolderHasReparsepoint" xml:space="preserve">
-    <value>当前数据目录 '{0}' 包含了一个或多个重新分析点（Reparse points），可能会导致部分依赖数据文件夹的功能无法正常工作，请前往设置更改路径</value>
+    <value>目前數據目錄 '{0}' 包含了一個或多個重新剖析點（Reparse points），可能會導致部分依賴數據資料夾的功能無法正常工作，請前往設定更改路徑</value>
   </data>
   <data name="ViewModelUIGFExportError" xml:space="preserve">
     <value>匯出失敗</value>
@@ -3009,7 +3009,7 @@
     <value>匯入</value>
   </data>
   <data name="ViewPageSettingUIGFUpgradeLegacyVersionContent" xml:space="preserve">
-    <value>升级较早版本的 UIGF 文件</value>
+    <value>升級較早版本的 UIGF 檔案</value>
   </data>
   <data name="ViewPageSettingUnobtainedWishItemVisibleDescription" xml:space="preserve">
     <value>在「祈願紀錄 - 角色」與「祈願紀錄 - 武器」中顯示未抽到的祈願物品</value>
