@@ -34,6 +34,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             .SetRequestUri(apiEndpoints.GameRecordDailyNote(userAndUid.Uid))
             .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
             .SetReferer(apiEndpoints.WebStaticReferer())
+            .SetHeader("x-rpc-tool_verison", "v5.0.1-ys")
             .Get();
 
         await builder.SignDataAsync(DataSignAlgorithmVersion.Gen2, SaltType.X4, false).ConfigureAwait(false);
@@ -57,6 +58,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
                     .SetRequestUri(apiEndpoints.GameRecordDailyNote(userAndUid.Uid))
                     .SetUserCookieAndFpHeader(userAndUid, CookieType.Cookie)
                     .SetReferer(apiEndpoints.WebStaticReferer())
+                    .SetHeader("x-rpc-tool_verison", "v5.0.1-ys")
                     .SetXrpcChallenge(challenge)
                     .Get();
 
