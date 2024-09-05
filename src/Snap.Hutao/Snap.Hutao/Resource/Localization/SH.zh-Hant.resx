@@ -1119,7 +1119,7 @@
     <value>獲取獎勵清單失敗</value>
   </data>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
-    <value>驗證失敗，請前往 HoYoLAB 原神簽到頁面自行領取獎勵</value>
+    <value>驗證失敗，請前往 HoYoLAB - 原神簽到頁面自行領取獎勵</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>簽到成功，{0}×{1}</value>
@@ -1458,7 +1458,7 @@
     <value>你正在啟用一個危險功能</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
-    <value>該操作是不可逆，所有使用者登入狀態會遺失</value>
+    <value>該操作是不可逆的，所有使用者登入狀態會丟失</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>是否永久刪除使用者數據</value>
@@ -2100,10 +2100,10 @@
     <value>新增養成計劃以繼續</value>
   </data>
   <data name="ViewPageCultivationAddProjectDescription" xml:space="preserve">
-    <value>稍後可以前往其他頁面添加養成計劃項</value>
+    <value>稍後可以前往其他頁面新增養成計劃項</value>
   </data>
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
-    <value>添加我的角色與武器到養成計劃</value>
+    <value>新增我的角色與武器到養成計劃</value>
   </data>
   <data name="ViewPageCultivationCultivateEntry" xml:space="preserve">
     <value>養成物品</value>
@@ -2130,16 +2130,16 @@
     <value>刪除目前計劃</value>
   </data>
   <data name="ViewPageCultivationWikiAvatarDescription" xml:space="preserve">
-    <value>添加任意角色到養成計劃</value>
+    <value>新增任意角色到養成計劃</value>
   </data>
   <data name="ViewPageCultivationWikiWeaponDescription" xml:space="preserve">
-    <value>添加任意武器到養成計劃</value>
+    <value>新增任意武器到養成計劃</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>添加即時便籤</value>
+    <value>新增即時便籤</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>添加即時便籤以定時重新整理</value>
+    <value>新增即時便籤以定時重新整理</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>新增</value>
@@ -2187,7 +2187,7 @@
     <value>自動重新整理</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
-    <value>間隔選定的時間後重新整理添加的即時便箋</value>
+    <value>間隔選定的時間後重新整理新增的即時便箋</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
     <value>這些選項僅允許在非系統管理員模式下更改</value>
@@ -2196,7 +2196,7 @@
     <value>重新整理</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshNotifyIconDisabledHint" xml:space="preserve">
-    <value>未啟用通知區域圖示，關閉窗口後自動重新整理將不會執行</value>
+    <value>未啟用通知區域圖示，關閉視窗後自動重新整理將不會執行</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>在我遊玩原神時不通知我</value>
@@ -2229,7 +2229,7 @@
     <value>已解除</value>
   </data>
   <data name="ViewPageFeedbackEnableLoopbackHeader" xml:space="preserve">
-    <value>是否解除 Loopback 限制</value>
+    <value>解除 Loopback 限制</value>
   </data>
   <data name="ViewPageFeedbackEngageWithUsDescription" xml:space="preserve">
     <value>與我們密切聯繫</value>
@@ -2457,7 +2457,7 @@
     <value>請輸入電子郵件地址</value>
   </data>
   <data name="ViewPageHutaoPassportVerifyCodeAction" xml:space="preserve">
-    <value>取得驗證碼</value>
+    <value>獲取驗證碼</value>
   </data>
   <data name="ViewPageHutaoPassportVerifyCodeHint" xml:space="preserve">
     <value>請輸入驗證碼</value>
@@ -2478,7 +2478,7 @@
     <value>快速設定顯示器解析度</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
-    <value>將窗口創建為彈出窗口，不帶邊框</value>
+    <value>將視窗創建為彈出視窗，不帶邊框</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
     <value>無邊框</value>
@@ -2493,7 +2493,7 @@
     <value>獨占全屏</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
-    <value>覆蓋預設的全屏狀態</value>
+    <value>覆蓋預設的全螢幕狀態</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceFullscreenHeader" xml:space="preserve">
     <value>全螢幕</value>
@@ -2634,7 +2634,7 @@
     <value>重新命名</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>切換遊戲伺服器（大陸伺服器/渠道伺服器/國際伺服器）</value>
+    <value>切換遊戲伺服器（陸服 / 渠道服 / 國際服）</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>伺服器</value>
@@ -2709,7 +2709,7 @@
     <value>語言</value>
   </data>
   <data name="ViewPageSettingBackdropMaterialDescription" xml:space="preserve">
-    <value>更改窗體的背景材質</value>
+    <value>更改視窗的背景材質</value>
   </data>
   <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
     <value>背景材質</value>
@@ -2742,7 +2742,7 @@
     <value>創建</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
-    <value>在桌面上創建預設以系統管理員方式啟動的捷徑</value>
+    <value>在桌面上創建預設以系統管理員身份啟動的捷徑</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
     <value>創建捷徑</value>
@@ -2892,7 +2892,7 @@
     <value>您可以無限制地使用任何測試功能</value>
   </data>
   <data name="ViewPageSettingHutaoPassportMaintainerHeader" xml:space="preserve">
-    <value>胡桃開發/營運</value>
+    <value>胡桃開發 / 營運</value>
   </data>
   <data name="ViewPageSettingHutaoPassportRedeemCodeDescription" xml:space="preserve">
     <value>我們有時會向某些使用者贈送胡桃雲兌換碼</value>
@@ -2952,7 +2952,7 @@
     <value>在「啟動遊戲 - 處理程序」選項卡加入「解鎖 FPS 限制」選項</value>
   </data>
   <data name="ViewPageSettingsAdvancedOptionsLaunchUnlockFpsHeader" xml:space="preserve">
-    <value>啟動遊戲-解鎖 FPS 限制</value>
+    <value>啟動遊戲 - 解鎖 FPS 限制</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>更改目錄後需要手動移動目錄内的數據，否則會重新創建使用者數據</value>
@@ -2988,7 +2988,7 @@
     <value>評價軟體</value>
   </data>
   <data name="ViewPageSettingThemeDescription" xml:space="preserve">
-    <value>更改窗體的顏色主題</value>
+    <value>更改視窗的顏色主題</value>
   </data>
   <data name="ViewPageSettingThemeHeader" xml:space="preserve">
     <value>顏色主題</value>
@@ -3090,7 +3090,7 @@
     <value>搭配武器</value>
   </data>
   <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
-    <value>添加到養成計劃</value>
+    <value>新增到養成計劃</value>
   </data>
   <data name="ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder" xml:space="preserve">
     <value>篩選怪物</value>
