@@ -13,7 +13,7 @@ namespace Snap.Hutao.Core.IO;
 
 internal static class DirectoryOperation
 {
-    public static bool TryMove(string sourceDirName, string destDirName)
+    public static bool Move(string sourceDirName, string destDirName)
     {
         if (!Directory.Exists(sourceDirName))
         {

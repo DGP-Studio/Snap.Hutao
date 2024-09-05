@@ -202,7 +202,7 @@ internal static class LocalSetting
 
     public static void Update(string key, int defaultValue, Func<int, int> modifier)
     {
-        Set<int?>(key, modifier(Get<int>(key, defaultValue)));
+        Set<int>(key, modifier(Get<int>(key, defaultValue)));
     }
 
     private static T Get<T>(string key, T defaultValue = default!)

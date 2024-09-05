@@ -18,11 +18,9 @@ internal static class AppInstanceExtension
 {
     private static readonly WaitCallback RunActionWaitCallback = RunAction;
 
-    // Hold the reference here to prevent memory corruption.
-    private static HANDLE redirectEventHandle;
-
     public static unsafe void RedirectActivationTo(this AppInstance appInstance, AppActivationArguments args)
     {
+        HANDLE redirectEventHandle = default;
         try
         {
             redirectEventHandle = CreateEventW(default, true, false, default);

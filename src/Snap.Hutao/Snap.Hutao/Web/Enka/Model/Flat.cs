@@ -54,7 +54,7 @@ internal sealed class Flat
     /// ITEM_RELIQUARY
     /// </summary>
     [JsonPropertyName("itemType")]
-    [JsonEnum(JsonSerializeType.String)]
+    [JsonEnum(JsonEnumSerializeType.String)]
     public ItemType ItemType { get; set; } = default!;
 
     /// <summary>
@@ -70,7 +70,7 @@ internal sealed class Flat
     /// 值为 <see cref="EquipType.EQUIP_NONE"/>
     /// </summary>
     [JsonPropertyName("equipType")]
-    [JsonEnum(JsonSerializeType.String)]
+    [JsonEnum(JsonEnumSerializeType.String)]
     public EquipType EquipType { get; set; }
 
     /// <summary>

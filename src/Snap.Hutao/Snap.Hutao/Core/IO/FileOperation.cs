@@ -10,10 +10,6 @@ using static Snap.Hutao.Win32.Shell32;
 
 namespace Snap.Hutao.Core.IO;
 
-/// <summary>
-/// 文件操作
-/// </summary>
-[HighQuality]
 internal static class FileOperation
 {
     /// <summary>

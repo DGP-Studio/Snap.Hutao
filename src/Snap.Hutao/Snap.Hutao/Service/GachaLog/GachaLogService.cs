@@ -195,7 +195,7 @@ internal sealed partial class GachaLogService : IGachaLogService
                 // save items for each queryType
                 token.ThrowIfCancellationRequested();
                 fetchContext.SaveItems();
-                await Delay.RandomMilliSeconds(1000, 2000).ConfigureAwait(false);
+                await Task.Delay((int)(System.Random.Shared.NextDouble() * (2000 - 1000)) + 1000).ConfigureAwait(false);
             }
         }
 

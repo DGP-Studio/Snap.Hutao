@@ -11,11 +11,11 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 internal sealed class Hk4eItem : IMappingFrom<Hk4eItem, GachaItem>
 {
     [JsonPropertyName("uigf_gacha_type")]
-    [JsonEnum(JsonSerializeType.NumberString)]
+    [JsonEnum(JsonEnumSerializeType.NumberString)]
     public required GachaType UIGFGachaType { get; set; }
 
     [JsonPropertyName("gacha_type")]
-    [JsonEnum(JsonSerializeType.NumberString)]
+    [JsonEnum(JsonEnumSerializeType.NumberString)]
     public required GachaType GachaType { get; set; }
 
     [JsonPropertyName("item_id")]

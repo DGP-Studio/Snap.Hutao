@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
 using System.Diagnostics;
 
 namespace Snap.Hutao.Core.IO.Http.Sharding;
@@ -102,19 +103,22 @@ internal sealed class AsyncHttpShards : IAsyncEnumerable<IHttpShard>
 
     internal sealed class HttpShardsDebugView
     {
-        private readonly List<Shard> shards = [];
+        private readonly ImmutableArray<Shard> shards;
 
         public HttpShardsDebugView(AsyncHttpShards tree)
         {
+            ImmutableArray<Shard>.Builder builder = ImmutableArray.CreateBuilder<Shard>();
             Shard? current = tree.head;
             while (current is not null)
             {
-                shards.Add(current);
+                builder.Add(current);
                 current = current.Next;
             }
+
+            shards = builder.ToImmutableArray();
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-        public List<Shard> Shards { get => shards; }
+        public ImmutableArray<Shard> Shards { get => shards; }
     }
 }

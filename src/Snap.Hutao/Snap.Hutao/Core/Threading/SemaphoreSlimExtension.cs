@@ -7,6 +7,7 @@ namespace Snap.Hutao.Core.Threading;
 
 internal static class SemaphoreSlimExtension
 {
+    [Obsolete("Use AsyncLock instead")]
     public static async ValueTask<SemaphoreSlimToken> EnterAsync(this SemaphoreSlim semaphoreSlim, CancellationToken token = default)
     {
         try
@@ -21,6 +22,7 @@ internal static class SemaphoreSlimExtension
         return new SemaphoreSlimToken(semaphoreSlim);
     }
 
+    [Obsolete("Use AsyncLock instead")]
     public static SemaphoreSlimToken Enter(this SemaphoreSlim semaphoreSlim)
     {
         try

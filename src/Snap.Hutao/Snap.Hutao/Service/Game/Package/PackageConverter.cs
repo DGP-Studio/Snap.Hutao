@@ -311,7 +311,7 @@ internal sealed partial class PackageConverter
         try
         {
             progress.Report(new(SH.FormatServiceGamePackageConvertMoveFileRenameFormat(context.FromDataFolderName, context.ToDataFolderName)));
-            DirectoryOperation.TryMove(context.FromDataFolder, context.ToDataFolder);
+            DirectoryOperation.Move(context.FromDataFolder, context.ToDataFolder);
         }
         catch (IOException ex)
         {

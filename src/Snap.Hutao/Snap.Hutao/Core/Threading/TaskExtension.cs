@@ -8,18 +8,6 @@ namespace Snap.Hutao.Core.Threading;
 
 internal static class TaskExtension
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ValueTask AsValueTask(this Task task)
-    {
-        return new(task);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ValueTask<T> AsValueTask<T>(this Task<T> task)
-    {
-        return new(task);
-    }
-
     public static async void SafeForget(this Task task, ILogger logger)
     {
         try

@@ -5,9 +5,6 @@ using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
-/// <summary>
-/// 服务提供器扩展
-/// </summary>
 internal static class ServiceProviderExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

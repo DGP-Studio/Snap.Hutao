@@ -185,7 +185,8 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         }
     }
 
-    private ValueTask CheckMetadataSourceFilesAsync(Dictionary<string, string> metaHashMap, CancellationToken token)
+    [SuppressMessage("", "SH003")]
+    private Task CheckMetadataSourceFilesAsync(Dictionary<string, string> metaHashMap, CancellationToken token)
     {
         return Parallel.ForEachAsync(metaHashMap, token, async (pair, token) =>
         {
@@ -208,7 +209,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 logger.LogInformation("{Hash} of {File} not matched, begin downloading", nameof(XXH64), fileFullName);
                 await DownloadMetadataSourceFilesAsync(fileFullName, token).ConfigureAwait(false);
             }
-        }).AsValueTask();
+        });
     }
 
     private async ValueTask DownloadMetadataSourceFilesAsync(string fileFullName, CancellationToken token)

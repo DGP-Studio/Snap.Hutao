@@ -27,7 +27,7 @@ namespace Snap.Hutao.Core.LifeCycle;
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IAppActivation))]
 [SuppressMessage("", "CA1001")]
-internal sealed partial class AppActivation : IAppActivation, IAppActivationActionHandlersAccess, IDisposable
+internal sealed partial class AppActivation : IAppActivation, IAppActivationActionHandlersAccess
 {
     public const string Action = nameof(Action);
     public const string Uid = nameof(Uid);
@@ -43,7 +43,8 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
     private readonly ILogger<AppActivation> logger;
     private readonly ITaskContext taskContext;
 
-    private readonly SemaphoreSlim activateSemaphore = new(1);
+    private readonly AsyncLock activateLock = new();
+    private int isActivating;
 
     public void Activate(HutaoActivationArguments args)
     {
@@ -51,36 +52,44 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 
         async ValueTask HandleActivationExclusiveAsync(HutaoActivationArguments args)
         {
-            await taskContext.SwitchToBackgroundAsync();
-
-            if (activateSemaphore.CurrentCount > 0)
+            if (Volatile.Read(ref isActivating) is 1)
             {
-                using (await activateSemaphore.EnterAsync().ConfigureAwait(false))
+                return;
+            }
+
+            using (await activateLock.LockAsync().ConfigureAwait(false))
+            {
+                if (Interlocked.CompareExchange(ref isActivating, 1, 0) is not 0)
                 {
-                    switch (args.Kind)
-                    {
-                        case HutaoActivationKind.Protocol:
-                            {
-                                ArgumentNullException.ThrowIfNull(args.ProtocolActivatedUri);
-                                await HandleProtocolActivationAsync(args.ProtocolActivatedUri, args.IsRedirectTo).ConfigureAwait(false);
-                                break;
-                            }
-
-                        case HutaoActivationKind.Launch:
-                            {
-                                ArgumentNullException.ThrowIfNull(args.LaunchActivatedArguments);
-                                await HandleLaunchActivationAsync(args.IsRedirectTo).ConfigureAwait(false);
-                                break;
-                            }
-
-                        case HutaoActivationKind.AppNotification:
-                            {
-                                ArgumentNullException.ThrowIfNull(args.AppNotificationActivatedArguments);
-                                await HandleAppNotificationActivationAsync(args.AppNotificationActivatedArguments, args.IsRedirectTo).ConfigureAwait(false);
-                                break;
-                            }
-                    }
+                    return;
                 }
+
+                await taskContext.SwitchToBackgroundAsync();
+                switch (args.Kind)
+                {
+                    case HutaoActivationKind.Protocol:
+                        {
+                            ArgumentNullException.ThrowIfNull(args.ProtocolActivatedUri);
+                            await HandleProtocolActivationAsync(args.ProtocolActivatedUri, args.IsRedirectTo).ConfigureAwait(false);
+                            break;
+                        }
+
+                    case HutaoActivationKind.Launch:
+                        {
+                            ArgumentNullException.ThrowIfNull(args.LaunchActivatedArguments);
+                            await HandleLaunchActivationAsync(args.IsRedirectTo).ConfigureAwait(false);
+                            break;
+                        }
+
+                    case HutaoActivationKind.AppNotification:
+                        {
+                            ArgumentNullException.ThrowIfNull(args.AppNotificationActivatedArguments);
+                            await HandleAppNotificationActivationAsync(args.AppNotificationActivatedArguments, args.IsRedirectTo).ConfigureAwait(false);
+                            break;
+                        }
+                }
+
+                Interlocked.Exchange(ref isActivating, 0);
             }
         }
     }
@@ -98,14 +107,9 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
         {
             await taskContext.SwitchToBackgroundAsync();
 
-            using (await activateSemaphore.EnterAsync().ConfigureAwait(false))
+            using (await activateLock.LockAsync().ConfigureAwait(false))
             {
-                // TODO: Introduced in 1.10.2, remove in later version
-                {
-                    serviceProvider.GetRequiredService<IJumpListInterop>().ClearAsync().SafeForget(logger);
-                    serviceProvider.GetRequiredService<IScheduleTaskInterop>().UnregisterAllTasks();
-                }
-
+                // In guide
                 if (UnsafeLocalSetting.Get(SettingKeys.Major1Minor10Revision0GuideState, GuideState.Language) < GuideState.Completed)
                 {
                     return;
@@ -121,7 +125,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                 {
                     XamlApplicationLifetime.LaunchedWithNotifyIcon = true;
 
-                    await taskContext.SwitchToMainThreadAsync();
                     serviceProvider.GetRequiredService<App>().DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
                     _ = serviceProvider.GetRequiredService<NotifyIconController>();
                 }
@@ -140,11 +143,6 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
                 }
             }
         }
-    }
-
-    public void Dispose()
-    {
-        activateSemaphore.Dispose();
     }
 
     public async ValueTask HandleLaunchGameActionAsync(string? uid = null)
@@ -212,6 +210,7 @@ internal sealed partial class AppActivation : IAppActivation, IAppActivationActi
 #pragma warning disable CA1849
                                 // We can't await here to navigate to Achievment Page, the Achievement
                                 // ViewModel requires the Metadata Service to be initialized.
+                                // Which is initialized in the link:AppActivation.cs#L102
                                 serviceProvider
                                     .GetRequiredService<INavigationService>()
                                     .Navigate<AchievementPage>(navigationAwaiter, true);
