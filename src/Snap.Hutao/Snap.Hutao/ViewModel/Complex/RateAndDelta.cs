@@ -9,9 +9,9 @@ internal class RateAndDelta
     {
         Rate = $"{rate:P3}";
 
-        if (lastRate.HasValue)
+        if (lastRate.TryGetValue(out double lastRateValue))
         {
-            RateDelta = FormatDelta(rate - lastRate.Value);
+            RateDelta = FormatDelta(rate - lastRateValue);
         }
         else
         {

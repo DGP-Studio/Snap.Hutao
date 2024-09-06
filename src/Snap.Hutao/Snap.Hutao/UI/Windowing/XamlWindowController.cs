@@ -113,9 +113,15 @@ internal sealed class XamlWindowController
 
                 if (!IsNotifyIconVisible())
                 {
-                    new AppNotificationBuilder()
-                        .AddText(SH.CoreWindowingNotifyIconPromotedHint)
-                        .Show();
+                    try
+                    {
+                        new AppNotificationBuilder()
+                            .AddText(SH.CoreWindowingNotifyIconPromotedHint)
+                            .Show();
+                    }
+                    catch
+                    {
+                    }
                 }
             }
 

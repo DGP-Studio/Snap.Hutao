@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using Snap.Hutao.Core.LifeCycle.InterProcess;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Discord;
 using Snap.Hutao.Service.Hutao;

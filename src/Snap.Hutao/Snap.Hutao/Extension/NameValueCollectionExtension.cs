@@ -9,13 +9,10 @@ internal static class NameValueCollectionExtension
 {
     public static bool TryGetSingleValue(this NameValueCollection collection, string name, [NotNullWhen(true)] out string? value)
     {
-        if (collection.AllKeys.Contains(name))
+        if (collection.AllKeys.Contains(name) && collection.GetValues(name) is [string single])
         {
-            if (collection.GetValues(name) is [string single])
-            {
-                value = single;
-                return true;
-            }
+            value = single;
+            return true;
         }
 
         value = string.Empty;

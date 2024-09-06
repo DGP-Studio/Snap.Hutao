@@ -92,7 +92,36 @@ internal static class ListExtension
     }
 
     [Pure]
+    public static unsafe List<TResult> SelectList<TSource, TResult>(this List<TSource> list, delegate*<TSource, TResult> selector)
+    {
+        Span<TSource> span = CollectionsMarshal.AsSpan(list);
+        List<TResult> results = new(span.Length);
+
+        foreach (ref readonly TSource item in span)
+        {
+            results.Add(selector(item));
+        }
+
+        return results;
+    }
+
+    [Pure]
     public static List<TResult> SelectList<TSource, TResult>(this List<TSource> list, Func<TSource, int, TResult> selector)
+    {
+        Span<TSource> span = CollectionsMarshal.AsSpan(list);
+        List<TResult> results = new(span.Length);
+
+        int index = -1;
+        foreach (ref readonly TSource item in span)
+        {
+            results.Add(selector(item, ++index));
+        }
+
+        return results;
+    }
+
+    [Pure]
+    public static unsafe List<TResult> SelectList<TSource, TResult>(this List<TSource> list, delegate*<TSource, int, TResult> selector)
     {
         Span<TSource> span = CollectionsMarshal.AsSpan(list);
         List<TResult> results = new(span.Length);
@@ -130,20 +159,6 @@ internal static class ListExtension
         }
 
         return results;
-    }
-
-    [Pure]
-    public static TSource SingleOrAdd<TSource>(this List<TSource> list, Func<TSource, bool> predicate, Func<TSource> valueFactory)
-        where TSource : class
-    {
-        if (list.SingleOrDefault(predicate) is { } source)
-        {
-            return source;
-        }
-
-        TSource value = valueFactory();
-        list.Add(value);
-        return value;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]

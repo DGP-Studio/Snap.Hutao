@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.SafeHandles;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Web.Request.Builder;
 using System.IO;
 using System.Net.Http;
@@ -127,6 +126,6 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
 
     private void VerifyMutable()
     {
-        HutaoException.InvalidOperationIf(isReadOnly, "The options is read-only.");
+        Verify.Operation(!isReadOnly, "The options is read-only.");
     }
 }
