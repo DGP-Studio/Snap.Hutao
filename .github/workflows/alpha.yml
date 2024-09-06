@@ -36,14 +36,12 @@ jobs:
       - name: Select runner
         id: select_runner
         run: |
-          sudo apt-get install jq
-
           runner_id=36
           runner_status=$(curl -s -X GET -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${{ secrets.RUNNER_CHECK_TOKEN }}" https://api.github.com/orgs/DGP-Studio/actions/runners/$runner_id | jq -r '.status')
           if [ "$runner_status" == "online" ]; then
-            echo "::set-output name=runner::self-hosted"
+            echo "runner=self-hosted" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=runner::windows-latest"
+            echo "runner=windows-latest" >> $GITHUB_OUTPUT
           fi
 
   build:
