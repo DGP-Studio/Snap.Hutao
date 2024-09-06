@@ -59,7 +59,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
         try
         {
-            File.Copy(InstalledLocation.GetAbsolutePath("Snap.Hutao.UnlockerIsland.dll"), dataFolderIslandPath, true);
+            InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.UnlockerIsland.dll", dataFolderIslandPath);
         }
         catch
         {

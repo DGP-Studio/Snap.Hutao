@@ -92,7 +92,7 @@ internal sealed partial class UpdateService : IUpdateService
         RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         string updaterTargetPath = runtimeOptions.GetDataFolderUpdateCacheFolderFile(UpdaterFilename);
 
-        File.Copy(InstalledLocation.GetAbsolutePath(UpdaterFilename), updaterTargetPath, true);
+        InstalledLocation.CopyFileFromApplicationUri($"ms-appx:///{UpdaterFilename}", updaterTargetPath);
 
         string commandLine = new CommandLineBuilder()
             .Append("--package-path", GetUpdatePackagePath(runtimeOptions))

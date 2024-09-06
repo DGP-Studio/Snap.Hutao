@@ -24,8 +24,8 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
         try
         {
-            File.Copy(InstalledLocation.GetAbsolutePath("Assets/Logo.ico"), targetLogoPath, true);
-            File.Copy(InstalledLocation.GetAbsolutePath("Snap.Hutao.Elevated.Launcher.exe"), elevatedLauncherPath, true);
+            InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Assets/Logo.ico", targetLogoPath);
+            InstalledLocation.CopyFileFromApplicationUri("ms-appx:///Snap.Hutao.Elevated.Launcher.exe", elevatedLauncherPath);
         }
         catch
         {
