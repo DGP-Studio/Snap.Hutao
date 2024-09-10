@@ -39,10 +39,12 @@ jobs:
           runner_id=36
           runner_status=$(curl -s -X GET -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${{ secrets.RUNNER_CHECK_TOKEN }}" https://api.github.com/orgs/DGP-Studio/actions/runners/$runner_id | jq -r '.status')
           if [ "$runner_status" == "online" ]; then
-            echo "runner=self-hosted" >> $GITHUB_OUTPUT
+            runner=self-hosted
           else
-            echo "runner=windows-latest" >> $GITHUB_OUTPUT
+            runner=windows-latest
           fi
+          echo "$runner is selected"
+          echo "runner=$runner" >> $GITHUB_OUTPUT
 
   build:
     needs: select-runner
@@ -55,6 +57,15 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0
+
+      - name: Cache NuGet packages
+        if: ${{ needs.select-runner.outputs.runner == 'windows-latest' }}
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       - name: Cake
         id: cake
