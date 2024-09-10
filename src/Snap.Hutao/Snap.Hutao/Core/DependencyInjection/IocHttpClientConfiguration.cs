@@ -25,14 +25,15 @@ internal static partial class IocHttpClientConfiguration
                         HttpClientHandler clientHandler = (HttpClientHandler)handler;
                         clientHandler.AllowAutoRedirect = true;
                         clientHandler.UseProxy = true;
+                        clientHandler.MaxConnectionsPerServer = 16;
                         clientHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
                     });
             })
-            .AddHttpClients();
+            .AddHttpClients()
 
-        services
-            .AddHttpClient(GamePackageService.HttpClientName)
-            .AddHttpMessageHandler(() => new ClientSideRateLimitingHandler());
+        //services
+            .AddHttpClient(GamePackageService.HttpClientName);
+            //.AddHttpMessageHandler(() => new ClientSideRateLimitingHandler());
 
         return services;
     }

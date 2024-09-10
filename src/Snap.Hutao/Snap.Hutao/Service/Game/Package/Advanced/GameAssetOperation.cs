@@ -11,7 +11,6 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Downloader.Proto;
 using System.Buffers;
 using System.IO;
 using System.IO.Compression;
-using System.Net.Http;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 

@@ -202,6 +202,7 @@ internal sealed partial class GamePackageOperationViewModel : Abstraction.ViewMo
     [Command("CancelCommand")]
     private async Task Cancel()
     {
+        Title = SH.ViewModelGamePakcageOperationCancelling;
         await gamePackageService.CancelOperationAsync().ConfigureAwait(true);
         IsFinished = true;
         Title = SH.ViewModelGamePakcageOperationCanceled;
