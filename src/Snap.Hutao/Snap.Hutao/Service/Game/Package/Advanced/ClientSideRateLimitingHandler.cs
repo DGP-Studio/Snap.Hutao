@@ -17,7 +17,7 @@ internal sealed partial class ClientSideRateLimitingHandler : DelegatingHandler,
             ReplenishmentPeriod = TimeSpan.FromMilliseconds(200),
             TokensPerPeriod = 1,
             AutoReplenishment = true,
-            TokenLimit = 300,
+            TokenLimit = 50,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
         });
     }
