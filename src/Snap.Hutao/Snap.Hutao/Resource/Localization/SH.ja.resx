@@ -1812,7 +1812,7 @@
     <value>キャンセルされました</value>
   </data>
   <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
-    <value>正在取消</value>
+    <value>キャンセル中</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
     <value>インストール完了</value>
