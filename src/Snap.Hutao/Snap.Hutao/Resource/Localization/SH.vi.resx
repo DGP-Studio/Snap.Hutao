@@ -1811,6 +1811,9 @@
   <data name="ViewModelGamePakcageOperationCanceled" xml:space="preserve">
     <value>已取消</value>
   </data>
+  <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
+    <value>正在取消</value>
+  </data>
   <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
     <value>安装完成</value>
   </data>
