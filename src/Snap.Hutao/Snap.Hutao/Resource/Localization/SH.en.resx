@@ -1812,7 +1812,7 @@
     <value>Cancelled</value>
   </data>
   <data name="ViewModelGamePakcageOperationCancelling" xml:space="preserve">
-    <value>正在取消</value>
+    <value>Canceling</value>
   </data>
   <data name="ViewModelGamePakcageOperationCompleteInstall" xml:space="preserve">
     <value>Installation completed</value>
