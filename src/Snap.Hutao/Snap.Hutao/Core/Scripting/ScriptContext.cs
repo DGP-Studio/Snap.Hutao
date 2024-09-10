@@ -134,6 +134,8 @@ public sealed class ScriptContext
         using (context)
         {
             await builder.SendAsync(context).ConfigureAwait(false);
+
+            context.Exception?.Throw();
             ArgumentNullException.ThrowIfNull(context.Response);
             return await context.Response.Content.ReadAsStringAsync(token).ConfigureAwait(false);
         }
