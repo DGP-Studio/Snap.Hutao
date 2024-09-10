@@ -112,17 +112,7 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                         continue;
                     }
 
-                    TaskCompletionSource tcs = new();
-                    while (!context.ProcessingChunks.TryAdd(chunk.ChunkName, tcs.Task))
-                    {
-                        if (context.ProcessingChunks.TryGetValue(chunk.ChunkName, out Task? task))
-                        {
-                            await task.ConfigureAwait(false);
-                            token.ThrowIfCancellationRequested();
-                        }
-                    }
-
-                    try
+                    using (await context.ExclusiveProcessChunkAsync(chunk.ChunkName, token).ConfigureAwait(false))
                     {
                         using (FileStream chunkFile = File.OpenRead(chunkPath))
                         {
@@ -144,12 +134,8 @@ internal sealed partial class GameAssetOperationHDD : GameAssetOperation
                                 while (true);
                             }
                         }
-                    }
-                    finally
-                    {
-                        tcs.TrySetResult();
-                        context.ProcessingChunks.TryRemove(chunk.ChunkName, out _);
-                        if (!context.DuplicatedChunkNames.Contains(chunk.ChunkName))
+
+                        if (!context.DuplicatedChunkNames.ContainsKey(chunk.ChunkName))
                         {
                             FileOperation.Delete(chunkPath);
                         }

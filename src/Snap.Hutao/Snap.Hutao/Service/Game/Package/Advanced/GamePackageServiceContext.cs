@@ -4,6 +4,7 @@
 using CommunityToolkit.Common;
 using Snap.Hutao.Core.IO;
 using System.Collections.Concurrent;
+using System.Net.Http;
 
 namespace Snap.Hutao.Service.Game.Package.Advanced;
 
@@ -12,14 +13,17 @@ internal readonly struct GamePackageServiceContext
     public readonly GamePackageOperationContext Operation;
     public readonly IProgress<GamePackageOperationReport> Progress;
     public readonly ParallelOptions ParallelOptions;
-    public readonly HashSet<string> DuplicatedChunkNames = [];
-    public readonly ConcurrentDictionary<string, Task> ProcessingChunks = [];
+    public readonly ConcurrentDictionary<string, Void> DuplicatedChunkNames = [];
+    public readonly HttpClient HttpClient;
 
-    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions)
+    private readonly ConcurrentDictionary<string, AsyncLock> chunkLocks = [];
+
+    public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient)
     {
         Operation = operation;
         Progress = progress;
         ParallelOptions = parallelOptions;
+        HttpClient = httpClient;
     }
 
     public CancellationToken CancellationToken { get => ParallelOptions.CancellationToken; }
@@ -38,5 +42,11 @@ internal readonly struct GamePackageServiceContext
         }
 
         return true;
+    }
+
+    [SuppressMessage("", "SH003")]
+    public Task<AsyncLock.Releaser> ExclusiveProcessChunkAsync(string chunkName, CancellationToken token)
+    {
+        return chunkLocks.GetOrAdd(chunkName, _ => new()).LockAsync();
     }
 }

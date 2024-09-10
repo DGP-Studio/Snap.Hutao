@@ -43,7 +43,7 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
         progressReportRateLimiter = ProgressReportRateLimiter.Create(1000);
     }
 
-    public async ValueTask CopyAsync(IProgress<TStatus> progress, CancellationToken token = default)
+    public async ValueTask CopyAsync(IProgress<TStatus> progress, bool continueOnCapturedContext = true, CancellationToken token = default)
     {
         long bytesReadSinceCopyStart = 0;
         long bytesReadSinceLastReport = 0;
@@ -56,14 +56,14 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
 
             do
             {
-                bytesRead = await source.ReadAsync(buffer, token).ConfigureAwait(false);
+                bytesRead = await source.ReadAsync(buffer, token).ConfigureAwait(continueOnCapturedContext);
                 if (bytesRead is 0)
                 {
                     progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
                     break;
                 }
 
-                await destination.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(false);
+                await destination.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(continueOnCapturedContext);
 
                 bytesReadSinceCopyStart += bytesRead;
                 bytesReadSinceLastReport += bytesRead;
@@ -78,7 +78,7 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
         }
     }
 
-    public async ValueTask CopyAsync(TokenBucketRateLimiter rateLimiter, IProgress<TStatus> progress, CancellationToken token = default)
+    public async ValueTask CopyAsync(TokenBucketRateLimiter rateLimiter, IProgress<TStatus> progress, bool continueOnCapturedContext = true, CancellationToken token = default)
     {
         long bytesReadSinceCopyStart = 0;
         long bytesReadSinceLastReport = 0;
@@ -93,11 +93,11 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
             {
                 if (!rateLimiter.TryAcquire(buffer.Length, out int bytesToRead, out TimeSpan retryAfter))
                 {
-                    await Task.Delay(retryAfter, token).ConfigureAwait(false);
+                    await Task.Delay(retryAfter, token).ConfigureAwait(continueOnCapturedContext);
                     continue;
                 }
 
-                bytesRead = await source.ReadAsync(buffer[..bytesToRead], token).ConfigureAwait(false);
+                bytesRead = await source.ReadAsync(buffer[..bytesToRead], token).ConfigureAwait(continueOnCapturedContext);
                 if (bytesRead is 0)
                 {
                     progress.Report(statusFactory(bytesReadSinceLastReport, bytesReadSinceCopyStart));
@@ -105,7 +105,7 @@ internal partial class StreamCopyWorker<TStatus> : IDisposable
                 }
 
                 rateLimiter.Replenish(bytesToRead - bytesRead);
-                await destination.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(false);
+                await destination.WriteAsync(buffer[..bytesRead], token).ConfigureAwait(continueOnCapturedContext);
 
                 bytesReadSinceCopyStart += bytesRead;
                 bytesReadSinceLastReport += bytesRead;
