@@ -6,5 +6,7 @@ namespace Snap.Hutao.Core.Scripting;
 [SuppressMessage("", "SH001", Justification = "IHutaoDiagnostics must be public in order to be exposed to the scripting environment")]
 public interface ISnapHutaoDiagnostics
 {
+    ValueTask<int> ExecuteSqlAsync(string sql);
+
     ValueTask<string> GetPathFromApplicationUrlAsync(string url);
 }
