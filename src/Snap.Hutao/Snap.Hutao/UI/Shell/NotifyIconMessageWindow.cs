@@ -8,6 +8,8 @@ using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Snap.Hutao.Win32.ConstValues;
+using static Snap.Hutao.Win32.Kernel32;
+using static Snap.Hutao.Win32.Macros;
 using static Snap.Hutao.Win32.User32;
 
 namespace Snap.Hutao.UI.Shell;
@@ -39,7 +41,13 @@ internal sealed partial class NotifyIconMessageWindow : IDisposable
             atom = RegisterClassW(&wc);
         }
 
-        ArgumentOutOfRangeException.ThrowIfZero(atom);
+        if (atom is 0)
+        {
+            Marshal.ThrowExceptionForHR(HRESULT_FROM_WIN32(GetLastError()));
+
+            // If HRESULT is not available, throw anyway
+            ArgumentOutOfRangeException.ThrowIfZero(atom);
+        }
 
         // https://learn.microsoft.com/zh,cn/windows/win32/shell/taskbar#taskbar,creation,notification
         WM_TASKBARCREATED = RegisterWindowMessageW("TaskbarCreated");
