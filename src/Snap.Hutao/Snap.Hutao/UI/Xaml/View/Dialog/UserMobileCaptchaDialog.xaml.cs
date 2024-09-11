@@ -139,6 +139,22 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog
     [GeneratedRegex(@"\d{11}")]
     private static partial Regex MobilePhoneRegex();
 
+    private void OnTextKeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        if (e.Key is VirtualKey.Enter)
+        {
+            e.Handled = true;
+        }
+    }
+
+    private void OnTextKeyUp(object sender, KeyRoutedEventArgs e)
+    {
+        if (e.Key is VirtualKey.Enter)
+        {
+            e.Handled = true;
+        }
+    }
+
     private sealed class Aigis
     {
         [JsonPropertyName("session_id")]
@@ -164,21 +180,5 @@ internal sealed partial class UserMobileCaptchaDialog : ContentDialog
 
         [JsonPropertyName("new_captcha")]
         public int NewCaptcha { get; set; }
-    }
-
-    private void OnTextKeyDown(object sender, KeyRoutedEventArgs e)
-    {
-        if (e.Key is VirtualKey.Enter)
-        {
-            e.Handled = true;
-        }
-    }
-
-    private void OnTextKeyUp(object sender, KeyRoutedEventArgs e)
-    {
-        if (e.Key is VirtualKey.Enter)
-        {
-            e.Handled = true;
-        }
     }
 }
