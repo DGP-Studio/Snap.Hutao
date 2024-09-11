@@ -19,21 +19,29 @@ internal static partial class IocHttpClientConfiguration
             .ConfigureHttpClientDefaults(clientBuilder =>
             {
                 clientBuilder
-                    .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler())
+                    .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler())
                     .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
                     {
-                        HttpClientHandler clientHandler = (HttpClientHandler)handler;
-                        clientHandler.AllowAutoRedirect = true;
-                        clientHandler.UseProxy = true;
-                        clientHandler.MaxConnectionsPerServer = 16;
-                        clientHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
+                        SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
+                        typedHandler.ConnectTimeout = TimeSpan.FromSeconds(30);
+                        typedHandler.AllowAutoRedirect = true;
+                        typedHandler.UseProxy = true;
+                        typedHandler.MaxConnectionsPerServer = 16;
+                        typedHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
                     });
             })
-            .AddHttpClients()
+            .AddHttpClients();
 
-        //services
-            .AddHttpClient(GamePackageService.HttpClientName);
-            //.AddHttpMessageHandler(() => new ClientSideRateLimitingHandler());
+        services
+            .AddHttpClient(GamePackageService.HttpClientName)
+            .ConfigurePrimaryHttpMessageHandler((handler, provider) =>
+            {
+                SocketsHttpHandler typedHandler = (SocketsHttpHandler)handler;
+                typedHandler.AllowAutoRedirect = true;
+                typedHandler.UseProxy = true;
+                typedHandler.MaxConnectionsPerServer = 16;
+                typedHandler.Proxy = provider.GetRequiredService<HttpProxyUsingSystemProxy>();
+            });
 
         return services;
     }

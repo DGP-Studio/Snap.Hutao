@@ -21,8 +21,8 @@ namespace Snap.Hutao.Core.Caching;
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
 internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
-    private readonly ConcurrentDictionary<ElementThemeValueFile, Task> themeFileTasks = [];
-    private readonly ConcurrentDictionary<string, Task> downloadTasks = [];
+    private readonly AsyncKeyedLock<ElementThemeValueFile> themeFileLocks = new();
+    private readonly AsyncKeyedLock<string> downloadLocks = new();
 
     private readonly IImageCacheDownloadOperation downloadOperation;
     private readonly IServiceProvider serviceProvider;
@@ -87,62 +87,29 @@ internal sealed partial class ImageCache : IImageCache, IImageCacheFilePathOpera
             return themeOrDefaultFilePath;
         }
 
-        ElementThemeValueFile key = new(theme, fileName);
-
-        // To prevent reentrancy, always try to add first, and if add failed, we try to get the task
-        TaskCompletionSource themeFileTcs = new();
-        if (themeFileTasks.TryAdd(key, themeFileTcs.Task))
+        using (await themeFileLocks.LockAsync(new(theme, fileName)).ConfigureAwait(false))
         {
-            try
+            // If the file already exists, we don't need to download it again
+            if (!IsFileInvalid(defaultFilePath))
             {
-                if (!IsFileInvalid(defaultFilePath))
-                {
-                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
-                    return themeOrDefaultFilePath;
-                }
-
-                TaskCompletionSource downloadTcs = new();
-                if (downloadTasks.TryAdd(fileName, downloadTcs.Task))
-                {
-                    try
-                    {
-                        logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (defaultFilePath, ConsoleColor.Cyan));
-                        await downloadOperation.DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
-                    }
-                    finally
-                    {
-                        downloadTcs.TrySetResult();
-                        downloadTasks.TryRemove(fileName, out _);
-                    }
-                }
-                else if (downloadTasks.TryGetValue(fileName, out Task? task))
-                {
-                    logger.LogDebug("Waiting for a queued image download task to complete for '{Uri}'", (uri, ConsoleColor.Cyan));
-                    await task.ConfigureAwait(false);
-                }
-
-                if (!IsFileInvalid(defaultFilePath))
-                {
-                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
-                    return themeOrDefaultFilePath;
-                }
-
+                await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
                 return themeOrDefaultFilePath;
             }
-            finally
+
+            using (await downloadLocks.LockAsync(fileName).ConfigureAwait(false))
             {
-                themeFileTcs.TrySetResult();
-                themeFileTasks.TryRemove(key, out _);
+                // File may be downloaded by another thread
+                if (!IsFileInvalid(defaultFilePath))
+                {
+                    await ConvertAndSaveFileToMonoChromeAsync(defaultFilePath, themeOrDefaultFilePath, theme).ConfigureAwait(false);
+                    return themeOrDefaultFilePath;
+                }
+
+                logger.LogColorizedInformation("Begin to download file from '{Uri}' to '{File}'", (uri, ConsoleColor.Cyan), (defaultFilePath, ConsoleColor.Cyan));
+                await downloadOperation.DownloadFileAsync(uri, defaultFilePath).ConfigureAwait(false);
             }
-        }
-        else if (themeFileTasks.TryGetValue(key, out Task? themeTask))
-        {
-            await themeTask.ConfigureAwait(false);
+
             return themeOrDefaultFilePath;
-        }
-        else
-        {
-            throw HutaoException.InvalidOperation("The task should not be null.");
         }
     }
 

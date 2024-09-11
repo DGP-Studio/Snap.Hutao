@@ -16,7 +16,7 @@ internal readonly struct GamePackageServiceContext
     public readonly ConcurrentDictionary<string, Void> DuplicatedChunkNames = [];
     public readonly HttpClient HttpClient;
 
-    private readonly ConcurrentDictionary<string, AsyncLock> chunkLocks = [];
+    private readonly AsyncKeyedLock<string> chunkLocks = new();
 
     public GamePackageServiceContext(GamePackageOperationContext operation, IProgress<GamePackageOperationReport> progress, ParallelOptions parallelOptions, HttpClient httpClient)
     {
@@ -45,8 +45,8 @@ internal readonly struct GamePackageServiceContext
     }
 
     [SuppressMessage("", "SH003")]
-    public Task<AsyncLock.Releaser> ExclusiveProcessChunkAsync(string chunkName, CancellationToken token)
+    public Task<AsyncKeyedLock<string>.Releaser> ExclusiveProcessChunkAsync(string chunkName, CancellationToken token)
     {
-        return chunkLocks.GetOrAdd(chunkName, _ => new()).LockAsync();
+        return chunkLocks.LockAsync(chunkName);
     }
 }

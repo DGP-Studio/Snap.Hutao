@@ -22,6 +22,7 @@ using Snap.Hutao.UI.Xaml.Media.Backdrop;
 using Snap.Hutao.Win32.Foundation;
 using Snap.Hutao.Win32.Graphics.Dwm;
 using Snap.Hutao.Win32.UI.WindowsAndMessaging;
+using System.Runtime.InteropServices;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.UI;
@@ -146,15 +147,15 @@ internal sealed class XamlWindowController
 
     private bool IsNotifyIconVisible()
     {
-        // Shell_NotifyIconGetRect returns E_FAIL when Shell_TrayWnd is not present,
-        // We pre-check it to avoid the exception.
-        HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
-        if (shellTrayWnd == default)
+        // Shell_NotifyIconGetRect can return E_FAIL in multiple cases, so we use the fallback method.
+        RECT iconRect = default;
+        try
         {
-            return false;
+            iconRect = serviceProvider.GetRequiredService<NotifyIconController>().GetRect();
         }
-
-        RECT iconRect = serviceProvider.GetRequiredService<NotifyIconController>().GetRect();
+        catch (COMException)
+        {
+        }
 
         if (Core.UniversalApiContract.IsPresent(WindowsVersion.Windows11))
         {
@@ -162,6 +163,7 @@ internal sealed class XamlWindowController
             return IntersectRect(out _, in primaryRect, in iconRect);
         }
 
+        HWND shellTrayWnd = FindWindowExW(default, default, "Shell_TrayWnd", default);
         HWND trayNotifyWnd = FindWindowExW(shellTrayWnd, default, "TrayNotifyWnd", default);
         HWND button = FindWindowExW(trayNotifyWnd, default, "Button", default);
 
