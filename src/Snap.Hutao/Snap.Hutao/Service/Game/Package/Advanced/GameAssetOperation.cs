@@ -255,6 +255,12 @@ internal abstract partial class GameAssetOperation : IGameAssetOperation
         using (MemoryStream newAssetStream = memoryStreamFactory.GetStream())
         {
             string oldAssetPath = Path.Combine(context.Operation.GameFileSystem.GameDirectory, asset.OldAsset.AssetName);
+            if (!File.Exists(oldAssetPath))
+            {
+                // File not found, skip this asset and repair later
+                return;
+            }
+
             using (SafeFileHandle oldAssetHandle = File.OpenHandle(oldAssetPath, options: FileOptions.RandomAccess))
             {
                 foreach (AssetChunk chunk in asset.NewAsset.AssetChunks)
