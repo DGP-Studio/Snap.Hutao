@@ -39,6 +39,9 @@ internal sealed partial class AvatarInfoRepositoryOperation
                 .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
                 .CreateFor(userAndUid);
 
+            // manual refresh avatars
+            await gameRecordClient.GetPlayerInfoAsync(userAndUid, token).ConfigureAwait(false);
+
             Response<ListWrapper<Character>> listResponse = await gameRecordClient
                 .GetCharacterListAsync(userAndUid, token)
                 .ConfigureAwait(false);
