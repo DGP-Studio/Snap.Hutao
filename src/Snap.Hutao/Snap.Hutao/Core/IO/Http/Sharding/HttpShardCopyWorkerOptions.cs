@@ -51,13 +51,7 @@ internal sealed class HttpShardCopyWorkerOptions<TStatus>
         }
     }
 
-    public SafeFileHandle DestinationFileHandle
-    {
-        get
-        {
-            return destinationFileHandle ??= GetFileHandle();
-        }
-    }
+    public SafeFileHandle DestinationFileHandle { get => destinationFileHandle ??= GetFileHandle(); }
 
     public long ContentLength
     {

@@ -100,7 +100,7 @@ internal sealed partial class AchievementImporter
             .ConfigureAwait(false);
 
         ImportResult result;
-        using (await dialog.BlockAsync(scopeContext.TaskContext).ConfigureAwait(false))
+        using (await dialog.BlockAsync(scopeContext.ContentDialogFactory).ConfigureAwait(false))
         {
             result = await context.AchievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
         }

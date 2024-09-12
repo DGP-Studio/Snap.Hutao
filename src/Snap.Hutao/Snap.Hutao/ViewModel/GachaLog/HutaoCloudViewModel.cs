@@ -90,7 +90,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
             bool isOk;
             string message;
 
-            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+            using (await dialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
             {
                 (isOk, message) = await hutaoCloudService.UploadGachaItemsAsync(gachaArchive).ConfigureAwait(false);
             }

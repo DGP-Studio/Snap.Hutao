@@ -3,10 +3,6 @@
 
 namespace Snap.Hutao.Service.Navigation;
 
-/// <summary>
-/// 表示导航等待器
-/// </summary>
-[HighQuality]
 internal interface INavigationAwaiter
 {
     /// <summary>

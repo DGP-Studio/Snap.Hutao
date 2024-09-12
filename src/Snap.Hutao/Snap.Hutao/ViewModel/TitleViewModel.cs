@@ -137,7 +137,7 @@ internal sealed partial class TitleViewModel : Abstraction.ViewModel
                     ContentDialog contentDialog = await contentDialogFactory
                         .CreateForIndeterminateProgressAsync(SH.ViewTitleUpdatePackageInstallingContent)
                         .ConfigureAwait(false);
-                    using (await contentDialog.BlockAsync(taskContext).ConfigureAwait(false))
+                    using (await contentDialog.BlockAsync(contentDialogFactory).ConfigureAwait(false))
                     {
                         if (launchUpdaterResult.Process is { } updater)
                         {
